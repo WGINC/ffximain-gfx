@@ -9,7 +9,7 @@ XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a
   int ScreenRectImpl;
   v11 = g_pCDx->_pad_10[2072];
   g_pCDx->_pad_10[2072] = 0;
-  orig::sub_1006C9B0(self_);
+  orig::OcclusionMng_Prepare(self_);
   orig::nullsub_37();
   ScreenRectImpl = orig::Occlusion_QueryScreenRectImpl(self_, a2, a3, a4, a5, a6, a7, a8, a9, a10);
   orig::nullsub_36();

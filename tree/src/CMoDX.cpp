@@ -14,16 +14,17 @@ char ** __cdecl CMoDX::GetRuntimeClass()
 _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
-  orig::sub_10069D70(self);
+  orig::CMoDX_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;
 }
 
-// FUNCTION: FFXIMAIN 0x1006B2B0  (unit CMoDX: stores CMoDX vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API _DWORD * __thiscall fn_1006B2B0(void *self_)
+_DWORD * CMoDX::CreateAndInitSystem()
 {
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   _DWORD *v1;
   _DWORD *v2;
   int *v3;
@@ -31,39 +32,39 @@ XI_API _DWORD * __thiscall fn_1006B2B0(void *self_)
   _DWORD *v5;
   _DWORD *v6;
   void *v8;
-  v8 = self_;
-  v1 = orig::sub_1002C890(7884);
+  v8 = self;
+  v1 = orig::Mem_AllocDefault(7884);
   if ( v1 != nullptr )
     *v1 = &CMoDX_vtbl;
   else
     v1 = nullptr;
   g_pResourceMng = (int)v1;
-  orig::sub_10069DD0((int)v1, (int)g_pCDx);
-  v2 = orig::sub_1002C890(1192);
+  orig::CMoDX_Initialize((int)v1, (int)g_pCDx);
+  v2 = orig::Mem_AllocDefault(1192);
   if ( v2 != nullptr )
-    dword_1047BFF8 = (int)orig::sub_1006B0C0(v2);
+    dword_1047BFF8 = (int)orig::VBPool_Constructor(v2);
   else
     dword_1047BFF8 = 0;
-  orig::sub_10072ED0(g_pMeshResourceMng, 0);
-  v3 = (int *)*orig::sub_10072290(**(_DWORD ***)(g_pMeshResourceMng + 262152), &v8, 7, 1668248176);
+  orig::MeshResourceMng_LoadSystemResources(g_pMeshResourceMng, 0);
+  v3 = (int *)*orig::CMoResource_FindByTypeAndId(**(_DWORD ***)(g_pMeshResourceMng + 262152), &v8, 7, 1668248176);
   if ( v3 != nullptr )
   {
     v4 = *v3;
     if ( v4 != 0 )
       **(_BYTE **)(v4 + 116) = 0x80;
   }
-  orig::sub_10044270();
-  v5 = orig::sub_1002C890(16);
+  orig::Mo_InitSharedRenderResources();
+  v5 = orig::Mem_AllocDefault(16);
   if ( v5 != nullptr )
-    dword_1047BFF4 = (int)orig::sub_1006B050((int)v5);
+    dword_1047BFF4 = (int)orig::CMoDxStatusMng_Constructor((int)v5);
   else
     dword_1047BFF4 = 0;
-  orig::sub_10075280();
+  orig::Gfx_InitCubeMapTextures();
   orig::sub_100555D0();
-  v6 = orig::sub_1002C890(28);
+  v6 = orig::Mem_AllocDefault(28);
   if ( v6 != nullptr )
   {
-    dword_1047C004 = (int)orig::sub_1006C140(v6);
+    dword_1047C004 = (int)orig::CMoOcclusionMng_Constructor(v6);
     return orig::j_OcclusionMng_CreateTarget((_DWORD *)dword_1047C004);
   }
   else

@@ -11,10 +11,10 @@ BOOL CMoLfdElem::vf012(int a1)
 
 // FUNCTION: FFXIMAIN 0x10053060  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-_DWORD * CMoLfdElem::ScalarDeletingDtor(char a2)
+int * CMoLfdElem::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_100548C0(self);
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  orig::CMoLfdElem_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

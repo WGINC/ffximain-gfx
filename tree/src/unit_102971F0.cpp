@@ -3,15 +3,15 @@
 
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 240 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10297CC0(int a1)
+XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 {
   int result;
   if ( a1 != 0 )
   {
     if ( a1 == 1 )
     {
-      orig::sub_10282470(0);
-      orig::sub_102824C0(255, 255, 255, 255);
+      orig::sqgxSetZWrite(0);
+      orig::sqgxColorMask(255, 255, 255, 255);
       g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
@@ -26,15 +26,15 @@ XI_API int __cdecl fn_10297CC0(int a1)
     result = a1 - 2;
     if ( a1 != 2 )
       return result;
-    orig::sub_10282470(1);
-    orig::sub_102824C0(0, 0, 0, 0);
+    orig::sqgxSetZWrite(1);
+    orig::sqgxColorMask(0, 0, 0, 0);
     g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
     g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
   }
   else
   {
-    orig::sub_10282470(0);
-    orig::sub_102824C0(255, 255, 255, 255);
+    orig::sqgxSetZWrite(0);
+    orig::sqgxColorMask(255, 255, 255, 255);
     g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
     g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
     g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
@@ -50,7 +50,7 @@ XI_API int __cdecl fn_10297CC0(int a1)
 
 // FUNCTION: FFXIMAIN 0x10297EC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 562 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10297EC0(int a1)
+XI_API int __cdecl sqsnShadowStencilTest(int a1)
 {
   *(_DWORD *)(dword_1099D200 + 292) = a1;
   if ( a1 != 0 )
@@ -66,14 +66,14 @@ XI_API int __cdecl fn_10297EC0(int a1)
   }
   else
   {
-    orig::sub_10282470(1);
+    orig::sqgxSetZWrite(1);
     return g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
   }
 }
 
 // FUNCTION: FFXIMAIN 0x102981E0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 12 returned normally, 177 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102981E0(void)
+XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
   *(_DWORD *)(dword_1099D200 + 324) = 0;
   if ( *(_DWORD *)(dword_1099D200 + 316) == 0 )
@@ -89,9 +89,9 @@ XI_API int __cdecl fn_102981E0(void)
          0,
          *(IDirect3DVertexBuffer8 **)(dword_1099D200 + 316),
          12u) != 0 )
-    orig::sub_10285890(aErrorInSetStre);
+    orig::sqDebugPrintf(aErrorInSetStre);
   if ( g_pDancerDevice->SetVertexShader(2u) != 0 )
-    orig::sub_10285890(aErrorInSetVert);
+    orig::sqDebugPrintf(aErrorInSetVert);
   return (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int))(**(_DWORD **)(dword_1099D200 + 316) + 44))(
            *(_DWORD *)(dword_1099D200 + 316),
            0,

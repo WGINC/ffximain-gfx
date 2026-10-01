@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1003D9A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 45 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1003D9A0(void)
+XI_API int __cdecl Sky_DrawDome(void)
 {
   int result;
   int v1;
@@ -13,7 +13,7 @@ XI_API int __cdecl fn_1003D9A0(void)
   int i;
   float v6;
   int v7;
-  float v8;
+  float Float2E0;
   unsigned __int8 v9[12];
   result = (int)g_pXiZone;
   v1 = *((_DWORD *)g_pXiZone + 6);
@@ -22,7 +22,7 @@ XI_API int __cdecl fn_1003D9A0(void)
     v2 = (unsigned __int8 *)(v1 + 76);
     if ( v2 != nullptr )
     {
-      result = orig::sub_10014D90(*v2, v2[1], v2[2]);
+      result = orig::Camera_SetClearColorRGB(*v2, v2[1], v2[2]);
       LOBYTE(result) = v2[18];
       if ( (unsigned __int8)result > 2u )
       {
@@ -30,26 +30,26 @@ XI_API int __cdecl fn_1003D9A0(void)
         {
           byte_1047B985 |= 1u;
           orig::fn_1006AD90((exception *)dword_1047B988);
-          orig::_atexit(XI_CODE(unknown_libname_18));
+          orig::_atexit(XI_CODE(Sky_DestroyDomeShaderStatic));
         }
-        orig::sub_1006AE30(dword_1047B988, (int)dword_10351DB8, (int)dword_10351D60);
-        orig::sub_1006A480((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
-        orig::sub_10044230(dword_1047BBB4);
+        orig::StateBlock_ApplyRSTSS(dword_1047B988, (int)dword_10351DB8, (int)dword_10351D60);
+        orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+        orig::Gfx_SetViewMatrixFromField90(dword_1047BBB4);
         v3 = v9;
         v4 = v2 + 32;
         for ( i = 8; i != 0; --i )
         {
-          orig::sub_1003E2A0(v3, v4);
+          orig::Color_CopySwapRB(v3, v4);
           v4 += 4;
           v3 += 4;
         }
         v7 = v2[18];
-        v8 = orig::sub_10014D80();
-        v6 = v8 - orig::sub_10014D70() - 1.0;
-        orig::sub_1003D640(v6, COERCE_FLOAT(8), v7, v9, COERCE_FLOAT(v2 + 64));
-        orig::sub_10014D90(v9[2], v9[1], v9[0]);
+        Float2E0 = orig::Camera_GetFloat2E0();
+        v6 = Float2E0 - orig::Camera_GetFloat2DC() - 1.0;
+        orig::Sky_DrawGradientDome(v6, COERCE_FLOAT(8), v7, v9, COERCE_FLOAT(v2 + 64));
+        orig::Camera_SetClearColorRGB(v9[2], v9[1], v9[0]);
         *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;
-        orig::sub_10044210(dword_1047BBB4);
+        orig::Gfx_SetViewMatrixFromField10(dword_1047BBB4);
         (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
           *(_DWORD *)(g_pResourceMng + 3772),
           27,
@@ -78,7 +78,7 @@ XI_API int __cdecl fn_1003D9A0(void)
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1003DB60(void)
+XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
   unsigned __int8 *v1;
@@ -97,7 +97,7 @@ XI_API int __cdecl fn_1003DB60(void)
   unsigned __int8 *v14;
   int v15;
   int v16;
-  float v17;
+  float Float2E0;
   unsigned __int8 v18[12];
   result = g_pResourceMng;
   if ( g_pResourceMng != 0 )
@@ -109,7 +109,7 @@ XI_API int __cdecl fn_1003DB60(void)
       v15 = result + 76;
       if ( result != -76 )
       {
-        result = orig::sub_10014D90(*v1, *(_BYTE *)(result + 77), *(_BYTE *)(result + 78));
+        result = orig::Camera_SetClearColorRGB(*v1, *(_BYTE *)(result + 77), *(_BYTE *)(result + 78));
         LOBYTE(result) = v1[18];
         if ( (unsigned __int8)result > 2u )
         {
@@ -117,9 +117,9 @@ XI_API int __cdecl fn_1003DB60(void)
           {
             byte_1047B984 |= 1u;
             orig::fn_1006AD90((exception *)dword_1047B994);
-            orig::_atexit(XI_CODE(unknown_libname_19));
+            orig::_atexit(XI_CODE(Sky_DestroyViewCenteredShaderStatic));
           }
-          orig::sub_1006AE30(dword_1047B994, (int)dword_10351E4C, (int)dword_10351DF8);
+          orig::StateBlock_ApplyRSTSS(dword_1047B994, (int)dword_10351E4C, (int)dword_10351DF8);
           ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
           v3 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
           g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
@@ -128,33 +128,33 @@ XI_API int __cdecl fn_1003DB60(void)
           v5 = g_pProcessor->ScratchMatrixFreeList[v4];
           g_pProcessor->ScratchMatrixStackTop = v4 + 1;
           qmemcpy(v5, (const void *)(g_pResourceMng + 3408), 0x40u);
-          orig::sub_1006A480((_DWORD ***)g_pResourceMng, v5);
-          orig::sub_1006A480((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
-          orig::sub_1006A4C0((int *)g_pResourceMng);
+          orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v5);
+          orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+          orig::CMoDX_PushViewMatrix((int *)g_pResourceMng);
           v3[15] = 1.0;
           v3[12] = 0.0;
           v3[13] = 0.0;
           v3[14] = 0.0;
-          orig::sub_1006A520((_DWORD ***)g_pResourceMng, v3);
+          orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, v3);
           v6 = v15;
           v14 = v18;
           v16 = 8;
           v7 = (unsigned int *)(v6 + 32);
           do
           {
-            orig::sub_1003E280(v14, *v7++);
+            orig::Color_SetFromU32SwapRB(v14, *v7++);
             v8 = v16 == 1;
             v14 += 4;
             --v16;
           }
           while ( !v8 );
           v13 = *(unsigned __int8 *)(v6 + 18);
-          v17 = orig::sub_10014D80();
-          v12 = (v17 - orig::sub_10014D70()) * 0.80000001;
-          orig::sub_1003D640(v12, COERCE_FLOAT(8), v13, v18, COERCE_FLOAT(v6 + 64));
-          orig::sub_10014D90(v18[2], v18[1], v18[0]);
+          Float2E0 = orig::Camera_GetFloat2E0();
+          v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0.80000001;
+          orig::Sky_DrawGradientDome(v12, COERCE_FLOAT(8), v13, v18, COERCE_FLOAT(v6 + 64));
+          orig::Camera_SetClearColorRGB(v18[2], v18[1], v18[0]);
           *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;
-          orig::sub_1006A4F0(g_pResourceMng);
+          orig::CMoDX_PopViewMatrix(g_pResourceMng);
           (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
             *(_DWORD *)(g_pResourceMng + 3772),
             27,

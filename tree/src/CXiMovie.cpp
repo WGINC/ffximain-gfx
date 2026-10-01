@@ -68,14 +68,14 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D4C0  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 29 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl Draw2DLayer(void)
+int __cdecl CXiMovie::DrawFrame()
 {
   int result;
   IDirect3DDevice8 *pDevice;
   struct IDirect3DDevice8Vtbl *lpVtbl;
-  int v3;
+  int CurrentTexture;
   int v4;
   float v5;
   int a3;
@@ -119,14 +119,14 @@ XI_API int __cdecl Draw2DLayer(void)
   if ( dword_10666E7C != 0 )
   {
     orig::sub_1021D980(dword_10666E7C);
-    result = orig::sub_1021DDF0((_DWORD *)dword_10666E7C);
+    result = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
     if ( result != 0 )
     {
       pDevice = g_pCDx->pDevice;
       lpVtbl = pDevice->lpVtbl;
-      v3 = orig::sub_1021DDF0((_DWORD *)dword_10666E7C);
-      lpVtbl->SetTexture(pDevice, 0, (IDirect3DBaseTexture8 *)v3);
-      v4 = orig::sub_1021DDF0((_DWORD *)dword_10666E7C);
+      CurrentTexture = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
+      lpVtbl->SetTexture(pDevice, 0, (IDirect3DBaseTexture8 *)CurrentTexture);
+      v4 = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
       result = (*(int (__stdcall **)(int, _DWORD, _BYTE *))(*(_DWORD *)v4 + 56))(v4, 0, v34);
       if ( result >= 0 )
       {

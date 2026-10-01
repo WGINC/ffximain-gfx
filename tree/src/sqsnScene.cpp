@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
 // GATE: PASS -- 100 trials, 19 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1028F8C0(int a1)
+XI_API void __cdecl sqsnSceneDrawLayers(int a1)
 {
   int v2;
   int v3;

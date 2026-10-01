@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10253F60  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 576 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10253F60(void *self_, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
+XI_API int __thiscall Gfx_DrawSpriteAlphaTested(void *self_, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
   int result;
   result = *((_DWORD *)self_ + 130);
@@ -13,7 +13,7 @@ XI_API int __thiscall fn_10253F60(void *self_, int a1, int a2, int a3, int a4, i
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 16u);
-    orig::sub_10026C70(*((void **)self_ + 130), a1, a2, a3, a4, a5, a6, a7, a8, a9);
+    orig::CYyIcon_DrawSubRect(*((void **)self_ + 130), a1, a2, a3, a4, a5, a6, a7, a8, a9);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);

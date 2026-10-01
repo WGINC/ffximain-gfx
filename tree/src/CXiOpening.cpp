@@ -2,78 +2,79 @@
 #include "gfx_all.hpp"
 #include "CXiOpening.hpp"
 
-// FUNCTION: FFXIMAIN 0x100186C0  (unit CXiOpening: stores CXiOpening vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x100186C0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100186C0(void *self_, char *Source)
+void * CXiOpening::Constructor(char *Source)
 {
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   _DWORD *v3;
   int v4;
   _DWORD *v5;
   _DWORD *v6;
   _DWORD *v7;
-  *(_DWORD *)self_ = &CXiOpening_vtbl;
-  *((_DWORD *)self_ + 72) = 0;
-  *((_DWORD *)self_ + 73) = 0;
+  at<uint32_t>(this, 0x0) = &CXiOpening_vtbl;
+  this->field_120 = 0;
+  this->field_124 = 0;
   dword_10456D20 = 0;
-  *((_DWORD *)self_ + 66) = 0;
-  *((_DWORD *)self_ + 68) = 0;
+  this->field_108 = 0;
+  this->field_110 = 0;
   if ( g_pCDx->_pad_10[2309] != 0 )
   {
-    orig::sub_100170D0(&g_pCDx->_pad_10[484], (_DWORD *)self_ + 69, (_DWORD *)self_ + 70, (_DWORD *)self_ + 71);
-    orig::sub_100170A0(&g_pCDx->_pad_10[484], 1065353216, 1065353216, 1065353216);
+    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], (_DWORD *)self + 69, (_DWORD *)self + 70, (_DWORD *)self + 71);
+    orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], 1065353216, 1065353216, 1065353216);
   }
-  orig::_strncpy((char *)self_ + 4, Source, 0x103u);
+  orig::_strncpy((char *)self + 4, Source, 0x103u);
   v3 = orig::Allocator_Generic(0x14u);
   if ( v3 != nullptr )
   {
     v4 = *(_DWORD *)(g_pSceneState + 8);
     if ( *(char *)(g_pSceneState + 24) < 0 && (v4 == 2 || v4 == 3) )
       v4 = 1;
-    v5 = orig::sub_10018A50(v3, v4);
+    v5 = orig::OpeningSubtitle_Constructor(v3, v4);
   }
   else
   {
     v5 = nullptr;
   }
-  *((_DWORD *)self_ + 72) = v5;
+  this->field_120 = v5;
   if ( v5 != nullptr )
   {
-    orig::sub_10018B30(v5);
+    orig::OpeningSubtitle_Reset(v5);
     v6 = orig::Allocator_Generic(0x3Cu);
     if ( v6 != nullptr )
-      v7 = orig::sub_10018C50(v6);
+      v7 = orig::Vt10329FE0_Constructor(v6);
     else
       v7 = nullptr;
-    *((_DWORD *)self_ + 73) = v7;
+    this->field_124 = v7;
     if ( v7 != nullptr )
-      orig::sub_10018CE0(v7);
+      orig::Vt10329FE0_Reset(v7);
   }
-  return self_;
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x100187D0  (placed by callers pass their own this (CXiOpening))
 // GATE: PASS -- 100 trials, 11 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-CDx * CXiOpening::fn_100187D0()
+CDx * CXiOpening::CXiOpening_Destructor()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   void (__thiscall ***v2)(_DWORD, int);
   void (__thiscall ***v3)(_DWORD, int);
   CDx *result;
-  v2 = (void (__thiscall ***)(_DWORD, int))this->field_120;
+  v2 = (void (__thiscall ***)(_DWORD, int))at<int32_t>(this, 0x120);
   *self = (int)&CXiOpening_vtbl;
   if ( v2 != nullptr )
   {
     (**v2)(v2, 1);
-    this->field_120 = 0;
+    at<int32_t>(this, 0x120) = 0;
   }
-  v3 = (void (__thiscall ***)(_DWORD, int))this->field_124;
+  v3 = (void (__thiscall ***)(_DWORD, int))at<int32_t>(this, 0x124);
   if ( v3 != nullptr )
   {
     (**v3)(v3, 1);
-    this->field_124 = 0;
+    at<int32_t>(this, 0x124) = 0;
   }
   result = g_pCDx;
   if ( g_pCDx->_pad_10[2309] != 0 )
-    return (CDx *)orig::sub_100170A0(&g_pCDx->_pad_10[484], this->field_114, this->field_118, this->field_11C);
+    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->field_114, this->field_118, this->field_11C);
   return result;
 }

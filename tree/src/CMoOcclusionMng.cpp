@@ -14,7 +14,7 @@ char ** __cdecl CMoOcclusionMng::GetRuntimeClass()
 int * CMoOcclusionMng::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_1006C1E0(self);
+  orig::CMoOcclusionMng_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;

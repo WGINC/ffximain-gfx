@@ -86,7 +86,7 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
 
 // FUNCTION: FFXIMAIN 0x102819D0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
 // GATE: PASS -- 100 trials, 23 returned normally, 23 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102819D0(int a1, int a2, int a3)
+XI_API int __cdecl sqgxTextureAddPalette(int a1, int a2, int a3)
 {
   signed int i;
   int v4;
@@ -119,7 +119,7 @@ XI_API int __cdecl fn_102819D0(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10281D60  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 86 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10281D60(int a1)
+XI_API int __cdecl sqgxTextureSetPalette(int a1)
 {
   int result;
   result = a1;
@@ -179,7 +179,7 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
 
 // FUNCTION: FFXIMAIN 0x102820E0  (unit sqgxTexture: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB)
 // GATE: PASS -- 100 trials, 5 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API int __cdecl fn_102820E0(IDirect3DSurface8 *a1)
+XI_API int __cdecl sqgxTextureSetRenderTarget(IDirect3DSurface8 *a1)
 {
   IDirect3DSurface8 *v1;
   int v2;
@@ -233,11 +233,11 @@ XI_API int __cdecl sqgxTextureDraw(int a1, char a2)
   {
     v7 = (double)*(int *)(dword_1099D200 + 728) / (double)dword_1099D620[10 * a1];
     v5 = (double)*(int *)(dword_1099D200 + 724) / (double)dword_1099D61C[10 * a1];
-    orig::sub_102838A0(v5, v7);
+    orig::sqgxSetAspectRatio(v5, v7);
   }
   else
   {
-    orig::sub_102838A0(1.0, 1.0);
+    orig::sqgxSetAspectRatio(1.0, 1.0);
   }
   if ( a1 == *(_DWORD *)(dword_1099D200 + 2216) )
   {
@@ -251,5 +251,5 @@ XI_API int __cdecl sqgxTextureDraw(int a1, char a2)
   }
   v8 = (float)dword_1099D620[10 * a1];
   v6 = (float)dword_1099D61C[10 * a1];
-  return orig::sub_10283A10(0.0, 0.0, v6, v8);
+  return orig::sqgxSetViewport(0.0, 0.0, v6, v8);
 }

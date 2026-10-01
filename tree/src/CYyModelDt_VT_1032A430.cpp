@@ -14,7 +14,7 @@ int CYyModelDt_VT_1032A430::vf011()
 int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_100250C0(self);
+  orig::CYyModelDt_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;
@@ -24,7 +24,7 @@ int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt_VT_1032A430::ScalarDeletingDtor_2(int a1)
 {
-  orig::sub_100252F0((int *)this);
+  orig::ProjTex_Destructor((int *)this);
   if ( (a1 & 1) != 0 )
     orig::operator_delete(this);
   return (int)this;

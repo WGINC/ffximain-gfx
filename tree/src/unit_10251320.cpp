@@ -16,7 +16,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   _BYTE pIdentifier[1020];
   int v12;
   *self_ = 11534336;
-  v2 = orig::sub_10028640(11534352, 0);
+  v2 = orig::Mem_AllocObject(11534352, 0);
   v3 = ((unsigned int)v2 + 15) & 0xFFFFFFF0;
   dword_10669408 = (int)v2;
   if ( v3 != 0 )
@@ -33,9 +33,9 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     dword_10669404 = v3;
     dword_1066940C = 0x200000;
     dword_10669410 = v3 + v5;
-    orig::sub_10275150();
-    orig::sub_10275B60(0, dword_10669404, dword_10669400, aMainmem);
-    orig::sub_10275B60(1, dword_10669410, dword_1066940C, aWorkmem);
+    orig::Dancer_ResetMemPools();
+    orig::Dancer_SetMemPool(0, dword_10669404, dword_10669400, aMainmem);
+    orig::Dancer_SetMemPool(1, dword_10669410, dword_1066940C, aWorkmem);
     dword_1099D200 = (int)orig::sqgxContext_Create();
     g_pDancerDevice->GetRenderTarget((IDirect3DSurface8 **)(dword_1099D200 + 2300));
     g_pDancerDevice->GetDepthStencilSurface((IDirect3DSurface8 **)(dword_1099D200 + 2304));
@@ -46,13 +46,13 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     {
       orig::sqgxTextureAdd(2, 2, (IDirect3DBaseTexture8 *)4, nullptr);
       orig::sqgxTextureAdd(2, 2, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sub_102816E0(2, 2, 3);
+      orig::sqgxTextureAddDepthStencil(2, 2, 3);
     }
     else
     {
       orig::sqgxTextureAdd(v9, v10, (IDirect3DBaseTexture8 *)4, nullptr);
       orig::sqgxTextureAdd(xRight, yBottom, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sub_102816E0(v9, v10, 3);
+      orig::sqgxTextureAddDepthStencil(v9, v10, 3);
     }
     This->GetAdapterIdentifier(0, 2u, pIdentifier);
     *(_DWORD *)(dword_1099D200 + 720) = v12 == 4098 || g_pCDx->_pad_10[2306] == 0;

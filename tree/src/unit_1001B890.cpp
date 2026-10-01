@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001D0A0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API _DWORD * __cdecl fn_1001D0A0(void)
+XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 {
   unsigned __int16 ViewportWidth;
   _DWORD *result;
@@ -37,7 +37,7 @@ XI_API _DWORD * __cdecl fn_1001D0A0(void)
 
 // FUNCTION: FFXIMAIN 0x1001D240  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_1001D240(int self_)
+XI_API char __thiscall Model_BeginTranslucentPass(int self_)
 {
   int v2;
   int v4;
@@ -77,7 +77,7 @@ XI_API char __thiscall fn_1001D240(int self_)
 
 // FUNCTION: FFXIMAIN 0x1001D350  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_1001D350(_DWORD *self_)
+XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 {
   if ( *(self_ + 2) == 0 || byte_10456D48 == 0 && (dword_10456D4C & 0xFF000000) == 0x80000000 )
     return 0;
@@ -87,7 +87,7 @@ XI_API char __thiscall fn_1001D350(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x1001D3B0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1001D3B0(void *self_)
+XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
 {
   int result;
   unsigned __int8 v3;
@@ -187,7 +187,7 @@ LABEL_11:
 
 // FUNCTION: FFXIMAIN 0x1001D940  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __cdecl fn_1001D940(int a1, int a2, int a3, int a4)
+XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
 {
   _DWORD *v4;
   int i;
@@ -204,8 +204,8 @@ XI_API char __cdecl fn_1001D940(int a1, int a2, int a3, int a4)
   char v17;
   char v18;
   char v19;
-  orig::sub_10039810(&v15, a2);
-  orig::sub_100398E0((_DWORD *)a1, &v15);
+  orig::Util_Copy16Bytes(&v15, a2);
+  orig::CYyTexBase_SetName((_DWORD *)a1, &v15);
   if ( v15 == 1700951395 && v16 == 109 && v17 == 97 && v18 == 112 && v19 == 32 )
     *(_DWORD *)(a1 + 44) = *(_DWORD *)(a1 + 44) & 0xFFFFFFF8 | 5;
   v4 = (_DWORD *)(a2 + 56);

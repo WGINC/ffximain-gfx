@@ -350,18 +350,24 @@ def main(exp, gate, manf, incdir, outdir):
         for nm, o in R[ea].get('objs', {}).items():
             if o['func']:
                 w = orig_wrapper('fn_%08X' % o['ea'] if not re.match(r'^[A-Za-z_]\w*$', nm) else nm, o['ea'], o['type'])
-                if w: origs[o['ea']] = (nm, w)
+                # keyed by (address, name): a record exported before a rename still refers to the
+                # old name, so both names get a wrapper to the same address
+                if w: origs[(o['ea'], nm)] = (nm, w)
             else:
                 globs.setdefault(o['ea'], (nm, o))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
     with open(os.path.join(outdir, 'include', 'gfx_orig.hpp'), 'w') as f:
         f.write('// gfx_orig.hpp -- calls into the game\'s own code (not reconstructed here), by address.\n'
                 '#pragma once\n#include "gfx_common.hpp"\n#define XI_ORIG static inline __attribute__((always_inline))\nnamespace orig {\n')
-        for ea in sorted(origs): f.write(origs[ea][1] + '\n')
+        for k in sorted(origs): f.write(origs[k][1] + '\n')
         f.write('}  // namespace orig\n')
         f.write('// a game function used as a value (callback, table entry): its address in the game image\n'
                 'namespace orig_addr {\n')
-        for ea in sorted(origs): f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (origs[ea][0] if re.match(r'^[A-Za-z_]\w*$', origs[ea][0]) else 'fn_%08X' % ea, ea))
+        _seen = set()
+        for (ea, _), (nm0, _w) in sorted(origs.items()):
+            an = nm0 if re.match(r'^[A-Za-z_]\w*$', nm0) else 'fn_%08X' % ea
+            if an in _seen: continue
+            _seen.add(an); f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (an, ea))
         f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(orig_addr::name)\n')
     gnames, gcanon, gvariant = {}, {}, {}
     with open(os.path.join(outdir, 'include', 'gfx_globals.hpp'), 'w') as f:

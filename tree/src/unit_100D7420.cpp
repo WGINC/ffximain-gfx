@@ -3,14 +3,14 @@
 
 // FUNCTION: FFXIMAIN 0x1011AAC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1011AAC0(void)
+XI_API int __cdecl Gfx_ApplyViewport1B70(void)
 {
   return orig::CDx_SetViewport(g_pCDx, &g_viewport_1B70);
 }
 
 // FUNCTION: FFXIMAIN 0x1011BAE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 56 returned normally, 45 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_1011BAE0(int self_)
+XI_API char __thiscall Font_BindGlyphTexture(int self_)
 {
   int v2;
   int v4;
@@ -19,15 +19,15 @@ XI_API char __thiscall fn_1011BAE0(int self_)
   _BYTE v7[16];
   if ( *(_DWORD *)(self_ + 116) == 0 )
   {
-    orig::sub_10039810(v7, (int)aFontMoji);
-    v2 = orig::sub_1003AC80(g_pTextureMng, (int)v7);
+    orig::Util_Copy16Bytes(v7, (int)aFontMoji);
+    v2 = orig::CYyTexMng_FindByName(g_pTextureMng, (int)v7);
     *(_DWORD *)(self_ + 116) = v2;
     if ( v2 == 0 )
       return 0;
   }
   if ( *(_BYTE *)(self_ + 128) == 1 && *(_DWORD *)(self_ + 120) == 0 )
-    orig::sub_1011C720((int *)self_);
-  if ( orig::sub_1011C850(self_) )
+    orig::Font_LoadHighResTexture((int *)self_);
+  if ( orig::Font_IsHighResTextureLoaded(self_) )
   {
     v4 = *(_DWORD *)(*(_DWORD *)(self_ + 120) + 8);
     if ( *(_DWORD *)(v4 + 64) != 0 )
@@ -48,7 +48,7 @@ XI_API char __thiscall fn_1011BAE0(int self_)
 
 // FUNCTION: FFXIMAIN 0x1011BBD0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1011BBD0(float *self_, __int16 a2, int *a3, unsigned int a4, float a5, float a6)
+XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsigned int a4, float a5, float a6)
 {
   double v7;
   double v8;
@@ -97,7 +97,7 @@ XI_API int __thiscall fn_1011BBD0(float *self_, __int16 a2, int *a3, unsigned in
   {
     v20 = *v13;
     v21[v12] = *v13;
-    *v13 = orig::sub_101200B0(v20, a4);
+    *v13 = orig::Color_ModulateArgb128(v20, a4);
     ++v12;
     v13 += 7;
   }
@@ -116,7 +116,7 @@ XI_API int __thiscall fn_1011BBD0(float *self_, __int16 a2, int *a3, unsigned in
 
 // FUNCTION: FFXIMAIN 0x1011BDC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1011BDC0(void)
+XI_API int __cdecl Gfx_SetAdditiveBlend(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
   g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
@@ -125,7 +125,7 @@ XI_API int __cdecl fn_1011BDC0(void)
 
 // FUNCTION: FFXIMAIN 0x1011C1F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 350 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1011C1F0(int a1, int a2, int a3, int a4)
+XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
 {
   if ( a1 == 0 )
   {
@@ -320,7 +320,7 @@ LABEL_43:
 
 // FUNCTION: FFXIMAIN 0x1011C720  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1011C720(int *self_)
+XI_API void __thiscall Font_LoadHighResTexture(int *self_)
 {
   int v2;
   int v3;
@@ -346,12 +346,12 @@ XI_API void __thiscall fn_1011C720(int *self_)
   v10 = dword_10333000[v3];
   if ( orig::sub_101C4AF0((int *)dword_10662DCC, v10) < 0 )
     goto LABEL_16;
-  orig::sub_1011C5D0(self_ + 31, v4, v5);
+  orig::Font_AllocHighResImage(self_ + 31, v4, v5);
   if ( *(self_ + 31) != 0 )
   {
-    v6 = orig::sub_1002C890(124);
+    v6 = orig::Mem_AllocDefault(124);
     if ( v6 != nullptr )
-      v7 = orig::sub_10026890(v6, -1, (_BYTE *)*(self_ + 31), 0);
+      v7 = orig::CYyIcon_Constructor(v6, -1, (_BYTE *)*(self_ + 31), 0);
     else
       v7 = nullptr;
     *(self_ + 30) = (int)v7;
@@ -359,16 +359,17 @@ XI_API void __thiscall fn_1011C720(int *self_)
   v8 = *(self_ + 30);
   if ( v8 == 0
     || (v9 = *(_DWORD **)(v8 + 8)) == nullptr
-    || (orig::TexObj_CreateAndUpload(v9), orig::sub_1011C670(*(_DWORD **)(*(self_ + 30) + 8), v10) != 1) )
+    || (orig::TexObj_CreateAndUpload(v9),
+        orig::Tex_LoadSurfaceFromDatFile(*(struct IDirect3DSurface8 **)(*(self_ + 30) + 8), v10) != 1) )
   {
 LABEL_16:
-    orig::sub_1011C810(self_);
+    orig::Font_ReleaseHighResTexture(self_);
   }
 }
 
 // FUNCTION: FFXIMAIN 0x1011E800  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 82 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1011E800(void *self_, int a1, int a2)
+XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 {
   int v4;
   int result;
@@ -408,8 +409,8 @@ XI_API int __thiscall fn_1011E800(void *self_, int a1, int a2)
   else
   {
     orig::__strlwr((char *)self_ + 50);
-    orig::sub_10039810(v24, (int)self_ + 50);
-    result = orig::sub_1003AC80(g_pTextureMng, (int)v24);
+    orig::Util_Copy16Bytes(v24, (int)self_ + 50);
+    result = orig::CYyTexMng_FindByName(g_pTextureMng, (int)v24);
     *((_DWORD *)self_ + 19) = result;
     if ( result == 0 )
       return result;
@@ -444,12 +445,12 @@ XI_API int __thiscall fn_1011E800(void *self_, int a1, int a2)
   *((float *)self_ + 35) = (double)a1f - 0.5;
   v21 = *((unsigned __int8 *)self_ + 45);
   *((float *)self_ + 42) = (double)(a2 + v19) - 0.5;
-  return orig::sub_1011F300(self_, (int)self_ + 80, v21, v20, v22, v23);
+  return orig::Cell_DrawQuadBlended(self_, (int)self_ + 80, v21, v20, v22, v23);
 }
 
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 88 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1011EDE0(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
+XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
 {
   int v22;
   int v23;
@@ -481,8 +482,8 @@ XI_API void __thiscall fn_1011EDE0(int self_, int a2, int a3, float a4, int a5, 
   else
   {
     orig::__strlwr((char *)(self_ + 50));
-    orig::sub_10039810(v39, self_ + 50);
-    v23 = orig::sub_1003AC80(g_pTextureMng, (int)v39);
+    orig::Util_Copy16Bytes(v39, self_ + 50);
+    v23 = orig::CYyTexMng_FindByName(g_pTextureMng, (int)v39);
     *(_DWORD *)(self_ + 76) = v23;
     if ( v23 == 0 )
       goto LABEL_15;
@@ -496,14 +497,14 @@ XI_API void __thiscall fn_1011EDE0(int self_, int a2, int a3, float a4, int a5, 
   {
     v36 = *(_DWORD *)(v27 + 16);
     *(_DWORD *)&v39[4 * v26 + 16] = v36;
-    v29 = orig::sub_101200B0(v36, v25);
+    v29 = orig::Color_ModulateArgb128(v36, v25);
     v30 = *v28;
     *(_DWORD *)(v27 + 16) = v29;
     v31 = (double)*(v28 - 4);
     *(_DWORD *)(v27 + 8) = 1065353216;
     *(float *)v27 = v31;
     *(float *)(v27 + 4) = (float)v30;
-    orig::sub_10028290(&a4, (float *)v27);
+    orig::Mat4_TransformNormalInPlace(&a4, (float *)v27);
     v38 = (double)a2 - 0.5;
     v32 = v38 + *(float *)v27;
     *(_DWORD *)(v27 + 8) = 0;
@@ -515,9 +516,9 @@ XI_API void __thiscall fn_1011EDE0(int self_, int a2, int a3, float a4, int a5, 
   }
   while ( v26 < 4 );
   if ( a21 != 0 )
-    orig::sub_1011F300((void *)self_, self_ + 80, 1, a21 & 3, (a21 >> 2) & 3, (a21 >> 6) & 3);
+    orig::Cell_DrawQuadBlended((void *)self_, self_ + 80, 1, a21 & 3, (a21 >> 2) & 3, (a21 >> 6) & 3);
   else
-    orig::sub_1011F2D0((void *)self_);
+    orig::Cell_DrawWithDefaultBlend((void *)self_);
   v33 = 0;
   v34 = (_DWORD *)(self_ + 96);
   do
@@ -533,7 +534,7 @@ LABEL_15:
 
 // FUNCTION: FFXIMAIN 0x1011EF60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 381 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
+XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
 {
   int v12;
   int v14;
@@ -584,8 +585,8 @@ XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int
   else
   {
     orig::__strlwr((char *)(self_ + 50));
-    orig::sub_10039810(v41, self_ + 50);
-    result = orig::sub_1003AC80(g_pTextureMng, (int)v41);
+    orig::Util_Copy16Bytes(v41, self_ + 50);
+    result = orig::CYyTexMng_FindByName(g_pTextureMng, (int)v41);
     *(_DWORD *)(self_ + 76) = result;
     if ( result == 0 )
       return result;
@@ -603,7 +604,7 @@ XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int
   {
     v36 = *v18;
     v41[v12 + 4] = *v18;
-    v20 = orig::sub_101200B0(LODWORD(v36), a10);
+    v20 = orig::Color_ModulateArgb128(LODWORD(v36), a10);
     v21 = v18[1];
     *(_DWORD *)v18 = v20;
     v22 = v18[2];
@@ -670,11 +671,11 @@ XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int
   }
   if ( a11 != 0 )
   {
-    orig::sub_1011F300((void *)self_, self_ + 80, 1, a11 & 3, (a11 >> 2) & 3, (unsigned __int8)a11 >> 6);
+    orig::Cell_DrawQuadBlended((void *)self_, self_ + 80, 1, a11 & 3, (a11 >> 2) & 3, (unsigned __int8)a11 >> 6);
   }
   else if ( *(_BYTE *)(self_ + 45) != 0 )
   {
-    orig::sub_1011F300(
+    orig::Cell_DrawQuadBlended(
       (void *)self_,
       self_ + 80,
       1,
@@ -684,7 +685,7 @@ XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int
   }
   else
   {
-    orig::sub_1011F2D0((void *)self_);
+    orig::Cell_DrawWithDefaultBlend((void *)self_);
   }
   v33 = (float *)(self_ + 100);
   v34 = 0;
@@ -704,7 +705,7 @@ XI_API int __thiscall fn_1011EF60(int self_, int a2, int a3, int a4, int a5, int
 
 // FUNCTION: FFXIMAIN 0x1011F300  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 395 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1011F300(void *self_, int a1, int a2, int a3, int a4, int a5)
+XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, int a4, int a5)
 {
   char v6;
   IDirect3DDevice8 *pDevice;
@@ -1054,13 +1055,13 @@ LABEL_77:
 
 // FUNCTION: FFXIMAIN 0x10124440  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10124440(int self_)
+XI_API int __thiscall Cursor_Init(int self_)
 {
   int v2; // kr00_4
   __int16 v3;
   int *v4;
   int *v5;
-  char *v6;
+  char *Shape;
   int v7;
   _DWORD *v8;
   *(_DWORD *)(self_ + 88) = 0;
@@ -1086,7 +1087,7 @@ XI_API int __thiscall fn_10124440(int self_)
   *(_BYTE *)(self_ + 76) = 0;
   *(_DWORD *)(self_ + 8) = v3 / 2;
   *(_DWORD *)(self_ + 16) = v3 / 2;
-  *(_DWORD *)(self_ + 64) = orig::sub_10120450(dword_104E1BF8, aAncAncScro);
+  *(_DWORD *)(self_ + 64) = orig::ShapeMng_FindShape(dword_104E1BF8, aAncAncScro);
   *(_WORD *)(self_ + 68) = 0;
   *(_DWORD *)(self_ + 128) = 1065353216;
   *(_WORD *)(self_ + 132) = 0;
@@ -1096,21 +1097,21 @@ XI_API int __thiscall fn_10124440(int self_)
     v5 = dword_1036E4EC;
     do
     {
-      v6 = orig::sub_10120450(dword_104E1BF8, (char *)v5 - 36);
+      Shape = orig::ShapeMng_FindShape(dword_104E1BF8, (char *)v5 - 36);
       v5 += 16;
-      *v4 = (int)v6;
+      *v4 = (int)Shape;
       v4 = v5;
     }
     while ( *v5 == 0 );
   }
   *(_BYTE *)(self_ + 78) = 0;
-  orig::sub_101262A0((_DWORD *)self_);
+  orig::Cursor_StoreScreenCenter((_DWORD *)self_);
   *(_BYTE *)(self_ + 134) = 0;
   *(_BYTE *)(self_ + 135) = 0;
   *(_WORD *)(self_ + 166) = 0;
   if ( g_pCDx != nullptr )
-    orig::sub_10009780(&g_pCDx->vftable, 0);
-  orig::sub_10124700(self_, (_DWORD *)(self_ + 4), 0.0);
+    orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
+  orig::Cursor_SetPosition(self_, (_DWORD *)(self_ + 4), 0.0);
   v7 = 0;
   v8 = (_DWORD *)(self_ + 32);
   do
@@ -1129,7 +1130,7 @@ XI_API int __thiscall fn_10124440(int self_)
 
 // FUNCTION: FFXIMAIN 0x101252F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned __int8 __thiscall fn_101252F0(unsigned __int8 *self_, unsigned __int8 a2)
+XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsigned __int8 a2)
 {
   unsigned __int8 result;
   CDx *v4;
@@ -1139,18 +1140,18 @@ XI_API unsigned __int8 __thiscall fn_101252F0(unsigned __int8 *self_, unsigned _
   {
     if ( g_pCDx != nullptr )
     {
-      result = orig::sub_10009780(&g_pCDx->vftable, a2);
+      result = orig::CDx_ShowCursor(&g_pCDx->vftable, a2);
       v4 = g_pCDx;
     }
     if ( *(self_ + 78) != a2 && a2 == 1 && v4 != nullptr )
-      result = (unsigned __int8)orig::sub_100097F0(v4, *(self_ + 76), 1);
+      result = (unsigned __int8)orig::CDx_SetCursorShape(v4, *(self_ + 76), 1);
     *(self_ + 78) = a2;
     *(self_ + 78) = a2;
   }
   else
   {
     if ( g_pCDx != nullptr )
-      result = orig::sub_10009780(&g_pCDx->vftable, 0);
+      result = orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
     *(self_ + 78) = a2;
   }
   return result;

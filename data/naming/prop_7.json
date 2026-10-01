@@ -1,0 +1,274 @@
+[
+ {
+  "ea": "0x102824C0",
+  "name": "sqgxColorMask",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets D3DRS_COLORWRITEENABLE from four PS2-style per-channel mask flags (nonzero = channel masked), cached at ctx+0x904..0x910.",
+  "evidence": "arg==0 sets RED(1)/GREEN(2)/BLUE(4)/ALPHA(8) bits so args are masks; shadow-volume pass calls it with (255,255,255,255) to disable color writes and (0,0,0,0) to restore; cache sits next to the ZWRITEENABLE cache at ctx+0x914."
+ },
+ {
+  "ea": "0x10282640",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Texture-stage-only blend setup: color = CURRENT, alpha = TEXTURE on the extra stage; does nothing without a spare stage.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. COLOROP SELECTARG1/ARG1 CURRENT, ALPHAOP SELECTARG1/ARG1 TEXTURE; no framebuffer fallback; no callers recorded. Exact intent inferred."
+ },
+ {
+  "ea": "0x102826C0",
+  "name": "sqgxBlendAdd",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Additive blend mode: framebuffer ADD ONE,ONE, or stage ADD(CURRENT,TEXTURE).",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback ALPHABLENDENABLE=1, BLENDOP=ADD, SRCBLEND=ONE, DESTBLEND=ONE; stage COLOROP=ADD(7). Sibling of known sqgxBlendOff/sqgxBlendTrsp."
+ },
+ {
+  "ea": "0x102827D0",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Additive blend variant: stage MULTIPLYADD (CURRENT + TEXTURE*(1-DIFFUSE)); framebuffer fallback plain ONE,ONE add.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. COLOROP=25 MULTIPLYADD, ARG0=CURRENT, ARG1=0x20 (COMPLEMENT|DIFFUSE), ARG2=TEXTURE; fallback ADD ONE/ONE. Name inferred from stage math."
+ },
+ {
+  "ea": "0x10282910",
+  "name": "sqgxBlendSub",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Subtractive blend: dest - src via BLENDOP REVSUBTRACT ONE,ONE, or stage SUBTRACT(TEXTURE,CURRENT).",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback BLENDOP=3 (REVSUBTRACT), SRCBLEND=ONE, DESTBLEND=ONE; stage COLOROP=10 SUBTRACT."
+ },
+ {
+  "ea": "0x10282CB0",
+  "name": "sqgxBlendTrspInv",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Inverse-alpha translucent blend: src*(1-srcA) + dst*srcA, or stage BLENDTEXTUREALPHA.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback SRCBLEND=6 INVSRCALPHA, DESTBLEND=5 SRCALPHA (reverse of normal alpha blend); stage COLOROP=13 BLENDTEXTUREALPHA. No callers recorded."
+ },
+ {
+  "ea": "0x10282DC0",
+  "name": "sqgxBlendAddDestAlpha",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Additive blend weighted by alpha: framebuffer src*destA + dst, or stage MODULATEALPHA_ADDCOLOR.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback SRCBLEND=7 DESTALPHA, DESTBLEND=ONE, BLENDOP ADD; stage COLOROP=18 MODULATEALPHA_ADDCOLOR(CURRENT,TEXTURE)."
+ },
+ {
+  "ea": "0x10282ED0",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Blend src + dst*srcA (framebuffer ONE,SRCALPHA), stage path uses MODULATEALPHA_ADDCOLOR with TFACTOR=0.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback SRCBLEND=ONE, DESTBLEND=5 SRCALPHA; stage COLOROP=18 ARG1=TFACTOR ARG2=CURRENT and TEXTUREFACTOR=0. No callers recorded; name describes factors only."
+ },
+ {
+  "ea": "0x10282FF0",
+  "name": "sqgxBlendZeroSrcAlpha",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Blend that scales the destination by source alpha (framebuffer ZERO,SRCALPHA); stage variant with TFACTOR=0.",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback SRCBLEND=1 ZERO, DESTBLEND=5 SRCALPHA; stage identical to sqgxBlendOneSrcAlpha's (COLOROP 18, TFACTOR, TEXTUREFACTOR=0)."
+ },
+ {
+  "ea": "0x10283110",
+  "name": "sqgxBlendMul",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Multiplicative blend: dst*src via ZERO,SRCCOLOR, or stage MODULATE(TEXTURE,CURRENT).",
+  "evidence": "Stage path (ctx+0xB18 stage index nonzero) emulates the blend in a texture stage; else framebuffer blend. Fallback SRCBLEND=ZERO, DESTBLEND=3 SRCCOLOR; stage COLOROP=4 MODULATE. Used by the planar-shadow layer draw (sub_102A2530) to darken by (1-lightcolor)."
+ },
+ {
+  "ea": "0x10283380",
+  "name": "sqgxSetCtxField768",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Stores a float to sqgx context +0x768 and sets dirty flag dword_109A2720.",
+  "evidence": "Single float store + flag; called with 1.0 by the planar-shadow draw and by sqgx_DrawRect_Candidate. Field meaning not determined."
+ },
+ {
+  "ea": "0x102838A0",
+  "name": "sqgxSetAspectRatio",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets ctx+0x2DC to a1/a2 (aspect ratio) and rescales the derived projection factor at ctx+0x74C to compensate.",
+  "evidence": "ctx+0x74C is recomputed as old*old_ratio/new_ratio; sqgxSetViewport computes ctx+0x74C = (h/w)/ctx+0x2DC, so +0x2DC is the aspect ratio. Caller sqgxTextureDraw."
+ },
+ {
+  "ea": "0x10283A10",
+  "name": "sqgxSetViewport",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets the D3D viewport (x,y,w,h, Z 0..1), stores width/height and recomputes projection scale terms.",
+  "evidence": "Calls SetViewport with {x,y,w,h,0.0,1.0}; stores w/h at ctx+0x2B0/0x2B4, recomputes projection at ctx+0x2EC and 2/w,2/h factors, sets transform-dirty flag dword_109A2730. Callers sqgxTextureDraw (render-target switch)."
+ },
+ {
+  "ea": "0x10283E00",
+  "name": "sqgxMatrixWorld",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Copies a 4x4 matrix into the context world matrix (ctx+0x1C8) and marks transforms dirty.",
+  "evidence": "sub_1027F070(ctx+456, a1) copy + dword_109A2730=1; ctx+456 is the matrix uploaded as D3DTS_WORLD(256) by sub_10284410. 13 callers incl. sqsnSceneLayerSort; named after existing sqgxMatrixCamera."
+ },
+ {
+  "ea": "0x10283F70",
+  "name": "sqgxZBiasAdd",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Adds a delta to the cached Z bias and applies D3DRS_ZBIAS.",
+  "evidence": "ctx+0x2E8 += a1; SetRenderState(D3DRS_ZBIAS, ctx+0x2E8); skipped when a1==0; planar-shadow draw calls it with +4 then -4."
+ },
+ {
+  "ea": "0x10283FC0",
+  "name": "sqgxZBiasSet",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets D3DRS_ZBIAS to an absolute value if it differs from the cached ctx+0x2E8.",
+  "evidence": "Compare-then-SetRenderState(D3DRS_ZBIAS) on ctx+0x2E8; sets dirty flag dword_109A2730."
+ },
+ {
+  "ea": "0x10284410",
+  "name": "sqgxFlushTransformsLights",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Uploads projection/view/world matrices and 4 directional + 4 point lights to the device, computes object-space eye position, clears the transform-dirty flag.",
+  "evidence": "SetTransform PROJECTION(ctx+0x2EC), VIEW(ctx+0x208), WORLD(256); LightEnable/SetLight lights 0-3 Type=3 DIRECTIONAL and 4-7 Type=1 POINT, Range 1000; disabled when flag 0x40000; when flag bit31 set world is premultiplied by sub_10298350 planar-shadow matrix; dword_109A2730=0."
+ },
+ {
+  "ea": "0x10284950",
+  "name": "sqgxVertexShaderCreate",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Builds a D3D8 vertex declaration from the current vertex-format flags (one stream per attribute) and creates and sets the vertex shader.",
+  "evidence": "Tokens 0x20000000|n = D3DVSD_STREAM(n), 0x40020000 pos FLOAT3 reg0, 0x40020003 normal reg3, 0x40010007+i texcoords FLOAT2, 0x4002000F, 0x40040005 D3DCOLOR reg5; END(-1); CreateVertexShader + SetVertexShader. Agrees with the provisional Dev_CreateVertexShader note."
+ },
+ {
+  "ea": "0x10284A80",
+  "name": "sqgxVertexShaderSelect",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up a cached vertex shader for the OR of current stage format flags; creates one via sqgxVertexShaderCreate on a miss, else sets the cached handle.",
+  "evidence": "Linear search of (flags0,flags1) pairs in dword_103B5910/5914 with count g_counter_109A2744; handle array dword_103B4910 (0x103B4910 = literal 272320784 passed to create); SetVertexShader on hit."
+ },
+ {
+  "ea": "0x10284EF0",
+  "name": "sqgxVertexShaderRelease",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Deletes the vertex shader handle stored at ctx+0xA18 and zeroes it.",
+  "evidence": "DeleteVertexShader(ctx+2584) guarded by nonzero, then field cleared; no recorded callers."
+ },
+ {
+  "ea": "0x10285850",
+  "name": "sqCallHook30",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Calls the function pointer at a1+0x30 if non-null.",
+  "evidence": "Body is `if (*(a1+48)) call it`; 17 callers incl. sqsd*_BakeOntoShape and the planar-shadow layer draw, which passes a shape/item object (likely its draw callback)."
+ },
+ {
+  "ea": "0x10285890",
+  "name": "sqDebugPrintf",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "printf-style debug output: formats into a 256-byte buffer and sends it to OutputDebugStringA.",
+  "evidence": "_vsnprintf(buf,255,fmt,args) + OutputDebugStringA; 419 callers, used for messages like 'Error in SetStreamSource' and 'shadow volumes only work with sqshTriStrip shapes'."
+ },
+ {
+  "ea": "0x1028AA70",
+  "name": "sqgxShapeIndexBufferBegin",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Lazily creates a 3072-entry dynamic 16-bit index buffer (or malloc in software mode), sets it as indices and locks it with DISCARD, resetting the write count.",
+  "evidence": "CreateIndexBuffer(6144, 0x208 WRITEONLY|DYNAMIC, INDEX16, DEFAULT) or malloc when ctx+720 set; SetIndices; vtable+44 = IDirect3DIndexBuffer8::Lock with 0x2000 D3DLOCK_DISCARD; ctx+2456=0; caller sqgxContext_BatchIndices."
+ },
+ {
+  "ea": "0x1028F8C0",
+  "name": "sqsnSceneDrawLayers",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws all scene layers: renders snapshot layers into ping-pong 1024x512 render targets and composites them, draws normal/shadowed layers with pre/post callbacks, and applies a stencil-masked fade when scene alpha < 1.",
+  "evidence": "Calls sqsnSceneLayerSort, sqgxTextureAdd(1024,512), sqsnSceneLayerSnapShotComposite, sqsnSceneLayerDraw/DrawShadowed, sqrdCamera_Apply; fade path uses STENCILENABLE/STENCILFUNC and sqgx_DrawRect_Candidate with color alpha = a1+56."
+ },
+ {
+  "ea": "0x102979E0",
+  "name": "sqsnShadowVolumeExtrudeTriList",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "For a triangle-list strip group, emits shadow-volume geometry per triangle using light-facing flags and adjacency (-1 = open edge) via sub_10297530.",
+  "evidence": "Loops count/3 triangles, reads 3 neighbor indices per tri from a6 and facing flags from a7, swaps winding for back-facing tris, skips back-facing when a11 set; caller sqsnShadow draw (sub_102A21F0) for positive (list) counts."
+ },
+ {
+  "ea": "0x10297B10",
+  "name": "sqsnShadowVolumeExtrudeTriStrip",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Triangle-strip counterpart: per strip triangle (count-2) with alternating winding, emits shadow-volume geometry via sub_10297530.",
+  "evidence": "Same structure as the list version but iterates a1-2 triangles and flips vertex order on odd index (v12 & 1); caller sub_102A21F0 uses it for negative (strip) counts."
+ },
+ {
+  "ea": "0x10297CC0",
+  "name": "sqsnShadowVolumeSetPass",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets render state for stencil shadow-volume passes: 0 = front faces INCR, 1 = back faces DECR, 2 = restore (stencil off, Z/color writes on, Gouraud).",
+  "evidence": "Passes 0/1: ZWRITE off, sqgxColorMask(255..) color off, SHADEMODE FLAT, STENCILFUNC ALWAYS, STENCILPASS 7 INCR / 8 DECR, CULLMODE CW / CCW; called around two DrawPrimitive calls in sub_102A21F0."
+ },
+ {
+  "ea": "0x10297EC0",
+  "name": "sqsnShadowStencilTest",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Enables/disables a stencil test that restricts drawing to pixels with stencil 0 (outside shadow volumes); stores the flag at ctx+0x124.",
+  "evidence": "On: STENCILENABLE, STENCILFUNC 5 (GREATER) REF 1, all ops KEEP; off: ZWRITE on and STENCILENABLE 0. Name inferred from shadow-volume context of unit_102971F0."
+ },
+ {
+  "ea": "0x10297F90",
+  "name": "sqsnShadowComputeFacing",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Computes per-triangle light-facing flags: dot(faceNormal, vertex - lightPos) <= 0 for point lights, or dot(normal, lightDir) <= 0 for directional.",
+  "evidence": "Writes 0/1 per triangle into a1 using sub_10274870 (dot3) over face normals a2; a6 selects point-light mode walking strip/list index groups; caller sub_102A21F0."
+ },
+ {
+  "ea": "0x102981E0",
+  "name": "sqsnShadowVolumeBeginVB",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Prepares the shadow-volume vertex buffer: creates a 720000-byte XYZ dynamic VB if needed, binds it (stride 12, FVF XYZ) and locks it with DISCARD.",
+  "evidence": "CreateVertexBuffer(720000, 0x208, FVF 2=D3DFVF_XYZ), SetStreamSource stride 12, SetVertexShader(2), vtable+44 Lock 0x2000; error strings 'Error in SetStre...'/'Error in SetVert...' via sqDebugPrintf; resets count ctx+324."
+ },
+ {
+  "ea": "0x10298350",
+  "name": "sqgxMatrixPlanarShadow",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Builds a planar projection shadow matrix from the plane at ctx+0x12C and the normalized directional light 0 direction (D3DXMatrixShadow form, L.w=0).",
+  "evidence": "M[i][j] = d*I - P[i]*L[j] with d = dot(P,L), L from ctx+844 normalized by sub_102748F0; used by sqgxFlushTransformsLights to premultiply WORLD when flag bit31 is set."
+ },
+ {
+  "ea": "0x102A21F0",
+  "name": "sqsnShadowVolumeDraw",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Draws a stencil shadow volume for a tri-strip shape: transforms light to object space, computes facing, extrudes strips/lists into the VB, then renders it in INCR and DECR passes.",
+  "evidence": "String 'shadow volumes only work with sqshTriStrip shapes' when shape type != 0xA0009; calls sqsnShadowComputeFacing, sqsnShadowVolumeBeginVB, extrude helpers, VB Unlock (vtable+48), sqsnShadowVolumeSetPass(0/1/2) around DrawPrimitive TRIANGLELIST x2; source unit sqsnShadow.cpp."
+ },
+ {
+  "ea": "0x102A2530",
+  "name": "sqsnSceneLayerDrawPlanarShadows",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws planar projected shadows for a layer's casters: multiply blend with (1 - light color), Z bias +4, no Z write/test, stencil EQUAL+INCR to avoid double darkening, each caster drawn with shader flag bit31 (planar shadow matrix).",
+  "evidence": "Caller sqsnSceneLayerDrawShadowed; sqgxColor(1-v4[5..7]), sqgxBlendMul, sqgxZBiasAdd(4/-4), STENCILPASS INCR STENCILFUNC EQUAL, sqgxContext_SelectShaderMode(0x80000000) which triggers sqgxMatrixPlanarShadow; skipped when layer alpha < 1."
+ },
+ {
+  "ea": "0x1031077E",
+  "name": "Thunk_FnTable694",
+  "confidence": "medium",
+  "kind": "thunk",
+  "summary": "Calls the function pointer at offset 0x694 of the table pointed to by dword_10456A2C.",
+  "evidence": "Body is a single indirect call through dword_10456A2C+1684; dword_10456A2C is assigned from dword_104569B4 in sub_100157E0 (its only caller). The table's identity is not shown."
+ }
+]

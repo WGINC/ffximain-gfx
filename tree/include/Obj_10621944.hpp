@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API Obj_10621944 {
 public:
-    int fn_101630E0();  // 0x101630E0
+    int Obj_10621944_Draw();  // 0x101630E0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x8];

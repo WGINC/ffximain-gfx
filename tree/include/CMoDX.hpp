@@ -7,6 +7,7 @@ class XI_API CMoDX {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x10069D60
     _BYTE * ScalarDeletingDtor(char a2);  // 0x10069DB0
+    _DWORD * CreateAndInitSystem();  // 0x1006B2B0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x1EC8];

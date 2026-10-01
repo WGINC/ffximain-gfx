@@ -126,7 +126,7 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant12()
 _DWORD * CMoTask::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_100747C0(self);
+  orig::CMoTask_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

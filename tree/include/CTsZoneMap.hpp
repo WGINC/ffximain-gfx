@@ -5,10 +5,11 @@
 #pragma pack(push, 1)
 class XI_API CTsZoneMap {
 public:
-    char fn_10178070();  // 0x10178070
-    float * fn_10182700(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5);  // 0x10182700
+    char CTsZoneMap_Destructor();  // 0x10178070
+    int InitZBiasPresets();  // 0x101781D0
+    float * DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5);  // 0x10182700
     void ModelActor_Draw(int a2, int a3);  // 0x101844C0
-    int fn_10184FE0(int a1, int a2);  // 0x10184FE0
+    int DrawProjectedShadow(int a1, int a2);  // 0x10184FE0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x178];
@@ -35,7 +36,9 @@ public:
     int32_t field_394A8;  // +0x394A8
     int32_t field_394AC;  // +0x394AC
     int32_t field_394B0;  // +0x394B0
-    uint8_t _pad_394B4[0xE4];
+    uint8_t _pad_394B4[0x98];
+    uint32_t field_3954C;  // +0x3954C
+    uint8_t _pad_39550[0x48];
     uint8_t field_39598;  // +0x39598
     uint8_t _pad_39599[0x1B];
 };
@@ -57,4 +60,5 @@ static_assert(XI_OFFSETOF(CTsZoneMap, field_394A4) == 0x394A4, "CTsZoneMap: layo
 static_assert(XI_OFFSETOF(CTsZoneMap, field_394A8) == 0x394A8, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_394AC) == 0x394AC, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_394B0) == 0x394B0, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_3954C) == 0x3954C, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_39598) == 0x39598, "CTsZoneMap: layout");

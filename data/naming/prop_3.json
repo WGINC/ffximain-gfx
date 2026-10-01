@@ -1,0 +1,906 @@
+[
+ {
+  "ea": "0x10041C20",
+  "name": "Font_DrawProjectedText3D",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Projects a 3D position through a matrix and, if in front of the camera, draws up to 16 characters of a string as centered screen-space glyph quads.",
+  "evidence": "Clamps strlen to 16; per-char glyph metrics via sub_10120730(dword_104E1BF8,...) and glyph lookup sub_101207B0; skips if projected w<0; applies static state block via sub_1006AF90; SetVertexShader(0x144 = XYZRHW|DIFFUSE|TEX1) + CDx_DrawPrimitiveUP(5=TRIANGLESTRIP, 2 prims, stride 28)."
+ },
+ {
+  "ea": "0x10041F30",
+  "name": "StaticDtor_StateBlock_1047BADC",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "atexit handler that destroys the static state-block object at dword_1047BADC.",
+  "evidence": "Registered via _atexit in sub_10041C20 after constructing dword_1047BADC; body only calls sub_1006ADB0 (the state-block cleanup also used by CMoDxStatusMng dtor)."
+ },
+ {
+  "ea": "0x100425F0",
+  "name": "CMoOtTask_ScalarDeletingDtor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor for a CMoOtTask-family task with a CMoAttachments mixin at +0x54.",
+  "evidence": "Stores CMoOtTask_vtbl_ambiguous0/1 and CMoAttachments mixin vtable, ReleaseSubObjectIfPresent, base dtor sub_100747C0, then SharedDeleteHelper when (flags&1); reached from CMoAttachments_VT_1032AE94_vf001."
+ },
+ {
+  "ea": "0x100439B0",
+  "name": "StaticDtor_StateBlock_1047BB7C",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "atexit handler that destroys the static state-block object at dword_1047BB7C.",
+  "evidence": "Body only calls sub_1006ADB0(dword_1047BB7C), same shape as the dword_1047BADC handler."
+ },
+ {
+  "ea": "0x10043AB0",
+  "name": "CMoTask_VT_1032AF60_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task class CMoTask_VT_1032AF60: notifies the attached target (sub_100ACDB0 with fields +0x7C/+0x8C), releases the attachment and runs the CMoTask base dtor.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous3 + attachments mixin at +0x34; called only from CMoTask_VT_1032AF60_ScalarDeletingDtor; ends in sub_100747C0 (task base dtor)."
+ },
+ {
+  "ea": "0x10043CB0",
+  "name": "CMoTask_VT_1032AFA8_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task class CMoTask_VT_1032AFA8: notifies the attached target (sub_100ACEA0), releases the attachment and runs the CMoTask base dtor.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous4 + mixin at +0x34; only caller CMoTask_VT_1032AFA8_ScalarDeletingDtor; same shape as the 1032AF60 dtor."
+ },
+ {
+  "ea": "0x10043DF0",
+  "name": "DynVB_Constructor",
+  "confidence": "medium",
+  "kind": "ctor",
+  "summary": "Constructs a 0x48-byte double-buffered dynamic vertex buffer object (vtable off_1032AFD4) with two 32-byte slots zeroed.",
+  "evidence": "Stores vtable off_1032AFD4, zeroes VB pointer of 2 slots (stride 32) and bytes +0x44/+0x45; allocated 0x48 bytes and followed by sub_10043E50 (CreateVertexBuffer) in sub_10044270."
+ },
+ {
+  "ea": "0x10043E40",
+  "name": "DynVB_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Destructor of the dynamic vertex buffer object: restores vtable off_1032AFD4 and releases buffers via sub_10043F00.",
+  "evidence": "Stores off_1032AFD4 then calls sub_10043F00, which DynVB_Create also calls first to free existing buffers."
+ },
+ {
+  "ea": "0x10043E50",
+  "name": "DynVB_Create",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Releases old buffers and creates N dynamic vertex buffers (or takes cached ones) of given vertex count and FVF.",
+  "evidence": "Per slot stores FVF, capacity, stride=sub_1006A560(FVF); falls back to device vtbl+92 = CreateVertexBuffer(count*stride, 0x208 = WRITEONLY|DYNAMIC, FVF, D3DPOOL_DEFAULT, &vb) when lookup sub_1006B1D0(dword_1047BFF8) misses."
+ },
+ {
+  "ea": "0x10044010",
+  "name": "DynVB_Reserve",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Reserves N vertices in the current slot's buffer, computing lock offset/size and choosing DISCARD when the ring wraps.",
+  "evidence": "Sets lockSize=n*stride, start=cursor, flags=0; if start+n>capacity then start=0 and flags=0x2000 (D3DLOCK_DISCARD); cursor=start+n. Works on slot index from sub_10043DE0."
+ },
+ {
+  "ea": "0x10044130",
+  "name": "DynVB_Lock",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Locks the reserved range of the current dynamic VB slot and returns the data pointer.",
+  "evidence": "Calls VB vtbl+44 = IDirect3DVertexBuffer8::Lock(start*stride, size, &p, flags) with flags from Reserve or 0x1000 (D3DLOCK_NOOVERWRITE); returns NULL if no VB."
+ },
+ {
+  "ea": "0x100441A0",
+  "name": "DynVB_Unlock",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Unlocks the current dynamic VB slot.",
+  "evidence": "Calls VB vtbl+48 = IDirect3DVertexBuffer8::Unlock on slot from sub_10043DE0; shares callers with DynVB_Reserve/Lock."
+ },
+ {
+  "ea": "0x10044210",
+  "name": "Gfx_SetViewMatrixFromField10",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Sets the D3D view transform from the matrix at this+0x10.",
+  "evidence": "CDx_SetTransform(g_pResourceMng->CDx (+3528), 2 = D3DTS_VIEW, this+16)."
+ },
+ {
+  "ea": "0x10044230",
+  "name": "Gfx_SetViewMatrixFromField90",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Sets the D3D view transform from the matrix at this+0x90.",
+  "evidence": "CDx_SetTransform(g_pResourceMng->CDx, 2 = D3DTS_VIEW, this+144); sibling of the +0x10 variant, same caller sub_1003D9A0."
+ },
+ {
+  "ea": "0x10044270",
+  "name": "Mo_InitSharedRenderResources",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "One-time init of shared effect render resources: seeds the RNG, creates a 256x256 'cubemap spec' texture/target pair and five dynamic VBs with different FVFs, plus a CYyObject.",
+  "evidence": "String 'cubemap spec    '; sub_1006BD90(4357) (MT default seed); CMoDX_CreateTexture 256x256 + sub_1000AD70(g_pCDx,256,256); DynVB_Create with FVFs 0x42,0x44,0x144,0x142,0x152; called from CMoDX init sub_1006B2B0."
+ },
+ {
+  "ea": "0x10044890",
+  "name": "CMoElem_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "Base constructor of CMoElem: calls parent ctor, inits occlusion query member, stores CMoElem vtable and zeroes/initializes fields.",
+  "evidence": "Calls base sub_10055570 and sub_1006C260(this+383); stores CMoElem_vtbl_ambiguous3, sets +0x176=404, +0x134=1.0f, increments a global instance counter; called by many *Elem ctors (e.g. CMoD3mSpecularElem_Ctor)."
+ },
+ {
+  "ea": "0x10047900",
+  "name": "CMoSkeletonElem_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoSkeletonElem: releases its resource ref and deletes the owned object at +469, then shared elem cleanup.",
+  "evidence": "Stores CMoSkeletonElem_vtbl; calls sub_10071EC0 (resource release) and vtbl+24 deleting dtor(1) on member; ends in CMoElemFamily_SharedCleanup; only caller CMoSkeletonElem_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10047F80",
+  "name": "CMoGeneratorClone_VT_1032B114_Constructor",
+  "confidence": "medium",
+  "kind": "ctor",
+  "summary": "Constructor for the generator base resource class (CMoResource-derived with CMoAttachments mixin at +0x30).",
+  "evidence": "Calls CMoResource base ctor sub_10071D80, mixin ctor sub_1003B540, stores CMoAttachments_vtbl_ambiguous4 and CMoResource_vtbl_ambiguous0, memset(+0x70,0,0x50), +0xB0=0; caller CMoGeneratorClone_CreateInstance; matching dtor's caller is CMoGeneratorClone_VT_1032B114_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10048000",
+  "name": "CMoGeneratorClone_VT_1032B114_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Destructor of the generator base: frees resources of type 5 that reference this generator, detaches, deletes owned objects and runs the CMoResource base dtor.",
+  "evidence": "Stores CMoResource_vtbl_ambiguous0; iterates g_pMeshResourceMng type-5 entries via ResourceIter_FindNext and frees matches (sub_10073B20); deletes +0xA8 via vtbl+24, frees +0xA4; ends in CMoResource_Destructor (sub_10071DE0)."
+ },
+ {
+  "ea": "0x10048140",
+  "name": "CMoGeneratorClone_UnlinkElemListA",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Unlinks an element from the generator's first doubly linked element list (links at elem+0x14C/+0x150, head at this+0xB0) and releases a resource ref.",
+  "evidence": "prev/next fixups on a2+332/a2+336 with head at this+176 (zeroed by the generator ctor); then sub_10071EC0 (ref release); called from CMoElemFamily_SharedCleanup."
+ },
+ {
+  "ea": "0x100481D0",
+  "name": "CMoGeneratorClone_UnlinkElemListB",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Unlinks an element from the generator's second doubly linked element list (links at elem+0x154/+0x158, head at this+0xAC) and releases a resource ref.",
+  "evidence": "prev/next fixups on a2+340/a2+344 with head at this+172; then sub_10071EC0; called from CMoElemFamily_SharedCleanup."
+ },
+ {
+  "ea": "0x100492F0",
+  "name": "CMoGeneratorClone_FindCmdByType",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Scans the generator's packed command stream (this+0xE4) for the first record whose type byte equals a2.",
+  "evidence": "Record header dword: low byte = type (0 terminates), bits 8-12 = length in dwords; returns pointer or NULL; called from CMoGeneratorClone_FixupClonedPointers and many siblings."
+ },
+ {
+  "ea": "0x10049570",
+  "name": "CMoGeneratorClone_ResolveTarget",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Resolves and caches the generator's target object from its header (type code + id), with a zone-map fallback for type 31.",
+  "evidence": "Maps type byte (+33) codes (0xB/0xC/0x1F->31, 0xE/0x21/0x39->33, 0x1D->37), skips types 87/71/34/36/92, looks up via CMoResource_FindByTypeAndId; for 31 walks parents for type 46 and calls sub_10183420(g_pZoneMap,...); caches at hdr+8; caller CMoSchedularTask_Interpret."
+ },
+ {
+  "ea": "0x10053450",
+  "name": "CMoGeneratorClone_CopyParams",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Copies generator parameter fields (+0x20..+0xEC, including bitfields at +0xD8) from a source generator, clearing pointer members +0xA4..+0xB0.",
+  "evidence": "Field-by-field copy from a2, sub_1003C740 for +0x30 member, explicit zeroing of 164/168/172/176; only caller CMoGeneratorClone_CreateInstance."
+ },
+ {
+  "ea": "0x100541C0",
+  "name": "CMoTask_VT_1032B654_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task CMoTask_VT_1032B654: clears the owner's back-pointer (+0xA8) and runs CMoTask base dtor.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous5, zeroes +0x18, writes 0 to owner+168; calls sub_100747C0; only caller CMoTask_VT_1032B654_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x100542F0",
+  "name": "CMoGeneratorClone_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoGeneratorClone: detaches, deletes owned object, clears the back-pointer in its element and frees its handle before chaining to the generator base dtor.",
+  "evidence": "Stores CMoGeneratorClone_vtbl and mixin_of_CMoGeneratorClone; sub_10074180(g_pMeshResourceMng, handle) frees handle; chains to CMoGeneratorClone_VT_1032B114_Destructor; only caller CMoGeneratorClone_VT_1032B69C_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x100543A0",
+  "name": "CMoGeneratorClone_Kill",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Stops and destroys a generator: detaches, deletes its owned object, drops all references and frees its resource.",
+  "evidence": "Same detach sequence as the dtor, then loops sub_10071EC0 until refcount (+24 & 0x7FFF) is 0 and calls sub_10073B20; callers include CXiSkeletonActor_KillAllGenerater and CMoSchedularTask_Interpret."
+ },
+ {
+  "ea": "0x100548C0",
+  "name": "CMoLfdElem_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoLfdElem: restores vtable and runs shared elem cleanup.",
+  "evidence": "Stores CMoLfdElem_vtbl then CMoElemFamily_SharedCleanup; only caller CMoLfdElem_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10055000",
+  "name": "Vt1032B6D8_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Destructor for an object (vtable off_1032B6D8) that owns a block containing three CMoSpline members; destroys them and frees the block.",
+  "evidence": "Stores off_1032B6D8; calls CMoSpline dtor (sub_100634A0) on block+0x54/+0x2C/+0x04, frees block via thunk_sub_10028AA0, nulls +0x14."
+ },
+ {
+  "ea": "0x10055240",
+  "name": "LinkNode_Init",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Zeroes the prev/next/owner fields (+4, +0x10, +0x14) of an intrusive list node.",
+  "evidence": "Three stores of 0 and return this; used by CXiSkeletonActor ctors; the matching unlink is sub_10055250."
+ },
+ {
+  "ea": "0x10055250",
+  "name": "LinkNode_Unlink",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Unlinks an intrusive list node from its neighbours if it is in a list (owner at +0x14 non-null).",
+  "evidence": "prev(+4)->next(+0x10)=next; next->prev=prev; does not clear the node; called from destructors (CXiSkeletonActor_DestructorBody, CMoElemFamily_SharedCleanup)."
+ },
+ {
+  "ea": "0x100552E0",
+  "name": "CMoOT_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoOT: frees the buffer at +4.",
+  "evidence": "Stores CMoOT_vtbl, calls sub_10028700(this[1]) and nulls it; only caller CMoOT_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x100555D0",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Allocates a 24-byte object into dword_1047BC94, initializes it with (512, 0.0, 512.0) and registers callback sub_10055620 in the dword_1047D140 manager.",
+  "evidence": "sub_100552A0 ctor + sub_10055300(obj,512,0.0,512.0); sub_10074CC0(dword_1047D140, sub_10055620, 12); called once from CMoDX init sub_1006B2B0. Purpose of the table not shown."
+ },
+ {
+  "ea": "0x10056220",
+  "name": "CMoSphRes_FixupOffsets",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Converts four self-relative offsets (+0x10..+0x1C) in a loaded resource into absolute pointers.",
+  "evidence": "Adds this to fields 4..7; callers CMoSphRes_vf008 and sub_10056270."
+ },
+ {
+  "ea": "0x10056390",
+  "name": "CMoPointLightProgElem_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoPointLightProgElem: unregisters its point light (sub_10178610) then runs shared elem cleanup.",
+  "evidence": "Stores CMoPointLightProgElem_vtbl, stores sub_10178610(this[101], this+21, 0, 0.0, 0) result into +0x1AC; CMoElemFamily_SharedCleanup; only caller CMoPointLightProgElem_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x100574A0",
+  "name": "CMoSchedularTask_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoSchedularTask: notifies attached objects, clears back-references in other 'Ms' tasks, frees owned data, invokes an end callback and destroys 16 sub-entries.",
+  "evidence": "Stores CMoSchedularTask_vtbl + mixin; scans dword_1047D140 list for type 0x4D730000 entries pointing at this; calls callback at +0xAC; loop of 16 sub_100683D0 at +0xC0..; only caller CMoSchedularTask_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1005F2C0",
+  "name": "CMoPathDriveActorTask_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of CMoPathDriveActorTask; calls the attached actor's vtbl+380 hook before release.",
+  "evidence": "Stores CMoPathDriveActorTask_vtbl + mixin, ReleaseSubObjectIfPresent, sub_100747C0, SharedDeleteHelper if flags&1."
+ },
+ {
+  "ea": "0x1005F3F0",
+  "name": "CMoLockColorDriveTask_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of CMoLockColorDriveTask; if active, resets the actor color to 0x80808080 (neutral).",
+  "evidence": "Stores CMoLockColorDriveTask_vtbl; calls actor vtbl+48 with -2139062144 = 0x80808080 when byte +0x78 set; standard release/delete tail."
+ },
+ {
+  "ea": "0x1005F660",
+  "name": "CMoLockLookAtDriveTask_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of CMoLockLookAtDriveTask; clears the look-at lock flag (bit 1 of +0x840) on the actor.",
+  "evidence": "Stores CMoLockLookAtDriveTask_vtbl; actor+2112 &= ~2; standard release/delete tail."
+ },
+ {
+  "ea": "0x1005F990",
+  "name": "CMoActorColorDriveTask_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of CMoActorColorDriveTask; restores the actor's saved color via vtbl+96 or vtbl+48.",
+  "evidence": "Stores CMoActorColorDriveTask_vtbl; when +0x86==1 calls actor vtbl+96 or +48 with saved value +0x80; standard tail."
+ },
+ {
+  "ea": "0x1005FE30",
+  "name": "CMoActorRotationDriveTask_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of CMoActorRotationDriveTask; finalizes the actor rotation (wraps Euler angles to [-pi,pi] and copies the saved quaternion/vector) or camera state.",
+  "evidence": "Stores CMoActorRotationDriveTask_vtbl; mode 0 wraps actor+68/72/76 with 3.1415/6.283 and writes +228..240 (and +1860.. if IsKindOf XiModelActor); mode 1 calls CBaseCamera::SetDragRect/sub_1005EDC0."
+ },
+ {
+  "ea": "0x10060190",
+  "name": "CMoAttachments_VT_1032B940_ScalarDeletingDtor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of an afterimage-unit task; resets an actor subsystem (sub_1018BC40(actor+0x5FC, 0)) before release.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous10 + CMoAttachments_vtbl_ambiguous5; reached via CMoAttachments_VT_1032B940_vf001; unit unit_1005FFD0_AfterimageTask (exact class not proven)."
+ },
+ {
+  "ea": "0x100602D0",
+  "name": "CMoAttachments_VT_1032BAF0_ScalarDeletingDtor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of a task that calls sub_10083310 on the attached actor before release.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous11 + CMoAttachments_vtbl_ambiguous6; reached via CMoAttachments_VT_1032BAF0_vf001; standard tail."
+ },
+ {
+  "ea": "0x100608B0",
+  "name": "CMoAttachments_VT_1032BB38_ScalarDeletingDtor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of a task that calls the attached object's vtbl+356 before release.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous12 + CMoAttachments_vtbl_ambiguous7; reached via CMoAttachments_VT_1032BB38_vf001."
+ },
+ {
+  "ea": "0x10060BB0",
+  "name": "CMoAttachments_VT_1032BBAC_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 124-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 124 bytes, element dtor sub_10060B10, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BBAC_vf001."
+ },
+ {
+  "ea": "0x10060E60",
+  "name": "CMoAttachments_VT_1032BBF4_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 144-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 144 bytes, element dtor sub_10060C60, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BBF4_vf001."
+ },
+ {
+  "ea": "0x10061010",
+  "name": "CMoAttachments_VT_1032BC68_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10060F40, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BC68_vf001."
+ },
+ {
+  "ea": "0x10061140",
+  "name": "CMoAttachments_VT_1032BC84_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor inline task dtor (ReleaseSubObjectIfPresent + sub_100747C0), array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BC84_vf001."
+ },
+ {
+  "ea": "0x10061300",
+  "name": "CMoAttachments_VT_1032BCCC_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 132-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 132 bytes, element dtor sub_100611E0, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BCCC_vf001."
+ },
+ {
+  "ea": "0x100614B0",
+  "name": "CMoAttachments_VT_1032BD14_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 136-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 136 bytes, element dtor sub_10061380, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BD14_vf001."
+ },
+ {
+  "ea": "0x100616B0",
+  "name": "CMoAttachments_VT_1032BD5C_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 136-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 136 bytes, element dtor sub_10061530, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BD5C_vf001."
+ },
+ {
+  "ea": "0x10061830",
+  "name": "CMoAttachments_VT_1032BDA4_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 124-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 124 bytes, element dtor sub_10061730, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BDA4_vf001."
+ },
+ {
+  "ea": "0x10061A00",
+  "name": "CMoAttachments_VT_1032BDEC_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 128-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 128 bytes, element dtor sub_10061920, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BDEC_vf001."
+ },
+ {
+  "ea": "0x10061B80",
+  "name": "CMoAttachments_VT_1032BE34_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10061AB0, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BE34_vf001."
+ },
+ {
+  "ea": "0x10061D00",
+  "name": "CMoAttachments_VT_1032BE7C_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10061C30, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BE7C_vf001."
+ },
+ {
+  "ea": "0x10061EA0",
+  "name": "CMoAttachments_VT_1032BEC4_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 124-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 124 bytes, element dtor sub_10061DB0, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BEC4_vf001."
+ },
+ {
+  "ea": "0x10062090",
+  "name": "CMoAttachments_VT_1032BF0C_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10061F50, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BF0C_vf001."
+ },
+ {
+  "ea": "0x10062210",
+  "name": "CMoAttachments_VT_1032BF54_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10062140, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BF54_vf001."
+ },
+ {
+  "ea": "0x100623B0",
+  "name": "CMoAttachments_VT_1032BF9C_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_100622C0, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BF9C_vf001."
+ },
+ {
+  "ea": "0x10062550",
+  "name": "CMoAttachments_VT_1032BFE4_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10062460, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032BFE4_vf001."
+ },
+ {
+  "ea": "0x10062700",
+  "name": "CMoAttachments_VT_1032C02C_VectorDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "MSVC vector deleting destructor for 120-byte task objects: flag&2 destroys a counted array, else a single object; frees when flag&1.",
+  "evidence": "Array count at this[-1], element stride 120 bytes, element dtor sub_10062600, array free sub_1002C8E0, single SharedDeleteHelper; reached via CMoAttachments_VT_1032C02C_vf001."
+ },
+ {
+  "ea": "0x100634A0",
+  "name": "CMoSpline_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoSpline: restores vtable and frees spline data.",
+  "evidence": "Stores CMoSpline_vtbl then sub_10063550; caller CMoSpline_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10063C60",
+  "name": "MoProgElem_FreeBuffer40",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Frees the buffer pointer at this+0x40 and nulls it.",
+  "evidence": "sub_10028700(this[16]); this[16]=0; called from CMoVuLineProgElem/CMoVuDist/CMoDisintegrateProgElem scalar deleting dtors."
+ },
+ {
+  "ea": "0x10069D70",
+  "name": "CMoDX_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoDX: unbinds any textures it set on stages 0-7.",
+  "evidence": "Stores CMoDX_vtbl; for i<8 where byte flag at +3776+i set, device(+3772) vtbl+244 = SetTexture(i, NULL); only caller CMoDX_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10069DD0",
+  "name": "CMoDX_Initialize",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Initializes CMoDX with the CDx renderer: raises timer resolution, records start time, caches device caps and device pointer.",
+  "evidence": "Stores CDx at +3528; timeGetDevCaps/timeBeginPeriod/timeGetTime; device vtbl+28 = GetDeviceCaps(this+3532); +3772 = device; called from CMoDX setup sub_1006B2B0 with g_pCDx."
+ },
+ {
+  "ea": "0x1006A150",
+  "name": "CMoDX_CreateTexture",
+  "confidence": "high",
+  "kind": "thunk",
+  "summary": "Creates a WxH single-level texture through the CDx renderer.",
+  "evidence": "CDx_CreateTexture(this->CDx(+3528), w, h, out, 1, 0); used by Mo_InitSharedRenderResources for the 256x256 cubemap spec texture."
+ },
+ {
+  "ea": "0x1006A480",
+  "name": "CMoDX_SetWorldMatrix",
+  "confidence": "high",
+  "kind": "thunk",
+  "summary": "Sets the D3D world transform.",
+  "evidence": "CDx_SetTransform(this->CDx, 256 = D3DTS_WORLD, m)."
+ },
+ {
+  "ea": "0x1006A4A0",
+  "name": "CMoDX_GetWorldMatrix",
+  "confidence": "high",
+  "kind": "thunk",
+  "summary": "Reads the cached D3D world transform.",
+  "evidence": "CDx_GetTransformCached(this->CDx, 256 = D3DTS_WORLD, out)."
+ },
+ {
+  "ea": "0x1006A4C0",
+  "name": "CMoDX_PushViewMatrix",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Saves the current view matrix onto an 8-deep stack in CMoDX.",
+  "evidence": "Depth at +3748 (this[937]) capped at 8; sub_1006A540 writes into this+2320+64*depth; paired with CMoDX_PopViewMatrix which restores via D3DTS_VIEW."
+ },
+ {
+  "ea": "0x1006A4F0",
+  "name": "CMoDX_PopViewMatrix",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Pops the view-matrix stack and restores the saved matrix as D3D view transform.",
+  "evidence": "Decrements depth at +3748, calls CMoDX_SetViewMatrix(this+2320+64*depth)."
+ },
+ {
+  "ea": "0x1006A520",
+  "name": "CMoDX_SetViewMatrix",
+  "confidence": "high",
+  "kind": "thunk",
+  "summary": "Sets the D3D view transform.",
+  "evidence": "CDx_SetTransform(this->CDx, 2 = D3DTS_VIEW, m)."
+ },
+ {
+  "ea": "0x1006A560",
+  "name": "Gfx_CalcFVFStride",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Computes the vertex size in bytes for a D3D FVF code.",
+  "evidence": "XYZ(2)=3 floats, XYZRHW(4)=4, NORMAL(0x10)+3, DIFFUSE(0x40)+1, SPECULAR(0x80)+1, TEX1(0x100) adds 1-4 floats from TEXCOORDSIZE bits 16-17; returns 4*count; used by DynVB_Create."
+ },
+ {
+  "ea": "0x1006AE30",
+  "name": "StateBlock_ApplyRSTSS",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Applies a cached D3D state block, recording it first (from a render-state list and a texture-stage-state list) if the token is -1.",
+  "evidence": "Device vtbl+208 BeginStateBlock, +200 SetRenderState pairs until 0x7FFFFFFF, +252 SetTextureStageState triples until 0x7FFFFFFF, +212 EndStateBlock(self), +216 ApplyStateBlock(*self)."
+ },
+ {
+  "ea": "0x1006AF90",
+  "name": "StateBlock_ApplyTSS",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Applies a cached D3D state block, recording it first from a texture-stage-state list if the token is -1.",
+  "evidence": "Same as the RS+TSS variant without the SetRenderState list: BeginStateBlock/SetTextureStageState(+252)/EndStateBlock/ApplyStateBlock; used by Font_DrawProjectedText3D."
+ },
+ {
+  "ea": "0x1006B050",
+  "name": "CMoDxStatusMng_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "Constructor of CMoDxStatusMng: initializes its embedded state-block member and stores the vtable.",
+  "evidence": "Calls the state-block ctor (IDA-matched as exception::exception) at this+4, stores CMoDxStatusMng_vtbl; allocated 16 bytes in CMoDX setup sub_1006B2B0."
+ },
+ {
+  "ea": "0x1006B090",
+  "name": "CMoDxStatusMng_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoDxStatusMng: frees its linked list of entries and destroys its embedded state block.",
+  "evidence": "Stores CMoDxStatusMng_vtbl, walks list at +0xC freeing nodes via sub_1006ADC0, then sub_1006ADB0(this+4); only caller CMoDxStatusMng_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1006B0C0",
+  "name": "VBPool_Constructor",
+  "confidence": "medium",
+  "kind": "ctor",
+  "summary": "Constructs the global 1192-byte CYyObject-derived pool that DynVB_Create searches for reusable vertex buffers.",
+  "evidence": "Stores CYyObject_vtbl_ambiguous3, zeroes +4 and 32 bytes at +8; result stored in dword_1047BFF8, which DynVB_Create passes to the lookup sub_1006B1D0."
+ },
+ {
+  "ea": "0x1006B250",
+  "name": "CMoTask_VT_10329C70_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task CMoTask_VT_10329C70: calls sub_1006B3B0 cleanup then the CMoTask base dtor.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous0; only caller CMoTask_VT_10329C70_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1006B2B0",
+  "name": "CMoDX_CreateAndInitSystem",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Creates the CMoDX singleton (g_pResourceMng) and initializes the effect/model subsystem: VB pool, mesh resource root, shared render resources, status manager and occlusion manager.",
+  "evidence": "Allocates 7884 bytes with CMoDX_vtbl into g_pResourceMng, CMoDX_Initialize(g_pCDx), VBPool ctor, sub_10072ED0(g_pMeshResourceMng), finds 'proc' resource, Mo_InitSharedRenderResources, CMoDxStatusMng ctor, CMoOcclusionMng ctor + OcclusionMng_CreateTarget; caller App_InitScene."
+ },
+ {
+  "ea": "0x1006BD90",
+  "name": "Rand_SeedMT19937",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Seeds the Mersenne Twister (MT19937) state table.",
+  "evidence": "Original sgenrand: fills 624 words using LCG 69069*x+1 high halves, sets index dword_10354040=624; Mo_InitSharedRenderResources passes 4357, the reference default seed."
+ },
+ {
+  "ea": "0x1006C0F0",
+  "name": "Mem_AllocWithHeader12",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Allocates a block with a 12-byte header and returns the pointer past the header.",
+  "evidence": "sub_10028640(a1+12, a2) + 3 dwords; paired with sub_1006C110 which frees (p-12)."
+ },
+ {
+  "ea": "0x1006C110",
+  "name": "Mem_FreeWithHeader12",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Frees a block allocated with a 12-byte header.",
+  "evidence": "sub_10028700(p - 12); counterpart to sub_1006C0F0; callers CMoElemFamily_SharedCleanup and generator dtor."
+ },
+ {
+  "ea": "0x1006C140",
+  "name": "CMoOcclusionMng_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "Constructor of CMoOcclusionMng: creates a 16x16 lockable render target in the scene texture's format.",
+  "evidence": "Stores CMoOcclusionMng_vtbl, CAcc_Constructor(+8); texture vtbl+60 GetSurfaceLevel(0), surface vtbl+32 GetDesc, Release; device vtbl+100 = CreateRenderTarget(16,16,desc.Format,0,TRUE,this+0x18)."
+ },
+ {
+  "ea": "0x1006C1E0",
+  "name": "CMoOcclusionMng_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of CMoOcclusionMng: releases the 16x16 render target and destroys the CAcc member.",
+  "evidence": "Stores CMoOcclusionMng_vtbl, Release (vtbl+8) on +0x18, CAcc_Destructor(+8); only caller CMoOcclusionMng_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1006C260",
+  "name": "OcclusionQuery_Init",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Zeroes an occlusion query member (surface pointer +4, word +2).",
+  "evidence": "Two stores; placed in unit_1006C210_Occlusion; used by CMoElem and CXiSkeletonActor ctors; +4 is the surface that OcclusionMng_Prepare AddRefs."
+ },
+ {
+  "ea": "0x1006C270",
+  "name": "OcclusionQuery_Release",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Releases the surface reference held by an occlusion query member.",
+  "evidence": "Calls vtbl+8 (Release) on this[1] if non-null; does not null it; called from CMoElemFamily_SharedCleanup and CXiSkeletonActor_DestructorBody."
+ },
+ {
+  "ea": "0x1006C9B0",
+  "name": "OcclusionMng_Prepare",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Creates the 16x16 occlusion target on first use, reads the scene target surface desc, and caches an AddRef'd pointer to the target in the query.",
+  "evidence": "Agrees with DancingMad 'OcclusionMng_Prepare': calls OcclusionMng_CreateTarget if dword_1047C004+12 is 0, GetSurfaceLevel/GetDesc/Release, stores dword_1047C004+24 with AddRef (vtbl+4); caller Occlusion_QueryScreenRect."
+ },
+ {
+  "ea": "0x1006D5D0",
+  "name": "CMoProcessor_Vec3Normalize",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Normalizes a 3-float vector in place (no-op on zero length).",
+  "evidence": "sqrt(x*x+y*y+z*z), multiply each by 1/len; CMoProcessor vf041."
+ },
+ {
+  "ea": "0x1006D7E0",
+  "name": "CMoProcessor_Vec4TransformB",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a 4D vector by a 4x4 matrix (row vector * M).",
+  "evidence": "out[i] = v.x*M[0][i]+v.y*M[1][i]+v.z*M[2][i]+v.w*M[3][i]; identical body to vf017's helper; reached from CMoProcessor vf018."
+ },
+ {
+  "ea": "0x1006D870",
+  "name": "CMoProcessor_Vec4Transform",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Transforms a 4D vector by a 4x4 matrix (row vector * M).",
+  "evidence": "Same math as D3DXVec4Transform; reached from CMoProcessor vf017."
+ },
+ {
+  "ea": "0x1006D900",
+  "name": "CMoProcessor_Vec3Transform",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Transforms a 3D point (w=1) by a 4x4 matrix to a 4D result.",
+  "evidence": "out = (x,y,z,1)*M incl. translation row M[12..15], like D3DXVec3Transform; reached from CMoProcessor vf016."
+ },
+ {
+  "ea": "0x1006E7D0",
+  "name": "CMoProcessor_ProjectPointsToScreen",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Projects an array of 3D points through a world and a view-projection matrix to screen x/y, storing w as the third value.",
+  "evidence": "For each vec3: M1 then M2, w stored at out+8, 1/|w| (w=0->1), x=(x/w+1)*a6, y=(1-y/w)*a7; 12-byte output stride; CMoProcessor vf032."
+ },
+ {
+  "ea": "0x1006E970",
+  "name": "CMoProcessor_CalcScreenBounds",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Computes the screen-space bounding rectangle of a strided point array under a matrix and the current view-projection.",
+  "evidence": "Transforms by a5 then g_pResourceMng+2832 matrix, scales by viewport half size (+3520/+3524), tracks min/max starting from +-10000; writes [minX,minY,maxX,maxY]; uses g_pProcessor scratch matrix stack."
+ },
+ {
+  "ea": "0x1006EB70",
+  "name": "CMoProcessor_ProjectVertsAndBounds",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Projects 9-float vertices to screen, writing screen x/y into each vertex (+28/+32), and returns their bounding rectangle.",
+  "evidence": "Two matrix transforms, perspective divide, scale by a6/a7, stores into a2[7]/a2[8], min/max into a1; CMoProcessor vf033."
+ },
+ {
+  "ea": "0x1006ED10",
+  "name": "CMoProcessor_CalcScreenBoundsAndVisible",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Computes the screen bounds and depth range of a point set and counts points that land inside the viewport.",
+  "evidence": "Builds combined matrix via g_pProcessor vtbl+36(a5,a6); tracks z/w min/max into this+678/679 and counts points within [0,2*a7]x[0,2*a8] into this+677; rect into a2."
+ },
+ {
+  "ea": "0x10070F80",
+  "name": "CMoTask_VT_1032C490_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task CMoTask_VT_1032C490: restores vtable and runs the CMoTask base dtor.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous31 then sub_100747C0; callers CMoTask_VT_1032C490_ScalarDeletingDtor and sub_10071180."
+ },
+ {
+  "ea": "0x10071050",
+  "name": "ResHandle_FreeIfUnreferenced",
+  "confidence": "medium",
+  "kind": "thunk",
+  "summary": "Forwards the resource handle stored in *this to MoRes_FreeIfUnreferenced.",
+  "evidence": "Body is sub_10073B20(*this); 28 callers including App_Destructor."
+ },
+ {
+  "ea": "0x10071180",
+  "name": "CMoAttachments_VT_1032C4E8_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of a task with a CMoAttachments mixin at +0x44: releases the attachment, runs the task dtor and frees.",
+  "evidence": "ReleaseSubObjectIfPresent(this+17), CMoTask_VT_1032C490_Destructor, SharedDeleteHelper if flags&1; reached via CMoAttachments_VT_1032C4E8_vf001."
+ },
+ {
+  "ea": "0x10071C10",
+  "name": "CMoAttachments_VT_1032C628_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of a CMoResource subclass with attachments mixin at +0x30.",
+  "evidence": "ReleaseSubObjectIfPresent(this+12), CMoResource_Destructor, SharedDeleteHelper if flags&1; reached via CMoAttachments_VT_1032C628_vf001."
+ },
+ {
+  "ea": "0x10071C60",
+  "name": "CMoResource_VT_1032C588_ScalarDeletingDtor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Scalar deleting destructor of the CMoResource subclass with vtable 1032C588 (mixin at +0x30).",
+  "evidence": "Same body as the 1032C628 variant; reached via CMoResource_VT_1032C588_vf012."
+ },
+ {
+  "ea": "0x10071DE0",
+  "name": "CMoResource_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Base destructor of CMoResource: destroys/unlinks the resource and frees its handle slot in the mesh resource manager.",
+  "evidence": "Stores CMoResource_vtbl_ambiguous19, CMoResource_Destroy (sub_100721F0), sub_10074180(g_pMeshResourceMng, this[5]); called by 28 CMoResource_VT_* scalar deleting dtors."
+ },
+ {
+  "ea": "0x10071E90",
+  "name": "CMoResource_AddRefChain",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Increments the 15-bit reference count of a resource and every parent up to the root.",
+  "evidence": "Increments (+24 & 0x7FFF) preserving bit 15, follows parent handle at +40 until the parent is itself; 47 callers incl. App_InitScene, Frame_Render."
+ },
+ {
+  "ea": "0x10071EC0",
+  "name": "CMoResource_ReleaseChain",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Decrements the 15-bit reference count of a resource and its parents up to the root, clearing bit 15 at the root when it reaches zero.",
+  "evidence": "Validates handle via sub_100741E0(g_pMeshResourceMng,...), decrements (+24 & 0x7FFF), walks parent handle +40; counterpart of the AddRef loop; 49 callers."
+ },
+ {
+  "ea": "0x10071F50",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Gets a related resource via sub_10072240, increments its field +0x1C and returns a pointer to its +4 member.",
+  "evidence": "v1=sub_10072240(this); v1[7]++; return v1+1; callers include TexRes_LoadBm2. What sub_10072240 returns is not shown."
+ },
+ {
+  "ea": "0x10072030",
+  "name": "CMoResource_RegisterInTypeList",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Registers a resource once: allocates its handle and links it at the head of its per-type list and the global resource list.",
+  "evidence": "Skips if flag 0x8000000 in +36; MeshResourceMng_AllocHandle; type=(+36&0x7F, >=0x61->4) indexes dword_1047CF80; links +16/+44; sets 0x8000000; callers CMoGeneratorClone_CreateInstance, MeshResourceMng_ResolveTree."
+ },
+ {
+  "ea": "0x100721F0",
+  "name": "CMoResource_Destroy",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Destroys a resource once: marks it dead, unlinks it and, if it owns its handle, frees the handle and deletes the object.",
+  "evidence": "Guard/set flag 2 at +26; sub_10073B80 unlink; if flag 1: clear, sub_10074180 frees handle, vtbl+24 deleting dtor(1); called by CMoResource_Destructor and sub_10073B20."
+ },
+ {
+  "ea": "0x10072270",
+  "name": "CMoResource_GetParent",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Returns the parent resource from the parent handle at +0x28, or this if the resource is its own root.",
+  "evidence": "Reads *(this[10]); compares with this; same parent link that the AddRef/Release chain loops walk."
+ },
+ {
+  "ea": "0x10072290",
+  "name": "CMoResource_FindByTypeAndId",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up a resource of a given type and FourCC id under this resource with a fresh search serial; returns the handle via out param.",
+  "evidence": "Calls sub_100722C0(this,out,type,id,++dword_1047D130); 54 callers using e.g. type 7 with 'proc' or 'vmad'/'vsim'/'vcur' ids."
+ },
+ {
+  "ea": "0x10072430",
+  "name": "CMoResource_FindInScope",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Walks the sibling chain from a resource, respecting nested open(type 1)/close(type 0) blocks, to find one matching type and/or id; returns its handle.",
+  "evidence": "Type=+36&0x7F, id=+32, next via handle at +8; a3==0 matches id only, a4==0 matches type only; outputs v4[5] (handle) or 0."
+ },
+ {
+  "ea": "0x100729E0",
+  "name": "CMoTask_VT_1032C908_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Destructor of task CMoTask_VT_1032C908: frees two owned buffers and decrements a global instance counter.",
+  "evidence": "Stores CMoTask_vtbl_ambiguous33, operator_delete on +0x38 and +0x45, --dword_1047D138, sub_100747C0; only caller CMoTask_VT_1032C908_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10072ED0",
+  "name": "MeshResourceMng_LoadSystemResources",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Loads the root resource set into the mesh resource manager and caches well-known system resources (type 27 block with 'vmad','vsim','vcur' entries, and id 52743).",
+  "evidence": "Stores root at this+262152 and AddRefs; sub_100731B0(this,..,27) -> dword_1047D118, then CMoResource_FindByTypeAndId type 7 ids 0x766D6164/0x7673696D/0x76637572 into dword_1047D108/120/11C; sub_100731B0(52743)->dword_1047D104; called from CMoDX setup."
+ },
+ {
+  "ea": "0x10073B20",
+  "name": "MoRes_FreeIfUnreferenced",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Destroys a resource (and, if its root is not locked, the root's children) when its reference count is zero.",
+  "evidence": "If (+24 & 0x7FFF)==0: if flag 4 just CMoResource_Destroy; else via sub_10072240 walks child list destroying each, then destroys the root; unit unit_10073750_ResourceIter."
+ },
+ {
+  "ea": "0x10074140",
+  "name": "MeshResourceMng_AllocHandle",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Returns the resource's handle, allocating one from the manager's free list if it has none.",
+  "evidence": "If a3+20 null: pop free list (this+4), set slot to resource, store in a3+20, increment count at this+65539*4; outputs handle or 0 when the list is empty."
+ }
+]

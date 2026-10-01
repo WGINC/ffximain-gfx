@@ -11,10 +11,10 @@ char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x1006B070  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-_DWORD * CMoDxStatusMng::ScalarDeletingDtor(char a2)
+int * CMoDxStatusMng::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_1006B090(self);
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  orig::CMoDxStatusMng_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;

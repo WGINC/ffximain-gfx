@@ -69,7 +69,7 @@ LABEL_23:
       if ( v6 != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388] != 0 )
       {
         orig::CDx_PushRenderTarget(g_pCDx, v6, dword_10456918[v5], 0);
-        orig::sub_1000A4F0(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388], -2139062144, -1);
+        orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388], -2139062144, -1);
         orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
       }
       dword_10456920 = 2;
@@ -88,12 +88,12 @@ LABEL_17:
             *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388],
             *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 396],
             0);
-          orig::sub_1000A4F0(g_pCDx, g_afterimageTex[v5], v8, -1);
+          orig::CDx_DrawTextureToViewport(g_pCDx, g_afterimageTex[v5], v8, -1);
           orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
         }
         else
         {
-          orig::sub_1000A4F0(g_pCDx, g_afterimageTex[0], ((_DWORD)v7 << 24) | 0x808080, -1);
+          orig::CDx_DrawTextureToViewport(g_pCDx, g_afterimageTex[0], ((_DWORD)v7 << 24) | 0x808080, -1);
         }
         g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
       }
@@ -225,7 +225,7 @@ LABEL_36:
         if ( v9 != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388] != 0 )
         {
           orig::CDx_PushRenderTarget(g_pCDx, v9, dword_10456940[v8], 0);
-          orig::sub_1000A4F0(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
+          orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
           orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
         }
         dword_10456930[v8] = 2;
@@ -257,16 +257,16 @@ LABEL_28:
               *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388],
               *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 396],
               0);
-            orig::sub_1000A5A0(g_pCDx, g_feedbackTexHalfRes[v8], v14, (int)v18, (int)v15, -1);
+            orig::CDx_DrawTexturedScreenQuad(g_pCDx, g_feedbackTexHalfRes[v8], v14, (int)v18, (int)v15, -1);
             orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
           }
           else
           {
-            orig::sub_1000A5A0(g_pCDx, g_feedbackTexHalfRes[0], v14, (int)v18, (int)v15, -1);
+            orig::CDx_DrawTexturedScreenQuad(g_pCDx, g_feedbackTexHalfRes[0], v14, (int)v18, (int)v15, -1);
           }
           g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
           orig::CDx_PushRenderTarget(g_pCDx, g_feedbackTexHalfRes[v8], dword_10456940[v8], 0);
-          orig::sub_1000A4F0(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
+          orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
           orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
         }
         goto LABEL_36;
@@ -289,7 +289,7 @@ LABEL_28:
 
 // FUNCTION: FFXIMAIN 0x10013AD0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 40 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_10013AD0(int self_, int a2)
+XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
 {
   __int16 v3;
   CDx *v4;
@@ -305,12 +305,12 @@ XI_API char __thiscall fn_10013AD0(int self_, int a2)
   switch ( v3 )
   {
     case 0:
-      orig::sub_1008A0D0();
+      orig::Call1008A0E0With2();
       orig::sub_101AB6D0();
-      if ( orig::sub_100DB100(off_103601BC) < 3 )
+      if ( orig::GameMode_GetField98(off_103601BC) < 3 )
         goto LABEL_25;
-      orig::sub_1001E470();
-      orig::sub_10081A50();
+      orig::CYyCamMng2_CreateGlobal();
+      orig::Actor_ResetDrawLists();
       g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, -2139062144u);
       v4 = g_pCDx;
       if ( g_pCDx->_pad_10[2333] != 0 )
@@ -339,22 +339,22 @@ LABEL_7:
       v4->pDevice->SetRenderState(D3DRS_FOGSTART, 1117782016u);
       g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, 1120403456u);
       g_pCDx->pDevice->SetRenderState(D3DRS_FOGDENSITY, 0);
-      orig::sub_10009670(g_pCDx, 0x80000000);
+      orig::CDx_SetClearColor(g_pCDx, 0x80000000);
       orig::GameSystems_InitializeAll();
       orig::LobbyThread_Start(dword_1045694C);
       dword_1045694C = 1;
-      orig::sub_10010D00((_WORD *)self_);
+      orig::App_AdvanceSeqStep((_WORD *)self_);
       return 0;
     case 1:
       v7 = *(_DWORD *)(self_ + 80);
       if ( v7 != 0 && g_pZoneMap != nullptr )
       {
         orig::Vec3_Copy(v12, (_DWORD *)(v7 + 68));
-        orig::sub_101813F0(g_pZoneMap, v12[0], *(float *)&v12[1], v12[2], 100.0, v13);
+        orig::ZoneMap_FindGroundHeight((char *)g_pZoneMap, v12[0], *(float *)&v12[1], v12[2], 100.0, v13);
         orig::sub_10179390(g_pZoneMap);
-        orig::sub_10179410(g_pZoneMap);
+        orig::ZoneMap_CopyField342C8ToField39450(g_pZoneMap);
       }
-      v8 = orig::sub_10245B60();
+      v8 = orig::Lobby_DestroyThreadPool();
       v9 = v8 <= 0;
       if ( v8 != 0 )
       {
@@ -366,8 +366,8 @@ LABEL_7:
           dword_10669014 = 0;
           if ( v8 == -2 )
           {
-            orig::sub_100DBB50((int *)off_103601BC, 0);
-            orig::sub_10016400(2);
+            orig::GameMode_OpenTacticsUrl((int *)off_103601BC, 0);
+            orig::App_SetGlobal_104569C8(2);
           }
           *(_DWORD *)(self_ + 68) = 13;
           v9 = v8 <= 0;
@@ -376,12 +376,12 @@ LABEL_7:
       if ( v9 )
         return 0;
       dword_10669014 = 0;
-      orig::sub_10010D00((_WORD *)self_);
+      orig::App_AdvanceSeqStep((_WORD *)self_);
       return 0;
     case 2:
       *(_DWORD *)(self_ + 820) = -2139062144;
       g_countdown_10456978 = 60;
-      orig::sub_10010D00((_WORD *)self_);
+      orig::App_AdvanceSeqStep((_WORD *)self_);
       return 0;
     case 3:
       if ( g_countdown_10456978 != 0 )
@@ -391,8 +391,8 @@ LABEL_7:
       }
       if ( *(_DWORD *)(self_ + 796) == -2139062144 )
       {
-        orig::sub_1001E4B0();
-        orig::sub_10164B80(v11, v10);
+        orig::CYyCamMng2_CallGlobalVfunc1();
+        orig::Game_DestroyGlobalObjects(v11, v10);
 LABEL_25:
         *(_DWORD *)(self_ + 820) = -2139062144;
         return 1;
@@ -409,46 +409,46 @@ LABEL_25:
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_10013DF0(_WORD *self_)
+XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
   int v3;
   switch ( *(self_ + 2) )
   {
     case 0:
-      orig::sub_10010370();
-      orig::sub_10239460((_DWORD *)dword_10668FD8, 2);
-      orig::sub_1015E350(word_10621838, aMenuChdummy, 1, 0);
-      orig::sub_10009640(g_pCDx, 3, 0x80000000, 1065353216, 0);
-      result = orig::sub_10093720();
+      orig::App_RegisterSystemDats();
+      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
+      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
+      result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
         goto LABEL_6;
       return result;
     case 1:
-      orig::sub_100DB170(off_103601BC, 6, 0);
-      orig::sub_10010D00(self_);
+      orig::GameMode_RequestState(off_103601BC, 6, 0);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 2:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 != 6 )
         return v3 > 200;
       goto LABEL_6;
     case 3:
-      orig::sub_100DB170(off_103601BC, 7, 0);
-      orig::sub_10010D00(self_);
+      orig::GameMode_RequestState(off_103601BC, 7, 0);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 7 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::sub_100DB170(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(off_103601BC, 9, 0);
 LABEL_6:
-      orig::sub_10010D00(self_);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -459,45 +459,45 @@ LABEL_6:
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_10013F10(_WORD *self_)
+XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
   int v3;
   switch ( *(self_ + 2) )
   {
     case 0:
-      orig::sub_10239460((_DWORD *)dword_10668FD8, 2);
-      orig::sub_1015E350(word_10621838, aMenuChdummy, 1, 0);
-      orig::sub_10009640(g_pCDx, 3, 0x80000000, 1065353216, 0);
-      result = orig::sub_10093720();
+      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
+      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
+      result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
         goto LABEL_6;
       return result;
     case 1:
-      orig::sub_100DB170(off_103601BC, 6, 0);
-      orig::sub_10010D00(self_);
+      orig::GameMode_RequestState(off_103601BC, 6, 0);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 2:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 != 6 )
         return v3 > 200;
       goto LABEL_6;
     case 3:
-      orig::sub_100DB170(off_103601BC, 8, 0);
-      orig::sub_10010D00(self_);
+      orig::GameMode_RequestState(off_103601BC, 8, 0);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 8 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::sub_100DB170(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(off_103601BC, 9, 0);
 LABEL_6:
-      orig::sub_10010D00(self_);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -508,18 +508,18 @@ LABEL_6:
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_10014030(_WORD *self_)
+XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
   int v3;
   switch ( *(self_ + 2) )
   {
     case 0:
-      orig::sub_10010370();
-      orig::sub_10239460((_DWORD *)dword_10668FD8, 2);
-      orig::sub_1015E350(word_10621838, aMenuChdummy, 1, 0);
-      orig::sub_10009640(g_pCDx, 3, 0x80000000, 1065353216, 0);
-      result = orig::sub_10093720();
+      orig::App_RegisterSystemDats();
+      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
+      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
+      result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
         goto LABEL_6;
       return result;
@@ -527,21 +527,21 @@ XI_API char __thiscall fn_10014030(_WORD *self_)
     case 2:
       goto LABEL_6;
     case 3:
-      orig::sub_100DB170(off_103601BC, 8, 0);
-      orig::sub_10010D00(self_);
+      orig::GameMode_RequestState(off_103601BC, 8, 0);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 8 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::sub_100DB170(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(off_103601BC, 9, 0);
 LABEL_6:
-      orig::sub_10010D00(self_);
+      orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::sub_100DB140((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -552,13 +552,13 @@ LABEL_6:
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API bool __cdecl fn_10014120(void)
+XI_API bool __cdecl App_StepGameState9(void)
 {
-  orig::sub_10010370();
-  orig::sub_10239460((_DWORD *)dword_10668FD8, 2);
-  orig::sub_1015E350(word_10621838, aMenuChdummy, 1, 0);
-  orig::sub_10009640(g_pCDx, 3, 0x80000000, 1065353216, 0);
-  return orig::sub_10093720() != 0;
+  orig::App_RegisterSystemDats();
+  orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
+  orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+  orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
+  return orig::Unit10086E90_ResetGlobals() != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100141C0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
@@ -567,7 +567,7 @@ XI_API char __thiscall fn_100141C0(_WORD *self_)
 {
   if ( *(_DWORD *)(dword_103D3CB8 + 8) != 0 )
     word_104568F8 = *(_WORD *)(dword_103D3CB8 + 8) + 1;
-  orig::sub_1000AE40((float *)g_pCDx, 0.0, 0.0, 1);
-  orig::sub_10010D00(self_);
+  orig::CDx_StepFadeCounter((float *)g_pCDx, 0.0, 0.0, 1);
+  orig::App_AdvanceSeqStep(self_);
   return 1;
 }

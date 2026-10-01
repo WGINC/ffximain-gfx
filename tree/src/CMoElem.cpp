@@ -141,39 +141,39 @@ char CMoElem::CMoElemFamily_SharedCleanup()
     v6 = nullptr;
   this->field_100 = 0;
   if ( v6 != nullptr )
-    orig::sub_100481D0(v6, (int)self);
+    orig::CMoGeneratorClone_UnlinkElemListB(v6, (int)self);
   if ( v4 != 0 )
   {
-    orig::sub_10048140((_DWORD *)v4, (int)self);
-    orig::sub_10071EC0(v4, v7);
+    orig::CMoGeneratorClone_UnlinkElemListA((_DWORD *)v4, (int)self);
+    orig::CMoResource_ReleaseChain(v4, v7);
   }
   v8 = (int *)this->field_164;
   if ( v8 != nullptr )
   {
     v9 = *v8;
-    orig::sub_10071EC0(*v8, v2);
+    orig::CMoResource_ReleaseChain(*v8, v2);
     *(_DWORD *)(v9 + 248) = 0;
     this->field_164 = 0;
     if ( (*(_WORD *)(v9 + 24) & 0x7FFF) == 0 )
     {
-      orig::sub_10073B20(*(int **)(v9 + 20));
-      orig::sub_10074180((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v9 + 20));
+      orig::MoRes_FreeIfUnreferenced(*(int **)(v9 + 20));
+      orig::NodePool_ReleaseNode((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v9 + 20));
     }
   }
   if ( v4 != 0 && (*(_BYTE *)(v4 + 26) & 4) != 0 && (*(_WORD *)(v4 + 24) & 0x7FFF) == 0 )
   {
-    orig::sub_10073B20(*(int **)(v4 + 20));
-    orig::sub_10074180((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
+    orig::MoRes_FreeIfUnreferenced(*(int **)(v4 + 20));
+    orig::NodePool_ReleaseNode((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
   }
   if ( this->field_108 != 0 )
   {
-    orig::sub_1006C110(this->field_108);
+    orig::Mem_FreeWithHeader12(this->field_108);
     this->field_108 = 0;
   }
-  orig::sub_1006C270((int *)((char *)self + 383));
+  orig::OcclusionQuery_Release((int *)((char *)self + 383));
   *self = (int)&CMoOtTask_vtbl_ambiguous1;
-  orig::sub_10055250(self + 13);
-  return orig::sub_100747C0(self);
+  orig::LinkNode_Unlink(self + 13);
+  return orig::CMoTask_Destructor(self);
 }
 
 // FUNCTION: FFXIMAIN 0x100472E0  (placed by tree manifest; does not use this)

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10284EF0  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 50 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10284EF0(void)
+XI_API int __cdecl sqgxVertexShaderRelease(void)
 {
   int result;
   result = *(_DWORD *)(dword_1099D200 + 2584);

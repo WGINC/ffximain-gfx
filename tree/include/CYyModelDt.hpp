@@ -6,6 +6,7 @@
 class XI_API CYyModelDt {
 public:
     char PrepareRenderState(int a2, int a3, int a4, int a5, int a6);  // 0x100224D0
+    static int __cdecl SetVertexShader(int a1);  // 0x10022FA0
     unsigned __int16 PrepareRenderStateSimple(int a2, int a3, int a4, int a5);  // 0x100231C0
     char PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x10025030
     unsigned __int16 PrepareRenderStateSimpleEntry(int a2, int a3, int a4, int a5, int a6);  // 0x10025060
@@ -13,7 +14,7 @@ public:
     int MarkReferencedBones(int a2);  // 0x100251A0
     static char ** __cdecl GetRuntimeClass();  // 0x10029880
     _DWORD * ScalarDeletingDtor(char a1);  // 0x10029CB0
-    __int16 PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7);  // 0x1002DC10
+    __int16 SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7);  // 0x1002DC10
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x4];

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x101604B0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1700 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101604B0(void)
+XI_API int __cdecl Gfx_SetDefault2DStates(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -26,7 +26,7 @@ XI_API int __cdecl fn_101604B0(void)
 
 // FUNCTION: FFXIMAIN 0x10160650  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10160650(void)
+XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -35,14 +35,14 @@ XI_API int __cdecl fn_10160650(void)
 
 // FUNCTION: FFXIMAIN 0x101620B0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101620B0(void)
+XI_API int __cdecl Gfx_ApplyViewport1904(void)
 {
   return orig::CDx_SetViewport(g_pCDx, &g_viewport_1904);
 }
 
 // FUNCTION: FFXIMAIN 0x10163400  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 60 returned normally, 780 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_10163400(int a1, int a2)
+XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2)
 {
   int v3;
   int v4;
@@ -110,5 +110,5 @@ XI_API int __stdcall fn_10163400(int a1, int a2)
   g_pCDx->pDevice->SetVertexShader(68u);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&a3, 20);
   orig::CDx_SetDefaultRenderState(g_pCDx);
-  return orig::sub_101604B0();
+  return orig::Gfx_SetDefault2DStates();
 }

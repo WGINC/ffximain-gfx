@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10120590  (placed by callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified)
 // GATE: PASS -- 100 trials, 85 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
-char Obj_104E1BF8::fn_10120590(unsigned int a2, _DWORD *a3, _DWORD *a4)
+char Obj_104E1BF8::ShapeMng_BindFontTexture(unsigned int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v5;
@@ -16,7 +16,7 @@ char Obj_104E1BF8::fn_10120590(unsigned int a2, _DWORD *a3, _DWORD *a4)
   v5 = this->field_1C;
   if ( v5 == 0 )
   {
-    orig::sub_10120660(self);
+    orig::ShapeMng_LoadFontTextures(self);
     v5 = this->field_1C;
     if ( v5 == 0 )
       return 0;
@@ -69,7 +69,7 @@ char Obj_104E1BF8::fn_10120590(unsigned int a2, _DWORD *a3, _DWORD *a4)
 
 // FUNCTION: FFXIMAIN 0x101207B0  (placed by callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified)
 // GATE: PASS -- 100 trials, 76 returned normally, 48 D3D calls compared (diffemu_gfx, clean build)
-char Obj_104E1BF8::fn_101207B0(unsigned int a2, _DWORD *a3, _DWORD *a4)
+char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(unsigned int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v5;
@@ -81,7 +81,7 @@ char Obj_104E1BF8::fn_101207B0(unsigned int a2, _DWORD *a3, _DWORD *a4)
   v5 = this->field_30;
   if ( v5 == 0 )
   {
-    orig::sub_10120880(self);
+    orig::ShapeMng_LoadDmgNumTextures(self);
     v5 = this->field_30;
     if ( v5 == 0 )
       return 0;

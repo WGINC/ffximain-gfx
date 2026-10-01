@@ -14,7 +14,7 @@ char ** __cdecl CMoSphRes::GetRuntimeClass()
 char * CMoSphRes::vf008()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  return orig::sub_10056220(self + 12);
+  return orig::CMoSphRes_FixupOffsets(self + 12);
 }
 
 // FUNCTION: FFXIMAIN 0x100562C0  (placed by tree manifest; does not use this)
@@ -29,7 +29,7 @@ void CMoSphRes::vf009()
 unsigned int ** CMoSphRes::ScalarDeletingDtor(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::sub_10071DE0(self);
+  orig::CMoResource_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

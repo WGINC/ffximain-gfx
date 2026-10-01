@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1024F900  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1024F900(int a1)
+XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
 {
   double v1;
   float *v2;
@@ -11,7 +11,7 @@ XI_API void __cdecl fn_1024F900(int a1)
   double v4;
   double v5;
   double v6;
-  char *v7;
+  char *ViewMatrixPtr;
   int v8;
   float *v9;
   int v10;
@@ -37,18 +37,18 @@ XI_API void __cdecl fn_1024F900(int a1)
   float v30[16];
   float v31[16];
   orig::fn_10027990((Iostream_init *)v28);
-  orig::sub_10271E90(&v10);
+  orig::Dancer_GetFlags(&v10);
   if ( (v10 & 0x100) != 0 )
     v8 = 6;
   else
     v8 = *(_DWORD *)(a1 + 28);
-  orig::sub_10273370(v8, nullptr, (int *)&v9);
+  orig::Dancer_GetCameraEntry(v8, nullptr, (int *)&v9);
   if ( v9 != nullptr )
   {
-    qmemcpy(v28, orig::sub_10015270(), sizeof(v28));
+    qmemcpy(v28, orig::Camera_GetMatrix154Ptr(), sizeof(v28));
     v28[0] = *(_DWORD *)(dword_1099D200 + 748);
     v28[5] = *(_DWORD *)(dword_1099D200 + 768);
-    orig::sub_100151F0(
+    orig::Camera_SetMatrix154(
       v28[0],
       v28[1],
       v28[2],
@@ -65,11 +65,11 @@ XI_API void __cdecl fn_1024F900(int a1)
       v28[13],
       v28[14],
       v28[15]);
-    orig::sub_1027EB10(&v11, v9 + 7);
+    orig::Mat4_Copy_1027EB10(&v11, v9 + 7);
     v14 = 0;
     v18 = 0;
     v22 = 0;
-    orig::sub_1027F070(v31, &v11);
+    orig::Mat4_Transpose(v31, &v11);
     orig::sqMatrix4_10280140(v30, v31, (float *)&v11);
     v1 = 1.0 / v30[0];
     v2 = &v12;
@@ -89,8 +89,8 @@ XI_API void __cdecl fn_1024F900(int a1)
     v27[0] = v9[10];
     v27[1] = v9[14];
     v27[2] = v9[18];
-    orig::sub_1027F070(v31, &v11);
-    orig::sub_1027EF20(v29, v31, v27);
+    orig::Mat4_Transpose(v31, &v11);
+    orig::Mat4_TransformPoint(v29, v31, v27);
     v28[0] = v11;
     *(float *)&v23 = -(flt_103890E4 * v29[0]);
     v28[3] = v14;
@@ -114,7 +114,7 @@ XI_API void __cdecl fn_1024F900(int a1)
     v28[12] = v23;
     *(float *)&v28[13] = -v24;
     *(float *)&v28[14] = -v25;
-    orig::sub_100150D0(
+    orig::Camera_SetViewMatrix(
       v11,
       v28[1],
       v28[2],
@@ -131,27 +131,27 @@ XI_API void __cdecl fn_1024F900(int a1)
       v28[13],
       v28[14],
       v26);
-    v7 = orig::sub_10015220();
-    orig::CDx_SetTransform(&g_pCDx->vftable, 2, v7);
+    ViewMatrixPtr = orig::Camera_GetViewMatrixPtr();
+    orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
   }
   orig::nullsub_1();
 }
 
 // FUNCTION: FFXIMAIN 0x102504D0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102504D0(int *a1)
+XI_API int __cdecl StAvatar_Shutdown(int *a1)
 {
   int v1;
   if ( (*(_BYTE *)a1 & 1) != 0 )
   {
     if ( a1[1] == 1 )
-      orig::sub_1024D790(a1);
+      orig::StAvatar_StopAndFreeBuffers(a1);
     orig::chasm_10273920((int)(a1 + 160));
     orig::mdl_1026E900();
     orig::StAvatar_ReleaseResources(a1, 1);
     orig::sub_10271B40();
-    orig::sub_10035F00(0.0);
-    orig::sub_10036070(1.0);
+    orig::MoTask_KillAllGlobalSlots(0.0);
+    orig::MoTask_KillGlobalSlot1(1.0);
     v1 = *a1;
     LOBYTE(v1) = *a1 & 0xFE;
     *a1 = v1;

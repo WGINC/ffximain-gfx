@@ -14,7 +14,7 @@ BOOL CMoVuLineProgElem::vf012(int a1)
 int * CMoVuLineProgElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_10063C60(self + 101);
+  orig::MoProgElem_FreeBuffer40(self + 101);
   orig::CMoElemFamily_SharedCleanup(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);

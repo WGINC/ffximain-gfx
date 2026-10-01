@@ -8,21 +8,21 @@ public:
     static _UNKNOWN ** __cdecl GetRuntimeClass();  // 0x10008F80
     CDx * Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice);  // 0x10008F90
     void * ScalarDeletingDtor(char a2);  // 0x10009100
-    char fn_10009620(int a2, int a3, int a4);  // 0x10009620
-    int fn_10009640(int a2, int a3, int a4, int a5);  // 0x10009640
-    int fn_10009670(int a2);  // 0x10009670
+    char SetDefaultRenderTargets(int a2, int a3, int a4);  // 0x10009620
+    int SetClearParams(int a2, int a3, int a4, int a5);  // 0x10009640
+    int SetClearColor(int a2);  // 0x10009670
     int EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x100096B0
     bool TestCooperativeLevel();  // 0x10009710
     static int __cdecl Present();  // 0x10009720
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
-    HCURSOR fn_100097F0(int a2, int a3);  // 0x100097F0
+    HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
     int SetViewport(const void *a2);  // 0x10009DC0
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
-    char fn_1000A800(int a2, int a3, int a4);  // 0x1000A800
+    char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
     int SetTransform(int a2, const void *a3);  // 0x1000BD50
     int GetTransformCached(int a2, void *a3);  // 0x1000BDB0

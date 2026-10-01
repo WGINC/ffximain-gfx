@@ -90,7 +90,15 @@ LABEL_33:
         v21 = v11;
         if ( orig::fn_102D2F40(g_pCDx->pDevice, (unsigned int *)&v23, &v20, &v21, 0, &i, 1) >= 0 )
         {
-          v9 = orig::fn_102D2FB9(g_pCDx->pDevice, v23, v20, v21, 0, i, 1, (IDirect3DTexture8 **)(self_ + 64));
+          v9 = orig::fn_102D2FB9(
+                 g_pCDx->pDevice,
+                 v23,
+                 v20,
+                 v21,
+                 0,
+                 i,
+                 D3DPOOL_MANAGED,
+                 (IDirect3DTexture8 **)(self_ + 64));
           goto LABEL_57;
         }
       }
@@ -108,7 +116,15 @@ LABEL_33:
         i = v13;
         if ( orig::fn_102D2F40(g_pCDx->pDevice, &v20, &v21, (unsigned int *)&i, 0, &v23, 1) >= 0 )
         {
-          v9 = orig::fn_102D2FB9(g_pCDx->pDevice, v20, v21, i, 0, v23, 1, (IDirect3DTexture8 **)(self_ + 64));
+          v9 = orig::fn_102D2FB9(
+                 g_pCDx->pDevice,
+                 v20,
+                 v21,
+                 i,
+                 0,
+                 v23,
+                 D3DPOOL_MANAGED,
+                 (IDirect3DTexture8 **)(self_ + 64));
           goto LABEL_57;
         }
       }
@@ -131,7 +147,7 @@ LABEL_26:
                *(unsigned __int8 *)(self_ + 42),
                0,
                D3DFMT_A1R5G5B5,
-               1,
+               D3DPOOL_MANAGED,
                (IDirect3DTexture8 **)(self_ + 64));
         break;
       }
@@ -143,16 +159,23 @@ LABEL_55:
              *(unsigned __int8 *)(self_ + 42),
              0,
              D3DFMT_A1R5G5B5,
-             1,
+             D3DPOOL_MANAGED,
              (IDirect3DCubeTexture8 **)(self_ + 68));
       break;
     case 24:
       v14 = *(unsigned __int8 *)(self_ + 42);
       v15 = g_pCDx->pDevice;
       if ( (*(_BYTE *)(self_ + 44) & 7) != 0 )
-        v9 = orig::fn_102D301F(v15, v5, v14, 0, D3DFMT_A8R8G8B8, 1, (IDirect3DCubeTexture8 **)(self_ + 68));
+        v9 = orig::fn_102D301F(
+               v15,
+               v5,
+               v14,
+               0,
+               D3DFMT_A8R8G8B8,
+               D3DPOOL_MANAGED,
+               (IDirect3DCubeTexture8 **)(self_ + 68));
       else
-        v9 = orig::fn_102D2FB9(v15, v5, v2, v14, 0, D3DFMT_A8R8G8B8, 1, (IDirect3DTexture8 **)(self_ + 64));
+        v9 = orig::fn_102D2FB9(v15, v5, v2, v14, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, (IDirect3DTexture8 **)(self_ + 64));
       break;
     case 32:
       if ( (*(_BYTE *)(self_ + 44) & 7) != 0 )
@@ -164,7 +187,7 @@ LABEL_30:
                *(unsigned __int8 *)(self_ + 42),
                0,
                D3DFMT_A8R8G8B8,
-               1,
+               D3DPOOL_MANAGED,
                (IDirect3DCubeTexture8 **)(self_ + 68));
         break;
       }
@@ -175,7 +198,7 @@ LABEL_30:
              *(unsigned __int8 *)(self_ + 42),
              0,
              D3DFMT_A8R8G8B8,
-             1,
+             D3DPOOL_MANAGED,
              (IDirect3DTexture8 **)(self_ + 64));
       break;
     default:
@@ -296,7 +319,7 @@ XI_API int __thiscall TexObj_Upload(void *self_)
              0,
              0,
              D3DFMT_A1R5G5B5,
-             1,
+             D3DPOOL_MANAGED,
              &v61);
 LABEL_10:
       if ( v5 < 0 )
@@ -310,7 +333,7 @@ LABEL_10:
              0,
              0,
              D3DFMT_R8G8B8,
-             1,
+             D3DPOOL_MANAGED,
              &v61);
       goto LABEL_10;
     case 32:
@@ -321,7 +344,7 @@ LABEL_10:
              0,
              0,
              D3DFMT_A8R8G8B8,
-             1,
+             D3DPOOL_MANAGED,
              &v61);
       goto LABEL_10;
     default:
@@ -493,7 +516,7 @@ LABEL_40:
     case 32:
       if ( (*((_DWORD *)self_ + 11) & 8) != 0 )
       {
-        orig::sub_1001E0A0(*((__int16 **)self_ + 2), (int)self_, (int)&v63);
+        orig::Tex_HeightToNormalMap(*((__int16 **)self_ + 2), (int)self_, (int)&v63);
       }
       else
       {
@@ -689,12 +712,12 @@ LABEL_74:
     if ( v62 != (struct IDirect3DSurface8 *)24 && v62 != (struct IDirect3DSurface8 *)32 )
       goto LABEL_78;
 LABEL_77:
-    if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A8R8G8B8, 1, &v60) >= 0 )
+    if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &v60) >= 0 )
       goto LABEL_78;
     goto LABEL_67;
   }
 LABEL_66:
-  if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A1R5G5B5, 1, &v60) >= 0 )
+  if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A1R5G5B5, D3DPOOL_MANAGED, &v60) >= 0 )
   {
 LABEL_78:
     v60->LockRect(0, (D3DLOCKED_RECT *)&v63, nullptr, 0);

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x101791F0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_101791F0(void *self_)
+XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 {
   g_pCDx->pDevice->SetTexture(0, nullptr);
   g_pCDx->pDevice->SetVertexShader(*((_DWORD *)self_ + 58645));
@@ -16,7 +16,7 @@ XI_API int __thiscall fn_101791F0(void *self_)
 
 // FUNCTION: FFXIMAIN 0x101792A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_101792A0(char *self_)
+XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 {
   g_pCDx->pDevice->CreateVertexShader(&g_zoneVSDeclA, nullptr, self_ + 234580, 0);
   return g_pCDx->pDevice->CreateVertexShader(&g_zoneVSDeclB, nullptr, self_ + 234584, 0);
@@ -24,7 +24,7 @@ XI_API int __thiscall fn_101792A0(char *self_)
 
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 45 returned normally, 380 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1017ADE0(_DWORD *self_, _DWORD *a2)
+XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(_DWORD *self_, _DWORD *a2)
 {
   IDirect3DDevice8 *pDevice;
   int result;
@@ -85,7 +85,7 @@ LABEL_4:
 
 // FUNCTION: FFXIMAIN 0x10182F10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 61 returned normally, 322 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_10182F10(int a1)
+XI_API int __stdcall Gfx_DrawWireBox(int a1)
 {
   double v1;
   g_pCDx->pDevice->SetTexture(0, nullptr);

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10041C20  (unit unit_10041A40: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
+XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int a5)
 {
   __int16 v5; // fps
   bool v6; // c0
@@ -49,19 +49,19 @@ XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
   v29[1] = 0.0;
   v30 = 0.0;
   v31 = 1065353216;
-  orig::sub_100279B0(v37);
-  orig::sub_10027CF0(v37, (_DWORD *)a1);
-  orig::sub_100277E0(v29, v29);
+  orig::Mat4_SetIdentity(v37);
+  orig::Mat4_SetTranslation(v37, (_DWORD *)a1);
+  orig::Gfx_TransformWorldToView(v29, v29);
   v30 = v30 + 1.0;
-  orig::sub_10027870(v29, v29);
+  orig::Gfx_ProjectViewToClip(v29, v29);
   v6 = v30 < 1.0;
   v7 = 0;
   v8 = v30 == 1.0;
   v33 = v30;
   if ( (v5 & 0x100) != 0 && v30 >= 0.0 )
   {
-    orig::sub_100278E0(v29);
-    orig::sub_10027050(v29, -0.5);
+    orig::Gfx_NdcToScreen(v29);
+    orig::Vec2_AddScalar(v29, -0.5);
     v9 = strlen((const char *)a2);
     v28 = v9;
     if ( v9 > 16 )
@@ -73,9 +73,9 @@ XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
     {
       byte_1047BAC0 |= 1u;
       orig::fn_1006AD90((exception *)dword_1047BADC);
-      orig::_atexit(XI_CODE(unknown_libname_43));
+      orig::_atexit(XI_CODE(StaticDtor_StateBlock_1047BADC));
     }
-    orig::sub_1006AF90(dword_1047BADC, (int)dword_10352D30);
+    orig::StateBlock_ApplyTSS(dword_1047BADC, (int)dword_10352D30);
     v10 = 0;
     v11 = 0;
     if ( v9 > 0 )
@@ -92,7 +92,7 @@ XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
         }
         else
         {
-          orig::sub_10120730(dword_104E1BF8, v14, (int)v13, v12, nullptr, nullptr);
+          orig::ShapeMng_GetDmgNumGlyph(dword_104E1BF8, v14, (int)v13, v12, nullptr, nullptr);
           v10 += *v12;
         }
         ++v11;
@@ -126,8 +126,8 @@ XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
         flt_10352D24 = flt_10352D18;
         do
         {
-          orig::sub_100273D0(v36, v21, (float *)a4);
-          orig::sub_10026FD0(v19 - 2, v29, v36);
+          orig::Vec2_Mul(v36, v21, (float *)a4);
+          orig::Vec2_Add(v19 - 2, v29, v36);
           v22 = *(v17 - 1);
           v23 = *v17;
           *v19 = v33;
@@ -140,7 +140,7 @@ XI_API void __cdecl fn_10041C20(int a1, int a2, int a3, int a4, int a5)
         }
         while ( (int)v21 < (int)&flt_10352D2C );
         v32 = a3;
-        if ( orig::sub_101207B0(dword_104E1BF8, *(char *)(a2 + v15), &v32, &v35) == 0 )
+        if ( orig::ShapeMng_BindDmgNumTexture(dword_104E1BF8, *(char *)(a2 + v15), &v32, &v35) == 0 )
           break;
         v24 = v32;
         v25 = (int *)&v41;

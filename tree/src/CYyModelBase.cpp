@@ -15,8 +15,185 @@ int * CYyModelBase::ScalarDeletingDtor(char a1)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v2;
-  orig::sub_10029DD0(self, v2);
+  orig::CYyModelBase_Destructor(self, v2);
   if ( (a1 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 4 returned normally, 416 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+int CYyModelBase::DrawLit(int a2, int a3, int a4)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  int v5;
+  int *v6;
+  int v7;
+  unsigned int v8;
+  float *v9;
+  char *PartList;
+  int *v11;
+  int v12;
+  int v13;
+  int v14;
+  int *v15;
+  int v16;
+  _DWORD *v17;
+  char *v18;
+  int *j;
+  _DWORD *v20;
+  signed int k;
+  int result;
+  int i;
+  char *v24;
+  char *v25;
+  int v26;
+  v5 = this->field_C4;
+  v26 = self;
+  if ( v5 == -1 )
+  {
+    v6 = *(int **)(g_pMeshResourceMng + 262152);
+    if ( v6 != nullptr )
+      v7 = *v6;
+    else
+      v7 = 0;
+    this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, off_10351514, v7);
+  }
+  g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, unk_104571D8);
+  v8 = 0;
+  v9 = &g_lightTable_Start;
+  do
+  {
+    if ( *(_DWORD *)v9 != 0 )
+    {
+      orig::CDx_SetLight(g_pCDx, v8, v9);
+      g_pCDx->pDevice->LightEnable(v8, 1u);
+    }
+    else
+    {
+      g_pCDx->pDevice->LightEnable(v8, 0);
+    }
+    v9 += 26;
+    ++v8;
+  }
+  while ( (int)v9 < (int)flt_10457388 );
+  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+  PartList = orig::CYyModelBase_GetPartList((char *)self);
+  v11 = *(int **)PartList;
+  v25 = PartList;
+  v24 = PartList;
+  if ( v11 != nullptr )
+  {
+    do
+    {
+      v12 = (*(int (__thiscall **)(int *))(*v11 + 44))(v11);
+      v13 = v12;
+      if ( v12 != 0 )
+      {
+        v14 = *(_DWORD *)(v12 + 88);
+        if ( v14 != 0 && v11[5] == 0 )
+        {
+          if ( v11[7] == 0
+            && orig::CYyVbMng_AcquireVertexBuffer(
+                 (_DWORD *)dword_1047B974,
+                 12 * v14 + 4,
+                 520,
+                 0,
+                 g_vertexBuffer_7540,
+                 v11 + 7,
+                 0) < 0
+            || v11[9] == 0
+            && orig::CYyVbMng_AcquireVertexBuffer(
+                 (_DWORD *)dword_1047B974,
+                 12 * v14 + 4,
+                 520,
+                 0,
+                 g_vertexBuffer_7540,
+                 v11 + 9,
+                 0) < 0
+            || ((v15 = *(int **)(v13 + 52)) == nullptr ? (v16 = 0) : (v16 = *v15),
+                (*(_BYTE *)(v16 + 52) & 1) != 0
+             && (v11[11] == 0
+              && orig::CYyVbMng_AcquireVertexBuffer(
+                   (_DWORD *)dword_1047B974,
+                   12 * v14 + 4,
+                   520,
+                   0,
+                   g_vertexBuffer_7540,
+                   v11 + 11,
+                   0) < 0
+              || v11[13] == 0
+              && orig::CYyVbMng_AcquireVertexBuffer(
+                   (_DWORD *)dword_1047B974,
+                   12 * v14 + 4,
+                   520,
+                   0,
+                   g_vertexBuffer_7540,
+                   v11 + 13,
+                   0) < 0)) )
+          {
+            v17 = v11 + 9;
+            for ( i = 2; i != 0; --i )
+            {
+              if ( *(v17 - 2) != 0 )
+              {
+                orig::CYyVbMng_ReleaseVertexBuffer(v17 - 2);
+                *(v17 - 2) = 0;
+              }
+              if ( *v17 != 0 )
+              {
+                orig::CYyVbMng_ReleaseVertexBuffer(v17);
+                *v17 = 0;
+              }
+              if ( v17[2] != 0 )
+              {
+                orig::CYyVbMng_ReleaseVertexBuffer(v17 + 2);
+                v17[2] = 0;
+              }
+              if ( v17[4] != 0 )
+              {
+                orig::CYyVbMng_ReleaseVertexBuffer(v17 + 4);
+                v17[4] = 0;
+              }
+              ++v17;
+            }
+          }
+          v11[5] = v14;
+        }
+      }
+      v24 = (char *)(*(_DWORD *)v24 + 4);
+      v11 = *(int **)v24;
+    }
+    while ( *(_DWORD *)v24 != 0 );
+    PartList = v25;
+  }
+  v18 = PartList;
+  v24 = nullptr;
+  v25 = nullptr;
+  for ( j = *(int **)PartList; *(_DWORD *)v18 != 0; j = *(int **)v18 )
+  {
+    if ( j[3] == 0 )
+    {
+      v20 = (_DWORD *)(*(int (__thiscall **)(int *))(*j + 44))(j);
+      if ( v20 != nullptr )
+      {
+        v20[17] = j[j[6] + 7];
+        v20[18] = j[j[6] + 9];
+        v20[20] = j[j[6] + 11];
+        v20[21] = j[j[6] + 13];
+      }
+      (*(void (__thiscall **)(_DWORD, int, int, int, int, char **, char **))(**(_DWORD **)v18 + 28))(
+        *(_DWORD *)v18,
+        a2,
+        a3,
+        v26,
+        a4,
+        &v24,
+        &v25);
+    }
+    v18 = (char *)(*(_DWORD *)v18 + 4);
+  }
+  for ( k = 0; k < 4; ++k )
+    result = g_pCDx->pDevice->LightEnable(k, 0);
+  return result;
 }

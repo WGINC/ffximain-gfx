@@ -6,9 +6,9 @@
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 {
   __int64 v3; // rax
-  float *v5;
+  float *ColorPtr84;
   double v6;
-  float *v7;
+  float *AmbientColorPtr;
   __int16 v8; // fps
   bool v9; // c0
   char v10; // c2
@@ -37,11 +37,11 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
       {
         if ( a3 == 1 )
         {
-          v5 = (float *)orig::sub_10186F20(self_);
-          v6 = v5[2];
-          v22 = v5[2];
-          v20 = *v5;
-          v21 = v5[1];
+          ColorPtr84 = (float *)orig::Env_GetColorPtr84(self_);
+          v6 = ColorPtr84[2];
+          v22 = ColorPtr84[2];
+          v20 = *ColorPtr84;
+          v21 = ColorPtr84[1];
         }
         else
         {
@@ -50,15 +50,15 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
       }
       else
       {
-        v7 = (float *)orig::sub_10186FA0(self_);
-        v6 = v7[2];
-        v22 = v7[2];
-        v20 = *v7;
-        v21 = v7[1];
+        AmbientColorPtr = (float *)orig::Env_GetAmbientColorPtr(self_);
+        v6 = AmbientColorPtr[2];
+        v22 = AmbientColorPtr[2];
+        v20 = *AmbientColorPtr;
+        v21 = AmbientColorPtr[1];
       }
-      if ( g_timeOfDayTintEnabled != 0 && v20 < 0.80000001 && v21 < 0.80000001 && v6 < 0.80000001 )
+      if ( g_windowMode != 0 && v20 < 0.80000001 && v21 < 0.80000001 && v6 < 0.80000001 )
       {
-        orig::sub_10017100((unsigned __int16 *)&g_pCDx->_pad_10[484], &v23, &v24, v25);
+        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v23, &v24, v25);
         v20 = v23 * v20;
         v21 = v24 * v21;
         v6 = v25[0] * v22;
@@ -95,9 +95,9 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10188FA0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API float * __thiscall fn_10188FA0(char *self_, float *a2)
+XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
 {
-  float *v3;
+  float *AmbientColorPtr;
   double v4;
   __int16 v5; // fps
   bool v6; // c0
@@ -128,14 +128,14 @@ XI_API float * __thiscall fn_10188FA0(char *self_, float *a2)
     }
     else
     {
-      v3 = (float *)orig::sub_10186FA0(self_);
-      v4 = v3[2];
-      v16 = *v3;
-      v18 = v3[2];
-      v17 = v3[1];
-      if ( g_timeOfDayTintEnabled != 0 && v16 < 0.80000001 && v17 < 0.80000001 && v4 < 0.80000001 )
+      AmbientColorPtr = (float *)orig::Env_GetAmbientColorPtr(self_);
+      v4 = AmbientColorPtr[2];
+      v16 = *AmbientColorPtr;
+      v18 = AmbientColorPtr[2];
+      v17 = AmbientColorPtr[1];
+      if ( g_windowMode != 0 && v16 < 0.80000001 && v17 < 0.80000001 && v4 < 0.80000001 )
       {
-        orig::sub_10017100((unsigned __int16 *)&g_pCDx->_pad_10[484], &v19, &v20, v21);
+        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v19, &v20, v21);
         v16 = v19 * v16;
         v17 = v20 * v17;
         v4 = v21[0] * v18;

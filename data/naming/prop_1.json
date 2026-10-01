@@ -1,0 +1,634 @@
+[
+ {
+  "ea": "0x1001D940",
+  "name": "TexObj_InitFromHeader",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Fills a texture object descriptor from an image header: copies 16-byte name, width/height/bpp, palette and pixel pointers, flags 'cubemap ' textures, and tags DXT-style formats when the device supports them.",
+  "evidence": "Name compare to 'cube'+'map ' sets type bits at +44; switch on bpp 4/8/16/24/32 with palette sizes 16/256 entries; compares a 4-byte code against tables dword_103511CC/E0 gated by g_pCDx caps bytes; caller sub_10026890 (CYyIcon ctor) passes a freshly built TexObj."
+ },
+ {
+  "ea": "0x1001DC70",
+  "name": "Tex_DrawNamedTexturePreview",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up a texture by its 16-char name in g_pTextureMng, binds it to stage 0 and draws it as a 256x256 screen quad at (x, y+16).",
+  "evidence": "TexMgr_FindByName(g_pTextureMng, name...), SetTexture(0, tex+64 or tex+68), then sub_1001DD00(a1, a2+16.0); no callers (debug path)."
+ },
+ {
+  "ea": "0x1001DD00",
+  "name": "Gfx_DrawScreenQuad256",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Draws a 256x256 pre-transformed textured quad at (x,y) with Z and alpha test disabled, then restores them.",
+  "evidence": "Builds 4 verts x 28 bytes with +256.0 offsets; FVF 324 (XYZRHW|DIFFUSE|TEX1), DrawPrimitiveUP(TRIANGLESTRIP, 2); ZENABLE/ALPHATESTENABLE 0 then 1; point filtering, clamp addressing, COLOROP SELECTARG1."
+ },
+ {
+  "ea": "0x1001E0A0",
+  "name": "Tex_HeightToNormalMap",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Converts an 8-bit heightmap into a packed normal map using Sobel-style neighbour gradients with wrap-around, writing one 32-bit texel per pixel.",
+  "evidence": "Wrap masks (width*height-1, width-1), gradient sums 2*(a-b)+..., normalise via 127/sqrt(gx^2+gy^2+65025), +128 bias, packed into DWORD; caller TexObj_Upload; width/height read from this+52/+54."
+ },
+ {
+  "ea": "0x1001E470",
+  "name": "CYyCamMng2_CreateGlobal",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Allocates and constructs a 280-byte object, stores it in global dword_10456D6C, initialises it and returns the result of sub_10015100 on it.",
+  "evidence": "sub_1002C890(280) -> sub_1001E600 ctor -> dword_10456D6C; sub_1001E590 init; unit CYyCamMng2; 4 callers."
+ },
+ {
+  "ea": "0x1001E4B0",
+  "name": "CYyCamMng2_CallGlobalVfunc1",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "If the global object dword_10456D6C exists, calls its vtable slot 1 with &unk_10351224.",
+  "evidence": "Single null check then (*vtbl+4)(obj, &unk_10351224); same global created by sub_1001E470."
+ },
+ {
+  "ea": "0x10022120",
+  "name": "Actor_GetPercentScaleByIndex",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Returns byte this[10+idx] (idx<4, else asserts and uses 0) as a percentage scale factor: 0xFF means 1.0, otherwise value*0.01.",
+  "evidence": "idx>=4 -> nullsub_12 assert stub; 0xFF -> 1.0; *0.0099999998; callers CXiSkeletonActor_SetModel, sub_100CF750."
+ },
+ {
+  "ea": "0x10022190",
+  "name": "Actor_LookupPercentScaleA",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up an entry via sub_10022170 and returns its signed byte at +10 times 0.01, or 1.0 if not found.",
+  "evidence": "sub_10022170 returns index (<0 means missing -> 1.0); (char)entry[+10]*0.01; callers CXiSkeletonActor_SetModel, sub_100CF750; twin of sub_100221E0 (+11)."
+ },
+ {
+  "ea": "0x100221E0",
+  "name": "Actor_LookupPercentScaleB",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up an entry via sub_10022170 and returns its signed byte at +11 times 0.01, or 1.0 if not found.",
+  "evidence": "Same shape as sub_10022190 but field +11; same callers."
+ },
+ {
+  "ea": "0x10022230",
+  "name": "Actor_InitIndexTable",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Runs base init sub_100220E0 then fills byte slots +16..+19, +20..+35 and +36..+37 with 0xFF (unset) and returns this.",
+  "evidence": "Only stores of -1 bytes after base init; called from all CXiSkeletonActor_Constructor_* variants."
+ },
+ {
+  "ea": "0x10022270",
+  "name": "Actor_SetPair14",
+  "confidence": "high",
+  "kind": "accessor",
+  "summary": "Stores two dwords from a2 into this+0x14 and this+0x18.",
+  "evidence": "Body is two stores; caller CXiSkeletonActor_SetModel."
+ },
+ {
+  "ea": "0x10022300",
+  "name": "Actor_SetPair1C",
+  "confidence": "high",
+  "kind": "accessor",
+  "summary": "Stores two dwords from a2 into this+0x1C and this+0x20.",
+  "evidence": "Body is two stores; caller CXiSkeletonActor_SetModel."
+ },
+ {
+  "ea": "0x10022340",
+  "name": "Actor_LookupByteField1C",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Looks up an entry via sub_10022320 and returns its byte at +28, or 0 if not found or 0xFF.",
+  "evidence": "sub_10022320 index <0 -> 0; 0xFF -> 0; callers CXiSkeletonActor_GetElem, sub_100C83C0."
+ },
+ {
+  "ea": "0x10022FA0",
+  "name": "CYyModelDt_SetVertexShader",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Caches a vertex shader/FVF handle in g_vertexShader_6E4C and sets it on the device when non-zero.",
+  "evidence": "g_vertexShader_6E4C = a1; SetVertexShader(device, a1) if a1 != 0; caller CYyModelDt_PrepareRenderState."
+ },
+ {
+  "ea": "0x10023010",
+  "name": "CYyModelDt_ExpandTriList",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Expands a list of indexed triangles (15-word records: 3 vertex indices + per-corner UVs) into a 32-byte-stride vertex array, returning the vertex count; skipped when flag bit +52&1 is set.",
+  "evidence": "Per triangle: sub_10022FD0 copies vertex by index then two UV dwords per corner; output advances 24 dwords (3 x 32 bytes); count += 3; caller CYyModelDt_PrepareRenderState."
+ },
+ {
+  "ea": "0x100230D0",
+  "name": "CYyModelDt_ExpandTriStrip",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Expands an indexed strip (first triangle with 3 corners, then one new vertex+UV per 5-word record) into a 32-byte-stride vertex array, returning the vertex count.",
+  "evidence": "First record yields 3 verts (v8=3), subsequent records add 1 vert each; uses sub_10022FD0 vertex copy; caller CYyModelDt_PrepareRenderState."
+ },
+ {
+  "ea": "0x100250C0",
+  "name": "CYyModelDt_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Destructor: stores CYyModelDt vtable, frees the buffer at +0x40, then runs the base destructor sub_10029CD0.",
+  "evidence": "*this = CYyModelDt_vtbl_ambiguous0; sub_10028700 (tagged free) on this[16]; tail-calls sub_10029CD0; caller CYyModelDt_VT_1032A430_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x100252F0",
+  "name": "ProjTex_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Destructor for the projected-texture helper (vtable off_1032A460): releases the COM texture at +4 and surface at +8.",
+  "evidence": "*this = off_1032A460; vtbl+8 (IUnknown::Release) on this[1], this[2]; called from CYyModel dtor sub_1002B550 for member at +0x90 and from a scalar deleting dtor."
+ },
+ {
+  "ea": "0x10025330",
+  "name": "ProjTex_BeginPass",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets up an additive projected-texture pass: binds the helper's texture, saves the material textures and colour, and generates stage-0 coords from camera-space position through the supplied matrix.",
+  "evidence": "SetTransform(D3DTS_TEXTURE0, a4); TEXTURETRANSFORMFLAGS 0x104 (COUNT4|PROJECTED); TEXCOORDINDEX 0x20000 (CAMERASPACEPOSITION); SRCBLEND SRCALPHA, DESTBLEND ONE; ZWRITE off; saves a2[0..1] in dword_10456E58/5C, a3 in E68; caller sub_1002DC10."
+ },
+ {
+  "ea": "0x100255C0",
+  "name": "ProjTex_EndPass",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Restores the normal material pass after the projected-texture pass: rebinds the saved base textures to stages 0/1 and resets blend, Z write, addressing, texgen and the stage-1 combiner.",
+  "evidence": "Rebinds dword_10456E58/5C via TexObj_GetD3DTexture; ALPHABLEND off, ALPHAFUNC GREATER, ZWRITE on, TEXCOORDINDEX 0, TTFF 0; stage1 MODULATE2X or MODULATEALPHA_ADDCOLOR depending on a1; TEXTUREFACTOR from E68; paired with sub_10025330."
+ },
+ {
+  "ea": "0x10025860",
+  "name": "TexObj_GetD3DTexture",
+  "confidence": "high",
+  "kind": "accessor",
+  "summary": "Returns the D3D texture at +0x40, or the fallback one at +0x44 if the first is null.",
+  "evidence": "return this[16] ? this[16] : this[17]; same +64/+68 pattern used before SetTexture in sub_1001DC70 and sub_10026990."
+ },
+ {
+  "ea": "0x10025870",
+  "name": "ProjTex_CaptureToTarget",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Stores the projection parameters in globals and copies a source texture into the helper's own render target with a full-target screen quad.",
+  "evidence": "CDx_PushRenderTarget(this[1], this[2]); quad sized from CDx_GetRenderTargetTop width/height; SetTexture(0, a2); FVF 324 TRIANGLESTRIP; Z/alpha test off then restored; caller sub_1002B6E0 (model draw) passes g_pCDx texture at _pad_10[388]."
+ },
+ {
+  "ea": "0x10025C40",
+  "name": "EnvMap_BeginPass",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets up an additive environment-map pass: binds the global env texture, saves base textures, and generates stage-0 coords from camera-space normals through a 2D texture matrix.",
+  "evidence": "TEXCOORDINDEX 0x10000 (CAMERASPACENORMAL), TTFF COUNT2, SetTransform(TEXTURE0); WRAP0=7 unless flags; LIGHTING off; SRCBLEND SRCALPHA/DESTBLEND ONE; uses dword_10456E88 and TFACTOR dword_10456E8C; caller sub_1002DC10."
+ },
+ {
+  "ea": "0x10025F70",
+  "name": "EnvMap_EndPass",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Restores the normal material pass after the environment-map pass: rebinds saved textures, re-enables lighting and Z write, clears WRAP0, blend and texgen.",
+  "evidence": "Rebinds dword_10456E80/84 via TexObj_GetD3DTexture; LIGHTING 1, WRAP0 0, ALPHABLEND 0, TCI 0; same stage-1 combiner branch as sub_100255C0; TFACTOR dword_10456E7C."
+ },
+ {
+  "ea": "0x100262C0",
+  "name": "Dbg_DrawGroundGrid",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Draws a 17x17 line grid spanning -8..8 on the XZ plane with an identity world transform.",
+  "evidence": "Two loops of 17 DrawPrimitiveUP(LINELIST, 1) with FVF 66 (XYZ|DIFFUSE), coords (i-8, 0, +/-8); world set via Mat4_BuildScale(1,1,1); no callers."
+ },
+ {
+  "ea": "0x100263F0",
+  "name": "Dbg_DrawViewAxisGizmo",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws red/green/blue X/Y/Z axis lines placed 4 units in front of the camera using the inverted view matrix, then restores the world matrix.",
+  "evidence": "Gets VIEW (2) and inverts it (sub_100283C0), offsets by (0,0,-4); three LINELIST lines coloured 0x80800000/0x80008000/0x80000080; FOG and LIGHTING off; restores WORLD (256)."
+ },
+ {
+  "ea": "0x100266C0",
+  "name": "Dbg_DrawAxesAt",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws red/green/blue unit X/Y/Z axis lines at the given world position, then restores the world matrix.",
+  "evidence": "Identity + translation from a1 set as WORLD; three LINELIST draws with colours 0x80800000/0x80008000/0x80000080; FVF 66; restores saved WORLD."
+ },
+ {
+  "ea": "0x10026890",
+  "name": "CYyIcon_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "CYyIcon constructor: sets vtable, initialises a 4-vertex screen quad (rhw 1, white, UVs), builds a TexObj from the icon image data and queues it in the texture manager.",
+  "evidence": "*this = &CYyIcon_vtbl; 4 x 28-byte verts with 1.0/0x80808080/UV 0/1; sub_1002C890(72) + TexObj_Constructor; sub_1001D940 header parse; TexMgr_Enqueue(g_pTextureMng); refcount ++."
+ },
+ {
+  "ea": "0x10026990",
+  "name": "CYyIcon_Draw",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws the icon's texture as a screen quad at (x,y) sized to the texture with the given colour, optionally with alpha blending.",
+  "evidence": "Uses this+8 TexObj (+64/+68 texture, +36/+38 width/height), vertices at this+12 stride 28 (CYyIcon layout); -0.5 pixel offset; FVF 324 TRIANGLESTRIP; ALPHABLEND/BLENDOP toggled by a4."
+ },
+ {
+  "ea": "0x10026C70",
+  "name": "CYyIcon_DrawSubRect",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws a sub-rectangle of the icon's texture (source x,y,w,h) to a destination rectangle on screen with the given colour.",
+  "evidence": "Same CYyIcon layout; UVs = a5/texW, a6/texH, (a5+a7)/texW, (a6+a8)/texH; dest a1..a4 with -0.5 offset; colour a9; FVF 324 DrawPrimitiveUP strip."
+ },
+ {
+  "ea": "0x10026E10",
+  "name": "Quat_SetIdentity",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets a 4-float vector to (0,0,0,1), i.e. an identity quaternion.",
+  "evidence": "Stores 0,0,0,1.0f; unit Vec3 math unit; callers include CXiSkeletonActor_OnDrawName."
+ },
+ {
+  "ea": "0x10026E30",
+  "name": "Vec4_Set",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets a 4-float vector from four arguments.",
+  "evidence": "Four stores (x,y,z,w); 10 callers in skeleton/actor code."
+ },
+ {
+  "ea": "0x10026E90",
+  "name": "Vec4_Copy",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Copies 4 dwords from a2 to a1.",
+  "evidence": "Four dword copies; 74 callers."
+ },
+ {
+  "ea": "0x10026FA0",
+  "name": "Vec3_Add",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "a1 = a2 + a3 componentwise for 3 floats (returns a2).",
+  "evidence": "Three float adds."
+ },
+ {
+  "ea": "0x10026FD0",
+  "name": "Vec2_Add",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "a1 = a2 + a3 componentwise for 2 floats.",
+  "evidence": "Two float adds."
+ },
+ {
+  "ea": "0x10027050",
+  "name": "Vec2_AddScalar",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Adds a scalar to both components of a 2-float vector in place.",
+  "evidence": "a1[0]+=s; a1[1]+=s."
+ },
+ {
+  "ea": "0x10027120",
+  "name": "Vec3_Sub",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "a1 = a2 - a3 componentwise for 3 floats.",
+  "evidence": "Three float subtractions; 41 callers."
+ },
+ {
+  "ea": "0x100272E0",
+  "name": "Vec3_Scale",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "a1 = a2 * s for a 3-float vector.",
+  "evidence": "Three multiplies by scalar a3."
+ },
+ {
+  "ea": "0x10027310",
+  "name": "Vec3_MulInPlace",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Componentwise multiply of a1 by a2 in place (3 floats).",
+  "evidence": "a1[i] *= a2[i] for i<3."
+ },
+ {
+  "ea": "0x100273D0",
+  "name": "Vec2_Mul",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "a1 = a2 * a3 componentwise for 2 floats.",
+  "evidence": "Two float multiplies."
+ },
+ {
+  "ea": "0x100276F0",
+  "name": "Gfx_ProjectWorldToClip",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a point by the current World*View*Projection matrices with homogeneous divide.",
+  "evidence": "CDx_GetTransformCached(256 WORLD, 2 VIEW, 3 PROJECTION), two Mat4 multiplies, Vec4_Copy then sub_10028320 (transform + divide by w); 12 callers incl. Frame_Render."
+ },
+ {
+  "ea": "0x100277E0",
+  "name": "Gfx_TransformWorldToView",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a 4D point by the current World*View matrix.",
+  "evidence": "WORLD (256) * VIEW (2) then sub_10028140 Vec4 transform; caller sub_10041C20."
+ },
+ {
+  "ea": "0x10027870",
+  "name": "Gfx_ProjectViewToClip",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a view-space point by the current projection matrix with homogeneous divide.",
+  "evidence": "CDx_GetTransformCached(3 PROJECTION) then sub_10028320; caller sub_10041C20."
+ },
+ {
+  "ea": "0x100278E0",
+  "name": "Gfx_NdcToScreen",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Converts normalised device X/Y (-1..1) to pixel coordinates of the current render target in place.",
+  "evidence": "x = (w/2)*(x+1), y = (1-y)*(h/2) using CDx_GetRenderTargetTop +8/+12 width/height."
+ },
+ {
+  "ea": "0x10027930",
+  "name": "Gfx_ScreenDeltaToNdc",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Scales a pixel-space 2D vector into NDC units using the current viewport size (y flipped).",
+  "evidence": "GetViewport; a1.x = a2.x/(W/2); a1.y = -a2.y/(H/2); no offset term, so it converts deltas; no callers."
+ },
+ {
+  "ea": "0x100279B0",
+  "name": "Mat4_SetIdentity",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets a 4x4 float matrix to identity.",
+  "evidence": "Zeros 12 entries, 1.0f on indices 0,5,10,15; 67 callers."
+ },
+ {
+  "ea": "0x10027A60",
+  "name": "Mat4_PostScale",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Multiplies the matrix (in ECX) on the right by a diagonal scale matrix built from a 4-vector.",
+  "evidence": "Identity with diag = a1[0..3] then sub_10027D10 (this = this*M); IDA lost the ECX this (v2)."
+ },
+ {
+  "ea": "0x10027B30",
+  "name": "Mat4_SetScale",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets the matrix to a scale matrix with diagonal (s.x, s.y, s.z, 1).",
+  "evidence": "Zeros off-diagonal, diag from a2[0..2], [15]=1.0."
+ },
+ {
+  "ea": "0x10027B80",
+  "name": "Mat4_PostRotateX",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Multiplies the matrix on the right by a rotation about X by the given angle.",
+  "evidence": "Identity with [5]=cos,[6]=sin,[9]=-sin,[10]=cos then sub_10027D10."
+ },
+ {
+  "ea": "0x10027BD0",
+  "name": "Mat4_PostRotateY",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Multiplies the matrix on the right by a rotation about Y by the given angle.",
+  "evidence": "Identity with [0]=cos,[2]=-sin,[8]=sin,[10]=cos then sub_10027D10; 38 callers."
+ },
+ {
+  "ea": "0x10027C20",
+  "name": "Mat4_PostRotateZ",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Multiplies the matrix on the right by a rotation about Z by the given angle.",
+  "evidence": "Identity with [0]=cos,[1]=sin,[4]=-sin,[5]=cos then sub_10027D10."
+ },
+ {
+  "ea": "0x10027CD0",
+  "name": "Mat4_SetRow3",
+  "confidence": "high",
+  "kind": "accessor",
+  "summary": "Copies a 4-vector into the fourth row (translation row incl. w) of the matrix.",
+  "evidence": "this[12..15] = a2[0..3]."
+ },
+ {
+  "ea": "0x10027CF0",
+  "name": "Mat4_SetTranslation",
+  "confidence": "high",
+  "kind": "accessor",
+  "summary": "Copies a 3-vector into the translation row of the matrix.",
+  "evidence": "this[12..14] = a2[0..2]; 33 callers."
+ },
+ {
+  "ea": "0x10027D10",
+  "name": "Mat4_PostMultiply",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "this = this * a2 for 4x4 row-major matrices.",
+  "evidence": "Row i of result = sum_k this[i][k]*a2[k][j]; result copied back with Mat4_Copy; used by rotation/scale helpers."
+ },
+ {
+  "ea": "0x10027E90",
+  "name": "Mat4_PreMultiply",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "this = a2 * this for 4x4 row-major matrices.",
+  "evidence": "Result[j] = a2[0]*this[j]+a2[1]*this[4+j]+...; Mat4_Copy back; callers incl. CDx_ApplyStereoEyeProjection."
+ },
+ {
+  "ea": "0x10028140",
+  "name": "Mat4_TransformVec4InPlace",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a 4-vector by the matrix in place (via a temp copy).",
+  "evidence": "Vec4_Copy to temp then sub_10028170(this, a2, tmp)."
+ },
+ {
+  "ea": "0x10028200",
+  "name": "Mat4_TransformPointInPlace",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Transforms a 3D point by the matrix in place (via a temp copy).",
+  "evidence": "Vec3_Copy to temp then sub_10028230(this, a2, tmp); 29 callers incl. Frame_Render."
+ },
+ {
+  "ea": "0x10028290",
+  "name": "Mat4_TransformNormalInPlace",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Transforms a 3D direction by the matrix's 3x3 part in place (via a temp copy).",
+  "evidence": "Vec3_Copy to temp then sub_100282C0 (3x3-only multiply)."
+ },
+ {
+  "ea": "0x100282C0",
+  "name": "Mat4_TransformNormal",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "out = in * M3x3: transforms a direction vector by the upper 3x3 of the matrix (no translation).",
+  "evidence": "a2[i] = a3.x*m[i] + a3.y*m[4+i] + a3.z*m[8+i]; no row 3 term."
+ },
+ {
+  "ea": "0x10028320",
+  "name": "Mat4_TransformCoordInPlace",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Transforms a 4-vector by the matrix and divides x,y,z by w (0 if w==0).",
+  "evidence": "sub_10028140 then scale by 1/a2[3]; used by Gfx_ProjectWorldToClip."
+ },
+ {
+  "ea": "0x100283C0",
+  "name": "Mat4_InvertOrthonormal",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Inverts a rigid (rotation+translation) matrix in place by transposing the 3x3 and setting translation to -R^T*t.",
+  "evidence": "Saves row 3, transposes, transforms saved translation, negates into [12..14], [15]=1; used with VIEW matrix in Dbg_DrawViewAxisGizmo."
+ },
+ {
+  "ea": "0x10028640",
+  "name": "Mem_AllocObject",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Allocates size+4 bytes from the given memory area, writes a CYyObject vtable tag in the first dword and returns the pointer after it.",
+  "evidence": "Lazy static init of dword_10456FAC = &CYyObject_vtbl_ambiguous0 with atexit; sub_10028FD0(a1+4, a2); *result++ = tag; paired with sub_10028700 free(p-4)."
+ },
+ {
+  "ea": "0x100286B0",
+  "name": "Mem_AllocWithFallback",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Allocates from the given memory area; for the elem/work areas (2,3) falls back to the upper area 0, exiting with code 2002 if that also fails.",
+  "evidence": "sub_10028FD0(a1,a2) then retry with area 0 when a2==2||3; exit_0(2002); callers incl. CMoGeneratorClone_CreateInstance, MeshResourceMng_ResolveTree."
+ },
+ {
+  "ea": "0x10028700",
+  "name": "Mem_FreeObject",
+  "confidence": "high",
+  "kind": "thunk",
+  "summary": "Frees a block allocated by Mem_AllocObject by passing the pointer minus the 4-byte tag to the pool free.",
+  "evidence": "return sub_10028AA0(C - 4); counterpart of sub_10028640."
+ },
+ {
+  "ea": "0x10028B90",
+  "name": "MemBlock_GetSize",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Returns the payload size of a heap block as next-block address minus this minus the 32-byte header, or 0 for the last block.",
+  "evidence": "this[2] ? this[2]-this-32 : 0; 32 matches header size in sub_10028FD0; callers in allocator unit and heap-usage drawer."
+ },
+ {
+  "ea": "0x10028FD0",
+  "name": "Mem_AllocFromArea",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Allocates a block from one of the named memory areas (upper, lower, elem, work, load, menu, ex), tags its 32-byte header with the area class vtable and returns the payload.",
+  "evidence": "Switch a2: 0 CYyUpperMemory, 1 CYyLowerMemory, 2 CYyElemMemory, 3 CYyWorkMemory, 5 CYyLoadMemory, 6 CYyMenuMemory, default CYyExMemory vtables; returns header+32; adds to dword_104570DC; exit_0(2002) on failure for non-optional areas."
+ },
+ {
+  "ea": "0x100295A0",
+  "name": "Mem_DrawHeapUsageBar",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Debug overlay: walks a heap block list and draws one coloured screen-space bar segment per block with width proportional to block size (512 px total).",
+  "evidence": "Iterates v5=v5[2]; MemBlock_GetSize * 512/(a2-a1); colour 0x40800000 when v5[1]==1 else 0x40000080; FVF 68 (XYZRHW|DIFFUSE) strips; SRCALPHA/INVSRCALPHA blend, Z off."
+ },
+ {
+  "ea": "0x10029CD0",
+  "name": "CYyModelDtBase_Destructor",
+  "confidence": "medium",
+  "kind": "dtor",
+  "summary": "Base destructor in the CYyModelDt hierarchy: sets base vtable, releases the resource at +8, deletes the owned object at +4 and destroys the member at +16.",
+  "evidence": "*a1 = &CYyModelDt_vtbl_ambiguous1; sub_10071EC0/sub_10071050 on a1[2]; vfunc+24(1) (deleting dtor) on a1[1]; sub_10029C00(a1+4); called by CYyModelDt_Destructor and two ScalarDeletingDtors."
+ },
+ {
+  "ea": "0x10029DD0",
+  "name": "CYyModelBase_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "CYyModelBase destructor: sets vtable, releases its resource, deletes owned objects at +4 and +0x20, destroys two 7-element member arrays and the list at +8.",
+  "evidence": "*a1 = &CYyModelBase_vtbl; vfunc+24(1) on a1[1], a1[8]; loops of 7 over 20-byte elements (sub_1001B140, reverse sub_1001AC30); sub_10034270(a1+2); caller CYyModelBase_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10029E50",
+  "name": "CYyModelBase_SetResourceAndRebuild",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Stores a resource handle at +0xC, refreshes the list at +8 and rebuilds the model.",
+  "evidence": "this[3]=a2; sub_100342A0(this+2); sub_1002A0C0(this); matches CYyModelBase dtor fields (a1[3] resource, sub_10034270 on a1+2); callers CXiSkeletonActor_SetModel."
+ },
+ {
+  "ea": "0x10029E70",
+  "name": "CYyModelBase_GetPartList",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Returns the address of the part list at this+0x20.",
+  "evidence": "return this+32; result iterated as a null-terminated list of part objects in sub_1002A3B0 and resource finders."
+ },
+ {
+  "ea": "0x10029F70",
+  "name": "CYyModelBase_AddPartFromResource",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Creates a model part for a resource handle (60-byte CYyModelDt for type 0, 456-byte object for type 1), links it into the model and rebuilds.",
+  "evidence": "ResourceHandle_Deref; type = byte +50 & 0x7F; sub_1002C890(60)+vtable CYyModelDt_vtbl_ambiguous2 or sub_1002C890(456)+sub_10025010; part[2]=handle; sub_10029F00 add; sub_1002A0C0 rebuild."
+ },
+ {
+  "ea": "0x1002A3B0",
+  "name": "CYyModelBase_DrawLit",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws all model parts with scene lighting: sets ambient and up to N lights from the light table, ensures per-part dynamic vertex buffers, calls each part's draw method, then disables lights 0-3.",
+  "evidence": "SetRenderState(AMBIENT), CDx_SetLight + LightEnable over g_lightTable_Start; LIGHTING 1; sub_1003B210 vertex buffers 12*n+4, usage 0x208 (DYNAMIC|WRITEONLY); part vfunc+28 draw; final LightEnable(k,0) k<4."
+ },
+ {
+  "ea": "0x1002AC50",
+  "name": "CYyModelBase_ForwardToField24",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "Forwards a2 to sub_1001B0B0 on the member at this+0x24 (first element of the 7-entry array).",
+  "evidence": "Body: sub_1001B0B0(this+9, a2); caller CXiSkeletonActor_vf172."
+ },
+ {
+  "ea": "0x1002B4B0",
+  "name": "CYyModel_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "CYyModel constructor: constructs members, sets the CYyModel vtable and zeroes/initialises fields.",
+  "evidence": "Base vtable CYyObject then &CYyModel_vtbl; member ctors at +0x48, +0x74, +0x8C, +0x90, +0x9C; +0x40=2.0f; called by all CXiSkeletonActor_Constructor_* variants."
+ },
+ {
+  "ea": "0x1002B550",
+  "name": "CYyModel_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "CYyModel destructor: sets vtable, deletes the owned object at +0x44 and destroys members in reverse order.",
+  "evidence": "*this=&CYyModel_vtbl; vfunc+24(1) on this[17]; sub_10038A60(+0x9C), ProjTex_Destructor sub_100252F0(+0x90), sub_10025C30, sub_1001D1F0, sub_100337C0; callers CYyModel_ScalarDeletingDtor, CXiSkeletonActor_DestructorBody."
+ },
+ {
+  "ea": "0x1002B5A0",
+  "name": "CYyModel_GetField44Addr",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Returns the address of the field at this+0x44.",
+  "evidence": "return this+68; +0x44 is the owned object pointer deleted in CYyModel_Destructor; 46 callers."
+ },
+ {
+  "ea": "0x1002B6A0",
+  "name": "CYyModel_CreateModelBase",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Allocates and constructs a 200-byte model-base object and attaches it to this model.",
+  "evidence": "sub_1002C890(200), sub_10029D30 ctor, sub_1002B630(this, obj); 200 bytes fits CYyModelBase usage up to +196; callers CXiSkeletonActor_SetModel, sub_100CF750."
+ },
+ {
+  "ea": "0x1002B6E0",
+  "name": "CXiSkeletonActor_DrawModel",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Per-actor model draw: caches transforms, sets material colour, optional env-map and projected-screen-texture setup, default render states and fog, then animates and draws the model.",
+  "evidence": "DancingMad entry CXiSkeletonActor_DrawModel agrees; CDx_GetTransformCached WORLD/VIEW/PROJ, SetMaterial from a8 colour bytes*1/128, ProjTex_CaptureToTarget on this+0x90, CDx_SetDefaultRenderState, FOGENABLE; this layout matches CYyModel (+0x74,+0x90,+0x9C,+0xB8); caller PerActor_FourBucketStaggeredUpdate."
+ }
+]

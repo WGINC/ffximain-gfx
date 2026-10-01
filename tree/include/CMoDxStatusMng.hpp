@@ -6,7 +6,7 @@
 class XI_API CMoDxStatusMng {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x1006B040
-    _DWORD * ScalarDeletingDtor(char a2);  // 0x1006B070
+    int * ScalarDeletingDtor(char a2);  // 0x1006B070
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xC];

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x102A21F0  (unit sqsnShadow: called only from sqsnShadow (1 call site) and adjacent to its code)
 // GATE: PASS -- 100 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
+XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
 {
   int v3;
   _DWORD *v4;
@@ -36,7 +36,7 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
   {
     if ( *v6 != 655369 )
     {
-      orig::sub_10285890(aShadowVolumesO);
+      orig::sqDebugPrintf(aShadowVolumesO);
       return;
     }
   }
@@ -45,7 +45,7 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
     v6 = *(_DWORD **)a2;
     if ( **(_DWORD **)a2 != 655369 )
     {
-      orig::sub_10285890(aShadowVolumesO_0);
+      orig::sqDebugPrintf(aShadowVolumesO_0);
       return;
     }
   }
@@ -73,11 +73,11 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
     v22[11] = 0.0;
     v20 = v12;
   }
-  orig::sub_1027EF20((float *)v21, v22, &v18);
+  orig::Mat4_TransformPoint((float *)v21, v22, &v18);
   v13 = v6[13];
   if ( v13 != 0 )
     v13 = *(_DWORD *)(v13 + 84);
-  orig::sub_10297F90(
+  orig::sqsnShadowComputeFacing(
     *(_DWORD *)(a2 + 20),
     (float *)v6[21],
     v6[17],
@@ -85,7 +85,7 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
     (int *)v6[18],
     *(_DWORD *)(*v4 + 48) == 0,
     (float *)v21);
-  orig::sub_102981E0();
+  orig::sqsnShadowVolumeBeginVB();
   if ( v17 != 0 )
   {
     do
@@ -96,13 +96,35 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
       {
         if ( v15 != 0 )
           v15 = *(_DWORD *)(v15 + 84);
-        orig::sub_10297B10(-v14, v24, v5, v15, (int)v7, v6[22], *(_DWORD *)(a2 + 20), v23, (float *)v21, 1000.0, 1);
+        orig::sqsnShadowVolumeExtrudeTriStrip(
+          -v14,
+          v24,
+          v5,
+          v15,
+          (int)v7,
+          v6[22],
+          *(_DWORD *)(a2 + 20),
+          v23,
+          (float *)v21,
+          1000.0,
+          1);
       }
       else
       {
         if ( v15 != 0 )
           v15 = *(_DWORD *)(v15 + 84);
-        orig::sub_102979E0(v14, v24, v5, v15, (int)v7, v6[22], *(_DWORD *)(a2 + 20), v23, (float *)v21, 1000.0, 1);
+        orig::sqsnShadowVolumeExtrudeTriList(
+          v14,
+          v24,
+          v5,
+          v15,
+          (int)v7,
+          v6[22],
+          *(_DWORD *)(a2 + 20),
+          v23,
+          (float *)v21,
+          1000.0,
+          1);
       }
       if ( v14 <= 0 )
       {
@@ -121,9 +143,9 @@ XI_API void __cdecl fn_102A21F0(int a1, int a2, int a3)
     while ( !v10 );
   }
   (*(void (__cdecl **)(_DWORD))(**(_DWORD **)(dword_1099D200 + 316) + 48))(*(_DWORD *)(dword_1099D200 + 316));
-  orig::sub_10297CC0(0);
+  orig::sqsnShadowVolumeSetPass(0);
   g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(_DWORD *)(dword_1099D200 + 324) / 3);
-  orig::sub_10297CC0(1);
+  orig::sqsnShadowVolumeSetPass(1);
   g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(_DWORD *)(dword_1099D200 + 324) / 3);
-  orig::sub_10297CC0(2);
+  orig::sqsnShadowVolumeSetPass(2);
 }

@@ -7,7 +7,7 @@
 unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::sub_10071DE0(self);
+  orig::CMoResource_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;
@@ -24,7 +24,7 @@ int CMoResource_VT_1032C588::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource_VT_1032C588::vf012(int a1)
 {
-  return (int)orig::sub_10071C60((unsigned int **)this - 12, a1);
+  return (int)orig::CMoResource_VT_1032C588_ScalarDeletingDtor_10071C60((unsigned int **)this - 12, a1);
 }
 
 // FUNCTION: FFXIMAIN 0x10074610  (placed by tree manifest; does not use this)
@@ -39,5 +39,5 @@ void CMoResource_VT_1032C588::vf008()
 __int16 CMoResource_VT_1032C588::vf009()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
-  return orig::sub_100721F0(self);
+  return orig::CMoResource_Destroy(self);
 }

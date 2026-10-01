@@ -8,7 +8,7 @@ _DWORD * CYyModelDt_VT_1032A72C::ScalarDeletingDtor(char a1)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   int v2;
-  orig::sub_10029CD0(self, v2);
+  orig::CYyModelDtBase_Destructor(self, v2);
   if ( (a1 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;

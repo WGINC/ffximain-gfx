@@ -29,7 +29,7 @@ void CMoResource_VT_1032C828::vf009()
 unsigned int ** CMoResource_VT_1032C828::ScalarDeletingDtor(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::sub_10071DE0(self);
+  orig::CMoResource_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

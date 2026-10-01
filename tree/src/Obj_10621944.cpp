@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x101630E0  (placed by callers pass the object in dword_10621944 as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified)
 // GATE: PASS -- 100 trials, 100 returned normally, 164 D3D calls compared (diffemu_gfx, clean build)
-int Obj_10621944::fn_101630E0()
+int Obj_10621944::Obj_10621944_Draw()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int result;
   result = this->field_C;
   if ( result != 0 )
   {
-    orig::sub_10163390(self);
+    orig::Obj_10621944_DrawBgRect(self);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
     orig::sub_1019EBB0(this->field_C);
     return g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);

@@ -15,7 +15,7 @@ _DWORD * CMoCameraTask::ScalarDeletingDtor(char a1)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   int v2;
-  orig::sub_1003D030(self, v2);
+  orig::CMoCameraTask_Destructor(self, v2);
   if ( (a1 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

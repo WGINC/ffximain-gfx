@@ -2,17 +2,17 @@
 #include "gfx_all.hpp"
 #include "CApp.hpp"
 
-// FUNCTION: FFXIMAIN 0x10001520  (placed by callers pass the object in dword_103D3C64 as this (1 of 1 call sites); 0x100161B0 stores the result of 0x10001240 (stores the CApp vtable))
+// FUNCTION: FFXIMAIN 0x10001520  (placed by IDB name)
 // GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-char CApp::fn_10001520()
+char CApp::RunMainLoop()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   char *v2;
   char *v3;
   char v5;
   struct tagMSG Msg;
-  orig::sub_100014A0(*((HWND *)self + 6));
-  if ( orig::CDx_Initialize(g_pCDx) != 0 && orig::sub_10001BB0(*((HINSTANCE *)self + 5)) != 0 )
+  orig::App_ForceForegroundWindow(*((HWND *)self + 6));
+  if ( orig::CDx_Initialize(g_pCDx) != 0 && orig::App_CreateInputSystem(*((HINSTANCE *)self + 5)) != 0 )
   {
     GetWindowRect(*((HWND *)self + 6), (LPRECT)self + 2);
     v2 = (char *)orig::Allocator_Generic(0x33Cu);
@@ -22,7 +22,7 @@ char CApp::fn_10001520()
       g_pCamera = (std::codecvt_base *)v3;
       if ( v3 != nullptr )
       {
-        orig::sub_10010CE0(v3, 0);
+        orig::App_SetSeqStep(v3, 0);
         do
         {
           v5 = 0;
@@ -32,8 +32,8 @@ char CApp::fn_10001520()
         while ( v5 != 1 );
         this->field_1D = 1;
 LABEL_9:
-        orig::sub_100014A0(*((HWND *)self + 6));
-        if ( (unsigned __int8)orig::sub_10001B50(self) == 0 )
+        orig::App_ForceForegroundWindow(*((HWND *)self + 6));
+        if ( (unsigned __int8)orig::App_RenderFrameMaskedFPU(self) == 0 )
           goto LABEL_23;
         while ( 1 )
         {
@@ -54,7 +54,7 @@ LABEL_9:
             if ( Msg.wParam == 44 )
               goto LABEL_17;
 LABEL_21:
-            orig::sub_100016C0((int)Msg.hwnd, Msg.message, Msg.wParam, Msg.lParam);
+            orig::App_PreTranslateInputMessage((int)Msg.hwnd, Msg.message, Msg.wParam, Msg.lParam);
             TranslateMessage(&Msg);
             DispatchMessageA(&Msg);
           }
@@ -63,7 +63,7 @@ LABEL_21:
             if ( Msg.message != 257 || Msg.wParam != 44 )
               goto LABEL_21;
 LABEL_17:
-            orig::sub_10001CC0((HWND *)self, &Read);
+            orig::CApp_CopyTextToClipboard((HWND *)self, &Read);
           }
         }
       }

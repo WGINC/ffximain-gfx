@@ -13,7 +13,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
   int v7;
   int v8;
   int v9;
-  if ( g_timeOfDayTintEnabled != 0 )
+  if ( g_windowMode != 0 )
   {
     byte_1034F92C = 0;
     return 1;
@@ -30,7 +30,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
       if ( (*(int (__stdcall **)(_DWORD, void *))(*(_DWORD *)*v2 + 44))(*v2, &unk_10349EF4) >= 0 )
       {
         if ( dword_10456BF8 != 0 )
-          orig::sub_10009780(&g_pCDx->vftable, 1u);
+          orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
         byte_1034F92C = 1;
         v3 = *v2;
         if ( dword_10456BF8 != 0 )

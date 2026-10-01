@@ -7,7 +7,7 @@
 _DWORD * CMoTaskMng::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_10074B60(self);
+  orig::CMoTaskMng_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;

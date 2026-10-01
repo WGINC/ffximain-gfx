@@ -2,9 +2,9 @@
 #include "gfx_all.hpp"
 #include "CYyVbMng.hpp"
 
-// FUNCTION: FFXIMAIN 0x1003B210  (placed by callers pass the object in dword_1047B974 as this (5 of 6 call sites); App_InitScene stores the result of 0x1003B080 (stores the CYyVbMng vtable))
+// FUNCTION: FFXIMAIN 0x1003B210  (placed by IDB name)
 // GATE: PASS -- 100 trials, 73 returned normally, 84 D3D calls compared (diffemu_gfx, clean build)
-int CYyVbMng::fn_1003B210(int a2, unsigned int a3, unsigned int a4, D3DPOOL a5, int *a6, char a7)
+int CYyVbMng::AcquireVertexBuffer(int a2, unsigned int a3, unsigned int a4, D3DPOOL a5, int *a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   _DWORD *v7;
@@ -89,10 +89,10 @@ LABEL_26:
   v23 = pDevice->CreateVertexBuffer(v9, a3, a4, a5, (IDirect3DVertexBuffer8 **)a6);
   if ( v23 < 0 )
     return v23;
-  v19 = orig::sub_1002C890(32);
+  v19 = orig::Mem_AllocDefault(32);
   if ( v19 == nullptr )
     return -1;
-  v20 = orig::sub_1003B450(v19, v9, a3, a4, a5, *a6);
+  v20 = orig::CYyVb_Constructor(v19, v9, a3, a4, a5, *a6);
   if ( v20 == nullptr )
     return -1;
   if ( a7 != 0 )

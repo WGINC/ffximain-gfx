@@ -132,9 +132,9 @@ void CMoDistRingElem::AllocRingGeometry()
     {
       byte_1047BB78 |= 1u;
       orig::fn_1006AD90((exception *)dword_1047BB7C);
-      orig::_atexit(XI_CODE(unknown_libname_50));
+      orig::_atexit(XI_CODE(StaticDtor_StateBlock_1047BB7C));
     }
-    orig::sub_1006AF90(dword_1047BB7C, (int)dword_10353378);
+    orig::StateBlock_ApplyTSS(dword_1047BB7C, (int)dword_10353378);
     if ( v7 > 0 )
     {
       v20 = v7;
@@ -148,7 +148,7 @@ void CMoDistRingElem::AllocRingGeometry()
           *(_DWORD *)(g_pResourceMng + 3772),
           338);
         v24 = *(void **)(v23 + 3528);
-        v25 = orig::sub_1006A560(0x152u);
+        v25 = orig::Gfx_CalcFVFStride(0x152u);
         orig::CDx_DrawPrimitiveUP(v24, 5, a2a, (int)v19, v25);
         v19 += v22;
         --v20;

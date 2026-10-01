@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API _DWORD * __cdecl fn_10038930(void)
+XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
   dword_1047B960 = 0;
@@ -27,13 +27,13 @@ XI_API _DWORD * __cdecl fn_10038930(void)
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 790 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10038A80(void *self_)
+XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
   unsigned __int8 v3;
   int v4;
   int a3[27];
-  result = orig::sub_10193850(200);
+  result = orig::Settings_GetValue(200);
   if ( result != 0
     && (result = *((_DWORD *)self_ + 1)) != 0
     && (result = dword_1047B958, dword_1047B958 != 0)
@@ -111,7 +111,7 @@ XI_API int __thiscall fn_10038A80(void *self_)
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 59 returned normally, 581 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10038E10(void *self_)
+XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;
   int result;
@@ -166,7 +166,7 @@ XI_API int __thiscall fn_10038E10(void *self_)
   int v52;
   int v53;
   v1 = self_;
-  result = orig::sub_10193850(200);
+  result = orig::Settings_GetValue(200);
   if ( result == 0
     || (result = v1[1]) == 0
     || (v3 = *(_DWORD *)result, result = dword_1047B958, dword_1047B958 == 0)
@@ -289,7 +289,7 @@ LABEL_21:
     }
     while ( v4 < v5 );
   }
-  v1[2] += (__int64)orig::sub_10014CF0();
+  v1[2] += (__int64)orig::Camera_GetFrameScale();
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
   g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

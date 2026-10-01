@@ -25,7 +25,7 @@ _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_10074740(self);
+  orig::CMoTask_Constructor(self);
   at<uint32_t>(this, 0x34) = a2;
   this->loadState = 0;
   this->field_40 = 0;
@@ -46,7 +46,7 @@ char CXiSkeletonActorRes::Destructor()
   LinkedActor = orig::CXiSkeletonActorRes_GetLinkedActor(self);
   if ( LinkedActor != 0 )
     *(_DWORD *)(LinkedActor + 2568) = 0;
-  return orig::sub_100747C0(self);
+  return orig::CMoTask_Destructor(self);
 }
 
 // FUNCTION: FFXIMAIN 0x100D7090  (placed by tree manifest)
@@ -85,7 +85,7 @@ char CXiSkeletonActorRes::ProcessLoadState()
     }
     else if ( (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 772))(LinkedActor) != 0
            || g_pActiveSkeletonActorRes == 0
-           || orig::sub_10084400(LinkedActor) != 0 )
+           || orig::CXiActor_GetModelByteEE(LinkedActor) != 0 )
     {
       g_pActiveSkeletonActorRes = self;
       ++this->loadState;

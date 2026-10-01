@@ -5,8 +5,8 @@
 #pragma pack(push, 1)
 class XI_API Obj_104E1D4C {
 public:
-    void fn_10124700(_DWORD *a2, float a3);  // 0x10124700
-    void fn_10124EB0();  // 0x10124EB0
+    void Cursor_SetPosition(_DWORD *a2, float a3);  // 0x10124700
+    void Cursor_Draw();  // 0x10124EB0
 
     void **vftable;  // +0x0
     uint32_t field_4;  // +0x4

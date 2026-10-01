@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10003B60  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
 // GATE: PASS -- 100 trials, 28 returned normally, 1684 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10003B60(_DWORD *self_)
+XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 {
   int v1;
   int v3;
@@ -32,7 +32,7 @@ XI_API int __thiscall fn_10003B60(_DWORD *self_)
   do
   {
     if ( *(_DWORD *)(v1 + *(self_ + 3) + 4) != -1 )
-      orig::sub_10003D70((_DWORD *)(v6 + *(self_ + 4)), (const char *)(v3 + *(self_ + 5)), *(_DWORD *)(*(self_ + 6) + v4));
+      orig::Debug_DrawWorldText((_DWORD *)(v6 + *(self_ + 4)), (const char *)(v3 + *(self_ + 5)), *(_DWORD *)(*(self_ + 6) + v4));
     v1 += 8;
     v4 += 4;
     v3 += 1024;
@@ -46,7 +46,7 @@ XI_API int __thiscall fn_10003B60(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
 // GATE: PASS -- 100 trials, 100 returned normally, 291 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10003D70(_DWORD *a1, const char *a2, int a3)
+XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
 {
   int v3;
   int v4;
@@ -81,13 +81,13 @@ XI_API void __stdcall fn_10003D70(_DWORD *a1, const char *a2, int a3)
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;
-  if ( orig::sub_10120590(dword_104E1BF8, -1, nullptr, nullptr) != 0 )
+  if ( orig::ShapeMng_BindFontTexture(dword_104E1BF8, -1, nullptr, nullptr) != 0 )
   {
-    orig::sub_100279B0(v27);
-    orig::sub_10027CF0(v27, a1);
+    orig::Mat4_SetIdentity(v27);
+    orig::Mat4_SetTranslation(v27, a1);
     orig::CDx_SetTransform(&g_pCDx->vftable, 256, v27);
-    orig::sub_100276F0(v24, v24);
-    orig::sub_100278E0(v24);
+    orig::Gfx_ProjectWorldToClip(v24, v24);
+    orig::Gfx_NdcToScreen(v24);
     v3 = strlen(a2);
     v25 = 1065353216;
     v21 = v3;
@@ -113,7 +113,7 @@ XI_API void __stdcall fn_10003D70(_DWORD *a1, const char *a2, int a3)
         }
         else
         {
-          orig::sub_10120510(dword_104E1BF8, v8, (int)v7, v6, nullptr, nullptr);
+          orig::ShapeMng_GetFontGlyph(dword_104E1BF8, v8, (int)v7, v6, nullptr, nullptr);
           v3 = v21;
         }
         ++v5;
@@ -157,8 +157,8 @@ XI_API void __stdcall fn_10003D70(_DWORD *a1, const char *a2, int a3)
           flt_1034F768 = flt_1034F75C;
           do
           {
-            orig::sub_100272E0((float *)v26, v17, 1.0);
-            orig::sub_10026FA0(v12 - 3, v24, (float *)v26);
+            orig::Vec3_Scale((float *)v26, v17, 1.0);
+            orig::Vec3_Add_10026FA0(v12 - 3, v24, (float *)v26);
             v18 = *(v10 - 1);
             v19 = *v10;
             *v12 = 1.0;

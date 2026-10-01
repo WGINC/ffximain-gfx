@@ -118,6 +118,7 @@
 #include "CXiOpening.hpp"
 #include "CXiSkeletonActor.hpp"
 #include "CXiSkeletonActorRes.hpp"
+#include "CYyIcon.hpp"
 #include "CYyModel.hpp"
 #include "CYyModelBase.hpp"
 #include "CYyModelDt.hpp"

@@ -48,25 +48,25 @@ void CMoDistModelElem::BuildDistortedMesh()
     if ( this->field_179 == 0 )
     {
       v23 = 3 * *(unsigned __int16 *)(v21 + 54);
-      orig::sub_10044010(v23);
-      v5 = orig::sub_10028640(36 * v23, 4);
+      orig::DynVB_Reserve(v23);
+      v5 = orig::Mem_AllocObject(36 * v23, 4);
       v6 = *(char ***)(self + 260);
       if ( v6 != nullptr )
         v7 = *v6;
       else
         v7 = nullptr;
-      qmemcpy(v5, orig::sub_1003FD70(v7), 36 * v23);
+      qmemcpy(v5, orig::MoElem_GetVertexData(v7), 36 * v23);
       ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
       v9 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
       g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
-      orig::sub_100746A0(v9);
+      orig::MoProcessor_CallVSlot49(v9);
       v10 = this->field_194;
       v9[13] = this->field_194;
       v9[12] = v10;
       v11 = g_pProcessor->ScratchMatrixStackTop;
       v12 = g_pProcessor->ScratchMatrixFreeList[v11];
       g_pProcessor->ScratchMatrixStackTop = v11 + 1;
-      orig::sub_1006A4A0((int *)g_pResourceMng, v12);
+      orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v12);
       (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
         g_pProcessor,
         v9,
@@ -84,25 +84,25 @@ void CMoDistModelElem::BuildDistortedMesh()
       }
       if ( v14 > 0 && orig::CMoDistMorphElem_ValidateMorphData(v13, v14, (int)v9, 1) != 0 )
       {
-        orig::sub_1006A480((_DWORD ***)g_pResourceMng, v12);
-        v15 = orig::sub_10044130((void *)dword_1047BBB0);
+        orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v12);
+        v15 = orig::DynVB_Lock((void *)dword_1047BBB0);
         a1 = (int)v15;
         if ( v15 != nullptr )
           qmemcpy(v15, v5, 36 * v23);
-        orig::sub_100441A0();
-        orig::sub_10028700((int)v5);
+        orig::DynVB_Unlock();
+        orig::Mem_FreeObject((int)v5);
         if ( a1 != 0 )
         {
           v16 = *(void ***)(self + 260);
           if ( v16 != nullptr )
-            orig::sub_10040670(*v16, a1, (int)&g_scratchValue, self, 0);
+            orig::CMoDistModelElem_DrawMesh(*v16, a1, (int)&g_scratchValue, self, 0);
           else
-            orig::sub_10040670(nullptr, a1, (int)&g_scratchValue, self, 0);
+            orig::CMoDistModelElem_DrawMesh(nullptr, a1, (int)&g_scratchValue, self, 0);
         }
       }
       else
       {
-        orig::sub_10028700((int)v5);
+        orig::Mem_FreeObject((int)v5);
       }
       v17 = g_pProcessor;
       v18 = g_pProcessor->ScratchMatrixStackTop - 1;

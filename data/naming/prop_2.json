@@ -1,0 +1,458 @@
+[
+ {
+  "ea": "0x1002C2D0",
+  "name": "CXiSkeletonActor_AnimateModels",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Walks the actor's model list (sub_1002B5A0) calling Model_AnimateAndPose on each; if all succeed sets flags(+0x30)|=0x12 and returns 1, else 0.",
+  "evidence": "Loop over null-terminated model list; flag OR 0x12 at this+48; callers PerActor_FourBucketStaggeredUpdate and sub_1002B6E0. DancingMad 'Model_AnimateEntry' agrees on purpose but says 'unconditionally'; code actually iterates all models and stops on first failure."
+ },
+ {
+  "ea": "0x1002C360",
+  "name": "CXiSkeletonActor_PrepareModelsOnce",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Once per update (guarded by flag 4 at this+48) calls sub_1002A3B0 on every model in the actor's list, then resets texture stage 1 TEXTURETRANSFORMFLAGS/TEXCOORDINDEX to 0.",
+  "evidence": "Flag test/set 4 at this+48; SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS,0) and (1,D3DTSS_TEXCOORDINDEX,0); recon file CXiSkeletonActor.cpp; sub_1002A3B0 itself acquires VBs/textures so it is a per-model prep/draw step."
+ },
+ {
+  "ea": "0x1002C3E0",
+  "name": "CXiSkeletonActor_GetElemThunk",
+  "confidence": "medium",
+  "kind": "thunk",
+  "summary": "Forwards (this,a3,a4,a5) to sub_1002C400, dropping the other arguments.",
+  "evidence": "Single-call body returning sub_1002C400(this,a3,a4,a5); callers CXiSkeletonActor_GetElem and GetElemLocal."
+ },
+ {
+  "ea": "0x1002C570",
+  "name": "CXiSkeletonActor_GetModelEidMatrix",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "If the actor is posed (flag 0x10), finds the a2-th model in its list and returns sub_1002A830(model,a3,a4).",
+  "evidence": "Flag 0x10 at this+48 (set by the animate step); index walk over model list; sole caller CXiSkeletonActor_GetEidMatrix."
+ },
+ {
+  "ea": "0x1002C5C0",
+  "name": "CXiSkeletonActor_GetModelElem",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Finds the a3-th model in the actor's model list and returns sub_1002A9B0(model, idx, a2) (an element pointer).",
+  "evidence": "Index walk over list from sub_1002B5A0; callers CXiSkeletonActor_GetElem/GetElemLocal; the counter register is uninitialized in the decompile (edx), likely 0 in practice."
+ },
+ {
+  "ea": "0x1002C7C0",
+  "name": "List_GetTail",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "Follows the next pointer at node+4 until null and returns the last node (null-safe).",
+  "evidence": "while(result[1]) result=result[1]; 5 callers incl. CXiSkeletonActor_ReverseFindRes."
+ },
+ {
+  "ea": "0x1002C890",
+  "name": "Mem_AllocDefault",
+  "confidence": "medium",
+  "kind": "thunk",
+  "summary": "Allocates a1 bytes via sub_10028FD0 with fixed pool/flag argument 4.",
+  "evidence": "Body is sub_10028FD0(a1,4); 61 callers; CYyVbMng uses sub_1002C890(32) to allocate a CYyVb before constructing it, i.e. an operator-new style wrapper."
+ },
+ {
+  "ea": "0x1002CCB0",
+  "name": "CYyOs2VtxBuffer_CreateBuffersStep",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Incremental state machine (state at this+60) that allocates a 0xFFFF-filled index shadow, creates a D3D INDEX16 index buffer, then acquires a pooled vertex buffer; on failure frees everything. Returns 1 when finished.",
+  "evidence": "switch(this[15]); CreateIndexBuffer(2*n, D3DUSAGE_WRITEONLY(8), D3DFMT_INDEX16, D3DPOOL_DEFAULT); CYyVbMng acquire (sub_1003B210) of 8*n+4 bytes FVF 0x208; release via vtable+8 and sub_1003B3C0 on error."
+ },
+ {
+  "ea": "0x1002D680",
+  "name": "CYyOs2VtxBuffer_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "Calls base ctor, stores CYyOs2VtxBuffer_vtbl, zeroes buffer fields and creates the vertex shader from g_vsDecl_1628.",
+  "evidence": "*this=&CYyOs2VtxBuffer_vtbl; returns this; CreateVertexShader(&g_vsDecl_1628, NULL, this+100, 0)."
+ },
+ {
+  "ea": "0x1002D700",
+  "name": "CYyOs2VtxBuffer_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable, frees the index shadow, releases the index buffer and pooled VB, deletes the vertex shader, frees other heap blocks, removes itself from a 16-slot global table and calls the base dtor.",
+  "evidence": "*this=&CYyOs2VtxBuffer_vtbl; Release via vtable+8; DeleteVertexShader(this+100); dword_1045B650[16] slot cleared; sole caller CYyOs2VtxBuffer_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1002DC10",
+  "name": "CYyModelDt_SkinAndDrawV2",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Locks the model's position/normal VBs (Sleep(0) retry), runs CPU skinning (sub_1002F1D0), unlocks, then sets texture-factor/stage state and walks the model's command stream issuing SetStreamSource/SetIndices/DrawIndexedPrimitive per material.",
+  "evidence": "VB Lock vtable+0x2C / Unlock +0x30 loops; D3DRS_TEXTUREFACTOR, stage-1 MODULATE TFACTOR ops; command words (0x5453 etc.) dispatching CDx_DrawIndexedPrimitive and CDx_SetLight. DancingMad calls it CYyModelDt_PrepareRenderStateV2 and the recon file uses that name; the code agrees with the skinning start DM describes but also performs the draws, so a draw-oriented name fits better."
+ },
+ {
+  "ea": "0x1002F130",
+  "name": "Gfx_SetStreamSourceCached",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Caches the vertex buffer and stride for stream a1 in global arrays and applies it to the device.",
+  "evidence": "dword_1045B690[a1]=vb; dword_10457554[a1]=stride; calls sub_1002F160 which does SetStreamSource."
+ },
+ {
+  "ea": "0x1002F160",
+  "name": "Gfx_ApplyCachedStreamSource",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "If a vertex buffer is cached for stream a1, calls IDirect3DDevice8::SetStreamSource with it and the cached stride.",
+  "evidence": "SetStreamSource(pDevice, a1, dword_1045B690[a1], dword_10457554[a1])."
+ },
+ {
+  "ea": "0x1002F1A0",
+  "name": "Gfx_ApplyCachedVertexShader",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Calls SetVertexShader with the cached global vertex shader handle if non-zero.",
+  "evidence": "g_vertexShader_B6A0 != 0 -> SetVertexShader(pDevice, g_vertexShader_B6A0)."
+ },
+ {
+  "ea": "0x1002F1C0",
+  "name": "Gfx_SetVertexShaderCached",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Stores a vertex shader handle in the global cache and applies it.",
+  "evidence": "g_vertexShader_B6A0 = a1; return sub_1002F1A0()."
+ },
+ {
+  "ea": "0x1002F1D0",
+  "name": "Model_SkinVerticesCpu",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Software skinning: for each single-bone and two-bone-weighted vertex group, transforms positions/normals by bone matrices from the bone table (64-byte stride) into the locked VB pointers; separate path when model flag bit 0 is set.",
+  "evidence": "Called only from the CYyModelDt draw (sub_1002DC10) between VB Lock and Unlock; uses dword_10457550 (g_boneWeightMatrixTable) + (bone<<6); counts from dword_1045B618 low/high words; helpers sub_100309B0 (1 bone), sub_10030A40 (2 bones); CPU-feature gate sub_1000D680/D6B0."
+ },
+ {
+  "ea": "0x10032FA0",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Builds a temporary matrix from this (sub_10032FE0) and combines it into a2 via sub_10027D10.",
+  "evidence": "Iostream_init is a mislabeled local ctor; only caller CXiSkeletonActor_PoseCompose; helper semantics unknown."
+ },
+ {
+  "ea": "0x10033800",
+  "name": "Model_BeginOffscreenPass",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "When the effect mode is active and a render target exists, saves two texture pointers and a texture factor, pushes this+8 as render target (clearing on first use), sets flat constant-color unlit/no-Z state and a narrow 11.25-degree perspective projection plus view/world transforms.",
+  "evidence": "CDx_PushRenderTarget, CDx_EndClearBegin once (flag this+4); TEXTUREFACTOR 0x80FFFFFF, COLOROP SELECTARG2/TFACTOR; LIGHTING/FOG/ZENABLE/ZWRITE off; D3DXMatrixPerspectiveFovLH(0.19635,1,0.1,65535). Purpose (e.g. projected shadow) not confirmed."
+ },
+ {
+  "ea": "0x10033A70",
+  "name": "Model_EndOffscreenPassBindTextures",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets stage 0/1 blend ops (variant chosen by a2 in 1..2), restores the saved texture factor and, in the offscreen mode, the scene transforms and Z/fog/lighting states, then binds the two textures saved by the begin call to stages 0 and 1.",
+  "evidence": "Pairs with sub_10033800 (same globals dword_1045B800/804, g_texturefactor_B808, word_1045B77A, flt_1045B80C<4.0); SetTransform(PROJECTION/VIEW/WORLD) from g_matrix_*; ZENABLE/ZWRITE/FOG/LIGHTING=1; SetTexture(0/1, tex+64 or tex+68)."
+ },
+ {
+  "ea": "0x10033EA0",
+  "name": "Shadow_SmoothLightDirection",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Frame-rate-scaled lerp of a stored direction (this+8) toward a2 (defaulting to (0.45,-0.9,0) if a2 points up), clamps its elevation to at least 60 degrees below horizontal, then lerps a second vector (this+5) toward it and normalizes.",
+  "evidence": "Rate sub_10014CF0()*0.04 clamped to 1; atan2/sin(1.0471976=60deg) clamp; called per actor from PerActor_FourBucketStaggeredUpdate; same unit as the offscreen-pass functions. 'Shadow' area is inferred."
+ },
+ {
+  "ea": "0x10035B00",
+  "name": "CMoTask_VT_1032A904_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable, and for task kind 1/2/4/8 (this+52) calls the matching finish function with this+68 and clears that kind's global singleton slot before calling the base dtor.",
+  "evidence": "*this=&CMoTask_vtbl_ambiguous1; switch on this+52 clearing dword_1046392C/28/30/34; sole caller CMoTask_VT_1032A904_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x10035F00",
+  "name": "MoTask_KillAllGlobalSlots",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Deletes the four global task singletons (via vtable+24 deleting dtor) and then calls the four per-slot finish functions with a1.",
+  "evidence": "Four if(slot){slot->vtbl[6](slot,1); slot=0;} blocks on dword_1046392C/28/30/34, then sub_10036020/10035F80/10036070/100360C0(a1). The task kinds' meaning is not visible here."
+ },
+ {
+  "ea": "0x10036070",
+  "name": "MoTask_KillGlobalSlot1",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Deletes the kind-1 global task singleton if present and calls its finish function sub_100360A0(a1).",
+  "evidence": "dword_1046392C deleting-dtor via vtable+24 then sub_100360A0(a1); same slot the CMoTask destructor clears for kind 1."
+ },
+ {
+  "ea": "0x100384B0",
+  "name": "Font_QueueText",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Appends a text command (optional scale opcode 3, x, y, zero-terminated string) to the global text queue later drawn by Font_DrawPass.",
+  "evidence": "Writes to dword_10463950 buffer at offset dword_1047B950; strcpy of a1; opcode 3 + scale byte; Font_DrawPass reads the same buffer and opcode 3 as scale*0.25. Callers include Frame_Render."
+ },
+ {
+  "ea": "0x10038520",
+  "name": "Font_DrawPass",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Sets 2D alpha-blended, no-Z/fog/lighting state, draws every queued text string via Font_DrawString, clears the queue and restores blend/Z.",
+  "evidence": "DancingMad 'Font_DrawPass' and recon agree; walks dword_10463950 queue; opcode 3 scale; ALPHABLENDENABLE, ZENABLE/ZWRITEENABLE toggles; caller Frame_Render."
+ },
+ {
+  "ea": "0x10038720",
+  "name": "Font_DrawString",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Draws a string glyph by glyph as textured quads from a 64x128-cell font atlas, advancing x by glyph width and handling newline (16px*scale line height).",
+  "evidence": "Newline 10 handling; UVs (code%64)/64 and (code/64)/128 (0.015625, 0.0078125); SetVertexShader(0x144 = XYZRHW|DIFFUSE|TEX1); CDx_DrawPrimitiveUP(TRIANGLESTRIP,2,...,28)."
+ },
+ {
+  "ea": "0x10038930",
+  "name": "Post_CreateScreenEffectTargets",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Creates a 256x256 render-target texture, and a second one when the env flag at g_pEnv+24 is set (stereo), storing them in globals.",
+  "evidence": "CDx_CreateTexture(0x100,0x100,...) twice into dword_1047B958/95C; AddRef of dword_10456D5C; the same textures are used by sub_10038A80/sub_10038E10."
+ },
+ {
+  "ea": "0x10038A80",
+  "name": "Post_CaptureSceneToTarget",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Copies the current scene texture into the 256x256 effect target with a tinted full quad (alpha blended unless tint alpha is 0x80), plus a second eye copy in stereo mode.",
+  "evidence": "Gated by sub_10193850(200); quad 0..256 with color dword_1047B954; SetVertexShader(0x144); CDx_PushRenderTarget(dword_1047B958) + CDx_DrawPrimitiveUP; CEnv_IsStereoMode branch."
+ },
+ {
+  "ea": "0x10038E10",
+  "name": "Post_DrawRotatingGhostLayers",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Draws the captured effect texture back over the screen multiple times, each pass offset on a circle (angle advancing with time, radius and color from a table), with the last pass alpha-tested and opaque.",
+  "evidence": "Loop count from (+49), per-entry radius*0.0625 and color; sin/cos offsets; angle accumulates via sub_10014CF0 into self[2]; ALPHABLEND SRCALPHA/INVSRCALPHA, ALPHAREF 96; full-screen quad sized from CDx_GetRenderTargetTop."
+ },
+ {
+  "ea": "0x10039810",
+  "name": "Util_Copy16Bytes",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "Copies 16 bytes from a2 to this.",
+  "evidence": "Fixed 16-iteration byte copy; callers include TexRes_LoadBm2 (texture names in this engine are 16-byte fields, cf. CYyTexMng lookup)."
+ },
+ {
+  "ea": "0x100398D0",
+  "name": "CYyTexBase_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the CYyTexBase vtable (empty base destructor).",
+  "evidence": "*this=&CYyTexBase_vtbl_ambiguous0; callers CYyTexBase_ScalarDeletingDtor and CYyTex dtor."
+ },
+ {
+  "ea": "0x100398E0",
+  "name": "CYyTexBase_SetName",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Copies a 16-byte name/key from a2 into this+12.",
+  "evidence": "4 dword copy into this+3; texture-manager lookups compare 16 bytes at entry+12 (sub_1003AC80)."
+ },
+ {
+  "ea": "0x10039970",
+  "name": "CYyTex_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable, unlinks the texture from g_pTextureMng's list, releases its two D3D textures (+64,+68), and calls the base dtor.",
+  "evidence": "*this=&CYyTex_vtbl; sub_1003AB10(g_pTextureMng,this) unlink via next at +56; Release via vtable+8; sole caller CYyTex_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1003AA90",
+  "name": "CYyTexMng_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable and deletes the owned object at this+8 via its deleting destructor.",
+  "evidence": "*this=&CYyTexMng_vtbl; vtable+24 call with 1; sole caller CYyTexMng_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1003AC80",
+  "name": "CYyTexMng_FindByName",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Walks the texture manager's linked list and returns the first texture (not flagged 8) whose 16-byte name at +12 equals a2.",
+  "evidence": "16-byte compare at entry+12; flag test entry+44 & 8; next at +56; 11 callers incl. font/UI loaders. 'type_info::raw_name' is a mislabel for the list head accessor."
+ },
+ {
+  "ea": "0x1003AF10",
+  "name": "CYyTexMng_FindByNameInResource",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Walks a resource chain (type 32 lookups) to find the resource whose 16-byte name matches a2, then returns the texture in the manager list owned by that resource.",
+  "evidence": "sub_10072430(...,32,...) resource walk; 16-byte compare at res+49; texture entry +8 == resource; callers CYyModelDt_PrepareRenderState and the V2 draw."
+ },
+ {
+  "ea": "0x1003B210",
+  "name": "CYyVbMng_AcquireVertexBuffer",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Rounds the size up to 2000 bytes and reuses a free pooled vertex buffer of matching FVF/usage/pool (aging and evicting unused ones when over 300), otherwise creates a new D3D vertex buffer and wraps it in a CYyVb.",
+  "evidence": "Round-up 2000*ceil(n/2000); list g_pVertexBufferListHead; CreateVertexBuffer(size,a3,a4,pool,out); new CYyVb via sub_1003B450; parallel-session note 'Dev_CreateVertexBuffer'."
+ },
+ {
+  "ea": "0x1003B3C0",
+  "name": "CYyVbMng_ReleaseVertexBuffer",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Finds the pooled entry in use (state 3) holding the given D3D vertex buffer and decrements its state, returning it to the pool.",
+  "evidence": "Match result[1]==3 && result[7]==*a1; --result[1]; acquire sets state 3; callers include CYyOs2VtxBuffer dtor/create."
+ },
+ {
+  "ea": "0x1003B450",
+  "name": "CYyVb_Constructor",
+  "confidence": "high",
+  "kind": "ctor",
+  "summary": "Stores CYyVb vtable, links it (sub_1003B4D0), and records size, FVF, usage, pool, in-use state 3 and the D3D VB pointer.",
+  "evidence": "*this=&CYyVb_vtbl; returns this; fields 3..7 from args; sole caller CYyVbMng_AcquireVertexBuffer."
+ },
+ {
+  "ea": "0x1003B640",
+  "name": "CMoAttachments_Reset",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Clears the caster/target pointers and auxiliary fields and resets both handle members to their default values.",
+  "evidence": "Zeros this+3,+4,+11,+12,+13; sub_10081530 on this+5 and this+8 (the caster/target handle slots used by sub_1003B750/B780); callers include CMoCamera_SetPathData and CMoGeneratorClone."
+ },
+ {
+  "ea": "0x1003B750",
+  "name": "CMoAttachments_ClearCaster",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Optionally unlinks from the current caster, then nulls the caster pointer (this+3) and resets its handle.",
+  "evidence": "a2 -> sub_1003C6E0; *(this+3)=0; callers include CXiAtelActor_UnlinkCasterAttachments."
+ },
+ {
+  "ea": "0x1003B780",
+  "name": "CMoAttachments_ClearTarget",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "Optionally unlinks from the current target, then nulls the target pointer (this+4) and resets its handle.",
+  "evidence": "a2 -> sub_1003C700; *(this+4)=0; callers include CXiAtelActor_UnlinkTargetAttachments."
+ },
+ {
+  "ea": "0x1003B7B0",
+  "name": "CMoAttachments_SetCaster",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "If the caster changes, notifies the old caster (vtable+1000 detach), stores the new caster at this+3, captures its handle and registers this attachment with it.",
+  "evidence": "Mirror of ClearCaster's fields (+3, +5); old->vtbl[250](old,this); sub_10085D50(new,this); 42 callers."
+ },
+ {
+  "ea": "0x1003B830",
+  "name": "CMoAttachments_SetTarget",
+  "confidence": "high",
+  "kind": "semantic",
+  "summary": "If the target changes, notifies the old target (vtable+1004 detach), stores the new target at this+4, captures its handle and registers this attachment with it.",
+  "evidence": "Mirror of ClearTarget's fields (+4, +8); old->vtbl[251](old,this); sub_10085D60(new,this); 38 callers."
+ },
+ {
+  "ea": "0x1003D030",
+  "name": "CMoCameraTask_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable and mixin vtable, frees owned path data and buffer, clears the global current-camera-task pointer if it is this, and calls the base dtor.",
+  "evidence": "*a1=&CMoCameraTask_vtbl; a1[13]=mixin; dword_1047B980==this -> 0; sole caller CMoCameraTask_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1003D640",
+  "name": "Sky_DrawGradientDome",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Generates and draws a dome of radius a1 in horizontal bands between elevation keys, a3 segments around, interpolating vertex colors between the key colors, as triangle strips.",
+  "evidence": "Angles key*pi/2 (1.570796), segments 2pi/a3 (6.283); band subdivision (delta*12.05); vertex xyz+color written to dword_1047BBA0; draw sub_10043F40(...,2*a3,5=TRISTRIP); callers are the two sky routines that pass 8 zone colors/heights."
+ },
+ {
+  "ea": "0x1003D980",
+  "name": "CMoCelestial_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the CMoCelestial vtable (empty destructor body).",
+  "evidence": "*this=&CMoCelestial_vtbl; sole caller CMoCelestial_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1003D9A0",
+  "name": "Sky_DrawDome",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "If the zone environment has more than 2 sky bands, sets the sky shader and view, converts 8 sky colors, draws the gradient dome with radius far-near-1, then restores render states.",
+  "evidence": "g_pXiZone+24 env block +76: colors at +32, heights at +64, band count +18; static shader via sub_1006AE30; sub_1003D640; SetRenderState via device vtable+200: ALPHABLENDENABLE 0, LIGHTING 1, FOG 0, CULLMODE 1, ZWRITEENABLE 1; no direct callers (indirect)."
+ },
+ {
+  "ea": "0x1003DB50",
+  "name": "Sky_DestroyDomeShaderStatic",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "atexit handler that destroys the function-local static shader object used by Sky_DrawDome.",
+  "evidence": "Registered via atexit in sub_1003D9A0 for dword_1047B988; body sub_1006ADB0(dword_1047B988). IDA libname match is a false library ID."
+ },
+ {
+  "ea": "0x1003DB60",
+  "name": "Sky_DrawDomeViewCentered",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Variant of the sky draw that builds a view matrix with translation removed (camera-centered), draws the gradient dome at 0.8*(far-near), then restores render states and the scratch matrix stack.",
+  "evidence": "Copies resource matrices +2896/+3408, zeros row 3 translation (v3[12..14]=0, [15]=1); radius *0.8; same zone sky block and render-state restore as Sky_DrawDome; caller sub_1018B860."
+ },
+ {
+  "ea": "0x1003DDF0",
+  "name": "Sky_DestroyViewCenteredShaderStatic",
+  "confidence": "medium",
+  "kind": "mechanical",
+  "summary": "atexit handler that destroys the static shader object used by the view-centered sky draw.",
+  "evidence": "Registered via atexit in sub_1003DB60 for dword_1047B994; body sub_1006ADB0(dword_1047B994)."
+ },
+ {
+  "ea": "0x1003E280",
+  "name": "Color_SetFromU32SwapRB",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "Stores a 32-bit color into 4 bytes with red and blue swapped (ARGB <-> ABGR byte order).",
+  "evidence": "this[2]=b0, this[1]=b1, this[0]=b2, this[3]=b3; used to convert the zone sky colors."
+ },
+ {
+  "ea": "0x1003E2A0",
+  "name": "Color_CopySwapRB",
+  "confidence": "high",
+  "kind": "mechanical",
+  "summary": "Copies a 4-byte color from a2 swapping bytes 0 and 2 (red/blue).",
+  "evidence": "this[2]=a2[0], this[1]=a2[1], this[0]=a2[2], this[3]=a2[3]."
+ },
+ {
+  "ea": "0x1003EF20",
+  "name": "CMoVuAnmElem_Destructor",
+  "confidence": "high",
+  "kind": "dtor",
+  "summary": "Restores the vtable, frees the optional animation buffer, releases sub-objects and runs the shared CMoElem cleanup.",
+  "evidence": "*this=&CMoVuAnmElem_vtbl; flag +476 guards free of +557; CMoElemFamily_SharedCleanup; sole caller CMoVuAnmElem_ScalarDeletingDtor."
+ },
+ {
+  "ea": "0x1003FCB0",
+  "name": null,
+  "confidence": "low",
+  "kind": "semantic",
+  "summary": "Returns true when field +52 is 0 and the element type (flags+48 & 0xF) is 5..7.",
+  "evidence": "Type 5..7 also selects the array path in sub_1003FD70; used by the distorted-mesh draw to decide strip offsets."
+ },
+ {
+  "ea": "0x1003FD70",
+  "name": "MoElem_GetVertexData",
+  "confidence": "medium",
+  "kind": "accessor",
+  "summary": "Returns this+128 for element types outside 5..7, otherwise the 16-byte entry indexed by +52 in the array from sub_1003FCF0.",
+  "evidence": "(flags+48 & 0xF) range check; callers include SubmitVertices methods and CMoDistModelElem_BuildDistortedMesh."
+ },
+ {
+  "ea": "0x10040670",
+  "name": "CMoDistModelElem_DrawMesh",
+  "confidence": "medium",
+  "kind": "semantic",
+  "summary": "Sets alpha test/texture factor and the element's shader constants and transforms, then draws the distorted model mesh as triangle lists, handling the type-5..7 offset case, and restores states.",
+  "evidence": "Device SetRenderState via vtable+200: ALPHATESTENABLE(15), ALPHAFUNC(25)=5, ALPHAREF(24)=96, TEXTUREFACTOR(60); static shaders via sub_1006AF90; draws sub_10043F40(...,4=TRILIST); sole caller CMoDistModelElem_BuildDistortedMesh."
+ }
+]

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10284A80  (unit unit_10284900: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 30 returned normally, 16 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10284A80(void)
+XI_API int __cdecl sqgxVertexShaderSelect(void)
 {
   int v0;
   int v1;
@@ -35,7 +35,7 @@ XI_API int __cdecl fn_10284A80(void)
 LABEL_8:
     dword_103B5910[2 * g_counter_109A2744] = v0;
     dword_103B5914[2 * v5] = v1;
-    orig::sub_10284950((_DWORD *)(4 * v5 + 272320784));
+    orig::sqgxVertexShaderCreate((_DWORD *)(4 * v5 + 272320784));
     return ++g_counter_109A2744;
   }
   else

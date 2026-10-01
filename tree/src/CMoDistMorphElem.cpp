@@ -41,7 +41,7 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
   v5 = at<uint16_t>(this, 0x34);
   if ( v5 > v4 )
     v4 = v5;
-  v30 = orig::sub_10028640(36 * v4, 4);
+  v30 = orig::Mem_AllocObject(36 * v4, 4);
   v6 = 0;
   v7 = 0.0;
   v8 = (char)(2 * this->field_32) >> 1;
@@ -206,20 +206,20 @@ char CMoDistMorphElem::UpdateMorphBlend()
       ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
       v7 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
       g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
-      orig::sub_100746A0(v7);
+      orig::MoProcessor_CallVSlot49(v7);
       v8 = *v5;
       v7[13] = *v5;
       v7[12] = v8;
       v9 = g_pProcessor->ScratchMatrixStackTop;
       v10 = g_pProcessor->ScratchMatrixFreeList[v9];
       g_pProcessor->ScratchMatrixStackTop = v9 + 1;
-      orig::sub_1006A4A0((int *)g_pResourceMng, v10);
+      orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v10);
       (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
         g_pProcessor,
         v7,
         v7,
         v10);
-      orig::sub_1006A480((_DWORD ***)g_pResourceMng, v7);
+      orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v7);
       orig::CMoDistMorphElem_ApplyMorph(
         v15,
         (int)self,

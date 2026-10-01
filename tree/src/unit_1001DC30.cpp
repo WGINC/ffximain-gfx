@@ -3,34 +3,34 @@
 
 // FUNCTION: FFXIMAIN 0x1001DC70  (unit unit_1001DC30: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 56 returned normally, 27 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1001DC70(void *self_, int a1, int a2)
+XI_API int __thiscall Tex_DrawNamedTexturePreview(void *self_, int a1, int a2)
 {
   int result;
   int v5;
   IDirect3DBaseTexture8 *v6;
   int v7;
   char v8[20];
-  orig::sub_10039810(v8, (int)self_ + 49);
+  orig::Util_Copy16Bytes(v8, (int)self_ + 49);
   v8[16] = 0;
   result = (int)orig::TexMgr_FindByName(g_pTextureMng, (int)v8, (int)self_, 0);
   v5 = result;
   if ( result != 0 )
   {
-    orig::sub_100384B0(v8, a1, a2, 0);
+    orig::Font_QueueText(v8, a1, a2, 0);
     if ( *(_DWORD *)(v5 + 64) != 0 )
       v6 = *(IDirect3DBaseTexture8 **)(v5 + 64);
     else
       v6 = *(IDirect3DBaseTexture8 **)(v5 + 68);
     g_pCDx->pDevice->SetTexture(0, v6);
     *(float *)&v7 = *(float *)&a2 + 16.0;
-    return orig::sub_1001DD00(a1, v7);
+    return orig::Gfx_DrawScreenQuad256(a1, v7);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x1001DD00  (unit unit_1001DC30: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_1001DD00(int a1, int a2)
+XI_API int __stdcall Gfx_DrawScreenQuad256(int a1, int a2)
 {
   int a3[7];
   float v4;

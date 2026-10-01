@@ -7,7 +7,7 @@
 void * CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
-  orig::sub_10048000((int)self);
+  orig::CMoGeneratorClone_VT_1032B114_Destructor((int)self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

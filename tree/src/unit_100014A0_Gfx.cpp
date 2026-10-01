@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10002040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 4 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API char __cdecl fn_10002040(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
+XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
 {
   unsigned __int16 v4;
   unsigned __int16 v5;
@@ -42,7 +42,7 @@ XI_API char __cdecl fn_10002040(struct IDirect3DSurface8 *a1, const struct tagRE
 
 // FUNCTION: FFXIMAIN 0x10002BE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned __int8 __cdecl fn_10002BE0(void)
+XI_API unsigned __int8 __cdecl Gfx_IsGammaSupported(void)
 {
   if ( g_pCDx != nullptr )
     return g_pCDx->_pad_10[2309];
@@ -52,18 +52,18 @@ XI_API unsigned __int8 __cdecl fn_10002BE0(void)
 
 // FUNCTION: FFXIMAIN 0x10002C00  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API CDx * __cdecl fn_10002C00(int a1, int a2, int a3)
+XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 {
   CDx *result;
   result = g_pCDx;
   if ( g_pCDx != nullptr )
-    return (CDx *)orig::sub_100170A0(&g_pCDx->_pad_10[484], a1, a2, a3);
+    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], a1, a2, a3);
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10002C30  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API CDx * __cdecl fn_10002C30(int a1)
+XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 {
   CDx *result;
   int v2;
@@ -72,16 +72,16 @@ XI_API CDx * __cdecl fn_10002C30(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::sub_100170D0(&g_pCDx->_pad_10[484], &v2, &v4, &v3);
+    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v2, &v4, &v3);
     v2 = a1;
-    return orig::sub_10002C00(a1, v4, v3);
+    return orig::Gfx_SetGammaRGB(a1, v4, v3);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10002C80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API CDx * __cdecl fn_10002C80(int a1)
+XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 {
   CDx *result;
   int v2;
@@ -90,16 +90,16 @@ XI_API CDx * __cdecl fn_10002C80(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::sub_100170D0(&g_pCDx->_pad_10[484], &v4, &v2, &v3);
+    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v4, &v2, &v3);
     v2 = a1;
-    return orig::sub_10002C00(v4, a1, v3);
+    return orig::Gfx_SetGammaRGB(v4, a1, v3);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10002CD0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API CDx * __cdecl fn_10002CD0(int a1)
+XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 {
   CDx *result;
   int v2;
@@ -108,21 +108,21 @@ XI_API CDx * __cdecl fn_10002CD0(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::sub_100170D0(&g_pCDx->_pad_10[484], &v4, &v3, &v2);
+    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v4, &v3, &v2);
     v2 = a1;
-    return orig::sub_10002C00(v4, v3, a1);
+    return orig::Gfx_SetGammaRGB(v4, v3, a1);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10002D20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10002D20(int a1, int a2, int a3)
+XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 {
   int result;
   result = (int)g_pCDx;
   if ( g_pCDx != nullptr )
-    return orig::sub_100170D0(&g_pCDx->_pad_10[484], (_DWORD *)a1, (_DWORD *)a2, (_DWORD *)a3);
+    return orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], (_DWORD *)a1, (_DWORD *)a2, (_DWORD *)a3);
   return result;
 }
 
@@ -140,11 +140,11 @@ XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5
   v5 = orig::Allocator_Generic(0x478u);
   if ( v5 != nullptr )
   {
-    v6 = (D3DHolder *)orig::sub_10003070(v5);
+    v6 = (D3DHolder *)orig::D3DHolder_Constructor(v5);
     g_pD3DHolder = v6;
     if ( v6 != nullptr )
     {
-      v11 = orig::sub_10003110(v6, a1, a2, a3, a4, a5);
+      v11 = orig::D3DHolder_Initialize(v6, a1, a2, a3, a4, a5);
       if ( v11 != 0 && a5 == 1 )
       {
         v7 = g_pD3DHolder;
@@ -296,8 +296,11 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
         return 0;
       v10 = v14;
     }
-    if ( orig::sub_10003460(self_, v14, v10, v11) && orig::Gfx_CreateDevice(self_, a2, v10, v11, a3, a4, a5, a6, a7) != 0 )
+    if ( orig::D3DHolder_CheckDepthFormat(self_, v14, v10, v11)
+      && orig::Gfx_CreateDevice(self_, a2, v10, v11, a3, a4, a5, a6, a7) != 0 )
+    {
       break;
+    }
   }
   return 1;
 }

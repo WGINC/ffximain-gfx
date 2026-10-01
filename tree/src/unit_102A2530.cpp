@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 57 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2530(int a1, int a2)
+XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
 {
   int *v3;
   float *v4;
@@ -39,11 +39,11 @@ XI_API void __cdecl fn_102A2530(int a1, int a2)
     *(float *)&v22 = 1.0 - v4[6];
     v21 = 1.0 - v4[5];
     orig::PackVec4((int)v24, v21, v22, v23, 1065353216);
-    orig::sub_10283380(1.0);
-    orig::sub_10283110();
+    orig::sqgxSetCtxField768(1.0);
+    orig::sqgxBlendMul();
     orig::sqgxColor(v24);
-    orig::sub_10283F70(4);
-    orig::sub_10282470(0);
+    orig::sqgxZBiasAdd(4);
+    orig::sqgxSetZWrite(0);
     orig::sqgxZTest(0);
     v6 = *(float *)(a1 + 56);
     v7 = v6 < 0.9999;
@@ -68,8 +68,8 @@ XI_API void __cdecl fn_102A2530(int a1, int a2)
       {
         v26 = *v15;
         orig::sqgxContext_SelectShaderMode(0x80000000, 0);
-        orig::sub_10283E00(*(_DWORD **)(*(_DWORD *)(*(_DWORD *)(a1 + 72) + v12 + 40) + v11 + 4));
-        orig::sub_10285850(v26);
+        orig::sqgxMatrixWorld(*(_DWORD **)(*(_DWORD *)(*(_DWORD *)(a1 + 72) + v12 + 40) + v11 + 4));
+        orig::sqCallHook30(v26);
         v10 = i;
       }
       ++v10;
@@ -82,10 +82,10 @@ XI_API void __cdecl fn_102A2530(int a1, int a2)
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
     else
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-    orig::sub_102823B0(0, 0);
-    orig::sub_10283F70(-4);
+    orig::sqgxSetContextField8F0Pair(0, 0);
+    orig::sqgxZBiasAdd(-4);
     orig::sqgxBlendOff();
-    orig::sub_10282470(1);
+    orig::sqgxSetZWrite(1);
     orig::sqgxZTest(1);
   }
 }

@@ -3,11 +3,11 @@
 
 // FUNCTION: FFXIMAIN 0x100157E0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100157E0(int a1, int a2)
+XI_API int __cdecl App_WinMain(int a1, int a2)
 {
   int v2;
   int v3;
-  HWND v4;
+  HWND MainWindow;
   int v5;
   char v6;
   int v8;
@@ -15,49 +15,49 @@ XI_API int __cdecl fn_100157E0(int a1, int a2)
   v8 = -2005467136;
   g_pSceneState = (int)&dword_10456984;
   dword_10456A2C = dword_104569B4;
-  if ( orig::sub_10001E00((const char *)dword_104569B0) != 0 )
+  if ( orig::App_SetCommandLine((const char *)dword_104569B0) != 0 )
   {
     *(_DWORD *)(g_pSceneState + 8) = dword_104569D0;
     *(_DWORD *)(g_pSceneState + 4) = phkResult;
-    *(_DWORD *)(g_pSceneState + 12) = orig::sub_1031077E();
+    *(_DWORD *)(g_pSceneState + 12) = orig::Thunk_FnTable694();
     *(_DWORD *)(g_pSceneState + 24) ^= ((unsigned __int8)*(_DWORD *)(g_pSceneState + 24)
                                       ^ (unsigned __int8)((_BYTE)dword_104569F4 << 7))
                                      & 0x80;
-    if ( orig::sub_10002B20() != 0 )
+    if ( orig::App_CreateConfig() != 0 )
     {
       *(_DWORD *)(g_pSceneState + 24) ^= ((unsigned __int8)*(_DWORD *)(g_pSceneState + 24)
                                         ^ (unsigned __int8)((_BYTE)dword_104569F4 << 7))
                                        & 0x80;
-      if ( orig::sub_100160C0(phkResult) )
-        orig::sub_10016490((int)&unk_1035055E);
+      if ( orig::App_IsRegistryFlagSet(phkResult) )
+        orig::App_SetGlobal_104569E8((int)&unk_1035055E);
       else
-        orig::sub_10016490((int)&unk_1035055C);
-      if ( orig::sub_10015CB0() != 0 && orig::sub_10015F80() != 0 )
+        orig::App_SetGlobal_104569E8((int)&unk_1035055C);
+      if ( orig::App_InitDataPaths() != 0 && orig::App_CheckOSVersion() != 0 )
       {
         v2 = yBottom;
         v3 = xRight;
-        v4 = orig::sub_100165B0(
-               aFinalFantasyXi,
-               ClassName,
-               hmod,
-               (const char *)dword_104569B8,
-               g_timeOfDayTintEnabled,
-               xRight,
-               yBottom);
-        hWnd = v4;
-        if ( v4 != nullptr )
+        MainWindow = orig::App_CreateMainWindow(
+                       aFinalFantasyXi,
+                       ClassName,
+                       hmod,
+                       (const char *)dword_104569B8,
+                       g_windowMode,
+                       xRight,
+                       yBottom);
+        hWnd = MainWindow;
+        if ( MainWindow != nullptr )
         {
-          v5 = (int)v4;
+          v5 = (int)MainWindow;
           if ( byte_104569EC == 1 )
           {
-            if ( orig::sub_10016E40((int)v4, (const char *)dword_104569B8) != 0 )
+            if ( orig::App_LoadImeUiDll((int)MainWindow, (const char *)dword_104569B8) != 0 )
             {
               if ( byte_104569EC == 1 )
               {
-                if ( orig::sub_10016F60((int)hWnd, (const char *)dword_104569B8) != 0 )
+                if ( orig::App_LoadKeyInputDll((int)hWnd, (const char *)dword_104569B8) != 0 )
                 {
                   if ( byte_104569EC == 1 )
-                    orig::sub_10016F40();
+                    orig::App_EnableImeUi();
                 }
                 else
                 {
@@ -70,25 +70,25 @@ XI_API int __cdecl fn_100157E0(int a1, int a2)
               byte_104569EC = 0;
             }
           }
-          v6 = g_timeOfDayTintEnabled == 0;
-          if ( orig::Gfx_CreateD3DHolder(v5, v3, v2, g_timeOfDayTintEnabled == 0, *(_DWORD *)(dword_103D3CB8 + 88) != 0) == 0 )
+          v6 = g_windowMode == 0;
+          if ( orig::Gfx_CreateD3DHolder(v5, v3, v2, g_windowMode == 0, *(_DWORD *)(dword_103D3CB8 + 88) != 0) == 0 )
           {
-            orig::sub_10003040();
-            orig::sub_100164C0(0);
+            orig::Gfx_DestroyD3DHolder();
+            orig::App_SetErrorCode(0);
             if ( orig::Gfx_CreateD3DHolder(v5, xRight, yBottom, v6, 1) == 0 )
               goto LABEL_24;
             *(_DWORD *)(dword_103D3CB8 + 88) = 1;
             if ( g_pD3DHolder->_rest[1128] == 0 )
             {
-              orig::sub_100164C0(2001);
+              orig::App_SetErrorCode(2001);
               goto LABEL_24;
             }
             *(_DWORD *)(dword_103D3CB8 + 92) = 1;
           }
-          if ( dword_10456A88 == 0 || orig::sub_10016150() != 0 )
+          if ( dword_10456A88 == 0 || orig::App_InitSoundSystem() != 0 )
           {
-            orig::sub_10002460();
-            v8 = orig::sub_10015AB0(a1, a2);
+            orig::App_DetectDat11();
+            v8 = orig::App_RunWithCOM(a1, a2);
           }
         }
       }
@@ -97,23 +97,23 @@ XI_API int __cdecl fn_100157E0(int a1, int a2)
 LABEL_24:
   if ( dword_10456A88 != 0 )
     orig::thunk_sub_10035900();
-  orig::sub_10003040();
+  orig::Gfx_DestroyD3DHolder();
   if ( byte_104569EC == 1 )
   {
-    orig::sub_10016F10();
-    orig::sub_10016FF0();
+    orig::App_UninitImeUi();
+    orig::App_UnloadKeyInputDll();
   }
-  orig::sub_10016820((int)aFinalFantasyXi, ClassName, hmod, hWnd);
+  orig::App_DestroyMainWindow((int)aFinalFantasyXi, ClassName, hmod, hWnd);
   hWnd = nullptr;
-  orig::sub_10015F50();
-  orig::sub_10002BC0();
-  orig::sub_10001E10();
+  orig::App_DestroyDataPaths();
+  orig::App_DestroyConfig();
+  orig::App_FreeCommandLine();
   return v8;
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __cdecl fn_100161B0(void)
+XI_API char __cdecl App_CreateRendererAndApp(void)
 {
   CDx *v0;
   CDx *v1;
@@ -122,9 +122,9 @@ XI_API char __cdecl fn_100161B0(void)
   int *v5;
   int v6;
   int v7;
-  orig::sub_1015D900((int)word_10621838);
-  orig::sub_101201C0(dword_104E1BF8);
-  v0 = (CDx *)orig::sub_1002C890(2640);
+  orig::MenuMng_Init((int)word_10621838);
+  orig::ShapeMng_Init(dword_104E1BF8);
+  v0 = (CDx *)orig::Mem_AllocDefault(2640);
   if ( v0 == nullptr )
   {
     g_pCDx = nullptr;
@@ -140,15 +140,15 @@ XI_API char __cdecl fn_100161B0(void)
   (*(void (__stdcall **)(int))(*(_DWORD *)v7 + 8))(v7);
   g_pCDx->pDevice->GetDepthStencilSurface((IDirect3DSurface8 **)&v6);
   (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 8))(v6);
-  if ( orig::sub_10009620(g_pCDx, 0, v7, v6) == 0 )
+  if ( orig::CDx_SetDefaultRenderTargets(g_pCDx, 0, v7, v6) == 0 )
     return 0;
-  v2 = orig::sub_1002C890(68);
+  v2 = orig::Mem_AllocDefault(68);
   if ( v2 == nullptr )
   {
     dword_103D3C64 = nullptr;
     return 0;
   }
-  v3 = (void *)orig::sub_10001240(
+  v3 = (void *)orig::CApp_Constructor(
                  (int)v2,
                  dword_104569B8,
                  hmod,
@@ -158,7 +158,7 @@ XI_API char __cdecl fn_100161B0(void)
   dword_103D3C64 = v3;
   if ( v3 == nullptr )
     return 0;
-  orig::sub_10019140();
+  orig::App_BeginTimerPeriod();
   v5 = (int *)&unk_10456A00;
   do
     *v5++ = (int)orig::sub_100191D0();
@@ -168,7 +168,7 @@ XI_API char __cdecl fn_100161B0(void)
 
 // FUNCTION: FFXIMAIN 0x10017230  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10017230(int self_)
+XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
 {
   char v2;
   IDirect3DDevice8 *pDevice;
@@ -192,8 +192,8 @@ XI_API void __thiscall fn_10017230(int self_)
   {
     *(_DWORD *)(self_ + 1560) = *(_DWORD *)(self_ + 1548);
   }
-  orig::sub_10017160((float *)self_);
+  orig::GammaRamp_BuildRamps((float *)self_);
   pDevice = g_pCDx->pDevice;
-  if ( pDevice != nullptr && g_timeOfDayTintEnabled == 0 )
+  if ( pDevice != nullptr && g_windowMode == 0 )
     pDevice->SetGammaRamp(0, (void *)(self_ + 4));
 }

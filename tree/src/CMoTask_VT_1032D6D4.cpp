@@ -7,7 +7,7 @@
 _DWORD * CMoTask_VT_1032D6D4::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::sub_100A2810(self);
+  orig::CMoTask_VT_1032D6D4_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

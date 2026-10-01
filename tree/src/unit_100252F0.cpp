@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10025330  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1672 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_10025330(_DWORD *self_, int *a2, int a3, _DWORD *a4)
+XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD *a4)
 {
   _DWORD v6[16];
   orig::fn_10027990((Iostream_init *)v6);
@@ -50,12 +50,12 @@ XI_API char __thiscall fn_10025330(_DWORD *self_, int *a2, int a3, _DWORD *a4)
 
 // FUNCTION: FFXIMAIN 0x100255C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1314 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100255C0(void *self_, int a1)
+XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 {
   int result;
   IDirect3DDevice8 *pDevice;
   IDirect3DDevice8 v4;
-  IDirect3DBaseTexture8 *v5;
+  IDirect3DBaseTexture8 *D3DTexture;
   IDirect3DDevice8 *v6;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int v8;
@@ -66,8 +66,8 @@ XI_API int __thiscall fn_100255C0(void *self_, int a1)
     {
       pDevice = g_pCDx->pDevice;
       v4.lpVtbl = pDevice->lpVtbl;
-      v5 = (IDirect3DBaseTexture8 *)orig::sub_10025860((_DWORD *)dword_10456E58);
-      v4.lpVtbl->SetTexture(pDevice, 0, v5);
+      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E58);
+      v4.lpVtbl->SetTexture(pDevice, 0, D3DTexture);
     }
     else
     {
@@ -77,7 +77,7 @@ XI_API int __thiscall fn_100255C0(void *self_, int a1)
     {
       v6 = g_pCDx->pDevice;
       lpVtbl = v6->lpVtbl;
-      v8 = orig::sub_10025860((_DWORD *)dword_10456E5C);
+      v8 = orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E5C);
       lpVtbl->SetTexture(v6, 1u, (IDirect3DBaseTexture8 *)v8);
     }
     else
@@ -123,7 +123,7 @@ XI_API int __thiscall fn_100255C0(void *self_, int a1)
 
 // FUNCTION: FFXIMAIN 0x10025870  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 30 returned normally, 18 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10025870(void *self_, int a1, int a2, int a3, int a4)
+XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a3, int a4)
 {
   __int64 v6; // rcx
   int result;
@@ -218,9 +218,9 @@ XI_API int __thiscall fn_10025870(void *self_, int a1, int a2, int a3, int a4)
 
 // FUNCTION: FFXIMAIN 0x10025C40  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 59 returned normally, 1504 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __stdcall fn_10025C40(int *a1, int a2, float *a3)
+XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
-  _DWORD v4[16];
+  float v4[16];
   orig::fn_10027990((Iostream_init *)v4);
   if ( dword_10456E88 != 0 )
   {
@@ -228,17 +228,17 @@ XI_API char __stdcall fn_10025C40(int *a1, int a2, float *a3)
     dword_10456E84 = a1[1];
     dword_10456E7C = a2;
     if ( *(_DWORD *)dword_10456E88 != 0 )
-      orig::sub_10075960((int *)(*(_DWORD *)dword_10456E88 + 48), 0);
+      orig::TexRef_SetTexture((int *)(*(_DWORD *)dword_10456E88 + 48), 0);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
     if ( *(_DWORD *)(dword_103D3CB8 + 92) == 0 && dword_10456A74 == 0 )
       g_pCDx->pDevice->SetRenderState(D3DRS_WRAP0, 7u);
-    orig::sub_100279B0(v4);
-    v4[12] = dword_10456E74;
-    v4[13] = dword_10456E78;
-    orig::sub_10027E90(v4, a3);
+    orig::Mat4_SetIdentity(v4);
+    LODWORD(v4[12]) = dword_10456E74;
+    LODWORD(v4[13]) = dword_10456E78;
+    orig::Mat4_PreMultiply(v4, a3);
     g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -273,12 +273,12 @@ XI_API char __stdcall fn_10025C40(int *a1, int a2, float *a3)
 
 // FUNCTION: FFXIMAIN 0x10025F70  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1710 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_10025F70(int a1)
+XI_API int __stdcall EnvMap_EndPass(int a1)
 {
   int result;
   IDirect3DDevice8 *pDevice;
   IDirect3DDevice8 v3;
-  IDirect3DBaseTexture8 *v4;
+  IDirect3DBaseTexture8 *D3DTexture;
   IDirect3DDevice8 *v5;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int v7;
@@ -289,8 +289,8 @@ XI_API int __stdcall fn_10025F70(int a1)
     {
       pDevice = g_pCDx->pDevice;
       v3.lpVtbl = pDevice->lpVtbl;
-      v4 = (IDirect3DBaseTexture8 *)orig::sub_10025860((_DWORD *)dword_10456E80);
-      v3.lpVtbl->SetTexture(pDevice, 0, v4);
+      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E80);
+      v3.lpVtbl->SetTexture(pDevice, 0, D3DTexture);
     }
     else
     {
@@ -300,7 +300,7 @@ XI_API int __stdcall fn_10025F70(int a1)
     {
       v5 = g_pCDx->pDevice;
       lpVtbl = v5->lpVtbl;
-      v7 = orig::sub_10025860((_DWORD *)dword_10456E84);
+      v7 = orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E84);
       lpVtbl->SetTexture(v5, 1u, (IDirect3DBaseTexture8 *)v7);
     }
     else
@@ -346,7 +346,7 @@ XI_API int __stdcall fn_10025F70(int a1)
 
 // FUNCTION: FFXIMAIN 0x100262C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 3400 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100262C0(void)
+XI_API void __cdecl Dbg_DrawGroundGrid(void)
 {
   int v0;
   int v1;
@@ -402,7 +402,7 @@ XI_API void __cdecl fn_100262C0(void)
 
 // FUNCTION: FFXIMAIN 0x100263F0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100263F0(void)
+XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 {
   int a3[3];
   int v1;
@@ -431,13 +431,13 @@ XI_API void __cdecl fn_100263F0(void)
   v7[2] = 1065353216;
   orig::CDx_GetTransformCached(g_pCDx, 256, v10);
   orig::CDx_GetTransformCached(g_pCDx, 2, v8);
-  orig::sub_100283C0((int *)v8);
+  orig::Mat4_InvertOrthonormal((int *)v8);
   v6[0] = 0.0;
   v6[1] = 0.0;
   v6[2] = -4.0;
-  orig::sub_10028200(v8, v6);
-  orig::sub_10027B30(v9, v7);
-  orig::sub_10027CF0(v9, v6);
+  orig::Mat4_TransformPointInPlace(v8, v6);
+  orig::Mat4_SetScale(v9, v7);
+  orig::Mat4_SetTranslation(v9, v6);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);
   memset(a3, 0, sizeof(a3));
   v2 = 1065353216;
@@ -469,7 +469,7 @@ XI_API void __cdecl fn_100263F0(void)
 
 // FUNCTION: FFXIMAIN 0x100266C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_100266C0(int a1)
+XI_API void __stdcall Dbg_DrawAxesAt(int a1)
 {
   int a3[3];
   int v2;
@@ -484,8 +484,8 @@ XI_API void __stdcall fn_100266C0(int a1)
   orig::fn_10027990((Iostream_init *)v8);
   orig::fn_10027990((Iostream_init *)v9);
   orig::CDx_GetTransformCached(g_pCDx, 256, v8);
-  orig::sub_100279B0(v7);
-  orig::sub_10027CF0(v7, (_DWORD *)a1);
+  orig::Mat4_SetIdentity(v7);
+  orig::Mat4_SetTranslation(v7, (_DWORD *)a1);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v7);
   memset(a3, 0, sizeof(a3));
   v2 = -2139095040;

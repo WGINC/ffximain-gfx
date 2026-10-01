@@ -13,5 +13,5 @@ int CMoTask_VT_1032B95C::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoTask_VT_1032B95C::vf012(int a1)
 {
-  return (int)orig::sub_1005F2C0((_DWORD *)this - 13, a1);
+  return (int)orig::CMoPathDriveActorTask_ScalarDeletingDtor((_DWORD *)this - 13, a1);
 }

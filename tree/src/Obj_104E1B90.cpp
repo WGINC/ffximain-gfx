@@ -4,35 +4,35 @@
 
 // FUNCTION: FFXIMAIN 0x1011C080  (placed by callers pass the object in dword_104E1B90 as this (3 of 3 call sites); singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified)
 // GATE: PASS -- 100 trials, 54 returned normally, 108 D3D calls compared (diffemu_gfx, clean build)
-int Obj_104E1B90::fn_1011C080(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v9;
   int v11;
-  __int16 v12;
+  __int16 Char;
   int v13;
   int v15;
   v9 = a6;
-  orig::sub_1011C1F0(1, a6 & 3, (a6 >> 2) & 3, (a6 >> 6) & 3);
+  orig::Gfx_SetCellBlendMode(1, a6 & 3, (a6 >> 2) & 3, (a6 >> 6) & 3);
   dword_104E1B88 = a1;
   a6 = a3;
   dword_104E1B8C = a2;
-  orig::sub_1011BDC0();
-  orig::sub_1011BAE0((int)self);
+  orig::Gfx_SetAdditiveBlend();
+  orig::Font_BindGlyphTexture((int)self);
   v11 = 0;
   while ( (a4 == 0 || v11 < a4) && *(_BYTE *)(v11 + a3) != 0 && *(_BYTE *)a6 != 0 )
   {
-    v11 += orig::sub_1011DA80((unsigned __int8 *)(v11 + a3));
-    v12 = orig::sub_1011CE80((unsigned __int8 **)&a6);
-    if ( v12 == 135 )
+    v11 += orig::Sjis_GetCharByteLen((unsigned __int8 *)(v11 + a3));
+    Char = orig::Font_DecodeNextChar((unsigned __int8 **)&a6);
+    if ( Char == 135 )
     {
       v13 = *(_DWORD *)(g_pSceneState + 8);
       if ( (*(char *)(g_pSceneState + 24) >= 0 || v13 != 2 && v13 != 3) && v13 == 2 && dword_104E1B88 >= 8 )
         dword_104E1B88 -= 8;
     }
-    orig::sub_1011BF40(v12, a5, v9, *(float *)&a7, *(float *)&a8);
+    orig::Font_DrawChar(Char, a5, v9, *(float *)&a7, *(float *)&a8);
     v15 = 0;
-    orig::sub_1011D840(v12, &v15);
+    orig::Font_AddGlyphAdvance(Char, &v15);
     dword_104E1B88 += (__int64)((double)v15 * *(float *)&a7 + 0.5);
   }
   this->field_64 = -2139062144;

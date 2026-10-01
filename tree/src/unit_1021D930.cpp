@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1021E060  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API int __thiscall fn_1021E060(int self_, int a2)
+XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
 {
   int v2;
   int v4;
@@ -22,7 +22,7 @@ XI_API int __thiscall fn_1021E060(int self_, int a2)
   *(_DWORD *)(self_ + 360) = (3 * (v4 + 1)) & 0xFFFFFFFC;
   while ( 1 )
   {
-    result = orig::fn_102D2FB9(g_pCDx->pDevice, 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
+    result = orig::fn_102D2FB9(g_pCDx->pDevice, 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, v5);
     if ( result < 0 )
       break;
     ++v6;

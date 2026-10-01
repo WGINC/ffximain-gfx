@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10124700  (placed by callers pass the object in dword_104E1D4C as this (9 of 11 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void Obj_104E1D4C::fn_10124700(_DWORD *a2, float a3)
+void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   unsigned __int8 v3;
@@ -29,7 +29,7 @@ void Obj_104E1D4C::fn_10124700(_DWORD *a2, float a3)
       this->field_8 = a2[1];
       if ( a3 != 0.0 )
         this->field_48 = a3;
-      if ( (g_timeOfDayTintEnabled == 0 || g_timeOfDayTintEnabled == 3)
+      if ( (g_windowMode == 0 || g_windowMode == 3)
         && g_pCDx != nullptr
         && dword_10456BF8 != 0
         && dword_103D3C64 != nullptr
@@ -37,7 +37,7 @@ void Obj_104E1D4C::fn_10124700(_DWORD *a2, float a3)
       {
         v4 = (double)at<int32_t>(this, 0x4);
         v5 = (double)at<int32_t>(this, 0x8);
-        if ( g_timeOfDayTintEnabled != 0 )
+        if ( g_windowMode != 0 )
         {
           v10 = v4 / (double)((__int16)dword_106218B8 - (__int16)dword_106218B4);
           v13 = v5;
@@ -49,7 +49,7 @@ void Obj_104E1D4C::fn_10124700(_DWORD *a2, float a3)
           v9 = v7;
           v8 = GetSystemMetrics(4);
           v14 = v8;
-          if ( g_timeOfDayTintEnabled == 3 )
+          if ( g_windowMode == 3 )
           {
             SystemMetrics = 0;
             v7 = 0;
@@ -69,7 +69,7 @@ void Obj_104E1D4C::fn_10124700(_DWORD *a2, float a3)
 
 // FUNCTION: FFXIMAIN 0x10124EB0  (placed by callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
 // GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void Obj_104E1D4C::fn_10124EB0()
+void Obj_104E1D4C::Cursor_Draw()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   int *v2;
@@ -99,26 +99,26 @@ void Obj_104E1D4C::fn_10124EB0()
     {
       if ( g_pCDx != nullptr )
       {
-        orig::sub_100097F0(g_pCDx, this->field_4C, 0);
+        orig::CDx_SetCursorShape(g_pCDx, this->field_4C, 0);
         if ( g_pCDx != nullptr )
-          orig::sub_10009780(&g_pCDx->vftable, 1u);
+          orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
       }
     }
     else
     {
       if ( g_pCDx != nullptr )
-        orig::sub_10009780(&g_pCDx->vftable, 0);
+        orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
       orig::fn_10027990((Iostream_init *)v6);
-      orig::sub_100279B0(v6);
-      orig::sub_10027C20(*(float *)&dword_1036E4F4[16 * this->field_4C]);
+      orig::Mat4_SetIdentity(v6);
+      orig::Mat4_PostRotateZ(*(float *)&dword_1036E4F4[16 * this->field_4C]);
       v4 = this->field_4C;
       v5[3] = 0.0;
       v5[0] = (float)word_1036E4FA[32 * v4];
       v5[1] = v5[0];
       v5[2] = v5[0];
-      orig::sub_10027A60(v5);
+      orig::Mat4_PostScale(v5);
       if ( v2 != nullptr )
-        orig::sub_1011FF70(
+        orig::Shape_DrawTransformed(
           v2,
           this->field_C,
           this->field_10,
@@ -143,12 +143,12 @@ void Obj_104E1D4C::fn_10124EB0()
       orig::nullsub_1();
     }
     if ( this->field_4D == 6 )
-      orig::sub_1011FC80(
+      orig::Shape_DrawScaled(
         *(_DWORD *)(**(_DWORD **)(self + 64) + 4 * this->field_44),
         this->field_2C,
         this->field_30,
-        1.0,
-        1.0,
+        1065353216,
+        1065353216,
         -2139062144,
         0,
         0,

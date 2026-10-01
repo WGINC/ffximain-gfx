@@ -4,23 +4,23 @@
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
 // GATE: PASS -- 100 trials, 15 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10177240(void *self_, int a1, int a2)
+XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
   void *v3;
-  char *v5;
+  char *Text;
   int v6;
   IDirect3DDevice8 *pDevice;
   IDirect3DDevice8 v8;
   void *v9;
-  char v11;
+  char TextLength;
   void *v12;
   unsigned int v13;
   struct ID3DXBuffer *v14;
   char Buffer[512];
   void *declaration;
-  v11 = orig::sub_10177350((const char **)self_);
-  v5 = (char *)orig::sub_10177340(self_);
-  v6 = orig::fn_102DAA0D(v5, v11, 0, nullptr, &v14, nullptr);
+  TextLength = orig::Gfx_ShaderSrc_GetTextLength((const char **)self_);
+  Text = (char *)orig::Gfx_ShaderSrc_GetText(self_);
+  v6 = orig::fn_102DAA0D(Text, TextLength, 0, nullptr, &v14, nullptr);
   orig::fn_102DAA71(v6, Buffer, 0x200u);
   if ( v6 >= 0 )
   {
@@ -75,7 +75,7 @@ XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_)
 
 // FUNCTION: FFXIMAIN 0x101779C0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101779C0(void)
+XI_API int __cdecl Gfx_SetupLineDrawState(void)
 {
   _DWORD v1[16];
   v1[0] = 1065353216;
@@ -99,7 +99,7 @@ XI_API int __cdecl fn_101779C0(void)
 
 // FUNCTION: FFXIMAIN 0x10177B40  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10177B40(float *a3, char a4, unsigned __int8 a5, unsigned __int8 a6, char a7, char a8)
+XI_API int __cdecl Gfx_DrawQuadOutline(float *a3, char a4, unsigned __int8 a5, unsigned __int8 a6, char a7, char a8)
 {
   int v6;
   int v7;
@@ -161,7 +161,7 @@ XI_API int __cdecl fn_10177B40(float *a3, char a4, unsigned __int8 a5, unsigned 
 
 // FUNCTION: FFXIMAIN 0x10177C50  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10177C50(int a1, int a2, int a3, int a4, int a5, int a6)
+XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v6;
   int v7;
@@ -190,12 +190,12 @@ XI_API int __cdecl fn_10177C50(int a1, int a2, int a3, int a4, int a5, int a6)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall fn_10177CD0(float *a1, int a2, float a3)
 {
-  return orig::sub_10168D20((int)g_pCDx->pDevice, a1, a2, a3);
+  return orig::Dbg_DrawWireMesh((int)g_pCDx->pDevice, a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10178070  (placed by callers pass their own this (CTsZoneMap))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-char CTsZoneMap::fn_10178070()
+char CTsZoneMap::CTsZoneMap_Destructor()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   _DWORD *v2;
@@ -219,23 +219,23 @@ char CTsZoneMap::fn_10178070()
     g_pCDx->pDevice->DeleteVertexShader(this->field_3947C);
   if ( this->field_39494 != 0 )
     g_pCDx->pDevice->DeletePixelShader(this->field_39494);
-  orig::sub_10055000((int **)(self + 234908));
-  orig::sub_101674B0((_DWORD *)(self + 214056));
+  orig::Vt1032B6D8_Destructor((int **)(self + 234908));
+  orig::Vt10336614_Destructor((_DWORD *)(self + 214056));
   orig::nullsub_1();
-  orig::sub_10171920((_DWORD *)(self + 213808));
-  orig::sub_101678D0((int *)(self + 376));
+  orig::Vt1033668C_Destructor((_DWORD *)(self + 213808));
+  orig::Vt10336634_Destructor((int *)(self + 376));
   v2 = (_DWORD *)(self + 404);
   for ( i = 2; i != 0; --i )
   {
     v2 -= 30;
-    orig::sub_1016FC80(v2);
+    orig::Vt10336668_Destructor(v2);
   }
-  return orig::sub_100747C0((_DWORD *)self);
+  return orig::CMoTask_Destructor((_DWORD *)self);
 }
 
-// FUNCTION: FFXIMAIN 0x101781D0  (unit CTsZoneMap: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x101781D0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_101781D0(_DWORD *self_)
+int CTsZoneMap::InitZBiasPresets()
 {
   int result;
   result = 0;
@@ -244,7 +244,7 @@ XI_API int __thiscall fn_101781D0(_DWORD *self_)
   g_zbiasPreset_C4D0 = 15;
   g_zbiasOverlay = 15;
   g_zbiasRestore = 0;
-  *(self_ + 58707) = 1065353216;
+  this->field_3954C = 1065353216;
   if ( g_pCDx->_pad_10[2320] != 0 )
   {
     g_zbiasZoneMesh = 0;
@@ -252,7 +252,7 @@ XI_API int __thiscall fn_101781D0(_DWORD *self_)
     g_zbiasPreset_C4D0 = 2;
     g_zbiasOverlay = 2;
     g_zbiasRestore = 0;
-    *(self_ + 58707) = 1065353216;
+    this->field_3954C = 1065353216;
   }
   return result;
 }
@@ -272,9 +272,9 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(unsigned int *self_)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x10182700  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
+// FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
 // GATE: PASS -- 100 trials, 50 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
-float * CTsZoneMap::fn_10182700(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5)
+float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   IDirect3DDevice8 *pDevice;
@@ -408,7 +408,7 @@ float * CTsZoneMap::fn_10182700(float *a2, int a3, IDirect3DBaseTexture8 *a4, fl
   v70 = 1.0;
   v71 = 0;
   v75 = 1065353216;
-  orig::sub_1016C060(v94, (int)v94, &v60);
+  orig::Mat44_Multiply(v94, (int)v94, &v60);
   v60 = flt_10377344;
   v65 = *(float *)&dword_10377348;
   v70 = flt_1037734C;
@@ -425,7 +425,7 @@ float * CTsZoneMap::fn_10182700(float *a2, int a3, IDirect3DBaseTexture8 *a4, fl
   v73 = 0;
   v74 = 0.0;
   v75 = 1065353216;
-  orig::sub_1016C060(v94, (int)v94, &v60);
+  orig::Mat44_Multiply(v94, (int)v94, &v60);
   v72 = *(float *)&dword_10377338;
   v73 = dword_1037733C;
   v74 = *(float *)&dword_10377340;
@@ -442,8 +442,8 @@ float * CTsZoneMap::fn_10182700(float *a2, int a3, IDirect3DBaseTexture8 *a4, fl
   v70 = 1.0;
   v71 = 0;
   v75 = 1065353216;
-  orig::sub_1016C060(v94, (int)v94, &v60);
-  result = (float *)orig::sub_10167940((_DWORD *)(self + 376));
+  orig::Mat44_Multiply(v94, (int)v94, &v60);
+  result = (float *)orig::GetPtr8IfField60Set((_DWORD *)(self + 376));
   v9 = *(float *)&result;
   v86 = result;
   if ( result != nullptr )
@@ -862,9 +862,9 @@ LABEL_12:
   }
 }
 
-// FUNCTION: FFXIMAIN 0x10184FE0  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
+// FUNCTION: FFXIMAIN 0x10184FE0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-int CTsZoneMap::fn_10184FE0(int a1, int a2)
+int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int result;
@@ -1016,7 +1016,7 @@ int CTsZoneMap::fn_10184FE0(int a1, int a2)
     pMatrix[0] = 1065353216;
     v101[0] = flt_103773C4 + v98;
     v101[1] = v99 * v94 + flt_103773C8;
-    v92 = COERCE_FLOAT(orig::sub_10167940((_DWORD *)self + 94));
+    v92 = COERCE_FLOAT(orig::GetPtr8IfField60Set((_DWORD *)self + 94));
     if ( v92 != 0.0 )
     {
       v6 = *(float *)(LODWORD(v92) + 56) + *(float *)a1;

@@ -16,7 +16,7 @@ CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
   unsigned __int8 *v4;
   int i;
   this->vftable = (void **)&CYyObject_vtbl_ambiguous0;
-  orig::sub_1000D040(&this->field_190);
+  orig::CAcc2_Constructor(&this->field_190);
   v4 = &this->field_1AC;
   for ( i = 3; i != 0; --i )
   {
@@ -24,7 +24,7 @@ CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
     v4 += 16;
   }
   orig::CAcc_Constructor(&this->field_1DC);
-  orig::sub_10017030((int)&this->field_1F4);
+  orig::GammaRamp_Constructor((int)&this->field_1F4);
   this->pD3D = pD3D;
   this->pDevice = pDevice;
   this->field_158 = 0;
@@ -78,24 +78,24 @@ CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CDx::ScalarDeletingDtor(char a2)
 {
-  orig::sub_10009120((int)this);
+  orig::CDx_Destructor((int)this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
   return this;
 }
 
-// FUNCTION: FFXIMAIN 0x10009620  (placed by typed this)
+// FUNCTION: FFXIMAIN 0x10009620  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-char CDx::fn_10009620(int a2, int a3, int a4)
+char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 {
   *(_DWORD *)&this->field_90 = a3;
   *(_DWORD *)&this->field_94 = a4;
   return 1;
 }
 
-// FUNCTION: FFXIMAIN 0x10009640  (placed by typed this)
+// FUNCTION: FFXIMAIN 0x10009640  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-int CDx::fn_10009640(int a2, int a3, int a4, int a5)
+int CDx::SetClearParams(int a2, int a3, int a4, int a5)
 {
   *(_DWORD *)&this->field_164 = a2;
   *(_DWORD *)&this->field_168 = a3;
@@ -104,9 +104,9 @@ int CDx::fn_10009640(int a2, int a3, int a4, int a5)
   return a4;
 }
 
-// FUNCTION: FFXIMAIN 0x10009670  (placed by typed this)
+// FUNCTION: FFXIMAIN 0x10009670  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-int CDx::fn_10009670(int a2)
+int CDx::SetClearColor(int a2)
 {
   *(_DWORD *)&this->field_168 = a2;
   return a2;
@@ -176,40 +176,40 @@ int CDx::EndScene()
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 140))(at<_DWORD *>(this, 0xC));
 }
 
-// FUNCTION: FFXIMAIN 0x100097F0  (placed by typed this)
+// FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-HCURSOR CDx::fn_100097F0(int a2, int a3)
+HCURSOR CDx::SetCursorShape(int a2, int a3)
 {
   HCURSOR result;
-  int v5;
+  int HwCursorSlot;
   HCURSOR CursorA;
   result = (HCURSOR)dword_10456BF8;
   if ( dword_10456BF8 != 0 )
   {
-    v5 = 0;
+    HwCursorSlot = 0;
     switch ( a2 )
     {
       case 0:
       case 3:
       case 6:
-        v5 = 0;
+        HwCursorSlot = 0;
         break;
       case 1:
       case 2:
-        v5 = 1;
+        HwCursorSlot = 1;
         break;
       case 4:
       case 5:
-        v5 = orig::sub_101245C0((_WORD *)dword_104E1D4C);
+        HwCursorSlot = orig::Cursor_GetHwCursorSlot((_WORD *)dword_104E1D4C);
         break;
       default:
         break;
     }
-    CursorA = *(HCURSOR *)&this->_pad_10[4 * v5 + 2548];
+    CursorA = *(HCURSOR *)&this->_pad_10[4 * HwCursorSlot + 2548];
     if ( CursorA == nullptr )
     {
       CursorA = LoadCursorA(nullptr, (LPCSTR)0x7F00);
-      *(_DWORD *)&this->_pad_10[4 * v5 + 2548] = CursorA;
+      *(_DWORD *)&this->_pad_10[4 * HwCursorSlot + 2548] = CursorA;
     }
     return SetCursor(CursorA);
   }
@@ -248,7 +248,7 @@ int CDx::SetTexture(int a2, int a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
   (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(*at<_DWORD *>(this, 0xC) + 244))(at<_DWORD *>(this, 0xC), 0, 0);
-  return orig::sub_1000A2B0((int)self, a2, a3, 1, 1);
+  return orig::CDx_PopRenderTarget((int)self, a2, a3, 1, 1);
 }
 
 // FUNCTION: FFXIMAIN 0x1000A3B0  (placed by IDB name)
@@ -317,9 +317,9 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
   return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)a3, 28);
 }
 
-// FUNCTION: FFXIMAIN 0x1000A800  (placed by typed this)
+// FUNCTION: FFXIMAIN 0x1000A800  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-char CDx::fn_1000A800(int a2, int a3, int a4)
+char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
 {
   orig::CDx_PushRenderTarget(this, a2, a3, a4);
   return 1;
@@ -478,7 +478,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
     return 1;
   v3 = a2;
   v4 = 0;
-  while ( orig::fn_102D2FB9(this->pDevice, 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, 1, v3) >= 0 )
+  while ( orig::fn_102D2FB9(this->pDevice, 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, v3) >= 0 )
   {
     (*v3)->lpVtbl->LockRect(*v3, 0, (D3DLOCKED_RECT *)v10, nullptr, 0);
     for ( i = 0; i < 2; ++i )
@@ -591,7 +591,7 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
   orig::CDx_PushRenderTarget((CDx *)self, v9, 0, v8);
   v6 = (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(at<uint32_t>(this, 0xC), a1, a2, a3);
-  orig::sub_1000A290(self, 0, 0);
+  orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->field_810 = v5;
   return v6;
@@ -635,7 +635,7 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
          a3,
          a4,
          a5);
-  orig::sub_1000A290(self, 0, 0);
+  orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->field_810 = v7;
   return v8;
@@ -676,7 +676,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
          a2,
          a3,
          a4);
-  orig::sub_1000A290(self, 0, 0);
+  orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->field_810 = v6;
   return v7;
@@ -687,10 +687,10 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
-  _DWORD v3[12];
+  float v3[12];
   float v4;
   orig::fn_10027990((Iostream_init *)v3);
-  orig::sub_100279B0(v3);
+  orig::Mat4_SetIdentity(v3);
   v2 = *(_DWORD *)&at<uint8_t>(this, 0x810);
   if ( v2 != 0 )
   {
@@ -701,7 +701,7 @@ void CDx::ApplyStereoEyeProjection()
   {
     v4 = -*(float *)&g_stereoEyeOffset;
   }
-  orig::sub_10027E90(v3, (float *)&this->field_9BC);
+  orig::Mat4_PreMultiply(v3, (float *)&this->field_9BC);
   this->pDevice->SetTransform(D3DTS_PROJECTION, v3);
   orig::nullsub_1();
 }

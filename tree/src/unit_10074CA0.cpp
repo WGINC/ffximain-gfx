@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 3 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API void __thiscall fn_100755A0(int *self_)
+XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 {
   int v2;
   _DWORD *v3;
@@ -23,7 +23,7 @@ XI_API void __thiscall fn_100755A0(int *self_)
   }
   if ( *self_ != 0 )
   {
-    v3 = orig::sub_1002C890(16);
+    v3 = orig::Mem_AllocDefault(16);
     if ( v3 != nullptr )
       dword_1047D158 = (int)orig::CAcc_Constructor(v3);
     else
@@ -32,8 +32,11 @@ XI_API void __thiscall fn_100755A0(int *self_)
     dword_1047D200 = v4;
     dword_1047D150 = *(unsigned __int16 *)(*self_ + 38);
     v5 = 0;
-    *(_DWORD *)(dword_1047D158 + 4) = orig::sub_1006A150((_DWORD ***)g_pResourceMng, v4, dword_1047D150, &v5);
+    *(_DWORD *)(dword_1047D158 + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, v4, dword_1047D150, &v5);
     *(_DWORD *)(dword_1047D158 + 8) = v5;
-    *(_DWORD *)(dword_1047D158 + 12) = orig::sub_1000AD70(&g_pCDx->vftable, dword_1047D200, dword_1047D150);
+    *(_DWORD *)(dword_1047D158 + 12) = orig::CDx_CreateDepthSurfaceLikeMain(
+                                         &g_pCDx->vftable,
+                                         dword_1047D200,
+                                         dword_1047D150);
   }
 }

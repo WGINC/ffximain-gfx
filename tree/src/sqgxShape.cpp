@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1028AA70  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
 // GATE: PASS -- 100 trials, 55 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
-XI_API _DWORD * __cdecl fn_1028AA70(void)
+XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void)
 {
   _DWORD *result;
   result = (_DWORD *)dword_1099D200;

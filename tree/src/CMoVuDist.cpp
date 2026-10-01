@@ -29,7 +29,7 @@ int CMoVuDist::vf008()
 int * CMoVuDist::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_10063C60(self + 102);
+  orig::MoProgElem_FreeBuffer40(self + 102);
   orig::CMoElemFamily_SharedCleanup(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);

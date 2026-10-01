@@ -14,7 +14,7 @@ char ** __cdecl CMoSchedularTask::GetRuntimeClass()
 void * CMoSchedularTask::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
-  orig::sub_100574A0((int)self);
+  orig::CMoSchedularTask_Destructor((int)self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

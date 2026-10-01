@@ -21,7 +21,7 @@ BOOL CMoPointLightProgElem::vf012(int a1)
 int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_10056390(self);
+  orig::CMoPointLightProgElem_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

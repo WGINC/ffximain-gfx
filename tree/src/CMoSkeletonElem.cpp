@@ -15,7 +15,7 @@ int CMoSkeletonElem::ScalarDeletingDtor(char a1)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   int v2;
-  orig::sub_10047900(self, v2);
+  orig::CMoSkeletonElem_Destructor(self, v2);
   if ( (a1 & 1) != 0 )
     orig::SharedDeleteHelper(self);
   return self;

@@ -5,7 +5,7 @@ section: bytes (relocation sites masked) plus the relocation offsets, types and 
 Moving a function to another file, or reordering files, leaves its section unchanged, so gate
 verdicts from one build carry over to the other for every function reported identical.
 
-Usage: python3 same_code.py TREE_A TREE_B [out.json]
+Usage: python3 same_code.py TREE_A TREE_B [out.json] [--ignore-names]
 """
 import json, os, struct, subprocess, sys, tempfile, collections
 
@@ -51,9 +51,27 @@ def build(tree, tmp):
             secs[k] = v
     return secs
 
-def main(a, b, outf=None):
+def by_address(tree, secs):
+    """re-key sections by the game address of the function they hold (placement.json symbols), so
+    two builds compare even when functions were renamed; relocation targets compare by kind only"""
+    place = json.load(open(os.path.join(tree, 'placement.json')))
+    sym2ea = {v['symbol']: k for k, v in place.items() if v.get('symbol')}
+    names = list(secs)
+    dem = subprocess.run(['i686-w64-mingw32-c++filt', '-n'], input='\n'.join(n.split('$', 1)[-1] for n in names),
+                         capture_output=True, text=True).stdout.split('\n')
+    out = {}
+    for n, d in zip(names, dem):
+        key = d.split('(')[0].strip()
+        ea = sym2ea.get(key) or sym2ea.get(key.lstrip('_').split('@')[0])
+        data, rels = secs[n]
+        out[ea or n] = (data, tuple((a, t_) for a, t_, _ in rels))
+    return out
+
+def main(a, b, outf=None, ignore_names=False):
     with tempfile.TemporaryDirectory() as tmp:
         A, B = build(a, tmp), build(b, tmp)
+    if ignore_names:
+        A, B = by_address(a, A), by_address(b, B)
     same = sorted(k for k in A.keys() & B.keys() if A[k] == B[k])
     diff = sorted(k for k in A.keys() & B.keys() if A[k] != B[k])
     res = {'same': len(same), 'different': diff, 'only_a': sorted(A.keys() - B.keys()), 'only_b': sorted(B.keys() - A.keys())}
@@ -62,4 +80,5 @@ def main(a, b, outf=None):
     return res
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    args = [x for x in sys.argv[1:] if x != '--ignore-names']
+    main(*args[:3], ignore_names='--ignore-names' in sys.argv)

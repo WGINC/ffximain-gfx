@@ -20,5 +20,5 @@ int CMoLockColorDriveTask::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoLockColorDriveTask::vf012(int a1)
 {
-  return (int)orig::sub_1005F660((_DWORD *)this - 13, a1);
+  return (int)orig::CMoLockLookAtDriveTask_ScalarDeletingDtor((_DWORD *)this - 13, a1);
 }

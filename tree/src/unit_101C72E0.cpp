@@ -3,9 +3,9 @@
 
 // FUNCTION: FFXIMAIN 0x101C8DA0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_101C8DA0(_DWORD *a1, _WORD *a2, _WORD *a3)
+XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3)
 {
-  char *v3;
+  char *ViewMatrixPtr;
   double v4;
   int v5[4];
   _DWORD v6[16];
@@ -16,14 +16,14 @@ XI_API void __cdecl fn_101C8DA0(_DWORD *a1, _WORD *a2, _WORD *a3)
   orig::fn_10027990((Iostream_init *)v6);
   orig::CDx_GetTransformCached(g_pCDx, 2, v7);
   orig::CDx_GetTransformCached(g_pCDx, 256, v8);
-  orig::sub_100279B0(v6);
-  orig::sub_10027CF0(v6, a1);
-  v3 = orig::sub_10015220();
-  orig::CDx_SetTransform(&g_pCDx->vftable, 2, v3);
+  orig::Mat4_SetIdentity(v6);
+  orig::Mat4_SetTranslation(v6, a1);
+  ViewMatrixPtr = orig::Camera_GetViewMatrixPtr();
+  orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v6);
-  orig::sub_10026E30((int)v5, 0.0, 0, 0, 1065353216);
-  orig::sub_100276F0((float *)v5, v5);
-  orig::sub_100278E0((float *)v5);
+  orig::Vec4_Set((int)v5, 0.0, 0, 0, 1065353216);
+  orig::Gfx_ProjectWorldToClip((float *)v5, v5);
+  orig::Gfx_NdcToScreen((float *)v5);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v7);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v8);
   v4 = *(float *)&v5[1] + 0.5;

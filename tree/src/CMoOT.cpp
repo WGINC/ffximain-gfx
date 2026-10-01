@@ -14,7 +14,7 @@ char ** __cdecl CMoOT::GetRuntimeClass()
 int * CMoOT::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::sub_100552E0(self);
+  orig::CMoOT_Destructor(self);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;

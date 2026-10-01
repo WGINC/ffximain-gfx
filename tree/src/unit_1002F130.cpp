@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1002F160  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1002F160(unsigned int a1)
+XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 {
   IDirect3DVertexBuffer8 *v1;
   v1 = (IDirect3DVertexBuffer8 *)dword_1045B690[a1];
@@ -15,7 +15,7 @@ XI_API int __cdecl fn_1002F160(unsigned int a1)
 
 // FUNCTION: FFXIMAIN 0x1002F1A0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1002F1A0(void)
+XI_API int __cdecl Gfx_ApplyCachedVertexShader(void)
 {
   if ( g_vertexShader_B6A0 != 0 )
     return g_pCDx->pDevice->SetVertexShader(g_vertexShader_B6A0);

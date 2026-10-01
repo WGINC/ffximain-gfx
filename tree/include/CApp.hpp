@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CApp {
 public:
-    char fn_10001520();  // 0x10001520
+    char RunMainLoop();  // 0x10001520
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x19];

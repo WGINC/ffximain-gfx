@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x1016DDF0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 17 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_1016DDF0(int a1, int a2, int a3)
+XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 {
   _DWORD v4[16];
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -42,7 +42,7 @@ XI_API int __stdcall fn_1016DDF0(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 33 returned normally, 880 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10174B10(_DWORD *self_, float *a2)
+XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 {
   int v3;
   int v4;
@@ -161,7 +161,7 @@ XI_API void __thiscall fn_10174B10(_DWORD *self_, float *a2)
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 18 returned normally, 57260 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10174EC0(void)
+XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;
   _DWORD *i;
@@ -299,21 +299,21 @@ XI_API int __cdecl fn_10174EC0(void)
           v18[10] = 1.0;
           memset(&v18[11], 0, 16);
           v18[15] = 1.0;
-          orig::sub_10175740(v20);
+          orig::Mat4_SetIdentity_2(v20);
           v4 = *(v3 - 1);
           v5 = *v3;
           v20[0] = *(v3 - 2);
           v20[5] = v4;
           v20[10] = v5;
-          orig::sub_1016C060(v18, (int)v18, v20);
+          orig::Mat44_Multiply(v18, (int)v18, v20);
           v17 = *(v3 - 4);
           v19[0] = cos(v17);
           v6 = sin(v17);
           v19[2] = -v6;
           v19[8] = v6;
           v19[10] = v19[0];
-          orig::sub_1016C060(v18, (int)v18, v19);
-          orig::sub_10175780(v18, (int)v18, v2);
+          orig::Mat44_Multiply(v18, (int)v18, v19);
+          orig::Mat4_MulTranslation(v18, (int)v18, v2);
           g_upVerts_1A18_v4_diffuse = -2139078656;
           g_upVerts_1A18_v3_diffuse = -2139078656;
           g_upVerts_1A18_v2_diffuse = -2139078656;
@@ -361,7 +361,7 @@ XI_API int __cdecl fn_10174EC0(void)
             v13 = v9[1];
             v14 = v9[2];
             v15 = 1065353216;
-            orig::sub_10086210(&v12, v11, 1.0, -2139062272, -2139062144);
+            orig::Actor_DrawWorldText(&v12, v11, 1.0, -2139062272, -2139062144);
           }
           result = j[4];
           ++v10;

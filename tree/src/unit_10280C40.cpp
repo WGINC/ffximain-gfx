@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x102816E0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 42 returned normally, 23 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102816E0(int a1, int a2, int a3)
+XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3)
 {
   int v3;
   int *v4;
@@ -30,7 +30,7 @@ XI_API int __cdecl fn_102816E0(int a1, int a2, int a3)
   {
     if ( dword_109A261C == 512 )
     {
-      orig::sub_10285890(aErrorSqgxtextu);
+      orig::sqDebugPrintf(aErrorSqgxtextu);
       return -1;
     }
     v6 = 10 * v3;
@@ -38,8 +38,8 @@ XI_API int __cdecl fn_102816E0(int a1, int a2, int a3)
     dword_1099D61C[v6] = a1;
     dword_1099D620[v6] = a2;
     dword_1099D624[v6] = a3;
-    dword_1099D628[10 * v3] = orig::sub_10281810(a1);
-    dword_1099D62C[10 * v3] = orig::sub_10281810(a2);
+    dword_1099D628[10 * v3] = orig::sqgxCeilLog2(a1);
+    dword_1099D62C[10 * v3] = orig::sqgxCeilLog2(a2);
     switch ( a3 )
     {
       case 4:
@@ -66,7 +66,7 @@ XI_API int __cdecl fn_102816E0(int a1, int a2, int a3)
            (D3DFORMAT)v10,
            D3DMULTISAMPLE_NONE,
            (IDirect3DSurface8 **)&dword_1099D63C[v6]) == -2005530516 )
-      orig::sub_10285890(aErrorCouldNotA);
+      orig::sqDebugPrintf(aErrorCouldNotA);
   }
   return v3;
 }

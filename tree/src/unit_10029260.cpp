@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x100295A0  (unit unit_10029260: no unit evidence of its own; in the gap between 0x10029240 (CYyLowerMemory) and 0x10029880 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 57 returned normally, 1422 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_100295A0(int a1, int a2, int a3, int a4, int a5)
+XI_API int __stdcall Mem_DrawHeapUsageBar(int a1, int a2, int a3, int a4, int a5)
 {
   _DWORD *v5;
   int v7[4];
@@ -55,8 +55,8 @@ XI_API int __stdcall fn_100295A0(int a1, int a2, int a3, int a4, int a5)
   {
     do
     {
-      orig::sub_10026E90(v7, v9);
-      orig::sub_10026E90(v11, v13);
+      orig::Vec4_Copy(v7, v9);
+      orig::Vec4_Copy(v11, v13);
       if ( v5[1] == 1 )
       {
         v8 = 1082130432;
@@ -72,7 +72,7 @@ XI_API int __stdcall fn_100295A0(int a1, int a2, int a3, int a4, int a5)
         v14 = 1073741952;
       }
       a2a = 1.0 / a5a;
-      a4a = (double)orig::sub_10028B90(v5) * a2a * 512.0 + a4a;
+      a4a = (double)orig::MemBlock_GetSize(v5) * a2a * 512.0 + a4a;
       v13[0] = a4a;
       v9[0] = a4a;
       g_pCDx->pDevice->SetVertexShader(68u);

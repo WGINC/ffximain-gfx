@@ -46,4 +46,6 @@ DirectX 8.1 SDK headers.
 - 43 fail the gate and 33 are inconclusive, each with its first divergence recorded.
 - 3 do not compile.
 
-See `docs/PLAN.md`, `docs/RESIDUE.md` and `docs/PLACEMENT.md`.
+Names: 545 previously unnamed functions (154 in the tree, plus the functions they call) were named from the code on 1 Oct, each with its confidence and evidence (`docs/NAMES-2026-10-01.md`). 6 tree functions are still unnamed.
+
+See `docs/PLAN.md`, `docs/RESIDUE.md`, `docs/PLACEMENT.md` and `docs/NAMES-2026-10-01.md`.

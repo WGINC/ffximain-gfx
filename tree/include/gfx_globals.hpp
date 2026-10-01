@@ -473,8 +473,8 @@ typedef int xRight_t;
 #define xRight XI_EA(xRight_t, 0x10456A58u)
 typedef int dword_10456A74_t;
 #define dword_10456A74 XI_EA(dword_10456A74_t, 0x10456A74u)
-typedef int g_timeOfDayTintEnabled_t;
-#define g_timeOfDayTintEnabled XI_EA(g_timeOfDayTintEnabled_t, 0x10456A7Cu)
+typedef int g_windowMode_t;
+#define g_windowMode XI_EA(g_windowMode_t, 0x10456A7Cu)
 typedef int dword_10456A80_t;
 #define dword_10456A80 XI_EA(dword_10456A80_t, 0x10456A80u)
 typedef int dword_10456A88_t;

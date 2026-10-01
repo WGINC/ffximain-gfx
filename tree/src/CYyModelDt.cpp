@@ -43,7 +43,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
   int v40;
   v6 = self;
   v33 = self;
-  orig::sub_10022FA0(0);
+  orig::CYyModelDt_SetVertexShader(0);
   g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
   v7 = *(_DWORD *)(v6 + 54);
   v30 = false;
@@ -111,20 +111,23 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     Sleep(0);
                   dword_1045B630 = 0;
                 }
-                v36 = (unsigned __int16)orig::sub_100230D0((unsigned __int16)v10, (unsigned __int16 *)(v7 + 4), v32);
+                v36 = (unsigned __int16)orig::CYyModelDt_ExpandTriStrip(
+                                          (unsigned __int16)v10,
+                                          (unsigned __int16 *)(v7 + 4),
+                                          v32);
                 while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7154 + 48))(g_vertexBuffer_7154) != 0 )
                   Sleep(0);
-                orig::sub_10022FA0(274);
+                orig::CYyModelDt_SetVertexShader(274);
                 g_pCDx->pDevice->lpVtbl->SetStreamSource(
                   g_pCDx->pDevice,
                   0,
                   (IDirect3DVertexBuffer8 *)g_vertexBuffer_7154,
                   32u);
                 orig::CDx_DrawPrimitive(g_pCDx, 5, dword_1045B630, (unsigned __int16)v10);
-                if ( orig::sub_10033800(a3 + 72, &dword_10456E44, v9) != 0 )
+                if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
                 {
                   orig::CDx_DrawPrimitive(g_pCDx, 5, dword_1045B630, (unsigned __int16)v10);
-                  orig::sub_10033A70((_DWORD *)(a3 + 72), v39);
+                  orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
                 }
                 dword_1045B630 += v36;
               }
@@ -196,20 +199,20 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     }
                     dword_1045B62C = 0;
                   }
-                  v35 = (unsigned __int16)orig::sub_10023010(v33, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
+                  v35 = (unsigned __int16)orig::CYyModelDt_ExpandTriList(v33, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
                   while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7150 + 48))(g_vertexBuffer_7150) != 0 )
                     Sleep(0);
-                  orig::sub_10022FA0(274);
+                  orig::CYyModelDt_SetVertexShader(274);
                   g_pCDx->pDevice->lpVtbl->SetStreamSource(
                     g_pCDx->pDevice,
                     0,
                     (IDirect3DVertexBuffer8 *)g_vertexBuffer_7150,
                     32u);
                   orig::CDx_DrawPrimitive(g_pCDx, 4, dword_1045B62C, a3b);
-                  if ( orig::sub_10033800(a3 + 72, &dword_10456E44, v9) != 0 )
+                  if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
                   {
                     orig::CDx_DrawPrimitive(g_pCDx, 4, dword_1045B62C, a3b);
-                    orig::sub_10033A70((_DWORD *)(a3 + 72), v39);
+                    orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
                   }
                   LOWORD(v10) = v34;
                   dword_1045B62C += v35;
@@ -342,7 +345,7 @@ LABEL_28:
             if ( (*(_BYTE *)v7 & 1) == 0 )
             {
               v10 = v7 + 2;
-              v20 = orig::sub_1003AF10(g_pTextureMng, (char *)(v7 + 2), (int)v6);
+              v20 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, (char *)(v7 + 2), (int)v6);
               *(_BYTE *)v7 |= 1u;
               *(_DWORD *)(v7 + 2) = v20;
             }
@@ -370,9 +373,9 @@ LABEL_80:
   return v8;
 }
 
-// FUNCTION: FFXIMAIN 0x10022FA0  (unit CYyModelDt: between 0x100224D0 (name CYyModelDt_PrepareRenderState) and 0x100231C0 (name CYyModelDt_PrepareRenderStateSimple), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10022FA0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10022FA0(int a1)
+int __cdecl CYyModelDt::SetVertexShader(int a1)
 {
   g_vertexShader_6E4C = a1;
   if ( a1 != 0 )
@@ -467,7 +470,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   int v2;
-  orig::sub_10029CD0(self, v2);
+  orig::CYyModelDtBase_Destructor(self, v2);
   if ( (a1 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)self);
   return self;
@@ -475,7 +478,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-__int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7)
+__int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   unsigned __int8 v8;
@@ -508,7 +511,7 @@ __int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD 
   float *v37;
   int v38;
   float v39[11];
-  orig::sub_1002F1C0(0);
+  orig::Gfx_SetVertexShaderCached(0);
   dword_10457550 = g_boneWeightMatrixTable;
   v8 = g_pCDx->_pad_10[2321];
   *a6 = 0;
@@ -582,7 +585,7 @@ __int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD 
                 0x2000) != 0 )
         Sleep(0);
     }
-    orig::sub_1002F1D0(self);
+    orig::Model_SkinVerticesCpu((char *)self);
     *(_BYTE *)(a3 + 184) = 1;
     while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 68) + 48))(*(_DWORD *)(v10 + 68)) != 0 )
       Sleep(0);
@@ -667,11 +670,11 @@ __int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD 
           {
             if ( !v29 )
             {
-              orig::sub_1002F1C0(*(_DWORD *)(v10 + 100));
-              orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-              orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-              orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-              orig::sub_1002F130(3, 0, 0);
+              orig::Gfx_SetVertexShaderCached(*(_DWORD *)(v10 + 100));
+              orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+              orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+              orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+              orig::Gfx_SetStreamSourceCached(3u, 0, 0);
               g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
               orig::CDx_DrawIndexedPrimitive(
                 g_pCDx,
@@ -684,8 +687,8 @@ __int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD 
               dword_104574A8 += v26;
               if ( (this->field_34 & 1) != 0 )
               {
-                orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                 orig::CDx_DrawIndexedPrimitive(
                   g_pCDx,
                   5,
@@ -697,15 +700,15 @@ __int16 CYyModelDt::PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD 
                 ++dword_10456908;
               }
 LABEL_125:
-              if ( byte_104570FC != 0 && orig::sub_10025C40(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
+              if ( byte_104570FC != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
@@ -717,8 +720,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       5,
@@ -729,17 +732,18 @@ LABEL_125:
                     ++dword_10456908;
                   }
                 }
-                orig::sub_10025F70(a1);
+                orig::EnvMap_EndPass(a1);
               }
-              if ( byte_104572B0 != 0 && orig::sub_10025330((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
+              if ( byte_104572B0 != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
@@ -751,8 +755,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       5,
@@ -763,17 +767,17 @@ LABEL_125:
                     ++dword_10456908;
                   }
                 }
-                orig::sub_100255C0((void *)(a3 + 144), a1);
+                orig::ProjTex_EndPass((void *)(a3 + 144), a1);
               }
-              if ( orig::sub_10033800(a3 + 72, &dword_1045B648, v12) != 0 )
+              if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_1045B648, v12) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   v9 = a4a;
                   orig::CDx_DrawIndexedPrimitive(
@@ -786,8 +790,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       5,
@@ -802,7 +806,7 @@ LABEL_125:
                 {
                   v9 = a4a;
                 }
-                orig::sub_10033A70((_DWORD *)(a3 + 72), a1);
+                orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
               }
               else
               {
@@ -836,11 +840,11 @@ LABEL_125:
             {
               if ( !v29 )
               {
-                orig::sub_1002F1C0(*(_DWORD *)(v10 + 100));
-                orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                orig::sub_1002F130(3, 0, 0);
+                orig::Gfx_SetVertexShaderCached(*(_DWORD *)(v10 + 100));
+                orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                 g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                 orig::CDx_DrawIndexedPrimitive(
                   g_pCDx,
@@ -853,8 +857,8 @@ LABEL_125:
                 ++dword_10456908;
                 if ( (this->field_34 & 1) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
                     4,
@@ -870,15 +874,15 @@ LABEL_125:
             }
             if ( !v29 )
             {
-              if ( byte_104570FC != 0 && orig::sub_10025C40(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
+              if ( byte_104570FC != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
@@ -890,8 +894,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       4,
@@ -902,17 +906,18 @@ LABEL_125:
                     ++dword_10456908;
                   }
                 }
-                orig::sub_10025F70(a1);
+                orig::EnvMap_EndPass(a1);
               }
-              if ( byte_104572B0 != 0 && orig::sub_10025330((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
+              if ( byte_104572B0 != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
@@ -924,8 +929,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       4,
@@ -936,17 +941,17 @@ LABEL_125:
                     ++dword_10456908;
                   }
                 }
-                orig::sub_100255C0((void *)(a3 + 144), a1);
+                orig::ProjTex_EndPass((void *)(a3 + 144), a1);
               }
-              if ( orig::sub_10033800(a3 + 72, &dword_1045B648, v12) != 0 )
+              if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_1045B648, v12) != 0 )
               {
-                orig::sub_1002F1A0();
+                orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
                 {
-                  orig::sub_1002F130(0, *(_DWORD *)(v10 + 68), 12);
-                  orig::sub_1002F130(1, *(_DWORD *)(v10 + 72), 12);
-                  orig::sub_1002F130(2, *(_DWORD *)(v10 + 76), 8);
-                  orig::sub_1002F130(3, 0, 0);
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
                   v9 = a4a;
                   orig::CDx_DrawIndexedPrimitive(
@@ -959,8 +964,8 @@ LABEL_125:
                   ++dword_10456908;
                   if ( (this->field_34 & 1) != 0 )
                   {
-                    orig::sub_1002F130(0, *(_DWORD *)(v10 + 80), 12);
-                    orig::sub_1002F130(1, *(_DWORD *)(v10 + 84), 12);
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
                     orig::CDx_DrawIndexedPrimitive(
                       g_pCDx,
                       4,
@@ -975,7 +980,7 @@ LABEL_125:
                 {
                   v9 = a4a;
                 }
-                orig::sub_10033A70((_DWORD *)(a3 + 72), a1);
+                orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
                 v27 = 3 * v26;
                 *a6 += v38;
                 goto LABEL_145;
@@ -1002,7 +1007,7 @@ LABEL_145:
         g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
         if ( (*v13 & 1) == 0 )
         {
-          v23 = orig::sub_1003AF10(g_pTextureMng, v13 + 2, self);
+          v23 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, v13 + 2, self);
           *v13 |= 1u;
           *(_DWORD *)(v13 + 2) = v23;
         }

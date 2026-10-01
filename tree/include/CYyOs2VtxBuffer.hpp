@@ -5,18 +5,23 @@
 #pragma pack(push, 1)
 class XI_API CYyOs2VtxBuffer {
 public:
-    char fn_1002D700();  // 0x1002D700
+    char CreateBuffersStep(int a2);  // 0x1002CCB0
+    int Constructor(_DWORD **a2);  // 0x1002D680
+    char CYyOs2VtxBuffer_Destructor();  // 0x1002D700
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x3C];
+    uint8_t _pad_4[0x30];
+    uint32_t field_34;  // +0x34
+    uint32_t field_38;  // +0x38
+    int32_t field_3C;  // +0x3C
     uint32_t field_40;  // +0x40
     uint32_t field_44;  // +0x44
     uint32_t field_48;  // +0x48
     uint32_t field_4C;  // +0x4C
     uint32_t field_50;  // +0x50
     uint32_t field_54;  // +0x54
-    uint32_t field_58;  // +0x58
-    uint32_t field_5C;  // +0x5C
+    int32_t field_58;  // +0x58
+    int32_t field_5C;  // +0x5C
     uint32_t field_60;  // +0x60
     uint32_t field_64;  // +0x64
     uint8_t field_68;  // +0x68
@@ -30,6 +35,9 @@ public:
 };
 #pragma pack(pop)
 static_assert(sizeof(CYyOs2VtxBuffer) == 0x9E, "CYyOs2VtxBuffer: sizeof");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_34) == 0x34, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_38) == 0x38, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_3C) == 0x3C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_40) == 0x40, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_44) == 0x44, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_48) == 0x48, "CYyOs2VtxBuffer: layout");

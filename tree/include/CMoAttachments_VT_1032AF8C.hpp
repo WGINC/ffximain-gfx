@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoAttachments_VT_1032AF8C {
 public:
-    _DWORD * vf001(char a2);  // 0x10043DC0
+    int * vf001(char a2);  // 0x10043DC0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x3C];

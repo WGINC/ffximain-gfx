@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CXiSkeletonActor {
 public:
+    void PrepareModelsOnce(int a2, int a3);  // 0x1002C360
     _BYTE * PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6);  // 0x100343C0
     char * GetEnglishName();  // 0x10082F20
     int SubRef();  // 0x100832E0
@@ -75,20 +76,20 @@ public:
     int Constructor_Factory(_DWORD *a2, int a3, int a4);  // 0x100C59B0
     char DestructorBody();  // 0x100C5C00
     int RunStaggeredUpdates();  // 0x100CBD60
-    int PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
+    void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char * SetMotion(int *a2, float a3);  // 0x100CD490
     _DWORD * ActorFindResource(_DWORD *a2, int a3, int a4);  // 0x100CE9B0
     _DWORD * ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5);  // 0x100CEB00
     int ActorGetResourceCount(int a2, int a3);  // 0x100CEC90
     void ReplaceAttack(int a1, int a2, int a3, int a4);  // 0x100CEDF0
     char SetAttack(int a2, int a3, int a4, char *Source);  // 0x100CEE00
-    char SetAction(int a2, _DWORD *a3, void *a4);  // 0x100CEE40
+    char SetAction(int a2, _DWORD *a3, int a4);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
     void vf172(int a2);  // 0x100CF200
     char SetModel(int a2);  // 0x100CF210
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
-    char OnDrawName();  // 0x100D0510
+    void OnDrawName();  // 0x100D0510
     int GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
     static char __stdcall ProjectToScreen(int a1, int a2, int a3);  // 0x100D0740
     bool IsReadCompleteBody();  // 0x100D12D0
@@ -108,7 +109,9 @@ public:
 
     void **vftable;  // +0x0
     int32_t field_4;  // +0x4
-    uint8_t _pad_8[0x68];
+    uint8_t _pad_8[0x28];
+    uint32_t field_30;  // +0x30
+    uint8_t _pad_34[0x3C];
     uint32_t field_70;  // +0x70
     uint8_t _pad_74[0x8];
     int32_t field_7C;  // +0x7C
@@ -238,6 +241,7 @@ public:
 #pragma pack(pop)
 static_assert(sizeof(CXiSkeletonActor) == 0xA0C, "CXiSkeletonActor: sizeof");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_4) == 0x4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_30) == 0x30, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_70) == 0x70, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_7C) == 0x7C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_80) == 0x80, "CXiSkeletonActor: layout");

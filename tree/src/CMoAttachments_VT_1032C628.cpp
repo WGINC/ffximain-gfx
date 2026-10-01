@@ -7,5 +7,5 @@
 unsigned int ** CMoAttachments_VT_1032C628::vf001(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  return orig::sub_10071C10(self - 12, a2);
+  return orig::CMoAttachments_VT_1032C628_ScalarDeletingDtor(self - 12, a2);
 }

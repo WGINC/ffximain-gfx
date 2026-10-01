@@ -115,6 +115,7 @@ class CXiMovie;
 class CXiOpening;
 class CXiSkeletonActor;
 class CXiSkeletonActorRes;
+class CYyIcon;
 class CYyModel;
 class CYyModelBase;
 class CYyModelDt;

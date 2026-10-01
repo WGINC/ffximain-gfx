@@ -11,7 +11,7 @@ XI_API int __thiscall Font_DrawPass(void *self_)
   unsigned __int8 *v4;
   char v5;
   float v7;
-  orig::sub_1011BAE0((int)dword_104E1B90);
+  orig::Font_BindGlyphTexture((int)dword_104E1B90);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
@@ -40,7 +40,7 @@ XI_API int __thiscall Font_DrawPass(void *self_)
           v1 = (int *)((char *)v1 + 2);
           v7 = (double)v3 * 0.25;
         }
-        v4 = orig::sub_10038720((unsigned __int8 *)v1 + 8, *(float *)v1, *((float *)v1 + 1), v7);
+        v4 = orig::Font_DrawString((unsigned __int8 *)v1 + 8, *(float *)v1, *((float *)v1 + 1), v7);
         i = v4[1];
       }
       v5 = *((_BYTE *)v1 + 1);
@@ -56,7 +56,7 @@ XI_API int __thiscall Font_DrawPass(void *self_)
 
 // FUNCTION: FFXIMAIN 0x10038720  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 23 returned normally, 177018 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned __int8 * __cdecl fn_10038720(unsigned __int8 *a1, float a2, float a3, float a4)
+XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float a3, float a4)
 {
   unsigned __int8 *v4;
   bool v5; // zf
@@ -108,7 +108,7 @@ XI_API unsigned __int8 * __cdecl fn_10038720(unsigned __int8 *a1, float a2, floa
       }
       else
       {
-        v6 = orig::sub_1011CE80(&v15);
+        v6 = orig::Font_DecodeNextChar(&v15);
         v7 = (double)(v6 % 64);
         v8 = 4;
         v9 = &v21;
@@ -143,7 +143,7 @@ XI_API unsigned __int8 * __cdecl fn_10038720(unsigned __int8 *a1, float a2, floa
         v23 = v27;
         v35 = (v10 + 1.0) * 0.0078125;
         v31 = v35;
-        orig::sub_1011D840(v6, v19);
+        orig::Font_AddGlyphAdvance(v6, v19);
         v16 = (__int64)((double)v19[0] * a4 + v14);
         g_pCDx->pDevice->SetVertexShader(324u);
         orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3a, 28);

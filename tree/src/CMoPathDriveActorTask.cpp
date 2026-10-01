@@ -20,5 +20,5 @@ int CMoPathDriveActorTask::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoPathDriveActorTask::vf012(int a1)
 {
-  return orig::sub_1005F3F0((int)this - 52, a1);
+  return orig::CMoLockColorDriveTask_ScalarDeletingDtor((int)this - 52, a1);
 }

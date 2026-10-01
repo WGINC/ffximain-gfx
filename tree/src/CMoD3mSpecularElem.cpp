@@ -16,7 +16,7 @@ _DWORD * CMoD3mSpecularElem::Ctor()
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   int v2;
   _DWORD *result;
-  orig::sub_10044890((int)self);
+  orig::CMoElem_Constructor((int)self);
   v2 = this->field_198;
   LOBYTE(v2) = v2 & 0xF7;
   *self = &CMoD3mSpecularElem_vtbl;

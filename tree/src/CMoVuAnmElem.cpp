@@ -29,7 +29,7 @@ int CMoVuAnmElem::vf008()
 void * CMoVuAnmElem::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
-  orig::sub_1003EF20((int)self);
+  orig::CMoVuAnmElem_Destructor((int)self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

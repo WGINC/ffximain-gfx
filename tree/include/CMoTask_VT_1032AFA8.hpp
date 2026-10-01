@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoTask_VT_1032AFA8 {
 public:
-    _DWORD * ScalarDeletingDtor(char a2);  // 0x10043C90
+    int * ScalarDeletingDtor(char a2);  // 0x10043C90
     int ScalarDeletingDtor_2(int a1);  // 0x10043E20
 
     void **vftable;  // +0x0

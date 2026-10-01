@@ -7,7 +7,7 @@
 void * CMoTask_VT_1032C908::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
-  orig::sub_100729E0((int)self);
+  orig::CMoTask_VT_1032C908_Destructor((int)self);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;

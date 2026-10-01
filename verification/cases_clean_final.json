@@ -1,11 +1,12 @@
 [
 {
-"name": "sub_10001520 0x10001520",
+"name": "CApp_RunMainLoop 0x10001520",
 "original": "0x10001520",
-"candidate": "_ZN4CApp11fn_10001520Ev",
+"candidate": "_ZN4CApp11RunMainLoopEv",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
+"vptr": "0x103295a0",
 "args": [],
 "stubs": {
 "0x100014A0": {
@@ -101,6 +102,55 @@
 "args": 0,
 "conv": "cdecl",
 "masks": []
+},
+"0x100010F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100013A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -134,9 +184,9 @@
 }
 },
 {
-"name": "sub_10002040 0x10002040",
+"name": "Gfx_CopySurfaceRectToTexture 0x10002040",
 "original": "0x10002040",
-"candidate": "_Z11fn_10002040P17IDirect3DSurface8PK7tagRECTPji",
+"candidate": "_Z28Gfx_CopySurfaceRectToTextureP17IDirect3DSurface8PK7tagRECTPji",
 "conv": "cdecl",
 "returns": "bool",
 "args": [
@@ -204,9 +254,9 @@
 }
 },
 {
-"name": "sub_10002BE0 0x10002BE0",
+"name": "Gfx_IsGammaSupported 0x10002BE0",
 "original": "0x10002BE0",
-"candidate": "_Z11fn_10002BE0v",
+"candidate": "_Z20Gfx_IsGammaSupportedv",
 "conv": "stdcall",
 "returns": "bool",
 "args": [],
@@ -233,9 +283,9 @@
 }
 },
 {
-"name": "sub_10002C00 0x10002C00",
+"name": "Gfx_SetGammaRGB 0x10002C00",
 "original": "0x10002C00",
-"candidate": "_Z11fn_10002C00iii",
+"candidate": "_Z15Gfx_SetGammaRGBiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -278,9 +328,9 @@
 }
 },
 {
-"name": "sub_10002C30 0x10002C30",
+"name": "Gfx_SetGammaR 0x10002C30",
 "original": "0x10002C30",
-"candidate": "_Z11fn_10002C30i",
+"candidate": "_Z13Gfx_SetGammaRi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -332,9 +382,9 @@
 }
 },
 {
-"name": "sub_10002C80 0x10002C80",
+"name": "Gfx_SetGammaG 0x10002C80",
 "original": "0x10002C80",
-"candidate": "_Z11fn_10002C80i",
+"candidate": "_Z13Gfx_SetGammaGi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -386,9 +436,9 @@
 }
 },
 {
-"name": "sub_10002CD0 0x10002CD0",
+"name": "Gfx_SetGammaB 0x10002CD0",
 "original": "0x10002CD0",
-"candidate": "_Z11fn_10002CD0i",
+"candidate": "_Z13Gfx_SetGammaBi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -440,9 +490,9 @@
 }
 },
 {
-"name": "sub_10002D20 0x10002D20",
+"name": "Gfx_GetGammaRGB 0x10002D20",
 "original": "0x10002D20",
-"candidate": "_Z11fn_10002D20iii",
+"candidate": "_Z15Gfx_GetGammaRGBiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -745,9 +795,9 @@
 }
 },
 {
-"name": "sub_10003B60 0x10003B60",
+"name": "Debug_DrawTextTable 0x10003B60",
 "original": "0x10003B60",
-"candidate": "_Z11fn_10003B60Pj",
+"candidate": "_Z19Debug_DrawTextTablePj",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -787,9 +837,9 @@
 }
 },
 {
-"name": "sub_10003D70 0x10003D70",
+"name": "Debug_DrawWorldText 0x10003D70",
 "original": "0x10003D70",
-"candidate": "_Z11fn_10003D70PjPKci",
+"candidate": "_Z19Debug_DrawWorldTextPjPKci",
 "conv": "stdcall",
 "returns": "void",
 "args": [
@@ -1280,9 +1330,9 @@
 }
 },
 {
-"name": "sub_10009620 0x10009620",
+"name": "CDx_SetDefaultRenderTargets 0x10009620",
 "original": "0x10009620",
-"candidate": "_ZN3CDx11fn_10009620Eiii",
+"candidate": "_ZN3CDx23SetDefaultRenderTargetsEiii",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0xa50",
@@ -1376,9 +1426,9 @@
 }
 },
 {
-"name": "sub_10009640 0x10009640",
+"name": "CDx_SetClearParams 0x10009640",
 "original": "0x10009640",
-"candidate": "_ZN3CDx11fn_10009640Eiiii",
+"candidate": "_ZN3CDx14SetClearParamsEiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0xa50",
@@ -1473,9 +1523,9 @@
 }
 },
 {
-"name": "sub_10009670 0x10009670",
+"name": "CDx_SetClearColor 0x10009670",
 "original": "0x10009670",
-"candidate": "_ZN3CDx11fn_10009670Ei",
+"candidate": "_ZN3CDx13SetClearColorEi",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0xa50",
@@ -2002,9 +2052,9 @@
 }
 },
 {
-"name": "sub_100097F0 0x100097F0",
+"name": "CDx_SetCursorShape 0x100097F0",
 "original": "0x100097F0",
-"candidate": "_ZN3CDx11fn_100097F0Eii",
+"candidate": "_ZN3CDx14SetCursorShapeEii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0xa50",
@@ -2629,9 +2679,9 @@
 }
 },
 {
-"name": "sub_1000A800 0x1000A800",
+"name": "CDx_PushRenderTargetRet1 0x1000A800",
 "original": "0x1000A800",
-"candidate": "_ZN3CDx11fn_1000A800Eiii",
+"candidate": "_ZN3CDx20PushRenderTargetRet1Eiii",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0xa50",
@@ -4776,9 +4826,9 @@
 }
 },
 {
-"name": "sub_10013AD0 0x10013AD0",
+"name": "App_StepGameState5Connect 0x10013AD0",
 "original": "0x10013AD0",
-"candidate": "_Z11fn_10013AD0ii",
+"candidate": "_Z25App_StepGameState5Connectii",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -4988,9 +5038,9 @@
 }
 },
 {
-"name": "sub_10013DF0 0x10013DF0",
+"name": "App_StepGameState6 0x10013DF0",
 "original": "0x10013DF0",
-"candidate": "_Z11fn_10013DF0Pt",
+"candidate": "_Z18App_StepGameState6Pt",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -5102,9 +5152,9 @@
 }
 },
 {
-"name": "sub_10013F10 0x10013F10",
+"name": "App_StepGameState7 0x10013F10",
 "original": "0x10013F10",
-"candidate": "_Z11fn_10013F10Pt",
+"candidate": "_Z18App_StepGameState7Pt",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -5209,9 +5259,9 @@
 }
 },
 {
-"name": "sub_10014030 0x10014030",
+"name": "App_StepGameState8 0x10014030",
 "original": "0x10014030",
-"candidate": "_Z11fn_10014030Pt",
+"candidate": "_Z18App_StepGameState8Pt",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -5323,9 +5373,9 @@
 }
 },
 {
-"name": "sub_10014120 0x10014120",
+"name": "App_StepGameState9 0x10014120",
 "original": "0x10014120",
-"candidate": "_Z11fn_10014120v",
+"candidate": "_Z18App_StepGameState9v",
 "conv": "stdcall",
 "returns": "bool",
 "args": [],
@@ -5468,9 +5518,9 @@
 }
 },
 {
-"name": "sub_100157E0 0x100157E0",
+"name": "App_WinMain 0x100157E0",
 "original": "0x100157E0",
-"candidate": "_Z11fn_100157E0ii",
+"candidate": "_Z11App_WinMainii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -5785,9 +5835,9 @@
 }
 },
 {
-"name": "sub_100161B0 0x100161B0",
+"name": "App_CreateRendererAndApp 0x100161B0",
 "original": "0x100161B0",
-"candidate": "_Z11fn_100161B0v",
+"candidate": "_Z24App_CreateRendererAndAppv",
 "conv": "stdcall",
 "returns": "bool",
 "args": [],
@@ -5934,9 +5984,9 @@
 }
 },
 {
-"name": "sub_10017230 0x10017230",
+"name": "GammaRamp_ApplyIfChanged 0x10017230",
 "original": "0x10017230",
-"candidate": "_Z11fn_10017230i",
+"candidate": "_Z24GammaRamp_ApplyIfChangedi",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -6099,14 +6149,65 @@
 }
 },
 {
-"name": "sub_100177A0 0x100177A0",
+"name": "CShader_Destructor 0x100177A0",
 "original": "0x100177A0",
-"candidate": "_ZN7CShader11fn_100177A0Ev",
+"candidate": "_ZN7CShader18CShader_DestructorEv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10329ed0",
 "args": [],
-"stubs": {},
+"stubs": {
+"0x10017750": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10017780": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+}
+},
 "struct_globals": {
 "0x103d3cbc": {
 "size": "0x478",
@@ -6129,12 +6230,13 @@
 }
 },
 {
-"name": "sub_100186C0 0x100186C0",
+"name": "CXiOpening_Constructor 0x100186C0",
 "original": "0x100186C0",
-"candidate": "_Z11fn_100186C0PvPc",
+"candidate": "_ZN10CXiOpening11ConstructorEPc",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10329fbc",
 "args": [
 "ptr:0x1000"
 ],
@@ -6210,6 +6312,55 @@
 "args": 0,
 "conv": "thiscall",
 "masks": []
+},
+"0x10018680": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100186A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -6244,12 +6395,13 @@
 }
 },
 {
-"name": "sub_100187D0 0x100187D0",
+"name": "CXiOpening_Destructor 0x100187D0",
 "original": "0x100187D0",
-"candidate": "_ZN10CXiOpening11fn_100187D0Ev",
+"candidate": "_ZN10CXiOpening21CXiOpening_DestructorEv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10329fbc",
 "args": [],
 "stubs": {
 "0x100170A0": {
@@ -6262,6 +6414,55 @@
 4294967295,
 4294967295
 ]
+},
+"0x10018680": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100186A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "struct_globals": {
@@ -6590,9 +6791,9 @@
 }
 },
 {
-"name": "sub_1001D0A0 0x1001D0A0",
+"name": "Model_CreateTranslucentTargets 0x1001D0A0",
 "original": "0x1001D0A0",
-"candidate": "_Z11fn_1001D0A0v",
+"candidate": "_Z30Model_CreateTranslucentTargetsv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -6667,9 +6868,9 @@
 }
 },
 {
-"name": "sub_1001D240 0x1001D240",
+"name": "Model_BeginTranslucentPass 0x1001D240",
 "original": "0x1001D240",
-"candidate": "_Z11fn_1001D240i",
+"candidate": "_Z26Model_BeginTranslucentPassi",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -6752,9 +6953,9 @@
 }
 },
 {
-"name": "sub_1001D350 0x1001D350",
+"name": "Model_TranslucentUnbindTexture 0x1001D350",
 "original": "0x1001D350",
-"candidate": "_Z11fn_1001D350Pj",
+"candidate": "_Z30Model_TranslucentUnbindTexturePj",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -6803,9 +7004,9 @@
 }
 },
 {
-"name": "sub_1001D3B0 0x1001D3B0",
+"name": "Model_CompositeTranslucentPass 0x1001D3B0",
 "original": "0x1001D3B0",
-"candidate": "_Z11fn_1001D3B0Pv",
+"candidate": "_Z30Model_CompositeTranslucentPassPv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -6895,9 +7096,9 @@
 }
 },
 {
-"name": "sub_1001D940 0x1001D940",
+"name": "TexObj_InitFromHeader 0x1001D940",
 "original": "0x1001D940",
-"candidate": "_Z11fn_1001D940iiii",
+"candidate": "_Z21TexObj_InitFromHeaderiiii",
 "conv": "cdecl",
 "returns": "bool",
 "args": [
@@ -7058,9 +7259,9 @@
 }
 },
 {
-"name": "sub_1001DC70 0x1001DC70",
+"name": "Tex_DrawNamedTexturePreview 0x1001DC70",
 "original": "0x1001DC70",
-"candidate": "_Z11fn_1001DC70Pvii",
+"candidate": "_Z27Tex_DrawNamedTexturePreviewPvii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -7137,9 +7338,9 @@
 }
 },
 {
-"name": "sub_1001DD00 0x1001DD00",
+"name": "Gfx_DrawScreenQuad256 0x1001DD00",
 "original": "0x1001DD00",
-"candidate": "_Z11fn_1001DD00ii",
+"candidate": "_Z21Gfx_DrawScreenQuad256ii",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -7710,9 +7911,9 @@
 }
 },
 {
-"name": "sub_10022FA0 0x10022FA0",
+"name": "CYyModelDt_SetVertexShader 0x10022FA0",
 "original": "0x10022FA0",
-"candidate": "_Z11fn_10022FA0i",
+"candidate": "_ZN10CYyModelDt15SetVertexShaderEi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -8929,9 +9130,9 @@
 }
 },
 {
-"name": "sub_10025330 0x10025330",
+"name": "ProjTex_BeginPass 0x10025330",
 "original": "0x10025330",
-"candidate": "_Z11fn_10025330PjPiiS_",
+"candidate": "_Z17ProjTex_BeginPassPjPiiS_",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -9005,9 +9206,9 @@
 }
 },
 {
-"name": "sub_100255C0 0x100255C0",
+"name": "ProjTex_EndPass 0x100255C0",
 "original": "0x100255C0",
-"candidate": "_Z11fn_100255C0Pvi",
+"candidate": "_Z15ProjTex_EndPassPvi",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -9059,9 +9260,9 @@
 }
 },
 {
-"name": "sub_10025870 0x10025870",
+"name": "ProjTex_CaptureToTarget 0x10025870",
 "original": "0x10025870",
-"candidate": "_Z11fn_10025870Pviiii",
+"candidate": "_Z23ProjTex_CaptureToTargetPviiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -9153,9 +9354,9 @@
 }
 },
 {
-"name": "sub_10025C40 0x10025C40",
+"name": "EnvMap_BeginPass 0x10025C40",
 "original": "0x10025C40",
-"candidate": "_Z11fn_10025C40PiiPf",
+"candidate": "_Z16EnvMap_BeginPassPiiPf",
 "conv": "stdcall",
 "returns": "bool",
 "args": [
@@ -9264,9 +9465,9 @@
 }
 },
 {
-"name": "sub_10025F70 0x10025F70",
+"name": "EnvMap_EndPass 0x10025F70",
 "original": "0x10025F70",
-"candidate": "_Z11fn_10025F70i",
+"candidate": "_Z14EnvMap_EndPassi",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -9321,9 +9522,9 @@
 }
 },
 {
-"name": "sub_100262C0 0x100262C0",
+"name": "Dbg_DrawGroundGrid 0x100262C0",
 "original": "0x100262C0",
-"candidate": "_Z11fn_100262C0v",
+"candidate": "_Z18Dbg_DrawGroundGridv",
 "conv": "cdecl",
 "returns": "void",
 "args": [],
@@ -9396,9 +9597,9 @@
 }
 },
 {
-"name": "sub_100263F0 0x100263F0",
+"name": "Dbg_DrawViewAxisGizmo 0x100263F0",
 "original": "0x100263F0",
-"candidate": "_Z11fn_100263F0v",
+"candidate": "_Z21Dbg_DrawViewAxisGizmov",
 "conv": "cdecl",
 "returns": "void",
 "args": [],
@@ -9506,9 +9707,9 @@
 }
 },
 {
-"name": "sub_100266C0 0x100266C0",
+"name": "Dbg_DrawAxesAt 0x100266C0",
 "original": "0x100266C0",
-"candidate": "_Z11fn_100266C0i",
+"candidate": "_Z14Dbg_DrawAxesAti",
 "conv": "stdcall",
 "returns": "void",
 "args": [
@@ -9600,12 +9801,13 @@
 }
 },
 {
-"name": "sub_10026990 0x10026990",
+"name": "CYyIcon_Draw 0x10026990",
 "original": "0x10026990",
-"candidate": "_Z11fn_10026990Pviiii",
+"candidate": "_ZN7CYyIcon4DrawEiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032a494",
 "args": [
 "int",
 "int",
@@ -9624,6 +9826,55 @@
 4294967295,
 4294967295
 ]
+},
+"0x10026880": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10026950": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "struct_globals": {
@@ -9747,12 +9998,13 @@
 }
 },
 {
-"name": "sub_10026C70 0x10026C70",
+"name": "CYyIcon_DrawSubRect 0x10026C70",
 "original": "0x10026C70",
-"candidate": "_Z11fn_10026C70Pviiiiiiiii",
+"candidate": "_ZN7CYyIcon11DrawSubRectEiiiiiiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032a494",
 "args": [
 "int",
 "int",
@@ -9776,6 +10028,55 @@
 4294967295,
 4294967295
 ]
+},
+"0x10026880": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10026950": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "struct_globals": {
@@ -9800,9 +10101,9 @@
 }
 },
 {
-"name": "sub_100276F0 0x100276F0",
+"name": "Gfx_ProjectWorldToClip 0x100276F0",
 "original": "0x100276F0",
-"candidate": "_Z11fn_100276F0PfPj",
+"candidate": "_Z22Gfx_ProjectWorldToClipPfPj",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -9885,9 +10186,9 @@
 }
 },
 {
-"name": "sub_100277E0 0x100277E0",
+"name": "Gfx_TransformWorldToView 0x100277E0",
 "original": "0x100277E0",
-"candidate": "_Z11fn_100277E0PfPj",
+"candidate": "_Z24Gfx_TransformWorldToViewPfPj",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -9970,9 +10271,9 @@
 }
 },
 {
-"name": "sub_10027870 0x10027870",
+"name": "Gfx_ProjectViewToClip 0x10027870",
 "original": "0x10027870",
-"candidate": "_Z11fn_10027870PfPj",
+"candidate": "_Z21Gfx_ProjectViewToClipPfPj",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -10046,9 +10347,9 @@
 }
 },
 {
-"name": "sub_100278E0 0x100278E0",
+"name": "Gfx_NdcToScreen 0x100278E0",
 "original": "0x100278E0",
-"candidate": "_Z11fn_100278E0Pf",
+"candidate": "_Z15Gfx_NdcToScreenPf",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -10085,9 +10386,9 @@
 }
 },
 {
-"name": "sub_10027930 0x10027930",
+"name": "Gfx_ScreenDeltaToNdc 0x10027930",
 "original": "0x10027930",
-"candidate": "_Z11fn_10027930PfS_",
+"candidate": "_Z20Gfx_ScreenDeltaToNdcPfS_",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -10117,9 +10418,9 @@
 }
 },
 {
-"name": "sub_100295A0 0x100295A0",
+"name": "Mem_DrawHeapUsageBar 0x100295A0",
 "original": "0x100295A0",
-"candidate": "_Z11fn_100295A0iiiii",
+"candidate": "_Z20Mem_DrawHeapUsageBariiiii",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -10743,12 +11044,13 @@
 }
 },
 {
-"name": "sub_1002A3B0 0x1002A3B0",
+"name": "CYyModelBase_DrawLit 0x1002A3B0",
 "original": "0x1002A3B0",
-"candidate": "_Z11fn_1002A3B0iiii",
+"candidate": "_ZN12CYyModelBase7DrawLitEiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032a710",
 "args": [
 "int",
 "int",
@@ -10802,6 +11104,118 @@
 4294967295,
 4294967295
 ]
+},
+"0x100298A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10029DB0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10029880": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002A0A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A000": {
+"returns": "fuzz",
+"pops": 6,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A040": {
+"returns": "fuzz",
+"pops": 5,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x10030B50": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10030B70": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A080": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100298C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002B530": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -10948,12 +11362,13 @@
 }
 },
 {
-"name": "sub_1002C360 0x1002C360",
+"name": "CXiSkeletonActor_PrepareModelsOnce 0x1002C360",
 "original": "0x1002C360",
-"candidate": "_Z11fn_1002C360iii",
+"candidate": "_ZN16CXiSkeletonActor17PrepareModelsOnceEii",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
+"vptr": "0x10330f40",
 "args": [
 "int",
 "int"
@@ -10976,6 +11391,1854 @@
 4294967295,
 4294967295
 ]
+},
+"0x100C5190": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100C5540": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100C63D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100A4840": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4830": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4860": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4870": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4880": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4890": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4850": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6370": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A48A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A48C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A48E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A48F0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4910": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4920": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A00": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4950": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4960": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6F90": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100D6FA0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100D6FB0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "stdcall",
+"masks": []
+},
+"0x100D6FC0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100D6FD0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100D08E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D09B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D0A80": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A90": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AA0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AB0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AC0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AD0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AE0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4AF0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4B00": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4B10": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4B20": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082F20": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082F60": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084740": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084780": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100847C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100847E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084800": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084820": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084840": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084860": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084880": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100848A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100848C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100848E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100848F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084910": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084980": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100849A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100849C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084A30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084A50": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100849E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084A10": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084A80": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084AA0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084AD0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084B00": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084B20": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084B40": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084B60": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084B80": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084BA0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084BC0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6F50": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6F70": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084BE0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084C10": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100832D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100832E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10083390": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100833A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100833B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100833C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10081FB0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10081FD0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A5620": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4700": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4710": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4B30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4B40": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082070": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082080": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082090": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100820A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100820B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100820C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100820D0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100A4740": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4750": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D4560": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D4800": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D49B0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D49D0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100C9310": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "stdcall",
+"masks": []
+},
+"0x100C92D0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082200": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082210": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A47E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CEB00": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CE9B0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CEC90": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100822A0": {
+"returns": "fuzz",
+"pops": 7,
+"args": 4,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082290": {
+"returns": "fuzz",
+"pops": 7,
+"args": 4,
+"conv": "stdcall",
+"masks": []
+},
+"0x100A47D0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A47C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100AA820": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4590": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A45F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100AAF50": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100AAF70": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082380": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4600": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100823A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100823B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100823C0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100823D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100823F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100823E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100A4770": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4760": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4790": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A47A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A47B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082450": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9F40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082470": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082480": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082490": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100D04C0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D06F0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D0740": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "stdcall",
+"masks": []
+},
+"0x100D0510": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CBD60": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100824F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100CF210": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CD490": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CEE40": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084CC0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084D40": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A8D60": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10084E70": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "stdcall",
+"masks": []
+},
+"0x10084FB0": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CF200": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CF030": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CEE00": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CEDF0": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "stdcall",
+"masks": []
+},
+"0x100A9230": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9700": {
+"returns": "fuzz",
+"pops": 5,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9750": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A97B0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A97D0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A97F0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9810": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9830": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9850": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9870": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9890": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A98B0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9A30": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A9A90": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D67B0": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CCF50": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4620": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4640": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D62C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100AA8B0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D5460": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A10": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A30": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A20": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A70": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A60": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4A50": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4670": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4660": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4690": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4680": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A46A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082780": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100827A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082790": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100827C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100827F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100827E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082820": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082810": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082840": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082860": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082850": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082880": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100828B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100828A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100828D0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082900": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100828F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082960": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082950": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082980": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10082990": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100829C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100829B0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100829E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100829F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082A10": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10082A20": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082A30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10082A40": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "stdcall",
+"masks": []
+},
+"0x10082A50": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x100CFAD0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CFB00": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CFC10": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": []
+},
+"0x100CFF40": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D04B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4800": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4810": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10085B50": {
+"returns": "fuzz",
+"pops": 2,
+"args": 2,
+"conv": "thiscall",
+"masks": []
+},
+"0x10085C90": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10085CF0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4730": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4720": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6670": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100D6760": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A47F0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4820": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100A4970": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4980": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A4990": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49B0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x100A49C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
 }
 },
 "struct_globals": {
@@ -11029,12 +13292,13 @@
 }
 },
 {
-"name": "sub_1002CCB0 0x1002CCB0",
+"name": "CYyOs2VtxBuffer_CreateBuffersStep 0x1002CCB0",
 "original": "0x1002CCB0",
-"candidate": "_Z11fn_1002CCB0Pii",
+"candidate": "_ZN15CYyOs2VtxBuffer17CreateBuffersStepEi",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
+"vptr": "0x1032a7b0",
 "args": [
 "int"
 ],
@@ -11078,6 +13342,90 @@
 "masks": [
 4294967295
 ]
+},
+"0x1002C960": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002D660": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002C990": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10030090": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -11108,12 +13456,13 @@
 }
 },
 {
-"name": "sub_1002D680 0x1002D680",
+"name": "CYyOs2VtxBuffer_Constructor 0x1002D680",
 "original": "0x1002D680",
-"candidate": "_Z11fn_1002D680iPPj",
+"candidate": "_ZN15CYyOs2VtxBuffer11ConstructorEPPj",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032a7b0",
 "args": [
 "ptr:0x1000"
 ],
@@ -11129,6 +13478,90 @@
 "returns": "fuzz",
 "pops": 0,
 "args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C960": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002D660": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002C990": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10030090": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
 "conv": "thiscall",
 "masks": []
 }
@@ -11161,12 +13594,13 @@
 }
 },
 {
-"name": "sub_1002D700 0x1002D700",
+"name": "CYyOs2VtxBuffer_Destructor 0x1002D700",
 "original": "0x1002D700",
-"candidate": "_ZN15CYyOs2VtxBuffer11fn_1002D700Ev",
+"candidate": "_ZN15CYyOs2VtxBuffer26CYyOs2VtxBuffer_DestructorEv",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
+"vptr": "0x1032a7b0",
 "args": [],
 "stubs": {
 "0x10028700": {
@@ -11191,6 +13625,90 @@
 "returns": "fuzz",
 "pops": 0,
 "args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C960": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002D660": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002C990": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10030090": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
 "conv": "thiscall",
 "masks": []
 }
@@ -11397,12 +13915,13 @@
 }
 },
 {
-"name": "sub_1002DC10 0x1002DC10",
+"name": "CYyModelDt_SkinAndDrawV2 0x1002DC10",
 "original": "0x1002DC10",
-"candidate": "_ZN10CYyModelDt20PrepareRenderStateV2EiiiiPjS0_",
+"candidate": "_ZN10CYyModelDt13SkinAndDrawV2EiiiiPjS0_",
 "conv": "thiscall",
 "returns": "word",
 "this_size": "0x4000",
+"vptr": "0x1032a6e0",
 "args": [
 "int",
 "int",
@@ -11536,6 +14055,132 @@
 4294967295,
 4294967295
 ]
+},
+"0x10029880": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10029CB0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x103133FF": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x100298A0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10029DB0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A0A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A000": {
+"returns": "fuzz",
+"pops": 6,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A040": {
+"returns": "fuzz",
+"pops": 5,
+"args": 4,
+"conv": "thiscall",
+"masks": []
+},
+"0x10030B50": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10030B70": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002A080": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100298C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1002B530": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -11685,9 +14330,9 @@
 }
 },
 {
-"name": "sub_1002F160 0x1002F160",
+"name": "Gfx_ApplyCachedStreamSource 0x1002F160",
 "original": "0x1002F160",
-"candidate": "_Z11fn_1002F160j",
+"candidate": "_Z27Gfx_ApplyCachedStreamSourcej",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -11722,9 +14367,9 @@
 }
 },
 {
-"name": "sub_1002F1A0 0x1002F1A0",
+"name": "Gfx_ApplyCachedVertexShader 0x1002F1A0",
 "original": "0x1002F1A0",
-"candidate": "_Z11fn_1002F1A0v",
+"candidate": "_Z27Gfx_ApplyCachedVertexShaderv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -11757,9 +14402,9 @@
 }
 },
 {
-"name": "sub_10033800 0x10033800",
+"name": "Model_BeginOffscreenPass 0x10033800",
 "original": "0x10033800",
-"candidate": "_Z11fn_10033800iPii",
+"candidate": "_Z24Model_BeginOffscreenPassiPii",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -11880,9 +14525,9 @@
 }
 },
 {
-"name": "sub_10033A70 0x10033A70",
+"name": "Model_EndOffscreenPassBindTextures 0x10033A70",
 "original": "0x10033A70",
-"candidate": "_Z11fn_10033A70Pji",
+"candidate": "_Z34Model_EndOffscreenPassBindTexturesPji",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -14609,7 +17254,7 @@
 }
 },
 {
-"name": "sub_10038520 0x10038520",
+"name": "Font_DrawPass 0x10038520",
 "original": "0x10038520",
 "candidate": "_Z13Font_DrawPassPv",
 "conv": "thiscall",
@@ -14672,9 +17317,9 @@
 }
 },
 {
-"name": "sub_10038720 0x10038720",
+"name": "Font_DrawString 0x10038720",
 "original": "0x10038720",
-"candidate": "_Z11fn_10038720Phfff",
+"candidate": "_Z15Font_DrawStringPhfff",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -14767,9 +17412,9 @@
 }
 },
 {
-"name": "sub_10038930 0x10038930",
+"name": "Post_CreateScreenEffectTargets 0x10038930",
 "original": "0x10038930",
-"candidate": "_Z11fn_10038930v",
+"candidate": "_Z30Post_CreateScreenEffectTargetsv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -14835,9 +17480,9 @@
 }
 },
 {
-"name": "sub_10038A80 0x10038A80",
+"name": "Post_CaptureSceneToTarget 0x10038A80",
 "original": "0x10038A80",
-"candidate": "_Z11fn_10038A80Pv",
+"candidate": "_Z25Post_CaptureSceneToTargetPv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -14948,9 +17593,9 @@
 }
 },
 {
-"name": "sub_10038E10 0x10038E10",
+"name": "Post_DrawRotatingGhostLayers 0x10038E10",
 "original": "0x10038E10",
-"candidate": "_Z11fn_10038E10Pv",
+"candidate": "_Z28Post_DrawRotatingGhostLayersPv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -15626,12 +18271,13 @@
 }
 },
 {
-"name": "sub_1003B210 0x1003B210",
+"name": "CYyVbMng_AcquireVertexBuffer 0x1003B210",
 "original": "0x1003B210",
-"candidate": "_ZN8CYyVbMng11fn_1003B210Eijj7D3DPOOLPic",
+"candidate": "_ZN8CYyVbMng19AcquireVertexBufferEijj7D3DPOOLPic",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032aac4",
 "args": [
 "int",
 "int",
@@ -15661,6 +18307,69 @@
 4294967295,
 4294967295
 ]
+},
+"0x1003B050": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1003B1A0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1003B070": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x1003B430": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -16249,9 +18958,9 @@
 }
 },
 {
-"name": "sub_1003D9A0 0x1003D9A0",
+"name": "Sky_DrawDome 0x1003D9A0",
 "original": "0x1003D9A0",
-"candidate": "_Z11fn_1003D9A0v",
+"candidate": "_Z12Sky_DrawDomev",
 "conv": "cdecl",
 "returns": "int",
 "args": [],
@@ -16411,9 +19120,9 @@
 }
 },
 {
-"name": "sub_1003DB60 0x1003DB60",
+"name": "Sky_DrawDomeViewCentered 0x1003DB60",
 "original": "0x1003DB60",
-"candidate": "_Z11fn_1003DB60v",
+"candidate": "_Z24Sky_DrawDomeViewCenteredv",
 "conv": "cdecl",
 "returns": "int",
 "args": [],
@@ -17931,9 +20640,9 @@
 }
 },
 {
-"name": "sub_10041C20 0x10041C20",
+"name": "Font_DrawProjectedText3D 0x10041C20",
 "original": "0x10041C20",
-"candidate": "_Z11fn_10041C20iiiii",
+"candidate": "_Z24Font_DrawProjectedText3Diiiii",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -20647,9 +23356,9 @@
 }
 },
 {
-"name": "sub_10044270 0x10044270",
+"name": "Mo_InitSharedRenderResources 0x10044270",
 "original": "0x10044270",
-"candidate": "_Z11fn_10044270v",
+"candidate": "_Z28Mo_InitSharedRenderResourcesv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -48253,12 +50962,13 @@
 }
 },
 {
-"name": "sub_1006B2B0 0x1006B2B0",
+"name": "CMoDX_CreateAndInitSystem 0x1006B2B0",
 "original": "0x1006B2B0",
-"candidate": "_Z11fn_1006B2B0Pv",
+"candidate": "_ZN5CMoDX19CreateAndInitSystemEv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x1032c0d8",
 "args": [],
 "stubs": {
 "0x1002C890": {
@@ -48345,6 +51055,55 @@
 "returns": "fuzz",
 "pops": 0,
 "args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10069D60": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10001370": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10069DB0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
 "conv": "thiscall",
 "masks": []
 }
@@ -48631,7 +51390,7 @@
 }
 },
 {
-"name": "sub_1006C9B0 0x1006C9B0",
+"name": "OcclusionMng_Prepare 0x1006C9B0",
 "original": "0x1006C9B0",
 "candidate": "_Z20OcclusionMng_PreparePj",
 "conv": "thiscall",
@@ -64151,9 +66910,9 @@
 }
 },
 {
-"name": "sub_100755A0 0x100755A0",
+"name": "TexRef_EnsureRenderTarget 0x100755A0",
 "original": "0x100755A0",
-"candidate": "_Z11fn_100755A0Pi",
+"candidate": "_Z25TexRef_EnsureRenderTargetPi",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -203685,7 +206444,7 @@
 "original": "0x100CBDE0",
 "candidate": "_ZN16CXiSkeletonActor34PerActor_FourBucketStaggeredUpdateEv",
 "conv": "thiscall",
-"returns": "int",
+"returns": "void",
 "this_size": "0x4000",
 "args": [],
 "stubs": {
@@ -213861,7 +216620,7 @@
 {
 "name": "CXiSkeletonActor_SetAction 0x100CEE40",
 "original": "0x100CEE40",
-"candidate": "_ZN16CXiSkeletonActor9SetActionEiPjPv",
+"candidate": "_ZN16CXiSkeletonActor9SetActionEiPji",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -213869,7 +216628,7 @@
 "args": [
 "int",
 "ptr:0x1000",
-"ptr:0x1000"
+"int"
 ],
 "stubs": {
 "0x100CE480": {
@@ -225428,18 +228187,11 @@
 "original": "0x100D0510",
 "candidate": "_ZN16CXiSkeletonActor10OnDrawNameEv",
 "conv": "thiscall",
-"returns": "bool",
+"returns": "void",
 "this_size": "0x4000",
 "vptr": "0x10330f40",
 "args": [],
 "stubs": {
-"0x100845B0": {
-"returns": "fuzz",
-"pops": 0,
-"args": 0,
-"conv": "thiscall",
-"masks": []
-},
 "0x101CC4F0": {
 "returns": "fuzz",
 "pops": 0,
@@ -225490,13 +228242,6 @@
 4294967295
 ]
 },
-"0x10098320": {
-"returns": "fuzz",
-"pops": 0,
-"args": 0,
-"conv": "thiscall",
-"masks": []
-},
 "0x10081550": {
 "returns": "fuzz",
 "pops": 0,
@@ -225505,6 +228250,20 @@
 "masks": []
 },
 "0x10097A40": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100845B0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10098320": {
 "returns": "fuzz",
 "pops": 0,
 "args": 0,
@@ -243661,9 +246420,9 @@
 }
 },
 {
-"name": "sub_1011AAC0 0x1011AAC0",
+"name": "Gfx_ApplyViewport1B70 0x1011AAC0",
 "original": "0x1011AAC0",
-"candidate": "_Z11fn_1011AAC0v",
+"candidate": "_Z21Gfx_ApplyViewport1B70v",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -243706,9 +246465,9 @@
 }
 },
 {
-"name": "sub_1011BAE0 0x1011BAE0",
+"name": "Font_BindGlyphTexture 0x1011BAE0",
 "original": "0x1011BAE0",
-"candidate": "_Z11fn_1011BAE0i",
+"candidate": "_Z21Font_BindGlyphTexturei",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -243772,9 +246531,9 @@
 }
 },
 {
-"name": "sub_1011BBD0 0x1011BBD0",
+"name": "Font_DrawGlyphQuad 0x1011BBD0",
 "original": "0x1011BBD0",
-"candidate": "_Z11fn_1011BBD0PfsPijff",
+"candidate": "_Z18Font_DrawGlyphQuadPfsPijff",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -243831,9 +246590,9 @@
 }
 },
 {
-"name": "sub_1011BDC0 0x1011BDC0",
+"name": "Gfx_SetAdditiveBlend 0x1011BDC0",
 "original": "0x1011BDC0",
-"candidate": "_Z11fn_1011BDC0v",
+"candidate": "_Z20Gfx_SetAdditiveBlendv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -243860,9 +246619,9 @@
 }
 },
 {
-"name": "sub_1011C080 0x1011C080",
+"name": "Obj_104E1B90_DrawString 0x1011C080",
 "original": "0x1011C080",
-"candidate": "_ZN12Obj_104E1B9011fn_1011C080Eiiiiiiii",
+"candidate": "_ZN12Obj_104E1B9023Obj_104E1B90_DrawStringEiiiiiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -243980,9 +246739,9 @@
 }
 },
 {
-"name": "sub_1011C1F0 0x1011C1F0",
+"name": "Gfx_SetCellBlendMode 0x1011C1F0",
 "original": "0x1011C1F0",
-"candidate": "_Z11fn_1011C1F0iiii",
+"candidate": "_Z20Gfx_SetCellBlendModeiiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -244025,9 +246784,9 @@
 }
 },
 {
-"name": "sub_1011C720 0x1011C720",
+"name": "Font_LoadHighResTexture 0x1011C720",
 "original": "0x1011C720",
-"candidate": "_Z11fn_1011C720Pi",
+"candidate": "_Z23Font_LoadHighResTexturePi",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -244130,9 +246889,9 @@
 }
 },
 {
-"name": "sub_1011E800 0x1011E800",
+"name": "Cell_DrawAt 0x1011E800",
 "original": "0x1011E800",
-"candidate": "_Z11fn_1011E800Pvii",
+"candidate": "_Z11Cell_DrawAtPvii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -244206,9 +246965,9 @@
 }
 },
 {
-"name": "sub_1011EDE0 0x1011EDE0",
+"name": "Cell_DrawTransformed 0x1011EDE0",
 "original": "0x1011EDE0",
-"candidate": "_Z11fn_1011EDE0iiifiiiiiiiiiiiiiiiji",
+"candidate": "_Z20Cell_DrawTransformediiifiiiiiiiiiiiiiiiji",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -244333,9 +247092,9 @@
 }
 },
 {
-"name": "sub_1011EF60 0x1011EF60",
+"name": "Cell_DrawStretchedWrapped 0x1011EF60",
 "original": "0x1011EF60",
-"candidate": "_Z11fn_1011EF60iiiiiiiffjjc",
+"candidate": "_Z25Cell_DrawStretchedWrappediiiiiiiffjjc",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -244435,9 +247194,9 @@
 }
 },
 {
-"name": "sub_1011F300 0x1011F300",
+"name": "Cell_DrawQuadBlended 0x1011F300",
 "original": "0x1011F300",
-"candidate": "_Z11fn_1011F300Pviiiii",
+"candidate": "_Z20Cell_DrawQuadBlendedPviiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -244494,9 +247253,9 @@
 }
 },
 {
-"name": "sub_10120590 0x10120590",
+"name": "ShapeMng_BindFontTexture 0x10120590",
 "original": "0x10120590",
-"candidate": "_ZN12Obj_104E1BF811fn_10120590EjPjS0_",
+"candidate": "_ZN12Obj_104E1BF824ShapeMng_BindFontTextureEjPjS0_",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -244536,9 +247295,9 @@
 }
 },
 {
-"name": "sub_101207B0 0x101207B0",
+"name": "ShapeMng_BindDmgNumTexture 0x101207B0",
 "original": "0x101207B0",
-"candidate": "_ZN12Obj_104E1BF811fn_101207B0EjPjS0_",
+"candidate": "_ZN12Obj_104E1BF826ShapeMng_BindDmgNumTextureEjPjS0_",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -244578,9 +247337,9 @@
 }
 },
 {
-"name": "sub_10124440 0x10124440",
+"name": "Cursor_Init 0x10124440",
 "original": "0x10124440",
-"candidate": "_Z11fn_10124440i",
+"candidate": "_Z11Cursor_Initi",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -244658,9 +247417,9 @@
 }
 },
 {
-"name": "sub_10124700 0x10124700",
+"name": "Cursor_SetPosition 0x10124700",
 "original": "0x10124700",
-"candidate": "_ZN12Obj_104E1D4C11fn_10124700EPjf",
+"candidate": "_ZN12Obj_104E1D4C18Cursor_SetPositionEPjf",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -244723,9 +247482,9 @@
 }
 },
 {
-"name": "sub_10124EB0 0x10124EB0",
+"name": "Cursor_Draw 0x10124EB0",
 "original": "0x10124EB0",
-"candidate": "_ZN12Obj_104E1D4C11fn_10124EB0Ev",
+"candidate": "_ZN12Obj_104E1D4C11Cursor_DrawEv",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -244846,9 +247605,9 @@
 }
 },
 {
-"name": "sub_101252F0 0x101252F0",
+"name": "Cursor_SetVisible 0x101252F0",
 "original": "0x101252F0",
-"candidate": "_Z11fn_101252F0Phh",
+"candidate": "_Z17Cursor_SetVisiblePhh",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
@@ -244904,9 +247663,9 @@
 }
 },
 {
-"name": "sub_101604B0 0x101604B0",
+"name": "Gfx_SetDefault2DStates 0x101604B0",
 "original": "0x101604B0",
-"candidate": "_Z11fn_101604B0v",
+"candidate": "_Z22Gfx_SetDefault2DStatesv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -244933,9 +247692,9 @@
 }
 },
 {
-"name": "sub_10160650 0x10160650",
+"name": "Gfx_DisableFogAndAlphaBlend 0x10160650",
 "original": "0x10160650",
-"candidate": "_Z11fn_10160650v",
+"candidate": "_Z27Gfx_DisableFogAndAlphaBlendv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -244962,9 +247721,9 @@
 }
 },
 {
-"name": "sub_101620B0 0x101620B0",
+"name": "Gfx_ApplyViewport1904 0x101620B0",
 "original": "0x101620B0",
-"candidate": "_Z11fn_101620B0v",
+"candidate": "_Z21Gfx_ApplyViewport1904v",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -245007,9 +247766,9 @@
 }
 },
 {
-"name": "sub_101630E0 0x101630E0",
+"name": "Obj_10621944_Draw 0x101630E0",
 "original": "0x101630E0",
-"candidate": "_ZN12Obj_1062194411fn_101630E0Ev",
+"candidate": "_ZN12Obj_1062194417Obj_10621944_DrawEv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -245052,9 +247811,9 @@
 }
 },
 {
-"name": "sub_10163400 0x10163400",
+"name": "Gfx_DrawSolidRect2D 0x10163400",
 "original": "0x10163400",
-"candidate": "_Z11fn_10163400ii",
+"candidate": "_Z19Gfx_DrawSolidRect2Dii",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -245111,9 +247870,9 @@
 }
 },
 {
-"name": "sub_1016DDF0 0x1016DDF0",
+"name": "Dbg_DrawTriangleLines 0x1016DDF0",
 "original": "0x1016DDF0",
-"candidate": "_Z11fn_1016DDF0iii",
+"candidate": "_Z21Dbg_DrawTriangleLinesiii",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -245231,9 +247990,9 @@
 }
 },
 {
-"name": "sub_10174B10 0x10174B10",
+"name": "Dbg_DrawOverheadMapMarkers 0x10174B10",
 "original": "0x10174B10",
-"candidate": "_Z11fn_10174B10PjPf",
+"candidate": "_Z26Dbg_DrawOverheadMapMarkersPjPf",
 "conv": "thiscall",
 "returns": "void",
 "this_size": "0x4000",
@@ -245276,9 +248035,9 @@
 }
 },
 {
-"name": "sub_10174EC0 0x10174EC0",
+"name": "Dbg_DrawOrientedBoxes 0x10174EC0",
 "original": "0x10174EC0",
-"candidate": "_Z11fn_10174EC0v",
+"candidate": "_Z21Dbg_DrawOrientedBoxesv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -246082,12 +248841,16 @@
 }
 },
 {
-"name": "sub_10177240 0x10177240",
+"name": "Gfx_AssembleVertexShader 0x10177240",
 "original": "0x10177240",
-"candidate": "_Z11fn_10177240Pvii",
+"candidate": "_Z24Gfx_AssembleVertexShaderPvii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"this_com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+},
 "args": [
 "int",
 "int"
@@ -246260,9 +249023,9 @@
 }
 },
 {
-"name": "sub_101779C0 0x101779C0",
+"name": "Gfx_SetupLineDrawState 0x101779C0",
 "original": "0x101779C0",
-"candidate": "_Z11fn_101779C0v",
+"candidate": "_Z22Gfx_SetupLineDrawStatev",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -246300,9 +249063,9 @@
 }
 },
 {
-"name": "sub_10177B40 0x10177B40",
+"name": "Gfx_DrawQuadOutline 0x10177B40",
 "original": "0x10177B40",
-"candidate": "_Z11fn_10177B40Pfchhcc",
+"candidate": "_Z19Gfx_DrawQuadOutlinePfchhcc",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -246349,9 +249112,9 @@
 }
 },
 {
-"name": "sub_10177C50 0x10177C50",
+"name": "Gfx_DrawLine3D 0x10177C50",
 "original": "0x10177C50",
-"candidate": "_Z11fn_10177C50iiiiii",
+"candidate": "_Z14Gfx_DrawLine3Diiiiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -246444,12 +249207,13 @@
 }
 },
 {
-"name": "sub_10178070 0x10178070",
+"name": "CTsZoneMap_Destructor 0x10178070",
 "original": "0x10178070",
-"candidate": "_ZN10CTsZoneMap11fn_10178070Ev",
+"candidate": "_ZN10CTsZoneMap21CTsZoneMap_DestructorEv",
 "conv": "thiscall",
 "returns": "bool",
 "this_size": "0x4000",
+"vptr": "0x10336748",
 "args": [],
 "stubs": {
 "0x1017B1E0": {
@@ -246514,6 +249278,83 @@
 "args": 0,
 "conv": "thiscall",
 "masks": []
+},
+"0x101773C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178D40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10177F80": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178B30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
 }
 },
 "struct_globals": {
@@ -246538,14 +249379,93 @@
 }
 },
 {
-"name": "sub_101781D0 0x101781D0",
+"name": "CTsZoneMap_InitZBiasPresets 0x101781D0",
 "original": "0x101781D0",
-"candidate": "_Z11fn_101781D0Pj",
+"candidate": "_ZN10CTsZoneMap16InitZBiasPresetsEv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10336748",
 "args": [],
-"stubs": {},
+"stubs": {
+"0x101773C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178D40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10177F80": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178B30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+}
+},
 "fuzz_ranges": [
 [
 "0x10632038",
@@ -246620,9 +249540,9 @@
 }
 },
 {
-"name": "sub_101791F0 0x101791F0",
+"name": "ZoneMap_DrawBox 0x101791F0",
 "original": "0x101791F0",
-"candidate": "_Z11fn_101791F0Pv",
+"candidate": "_Z15ZoneMap_DrawBoxPv",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -246677,9 +249597,9 @@
 }
 },
 {
-"name": "sub_101792A0 0x101792A0",
+"name": "ZoneMap_CreateVertexShaders 0x101792A0",
 "original": "0x101792A0",
-"candidate": "_Z11fn_101792A0Pc",
+"candidate": "_Z27ZoneMap_CreateVertexShadersPc",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -246717,9 +249637,9 @@
 }
 },
 {
-"name": "sub_1017ADE0 0x1017ADE0",
+"name": "ZoneMap_DrawMeshGroupsWithFog 0x1017ADE0",
 "original": "0x1017ADE0",
-"candidate": "_Z11fn_1017ADE0PjS_",
+"candidate": "_Z29ZoneMap_DrawMeshGroupsWithFogPjS_",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -246760,12 +249680,13 @@
 }
 },
 {
-"name": "sub_10182700 0x10182700",
+"name": "CTsZoneMap_DrawProjectedTexture 0x10182700",
 "original": "0x10182700",
-"candidate": "_ZN10CTsZoneMap11fn_10182700EPfiP21IDirect3DBaseTexture8f",
+"candidate": "_ZN10CTsZoneMap20DrawProjectedTextureEPfiP21IDirect3DBaseTexture8f",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10336748",
 "args": [
 "ptr:0x1000",
 "int",
@@ -246812,6 +249733,83 @@
 4294967295,
 4294967295
 ]
+},
+"0x101773C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178D40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10177F80": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178B30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -246866,9 +249864,9 @@
 }
 },
 {
-"name": "sub_10182F10 0x10182F10",
+"name": "Gfx_DrawWireBox 0x10182F10",
 "original": "0x10182F10",
-"candidate": "_Z11fn_10182F10i",
+"candidate": "_Z15Gfx_DrawWireBoxi",
 "conv": "stdcall",
 "returns": "int",
 "args": [
@@ -247484,12 +250482,13 @@
 }
 },
 {
-"name": "sub_10184FE0 0x10184FE0",
+"name": "CTsZoneMap_DrawProjectedShadow 0x10184FE0",
 "original": "0x10184FE0",
-"candidate": "_ZN10CTsZoneMap11fn_10184FE0Eii",
+"candidate": "_ZN10CTsZoneMap19DrawProjectedShadowEii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"vptr": "0x10336748",
 "args": [
 "int",
 "int"
@@ -247539,6 +250538,83 @@
 4294967295,
 4294967295
 ]
+},
+"0x101773C0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178D40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C930": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1002C920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10001380": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10001390": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
+},
+"0x10177F80": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011920": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10178B30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10011930": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": []
+},
+"0x10011940": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": []
 }
 },
 "fuzz_ranges": [
@@ -247605,7 +250681,7 @@
 }
 },
 {
-"name": "sub_10188E00 0x10188E00",
+"name": "Env_ComputeAmbient 0x10188E00",
 "original": "0x10188E00",
 "candidate": "_Z18Env_ComputeAmbientPcPji",
 "conv": "thiscall",
@@ -247670,9 +250746,9 @@
 }
 },
 {
-"name": "sub_10188FA0 0x10188FA0",
+"name": "Env_ComputeAmbientFloat4 0x10188FA0",
 "original": "0x10188FA0",
-"candidate": "_Z11fn_10188FA0PcPf",
+"candidate": "_Z24Env_ComputeAmbientFloat4PcPf",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -247904,9 +250980,9 @@
 }
 },
 {
-"name": "sub_101C8DA0 0x101C8DA0",
+"name": "Gfx_ProjectWorldToScreen 0x101C8DA0",
 "original": "0x101C8DA0",
-"candidate": "_Z11fn_101C8DA0PjPtS0_",
+"candidate": "_Z24Gfx_ProjectWorldToScreenPjPtS0_",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -248026,9 +251102,9 @@
 }
 },
 {
-"name": "sub_1021D4C0 0x1021D4C0",
+"name": "CXiMovie_DrawFrame 0x1021D4C0",
 "original": "0x1021D4C0",
-"candidate": "_Z11Draw2DLayerv",
+"candidate": "_ZN8CXiMovie9DrawFrameEv",
 "conv": "cdecl",
 "returns": "int",
 "args": [],
@@ -248095,9 +251171,9 @@
 }
 },
 {
-"name": "sub_1021E060 0x1021E060",
+"name": "Movie_CreateFrameTextures 0x1021E060",
 "original": "0x1021E060",
-"candidate": "_Z11fn_1021E060ii",
+"candidate": "_Z25Movie_CreateFrameTexturesii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -248140,9 +251216,9 @@
 }
 },
 {
-"name": "sub_102394A0 0x102394A0",
+"name": "Ui_DrawKeyPrompt 0x102394A0",
 "original": "0x102394A0",
-"candidate": "_Z11fn_102394A0PPc",
+"candidate": "_Z16Ui_DrawKeyPromptPPc",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
@@ -248249,9 +251325,9 @@
 }
 },
 {
-"name": "sub_1024F900 0x1024F900",
+"name": "StAvatar_SetViewFromDancerCamera 0x1024F900",
 "original": "0x1024F900",
-"candidate": "_Z11fn_1024F900i",
+"candidate": "_Z32StAvatar_SetViewFromDancerCamerai",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -248415,9 +251491,9 @@
 }
 },
 {
-"name": "sub_102504D0 0x102504D0",
+"name": "StAvatar_Shutdown 0x102504D0",
 "original": "0x102504D0",
-"candidate": "_Z11fn_102504D0Pi",
+"candidate": "_Z17StAvatar_ShutdownPi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -248685,12 +251761,16 @@
 }
 },
 {
-"name": "sub_10253F60 0x10253F60",
+"name": "Gfx_DrawSpriteAlphaTested 0x10253F60",
 "original": "0x10253F60",
-"candidate": "_Z11fn_10253F60Pviiiiiiiii",
+"candidate": "_Z25Gfx_DrawSpriteAlphaTestedPviiiiiiiii",
 "conv": "thiscall",
 "returns": "int",
 "this_size": "0x4000",
+"this_com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+},
 "args": [
 "int",
 "int",
@@ -248738,9 +251818,9 @@
 }
 },
 {
-"name": "sub_1025D750 0x1025D750",
+"name": "FontGlyphCache_GetDevice 0x1025D750",
 "original": "0x1025D750",
-"candidate": "_Z11fn_1025D750v",
+"candidate": "_Z24FontGlyphCache_GetDevicev",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -248767,9 +251847,9 @@
 }
 },
 {
-"name": "sub_1025D760 0x1025D760",
+"name": "FontGlyphCache_CreateTexture 0x1025D760",
 "original": "0x1025D760",
-"candidate": "_Z11fn_1025D760jjjj9D3DFORMAT7D3DPOOL",
+"candidate": "_Z28FontGlyphCache_CreateTexturejjjj9D3DFORMAT7D3DPOOL",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -248803,9 +251883,9 @@
 }
 },
 {
-"name": "sub_1025D7B0 0x1025D7B0",
+"name": "FontGlyphCache_CreateVertexBuffer 0x1025D7B0",
 "original": "0x1025D7B0",
-"candidate": "_Z11fn_1025D7B0jjj7D3DPOOL",
+"candidate": "_Z33FontGlyphCache_CreateVertexBufferjjj7D3DPOOL",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -248837,9 +251917,9 @@
 }
 },
 {
-"name": "sub_102816E0 0x102816E0",
+"name": "sqgxTextureAddDepthStencil 0x102816E0",
 "original": "0x102816E0",
-"candidate": "_Z11fn_102816E0iii",
+"candidate": "_Z26sqgxTextureAddDepthStenciliii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -248984,9 +252064,9 @@
 }
 },
 {
-"name": "sub_102819D0 0x102819D0",
+"name": "sqgxTextureAddPalette 0x102819D0",
 "original": "0x102819D0",
-"candidate": "_Z11fn_102819D0iii",
+"candidate": "_Z21sqgxTextureAddPaletteiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249023,9 +252103,9 @@
 }
 },
 {
-"name": "sub_10281D60 0x10281D60",
+"name": "sqgxTextureSetPalette 0x10281D60",
 "original": "0x10281D60",
-"candidate": "_Z11fn_10281D60i",
+"candidate": "_Z21sqgxTextureSetPalettei",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249123,9 +252203,9 @@
 }
 },
 {
-"name": "sub_102820E0 0x102820E0",
+"name": "sqgxTextureSetRenderTarget 0x102820E0",
 "original": "0x102820E0",
-"candidate": "_Z11fn_102820E0P17IDirect3DSurface8",
+"candidate": "_Z26sqgxTextureSetRenderTargetP17IDirect3DSurface8",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249276,9 +252356,9 @@
 }
 },
 {
-"name": "sub_102823F0 0x102823F0",
+"name": "sqgxSetAlphaTest 0x102823F0",
 "original": "0x102823F0",
-"candidate": "_Z11fn_102823F0jj",
+"candidate": "_Z16sqgxSetAlphaTestjj",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249318,9 +252398,9 @@
 }
 },
 {
-"name": "sub_10282470 0x10282470",
+"name": "sqgxSetZWrite 0x10282470",
 "original": "0x10282470",
-"candidate": "_Z11fn_10282470i",
+"candidate": "_Z13sqgxSetZWritei",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249355,9 +252435,9 @@
 }
 },
 {
-"name": "sub_102824C0 0x102824C0",
+"name": "sqgxColorMask 0x102824C0",
 "original": "0x102824C0",
-"candidate": "_Z11fn_102824C0iiii",
+"candidate": "_Z13sqgxColorMaskiiii",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249430,9 +252510,9 @@
 }
 },
 {
-"name": "sub_102826C0 0x102826C0",
+"name": "sqgxBlendAdd 0x102826C0",
 "original": "0x102826C0",
-"candidate": "_Z11fn_102826C0v",
+"candidate": "_Z12sqgxBlendAddv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249500,9 +252580,9 @@
 }
 },
 {
-"name": "sub_10282910 0x10282910",
+"name": "sqgxBlendSub 0x10282910",
 "original": "0x10282910",
-"candidate": "_Z11fn_10282910v",
+"candidate": "_Z12sqgxBlendSubv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249570,9 +252650,9 @@
 }
 },
 {
-"name": "sub_10282CB0 0x10282CB0",
+"name": "sqgxBlendTrspInv 0x10282CB0",
 "original": "0x10282CB0",
-"candidate": "_Z11fn_10282CB0v",
+"candidate": "_Z16sqgxBlendTrspInvv",
 "conv": "cdecl",
 "returns": "int",
 "args": [],
@@ -249605,9 +252685,9 @@
 }
 },
 {
-"name": "sub_10282DC0 0x10282DC0",
+"name": "sqgxBlendAddDestAlpha 0x10282DC0",
 "original": "0x10282DC0",
-"candidate": "_Z11fn_10282DC0v",
+"candidate": "_Z21sqgxBlendAddDestAlphav",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249675,9 +252755,9 @@
 }
 },
 {
-"name": "sub_10282FF0 0x10282FF0",
+"name": "sqgxBlendZeroSrcAlpha 0x10282FF0",
 "original": "0x10282FF0",
-"candidate": "_Z11fn_10282FF0v",
+"candidate": "_Z21sqgxBlendZeroSrcAlphav",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249710,9 +252790,9 @@
 }
 },
 {
-"name": "sub_10283110 0x10283110",
+"name": "sqgxBlendMul 0x10283110",
 "original": "0x10283110",
-"candidate": "_Z11fn_10283110v",
+"candidate": "_Z12sqgxBlendMulv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249774,9 +252854,9 @@
 }
 },
 {
-"name": "sub_10283A10 0x10283A10",
+"name": "sqgxSetViewport 0x10283A10",
 "original": "0x10283A10",
-"candidate": "_Z11fn_10283A10ffff",
+"candidate": "_Z15sqgxSetViewportffff",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249818,9 +252898,9 @@
 }
 },
 {
-"name": "sub_10283F70 0x10283F70",
+"name": "sqgxZBiasAdd 0x10283F70",
 "original": "0x10283F70",
-"candidate": "_Z11fn_10283F70i",
+"candidate": "_Z12sqgxZBiasAddi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249859,9 +252939,9 @@
 }
 },
 {
-"name": "sub_10283FC0 0x10283FC0",
+"name": "sqgxZBiasSet 0x10283FC0",
 "original": "0x10283FC0",
-"candidate": "_Z11fn_10283FC0i",
+"candidate": "_Z12sqgxZBiasSeti",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -249900,9 +252980,9 @@
 }
 },
 {
-"name": "sub_10284410 0x10284410",
+"name": "sqgxFlushTransformsLights 0x10284410",
 "original": "0x10284410",
-"candidate": "_Z11fn_10284410v",
+"candidate": "_Z25sqgxFlushTransformsLightsv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -249999,9 +253079,9 @@
 }
 },
 {
-"name": "sub_10284A80 0x10284A80",
+"name": "sqgxVertexShaderSelect 0x10284A80",
 "original": "0x10284A80",
-"candidate": "_Z11fn_10284A80v",
+"candidate": "_Z22sqgxVertexShaderSelectv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -250126,9 +253206,9 @@
 }
 },
 {
-"name": "sub_10284EF0 0x10284EF0",
+"name": "sqgxVertexShaderRelease 0x10284EF0",
 "original": "0x10284EF0",
-"candidate": "_Z11fn_10284EF0v",
+"candidate": "_Z23sqgxVertexShaderReleasev",
 "conv": "cdecl",
 "returns": "int",
 "args": [],
@@ -250161,9 +253241,9 @@
 }
 },
 {
-"name": "sub_1028AA70 0x1028AA70",
+"name": "sqgxShapeIndexBufferBegin 0x1028AA70",
 "original": "0x1028AA70",
-"candidate": "_Z11fn_1028AA70v",
+"candidate": "_Z25sqgxShapeIndexBufferBeginv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -250206,9 +253286,9 @@
 }
 },
 {
-"name": "sub_1028F8C0 0x1028F8C0",
+"name": "sqsnSceneDrawLayers 0x1028F8C0",
 "original": "0x1028F8C0",
-"candidate": "_Z11fn_1028F8C0i",
+"candidate": "_Z19sqsnSceneDrawLayersi",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -250443,9 +253523,9 @@
 }
 },
 {
-"name": "sub_10297CC0 0x10297CC0",
+"name": "sqsnShadowVolumeSetPass 0x10297CC0",
 "original": "0x10297CC0",
-"candidate": "_Z11fn_10297CC0i",
+"candidate": "_Z23sqsnShadowVolumeSetPassi",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -250496,9 +253576,9 @@
 }
 },
 {
-"name": "sub_10297EC0 0x10297EC0",
+"name": "sqsnShadowStencilTest 0x10297EC0",
 "original": "0x10297EC0",
-"candidate": "_Z11fn_10297EC0i",
+"candidate": "_Z21sqsnShadowStencilTesti",
 "conv": "cdecl",
 "returns": "int",
 "args": [
@@ -250543,9 +253623,9 @@
 }
 },
 {
-"name": "sub_102981E0 0x102981E0",
+"name": "sqsnShadowVolumeBeginVB 0x102981E0",
 "original": "0x102981E0",
-"candidate": "_Z11fn_102981E0v",
+"candidate": "_Z23sqsnShadowVolumeBeginVBv",
 "conv": "stdcall",
 "returns": "int",
 "args": [],
@@ -250589,9 +253669,9 @@
 }
 },
 {
-"name": "sub_102A21F0 0x102A21F0",
+"name": "sqsnShadowVolumeDraw 0x102A21F0",
 "original": "0x102A21F0",
-"candidate": "_Z11fn_102A21F0iii",
+"candidate": "_Z20sqsnShadowVolumeDrawiii",
 "conv": "cdecl",
 "returns": "void",
 "args": [
@@ -250712,9 +253792,9 @@
 }
 },
 {
-"name": "sub_102A2530 0x102A2530",
+"name": "sqsnSceneLayerDrawPlanarShadows 0x102A2530",
 "original": "0x102A2530",
-"candidate": "_Z11fn_102A2530ii",
+"candidate": "_Z31sqsnSceneLayerDrawPlanarShadowsii",
 "conv": "cdecl",
 "returns": "void",
 "args": [

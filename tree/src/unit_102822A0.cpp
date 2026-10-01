@@ -21,7 +21,7 @@ XI_API int __cdecl sqgxZTest(int a1)
 
 // FUNCTION: FFXIMAIN 0x102823F0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 69 returned normally, 207 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102823F0(unsigned int a1, unsigned int a2)
+XI_API int __cdecl sqgxSetAlphaTest(unsigned int a1, unsigned int a2)
 {
   int result;
   result = a2;
@@ -39,7 +39,7 @@ XI_API int __cdecl fn_102823F0(unsigned int a1, unsigned int a2)
 
 // FUNCTION: FFXIMAIN 0x10282470  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 84 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282470(int a1)
+XI_API int __cdecl sqgxSetZWrite(int a1)
 {
   int result;
   result = dword_1099D200;
@@ -63,7 +63,7 @@ XI_API int __cdecl fn_10282470(int a1)
 
 // FUNCTION: FFXIMAIN 0x102824C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 78 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102824C0(int a1, int a2, int a3, int a4)
+XI_API int __cdecl sqgxColorMask(int a1, int a2, int a3, int a4)
 {
   int result;
   unsigned int v5;
@@ -124,7 +124,7 @@ XI_API int __cdecl fn_10282640(void)
 
 // FUNCTION: FFXIMAIN 0x102826C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102826C0(void)
+XI_API int __cdecl sqgxBlendAdd(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -217,7 +217,7 @@ XI_API int __cdecl fn_102827D0(void)
 
 // FUNCTION: FFXIMAIN 0x10282910  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282910(void)
+XI_API int __cdecl sqgxBlendSub(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -305,7 +305,7 @@ XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
 
 // FUNCTION: FFXIMAIN 0x10282CB0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282CB0(void)
+XI_API int __cdecl sqgxBlendTrspInv(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -349,7 +349,7 @@ XI_API int __cdecl fn_10282CB0(void)
 
 // FUNCTION: FFXIMAIN 0x10282DC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282DC0(void)
+XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -438,7 +438,7 @@ XI_API int __cdecl fn_10282ED0(void)
 
 // FUNCTION: FFXIMAIN 0x10282FF0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 462 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282FF0(void)
+XI_API int __cdecl sqgxBlendZeroSrcAlpha(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -483,7 +483,7 @@ XI_API int __cdecl fn_10282FF0(void)
 
 // FUNCTION: FFXIMAIN 0x10283110  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10283110(void)
+XI_API int __cdecl sqgxBlendMul(void)
 {
   unsigned int v0;
   v0 = *(_DWORD *)(dword_1099D200 + 2840);
@@ -534,7 +534,7 @@ XI_API int __cdecl sqgxBlendOff(void)
 
 // FUNCTION: FFXIMAIN 0x10283A10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 81 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10283A10(float a1, float a2, float a3, float a4)
+XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
 {
   int result;
   _DWORD v5[6];
@@ -560,7 +560,7 @@ XI_API int __cdecl fn_10283A10(float a1, float a2, float a3, float a4)
 
 // FUNCTION: FFXIMAIN 0x10283F70  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 79 returned normally, 55 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10283F70(int a1)
+XI_API int __cdecl sqgxZBiasAdd(int a1)
 {
   int result;
   if ( a1 != 0 )
@@ -574,7 +574,7 @@ XI_API int __cdecl fn_10283F70(int a1)
 
 // FUNCTION: FFXIMAIN 0x10283FC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10283FC0(int a1)
+XI_API int __cdecl sqgxZBiasSet(int a1)
 {
   int result;
   result = dword_1099D200;
@@ -589,7 +589,7 @@ XI_API int __cdecl fn_10283FC0(int a1)
 
 // FUNCTION: FFXIMAIN 0x10284410  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 46 returned normally, 703 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10284410(void)
+XI_API int __cdecl sqgxFlushTransformsLights(void)
 {
   int v0;
   int v1;
@@ -633,11 +633,11 @@ XI_API int __cdecl fn_10284410(void)
   }
   if ( v0 >= 0 )
   {
-    orig::sub_1027EB10(v18, (const void *)(dword_1099D200 + 456));
+    orig::Mat4_Copy_1027EB10(v18, (const void *)(dword_1099D200 + 456));
   }
   else
   {
-    orig::sub_10298350((int)v21);
+    orig::sqgxMatrixPlanarShadow((int)v21);
     orig::sqMatrix4_10280140(v18, (float *)(dword_1099D200 + 456), v21);
   }
   g_pDancerDevice->SetTransform(D3DTS_PROJECTION, (void *)(dword_1099D200 + 748));
@@ -719,7 +719,7 @@ XI_API int __cdecl fn_10284410(void)
   {
     orig::sqMatrix4_1027F0E0(v17, dword_1099D200 + 812);
     orig::sqMatrix4_10280140((float *)(dword_1099D200 + 584), (float *)(dword_1099D200 + 456), v17);
-    result = orig::sub_1027F070(v17, (_DWORD *)(dword_1099D200 + 584));
+    result = orig::Mat4_Transpose(v17, (_DWORD *)(dword_1099D200 + 584));
   }
   dword_109A2730 = 0;
   return result;

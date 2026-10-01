@@ -73,7 +73,7 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x101772E0` | sub_101772E0 | unsupported construct __userpurge |  |
 | `0x10178250` | sub_10178250 | callee sub_101772E0 has no C++ type (int __userpurge@<eax>(const char **this@<ecx>, void *edi0@<edi>, int)) |  |
 | `0x10184C90` | sub_10184C90 | unsupported construct __asm |  |
-| `0x10281510` | sub_10281510 | unsupported construct MEMORY[ |  |
+| `0x10281510` | sqgxTextureCreateFromImage | unsupported construct MEMORY[ |  |
 | `0x1028AB50` | sub_1028AB50 | unsupported construct retaddr |  |
 | `0x102D538A` | sub_102D538A | callee _D3DXFilterTexture@16 has no C++ type (int __userpurge@<eax>(unsigned int edi0@<edi>, struct IDirect3DSurface8 *, const struct tagPALETTEENTRY *, char *, int)) |  |
 
@@ -96,11 +96,11 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x10017310` | sub_10017310 | memory differs at 1 byte(s), first 0x10350760: original 120 / reconstruction 119 | `G_10350760 = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2 + 2) * 0.000015259022 * 480` |  |
 | `0x1001C930` | sub_1001C930 | stubbed call #19 differs: original 0xC0000332(ecx=0x6E080300, 0x00000089, 0x00000001) / reconstruction 0xC0000 | `G_1045666C->pDevice->lpVtbl->SetVertexShader(G_1045666C->pDevice, 66u);` |  |
 | `0x10029A50` | sub_10029A50 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21 |  |  |
-| `0x1002B6E0` | sub_1002B6E0 | ended differently: original return  / reconstruction fault access 0x000000D9 size 1 type 20 |  | Per-actor model draw: resets state, transforms, fog modes, animates via Model_AnimateEntry (both branches), dr... |
+| `0x1002B6E0` | CXiSkeletonActor_DrawModel | ended differently: original return  / reconstruction fault access 0x000000D9 size 1 type 20 |  | Per-actor model draw: resets state, transforms, fog modes, animates via Model_AnimateEntry (both branches), dr... |
 | `0x1003CB30` | CMoCamera_SetPathData | ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out) |  | Copies a fixed position/direction pair plus a variable-length waypoint array (packed count field, same format ... |
 | `0x10047C30` | CMoGeneratorClone_InitCloneFromSource | ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out) |  | Zeroes a block, copies transform fields (fixed + a variable-length waypoint-style array) from a source struct. |
 | `0x100820B0` | CXiSkeletonActor_GetWalkSpeed | x87 result differs: (9252071032088428544, 49265) vs (9252070941396647936, 49265) |  | PS2 slot 55 -> PC slot 108. Confirmed derived, not stored: reads GetMoveSpeed's own field (+0x98) and scales b... |
-| `0x10086210` | sub_10086210 | stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x000 | `F_100279A0();` |  |
+| `0x10086210` | Actor_DrawWorldText | stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x000 | `F_100279A0();` |  |
 | `0x10086900` | sub_10086900 | stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x000 | `F_100279A0();` |  |
 | `0x100C52A0` | CXiSkeletonActor_Constructor_1Arg | memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1 | `*(_DWORD *)(self + 1840) = 72;` |  |
 | `0x100C5560` | CXiSkeletonActor_Constructor_2Arg | memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1 | `*(_DWORD *)(self + 1868) = 0;` |  |
@@ -128,7 +128,7 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x10281DB0` | sub_10281DB0 | ended differently: original return  / reconstruction fault access 0xB7774858 size 4 type 19 | `G_1066941C->lpVtbl->SetTexture(G_1066941C, v2, (&G_1099D638)[10 * v3]);` |  |
 | `0x10282A30` | sub_10282A30 | x87 result differs: None vs (12302071664836870144, 49167) |  |  |
 | `0x10283420` | sub_10283420 | stubbed call #3 differs: original 0xC0000332(ecx=0x6E080300, 0x00000094, 0x00000001) / reconstruction 0xC00003 | `result = ((int (__cdecl *)(IDirect3DDevice8 *, signed int, float *))G_1066941C->lpVtbl->Se` |  |
-| `0x10284950` | sub_10284950 | ended differently: original return  / reconstruction fault Invalid memory read (UC_ERR_READ_UNMAPPED) |  |  |
+| `0x10284950` | sqgxVertexShaderCreate | ended differently: original return  / reconstruction fault Invalid memory read (UC_ERR_READ_UNMAPPED) |  |  |
 | `0x1028AFE0` | sqgxShape_1028AFE0 | ended differently: original return  / reconstruction limit  | `F_1028BB10(i);` |  |
 | `0x1029B620` | sub_1029B620 | memory differs at 5 byte(s), first 0x30E70A40: original 0 / reconstruction 3 | `*v2 = *(_DWORD *)((char *)v2 + 2400 - (_DWORD)v0 + G_1099D200);` |  |
 | `0x1029B9D0` | sub_1029B9D0 | ended differently: original return  / reconstruction limit  | `G_1066941C->lpVtbl->SetStreamSource(G_1066941C, v7, a1[v4 - 651], 8u);` |  |
@@ -138,7 +138,7 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | Address | Name | Original outcomes | What it does |
 |---|---|---|---|
 | `0x10002130` | Gfx_ProbeDeviceCaps | fault 100 | CheckDeviceType + CheckDeviceFormat probes, including DXT1/DXT3/DXT5. |
-| `0x10003040` | sub_10003040 | fault 99, limit 1 |  |
+| `0x10003040` | Gfx_DestroyD3DHolder | fault 99, limit 1 |  |
 | `0x10003890` | sub_10003890 | fault 100 |  |
 | `0x100091B0` | CDx_Initialize | import 100 | CheckDeviceFormat x3, multisample checks x2, loads mousenor.ani. Queries shader-model support (verified D3DVS_... |
 | `0x10009F20` | CDx_PushRenderTargetTexture | fault 99, limit 1 | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
@@ -157,13 +157,13 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x100467E0` | sub_100467E0 | fault 100 |  |
 | `0x10047590` | CMoSkeletonElem_UpdateBoneTransform | fault 100 | Normalizes local rotation (Euler wraparound), calls Mat4x4_Multiply to combine with the parent's matrix (confi... |
 | `0x100548D0` | sub_100548D0 | fault 99, limit 1 |  |
-| `0x1006C140` | sub_1006C140 | fault 100 |  |
+| `0x1006C140` | CMoOcclusionMng_Constructor | fault 100 |  |
 | `0x1006C530` | sub_1006C530 | fault 100 | Draws the queried region into the 16x16 occlusion target: two CDx_DrawPrimitiveUP calls, state set directly on... |
 | `0x1006E6B0` | CMoProcessor_ScratchMatrixOp | fault 99, limit 1 | CORRECTED from an earlier name (Pool_AllocSlot) that undersold what this does. Full decompilation shows a self... |
-| `0x10075280` | sub_10075280 | fault 100 |  |
+| `0x10075280` | Gfx_InitCubeMapTextures | fault 100 |  |
 | `0x100AC390` | sub_100AC390 | fault 100 |  |
 | `0x100C4CE0` | sub_100C4CE0 | fault 98, limit 2 |  |
-| `0x100CB4E0` | sub_100CB4E0 | fault 100 |  |
+| `0x100CB4E0` | Actor_SelectNearestLights | fault 100 |  |
 | `0x100CE480` | CXiSkeletonActor_ReverseFindRes | fault 100 | PS2 XiSkeletonActor::ReverseFindRes(RES_TYPE, uint, uint, int) (0x1CF770). Called with (7, id, -1, ...) by Set... |
 | `0x1016FCD0` | sub_1016FCD0 | limit 26, fault 74 |  |
 | `0x1017B510` | sub_1017B510 | fault 100 | Sets D3DTS_PROJECTION plus fog table/vertex/range modes, fog color/start/end and ambient from the renderer blo... |

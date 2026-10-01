@@ -18,7 +18,7 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   _DWORD *v10;
   _DWORD *v11;
   char v12;
-  int v13;
+  int Global_1047D114;
   char v14;
   int v15;
   bool v16; // zf
@@ -34,8 +34,8 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   this->field_DC = 0;
   this->field_B0 = 0;
   this->field_EC = self + 96 + v3;
-  orig::sub_1003B750((_DWORD *)(self + 48), 0);
-  orig::sub_1003B780((_DWORD *)v5, 0);
+  orig::CMoAttachments_ClearCaster((_DWORD *)(self + 48), 0);
+  orig::CMoAttachments_ClearTarget((_DWORD *)v5, 0);
   this->field_78 = 1065353216;
   this->field_7C = 1065353216;
   this->field_80 = 1065353216;
@@ -43,7 +43,8 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   this->field_88 = 1065353216;
   this->field_8C = 1065353216;
   if ( at<uint8_t>(this, 0x20) != 126
-    || orig::sub_10049570((_DWORD *)self) != 0 && (*(_BYTE *)(orig::sub_10049570((_DWORD *)self) + 36) & 0x7F) == 0x3D )
+    || orig::CMoGeneratorClone_ResolveTarget((_DWORD *)self) != 0
+    && (*(_BYTE *)(orig::CMoGeneratorClone_ResolveTarget((_DWORD *)self) + 36) & 0x7F) == 0x3D )
   {
     this->field_DE = 0;
     this->field_DF = 0;
@@ -77,15 +78,15 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   if ( v8[8] == 1953723748 )
     this->field_DE |= 0x20u;
 LABEL_21:
-  v13 = orig::sub_10074290();
-  if ( v13 == 56885 )
+  Global_1047D114 = orig::GetGlobal_1047D114();
+  if ( Global_1047D114 == 56885 )
   {
     v14 = this->field_DF | 1;
 LABEL_48:
     this->field_DF = v14;
     goto LABEL_49;
   }
-  if ( v13 == 83895 || v13 == 83896 || v13 == 83903 || v13 == 83904 )
+  if ( Global_1047D114 == 83895 || Global_1047D114 == 83896 || Global_1047D114 == 83903 || Global_1047D114 == 83904 )
   {
     v15 = this->field_20;
     if ( v15 == 825319984
@@ -98,13 +99,13 @@ LABEL_48:
       this->field_DF |= 2u;
     }
   }
-  if ( v13 == 83897 )
+  if ( Global_1047D114 == 83897 )
   {
     v16 = this->field_20 == 825516656;
   }
   else
   {
-    if ( v13 != 83905 && v13 != 83906 && v13 != 83907 && v13 != 83908 )
+    if ( Global_1047D114 != 83905 && Global_1047D114 != 83906 && Global_1047D114 != 83907 && Global_1047D114 != 83908 )
       goto LABEL_49;
     v17 = this->field_20;
     if ( v17 == 808542768 || v17 == 825319984 || v17 == 842097200 || v17 == 808608304 || v17 == 825385520 )
@@ -124,11 +125,11 @@ LABEL_49:
      && (*(_DWORD *)(v5 + 4) & 0xF) + 16 * (*(_BYTE *)(v5 + 6) & 1u) <= 0xF)
     && v7 )
   {
-    orig::sub_1003B7B0((int *)v5, nullptr);
-    orig::sub_1003B830((int *)v5, nullptr);
+    orig::CMoAttachments_SetCaster((int *)v5, nullptr);
+    orig::CMoAttachments_SetTarget((int *)v5, nullptr);
     orig::SharedConditionalStateReset(self);
   }
-  result = orig::sub_100492F0((_DWORD *)self, 123);
+  result = orig::CMoGeneratorClone_FindCmdByType((_DWORD *)self, 123);
   if ( result == nullptr )
     this->field_98 = 0;
   return result;
@@ -145,12 +146,12 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
   int v8;
   int i;
   int v11;
-  v5 = orig::sub_100286B0(252, 1);
+  v5 = orig::Mem_AllocWithFallback(252, 1);
   v6 = (int)v5;
   byte_1047D12C = 1;
   if ( v5 != nullptr )
   {
-    orig::sub_10047F80((int)v5);
+    orig::CMoGeneratorClone_VT_1032B114_Constructor((int)v5);
     *(_DWORD *)v6 = &CMoGeneratorClone_vtbl;
     *(_DWORD *)(v6 + 48) = &mixin_of_CMoGeneratorClone_0x1032B680;
     *(_DWORD *)(v6 + 240) = 0;
@@ -160,22 +161,22 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
   {
     v6 = 0;
   }
-  orig::sub_10053450(v6, (int)self);
+  orig::CMoGeneratorClone_CopyParams(v6, (int)self);
   *(_DWORD *)(v6 + 120) = 1065353216;
   *(_DWORD *)(v6 + 124) = 1065353216;
   *(_DWORD *)(v6 + 128) = 1065353216;
   *(_DWORD *)(v6 + 132) = 1065353216;
   *(_DWORD *)(v6 + 136) = 1065353216;
   *(_DWORD *)(v6 + 140) = 1065353216;
-  orig::sub_1003B640((_DWORD *)(v6 + 48));
+  orig::CMoAttachments_Reset((_DWORD *)(v6 + 48));
   v7 = *(_DWORD *)(v6 + 36);
   *(_BYTE *)(v6 + 26) |= 5u;
   *(_DWORD *)(v6 + 156) = 0;
   *(_DWORD *)(v6 + 36) = v7 | 0x4000000;
   *(_DWORD *)(v6 + 244) = this->field_14;
-  orig::sub_10074140((_DWORD *)g_pMeshResourceMng, &v11, v6);
-  orig::sub_1003B7B0((int *)(v6 + 48), a2);
-  orig::sub_1003B830((int *)(v6 + 48), a3);
+  orig::MeshResourceMng_AllocHandle((_DWORD *)g_pMeshResourceMng, &v11, v6);
+  orig::CMoAttachments_SetCaster((int *)(v6 + 48), a2);
+  orig::CMoAttachments_SetTarget((int *)(v6 + 48), a3);
   v8 = *(_DWORD *)(v6 + 216);
   *(_DWORD *)(v6 + 32) = 1852796003;
   *(_DWORD *)(v6 + 156) = 0;
@@ -183,7 +184,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
   *(_DWORD *)(v6 + 40) = this->field_14;
   *(_WORD *)(v6 + 24) &= 0x8000u;
   *(_DWORD *)(v6 + 36) &= ~0x8000000u;
-  orig::sub_10072030((_DWORD *)v6);
+  orig::CMoResource_RegisterInTypeList((_DWORD *)v6);
   if ( (_BYTE)a4 != 0 )
     orig::SharedConditionalStateReset(v6);
   for ( i = this->field_E0; i != 0; i += 4 * ((*(_DWORD *)i >> 8) & 0x1F) )
@@ -191,7 +192,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
     if ( *(_BYTE *)i == 4 )
     {
       if ( *(_DWORD *)(i + 4) == 0 )
-        *(_DWORD *)(i + 4) = *orig::sub_10072290(self, &a2, 25, *(_DWORD *)(i + 8));
+        *(_DWORD *)(i + 4) = *orig::CMoResource_FindByTypeAndId(self, &a2, 25, *(_DWORD *)(i + 8));
       a4 = this->field_D8 & 0x1FF;
       *(float *)(i + 16) = (float)a4;
     }
@@ -208,9 +209,9 @@ int CMoGeneratorClone::InitDefaultParams()
   _DWORD *v2;
   if ( this->field_A4 == 0 )
   {
-    v2 = orig::sub_1006C0F0(64, 1);
+    v2 = orig::Mem_AllocWithHeader12(64, 1);
     this->field_A4 = v2;
-    orig::sub_100746A0(v2);
+    orig::MoProcessor_CallVSlot49(v2);
     this->field_78 = 1065353216;
     this->field_7C = 1065353216;
     this->field_80 = 1065353216;

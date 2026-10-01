@@ -7,5 +7,5 @@
 _DWORD * CMoAttachments_VT_1032C4E8::vf001(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  return orig::sub_10071180(self - 17, a2);
+  return orig::CMoAttachments_VT_1032C4E8_ScalarDeletingDtor(self - 17, a2);
 }

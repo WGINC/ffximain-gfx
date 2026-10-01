@@ -1,0 +1,32 @@
+{
+"0x10003b60": {
+"unit": "Debug",
+"why": "called only from Debug (1 call site) and adjacent to its code",
+"kind": "callers"
+},
+"0x10003d70": {
+"unit": "Debug",
+"why": "called only from Debug (1 call site) and adjacent to its code",
+"kind": "callers"
+},
+"0x1002c360": {
+"unit": "CXiSkeletonActor",
+"why": "called only from CXiSkeletonActor (1 call site) and adjacent to its code",
+"kind": "callers"
+},
+"0x10177240": {
+"unit": "CTsZoneMap",
+"why": "called only from CTsZoneMap (1 call site) and adjacent to its code",
+"kind": "callers"
+},
+"0x10178b00": {
+"unit": "CTsZoneMap",
+"why": "called only from CTsZoneMap (1 call site) and adjacent to its code",
+"kind": "callers"
+},
+"0x102a21f0": {
+"unit": "sqsnShadow",
+"why": "called only from sqsnShadow (1 call site) and adjacent to its code",
+"kind": "callers"
+}
+}

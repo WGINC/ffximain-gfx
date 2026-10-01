@@ -14,7 +14,7 @@ cases = []; missing = []
 for c in json.load(open(raw_cases)):
     ea = hex(int(c['original'], 16)); p = P.get(ea)
     if not p: continue
-    key = '%s::%s' % (p['class'], p['method']) if p['class'] else None
+    key = p.get('symbol') or ('%s::%s' % (p['class'], p['method']) if p['class'] else None)
     if key is None:
         cands = [k for k in by if '::' not in k and k.split()[-1] in (c['name'].split()[0], 'fn_%08X' % int(ea, 16), 'fn_%08x' % int(ea, 16))]
         key = cands[0] if cands else None

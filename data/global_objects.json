@@ -1,0 +1,11 @@
+{
+ "g_pZoneMap":     {"class": "CTsZoneMap",      "why": "App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)"},
+ "g_pXiZone":      {"class": "XiZone",          "why": "0x1018B130 stores the result of 0x1018B170 (stores the XiZone vtable)"},
+ "dword_103D3C64": {"class": "CApp",            "why": "0x100161B0 stores the result of 0x10001240 (stores the CApp vtable)"},
+ "dword_1047B974": {"class": "CYyVbMng",        "why": "App_InitScene stores the result of 0x1003B080 (stores the CYyVbMng vtable)"},
+ "dword_1047C004": {"class": "CMoOcclusionMng", "why": "0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable)"},
+ "dword_104E1B90": {"class": "Obj_104E1B90",    "why": "singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified"},
+ "dword_104E1D4C": {"class": "Obj_104E1D4C",    "why": "singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified"},
+ "dword_10621944": {"class": "Obj_10621944",    "why": "singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified"},
+ "dword_104E1BF8": {"class": "Obj_104E1BF8",    "why": "static object (never assigned; methods called on its address); class not identified"}
+}

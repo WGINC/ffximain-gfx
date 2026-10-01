@@ -241,20 +241,81 @@ def main(exp, gate, manf, incdir, outdir):
     known = sorted(sizes, key=len, reverse=True)
 
     # placement
-    place = {}
+    place, nothis = {}, {}
+    _units_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'units.json')
+    UNITS = json.load(open(_units_path)) if os.path.exists(_units_path) else {}
+    _uc = os.path.join(os.path.dirname(_units_path), 'units_callers.json')
+    if os.path.exists(_uc):                         # called only from one unit and adjacent to it
+        for k, v in json.load(open(_uc)).items():
+            if UNITS.get(k, {}).get('kind') in (None, 'gap'): UNITS[k] = v
+    _votes_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_votes.json')
+    VOTES = json.load(open(_votes_path)) if os.path.exists(_votes_path) else {}
+    _dd = os.path.dirname(_votes_path)
+    TSRC = json.load(open(os.path.join(_dd, 'this_sources.json'))) if os.path.exists(os.path.join(_dd, 'this_sources.json')) else {}
+    GOBJ = json.load(open(os.path.join(_dd, 'global_objects.json'))) if os.path.exists(os.path.join(_dd, 'global_objects.json')) else {}
+    def global_this(ea):
+        """callers pass the object held in one global (whose class its creation shows) as `this`"""
+        srcs = TSRC.get(hex(ea), {}).get('sources', {})
+        gl = collections.Counter()
+        for s, n in srcs.items():
+            m = re.match(r'^(?:load|addr) (\w+)', s)
+            if m: gl[m.group(1)] += n
+        if len(gl) != 1: return None
+        g, n = gl.most_common(1)[0]
+        rest = {s: k for s, k in srcs.items() if not s.startswith(('load', 'addr'))}
+        # every other call site must pass a register (a caller's own `this`), and the global
+        # must account for at least two thirds of the call sites
+        if any(not s.startswith('reg ') for s in rest) or n * 3 < 2 * sum(srcs.values()): return None
+        if g not in GOBJ: return None
+        return GOBJ[g]['class'], 'callers pass the object in %s as this (%d of %d call sites); %s' % (
+            g, n, sum(srcs.values()), GOBJ[g]['why'])
+    def ancestors(c):
+        out = [c]
+        while c in bases: c = bases[c]; out.append(c)
+        return out
+    def common_base(cs):
+        chains = [ancestors(c) for c in cs]
+        for c in chains[0]:
+            if all(c in ch for ch in chains): return c if c in sizes or c in bases else None
+        return None
     for ea in sorted(passed):
         r = R[ea]; nm = r['name']; sig = r['text'].split('\n{')[0]
         cls = meth = None; why = None
         self_t = r['args'][0][1] if r['cc'] == 'thiscall' and r['args'] else None
         if ea in man and man[ea]['class']:
             cls, meth, why = man[ea]['class'], man[ea]['name'], 'tree manifest'
+        elif r['cc'] == 'thiscall' and hex(ea) in VOTES and VOTES[hex(ea)]['votes'] and not VOTES[hex(ea)]['other']:
+            # every caller passes its own `this` unchanged: the method belongs to the callers'
+            # class, or to their nearest common base when several subclasses call it
+            lca = common_base(list(VOTES[hex(ea)]['votes']))
+            if lca:
+                cls, meth, why = lca, (nm if not nm.startswith('sub_') else 'fn_%08X' % ea), \
+                    'callers pass their own this (%s)' % ', '.join(sorted(VOTES[hex(ea)]['votes']))
         else:
             for c in known:
                 if nm.startswith(c + '_') and len(nm) > len(c) + 1:
                     cls, meth, why = c, nm[len(c) + 1:], 'IDB name'; break
             if cls is None and self_t and re.match(r'^(CDx|D3DHolder) \*', self_t):
                 cls, meth, why = self_t.split()[0], nm if not nm.startswith('sub_') else 'fn_%08X' % ea, 'typed this'
-        if cls and r['cc'] != 'thiscall': cls = None   # static helpers stay free
+        nothis[ea] = None
+        if cls is None and r['cc'] == 'thiscall':
+            gt = global_this(ea)
+            if gt: cls, meth, why = gt[0], (nm if not nm.startswith('sub_') else 'fn_%08X' % ea), gt[1]
+        if cls and r['cc'] != 'thiscall':
+            if why == 'tree manifest' and r['cc'] == 'stdcall':
+                # a method from the class's vtable whose body never reads ECX: IDA types it stdcall.
+                # A thiscall member that ignores `this` pops the same stack arguments, so it is the
+                # same ABI -- it stays a member (static when the class model says so)
+                nothis[ea] = 'static' if man[ea].get('static') else 'member'
+                why = 'tree manifest; does not use this'
+            elif why == 'IDB name':
+                # named for its class but takes no `this`: a static member (same ABI as a free
+                # function; the class only scopes the name). Accessors like
+                # CMoTask_GetRuntimeClass_variantN are inline copies emitted in other units
+                nothis[ea] = 'static'
+                why = 'IDB name; static (takes no this)'
+            else:
+                cls = None                          # free helpers stay free (placed by unit below)
         place[ea] = (cls, ident(meth) if meth else None, why)
 
     # sizes the IDB's own named structs establish (larger than a descriptor-only record)
@@ -268,6 +329,7 @@ def main(exp, gate, manf, incdir, outdir):
     for ea, (cls, meth, why) in place.items():
         if not cls: continue
         r = R[ea]; L = layouts.setdefault(cls, Layout(cls, sizes.get(cls)))
+        if nothis.get(ea): continue                 # no `this` accesses to learn a layout from
         body = r['text'].split('\n{', 1)[1]
         body = re.sub(r'\bthis\b', 'self', body)
         p0 = r['args'][0][0] if r['args'] else 'self'
@@ -365,7 +427,14 @@ def main(exp, gate, manf, incdir, outdir):
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
-        if cls:
+        if cls and nothis.get(ea):
+            mp = ', '.join(ps)
+            st = nothis[ea] == 'static'
+            ccs = ' __stdcall' if st and ps else ''
+            decls[cls].append('    %s%s%s %s(%s);  // 0x%08X' % ('static ' if st else '', ret, ccs, meth, mp, ea))
+            code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, ccs, cls, meth, mp, body.rstrip())
+            per_file['src/%s.cpp' % cls].append((ea, code))
+        elif cls:
             pname = re.findall(r'(\w+)\s*$', ps[0])[0] if ps else 'self'
             self_t = ps[0][:ps[0].rfind(pname)].strip() if ps else 'void *'
             if pname != 'self':
@@ -384,11 +453,18 @@ def main(exp, gate, manf, incdir, outdir):
             fname = r['name'] if re.match(r'^[A-Za-z_]\w*$', r['name']) and not r['name'].startswith(('sub_', 'nullsub_')) else 'fn_%08X' % ea
             fname = fname if fname not in ('main',) else 'fn_%08X' % ea
             ps = [re.sub(r'\bself\b', 'self_', p) for p in ps]; body = re.sub(r'\bself\b', 'self_', body)
+            u = UNITS.get(hex(ea))
+            if u:
+                note += '  (unit %s: %s)' % (u['unit'], u['why'])
+                why = 'unit: ' + u['why']
             code = '%s\nXI_API %s %s %s(%s)\n%s' % (note, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
-            unit = 'src/free_%05X.cpp' % ((ea - 0x10000000) >> 16 << 0)
-            per_file['src/gfx_free_%03X.cpp' % ((ea >> 16) & 0xFFF)].append((ea, code))
+            # a free function goes into the source unit the binary places it in (unit_place.py);
+            # with no evidence it stays in a file named for its 64 KB slice of the image
+            per_file['src/%s.cpp' % u['unit'] if u else 'src/gfx_free_%03X.cpp' % ((ea >> 16) & 0xFFF)].append((ea, code))
             decls['__free__'].append('XI_API %s %s %s(%s);  // 0x%08X' % (ret, cc, fname, ', '.join(ps) or 'void', ea))
-        report[hex(ea)] = {'class': cls, 'method': meth, 'why': why}
+        report[hex(ea)] = {'class': cls, 'method': meth, 'why': why,
+                           'symbol': '%s::%s' % (cls, meth) if cls else fname}
+        if not cls and UNITS.get(hex(ea)): report[hex(ea)]['unit'] = UNITS[hex(ea)]['unit']
 
     # headers
     for cls, L in layouts.items():
@@ -432,7 +508,7 @@ def main(exp, gate, manf, incdir, outdir):
         f.write('\n'.join(sorted(set(decls['__free__']), key=lambda s: s.split('//')[-1])) + '\n')
     for path, items in per_file.items():
         cls = os.path.basename(path)[:-4]
-        inc = '#include "%s.hpp"\n' % cls if not cls.startswith('gfx_free') else ''
+        inc = '#include "%s.hpp"\n' % cls if cls in layouts else ''
         with open(os.path.join(outdir, path), 'w') as f:
             f.write('// %s -- generated by hx2clean.py from gate-verified Hex-Rays output.\n' % os.path.basename(path))
             f.write('#include "gfx_all.hpp"\n' + inc + '\n')

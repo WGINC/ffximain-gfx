@@ -13,7 +13,7 @@
 # The game DLL is read from $FFXI_DLL and is never copied into the repo.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
-EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_final.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
+EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_current.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
 gate2() {  # gate2 DLL CASES OUTPREFIX: two shards in parallel
   python3 -c "import json,sys;c=json.load(open('$2'));json.dump(c[0::2],open('$3_c0.json','w'));json.dump(c[1::2],open('$3_c1.json','w'))"

@@ -20,7 +20,7 @@ Private work: nothing here is published, and no game bytes are in the repo.
 ## Reproduce
 
     export FFXI_DLL=/path/to/FFXiMain_unpacked.dll   # never copied into the repo
-    ./run.sh all data/exports/gfx_export_final.jsonl myrun
+    ./run.sh all data/exports/gfx_export_current.jsonl myrun
 
 `run.sh` translates the export, builds one unit per function, gates every function, generates the
 clean tree from the passing ones, gates that tree as built, annotates it and writes `RESIDUE.md`,

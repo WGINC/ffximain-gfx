@@ -11,6 +11,8 @@ public:
     unsigned __int16 PrepareRenderStateSimpleEntry(int a2, int a3, int a4, int a5, int a6);  // 0x10025060
     __int16 GetElementCount();  // 0x10025180
     int MarkReferencedBones(int a2);  // 0x100251A0
+    static char ** __cdecl GetRuntimeClass();  // 0x10029880
+    _DWORD * ScalarDeletingDtor(char a1);  // 0x10029CB0
     __int16 PrepareRenderStateV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7);  // 0x1002DC10
 
     void **vftable;  // +0x0

@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CYyModel {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100298C0
     int * ScalarDeletingDtor(char a2);  // 0x1002B530
 
     void **vftable;  // +0x0

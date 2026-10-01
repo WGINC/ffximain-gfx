@@ -5,6 +5,8 @@
 #pragma pack(push, 1)
 class XI_API CMoPointLightProgElem {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100562E0
+    BOOL vf012(int a1);  // 0x10056360
     int * ScalarDeletingDtor(char a2);  // 0x10056370
 
     void **vftable;  // +0x0

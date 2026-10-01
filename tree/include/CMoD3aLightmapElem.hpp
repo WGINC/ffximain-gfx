@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoD3aLightmapElem {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1003EE60
     int set_field_194(int a2);  // 0x10052C50
     int get_field_194();  // 0x10052C60
     int * ScalarDeletingDtor(char a2);  // 0x10052C70

@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CYyModelDt_VT_1032A430.hpp"
 
+// FUNCTION: FFXIMAIN 0x10025090  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CYyModelDt_VT_1032A430::vf011()
+{
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x100250A0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
@@ -9,7 +16,7 @@ int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   orig::sub_100250C0(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
 }
 

@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoDxStatusMng.hpp"
 
+// FUNCTION: FFXIMAIN 0x1006B040  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
+{
+  return &CMoDxStatusMng_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x1006B070  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoDxStatusMng::ScalarDeletingDtor(char a2)
@@ -9,6 +16,6 @@ _DWORD * CMoDxStatusMng::ScalarDeletingDtor(char a2)
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   orig::sub_1006B090(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
 }

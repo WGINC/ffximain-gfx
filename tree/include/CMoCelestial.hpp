@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoCelestial {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1003D940
     _DWORD * ScalarDeletingDtor(char a2);  // 0x1003D960
 
     void **vftable;  // +0x0

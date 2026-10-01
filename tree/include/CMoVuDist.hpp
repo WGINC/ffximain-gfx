@@ -5,6 +5,8 @@
 #pragma pack(push, 1)
 class XI_API CMoVuDist {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100430C0
+    BOOL vf012(int a1);  // 0x10052DD0
     int vf008();  // 0x10052DE0
     int * ScalarDeletingDtor(char a2);  // 0x10052DF0
 

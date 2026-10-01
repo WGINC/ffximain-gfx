@@ -388,7 +388,8 @@ def main(exp, gate, manf, incdir, outdir):
         r = R[ea]; text = r['text']
         head, _, body = text.partition('\n{')
         body = '{' + body
-        comments = [l for l in head.splitlines() if l.startswith('//')]
+        # the IDB's own status lines ([gfx-recon ...]) describe a previous build; don't copy them
+        comments = [l for l in head.splitlines() if l.startswith('//') and '[gfx-recon' not in l]
         sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
         # names: objects -> orig::Name / global names
         reps = []
@@ -430,7 +431,7 @@ def main(exp, gate, manf, incdir, outdir):
         if cls and nothis.get(ea):
             mp = ', '.join(ps)
             st = nothis[ea] == 'static'
-            ccs = ' __stdcall' if st and ps else ''
+            ccs = (' ' + cc) if st else ''   # a static member keeps the original convention
             decls[cls].append('    %s%s%s %s(%s);  // 0x%08X' % ('static ' if st else '', ret, ccs, meth, mp, ea))
             code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, ccs, cls, meth, mp, body.rstrip())
             per_file['src/%s.cpp' % cls].append((ea, code))

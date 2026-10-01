@@ -6,10 +6,10 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 |---|---|---|
 | Microsoft D3DX 8.1 (statically linked) | 47 | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |
 | Constructs C++ cannot express | 9 | Stays original code (`orig::`). Listed below with the exact construct. |
-| Did not compile, or compiles with no gate case | 14 | Translator gaps; listed below. |
-| Gate FAIL (decompiled code is wrong) | 42 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
-| Verified as decompiled, not in the clean tree | 4 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
-| Gate INCONCLUSIVE (no comparable run) | 32 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
+| Did not compile, or compiles with no gate case | 3 | Translator gaps; listed below. |
+| Gate FAIL (decompiled code is wrong) | 43 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
+| Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
+| Gate INCONCLUSIVE (no comparable run) | 33 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
 
 ## Microsoft D3DX 8.1 (47)
 
@@ -77,35 +77,15 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x1028AB50` | sub_1028AB50 | unsupported construct retaddr |  |
 | `0x102D538A` | sub_102D538A | callee _D3DXFilterTexture@16 has no C++ type (int __userpurge@<eax>(unsigned int edi0@<edi>, struct IDirect3DSurface8 *, const struct tagPALETTEENTRY *, char *, int)) |  |
 
-## Did not compile / no gate case (14)
+## Did not compile / no gate case (3)
 
 | Address | Name | Reason | What it does |
 |---|---|---|---|
 | `0x10010D20` | App_InitScene | did not compile as C++: cannot convert '_DWORD*' {aka 'unsigned int*'} to '_WORD*' {aka 'short unsigned int*'} in  | Scene/app init: creates every render target (scene A/B CAcc2 @CDx+0x190, 256x256 CAcc @CDx+0x1BC, menu-resolut... |
 | `0x10011A00` | Frame_Render | did not compile as C++: typedef 'T_1032919C' is initialized (use 'decltype' instead) | Per-frame render function: TestCooperativeLevel, BeginScene, ~180 calls, EndScene, Present. 18-case state mach... |
-| `0x10029CB0` | CYyModelDt_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) |  |
-| `0x10029DB0` | CYyModelBase_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) |  |
-| `0x1002A0A0` | CYyModelDt_VT_1032A72C_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) | Unexamined. Calls 0x10029CD0 then conditionally 0x1002C8B0 based on a caller flag. |
-| `0x10039A80` | TexObj_Create | did not compile as C++: no match for 'operator--' (operand type is '_D3DFORMAT' {aka 'D3DFORMAT'}) | Chooses the final format from compression class (flags>>4 & 0xF) and destination format (+0x29). Uncompressed ... |
-| `0x1003D010` | CMoCameraTask_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) |  |
-| `0x10047940` | CMoSkeletonElem_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) |  |
-| `0x100C5540` | CXiSkeletonActor_ScalarDeletingDtor | compiles; no gate case (calling convention fastcall) |  |
-| `0x100C5C00` | CXiSkeletonActor_DestructorBody | compiles; no gate case (calling convention fastcall) | Releases resources and destroys the owned async skeleton-load task at +0xA08 (calls its vtable slot 6, scalar-... |
-| `0x100D6370` | CXiSkeletonActor_KillAllGenerater | compiles; no gate case (calling convention fastcall) | PS2 slot 13 -> PC slot 18. Releases the two generator sub-objects. PS2's own spelling, kept as-is. |
-| `0x10124640` | sub_10124640 | did not compile as C++: 'Concurrency' has not been declared |  |
 | `0x101771B0` | sub_101771B0 | did not compile as C++: cannot convert 'char*' to 'LPCWSTR' {aka 'const short unsigned int*'} in argument passing |  |
-| `0x10183760` | sub_10183760 | did not compile as C++: no match for 'operator++' (operand type is 'D3DTEXTURESTAGESTATETYPE') |  |
 
-## Verified as decompiled, not in the clean tree (4)
-
-| Address | Name | Why | What it does |
-|---|---|---|---|
-| `0x10038520` | sub_10038520 | passes as decompiled; the clean stage has no export for it to gate | Font/text pass in the 2D stage. |
-| `0x1006C9B0` | sub_1006C9B0 | passes as decompiled; the clean stage has no export for it to gate | Creates the 16x16 target on first use and caches scene-target surface details for the query. |
-| `0x10188E00` | sub_10188E00 | passes as decompiled; the clean stage has no export for it to gate | Ambient color computation for the zone/sub-area environment. |
-| `0x1021D4C0` | sub_1021D4C0 | passes as decompiled; the clean stage has no export for it to gate | 2D layer on the 640x512 virtual canvas (DrawPrimitiveUP). |
-
-## Gate FAIL (42)
+## Gate FAIL (43)
 
 | Address | Name | First difference | Reconstruction line at the divergence | What it does |
 |---|---|---|---|---|
@@ -135,10 +115,11 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x100D62C0` | CXiSkeletonActor_DrawResourceShadows | ended differently: original return  / reconstruction fault access 0x00000001 size 4 type 19 | `result = F_1002B5A0(self + 1652);` | AUTHOR-INFERRED, PC slot 194: for each resident resource of the model sub-object (+0x674), draws it through th... |
 | `0x1011AA40` | sub_1011AA40 | ended differently: original return  / reconstruction fault access 0x000022B6 size 1 type 19 |  |  |
 | `0x1011E980` | sub_1011E980 | stubbed call #8 differs: original 0x1011F300(ecx=0x30001390, 0x300013E0, 0x00000001, 0x00000000, 0x00000002) / | `*(v56 - 1) = *(_DWORD *)&v61[i + 16];` |  |
+| `0x10124640` | sub_10124640 | memory differs at 4 byte(s), first 0x30000F58: original 41 / reconstruction 3 |  |  |
 | `0x10162010` | sub_10162010 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 19 |  |  |
 | `0x1017C9C0` | sub_1017C9C0 | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0xC43D691C) / reconstruction no call |  |  |
 | `0x1017DE20` | sub_1017DE20 | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0x444FB08E) / reconstruction no call |  |  |
-| `0x10183DA0` | sub_10183DA0 | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x30039F2C, 0x43824568) / reconstruction no call |  |  |
+| `0x10183DA0` | ZoneMap_DrawMeshById | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x30039F2C, 0x43824568) / reconstruction no call |  |  |
 | `0x10185CA0` | sub_10185CA0 | ended differently: original return  / reconstruction fault access 0x00000008 size 4 type 19 | `pDevice = G_1045666C->pDevice;` |  |
 | `0x101EEBD0` | sub_101EEBD0 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21 | `LOBYTE(v14) = F_10150CC0((void *)G_1057847C, v15, 2);` |  |
 | `0x102214D0` | sub_102214D0 | stubbed call #1 differs: original 0x10220EF0(ecx=0x30001390, 0xE1CE863B, 0x00000010, 0x00000001) / reconstruct | `F_10220EF0(self, *(_DWORD *)(self + 88) + *(_DWORD *)(self + 96) / 2, *(_DWORD *)(self + 9` |  |
@@ -148,11 +129,11 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x10282A30` | sub_10282A30 | x87 result differs: None vs (12302071664836870144, 49167) |  |  |
 | `0x10283420` | sub_10283420 | stubbed call #3 differs: original 0xC0000332(ecx=0x6E080300, 0x00000094, 0x00000001) / reconstruction 0xC00003 | `result = ((int (__cdecl *)(IDirect3DDevice8 *, signed int, float *))G_1066941C->lpVtbl->Se` |  |
 | `0x10284950` | sub_10284950 | ended differently: original return  / reconstruction fault Invalid memory read (UC_ERR_READ_UNMAPPED) |  |  |
-| `0x1028AFE0` | sub_1028AFE0 | ended differently: original return  / reconstruction limit  | `F_1028BB10(i);` |  |
+| `0x1028AFE0` | sqgxShape_1028AFE0 | ended differently: original return  / reconstruction limit  | `F_1028BB10(i);` |  |
 | `0x1029B620` | sub_1029B620 | memory differs at 5 byte(s), first 0x30E70A40: original 0 / reconstruction 3 | `*v2 = *(_DWORD *)((char *)v2 + 2400 - (_DWORD)v0 + G_1099D200);` |  |
 | `0x1029B9D0` | sub_1029B9D0 | ended differently: original return  / reconstruction limit  | `G_1066941C->lpVtbl->SetStreamSource(G_1066941C, v7, a1[v4 - 651], 8u);` |  |
 
-## Gate INCONCLUSIVE (32)
+## Gate INCONCLUSIVE (33)
 
 | Address | Name | Original outcomes | What it does |
 |---|---|---|---|
@@ -187,5 +168,6 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x1016FCD0` | sub_1016FCD0 | limit 26, fault 74 |  |
 | `0x1017B510` | sub_1017B510 | fault 100 | Sets D3DTS_PROJECTION plus fog table/vertex/range modes, fog color/start/end and ambient from the renderer blo... |
 | `0x10183490` | sub_10183490 | fault 100 |  |
-| `0x10280DE0` | sub_10280DE0 | fault 99, limit 1 |  |
+| `0x10183760` | sub_10183760 | fault 100 |  |
+| `0x10280DE0` | sqgx_DrawRect_Candidate | fault 99, limit 1 |  |
 

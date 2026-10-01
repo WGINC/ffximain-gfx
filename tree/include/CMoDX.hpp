@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoDX {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10069D60
     _BYTE * ScalarDeletingDtor(char a2);  // 0x10069DB0
 
     void **vftable;  // +0x0

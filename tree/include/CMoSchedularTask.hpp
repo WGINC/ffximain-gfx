@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoSchedularTask {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10057090
     void * ScalarDeletingDtor(char a2);  // 0x10057250
 
     void **vftable;  // +0x0

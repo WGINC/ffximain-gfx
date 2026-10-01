@@ -21,6 +21,7 @@ public:
     _DWORD * vf256(_DWORD *a2);  // 0x100A47F0
     __int16 SetField670(__int16 a2);  // 0x100A4800
     __int16 GetField670();  // 0x100A4810
+    char vf257();  // 0x100A4820
     void SetColor(unsigned int color);  // 0x100A4830
     unsigned int GetColor();  // 0x100A4840
     int vf017();  // 0x100A4850
@@ -66,14 +67,20 @@ public:
     char vf050(char a2);  // 0x100A4B20
     void vf099();  // 0x100A4B30
     void vf100();  // 0x100A4B40
+    static char ** __cdecl GetRuntimeClass_variant0();  // 0x100AB070
+    static char ** __cdecl GetRuntimeClass_variant1();  // 0x100C5190
+    int ScalarDeletingDtor(char a1);  // 0x100C5540
     int Constructor_3Arg(_DWORD *a2, int a3, int a4);  // 0x100C56E0
     int Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5);  // 0x100C5880
     int Constructor_Factory(_DWORD *a2, int a3, int a4);  // 0x100C59B0
+    char DestructorBody();  // 0x100C5C00
     int RunStaggeredUpdates();  // 0x100CBD60
+    int PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char * SetMotion(int *a2, float a3);  // 0x100CD490
     _DWORD * ActorFindResource(_DWORD *a2, int a3, int a4);  // 0x100CE9B0
     _DWORD * ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5);  // 0x100CEB00
     int ActorGetResourceCount(int a2, int a3);  // 0x100CEC90
+    void ReplaceAttack(int a1, int a2, int a3, int a4);  // 0x100CEDF0
     char SetAttack(int a2, int a3, int a4, char *Source);  // 0x100CEE00
     char SetAction(int a2, _DWORD *a3, void *a4);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
@@ -83,17 +90,26 @@ public:
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
     char OnDrawName();  // 0x100D0510
     int GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
+    static char __stdcall ProjectToScreen(int a1, int a2, int a3);  // 0x100D0740
     bool IsReadCompleteBody();  // 0x100D12D0
+    static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
     char LoadSkeletonResource(int a2);  // 0x100D4330
     char GetElem(unsigned int a2, int a3);  // 0x100D4560
     char GetElemLocal(unsigned int a2, int a3);  // 0x100D4800
     char GetEidMatrix(int a2, _DWORD *a3);  // 0x100D49B0
     char IsDirectionLock_Set(char a2);  // 0x100D5460
+    void KillAllGenerater();  // 0x100D6370
+    void vf033();  // 0x100D6F90
+    void vf034();  // 0x100D6FA0
+    void vf035(int a1, int a2);  // 0x100D6FB0
+    void vf036(int a1);  // 0x100D6FC0
+    void vf037();  // 0x100D6FD0
+    static char ** __cdecl GetRuntimeClass_variant2();  // 0x100D7140
 
     void **vftable;  // +0x0
     int32_t field_4;  // +0x4
     uint8_t _pad_8[0x68];
-    int32_t field_70;  // +0x70
+    uint32_t field_70;  // +0x70
     uint8_t _pad_74[0x8];
     int32_t field_7C;  // +0x7C
     uint32_t field_80;  // +0x80
@@ -109,11 +125,21 @@ public:
     char hiddenFlagByte;  // +0xB0
     uint8_t _pad_B1[0x1];
     __int16 hiddenFlagWord;  // +0xB2
-    uint8_t _pad_B4[0x554];
+    uint8_t _pad_B4[0x8];
+    float field_BC;  // +0xBC
+    uint8_t _pad_C0[0x39];
+    uint8_t field_F9;  // +0xF9
+    uint8_t _pad_FA[0x82];
+    uint8_t field_17C;  // +0x17C
+    uint8_t _pad_17D[0x41F];
+    float field_59C;  // +0x59C
+    uint8_t _pad_5A0[0x58];
+    uint32_t field_5F8;  // +0x5F8
+    uint8_t _pad_5FC[0xC];
     uint32_t field_608;  // +0x608
     uint8_t _pad_60C[0x54];
     unsigned int color;  // +0x660
-    uint8_t _pad_664[0x4];
+    float field_664;  // +0x664
     unsigned int multiTexAlpha;  // +0x668
     unsigned int shadowAlpha;  // +0x66C
     uint16_t field_670;  // +0x670
@@ -121,7 +147,9 @@ public:
     float field_698;  // +0x698
     float field_69C;  // +0x69C
     float field_6A0;  // +0x6A0
-    uint8_t _pad_6A4[0x8C];
+    uint8_t _pad_6A4[0x84];
+    int32_t field_728;  // +0x728
+    uint8_t _pad_72C[0x4];
     int emapAlphaMode;  // +0x730
     unsigned int effectFlags;  // +0x734
     uint32_t field_738;  // +0x738
@@ -134,10 +162,11 @@ public:
     float field_754;  // +0x754
     float field_758;  // +0x758
     float field_75C;  // +0x75C
-    uint32_t field_760;  // +0x760
-    uint8_t _pad_764[0x4];
+    float field_760;  // +0x760
+    uint32_t field_764;  // +0x764
     uint32_t field_768;  // +0x768
-    uint8_t _pad_76C[0x30];
+    uint32_t field_76C;  // +0x76C
+    uint8_t _pad_770[0x2C];
     uint8_t field_79C;  // +0x79C
     uint8_t _pad_79D[0x47];
     uint32_t field_7E4;  // +0x7E4
@@ -151,7 +180,7 @@ public:
     uint8_t _pad_844[0x20];
     uint32_t field_864;  // +0x864
     uint8_t _pad_868[0x10];
-    int8_t field_878;  // +0x878
+    uint8_t field_878;  // +0x878
     int8_t field_879;  // +0x879
     int8_t field_87A;  // +0x87A
     int8_t field_87B;  // +0x87B
@@ -191,16 +220,18 @@ public:
     char boundUnk0[16];  // +0x8F0
     float boundRadius;  // +0x900
     char boundUnk1[12];  // +0x904
-    uint8_t _pad_910[0xD4];
+    float field_910;  // +0x910
+    uint8_t _pad_914[0xD0];
     uint32_t field_9E4;  // +0x9E4
-    uint8_t _pad_9E8[0x4];
+    uint8_t field_9E8;  // +0x9E8
+    uint8_t _pad_9E9[0x3];
     unsigned int updateSerial;  // +0x9EC
     unsigned int bucketA;  // +0x9F0
     unsigned int visibleSampleCount;  // +0x9F4
     char forceUpdateFlag;  // +0x9F8
     uint8_t _pad_9F9[0x3];
     unsigned int bucketB;  // +0x9FC
-    uint8_t _pad_A00[0x4];
+    uint32_t field_A00;  // +0xA00
     unsigned int drawBudgetGate;  // +0xA04
     uint32_t field_A08;  // +0xA08
 };
@@ -217,14 +248,21 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, walkSpeed) == 0x9C, "CXiSkeletonActo
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_A4) == 0xA4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, hiddenFlagByte) == 0xB0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, hiddenFlagWord) == 0xB2, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_BC) == 0xBC, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_F9) == 0xF9, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_17C) == 0x17C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_59C) == 0x59C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_5F8) == 0x5F8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_608) == 0x608, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, color) == 0x660, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_664) == 0x664, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, multiTexAlpha) == 0x668, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, shadowAlpha) == 0x66C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_670) == 0x670, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_698) == 0x698, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_69C) == 0x69C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_6A0) == 0x6A0, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_728) == 0x728, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, emapAlphaMode) == 0x730, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, effectFlags) == 0x734, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_738) == 0x738, "CXiSkeletonActor: layout");
@@ -238,7 +276,9 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_754) == 0x754, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_758) == 0x758, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_75C) == 0x75C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_760) == 0x760, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_764) == 0x764, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_768) == 0x768, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_76C) == 0x76C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_79C) == 0x79C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_7E4) == 0x7E4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_814) == 0x814, "CXiSkeletonActor: layout");
@@ -278,11 +318,14 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8E8) == 0x8E8, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundUnk0) == 0x8F0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundRadius) == 0x900, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundUnk1) == 0x904, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_910) == 0x910, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_9E4) == 0x9E4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_9E8) == 0x9E8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, updateSerial) == 0x9EC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, bucketA) == 0x9F0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, visibleSampleCount) == 0x9F4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, forceUpdateFlag) == 0x9F8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, bucketB) == 0x9FC, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, field_A00) == 0xA00, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, drawBudgetGate) == 0xA04, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_A08) == 0xA08, "CXiSkeletonActor: layout");

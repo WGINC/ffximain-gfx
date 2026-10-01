@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoD3mSpecularElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10041010  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoD3mSpecularElem::GetRuntimeClass()
+{
+  return &CMoD3mSpecularElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10041020  (placed by IDB name)
 // GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoD3mSpecularElem::Ctor()
@@ -51,6 +58,13 @@ LABEL_10:
       break;
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x100410E0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoD3mSpecularElem::vf012(int a1)
+{
+  return a1 == 7;
 }
 
 // FUNCTION: FFXIMAIN 0x100410F0  (placed by tree manifest)

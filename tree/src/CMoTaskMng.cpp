@@ -9,6 +9,13 @@ _DWORD * CMoTaskMng::ScalarDeletingDtor(char a2)
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   orig::sub_10074B60(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x10074B50  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoTaskMng::GetRuntimeClass()
+{
+  return &CMoTaskMng_classdesc;
 }

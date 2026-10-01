@@ -10,6 +10,20 @@ int CMoResource_VT_1032C7FC::vf004(int a2)
   return a2;
 }
 
+// FUNCTION: FFXIMAIN 0x10019A40  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource_VT_1032C7FC::vf005(int a1)
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10071A00  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource_VT_1032C7FC::vf009()
+{
+  ;
+}
+
 // FUNCTION: FFXIMAIN 0x10071AC0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource_VT_1032C7FC::ScalarDeletingDtor(char a2)

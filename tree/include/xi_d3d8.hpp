@@ -976,3 +976,21 @@ enum D3DTEXTUREFILTERTYPE {
 #define D3DTA_TEMP 0x5
 #define D3DTA_COMPLEMENT 0x10
 #define D3DTA_ALPHAREPLICATE 0x20
+
+// Formats MinGW's d3d8types.h (and so the IDB's enum) has but the DirectX 8.1 header does not
+#ifndef XI_HAVE_ABGR_FORMATS
+static const D3DFORMAT D3DFMT_A8B8G8R8 = (D3DFORMAT)32;
+static const D3DFORMAT D3DFMT_X8B8G8R8 = (D3DFORMAT)33;
+#endif
+// Decompiled loops step D3D enums with ++/--, which C allows and C++ does not
+#define XI_ENUM_STEP(E) \
+  static inline E &operator++(E &e) { e = (E)((int)e + 1); return e; } \
+  static inline E operator++(E &e, int) { E o = e; e = (E)((int)e + 1); return o; } \
+  static inline E &operator--(E &e) { e = (E)((int)e - 1); return e; } \
+  static inline E operator--(E &e, int) { E o = e; e = (E)((int)e - 1); return o; }
+XI_ENUM_STEP(D3DFORMAT)
+XI_ENUM_STEP(D3DTEXTURESTAGESTATETYPE)
+XI_ENUM_STEP(D3DRENDERSTATETYPE)
+XI_ENUM_STEP(D3DTRANSFORMSTATETYPE)
+XI_ENUM_STEP(D3DPRIMITIVETYPE)
+#undef XI_ENUM_STEP

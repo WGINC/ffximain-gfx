@@ -12,3 +12,10 @@ unsigned int ** CMoResource_VT_103367E8::ScalarDeletingDtor(char a2)
     orig::SharedDeleteHelper((int)self);
   return self;
 }
+
+// FUNCTION: FFXIMAIN 0x101893F0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource_VT_103367E8::vf008()
+{
+  ;
+}

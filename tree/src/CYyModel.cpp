@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CYyModel.hpp"
 
+// FUNCTION: FFXIMAIN 0x100298C0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CYyModel::GetRuntimeClass()
+{
+  return &CYyModel_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x1002B530  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModel::ScalarDeletingDtor(char a2)
@@ -9,6 +16,6 @@ int * CYyModel::ScalarDeletingDtor(char a2)
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   orig::sub_1002B550(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
 }

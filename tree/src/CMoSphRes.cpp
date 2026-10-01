@@ -2,12 +2,26 @@
 #include "gfx_all.hpp"
 #include "CMoSphRes.hpp"
 
+// FUNCTION: FFXIMAIN 0x100562A0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoSphRes::GetRuntimeClass()
+{
+  return &CMoSphRes_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x100562B0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char * CMoSphRes::vf008()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   return orig::sub_10056220(self + 12);
+}
+
+// FUNCTION: FFXIMAIN 0x100562C0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoSphRes::vf009()
+{
+  ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071D00  (placed by tree manifest)

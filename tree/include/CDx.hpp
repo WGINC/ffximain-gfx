@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CDx {
 public:
+    static _UNKNOWN ** __cdecl GetRuntimeClass();  // 0x10008F80
     CDx * Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice);  // 0x10008F90
     void * ScalarDeletingDtor(char a2);  // 0x10009100
     char fn_10009620(int a2, int a3, int a4);  // 0x10009620
@@ -12,6 +13,7 @@ public:
     int fn_10009670(int a2);  // 0x10009670
     int EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x100096B0
     bool TestCooperativeLevel();  // 0x10009710
+    static int __cdecl Present();  // 0x10009720
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
     HCURSOR fn_100097F0(int a2, int a3);  // 0x100097F0

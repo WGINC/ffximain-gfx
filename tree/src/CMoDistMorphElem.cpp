@@ -165,6 +165,13 @@ LABEL_13:
   return v30;
 }
 
+// FUNCTION: FFXIMAIN 0x10043580  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
+{
+  return &CMoDistMorphElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
 // GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoDistMorphElem::UpdateMorphBlend()
@@ -234,6 +241,13 @@ char CMoDistMorphElem::UpdateMorphBlend()
     }
   }
   return (char)v2;
+}
+
+// FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoDistMorphElem::vf012(int a1)
+{
+  return a1 == 6;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E50  (placed by tree manifest)

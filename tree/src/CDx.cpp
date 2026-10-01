@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CDx.hpp"
 
+// FUNCTION: FFXIMAIN 0x10008F80  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+_UNKNOWN ** __cdecl CDx::GetRuntimeClass()
+{
+  return &CDx_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10008F90  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
@@ -73,7 +80,7 @@ void * CDx::ScalarDeletingDtor(char a2)
 {
   orig::sub_10009120((int)this);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)this);
+    orig::thunk_sub_10028AA0((int)this);
   return this;
 }
 
@@ -131,6 +138,28 @@ int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 bool CDx::TestCooperativeLevel()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 12))(at<_DWORD *>(this, 0xC)) == 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 117 D3D calls compared (diffemu_gfx, clean build)
+int __cdecl CDx::Present()
+{
+  D3DHolder *v0;
+  int v1;
+  int result;
+  v0 = g_pD3DHolder;
+  v1 = 100;
+  do
+  {
+    --v1;
+    result = v0->pDevice->Present(nullptr, nullptr, 0, nullptr);
+    if ( result == 0 )
+      break;
+    if ( result == -2005530520 )
+      result = orig::nullsub_13(aDeviceLost);
+  }
+  while ( v1 != 0 );
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10009730  (placed by IDB name)
@@ -547,7 +576,7 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
   int v6;
   int v8;
   int v9;
-  if ( (unsigned __int8)orig::CDx_GetStereoSecondEyeTarget(self, (int)&v9, (int)&v8) == 0 )
+  if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v9, (int)&v8) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(
              at<uint32_t>(this, 0xC),
              a1,
@@ -577,7 +606,7 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
   int v8;
   int v10;
   int v11;
-  if ( (unsigned __int8)orig::CDx_GetStereoSecondEyeTarget(self, (int)&v11, (int)&v10) == 0 )
+  if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v11, (int)&v10) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
              at<uint32_t>(this, 0xC),
              a1,
@@ -621,7 +650,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
   int v7;
   int v9;
   int v10;
-  if ( (unsigned __int8)orig::CDx_GetStereoSecondEyeTarget(self, (int)&v10, (int)&v9) == 0 )
+  if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v10, (int)&v9) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
              at<uint32_t>(this, 0xC),
              a1,

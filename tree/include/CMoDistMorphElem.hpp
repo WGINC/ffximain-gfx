@@ -6,7 +6,9 @@
 class XI_API CMoDistMorphElem {
 public:
     _DWORD * ComputeMorphHandle(int a2, int a3);  // 0x1003F8A0
+    static char ** __cdecl GetRuntimeClass();  // 0x10043580
     char UpdateMorphBlend();  // 0x10043590
+    BOOL vf012(int a1);  // 0x10052E40
     int set_field_1C0(int a2);  // 0x10052E50
     int * ScalarDeletingDtor(char a2);  // 0x10052E60
 

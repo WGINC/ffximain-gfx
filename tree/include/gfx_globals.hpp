@@ -227,8 +227,8 @@ typedef char * off_10351514_t;
 #define off_10351514 XI_EA(off_10351514_t, 0x10351514u)
 typedef int dword_103515BC_t;
 #define dword_103515BC XI_EA(dword_103515BC_t, 0x103515BCu)
-typedef _BYTE unk_10351628_t;
-#define unk_10351628 XI_EA(unk_10351628_t, 0x10351628u)
+typedef _BYTE g_vsDecl_1628_t;
+#define g_vsDecl_1628 XI_EA(g_vsDecl_1628_t, 0x10351628u)
 typedef int g_texFourccTable_t[];
 #define g_texFourccTable XI_EA(g_texFourccTable_t, 0x10351C94u)
 typedef _DWORD dword_10351D60_t[22];
@@ -333,10 +333,10 @@ typedef char aAncAncScro_t[1];
 #define aAncAncScro XI_EA(aAncAncScro_t, 0x1036E6C8u)
 typedef char aMenuKeytops3_t[1];
 #define aMenuKeytops3 XI_EA(aMenuKeytops3_t, 0x1036FFC8u)
-typedef _BYTE unk_103772E8_t;
-#define unk_103772E8 XI_EA(unk_103772E8_t, 0x103772E8u)
-typedef _BYTE unk_10377304_t;
-#define unk_10377304 XI_EA(unk_10377304_t, 0x10377304u)
+typedef _BYTE g_zoneVSDeclA_t;
+#define g_zoneVSDeclA XI_EA(g_zoneVSDeclA_t, 0x103772E8u)
+typedef _BYTE g_zoneVSDeclB_t;
+#define g_zoneVSDeclB XI_EA(g_zoneVSDeclB_t, 0x10377304u)
 typedef int dword_10377338_t;
 #define dword_10377338 XI_EA(dword_10377338_t, 0x10377338u)
 typedef int dword_1037733C_t;
@@ -357,8 +357,8 @@ typedef float flt_103773C8_t;
 #define flt_103773C8 XI_EA(flt_103773C8_t, 0x103773C8u)
 typedef float flt_103890E4_t;
 #define flt_103890E4 XI_EA(flt_103890E4_t, 0x103890E4u)
-typedef float flt_10389874_t[7];
-#define flt_10389874 XI_EA(flt_10389874_t, 0x10389874u)
+typedef float kF_0_9874_t[7];
+#define kF_0_9874 XI_EA(kF_0_9874_t, 0x10389874u)
 typedef char aWorkmem_t[1];
 #define aWorkmem XI_EA(aWorkmem_t, 0x1038992Cu)
 typedef char aMainmem_t[1];
@@ -385,8 +385,8 @@ typedef int dword_103B5910_t[];
 #define dword_103B5910 XI_EA(dword_103B5910_t, 0x103B5910u)
 typedef int dword_103B5914_t[2047];
 #define dword_103B5914 XI_EA(dword_103B5914_t, 0x103B5914u)
-typedef int dword_103BA68C_t;
-#define dword_103BA68C XI_EA(dword_103BA68C_t, 0x103BA68Cu)
+typedef int g_sceneFadeMaskRT_t;
+#define g_sceneFadeMaskRT XI_EA(g_sceneFadeMaskRT_t, 0x103BA68Cu)
 typedef char aErrorInSetVert_t[1];
 #define aErrorInSetVert XI_EA(aErrorInSetVert_t, 0x103BBC38u)
 typedef char aErrorInSetStre_t[1];
@@ -437,8 +437,8 @@ typedef int dword_10456940_t[];
 #define dword_10456940 XI_EA(dword_10456940_t, 0x10456940u)
 typedef int dword_1045694C_t;
 #define dword_1045694C XI_EA(dword_1045694C_t, 0x1045694Cu)
-typedef int dword_10456978_t;
-#define dword_10456978 XI_EA(dword_10456978_t, 0x10456978u)
+typedef int g_countdown_10456978_t;
+#define g_countdown_10456978 XI_EA(g_countdown_10456978_t, 0x10456978u)
 typedef int dword_10456984_t;
 #define dword_10456984 XI_EA(dword_10456984_t, 0x10456984u)
 typedef HWND hWnd_t;
@@ -481,8 +481,12 @@ typedef int dword_10456A88_t;
 #define dword_10456A88 XI_EA(dword_10456A88_t, 0x10456A88u)
 typedef int dword_10456AA0_t;
 #define dword_10456AA0 XI_EA(dword_10456AA0_t, 0x10456AA0u)
+typedef int g_cfgMapCompression_t;
+#define g_cfgMapCompression XI_EA(g_cfgMapCompression_t, 0x10456AB0u)
 typedef int dword_10456ACC_t;
 #define dword_10456ACC XI_EA(dword_10456ACC_t, 0x10456ACCu)
+typedef int g_cfgTextureCompression_t;
+#define g_cfgTextureCompression XI_EA(g_cfgTextureCompression_t, 0x10456AD0u)
 typedef int dword_10456BF8_t;
 #define dword_10456BF8 XI_EA(dword_10456BF8_t, 0x10456BF8u)
 typedef int dword_10456C00_t;
@@ -517,8 +521,8 @@ typedef int dword_10456E44_t;
 #define dword_10456E44 XI_EA(dword_10456E44_t, 0x10456E44u)
 typedef int dword_10456E48_t;
 #define dword_10456E48 XI_EA(dword_10456E48_t, 0x10456E48u)
-typedef int dword_10456E4C_t;
-#define dword_10456E4C XI_EA(dword_10456E4C_t, 0x10456E4Cu)
+typedef int g_vertexShader_6E4C_t;
+#define g_vertexShader_6E4C XI_EA(g_vertexShader_6E4C_t, 0x10456E4Cu)
 typedef int dword_10456E50_t;
 #define dword_10456E50 XI_EA(dword_10456E50_t, 0x10456E50u)
 typedef int dword_10456E54_t;
@@ -555,10 +559,10 @@ typedef char byte_104570FC_t;
 #define byte_104570FC XI_EA(byte_104570FC_t, 0x104570FCu)
 typedef char dword_10457108_t[1];
 #define dword_10457108 XI_EA(dword_10457108_t, 0x10457108u)
-typedef int dword_10457150_t;
-#define dword_10457150 XI_EA(dword_10457150_t, 0x10457150u)
-typedef int dword_10457154_t;
-#define dword_10457154 XI_EA(dword_10457154_t, 0x10457154u)
+typedef int g_vertexBuffer_7150_t;
+#define g_vertexBuffer_7150 XI_EA(g_vertexBuffer_7150_t, 0x10457150u)
+typedef int g_vertexBuffer_7154_t;
+#define g_vertexBuffer_7154 XI_EA(g_vertexBuffer_7154_t, 0x10457154u)
 typedef char dword_10457158_t[1];
 #define dword_10457158 XI_EA(dword_10457158_t, 0x10457158u)
 typedef char flt_10457198_t[1];
@@ -581,10 +585,10 @@ typedef float flt_10457214_t;
 #define flt_10457214 XI_EA(flt_10457214_t, 0x10457214u)
 typedef float flt_10457218_t;
 #define flt_10457218 XI_EA(flt_10457218_t, 0x10457218u)
-typedef _BYTE unk_10457228_t;
-#define unk_10457228 XI_EA(unk_10457228_t, 0x10457228u)
-typedef _DWORD dword_10457270_t[16];
-#define dword_10457270 XI_EA(dword_10457270_t, 0x10457270u)
+typedef _BYTE g_matrix_7228_t;
+#define g_matrix_7228 XI_EA(g_matrix_7228_t, 0x10457228u)
+typedef _DWORD g_matrix_7270_t[16];
+#define g_matrix_7270 XI_EA(g_matrix_7270_t, 0x10457270u)
 typedef char byte_104572B0_t;
 #define byte_104572B0 XI_EA(byte_104572B0_t, 0x104572B0u)
 typedef float g_lightTable_Start_t;
@@ -597,8 +601,8 @@ typedef int dword_1045745C_t;
 #define dword_1045745C XI_EA(dword_1045745C_t, 0x1045745Cu)
 typedef char g_skinningCapabilityFlag_t;
 #define g_skinningCapabilityFlag XI_EA(g_skinningCapabilityFlag_t, 0x10457460u)
-typedef _DWORD dword_10457468_t[16];
-#define dword_10457468 XI_EA(dword_10457468_t, 0x10457468u)
+typedef _DWORD g_matrix_7468_t[16];
+#define g_matrix_7468 XI_EA(g_matrix_7468_t, 0x10457468u)
 typedef int dword_104574A8_t;
 #define dword_104574A8 XI_EA(dword_104574A8_t, 0x104574A8u)
 typedef int dword_104574AC_t;
@@ -609,8 +613,8 @@ typedef char dword_104574F8_t[1];
 #define dword_104574F8 XI_EA(dword_104574F8_t, 0x104574F8u)
 typedef char byte_10457538_t;
 #define byte_10457538 XI_EA(byte_10457538_t, 0x10457538u)
-typedef int dword_10457540_t;
-#define dword_10457540 XI_EA(dword_10457540_t, 0x10457540u)
+typedef int g_vertexBuffer_7540_t;
+#define g_vertexBuffer_7540 XI_EA(g_vertexBuffer_7540_t, 0x10457540u)
 typedef int dword_10457550_t;
 #define dword_10457550 XI_EA(dword_10457550_t, 0x10457550u)
 typedef int dword_10457554_t[5];
@@ -641,8 +645,8 @@ typedef int dword_1045B650_t[16];
 #define dword_1045B650 XI_EA(dword_1045B650_t, 0x1045B650u)
 typedef int dword_1045B690_t[];
 #define dword_1045B690 XI_EA(dword_1045B690_t, 0x1045B690u)
-typedef int dword_1045B6A0_t;
-#define dword_1045B6A0 XI_EA(dword_1045B6A0_t, 0x1045B6A0u)
+typedef int g_vertexShader_B6A0_t;
+#define g_vertexShader_B6A0 XI_EA(g_vertexShader_B6A0_t, 0x1045B6A0u)
 typedef __int16 word_1045B77A_t;
 #define word_1045B77A XI_EA(word_1045B77A_t, 0x1045B77Au)
 typedef char dword_1045B780_t[1];
@@ -653,8 +657,8 @@ typedef int dword_1045B800_t;
 #define dword_1045B800 XI_EA(dword_1045B800_t, 0x1045B800u)
 typedef int dword_1045B804_t;
 #define dword_1045B804 XI_EA(dword_1045B804_t, 0x1045B804u)
-typedef int dword_1045B808_t;
-#define dword_1045B808 XI_EA(dword_1045B808_t, 0x1045B808u)
+typedef int g_texturefactor_B808_t;
+#define g_texturefactor_B808 XI_EA(g_texturefactor_B808_t, 0x1045B808u)
 typedef float flt_1045B80C_t;
 #define flt_1045B80C XI_EA(flt_1045B80C_t, 0x1045B80Cu)
 typedef int dword_1045B810_t;
@@ -729,8 +733,8 @@ typedef int dword_1047BBB4_t;
 #define dword_1047BBB4 XI_EA(dword_1047BBB4_t, 0x1047BBB4u)
 typedef int g_scratchValue_t;
 #define g_scratchValue XI_EA(g_scratchValue_t, 0x1047BC0Cu)
-typedef int dword_1047BC6C_t;
-#define dword_1047BC6C XI_EA(dword_1047BC6C_t, 0x1047BC6Cu)
+typedef int g_countdown_1047BC6C_t;
+#define g_countdown_1047BC6C XI_EA(g_countdown_1047BC6C_t, 0x1047BC6Cu)
 typedef int g_pResourceMng_t;
 #define g_pResourceMng XI_EA(g_pResourceMng_t, 0x1047BFA8u)
 typedef int dword_1047BFF4_t;
@@ -739,38 +743,38 @@ typedef int dword_1047BFF8_t;
 #define dword_1047BFF8 XI_EA(dword_1047BFF8_t, 0x1047BFF8u)
 typedef int dword_1047C004_t;
 #define dword_1047C004 XI_EA(dword_1047C004_t, 0x1047C004u)
-typedef int dword_1047CC80_t;
-#define dword_1047CC80 XI_EA(dword_1047CC80_t, 0x1047CC80u)
-typedef int dword_1047CC84_t;
-#define dword_1047CC84 XI_EA(dword_1047CC84_t, 0x1047CC84u)
-typedef int dword_1047CC88_t;
-#define dword_1047CC88 XI_EA(dword_1047CC88_t, 0x1047CC88u)
-typedef int dword_1047CC8C_t;
-#define dword_1047CC8C XI_EA(dword_1047CC8C_t, 0x1047CC8Cu)
-typedef int dword_1047CC90_t;
-#define dword_1047CC90 XI_EA(dword_1047CC90_t, 0x1047CC90u)
-typedef int dword_1047CC94_t;
-#define dword_1047CC94 XI_EA(dword_1047CC94_t, 0x1047CC94u)
-typedef int dword_1047CC98_t;
-#define dword_1047CC98 XI_EA(dword_1047CC98_t, 0x1047CC98u)
-typedef int dword_1047CC9C_t;
-#define dword_1047CC9C XI_EA(dword_1047CC9C_t, 0x1047CC9Cu)
-typedef int dword_1047CCA0_t;
-#define dword_1047CCA0 XI_EA(dword_1047CCA0_t, 0x1047CCA0u)
-typedef int dword_1047CCA4_t;
-#define dword_1047CCA4 XI_EA(dword_1047CCA4_t, 0x1047CCA4u)
-typedef int dword_1047CCA8_t;
-#define dword_1047CCA8 XI_EA(dword_1047CCA8_t, 0x1047CCA8u)
-typedef int dword_1047CCAC_t;
-#define dword_1047CCAC XI_EA(dword_1047CCAC_t, 0x1047CCACu)
-typedef int dword_1047CCB0_t;
-#define dword_1047CCB0 XI_EA(dword_1047CCB0_t, 0x1047CCB0u)
-typedef int dword_1047CCB4_t;
-#define dword_1047CCB4 XI_EA(dword_1047CCB4_t, 0x1047CCB4u)
-typedef int dword_1047CCB8_t;
-#define dword_1047CCB8 XI_EA(dword_1047CCB8_t, 0x1047CCB8u)
-typedef int dword_1047CCBC_t;
-#define dword_1047CCBC XI_EA(dword_1047CCBC_t, 0x1047CCBCu)
+typedef int g_identityMatrix_1047CC80_m00_t;
+#define g_identityMatrix_1047CC80_m00 XI_EA(g_identityMatrix_1047CC80_m00_t, 0x1047CC80u)
+typedef int g_identityMatrix_1047CC80_m01_t;
+#define g_identityMatrix_1047CC80_m01 XI_EA(g_identityMatrix_1047CC80_m01_t, 0x1047CC84u)
+typedef int g_identityMatrix_1047CC80_m02_t;
+#define g_identityMatrix_1047CC80_m02 XI_EA(g_identityMatrix_1047CC80_m02_t, 0x1047CC88u)
+typedef int g_identityMatrix_1047CC80_m03_t;
+#define g_identityMatrix_1047CC80_m03 XI_EA(g_identityMatrix_1047CC80_m03_t, 0x1047CC8Cu)
+typedef int g_identityMatrix_1047CC80_m10_t;
+#define g_identityMatrix_1047CC80_m10 XI_EA(g_identityMatrix_1047CC80_m10_t, 0x1047CC90u)
+typedef int g_identityMatrix_1047CC80_m11_t;
+#define g_identityMatrix_1047CC80_m11 XI_EA(g_identityMatrix_1047CC80_m11_t, 0x1047CC94u)
+typedef int g_identityMatrix_1047CC80_m12_t;
+#define g_identityMatrix_1047CC80_m12 XI_EA(g_identityMatrix_1047CC80_m12_t, 0x1047CC98u)
+typedef int g_identityMatrix_1047CC80_m13_t;
+#define g_identityMatrix_1047CC80_m13 XI_EA(g_identityMatrix_1047CC80_m13_t, 0x1047CC9Cu)
+typedef int g_identityMatrix_1047CC80_m20_t;
+#define g_identityMatrix_1047CC80_m20 XI_EA(g_identityMatrix_1047CC80_m20_t, 0x1047CCA0u)
+typedef int g_identityMatrix_1047CC80_m21_t;
+#define g_identityMatrix_1047CC80_m21 XI_EA(g_identityMatrix_1047CC80_m21_t, 0x1047CCA4u)
+typedef int g_identityMatrix_1047CC80_m22_t;
+#define g_identityMatrix_1047CC80_m22 XI_EA(g_identityMatrix_1047CC80_m22_t, 0x1047CCA8u)
+typedef int g_identityMatrix_1047CC80_m23_t;
+#define g_identityMatrix_1047CC80_m23 XI_EA(g_identityMatrix_1047CC80_m23_t, 0x1047CCACu)
+typedef int g_identityMatrix_1047CC80_m30_t;
+#define g_identityMatrix_1047CC80_m30 XI_EA(g_identityMatrix_1047CC80_m30_t, 0x1047CCB0u)
+typedef int g_identityMatrix_1047CC80_m31_t;
+#define g_identityMatrix_1047CC80_m31 XI_EA(g_identityMatrix_1047CC80_m31_t, 0x1047CCB4u)
+typedef int g_identityMatrix_1047CC80_m32_t;
+#define g_identityMatrix_1047CC80_m32 XI_EA(g_identityMatrix_1047CC80_m32_t, 0x1047CCB8u)
+typedef int g_identityMatrix_1047CC80_m33_t;
+#define g_identityMatrix_1047CC80_m33 XI_EA(g_identityMatrix_1047CC80_m33_t, 0x1047CCBCu)
 typedef char byte_1047CF31_t;
 #define byte_1047CF31 XI_EA(byte_1047CF31_t, 0x1047CF31u)
 typedef CMoProcessor * g_pProcessor_t;
@@ -833,10 +837,14 @@ typedef int dword_1048A350_t;
 #define dword_1048A350 XI_EA(dword_1048A350_t, 0x1048A350u)
 typedef int dword_1048A354_t;
 #define dword_1048A354 XI_EA(dword_1048A354_t, 0x1048A354u)
+typedef int g_actorUpdateBucketCountA_t[];
+#define g_actorUpdateBucketCountA XI_EA(g_actorUpdateBucketCountA_t, 0x1048A358u)
+typedef int g_actorUpdateBucketCountB_t[];
+#define g_actorUpdateBucketCountB XI_EA(g_actorUpdateBucketCountB_t, 0x1048A368u)
 typedef int g_pActiveSkeletonActorRes_t;
 #define g_pActiveSkeletonActorRes XI_EA(g_pActiveSkeletonActorRes_t, 0x1048A3D8u)
-typedef _BYTE unk_104E1B70_t;
-#define unk_104E1B70 XI_EA(unk_104E1B70_t, 0x104E1B70u)
+typedef _BYTE g_viewport_1B70_t;
+#define g_viewport_1B70 XI_EA(g_viewport_1B70_t, 0x104E1B70u)
 typedef int dword_104E1B88_t;
 #define dword_104E1B88 XI_EA(dword_104E1B88_t, 0x104E1B88u)
 typedef int dword_104E1B8C_t;
@@ -849,432 +857,434 @@ typedef int dword_104E1D4C_t;
 #define dword_104E1D4C XI_EA(dword_104E1D4C_t, 0x104E1D4Cu)
 typedef int dword_10578158_t;
 #define dword_10578158 XI_EA(dword_10578158_t, 0x10578158u)
+typedef void * dword_1057876C_t;
+#define dword_1057876C XI_EA(dword_1057876C_t, 0x1057876Cu)
 typedef __int16 word_10621838_t[14];
 #define word_10621838 XI_EA(word_10621838_t, 0x10621838u)
 typedef int dword_106218B4_t;
 #define dword_106218B4 XI_EA(dword_106218B4_t, 0x106218B4u)
 typedef int dword_106218B8_t;
 #define dword_106218B8 XI_EA(dword_106218B8_t, 0x106218B8u)
-typedef _BYTE unk_10621904_t;
-#define unk_10621904 XI_EA(unk_10621904_t, 0x10621904u)
-typedef int dword_10621988_t;
-#define dword_10621988 XI_EA(dword_10621988_t, 0x10621988u)
-typedef float flt_1062198C_t;
-#define flt_1062198C XI_EA(flt_1062198C_t, 0x1062198Cu)
-typedef float flt_10621990_t;
-#define flt_10621990 XI_EA(flt_10621990_t, 0x10621990u)
-typedef int dword_10621998_t;
-#define dword_10621998 XI_EA(dword_10621998_t, 0x10621998u)
-typedef float flt_1062199C_t;
-#define flt_1062199C XI_EA(flt_1062199C_t, 0x1062199Cu)
-typedef float flt_106219A0_t;
-#define flt_106219A0 XI_EA(flt_106219A0_t, 0x106219A0u)
-typedef int dword_106219A8_t;
-#define dword_106219A8 XI_EA(dword_106219A8_t, 0x106219A8u)
-typedef float flt_106219AC_t;
-#define flt_106219AC XI_EA(flt_106219AC_t, 0x106219ACu)
-typedef float flt_106219B0_t;
-#define flt_106219B0 XI_EA(flt_106219B0_t, 0x106219B0u)
-typedef int dword_106219B8_t;
-#define dword_106219B8 XI_EA(dword_106219B8_t, 0x106219B8u)
-typedef float flt_106219BC_t;
-#define flt_106219BC XI_EA(flt_106219BC_t, 0x106219BCu)
-typedef float flt_106219C0_t;
-#define flt_106219C0 XI_EA(flt_106219C0_t, 0x106219C0u)
-typedef int dword_106219C8_t;
-#define dword_106219C8 XI_EA(dword_106219C8_t, 0x106219C8u)
-typedef float flt_106219CC_t;
-#define flt_106219CC XI_EA(flt_106219CC_t, 0x106219CCu)
-typedef float flt_106219D0_t;
-#define flt_106219D0 XI_EA(flt_106219D0_t, 0x106219D0u)
-typedef int dword_106219D8_t;
-#define dword_106219D8 XI_EA(dword_106219D8_t, 0x106219D8u)
-typedef float flt_106219DC_t;
-#define flt_106219DC XI_EA(flt_106219DC_t, 0x106219DCu)
-typedef float flt_106219E0_t;
-#define flt_106219E0 XI_EA(flt_106219E0_t, 0x106219E0u)
+typedef _BYTE g_viewport_1904_t;
+#define g_viewport_1904 XI_EA(g_viewport_1904_t, 0x10621904u)
+typedef int g_upVerts_1988_t;
+#define g_upVerts_1988 XI_EA(g_upVerts_1988_t, 0x10621988u)
+typedef float g_upVerts_1988_v0_y_t;
+#define g_upVerts_1988_v0_y XI_EA(g_upVerts_1988_v0_y_t, 0x1062198Cu)
+typedef float g_upVerts_1988_v0_z_t;
+#define g_upVerts_1988_v0_z XI_EA(g_upVerts_1988_v0_z_t, 0x10621990u)
+typedef int g_upVerts_1988_v1_x_t;
+#define g_upVerts_1988_v1_x XI_EA(g_upVerts_1988_v1_x_t, 0x10621998u)
+typedef float g_upVerts_1988_v1_y_t;
+#define g_upVerts_1988_v1_y XI_EA(g_upVerts_1988_v1_y_t, 0x1062199Cu)
+typedef float g_upVerts_1988_v1_z_t;
+#define g_upVerts_1988_v1_z XI_EA(g_upVerts_1988_v1_z_t, 0x106219A0u)
+typedef int g_upVerts_1988_v2_x_t;
+#define g_upVerts_1988_v2_x XI_EA(g_upVerts_1988_v2_x_t, 0x106219A8u)
+typedef float g_upVerts_1988_v2_y_t;
+#define g_upVerts_1988_v2_y XI_EA(g_upVerts_1988_v2_y_t, 0x106219ACu)
+typedef float g_upVerts_1988_v2_z_t;
+#define g_upVerts_1988_v2_z XI_EA(g_upVerts_1988_v2_z_t, 0x106219B0u)
+typedef int g_upVerts_1988_v3_x_t;
+#define g_upVerts_1988_v3_x XI_EA(g_upVerts_1988_v3_x_t, 0x106219B8u)
+typedef float g_upVerts_1988_v3_y_t;
+#define g_upVerts_1988_v3_y XI_EA(g_upVerts_1988_v3_y_t, 0x106219BCu)
+typedef float g_upVerts_1988_v3_z_t;
+#define g_upVerts_1988_v3_z XI_EA(g_upVerts_1988_v3_z_t, 0x106219C0u)
+typedef int g_upVerts_1988_v4_x_t;
+#define g_upVerts_1988_v4_x XI_EA(g_upVerts_1988_v4_x_t, 0x106219C8u)
+typedef float g_upVerts_1988_v4_y_t;
+#define g_upVerts_1988_v4_y XI_EA(g_upVerts_1988_v4_y_t, 0x106219CCu)
+typedef float g_upVerts_1988_v4_z_t;
+#define g_upVerts_1988_v4_z XI_EA(g_upVerts_1988_v4_z_t, 0x106219D0u)
+typedef int g_upVerts_1988_v5_x_t;
+#define g_upVerts_1988_v5_x XI_EA(g_upVerts_1988_v5_x_t, 0x106219D8u)
+typedef float g_upVerts_1988_v5_y_t;
+#define g_upVerts_1988_v5_y XI_EA(g_upVerts_1988_v5_y_t, 0x106219DCu)
+typedef float g_upVerts_1988_v5_z_t;
+#define g_upVerts_1988_v5_z XI_EA(g_upVerts_1988_v5_z_t, 0x106219E0u)
 typedef int dword_10621A08_t;
 #define dword_10621A08 XI_EA(dword_10621A08_t, 0x10621A08u)
 typedef int dword_10621A10_t;
 #define dword_10621A10 XI_EA(dword_10621A10_t, 0x10621A10u)
-typedef int dword_10621A18_t;
-#define dword_10621A18 XI_EA(dword_10621A18_t, 0x10621A18u)
-typedef int dword_10621A1C_t;
-#define dword_10621A1C XI_EA(dword_10621A1C_t, 0x10621A1Cu)
-typedef int dword_10621A20_t;
-#define dword_10621A20 XI_EA(dword_10621A20_t, 0x10621A20u)
-typedef int dword_10621A24_t;
-#define dword_10621A24 XI_EA(dword_10621A24_t, 0x10621A24u)
-typedef int dword_10621A28_t;
-#define dword_10621A28 XI_EA(dword_10621A28_t, 0x10621A28u)
-typedef int dword_10621A2C_t;
-#define dword_10621A2C XI_EA(dword_10621A2C_t, 0x10621A2Cu)
-typedef int dword_10621A30_t;
-#define dword_10621A30 XI_EA(dword_10621A30_t, 0x10621A30u)
-typedef int dword_10621A34_t;
-#define dword_10621A34 XI_EA(dword_10621A34_t, 0x10621A34u)
-typedef int dword_10621A38_t;
-#define dword_10621A38 XI_EA(dword_10621A38_t, 0x10621A38u)
-typedef int dword_10621A3C_t;
-#define dword_10621A3C XI_EA(dword_10621A3C_t, 0x10621A3Cu)
-typedef int dword_10621A40_t;
-#define dword_10621A40 XI_EA(dword_10621A40_t, 0x10621A40u)
-typedef int dword_10621A44_t;
-#define dword_10621A44 XI_EA(dword_10621A44_t, 0x10621A44u)
-typedef int dword_10621A48_t;
-#define dword_10621A48 XI_EA(dword_10621A48_t, 0x10621A48u)
-typedef int dword_10621A4C_t;
-#define dword_10621A4C XI_EA(dword_10621A4C_t, 0x10621A4Cu)
-typedef int dword_10621A50_t;
-#define dword_10621A50 XI_EA(dword_10621A50_t, 0x10621A50u)
-typedef int dword_10621A54_t;
-#define dword_10621A54 XI_EA(dword_10621A54_t, 0x10621A54u)
-typedef int dword_10621A58_t;
-#define dword_10621A58 XI_EA(dword_10621A58_t, 0x10621A58u)
-typedef int dword_10621A5C_t;
-#define dword_10621A5C XI_EA(dword_10621A5C_t, 0x10621A5Cu)
-typedef int dword_10621A60_t;
-#define dword_10621A60 XI_EA(dword_10621A60_t, 0x10621A60u)
-typedef int dword_10621A64_t;
-#define dword_10621A64 XI_EA(dword_10621A64_t, 0x10621A64u)
-typedef int dword_10621A68_t;
-#define dword_10621A68 XI_EA(dword_10621A68_t, 0x10621A68u)
-typedef int dword_10621A6C_t;
-#define dword_10621A6C XI_EA(dword_10621A6C_t, 0x10621A6Cu)
-typedef int dword_10621A70_t;
-#define dword_10621A70 XI_EA(dword_10621A70_t, 0x10621A70u)
-typedef int dword_10621A74_t;
-#define dword_10621A74 XI_EA(dword_10621A74_t, 0x10621A74u)
-typedef int dword_10621A78_t;
-#define dword_10621A78 XI_EA(dword_10621A78_t, 0x10621A78u)
-typedef int dword_10621A7C_t;
-#define dword_10621A7C XI_EA(dword_10621A7C_t, 0x10621A7Cu)
-typedef int dword_10621A80_t;
-#define dword_10621A80 XI_EA(dword_10621A80_t, 0x10621A80u)
-typedef int dword_10621A84_t;
-#define dword_10621A84 XI_EA(dword_10621A84_t, 0x10621A84u)
-typedef int dword_10621A88_t;
-#define dword_10621A88 XI_EA(dword_10621A88_t, 0x10621A88u)
-typedef int dword_10621A8C_t;
-#define dword_10621A8C XI_EA(dword_10621A8C_t, 0x10621A8Cu)
-typedef int dword_10621A90_t;
-#define dword_10621A90 XI_EA(dword_10621A90_t, 0x10621A90u)
-typedef int dword_10621A94_t;
-#define dword_10621A94 XI_EA(dword_10621A94_t, 0x10621A94u)
-typedef int dword_10621A98_t;
-#define dword_10621A98 XI_EA(dword_10621A98_t, 0x10621A98u)
-typedef int dword_10621A9C_t;
-#define dword_10621A9C XI_EA(dword_10621A9C_t, 0x10621A9Cu)
-typedef int dword_10621AA0_t;
-#define dword_10621AA0 XI_EA(dword_10621AA0_t, 0x10621AA0u)
-typedef int dword_10621AA4_t;
-#define dword_10621AA4 XI_EA(dword_10621AA4_t, 0x10621AA4u)
-typedef int dword_10621AA8_t;
-#define dword_10621AA8 XI_EA(dword_10621AA8_t, 0x10621AA8u)
-typedef int dword_10621AAC_t;
-#define dword_10621AAC XI_EA(dword_10621AAC_t, 0x10621AACu)
-typedef int dword_10621AB0_t;
-#define dword_10621AB0 XI_EA(dword_10621AB0_t, 0x10621AB0u)
-typedef int dword_10621AB4_t;
-#define dword_10621AB4 XI_EA(dword_10621AB4_t, 0x10621AB4u)
-typedef int dword_10621AB8_t;
-#define dword_10621AB8 XI_EA(dword_10621AB8_t, 0x10621AB8u)
-typedef int dword_10621ABC_t;
-#define dword_10621ABC XI_EA(dword_10621ABC_t, 0x10621ABCu)
-typedef int dword_10621AC0_t;
-#define dword_10621AC0 XI_EA(dword_10621AC0_t, 0x10621AC0u)
-typedef int dword_10621AC4_t;
-#define dword_10621AC4 XI_EA(dword_10621AC4_t, 0x10621AC4u)
-typedef int dword_10621AC8_t;
-#define dword_10621AC8 XI_EA(dword_10621AC8_t, 0x10621AC8u)
-typedef int dword_10621ACC_t;
-#define dword_10621ACC XI_EA(dword_10621ACC_t, 0x10621ACCu)
-typedef int dword_10621AD0_t;
-#define dword_10621AD0 XI_EA(dword_10621AD0_t, 0x10621AD0u)
-typedef int dword_10621AD4_t;
-#define dword_10621AD4 XI_EA(dword_10621AD4_t, 0x10621AD4u)
-typedef int dword_10621AD8_t;
-#define dword_10621AD8 XI_EA(dword_10621AD8_t, 0x10621AD8u)
-typedef int dword_10621ADC_t;
-#define dword_10621ADC XI_EA(dword_10621ADC_t, 0x10621ADCu)
-typedef int dword_10621AE0_t;
-#define dword_10621AE0 XI_EA(dword_10621AE0_t, 0x10621AE0u)
-typedef int dword_10621AE4_t;
-#define dword_10621AE4 XI_EA(dword_10621AE4_t, 0x10621AE4u)
-typedef int dword_10621AE8_t;
-#define dword_10621AE8 XI_EA(dword_10621AE8_t, 0x10621AE8u)
-typedef int dword_10621AEC_t;
-#define dword_10621AEC XI_EA(dword_10621AEC_t, 0x10621AECu)
-typedef int dword_10621AF0_t;
-#define dword_10621AF0 XI_EA(dword_10621AF0_t, 0x10621AF0u)
-typedef int dword_10621AF4_t;
-#define dword_10621AF4 XI_EA(dword_10621AF4_t, 0x10621AF4u)
-typedef int dword_10621AF8_t;
-#define dword_10621AF8 XI_EA(dword_10621AF8_t, 0x10621AF8u)
-typedef int dword_10621AFC_t;
-#define dword_10621AFC XI_EA(dword_10621AFC_t, 0x10621AFCu)
-typedef int dword_10621B00_t;
-#define dword_10621B00 XI_EA(dword_10621B00_t, 0x10621B00u)
-typedef int dword_10621B04_t;
-#define dword_10621B04 XI_EA(dword_10621B04_t, 0x10621B04u)
-typedef int dword_10621B08_t;
-#define dword_10621B08 XI_EA(dword_10621B08_t, 0x10621B08u)
-typedef int dword_10621B0C_t;
-#define dword_10621B0C XI_EA(dword_10621B0C_t, 0x10621B0Cu)
-typedef int dword_10621B10_t;
-#define dword_10621B10 XI_EA(dword_10621B10_t, 0x10621B10u)
-typedef int dword_10621B14_t;
-#define dword_10621B14 XI_EA(dword_10621B14_t, 0x10621B14u)
-typedef int dword_10621B18_t;
-#define dword_10621B18 XI_EA(dword_10621B18_t, 0x10621B18u)
-typedef int dword_10621B1C_t;
-#define dword_10621B1C XI_EA(dword_10621B1C_t, 0x10621B1Cu)
-typedef int dword_10621B20_t;
-#define dword_10621B20 XI_EA(dword_10621B20_t, 0x10621B20u)
-typedef int dword_10621B24_t;
-#define dword_10621B24 XI_EA(dword_10621B24_t, 0x10621B24u)
-typedef int dword_10621B28_t;
-#define dword_10621B28 XI_EA(dword_10621B28_t, 0x10621B28u)
-typedef int dword_10621B2C_t;
-#define dword_10621B2C XI_EA(dword_10621B2C_t, 0x10621B2Cu)
-typedef int dword_10621B30_t;
-#define dword_10621B30 XI_EA(dword_10621B30_t, 0x10621B30u)
-typedef int dword_10621B34_t;
-#define dword_10621B34 XI_EA(dword_10621B34_t, 0x10621B34u)
-typedef int dword_10621C00_t;
-#define dword_10621C00 XI_EA(dword_10621C00_t, 0x10621C00u)
+typedef int g_upVerts_1A18_t;
+#define g_upVerts_1A18 XI_EA(g_upVerts_1A18_t, 0x10621A18u)
+typedef int g_upVerts_1A18_v0_y_t;
+#define g_upVerts_1A18_v0_y XI_EA(g_upVerts_1A18_v0_y_t, 0x10621A1Cu)
+typedef int g_upVerts_1A18_v0_z_t;
+#define g_upVerts_1A18_v0_z XI_EA(g_upVerts_1A18_v0_z_t, 0x10621A20u)
+typedef int g_upVerts_1A18_v0_diffuse_t;
+#define g_upVerts_1A18_v0_diffuse XI_EA(g_upVerts_1A18_v0_diffuse_t, 0x10621A24u)
+typedef int g_upVerts_1A18_v1_x_t;
+#define g_upVerts_1A18_v1_x XI_EA(g_upVerts_1A18_v1_x_t, 0x10621A28u)
+typedef int g_upVerts_1A18_v1_y_t;
+#define g_upVerts_1A18_v1_y XI_EA(g_upVerts_1A18_v1_y_t, 0x10621A2Cu)
+typedef int g_upVerts_1A18_v1_z_t;
+#define g_upVerts_1A18_v1_z XI_EA(g_upVerts_1A18_v1_z_t, 0x10621A30u)
+typedef int g_upVerts_1A18_v1_diffuse_t;
+#define g_upVerts_1A18_v1_diffuse XI_EA(g_upVerts_1A18_v1_diffuse_t, 0x10621A34u)
+typedef int g_upVerts_1A18_v2_x_t;
+#define g_upVerts_1A18_v2_x XI_EA(g_upVerts_1A18_v2_x_t, 0x10621A38u)
+typedef int g_upVerts_1A18_v2_y_t;
+#define g_upVerts_1A18_v2_y XI_EA(g_upVerts_1A18_v2_y_t, 0x10621A3Cu)
+typedef int g_upVerts_1A18_v2_z_t;
+#define g_upVerts_1A18_v2_z XI_EA(g_upVerts_1A18_v2_z_t, 0x10621A40u)
+typedef int g_upVerts_1A18_v2_diffuse_t;
+#define g_upVerts_1A18_v2_diffuse XI_EA(g_upVerts_1A18_v2_diffuse_t, 0x10621A44u)
+typedef int g_upVerts_1A18_v3_x_t;
+#define g_upVerts_1A18_v3_x XI_EA(g_upVerts_1A18_v3_x_t, 0x10621A48u)
+typedef int g_upVerts_1A18_v3_y_t;
+#define g_upVerts_1A18_v3_y XI_EA(g_upVerts_1A18_v3_y_t, 0x10621A4Cu)
+typedef int g_upVerts_1A18_v3_z_t;
+#define g_upVerts_1A18_v3_z XI_EA(g_upVerts_1A18_v3_z_t, 0x10621A50u)
+typedef int g_upVerts_1A18_v3_diffuse_t;
+#define g_upVerts_1A18_v3_diffuse XI_EA(g_upVerts_1A18_v3_diffuse_t, 0x10621A54u)
+typedef int g_upVerts_1A18_v4_x_t;
+#define g_upVerts_1A18_v4_x XI_EA(g_upVerts_1A18_v4_x_t, 0x10621A58u)
+typedef int g_upVerts_1A18_v4_y_t;
+#define g_upVerts_1A18_v4_y XI_EA(g_upVerts_1A18_v4_y_t, 0x10621A5Cu)
+typedef int g_upVerts_1A18_v4_z_t;
+#define g_upVerts_1A18_v4_z XI_EA(g_upVerts_1A18_v4_z_t, 0x10621A60u)
+typedef int g_upVerts_1A18_v4_diffuse_t;
+#define g_upVerts_1A18_v4_diffuse XI_EA(g_upVerts_1A18_v4_diffuse_t, 0x10621A64u)
+typedef int g_upVerts_1A68_t;
+#define g_upVerts_1A68 XI_EA(g_upVerts_1A68_t, 0x10621A68u)
+typedef int g_upVerts_1A68_v0_y_t;
+#define g_upVerts_1A68_v0_y XI_EA(g_upVerts_1A68_v0_y_t, 0x10621A6Cu)
+typedef int g_upVerts_1A68_v0_z_t;
+#define g_upVerts_1A68_v0_z XI_EA(g_upVerts_1A68_v0_z_t, 0x10621A70u)
+typedef int g_upVerts_1A68_v0_diffuse_t;
+#define g_upVerts_1A68_v0_diffuse XI_EA(g_upVerts_1A68_v0_diffuse_t, 0x10621A74u)
+typedef int g_upVerts_1A68_v1_x_t;
+#define g_upVerts_1A68_v1_x XI_EA(g_upVerts_1A68_v1_x_t, 0x10621A78u)
+typedef int g_upVerts_1A68_v1_y_t;
+#define g_upVerts_1A68_v1_y XI_EA(g_upVerts_1A68_v1_y_t, 0x10621A7Cu)
+typedef int g_upVerts_1A68_v1_z_t;
+#define g_upVerts_1A68_v1_z XI_EA(g_upVerts_1A68_v1_z_t, 0x10621A80u)
+typedef int g_upVerts_1A68_v1_diffuse_t;
+#define g_upVerts_1A68_v1_diffuse XI_EA(g_upVerts_1A68_v1_diffuse_t, 0x10621A84u)
+typedef int g_upVerts_1A68_v2_x_t;
+#define g_upVerts_1A68_v2_x XI_EA(g_upVerts_1A68_v2_x_t, 0x10621A88u)
+typedef int g_upVerts_1A68_v2_y_t;
+#define g_upVerts_1A68_v2_y XI_EA(g_upVerts_1A68_v2_y_t, 0x10621A8Cu)
+typedef int g_upVerts_1A68_v2_z_t;
+#define g_upVerts_1A68_v2_z XI_EA(g_upVerts_1A68_v2_z_t, 0x10621A90u)
+typedef int g_upVerts_1A68_v2_diffuse_t;
+#define g_upVerts_1A68_v2_diffuse XI_EA(g_upVerts_1A68_v2_diffuse_t, 0x10621A94u)
+typedef int g_upVerts_1A68_v3_x_t;
+#define g_upVerts_1A68_v3_x XI_EA(g_upVerts_1A68_v3_x_t, 0x10621A98u)
+typedef int g_upVerts_1A68_v3_y_t;
+#define g_upVerts_1A68_v3_y XI_EA(g_upVerts_1A68_v3_y_t, 0x10621A9Cu)
+typedef int g_upVerts_1A68_v3_z_t;
+#define g_upVerts_1A68_v3_z XI_EA(g_upVerts_1A68_v3_z_t, 0x10621AA0u)
+typedef int g_upVerts_1A68_v3_diffuse_t;
+#define g_upVerts_1A68_v3_diffuse XI_EA(g_upVerts_1A68_v3_diffuse_t, 0x10621AA4u)
+typedef int g_upVerts_1A68_v4_x_t;
+#define g_upVerts_1A68_v4_x XI_EA(g_upVerts_1A68_v4_x_t, 0x10621AA8u)
+typedef int g_upVerts_1A68_v4_y_t;
+#define g_upVerts_1A68_v4_y XI_EA(g_upVerts_1A68_v4_y_t, 0x10621AACu)
+typedef int g_upVerts_1A68_v4_z_t;
+#define g_upVerts_1A68_v4_z XI_EA(g_upVerts_1A68_v4_z_t, 0x10621AB0u)
+typedef int g_upVerts_1A68_v4_diffuse_t;
+#define g_upVerts_1A68_v4_diffuse XI_EA(g_upVerts_1A68_v4_diffuse_t, 0x10621AB4u)
+typedef int g_upVerts_1AB8_t;
+#define g_upVerts_1AB8 XI_EA(g_upVerts_1AB8_t, 0x10621AB8u)
+typedef int g_upVerts_1AB8_v0_y_t;
+#define g_upVerts_1AB8_v0_y XI_EA(g_upVerts_1AB8_v0_y_t, 0x10621ABCu)
+typedef int g_upVerts_1AB8_v0_z_t;
+#define g_upVerts_1AB8_v0_z XI_EA(g_upVerts_1AB8_v0_z_t, 0x10621AC0u)
+typedef int g_upVerts_1AB8_v0_diffuse_t;
+#define g_upVerts_1AB8_v0_diffuse XI_EA(g_upVerts_1AB8_v0_diffuse_t, 0x10621AC4u)
+typedef int g_upVerts_1AB8_v1_x_t;
+#define g_upVerts_1AB8_v1_x XI_EA(g_upVerts_1AB8_v1_x_t, 0x10621AC8u)
+typedef int g_upVerts_1AB8_v1_y_t;
+#define g_upVerts_1AB8_v1_y XI_EA(g_upVerts_1AB8_v1_y_t, 0x10621ACCu)
+typedef int g_upVerts_1AB8_v1_z_t;
+#define g_upVerts_1AB8_v1_z XI_EA(g_upVerts_1AB8_v1_z_t, 0x10621AD0u)
+typedef int g_upVerts_1AB8_v1_diffuse_t;
+#define g_upVerts_1AB8_v1_diffuse XI_EA(g_upVerts_1AB8_v1_diffuse_t, 0x10621AD4u)
+typedef int g_upVerts_1AB8_v2_x_t;
+#define g_upVerts_1AB8_v2_x XI_EA(g_upVerts_1AB8_v2_x_t, 0x10621AD8u)
+typedef int g_upVerts_1AB8_v2_y_t;
+#define g_upVerts_1AB8_v2_y XI_EA(g_upVerts_1AB8_v2_y_t, 0x10621ADCu)
+typedef int g_upVerts_1AB8_v2_z_t;
+#define g_upVerts_1AB8_v2_z XI_EA(g_upVerts_1AB8_v2_z_t, 0x10621AE0u)
+typedef int g_upVerts_1AB8_v2_diffuse_t;
+#define g_upVerts_1AB8_v2_diffuse XI_EA(g_upVerts_1AB8_v2_diffuse_t, 0x10621AE4u)
+typedef int g_upVerts_1AB8_v3_x_t;
+#define g_upVerts_1AB8_v3_x XI_EA(g_upVerts_1AB8_v3_x_t, 0x10621AE8u)
+typedef int g_upVerts_1AB8_v3_y_t;
+#define g_upVerts_1AB8_v3_y XI_EA(g_upVerts_1AB8_v3_y_t, 0x10621AECu)
+typedef int g_upVerts_1AB8_v3_z_t;
+#define g_upVerts_1AB8_v3_z XI_EA(g_upVerts_1AB8_v3_z_t, 0x10621AF0u)
+typedef int g_upVerts_1AB8_v3_diffuse_t;
+#define g_upVerts_1AB8_v3_diffuse XI_EA(g_upVerts_1AB8_v3_diffuse_t, 0x10621AF4u)
+typedef int g_upVerts_1AB8_v4_x_t;
+#define g_upVerts_1AB8_v4_x XI_EA(g_upVerts_1AB8_v4_x_t, 0x10621AF8u)
+typedef int g_upVerts_1AB8_v4_y_t;
+#define g_upVerts_1AB8_v4_y XI_EA(g_upVerts_1AB8_v4_y_t, 0x10621AFCu)
+typedef int g_upVerts_1AB8_v4_z_t;
+#define g_upVerts_1AB8_v4_z XI_EA(g_upVerts_1AB8_v4_z_t, 0x10621B00u)
+typedef int g_upVerts_1AB8_v4_diffuse_t;
+#define g_upVerts_1AB8_v4_diffuse XI_EA(g_upVerts_1AB8_v4_diffuse_t, 0x10621B04u)
+typedef int g_upVerts_1AB8_v5_x_t;
+#define g_upVerts_1AB8_v5_x XI_EA(g_upVerts_1AB8_v5_x_t, 0x10621B08u)
+typedef int g_upVerts_1AB8_v5_y_t;
+#define g_upVerts_1AB8_v5_y XI_EA(g_upVerts_1AB8_v5_y_t, 0x10621B0Cu)
+typedef int g_upVerts_1AB8_v5_z_t;
+#define g_upVerts_1AB8_v5_z XI_EA(g_upVerts_1AB8_v5_z_t, 0x10621B10u)
+typedef int g_upVerts_1AB8_v5_diffuse_t;
+#define g_upVerts_1AB8_v5_diffuse XI_EA(g_upVerts_1AB8_v5_diffuse_t, 0x10621B14u)
+typedef int g_upVerts_1AB8_v6_x_t;
+#define g_upVerts_1AB8_v6_x XI_EA(g_upVerts_1AB8_v6_x_t, 0x10621B18u)
+typedef int g_upVerts_1AB8_v6_y_t;
+#define g_upVerts_1AB8_v6_y XI_EA(g_upVerts_1AB8_v6_y_t, 0x10621B1Cu)
+typedef int g_upVerts_1AB8_v6_z_t;
+#define g_upVerts_1AB8_v6_z XI_EA(g_upVerts_1AB8_v6_z_t, 0x10621B20u)
+typedef int g_upVerts_1AB8_v6_diffuse_t;
+#define g_upVerts_1AB8_v6_diffuse XI_EA(g_upVerts_1AB8_v6_diffuse_t, 0x10621B24u)
+typedef int g_upVerts_1AB8_v7_x_t;
+#define g_upVerts_1AB8_v7_x XI_EA(g_upVerts_1AB8_v7_x_t, 0x10621B28u)
+typedef int g_upVerts_1AB8_v7_y_t;
+#define g_upVerts_1AB8_v7_y XI_EA(g_upVerts_1AB8_v7_y_t, 0x10621B2Cu)
+typedef int g_upVerts_1AB8_v7_z_t;
+#define g_upVerts_1AB8_v7_z XI_EA(g_upVerts_1AB8_v7_z_t, 0x10621B30u)
+typedef int g_upVerts_1AB8_v7_diffuse_t;
+#define g_upVerts_1AB8_v7_diffuse XI_EA(g_upVerts_1AB8_v7_diffuse_t, 0x10621B34u)
+typedef int g_zbiasRestore_t;
+#define g_zbiasRestore XI_EA(g_zbiasRestore_t, 0x10621C00u)
 typedef _BYTE unk_10624DD3_t;
 #define unk_10624DD3 XI_EA(unk_10624DD3_t, 0x10624DD3u)
-typedef int dword_10631C88_t;
-#define dword_10631C88 XI_EA(dword_10631C88_t, 0x10631C88u)
-typedef int dword_10631C90_t;
-#define dword_10631C90 XI_EA(dword_10631C90_t, 0x10631C90u)
-typedef float flt_10631C94_t;
-#define flt_10631C94 XI_EA(flt_10631C94_t, 0x10631C94u)
-typedef float flt_10631C98_t;
-#define flt_10631C98 XI_EA(flt_10631C98_t, 0x10631C98u)
-typedef int dword_10631C9C_t;
-#define dword_10631C9C XI_EA(dword_10631C9C_t, 0x10631C9Cu)
-typedef int dword_10631CA0_t;
-#define dword_10631CA0 XI_EA(dword_10631CA0_t, 0x10631CA0u)
-typedef int dword_10631CA4_t;
-#define dword_10631CA4 XI_EA(dword_10631CA4_t, 0x10631CA4u)
-typedef int dword_10631CA8_t;
-#define dword_10631CA8 XI_EA(dword_10631CA8_t, 0x10631CA8u)
-typedef float flt_10631CAC_t;
-#define flt_10631CAC XI_EA(flt_10631CAC_t, 0x10631CACu)
-typedef float flt_10631CB0_t;
-#define flt_10631CB0 XI_EA(flt_10631CB0_t, 0x10631CB0u)
-typedef int dword_10631CB4_t;
-#define dword_10631CB4 XI_EA(dword_10631CB4_t, 0x10631CB4u)
-typedef int dword_10631CB8_t;
-#define dword_10631CB8 XI_EA(dword_10631CB8_t, 0x10631CB8u)
-typedef int dword_10631CBC_t;
-#define dword_10631CBC XI_EA(dword_10631CBC_t, 0x10631CBCu)
-typedef float flt_10631CC0_t;
-#define flt_10631CC0 XI_EA(flt_10631CC0_t, 0x10631CC0u)
-typedef float flt_10631CC4_t;
-#define flt_10631CC4 XI_EA(flt_10631CC4_t, 0x10631CC4u)
-typedef float flt_10631CC8_t;
-#define flt_10631CC8 XI_EA(flt_10631CC8_t, 0x10631CC8u)
-typedef int dword_10631CCC_t;
-#define dword_10631CCC XI_EA(dword_10631CCC_t, 0x10631CCCu)
-typedef int dword_10631CD0_t;
-#define dword_10631CD0 XI_EA(dword_10631CD0_t, 0x10631CD0u)
-typedef int dword_10631CD4_t;
-#define dword_10631CD4 XI_EA(dword_10631CD4_t, 0x10631CD4u)
-typedef float flt_10631CD8_t;
-#define flt_10631CD8 XI_EA(flt_10631CD8_t, 0x10631CD8u)
-typedef float flt_10631CDC_t;
-#define flt_10631CDC XI_EA(flt_10631CDC_t, 0x10631CDCu)
-typedef float flt_10631CE0_t;
-#define flt_10631CE0 XI_EA(flt_10631CE0_t, 0x10631CE0u)
-typedef int dword_10631CE4_t;
-#define dword_10631CE4 XI_EA(dword_10631CE4_t, 0x10631CE4u)
-typedef int dword_10631CE8_t;
-#define dword_10631CE8 XI_EA(dword_10631CE8_t, 0x10631CE8u)
-typedef int dword_10631CEC_t;
-#define dword_10631CEC XI_EA(dword_10631CEC_t, 0x10631CECu)
-typedef float flt_10631CF0_t;
-#define flt_10631CF0 XI_EA(flt_10631CF0_t, 0x10631CF0u)
-typedef float flt_10631CF4_t;
-#define flt_10631CF4 XI_EA(flt_10631CF4_t, 0x10631CF4u)
-typedef float flt_10631CF8_t;
-#define flt_10631CF8 XI_EA(flt_10631CF8_t, 0x10631CF8u)
-typedef int dword_10631CFC_t;
-#define dword_10631CFC XI_EA(dword_10631CFC_t, 0x10631CFCu)
-typedef int dword_10631D00_t;
-#define dword_10631D00 XI_EA(dword_10631D00_t, 0x10631D00u)
-typedef int dword_10631D04_t;
-#define dword_10631D04 XI_EA(dword_10631D04_t, 0x10631D04u)
-typedef float flt_10631D08_t;
-#define flt_10631D08 XI_EA(flt_10631D08_t, 0x10631D08u)
-typedef float flt_10631D0C_t;
-#define flt_10631D0C XI_EA(flt_10631D0C_t, 0x10631D0Cu)
-typedef float flt_10631D10_t;
-#define flt_10631D10 XI_EA(flt_10631D10_t, 0x10631D10u)
-typedef int dword_10631D14_t;
-#define dword_10631D14 XI_EA(dword_10631D14_t, 0x10631D14u)
-typedef int dword_10631D18_t;
-#define dword_10631D18 XI_EA(dword_10631D18_t, 0x10631D18u)
-typedef int dword_10631D1C_t;
-#define dword_10631D1C XI_EA(dword_10631D1C_t, 0x10631D1Cu)
-typedef int dword_10631D20_t;
-#define dword_10631D20 XI_EA(dword_10631D20_t, 0x10631D20u)
-typedef float flt_10631D24_t;
-#define flt_10631D24 XI_EA(flt_10631D24_t, 0x10631D24u)
-typedef float flt_10631D28_t;
-#define flt_10631D28 XI_EA(flt_10631D28_t, 0x10631D28u)
-typedef int dword_10631D2C_t;
-#define dword_10631D2C XI_EA(dword_10631D2C_t, 0x10631D2Cu)
-typedef int dword_10631D30_t;
-#define dword_10631D30 XI_EA(dword_10631D30_t, 0x10631D30u)
-typedef int dword_10631D34_t;
-#define dword_10631D34 XI_EA(dword_10631D34_t, 0x10631D34u)
-typedef int dword_10631D38_t;
-#define dword_10631D38 XI_EA(dword_10631D38_t, 0x10631D38u)
-typedef float flt_10631D3C_t;
-#define flt_10631D3C XI_EA(flt_10631D3C_t, 0x10631D3Cu)
-typedef float flt_10631D40_t;
-#define flt_10631D40 XI_EA(flt_10631D40_t, 0x10631D40u)
-typedef int dword_10631D44_t;
-#define dword_10631D44 XI_EA(dword_10631D44_t, 0x10631D44u)
-typedef int dword_10631D48_t;
-#define dword_10631D48 XI_EA(dword_10631D48_t, 0x10631D48u)
-typedef int dword_10631D4C_t;
-#define dword_10631D4C XI_EA(dword_10631D4C_t, 0x10631D4Cu)
-typedef int dword_10631D50_t;
-#define dword_10631D50 XI_EA(dword_10631D50_t, 0x10631D50u)
-typedef float flt_10631D54_t;
-#define flt_10631D54 XI_EA(flt_10631D54_t, 0x10631D54u)
-typedef float flt_10631D58_t;
-#define flt_10631D58 XI_EA(flt_10631D58_t, 0x10631D58u)
-typedef int dword_10631D5C_t;
-#define dword_10631D5C XI_EA(dword_10631D5C_t, 0x10631D5Cu)
-typedef int dword_10631D60_t;
-#define dword_10631D60 XI_EA(dword_10631D60_t, 0x10631D60u)
-typedef int dword_10631D64_t;
-#define dword_10631D64 XI_EA(dword_10631D64_t, 0x10631D64u)
-typedef float flt_10631D68_t;
-#define flt_10631D68 XI_EA(flt_10631D68_t, 0x10631D68u)
-typedef float flt_10631D6C_t;
-#define flt_10631D6C XI_EA(flt_10631D6C_t, 0x10631D6Cu)
-typedef float flt_10631D70_t;
-#define flt_10631D70 XI_EA(flt_10631D70_t, 0x10631D70u)
-typedef int dword_10631D74_t;
-#define dword_10631D74 XI_EA(dword_10631D74_t, 0x10631D74u)
-typedef int dword_10631D78_t;
-#define dword_10631D78 XI_EA(dword_10631D78_t, 0x10631D78u)
-typedef int dword_10631D7C_t;
-#define dword_10631D7C XI_EA(dword_10631D7C_t, 0x10631D7Cu)
-typedef float flt_10631D80_t;
-#define flt_10631D80 XI_EA(flt_10631D80_t, 0x10631D80u)
-typedef float flt_10631D84_t;
-#define flt_10631D84 XI_EA(flt_10631D84_t, 0x10631D84u)
-typedef float flt_10631D88_t;
-#define flt_10631D88 XI_EA(flt_10631D88_t, 0x10631D88u)
-typedef int dword_10631D8C_t;
-#define dword_10631D8C XI_EA(dword_10631D8C_t, 0x10631D8Cu)
-typedef int dword_10631D90_t;
-#define dword_10631D90 XI_EA(dword_10631D90_t, 0x10631D90u)
-typedef int dword_10631D94_t;
-#define dword_10631D94 XI_EA(dword_10631D94_t, 0x10631D94u)
-typedef int dword_10631D98_t;
-#define dword_10631D98 XI_EA(dword_10631D98_t, 0x10631D98u)
-typedef float flt_10631D9C_t;
-#define flt_10631D9C XI_EA(flt_10631D9C_t, 0x10631D9Cu)
-typedef float flt_10631DA0_t;
-#define flt_10631DA0 XI_EA(flt_10631DA0_t, 0x10631DA0u)
-typedef int dword_10631DA4_t;
-#define dword_10631DA4 XI_EA(dword_10631DA4_t, 0x10631DA4u)
-typedef int dword_10631DA8_t;
-#define dword_10631DA8 XI_EA(dword_10631DA8_t, 0x10631DA8u)
-typedef int dword_10631DAC_t;
-#define dword_10631DAC XI_EA(dword_10631DAC_t, 0x10631DACu)
-typedef int dword_10631DB0_t;
-#define dword_10631DB0 XI_EA(dword_10631DB0_t, 0x10631DB0u)
-typedef float flt_10631DB4_t;
-#define flt_10631DB4 XI_EA(flt_10631DB4_t, 0x10631DB4u)
-typedef float flt_10631DB8_t;
-#define flt_10631DB8 XI_EA(flt_10631DB8_t, 0x10631DB8u)
-typedef int dword_10631DBC_t;
-#define dword_10631DBC XI_EA(dword_10631DBC_t, 0x10631DBCu)
-typedef int dword_10631DC0_t;
-#define dword_10631DC0 XI_EA(dword_10631DC0_t, 0x10631DC0u)
-typedef int dword_10631DC4_t;
-#define dword_10631DC4 XI_EA(dword_10631DC4_t, 0x10631DC4u)
-typedef int dword_10631E10_t;
-#define dword_10631E10 XI_EA(dword_10631E10_t, 0x10631E10u)
-typedef float flt_10631E14_t;
-#define flt_10631E14 XI_EA(flt_10631E14_t, 0x10631E14u)
-typedef float flt_10631E18_t;
-#define flt_10631E18 XI_EA(flt_10631E18_t, 0x10631E18u)
-typedef int dword_10631E1C_t;
-#define dword_10631E1C XI_EA(dword_10631E1C_t, 0x10631E1Cu)
-typedef int dword_10631E20_t;
-#define dword_10631E20 XI_EA(dword_10631E20_t, 0x10631E20u)
-typedef int dword_10631E24_t;
-#define dword_10631E24 XI_EA(dword_10631E24_t, 0x10631E24u)
-typedef float flt_10631E28_t;
-#define flt_10631E28 XI_EA(flt_10631E28_t, 0x10631E28u)
-typedef float flt_10631E2C_t;
-#define flt_10631E2C XI_EA(flt_10631E2C_t, 0x10631E2Cu)
-typedef float flt_10631E30_t;
-#define flt_10631E30 XI_EA(flt_10631E30_t, 0x10631E30u)
-typedef int dword_10631E34_t;
-#define dword_10631E34 XI_EA(dword_10631E34_t, 0x10631E34u)
-typedef int dword_10631E38_t;
-#define dword_10631E38 XI_EA(dword_10631E38_t, 0x10631E38u)
-typedef int dword_10631E3C_t;
-#define dword_10631E3C XI_EA(dword_10631E3C_t, 0x10631E3Cu)
-typedef float flt_10631E40_t;
-#define flt_10631E40 XI_EA(flt_10631E40_t, 0x10631E40u)
-typedef float flt_10631E44_t;
-#define flt_10631E44 XI_EA(flt_10631E44_t, 0x10631E44u)
-typedef float flt_10631E48_t;
-#define flt_10631E48 XI_EA(flt_10631E48_t, 0x10631E48u)
-typedef int dword_10631E4C_t;
-#define dword_10631E4C XI_EA(dword_10631E4C_t, 0x10631E4Cu)
-typedef int dword_10631E50_t;
-#define dword_10631E50 XI_EA(dword_10631E50_t, 0x10631E50u)
-typedef int dword_10631E54_t;
-#define dword_10631E54 XI_EA(dword_10631E54_t, 0x10631E54u)
-typedef int dword_10631E58_t;
-#define dword_10631E58 XI_EA(dword_10631E58_t, 0x10631E58u)
-typedef float flt_10631E5C_t;
-#define flt_10631E5C XI_EA(flt_10631E5C_t, 0x10631E5Cu)
-typedef float flt_10631E60_t;
-#define flt_10631E60 XI_EA(flt_10631E60_t, 0x10631E60u)
-typedef int dword_10631E64_t;
-#define dword_10631E64 XI_EA(dword_10631E64_t, 0x10631E64u)
-typedef int dword_10631E68_t;
-#define dword_10631E68 XI_EA(dword_10631E68_t, 0x10631E68u)
-typedef int dword_10631E6C_t;
-#define dword_10631E6C XI_EA(dword_10631E6C_t, 0x10631E6Cu)
-typedef int dword_10631E70_t;
-#define dword_10631E70 XI_EA(dword_10631E70_t, 0x10631E70u)
-typedef float flt_10631E74_t;
-#define flt_10631E74 XI_EA(flt_10631E74_t, 0x10631E74u)
-typedef float flt_10631E78_t;
-#define flt_10631E78 XI_EA(flt_10631E78_t, 0x10631E78u)
-typedef int dword_10631E7C_t;
-#define dword_10631E7C XI_EA(dword_10631E7C_t, 0x10631E7Cu)
-typedef int dword_10631E80_t;
-#define dword_10631E80 XI_EA(dword_10631E80_t, 0x10631E80u)
-typedef int dword_10631E84_t;
-#define dword_10631E84 XI_EA(dword_10631E84_t, 0x10631E84u)
-typedef int dword_10631F10_t;
-#define dword_10631F10 XI_EA(dword_10631F10_t, 0x10631F10u)
-typedef int dword_10631F18_t;
-#define dword_10631F18 XI_EA(dword_10631F18_t, 0x10631F18u)
-typedef int dword_10631F20_t;
-#define dword_10631F20 XI_EA(dword_10631F20_t, 0x10631F20u)
-typedef void * dword_10631F24_t;
-#define dword_10631F24 XI_EA(dword_10631F24_t, 0x10631F24u)
-typedef int dword_10632038_t;
-#define dword_10632038 XI_EA(dword_10632038_t, 0x10632038u)
-typedef int dword_10639040_t;
-#define dword_10639040 XI_EA(dword_10639040_t, 0x10639040u)
+typedef int g_zbiasOverlay_t;
+#define g_zbiasOverlay XI_EA(g_zbiasOverlay_t, 0x10631C88u)
+typedef int g_upVerts_1C90_t;
+#define g_upVerts_1C90 XI_EA(g_upVerts_1C90_t, 0x10631C90u)
+typedef float g_upVerts_1C90_v0_y_t;
+#define g_upVerts_1C90_v0_y XI_EA(g_upVerts_1C90_v0_y_t, 0x10631C94u)
+typedef float g_upVerts_1C90_v0_z_t;
+#define g_upVerts_1C90_v0_z XI_EA(g_upVerts_1C90_v0_z_t, 0x10631C98u)
+typedef int g_upVerts_1C90_v0_diffuse_t;
+#define g_upVerts_1C90_v0_diffuse XI_EA(g_upVerts_1C90_v0_diffuse_t, 0x10631C9Cu)
+typedef int g_upVerts_1C90_v0_u_t;
+#define g_upVerts_1C90_v0_u XI_EA(g_upVerts_1C90_v0_u_t, 0x10631CA0u)
+typedef int g_upVerts_1C90_v0_v_t;
+#define g_upVerts_1C90_v0_v XI_EA(g_upVerts_1C90_v0_v_t, 0x10631CA4u)
+typedef int g_upVerts_1C90_v1_x_t;
+#define g_upVerts_1C90_v1_x XI_EA(g_upVerts_1C90_v1_x_t, 0x10631CA8u)
+typedef float g_upVerts_1C90_v1_y_t;
+#define g_upVerts_1C90_v1_y XI_EA(g_upVerts_1C90_v1_y_t, 0x10631CACu)
+typedef float g_upVerts_1C90_v1_z_t;
+#define g_upVerts_1C90_v1_z XI_EA(g_upVerts_1C90_v1_z_t, 0x10631CB0u)
+typedef int g_upVerts_1C90_v1_diffuse_t;
+#define g_upVerts_1C90_v1_diffuse XI_EA(g_upVerts_1C90_v1_diffuse_t, 0x10631CB4u)
+typedef int g_upVerts_1C90_v1_u_t;
+#define g_upVerts_1C90_v1_u XI_EA(g_upVerts_1C90_v1_u_t, 0x10631CB8u)
+typedef int g_upVerts_1C90_v1_v_t;
+#define g_upVerts_1C90_v1_v XI_EA(g_upVerts_1C90_v1_v_t, 0x10631CBCu)
+typedef float g_upVerts_1C90_v2_x_t;
+#define g_upVerts_1C90_v2_x XI_EA(g_upVerts_1C90_v2_x_t, 0x10631CC0u)
+typedef float g_upVerts_1C90_v2_y_t;
+#define g_upVerts_1C90_v2_y XI_EA(g_upVerts_1C90_v2_y_t, 0x10631CC4u)
+typedef float g_upVerts_1C90_v2_z_t;
+#define g_upVerts_1C90_v2_z XI_EA(g_upVerts_1C90_v2_z_t, 0x10631CC8u)
+typedef int g_upVerts_1C90_v2_diffuse_t;
+#define g_upVerts_1C90_v2_diffuse XI_EA(g_upVerts_1C90_v2_diffuse_t, 0x10631CCCu)
+typedef int g_upVerts_1C90_v2_u_t;
+#define g_upVerts_1C90_v2_u XI_EA(g_upVerts_1C90_v2_u_t, 0x10631CD0u)
+typedef int g_upVerts_1C90_v2_v_t;
+#define g_upVerts_1C90_v2_v XI_EA(g_upVerts_1C90_v2_v_t, 0x10631CD4u)
+typedef float g_upVerts_1C90_v3_x_t;
+#define g_upVerts_1C90_v3_x XI_EA(g_upVerts_1C90_v3_x_t, 0x10631CD8u)
+typedef float g_upVerts_1C90_v3_y_t;
+#define g_upVerts_1C90_v3_y XI_EA(g_upVerts_1C90_v3_y_t, 0x10631CDCu)
+typedef float g_upVerts_1C90_v3_z_t;
+#define g_upVerts_1C90_v3_z XI_EA(g_upVerts_1C90_v3_z_t, 0x10631CE0u)
+typedef int g_upVerts_1C90_v3_diffuse_t;
+#define g_upVerts_1C90_v3_diffuse XI_EA(g_upVerts_1C90_v3_diffuse_t, 0x10631CE4u)
+typedef int g_upVerts_1C90_v3_u_t;
+#define g_upVerts_1C90_v3_u XI_EA(g_upVerts_1C90_v3_u_t, 0x10631CE8u)
+typedef int g_upVerts_1C90_v3_v_t;
+#define g_upVerts_1C90_v3_v XI_EA(g_upVerts_1C90_v3_v_t, 0x10631CECu)
+typedef float g_upVerts_1C90_v4_x_t;
+#define g_upVerts_1C90_v4_x XI_EA(g_upVerts_1C90_v4_x_t, 0x10631CF0u)
+typedef float g_upVerts_1C90_v4_y_t;
+#define g_upVerts_1C90_v4_y XI_EA(g_upVerts_1C90_v4_y_t, 0x10631CF4u)
+typedef float g_upVerts_1C90_v4_z_t;
+#define g_upVerts_1C90_v4_z XI_EA(g_upVerts_1C90_v4_z_t, 0x10631CF8u)
+typedef int g_upVerts_1C90_v4_diffuse_t;
+#define g_upVerts_1C90_v4_diffuse XI_EA(g_upVerts_1C90_v4_diffuse_t, 0x10631CFCu)
+typedef int g_upVerts_1C90_v4_u_t;
+#define g_upVerts_1C90_v4_u XI_EA(g_upVerts_1C90_v4_u_t, 0x10631D00u)
+typedef int g_upVerts_1C90_v4_v_t;
+#define g_upVerts_1C90_v4_v XI_EA(g_upVerts_1C90_v4_v_t, 0x10631D04u)
+typedef float g_upVerts_1C90_v5_x_t;
+#define g_upVerts_1C90_v5_x XI_EA(g_upVerts_1C90_v5_x_t, 0x10631D08u)
+typedef float g_upVerts_1C90_v5_y_t;
+#define g_upVerts_1C90_v5_y XI_EA(g_upVerts_1C90_v5_y_t, 0x10631D0Cu)
+typedef float g_upVerts_1C90_v5_z_t;
+#define g_upVerts_1C90_v5_z XI_EA(g_upVerts_1C90_v5_z_t, 0x10631D10u)
+typedef int g_upVerts_1C90_v5_diffuse_t;
+#define g_upVerts_1C90_v5_diffuse XI_EA(g_upVerts_1C90_v5_diffuse_t, 0x10631D14u)
+typedef int g_upVerts_1C90_v5_u_t;
+#define g_upVerts_1C90_v5_u XI_EA(g_upVerts_1C90_v5_u_t, 0x10631D18u)
+typedef int g_upVerts_1C90_v5_v_t;
+#define g_upVerts_1C90_v5_v XI_EA(g_upVerts_1C90_v5_v_t, 0x10631D1Cu)
+typedef int g_upVerts_1C90_v6_x_t;
+#define g_upVerts_1C90_v6_x XI_EA(g_upVerts_1C90_v6_x_t, 0x10631D20u)
+typedef float g_upVerts_1C90_v6_y_t;
+#define g_upVerts_1C90_v6_y XI_EA(g_upVerts_1C90_v6_y_t, 0x10631D24u)
+typedef float g_upVerts_1C90_v6_z_t;
+#define g_upVerts_1C90_v6_z XI_EA(g_upVerts_1C90_v6_z_t, 0x10631D28u)
+typedef int g_upVerts_1C90_v6_diffuse_t;
+#define g_upVerts_1C90_v6_diffuse XI_EA(g_upVerts_1C90_v6_diffuse_t, 0x10631D2Cu)
+typedef int g_upVerts_1C90_v6_u_t;
+#define g_upVerts_1C90_v6_u XI_EA(g_upVerts_1C90_v6_u_t, 0x10631D30u)
+typedef int g_upVerts_1C90_v6_v_t;
+#define g_upVerts_1C90_v6_v XI_EA(g_upVerts_1C90_v6_v_t, 0x10631D34u)
+typedef int g_upVerts_1C90_v7_x_t;
+#define g_upVerts_1C90_v7_x XI_EA(g_upVerts_1C90_v7_x_t, 0x10631D38u)
+typedef float g_upVerts_1C90_v7_y_t;
+#define g_upVerts_1C90_v7_y XI_EA(g_upVerts_1C90_v7_y_t, 0x10631D3Cu)
+typedef float g_upVerts_1C90_v7_z_t;
+#define g_upVerts_1C90_v7_z XI_EA(g_upVerts_1C90_v7_z_t, 0x10631D40u)
+typedef int g_upVerts_1C90_v7_diffuse_t;
+#define g_upVerts_1C90_v7_diffuse XI_EA(g_upVerts_1C90_v7_diffuse_t, 0x10631D44u)
+typedef int g_upVerts_1C90_v7_u_t;
+#define g_upVerts_1C90_v7_u XI_EA(g_upVerts_1C90_v7_u_t, 0x10631D48u)
+typedef int g_upVerts_1C90_v7_v_t;
+#define g_upVerts_1C90_v7_v XI_EA(g_upVerts_1C90_v7_v_t, 0x10631D4Cu)
+typedef int g_upVerts_1D50_t;
+#define g_upVerts_1D50 XI_EA(g_upVerts_1D50_t, 0x10631D50u)
+typedef float g_upVerts_1D50_v0_y_t;
+#define g_upVerts_1D50_v0_y XI_EA(g_upVerts_1D50_v0_y_t, 0x10631D54u)
+typedef float g_upVerts_1D50_v0_z_t;
+#define g_upVerts_1D50_v0_z XI_EA(g_upVerts_1D50_v0_z_t, 0x10631D58u)
+typedef int g_upVerts_1D50_v0_diffuse_t;
+#define g_upVerts_1D50_v0_diffuse XI_EA(g_upVerts_1D50_v0_diffuse_t, 0x10631D5Cu)
+typedef int g_upVerts_1D50_v0_u_t;
+#define g_upVerts_1D50_v0_u XI_EA(g_upVerts_1D50_v0_u_t, 0x10631D60u)
+typedef int g_upVerts_1D50_v0_v_t;
+#define g_upVerts_1D50_v0_v XI_EA(g_upVerts_1D50_v0_v_t, 0x10631D64u)
+typedef float g_upVerts_1D50_v1_x_t;
+#define g_upVerts_1D50_v1_x XI_EA(g_upVerts_1D50_v1_x_t, 0x10631D68u)
+typedef float g_upVerts_1D50_v1_y_t;
+#define g_upVerts_1D50_v1_y XI_EA(g_upVerts_1D50_v1_y_t, 0x10631D6Cu)
+typedef float g_upVerts_1D50_v1_z_t;
+#define g_upVerts_1D50_v1_z XI_EA(g_upVerts_1D50_v1_z_t, 0x10631D70u)
+typedef int g_upVerts_1D50_v1_diffuse_t;
+#define g_upVerts_1D50_v1_diffuse XI_EA(g_upVerts_1D50_v1_diffuse_t, 0x10631D74u)
+typedef int g_upVerts_1D50_v1_u_t;
+#define g_upVerts_1D50_v1_u XI_EA(g_upVerts_1D50_v1_u_t, 0x10631D78u)
+typedef int g_upVerts_1D50_v1_v_t;
+#define g_upVerts_1D50_v1_v XI_EA(g_upVerts_1D50_v1_v_t, 0x10631D7Cu)
+typedef float g_upVerts_1D50_v2_x_t;
+#define g_upVerts_1D50_v2_x XI_EA(g_upVerts_1D50_v2_x_t, 0x10631D80u)
+typedef float g_upVerts_1D50_v2_y_t;
+#define g_upVerts_1D50_v2_y XI_EA(g_upVerts_1D50_v2_y_t, 0x10631D84u)
+typedef float g_upVerts_1D50_v2_z_t;
+#define g_upVerts_1D50_v2_z XI_EA(g_upVerts_1D50_v2_z_t, 0x10631D88u)
+typedef int g_upVerts_1D50_v2_diffuse_t;
+#define g_upVerts_1D50_v2_diffuse XI_EA(g_upVerts_1D50_v2_diffuse_t, 0x10631D8Cu)
+typedef int g_upVerts_1D50_v2_u_t;
+#define g_upVerts_1D50_v2_u XI_EA(g_upVerts_1D50_v2_u_t, 0x10631D90u)
+typedef int g_upVerts_1D50_v2_v_t;
+#define g_upVerts_1D50_v2_v XI_EA(g_upVerts_1D50_v2_v_t, 0x10631D94u)
+typedef int g_upVerts_1D50_v3_x_t;
+#define g_upVerts_1D50_v3_x XI_EA(g_upVerts_1D50_v3_x_t, 0x10631D98u)
+typedef float g_upVerts_1D50_v3_y_t;
+#define g_upVerts_1D50_v3_y XI_EA(g_upVerts_1D50_v3_y_t, 0x10631D9Cu)
+typedef float g_upVerts_1D50_v3_z_t;
+#define g_upVerts_1D50_v3_z XI_EA(g_upVerts_1D50_v3_z_t, 0x10631DA0u)
+typedef int g_upVerts_1D50_v3_diffuse_t;
+#define g_upVerts_1D50_v3_diffuse XI_EA(g_upVerts_1D50_v3_diffuse_t, 0x10631DA4u)
+typedef int g_upVerts_1D50_v3_u_t;
+#define g_upVerts_1D50_v3_u XI_EA(g_upVerts_1D50_v3_u_t, 0x10631DA8u)
+typedef int g_upVerts_1D50_v3_v_t;
+#define g_upVerts_1D50_v3_v XI_EA(g_upVerts_1D50_v3_v_t, 0x10631DACu)
+typedef int g_upVerts_1D50_v4_x_t;
+#define g_upVerts_1D50_v4_x XI_EA(g_upVerts_1D50_v4_x_t, 0x10631DB0u)
+typedef float g_upVerts_1D50_v4_y_t;
+#define g_upVerts_1D50_v4_y XI_EA(g_upVerts_1D50_v4_y_t, 0x10631DB4u)
+typedef float g_upVerts_1D50_v4_z_t;
+#define g_upVerts_1D50_v4_z XI_EA(g_upVerts_1D50_v4_z_t, 0x10631DB8u)
+typedef int g_upVerts_1D50_v4_diffuse_t;
+#define g_upVerts_1D50_v4_diffuse XI_EA(g_upVerts_1D50_v4_diffuse_t, 0x10631DBCu)
+typedef int g_upVerts_1D50_v4_u_t;
+#define g_upVerts_1D50_v4_u XI_EA(g_upVerts_1D50_v4_u_t, 0x10631DC0u)
+typedef int g_upVerts_1D50_v4_v_t;
+#define g_upVerts_1D50_v4_v XI_EA(g_upVerts_1D50_v4_v_t, 0x10631DC4u)
+typedef int g_upVerts_1E10_t;
+#define g_upVerts_1E10 XI_EA(g_upVerts_1E10_t, 0x10631E10u)
+typedef float g_upVerts_1E10_v0_y_t;
+#define g_upVerts_1E10_v0_y XI_EA(g_upVerts_1E10_v0_y_t, 0x10631E14u)
+typedef float g_upVerts_1E10_v0_z_t;
+#define g_upVerts_1E10_v0_z XI_EA(g_upVerts_1E10_v0_z_t, 0x10631E18u)
+typedef int g_upVerts_1E10_v0_diffuse_t;
+#define g_upVerts_1E10_v0_diffuse XI_EA(g_upVerts_1E10_v0_diffuse_t, 0x10631E1Cu)
+typedef int g_upVerts_1E10_v0_u_t;
+#define g_upVerts_1E10_v0_u XI_EA(g_upVerts_1E10_v0_u_t, 0x10631E20u)
+typedef int g_upVerts_1E10_v0_v_t;
+#define g_upVerts_1E10_v0_v XI_EA(g_upVerts_1E10_v0_v_t, 0x10631E24u)
+typedef float g_upVerts_1E10_v1_x_t;
+#define g_upVerts_1E10_v1_x XI_EA(g_upVerts_1E10_v1_x_t, 0x10631E28u)
+typedef float g_upVerts_1E10_v1_y_t;
+#define g_upVerts_1E10_v1_y XI_EA(g_upVerts_1E10_v1_y_t, 0x10631E2Cu)
+typedef float g_upVerts_1E10_v1_z_t;
+#define g_upVerts_1E10_v1_z XI_EA(g_upVerts_1E10_v1_z_t, 0x10631E30u)
+typedef int g_upVerts_1E10_v1_diffuse_t;
+#define g_upVerts_1E10_v1_diffuse XI_EA(g_upVerts_1E10_v1_diffuse_t, 0x10631E34u)
+typedef int g_upVerts_1E10_v1_u_t;
+#define g_upVerts_1E10_v1_u XI_EA(g_upVerts_1E10_v1_u_t, 0x10631E38u)
+typedef int g_upVerts_1E10_v1_v_t;
+#define g_upVerts_1E10_v1_v XI_EA(g_upVerts_1E10_v1_v_t, 0x10631E3Cu)
+typedef float g_upVerts_1E10_v2_x_t;
+#define g_upVerts_1E10_v2_x XI_EA(g_upVerts_1E10_v2_x_t, 0x10631E40u)
+typedef float g_upVerts_1E10_v2_y_t;
+#define g_upVerts_1E10_v2_y XI_EA(g_upVerts_1E10_v2_y_t, 0x10631E44u)
+typedef float g_upVerts_1E10_v2_z_t;
+#define g_upVerts_1E10_v2_z XI_EA(g_upVerts_1E10_v2_z_t, 0x10631E48u)
+typedef int g_upVerts_1E10_v2_diffuse_t;
+#define g_upVerts_1E10_v2_diffuse XI_EA(g_upVerts_1E10_v2_diffuse_t, 0x10631E4Cu)
+typedef int g_upVerts_1E10_v2_u_t;
+#define g_upVerts_1E10_v2_u XI_EA(g_upVerts_1E10_v2_u_t, 0x10631E50u)
+typedef int g_upVerts_1E10_v2_v_t;
+#define g_upVerts_1E10_v2_v XI_EA(g_upVerts_1E10_v2_v_t, 0x10631E54u)
+typedef int g_upVerts_1E10_v3_x_t;
+#define g_upVerts_1E10_v3_x XI_EA(g_upVerts_1E10_v3_x_t, 0x10631E58u)
+typedef float g_upVerts_1E10_v3_y_t;
+#define g_upVerts_1E10_v3_y XI_EA(g_upVerts_1E10_v3_y_t, 0x10631E5Cu)
+typedef float g_upVerts_1E10_v3_z_t;
+#define g_upVerts_1E10_v3_z XI_EA(g_upVerts_1E10_v3_z_t, 0x10631E60u)
+typedef int g_upVerts_1E10_v3_diffuse_t;
+#define g_upVerts_1E10_v3_diffuse XI_EA(g_upVerts_1E10_v3_diffuse_t, 0x10631E64u)
+typedef int g_upVerts_1E10_v3_u_t;
+#define g_upVerts_1E10_v3_u XI_EA(g_upVerts_1E10_v3_u_t, 0x10631E68u)
+typedef int g_upVerts_1E10_v3_v_t;
+#define g_upVerts_1E10_v3_v XI_EA(g_upVerts_1E10_v3_v_t, 0x10631E6Cu)
+typedef int g_upVerts_1E10_v4_x_t;
+#define g_upVerts_1E10_v4_x XI_EA(g_upVerts_1E10_v4_x_t, 0x10631E70u)
+typedef float g_upVerts_1E10_v4_y_t;
+#define g_upVerts_1E10_v4_y XI_EA(g_upVerts_1E10_v4_y_t, 0x10631E74u)
+typedef float g_upVerts_1E10_v4_z_t;
+#define g_upVerts_1E10_v4_z XI_EA(g_upVerts_1E10_v4_z_t, 0x10631E78u)
+typedef int g_upVerts_1E10_v4_diffuse_t;
+#define g_upVerts_1E10_v4_diffuse XI_EA(g_upVerts_1E10_v4_diffuse_t, 0x10631E7Cu)
+typedef int g_upVerts_1E10_v4_u_t;
+#define g_upVerts_1E10_v4_u XI_EA(g_upVerts_1E10_v4_u_t, 0x10631E80u)
+typedef int g_upVerts_1E10_v4_v_t;
+#define g_upVerts_1E10_v4_v XI_EA(g_upVerts_1E10_v4_v_t, 0x10631E84u)
+typedef int g_boxIB_t;
+#define g_boxIB XI_EA(g_boxIB_t, 0x10631F10u)
+typedef int g_zbiasPresetAux_t;
+#define g_zbiasPresetAux XI_EA(g_zbiasPresetAux_t, 0x10631F18u)
+typedef int g_boxPositionVB_t;
+#define g_boxPositionVB XI_EA(g_boxPositionVB_t, 0x10631F20u)
+typedef void * g_pZoneMap_t;
+#define g_pZoneMap XI_EA(g_pZoneMap_t, 0x10631F24u)
+typedef int g_zbiasZoneMesh_t;
+#define g_zbiasZoneMesh XI_EA(g_zbiasZoneMesh_t, 0x10632038u)
+typedef int g_boxStream1VB_t;
+#define g_boxStream1VB XI_EA(g_boxStream1VB_t, 0x10639040u)
 typedef _BYTE unk_10639088_t;
 #define unk_10639088 XI_EA(unk_10639088_t, 0x10639088u)
 typedef _BYTE unk_106390B0_t;
@@ -1285,10 +1295,10 @@ typedef _BYTE unk_106390C8_t;
 #define unk_106390C8 XI_EA(unk_106390C8_t, 0x106390C8u)
 typedef _BYTE unk_106390CC_t;
 #define unk_106390CC XI_EA(unk_106390CC_t, 0x106390CCu)
-typedef int dword_1065C4D0_t;
-#define dword_1065C4D0 XI_EA(dword_1065C4D0_t, 0x1065C4D0u)
-typedef void * g_pCurrentCamera_t;
-#define g_pCurrentCamera XI_EA(g_pCurrentCamera_t, 0x1065CB04u)
+typedef int g_zbiasPreset_C4D0_t;
+#define g_zbiasPreset_C4D0 XI_EA(g_zbiasPreset_C4D0_t, 0x1065C4D0u)
+typedef void * g_pXiZone_t;
+#define g_pXiZone XI_EA(g_pXiZone_t, 0x1065CB04u)
 typedef int dword_10662DCC_t;
 #define dword_10662DCC XI_EA(dword_10662DCC_t, 0x10662DCCu)
 typedef int C_t;
@@ -1299,10 +1309,10 @@ typedef int dword_10668FD8_t;
 #define dword_10668FD8 XI_EA(dword_10668FD8_t, 0x10668FD8u)
 typedef int dword_10669014_t;
 #define dword_10669014 XI_EA(dword_10669014_t, 0x10669014u)
-typedef int dword_1066914C_t;
-#define dword_1066914C XI_EA(dword_1066914C_t, 0x1066914Cu)
-typedef int dword_10669150_t;
-#define dword_10669150 XI_EA(dword_10669150_t, 0x10669150u)
+typedef int g_stateBlock_914C_t;
+#define g_stateBlock_914C XI_EA(g_stateBlock_914C_t, 0x1066914Cu)
+typedef int g_stateBlock_9150_t;
+#define g_stateBlock_9150 XI_EA(g_stateBlock_9150_t, 0x10669150u)
 typedef int dword_10669400_t;
 #define dword_10669400 XI_EA(dword_10669400_t, 0x10669400u)
 typedef int dword_10669404_t;
@@ -1349,12 +1359,12 @@ typedef int dword_109A2730_t;
 #define dword_109A2730 XI_EA(dword_109A2730_t, 0x109A2730u)
 typedef int dword_109A2740_t;
 #define dword_109A2740 XI_EA(dword_109A2740_t, 0x109A2740u)
-typedef int dword_109A2744_t;
-#define dword_109A2744 XI_EA(dword_109A2744_t, 0x109A2744u)
-typedef int dword_109A2798_t[];
-#define dword_109A2798 XI_EA(dword_109A2798_t, 0x109A2798u)
-typedef int dword_109A279C_t;
-#define dword_109A279C XI_EA(dword_109A279C_t, 0x109A279Cu)
+typedef int g_counter_109A2744_t;
+#define g_counter_109A2744 XI_EA(g_counter_109A2744_t, 0x109A2744u)
+typedef int g_sceneRT_t[];
+#define g_sceneRT XI_EA(g_sceneRT_t, 0x109A2798u)
+typedef int g_sceneRT1_t;
+#define g_sceneRT1 XI_EA(g_sceneRT1_t, 0x109A279Cu)
 typedef char byte_109F81A4_t;
 #define byte_109F81A4 XI_EA(byte_109F81A4_t, 0x109F81A4u)
 typedef _BYTE g_pCameraSharedInstance_t;

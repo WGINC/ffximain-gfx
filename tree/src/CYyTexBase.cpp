@@ -2,6 +2,20 @@
 #include "gfx_all.hpp"
 #include "CYyTexBase.hpp"
 
+// FUNCTION: FFXIMAIN 0x10039770  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CYyTexBase::GetRuntimeClass_variant0()
+{
+  return &CYyTexBase_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10039780  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CYyTexBase::GetRuntimeClass_variant1()
+{
+  return &CYyTexBase_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x100398B0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
@@ -9,6 +23,6 @@ _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   orig::sub_100398D0(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
 }

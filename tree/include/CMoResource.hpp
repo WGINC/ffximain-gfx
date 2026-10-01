@@ -5,7 +5,13 @@
 #pragma pack(push, 1)
 class XI_API CMoResource {
 public:
+    static char ** __cdecl GetRuntimeClass_variant0();  // 0x10036B70
     int CMoCamera_SetLinkedObject(int a2);  // 0x10047FC0
+    void vf005(int a1);  // 0x10047FD0
+    static char ** __cdecl GetRuntimeClass_variant1();  // 0x10056250
+    static char ** __cdecl GetRuntimeClass_variant2();  // 0x10056290
+    static char ** __cdecl GetRuntimeClass_variant3();  // 0x10071D70
+    void vf008();  // 0x10071DB0
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071DC0
 
     void **vftable;  // +0x0

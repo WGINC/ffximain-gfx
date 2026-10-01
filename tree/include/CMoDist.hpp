@@ -5,6 +5,9 @@
 #pragma pack(push, 1)
 class XI_API CMoDist {
 public:
+    static char ** __cdecl GetRuntimeClass_variant0();  // 0x100426E0
+    static char ** __cdecl GetRuntimeClass_variant1();  // 0x100430B0
+    BOOL vf012(int a1);  // 0x10052D60
     int set_field_194(int a2);  // 0x10052D70
     int * ScalarDeletingDtor(char a2);  // 0x10052D80
 

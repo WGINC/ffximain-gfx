@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoDistRingElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10043710  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoDistRingElem::GetRuntimeClass()
+{
+  return &CMoDistRingElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
 // GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoDistRingElem::AllocRingGeometry()
@@ -151,6 +158,13 @@ void CMoDistRingElem::AllocRingGeometry()
     }
     orig::operator_delete(v19);
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10052FF0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoDistRingElem::vf012(int a1)
+{
+  return a1 == 5;
 }
 
 // FUNCTION: FFXIMAIN 0x10053000  (placed by tree manifest)

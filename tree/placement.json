@@ -1,3122 +1,3956 @@
 {
 "0x10001520": {
-"class": null,
-"method": null,
-"why": null
+"class": "CApp",
+"method": "fn_10001520",
+"why": "callers pass the object in dword_103D3C64 as this (1 of 1 call sites); 0x100161B0 stores the result of 0x10001240 (stores the CApp vtable)",
+"symbol": "CApp::fn_10001520"
 },
 "0x10002040": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002040",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002be0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002BE0",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002c00": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002C00",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002c30": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002C30",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002c80": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002C80",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002cd0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002CD0",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002d20": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "fn_10002D20",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10002f20": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_CreateD3DHolder",
+"unit": "unit_100014A0_Gfx"
 },
 "0x100031f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_D3DBootstrap",
+"unit": "unit_100014A0_Gfx"
 },
 "0x100033c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_TryCreateDeviceForMode",
+"unit": "unit_100014A0_Gfx"
 },
 "0x100034b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_CreateDevice",
+"unit": "unit_100014A0_Gfx"
 },
 "0x10003b60": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from Debug (1 call site) and adjacent to its code",
+"symbol": "fn_10003B60",
+"unit": "Debug"
 },
 "0x10003d70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from Debug (1 call site) and adjacent to its code",
+"symbol": "fn_10003D70",
+"unit": "Debug"
 },
 "0x10007ef0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "DirectInput_InstallMouse",
+"unit": "unit_10003890_DirectInput"
 },
 "0x10008f80": {
-"class": null,
+"class": "CDx",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CDx::GetRuntimeClass"
 },
 "0x10008f90": {
 "class": "CDx",
 "method": "Constructor",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::Constructor"
 },
 "0x10009100": {
 "class": "CDx",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CDx::ScalarDeletingDtor"
 },
 "0x10009620": {
 "class": "CDx",
 "method": "fn_10009620",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::fn_10009620"
 },
 "0x10009640": {
 "class": "CDx",
 "method": "fn_10009640",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::fn_10009640"
 },
 "0x10009670": {
 "class": "CDx",
 "method": "fn_10009670",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::fn_10009670"
 },
 "0x100096b0": {
 "class": "CDx",
 "method": "EndClearBegin",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::EndClearBegin"
 },
 "0x10009710": {
 "class": "CDx",
 "method": "TestCooperativeLevel",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::TestCooperativeLevel"
 },
 "0x10009720": {
-"class": null,
+"class": "CDx",
 "method": "Present",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CDx::Present"
 },
 "0x10009730": {
 "class": "CDx",
 "method": "BeginScene",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::BeginScene"
 },
 "0x10009740": {
 "class": "CDx",
 "method": "EndScene",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::EndScene"
 },
 "0x100097f0": {
 "class": "CDx",
 "method": "fn_100097F0",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::fn_100097F0"
 },
 "0x10009dc0": {
 "class": "CDx",
 "method": "SetViewport",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::SetViewport"
 },
 "0x10009e00": {
 "class": "CDx",
 "method": "GetRenderTargetTop",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::GetRenderTargetTop"
 },
 "0x10009e20": {
 "class": "CDx",
 "method": "PushRenderTarget",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::PushRenderTarget"
 },
 "0x1000a1d0": {
 "class": "CDx",
 "method": "SetTexture",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::SetTexture"
 },
 "0x1000a3b0": {
 "class": "CDx",
 "method": "DrawScreenQuadAtDepth",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::DrawScreenQuadAtDepth"
 },
 "0x1000a800": {
 "class": "CDx",
 "method": "fn_1000A800",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::fn_1000A800"
 },
 "0x1000aab0": {
 "class": "CDx",
 "method": "Post_DepthBlurComposite",
-"why": "typed this"
+"why": "typed this",
+"symbol": "CDx::Post_DepthBlurComposite"
 },
 "0x1000bd50": {
 "class": "CDx",
 "method": "SetTransform",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::SetTransform"
 },
 "0x1000bdb0": {
 "class": "CDx",
 "method": "GetTransformCached",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::GetTransformCached"
 },
 "0x1000bf30": {
 "class": "CDx",
 "method": "SetLight",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::SetLight"
 },
 "0x1000c6e0": {
 "class": "CDx",
 "method": "CreateStereoResources",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::CreateStereoResources"
 },
 "0x1000c900": {
 "class": "CDx",
 "method": "CreateRampTextures1024x2",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::CreateRampTextures1024x2"
 },
 "0x1000ca00": {
 "class": "CDx",
 "method": "GetStereoSecondEyeTarget",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::GetStereoSecondEyeTarget"
 },
 "0x1000cb20": {
 "class": "CDx",
 "method": "DrawPrimitive",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::DrawPrimitive"
 },
 "0x1000cc00": {
 "class": "CDx",
 "method": "DrawIndexedPrimitive",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::DrawIndexedPrimitive"
 },
 "0x1000cd00": {
 "class": "CDx",
 "method": "DrawPrimitiveUP",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::DrawPrimitiveUP"
 },
 "0x1000cf20": {
 "class": "CDx",
 "method": "ApplyStereoEyeProjection",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::ApplyStereoEyeProjection"
 },
 "0x1000cf90": {
 "class": "CDx",
 "method": "RestoreProjection",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CDx::RestoreProjection"
 },
 "0x10010310": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant0",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant0"
 },
 "0x10011920": {
-"class": null,
+"class": "CMoTask",
 "method": "vf007",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTask::vf007"
 },
 "0x10011930": {
-"class": null,
+"class": "CMoTask",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTask::vf009"
 },
 "0x10011940": {
-"class": null,
+"class": "CMoTask",
 "method": "vf010",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTask::vf010"
 },
 "0x10011950": {
 "class": "CMoTaskMng",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTaskMng::ScalarDeletingDtor"
 },
 "0x100119a0": {
 "class": "CMoTask_VT_10329C70",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_10329C70::ScalarDeletingDtor"
 },
 "0x10012f40": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "Post_Afterimage",
+"unit": "unit_10011A00_Post"
 },
 "0x100132b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "Post_FlashAndZoomFeedback",
+"unit": "unit_10011A00_Post"
 },
 "0x10013ad0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10013AD0",
+"unit": "unit_10011A00_Post"
 },
 "0x10013df0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10013DF0",
+"unit": "unit_10011A00_Post"
 },
 "0x10013f10": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10013F10",
+"unit": "unit_10011A00_Post"
 },
 "0x10014030": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10014030",
+"unit": "unit_10011A00_Post"
 },
 "0x10014120": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10014120",
+"unit": "unit_10011A00_Post"
 },
 "0x100141c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_100141C0",
+"unit": "unit_10011A00_Post"
 },
 "0x100157e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_100157E0",
+"unit": "unit_10014350_Camera"
 },
 "0x100161b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_100161B0",
+"unit": "unit_10014350_Camera"
 },
 "0x10017230": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_10017230",
+"unit": "unit_10014350_Camera"
 },
 "0x10017750": {
-"class": null,
+"class": "CShader",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CShader::GetRuntimeClass"
 },
 "0x10017780": {
 "class": "CShader",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CShader::ScalarDeletingDtor"
 },
 "0x100177a0": {
-"class": null,
-"method": null,
-"why": null
+"class": "CShader",
+"method": "fn_100177A0",
+"why": "callers pass their own this (CShader)",
+"symbol": "CShader::fn_100177A0"
 },
 "0x100186c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: stores CXiOpening vtable (ctor/dtor)",
+"symbol": "fn_100186C0",
+"unit": "CXiOpening"
 },
 "0x100187d0": {
-"class": null,
-"method": null,
-"why": null
+"class": "CXiOpening",
+"method": "fn_100187D0",
+"why": "callers pass their own this (CXiOpening)",
+"symbol": "CXiOpening::fn_100187D0"
 },
 "0x10019a30": {
 "class": "CMoResource_VT_1032C7FC",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C7FC::vf004"
 },
 "0x10019a40": {
-"class": null,
+"class": "CMoResource_VT_1032C7FC",
 "method": "vf005",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7FC::vf005"
 },
 "0x1001b800": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant1"
 },
 "0x1001d0a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
+"symbol": "fn_1001D0A0",
+"unit": "unit_1001B890"
 },
 "0x1001d240": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
+"symbol": "fn_1001D240",
+"unit": "unit_1001B890"
 },
 "0x1001d350": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
+"symbol": "fn_1001D350",
+"unit": "unit_1001B890"
 },
 "0x1001d3b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
+"symbol": "fn_1001D3B0",
+"unit": "unit_1001B890"
 },
 "0x1001d940": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
+"symbol": "fn_1001D940",
+"unit": "unit_1001B890"
 },
 "0x1001dc20": {
 "class": "CMoResource_VT_1032C8AC",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C8AC::vf004"
 },
 "0x1001dc70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file",
+"symbol": "fn_1001DC70",
+"unit": "unit_1001DC30"
 },
 "0x1001dd00": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file",
+"symbol": "fn_1001DD00",
+"unit": "unit_1001DC30"
 },
 "0x1001e050": {
 "class": "CMoResource_VT_1032C880",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C880::vf004"
 },
 "0x1001e060": {
-"class": null,
+"class": "CMoResource_VT_1032C880",
 "method": "vf005",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C880::vf005"
 },
 "0x100224d0": {
 "class": "CYyModelDt",
 "method": "PrepareRenderState",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::PrepareRenderState"
 },
 "0x10022fa0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x100224D0 (name CYyModelDt_PrepareRenderState) and 0x100231C0 (name CYyModelDt_PrepareRenderStateSimple), both within 4 KB",
+"symbol": "fn_10022FA0",
+"unit": "CYyModelDt"
 },
 "0x100231c0": {
 "class": "CYyModelDt",
 "method": "PrepareRenderStateSimple",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::PrepareRenderStateSimple"
 },
 "0x10025030": {
 "class": "CYyModelDt",
 "method": "PrepareRenderStateEntry",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::PrepareRenderStateEntry"
 },
 "0x10025060": {
 "class": "CYyModelDt",
 "method": "PrepareRenderStateSimpleEntry",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::PrepareRenderStateSimpleEntry"
 },
 "0x10025090": {
-"class": null,
+"class": "CYyModelDt_VT_1032A430",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyModelDt_VT_1032A430::vf011"
 },
 "0x100250a0": {
 "class": "CYyModelDt_VT_1032A430",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyModelDt_VT_1032A430::ScalarDeletingDtor"
 },
 "0x10025180": {
 "class": "CYyModelDt",
 "method": "GetElementCount",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::GetElementCount"
 },
 "0x100251a0": {
 "class": "CYyModelDt",
 "method": "MarkReferencedBones",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::MarkReferencedBones"
 },
 "0x100252d0": {
 "class": "CYyModelDt_VT_1032A430",
 "method": "ScalarDeletingDtor_2",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyModelDt_VT_1032A430::ScalarDeletingDtor_2"
 },
 "0x10025330": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_10025330",
+"unit": "unit_100252F0"
 },
 "0x100255c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_100255C0",
+"unit": "unit_100252F0"
 },
 "0x10025870": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_10025870",
+"unit": "unit_100252F0"
 },
 "0x10025c40": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_10025C40",
+"unit": "unit_100252F0"
 },
 "0x10025f70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_10025F70",
+"unit": "unit_100252F0"
 },
 "0x100262c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_100262C0",
+"unit": "unit_100252F0"
 },
 "0x100263f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_100263F0",
+"unit": "unit_100252F0"
 },
 "0x100266c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
+"symbol": "fn_100266C0",
+"unit": "unit_100252F0"
 },
 "0x10026990": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026970 (CYyIcon) and 0x10026AD0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_10026990",
+"unit": "unit_10026990"
 },
 "0x10026ad0": {
 "class": "CXiMovie",
 "method": "Draw",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiMovie::Draw"
 },
 "0x10026c70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_10026C70",
+"unit": "unit_10026C70_Vec3"
 },
 "0x100276f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_100276F0",
+"unit": "unit_10026C70_Vec3"
 },
 "0x100277e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_100277E0",
+"unit": "unit_10026C70_Vec3"
 },
 "0x10027870": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_10027870",
+"unit": "unit_10026C70_Vec3"
 },
 "0x100278e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_100278E0",
+"unit": "unit_10026C70_Vec3"
 },
 "0x10027930": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
+"symbol": "fn_10027930",
+"unit": "unit_10026C70_Vec3"
 },
 "0x100295a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10029240 (CYyLowerMemory) and 0x10029880 (CYyModelDt) -- an unnamed source file",
+"symbol": "fn_100295A0",
+"unit": "unit_10029260"
 },
 "0x10029880": {
-"class": null,
+"class": "CYyModelDt",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyModelDt::GetRuntimeClass"
 },
 "0x100298a0": {
-"class": null,
+"class": "CYyModelBase",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyModelBase::GetRuntimeClass"
 },
 "0x100298c0": {
-"class": null,
+"class": "CYyModel",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyModel::GetRuntimeClass"
+},
+"0x10029cb0": {
+"class": "CYyModelDt",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CYyModelDt::ScalarDeletingDtor"
+},
+"0x10029db0": {
+"class": "CYyModelBase",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CYyModelBase::ScalarDeletingDtor"
+},
+"0x1002a0a0": {
+"class": "CYyModelDt_VT_1032A72C",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CYyModelDt_VT_1032A72C::ScalarDeletingDtor"
 },
 "0x1002a3b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file",
+"symbol": "fn_1002A3B0",
+"unit": "unit_1002A0C0"
 },
 "0x1002b530": {
 "class": "CYyModel",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyModel::ScalarDeletingDtor"
 },
 "0x1002c360": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from CXiSkeletonActor (1 call site) and adjacent to its code",
+"symbol": "fn_1002C360",
+"unit": "CXiSkeletonActor"
 },
 "0x1002c950": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant2",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant2"
 },
 "0x1002ccb0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x1002C970 (class model places it in CYyOs2VtxBuffer) and 0x1002D640 (stores CYyOs2VtxBuffer vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_1002CCB0",
+"unit": "CYyOs2VtxBuffer"
 },
 "0x1002d680": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: stores CYyOs2VtxBuffer vtable (ctor/dtor)",
+"symbol": "fn_1002D680",
+"unit": "CYyOs2VtxBuffer"
 },
 "0x1002d700": {
-"class": null,
-"method": null,
-"why": null
+"class": "CYyOs2VtxBuffer",
+"method": "fn_1002D700",
+"why": "callers pass their own this (CYyOs2VtxBuffer)",
+"symbol": "CYyOs2VtxBuffer::fn_1002D700"
 },
 "0x1002d880": {
 "class": "CMoResource_VT_1032C854",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C854::vf004"
 },
 "0x1002dc10": {
 "class": "CYyModelDt",
 "method": "PrepareRenderStateV2",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CYyModelDt::PrepareRenderStateV2"
 },
 "0x1002f160": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file",
+"symbol": "fn_1002F160",
+"unit": "unit_1002F130"
 },
 "0x1002f1a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file",
+"symbol": "fn_1002F1A0",
+"unit": "unit_1002F130"
 },
 "0x10033800": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file",
+"symbol": "fn_10033800",
+"unit": "unit_100310A0"
 },
 "0x10033a70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file",
+"symbol": "fn_10033A70",
+"unit": "unit_100310A0"
 },
 "0x10034170": {
 "class": "CMoResource_VT_1032C828",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C828::vf004"
 },
 "0x10034180": {
-"class": null,
+"class": "CMoResource_VT_1032C828",
 "method": "vf005",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C828::vf005"
 },
 "0x100343c0": {
 "class": "CXiSkeletonActor",
 "method": "PoseCompose",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::PoseCompose"
 },
 "0x100353c0": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant0",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant0"
 },
 "0x10035ae0": {
 "class": "CMoTask_VT_1032A904",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032A904::ScalarDeletingDtor"
 },
 "0x10036a80": {
-"class": null,
+"class": "CMoElem",
 "method": "vf013",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::vf013"
 },
 "0x10036a90": {
-"class": null,
+"class": "CMoElem",
 "method": "vf014",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::vf014"
 },
 "0x10036aa0": {
-"class": null,
+"class": "CMoElem",
 "method": "vf015",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::vf015"
 },
 "0x10036ab0": {
-"class": null,
+"class": "CMoElem",
 "method": "vf019",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::vf019"
 },
 "0x10036b70": {
-"class": null,
+"class": "CMoResource",
 "method": "GetRuntimeClass_variant0",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoResource::GetRuntimeClass_variant0"
 },
 "0x10037280": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant3",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant3"
 },
 "0x10038520": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file",
+"symbol": "Font_DrawPass",
+"unit": "unit_10037AC0_SetMusicTrackVolume"
 },
 "0x10038720": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file",
+"symbol": "fn_10038720",
+"unit": "unit_10037AC0_SetMusicTrackVolume"
 },
 "0x10038920": {
-"class": null,
+"class": "CMoResource_VT_1032C7A4",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7A4::vf008"
 },
 "0x10038930": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
+"symbol": "fn_10038930",
+"unit": "unit_10038930"
 },
 "0x10038a80": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
+"symbol": "fn_10038A80",
+"unit": "unit_10038930"
 },
 "0x10038e10": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
+"symbol": "fn_10038E10",
+"unit": "unit_10038930"
 },
 "0x10039770": {
-"class": null,
+"class": "CYyTexBase",
 "method": "GetRuntimeClass_variant0",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyTexBase::GetRuntimeClass_variant0"
 },
 "0x10039780": {
-"class": null,
+"class": "CYyTexBase",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CYyTexBase::GetRuntimeClass_variant1"
 },
 "0x10039790": {
-"class": null,
+"class": "CYyTex",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyTex::GetRuntimeClass"
 },
 "0x100398b0": {
 "class": "CYyTexBase",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyTexBase::ScalarDeletingDtor"
 },
 "0x10039950": {
 "class": "CYyTex",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyTex::ScalarDeletingDtor"
+},
+"0x10039a80": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
+"symbol": "TexObj_Create",
+"unit": "unit_100399D0_TexObj"
 },
 "0x10039e50": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
+"symbol": "TexObj_Upload",
+"unit": "unit_100399D0_TexObj"
 },
 "0x1003aa40": {
-"class": null,
+"class": "CYyTexMng",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CYyTexMng::GetRuntimeClass"
 },
 "0x1003aa70": {
 "class": "CYyTexMng",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CYyTexMng::ScalarDeletingDtor"
 },
 "0x1003b210": {
-"class": null,
-"method": null,
-"why": null
+"class": "CYyVbMng",
+"method": "fn_1003B210",
+"why": "callers pass the object in dword_1047B974 as this (5 of 6 call sites); App_InitScene stores the result of 0x1003B080 (stores the CYyVbMng vtable)",
+"symbol": "CYyVbMng::fn_1003B210"
 },
 "0x1003b530": {
-"class": null,
+"class": "CMoAttachments",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoAttachments::GetRuntimeClass"
 },
 "0x1003b570": {
-"class": null,
+"class": "CMoAttachments",
 "method": "vf004",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoAttachments::vf004"
 },
 "0x1003b580": {
-"class": null,
+"class": "CMoAttachments",
 "method": "vf005",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoAttachments::vf005"
 },
 "0x1003b590": {
-"class": null,
+"class": "CMoAttachments",
 "method": "vf006",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoAttachments::vf006"
 },
 "0x1003b5a0": {
 "class": "CMoAttachments",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments::ScalarDeletingDtor"
 },
 "0x1003c880": {
-"class": null,
+"class": "CMoCamera",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoCamera::GetRuntimeClass"
 },
 "0x1003c890": {
-"class": null,
+"class": "CMoCamera",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoCamera::vf008"
 },
 "0x1003cc60": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant4",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant4"
 },
 "0x1003cc70": {
-"class": null,
+"class": "CMoCameraTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoCameraTask::GetRuntimeClass"
+},
+"0x1003d010": {
+"class": "CMoCameraTask",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CMoCameraTask::ScalarDeletingDtor"
 },
 "0x1003d940": {
-"class": null,
+"class": "CMoCelestial",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoCelestial::GetRuntimeClass"
 },
 "0x1003d960": {
 "class": "CMoCelestial",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoCelestial::ScalarDeletingDtor"
 },
 "0x1003d9a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003D9A0",
+"unit": "unit_1003D990"
 },
 "0x1003db60": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003DB60",
+"unit": "unit_1003D990"
 },
 "0x1003e690": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant1"
 },
 "0x1003e6a0": {
-"class": null,
+"class": "CMoD3aElem",
 "method": "GetRuntimeClass_variant0",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoD3aElem::GetRuntimeClass_variant0"
 },
 "0x1003ee50": {
-"class": null,
+"class": "CMoD3aElem",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoD3aElem::GetRuntimeClass_variant1"
 },
 "0x1003ee60": {
-"class": null,
+"class": "CMoD3aLightmapElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoD3aLightmapElem::GetRuntimeClass"
 },
 "0x1003ef00": {
-"class": null,
+"class": "CMoD3aElem",
 "method": "GetRuntimeClass_variant2",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoD3aElem::GetRuntimeClass_variant2"
 },
 "0x1003ef10": {
-"class": null,
+"class": "CMoVuAnmElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuAnmElem::GetRuntimeClass"
 },
 "0x1003ef80": {
-"class": null,
+"class": "CMoVuAnmElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuAnmElem::vf012"
 },
 "0x1003ef90": {
 "class": "CMoVuAnmElem",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoVuAnmElem::vf008"
 },
 "0x1003efa0": {
 "class": "CMoVuAnmElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoVuAnmElem::ScalarDeletingDtor"
 },
 "0x1003f430": {
-"class": null,
+"class": "CMoResource_VT_1032C6F4",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C6F4::vf009"
 },
 "0x1003f8a0": {
 "class": "CMoDistMorphElem",
 "method": "ComputeMorphHandle",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoDistMorphElem::ComputeMorphHandle"
 },
 "0x10041000": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant2",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant2"
 },
 "0x10041010": {
-"class": null,
+"class": "CMoD3mSpecularElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoD3mSpecularElem::GetRuntimeClass"
 },
 "0x10041020": {
 "class": "CMoD3mSpecularElem",
 "method": "Ctor",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoD3mSpecularElem::Ctor"
 },
 "0x100410e0": {
-"class": null,
+"class": "CMoD3mSpecularElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoD3mSpecularElem::vf012"
 },
 "0x100410f0": {
 "class": "CMoD3mSpecularElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoD3mSpecularElem::ScalarDeletingDtor"
 },
 "0x10041120": {
-"class": null,
+"class": "CMoElem",
 "method": "CMoElemFamily_IsKind0",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::CMoElemFamily_IsKind0"
 },
 "0x10041c20": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file",
+"symbol": "fn_10041C20",
+"unit": "unit_10041A40"
 },
 "0x10041fe0": {
 "class": "CMoElem_VT_1032ADE8",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoElem_VT_1032ADE8::ScalarDeletingDtor"
 },
 "0x10042640": {
-"class": null,
+"class": "CMoTask",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTask::vf008"
 },
 "0x10042650": {
-"class": null,
+"class": "CMoOtTask",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoOtTask::vf011"
 },
 "0x10042690": {
 "class": "CMoAttachments_VT_1032AE94",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032AE94::vf001"
 },
 "0x100426a0": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant3",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant3"
 },
 "0x100426b0": {
-"class": null,
+"class": "CMoDisintegrateProgElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDisintegrateProgElem::GetRuntimeClass"
 },
 "0x100426c0": {
-"class": null,
+"class": "CMoDisintegrateProgElem",
 "method": "vf018",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDisintegrateProgElem::vf018"
 },
 "0x100426d0": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant4",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant4"
 },
 "0x100426e0": {
-"class": null,
+"class": "CMoDist",
 "method": "GetRuntimeClass_variant0",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDist::GetRuntimeClass_variant0"
 },
 "0x100430b0": {
-"class": null,
+"class": "CMoDist",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoDist::GetRuntimeClass_variant1"
 },
 "0x100430c0": {
-"class": null,
+"class": "CMoVuDist",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuDist::GetRuntimeClass"
 },
 "0x10043190": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant5",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant5"
 },
 "0x100431a0": {
-"class": null,
+"class": "CMoDistModelElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistModelElem::GetRuntimeClass"
 },
 "0x10043320": {
 "class": "CMoDistModelElem",
 "method": "BuildDistortedMesh",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoDistModelElem::BuildDistortedMesh"
 },
 "0x10043570": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant6",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant6"
 },
 "0x10043580": {
-"class": null,
+"class": "CMoDistMorphElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistMorphElem::GetRuntimeClass"
 },
 "0x10043590": {
 "class": "CMoDistMorphElem",
 "method": "UpdateMorphBlend",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoDistMorphElem::UpdateMorphBlend"
 },
 "0x10043700": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant7",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant7"
 },
 "0x10043710": {
-"class": null,
+"class": "CMoDistRingElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistRingElem::GetRuntimeClass"
 },
 "0x10043720": {
 "class": "CMoDistRingElem",
 "method": "AllocRingGeometry",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoDistRingElem::AllocRingGeometry"
 },
 "0x10043a90": {
 "class": "CMoTask_VT_1032AF60",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032AF60::ScalarDeletingDtor"
 },
 "0x10043c90": {
 "class": "CMoTask_VT_1032AFA8",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032AFA8::ScalarDeletingDtor"
 },
 "0x10043db0": {
 "class": "CMoAttachments_VT_1032AF44",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032AF44::vf001"
 },
 "0x10043dc0": {
 "class": "CMoAttachments_VT_1032AF8C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032AF8C::vf001"
 },
 "0x10043e20": {
 "class": "CMoTask_VT_1032AFA8",
 "method": "ScalarDeletingDtor_2",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032AFA8::ScalarDeletingDtor_2"
 },
 "0x10044270": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "fn_10044270",
+"unit": "unit_10043E40"
 },
 "0x10044870": {
-"class": null,
+"class": "CMoOtTask",
 "method": "GetRuntimeClass_variant0",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoOtTask::GetRuntimeClass_variant0"
 },
 "0x10044880": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant8",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::GetRuntimeClass_variant8"
 },
 "0x10044950": {
 "class": "CMoElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoElem::ScalarDeletingDtor"
 },
 "0x10044970": {
-"class": null,
-"method": null,
-"why": null
+"class": "CMoElem",
+"method": "CMoElemFamily_SharedCleanup",
+"why": "callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)",
+"symbol": "CMoElem::CMoElemFamily_SharedCleanup"
 },
 "0x100472e0": {
-"class": null,
+"class": "CMoElem",
 "method": "vf018",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoElem::vf018"
 },
 "0x10047550": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant9",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant9"
 },
 "0x10047560": {
-"class": null,
+"class": "CMoNullProgElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoNullProgElem::GetRuntimeClass"
 },
 "0x10047570": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant10",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant10"
 },
 "0x10047580": {
-"class": null,
+"class": "CMoSkeletonElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoSkeletonElem::GetRuntimeClass"
+},
+"0x10047940": {
+"class": "CMoSkeletonElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CMoSkeletonElem::ScalarDeletingDtor"
 },
 "0x10047ce0": {
 "class": "CMoGeneratorClone",
 "method": "FixupClonedPointers",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoGeneratorClone::FixupClonedPointers"
 },
 "0x10047fc0": {
 "class": "CMoResource",
 "method": "CMoCamera_SetLinkedObject",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource::CMoCamera_SetLinkedObject"
 },
 "0x10047fd0": {
-"class": null,
+"class": "CMoResource",
 "method": "vf005",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource::vf005"
 },
 "0x10047fe0": {
 "class": "CMoGeneratorClone_VT_1032B114",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor"
 },
 "0x10052bf0": {
-"class": null,
+"class": "CMoVuLineProgElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuLineProgElem::vf012"
 },
 "0x10052c00": {
 "class": "CMoVuLineProgElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoVuLineProgElem::ScalarDeletingDtor"
 },
 "0x10052c50": {
 "class": "CMoD3aLightmapElem",
 "method": "set_field_194",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoD3aLightmapElem::set_field_194"
 },
 "0x10052c60": {
 "class": "CMoD3aLightmapElem",
 "method": "get_field_194",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoD3aLightmapElem::get_field_194"
 },
 "0x10052c70": {
 "class": "CMoD3aLightmapElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoD3aLightmapElem::ScalarDeletingDtor"
 },
 "0x10052cb0": {
 "class": "CMoD3aElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoD3aElem::ScalarDeletingDtor"
 },
 "0x10052d60": {
-"class": null,
+"class": "CMoDist",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDist::vf012"
 },
 "0x10052d70": {
 "class": "CMoDist",
 "method": "set_field_194",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDist::set_field_194"
 },
 "0x10052d80": {
 "class": "CMoDist",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDist::ScalarDeletingDtor"
 },
 "0x10052dd0": {
-"class": null,
+"class": "CMoVuDist",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuDist::vf012"
 },
 "0x10052de0": {
 "class": "CMoVuDist",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoVuDist::vf008"
 },
 "0x10052df0": {
 "class": "CMoVuDist",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoVuDist::ScalarDeletingDtor"
 },
 "0x10052e40": {
-"class": null,
+"class": "CMoDistMorphElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistMorphElem::vf012"
 },
 "0x10052e50": {
 "class": "CMoDistMorphElem",
 "method": "set_field_1C0",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistMorphElem::set_field_1C0"
 },
 "0x10052e60": {
 "class": "CMoDistMorphElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistMorphElem::ScalarDeletingDtor"
 },
 "0x10052f40": {
-"class": null,
+"class": "CMoDistModelElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistModelElem::vf012"
 },
 "0x10052f50": {
 "class": "CMoDistModelElem",
 "method": "set_field_194",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistModelElem::set_field_194"
 },
 "0x10052f60": {
 "class": "CMoDistModelElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistModelElem::ScalarDeletingDtor"
 },
 "0x10052ff0": {
-"class": null,
+"class": "CMoDistRingElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDistRingElem::vf012"
 },
 "0x10053000": {
 "class": "CMoDistRingElem",
 "method": "set_field_1B6",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistRingElem::set_field_1B6"
 },
 "0x10053010": {
 "class": "CMoDistRingElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDistRingElem::ScalarDeletingDtor"
 },
 "0x10053050": {
-"class": null,
+"class": "CMoLfdElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoLfdElem::vf012"
 },
 "0x10053060": {
 "class": "CMoLfdElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoLfdElem::ScalarDeletingDtor"
 },
 "0x10053130": {
-"class": null,
+"class": "CMoDisintegrateProgElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDisintegrateProgElem::vf012"
 },
 "0x10053140": {
 "class": "CMoDisintegrateProgElem",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDisintegrateProgElem::vf008"
 },
 "0x10053150": {
 "class": "CMoDisintegrateProgElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDisintegrateProgElem::ScalarDeletingDtor"
 },
 "0x100531a0": {
 "class": "CMoNullProgElem",
 "method": "SetField138",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoNullProgElem::SetField138"
 },
 "0x100531b0": {
 "class": "CMoNullProgElem",
 "method": "Destructor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoNullProgElem::Destructor"
 },
 "0x10053350": {
 "class": "CMoTask_VT_1032B654",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032B654::ScalarDeletingDtor"
 },
 "0x100536c0": {
 "class": "CMoGeneratorClone",
 "method": "CreateInstance",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoGeneratorClone::CreateInstance"
 },
 "0x10053840": {
 "class": "CMoGeneratorClone_VT_1032B69C",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor"
 },
 "0x10053e00": {
 "class": "CMoGeneratorClone",
 "method": "InitDefaultParams",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoGeneratorClone::InitDefaultParams"
 },
 "0x100542e0": {
-"class": null,
+"class": "CMoGeneratorClone_VT_1032B69C",
 "method": "CMoGeneratorClone_GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass"
 },
 "0x10054450": {
 "class": "CMoAttachments_VT_1032B140",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032B140::vf001"
 },
 "0x10054460": {
 "class": "CMoTask_VT_1032B654",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032B654::vf011"
 },
 "0x10054470": {
 "class": "CMoTask_VT_1032B654",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032B654::vf012"
 },
 "0x10054480": {
-"class": null,
+"class": "CMoResource_VT_1032C5FC",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C5FC::vf008"
 },
 "0x10054490": {
-"class": null,
+"class": "CMoResource_VT_1032C5FC",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C5FC::vf009"
 },
 "0x100548a0": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant11",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant11"
 },
 "0x100548b0": {
-"class": null,
+"class": "CMoLfdElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoLfdElem::GetRuntimeClass"
 },
 "0x10055290": {
-"class": null,
+"class": "CMoOT",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoOT::GetRuntimeClass"
 },
 "0x100552c0": {
 "class": "CMoOT",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoOT::ScalarDeletingDtor"
 },
 "0x10055550": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant5",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant5"
 },
 "0x10055560": {
-"class": null,
+"class": "CMoOtTask",
 "method": "GetRuntimeClass_variant1",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoOtTask::GetRuntimeClass_variant1"
 },
 "0x10055a50": {
-"class": null,
+"class": "CMoPathObject",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoPathObject::GetRuntimeClass"
 },
 "0x10056250": {
-"class": null,
+"class": "CMoResource",
 "method": "GetRuntimeClass_variant1",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoResource::GetRuntimeClass_variant1"
 },
 "0x10056260": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10055A50 (CMoPathObject) and 0x100562A0 (CMoSphRes) -- an unnamed source file",
+"symbol": "CMoRabRes_GetRuntimeClass",
+"unit": "unit_10055A60"
 },
 "0x10056290": {
-"class": null,
+"class": "CMoResource",
 "method": "GetRuntimeClass_variant2",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoResource::GetRuntimeClass_variant2"
 },
 "0x100562a0": {
-"class": null,
+"class": "CMoSphRes",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoSphRes::GetRuntimeClass"
 },
 "0x100562b0": {
 "class": "CMoSphRes",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoSphRes::vf008"
 },
 "0x100562c0": {
-"class": null,
+"class": "CMoSphRes",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoSphRes::vf009"
 },
 "0x100562d0": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant12",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant12"
 },
 "0x100562e0": {
-"class": null,
+"class": "CMoPointLightProgElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoPointLightProgElem::GetRuntimeClass"
 },
 "0x10056360": {
-"class": null,
+"class": "CMoPointLightProgElem",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoPointLightProgElem::vf012"
 },
 "0x10056370": {
 "class": "CMoPointLightProgElem",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoPointLightProgElem::ScalarDeletingDtor"
 },
 "0x10056930": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant6",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant6"
 },
 "0x10056940": {
-"class": null,
+"class": "CMoPathDriveActorTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoPathDriveActorTask::GetRuntimeClass"
 },
 "0x10056950": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant7",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant7"
 },
 "0x10056960": {
-"class": null,
+"class": "CMoLockColorDriveTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoLockColorDriveTask::GetRuntimeClass"
 },
 "0x10056970": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant8",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant8"
 },
 "0x10056980": {
-"class": null,
+"class": "CMoLockLookAtDriveTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoLockLookAtDriveTask::GetRuntimeClass"
 },
 "0x10056990": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant9",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant9"
 },
 "0x100569a0": {
-"class": null,
+"class": "CMoActorColorDriveTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoActorColorDriveTask::GetRuntimeClass"
 },
 "0x100569b0": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant10",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant10"
 },
 "0x100569c0": {
-"class": null,
+"class": "CMoActorRotationDriveTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoActorRotationDriveTask::GetRuntimeClass"
 },
 "0x10057080": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant11",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant11"
 },
 "0x10057090": {
-"class": null,
+"class": "CMoSchedularTask",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoSchedularTask::GetRuntimeClass"
 },
 "0x10057250": {
 "class": "CMoSchedularTask",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoSchedularTask::ScalarDeletingDtor"
 },
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BCCC::vf001"
 },
 "0x10062f60": {
 "class": "CMoAttachments_VT_1032BAF0",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BAF0::vf001"
 },
 "0x10062f70": {
 "class": "CMoAttachments_VT_1032BBAC",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BBAC::vf001"
 },
 "0x10062f80": {
 "class": "CMoLockLookAtDriveTask",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoLockLookAtDriveTask::vf011"
 },
 "0x10062f90": {
 "class": "CMoLockLookAtDriveTask",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoLockLookAtDriveTask::vf012"
 },
 "0x10062fa0": {
 "class": "CMoAttachments_VT_1032BF0C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BF0C::vf001"
 },
 "0x10062fb0": {
 "class": "CMoAttachments_VT_1032BD14",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BD14::vf001"
 },
 "0x10062fc0": {
 "class": "CMoAttachments_VT_1032BF54",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BF54::vf001"
 },
 "0x10062fd0": {
 "class": "CMoAttachments_VT_1032BBF4",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BBF4::vf001"
 },
 "0x10062fe0": {
 "class": "CMoActorColorDriveTask",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoActorColorDriveTask::vf011"
 },
 "0x10062ff0": {
 "class": "CMoActorColorDriveTask",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoActorColorDriveTask::vf012"
 },
 "0x10063000": {
 "class": "CMoAttachments_VT_1032BD5C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BD5C::vf001"
 },
 "0x10063010": {
 "class": "CMoAttachments_VT_1032BF9C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BF9C::vf001"
 },
 "0x10063020": {
 "class": "CMoAttachments_VT_1032BC68",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BC68::vf001"
 },
 "0x10063030": {
 "class": "CMoAttachments_VT_1032BDA4",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BDA4::vf001"
 },
 "0x10063040": {
 "class": "CMoAttachments_VT_1032BFE4",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BFE4::vf001"
 },
 "0x10063070": {
 "class": "CMoAttachments_VT_1032BB38",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BB38::vf001"
 },
 "0x10063080": {
 "class": "CMoAttachments_VT_1032BDEC",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BDEC::vf001"
 },
 "0x10063090": {
 "class": "CMoAttachments_VT_1032C02C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032C02C::vf001"
 },
 "0x100630a0": {
 "class": "CMoPathDriveActorTask",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoPathDriveActorTask::vf011"
 },
 "0x100630b0": {
 "class": "CMoPathDriveActorTask",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoPathDriveActorTask::vf012"
 },
 "0x100630c0": {
 "class": "CMoAttachments_VT_1032BE34",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BE34::vf001"
 },
 "0x100630d0": {
 "class": "CMoAttachments_VT_1032BE7C",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BE7C::vf001"
 },
 "0x100630e0": {
 "class": "CMoAttachments_VT_1032B940",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032B940::vf001"
 },
 "0x100630f0": {
 "class": "CMoLockColorDriveTask",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoLockColorDriveTask::vf011"
 },
 "0x10063100": {
 "class": "CMoLockColorDriveTask",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoLockColorDriveTask::vf012"
 },
 "0x10063110": {
 "class": "CMoAttachments_VT_1032BC84",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BC84::vf001"
 },
 "0x10063120": {
 "class": "CMoAttachments_VT_1032BEC4",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032BEC4::vf001"
 },
 "0x10063130": {
 "class": "CMoTask_VT_1032B95C",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032B95C::vf011"
 },
 "0x10063140": {
 "class": "CMoTask_VT_1032B95C",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032B95C::vf012"
 },
 "0x10063450": {
-"class": null,
+"class": "CMoSpline",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoSpline::GetRuntimeClass"
 },
 "0x10063480": {
 "class": "CMoSpline",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoSpline::ScalarDeletingDtor"
 },
 "0x10063c50": {
 "class": "CMoResource_VT_1032C55C",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C55C::vf008"
 },
 "0x10064160": {
-"class": null,
+"class": "CMoElem",
 "method": "GetRuntimeClass_variant13",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoElem::GetRuntimeClass_variant13"
 },
 "0x10064170": {
-"class": null,
+"class": "CMoVuLineProgElem",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuLineProgElem::GetRuntimeClass"
 },
 "0x10064180": {
-"class": null,
+"class": "CMoVuLineProgElem",
 "method": "vf018",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoVuLineProgElem::vf018"
 },
 "0x10069d60": {
-"class": null,
+"class": "CMoDX",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDX::GetRuntimeClass"
 },
 "0x10069db0": {
 "class": "CMoDX",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDX::ScalarDeletingDtor"
 },
 "0x1006b040": {
-"class": null,
+"class": "CMoDxStatusMng",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoDxStatusMng::GetRuntimeClass"
 },
 "0x1006b070": {
 "class": "CMoDxStatusMng",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoDxStatusMng::ScalarDeletingDtor"
 },
 "0x1006b2b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: stores CMoDX vtable (ctor/dtor)",
+"symbol": "fn_1006B2B0",
+"unit": "CMoDX"
 },
 "0x1006c130": {
-"class": null,
+"class": "CMoOcclusionMng",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoOcclusionMng::GetRuntimeClass"
 },
 "0x1006c1c0": {
 "class": "CMoOcclusionMng",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoOcclusionMng::ScalarDeletingDtor"
 },
 "0x1006c220": {
-"class": null,
-"method": null,
-"why": null
+"class": "CMoOcclusionMng",
+"method": "OcclusionMng_CreateTarget",
+"why": "callers pass the object in dword_1047C004 as this (1 of 1 call sites); 0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable)",
+"symbol": "CMoOcclusionMng::OcclusionMng_CreateTarget"
 },
 "0x1006c280": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "Occlusion_QueryScreenRect",
+"unit": "unit_1006C210_Occlusion"
 },
 "0x1006c9b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "OcclusionMng_Prepare",
+"unit": "unit_1006C210_Occlusion"
 },
 "0x1006cc40": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf008"
 },
 "0x1006cc50": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf010",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf010"
 },
 "0x1006cc60": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf040",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf040"
 },
 "0x1006cc70": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf038",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf038"
 },
 "0x1006cc80": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf046",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf046"
 },
 "0x1006cc90": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf045",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf045"
 },
 "0x1006ccd0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "CMoProcessor_GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass"
 },
 "0x1006ce70": {
 "class": "CMoProcessor",
 "method": "InitRotationMatrices",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoProcessor::InitRotationMatrices"
 },
 "0x1006d380": {
-"class": null,
+"class": "CMoProcessor_VT_1032C298",
 "method": "vf007",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C298::vf007"
 },
 "0x1006d3b0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C368",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C368::vf012"
 },
 "0x1006d4d0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C368",
 "method": "vf014",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C368::vf014"
 },
 "0x1006d680": {
-"class": null,
+"class": "CMoProcessor_VT_1032C368",
 "method": "vf042",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C368::vf042"
 },
 "0x1006d6b0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C368",
 "method": "vf043",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C368::vf043"
 },
 "0x1006d980": {
-"class": null,
+"class": "CMoProcessor_VT_1032C368",
 "method": "vf021",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C368::vf021"
 },
 "0x1006f5b0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C298",
 "method": "vf014",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C298::vf014"
 },
 "0x1006fa30": {
-"class": null,
+"class": "CMoProcessor_VT_1032C298",
 "method": "vf021",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C298::vf021"
 },
 "0x10070020": {
 "class": "CMoProcessor_VT_1032C298",
 "method": "vf035",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C298::vf035"
 },
 "0x10070040": {
-"class": null,
+"class": "CMoProcessor_VT_1032C298",
 "method": "vf036",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C298::vf036"
 },
 "0x10070780": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf012"
 },
 "0x10070790": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf014",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf014"
 },
 "0x10070860": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf041",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf041"
 },
 "0x10070aa0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf018",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf018"
 },
 "0x10070ab0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf017",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf017"
 },
 "0x10070ac0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf016",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf016"
 },
 "0x10070ad0": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf021",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf021"
 },
 "0x10070d80": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf032",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf032"
 },
 "0x10070e20": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf033",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf033"
 },
 "0x10070e40": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf035",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoProcessor_VT_1032C1C8::vf035"
 },
 "0x10070e60": {
-"class": null,
+"class": "CMoProcessor_VT_1032C1C8",
 "method": "vf036",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoProcessor_VT_1032C1C8::vf036"
 },
 "0x10070f60": {
 "class": "CMoTask_VT_1032C490",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032C490::ScalarDeletingDtor"
 },
 "0x10071980": {
-"class": null,
+"class": "CMoCamera",
 "method": "GetSharedInstance",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoCamera::GetSharedInstance"
 },
 "0x100719c0": {
-"class": null,
+"class": "CMoResource_VT_1032C7D0",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7D0::vf008"
 },
 "0x100719d0": {
-"class": null,
+"class": "CMoResource_VT_1032C7D0",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7D0::vf009"
 },
 "0x100719e0": {
-"class": null,
+"class": "CMoResource_VT_1032C828",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C828::vf009"
 },
 "0x100719f0": {
-"class": null,
+"class": "CMoCamera",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoCamera::vf009"
 },
 "0x10071a00": {
-"class": null,
+"class": "CMoResource_VT_1032C7FC",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7FC::vf009"
 },
 "0x10071a10": {
-"class": null,
+"class": "CMoResource_VT_1032C7A4",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C7A4::vf009"
 },
 "0x10071a20": {
 "class": "CMoResource_VT_1032C778",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C778::vf008"
 },
 "0x10071a30": {
 "class": "CMoResource_VT_1032C778",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C778::vf009"
 },
 "0x10071a40": {
 "class": "CMoResource_VT_1032C8AC",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C8AC::ScalarDeletingDtor"
 },
 "0x10071a60": {
 "class": "CMoResource_VT_1032C880",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C880::ScalarDeletingDtor"
 },
 "0x10071a80": {
 "class": "CMoResource_VT_1032C854",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C854::ScalarDeletingDtor"
 },
 "0x10071aa0": {
 "class": "CMoResource_VT_1032C828",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C828::ScalarDeletingDtor"
 },
 "0x10071ac0": {
 "class": "CMoResource_VT_1032C7FC",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C7FC::ScalarDeletingDtor"
 },
 "0x10071ae0": {
 "class": "CMoResource_VT_1032C7D0",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C7D0::ScalarDeletingDtor"
 },
 "0x10071b00": {
 "class": "CMoResource_VT_1032C7A4",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C7A4::ScalarDeletingDtor"
 },
 "0x10071b50": {
 "class": "CMoResource_VT_1032C74C",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C74C::ScalarDeletingDtor"
 },
 "0x10071b70": {
 "class": "CMoResource_VT_1032C720",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C720::ScalarDeletingDtor"
 },
 "0x10071b90": {
 "class": "CMoResource_VT_1032C6F4",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C6F4::ScalarDeletingDtor"
 },
 "0x10071bb0": {
 "class": "CMoResource_VT_1032C6C8",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C6C8::ScalarDeletingDtor"
 },
 "0x10071bd0": {
 "class": "CMoResource_VT_1032C69C",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C69C::ScalarDeletingDtor"
 },
 "0x10071bf0": {
 "class": "CMoResource_VT_1032C670",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C670::ScalarDeletingDtor"
 },
 "0x10071c40": {
 "class": "CMoResource_VT_1032C5FC",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C5FC::ScalarDeletingDtor"
 },
 "0x10071c90": {
 "class": "CMoResource_VT_1032C588",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C588::ScalarDeletingDtor"
 },
 "0x10071d00": {
 "class": "CMoSphRes",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoSphRes::ScalarDeletingDtor"
 },
 "0x10071d70": {
-"class": null,
+"class": "CMoResource",
 "method": "GetRuntimeClass_variant3",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource::GetRuntimeClass_variant3"
 },
 "0x10071db0": {
-"class": null,
+"class": "CMoResource",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource::vf008"
 },
 "0x10071dc0": {
 "class": "CMoResource",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource::ScalarDeletingDtor"
 },
 "0x10071e30": {
 "class": "CMoCamera",
 "method": "GetLinkedObject",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CMoCamera::GetLinkedObject"
 },
 "0x10072a30": {
 "class": "CMoTask_VT_1032C908",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032C908::ScalarDeletingDtor"
 },
 "0x10072d00": {
-"class": null,
+"class": "CMoResourceMng",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResourceMng::GetRuntimeClass"
 },
 "0x10073730": {
 "class": "CMoResource_VT_1032C934",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C934::ScalarDeletingDtor"
 },
 "0x100745d0": {
 "class": "CMoAttachments_VT_1032C4E8",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032C4E8::vf001"
 },
 "0x100745e0": {
 "class": "CMoResource_VT_1032C588",
 "method": "vf011",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C588::vf011"
 },
 "0x100745f0": {
 "class": "CMoResource_VT_1032C588",
 "method": "vf012",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C588::vf012"
 },
 "0x10074600": {
 "class": "CMoAttachments_VT_1032C628",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032C628::vf001"
 },
 "0x10074610": {
-"class": null,
+"class": "CMoResource_VT_1032C588",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_1032C588::vf008"
 },
 "0x10074620": {
 "class": "CMoResource_VT_1032C588",
 "method": "vf009",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_1032C588::vf009"
 },
 "0x10074730": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant12",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTask::GetRuntimeClass_variant12"
 },
 "0x10074770": {
 "class": "CMoTask",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask::ScalarDeletingDtor"
 },
 "0x10074b50": {
-"class": null,
+"class": "CMoTaskMng",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoTaskMng::GetRuntimeClass"
 },
 "0x100755a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "fn_100755A0",
+"unit": "unit_10074CA0"
 },
 "0x10081710": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant13",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant13"
 },
 "0x10081730": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant14",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant14"
 },
 "0x10081750": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant15",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant15"
 },
 "0x100817f0": {
-"class": null,
+"class": "CXiActorNameDraw",
 "method": "SetRenderState",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiActorNameDraw::SetRenderState"
 },
 "0x10082070": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_GetMoveSpeed",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_GetMoveSpeed"
 },
 "0x10082080": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_SetMoveSpeed",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_SetMoveSpeed"
 },
 "0x10082090": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_GetMoveSpeedBase",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_GetMoveSpeedBase"
 },
 "0x100820a0": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_SetMoveSpeedBase",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_SetMoveSpeedBase"
 },
 "0x100820c0": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_SetWalkSpeed",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_SetWalkSpeed"
 },
 "0x100820d0": {
-"class": null,
+"class": "CXiActor",
 "method": "CXiSkeletonActor_GetEquip",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiActor::CXiSkeletonActor_GetEquip"
 },
 "0x10082f20": {
 "class": "CXiSkeletonActor",
 "method": "GetEnglishName",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetEnglishName"
 },
 "0x100832d0": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_AddRef",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_AddRef"
 },
 "0x100832e0": {
 "class": "CXiSkeletonActor",
 "method": "SubRef",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SubRef"
 },
 "0x10083390": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_AddSchRef",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_AddSchRef"
 },
 "0x100833a0": {
 "class": "CXiActor",
 "method": "CXiSkeletonActor_SubSchRef",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiActor::CXiSkeletonActor_SubSchRef"
 },
 "0x10084e50": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant16",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant16"
 },
 "0x100a27f0": {
 "class": "CMoTask_VT_1032D6D4",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032D6D4::ScalarDeletingDtor"
 },
 "0x100a4740": {
 "class": "CXiSkeletonActor",
 "method": "GetPos",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetPos"
 },
 "0x100a4750": {
 "class": "CXiSkeletonActor",
 "method": "GetDir",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetDir"
 },
 "0x100a4760": {
 "class": "CXiSkeletonActor",
 "method": "IsMotionLock",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsMotionLock"
 },
 "0x100a4770": {
 "class": "CXiSkeletonActor",
 "method": "IsMotionLock_Set",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsMotionLock_Set"
 },
 "0x100a4790": {
 "class": "CXiSkeletonActor",
 "method": "EnableFlag8AC",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::EnableFlag8AC"
 },
 "0x100a47a0": {
 "class": "CXiSkeletonActor",
 "method": "DisableFlag8AC",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::DisableFlag8AC"
 },
 "0x100a47b0": {
 "class": "CXiSkeletonActor",
 "method": "IsFlag8ACSet",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::IsFlag8ACSet"
 },
 "0x100a47c0": {
 "class": "CXiSkeletonActor",
 "method": "GetField79C",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetField79C"
 },
 "0x100a47d0": {
 "class": "CXiSkeletonActor",
 "method": "SetField79C",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetField79C"
 },
 "0x100a47e0": {
 "class": "CXiSkeletonActor",
 "method": "IsReadComplete",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsReadComplete"
 },
 "0x100a47f0": {
 "class": "CXiSkeletonActor",
 "method": "vf256",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf256"
 },
 "0x100a4800": {
 "class": "CXiSkeletonActor",
 "method": "SetField670",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetField670"
 },
 "0x100a4810": {
 "class": "CXiSkeletonActor",
 "method": "GetField670",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetField670"
 },
 "0x100a4820": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf257",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf257"
 },
 "0x100a4830": {
 "class": "CXiSkeletonActor",
 "method": "SetColor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetColor"
 },
 "0x100a4840": {
 "class": "CXiSkeletonActor",
 "method": "GetColor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetColor"
 },
 "0x100a4850": {
 "class": "CXiSkeletonActor",
 "method": "vf017",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf017"
 },
 "0x100a4860": {
 "class": "CXiSkeletonActor",
 "method": "SetMultiTexAlpha",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetMultiTexAlpha"
 },
 "0x100a4870": {
 "class": "CXiSkeletonActor",
 "method": "GetMultiTexAlpha",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetMultiTexAlpha"
 },
 "0x100a4880": {
 "class": "CXiSkeletonActor",
 "method": "SetSahdowAlpha",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetSahdowAlpha"
 },
 "0x100a4890": {
 "class": "CXiSkeletonActor",
 "method": "GetShadowAlpha",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetShadowAlpha"
 },
 "0x100a48a0": {
 "class": "CXiSkeletonActor",
 "method": "EnableEffect",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::EnableEffect"
 },
 "0x100a48c0": {
 "class": "CXiSkeletonActor",
 "method": "DisableEffect",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::DisableEffect"
 },
 "0x100a48e0": {
 "class": "CXiSkeletonActor",
 "method": "DisableEffectAll",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::DisableEffectAll"
 },
 "0x100a48f0": {
 "class": "CXiSkeletonActor",
 "method": "SetUVOffset",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetUVOffset"
 },
 "0x100a4910": {
 "class": "CXiSkeletonActor",
 "method": "SetDistAmount",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetDistAmount"
 },
 "0x100a4920": {
 "class": "CXiSkeletonActor",
 "method": "SetEmapColor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetEmapColor"
 },
 "0x100a4930": {
 "class": "CXiSkeletonActor",
 "method": "SetEmapTexture",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetEmapTexture"
 },
 "0x100a4940": {
 "class": "CXiSkeletonActor",
 "method": "SetSeparateValue",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetSeparateValue"
 },
 "0x100a4950": {
 "class": "CXiSkeletonActor",
 "method": "SetEmapAlphaMode",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::SetEmapAlphaMode"
 },
 "0x100a4960": {
 "class": "CXiSkeletonActor",
 "method": "GetEmapAlphaMode",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetEmapAlphaMode"
 },
 "0x100a4970": {
 "class": "CXiSkeletonActor",
 "method": "vf258",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf258"
 },
 "0x100a4980": {
 "class": "CXiSkeletonActor",
 "method": "get_field_74C",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::get_field_74C"
 },
 "0x100a4990": {
 "class": "CXiSkeletonActor",
 "method": "set_field_73C",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::set_field_73C"
 },
 "0x100a49a0": {
 "class": "CXiSkeletonActor",
 "method": "get_field_73C",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::get_field_73C"
 },
 "0x100a49b0": {
 "class": "CXiSkeletonActor",
 "method": "set_field_740",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::set_field_740"
 },
 "0x100a49c0": {
 "class": "CXiSkeletonActor",
 "method": "get_field_740",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::get_field_740"
 },
 "0x100a49d0": {
 "class": "CXiSkeletonActor",
 "method": "IsEnvmap",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsEnvmap"
 },
 "0x100a49e0": {
 "class": "CXiSkeletonActor",
 "method": "IsDistortion",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsDistortion"
 },
 "0x100a49f0": {
 "class": "CXiSkeletonActor",
 "method": "IsMasking",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsMasking"
 },
 "0x100a4a00": {
 "class": "CXiSkeletonActor",
 "method": "vf030",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf030"
 },
 "0x100a4a10": {
 "class": "CXiSkeletonActor",
 "method": "IsDirectionLock",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsDirectionLock"
 },
 "0x100a4a20": {
 "class": "CXiSkeletonActor",
 "method": "IsConstrain",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::IsConstrain"
 },
 "0x100a4a30": {
 "class": "CXiSkeletonActor",
 "method": "IsConstrain_Set",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsConstrain_Set"
 },
 "0x100a4a50": {
 "class": "CXiSkeletonActor",
 "method": "IsConstrain2",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::IsConstrain2"
 },
 "0x100a4a60": {
 "class": "CXiSkeletonActor",
 "method": "IsConstrain2_Get",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsConstrain2_Get"
 },
 "0x100a4a70": {
 "class": "CXiSkeletonActor",
 "method": "IsConstrain2_Set",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::IsConstrain2_Set"
 },
 "0x100a4a90": {
 "class": "CXiSkeletonActor",
 "method": "vf041",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf041"
 },
 "0x100a4aa0": {
 "class": "CXiSkeletonActor",
 "method": "vf042",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf042"
 },
 "0x100a4ab0": {
 "class": "CXiSkeletonActor",
 "method": "vf043",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf043"
 },
 "0x100a4ac0": {
 "class": "CXiSkeletonActor",
 "method": "vf044",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf044"
 },
 "0x100a4ad0": {
 "class": "CXiSkeletonActor",
 "method": "vf045",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf045"
 },
 "0x100a4ae0": {
 "class": "CXiSkeletonActor",
 "method": "vf046",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf046"
 },
 "0x100a4af0": {
 "class": "CXiSkeletonActor",
 "method": "vf047",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf047"
 },
 "0x100a4b00": {
 "class": "CXiSkeletonActor",
 "method": "ActivateFlag9F8",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::ActivateFlag9F8"
 },
 "0x100a4b10": {
 "class": "CXiSkeletonActor",
 "method": "ActivateFlagA04",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::ActivateFlagA04"
 },
 "0x100a4b20": {
 "class": "CXiSkeletonActor",
 "method": "vf050",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf050"
 },
 "0x100a4b30": {
 "class": "CXiSkeletonActor",
 "method": "vf099",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf099"
 },
 "0x100a4b40": {
 "class": "CXiSkeletonActor",
 "method": "vf100",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf100"
 },
 "0x100a8e10": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant17",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant17"
 },
 "0x100a9db0": {
 "class": "CMoTask_VT_1032E808",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoTask_VT_1032E808::ScalarDeletingDtor"
 },
 "0x100ab060": {
 "class": "CMoAttachments_VT_1032E7EC",
 "method": "vf001",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoAttachments_VT_1032E7EC::vf001"
 },
 "0x100ab070": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "GetRuntimeClass_variant0",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiSkeletonActor::GetRuntimeClass_variant0"
 },
 "0x100c5190": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "GetRuntimeClass_variant1",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::GetRuntimeClass_variant1"
 },
 "0x100c51a0": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant18",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant18"
 },
 "0x100c51b0": {
-"class": null,
+"class": "CXiSkeletonActorRes",
 "method": "GetRuntimeClass",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActorRes::GetRuntimeClass"
+},
+"0x100c5540": {
+"class": "CXiSkeletonActor",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::ScalarDeletingDtor"
 },
 "0x100c56e0": {
 "class": "CXiSkeletonActor",
 "method": "Constructor_3Arg",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::Constructor_3Arg"
 },
 "0x100c5880": {
 "class": "CXiSkeletonActor",
 "method": "Constructor_4Arg",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::Constructor_4Arg"
 },
 "0x100c59b0": {
 "class": "CXiSkeletonActor",
 "method": "Constructor_Factory",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::Constructor_Factory"
+},
+"0x100c5c00": {
+"class": "CXiSkeletonActor",
+"method": "DestructorBody",
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::DestructorBody"
 },
 "0x100cbd60": {
 "class": "CXiSkeletonActor",
 "method": "RunStaggeredUpdates",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::RunStaggeredUpdates"
 },
 "0x100cbde0": {
-"class": null,
-"method": null,
-"why": null
+"class": "CXiSkeletonActor",
+"method": "PerActor_FourBucketStaggeredUpdate",
+"why": "callers pass their own this (CXiSkeletonActor)",
+"symbol": "CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate"
 },
 "0x100cd490": {
 "class": "CXiSkeletonActor",
 "method": "SetMotion",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetMotion"
 },
 "0x100ce9b0": {
 "class": "CXiSkeletonActor",
 "method": "ActorFindResource",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::ActorFindResource"
 },
 "0x100ceb00": {
 "class": "CXiSkeletonActor",
 "method": "ActorFindResourceNth",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::ActorFindResourceNth"
 },
 "0x100cec90": {
 "class": "CXiSkeletonActor",
 "method": "ActorGetResourceCount",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::ActorGetResourceCount"
 },
 "0x100cedf0": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "ReplaceAttack",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::ReplaceAttack"
 },
 "0x100cee00": {
 "class": "CXiSkeletonActor",
 "method": "SetAttack",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetAttack"
 },
 "0x100cee40": {
 "class": "CXiSkeletonActor",
 "method": "SetAction",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetAction"
 },
 "0x100cf030": {
 "class": "CXiSkeletonActor",
 "method": "SetAttack_SchStatus",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetAttack_SchStatus"
 },
 "0x100cf200": {
 "class": "CXiSkeletonActor",
 "method": "vf172",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::vf172"
 },
 "0x100cf210": {
 "class": "CXiSkeletonActor",
 "method": "SetModel",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::SetModel"
 },
 "0x100d04b0": {
 "class": "CXiSkeletonActor",
 "method": "GetField878Ptr_Candidate",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActor::GetField878Ptr_Candidate"
 },
 "0x100d04c0": {
 "class": "CXiSkeletonActor",
 "method": "GetNamePos",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetNamePos"
 },
 "0x100d0510": {
 "class": "CXiSkeletonActor",
 "method": "OnDrawName",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::OnDrawName"
 },
 "0x100d06f0": {
 "class": "CXiSkeletonActor",
 "method": "GetArrowPos",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetArrowPos"
 },
 "0x100d0740": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "ProjectToScreen",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiSkeletonActor::ProjectToScreen"
 },
 "0x100d12d0": {
 "class": "CXiSkeletonActor",
 "method": "IsReadCompleteBody",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::IsReadCompleteBody"
 },
 "0x100d2f40": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "OnSkeletonLoaded",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiSkeletonActor::OnSkeletonLoaded"
 },
 "0x100d4330": {
 "class": "CXiSkeletonActor",
 "method": "LoadSkeletonResource",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::LoadSkeletonResource"
 },
 "0x100d4560": {
 "class": "CXiSkeletonActor",
 "method": "GetElem",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetElem"
 },
 "0x100d4800": {
 "class": "CXiSkeletonActor",
 "method": "GetElemLocal",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetElemLocal"
 },
 "0x100d49b0": {
 "class": "CXiSkeletonActor",
 "method": "GetEidMatrix",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::GetEidMatrix"
 },
 "0x100d5460": {
 "class": "CXiSkeletonActor",
 "method": "IsDirectionLock_Set",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::IsDirectionLock_Set"
+},
+"0x100d6370": {
+"class": "CXiSkeletonActor",
+"method": "KillAllGenerater",
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::KillAllGenerater"
 },
 "0x100d6f90": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf033",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf033"
 },
 "0x100d6fa0": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf034",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf034"
 },
 "0x100d6fb0": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf035",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf035"
 },
 "0x100d6fc0": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf036",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf036"
 },
 "0x100d6fd0": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "vf037",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CXiSkeletonActor::vf037"
 },
 "0x100d7000": {
 "class": "CXiSkeletonActorRes",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActorRes::ScalarDeletingDtor"
 },
 "0x100d7020": {
 "class": "CXiSkeletonActorRes",
 "method": "Constructor",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActorRes::Constructor"
 },
 "0x100d7050": {
 "class": "CXiSkeletonActorRes",
 "method": "Destructor",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActorRes::Destructor"
 },
 "0x100d7090": {
 "class": "CXiSkeletonActorRes",
 "method": "CXiSkeletonActorRes_GetLinkedActor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor"
 },
 "0x100d70a0": {
 "class": "CXiSkeletonActorRes",
 "method": "ProcessLoadState",
-"why": "IDB name"
+"why": "IDB name",
+"symbol": "CXiSkeletonActorRes::ProcessLoadState"
 },
 "0x100d7140": {
-"class": null,
+"class": "CXiSkeletonActor",
 "method": "GetRuntimeClass_variant2",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiSkeletonActor::GetRuntimeClass_variant2"
 },
 "0x1011aac0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011AAC0",
+"unit": "unit_100D7420"
 },
 "0x1011bae0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011BAE0",
+"unit": "unit_100D7420"
 },
 "0x1011bbd0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011BBD0",
+"unit": "unit_100D7420"
 },
 "0x1011bdc0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011BDC0",
+"unit": "unit_100D7420"
 },
 "0x1011c080": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_104E1B90",
+"method": "fn_1011C080",
+"why": "callers pass the object in dword_104E1B90 as this (3 of 3 call sites); singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified",
+"symbol": "Obj_104E1B90::fn_1011C080"
 },
 "0x1011c1f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011C1F0",
+"unit": "unit_100D7420"
 },
 "0x1011c720": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011C720",
+"unit": "unit_100D7420"
 },
 "0x1011e800": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011E800",
+"unit": "unit_100D7420"
 },
 "0x1011ede0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011EDE0",
+"unit": "unit_100D7420"
 },
 "0x1011ef60": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011EF60",
+"unit": "unit_100D7420"
 },
 "0x1011f300": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011F300",
+"unit": "unit_100D7420"
 },
 "0x10120590": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_104E1BF8",
+"method": "fn_10120590",
+"why": "callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified",
+"symbol": "Obj_104E1BF8::fn_10120590"
 },
 "0x101207b0": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_104E1BF8",
+"method": "fn_101207B0",
+"why": "callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified",
+"symbol": "Obj_104E1BF8::fn_101207B0"
 },
 "0x10124440": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10124440",
+"unit": "unit_100D7420"
 },
 "0x10124700": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_104E1D4C",
+"method": "fn_10124700",
+"why": "callers pass the object in dword_104E1D4C as this (9 of 11 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified",
+"symbol": "Obj_104E1D4C::fn_10124700"
 },
 "0x10124eb0": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_104E1D4C",
+"method": "fn_10124EB0",
+"why": "callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified",
+"symbol": "Obj_104E1D4C::fn_10124EB0"
 },
 "0x101252f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_101252F0",
+"unit": "unit_100D7420"
 },
 "0x101604b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101604B0",
+"unit": "unit_1012AC80"
 },
 "0x10160650": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10160650",
+"unit": "unit_1012AC80"
 },
 "0x101620b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101620B0",
+"unit": "unit_1012AC80"
 },
 "0x101630e0": {
-"class": null,
-"method": null,
-"why": null
+"class": "Obj_10621944",
+"method": "fn_101630E0",
+"why": "callers pass the object in dword_10621944 as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified",
+"symbol": "Obj_10621944::fn_101630E0"
 },
 "0x10163400": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10163400",
+"unit": "unit_1012AC80"
 },
 "0x1016ddf0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file",
+"symbol": "fn_1016DDF0",
+"unit": "unit_10163E60"
 },
 "0x10174b10": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file",
+"symbol": "fn_10174B10",
+"unit": "unit_10163E60"
 },
 "0x10174ec0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file",
+"symbol": "fn_10174EC0",
+"unit": "unit_10163E60"
 },
 "0x10176ea0": {
 "class": "CMoResource_VT_10336698",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_10336698::ScalarDeletingDtor"
 },
 "0x10176f80": {
 "class": "CMoResource_VT_103366C4",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_103366C4::ScalarDeletingDtor"
 },
 "0x10177000": {
 "class": "CMoResource_VT_103366F0",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_103366F0::ScalarDeletingDtor"
 },
 "0x10177240": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from CTsZoneMap (1 call site) and adjacent to its code",
+"symbol": "fn_10177240",
+"unit": "CTsZoneMap"
 },
 "0x101773b0": {
-"class": null,
+"class": "CMoTask",
 "method": "GetRuntimeClass_variant19",
-"why": "IDB name"
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask::GetRuntimeClass_variant19"
 },
 "0x10177400": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
+"symbol": "Gfx_SetZBias",
+"unit": "CTsZoneMap"
 },
 "0x10177420": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
+"symbol": "ZoneMap_SetOverlayProjection",
+"unit": "CTsZoneMap"
 },
 "0x101779c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_101779C0",
+"unit": "CTsZoneMap"
 },
 "0x10177b40": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_10177B40",
+"unit": "CTsZoneMap"
 },
 "0x10177c50": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_10177C50",
+"unit": "CTsZoneMap"
 },
 "0x10177cd0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_10177CD0",
+"unit": "CTsZoneMap"
 },
 "0x10178070": {
-"class": null,
-"method": null,
-"why": null
+"class": "CTsZoneMap",
+"method": "fn_10178070",
+"why": "callers pass their own this (CTsZoneMap)",
+"symbol": "CTsZoneMap::fn_10178070"
 },
 "0x101781d0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB",
+"symbol": "fn_101781D0",
+"unit": "CTsZoneMap"
 },
 "0x10178b00": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from CTsZoneMap (1 call site) and adjacent to its code",
+"symbol": "ZoneMap_ReleaseStateBlock",
+"unit": "CTsZoneMap"
 },
 "0x101791f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_101791F0",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x101792a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_101792A0",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x1017ade0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_1017ADE0",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x10182700": {
-"class": null,
-"method": null,
-"why": null
+"class": "CTsZoneMap",
+"method": "fn_10182700",
+"why": "callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)",
+"symbol": "CTsZoneMap::fn_10182700"
 },
 "0x10182f10": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10182F10",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x101844c0": {
-"class": null,
-"method": null,
-"why": null
+"class": "CTsZoneMap",
+"method": "ModelActor_Draw",
+"why": "callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)",
+"symbol": "CTsZoneMap::ModelActor_Draw"
 },
 "0x10184fe0": {
-"class": null,
-"method": null,
-"why": null
+"class": "CTsZoneMap",
+"method": "fn_10184FE0",
+"why": "callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)",
+"symbol": "CTsZoneMap::fn_10184FE0"
 },
 "0x10188e00": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
+"symbol": "Env_ComputeAmbient",
+"unit": "unit_10188CA0"
 },
 "0x10188fa0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
+"symbol": "fn_10188FA0",
+"unit": "unit_10188CA0"
 },
 "0x101893d0": {
 "class": "CMoResource_VT_103367E8",
 "method": "ScalarDeletingDtor",
-"why": "tree manifest"
+"why": "tree manifest",
+"symbol": "CMoResource_VT_103367E8::ScalarDeletingDtor"
 },
 "0x101893f0": {
-"class": null,
+"class": "CMoResource_VT_103367E8",
 "method": "vf008",
-"why": "tree manifest"
+"why": "tree manifest; does not use this",
+"symbol": "CMoResource_VT_103367E8::vf008"
 },
 "0x101c8da0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file",
+"symbol": "fn_101C8DA0",
+"unit": "unit_101C72E0"
 },
 "0x1021d4c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB",
+"symbol": "Draw2DLayer",
+"unit": "CXiMovie"
 },
 "0x1021e060": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file",
+"symbol": "fn_1021E060",
+"unit": "unit_1021D930"
 },
 "0x102394a0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file",
+"symbol": "fn_102394A0",
+"unit": "unit_10237880"
 },
 "0x1024f900": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
+"symbol": "fn_1024F900",
+"unit": "unit_1024D400"
 },
 "0x102504d0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
+"symbol": "fn_102504D0",
+"unit": "unit_1024D400"
 },
 "0x10251a80": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file",
+"symbol": "Dancer_InitDevice",
+"unit": "unit_10251320"
 },
 "0x10253f60": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file",
+"symbol": "fn_10253F60",
+"unit": "unit_10253A20"
 },
 "0x1025d750": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025D750",
+"unit": "unit_1025C9E0_FontGlyphCache"
 },
 "0x1025d760": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025D760",
+"unit": "unit_1025C9E0_FontGlyphCache"
 },
 "0x1025d7b0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025D7B0",
+"unit": "unit_1025C9E0_FontGlyphCache"
 },
 "0x102816e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
+"symbol": "fn_102816E0",
+"unit": "unit_10280C40"
 },
 "0x10281830": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: name sqgxTextureAdd",
+"symbol": "fn_10281830",
+"unit": "sqgxTexture"
 },
 "0x102819d0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB",
+"symbol": "fn_102819D0",
+"unit": "sqgxTexture"
 },
 "0x10281d60": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB",
+"symbol": "fn_10281D60",
+"unit": "sqgxTexture"
 },
 "0x10282010": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: name sqgxTextureStencilClear",
+"symbol": "sqgxTextureStencilClear",
+"unit": "sqgxTexture"
 },
 "0x10282030": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: name sqgxTextureClear",
+"symbol": "sqgxTextureClear",
+"unit": "sqgxTexture"
 },
 "0x102820e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB",
+"symbol": "fn_102820E0",
+"unit": "sqgxTexture"
 },
 "0x10282190": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: name sqgxTextureDraw",
+"symbol": "sqgxTextureDraw",
+"unit": "sqgxTexture"
 },
 "0x10282350": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "sqgxZTest",
+"unit": "unit_102822A0"
 },
 "0x102823f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_102823F0",
+"unit": "unit_102822A0"
 },
 "0x10282470": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282470",
+"unit": "unit_102822A0"
 },
 "0x102824c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_102824C0",
+"unit": "unit_102822A0"
 },
 "0x10282640": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282640",
+"unit": "unit_102822A0"
 },
 "0x102826c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_102826C0",
+"unit": "unit_102822A0"
 },
 "0x102827d0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_102827D0",
+"unit": "unit_102822A0"
 },
 "0x10282910": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282910",
+"unit": "unit_102822A0"
 },
 "0x10282b90": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "sqgxBlendTrsp_Candidate",
+"unit": "unit_102822A0"
 },
 "0x10282cb0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282CB0",
+"unit": "unit_102822A0"
 },
 "0x10282dc0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282DC0",
+"unit": "unit_102822A0"
 },
 "0x10282ed0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282ED0",
+"unit": "unit_102822A0"
 },
 "0x10282ff0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10282FF0",
+"unit": "unit_102822A0"
 },
 "0x10283110": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10283110",
+"unit": "unit_102822A0"
 },
 "0x10283220": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "sqgxBlendOff",
+"unit": "unit_102822A0"
 },
 "0x10283a10": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10283A10",
+"unit": "unit_102822A0"
 },
 "0x10283f70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10283F70",
+"unit": "unit_102822A0"
 },
 "0x10283fc0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10283FC0",
+"unit": "unit_102822A0"
 },
 "0x10284410": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"symbol": "fn_10284410",
+"unit": "unit_102822A0"
 },
 "0x10284a80": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file",
+"symbol": "fn_10284A80",
+"unit": "unit_10284900"
 },
 "0x10284b20": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: name sqgxContext_SelectShaderMode",
+"symbol": "sqgxContext_SelectShaderMode",
+"unit": "sqgxContext"
 },
 "0x10284ef0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file",
+"symbol": "fn_10284EF0",
+"unit": "unit_10284EB0"
 },
 "0x1028aa70": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB",
+"symbol": "fn_1028AA70",
+"unit": "sqgxShape"
 },
 "0x1028f8c0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB",
+"symbol": "fn_1028F8C0",
+"unit": "sqsnScene"
 },
 "0x10297cc0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file",
+"symbol": "fn_10297CC0",
+"unit": "unit_102971F0"
 },
 "0x10297ec0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file",
+"symbol": "fn_10297EC0",
+"unit": "unit_102971F0"
 },
 "0x102981e0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file",
+"symbol": "fn_102981E0",
+"unit": "unit_102971F0"
 },
 "0x102a21f0": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: called only from sqsnShadow (1 call site) and adjacent to its code",
+"symbol": "fn_102A21F0",
+"unit": "sqsnShadow"
 },
 "0x102a2530": {
 "class": null,
 "method": null,
-"why": null
+"why": "unit: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file",
+"symbol": "fn_102A2530",
+"unit": "unit_102A2530"
 }
 }

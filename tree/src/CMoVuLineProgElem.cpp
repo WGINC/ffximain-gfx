@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoVuLineProgElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10052BF0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoVuLineProgElem::vf012(int a1)
+{
+  return a1 == 9;
+}
+
 // FUNCTION: FFXIMAIN 0x10052C00  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoVuLineProgElem::ScalarDeletingDtor(char a2)
@@ -12,4 +19,18 @@ int * CMoVuLineProgElem::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x10064170  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoVuLineProgElem::GetRuntimeClass()
+{
+  return &CMoVuLineProgElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10064180  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoVuLineProgElem::vf018()
+{
+  ;
 }

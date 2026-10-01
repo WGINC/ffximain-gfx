@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CYyTexMng {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1003AA40
     _DWORD * ScalarDeletingDtor(char a2);  // 0x1003AA70
 
     void **vftable;  // +0x0

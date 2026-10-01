@@ -5,7 +5,9 @@
 #pragma pack(push, 1)
 class XI_API CMoDistModelElem {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100431A0
     void BuildDistortedMesh();  // 0x10043320
+    BOOL vf012(int a1);  // 0x10052F40
     int set_field_194(int a2);  // 0x10052F50
     int * ScalarDeletingDtor(char a2);  // 0x10052F60
 

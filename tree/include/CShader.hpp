@@ -5,10 +5,17 @@
 #pragma pack(push, 1)
 class XI_API CShader {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10017750
     unsigned int * ScalarDeletingDtor(char a2);  // 0x10017780
+    int fn_100177A0();  // 0x100177A0
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x10];
+    uint8_t _pad_4[0x4];
+    uint32_t field_8;  // +0x8
+    uint8_t _pad_C[0x4];
+    uint32_t field_10;  // +0x10
 };
 #pragma pack(pop)
 static_assert(sizeof(CShader) == 0x14, "CShader: sizeof");
+static_assert(XI_OFFSETOF(CShader, field_8) == 0x8, "CShader: layout");
+static_assert(XI_OFFSETOF(CShader, field_10) == 0x10, "CShader: layout");

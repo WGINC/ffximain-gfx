@@ -2,6 +2,39 @@
 #include "gfx_all.hpp"
 #include "CMoCamera.hpp"
 
+// FUNCTION: FFXIMAIN 0x1003C880  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoCamera::GetRuntimeClass()
+{
+  return &CMoCamera_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x1003C890  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoCamera::vf008()
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10071980  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __cdecl CMoCamera::GetSharedInstance()
+{
+  if ( (byte_109F81A4 & 1) == 0 )
+  {
+    byte_109F81A4 |= 1u;
+    orig::_atexit(XI_CODE(nullsub_171));
+  }
+  return &g_pCameraSharedInstance;
+}
+
+// FUNCTION: FFXIMAIN 0x100719F0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoCamera::vf009()
+{
+  ;
+}
+
 // FUNCTION: FFXIMAIN 0x10071E30  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CMoCamera::GetLinkedObject(_DWORD *a2)

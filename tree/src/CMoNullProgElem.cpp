@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoNullProgElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10047560  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoNullProgElem::GetRuntimeClass()
+{
+  return &CMoNullProgElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x100531A0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoNullProgElem::SetField138()

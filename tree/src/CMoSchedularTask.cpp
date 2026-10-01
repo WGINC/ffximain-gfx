@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoSchedularTask.hpp"
 
+// FUNCTION: FFXIMAIN 0x10057090  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoSchedularTask::GetRuntimeClass()
+{
+  return &CMoSchedularTask_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10057250  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CMoSchedularTask::ScalarDeletingDtor(char a2)

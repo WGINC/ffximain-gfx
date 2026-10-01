@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoOT {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10055290
     int * ScalarDeletingDtor(char a2);  // 0x100552C0
 
     void **vftable;  // +0x0

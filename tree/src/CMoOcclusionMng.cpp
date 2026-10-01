@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoOcclusionMng.hpp"
 
+// FUNCTION: FFXIMAIN 0x1006C130  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoOcclusionMng::GetRuntimeClass()
+{
+  return &CMoOcclusionMng_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x1006C1C0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoOcclusionMng::ScalarDeletingDtor(char a2)
@@ -9,6 +16,21 @@ int * CMoOcclusionMng::ScalarDeletingDtor(char a2)
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   orig::sub_1006C1E0(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x1006C220  (placed by callers pass the object in dword_1047C004 as this (1 of 1 call sites); 0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+_DWORD * CMoOcclusionMng::OcclusionMng_CreateTarget()
+{
+  _DWORD *result;
+  int v3;
+  int v4;
+  v4 = 0;
+  result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x10u, 0x10u, &v4, 1, 0);
+  v3 = v4;
+  this->field_C = result;
+  this->field_10 = v3;
+  return result;
 }

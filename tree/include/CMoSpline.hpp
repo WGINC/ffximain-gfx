@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoSpline {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10063450
     int * ScalarDeletingDtor(char a2);  // 0x10063480
 
     void **vftable;  // +0x0

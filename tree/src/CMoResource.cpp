@@ -2,12 +2,54 @@
 #include "gfx_all.hpp"
 #include "CMoResource.hpp"
 
+// FUNCTION: FFXIMAIN 0x10036B70  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoResource::GetRuntimeClass_variant0()
+{
+  return &CMoResource_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10047FC0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource::CMoCamera_SetLinkedObject(int a2)
 {
   *this->field_14 = a2;
   return a2;
+}
+
+// FUNCTION: FFXIMAIN 0x10047FD0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource::vf005(int a1)
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10056250  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoResource::GetRuntimeClass_variant1()
+{
+  return &CMoResource_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10056290  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoResource::GetRuntimeClass_variant2()
+{
+  return &CMoResource_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10071D70  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoResource::GetRuntimeClass_variant3()
+{
+  return &CMoResource_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource::vf008()
+{
+  ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DC0  (placed by tree manifest)

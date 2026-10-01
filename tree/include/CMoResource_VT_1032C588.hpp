@@ -8,6 +8,7 @@ public:
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071C90
     int vf011();  // 0x100745E0
     int vf012(int a1);  // 0x100745F0
+    void vf008();  // 0x10074610
     __int16 vf009();  // 0x10074620
 
     void **vftable;  // +0x0

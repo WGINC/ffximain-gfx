@@ -41,6 +41,13 @@ void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)
   self->walkSpeed = speed;
 }
 
+// FUNCTION: FFXIMAIN 0x100820D0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CXiActor::CXiSkeletonActor_GetEquip(int a1)
+{
+  return 1952805748;
+}
+
 // FUNCTION: FFXIMAIN 0x100832D0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CXiActor::CXiSkeletonActor_AddRef()

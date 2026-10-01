@@ -92,8 +92,8 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                 v28 = 32 * v27;
                 if ( v27 + dword_1045B630 < 512 )
                 {
-                  while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)dword_10457154 + 44))(
-                            dword_10457154,
+                  while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7154 + 44))(
+                            g_vertexBuffer_7154,
                             32 * dword_1045B630,
                             v28,
                             &v32,
@@ -102,8 +102,8 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                 }
                 else
                 {
-                  while ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(*(_DWORD *)dword_10457154 + 44))(
-                            dword_10457154,
+                  while ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7154 + 44))(
+                            g_vertexBuffer_7154,
                             0,
                             v28,
                             &v32,
@@ -112,13 +112,13 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                   dword_1045B630 = 0;
                 }
                 v36 = (unsigned __int16)orig::sub_100230D0((unsigned __int16)v10, (unsigned __int16 *)(v7 + 4), v32);
-                while ( (*(int (__stdcall **)(int))(*(_DWORD *)dword_10457154 + 48))(dword_10457154) != 0 )
+                while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7154 + 48))(g_vertexBuffer_7154) != 0 )
                   Sleep(0);
                 orig::sub_10022FA0(274);
                 g_pCDx->pDevice->lpVtbl->SetStreamSource(
                   g_pCDx->pDevice,
                   0,
-                  (IDirect3DVertexBuffer8 *)dword_10457154,
+                  (IDirect3DVertexBuffer8 *)g_vertexBuffer_7154,
                   32u);
                 orig::CDx_DrawPrimitive(g_pCDx, 5, dword_1045B630, (unsigned __int16)v10);
                 if ( orig::sub_10033800(a3 + 72, &dword_10456E44, v9) != 0 )
@@ -155,11 +155,11 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     a3b = 2 * v10;
                   }
                   v25 = 32 * v24;
-                  v26 = *(_DWORD *)dword_10457150;
+                  v26 = *(_DWORD *)g_vertexBuffer_7150;
                   if ( v24 + dword_1045B62C < 1024 )
                   {
                     if ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(v26 + 44))(
-                           dword_10457150,
+                           g_vertexBuffer_7150,
                            32 * dword_1045B62C,
                            v25,
                            &v32,
@@ -167,8 +167,8 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     {
                       do
                         Sleep(0);
-                      while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)dword_10457150 + 44))(
-                                dword_10457150,
+                      while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7150 + 44))(
+                                g_vertexBuffer_7150,
                                 32 * dword_1045B62C,
                                 v25,
                                 &v32,
@@ -178,7 +178,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                   else
                   {
                     if ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(v26 + 44))(
-                           dword_10457150,
+                           g_vertexBuffer_7150,
                            0,
                            v25,
                            &v32,
@@ -186,8 +186,9 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     {
                       do
                         Sleep(0);
-                      while ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(*(_DWORD *)dword_10457150 + 44))(
-                                dword_10457150,
+                      while ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7150
+                                                                                     + 44))(
+                                g_vertexBuffer_7150,
                                 0,
                                 v25,
                                 &v32,
@@ -196,13 +197,13 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     dword_1045B62C = 0;
                   }
                   v35 = (unsigned __int16)orig::sub_10023010(v33, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
-                  while ( (*(int (__stdcall **)(int))(*(_DWORD *)dword_10457150 + 48))(dword_10457150) != 0 )
+                  while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7150 + 48))(g_vertexBuffer_7150) != 0 )
                     Sleep(0);
                   orig::sub_10022FA0(274);
                   g_pCDx->pDevice->lpVtbl->SetStreamSource(
                     g_pCDx->pDevice,
                     0,
-                    (IDirect3DVertexBuffer8 *)dword_10457150,
+                    (IDirect3DVertexBuffer8 *)g_vertexBuffer_7150,
                     32u);
                   orig::CDx_DrawPrimitive(g_pCDx, 4, dword_1045B62C, a3b);
                   if ( orig::sub_10033800(a3 + 72, &dword_10456E44, v9) != 0 )
@@ -369,6 +370,17 @@ LABEL_80:
   return v8;
 }
 
+// FUNCTION: FFXIMAIN 0x10022FA0  (unit CYyModelDt: between 0x100224D0 (name CYyModelDt_PrepareRenderState) and 0x100231C0 (name CYyModelDt_PrepareRenderStateSimple), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10022FA0(int a1)
+{
+  g_vertexShader_6E4C = a1;
+  if ( a1 != 0 )
+    return g_pCDx->pDevice->SetVertexShader(g_vertexShader_6E4C);
+  else
+    return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x100231C0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int16 CYyModelDt::PrepareRenderStateSimple(int a2, int a3, int a4, int a5)
@@ -440,6 +452,25 @@ int CYyModelDt::MarkReferencedBones(int a2)
     v5 = (unsigned __int16)i++;
   }
   return *(unsigned __int16 *)(v3 + 64);
+}
+
+// FUNCTION: FFXIMAIN 0x10029880  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CYyModelDt::GetRuntimeClass()
+{
+  return &CYyModelDt_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10029CB0  (placed by tree manifest)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+_DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
+{
+  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
+  int v2;
+  orig::sub_10029CD0(self, v2);
+  if ( (a1 & 1) != 0 )
+    orig::thunk_sub_10028AA0((int)self);
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)

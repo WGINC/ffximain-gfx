@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoPathDriveActorTask {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10056940
     int vf011();  // 0x100630A0
     int vf012(int a1);  // 0x100630B0
 

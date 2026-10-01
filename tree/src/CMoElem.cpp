@@ -2,6 +2,104 @@
 #include "gfx_all.hpp"
 #include "CMoElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x100353C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant0()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10036A80  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoElem::vf013(int a1)
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10036A90  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoElem::vf014(int a1)
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10036AA0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CMoElem::vf015()
+{
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10036AB0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoElem::vf019()
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x1003E690  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant1()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10041000  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant2()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10041120  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoElem::CMoElemFamily_IsKind0(int a1)
+{
+  return a1 == 0;
+}
+
+// FUNCTION: FFXIMAIN 0x100426A0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant3()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x100426D0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant4()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10043190  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant5()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10043570  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant6()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10043700  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant7()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10044880  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant8()
+{
+  return &CMoElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10044950  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoElem::ScalarDeletingDtor(char a2)
@@ -11,4 +109,111 @@ int * CMoElem::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x10044970  (placed by callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478))
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CMoElem::CMoElemFamily_SharedCleanup()
+{
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  int v2;
+  int *v3;
+  int v4;
+  _DWORD **v5;
+  _DWORD *v6;
+  int v7;
+  int *v8;
+  int v9;
+  *self = (int)&CMoElem_vtbl_ambiguous3;
+  v2 = --g_countdown_1047BC6C;
+  v3 = (int *)this->field_FC;
+  if ( v3 != nullptr )
+    v4 = *v3;
+  else
+    v4 = 0;
+  v5 = (_DWORD **)this->field_100;
+  this->field_FC = 0;
+  if ( v5 == nullptr )
+    v5 = (_DWORD **)this->field_FC;
+  if ( v5 != nullptr )
+    v6 = *v5;
+  else
+    v6 = nullptr;
+  this->field_100 = 0;
+  if ( v6 != nullptr )
+    orig::sub_100481D0(v6, (int)self);
+  if ( v4 != 0 )
+  {
+    orig::sub_10048140((_DWORD *)v4, (int)self);
+    orig::sub_10071EC0(v4, v7);
+  }
+  v8 = (int *)this->field_164;
+  if ( v8 != nullptr )
+  {
+    v9 = *v8;
+    orig::sub_10071EC0(*v8, v2);
+    *(_DWORD *)(v9 + 248) = 0;
+    this->field_164 = 0;
+    if ( (*(_WORD *)(v9 + 24) & 0x7FFF) == 0 )
+    {
+      orig::sub_10073B20(*(int **)(v9 + 20));
+      orig::sub_10074180((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v9 + 20));
+    }
+  }
+  if ( v4 != 0 && (*(_BYTE *)(v4 + 26) & 4) != 0 && (*(_WORD *)(v4 + 24) & 0x7FFF) == 0 )
+  {
+    orig::sub_10073B20(*(int **)(v4 + 20));
+    orig::sub_10074180((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
+  }
+  if ( this->field_108 != 0 )
+  {
+    orig::sub_1006C110(this->field_108);
+    this->field_108 = 0;
+  }
+  orig::sub_1006C270((int *)((char *)self + 383));
+  *self = (int)&CMoOtTask_vtbl_ambiguous1;
+  orig::sub_10055250(self + 13);
+  return orig::sub_100747C0(self);
+}
+
+// FUNCTION: FFXIMAIN 0x100472E0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoElem::vf018()
+{
+  ;
+}
+
+// FUNCTION: FFXIMAIN 0x10047550  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant9()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10047570  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant10()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x100548A0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant11()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x100562D0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant12()
+{
+  return &CMoElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10064160  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoElem::GetRuntimeClass_variant13()
+{
+  return &CMoElem_classdesc;
 }

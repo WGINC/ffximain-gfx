@@ -6,6 +6,8 @@
 class XI_API CMoResource_VT_1032C7FC {
 public:
     int vf004(int a2);  // 0x10019A30
+    void vf005(int a1);  // 0x10019A40
+    void vf009();  // 0x10071A00
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071AC0
 
     void **vftable;  // +0x0

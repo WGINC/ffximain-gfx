@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CShader.hpp"
 
+// FUNCTION: FFXIMAIN 0x10017750  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CShader::GetRuntimeClass()
+{
+  return &CShader_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10017780  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int * CShader::ScalarDeletingDtor(char a2)
@@ -9,6 +16,26 @@ unsigned int * CShader::ScalarDeletingDtor(char a2)
   unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest
   orig::sub_100177A0(self);
   if ( (a2 & 1) != 0 )
-    orig::sub_1002C8B0((int)self);
+    orig::thunk_sub_10028AA0((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x100177A0  (placed by callers pass their own this (CShader))
+// GATE: PASS -- 100 trials, 28 returned normally, 22 D3D calls compared (diffemu_gfx, clean build)
+int CShader::fn_100177A0()
+{
+  unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest
+  int result;
+  unsigned int v3;
+  result = this->field_8;
+  *self = (unsigned int)&CShader_vtbl;
+  if ( result != 0 )
+  {
+    result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 8))(result);
+    this->field_8 = 0;
+  }
+  v3 = this->field_10;
+  if ( v3 != 0 )
+    return g_pCDx->pDevice->DeleteVertexShader(v3);
+  return result;
 }

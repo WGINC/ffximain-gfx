@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CYyModelDt_VT_1032A430 {
 public:
+    int vf011();  // 0x10025090
     int * ScalarDeletingDtor(char a2);  // 0x100250A0
     int ScalarDeletingDtor_2(int a1);  // 0x100252D0
 

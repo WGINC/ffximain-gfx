@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CXiSkeletonActorRes.hpp"
 
+// FUNCTION: FFXIMAIN 0x100C51B0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CXiSkeletonActorRes::GetRuntimeClass()
+{
+  return &CXiSkeletonActorRes_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x100D7000  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)

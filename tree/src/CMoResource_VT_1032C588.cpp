@@ -27,6 +27,13 @@ int CMoResource_VT_1032C588::vf012(int a1)
   return (int)orig::sub_10071C60((unsigned int **)this - 12, a1);
 }
 
+// FUNCTION: FFXIMAIN 0x10074610  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void CMoResource_VT_1032C588::vf008()
+{
+  ;
+}
+
 // FUNCTION: FFXIMAIN 0x10074620  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CMoResource_VT_1032C588::vf009()

@@ -2,6 +2,20 @@
 #include "gfx_all.hpp"
 #include "CMoVuAnmElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x1003EF10  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoVuAnmElem::GetRuntimeClass()
+{
+  return &CMoVuAnmElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x1003EF80  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoVuAnmElem::vf012(int a1)
+{
+  return a1 == 8;
+}
+
 // FUNCTION: FFXIMAIN 0x1003EF90  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoVuAnmElem::vf008()

@@ -28,7 +28,14 @@ def main(evf, manf, dmf, incdir, outf):
     for e in E:
         for s in e[3]:
             stems[os.path.splitext(s)[0]] = s
-    modules = sorted(stems, key=len, reverse=True)             # dancer modules: sqgxTexture, sqsnScene, ...
+    # dancer (C library) modules: file stems from assert paths, plus PS2-name prefixes shared by at
+    # least two functions (sqgxTextureAdd, sqgxTextureSet -> module sqgxTexture)
+    pre = collections.Counter()
+    for e in E:
+        m = re.match(r'^(sq[a-z]+[A-Z][a-z0-9]+)', e[2] or '')
+        if m and not WEAK_NAME.search(e[2]) and not e[2].endswith('_Candidate'): pre[m.group(1)] += 1
+    modset = set(stems) | {m for m, c in pre.items() if c >= 2}
+    modules = sorted(modset, key=len, reverse=True)            # dancer modules: sqgxTexture, sqsnScene, ...
     cls_sorted = sorted(classes, key=len, reverse=True)
 
     def name_unit(nm):

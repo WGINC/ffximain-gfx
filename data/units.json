@@ -10189,6 +10189,141 @@
 "why": "asserts sqMatrix4.c",
 "kind": "anchor"
 },
+"0x10281830": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureAdd",
+"kind": "anchor"
+},
+"0x102819c0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x102819d0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281a60": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281a70": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281ae0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281b00": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281b10": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281b40": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB"
+},
+"0x10281b60": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureGetSize",
+"kind": "anchor"
+},
+"0x10281b90": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281B60 (name sqgxTextureGetSize) and 0x10281C20 (name sqgxTextureSet), both within 4 KB"
+},
+"0x10281bb0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281B60 (name sqgxTextureGetSize) and 0x10281C20 (name sqgxTextureSet), both within 4 KB"
+},
+"0x10281bd0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281B60 (name sqgxTextureGetSize) and 0x10281C20 (name sqgxTextureSet), both within 4 KB"
+},
+"0x10281bf0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281B60 (name sqgxTextureGetSize) and 0x10281C20 (name sqgxTextureSet), both within 4 KB"
+},
+"0x10281c20": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureSet",
+"kind": "anchor"
+},
+"0x10281c50": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureDecal",
+"kind": "anchor"
+},
+"0x10281c80": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureClamp",
+"kind": "anchor"
+},
+"0x10281cc0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10281d00": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10281d20": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10281d50": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10281d60": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10281db0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB"
+},
+"0x10282010": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureStencilClear",
+"kind": "anchor"
+},
+"0x10282030": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureClear",
+"kind": "anchor"
+},
+"0x102820e0": {
+"unit": "sqgxTexture",
+"kind": "between",
+"why": "between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB"
+},
+"0x10282190": {
+"unit": "sqgxTexture",
+"why": "name sqgxTextureDraw",
+"kind": "anchor"
+},
 "0x102848a0": {
 "unit": "sqgxShader",
 "why": "asserts sqgxShader.c",
@@ -93211,522 +93346,387 @@
 },
 "0x10280c40": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10280d10": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10280de0": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102813b0": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10281440": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10281500": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10281510": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102816e0": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10281810": {
 "unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281830": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x102819c0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x102819d0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281a60": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281a70": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281ae0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281b00": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281b10": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281b40": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281b60": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281b90": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281bb0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281bd0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281bf0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281c20": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281c50": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281c80": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281cc0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281d00": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281d20": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281d50": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281d60": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10281db0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10282010": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10282030": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x102820e0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"kind": "gap"
-},
-"0x10282190": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102822a0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102822f0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282350": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102823b0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102823f0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282470": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102824c0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282570": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282580": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282590": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282610": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282620": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282630": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282640": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102826c0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102827d0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282900": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282910": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282a20": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282a30": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282b90": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282ca0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282cb0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282dc0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282ed0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10282ff0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283110": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283220": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283240": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283250": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283260": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283280": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283300": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283330": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283380": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102833a0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102833c0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102833f0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283420": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102836d0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283870": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283880": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102838a0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102838f0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283910": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283970": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102839c0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283a10": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283b40": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283b50": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283c10": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283d60": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283da0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283de0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283e00": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283e30": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283e60": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283ec0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283f20": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283f40": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283f50": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283f70": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10283fc0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10284000": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10284280": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10284410": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x102847f0": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10284890": {
-"unit": "unit_10280C40",
-"why": "no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x102848A0 (sqgxShader) -- an unnamed source file",
+"unit": "unit_102822A0",
+"why": "no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "kind": "gap"
 },
 "0x10284900": {

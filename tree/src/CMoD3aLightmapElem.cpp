@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoD3aLightmapElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x1003EE60  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoD3aLightmapElem::GetRuntimeClass()
+{
+  return &CMoD3aLightmapElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10052C50  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoD3aLightmapElem::set_field_194(int a2)

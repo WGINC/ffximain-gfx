@@ -5,6 +5,10 @@
 #pragma pack(push, 1)
 class XI_API CMoCamera {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1003C880
+    void vf008();  // 0x1003C890
+    static void * __cdecl GetSharedInstance();  // 0x10071980
+    void vf009();  // 0x100719F0
     __int16 GetLinkedObject(_DWORD *a2);  // 0x10071E30
 
     void **vftable;  // +0x0

@@ -204,9 +204,9 @@ class Machine:
         u.reg_write(UC_X86_REG_ECX, this if conv == "thiscall" else 0xCCCCCCCC)
         start_esp = esp
         try:
-            # wall-clock cap per run (1 s): a runaway string instruction can execute for minutes
-            # inside one 'instruction'; a capped run ends as 'limit', like the instruction cap
-            u.emu_start(fn, RET_SENTINEL + 0x100, timeout=1_000_000, count=limit)
+            # no wall-clock timeout: Unicorn implements it with a timer thread per emu_start, which made
+            # the whole gate ~4x slower. The two slow cases are bounded by the instruction count.
+            u.emu_start(fn, RET_SENTINEL + 0x100, count=limit)
         except UcError as e:
             if not self.stop_reason:
                 self.stop_reason, self.stop_detail = "fault", str(e)

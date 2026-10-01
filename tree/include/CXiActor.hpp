@@ -10,6 +10,7 @@ public:
     float CXiSkeletonActor_GetMoveSpeedBase();  // 0x10082090
     void CXiSkeletonActor_SetMoveSpeedBase(float speed);  // 0x100820A0
     void CXiSkeletonActor_SetWalkSpeed(float speed);  // 0x100820C0
+    int CXiSkeletonActor_GetEquip(int a1);  // 0x100820D0
     void CXiSkeletonActor_AddRef();  // 0x100832D0
     void CXiSkeletonActor_AddSchRef();  // 0x10083390
     void CXiSkeletonActor_SubSchRef();  // 0x100833A0

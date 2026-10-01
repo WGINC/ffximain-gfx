@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoLockLookAtDriveTask {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x10056980
     int vf011();  // 0x10062F80
     int vf012(int a1);  // 0x10062F90
 

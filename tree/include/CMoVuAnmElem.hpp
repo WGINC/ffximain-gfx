@@ -5,6 +5,8 @@
 #pragma pack(push, 1)
 class XI_API CMoVuAnmElem {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1003EF10
+    BOOL vf012(int a1);  // 0x1003EF80
     int vf008();  // 0x1003EF90
     void * ScalarDeletingDtor(char a2);  // 0x1003EFA0
 

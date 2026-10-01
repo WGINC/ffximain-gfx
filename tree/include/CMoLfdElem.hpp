@@ -5,7 +5,9 @@
 #pragma pack(push, 1)
 class XI_API CMoLfdElem {
 public:
+    BOOL vf012(int a1);  // 0x10053050
     _DWORD * ScalarDeletingDtor(char a2);  // 0x10053060
+    static char ** __cdecl GetRuntimeClass();  // 0x100548B0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x19C];

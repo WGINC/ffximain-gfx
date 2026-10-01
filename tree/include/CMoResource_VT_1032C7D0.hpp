@@ -5,6 +5,8 @@
 #pragma pack(push, 1)
 class XI_API CMoResource_VT_1032C7D0 {
 public:
+    void vf008();  // 0x100719C0
+    void vf009();  // 0x100719D0
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071AE0
 
     void **vftable;  // +0x0

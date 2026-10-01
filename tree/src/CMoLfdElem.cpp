@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoLfdElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10053050  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoLfdElem::vf012(int a1)
+{
+  return a1 == 12;
+}
+
 // FUNCTION: FFXIMAIN 0x10053060  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoLfdElem::ScalarDeletingDtor(char a2)
@@ -11,4 +18,11 @@ _DWORD * CMoLfdElem::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x100548B0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoLfdElem::GetRuntimeClass()
+{
+  return &CMoLfdElem_classdesc;
 }

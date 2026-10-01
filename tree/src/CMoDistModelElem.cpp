@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoDistModelElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x100431A0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoDistModelElem::GetRuntimeClass()
+{
+  return &CMoDistModelElem_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x10043320  (placed by IDB name)
 // GATE: PASS -- 100 trials, 17 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoDistModelElem::BuildDistortedMesh()
@@ -107,6 +114,13 @@ void CMoDistModelElem::BuildDistortedMesh()
       v19->ScratchMatrixFreeList[v20] = v9;
     }
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10052F40  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoDistModelElem::vf012(int a1)
+{
+  return a1 == 4;
 }
 
 // FUNCTION: FFXIMAIN 0x10052F50  (placed by tree manifest)

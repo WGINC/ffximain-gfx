@@ -5,6 +5,9 @@
 #pragma pack(push, 1)
 class XI_API CMoD3aElem {
 public:
+    static char ** __cdecl GetRuntimeClass_variant0();  // 0x1003E6A0
+    static char ** __cdecl GetRuntimeClass_variant1();  // 0x1003EE50
+    static char ** __cdecl GetRuntimeClass_variant2();  // 0x1003EF00
     int * ScalarDeletingDtor(char a2);  // 0x10052CB0
 
     void **vftable;  // +0x0

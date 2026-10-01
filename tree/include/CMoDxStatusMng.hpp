@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoDxStatusMng {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x1006B040
     _DWORD * ScalarDeletingDtor(char a2);  // 0x1006B070
 
     void **vftable;  // +0x0

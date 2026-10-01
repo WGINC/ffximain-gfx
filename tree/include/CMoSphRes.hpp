@@ -5,7 +5,9 @@
 #pragma pack(push, 1)
 class XI_API CMoSphRes {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100562A0
     char * vf008();  // 0x100562B0
+    void vf009();  // 0x100562C0
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071D00
 
     void **vftable;  // +0x0

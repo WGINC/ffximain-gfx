@@ -6,6 +6,7 @@
 class XI_API CMoGeneratorClone_VT_1032B69C {
 public:
     char * ScalarDeletingDtor(char a2);  // 0x10053840
+    static char ** __cdecl CMoGeneratorClone_GetRuntimeClass();  // 0x100542E0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xF8];

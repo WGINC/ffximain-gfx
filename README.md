@@ -34,8 +34,16 @@ Requirements: Python 3 with `unicorn` and `pefile`, MinGW-w64 i686 (`i686-w64-mi
 IDA Pro 9.x with Hex-Rays for new exports. `gen_d3dx_bind.py` needs `DX81_INCLUDE` pointing at the
 DirectX 8.1 SDK headers.
 
-## Status
+## Status (1 Oct 2026)
 
-See `docs/REPORT-gfx2.md` and `docs/PLAN.md`. In short: 768 graphics functions, 624 verified as
-decompiled C++, 620 verified in the clean tree as built (0 FAIL), 47 Microsoft D3DX, 9 not
-expressible in C++, 42 FAIL / 32 inconclusive with first divergence recorded.
+768 graphics functions:
+- **633 are verified in the clean tree as built**, with 0 failures. Of these:
+  - 477 are class members;
+  - 156 are free functions, each in the file of the source unit it came from (29 in named units,
+    127 in unnamed units grouped by link order).
+- 47 are Microsoft D3DX.
+- 9 cannot be expressed in C++.
+- 43 fail the gate and 33 are inconclusive, each with its first divergence recorded.
+- 3 do not compile.
+
+See `docs/PLAN.md`, `docs/RESIDUE.md` and `docs/PLACEMENT.md`.

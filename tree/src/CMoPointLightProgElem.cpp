@@ -2,6 +2,20 @@
 #include "gfx_all.hpp"
 #include "CMoPointLightProgElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x100562E0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
+{
+  return &CMoPointLightProgElem_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10056360  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+BOOL CMoPointLightProgElem::vf012(int a1)
+{
+  return a1 == 11;
+}
+
 // FUNCTION: FFXIMAIN 0x10056370  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)

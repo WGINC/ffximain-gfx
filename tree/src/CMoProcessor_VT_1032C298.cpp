@@ -2,10 +2,41 @@
 #include "gfx_all.hpp"
 #include "CMoProcessor_VT_1032C298.hpp"
 
+// FUNCTION: FFXIMAIN 0x1006D380  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+float * CMoProcessor_VT_1032C298::vf007(float *a1, float a2)
+{
+  *a1 = a2 * *a1;
+  a1[1] = a2 * a1[1];
+  a1[2] = a2 * a1[2];
+  return a1;
+}
+
+// FUNCTION: FFXIMAIN 0x1006F5B0  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+double CMoProcessor_VT_1032C298::vf014(float *a1, float *a2)
+{
+  return a1[2] * a2[2] + a1[1] * a2[1] + *a1 * *a2;
+}
+
+// FUNCTION: FFXIMAIN 0x1006FA30  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+float * CMoProcessor_VT_1032C298::vf021(float *a1, float *a2, float *a3, float a4)
+{
+  return orig::CMoProcessor_VT_1032C368_vf021(a1, a2, a3, a4);
+}
+
 // FUNCTION: FFXIMAIN 0x10070020  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C298::vf035(float *a2, float *a3, int a4, int a5, int a6, float a7, float a8)
 {
   float * self = reinterpret_cast<float *>(this);  // byte-exact view for the rest
   return orig::sub_1006ED10(self, a2, a3, a4, a5, a6, a7, a8);
+}
+
+// FUNCTION: FFXIMAIN 0x10070040  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+CMoProcessor * CMoProcessor_VT_1032C298::vf036(float *a1, float *a2, int a3, int a4, const void *a5)
+{
+  return orig::sub_1006E970(a1, a2, a3, a4, a5);
 }

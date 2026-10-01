@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CXiSkeletonActorRes {
 public:
+    static char ** __cdecl GetRuntimeClass();  // 0x100C51B0
     _DWORD * ScalarDeletingDtor(char a2);  // 0x100D7000
     _DWORD * Constructor(int a2, int a3);  // 0x100D7020
     char Destructor();  // 0x100D7050

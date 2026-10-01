@@ -2,6 +2,13 @@
 #include "gfx_all.hpp"
 #include "CMoLockColorDriveTask.hpp"
 
+// FUNCTION: FFXIMAIN 0x10056960  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoLockColorDriveTask::GetRuntimeClass()
+{
+  return &CMoLockColorDriveTask_classdesc;
+}
+
 // FUNCTION: FFXIMAIN 0x100630F0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoLockColorDriveTask::vf011()

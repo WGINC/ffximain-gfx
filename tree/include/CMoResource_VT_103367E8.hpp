@@ -6,6 +6,7 @@
 class XI_API CMoResource_VT_103367E8 {
 public:
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x101893D0
+    void vf008();  // 0x101893F0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x2C];

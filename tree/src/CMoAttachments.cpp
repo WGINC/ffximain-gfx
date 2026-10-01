@@ -2,6 +2,34 @@
 #include "gfx_all.hpp"
 #include "CMoAttachments.hpp"
 
+// FUNCTION: FFXIMAIN 0x1003B530  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char ** __cdecl CMoAttachments::GetRuntimeClass()
+{
+  return &CMoAttachments_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B570  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CMoAttachments::vf004()
+{
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B580  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CMoAttachments::vf005()
+{
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B590  (placed by tree manifest; does not use this)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CMoAttachments::vf006()
+{
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x1003B5A0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)

@@ -50,6 +50,18 @@ placement only, as claimed.
 5. **The IDB was not updated** (e.g. `g_pCurrentCamera` -> `g_pXiZone`). The IDB should stay the
    source of truth.
 
+## Progress, 1 Oct 2026 (second pass)
+
+- **Tasks 2–4 are done.** The parallel session's names were reviewed: 295 applied in the IDB and 22 kept
+  as comments. Placement was re-derived from evidence for all functions (`docs/PLACEMENT.md`,
+  `docs/REVIEW-parallel.md`). Free functions went from 344 to 156, and members from 280 to 477.
+- **Part of task 7 is done:**
+  - 8 destructors IDA typed `__fastcall` were retyped `__thiscall`; their code reads only ECX. All 8 pass.
+  - 16 FLIRT false positives (VS2010 `Concurrency::` names in a 2002 binary) were removed from the IDB.
+  - D3D enums can now be stepped with `++`/`--`.
+  - All 633 tree functions can be gated.
+- **Tree:** 633 functions, all PASS in the clean build.
+
 ## Tasks (also in the task list)
 
 1. **Tidy the repo.** Done: this layout, `run.sh`, repo-relative paths, reproduction checked.
@@ -95,7 +107,8 @@ placement only, as claimed.
 ## Notes for running
 
 - **Two cases are slow, not hung.** `CMoCamera_SetPathData` and `CMoGeneratorClone_InitCloneFromSource`
-  take about 7 s per trial, because the original itself runs to the instruction limit in most trials.
-  `diffemu_fixed.py` now caps each emulated run at 1 s of wall clock, so a full gate always finishes.
+  take about 7 s per trial, because the original itself runs to the instruction limit in most
+  trials (about 12 minutes each for 100 trials). A wall-clock cap was tried and removed: Unicorn's
+  timeout made every run about 4x slower.
 - **The gate resumes into an existing output file.** It skips cases already present there, so use a
   fresh run directory.

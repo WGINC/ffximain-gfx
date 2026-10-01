@@ -1,0 +1,3122 @@
+{
+"0x10001520": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002040": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002be0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002c00": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002c30": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002c80": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002cd0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002d20": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10002f20": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100031f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100033c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100034b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10003b60": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10003d70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10007ef0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10008f80": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10008f90": {
+"class": "CDx",
+"method": "Constructor",
+"why": "IDB name"
+},
+"0x10009100": {
+"class": "CDx",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10009620": {
+"class": "CDx",
+"method": "fn_10009620",
+"why": "typed this"
+},
+"0x10009640": {
+"class": "CDx",
+"method": "fn_10009640",
+"why": "typed this"
+},
+"0x10009670": {
+"class": "CDx",
+"method": "fn_10009670",
+"why": "typed this"
+},
+"0x100096b0": {
+"class": "CDx",
+"method": "EndClearBegin",
+"why": "IDB name"
+},
+"0x10009710": {
+"class": "CDx",
+"method": "TestCooperativeLevel",
+"why": "IDB name"
+},
+"0x10009720": {
+"class": null,
+"method": "Present",
+"why": "IDB name"
+},
+"0x10009730": {
+"class": "CDx",
+"method": "BeginScene",
+"why": "IDB name"
+},
+"0x10009740": {
+"class": "CDx",
+"method": "EndScene",
+"why": "IDB name"
+},
+"0x100097f0": {
+"class": "CDx",
+"method": "fn_100097F0",
+"why": "typed this"
+},
+"0x10009dc0": {
+"class": "CDx",
+"method": "SetViewport",
+"why": "IDB name"
+},
+"0x10009e00": {
+"class": "CDx",
+"method": "GetRenderTargetTop",
+"why": "IDB name"
+},
+"0x10009e20": {
+"class": "CDx",
+"method": "PushRenderTarget",
+"why": "IDB name"
+},
+"0x1000a1d0": {
+"class": "CDx",
+"method": "SetTexture",
+"why": "IDB name"
+},
+"0x1000a3b0": {
+"class": "CDx",
+"method": "DrawScreenQuadAtDepth",
+"why": "IDB name"
+},
+"0x1000a800": {
+"class": "CDx",
+"method": "fn_1000A800",
+"why": "typed this"
+},
+"0x1000aab0": {
+"class": "CDx",
+"method": "Post_DepthBlurComposite",
+"why": "typed this"
+},
+"0x1000bd50": {
+"class": "CDx",
+"method": "SetTransform",
+"why": "IDB name"
+},
+"0x1000bdb0": {
+"class": "CDx",
+"method": "GetTransformCached",
+"why": "IDB name"
+},
+"0x1000bf30": {
+"class": "CDx",
+"method": "SetLight",
+"why": "IDB name"
+},
+"0x1000c6e0": {
+"class": "CDx",
+"method": "CreateStereoResources",
+"why": "IDB name"
+},
+"0x1000c900": {
+"class": "CDx",
+"method": "CreateRampTextures1024x2",
+"why": "IDB name"
+},
+"0x1000ca00": {
+"class": "CDx",
+"method": "GetStereoSecondEyeTarget",
+"why": "IDB name"
+},
+"0x1000cb20": {
+"class": "CDx",
+"method": "DrawPrimitive",
+"why": "IDB name"
+},
+"0x1000cc00": {
+"class": "CDx",
+"method": "DrawIndexedPrimitive",
+"why": "IDB name"
+},
+"0x1000cd00": {
+"class": "CDx",
+"method": "DrawPrimitiveUP",
+"why": "IDB name"
+},
+"0x1000cf20": {
+"class": "CDx",
+"method": "ApplyStereoEyeProjection",
+"why": "IDB name"
+},
+"0x1000cf90": {
+"class": "CDx",
+"method": "RestoreProjection",
+"why": "IDB name"
+},
+"0x10010310": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "IDB name"
+},
+"0x10011920": {
+"class": null,
+"method": "vf007",
+"why": "tree manifest"
+},
+"0x10011930": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10011940": {
+"class": null,
+"method": "vf010",
+"why": "tree manifest"
+},
+"0x10011950": {
+"class": "CMoTaskMng",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100119a0": {
+"class": "CMoTask_VT_10329C70",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10012f40": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100132b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10013ad0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10013df0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10013f10": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10014030": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10014120": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100141c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100157e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100161b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10017230": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10017750": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10017780": {
+"class": "CShader",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100177a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100186c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100187d0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10019a30": {
+"class": "CMoResource_VT_1032C7FC",
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x10019a40": {
+"class": null,
+"method": "vf005",
+"why": "tree manifest"
+},
+"0x1001b800": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x1001d0a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001d240": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001d350": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001d3b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001d940": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001dc20": {
+"class": "CMoResource_VT_1032C8AC",
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x1001dc70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001dd00": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1001e050": {
+"class": "CMoResource_VT_1032C880",
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x1001e060": {
+"class": null,
+"method": "vf005",
+"why": "tree manifest"
+},
+"0x100224d0": {
+"class": "CYyModelDt",
+"method": "PrepareRenderState",
+"why": "IDB name"
+},
+"0x10022fa0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100231c0": {
+"class": "CYyModelDt",
+"method": "PrepareRenderStateSimple",
+"why": "IDB name"
+},
+"0x10025030": {
+"class": "CYyModelDt",
+"method": "PrepareRenderStateEntry",
+"why": "IDB name"
+},
+"0x10025060": {
+"class": "CYyModelDt",
+"method": "PrepareRenderStateSimpleEntry",
+"why": "IDB name"
+},
+"0x10025090": {
+"class": null,
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x100250a0": {
+"class": "CYyModelDt_VT_1032A430",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10025180": {
+"class": "CYyModelDt",
+"method": "GetElementCount",
+"why": "IDB name"
+},
+"0x100251a0": {
+"class": "CYyModelDt",
+"method": "MarkReferencedBones",
+"why": "IDB name"
+},
+"0x100252d0": {
+"class": "CYyModelDt_VT_1032A430",
+"method": "ScalarDeletingDtor_2",
+"why": "tree manifest"
+},
+"0x10025330": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100255c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10025870": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10025c40": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10025f70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100262c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100263f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100266c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10026990": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10026ad0": {
+"class": "CXiMovie",
+"method": "Draw",
+"why": "IDB name"
+},
+"0x10026c70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100276f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100277e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10027870": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100278e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10027930": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100295a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10029880": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100298a0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100298c0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1002a3b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002b530": {
+"class": "CYyModel",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1002c360": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002c950": {
+"class": null,
+"method": "GetRuntimeClass_variant2",
+"why": "IDB name"
+},
+"0x1002ccb0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002d680": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002d700": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002d880": {
+"class": "CMoResource_VT_1032C854",
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x1002dc10": {
+"class": "CYyModelDt",
+"method": "PrepareRenderStateV2",
+"why": "IDB name"
+},
+"0x1002f160": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1002f1a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10033800": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10033a70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10034170": {
+"class": "CMoResource_VT_1032C828",
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x10034180": {
+"class": null,
+"method": "vf005",
+"why": "tree manifest"
+},
+"0x100343c0": {
+"class": "CXiSkeletonActor",
+"method": "PoseCompose",
+"why": "IDB name"
+},
+"0x100353c0": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "IDB name"
+},
+"0x10035ae0": {
+"class": "CMoTask_VT_1032A904",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10036a80": {
+"class": null,
+"method": "vf013",
+"why": "tree manifest"
+},
+"0x10036a90": {
+"class": null,
+"method": "vf014",
+"why": "tree manifest"
+},
+"0x10036aa0": {
+"class": null,
+"method": "vf015",
+"why": "tree manifest"
+},
+"0x10036ab0": {
+"class": null,
+"method": "vf019",
+"why": "tree manifest"
+},
+"0x10036b70": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "IDB name"
+},
+"0x10037280": {
+"class": null,
+"method": "GetRuntimeClass_variant3",
+"why": "IDB name"
+},
+"0x10038520": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10038720": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10038920": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10038930": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10038a80": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10038e10": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10039770": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "tree manifest"
+},
+"0x10039780": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x10039790": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100398b0": {
+"class": "CYyTexBase",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10039950": {
+"class": "CYyTex",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10039e50": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1003aa40": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003aa70": {
+"class": "CYyTexMng",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1003b210": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1003b530": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003b570": {
+"class": null,
+"method": "vf004",
+"why": "tree manifest"
+},
+"0x1003b580": {
+"class": null,
+"method": "vf005",
+"why": "tree manifest"
+},
+"0x1003b590": {
+"class": null,
+"method": "vf006",
+"why": "tree manifest"
+},
+"0x1003b5a0": {
+"class": "CMoAttachments",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1003c880": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003c890": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x1003cc60": {
+"class": null,
+"method": "GetRuntimeClass_variant4",
+"why": "IDB name"
+},
+"0x1003cc70": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003d940": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003d960": {
+"class": "CMoCelestial",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1003d9a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1003db60": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1003e690": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x1003e6a0": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "tree manifest"
+},
+"0x1003ee50": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x1003ee60": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003ef00": {
+"class": null,
+"method": "GetRuntimeClass_variant2",
+"why": "IDB name"
+},
+"0x1003ef10": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1003ef80": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x1003ef90": {
+"class": "CMoVuAnmElem",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x1003efa0": {
+"class": "CMoVuAnmElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1003f430": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x1003f8a0": {
+"class": "CMoDistMorphElem",
+"method": "ComputeMorphHandle",
+"why": "IDB name"
+},
+"0x10041000": {
+"class": null,
+"method": "GetRuntimeClass_variant2",
+"why": "IDB name"
+},
+"0x10041010": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10041020": {
+"class": "CMoD3mSpecularElem",
+"method": "Ctor",
+"why": "IDB name"
+},
+"0x100410e0": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x100410f0": {
+"class": "CMoD3mSpecularElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10041120": {
+"class": null,
+"method": "CMoElemFamily_IsKind0",
+"why": "tree manifest"
+},
+"0x10041c20": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10041fe0": {
+"class": "CMoElem_VT_1032ADE8",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10042640": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10042650": {
+"class": null,
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10042690": {
+"class": "CMoAttachments_VT_1032AE94",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100426a0": {
+"class": null,
+"method": "GetRuntimeClass_variant3",
+"why": "IDB name"
+},
+"0x100426b0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100426c0": {
+"class": null,
+"method": "vf018",
+"why": "tree manifest"
+},
+"0x100426d0": {
+"class": null,
+"method": "GetRuntimeClass_variant4",
+"why": "IDB name"
+},
+"0x100426e0": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "tree manifest"
+},
+"0x100430b0": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x100430c0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10043190": {
+"class": null,
+"method": "GetRuntimeClass_variant5",
+"why": "IDB name"
+},
+"0x100431a0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10043320": {
+"class": "CMoDistModelElem",
+"method": "BuildDistortedMesh",
+"why": "IDB name"
+},
+"0x10043570": {
+"class": null,
+"method": "GetRuntimeClass_variant6",
+"why": "IDB name"
+},
+"0x10043580": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10043590": {
+"class": "CMoDistMorphElem",
+"method": "UpdateMorphBlend",
+"why": "IDB name"
+},
+"0x10043700": {
+"class": null,
+"method": "GetRuntimeClass_variant7",
+"why": "IDB name"
+},
+"0x10043710": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10043720": {
+"class": "CMoDistRingElem",
+"method": "AllocRingGeometry",
+"why": "IDB name"
+},
+"0x10043a90": {
+"class": "CMoTask_VT_1032AF60",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10043c90": {
+"class": "CMoTask_VT_1032AFA8",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10043db0": {
+"class": "CMoAttachments_VT_1032AF44",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10043dc0": {
+"class": "CMoAttachments_VT_1032AF8C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10043e20": {
+"class": "CMoTask_VT_1032AFA8",
+"method": "ScalarDeletingDtor_2",
+"why": "tree manifest"
+},
+"0x10044270": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10044870": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "IDB name"
+},
+"0x10044880": {
+"class": null,
+"method": "GetRuntimeClass_variant8",
+"why": "tree manifest"
+},
+"0x10044950": {
+"class": "CMoElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10044970": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100472e0": {
+"class": null,
+"method": "vf018",
+"why": "tree manifest"
+},
+"0x10047550": {
+"class": null,
+"method": "GetRuntimeClass_variant9",
+"why": "IDB name"
+},
+"0x10047560": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10047570": {
+"class": null,
+"method": "GetRuntimeClass_variant10",
+"why": "IDB name"
+},
+"0x10047580": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10047ce0": {
+"class": "CMoGeneratorClone",
+"method": "FixupClonedPointers",
+"why": "IDB name"
+},
+"0x10047fc0": {
+"class": "CMoResource",
+"method": "CMoCamera_SetLinkedObject",
+"why": "tree manifest"
+},
+"0x10047fd0": {
+"class": null,
+"method": "vf005",
+"why": "tree manifest"
+},
+"0x10047fe0": {
+"class": "CMoGeneratorClone_VT_1032B114",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052bf0": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10052c00": {
+"class": "CMoVuLineProgElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052c50": {
+"class": "CMoD3aLightmapElem",
+"method": "set_field_194",
+"why": "tree manifest"
+},
+"0x10052c60": {
+"class": "CMoD3aLightmapElem",
+"method": "get_field_194",
+"why": "tree manifest"
+},
+"0x10052c70": {
+"class": "CMoD3aLightmapElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052cb0": {
+"class": "CMoD3aElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052d60": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10052d70": {
+"class": "CMoDist",
+"method": "set_field_194",
+"why": "tree manifest"
+},
+"0x10052d80": {
+"class": "CMoDist",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052dd0": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10052de0": {
+"class": "CMoVuDist",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10052df0": {
+"class": "CMoVuDist",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052e40": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10052e50": {
+"class": "CMoDistMorphElem",
+"method": "set_field_1C0",
+"why": "tree manifest"
+},
+"0x10052e60": {
+"class": "CMoDistMorphElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052f40": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10052f50": {
+"class": "CMoDistModelElem",
+"method": "set_field_194",
+"why": "tree manifest"
+},
+"0x10052f60": {
+"class": "CMoDistModelElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10052ff0": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10053000": {
+"class": "CMoDistRingElem",
+"method": "set_field_1B6",
+"why": "tree manifest"
+},
+"0x10053010": {
+"class": "CMoDistRingElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10053050": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10053060": {
+"class": "CMoLfdElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10053130": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10053140": {
+"class": "CMoDisintegrateProgElem",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10053150": {
+"class": "CMoDisintegrateProgElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100531a0": {
+"class": "CMoNullProgElem",
+"method": "SetField138",
+"why": "tree manifest"
+},
+"0x100531b0": {
+"class": "CMoNullProgElem",
+"method": "Destructor",
+"why": "tree manifest"
+},
+"0x10053350": {
+"class": "CMoTask_VT_1032B654",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100536c0": {
+"class": "CMoGeneratorClone",
+"method": "CreateInstance",
+"why": "IDB name"
+},
+"0x10053840": {
+"class": "CMoGeneratorClone_VT_1032B69C",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10053e00": {
+"class": "CMoGeneratorClone",
+"method": "InitDefaultParams",
+"why": "IDB name"
+},
+"0x100542e0": {
+"class": null,
+"method": "CMoGeneratorClone_GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10054450": {
+"class": "CMoAttachments_VT_1032B140",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10054460": {
+"class": "CMoTask_VT_1032B654",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10054470": {
+"class": "CMoTask_VT_1032B654",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10054480": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10054490": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x100548a0": {
+"class": null,
+"method": "GetRuntimeClass_variant11",
+"why": "IDB name"
+},
+"0x100548b0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10055290": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100552c0": {
+"class": "CMoOT",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10055550": {
+"class": null,
+"method": "GetRuntimeClass_variant5",
+"why": "IDB name"
+},
+"0x10055560": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "tree manifest"
+},
+"0x10055a50": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10056250": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "IDB name"
+},
+"0x10056260": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10056290": {
+"class": null,
+"method": "GetRuntimeClass_variant2",
+"why": "IDB name"
+},
+"0x100562a0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100562b0": {
+"class": "CMoSphRes",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x100562c0": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x100562d0": {
+"class": null,
+"method": "GetRuntimeClass_variant12",
+"why": "IDB name"
+},
+"0x100562e0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10056360": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10056370": {
+"class": "CMoPointLightProgElem",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10056930": {
+"class": null,
+"method": "GetRuntimeClass_variant6",
+"why": "IDB name"
+},
+"0x10056940": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10056950": {
+"class": null,
+"method": "GetRuntimeClass_variant7",
+"why": "IDB name"
+},
+"0x10056960": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10056970": {
+"class": null,
+"method": "GetRuntimeClass_variant8",
+"why": "IDB name"
+},
+"0x10056980": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10056990": {
+"class": null,
+"method": "GetRuntimeClass_variant9",
+"why": "IDB name"
+},
+"0x100569a0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100569b0": {
+"class": null,
+"method": "GetRuntimeClass_variant10",
+"why": "IDB name"
+},
+"0x100569c0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10057080": {
+"class": null,
+"method": "GetRuntimeClass_variant11",
+"why": "IDB name"
+},
+"0x10057090": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10057250": {
+"class": "CMoSchedularTask",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10062f50": {
+"class": "CMoAttachments_VT_1032BCCC",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062f60": {
+"class": "CMoAttachments_VT_1032BAF0",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062f70": {
+"class": "CMoAttachments_VT_1032BBAC",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062f80": {
+"class": "CMoLockLookAtDriveTask",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10062f90": {
+"class": "CMoLockLookAtDriveTask",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10062fa0": {
+"class": "CMoAttachments_VT_1032BF0C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062fb0": {
+"class": "CMoAttachments_VT_1032BD14",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062fc0": {
+"class": "CMoAttachments_VT_1032BF54",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062fd0": {
+"class": "CMoAttachments_VT_1032BBF4",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10062fe0": {
+"class": "CMoActorColorDriveTask",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10062ff0": {
+"class": "CMoActorColorDriveTask",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10063000": {
+"class": "CMoAttachments_VT_1032BD5C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063010": {
+"class": "CMoAttachments_VT_1032BF9C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063020": {
+"class": "CMoAttachments_VT_1032BC68",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063030": {
+"class": "CMoAttachments_VT_1032BDA4",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063040": {
+"class": "CMoAttachments_VT_1032BFE4",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063070": {
+"class": "CMoAttachments_VT_1032BB38",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063080": {
+"class": "CMoAttachments_VT_1032BDEC",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063090": {
+"class": "CMoAttachments_VT_1032C02C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100630a0": {
+"class": "CMoPathDriveActorTask",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x100630b0": {
+"class": "CMoPathDriveActorTask",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x100630c0": {
+"class": "CMoAttachments_VT_1032BE34",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100630d0": {
+"class": "CMoAttachments_VT_1032BE7C",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100630e0": {
+"class": "CMoAttachments_VT_1032B940",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100630f0": {
+"class": "CMoLockColorDriveTask",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10063100": {
+"class": "CMoLockColorDriveTask",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10063110": {
+"class": "CMoAttachments_VT_1032BC84",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063120": {
+"class": "CMoAttachments_VT_1032BEC4",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10063130": {
+"class": "CMoTask_VT_1032B95C",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x10063140": {
+"class": "CMoTask_VT_1032B95C",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10063450": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10063480": {
+"class": "CMoSpline",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10063c50": {
+"class": "CMoResource_VT_1032C55C",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10064160": {
+"class": null,
+"method": "GetRuntimeClass_variant13",
+"why": "IDB name"
+},
+"0x10064170": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10064180": {
+"class": null,
+"method": "vf018",
+"why": "tree manifest"
+},
+"0x10069d60": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10069db0": {
+"class": "CMoDX",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1006b040": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1006b070": {
+"class": "CMoDxStatusMng",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1006b2b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1006c130": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1006c1c0": {
+"class": "CMoOcclusionMng",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x1006c220": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1006c280": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1006c9b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1006cc40": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x1006cc50": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf010",
+"why": "tree manifest"
+},
+"0x1006cc60": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf040",
+"why": "tree manifest"
+},
+"0x1006cc70": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf038",
+"why": "tree manifest"
+},
+"0x1006cc80": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf046",
+"why": "tree manifest"
+},
+"0x1006cc90": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf045",
+"why": "tree manifest"
+},
+"0x1006ccd0": {
+"class": null,
+"method": "CMoProcessor_GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x1006ce70": {
+"class": "CMoProcessor",
+"method": "InitRotationMatrices",
+"why": "IDB name"
+},
+"0x1006d380": {
+"class": null,
+"method": "vf007",
+"why": "tree manifest"
+},
+"0x1006d3b0": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x1006d4d0": {
+"class": null,
+"method": "vf014",
+"why": "tree manifest"
+},
+"0x1006d680": {
+"class": null,
+"method": "vf042",
+"why": "tree manifest"
+},
+"0x1006d6b0": {
+"class": null,
+"method": "vf043",
+"why": "tree manifest"
+},
+"0x1006d980": {
+"class": null,
+"method": "vf021",
+"why": "tree manifest"
+},
+"0x1006f5b0": {
+"class": null,
+"method": "vf014",
+"why": "tree manifest"
+},
+"0x1006fa30": {
+"class": null,
+"method": "vf021",
+"why": "tree manifest"
+},
+"0x10070020": {
+"class": "CMoProcessor_VT_1032C298",
+"method": "vf035",
+"why": "tree manifest"
+},
+"0x10070040": {
+"class": null,
+"method": "vf036",
+"why": "tree manifest"
+},
+"0x10070780": {
+"class": null,
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10070790": {
+"class": null,
+"method": "vf014",
+"why": "tree manifest"
+},
+"0x10070860": {
+"class": null,
+"method": "vf041",
+"why": "tree manifest"
+},
+"0x10070aa0": {
+"class": null,
+"method": "vf018",
+"why": "tree manifest"
+},
+"0x10070ab0": {
+"class": null,
+"method": "vf017",
+"why": "tree manifest"
+},
+"0x10070ac0": {
+"class": null,
+"method": "vf016",
+"why": "tree manifest"
+},
+"0x10070ad0": {
+"class": null,
+"method": "vf021",
+"why": "tree manifest"
+},
+"0x10070d80": {
+"class": null,
+"method": "vf032",
+"why": "tree manifest"
+},
+"0x10070e20": {
+"class": null,
+"method": "vf033",
+"why": "tree manifest"
+},
+"0x10070e40": {
+"class": "CMoProcessor_VT_1032C1C8",
+"method": "vf035",
+"why": "tree manifest"
+},
+"0x10070e60": {
+"class": null,
+"method": "vf036",
+"why": "tree manifest"
+},
+"0x10070f60": {
+"class": "CMoTask_VT_1032C490",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071980": {
+"class": null,
+"method": "GetSharedInstance",
+"why": "IDB name"
+},
+"0x100719c0": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x100719d0": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x100719e0": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x100719f0": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10071a00": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10071a10": {
+"class": null,
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10071a20": {
+"class": "CMoResource_VT_1032C778",
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10071a30": {
+"class": "CMoResource_VT_1032C778",
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10071a40": {
+"class": "CMoResource_VT_1032C8AC",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071a60": {
+"class": "CMoResource_VT_1032C880",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071a80": {
+"class": "CMoResource_VT_1032C854",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071aa0": {
+"class": "CMoResource_VT_1032C828",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071ac0": {
+"class": "CMoResource_VT_1032C7FC",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071ae0": {
+"class": "CMoResource_VT_1032C7D0",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071b00": {
+"class": "CMoResource_VT_1032C7A4",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071b50": {
+"class": "CMoResource_VT_1032C74C",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071b70": {
+"class": "CMoResource_VT_1032C720",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071b90": {
+"class": "CMoResource_VT_1032C6F4",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071bb0": {
+"class": "CMoResource_VT_1032C6C8",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071bd0": {
+"class": "CMoResource_VT_1032C69C",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071bf0": {
+"class": "CMoResource_VT_1032C670",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071c40": {
+"class": "CMoResource_VT_1032C5FC",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071c90": {
+"class": "CMoResource_VT_1032C588",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071d00": {
+"class": "CMoSphRes",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071d70": {
+"class": null,
+"method": "GetRuntimeClass_variant3",
+"why": "tree manifest"
+},
+"0x10071db0": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10071dc0": {
+"class": "CMoResource",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10071e30": {
+"class": "CMoCamera",
+"method": "GetLinkedObject",
+"why": "IDB name"
+},
+"0x10072a30": {
+"class": "CMoTask_VT_1032C908",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10072d00": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x10073730": {
+"class": "CMoResource_VT_1032C934",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100745d0": {
+"class": "CMoAttachments_VT_1032C4E8",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100745e0": {
+"class": "CMoResource_VT_1032C588",
+"method": "vf011",
+"why": "tree manifest"
+},
+"0x100745f0": {
+"class": "CMoResource_VT_1032C588",
+"method": "vf012",
+"why": "tree manifest"
+},
+"0x10074600": {
+"class": "CMoAttachments_VT_1032C628",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x10074610": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x10074620": {
+"class": "CMoResource_VT_1032C588",
+"method": "vf009",
+"why": "tree manifest"
+},
+"0x10074730": {
+"class": null,
+"method": "GetRuntimeClass_variant12",
+"why": "tree manifest"
+},
+"0x10074770": {
+"class": "CMoTask",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10074b50": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100755a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10081710": {
+"class": null,
+"method": "GetRuntimeClass_variant13",
+"why": "IDB name"
+},
+"0x10081730": {
+"class": null,
+"method": "GetRuntimeClass_variant14",
+"why": "IDB name"
+},
+"0x10081750": {
+"class": null,
+"method": "GetRuntimeClass_variant15",
+"why": "IDB name"
+},
+"0x100817f0": {
+"class": null,
+"method": "SetRenderState",
+"why": "IDB name"
+},
+"0x10082070": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_GetMoveSpeed",
+"why": "tree manifest"
+},
+"0x10082080": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_SetMoveSpeed",
+"why": "tree manifest"
+},
+"0x10082090": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_GetMoveSpeedBase",
+"why": "tree manifest"
+},
+"0x100820a0": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_SetMoveSpeedBase",
+"why": "tree manifest"
+},
+"0x100820c0": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_SetWalkSpeed",
+"why": "tree manifest"
+},
+"0x100820d0": {
+"class": null,
+"method": "CXiSkeletonActor_GetEquip",
+"why": "tree manifest"
+},
+"0x10082f20": {
+"class": "CXiSkeletonActor",
+"method": "GetEnglishName",
+"why": "IDB name"
+},
+"0x100832d0": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_AddRef",
+"why": "tree manifest"
+},
+"0x100832e0": {
+"class": "CXiSkeletonActor",
+"method": "SubRef",
+"why": "IDB name"
+},
+"0x10083390": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_AddSchRef",
+"why": "tree manifest"
+},
+"0x100833a0": {
+"class": "CXiActor",
+"method": "CXiSkeletonActor_SubSchRef",
+"why": "tree manifest"
+},
+"0x10084e50": {
+"class": null,
+"method": "GetRuntimeClass_variant16",
+"why": "IDB name"
+},
+"0x100a27f0": {
+"class": "CMoTask_VT_1032D6D4",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100a4740": {
+"class": "CXiSkeletonActor",
+"method": "GetPos",
+"why": "tree manifest"
+},
+"0x100a4750": {
+"class": "CXiSkeletonActor",
+"method": "GetDir",
+"why": "tree manifest"
+},
+"0x100a4760": {
+"class": "CXiSkeletonActor",
+"method": "IsMotionLock",
+"why": "tree manifest"
+},
+"0x100a4770": {
+"class": "CXiSkeletonActor",
+"method": "IsMotionLock_Set",
+"why": "tree manifest"
+},
+"0x100a4790": {
+"class": "CXiSkeletonActor",
+"method": "EnableFlag8AC",
+"why": "tree manifest"
+},
+"0x100a47a0": {
+"class": "CXiSkeletonActor",
+"method": "DisableFlag8AC",
+"why": "tree manifest"
+},
+"0x100a47b0": {
+"class": "CXiSkeletonActor",
+"method": "IsFlag8ACSet",
+"why": "IDB name"
+},
+"0x100a47c0": {
+"class": "CXiSkeletonActor",
+"method": "GetField79C",
+"why": "tree manifest"
+},
+"0x100a47d0": {
+"class": "CXiSkeletonActor",
+"method": "SetField79C",
+"why": "tree manifest"
+},
+"0x100a47e0": {
+"class": "CXiSkeletonActor",
+"method": "IsReadComplete",
+"why": "tree manifest"
+},
+"0x100a47f0": {
+"class": "CXiSkeletonActor",
+"method": "vf256",
+"why": "tree manifest"
+},
+"0x100a4800": {
+"class": "CXiSkeletonActor",
+"method": "SetField670",
+"why": "IDB name"
+},
+"0x100a4810": {
+"class": "CXiSkeletonActor",
+"method": "GetField670",
+"why": "IDB name"
+},
+"0x100a4820": {
+"class": null,
+"method": "vf257",
+"why": "tree manifest"
+},
+"0x100a4830": {
+"class": "CXiSkeletonActor",
+"method": "SetColor",
+"why": "tree manifest"
+},
+"0x100a4840": {
+"class": "CXiSkeletonActor",
+"method": "GetColor",
+"why": "tree manifest"
+},
+"0x100a4850": {
+"class": "CXiSkeletonActor",
+"method": "vf017",
+"why": "tree manifest"
+},
+"0x100a4860": {
+"class": "CXiSkeletonActor",
+"method": "SetMultiTexAlpha",
+"why": "tree manifest"
+},
+"0x100a4870": {
+"class": "CXiSkeletonActor",
+"method": "GetMultiTexAlpha",
+"why": "tree manifest"
+},
+"0x100a4880": {
+"class": "CXiSkeletonActor",
+"method": "SetSahdowAlpha",
+"why": "tree manifest"
+},
+"0x100a4890": {
+"class": "CXiSkeletonActor",
+"method": "GetShadowAlpha",
+"why": "tree manifest"
+},
+"0x100a48a0": {
+"class": "CXiSkeletonActor",
+"method": "EnableEffect",
+"why": "tree manifest"
+},
+"0x100a48c0": {
+"class": "CXiSkeletonActor",
+"method": "DisableEffect",
+"why": "tree manifest"
+},
+"0x100a48e0": {
+"class": "CXiSkeletonActor",
+"method": "DisableEffectAll",
+"why": "tree manifest"
+},
+"0x100a48f0": {
+"class": "CXiSkeletonActor",
+"method": "SetUVOffset",
+"why": "tree manifest"
+},
+"0x100a4910": {
+"class": "CXiSkeletonActor",
+"method": "SetDistAmount",
+"why": "tree manifest"
+},
+"0x100a4920": {
+"class": "CXiSkeletonActor",
+"method": "SetEmapColor",
+"why": "tree manifest"
+},
+"0x100a4930": {
+"class": "CXiSkeletonActor",
+"method": "SetEmapTexture",
+"why": "tree manifest"
+},
+"0x100a4940": {
+"class": "CXiSkeletonActor",
+"method": "SetSeparateValue",
+"why": "tree manifest"
+},
+"0x100a4950": {
+"class": "CXiSkeletonActor",
+"method": "SetEmapAlphaMode",
+"why": "tree manifest"
+},
+"0x100a4960": {
+"class": "CXiSkeletonActor",
+"method": "GetEmapAlphaMode",
+"why": "tree manifest"
+},
+"0x100a4970": {
+"class": "CXiSkeletonActor",
+"method": "vf258",
+"why": "tree manifest"
+},
+"0x100a4980": {
+"class": "CXiSkeletonActor",
+"method": "get_field_74C",
+"why": "tree manifest"
+},
+"0x100a4990": {
+"class": "CXiSkeletonActor",
+"method": "set_field_73C",
+"why": "tree manifest"
+},
+"0x100a49a0": {
+"class": "CXiSkeletonActor",
+"method": "get_field_73C",
+"why": "tree manifest"
+},
+"0x100a49b0": {
+"class": "CXiSkeletonActor",
+"method": "set_field_740",
+"why": "tree manifest"
+},
+"0x100a49c0": {
+"class": "CXiSkeletonActor",
+"method": "get_field_740",
+"why": "tree manifest"
+},
+"0x100a49d0": {
+"class": "CXiSkeletonActor",
+"method": "IsEnvmap",
+"why": "tree manifest"
+},
+"0x100a49e0": {
+"class": "CXiSkeletonActor",
+"method": "IsDistortion",
+"why": "tree manifest"
+},
+"0x100a49f0": {
+"class": "CXiSkeletonActor",
+"method": "IsMasking",
+"why": "tree manifest"
+},
+"0x100a4a00": {
+"class": "CXiSkeletonActor",
+"method": "vf030",
+"why": "tree manifest"
+},
+"0x100a4a10": {
+"class": "CXiSkeletonActor",
+"method": "IsDirectionLock",
+"why": "tree manifest"
+},
+"0x100a4a20": {
+"class": "CXiSkeletonActor",
+"method": "IsConstrain",
+"why": "IDB name"
+},
+"0x100a4a30": {
+"class": "CXiSkeletonActor",
+"method": "IsConstrain_Set",
+"why": "tree manifest"
+},
+"0x100a4a50": {
+"class": "CXiSkeletonActor",
+"method": "IsConstrain2",
+"why": "IDB name"
+},
+"0x100a4a60": {
+"class": "CXiSkeletonActor",
+"method": "IsConstrain2_Get",
+"why": "tree manifest"
+},
+"0x100a4a70": {
+"class": "CXiSkeletonActor",
+"method": "IsConstrain2_Set",
+"why": "tree manifest"
+},
+"0x100a4a90": {
+"class": "CXiSkeletonActor",
+"method": "vf041",
+"why": "tree manifest"
+},
+"0x100a4aa0": {
+"class": "CXiSkeletonActor",
+"method": "vf042",
+"why": "tree manifest"
+},
+"0x100a4ab0": {
+"class": "CXiSkeletonActor",
+"method": "vf043",
+"why": "tree manifest"
+},
+"0x100a4ac0": {
+"class": "CXiSkeletonActor",
+"method": "vf044",
+"why": "tree manifest"
+},
+"0x100a4ad0": {
+"class": "CXiSkeletonActor",
+"method": "vf045",
+"why": "tree manifest"
+},
+"0x100a4ae0": {
+"class": "CXiSkeletonActor",
+"method": "vf046",
+"why": "tree manifest"
+},
+"0x100a4af0": {
+"class": "CXiSkeletonActor",
+"method": "vf047",
+"why": "tree manifest"
+},
+"0x100a4b00": {
+"class": "CXiSkeletonActor",
+"method": "ActivateFlag9F8",
+"why": "tree manifest"
+},
+"0x100a4b10": {
+"class": "CXiSkeletonActor",
+"method": "ActivateFlagA04",
+"why": "tree manifest"
+},
+"0x100a4b20": {
+"class": "CXiSkeletonActor",
+"method": "vf050",
+"why": "tree manifest"
+},
+"0x100a4b30": {
+"class": "CXiSkeletonActor",
+"method": "vf099",
+"why": "tree manifest"
+},
+"0x100a4b40": {
+"class": "CXiSkeletonActor",
+"method": "vf100",
+"why": "tree manifest"
+},
+"0x100a8e10": {
+"class": null,
+"method": "GetRuntimeClass_variant17",
+"why": "IDB name"
+},
+"0x100a9db0": {
+"class": "CMoTask_VT_1032E808",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100ab060": {
+"class": "CMoAttachments_VT_1032E7EC",
+"method": "vf001",
+"why": "tree manifest"
+},
+"0x100ab070": {
+"class": null,
+"method": "GetRuntimeClass_variant0",
+"why": "IDB name"
+},
+"0x100c5190": {
+"class": null,
+"method": "GetRuntimeClass_variant1",
+"why": "tree manifest"
+},
+"0x100c51a0": {
+"class": null,
+"method": "GetRuntimeClass_variant18",
+"why": "IDB name"
+},
+"0x100c51b0": {
+"class": null,
+"method": "GetRuntimeClass",
+"why": "tree manifest"
+},
+"0x100c56e0": {
+"class": "CXiSkeletonActor",
+"method": "Constructor_3Arg",
+"why": "IDB name"
+},
+"0x100c5880": {
+"class": "CXiSkeletonActor",
+"method": "Constructor_4Arg",
+"why": "IDB name"
+},
+"0x100c59b0": {
+"class": "CXiSkeletonActor",
+"method": "Constructor_Factory",
+"why": "IDB name"
+},
+"0x100cbd60": {
+"class": "CXiSkeletonActor",
+"method": "RunStaggeredUpdates",
+"why": "IDB name"
+},
+"0x100cbde0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x100cd490": {
+"class": "CXiSkeletonActor",
+"method": "SetMotion",
+"why": "IDB name"
+},
+"0x100ce9b0": {
+"class": "CXiSkeletonActor",
+"method": "ActorFindResource",
+"why": "IDB name"
+},
+"0x100ceb00": {
+"class": "CXiSkeletonActor",
+"method": "ActorFindResourceNth",
+"why": "IDB name"
+},
+"0x100cec90": {
+"class": "CXiSkeletonActor",
+"method": "ActorGetResourceCount",
+"why": "IDB name"
+},
+"0x100cedf0": {
+"class": null,
+"method": "ReplaceAttack",
+"why": "tree manifest"
+},
+"0x100cee00": {
+"class": "CXiSkeletonActor",
+"method": "SetAttack",
+"why": "IDB name"
+},
+"0x100cee40": {
+"class": "CXiSkeletonActor",
+"method": "SetAction",
+"why": "IDB name"
+},
+"0x100cf030": {
+"class": "CXiSkeletonActor",
+"method": "SetAttack_SchStatus",
+"why": "IDB name"
+},
+"0x100cf200": {
+"class": "CXiSkeletonActor",
+"method": "vf172",
+"why": "tree manifest"
+},
+"0x100cf210": {
+"class": "CXiSkeletonActor",
+"method": "SetModel",
+"why": "IDB name"
+},
+"0x100d04b0": {
+"class": "CXiSkeletonActor",
+"method": "GetField878Ptr_Candidate",
+"why": "tree manifest"
+},
+"0x100d04c0": {
+"class": "CXiSkeletonActor",
+"method": "GetNamePos",
+"why": "IDB name"
+},
+"0x100d0510": {
+"class": "CXiSkeletonActor",
+"method": "OnDrawName",
+"why": "IDB name"
+},
+"0x100d06f0": {
+"class": "CXiSkeletonActor",
+"method": "GetArrowPos",
+"why": "IDB name"
+},
+"0x100d0740": {
+"class": null,
+"method": "ProjectToScreen",
+"why": "IDB name"
+},
+"0x100d12d0": {
+"class": "CXiSkeletonActor",
+"method": "IsReadCompleteBody",
+"why": "IDB name"
+},
+"0x100d2f40": {
+"class": null,
+"method": "OnSkeletonLoaded",
+"why": "IDB name"
+},
+"0x100d4330": {
+"class": "CXiSkeletonActor",
+"method": "LoadSkeletonResource",
+"why": "IDB name"
+},
+"0x100d4560": {
+"class": "CXiSkeletonActor",
+"method": "GetElem",
+"why": "IDB name"
+},
+"0x100d4800": {
+"class": "CXiSkeletonActor",
+"method": "GetElemLocal",
+"why": "IDB name"
+},
+"0x100d49b0": {
+"class": "CXiSkeletonActor",
+"method": "GetEidMatrix",
+"why": "IDB name"
+},
+"0x100d5460": {
+"class": "CXiSkeletonActor",
+"method": "IsDirectionLock_Set",
+"why": "IDB name"
+},
+"0x100d6f90": {
+"class": null,
+"method": "vf033",
+"why": "tree manifest"
+},
+"0x100d6fa0": {
+"class": null,
+"method": "vf034",
+"why": "tree manifest"
+},
+"0x100d6fb0": {
+"class": null,
+"method": "vf035",
+"why": "tree manifest"
+},
+"0x100d6fc0": {
+"class": null,
+"method": "vf036",
+"why": "tree manifest"
+},
+"0x100d6fd0": {
+"class": null,
+"method": "vf037",
+"why": "tree manifest"
+},
+"0x100d7000": {
+"class": "CXiSkeletonActorRes",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x100d7020": {
+"class": "CXiSkeletonActorRes",
+"method": "Constructor",
+"why": "IDB name"
+},
+"0x100d7050": {
+"class": "CXiSkeletonActorRes",
+"method": "Destructor",
+"why": "IDB name"
+},
+"0x100d7090": {
+"class": "CXiSkeletonActorRes",
+"method": "CXiSkeletonActorRes_GetLinkedActor",
+"why": "tree manifest"
+},
+"0x100d70a0": {
+"class": "CXiSkeletonActorRes",
+"method": "ProcessLoadState",
+"why": "IDB name"
+},
+"0x100d7140": {
+"class": null,
+"method": "GetRuntimeClass_variant2",
+"why": "IDB name"
+},
+"0x1011aac0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011bae0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011bbd0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011bdc0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011c080": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011c1f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011c720": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011e800": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011ede0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011ef60": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1011f300": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10120590": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101207b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10124440": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10124700": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10124eb0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101252f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101604b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10160650": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101620b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101630e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10163400": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1016ddf0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10174b10": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10174ec0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10176ea0": {
+"class": "CMoResource_VT_10336698",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10176f80": {
+"class": "CMoResource_VT_103366C4",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10177000": {
+"class": "CMoResource_VT_103366F0",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x10177240": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101773b0": {
+"class": null,
+"method": "GetRuntimeClass_variant19",
+"why": "IDB name"
+},
+"0x10177400": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10177420": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101779c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10177b40": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10177c50": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10177cd0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10178070": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101781d0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10178b00": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101791f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101792a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1017ade0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10182700": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10182f10": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101844c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10184fe0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10188e00": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10188fa0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x101893d0": {
+"class": "CMoResource_VT_103367E8",
+"method": "ScalarDeletingDtor",
+"why": "tree manifest"
+},
+"0x101893f0": {
+"class": null,
+"method": "vf008",
+"why": "tree manifest"
+},
+"0x101c8da0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1021d4c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1021e060": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102394a0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1024f900": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102504d0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10251a80": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10253f60": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1025d750": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1025d760": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1025d7b0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102816e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10281830": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102819d0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10281d60": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282010": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282030": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102820e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282190": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282350": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102823f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282470": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102824c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282640": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102826c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102827d0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282910": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282b90": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282cb0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282dc0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282ed0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10282ff0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10283110": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10283220": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10283a10": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10283f70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10283fc0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10284410": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10284a80": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10284b20": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10284ef0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1028aa70": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x1028f8c0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10297cc0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x10297ec0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102981e0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102a21f0": {
+"class": null,
+"method": null,
+"why": null
+},
+"0x102a2530": {
+"class": null,
+"method": null,
+"why": null
+}
+}

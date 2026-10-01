@@ -1,0 +1,11 @@
+# game binaries never enter this repo (Square Enix code); point FFXI_DLL at your local copy
+*.dll
+*.exe
+*.i64
+*.idb
+*.lib
+*.o
+# pipeline scratch
+runs/
+tree/build/
+__pycache__/

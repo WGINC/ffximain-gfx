@@ -1,0 +1,402 @@
+[
+{
+"fn": "0x10052E40",
+"file": "gfx_free_005.cpp",
+"kind": "lit",
+"from": "6",
+"to": "7",
+"verdict": "FAIL",
+"returns": 100,
+"why": "EAX 0x00000000 vs 0x00000001"
+},
+{
+"fn": "0x10063020",
+"file": "CMoAttachments_VT_1032BC68.cpp",
+"kind": "lit",
+"from": "13",
+"to": "14",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #1 differs: original 0x10061010(ecx=0x30000F1C, 0x0000003A) / reconstruction 0x10061010(ecx=0x30000F18, 0x0000003A)"
+},
+{
+"fn": "0x100552C0",
+"file": "CMoOT.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x1002C8B0(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x10041FE0",
+"file": "CMoElem_VT_1032ADE8.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x10009E00",
+"file": "CDx.cpp",
+"kind": "lit",
+"from": "152",
+"to": "153",
+"verdict": "FAIL",
+"returns": 100,
+"why": "EAX 0x300013C0 vs 0x300013C1"
+},
+{
+"fn": "0x10063070",
+"file": "CMoAttachments_VT_1032BB38.cpp",
+"kind": "lit",
+"from": "13",
+"to": "14",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #1 differs: original 0x100608B0(ecx=0x30000F1C, 0x0000003A) / reconstruction 0x100608B0(ecx=0x30000F18, 0x0000003A)"
+},
+{
+"fn": "0x10071BF0",
+"file": "CMoResource_VT_1032C670.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x1028F8C0",
+"file": "gfx_free_028.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 19,
+"why": "stubbed call #6 differs: original 0x10282030(ecx=0x00000000, 0x5717C000, 0x00000001) / reconstruction 0x10282030(ecx=0x00000000, 0x5717C000,"
+},
+{
+"fn": "0x100231C0",
+"file": "CYyModelDt.cpp",
+"kind": "lit",
+"from": "15",
+"to": "16",
+"verdict": "FAIL",
+"returns": 36,
+"why": "memory differs at 1 byte(s), first 0x10456E40: original unchanged / reconstruction 16"
+},
+{
+"fn": "0x1011BBD0",
+"file": "gfx_free_011.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "memory differs at 6 byte(s), first 0x30000F54: original 98 / reconstruction 199"
+},
+{
+"fn": "0x100D7000",
+"file": "CXiSkeletonActorRes.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x100186C0",
+"file": "gfx_free_001.cpp",
+"kind": "lit",
+"from": "73",
+"to": "74",
+"verdict": "FAIL",
+"returns": 80,
+"why": "memory differs at 4 byte(s), first 0x30001078: original unchanged / reconstruction 0"
+},
+{
+"fn": "0x10184FE0",
+"file": "gfx_free_018.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "PASS",
+"returns": 54,
+"why": ""
+},
+{
+"fn": "0x10297CC0",
+"file": "gfx_free_029.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #1 differs: original 0x10282470(ecx=0x00000000, 0x00000000) / reconstruction 0x10282470(ecx=0x00000000, 0x00000001)"
+},
+{
+"fn": "0x1000C6E0",
+"file": "CDx.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "PASS",
+"returns": 74,
+"why": ""
+},
+{
+"fn": "0x1006B2B0",
+"file": "gfx_free_006.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 6,
+"why": "memory differs at 1 byte(s), first 0x1047BFF8: original unchanged / reconstruction 1"
+},
+{
+"fn": "0x1000CD00",
+"file": "CDx.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #6 differs: original 0x10009E20(ecx=0x30000F50, 0x00000000, 0x00000000, 0x00000000) / reconstruction 0x10009E20(ecx=0x30000F50,"
+},
+{
+"fn": "0x100031F0",
+"file": "gfx_free_000.cpp",
+"kind": "lit",
+"from": "4",
+"to": "5",
+"verdict": "PASS",
+"returns": 27,
+"why": ""
+},
+{
+"fn": "0x1011BAE0",
+"file": "gfx_free_011.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "PASS",
+"returns": 56,
+"why": ""
+},
+{
+"fn": "0x10071B50",
+"file": "CMoResource_VT_1032C74C.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x10063480",
+"file": "CMoSpline.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x1002C8B0(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x100630C0",
+"file": "CMoAttachments_VT_1032BE34.cpp",
+"kind": "lit",
+"from": "13",
+"to": "14",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #1 differs: original 0x10061B80(ecx=0x30000F1C, 0x0000003A) / reconstruction 0x10061B80(ecx=0x30000F18, 0x0000003A)"
+},
+{
+"fn": "0x100A27F0",
+"file": "CMoTask_VT_1032D6D4.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x10008F90",
+"file": "CDx.cpp",
+"kind": "lit",
+"from": "1124073472",
+"to": "1124073473",
+"verdict": "FAIL",
+"returns": 100,
+"why": "memory differs at 1 byte(s), first 0x300010C8: original 0 / reconstruction 1"
+},
+{
+"fn": "0x10176F80",
+"file": "CMoResource_VT_103366C4.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x100A4A30",
+"file": "CXiSkeletonActor.cpp",
+"kind": "lit",
+"from": "2108",
+"to": "2109",
+"verdict": "FAIL",
+"returns": 100,
+"why": "memory differs at 2 byte(s), first 0x3000178C: original 0 / reconstruction unchanged"
+},
+{
+"fn": "0x100A4790",
+"file": "CXiSkeletonActor.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 100,
+"why": "memory differs at 1 byte(s), first 0x300017FC: original 69 / reconstruction 70"
+},
+{
+"fn": "0x100033C0",
+"file": "gfx_free_000.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 74,
+"why": "stubbed call #2 differs: original 0x10003460(ecx=0x30001390, 0x00000000, 0x00000000, 0x06000000) / reconstruction no call"
+},
+{
+"fn": "0x10026AD0",
+"file": "CXiMovie.cpp",
+"kind": "enum",
+"from": "D3DTEXF_LINEAR",
+"to": "D3DTEXF_POINT",
+"verdict": "FAIL",
+"returns": 77,
+"why": "stubbed call #3 differs: original 0xC000033F(ecx=0x6E080300, 0x00000000, 0x00000010, 0x00000002) / reconstruction 0xC000033F(ecx=0x6E080300,"
+},
+{
+"fn": "0x102819D0",
+"file": "gfx_free_028.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 23,
+"why": "stubbed call #1 differs: original 0xC0000342(ecx=0x6E080300, 0x00000001, 0x5717C000) / reconstruction 0xC0000342(ecx=0x6E080300, 0x0000009F,"
+},
+{
+"fn": "0x100262C0",
+"file": "gfx_free_002.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "PASS",
+"returns": 100,
+"why": ""
+},
+{
+"fn": "0x100278E0",
+"file": "gfx_free_002.cpp",
+"kind": "lit",
+"from": "1",
+"to": "2",
+"verdict": "FAIL",
+"returns": 36,
+"why": "memory differs at 8 byte(s), first 0x30000F54: original 27 / reconstruction unchanged"
+},
+{
+"fn": "0x10071A20",
+"file": "CMoResource_VT_1032C778.cpp",
+"kind": "lit",
+"from": "5",
+"to": "6",
+"verdict": "FAIL",
+"returns": 100,
+"why": "memory differs at 4 byte(s), first 0x30000F94: original 164 / reconstruction 168"
+},
+{
+"fn": "0x100CBDE0",
+"file": "gfx_free_00C.cpp",
+"kind": "lit",
+"from": "2552",
+"to": "2553",
+"verdict": "PASS",
+"returns": 3,
+"why": ""
+},
+{
+"fn": "0x1002F1A0",
+"file": "gfx_free_002.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "EAX 0x00000000 vs 0x00000001"
+},
+{
+"fn": "0x10124EB0",
+"file": "gfx_free_012.cpp",
+"kind": "lit",
+"from": "76",
+"to": "77",
+"verdict": "FAIL",
+"returns": 82,
+"why": "memory differs at 2 byte(s), first 0x103719F8: original 48 / reconstruction 0"
+},
+{
+"fn": "0x1006CC60",
+"file": "CMoProcessor_VT_1032C1C8.cpp",
+"kind": "lit",
+"from": "164",
+"to": "165",
+"verdict": "FAIL",
+"returns": 100,
+"why": "ended differently: original return  / reconstruction fault access 0xC0100708 size 1 type 21"
+},
+{
+"fn": "0x100D4330",
+"file": "CXiSkeletonActor.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 75,
+"why": "stubbed call #2 differs: original 0x10028FD0(ecx=0x00000000, 0x00000048, 0x00000004) / reconstruction 0x100D2F60(ecx=0x30000F50, 0x30926744)"
+},
+{
+"fn": "0x10053010",
+"file": "CMoDistRingElem.cpp",
+"kind": "lit",
+"from": "0",
+"to": "1",
+"verdict": "FAIL",
+"returns": 100,
+"why": "stubbed call #2 differs: original no call / reconstruction 0x10028710(ecx=0x00000000, 0x30000F50)"
+},
+{
+"fn": "0x100755A0",
+"file": "gfx_free_007.cpp",
+"kind": "lit",
+"from": "8",
+"to": "9",
+"verdict": "PASS",
+"returns": 3,
+"why": ""
+}
+]

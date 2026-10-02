@@ -270,6 +270,53 @@ def inplace_buffers(body):
         body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % re.escape(g), r'\1&%s\2' % g, body)
     return body
 
+def c_signed(t):
+    """the signedness C++ gives an operand of IDA type t (as xi_hexrays.hpp declares it); None if unclear"""
+    t = re.sub(r'^(const |volatile )+', '', t.strip())
+    if '*' in t or '[' in t: return False                                # a pointer compares unsigned
+    if re.match(r'(unsigned\b|_BYTE\b|_WORD\b|_DWORD\b|_QWORD\b|bool\b|BYTE\b|WORD\b|DWORD\b|UINT\b|ULONG\b|size_t\b)', t): return False
+    if re.match(r'(signed |__int8\b|__int16\b|__int32\b|__int64\b|int\b|char\b|short\b|long\b|_BYTE_S\b|INT\b|LONG\b|HRESULT\b)', t): return True
+    return None
+
+CMP_LEFT = ('( ', '(', '!', ', ', '&& ', '|| ', '; ', '? ', ': ', '= ', 'return ')
+CMP_RIGHT = (' )', ')', ';', ',', ' &&', ' ||', ' ?', ' :')
+
+def ctree_signs(rec, body):
+    """Each comparison as signed or unsigned as Hex-Rays read it from the jump (`jl` vs `jb`): the export's
+    rec['cmps'] = [[ea, [op, signed], left, right, size, left type, right type]] (ida/ffxi_ida_fix.py). Where
+    the operand types would give C++ the other signedness, both operands are cast to the comparison's own
+    width and sign. A comparison whose text is not found once and unambiguously is left as it is."""
+    todo = {}; both = {}
+    for ea, (op, sgn), l, r, size, lt, rt in rec.get('cmps') or ():
+        both.setdefault('%s %s %s' % (l, op, r), set()).add(sgn)
+    for ea, (op, sgn), l, r, size, lt, rt in rec.get('cmps') or ():
+        a, b = c_signed(lt), c_signed(rt)
+        if a is None or b is None or size not in (1, 2, 4, 8): continue
+        if size >= 4: wrong = (not (a and b)) if sgn else (a and b)     # C++: unsigned if either is unsigned
+        else: wrong = a != bool(sgn) or b != bool(sgn)                # promoted to int: the operands' own sign
+        if not wrong: continue
+        k = '%s %s %s' % (l, op, r)
+        todo[k] = sgn if len(both[k]) == 1 else None                 # the same text read both ways: ambiguous
+        todo.setdefault(('size', k), size)
+    T = {(1, 1): '__int8', (2, 1): '__int16', (4, 1): 'int', (8, 1): '__int64',
+         (1, 0): 'unsigned __int8', (2, 0): 'unsigned __int16', (4, 0): 'unsigned int', (8, 0): 'unsigned __int64'}
+    n = 0
+    for k, sgn in todo.items():
+        if isinstance(k, tuple) or sgn is None: continue
+        hits = []
+        i = body.find(k)
+        while i >= 0:
+            pre, post = body[:i], body[i + len(k):]
+            if pre.endswith(CMP_LEFT) and post.startswith(CMP_RIGHT): hits.append(i)
+            i = body.find(k, i + 1)
+        if not hits: continue
+        e = next(x for x in rec['cmps'] if '%s %s %s' % (x[2], x[1][0], x[3]) == k)
+        t = T[(todo[('size', k)], sgn)]
+        new = '(%s)(%s) %s (%s)(%s)' % (t, e[2], e[1][0], t, e[3])
+        for i in reversed(hits): body = body[:i] + new + body[i + len(k):]; n += 1
+    ctree_signs.count = n
+    return body
+
 STDCALL_VMETHOD = re.compile(r'\(\*\(\((\w[\w\s\*]*?) \(__stdcall \*\*\)\(([^()]*)\)\)(\w+)->vftable \+ (\d+)\)\)\(')
 
 def vmethod_this(body):
@@ -279,14 +326,16 @@ def vmethod_this(body):
     return STDCALL_VMETHOD.sub(lambda m: '(*((%s (__thiscall **)(void *, %s))%s->vftable + %s))(%s, ' % (
         m.group(1), m.group(2), m.group(3), m.group(4), m.group(3)), body)
 
-def body_rules(ea, body):
-    # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean)
+def body_rules(ea, body, exact_signs=False):
+    # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean).
+    # exact_signs: the export carries each comparison's signedness (ctree_signs has applied it), so the
+    # pattern rule signed_dword_compares, which infers it from how Hex-Rays prints, is not used
     body = exact_fp_literals(ea, body)
     body = fpu_status_words(body)
     body = negate_if_negative(body)
     body = float_args_in_casts(body)
     body = deleting_dtor_this(body)
-    body = signed_dword_compares(body)
+    if not exact_signs: body = signed_dword_compares(body)
     body = vmethod_this(body)
     body = exact_frame(body)
     return inplace_buffers(body)
@@ -488,7 +537,7 @@ def translate(rec):
     sig_lines = [l for l in head.splitlines() if not l.startswith('//')]
     comments = [l for l in head.splitlines() if l.startswith('//')]
     sig = ' '.join(sig_lines).strip()
-    body = '{' + body
+    body = ctree_signs(rec, '{' + body)          # on Hex-Rays' own text, before any name is replaced
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
     for nm, o in rec.get('objs', {}).items():
@@ -540,7 +589,7 @@ def translate(rec):
     body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); params = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', params)
     ret = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', ret)
     body = re.sub(r'\bthis\b', 'self', body)
-    body = body_rules(ea, body)
+    body = body_rules(ea, body, 'cmps' in rec)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments

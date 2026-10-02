@@ -122,7 +122,7 @@ class GfxMachine(G.Machine):
         # (fuzzed data stays executable, as in diffemu_fixed: redirecting execution from Unicorn's
         #  fault hook proved non-deterministic between runs, 1 Oct 2026)
         self.rng = random.Random(0)
-        self.stub_n = {}; self.stub_ret = {}; self.src_log = None; self.import_n = {}
+        self.stub_n = {}; self.stub_ret = {}; self.src_log = None; self.import_n = {}; self.site_conflicts = {}
         if LIVE_CFG:
             for a, hx in LIVE_CFG['data_writes']:
                 u.mem_write(int(a, 16), bytes.fromhex(hx))
@@ -155,10 +155,14 @@ class GfxMachine(G.Machine):
         name = self.trap_names.get(addr, hex(addr))
         esp = uc.reg_read(UC_X86_REG_ESP)
         n = IMPORT_NARGS.get(name.split('!')[-1])
-        if n is None:                     # not in data/import_nargs.json: what the original's call site pushed
-            site = site_pops(self, struct.unpack('<I', uc.mem_read(esp, 4))[0])
-            if site: site = (site[2] if site[2] is not None else site[0],); self.import_n[name] = site[0]       # the reconstruction's site (not in the game) reuses it
-            n = site[0] if site else self.import_n.get(name, 4)
+        if n is None:                     # not in data/import_nargs.json (IDA's SDK prototypes): the call site's
+            site = site_pops(self, struct.unpack('<I', uc.mem_read(esp, 4))[0])     # definitive count, which is
+            if site: self.import_n[name] = site[2]          # the import's own, so the reconstruction's site reuses it
+            n = site[2] if site else self.import_n.get(name)
+            if n is None:                 # no definitive count anywhere: stop rather than read a guessed number
+                self.stop_reason = 'unresolved'
+                self.stop_detail = 'import %s: argument count unknown (not in import_nargs.json, call site not solved)' % name
+                uc.emu_stop(); return
         args = struct.unpack('<%dI' % n, uc.mem_read(esp + 4, 4 * n)) if n else ()
         fake = IMPORT_FAKES.get(name.split('!')[-1])
         if fake and len(args) == fake[0]:
@@ -511,44 +515,45 @@ _BLOCKS = []
 
 
 def site_pops(m, ret):
-    """argument dwords the callee of the call returning to `ret` pops, as the call site shows it:
-    0 when the caller cleans up (`add esp, N` follows), else the bytes pushed since the previous call
-    in straight-line code -- the count Hex-Rays gives an untyped indirect call -- and whether ECX carries
-    `this`. None if unknown."""
+    """What the callee of the call returning to `ret` pops, from definitive sources only:
+      data/sp_solved.json   solved from the caller's own stack balance (sp_solve.py, self-tested);
+      data/real_sp.json     measured by running real game code (real_sp.py, trusted calls only);
+      data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
+    Returns (stack dwords popped, ECX carries `this`, dwords to compare) or None when no source has the
+    call, or the sources disagree (recorded in m.site_conflicts). Nothing is guessed: a None stops the run
+    as unresolved (run_original), naming the call site."""
     from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
     if not _BLOCKS:
         ex = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
         _BLOCKS.extend(sorted((a, b, sorted(map(tuple, v))) for v in ex.values() for a, b in v))
+    if not _CALLSITES:
+        d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
+        _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
+        _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
+        _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
     hit = next((x for x in _BLOCKS if x[0] < ret <= x[1]), None)
     if hit is None: return None
-    if not _CALLSITES:
-        f = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'callsite_args.json')
-        _CALLSITES.update(json.load(open(f)) if os.path.exists(f) else {}); _CALLSITES.setdefault('', None)
-    code = []                             # the whole function in address order: saved registers are known from its entry
-    for a, b in hit[2]: code += list(_Cs(_A, _M).disasm(bytes(m.uc.mem_read(a, b - a)), a))
-    md = _Cs(_A, _M); n = 0; ecx = False; written = set()
-    for i in code:
-        dst = i.op_str.split(',')[0].strip()
-        if i.mnemonic == 'push' and dst in ('ebx', 'esi', 'edi', 'ebp') and dst not in written:
-            continue                      # the prologue saving a callee-saved register, not an argument
-        if i.mnemonic not in ('push', 'cmp', 'test') and dst in ('ebx', 'esi', 'edi', 'ebp', 'bx', 'si', 'di', 'bp', 'bl', 'bh'):
-            written.add({'bx': 'ebx', 'bl': 'ebx', 'bh': 'ebx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp'}.get(dst, dst))
-        if i.address + i.size == ret:
-            if i.mnemonic != 'call': return None
-            known = _CALLSITES.get('0x%08X' % i.address)
-            if known:                     # Hex-Rays' own call type (the IDA script's export): exact
-                return (0 if known['cc'] == 'cdecl' else known['args']), known['cc'] == 'thiscall', known['args']
-            # `this` in ECX: ECX was set since the previous call and is not the vtable the call goes through
-            this = ecx and 'ecx' not in i.op_str
-            nx = next(md.disasm(bytes(m.uc.mem_read(ret, 16)), ret), None)
-            if nx is not None and nx.mnemonic == 'add' and nx.op_str.startswith('esp,'): return 0, this, None
-            return n // 4, this, None
-        if i.mnemonic == 'push': n += 4
-        elif i.mnemonic == 'call' or i.mnemonic.startswith(('j', 'ret')) or 'esp' in i.op_str.split(',')[0] or i.mnemonic == 'pop': n = 0
-        if i.mnemonic == 'call' or i.mnemonic.startswith(('j', 'ret')): ecx = False
-        elif i.mnemonic == 'push' and i.op_str == 'ecx': ecx = False          # a temporary pushed as an argument
-        elif i.op_str.split(',')[0].strip() in ('ecx', 'cx', 'cl') and i.mnemonic not in ('cmp', 'test', 'push'): ecx = True
-    return None
+    call = None
+    for a, b in hit[2]:
+        for i in _Cs(_A, _M).disasm(bytes(m.uc.mem_read(a, b - a)), a):
+            if i.address + i.size == ret: call = i; break
+        if call: break
+    m.last_site = None
+    if call is None or call.mnemonic != 'call': return None
+    k = '0x%08X' % call.address; m.last_site = k
+    typed = _CALLSITES['typed'].get(k)
+    srcs = {}
+    if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
+    if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
+    if typed: srcs['typed'] = 0 if typed['cc'] == 'cdecl' else 4 * typed['args']
+    if len(set(srcs.values())) != 1:
+        if srcs: m.site_conflicts[k] = srcs
+        return None
+    pops = next(iter(srcs.values()))
+    if pops % 4: return None
+    this = bool(typed) and typed['cc'] == 'thiscall'       # unknown: ECX is not compared (no claim either way)
+    return pops // 4, this, (typed['args'] if typed else pops // 4)
 
 
 _CALLSITES = {}
@@ -684,7 +689,12 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
         site = None
         if fetch:
             ret = m.fault_ret; site = site_pops(m, ret) if ret and IMAGE_LO <= ret < IMAGE_HI else None
-            if site is None or site[0] >= 32: return r, patches
+            if site is None or site[0] >= 32 or site[2] >= 32:
+                if ret and IMAGE_LO <= ret < IMAGE_HI:    # a fuzzed method pointer, but what its callee pops is unknown
+                    k = getattr(m, 'last_site', None)
+                    r.status = 'unresolved'; r.detail = 'call %s: pop count unknown%s' % (
+                        k or 'returning to 0x%08X' % ret, (' (sources disagree: %s)' % m.site_conflicts[k]) if k in m.site_conflicts else '')
+                return r, patches
         elif bad >= 0x10000: return r, patches
         log = m.src_log = []              # the run again, logging executed instructions, dword loads, stack stores, stub returns
         def cd(uc, addr, size, _): log.append(('pc', addr))
@@ -710,22 +720,10 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
         if fetch:
             if src[0] != 'mem': return r, patches
             a = src[1]; patches.append((a, bytes(m.uc.mem_read(a, 4))))
-            # the pop count: the pushes since the previous call (site_pops), unless they also hold the
-            # next call's arguments: then the nearest count with which the original does not return into
-            # garbage (a fetch fault whose return address is not in the game's code)
-            k0 = site[0]; k = None
-            tag = (int(site[1]) << 5) | (((site[2] + 1) if site[2] is not None else 0) << 6)
-            if site[2] is not None:       # an exact count: no search
-                m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (k0 | tag))); continue
-            for kk in [x for x in [k0] + list(range(k0 - 1, -1, -1)) + [k0 + 1, k0 + 2] if x < 32]:
-                m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (kk | tag)))
-                m.fault_ret = None; r2 = run()
-                garbage = r2.status == 'fault' and _re.search(r'type 21$|execution of data', r2.detail or '') \
-                    and not (m.fault_ret and IMAGE_LO <= m.fault_ret < IMAGE_HI)
-                if not garbage: k = kk; break
-            k = k0 if k is None else k
-            if debug: print('repair: trap at 0x%X pops %d (site %d)' % (a, k, k0))
-            m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (k | tag))); continue
+            # the pop count and the arguments to compare: definitive (site_pops), never searched for
+            tag = (int(site[1]) << 5) | ((site[2] + 1) << 6)
+            if debug: print('repair: trap at 0x%X pops %d, compares %d' % (a, site[0], site[2]))
+            m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (site[0] | tag))); continue
         off = bad - src[2]                # the faulting offset from the pointer (unknown if adjusted on the way)
         size = ((off & ~0xFFF) + 0x1000) if 0 <= off < 0x10000 else 0x2000
         if top + size > G.SANDBOX + 0x700000 + REPAIR_SPAN: return r, patches
@@ -812,7 +810,7 @@ def run_case(m, case, trials, seed):
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
     fz = G.Fuzzer(m, seed)
-    statuses, first_fail, fails, com_calls, rounded = {}, None, 0, 0, 0
+    statuses, first_fail, fails, com_calls, rounded, unresolved = {}, None, 0, 0, 0, {}
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
     touched = [(int(g, 16), n) for g, n in case.get("fuzz_ranges", [])]
@@ -822,11 +820,14 @@ def run_case(m, case, trials, seed):
     for t in range(trials):
         this, args, trial_seed = setup_trial(m, case, fz)
         a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
-        if a.status in ('fault', 'limit'):
+        if a.status == 'unresolved': unresolved[a.detail] = unresolved.get(a.detail, 0) + 1
+        if a.status in ('fault', 'limit', 'unresolved'):
             b = None            # not compared (below): the reconstruction need not run
         else:
             m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit)
         restore_inputs(m, patches); demand_pages = len(m.demand); m.reset_demand()
+        if b is not None and b.status == 'unresolved':     # the reconstruction met a count no source gives:
+            unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared
         com_calls += sum(1 for c in a.calls if c[0] >= 0xC0000000)
         statuses[a.status.split(":")[0]] = statuses.get(a.status.split(":")[0], 0) + 1
         if ret == 'word' and b is not None:
@@ -838,7 +839,7 @@ def run_case(m, case, trials, seed):
             # type (C++ requires it). Equal once rounded to that type = equal to any caller that stores
             # the result; counted so the report can say how often only excess precision differed.
             b.st0 = a.st0; rounded += 1
-        if a.status in ('fault', 'limit'):
+        if a.status in ('fault', 'limit', 'unresolved'):
             why = None          # the original crashed or never finished: no defined behaviour to
                                 # compare against (the compiler may drop a dead load the original
                                 # faulted on, or order independent work differently before a crash).
@@ -852,10 +853,11 @@ def run_case(m, case, trials, seed):
     for a, b_ in saved: m.uc.mem_write(a, b_)
     m.ctx = m.uc.context_save()
     ok_runs = statuses.get("return", 0)
-    verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "INCONCLUSIVE")
+    verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
-            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded}
+            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
+            "unresolved": unresolved}
 
 def _x87_round(st0, kind):
     """80-bit (mantissa, sign|exponent) -> the value rounded to float or double, as bytes"""

@@ -8,9 +8,11 @@ File > Script file... > ffxi_ida_fix.py. Steps:
   2. prototypes: type_fixes.json;
   3. the viewport globals 0x104E1B70 and 0x10621904 typed D3DVIEWPORT8 (24 bytes, not pointers);
   4. stack pointer: SP points set by the first version of this script where its measurement was wrong are
-     removed (IDA's own analysis returns). Then, at each call whose stack effect was measured from real code
-     (the callee's own `ret N`, pipeline/real_sp.py) and differs from IDA's, a user SP change point is set
-     (what Alt+K does), checked by reading IDA's SP back;
+     removed (IDA's own analysis returns). Then, at each call whose stack effect is known exactly -- measured
+     from real code (pipeline/real_sp.py) or solved from the caller's own stack balance at every `ret` and
+     every join (pipeline/sp_solve.py, which recovers 20001 of 20002 hidden `ret N` values and rejects the
+     function behind the one it gets wrong) -- and differs from IDA's, a user SP change point is set (what
+     Alt+K does), checked by reading IDA's SP back;
   4b. call types: at indirect calls where the bytes pushed just before differ from what the callee (seen
      running) pops, Hex-Rays guesses the arguments wrong; the call type is forced to the callee's prototype
      (rebuilt with the measured argument count when its own disagrees), verified by decompiling;
@@ -107,8 +109,9 @@ def revert(report):
 
 
 def fix_sp(report):
-    """at each call whose effect was measured from real code (the callee's own `ret N`), make IDA agree"""
-    funcs = DATA['real_sp']; n = 0
+    """at each call whose stack effect is known exactly, make IDA agree: measured from real code (the callee's
+    own `ret N`, real_sp.py) or solved from the caller's stack balance (sp_solve.py, self-tested)"""
+    funcs = DATA['sp_calls']; n = 0
     for fk, rec in funcs.items():
         n += 1
         if ida_kernwin.user_cancelled(): log('SP: cancelled'); break
@@ -126,8 +129,8 @@ def fix_sp(report):
                 ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait(); got = change_at(call)
             fixes.append({'call': ck, 'ida_change_was': had, 'real_change': real, 'now': got})
             if got != real: continue
-            idc.set_cmt(call, '[sp fix 2026-10-03] this call changes SP by %d (the callee\'s own ret, measured by running '
-                        'the original); IDA had %d' % (real, had), 0)
+            idc.set_cmt(call, '[sp fix 2026-10-03] this call changes SP by %d (%s); IDA had %d' % (
+                real, rec['why'].get(ck, 'exact'), had), 0)
         if not fixes: continue
         ida_hexrays.mark_cfunc_dirty(f)
         bad = sum(1 for x in fixes if x['now'] != x['real_change'])
@@ -250,6 +253,11 @@ def cc_name(fd):
             ida_typeinf.CM_CC_FASTCALL: 'fastcall'}.get(cc & ida_typeinf.CM_CC_MASK, 'other')
 
 
+CMPS = {ida_hexrays.cot_slt: ('<', 1), ida_hexrays.cot_sle: ('<=', 1), ida_hexrays.cot_sgt: ('>', 1),
+        ida_hexrays.cot_sge: ('>=', 1), ida_hexrays.cot_ult: ('<', 0), ida_hexrays.cot_ule: ('<=', 0),
+        ida_hexrays.cot_ugt: ('>', 0), ida_hexrays.cot_uge: ('>=', 0)}
+
+
 def export_one(ea):
     rec = {'ea': ea, 'name': ida_name.get_name(ea), 'type': idc.get_type(ea) or ''}
     try:
@@ -262,7 +270,7 @@ def export_one(ea):
     text = str(cf); rec['text'] = text
     m = BAD.search(text)
     if m: rec['skip'] = 'unsupported construct ' + m.group(0)
-    objs = {}; types = set(); calls = {}
+    objs = {}; types = set(); calls = {}; cmps = []
 
     class V(ida_hexrays.ctree_visitor_t):
         def __init__(s): super().__init__(ida_hexrays.CV_FAST)
@@ -276,7 +284,22 @@ def export_one(ea):
                 try:
                     if ft.get_func_details(fd): cc = cc_name(fd)
                 except Exception: pass
-                calls['0x%08X' % e.ea] = [e.a.size(), cc]
+                # where the type came from: 'typed' when the callee expression carries a declared type
+                # (a struct member such as `lpVtbl->LockRect`, a named function), 'cast' when Hex-Rays had to
+                # invent the pointer type from the call site (`(*(int (__stdcall **)(int, int))(*v + 36))`)
+                x = e.x; src = 'typed'
+                while x is not None and x.op in (ida_hexrays.cot_ptr, ida_hexrays.cot_cast):
+                    if x.op == ida_hexrays.cot_cast: src = 'cast'; break
+                    x = x.x
+                calls['0x%08X' % e.ea] = [e.a.size(), cc, src]
+            if e.op in CMPS and e.ea != idaapi.BADADDR and not (e.x.type.is_floating() or e.y.type.is_floating()):
+                # the comparison's signedness as Hex-Rays read it from the jump (jl / jb ...): C++ would take it
+                # from the operand types, which `_DWORD` leaves open
+                try:
+                    cmps.append([e.ea, CMPS[e.op], ida_lines.tag_remove(e.x.print1(None)),
+                                 ida_lines.tag_remove(e.y.print1(None)), max(e.x.type.get_size(), e.y.type.get_size()),
+                                 str(e.x.type), str(e.y.type)])
+                except Exception: pass
             if e.op == ida_hexrays.cot_obj:
                 oea = e.obj_ea; nm = ida_name.get_name(oea) or ('unk_%X' % oea)
                 fn = ida_funcs.get_func(oea); is_func = bool(fn) and fn.start_ea == oea
@@ -296,7 +319,7 @@ def export_one(ea):
     V().apply_to(cf.body, None)
     for lv in cf.get_lvars(): type_decl_closure(lv.type(), types)
     type_decl_closure(cf.type, types)
-    rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls
+    rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls; rec['cmps'] = cmps
     # IDA's stack pointer wherever it changes (compared with the depth measured by running the original)
     pfn = ida_funcs.get_func(ea); spd = []; last = None
     for item in (idautils.FuncItems(ea) if pfn else ()):

@@ -25,6 +25,7 @@ case "$1" in
                  python3 "$P/ret_kinds.py" "$FFXI_DLL" "$ROOT/data/ret_kinds.json"
                  python3 "$P/fp_callsites.py" "$FFXI_DLL" "$EXP" "$ROOT/data/fp_callsites.json"
                  python3 "$P/purges.py" "$FFXI_DLL" "$ROOT/data/purges.json"
+                 python3 "$P/sp_solve.py" --selftest && python3 "$P/sp_solve.py" "$ROOT/data/sp_solved.json"
                  python3 "$P/cdecl_args.py" "$FFXI_DLL" "$ROOT/data/cdecl_args.json"
                  python3 "$P/leaf_funcs.py" "$FFXI_DLL" "$ROOT/data/leaf_funcs.json"
                  python3 "$P/callsites.py" "$EXP" "$ROOT/data/callsite_args.json" ;;&

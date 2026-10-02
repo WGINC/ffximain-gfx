@@ -260,7 +260,6 @@ class GfxMachine(G.Machine):
                     slot = i.operands[0].mem.disp // 4
                 break
             if slot is not None: break
-        if slot is None: return None
         def rd(a):                        # mapped memory, else the dump (no demand paging from here)
             try: return struct.unpack('<I', uc.mem_read(a, 4))[0]
             except Exception:
@@ -269,7 +268,10 @@ class GfxMachine(G.Machine):
                 return self.live.translate(struct.unpack('<I', b)[0])
         try:
             this = rd(esp + 4); vt = rd(this)
-            if rd(vt + 4 * slot) != addr: return None
+            if slot is None or rd(vt + 4 * slot) != addr:
+                # the call went through a register (GCC: `call eax`): the slot is where the vtable holds it
+                slot = next((k for k in range(128) if rd(vt + 4 * k) == addr), None)
+                if slot is None: return None
         except Exception: return None
         if vt not in self._vt_iface:
             mod = next(((a, b) for a, b in self.foreign if a <= addr < b), None)

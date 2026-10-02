@@ -18,5 +18,10 @@
   "type": "float *__thiscall(_DWORD *this)",
   "why": "Camera controller: refreshes its view state and returns the view matrix (this + 4) in eax; the IDB types it as returning float, which drops the pointer its caller uses.",
   "evidence": "0x10021B9B lea eax,[esi+4]; ret with an empty x87 stack (fpret none); Camera_ApplyViewProjection uses eax as a 64-byte matrix source (0x10015564, 0x10015578)."
+ },
+ "0x10040C20": {
+  "type": "void __thiscall(void *self)",
+  "why": "CMoElemFamily_SharedEarlyExit returns nothing: EAX at its return is whatever its last call left (Hex-Rays built `result` from a byte of self with the upper bytes unassigned), and its only caller overwrites EAX at once.",
+  "evidence": "Only call site 0x10040ECD (in 0x10040E40): returns to `jmp 0x10040EF1`, where `lea eax,[esp+0x2c]` replaces EAX; no vtable holds the function."
  }
 }

@@ -140,6 +140,12 @@ def split_array(body):
         if t in _ELEM and o1 + int(a.group(5)[1:-1]) * _ELEM[t] == o2 and b.group(2).strip() == t: return True
     return False
 
+def negative_index(body):
+    # `v72[v5 - 1]` with v5 from 0: an index below a stack array reaches the local before it (one array
+    # split by Hex-Rays), which GCC places elsewhere
+    arrays = {m.group(4) for m in STACK_DECL.finditer(body) if m.group(5)}
+    return any(re.search(r'\b%s\[[^\]\[;]*- \d+\]' % re.escape(a), body) for a in arrays)
+
 def exact_frame(body):
     # Hex-Rays sometimes splits one stack array into several variables (`char v70[8]; char v71;
     # char v72;` ...) and the code then writes through a pointer to one of them across the others.
@@ -154,7 +160,7 @@ def exact_frame(body):
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     decls = list(BYREF_DECL.finditer(body))
-    if pointer_walks_locals(body) or split_array(body):
+    if pointer_walks_locals(body) or split_array(body) or negative_index(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body
@@ -178,15 +184,18 @@ def exact_frame(body):
 SIGNED_CMP = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (?=\(__int16\)|SHIWORD\(|SLOWORD\(|\(int\)|\(char\)|\(__int8\)|\(signed)')
 SIGNED_CMP_LIT = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\))((?: [+-] \d+)?) (<=|>=|<|>) (-?\d+)(?![\w.])')
 SIGNED_CMP_INT = re.compile(r'(\(int\)[^;<>=()]*? (?:<=|>=|<|>) )\*\(_DWORD \*\)')
+SIGNED_CONV = re.compile(r'(\((?:double|float|long double)\)\(?)\*\(_DWORD \*\)')
 SIGNED_DIV = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) ([/%]) (\d+)(?![\w.])')
 
 def signed_dword_compares(body):
     # `_DWORD` has no signedness in Hex-Rays output: a comparison or division takes it from the other
     # operand, and an unsigned one is written with a `u` literal (`<= 2u`). In C++ `_DWORD` is
-    # uint32_t, which would make `*(_DWORD *)p + 1 > 0` or `*(_DWORD *)p / 2` unsigned: read it as int.
+    # uint32_t, which would make `*(_DWORD *)p + 1 > 0`, `*(_DWORD *)p / 2` or `(double)(*(_DWORD *)p + 1)`
+    # unsigned: read it as int.
     body = SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
     body = SIGNED_CMP_LIT.sub(r'*(int *)\1\2 \3 \4', body)
     body = SIGNED_CMP_INT.sub(r'\1*(int *)', body)
+    body = SIGNED_CONV.sub(r'\1*(int *)', body)     # x87 has only signed `fild`: an unsigned source would show its correction
     return SIGNED_DIV.sub(r'*(int *)\1 \2 \3', body)
 
 def inplace_buffers(body):
@@ -201,6 +210,7 @@ def body_rules(ea, body):
     body = exact_fp_literals(ea, body)
     body = fpu_status_words(body)
     body = negate_if_negative(body)
+    body = float_args_in_casts(body)
     body = signed_dword_compares(body)
     body = exact_frame(body)
     return inplace_buffers(body)
@@ -209,7 +219,10 @@ def drop_float_return(ea, ret, body):
     # IDA typed it as returning a float, but the code returns with an empty x87 stack (fpret.py): the
     # value Hex-Rays returns is computed and dropped, as the original does (e.g. through __ftol).
     # A call it returns cannot return on the x87 stack either, so such casts are retyped void too.
-    if ret.strip() not in ('float', 'double', 'long double') or FPRET_ALL.get('0x%x' % ea) != 'none':
+    fix = hx_patches.type_fixes().get(ea)
+    if fix and re.match(r'void\s*(__\w+\s*)?\(', fix) and ret.strip() != 'void':
+        pass                              # data/type_fixes.json: the return value is unused (no caller reads EAX)
+    elif ret.strip() not in ('float', 'double', 'long double') or FPRET_ALL.get('0x%x' % ea) != 'none':
         return ret, body
     return 'void', re.sub(r'\breturn ([^;]+);', lambda m: '(void)(%s); return;' % re.sub(
         r'\((?:float|double|long double) \((__\w+) \*\)', r'(void (\1 *)', m.group(1)), body)
@@ -284,6 +297,34 @@ def negate_if_negative(body):
     rest = re.sub(r'(if \( )\((v\d+) \| (v\d+)\) != 0( \)\n\s*v\d+ = -(v\d+);)', neg, body[start:])
     rest = re.sub(r'((v\d+) = [^;\n]+;\n\s*if \( )\((v\d+) \| (v\d+)\) != 0( \)\n\s*\2 = 0\.0;)', clamp, rest)
     return body[:start] + rest
+
+def _split_args(s):
+    out, d, cur = [], 0, ''
+    for ch in s:
+        if ch == ',' and d == 0: out.append(cur.strip()); cur = ''; continue
+        d += (ch == '(') - (ch == ')'); cur += ch
+    if cur.strip(): out.append(cur.strip())
+    return out
+
+def float_args_in_casts(body):
+    # A call through a cast function pointer whose parameter Hex-Rays typed `_DWORD` but whose argument is
+    # `*(float *)p`: the original pushes the float's bits, C++ would convert the value to an integer
+    # (757.0f -> 757). Such a parameter is declared `float`.
+    out, pos = [], 0
+    for m in re.finditer(r'\(__\w+ \*\*\)\(', body):
+        i = m.end(); d = 1; j = i
+        while d and j < len(body): d += {'(': 1, ')': -1}.get(body[j], 0); j += 1
+        k = body.find(')(', j)
+        if k < 0 or k - j > 120 or i < pos: continue
+        a = k + 2; d = 1; b = a
+        while d and b < len(body): d += {'(': 1, ')': -1}.get(body[b], 0); b += 1
+        ps, args = _split_args(body[i:j - 1]), _split_args(body[a:b - 1])
+        if len(ps) != len(args): continue
+        new = [('float' if p in ('_DWORD', 'int', 'unsigned int') and x.startswith('*(float *)') else p) for p, x in zip(ps, args)]
+        if new != ps:
+            out.append(body[pos:i]); out.append(', '.join(new)); pos = j - 1
+    out.append(body[pos:])
+    return ''.join(out)
 
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}

@@ -60,6 +60,8 @@ def fix_types(rec):
     rec = dict(rec, objs={n: fixed(o) for n, o in objs.items()})
     if rec['ea'] in t:
         rec['type'] = t[rec['ea']]
+        if '(' in t[rec['ea']]:
+            rec['ret'] = re.sub(r'\s*(__\w+)?\s*$', '', t[rec['ea']][:t[rec['ea']].index('(')]).strip() or rec.get('ret')
         new = [x.strip() for x in t[rec['ea']][t[rec['ea']].index('(') + 1:t[rec['ea']].rindex(')')].split(',')]
         new = {re.search(r'(\w+)$', x).group(1): re.sub(r'\s*\w+$', '', x) for x in new if re.search(r'\w\s+\**\w+$', x)}
         text = rec['text']; m = re.search(r'^[^\n]*\b%s\(([^)]*)\)' % re.escape(rec['name']), text, re.M)

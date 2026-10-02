@@ -1,0 +1,11 @@
+{
+ "why": "g_ambientColor (0x104571D8) is the packed ambient colour dword; its blue byte is converted to float here. IDA types the global _DWORD, and Hex-Rays converts the whole dword.",
+ "evidence": "0x100CB9F7: mov eax, [0x104571D8]; mov ecx, eax; and ecx, 0FFh; mov [esp+14h], ecx; mov dword [esp+18h], 0; fild qword [esp+14h] -> v88. The dword is stored packed at 0x100CBB46.",
+ "text_sha1": "b55f708d47e15a888b64ac2d084ee12c0f2f9607",
+ "replace": [
+  [
+   "      *(float *)&v88 = (float)g_ambientColor;\n",
+   "      *(float *)&v88 = (float)(unsigned __int8)g_ambientColor;\n"
+  ]
+ ]
+}

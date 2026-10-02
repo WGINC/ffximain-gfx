@@ -238,6 +238,8 @@ SIGNED_CMP = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (?=\(__int16\
 SIGNED_CMP_LIT = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\))((?: [+-] \d+)?) (<=|>=|<|>) (-?\d+)(?![\w.])')
 SIGNED_CMP_INT = re.compile(r'(\(int\)[^;<>=()]*? (?:<=|>=|<|>) )\*\(_DWORD \*\)')
 SIGNED_CONV = re.compile(r'(\((?:double|float|long double)\)\(?)\*\(_DWORD \*\)')
+SIGNED_LOCAL = re.compile(r'^\s*(?:int|signed int|__int16|__int8|char|short|signed __int16|signed __int8) (\w+);', re.M)
+DWORD_PTR_LOCAL = re.compile(r'^\s*_DWORD \*(\w+);', re.M)
 SIGNED_DIV = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) ([/%]) (\d+)(?![\w.])')
 
 def signed_dword_compares(body):
@@ -248,6 +250,16 @@ def signed_dword_compares(body):
     body = SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
     body = SIGNED_CMP_LIT.sub(r'*(int *)\1\2 \3 \4', body)
     body = SIGNED_CMP_INT.sub(r'\1*(int *)', body)
+    # a signed local (`int i`) compared with a `_DWORD`: Hex-Rays writes `(unsigned int)i` when the
+    # comparison is unsigned, so a bare one is signed (`for ( i = 0; i < *(_DWORD *)(a3 + 68); ++i )`, `jl`)
+    for v in set(SIGNED_LOCAL.findall(body)) | set(re.findall(r'\b(?:int|__int16|char) (\w+)[,)]', body.split('\n', 1)[0])):
+        body = re.sub(r'(\b%s (?:<=|>=|<|>) )\*\(_DWORD \*\)' % re.escape(v), r'\1*(int *)', body)
+        body = re.sub(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (%s)(?![\w\[(.])' % re.escape(v), r'*(int *)\1 \2 \3', body)
+        # ... or with a read through a `_DWORD *` local (`v41 < *(v42 - 5)`)
+        for q in DWORD_PTR_LOCAL.findall(body):
+            d = r'(\*\(%s [+-] \d+\)|\*%s\b(?![\[(])|%s\[[^\];]+\])' % ((re.escape(q),) * 3)
+            body = re.sub(r'(\b%s (?:<=|>=|<|>) )%s' % (re.escape(v), d), r'\1(int)\2', body)
+            body = re.sub(r'%s( (?:<=|>=|<|>) %s)(?![\w\[(.])' % (d, re.escape(v)), r'(int)\1\2', body)
     body = SIGNED_CONV.sub(r'\1*(int *)', body)     # x87 has only signed `fild`: an unsigned source would show its correction
     return SIGNED_DIV.sub(r'*(int *)\1 \2 \3', body)
 
@@ -258,6 +270,15 @@ def inplace_buffers(body):
         body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % re.escape(g), r'\1&%s\2' % g, body)
     return body
 
+STDCALL_VMETHOD = re.compile(r'\(\*\(\((\w[\w\s\*]*?) \(__stdcall \*\*\)\(([^()]*)\)\)(\w+)->vftable \+ (\d+)\)\)\(')
+
+def vmethod_this(body):
+    # A virtual call through a C++ object's own vftable (`g_pProcessor->vftable + 33`) that Hex-Rays typed
+    # __stdcall without `this`: the original loads the vtable from ECX and passes the object there
+    # (`mov ecx, [g_pProcessor]; mov edx, [ecx]; call [edx+84h]`), so it is a __thiscall on the object.
+    return STDCALL_VMETHOD.sub(lambda m: '(*((%s (__thiscall **)(void *, %s))%s->vftable + %s))(%s, ' % (
+        m.group(1), m.group(2), m.group(3), m.group(4), m.group(3)), body)
+
 def body_rules(ea, body):
     # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean)
     body = exact_fp_literals(ea, body)
@@ -266,6 +287,7 @@ def body_rules(ea, body):
     body = float_args_in_casts(body)
     body = deleting_dtor_this(body)
     body = signed_dword_compares(body)
+    body = vmethod_this(body)
     body = exact_frame(body)
     return inplace_buffers(body)
 

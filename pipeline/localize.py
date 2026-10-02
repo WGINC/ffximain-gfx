@@ -58,13 +58,12 @@ def replay(m, case, trial, seed, orig, cand):
     for t in range(trial + 1):
         this, args, ts = DG.setup_trial(m, case, fz)
         if t < trial: continue
-        for _ in range(3):
-            n = len(m.demand); m.rng = random.Random(ts); m.wild = 0; m.call(orig, conv, this, args, limit)
-            if len(m.demand) == n: break
+        _, patches = DG.run_original(m, orig, conv, this, args, limit, ts)
         out = []
         for fn in (orig, cand):
             m.trace = []; m.rng = random.Random(ts); m.wild = 0
             r = m.call(fn, conv, this, args, limit); out.append((r, list(m.trace)))
+        DG.restore_inputs(m, patches)
         return out
 
 def main(game, rawdir, casesf, gatef, outf, limit=200):

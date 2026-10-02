@@ -19,7 +19,7 @@ import diffemu_fixed as G
 LIVE_CFG = json.load(open(os.environ['FFXI_LIVE'])) if os.environ.get('FFXI_LIVE') else None
 if LIVE_CFG:
     G.SANDBOX = int(LIVE_CFG['sandbox'], 16); G.POOL = G.SANDBOX + 0x00800000   # a gap the dump does not use
-from unicorn import UC_HOOK_CODE, UC_PROT_ALL, UC_HOOK_MEM_READ_UNMAPPED, UC_HOOK_MEM_WRITE_UNMAPPED
+from unicorn import UC_HOOK_CODE, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_PROT_ALL, UC_HOOK_MEM_READ_UNMAPPED, UC_HOOK_MEM_WRITE_UNMAPPED
 import hashlib
 import pefile
 from unicorn import UC_MEM_READ_UNMAPPED, UC_MEM_WRITE_UNMAPPED, UC_MEM_FETCH_UNMAPPED, UC_MEM_FETCH_PROT, UC_PROT_READ, UC_PROT_WRITE
@@ -28,6 +28,7 @@ from unicorn.x86_const import UC_X86_REG_EAX, UC_X86_REG_ESP, UC_X86_REG_EIP, UC
 
 COM_BASE = 0x6E000000          # fake objects + vtables
 COM_TRAP = 0x6E800000          # one 4-byte trap per (interface, slot)
+WILD_TRAP = COM_TRAP + 0x80000  # input repair: one trap per popped-argument count
 FP_TRAMP = COM_BASE + 0xF0000  # stub return through the x87 stack (inside the COM_BASE mapping)
 FP_SCRATCH = COM_BASE + 0xF0100
 # D3D8 getters that fill a struct: method -> (parameter index, size in bytes, 'f' floats / 'i' integers)
@@ -82,6 +83,9 @@ class GfxMachine(G.Machine):
         # aliases the spec uses for base interfaces
         self.obj.setdefault('IDirect3DBaseTexture8', self.obj['IDirect3DTexture8'])
         u.hook_add(UC_HOOK_CODE, self._on_com, begin=COM_TRAP, end=COM_TRAP + 0x100000 - 1)
+        # input repair (run_original): a function pointer slot of a fuzzed object aims here, at the trap
+        # for the number of argument dwords the call site's callee pops
+        for k in range(64 * 33): self.trap[WILD_TRAP + 4 * k] = ('*wild', k)    # k = pops | thiscall << 5 | (logged args + 1) << 6
         # Execution of data (a call through a fuzzed function pointer lands in a fuzzed page, the pool,
         # .data or the stack) ends the run as a fault: the game never does it, and the fuzzed bytes run
         # as code would act on values that legitimately differ between the two sides (return addresses),
@@ -118,6 +122,7 @@ class GfxMachine(G.Machine):
         # (fuzzed data stays executable, as in diffemu_fixed: redirecting execution from Unicorn's
         #  fault hook proved non-deterministic between runs, 1 Oct 2026)
         self.rng = random.Random(0)
+        self.stub_n = {}; self.stub_ret = {}; self.src_log = None; self.import_n = {}
         if LIVE_CFG:
             for a, hx in LIVE_CFG['data_writes']:
                 u.mem_write(int(a, 16), bytes.fromhex(hx))
@@ -136,9 +141,12 @@ class GfxMachine(G.Machine):
         if self.alloc_high > ALLOC_BASE:
             self.uc.mem_write(ALLOC_BASE, bytes(self.alloc_high - ALLOC_BASE))
         self.alloc_next = self.alloc_high = ALLOC_BASE
+        self.stub_n = {}                  # calls made to each stub so far in this run (input repair keys)
+        self.fault_ret = None             # the return address on the stack when execution left the code
         return super().call(*a, **k)
 
     def _on_data_exec(self, uc, addr, size, _):
+        self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
         self.stop_reason = 'fault'
         self.stop_detail = 'execution of data at 0x%08X' % addr
         uc.emu_stop()
@@ -146,8 +154,23 @@ class GfxMachine(G.Machine):
     def _on_trap(self, uc, addr, size, _):
         name = self.trap_names.get(addr, hex(addr))
         esp = uc.reg_read(UC_X86_REG_ESP)
-        n = IMPORT_NARGS.get(name.split('!')[-1], 4)
+        n = IMPORT_NARGS.get(name.split('!')[-1])
+        if n is None:                     # not in data/import_nargs.json: what the original's call site pushed
+            site = site_pops(self, struct.unpack('<I', uc.mem_read(esp, 4))[0])
+            if site: site = (site[2] if site[2] is not None else site[0],); self.import_n[name] = site[0]       # the reconstruction's site (not in the game) reuses it
+            n = site[0] if site else self.import_n.get(name, 4)
         args = struct.unpack('<%dI' % n, uc.mem_read(esp + 4, 4 * n)) if n else ()
+        fake = IMPORT_FAKES.get(name.split('!')[-1])
+        if fake and len(args) == fake[0]:
+            # a benign query answered the same way on both sides (logged, compared like a stubbed call),
+            # so a function that only asks Windows something on its way does not stop there
+            self.calls.append((addr, 0, tuple(_stackref(a) for a in args)))
+            try: v = fake[1](self, uc, args)
+            except Exception: v = 0
+            uc.reg_write(UC_X86_REG_EAX, v & 0xFFFFFFFF)
+            ret = struct.unpack('<I', uc.mem_read(esp, 4))[0]
+            uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * fake[0]); uc.reg_write(UC_X86_REG_EIP, ret)
+            return
         self.stop_reason = 'import:' + name
         self.stop_detail = 'args ' + ' '.join('%08X' % _stackref(a) for a in args)
         uc.emu_stop()
@@ -197,6 +220,9 @@ class GfxMachine(G.Machine):
         #   and returned from; identical for both runs, so equivalent code stays equivalent
         # * unmapped data reads/writes above 64 KB: a demand page
         # * anything else (null-ish pointers, budgets spent): a fault
+        if access in (UC_MEM_FETCH_UNMAPPED, UC_MEM_FETCH_PROT):
+            try: self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
+            except Exception: pass
         if False:   # wild-call trapping disabled (see note in __init__)
             self.wild += 1
             esp = uc.reg_read(UC_X86_REG_ESP)
@@ -347,6 +373,9 @@ class GfxMachine(G.Machine):
             v = v & 1
         elif spec.get('ret') == 'lowbool':     # AL = 0 or 1; the upper bits are left over from earlier
             v = (v & ~0xFF) | (v & 1)
+        n = self.stub_n.get(addr, 0); self.stub_n[addr] = n + 1
+        if (addr, n) in self.stub_ret: v = self.stub_ret[(addr, n)]       # input repair (run_original)
+        if self.src_log is not None: self.src_log.append(('stub', (addr, n), v))
         for idx, iface in spec.get('com_out', ()):
             # an `I...**` output (D3DXAssembleShader's ID3DXBuffer **): on success the callee stores an
             # interface pointer there, which the caller then calls through -- a fake object of that kind
@@ -377,6 +406,32 @@ class GfxMachine(G.Machine):
         if addr not in self.trap:
             return
         name, slot = self.trap[addr]
+        if name == '*wild':
+            # a virtual call on a fuzzed object (input repair): logged with `this` (a __thiscall site) and its
+            # arguments when their count is known (data/callsite_args.json, from Hex-Rays), answered with a
+            # fuzzed EAX, popping what the call site's callee pops. An argument pointing into the caller's
+            # stack (an output) gets a fuzzed dword, the same on both sides, so neither reads its own
+            # uninitialised local.
+            esp = uc.reg_read(UC_X86_REG_ESP)
+            pops, this_, nlog = slot & 31, (slot >> 5) & 1, (slot >> 6) - 1
+            n = max(pops, nlog, 0)
+            vals = struct.unpack('<%dI' % (1 + n), uc.mem_read(esp, 4 * (1 + n)))
+            ecx = _stackref(uc.reg_read(UC_X86_REG_ECX)) if this_ else 0       # a stack-`this` call leaves ECX undefined
+            self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)])))
+            for a in vals[1:1 + (nlog if nlog >= 0 else pops)]:
+                if esp < a < esp + 0x800:     # into the caller's own frame: an output it reads back
+                    k = self.rng.random()
+                    o = 0 if k < 0.2 else G.POOL + (self.rng.randrange(0, G.POOL_SIZE - 0x1000) & ~3) if k < 0.8 else self.rng.getrandbits(32)
+                    self.writes.append((a, bytes(uc.mem_read(a, 4)))); uc.mem_write(a, struct.pack('<I', o))
+            k = self.rng.random()
+            v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
+            n = self.stub_n.get(addr, 0); self.stub_n[addr] = n + 1
+            v = self.stub_ret.get((addr, n), v)
+            if self.src_log is not None: self.src_log.append(('stub', (addr, n), v))
+            uc.reg_write(UC_X86_REG_EAX, v)
+            uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * pops)
+            uc.reg_write(UC_X86_REG_EIP, vals[0])
+            return
         m = SPEC[name][slot]
         n = m['nparams']
         esp = uc.reg_read(UC_X86_REG_ESP)
@@ -388,6 +443,10 @@ class GfxMachine(G.Machine):
             v = 0 if k < 0.8 else 0x8876086C if k < 0.9 else 0x88760868   # D3D_OK / INVALIDCALL / DEVICELOST
         else:
             v = self.rng.randrange(0, 4)
+        n_ = self.stub_n.get(addr, 0); self.stub_n[addr] = n_ + 1
+        if m['ret'] != 'hresult':         # a pointer or count result: repairable like a stub's (run_original)
+            v = self.stub_ret.get((addr, n_), v)
+            if self.src_log is not None: self.src_log.append(('stub', (addr, n_), v))
         if m['out'] and v == 0:
             idx, iface = m['out']
             p = args[idx]
@@ -415,6 +474,278 @@ class GfxMachine(G.Machine):
         uc.reg_write(UC_X86_REG_EAX, v)
         uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * (1 + n))
         uc.reg_write(UC_X86_REG_EIP, ret_addr)
+
+
+def _fake_curdir(m, uc, args):
+    path = b'C:\\PlayOnline\\SquareEnix\\FINAL FANTASY XI'
+    if args[0] > len(path):
+        m.writes.append((args[1], bytes(uc.mem_read(args[1], len(path) + 1))))
+        uc.mem_write(args[1], path + b'\0'); return len(path)
+    return len(path) + 1
+
+
+IMPORT_FAKES = {   # name: (argument count, answer); stdcall: the fake pops the arguments
+    'GetCurrentDirectoryA': (2, _fake_curdir),
+    'GetTickCount': (0, lambda m, uc, a: 0x00123456),
+    'timeGetTime': (0, lambda m, uc, a: 0x00123456),
+    'LoadCursorFromFileA': (1, lambda m, uc, a: 0 if m.rng.random() < 0.3 else 0x00C10000 | m.rng.randrange(0x100)),
+    'SetCursor': (1, lambda m, uc, a: 0),
+    'ShowCursor': (1, lambda m, uc, a: 0),
+    'DestroyCursor': (1, lambda m, uc, a: 1),
+}
+
+
+REPAIR_SPAN = 0x100000            # the top MB of the sandbox's object half: buffers that input repair hands out
+DATA_RW = (0x1034F000, 0x109FA8E0)   # the image's writable data (.data, .data1)
+IMAGE_LO, IMAGE_HI = 0x10001000, 0x10329000   # the image's code
+
+
+def _repairable(m, a):
+    """may an input repair overwrite the dword at a? fuzzed objects and the pool, demand (or dump)
+    pages and the image's writable data -- never the stack, allocator blocks, fake COM objects or code"""
+    if G.SANDBOX <= a < G.SANDBOX + G.SANDBOX_SIZE or DATA_RW[0] <= a < DATA_RW[1]: return True
+    return (a & ~(G.PAGE - 1)) in m.demand
+
+
+_BLOCKS = []
+
+
+def site_pops(m, ret):
+    """argument dwords the callee of the call returning to `ret` pops, as the call site shows it:
+    0 when the caller cleans up (`add esp, N` follows), else the bytes pushed since the previous call
+    in straight-line code -- the count Hex-Rays gives an untyped indirect call -- and whether ECX carries
+    `this`. None if unknown."""
+    from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
+    if not _BLOCKS:
+        ex = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
+        _BLOCKS.extend(sorted((a, b, sorted(map(tuple, v))) for v in ex.values() for a, b in v))
+    hit = next((x for x in _BLOCKS if x[0] < ret <= x[1]), None)
+    if hit is None: return None
+    if not _CALLSITES:
+        f = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'callsite_args.json')
+        _CALLSITES.update(json.load(open(f)) if os.path.exists(f) else {}); _CALLSITES.setdefault('', None)
+    code = []                             # the whole function in address order: saved registers are known from its entry
+    for a, b in hit[2]: code += list(_Cs(_A, _M).disasm(bytes(m.uc.mem_read(a, b - a)), a))
+    md = _Cs(_A, _M); n = 0; ecx = False; written = set()
+    for i in code:
+        dst = i.op_str.split(',')[0].strip()
+        if i.mnemonic == 'push' and dst in ('ebx', 'esi', 'edi', 'ebp') and dst not in written:
+            continue                      # the prologue saving a callee-saved register, not an argument
+        if i.mnemonic not in ('push', 'cmp', 'test') and dst in ('ebx', 'esi', 'edi', 'ebp', 'bx', 'si', 'di', 'bp', 'bl', 'bh'):
+            written.add({'bx': 'ebx', 'bl': 'ebx', 'bh': 'ebx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp'}.get(dst, dst))
+        if i.address + i.size == ret:
+            if i.mnemonic != 'call': return None
+            known = _CALLSITES.get('0x%08X' % i.address)
+            if known:                     # Hex-Rays' own call type (the IDA script's export): exact
+                return (0 if known['cc'] == 'cdecl' else known['args']), known['cc'] == 'thiscall', known['args']
+            # `this` in ECX: ECX was set since the previous call and is not the vtable the call goes through
+            this = ecx and 'ecx' not in i.op_str
+            nx = next(md.disasm(bytes(m.uc.mem_read(ret, 16)), ret), None)
+            if nx is not None and nx.mnemonic == 'add' and nx.op_str.startswith('esp,'): return 0, this, None
+            return n // 4, this, None
+        if i.mnemonic == 'push': n += 4
+        elif i.mnemonic == 'call' or i.mnemonic.startswith(('j', 'ret')) or 'esp' in i.op_str.split(',')[0] or i.mnemonic == 'pop': n = 0
+        if i.mnemonic == 'call' or i.mnemonic.startswith(('j', 'ret')): ecx = False
+        elif i.mnemonic == 'push' and i.op_str == 'ecx': ecx = False          # a temporary pushed as an argument
+        elif i.op_str.split(',')[0].strip() in ('ecx', 'cx', 'cl') and i.mnemonic not in ('cmp', 'test', 'push'): ecx = True
+    return None
+
+
+_CALLSITES = {}
+_MD = []
+_R32 = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'ebx', 'cl': 'ecx', 'ch': 'ecx', 'cx': 'ecx',
+        'dl': 'edx', 'dh': 'edx', 'dx': 'edx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp', 'sp': 'esp'}
+
+
+def _insn(m, pc):
+    if not _MD:
+        from capstone import Cs as _Cs, CS_ARCH_X86 as _A, CS_MODE_32 as _M
+        md = _Cs(_A, _M); md.detail = True; _MD.extend([md, {}])
+    md, cache = _MD
+    if pc not in cache:
+        try: cache[pc] = next(md.disasm(bytes(m.uc.mem_read(pc, 16)), pc), None)
+        except Exception: cache[pc] = None
+    return cache[pc]
+
+
+def _base_reg(i):
+    """the base register of an instruction's memory operand"""
+    from capstone.x86 import X86_OP_MEM as _MEM
+    for o in i.operands:
+        if o.type == _MEM and o.mem.base:
+            return _R32.get(i.reg_name(o.mem.base), i.reg_name(o.mem.base))
+    return None
+
+
+def _tb_none(why):
+    if os.environ.get('XI_REPAIR_DEBUG'): print('trace_back: gives up (%d)' % why)
+    return None
+
+
+def _trace_back(m, log, k, reg, bad=None):
+    """the input a register's value at log position k came from, following it back through moves,
+    `lea`/add/sub of the same register, stack stores and reloads, and stub returns: ('mem', addr, value)
+    for a dword of input memory, ('stub', key, value) for a stub's return, or None"""
+    from capstone.x86 import X86_OP_REG as _REG, X86_OP_MEM as _MEM, X86_OP_IMM as _IMM
+    adjusted = False
+    def near(v): return adjusted or bad is None or 0 <= bad - v < 0x10000   # the value the pointer was made from
+    for _ in range(4000):
+        k -= 1
+        if k < 0: return _tb_none(1)
+        e = log[k]
+        if e[0] == 'stub' and reg == 'eax': return e if near(e[2]) else _tb_none(14)
+        if e[0] != 'pc': continue
+        if e[1] in m.stubs:               # a stubbed callee (its code never runs): EAX is its return
+            if reg == 'eax':
+                st = next((x for x in log[max(0, k - 2):k + 4] if x[0] == 'stub'), None)
+                return st if st else _tb_none(12)
+            if reg in ('ecx', 'edx'): return _tb_none(13)
+            continue
+        i = _insn(m, e[1])
+        if i is None: return _tb_none(2)
+        ops = i.operands
+        if not ops or ops[0].type != _REG or _R32.get(i.reg_name(ops[0].reg), i.reg_name(ops[0].reg)) != reg:
+            if i.mnemonic == 'call' and reg == 'eax':   # a trap's return (fake COM object, virtual-call trap)
+                st = next((x for x in log[k + 1:k + 4] if x[0] == 'stub'), None)
+                if st: return st
+            if i.mnemonic == 'call' and reg in ('eax', 'ecx', 'edx'):
+                if os.environ.get('XI_REPAIR_DEBUG'): print('trace_back: %s clobbered by call at 0x%X' % (reg, i.address))
+                return _tb_none(3)                   # clobbered by a real callee
+            if i.mnemonic in ('xchg', 'cdq', 'mul', 'div', 'lodsd', 'rep movsd', 'popal'): return _tb_none(4)
+            continue
+        mn = i.mnemonic
+        if mn in ('cmp', 'test', 'push'): continue
+        reads = [x for x in log[k + 1:k + 4] if x[0] == 'mem']
+        if mn in ('mov', 'pop') and (mn == 'pop' or ops[1].type == _MEM):
+            if not reads:
+                if os.environ.get('XI_REPAIR_DEBUG'): print('trace_back: no load logged for 0x%X %s %s; next %s' % (i.address, mn, i.op_str, log[k + 1:k + 4]))
+                return _tb_none(5)
+            _, a, v = reads[0]
+            if STACK_LO <= a < STACK_HI:       # a reload of a stack slot: who stored it
+                w = next((j for j in range(k - 1, -1, -1) if log[j][0] == 'w' and log[j][1] == a), None)
+                if w is None:                  # never stored: one of the function's own arguments, or uninitialised
+                    i0 = (a - (G.STACK_TOP - 0x1000 - 4 * len(m.cur_args))) // 4
+                    return ('arg', i0, v) if 0 <= i0 < len(m.cur_args) and a % 4 == 0 else _tb_none(10)
+                p = next((j for j in range(w - 1, -1, -1) if log[j][0] == 'pc'), None)
+                si = _insn(m, log[p][1]) if p is not None else None
+                if si is None: return _tb_none(6)
+                if si.mnemonic == 'push' and si.operands[0].type == _REG: src = si.operands[0]
+                elif si.mnemonic == 'mov' and len(si.operands) == 2 and si.operands[1].type == _REG: src = si.operands[1]
+                else: return _tb_none(7)
+                k = p; reg = _R32.get(si.reg_name(src.reg), si.reg_name(src.reg)); continue
+            if os.environ.get('XI_REPAIR_DEBUG') and not _repairable(m, a): print('trace_back: load from 0x%X not repairable' % a)
+            if not near(v): return _tb_none(15)      # not the value the faulting pointer has: a step not modelled
+            return ('mem', a, v) if _repairable(m, a) else _tb_none(11)
+        if mn == 'mov' and ops[1].type == _REG:
+            reg = _R32.get(i.reg_name(ops[1].reg), i.reg_name(ops[1].reg)); continue
+        if mn == 'lea' and ops[1].type == _MEM and ops[1].mem.base and not ops[1].mem.index:
+            reg = _R32.get(i.reg_name(ops[1].mem.base), i.reg_name(ops[1].mem.base)); adjusted = True; continue
+        if mn in ('add', 'sub', 'and', 'or', 'shl', 'shr', 'sar', 'inc', 'dec') and (len(ops) < 2 or ops[1].type == _IMM):
+            adjusted = True; continue         # the same register, adjusted
+        if os.environ.get('XI_REPAIR_DEBUG'): print('trace_back: stops at 0x%X %s %s' % (i.address, mn, i.op_str))
+        return _tb_none(8)
+    return _tb_none(9)
+
+
+def _fuzz_block(rng, size):
+    data = bytearray(size)
+    for off in range(0, size, 4):
+        k = rng.random()
+        v = 0 if k < 0.25 else rng.randrange(1, 16) if k < 0.45 else \
+            G.POOL + (rng.randrange(0, G.POOL_SIZE - 0x1000) & ~3) if k < 0.7 else rng.getrandbits(32)
+        struct.pack_into('<I', data, off, v)
+    return bytes(data)
+
+
+def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
+    """The original's measurement run for one trial, with the inputs made to reach the code.
+    Discovery: every page it touches is mapped first. Input repair: when the original faults through a
+    pointer that came from its inputs, that input is fixed and the trial runs again:
+      * a read or write near address 0 through a fuzzed null or small integer: the dword it was loaded
+        from (or the stub call that returned it) is set to a fresh buffer of the same fuzzed mix;
+      * a call through a fuzzed function pointer: the slot is set to a trap that logs the call and pops
+        what the call site's callee pops (site_pops; the count nearest it that lets the original carry on,
+        when the pushes before the call also hold the next call's arguments).
+    Both sides then see the repaired inputs: the repairs stay in place until restore_inputs (after the
+    reconstruction's run). Deterministic in the trial seed, and uses no fuzzer randomness (replays stay
+    aligned). Returns (result, patches)."""
+    import re as _re
+    patches = []; rng = random.Random(ts * 7919 + 1); top = G.SANDBOX + 0x700000; tried = set()
+    m.cur_args = args
+    def run():
+        m.rng = random.Random(ts); m.wild = 0; return m.call(orig, conv, this, args, limit)
+    for _ in range(3 + repairs):
+        before = len(m.demand); r = run()
+        if len(m.demand) != before: continue
+        if r.status != 'fault' or len(patches) >= repairs: return r, patches
+        f = _re.match(r'access 0x([0-9A-F]+) size \d+ type (19|20|21)$|execution of data at 0x([0-9A-F]+)$', r.detail or '')
+        if not f: return r, patches
+        bad = int(f.group(1) or f.group(3), 16); fetch = f.group(2) not in ('19', '20')
+        site = None
+        if fetch:
+            ret = m.fault_ret; site = site_pops(m, ret) if ret and IMAGE_LO <= ret < IMAGE_HI else None
+            if site is None or site[0] >= 32: return r, patches
+        elif bad >= 0x10000: return r, patches
+        log = m.src_log = []              # the run again, logging executed instructions, dword loads, stack stores, stub returns
+        def cd(uc, addr, size, _): log.append(('pc', addr))
+        def rd(uc, access, addr, size, value, _):
+            if size == 4: log.append(('mem', addr, struct.unpack('<I', uc.mem_read(addr, 4))[0]))
+        def wr(uc, access, addr, size, value, _):
+            if size == 4 and STACK_LO <= addr < STACK_HI: log.append(('w', addr, value & 0xFFFFFFFF))
+        hs = [m.uc.hook_add(UC_HOOK_CODE, cd, begin=0x10000000, end=IMAGE_HI - 1),
+              m.uc.hook_add(UC_HOOK_MEM_READ, rd), m.uc.hook_add(UC_HOOK_MEM_WRITE, wr)]
+        run()
+        for h in hs: m.uc.hook_del(h)
+        m.src_log = None
+        last = max((j for j, e in enumerate(log) if e[0] == 'pc'), default=None)
+        src = None
+        if last is not None and fetch:    # the call read its target from the slot: the load logged after it
+            src = next((e for e in log[last + 1:] if e[0] == 'mem' and e[2] == bad and _repairable(m, e[1])), None)
+        elif last is not None:
+            reg = _base_reg(_insn(m, log[last][1])) if _insn(m, log[last][1]) else None
+            src = _trace_back(m, log, last, reg, bad) if reg and reg != 'esp' else None
+        if debug: print('repair: %s bad=0x%X site=%s src=%s' % (r.detail, bad, site, src))
+        if src is None or (src[0], src[1]) in tried: return r, patches
+        tried.add((src[0], src[1]))
+        if fetch:
+            if src[0] != 'mem': return r, patches
+            a = src[1]; patches.append((a, bytes(m.uc.mem_read(a, 4))))
+            # the pop count: the pushes since the previous call (site_pops), unless they also hold the
+            # next call's arguments: then the nearest count with which the original does not return into
+            # garbage (a fetch fault whose return address is not in the game's code)
+            k0 = site[0]; k = None
+            tag = (int(site[1]) << 5) | (((site[2] + 1) if site[2] is not None else 0) << 6)
+            if site[2] is not None:       # an exact count: no search
+                m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (k0 | tag))); continue
+            for kk in [x for x in [k0] + list(range(k0 - 1, -1, -1)) + [k0 + 1, k0 + 2] if x < 32]:
+                m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (kk | tag)))
+                m.fault_ret = None; r2 = run()
+                garbage = r2.status == 'fault' and _re.search(r'type 21$|execution of data', r2.detail or '') \
+                    and not (m.fault_ret and IMAGE_LO <= m.fault_ret < IMAGE_HI)
+                if not garbage: k = kk; break
+            k = k0 if k is None else k
+            if debug: print('repair: trap at 0x%X pops %d (site %d)' % (a, k, k0))
+            m.uc.mem_write(a, struct.pack('<I', WILD_TRAP + 4 * (k | tag))); continue
+        off = bad - src[2]                # the faulting offset from the pointer (unknown if adjusted on the way)
+        size = ((off & ~0xFFF) + 0x1000) if 0 <= off < 0x10000 else 0x2000
+        if top + size > G.SANDBOX + 0x700000 + REPAIR_SPAN: return r, patches
+        buf = top; top += size
+        m.uc.mem_write(buf, _fuzz_block(rng, size))
+        if src[0] == 'stub':              # a stub's return value: that call (by its count) returns the buffer
+            m.stub_ret[src[1]] = buf; patches.append(('stub', src[1]))
+        elif src[0] == 'arg':             # an argument: both sides are called with the repaired list
+            args[src[1]] = buf
+        else:
+            patches.append((src[1], bytes(m.uc.mem_read(src[1], 4))))
+            m.uc.mem_write(src[1], struct.pack('<I', buf))
+    return r, patches
+
+
+def restore_inputs(m, patches):
+    for a, old in reversed(patches):
+        if a == 'stub': m.stub_ret.pop(old, None); continue
+        try: m.uc.mem_write(a, old)
+        except Exception: pass
 
 
 def setup_trial(m, case, fz):
@@ -490,20 +821,12 @@ def run_case(m, case, trials, seed):
     saved = [(a, bytes(m.uc.mem_read(a, n))) for a, n in touched]
     for t in range(trials):
         this, args, trial_seed = setup_trial(m, case, fz)
-        a = None
-        for _ in range(3):      # discovery: map every page the original touches before measuring
-            before = len(m.demand)
-            m.rng = random.Random(trial_seed); m.wild = 0; r_ = m.call(orig, conv, this, args, limit)
-            if len(m.demand) == before:
-                a = r_          # no new page: this run is the measurement run (same seed, same pages)
-                break
-        if a is None:
-            m.rng = random.Random(trial_seed); m.wild = 0; a = m.call(orig, conv, this, args, limit)
+        a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
         if a.status in ('fault', 'limit'):
             b = None            # not compared (below): the reconstruction need not run
         else:
             m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit)
-        demand_pages = len(m.demand); m.reset_demand()
+        restore_inputs(m, patches); demand_pages = len(m.demand); m.reset_demand()
         com_calls += sum(1 for c in a.calls if c[0] >= 0xC0000000)
         statuses[a.status.split(":")[0]] = statuses.get(a.status.split(":")[0], 0) + 1
         if ret == 'word' and b is not None:

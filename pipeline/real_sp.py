@@ -8,7 +8,8 @@ instruction of the function: depth = bytes below ESP at entry (the return addres
 never execute have no entry. A conflict (one address seen at two depths) is reported, not hidden.
 
     python3 real_sp.py RUNDIR OUT.json ADDR [ADDR ...] [--trials N]      uses $FFXI_DLL
-OUT.json: {"0xFUNC": {"depth": {"0xADDR": depth}, "calls": {"0xCALL": bytes popped}}}.
+OUT.json: {"0xFUNC": {"depth": {"0xADDR": depth}, "calls": {"0xCALL": bytes popped}, "tdepth": {...}}}.
+"tdepth" is the depth only on paths where every call before it was real code: where IDA's SP may be synced to it.
 "calls" holds only calls whose effect comes from real code: game code that ran, or a stub whose pop count
 is the callee's own `ret N` (purges.json). A call answered by a fake COM object or a stub typed from IDA's
 prototype is left out: its pop is the model's, not the game's (the fake for an untyped COM pointer is a
@@ -73,7 +74,7 @@ def com_method(m, t):
     IDirect3DResource8 is also the fallback for an untyped COM pointer, so its methods are not trusted"""
     if t not in getattr(m, 'trap', {}): return None
     name, slot = m.trap[t]
-    if name == 'IDirect3DResource8': return None
+    if name in ('IDirect3DResource8', '*wild'): return None      # *wild: input repair's trap (a guessed pop)
     return name, DG.SPEC[name][slot]
 
 
@@ -95,7 +96,8 @@ def trusted(m, t):
 def observe(m, case, ext, trials):
     conv = case.get('conv', 'thiscall'); limit = case.get('insn_limit', 300000)
     ea = int(case['original'], 16)
-    seen, conflicts, st = {}, {}, {'esp0': None}
+    seen, conflicts, st = {}, {}, {'esp0': None, 'taint': False}
+    tseen, tconf = {}, {}               # depths on paths where every call so far was real code (trusted)
     calls = call_insns(m, ext); trust = {}; targets = {}
 
     def hook(uc, addr, size, _):
@@ -104,19 +106,26 @@ def observe(m, case, ext, trials):
         if st['esp0'] is None: return
         d = st['esp0'] - 4 - esp
         if not 0 <= d < 0x10000: return                              # a recursive or nested activation
+        if addr == ea and d == 0: st['taint'] = False                # each run of the trial starts clean
+        if not st['taint']:
+            if addr in tseen and tseen[addr] != d: tconf.setdefault(addr, set()).update({tseen[addr], d})
+            else: tseen[addr] = d
         if addr in calls:
             t = call_target(uc, calls[addr]); ok = trusted(m, t)
             trust[addr] = trust.get(addr, True) and ok
             if ok: targets.setdefault(addr, set()).add(t)
+            else: st['taint'] = True                                 # the depth after it is the model's
         if addr in seen and seen[addr] != d: conflicts.setdefault(addr, set()).update({seen[addr], d})
         else: seen[addr] = d
     hooks = [m.uc.hook_add(UC_HOOK_CODE, hook, begin=a, end=b - 1) for a, b in ext]
     fz = G.Fuzzer(m, 11)
     for _ in range(trials):
         this, args, ts = DG.setup_trial(m, case, fz)
-        m.rng = random.Random(ts); m.wild = 0; st['esp0'] = None
-        m.call(ea, conv, this, args, limit)
+        st['esp0'] = None
+        _, patches = DG.run_original(m, ea, conv, this, args, limit, ts)     # the gate's inputs, repaired as the gate does
+        DG.restore_inputs(m, patches); m.reset_demand()
     for h in hooks: m.uc.hook_del(h)
+    observe.trusted_depth = {k: v for k, v in tseen.items() if k not in tconf}
     return seen, conflicts, calls, trust, targets
 
 
@@ -153,7 +162,8 @@ def main():
                 forced[ck] = {'pops': pops[ck], 'pushed': guess[k], 'targets': [], 'decl': com_decl(*coms[0])}
             elif not any(coms):
                 forced[ck] = {'pops': pops[ck], 'pushed': guess[k], 'targets': ['0x%08X' % t for t in sorted(targets[k])]}
-        res[key] = {'depth': {'0x%08X' % k: v for k, v in sorted(depth.items())}, 'calls': pops, 'call_types': forced}
+        res[key] = {'depth': {'0x%08X' % k: v for k, v in sorted(depth.items())}, 'calls': pops, 'call_types': forced,
+                    'tdepth': {'0x%08X' % k: v for k, v in sorted(observe.trusted_depth.items())}}
         print('%s: %d instructions observed, %d conflicts %s' % (key, len(seen), len(conflicts),
               {'0x%08X' % k: sorted(v) for k, v in list(conflicts.items())[:5]}))
     json.dump(res, open(a.out, 'w'), indent=0)

@@ -53,5 +53,15 @@
   "type": "void __thiscall(void *this)",
   "why": "returns nothing: EAX at its ret is left over from the last type_info destructor call, and its only caller (0x10178CD7) overwrites EAX at once.",
   "evidence": "0x10178CD7 call sub_10178250; next: mov eax, [ebx+0x3949C]. The function never sets EAX before either ret (0x10178495, 0x101784D0)."
+ },
+ "0x1006E7D0": {
+  "type": "void __thiscall(void *this, float *a1, int a2, int a3, float *a4, float *a5, float a6, float a7)",
+  "why": "CMoProcessor virtual method (vtable slot 32): called with the processor in ECX (sub_100548D0: mov ecx,[g_pProcessor]; mov edx,[ecx]; call [edx+80h]) and 7 stack arguments; the IDB has it __stdcall, so Hex-Rays dropped `this`.",
+  "evidence": "ret 1Ch (purges.json); 0x100549FB mov edx,[ecx]; 0x10054A13 call [edx+80h] after 7 pushes."
+ },
+ "0x1006FE70": {
+  "type": "void __thiscall(void *this, float *a1, int a2, int a3, int a4, int a5, int a6, int a7)",
+  "why": "CMoProcessor virtual method (vtable slot 33): called with the processor in ECX (CMoDistMorphElem_ValidateMorphData) and 7 stack arguments; the IDB has it __stdcall, so Hex-Rays dropped `this`.",
+  "evidence": "ret 1Ch (purges.json); 0x10042D14 mov ecx,[g_pProcessor]; 0x10042D36..0x10042D42 7 pushes; 0x10042D43 call [edx+84h]."
  }
 }

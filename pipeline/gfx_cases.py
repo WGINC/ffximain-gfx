@@ -15,6 +15,7 @@ RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] i
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
+THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
 LEAF = json.load(open(os.path.join(DATADIR, 'leaf_funcs.json'))) if os.path.exists(os.path.join(DATADIR, 'leaf_funcs.json')) else {}
 ALLOC = {int(k, 16): v for k, v in json.load(open(os.path.join(DATADIR, 'allocators.json'))).items() if k.startswith('0x')} \
     if os.path.exists(os.path.join(DATADIR, 'allocators.json')) else {}
@@ -132,6 +133,8 @@ def main(exp, metaf, protof, out):
                 c['this_com'] = {'4': 'IDirect3D8', '8': 'IDirect3DDevice8'}      # the D3D holder (DancingMad 18.1)
             if cls in VT:
                 c['vptr'] = VT[cls]['vtable']; c['vslots'] = VT[cls]['slots']
+            hint = THIS_COM.get('0x%08X' % r['ea'])
+            if hint: c['this_com'] = dict(c.get('this_com', {}), **hint['fields'])   # data/this_com.json
         c['args'] = [arg_kind(a[1], a[4]) for a in stack_args]
         stubs = {}; fuzz = []; glob = {}; ran = set()
         for nm, o in r.get('objs', {}).items():

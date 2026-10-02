@@ -14,13 +14,14 @@ File > Script file... > ffxi_ida_fix.py. Steps:
   4b. call types: at indirect calls where the bytes pushed just before differ from what the callee (seen
      running) pops, Hex-Rays guesses the arguments wrong; the call type is forced to the callee's prototype
      (rebuilt with the measured argument count when its own disagrees), verified by decompiling;
-  5. re-export: every function of the current export is decompiled again.
+  5. re-export: every function of the current export is decompiled again, each with its call sites
+     (Hex-Rays' argument count and calling convention per call) and IDA's stack pointer where it changes.
 Output, next to the IDB: gfx_export_ida_reexport.jsonl, ida_fix_report.json and ida_fix_log.txt. Each step
 runs even if an earlier one failed; failures are logged with their traceback.
 """
 import json, os, re, sys, time, traceback
 import idc, idaapi, ida_auto, ida_bytes, ida_frame, ida_funcs, ida_hexrays, ida_kernwin, ida_lines, ida_nalt
-import ida_name, ida_typeinf
+import ida_name, ida_typeinf, idautils
 
 DATA = json.loads(r'''__DATA__''')
 OUT_DIR = os.path.dirname(idc.get_idb_path()) or os.getcwd()
@@ -261,11 +262,21 @@ def export_one(ea):
     text = str(cf); rec['text'] = text
     m = BAD.search(text)
     if m: rec['skip'] = 'unsupported construct ' + m.group(0)
-    objs = {}; types = set()
+    objs = {}; types = set(); calls = {}
 
     class V(ida_hexrays.ctree_visitor_t):
         def __init__(s): super().__init__(ida_hexrays.CV_FAST)
         def visit_expr(s, e):
+            if e.op == ida_hexrays.cot_call and e.ea != idaapi.BADADDR:
+                # the call's argument count and convention as Hex-Rays decompiled it (the gate's exact count
+                # for a call through a fuzzed object)
+                ft = e.x.type
+                if ft.is_ptr(): ft = ft.get_pointed_object()
+                fd = ida_typeinf.func_type_data_t(); cc = 'unknown'
+                try:
+                    if ft.get_func_details(fd): cc = cc_name(fd)
+                except Exception: pass
+                calls['0x%08X' % e.ea] = [e.a.size(), cc]
             if e.op == ida_hexrays.cot_obj:
                 oea = e.obj_ea; nm = ida_name.get_name(oea) or ('unk_%X' % oea)
                 fn = ida_funcs.get_func(oea); is_func = bool(fn) and fn.start_ea == oea
@@ -285,7 +296,13 @@ def export_one(ea):
     V().apply_to(cf.body, None)
     for lv in cf.get_lvars(): type_decl_closure(lv.type(), types)
     type_decl_closure(cf.type, types)
-    rec['objs'] = objs; rec['types'] = sorted(types)
+    rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls
+    # IDA's stack pointer wherever it changes (compared with the depth measured by running the original)
+    pfn = ida_funcs.get_func(ea); spd = []; last = None
+    for item in (idautils.FuncItems(ea) if pfn else ()):
+        v = idc.get_spd(item)
+        if v is not None and v != last: spd.append([item, v]); last = v
+    rec['spd'] = spd
     rec['purged'] = idc.get_func_attr(ea, idc.FUNCATTR_ARGSIZE)
     fd = ida_typeinf.func_type_data_t(); cf.type.get_func_details(fd)
     rec['cc'] = cc_name(fd); rec['ret'] = str(fd.rettype)

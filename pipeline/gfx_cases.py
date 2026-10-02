@@ -8,6 +8,9 @@ RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.
 # calls whose x87 result the original caller consumes (fp_callsites.py): their stubs push a value
 FPRET = json.load(open(os.path.join(DATADIR, 'fpret.json')))
 FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.path.exists(os.path.join(DATADIR, 'fp_callsites.json')) else {}
+# globals whose real values are bounded (a table count): fuzzed values are mapped into the range,
+# so a loop over the table runs as in the game instead of to the instruction limit
+RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 DATA = (0x1034F000, 0x109FA000)          # .data: globals the gate may fuzz
 HOLDER, CDX, DANCER, D3D_SQGX = 0x103D3CBC, 0x1045666C, 0x1066941C, 0x10669418
 DEVICE_DATA = {HOLDER, CDX, DANCER, D3D_SQGX}
@@ -150,6 +153,10 @@ def main(exp, metaf, protof, out):
             if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):
                 stubs['0x%08X' % sa]['fpret'] = 1
         c['stubs'] = stubs
+        used = {'0x%08X' % o['ea'] for o in r.get('objs', {}).values()}
+        rng_ = [e for e in RANGES if (e.get('func') and int(e['func'], 16) == r['ea']) or
+                (not e.get('func') and e['where'] in ('global', 'global_ptr') and '0x%08X' % int(e['addr'], 16) in used)]
+        if rng_: c['input_ranges'] = [{k: v for k, v in e.items() if k not in ('why', 'func')} for e in rng_]
         if fuzz: c['fuzz_ranges'] = fuzz
         if glob: c['globals'] = glob
         c.update(COMMON)

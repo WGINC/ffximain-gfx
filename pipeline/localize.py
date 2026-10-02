@@ -75,7 +75,7 @@ def replay(m, case, trial, seed, orig, cand):
         args = [fz.arg(s) for s in case.get('args', [])]
         ts = fz.rng.getrandbits(32)
         if t < trial: continue
-        m.page_seed = ts; m.reset_demand(); m.ctx = m.uc.context_save()
+        m.page_seed = ts; m.reset_demand(); m.constrain(case.get('input_ranges', []), this, args); m.ctx = m.uc.context_save()
         for _ in range(3):
             n = len(m.demand); m.rng = random.Random(ts); m.wild = 0; m.call(orig, conv, this, args, limit)
             if len(m.demand) == n: break

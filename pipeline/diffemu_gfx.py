@@ -38,6 +38,10 @@ def _stackref(v):
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
 
+def _bound(v, sh, mk, lo, hi):
+    f = (v >> sh) & mk
+    return (v & ~(mk << sh) & 0xFFFFFFFF) | (((lo + f % (hi - lo + 1)) & mk) << sh)
+
 class GfxMachine(G.Machine):
     def __init__(self, game_dll, recon_dll, stubs=None, overlays=()):
         super().__init__(game_dll, recon_dll, stubs, overlays)
@@ -86,7 +90,33 @@ class GfxMachine(G.Machine):
             elif k < 0.75: v = G.POOL + (r.randrange(0, G.POOL_SIZE - 0x1000) & ~3)
             else: v = r.getrandbits(32)
             struct.pack_into('<I', out, off, v)
+        for a, sh, mk, lo, hi in getattr(self, 'ranges', ()):      # bounded fields inside this page
+            if page <= a <= page + G.PAGE - 4:
+                v = struct.unpack_from('<I', out, a - page)[0]
+                struct.pack_into('<I', out, a - page, _bound(v, sh, mk, lo, hi))
         return bytes(out)
+
+    def constrain(self, entries, this, args):
+        # data/input_ranges.json: resolve each entry to an address for this trial; a field already in
+        # mapped memory is bounded now, one in a page mapped later is bounded when the page is made
+        self.ranges = []
+        for e in entries:
+            off = int(str(e.get('off', '0')), 0); sh = e.get('shift', 0); mk = int(str(e.get('mask', '0xFFFFFFFF')), 0)
+            try:
+                if e['where'] == 'global': a = int(e['addr'], 16)
+                elif e['where'] == 'global_ptr': a = struct.unpack('<I', self.uc.mem_read(int(e['addr'], 16), 4))[0] + off
+                elif e['where'] == 'this': a = (this or 0) + off
+                elif e['where'] == 'arg': a = args[e['arg']] + off if e['arg'] < len(args) else 0
+                else: continue
+            except Exception:
+                continue
+            if a < 0x10000 or a > 0xFFFFFFF0: continue
+            self.ranges.append((a, sh, mk, e['lo'], e['hi']))
+            try:
+                v = struct.unpack('<I', self.uc.mem_read(a, 4))[0]
+                self.uc.mem_write(a, struct.pack('<I', _bound(v, sh, mk, e['lo'], e['hi'])))
+            except Exception:
+                pass            # not mapped yet: _page_bytes bounds it when the page is made
 
     def _on_invalid(self, uc, access, addr, size, value, _):
         # overrides the base hook.
@@ -207,6 +237,7 @@ def run_case(m, case, trials, seed):
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
     touched = [(int(g, 16), n) for g, n in case.get("fuzz_ranges", [])]
     touched += [(int(g, 16), 4) for g in list(case.get("globals", {})) + list(case.get("com_globals", {})) + list(case.get("struct_globals", {}))]
+    touched += [(int(e["addr"], 16), 4) for e in case.get("input_ranges", []) if e["where"] == "global"]
     saved = [(a, bytes(m.uc.mem_read(a, n))) for a, n in touched]
     for t in range(trials):
         fz.reset()
@@ -216,6 +247,7 @@ def run_case(m, case, trials, seed):
             m.uc.mem_write(int(g, 16), struct.pack("<I", fz.arg(spec) & 0xFFFFFFFF))
         for g, iface in case.get("com_globals", {}).items():
             m.uc.mem_write(int(g, 16), struct.pack("<I", m.obj[iface]))
+
         for g, sp in case.get("struct_globals", {}).items():
             buf = fz.buffer(int(str(sp["size"]), 0))
             for off, iface in sp.get("com", {}).items():
@@ -230,20 +262,28 @@ def run_case(m, case, trials, seed):
         args = [fz.arg(s) for s in case.get("args", [])]
         trial_seed = fz.rng.getrandbits(32)
         m.page_seed = trial_seed; m.reset_demand()
+        m.constrain(case.get("input_ranges", []), this, args)
         m.ctx = m.uc.context_save()
+        a = None
         for _ in range(3):      # discovery: map every page the original touches before measuring
             before = len(m.demand)
-            m.rng = random.Random(trial_seed); m.wild = 0; m.call(orig, conv, this, args, limit)
-            if len(m.demand) == before: break
-        m.rng = random.Random(trial_seed); m.wild = 0; a = m.call(orig, conv, this, args, limit)
-        m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit)
+            m.rng = random.Random(trial_seed); m.wild = 0; r_ = m.call(orig, conv, this, args, limit)
+            if len(m.demand) == before:
+                a = r_          # no new page: this run is the measurement run (same seed, same pages)
+                break
+        if a is None:
+            m.rng = random.Random(trial_seed); m.wild = 0; a = m.call(orig, conv, this, args, limit)
+        if a.status in ('fault', 'limit'):
+            b = None            # not compared (below): the reconstruction need not run
+        else:
+            m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit)
         demand_pages = len(m.demand); m.reset_demand()
         com_calls += sum(1 for c in a.calls if c[0] >= 0xC0000000)
         statuses[a.status.split(":")[0]] = statuses.get(a.status.split(":")[0], 0) + 1
-        if ret == 'word':
+        if ret == 'word' and b is not None:
             a.eax &= 0xFFFF; b.eax &= 0xFFFF
         fret = case.get('fret')
-        if ret == 'float' and fret in ('float', 'double') and a.st0 and b.st0 and a.fp_top == b.fp_top \
+        if ret == 'float' and b is not None and fret in ('float', 'double') and a.st0 and b.st0 and a.fp_top == b.fp_top \
                 and a.st0 != b.st0 and _x87_round(a.st0, fret) == _x87_round(b.st0, fret):
             # the original hands back ST0 unrounded; the reconstruction rounds to the declared return
             # type (C++ requires it). Equal once rounded to that type = equal to any caller that stores

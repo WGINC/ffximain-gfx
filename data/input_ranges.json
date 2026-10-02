@@ -1,0 +1,68 @@
+{
+ "about": "Values the game keeps in a bounded range (table counts, record sizes). The gate maps a fuzzed value into the range (lo + value % (hi - lo + 1)) instead of letting a loop over it run to the instruction limit. where: global (the value at addr), global_ptr (field off of the object addr points to), this (field off of this), arg (field off of the buffer stack argument `arg` points to). shift/mask select a bitfield. func limits an entry to one function.",
+ "ranges": [
+  {
+   "where": "global",
+   "addr": "0x109A261C",
+   "lo": 0,
+   "hi": 512,
+   "why": "entry count of the sqgx texture table at 0x1099D618: 40-byte entries up to 0x109A2618, where g_sqgxRenderStateDirty starts; (0x109A2618 - 0x1099D618) / 40 = 512"
+  },
+  {
+   "where": "global",
+   "addr": "0x109A2744",
+   "lo": 0,
+   "hi": 1024,
+   "why": "entry count of the sqgx vertex shader table: handles int[1024] at 0x103B4910, key pairs int[2048] at 0x103B5910"
+  },
+  {
+   "where": "global_ptr",
+   "addr": "0x1099D200",
+   "off": "0xB18",
+   "lo": 0,
+   "hi": 7,
+   "why": "g_pSqgxContext+0xB18 is the last texture stage index: loops run it + 1 times over 8-byte stage records; Direct3D 8 has 8 texture stages"
+  },
+  {
+   "where": "arg",
+   "func": "0x1003CB30",
+   "arg": 0,
+   "off": "0x4",
+   "shift": 7,
+   "mask": "0x7FFFF",
+   "lo": 2,
+   "hi": 66,
+   "why": "CMoCamera_SetPathData copies (size - 2) 16-byte waypoints from source+0x20 (rep movsd); size is bits 7..25 of the record header. Bounded to 64 waypoints, inside both the source and the object (assumption: real path records are small)"
+  },
+  {
+   "where": "arg",
+   "func": "0x10047C30",
+   "arg": 0,
+   "off": "0x4",
+   "shift": 7,
+   "mask": "0x7FFFF",
+   "lo": 6,
+   "hi": 70,
+   "why": "CMoGeneratorClone_InitCloneFromSource copies (size - 6) 16-byte entries from source+0x60; same header format as CMoCamera_SetPathData"
+  },
+  {
+   "where": "arg",
+   "func": "0x1001C930",
+   "arg": 0,
+   "off": "0x14AC",
+   "lo": 0,
+   "hi": 37,
+   "why": "sub_1001C930 writes 2 * count 32-byte entries into a 2408-byte local buffer (75 entries): count <= 37"
+  },
+  {
+   "where": "arg",
+   "func": "0x1016FCD0",
+   "arg": 1,
+   "off": "0x0",
+   "mask": "0xFFFFFF",
+   "lo": 8,
+   "hi": 2056,
+   "why": "sub_1016FCD0 XOR-decodes (size - 8) bytes of the block arg 1 points to; size is the low 24 bits of its first dword. Bounded to 2 KB, inside the gate's buffer (assumption: real blocks fit their buffer)"
+  }
+ ]
+}

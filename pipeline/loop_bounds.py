@@ -23,14 +23,7 @@ def stops(m, case, trials=40):
     fz = G.Fuzzer(m, 11); conv = case.get('conv', 'thiscall'); out = collections.Counter()
     orig = int(case['original'], 16)
     for _ in range(trials):
-        fz.reset()
-        for g, n in case.get('fuzz_ranges', []):
-            m.uc.mem_write(int(g, 16), bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n)))
-        for g, spec in case.get('globals', {}).items():
-            m.uc.mem_write(int(g, 16), (fz.arg(spec) & 0xFFFFFFFF).to_bytes(4, 'little'))
-        this = fz.buffer(int(str(case.get('this_size', '0x400')), 0), int(case['vptr'], 16) if case.get('vptr') else None) if conv == 'thiscall' else None
-        args = [fz.arg(s) for s in case.get('args', [])]
-        ts = fz.rng.getrandbits(32); m.page_seed = ts; m.reset_demand(); m.constrain(case.get('input_ranges', []), this, args); m.ctx = m.uc.context_save()
+        this, args, ts = DG.setup_trial(m, case, fz)
         for _ in range(3):
             n = len(m.demand); m.rng = random.Random(ts); m.wild = 0
             r = m.call(orig, conv, this, args, case.get('insn_limit', 300000))

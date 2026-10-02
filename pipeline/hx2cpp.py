@@ -171,6 +171,7 @@ def body_rules(ea, body):
     # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean)
     body = exact_fp_literals(ea, body)
     body = fpu_status_words(body)
+    body = negate_if_negative(body)
     body = signed_dword_compares(body)
     body = exact_frame(body)
     return inplace_buffers(body)
@@ -184,25 +185,76 @@ def drop_float_return(ea, ret, body):
     return 'void', re.sub(r'\breturn ([^;]+);', lambda m: '(void)(%s); return;' % re.sub(
         r'\((?:float|double|long double) \((__\w+) \*\)', r'(void (\1 *)', m.group(1)), body)
 
+def _expr_at(text, i):
+    # the expression starting at text[i]: up to `;`, or a `,` or `)` outside its own parentheses
+    depth = 0
+    for j in range(i, len(text)):
+        ch = text[j]
+        if ch == '(': depth += 1
+        elif ch == ')':
+            if depth == 0: return text[i:j]
+            depth -= 1
+        elif ch in ',;' and depth == 0: return text[i:j]
+    return text[i:]
+
+def _split_top(expr, op):
+    # expr split at the one occurrence of `op` outside parentheses, or None
+    depth, hits = 0, []
+    for i, ch in enumerate(expr):
+        depth += (ch == '(') - (ch == ')')
+        if depth == 0 and expr.startswith(op, i) and expr[i - 1:i] != op[0] and expr[i + len(op):i + len(op) + 1] not in ('=', op[-1]):
+            hits.append(i)
+    return (expr[:hits[0]].strip(), expr[hits[0] + len(op):].strip()) if len(hits) == 1 else None
+
 def fpu_status_words(body):
     # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
     # word variable (// fps) unassigned, so `(fps & 0x100)` reads garbage. Each read of the status word
     # becomes the word fnstsw stores, built from the condition variables assigned most recently before it.
+    # Hex-Rays writes them as c0 = a < b, c2 = 0, c3 = a == b; for an unordered pair (a NaN) x87 sets all
+    # three, so the word adds the unordered case, from the operands of the c0 comparison. The variables
+    # themselves keep Hex-Rays' meaning: its `(c0 | c2)` for a `test ah, 5; jp` parity test relies on it.
     decl = dict((v, k) for v, k in re.findall(r'\b(v\d+); // (fps|c0|c2|c3)\b', body))
     fps = {v for v, k in decl.items() if k == 'fps'}
     if not fps: return body
     cond = {v: k for v, k in decl.items() if k != 'fps'}
     tok = re.compile(r'\b(v\d+)\b(\s*=(?!=))?')
-    last, out, pos = {}, [], 0
+    last, out, pos, unord = {}, [], 0, None
     start = body.find('\n\n')            # skip the declarations
     for m in tok.finditer(body, start if start > 0 else 0):
         v, assign = m.group(1), m.group(2)
-        if v in cond and assign: last[cond[v]] = v
+        if v in cond and assign:
+            last[cond[v]] = v
+            if cond[v] == 'c0':
+                ab = _split_top(_expr_at(body, m.end()), '<')
+                unord = '__builtin_isunordered(%s, %s)' % ab if ab else None
         elif v in fps and not assign and last:
-            bits = ' | '.join('(%s ? 0x%X : 0)' % (last[k], b) for k, b in (('c0', 0x100), ('c2', 0x400), ('c3', 0x4000)) if k in last)
+            bit = {'c0': 0x100, 'c2': 0x400, 'c3': 0x4000}
+            if unord:
+                bits = ' | '.join('((%s) ? 0x%X : 0)' % (' || '.join(([last[k]] if k in last and k != 'c2' else []) + [unord]), bit[k])
+                                  for k in ('c0', 'c2', 'c3'))
+            else:
+                bits = ' | '.join('(%s ? 0x%X : 0)' % (last[k], bit[k]) for k in ('c0', 'c2', 'c3') if k in last)
             out.append(body[pos:m.start()]); out.append('(__int16)(%s)' % bits); pos = m.end()
     out.append(body[pos:])
     return ''.join(out)
+
+def negate_if_negative(body):
+    # `fcom [0.0]; fnstsw ax; test ah, 5; jp skip` followed by `fchs` (x < 0 ? -x : x, the game's inline
+    # abs) or by loading 0.0 (x < 0 ? 0 : x, a clamp): Hex-Rays writes the test as `(c0 | c2) != 0` with
+    # c0/c2 never assigned, so it reads garbage. The parity test is true exactly when C0 alone is set:
+    # x < 0, false for a NaN as in the original. x is the negated value, or for the clamp the variable
+    # the statement just before assigned.
+    decl = dict((v, k) for v, k in re.findall(r'\b(v\d+); // (c0|c2)\b', body))
+    start = body.find('\n\n'); start = start if start > 0 else 0
+    unset = {v for v in decl if not re.search(r'\b%s\s*=(?!=)' % v, body[start:])}
+    def ok(a, b): return {decl.get(a), decl.get(b)} == {'c0', 'c2'} and a in unset and b in unset
+    def neg(m):
+        return '%s%s < 0.0%s' % (m.group(1), m.group(5), m.group(4)) if ok(m.group(2), m.group(3)) else m.group(0)
+    def clamp(m):
+        return '%s%s < 0.0%s' % (m.group(1), m.group(2), m.group(5)) if ok(m.group(3), m.group(4)) else m.group(0)
+    rest = re.sub(r'(if \( )\((v\d+) \| (v\d+)\) != 0( \)\n\s*v\d+ = -(v\d+);)', neg, body[start:])
+    rest = re.sub(r'((v\d+) = [^;\n]+;\n\s*if \( )\((v\d+) \| (v\d+)\) != 0( \)\n\s*\2 = 0\.0;)', clamp, rest)
+    return body[:start] + rest
 
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}

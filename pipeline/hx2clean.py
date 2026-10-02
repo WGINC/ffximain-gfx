@@ -419,7 +419,7 @@ def main(exp, gate, manf, incdir, outdir):
                 # keyed by (address, name): a record exported before a rename still refers to the
                 # old name, so both names get a wrapper to the same address
                 if w: origs[(o['ea'], nm)] = (nm, w)
-                if w and re.match(r'^(float|double|long double)\b', o['type'].strip()):
+                if w and re.match(r'^(float|double|long double)\s*(__\w+\s*)?\(', o['type'].strip()):   # not `float *`
                     fwrap[nm] = (o['ea'], o['type'])
             else:
                 globs.setdefault(o['ea'], (nm, o))

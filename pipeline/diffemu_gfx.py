@@ -245,6 +245,37 @@ class GfxMachine(G.Machine):
         uc.reg_write(UC_X86_REG_EIP, ret_addr)
 
 
+def setup_trial(m, case, fz):
+    """One trial's inputs, exactly as the gate makes them: fuzzed globals, COM objects in globals and
+    in `this`, arguments, the demand-page seed and the input ranges. Returns (this, args, trial_seed).
+    Diagnostics (localize, loop_bounds) call this so they replay the gate's trials."""
+    conv = case.get("conv", "thiscall")
+    fz.reset()
+    for g, n in case.get("fuzz_ranges", []):
+        m.uc.mem_write(int(g, 16), bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n)))
+    for g, spec in case.get("globals", {}).items():
+        m.uc.mem_write(int(g, 16), struct.pack("<I", fz.arg(spec) & 0xFFFFFFFF))
+    for g, iface in case.get("com_globals", {}).items():
+        m.uc.mem_write(int(g, 16), struct.pack("<I", m.obj[iface]))
+    for g, sp in case.get("struct_globals", {}).items():
+        buf = fz.buffer(int(str(sp["size"]), 0))
+        for off, iface in sp.get("com", {}).items():
+            m.uc.mem_write(buf + int(off, 0), struct.pack("<I", m.obj[iface]))
+        m.uc.mem_write(int(g, 16), struct.pack("<I", buf))
+    this = None
+    if conv == "thiscall":
+        vptr = int(case["vptr"], 16) if case.get("vptr") else None
+        this = fz.buffer(int(str(case.get("this_size", "0x400")), 0), vptr)
+        for off, iface in case.get("this_com", {}).items():
+            m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
+    args = [fz.arg(s) for s in case.get("args", [])]
+    trial_seed = fz.rng.getrandbits(32)
+    m.page_seed = trial_seed; m.reset_demand()
+    m.constrain(case.get("input_ranges", []), this, args)
+    m.ctx = m.uc.context_save()
+    return this, args, trial_seed
+
+
 def run_case(m, case, trials, seed):
     """G.run_case plus: COM placements in globals and in `this`, and one shared random stream
     for stub/COM return values per trial (restarted for each of the two runs)."""
@@ -264,30 +295,7 @@ def run_case(m, case, trials, seed):
     touched += [(int(e["addr"], 16), 4) for e in case.get("input_ranges", []) if e["where"] == "global"]
     saved = [(a, bytes(m.uc.mem_read(a, n))) for a, n in touched]
     for t in range(trials):
-        fz.reset()
-        for g, n in case.get("fuzz_ranges", []):
-            m.uc.mem_write(int(g, 16), bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n)))
-        for g, spec in case.get("globals", {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack("<I", fz.arg(spec) & 0xFFFFFFFF))
-        for g, iface in case.get("com_globals", {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack("<I", m.obj[iface]))
-
-        for g, sp in case.get("struct_globals", {}).items():
-            buf = fz.buffer(int(str(sp["size"]), 0))
-            for off, iface in sp.get("com", {}).items():
-                m.uc.mem_write(buf + int(off, 0), struct.pack("<I", m.obj[iface]))
-            m.uc.mem_write(int(g, 16), struct.pack("<I", buf))
-        this = None
-        if conv == "thiscall":
-            vptr = int(case["vptr"], 16) if case.get("vptr") else None
-            this = fz.buffer(int(str(case.get("this_size", "0x400")), 0), vptr)
-            for off, iface in case.get("this_com", {}).items():
-                m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
-        args = [fz.arg(s) for s in case.get("args", [])]
-        trial_seed = fz.rng.getrandbits(32)
-        m.page_seed = trial_seed; m.reset_demand()
-        m.constrain(case.get("input_ranges", []), this, args)
-        m.ctx = m.uc.context_save()
+        this, args, trial_seed = setup_trial(m, case, fz)
         a = None
         for _ in range(3):      # discovery: map every page the original touches before measuring
             before = len(m.demand)

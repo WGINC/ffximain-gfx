@@ -74,25 +74,27 @@ so where IDA's SP is wrong one slot gets two names:
 - `CTsZoneMap_DrawProjectedShadow` (live gate only): `SetVertexShader` at 0x101851B4 pops 8 of the 12
   bytes pushed before it; the `push edi` stays on the stack, and Hex-Rays reads `this` 12 bytes off later.
 
-Both are fixed in IDA by **`pipeline/ida_fix_reexport.py`** (see *Next step in IDA*).
+Both are fixed in IDA by **`ida/ffxi_ida_fix.py`** (see *Next step in IDA*).
 
 ## Next step in IDA
 
-1. Save the IDB (or work on a copy). Put this repo's checkout where IDA can read it.
-2. In IDA 9.x with the FFXiMain_unpacked.dll IDB open: **File > Script file... >
-   `pipeline/ida_fix_reexport.py`**. It runs unattended (the re-export of 768 functions takes a while) and:
+1. Save the IDB (or work on a copy).
+2. In IDA 9.4 with the FFXiMain_unpacked.dll IDB open: **File > Script file... > `ida/ffxi_ida_fix.py`**. The file
+   is self-contained (its data is embedded; `pipeline/make_ida_fix.py` rebuilds it), so it can be copied
+   anywhere. It runs unattended, with a progress box that can cancel, and:
    - applies the pending names and prototype fixes (`names_pending_idb.json`, `type_fixes.json`);
    - types the viewport globals 0x104E1B70 and 0x10621904 as `D3DVIEWPORT8`;
    - corrects IDA's SP from `data/real_sp.json`, the real stack depth at 28,708 instructions of the 712
      functions, measured by running the originals (`pipeline/real_sp.py`). Each call where IDA's SP change
-     differs from the measured one gets a user SP change point (what Alt+K does), checked by re-reading
-     IDA's SP. The result is in `data/exports/ida_sp_report.json`; each fix is commented in the IDB;
-   - writes `data/exports/gfx_export_ida_reexport.jsonl`.
-3. Commit the two new files under `data/exports/` (or send them back), then:
+     differs from the measured one gets a user SP change point (what Alt+K does), checked by reading IDA's
+     SP back. Each fix is commented in the IDB;
+   - re-decompiles all 768 functions.
+3. It writes three files next to the IDB: `gfx_export_ida_reexport.jsonl`, `ida_fix_report.json` and
+   `ida_fix_log.txt`. Put the first two in `data/exports/`, then run
    `./run.sh all data/exports/gfx_export_ida_reexport.jsonl RUN`. OnMove and DrawProjectedShadow should
    pass, and their hand patches will be reported stale.
 
-If anything in step 2 fails, the console output says where; the parts before it have already been applied.
+Each step runs even if an earlier one failed; the log has the traceback.
 
 On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The repairs since,
 to the translator, the gate model and the data, are described in `docs/REPORT-2026-10-02.md`.
@@ -148,7 +150,7 @@ Names:
 | `gfx_coverage.py` | The coverage audit above |
 | `same_code.py` | Are two builds the same code, function by function (renames and moves must be) |
 | `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py`, `cdecl_args.py`, `leaf_funcs.py` | Facts from the DLL (`run.sh facts`) |
-| `real_sp.py` | The real stack depth at each instruction, observed by running the original (input of `ida_fix_reexport.py`) |
+| `real_sp.py` | The real stack depth at each instruction, observed by running the original (embedded in `ida/ffxi_ida_fix.py` by `make_ida_fix.py`) |
 | `stack_depth.py`, `ida_sp_check.py` | The real stack depth at each instruction, and where IDA's own SP (read from its listing) differs: the cause of a stack variable with two names |
 | `unset_reads.py` | Locals Hex-Rays reads but never assigns (a lost return value, a misframed argument, an unmodelled condition code) |
 | `loop_bounds.py` | Why an original runs to the instruction limit: the loop and the fuzzed bound it compares against |

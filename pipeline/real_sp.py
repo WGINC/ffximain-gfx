@@ -7,7 +7,7 @@ instruction of the function: depth = bytes below ESP at entry (the return addres
 never execute have no entry. A conflict (one address seen at two depths) is reported, not hidden.
 
     python3 real_sp.py RUNDIR OUT.json ADDR [ADDR ...] [--trials N]      uses $FFXI_DLL
-OUT.json: {"0xFUNC": {"0xADDR": depth, ...}}; ida_fix_reexport.py compares it with IDA's SP (get_spd)
+OUT.json: {"0xFUNC": {"0xADDR": depth, ...}}; ida/ffxi_ida_fix.py compares it with IDA's SP (get_spd)
 and corrects IDA where the two part.
 """
 import argparse, json, os, random, sys

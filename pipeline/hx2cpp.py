@@ -81,8 +81,8 @@ def exact_fp_literals(ea, body):
 
 _FPS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'fp_callsites.json')
 FP_SITES = json.load(open(_FPS_PATH)) if os.path.exists(_FPS_PATH) else None
-FPRET_FNS = {'0x%08X' % int(k, 16) for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-             '..', 'data', 'fpret.json'))).items() if v in ('float', 'double')}
+FPRET_ALL = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'fpret.json')))
+FPRET_FNS = {'0x%08X' % int(k, 16) for k, v in FPRET_ALL.items() if v in ('float', 'double')}
 
 def unconsumed_fp_calls(ea, syms, body):
     # A callee typed `float`/`double` makes GCC pop its x87 result even when the result is unused.
@@ -93,7 +93,8 @@ def unconsumed_fp_calls(ea, syms, body):
     out = []
     for s in syms:
         m = re.match(r'#define (F_([0-9A-F]{8})) \(reinterpret_cast<(float|double) (\(__\w+ \*\)\(.*\))>\(0x[0-9A-F]+u\)\)$', s)
-        if m and '0x' + m.group(2) in FPRET_FNS and '0x' + m.group(2) not in used:
+        if m and ('0x' + m.group(2) in FPRET_FNS and '0x' + m.group(2) not in used
+                  or FPRET_ALL.get('0x%x' % int(m.group(2), 16)) == 'none'):
             calls = re.findall(r'(?m)^(\s*)%s\(' % m.group(1), body)
             if len(calls) == len(re.findall(r'\b%s\b' % m.group(1), body)):
                 s = s.replace('<%s %s>' % (m.group(3), m.group(4)), '<void %s>' % m.group(4))
@@ -141,6 +142,13 @@ def signed_dword_compares(body):
     body = SIGNED_CMP_LIT.sub(r'*(int *)\1\2 \3 \4', body)
     body = SIGNED_CMP_INT.sub(r'\1*(int *)', body)
     return SIGNED_DIV.sub(r'*(int *)\1 \2 \3', body)
+
+def inplace_buffers(body):
+    # A global the IDB types as a pointer but that is really a buffer stored in place: the same
+    # function copies into `&G` and then copies out of `G`. The copy out must read from `&G`.
+    for g in set(re.findall(r'qmemcpy\(&(G_[0-9A-F]{8}),', body)):
+        body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % g, r'\1&%s\2' % g, body)
+    return body
 
 def fpu_status_words(body):
     # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
@@ -224,9 +232,15 @@ def translate(rec):
     body = fpu_status_words(body)
     body = signed_dword_compares(body)
     body = exact_frame(body)
+    body = inplace_buffers(body)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
+    if ret.strip() in ('float', 'double', 'long double') and FPRET_ALL.get('0x%x' % ea) == 'none':
+        # IDA typed it as returning a float, but the code returns with an empty x87 stack (fpret.py):
+        # the value Hex-Rays returns is computed and dropped, as the original does (e.g. through __ftol)
+        ret = 'void'
+        body = re.sub(r'\breturn ([^;]+);', r'(void)(\1); return;', body)
     out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     syms = unconsumed_fp_calls(ea, syms, body)

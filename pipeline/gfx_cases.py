@@ -85,6 +85,7 @@ def main(exp, metaf, protof, out):
         args = r['args']
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],
              'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret'])}
+        if c['returns'] == 'float' and FPRET.get('0x%x' % r['ea']) == 'none': c['returns'] = 'void'   # see hx2cpp
         if c['returns'] == 'float': c['fret'] = 'float' if r['ret'].strip() == 'float' else 'double' if r['ret'].strip() == 'double' else 'ldouble'
         stack_args = args[1:] if conv == 'thiscall' else args
         if conv == 'thiscall':

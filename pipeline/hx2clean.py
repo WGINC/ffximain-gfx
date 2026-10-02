@@ -398,7 +398,11 @@ def main(exp, gate, manf, incdir, outdir):
             k = '0x%08X' % cea
             if not ((k in hx2cpp.FPRET_FNS and k not in used) or hx2cpp.FPRET_ALL.get('0x%x' % cea) == 'none'): continue
             calls = len(re.findall(r'(?m)^\s*orig::%s\(' % re.escape(nm), body))
-            if calls and calls == len(re.findall(r'\borig::%s\b' % re.escape(nm), body)):
+            total = len(re.findall(r'\borig::%s\b' % re.escape(nm), body))
+            none = hx2cpp.FPRET_ALL.get('0x%x' % cea) == 'none'
+            if total and (calls == total or none):
+                if calls != total:          # proven none: a "result" used in an expression never existed
+                    body = hx2cpp.wrap_calls(body, 'orig::' + nm, '(%s, 0.0)')
                 body = re.sub(r'\borig::%s\(' % re.escape(nm), 'orig_void::%s(' % nm, body)
                 voidv[nm] = (cea, ctype)
         return body

@@ -84,22 +84,39 @@ FP_SITES = json.load(open(_FPS_PATH)) if os.path.exists(_FPS_PATH) else None
 FPRET_ALL = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'fpret.json')))
 FPRET_FNS = {'0x%08X' % int(k, 16) for k, v in FPRET_ALL.items() if v in ('float', 'double')}
 
+def wrap_calls(body, name, fmt):
+    # replace each call `name(...)` (balanced parentheses) by fmt % call
+    out, pos = [], 0
+    for m in re.finditer(r'(?<![\w.>])%s\s*\(' % re.escape(name), body):
+        if m.start() < pos: continue
+        depth, i = 1, m.end()
+        while i < len(body) and depth:
+            depth += {'(': 1, ')': -1}.get(body[i], 0); i += 1
+        out.append(body[pos:m.start()]); out.append(fmt % body[m.start():i]); pos = i
+    out.append(body[pos:])
+    return ''.join(out)
+
 def unconsumed_fp_calls(ea, syms, body):
     # A callee typed `float`/`double` makes GCC pop its x87 result even when the result is unused.
     # Where the original caller never reads ST0 after the call (fp_callsites.py), the callee is
-    # declared `void` instead, so neither side touches the x87 stack after it.
-    if FP_SITES is None: return syms
-    used = set(FP_SITES.get('0x%08X' % ea, ()))
+    # declared `void` instead, so neither side touches the x87 stack after it. A callee proven to
+    # return nothing on the x87 stack (fpret `none`) is always void; where Hex-Rays uses its "result",
+    # the call becomes `(call, 0.0)`: the value never existed, and the original never reads it.
+    used = set(FP_SITES.get('0x%08X' % ea, ())) if FP_SITES is not None else set()
     out = []
     for s in syms:
         m = re.match(r'#define (F_([0-9A-F]{8})) \(reinterpret_cast<(float|double) (\(__\w+ \*\)\(.*\))>\(0x[0-9A-F]+u\)\)$', s)
-        if m and ('0x' + m.group(2) in FPRET_FNS and '0x' + m.group(2) not in used
-                  or FPRET_ALL.get('0x%x' % int(m.group(2), 16)) == 'none'):
-            calls = re.findall(r'(?m)^(\s*)%s\(' % m.group(1), body)
-            if len(calls) == len(re.findall(r'\b%s\b' % m.group(1), body)):
-                s = s.replace('<%s %s>' % (m.group(3), m.group(4)), '<void %s>' % m.group(4))
+        if m:
+            none = FPRET_ALL.get('0x%x' % int(m.group(2), 16)) == 'none'
+            if none or (FP_SITES is not None and '0x' + m.group(2) in FPRET_FNS and '0x' + m.group(2) not in used):
+                calls = re.findall(r'(?m)^(\s*)%s\(' % m.group(1), body)
+                stmt_only = len(calls) == len(re.findall(r'\b%s\b' % m.group(1), body))
+                if stmt_only or none:
+                    if not stmt_only:
+                        body = wrap_calls(body, m.group(1), '(%s, 0.0)')
+                    s = s.replace('<%s %s>' % (m.group(3), m.group(4)), '<void %s>' % m.group(4))
         out.append(s)
-    return out
+    return out, body
 
 BYREF_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)(v\d+)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])? BYREF$', re.M)
 
@@ -314,9 +331,9 @@ def translate(rec):
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
     ret, body = drop_float_return(ea, ret, body)
+    syms, body = unconsumed_fp_calls(ea, syms, body)
     out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
-    syms = unconsumed_fp_calls(ea, syms, body)
     return {'syms': syms, 'code': '\n'.join(out), 'export': fname, 'cc': cc, 'ret': ret.strip()}, None
 
 PRELUDE = '''#include "xi_hexrays.hpp"

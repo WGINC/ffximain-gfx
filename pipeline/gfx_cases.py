@@ -11,6 +11,7 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 # globals whose real values are bounded (a table count): fuzzed values are mapped into the range,
 # so a loop over the table runs as in the game instead of to the instruction limit
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
+CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 DATA = (0x1034F000, 0x109FA000)          # .data: globals the gate may fuzz
 HOLDER, CDX, DANCER, D3D_SQGX = 0x103D3CBC, 0x1045666C, 0x1066941C, 0x10669418
 DEVICE_DATA = {HOLDER, CDX, DANCER, D3D_SQGX}
@@ -125,6 +126,8 @@ def main(exp, metaf, protof, out):
                 cc = conv_of(o['type']); pops = (o.get('purged') or 0) // 4
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
+                if cc == 'cdecl' and '0x%08X' % ea in CDECL_ARGS:     # slots past what the callee reads are stale
+                    nargs = min(nargs, CDECL_ARGS['0x%08X' % ea])      # stack (deferred cleanup), not arguments
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past
                     nargs = len([x for x in o['type'][o['type'].index('(') + 1:].split(',') if x.strip() and '...' not in x])
                     # them read whatever the caller's frame holds (saved registers etc.)

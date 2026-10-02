@@ -1,6 +1,6 @@
 {
- "why": "Hex-Rays lost 12 bytes of stack depth before the SetTexture call and read arguments a2 and a3 as v121/v122, slots past the end of the 4-argument frame (ret 0x10). The two arguments are otherwise unused in its output.",
- "evidence": "disasm 0x10185E52: at depth 0x128 (sub esp,0x118 + 4 saved registers) `mov edx,[esp+0x134]` (a3) is pushed as SetTexture's texture; 0x10185E7B `mov eax,[esp+0x130]` (a2) is the float* whose [0] and [2] feed fpatan.",
+ "why": "Hex-Rays lost 12 bytes of stack depth before the SetTexture call and read arguments a2 and a3 as v121/v122, slots past the end of the 4-argument frame (ret 0x10). The two arguments are otherwise unused in its output. Separately, the loop end reloads EBP (this) from its stack copy; Hex-Rays named the reload v114, a local it never assigns, so the final test of byte 0x39598 read an undefined pointer.",
+ "evidence": "disasm 0x10185E52: at depth 0x128 (sub esp,0x118 + 4 saved registers) `mov edx,[esp+0x134]` (a3) is pushed as SetTexture's texture; 0x10185E7B `mov eax,[esp+0x130]` (a2) is the float* whose [0] and [2] feed fpatan. 0x10185CB9 mov [esp+0x98],ebp (this); 0x10186A71 mov ebp,[esp+0x98]: traced in the live gate, the slot holds this on every pass; 0x10186B2E mov al,[ebp+0x39598].",
  "text_sha1": "f102697749a21b9047094d01df2b246744983d44",
  "replace": [
   [
@@ -10,6 +10,10 @@
   [
    "v8 = atan2(-*v121, v121[2]);",
    "v8 = atan2(-*(float *)a2, *((float *)a2 + 2));"
+  ],
+  [
+   "v5 = v114;",
+   "v5 = (float *)self;"
   ]
  ]
 }

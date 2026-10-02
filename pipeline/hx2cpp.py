@@ -143,9 +143,11 @@ _ELEM = {'float': 4, 'int': 4, '_DWORD': 4, 'unsigned int': 4, '_BYTE': 1, 'char
 def split_array(body):
     ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
     for (o1, a), (o2, b) in zip(ds, ds[1:]):
-        if not a.group(5) or 'BYREF' not in a.group(0) or a.group(3) or b.group(3): continue
-        t = a.group(2).strip()
-        if t in _ELEM and o1 + int(a.group(5)[1:-1]) * _ELEM[t] == o2 and b.group(2).strip() == t: return True
+        if 'BYREF' not in a.group(0) or a.group(3) or b.group(3): continue
+        t = a.group(2).strip(); n = int(a.group(5)[1:-1]) if a.group(5) else 1
+        # an address-taken array -- or scalar: a struct such as a rect passed by pointer -- followed
+        # directly by a local of its element type
+        if t in _ELEM and o1 + n * _ELEM[t] == o2 and b.group(2).strip() == t: return True
     return False
 
 def negative_index(body):
@@ -153,6 +155,25 @@ def negative_index(body):
     # split by Hex-Rays), which GCC places elsewhere
     arrays = {m.group(4) for m in STACK_DECL.finditer(body) if m.group(5)}
     return any(re.search(r'\b%s\[[^\]\[;]*- \d+\]' % re.escape(a), body) for a in arrays)
+
+FRAME_DECL = re.compile(r'^\s+([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\] \[ebp-([0-9A-F]+)h\]( BYREF)?$', re.M)
+
+def truncated_array(body):
+    # An address-taken array followed by frame space no local is declared in (4 bytes or more, up to the
+    # next local or the frame top): Hex-Rays sized the array by the elements the code names, and a callee
+    # filling the whole buffer overruns GCC's shorter one (Sky_DrawDome: v9[12] filled with 8 dwords).
+    ds = [(int(m.group(5), 16), int(m.group(6), 16), m) for m in FRAME_DECL.finditer(body)]
+    if not ds: return False
+    top = max(x + y for x, y, _ in ds)
+    starts = sorted({x for x, _, _ in ds})
+    for x, y, m in ds:
+        if not m.group(4) or not m.group(7) or m.group(2): continue
+        el = _ELEM.get(m.group(1).strip())
+        if not el: continue
+        end = x + int(m.group(4)[1:-1]) * el
+        nxt = min([o for o in starts if o > x] + [top])
+        if nxt - end >= 4: return True
+    return False
 
 def exact_frame(body):
     # Hex-Rays sometimes splits one stack array into several variables (`char v70[8]; char v71;
@@ -168,11 +189,16 @@ def exact_frame(body):
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     decls = list(BYREF_DECL.finditer(body))
-    if pointer_walks_locals(body) or split_array(body) or negative_index(body):
+    if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body
-    top = max(int(m.group(6), 16) for m in decls) + 0x400
+    # the buffer reaches past the end of the last local (its size counted), plus slack for overruns
+    def _end(m):
+        n = int(m.group(5)[1:-1]) if m.group(5) else 1
+        el = 4 if m.group(3) else _ELEM.get(m.group(2).strip(), 16)
+        return int(m.group(6), 16) + n * el
+    top = max(_end(m) for m in decls) + 0x400
     out, pos, first = [], 0, True
     for m in decls:
         indent, t, stars, name, arr, off = m.group(1), m.group(2).strip(), m.group(3), m.group(4), m.group(5), int(m.group(6), 16)

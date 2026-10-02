@@ -28,5 +28,10 @@
   "type": "int __thiscall(_DWORD *this, int a2)",
   "why": "CXiActor_GetModelPartWord returns a 32-bit value: on its last path (index << 12) | table word. The IDB types it __int16, so Hex-Rays kept only the low half (LOWORD(v) = ...) while callers push or test all of EAX.",
   "evidence": "0x100844C4..0x100844D7: mov ax,[ecx*2+0x1047D61C]; shl ecx,0xC; or eax,ecx; ret 4. Caller 0x100D3FF9..0x100D3FFE (LoadSkeletonSync): call; push eax (full dword) to 0x100C51C0, which compares it as an int (cmp eax,0xDAC)."
+ },
+ "0x10038520": {
+  "type": "int __cdecl()",
+  "why": "Font_DrawPass takes no this: its `push ecx` only reserves a stack slot and it loads ECX itself (g_pFontGlyphs). The IDB types it thiscall(void *), so callers passed an unassigned value (Frame_Render: v33) that the gate then compared.",
+  "evidence": "0x10038520 push ecx; 0x10038521 mov ecx,[0x104E1B90]; call Font_BindGlyphTexture. Frame_Render 0x10012A9C calls it with ECX left from earlier code."
  }
 }

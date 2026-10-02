@@ -61,6 +61,9 @@ def fix_types(rec):
     # a callee whose corrected return is a full int: `LOWORD(x) = f(...)` (from a 16-bit IDB type) keeps
     # all 32 bits, as the original's `push eax` / `test eax, eax` after the call does
     for n, o in objs.items():
+        if o.get('func') and o.get('ea') in t and re.search(r'\(\s*(void)?\s*\)\s*$', t[o['ea']]):
+            # corrected to take no parameters: a call passing plain values (no calls, no side effects) drops them
+            rec['text'] = re.sub(r'\b(%s)\(([\w\s\*&\->\.\[\]+]+)\)' % re.escape(n), r'\1()', rec['text'])
         if o.get('func') and o.get('ea') in t and re.match(r'(unsigned )?int\s', t[o['ea']]):
             rec['text'] = re.sub(r'\bLOWORD\((\w+)\) = (%s\()' % re.escape(n), r'\1 = \2', rec['text'])
     if rec['ea'] in t:

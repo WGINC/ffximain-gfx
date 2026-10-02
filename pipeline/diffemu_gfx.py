@@ -30,6 +30,13 @@ COM_BASE = 0x6E000000          # fake objects + vtables
 COM_TRAP = 0x6E800000          # one 4-byte trap per (interface, slot)
 FP_TRAMP = COM_BASE + 0xF0000  # stub return through the x87 stack (inside the COM_BASE mapping)
 FP_SCRATCH = COM_BASE + 0xF0100
+# D3D8 getters that fill a struct: method -> (parameter index, size in bytes, 'f' floats / 'i' integers)
+STRUCT_OUT = {'GetTransform': (1, 64, 'f'), 'GetMaterial': (0, 68, 'f'), 'GetLight': (1, 104, 'f'),
+              'GetClipPlane': (1, 16, 'f'), 'GetViewport': (0, 24, 'i'), 'GetRenderState': (1, 4, 'i'),
+              'GetTextureStageState': (2, 4, 'i'), 'GetLightEnable': (1, 4, 'i'), 'GetVertexShader': (0, 4, 'i'),
+              'GetPixelShader': (0, 4, 'i'), 'GetDisplayMode': (0, 16, 'i'), 'GetCreationParameters': (0, 16, 'i'),
+              'GetRasterStatus': (0, 8, 'i'), 'GetClipStatus': (0, 8, 'i'), 'GetCurrentTexturePalette': (0, 4, 'i'),
+              'GetDesc': (0, 32, 'i'), 'GetLevelDesc': (1, 32, 'i')}
 PREFER = ['IDirect3DTexture8', 'IDirect3DSurface8', 'IDirect3DVertexBuffer8', 'IDirect3DIndexBuffer8',
           'IDirect3DCubeTexture8', 'IDirect3DVolumeTexture8', 'IDirect3DSwapChain8', 'IDirect3DVolume8',
           'IDirect3DDevice8', 'IDirect3D8']
@@ -377,6 +384,21 @@ class GfxMachine(G.Machine):
                 old = bytes(uc.mem_read(p, 4))
                 self.writes.append((p, old))      # so Machine.call undoes it like any other write
                 uc.mem_write(p, struct.pack('<I', self.obj.get(iface, self.obj['IDirect3DResource8'])))
+            except Exception:
+                pass
+        so = STRUCT_OUT.get(m['name'])
+        if so and (m['ret'] != 'hresult' or v == 0):
+            # a getter's struct output: filled from the trial's random stream (the same on both sides),
+            # so neither side reads its own uninitialised stack (GetTransform's matrix)
+            idx, size, kind = so
+            p = args[idx] if idx < len(args) else 0
+            words = []
+            for _ in range(size // 4):
+                if kind == 'f': words.append(struct.unpack('<I', struct.pack('<f', (0.0, 1.0, -1.0, 0.5)[self.rng.randrange(4)] if self.rng.random() < 0.5 else self.rng.uniform(-4.0, 4.0)))[0])
+                else: words.append(self.rng.randrange(0, 4) if self.rng.random() < 0.7 else self.rng.getrandbits(32))
+            try:
+                self.writes.append((p, bytes(uc.mem_read(p, size))))
+                uc.mem_write(p, struct.pack('<%dI' % (size // 4), *words))
             except Exception:
                 pass
         uc.reg_write(UC_X86_REG_EAX, v)

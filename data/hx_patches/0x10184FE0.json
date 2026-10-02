@@ -1,0 +1,15 @@
+{
+ "why": "Hex-Rays read `this` back from its stack copy under the wrong name: the original reloads the slot it stored ECX in at entry (v87 = self) and reads this->field_17C; Hex-Rays used v90, a float set to 0.0 just before. The same happens at the second test of byte 0x39598 near the end: the original reloads this from that slot, Hex-Rays reads v87, which it also uses as a loop bound.",
+ "evidence": "0x10184FF7 mov [esp+0x84],esi (depth 0x130: ebp-0xAC, v87) with esi = ecx; 0x101852BA mov edx,[esp+0x88] (depth 0x134: ebp-0xAC); 0x101852C6 mov eax,[edx+0x17C]. Traced in the live gate: the slot holds this (0x26965600) when read. 0x10185C4D mov edx,[esp+0x88] (this, never rewritten after 0x10184FF7: traced); 0x10185C55 mov al,[edx+0x39598].",
+ "text_sha1": "a4ee6ec748c7546a25d966dd3d3cdef3bc474ba9",
+ "replace": [
+  [
+   "*(float *)(LODWORD(v90) + 380)",
+   "*(float *)((char *)self + 380)"
+  ],
+  [
+   "v87[234904]",
+   "*((_BYTE *)self + 234904)"
+  ]
+ ]
+}

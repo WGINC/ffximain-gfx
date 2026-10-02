@@ -16,6 +16,25 @@ void CMoCamera::vf008()
   ;
 }
 
+// FUNCTION: FFXIMAIN 0x1003CB30  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CMoCamera::SetPathData(_DWORD *a2)
+{
+  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
+  _DWORD *v3;
+  v3 = self + 8;
+  *v3 = *a2;
+  v3[1] = a2[1];
+  v3[2] = a2[2];
+  v3[3] = a2[3];
+  this->field_34 = a2[4];
+  this->field_38 = a2[5];
+  this->field_3C = a2[6];
+  this->field_40 = a2[7];
+  qmemcpy(self + 28, a2 + 8, 16 * (((a2[1] >> 7) & 0x7FFFF) - 2));
+  return orig::CMoAttachments_Reset(self + 12);
+}
+
 // FUNCTION: FFXIMAIN 0x10071980  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __cdecl CMoCamera::GetSharedInstance()

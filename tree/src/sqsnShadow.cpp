@@ -144,8 +144,8 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
   }
   (*(void (__cdecl **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 316) + 48))(*(_DWORD *)(g_pSqgxContext + 316));
   orig::sqsnShadowVolumeSetPass(0);
-  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(_DWORD *)(g_pSqgxContext + 324) / 3);
+  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(int *)(g_pSqgxContext + 324) / 3);
   orig::sqsnShadowVolumeSetPass(1);
-  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(_DWORD *)(g_pSqgxContext + 324) / 3);
+  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(int *)(g_pSqgxContext + 324) / 3);
   orig::sqsnShadowVolumeSetPass(2);
 }

@@ -3,7 +3,7 @@
 #include "CYyModelDt.hpp"
 
 // FUNCTION: FFXIMAIN 0x100224D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 19 returned normally, 170 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 20 returned normally, 150 D3D calls compared (diffemu_gfx, clean build)
 char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -256,7 +256,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
             v15 = v14 < 1.5;
             v16 = 0;
             v17 = v14 == 1.5;
-            if ( (v13 & 0x4100) != 0 )
+            if ( ((__int16)(((v15 || __builtin_isunordered(v14, 1.5)) ? 0x100 : 0) | ((__builtin_isunordered(v14, 1.5)) ? 0x400 : 0) | ((v17 || __builtin_isunordered(v14, 1.5)) ? 0x4000 : 0)) & 0x4100) != 0 )
             {
               g_modelMaterialEmissiveR = 0.0;
               g_modelMaterialEmissiveG = 0.0;
@@ -402,7 +402,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimple(int a2, int a3, int a4, in
 }
 
 // FUNCTION: FFXIMAIN 0x10025030  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -412,7 +412,7 @@ char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6,
 }
 
 // FUNCTION: FFXIMAIN 0x10025060  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a4, int a5, int a6)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -422,7 +422,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025180  (placed by IDB name)
-// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CYyModelDt::GetElementCount()
 {
   int v1;
@@ -435,7 +435,7 @@ __int16 CYyModelDt::GetElementCount()
 }
 
 // FUNCTION: FFXIMAIN 0x100251A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 57 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt::MarkReferencedBones(int a2)
 {
   int v2;

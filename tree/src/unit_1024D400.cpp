@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1024F900  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
 {
   double v1;
@@ -13,29 +13,31 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
   double v6;
   char *ViewMatrixPtr;
   int v8;
-  float *v9;
-  int v10;
-  int v11;
-  float v12;
-  float v13;
-  int v14;
-  int v15;
-  float v16;
-  float v17;
-  int v18;
-  int v19;
-  float v20;
-  float v21;
-  int v22;
-  int v23;
-  float v24;
-  float v25;
-  int v26;
-  float v27[3];
-  int v28[16];
-  float v29[3];
-  float v30[16];
-  float v31[16];
+  alignas(16) unsigned char xi_frame[0x4EC];  // address-taken locals at their original offsets
+  float * &v9 = *reinterpret_cast<float * *>(xi_frame + 0xC);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  float &v12 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  float &v13 = *reinterpret_cast<float *>(xi_frame + 0x1C);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x28);
+  float &v17 = *reinterpret_cast<float *>(xi_frame + 0x2C);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x38);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x3C);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  float &v24 = *reinterpret_cast<float *>(xi_frame + 0x48);
+  float &v25 = *reinterpret_cast<float *>(xi_frame + 0x4C);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x50);
+  float (&v27)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x54);
+  int (&v28)[16] = *reinterpret_cast<int (*)[16]>(xi_frame + 0x60);
+  float (&v29)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0xA0);
+  float (&v30)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xAC);
+  float (&v31)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xEC);
+
   orig::fn_10027990((Iostream_init *)v28);
   orig::Dancer_GetFlags(&v10);
   if ( (v10 & 0x100) != 0 )
@@ -135,6 +137,53 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
   }
   orig::nullsub_1();
+}
+
+// FUNCTION: FFXIMAIN 0x102501C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_102501C0(_BYTE *a1)
+{
+  int result;
+  float v2;
+  _DWORD v3[4];
+  v3[0] = 1065353216;
+  v3[1] = 1065353216;
+  v3[2] = 1065353216;
+  v3[3] = 1065353216;
+  orig::sub_102502D0(a1);
+  result = *((_DWORD *)a1 + 1);
+  if ( result >= 2 )
+  {
+    if ( g_stateBlock_914C != 0 )
+      g_pCDx->pDevice->ApplyStateBlock(g_stateBlock_914C);
+    ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->Clear)(
+      g_pDancerDevice,
+      0,
+      0,
+      6,
+      -16777216,
+      1065353216,
+      0);
+    orig::___setargv_3();
+    orig::___setargv_24();
+    orig::___setargv_9();
+    orig::nullsub_59();
+    orig::___setargv_16();
+    orig::sub_102717F0();
+    result = orig::sub_10251960(g_self_106693FC);
+    if ( (_BYTE)result != 0 )
+    {
+      --*((_DWORD *)a1 + 16);
+      orig::sqgxTextureSet(-1);
+      orig::sqgxColor(v3);
+      v2 = 1.0 - (double)*((int *)a1 + 16) * 0x1.1111120000000p-5;
+      orig_void::sub_10282A30(v2);
+      orig::sqgxZTest(0);
+      orig::sqgx_DrawRect_Candidate(0, 0, 447, 383, 0, 0, -1, -1, 0);
+      return orig::sqgxZTest(1);
+    }
+  }
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x102504D0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)

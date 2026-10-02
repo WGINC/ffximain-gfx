@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 57 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 50 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
 {
   int *v3;
@@ -49,7 +49,7 @@ XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
     v7 = v6 < 0.9999;
     v8 = 0;
     v9 = v6 == 0.9999;
-    if ( (v5 & 0x4100) == 0 )
+    if ( ((__int16)(((v7 || __builtin_isunordered(v6, 0.9999)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 0.9999)) ? 0x400 : 0) | ((v9 || __builtin_isunordered(v6, 0.9999)) ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       orig::sqgxTextureStencilClear(0);
@@ -78,7 +78,7 @@ XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
     v18 = v17 < 0.9999;
     v19 = 0;
     v20 = v17 == 0.9999;
-    if ( (v16 & 0x4100) != 0 )
+    if ( ((__int16)(((v18 || __builtin_isunordered(v17, 0.9999)) ? 0x100 : 0) | ((__builtin_isunordered(v17, 0.9999)) ? 0x400 : 0) | ((v20 || __builtin_isunordered(v17, 0.9999)) ? 0x4000 : 0)) & 0x4100) != 0 )
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
     else
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);

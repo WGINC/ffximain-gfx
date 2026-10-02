@@ -56,7 +56,7 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
         v20 = *AmbientColorPtr;
         v21 = AmbientColorPtr[1];
       }
-      if ( g_windowMode != 0 && v20 < 0.80000001 && v21 < 0.80000001 && v6 < 0.80000001 )
+      if ( g_windowMode != 0 && v20 < 0x1.99999a0000000p-1 && v21 < 0x1.99999a0000000p-1 && v6 < 0x1.99999a0000000p-1 )
       {
         orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v23, &v24, v25);
         v20 = v23 * v20;
@@ -65,17 +65,17 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
         v9 = v20 < 1.0;
         v10 = 0;
         v11 = v20 == 1.0;
-        if ( (v8 & 0x100) == 0 )
+        if ( ((__int16)(((v9 || __builtin_isunordered(v20, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v20, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v20 = 1.0;
         v13 = v21 < 1.0;
         v14 = 0;
         v15 = v21 == 1.0;
-        if ( (v12 & 0x100) == 0 )
+        if ( ((__int16)(((v13 || __builtin_isunordered(v21, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v21, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v21, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v21 = 1.0;
         v16 = v6 < 1.0;
         v17 = 0;
         v18 = v6 == 1.0;
-        if ( (v12 & 0x100) == 0 )
+        if ( ((__int16)(((v16 || __builtin_isunordered(v6, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 1.0)) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v6, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v6 = 1.0;
       }
       HIWORD(v26) = (unsigned __int8)(__int64)(v20 * 128.0);
@@ -133,7 +133,7 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
       v16 = *AmbientColorPtr;
       v18 = AmbientColorPtr[2];
       v17 = AmbientColorPtr[1];
-      if ( g_windowMode != 0 && v16 < 0.80000001 && v17 < 0.80000001 && v4 < 0.80000001 )
+      if ( g_windowMode != 0 && v16 < 0x1.99999a0000000p-1 && v17 < 0x1.99999a0000000p-1 && v4 < 0x1.99999a0000000p-1 )
       {
         orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v19, &v20, v21);
         v16 = v19 * v16;
@@ -142,17 +142,17 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
         v6 = v16 < 1.0;
         v7 = 0;
         v8 = v16 == 1.0;
-        if ( (v5 & 0x100) == 0 )
+        if ( ((__int16)(((v6 || __builtin_isunordered(v16, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v16, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v16, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v16 = 1.0;
         v10 = v17 < 1.0;
         v11 = 0;
         v12 = v17 == 1.0;
-        if ( (v9 & 0x100) == 0 )
+        if ( ((__int16)(((v10 || __builtin_isunordered(v17, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v17, 1.0)) ? 0x400 : 0) | ((v12 || __builtin_isunordered(v17, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v17 = 1.0;
         v13 = v4 < 1.0;
         v14 = 0;
         v15 = v4 == 1.0;
-        if ( (v9 & 0x100) == 0 )
+        if ( ((__int16)(((v13 || __builtin_isunordered(v4, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v4, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v4, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v4 = 1.0;
       }
       a2[3] = 0.0;

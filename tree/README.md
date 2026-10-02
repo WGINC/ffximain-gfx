@@ -6,7 +6,7 @@ emulator (see `../docs/REPORT-gfx2.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(all 633 functions; `// NOT VERIFIED` marks any that are not).
+(all 681 functions; `// NOT VERIFIED` marks any that are not).
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

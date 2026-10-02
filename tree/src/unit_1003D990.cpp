@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003D9A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 45 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDome(void)
 {
   int result;
@@ -77,7 +77,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
@@ -150,7 +150,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
           while ( !v8 );
           v13 = *(unsigned __int8 *)(v6 + 18);
           Float2E0 = orig::Camera_GetFloat2E0();
-          v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0.80000001;
+          v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0x1.99999a0000000p-1;
           orig::Sky_DrawGradientDome(v12, COERCE_FLOAT(8), v13, v18, COERCE_FLOAT(v6 + 64));
           orig::Camera_SetClearColorRGB(v18[2], v18[1], v18[0]);
           *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;

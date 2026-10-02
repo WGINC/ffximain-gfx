@@ -45,7 +45,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 291 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
 {
   int v3;
@@ -65,19 +65,21 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
   float *v17;
   int v18;
   int v19;
-  int v20;
-  int v21;
-  int v22;
-  _BYTE *v23;
-  float v24[3];
-  int v25;
-  int v26[3];
-  int v27[16];
-  int a3a[3];
-  char v29;
-  _WORD v30[2048];
-  char v31;
-  _BYTE v32[32764];
+  alignas(16) unsigned char xi_frame[0x14F0];  // address-taken locals at their original offsets
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  _BYTE * &v23 = *reinterpret_cast<_BYTE * *>(xi_frame + 0x1C);
+  float (&v24)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x20);
+  int &v25 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int (&v26)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x30);
+  int (&v27)[16] = *reinterpret_cast<int (*)[16]>(xi_frame + 0x3C);
+  int (&a3a)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x7C);
+  char &v29 = *reinterpret_cast<char *>(xi_frame + 0x88);
+  _WORD (&v30)[2048] = *reinterpret_cast<_WORD (*)[2048]>(xi_frame + 0xEC);
+  char &v31 = *reinterpret_cast<char *>(xi_frame + 0x10EC);
+  _BYTE (&v32)[32764] = *reinterpret_cast<_BYTE (*)[32764]>(xi_frame + 0x10F0);
+
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;

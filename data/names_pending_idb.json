@@ -23,6 +23,18 @@
   "confidence": "medium",
   "evidence": "as TargetActor_SlotHandler0 but sets dword_10456DAC = 5.0f; slot table entry 4"
  },
+ "0x100CCE60": {
+  "old": "sub_100CCE60",
+  "name": "Actor_SetCameraFromModelPoints",
+  "confidence": "medium",
+  "evidence": "IDA listing: reads model points 0x17 and 0x18 (vfunc +0x1C4) into the camera (Camera_GetField50 +0x8C, +0x98, flags +0x88/+0x89) and a scaled FOV into +0xA4, then sub_10015290; called per actor from PerActor_FourBucketStaggeredUpdate"
+ },
+ "0x10179390": {
+  "old": "sub_10179390",
+  "name": "CTsZoneMap_UpdateViewerPosition",
+  "confidence": "medium",
+  "evidence": "IDA listing: thiscall on g_pZoneMap; copies the camera position (Camera_GetField50 + 0x44) to +0x38D4C..+0x38D54 and a value from sub_1016C150(+0x178) to +0x3912C/+0x38D58"
+ },
  "0x1018CA20": {
   "old": "sub_1018CA20",
   "name": "Sch_GetStatusEntry",

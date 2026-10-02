@@ -3,7 +3,7 @@
 #include "CYyOs2VtxBuffer.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002CCB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 88 returned normally, 1 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -13,26 +13,26 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
   char result;
   int v7;
   int v8;
-  v3 = this->field_58;
+  v3 = this->indexCount;
   if ( v3 == 0 )
     return 1;
-  switch ( this->field_3C )
+  switch ( this->createStep )
   {
     case 0:
       v4 = orig::Mem_AllocObject(2 * v3, 4);
-      this->field_5C = (int)v4;
+      this->pIndices = (int)v4;
       if ( v4 == nullptr )
         goto LABEL_14;
       v5 = 0;
-      if ( this->field_58 == 0 )
+      if ( this->indexCount == 0 )
         goto LABEL_12;
       do
       {
         ++v5;
-        *(_WORD *)(this->field_5C + 2 * v5 - 2) = -1;
+        *(_WORD *)(this->pIndices + 2 * v5 - 2) = -1;
       }
-      while ( v5 < this->field_58 );
-      ++this->field_3C;
+      while ( v5 < this->indexCount );
+      ++this->createStep;
       result = 0;
       break;
     case 1:
@@ -45,10 +45,10 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
              (IDirect3DIndexBuffer8 **)(self + 16));
       goto LABEL_11;
     case 2:
-      this->field_3C = 3;
+      this->createStep = 3;
       return 0;
     case 3:
-      this->field_3C = 4;
+      this->createStep = 4;
       return 0;
     case 4:
       v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 8 * v3 + 4, 520, 0, 0, self + 19, 0);
@@ -56,10 +56,10 @@ LABEL_11:
       if ( v7 < 0 )
       {
 LABEL_14:
-        if ( this->field_5C != 0 )
+        if ( this->pIndices != 0 )
         {
-          orig::Mem_FreeObject(this->field_5C);
-          this->field_5C = 0;
+          orig::Mem_FreeObject(this->pIndices);
+          this->pIndices = 0;
         }
         v8 = at<int32_t>(this, 0x40);
         at<int32_t>(this, 0x60) = 0;
@@ -82,16 +82,16 @@ LABEL_14:
       else
       {
 LABEL_12:
-        ++this->field_3C;
+        ++this->createStep;
         result = 0;
       }
       break;
     case 5:
-      this->field_3C = 6;
+      this->createStep = 6;
       result = 0;
       break;
     case 6:
-      this->field_3C = 7;
+      this->createStep = 7;
       result = 0;
       break;
     default:
@@ -136,7 +136,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 26 returned normally, 22 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 17 returned normally, 13 D3D calls compared (diffemu_gfx, clean build)
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

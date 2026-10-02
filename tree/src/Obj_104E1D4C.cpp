@@ -25,8 +25,8 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
     v3 = this->field_4D;
     if ( v3 < 3u || v3 > 6u )
     {
-      this->field_4 = *a2;
-      this->field_8 = a2[1];
+      this->posX = *a2;
+      this->posY = a2[1];
       if ( a3 != 0.0 )
         this->field_48 = a3;
       if ( (g_windowMode == 0 || g_windowMode == 3)
@@ -75,31 +75,33 @@ void Obj_104E1D4C::Cursor_Draw()
   int *v2;
   _DWORD *v3;
   int v4;
-  float v5[4];
-  float v6[16];
+  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  float (&v5)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x14);
+  float (&v6)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
+
   if ( this->field_4E != 0 )
   {
     v2 = nullptr;
-    v3 = (_DWORD *)g_cursorShapes[16 * this->field_4C];
+    v3 = (_DWORD *)g_cursorShapes[16 * this->shapeIndex];
     if ( v3 != nullptr )
     {
-      v2 = *(int **)(*v3 + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->field_4C]);
+      v2 = *(int **)(*v3 + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->shapeIndex]);
       if ( v2 != nullptr )
       {
-        ++g_cursorShapeFrame[32 * this->field_4C];
+        ++g_cursorShapeFrame[32 * this->shapeIndex];
       }
       else
       {
-        g_cursorShapeFrame[32 * this->field_4C] = 0;
-        v2 = *(int **)(*(_DWORD *)g_cursorShapes[16 * this->field_4C]
-                     + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->field_4C]);
+        g_cursorShapeFrame[32 * this->shapeIndex] = 0;
+        v2 = *(int **)(*(_DWORD *)g_cursorShapes[16 * this->shapeIndex]
+                     + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->shapeIndex]);
       }
     }
     if ( g_cfgHardwareMouse != 0 )
     {
       if ( g_pCDx != nullptr )
       {
-        orig::CDx_SetCursorShape(g_pCDx, this->field_4C, 0);
+        orig::CDx_SetCursorShape(g_pCDx, this->shapeIndex, 0);
         if ( g_pCDx != nullptr )
           orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
       }
@@ -110,8 +112,8 @@ void Obj_104E1D4C::Cursor_Draw()
         orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
       orig::fn_10027990((Iostream_init *)v6);
       orig::Mat4_SetIdentity(v6);
-      orig::Mat4_PostRotateZ(*(float *)&g_cursorShapeRotation[16 * this->field_4C]);
-      v4 = this->field_4C;
+      orig::Mat4_PostRotateZ(*(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
+      v4 = this->shapeIndex;
       v5[3] = 0.0;
       v5[0] = (float)word_1036E4FA[32 * v4];
       v5[1] = v5[0];
@@ -138,7 +140,7 @@ void Obj_104E1D4C::Cursor_Draw()
           SLODWORD(v6[13]),
           SLODWORD(v6[14]),
           SLODWORD(v6[15]),
-          dword_1036E4E8[16 * this->field_4C],
+          dword_1036E4E8[16 * this->shapeIndex],
           0);
       orig::nullsub_1();
     }

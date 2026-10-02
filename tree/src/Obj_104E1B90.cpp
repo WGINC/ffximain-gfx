@@ -35,10 +35,10 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
     orig::Font_AddGlyphAdvance(Char, &v15);
     g_textCursorX += (__int64)((double)v15 * *(float *)&a7 + 0.5);
   }
-  this->field_64 = -2139062144;
-  this->field_48 = -2139062144;
-  this->field_2C = -2139062144;
-  this->field_10 = -2139062144;
+  this->quad3_color = -2139062144;
+  this->quad2_color = -2139062144;
+  this->quad1_color = -2139062144;
+  this->quad0_color = -2139062144;
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
   return g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }

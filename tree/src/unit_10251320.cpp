@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10251A80  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 44 returned normally, 184 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 20 returned normally, 240 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Dancer_InitDevice(int *self_)
 {
   _DWORD *v2;

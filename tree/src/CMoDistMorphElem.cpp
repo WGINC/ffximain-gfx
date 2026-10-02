@@ -3,7 +3,7 @@
 #include "CMoDistMorphElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003F8A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 14 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -54,7 +54,7 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
     v7 = v7 + *(float *)(a2 + 4 * v9 - 4);
   }
   while ( v9 < v8 );
-  if ( v7 >= 1.1754944e-38 )
+  if ( v7 >= 0x1.0000000000000p-126 )
   {
     if ( v7 == 0.0 )
       goto LABEL_13;
@@ -190,17 +190,17 @@ char CMoDistMorphElem::UpdateMorphBlend()
   int v12;
   int v13;
   int v15;
-  v2 = (CMoProcessor *)this->field_104;
+  v2 = (CMoProcessor *)this->pProcessor;
   if ( v2 != nullptr )
   {
     vftable = (int)v2->vftable;
     v15 = (int)v2->vftable;
-    if ( this->field_1BC == 0 )
-      this->field_1BC = (int)orig::CMoDistMorphElem_ComputeMorphHandle(vftable, (int)(self + 101), (int)(self + 106));
+    if ( this->morphHandle == 0 )
+      this->morphHandle = (int)orig::CMoDistMorphElem_ComputeMorphHandle(vftable, (int)(self + 101), (int)(self + 106));
     orig::RegisterWithProcessor((int)self);
     v4 = *(__int16 *)(vftable + 52);
     v5 = (float *)(self + 112);
-    LOBYTE(v2) = orig::CMoDistMorphElem_ValidateMorphData(this->field_1BC, v4, (int)(self + 40), 0);
+    LOBYTE(v2) = orig::CMoDistMorphElem_ValidateMorphData(this->morphHandle, v4, (int)(self + 40), 0);
     if ( (_BYTE)v2 != 0 )
     {
       ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
@@ -226,9 +226,9 @@ char CMoDistMorphElem::UpdateMorphBlend()
         &g_scratchValue,
         (int)(self + 101),
         (int)(self + 106),
-        (_DWORD *)this->field_1BC,
+        (_DWORD *)this->morphHandle,
         1);
-      this->field_1BC = 0;
+      this->morphHandle = 0;
       qmemcpy(self + 106, self + 101, 0x14u);
       v11 = g_pProcessor;
       v12 = g_pProcessor->ScratchMatrixStackTop - 1;

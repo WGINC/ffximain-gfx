@@ -1,5 +1,5 @@
 // CXiActor -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -9,6 +9,7 @@ public:
     void CXiSkeletonActor_SetMoveSpeed(float speed);  // 0x10082080
     float CXiSkeletonActor_GetMoveSpeedBase();  // 0x10082090
     void CXiSkeletonActor_SetMoveSpeedBase(float speed);  // 0x100820A0
+    double CXiSkeletonActor_GetWalkSpeed();  // 0x100820B0
     void CXiSkeletonActor_SetWalkSpeed(float speed);  // 0x100820C0
     int CXiSkeletonActor_GetEquip(int a1);  // 0x100820D0
     void CXiSkeletonActor_AddRef();  // 0x100832D0

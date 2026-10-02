@@ -116,7 +116,7 @@ XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 {
   int result;

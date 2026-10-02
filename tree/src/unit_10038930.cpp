@@ -26,7 +26,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 790 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 760 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -110,7 +110,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 581 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 66 returned normally, 2951 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;
@@ -130,41 +130,43 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   unsigned __int16 v15;
   unsigned __int8 v16;
   CDx *v17;
-  unsigned __int8 v18;
-  float v19;
-  unsigned int v20;
-  float v21;
-  int v22;
-  __int64 v24;
-  int v25[2];
-  __int64 v26;
-  int v27[2];
-  int a3;
-  float v29;
-  unsigned int v30;
-  int v31;
-  int v32;
-  float v33;
-  float v34;
-  float v35;
-  int v36;
-  unsigned int v37;
-  int v38;
-  int v39;
-  float v40;
-  float v41;
-  int v42;
-  float v43;
-  unsigned int v44;
-  int v45;
-  int v46;
-  float v47;
-  float v48;
-  float v49;
-  float v50;
-  unsigned int v51;
-  int v52;
-  int v53;
+  alignas(16) unsigned char xi_frame[0x5B4];  // address-taken locals at their original offsets
+  unsigned __int8 &v18 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x113);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x114);
+  unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x118);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x11C);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  __int64 &v24 = *reinterpret_cast<__int64 *>(xi_frame + 0x130);
+  int (&v25)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x138);
+  __int64 &v26 = *reinterpret_cast<__int64 *>(xi_frame + 0x140);
+  int (&v27)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x148);
+  int &a3 = *reinterpret_cast<int *>(xi_frame + 0x150);
+  float &v29 = *reinterpret_cast<float *>(xi_frame + 0x154);
+  unsigned int &v30 = *reinterpret_cast<unsigned int *>(xi_frame + 0x158);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x15C);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x160);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x164);
+  float &v34 = *reinterpret_cast<float *>(xi_frame + 0x168);
+  float &v35 = *reinterpret_cast<float *>(xi_frame + 0x16C);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x170);
+  unsigned int &v37 = *reinterpret_cast<unsigned int *>(xi_frame + 0x174);
+  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x178);
+  int &v39 = *reinterpret_cast<int *>(xi_frame + 0x17C);
+  float &v40 = *reinterpret_cast<float *>(xi_frame + 0x180);
+  float &v41 = *reinterpret_cast<float *>(xi_frame + 0x184);
+  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x188);
+  float &v43 = *reinterpret_cast<float *>(xi_frame + 0x18C);
+  unsigned int &v44 = *reinterpret_cast<unsigned int *>(xi_frame + 0x190);
+  int &v45 = *reinterpret_cast<int *>(xi_frame + 0x194);
+  int &v46 = *reinterpret_cast<int *>(xi_frame + 0x198);
+  float &v47 = *reinterpret_cast<float *>(xi_frame + 0x19C);
+  float &v48 = *reinterpret_cast<float *>(xi_frame + 0x1A0);
+  float &v49 = *reinterpret_cast<float *>(xi_frame + 0x1A4);
+  float &v50 = *reinterpret_cast<float *>(xi_frame + 0x1A8);
+  unsigned int &v51 = *reinterpret_cast<unsigned int *>(xi_frame + 0x1AC);
+  int &v52 = *reinterpret_cast<int *>(xi_frame + 0x1B0);
+  int &v53 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
+
   v1 = self_;
   result = orig::Settings_GetValue(200);
   if ( result == 0
@@ -212,14 +214,14 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       else
       {
         g_pCDx->pDevice->SetVertexShader(324u);
-        v10 = (double)(v1[2] + v22 / v5) * 0.017452778;
-        v11 = v10 < 3.1415;
+        v10 = (double)(v1[2] + v22 / v5) * 0x1.1df2420000000p-6;
+        v11 = v10 < 0x1.921cac0000000p+1;
         v12 = 0;
-        v13 = v10 == 3.1415;
-        if ( (v9 & 0x4100) == 0 )
-          v10 = v10 - 6.283;
-        if ( v10 < -3.1415 )
-          v10 = v10 + 6.283;
+        v13 = v10 == 0x1.921cac0000000p+1;
+        if ( ((__int16)(((v11 || __builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v13 || __builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+          v10 = v10 - 0x1.921cac0000000p+2;
+        if ( v10 < -0x1.921cac0000000p+1 )
+          v10 = v10 + 0x1.921cac0000000p+2;
         v14 = *(v6 - 1) * 0.0625;
         HIBYTE(v15) = *((_BYTE *)v6 + 3);
         LOBYTE(v15) = *(_BYTE *)v6;

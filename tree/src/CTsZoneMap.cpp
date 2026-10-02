@@ -3,7 +3,7 @@
 #include "CTsZoneMap.hpp"
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 15 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 14 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
   void *v3;
@@ -44,7 +44,7 @@ XI_API int __cdecl Gfx_SetZBias(unsigned int a1)
 
 // FUNCTION: FFXIMAIN 0x10177420  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
-XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_)
+XI_API void __thiscall ZoneMap_SetOverlayProjection(float *self_)
 {
   long double v2;
   float v5;
@@ -67,10 +67,10 @@ XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_)
   v2 = atan2(192.0, v12);
   v5 = v2 + v2;
   orig::D3DXMatrixPerspectiveFovLH_static((int)v13, v5, v6, v7, v8);
-  return ((float (__stdcall *)(IDirect3DDevice8 *, int, int *))g_pCDx->pDevice->lpVtbl->SetTransform)(
+  (void)(((void (__stdcall *)(IDirect3DDevice8 *, int, int *))g_pCDx->pDevice->lpVtbl->SetTransform)(
            g_pCDx->pDevice,
            3,
-           v13);
+           v13)); return;
 }
 
 // FUNCTION: FFXIMAIN 0x101779C0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
@@ -167,8 +167,10 @@ XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6
   int v7;
   int v8;
   int v9;
-  int v11[9];
-  int v12;
+  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  int (&v11)[9] = *reinterpret_cast<int (*)[9]>(xi_frame + 0x0);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x24);
+
   v6 = *(_DWORD *)(a1 + 4);
   v7 = *(_DWORD *)(a1 + 8);
   v11[0] = *(_DWORD *)a1;
@@ -203,12 +205,12 @@ char CTsZoneMap::CTsZoneMap_Destructor()
   at<uint32_t>(this, 0x0) = &CTsZoneMap_vtbl;
   orig::ZoneMap_TeardownStep(self);
   orig::ZoneMap_ReleaseStateBlock((unsigned int *)self);
-  if ( this->field_39454 != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_39454);
-  if ( this->field_39458 != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_39458);
-  if ( this->field_3946C != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_3946C);
+  if ( this->vsHandleA != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandleA);
+  if ( this->vsHandleB != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandleB);
+  if ( this->vsHandles != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandles);
   if ( this->field_39470 != 0 )
     g_pCDx->pDevice->DeleteVertexShader(this->field_39470);
   if ( this->field_39474 != 0 )
@@ -217,8 +219,8 @@ char CTsZoneMap::CTsZoneMap_Destructor()
     g_pCDx->pDevice->DeleteVertexShader(this->field_39478);
   if ( this->field_3947C != 0 )
     g_pCDx->pDevice->DeleteVertexShader(this->field_3947C);
-  if ( this->field_39494 != 0 )
-    g_pCDx->pDevice->DeletePixelShader(this->field_39494);
+  if ( this->psHandle != 0 )
+    g_pCDx->pDevice->DeletePixelShader(this->psHandle);
   orig::Vt1032B6D8_Destructor((int **)(self + 234908));
   orig::Vt10336614_Destructor((_DWORD *)(self + 214056));
   orig::nullsub_1();
@@ -273,7 +275,7 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(unsigned int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
-// GATE: PASS -- 100 trials, 50 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 61 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
 float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -571,7 +573,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                       v41 = v40 < 0.0;
                       v42 = 0;
                       v43 = v40 == 0.0;
-                      if ( (v39 & 0x4100) != 0 )
+                      if ( ((__int16)(((v41 || __builtin_isunordered(v40, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v40, 0.0)) ? 0x400 : 0) | ((v43 || __builtin_isunordered(v40, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
                       {
                         v44 = (char *)(v26 + 6);
                         v45 = v60;
@@ -644,7 +646,7 @@ LABEL_41:
 }
 
 // FUNCTION: FFXIMAIN 0x101844C0  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
-// GATE: PASS -- 100 trials, 27 returned normally, 2322 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 27 returned normally, 2332 D3D calls compared (diffemu_gfx, clean build)
 void CTsZoneMap::ModelActor_Draw(int a2, int a3)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -665,15 +667,17 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
   int v18;
   IDirect3DBaseTexture8 *v19;
   int v20;
-  int v21;
-  unsigned int v22;
-  int v23;
-  unsigned int v24;
-  float *v25;
-  unsigned int v26;
-  unsigned int v27;
-  float v28[26];
-  float v29[26];
+  alignas(16) unsigned char xi_frame[0x6E4];  // address-taken locals at their original offsets
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x260);
+  unsigned int &v22 = *reinterpret_cast<unsigned int *>(xi_frame + 0x264);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x268);
+  unsigned int &v24 = *reinterpret_cast<unsigned int *>(xi_frame + 0x26C);
+  float * &v25 = *reinterpret_cast<float * *>(xi_frame + 0x270);
+  unsigned int &v26 = *reinterpret_cast<unsigned int *>(xi_frame + 0x274);
+  unsigned int &v27 = *reinterpret_cast<unsigned int *>(xi_frame + 0x278);
+  float (&v28)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x27C);
+  float (&v29)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x2E4);
+
   v4 = *(_DWORD **)(a2 + 24);
   if ( v4 == nullptr )
     return;
@@ -684,29 +688,29 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
     v25 = Light;
     if ( Light != nullptr )
     {
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 1u);
-      orig::CDx_SetLight(g_pCDx, this->field_394B0, Light + 2);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 1u);
+      orig::CDx_SetLight(g_pCDx, this->lightSlotNamed, Light + 2);
     }
     else
     {
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 0);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 0);
     }
   }
   g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
   memset(v28, 0, sizeof(v28));
-  if ( this->field_394A4 != 0 )
+  if ( this->useTwoDirLights != 0 )
   {
     orig::XiZone_GetDirLights((int)g_pXiZone, v28, v29);
-    orig::CDx_SetLight(g_pCDx, this->field_394A8, v28);
-    orig::CDx_SetLight(g_pCDx, this->field_394AC, v29);
-    g_pCDx->pDevice->LightEnable(this->field_394A8, 1u);
-    v6 = this->field_394AC;
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir0, v28);
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir1, v29);
+    g_pCDx->pDevice->LightEnable(this->lightSlotDir0, 1u);
+    v6 = this->lightSlotDir1;
   }
   else
   {
     orig::XiZone_GetDirLight(g_pXiZone, v28, 0, 0);
-    orig::CDx_SetLight(g_pCDx, this->field_394A8, v28);
-    v6 = this->field_394A8;
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir0, v28);
+    v6 = this->lightSlotDir0;
   }
   g_pCDx->pDevice->LightEnable(v6, 1u);
   orig::XiZone_GetAmbient((char *)g_pXiZone, &v22, 0, 0);
@@ -778,7 +782,7 @@ LABEL_12:
     v12->SetRenderState(v11, D3DRS_CULLMODE, 2u);
   else
     v12->SetRenderState(v11, D3DRS_CULLMODE, 3u);
-  this->field_39120 = 0;
+  this->curTwoSided = 0;
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, (const void *)(a2 + 64));
   v13 = (int *)v4[24];
   if ( v13 != nullptr )
@@ -803,9 +807,9 @@ LABEL_12:
               g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, v24);
               g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, v27);
               v16 = *(__int16 *)(v15 + 32);
-              if ( v16 != this->field_39120 )
+              if ( v16 != this->curTwoSided )
               {
-                this->field_39120 = v16;
+                this->curTwoSided = v16;
                 if ( v16 != 0 )
                 {
                   g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -813,7 +817,7 @@ LABEL_12:
                 else
                 {
                   v17 = g_pCDx->pDevice;
-                  if ( this->field_390FC != 0 )
+                  if ( this->cullCW != 0 )
                     v17->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
                   else
                     v17->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -858,7 +862,7 @@ LABEL_12:
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     if ( v25 != nullptr )
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 0);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 0);
   }
 }
 
@@ -923,48 +927,50 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
   int v58;
   int v59;
   bool v60; // zf
-  float *v61;
-  float *v62;
-  float *v63;
-  float *v64;
-  float *v65;
-  float v66;
-  float v67;
-  float v68;
-  float v69;
-  float v70;
-  float v71;
-  float v72;
-  float v73;
-  float v74;
-  float v75;
-  float v76;
-  float v77;
-  int n;
-  int k;
-  int v80;
-  int **v81;
-  float *v82;
-  int v83;
-  int v84;
-  int v85;
-  _BYTE *j;
-  _BYTE *v87;
-  int i;
-  int v89;
-  float v90;
-  int v91;
-  float v92;
-  float v93;
-  float v94;
-  float v95;
-  float v96;
-  float v97;
-  float v98;
-  float v99;
-  float v100[13];
-  float v101[2];
-  int pMatrix[14];
+  alignas(16) unsigned char xi_frame[0x584];  // address-taken locals at their original offsets
+  float * &v61 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
+  float * &v62 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
+  float * &v63 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
+  float * &v64 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
+  float * &v65 = *reinterpret_cast<float * *>(xi_frame + 0xA8);
+  float &v66 = *reinterpret_cast<float *>(xi_frame + 0xAC);
+  float &v67 = *reinterpret_cast<float *>(xi_frame + 0xB0);
+  float &v68 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  float &v69 = *reinterpret_cast<float *>(xi_frame + 0xBC);
+  float &v70 = *reinterpret_cast<float *>(xi_frame + 0xC0);
+  float &v71 = *reinterpret_cast<float *>(xi_frame + 0xC4);
+  float &v72 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v73 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v74 = *reinterpret_cast<float *>(xi_frame + 0xD4);
+  float &v75 = *reinterpret_cast<float *>(xi_frame + 0xDC);
+  float &v76 = *reinterpret_cast<float *>(xi_frame + 0xE0);
+  float &v77 = *reinterpret_cast<float *>(xi_frame + 0xE4);
+  int &n = *reinterpret_cast<int *>(xi_frame + 0xEC);
+  int &k = *reinterpret_cast<int *>(xi_frame + 0xF0);
+  int &v80 = *reinterpret_cast<int *>(xi_frame + 0xF4);
+  int ** &v81 = *reinterpret_cast<int ** *>(xi_frame + 0xF8);
+  float * &v82 = *reinterpret_cast<float * *>(xi_frame + 0xFC);
+  int &v83 = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v84 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &v85 = *reinterpret_cast<int *>(xi_frame + 0x108);
+  _BYTE * &j = *reinterpret_cast<_BYTE * *>(xi_frame + 0x10C);
+  _BYTE * &v87 = *reinterpret_cast<_BYTE * *>(xi_frame + 0x110);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v89 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  float &v90 = *reinterpret_cast<float *>(xi_frame + 0x11C);
+  int &v91 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  float &v92 = *reinterpret_cast<float *>(xi_frame + 0x124);
+  float &v93 = *reinterpret_cast<float *>(xi_frame + 0x128);
+  float &v94 = *reinterpret_cast<float *>(xi_frame + 0x130);
+  float &v95 = *reinterpret_cast<float *>(xi_frame + 0x134);
+  float &v96 = *reinterpret_cast<float *>(xi_frame + 0x138);
+  float &v97 = *reinterpret_cast<float *>(xi_frame + 0x13C);
+  float &v98 = *reinterpret_cast<float *>(xi_frame + 0x140);
+  float &v99 = *reinterpret_cast<float *>(xi_frame + 0x144);
+  float (&v100)[13] = *reinterpret_cast<float (*)[13]>(xi_frame + 0x148);
+  float (&v101)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x17C);
+  int (&pMatrix)[14] = *reinterpret_cast<int (*)[14]>(xi_frame + 0x184);
+
   v87 = self;
   if ( *(float *)&a2 == 0.0 )
   {
@@ -976,7 +982,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     v92 = 1.0 / *(float *)&a2;
     v90 = v92;
   }
-  result = this->field_343E4;
+  result = this->overlayTex;
   v94 = -*(float *)a1;
   v95 = -*(float *)(a1 + 4);
   v96 = -*(float *)(a1 + 8);
@@ -996,10 +1002,10 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     v90 = 0.0;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    if ( this->field_39598 != 0 )
+    if ( this->overlayUseProjection != 0 )
     {
       g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, pMatrix);
-      orig::ZoneMap_SetOverlayProjection((float *)self);
+      orig_void::ZoneMap_SetOverlayProjection((float *)self);
     }
     else
     {
@@ -1153,7 +1159,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                         v35 = v34 < 0.0;
                         v36 = 0;
                         v37 = v34 == 0.0;
-                        if ( (v33 & 0x4100) != 0 )
+                        if ( ((__int16)(((v35 || __builtin_isunordered(v34, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v34, 0.0)) ? 0x400 : 0) | ((v37 || __builtin_isunordered(v34, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
                         {
                           v38 = (float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF));
                           *((float *)v22 + 4) = v66 * *v38 + v72 * v38[2] + v69 * v38[1] + v75;
@@ -1186,7 +1192,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                           *v32 = v66 * *v47 + v72 * v47[2] + v69 * v47[1] + v75;
                           v48 = v67 * *v47 + v73 * v47[2] + v70 * v47[1] + v76;
                           *v31 = v68 * *v47 + v74 * v47[2] + v71 * v47[1] + v77;
-                          if ( (v45 | v46) != 0 )
+                          if ( v48 < 0.0 )
                             v48 = -v48;
                           v49 = (float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF));
                           *v65 = v66 * *v49 + v72 * v49[2] + v69 * v49[1] + v75;

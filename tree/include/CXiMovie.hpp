@@ -1,5 +1,5 @@
 // CXiMovie -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -10,16 +10,16 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x4];
-    uint32_t field_8;  // +0x8
-    float field_C;  // +0xC
-    float field_10;  // +0x10
+    uint32_t pMovieTexture;  // +0x8 read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)
+    float quad0_x;  // +0xC vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam
+    float quad0_y;  // +0x10 vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam
     uint8_t _pad_14[0x8];
-    uint32_t field_1C;  // +0x1C
+    uint32_t quad0_color;  // +0x1C vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam
     uint8_t _pad_20[0x8];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXiMovie) == 0x28, "CXiMovie: sizeof");
-static_assert(XI_OFFSETOF(CXiMovie, field_8) == 0x8, "CXiMovie: layout");
-static_assert(XI_OFFSETOF(CXiMovie, field_C) == 0xC, "CXiMovie: layout");
-static_assert(XI_OFFSETOF(CXiMovie, field_10) == 0x10, "CXiMovie: layout");
-static_assert(XI_OFFSETOF(CXiMovie, field_1C) == 0x1C, "CXiMovie: layout");
+static_assert(XI_OFFSETOF(CXiMovie, pMovieTexture) == 0x8, "CXiMovie: layout");
+static_assert(XI_OFFSETOF(CXiMovie, quad0_x) == 0xC, "CXiMovie: layout");
+static_assert(XI_OFFSETOF(CXiMovie, quad0_y) == 0x10, "CXiMovie: layout");
+static_assert(XI_OFFSETOF(CXiMovie, quad0_color) == 0x1C, "CXiMovie: layout");

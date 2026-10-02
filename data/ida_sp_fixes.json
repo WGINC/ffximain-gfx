@@ -1,0 +1,15 @@
+{
+ "about": "Stack-pointer corrections for the IDB (Alt+K in IDA; pipeline/ida_apply_names.apply_sp pushes them): the real SP change of an instruction where IDA's own analysis is wrong, found by pipeline/ida_sp_check.py. After applying, re-export the function; its hx_patches entry then becomes stale and is dropped.",
+ "fixes": {
+  "0x100C6693": {
+   "func": "0x100C63D0",
+   "delta": 0,
+   "why": "call [eax+318h] (CXiSkeletonActor slot 0x318 = 0x100A4A10, ret): pops nothing; IDA took the preceding push ebp/push edi as arguments"
+  },
+  "0x100C7902": {
+   "func": "0x100C63D0",
+   "delta": 4,
+   "why": "call [eax+3C8h] (slot 0x3C8 = 0x100CFAD0, ret 4): pops its one argument; IDA counted 0"
+  }
+ }
+}

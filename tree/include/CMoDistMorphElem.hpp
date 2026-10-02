@@ -1,5 +1,5 @@
 // CMoDistMorphElem -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -19,9 +19,9 @@ public:
     int16_t field_34;  // +0x34
     int16_t field_36;  // +0x36
     uint8_t _pad_38[0xCC];
-    int32_t field_104;  // +0x104
+    int32_t pProcessor;  // +0x104 used as the CMoProcessor in UpdateMorphBlend
     uint8_t _pad_108[0xB4];
-    int32_t field_1BC;  // +0x1BC
+    int32_t morphHandle;  // +0x1BC computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val
     uint32_t field_1C0;  // +0x1C0
 };
 #pragma pack(pop)
@@ -29,6 +29,6 @@ static_assert(sizeof(CMoDistMorphElem) == 0x1C4, "CMoDistMorphElem: sizeof");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_32) == 0x32, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_34) == 0x34, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_36) == 0x36, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_104) == 0x104, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_1BC) == 0x1BC, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, pProcessor) == 0x104, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, morphHandle) == 0x1BC, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_1C0) == 0x1C0, "CMoDistMorphElem: layout");

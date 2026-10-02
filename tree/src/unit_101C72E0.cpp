@@ -7,10 +7,12 @@ XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3)
 {
   char *ViewMatrixPtr;
   double v4;
-  int v5[4];
-  _DWORD v6[16];
-  _BYTE v7[64];
-  _BYTE v8[64];
+  alignas(16) unsigned char xi_frame[0x490];  // address-taken locals at their original offsets
+  int (&v5)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x0);
+  _DWORD (&v6)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x10);
+  _BYTE (&v7)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x50);
+  _BYTE (&v8)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x90);
+
   orig::fn_10027990((Iostream_init *)v8);
   orig::fn_10027990((Iostream_init *)v7);
   orig::fn_10027990((Iostream_init *)v6);

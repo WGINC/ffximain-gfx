@@ -1,0 +1,11 @@
+{
+ "why": "Hex-Rays dropped `this` from the virtual call through g_pProcessor's vtable slot 33 and typed it __stdcall; the original passes g_pProcessor in ECX (thiscall) and the method pops its 7 stack arguments.",
+ "evidence": "0x10042D14 mov ecx,[g_pProcessor]; 0x10042D36..0x10042D42 push 7 arguments; 0x10042D43 call [edx+0x84] (slot 33). CMoProcessor slot 33 = 0x1006FE70, ret 0x1C.",
+ "text_sha1": "a73d6f1eacc7fd1766012fc1444f1726ca6016d9",
+ "replace": [
+  [
+   "(*((void (__stdcall **)(float *, int, int, int, int, _DWORD, _DWORD))g_pProcessor->vftable + 33))(\n    &v19,",
+   "(*((void (__thiscall **)(CMoProcessor *, float *, int, int, int, int, _DWORD, _DWORD))g_pProcessor->vftable + 33))(\n    g_pProcessor,\n    &v19,"
+  ]
+ ]
+}

@@ -41,7 +41,7 @@ int __cdecl CXiActorNameDraw::SetRenderState()
       v4 = v3 < 0.0;
       v5 = 0;
       v6 = v3 == 0.0;
-      if ( (v2 & 0x100) == 0 )
+      if ( ((__int16)(((v4 || __builtin_isunordered(v3, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v3, 0.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v3, 0.0)) ? 0x4000 : 0)) & 0x100) == 0 )
         (*(void (__thiscall **)(int))(*(_DWORD *)i + 644))(i);
     }
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

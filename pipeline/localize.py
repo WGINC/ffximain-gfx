@@ -56,26 +56,8 @@ def replay(m, case, trial, seed, orig, cand):
     conv = case.get('conv', 'thiscall'); limit = case.get('insn_limit', 300000)
     fz = G.Fuzzer(m, seed)
     for t in range(trial + 1):
-        fz.reset()
-        for g, n in case.get('fuzz_ranges', []):
-            m.uc.mem_write(int(g, 16), bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n)))
-        for g, spec in case.get('globals', {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack('<I', fz.arg(spec) & 0xFFFFFFFF))
-        for g, iface in case.get('com_globals', {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack('<I', m.obj[iface]))
-        for g, sp in case.get('struct_globals', {}).items():
-            buf = fz.buffer(int(str(sp['size']), 0))
-            for off, iface in sp.get('com', {}).items(): m.uc.mem_write(buf + int(off, 0), struct.pack('<I', m.obj[iface]))
-            m.uc.mem_write(int(g, 16), struct.pack('<I', buf))
-        this = None
-        if conv == 'thiscall':
-            vptr = int(case['vptr'], 16) if case.get('vptr') else None
-            this = fz.buffer(int(str(case.get('this_size', '0x400')), 0), vptr)
-            for off, iface in case.get('this_com', {}).items(): m.uc.mem_write(this + int(off, 0), struct.pack('<I', m.obj[iface]))
-        args = [fz.arg(s) for s in case.get('args', [])]
-        ts = fz.rng.getrandbits(32)
+        this, args, ts = DG.setup_trial(m, case, fz)
         if t < trial: continue
-        m.page_seed = ts; m.reset_demand(); m.ctx = m.uc.context_save()
         for _ in range(3):
             n = len(m.demand); m.rng = random.Random(ts); m.wild = 0; m.call(orig, conv, this, args, limit)
             if len(m.demand) == n: break
@@ -105,7 +87,12 @@ def main(game, rawdir, casesf, gatef, outf, limit=200):
         res[g['original']] = {'name': g['name'], 'why': g['first_mismatch']['why'][:160], 'event_index': i,
                               'original_event': e_o, 'recon_event': e_r, 'recon_line': line,
                               'status': [a.status, b.status], 'events': [len(ta), len(tb)]}
-        print(g['original'], g['name'][:30], 'event', i, '| recon line', line, flush=True)
+        if b.status in ('fault', 'limit'):     # where the reconstruction crashed or was stopped
+            res[g['original']]['recon_stop'] = ['0x%08X' % b.stop_eip, src_line(dll, b.stop_eip), b.detail[:120]]
+        if a.status in ('fault', 'limit'):
+            res[g['original']]['original_stop'] = ['0x%08X' % a.stop_eip, a.detail[:120]]
+        print(g['original'], g['name'][:30], 'event', i, '| recon line', line,
+              '| recon stop', res[g['original']].get('recon_stop'), flush=True)
     json.dump(res, open(outf, 'w'), indent=1)
 
 if __name__ == '__main__':

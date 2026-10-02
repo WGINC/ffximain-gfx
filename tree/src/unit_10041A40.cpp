@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10041C20  (unit unit_10041A40: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int a5)
 {
   __int16 v5; // fps
@@ -27,23 +27,25 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   int v24;
   int *v25;
   int i;
-  int v27;
-  int v28;
-  float v29[2];
-  float v30;
-  int v31;
-  int v32;
-  float v33;
-  int v34;
-  int v35;
-  float v36[3];
-  _DWORD v37[16];
-  _WORD v38[32];
-  int v39[2];
-  char v40;
-  char v41;
-  char v42;
-  char v43;
+  alignas(16) unsigned char xi_frame[0x538];  // address-taken locals at their original offsets
+  int &v27 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v28 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  float (&v29)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x18);
+  float &v30 = *reinterpret_cast<float *>(xi_frame + 0x20);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x2C);
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  float (&v36)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x38);
+  _DWORD (&v37)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x44);
+  _WORD (&v38)[32] = *reinterpret_cast<_WORD (*)[32]>(xi_frame + 0x84);
+  int (&v39)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0xC4);
+  char &v40 = *reinterpret_cast<char *>(xi_frame + 0xCC);
+  char &v41 = *reinterpret_cast<char *>(xi_frame + 0xD4);
+  char &v42 = *reinterpret_cast<char *>(xi_frame + 0x134);
+  char &v43 = *reinterpret_cast<char *>(xi_frame + 0x138);
+
   orig::fn_10027990((Iostream_init *)v37);
   v29[0] = 0.0;
   v29[1] = 0.0;
@@ -58,7 +60,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   v7 = 0;
   v8 = v30 == 1.0;
   v33 = v30;
-  if ( (v5 & 0x100) != 0 && v30 >= 0.0 )
+  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v30 >= 0.0 )
   {
     orig::Gfx_NdcToScreen(v29);
     orig::Vec2_AddScalar(v29, -0.5);

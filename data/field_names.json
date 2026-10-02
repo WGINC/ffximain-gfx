@@ -1,0 +1,564 @@
+{
+ "CDx": {
+  "0x90": {
+   "name": "defaultBackBuffer",
+   "confidence": "high",
+   "summary": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge",
+   "evidence": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarget (docs/NAMES-2026-10-01.md)"
+  },
+  "0x94": {
+   "name": "defaultDepthSurface",
+   "confidence": "high",
+   "summary": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets",
+   "evidence": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets"
+  },
+  "0x158": {
+   "name": "renderTargetDepth",
+   "confidence": "medium",
+   "summary": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], C",
+   "evidence": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], CDx::GetRenderTargetTop returns it); 0 after construction"
+  },
+  "0x164": {
+   "name": "clearFlags",
+   "confidence": "medium",
+   "summary": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Fla",
+   "evidence": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Flags, Color, Z, Stencil)"
+  },
+  "0x168": {
+   "name": "clearColor",
+   "confidence": "high",
+   "summary": "second Clear value",
+   "evidence": "second Clear value; CDx::SetClearColor writes only this one"
+  },
+  "0x16C": {
+   "name": "clearZ",
+   "confidence": "medium",
+   "summary": "third Clear value (Z)",
+   "evidence": "third Clear value (Z)"
+  },
+  "0x170": {
+   "name": "clearStencil",
+   "confidence": "medium",
+   "summary": "fourth Clear value (Stencil)",
+   "evidence": "fourth Clear value (Stencil)"
+  },
+  "0x190": {
+   "name": "acc2",
+   "confidence": "medium",
+   "summary": "sub-object constructed by CAcc2_Constructor in CDx::Constructor",
+   "evidence": "sub-object constructed by CAcc2_Constructor in CDx::Constructor"
+  },
+  "0x194": {
+   "name": "sceneTargetA",
+   "confidence": "medium",
+   "summary": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0",
+   "evidence": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0 surface (vtable +60 = GetSurfaceLevel)"
+  },
+  "0x198": {
+   "name": "sceneTargetB",
+   "confidence": "medium",
+   "summary": "texture: the second scene target",
+   "evidence": "texture: the second scene target; returned by CDx::GetStereoSecondEyeTarget when either target is current"
+  },
+  "0x1A8": {
+   "name": "sceneTargetBDepth",
+   "confidence": "medium",
+   "summary": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget",
+   "evidence": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget"
+  },
+  "0x1DC": {
+   "name": "acc",
+   "confidence": "medium",
+   "summary": "sub-object constructed by CAcc_Constructor in CDx::Constructor",
+   "evidence": "sub-object constructed by CAcc_Constructor in CDx::Constructor"
+  },
+  "0x1F4": {
+   "name": "gammaRamp",
+   "confidence": "high",
+   "summary": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor",
+   "evidence": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor; requested/applied gamma and three 256-entry ramps (docs/NAMES-2026-10-01.md)"
+  },
+  "0x810": {
+   "name": "stereoEye",
+   "confidence": "high",
+   "summary": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting",
+   "evidence": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting it before CDx_ApplyStereoEyeProjection, which picks the eye offset from it"
+  },
+  "0x828": {
+   "name": "stereoTargetsReady",
+   "confidence": "medium",
+   "summary": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode",
+   "evidence": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode"
+  },
+  "0x82C": {
+   "name": "stereoOddLineTexture",
+   "confidence": "medium",
+   "summary": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I",
+   "evidence": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (IDB comment from DancingMad)"
+  },
+  "0x93C": {
+   "name": "cachedWorld",
+   "confidence": "high",
+   "summary": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached",
+   "evidence": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached"
+  },
+  "0x97C": {
+   "name": "cachedView",
+   "confidence": "high",
+   "summary": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached",
+   "evidence": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached"
+  },
+  "0x9BC": {
+   "name": "cachedProjection",
+   "confidence": "high",
+   "summary": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached",
+   "evidence": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached; CDx::ApplyStereoEyeProjection pre-multiplies it"
+  }
+ },
+ "CXiSkeletonActor": {
+  "0x70": {
+   "name": "pModelInfo",
+   "confidence": "medium",
+   "summary": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0",
+   "evidence": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0xEE through it; set from the constructor argument"
+  },
+  "0x80": {
+   "name": "refCount",
+   "confidence": "high",
+   "summary": "CXiSkeletonActor::SubRef decrements and returns it",
+   "evidence": "CXiSkeletonActor::SubRef decrements and returns it"
+  },
+  "0xBC": {
+   "name": "distanceToCamera",
+   "confidence": "medium",
+   "summary": "copied to g_shadowCasterDistance",
+   "evidence": "copied to g_shadowCasterDistance; render-to-texture shadows only when < 4.0"
+  },
+  "0x73C": {
+   "name": "uvOffsetU",
+   "confidence": "high",
+   "summary": "first argument of CXiSkeletonActor::SetUVOffset",
+   "evidence": "first argument of CXiSkeletonActor::SetUVOffset"
+  },
+  "0x740": {
+   "name": "uvOffsetV",
+   "confidence": "high",
+   "summary": "second argument of CXiSkeletonActor::SetUVOffset",
+   "evidence": "second argument of CXiSkeletonActor::SetUVOffset"
+  },
+  "0x754": {
+   "name": "baseScale",
+   "confidence": "medium",
+   "summary": "set from Actor_GetPercentScaleByIndex in SetModel",
+   "evidence": "set from Actor_GetPercentScaleByIndex in SetModel; GetWidth/Height/DepthScale fall back to it when the axis override is negative"
+  },
+  "0x758": {
+   "name": "depthScale",
+   "confidence": "high",
+   "summary": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale",
+   "evidence": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale"
+  },
+  "0x75C": {
+   "name": "heightScale",
+   "confidence": "high",
+   "summary": "GetHeightScale returns it when >= 0, else baseScale",
+   "evidence": "GetHeightScale returns it when >= 0, else baseScale"
+  },
+  "0x760": {
+   "name": "widthScale",
+   "confidence": "high",
+   "summary": "GetWidthScale returns it when >= 0, else baseScale",
+   "evidence": "GetWidthScale returns it when >= 0, else baseScale"
+  },
+  "0x7E4": {
+   "name": "resourceList",
+   "confidence": "medium",
+   "summary": "list walked with List_GetTail in IsReadCompleteBody",
+   "evidence": "list walked with List_GetTail in IsReadCompleteBody"
+  },
+  "0x838": {
+   "name": "directionLockCount",
+   "confidence": "high",
+   "summary": "IsDirectionLock_Set increments or decrements it",
+   "evidence": "IsDirectionLock_Set increments or decrements it"
+  },
+  "0x83C": {
+   "name": "constrain",
+   "confidence": "high",
+   "summary": "returned by CXiSkeletonActor::IsConstrain",
+   "evidence": "returned by CXiSkeletonActor::IsConstrain"
+  },
+  "0x83E": {
+   "name": "constrain2",
+   "confidence": "high",
+   "summary": "returned by CXiSkeletonActor::IsConstrain2",
+   "evidence": "returned by CXiSkeletonActor::IsConstrain2"
+  },
+  "0x840": {
+   "name": "lockFlags",
+   "confidence": "high",
+   "summary": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)",
+   "evidence": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)"
+  },
+  "0x8C0": {
+   "name": "nameHeightOffset",
+   "confidence": "high",
+   "summary": "added to the Y of the position returned by GetNamePos and GetArrowPos",
+   "evidence": "added to the Y of the position returned by GetNamePos and GetArrowPos"
+  },
+  "0xA08": {
+   "name": "pSkeletonRes",
+   "confidence": "high",
+   "summary": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeleton",
+   "evidence": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeletonActor_OnSkeletonLoaded); cleared in DestructorBody"
+  }
+ },
+ "CTsZoneMap": {
+  "0x343E4": {
+   "name": "overlayTex",
+   "confidence": "medium",
+   "summary": "CYyTex* of the multiplicative overlay quad",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: CYyTex* of the multiplicative overlay quad"
+  },
+  "0x390FC": {
+   "name": "cullCW",
+   "confidence": "medium",
+   "summary": "one-sided batches: nonzero -> D3DCULL_CW, else CCW",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: one-sided batches: nonzero -> D3DCULL_CW, else CCW"
+  },
+  "0x39120": {
+   "name": "curTwoSided",
+   "confidence": "medium",
+   "summary": "cached two-sided state of the last batch",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: cached two-sided state of the last batch"
+  },
+  "0x39454": {
+   "name": "vsHandleA",
+   "confidence": "medium",
+   "summary": "vertex shader from g_zoneVSDeclA",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclA"
+  },
+  "0x39458": {
+   "name": "vsHandleB",
+   "confidence": "medium",
+   "summary": "vertex shader from g_zoneVSDeclB",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclB"
+  },
+  "0x3946C": {
+   "name": "vsHandles",
+   "confidence": "medium",
+   "summary": "5 more vertex shader handles",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: 5 more vertex shader handles"
+  },
+  "0x39494": {
+   "name": "psHandle",
+   "confidence": "medium",
+   "summary": "pixel shader handle",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: pixel shader handle"
+  },
+  "0x394A4": {
+   "name": "useTwoDirLights",
+   "confidence": "medium",
+   "summary": "nonzero: two zone-environment directional lights",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: nonzero: two zone-environment directional lights"
+  },
+  "0x394A8": {
+   "name": "lightSlotDir0",
+   "confidence": "medium",
+   "summary": "D3D light index, directional light 0",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 0"
+  },
+  "0x394AC": {
+   "name": "lightSlotDir1",
+   "confidence": "medium",
+   "summary": "D3D light index, directional light 1",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 1"
+  },
+  "0x394B0": {
+   "name": "lightSlotNamed",
+   "confidence": "medium",
+   "summary": "D3D light index of zone-table light 'l_01'",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index of zone-table light 'l_01'"
+  },
+  "0x39598": {
+   "name": "overlayUseProjection",
+   "confidence": "medium",
+   "summary": "byte: overlay uses saved projection, else Z-bias",
+   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: byte: overlay uses saved projection, else Z-bias"
+  }
+ },
+ "Obj_104E1D4C": {
+  "0x4": {
+   "name": "posX",
+   "confidence": "high",
+   "summary": "Cursor_SetPosition stores a2[0]",
+   "evidence": "Cursor_SetPosition stores a2[0]"
+  },
+  "0x8": {
+   "name": "posY",
+   "confidence": "high",
+   "summary": "Cursor_SetPosition stores a2[1]",
+   "evidence": "Cursor_SetPosition stores a2[1]"
+  },
+  "0x4C": {
+   "name": "shapeIndex",
+   "confidence": "high",
+   "summary": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw",
+   "evidence": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw"
+  }
+ },
+ "CYyOs2VtxBuffer": {
+  "0x3C": {
+   "name": "createStep",
+   "confidence": "high",
+   "summary": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an",
+   "evidence": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 and 4"
+  },
+  "0x58": {
+   "name": "indexCount",
+   "confidence": "medium",
+   "summary": "loop bound over the 16-bit index array in CreateBuffersStep",
+   "evidence": "loop bound over the 16-bit index array in CreateBuffersStep"
+  },
+  "0x5C": {
+   "name": "pIndices",
+   "confidence": "medium",
+   "summary": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit",
+   "evidence": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed with Mem_FreeObject"
+  }
+ },
+ "CMoGeneratorClone": {
+  "0x20": {
+   "name": "typeTag",
+   "confidence": "medium",
+   "summary": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-chara",
+   "evidence": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-character resource tag"
+  },
+  "0xD8": {
+   "name": "flags",
+   "confidence": "medium",
+   "summary": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in Creat",
+   "evidence": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in CreateInstance"
+  },
+  "0xE0": {
+   "name": "pCommandStream",
+   "confidence": "medium",
+   "summary": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks ",
+   "evidence": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks it as variable-length records (length in bits 8..12, in dwords)"
+  }
+ },
+ "CYyIcon": {
+  "0x8": {
+   "name": "pIconTexture",
+   "confidence": "medium",
+   "summary": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect",
+   "evidence": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect"
+  },
+  "0xC": {
+   "name": "quad0_x",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x10": {
+   "name": "quad0_y",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x1C": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x20": {
+   "name": "quad0_u",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x24": {
+   "name": "quad0_v",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x28": {
+   "name": "quad1_x",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x2C": {
+   "name": "quad1_y",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x38": {
+   "name": "quad1_color",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x3C": {
+   "name": "quad1_u",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x40": {
+   "name": "quad1_v",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x44": {
+   "name": "quad2_x",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x48": {
+   "name": "quad2_y",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x54": {
+   "name": "quad2_color",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x58": {
+   "name": "quad2_u",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x5C": {
+   "name": "quad2_v",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x60": {
+   "name": "quad3_x",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x64": {
+   "name": "quad3_y",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x70": {
+   "name": "quad3_color",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x74": {
+   "name": "quad3_u",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x78": {
+   "name": "quad3_v",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  }
+ },
+ "CXiOpening": {
+  "0x114": {
+   "name": "savedGammaR",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x118": {
+   "name": "savedGammaG",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x11C": {
+   "name": "savedGammaB",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  }
+ },
+ "CXiMovie": {
+  "0x8": {
+   "name": "pMovieTexture",
+   "confidence": "medium",
+   "summary": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)",
+   "evidence": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)"
+  },
+  "0xC": {
+   "name": "quad0_x",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  },
+  "0x10": {
+   "name": "quad0_y",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  },
+  "0x1C": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  }
+ },
+ "Obj_104E1B90": {
+  "0x10": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x2C": {
+   "name": "quad1_color",
+   "confidence": "high",
+   "summary": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x48": {
+   "name": "quad2_color",
+   "confidence": "high",
+   "summary": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x64": {
+   "name": "quad3_color",
+   "confidence": "high",
+   "summary": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  }
+ },
+ "CMoDistMorphElem": {
+  "0x104": {
+   "name": "pProcessor",
+   "confidence": "medium",
+   "summary": "used as the CMoProcessor in UpdateMorphBlend",
+   "evidence": "used as the CMoProcessor in UpdateMorphBlend"
+  },
+  "0x1BC": {
+   "name": "morphHandle",
+   "confidence": "medium",
+   "summary": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val",
+   "evidence": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to ValidateMorphData"
+  }
+ }
+}

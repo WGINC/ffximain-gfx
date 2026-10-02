@@ -20,7 +20,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
   int v17;
   float v18;
   float a1a;
-  result = this->field_8;
+  result = this->pMovieTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
   {
     v8 = *(IDirect3DBaseTexture8 **)(result + 64);
@@ -33,16 +33,16 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
       g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
       g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
     }
-    v9 = this->field_8;
+    v9 = this->pMovieTexture;
     v17 = *(unsigned __int16 *)(v9 + 38);
     v18 = (double)*(unsigned __int16 *)(v9 + 36) * *(float *)&a3;
     v10 = (double)a1 - 0.5;
     a1a = (double)a2 - 0.5;
-    this->field_C = v10;
+    this->quad0_x = v10;
     v11 = v18 + v10;
-    this->field_10 = a1a;
+    this->quad0_y = a1a;
     at<float>(this, 0x2C) = a1a;
-    this->field_1C = a4;
+    this->quad0_color = a4;
     at<uint32_t>(this, 0x38) = a4;
     at<float>(this, 0x28) = v11;
     at<float>(this, 0x44) = v10;
@@ -57,7 +57,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
     v14 = *(float *)&a3 < 1.0;
     v15 = 0;
     v16 = *(float *)&a3 == 1.0;
-    LOWORD(result) = v13;
+    LOWORD(result) = (__int16)(((v14 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&a3, 1.0)) ? 0x400 : 0) | ((v16 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x4000 : 0));
     if ( *(float *)&a3 != 1.0 )
     {
       g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
@@ -69,7 +69,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 29 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 12 returned normally, 34 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CXiMovie::DrawFrame()
 {
   int result;

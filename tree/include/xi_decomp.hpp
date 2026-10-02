@@ -21,6 +21,7 @@ typedef float    _FLOAT;
 #ifndef __int32
 #define __int32 int
 #endif
+#define _mm_pause() __asm__ __volatile__("pause")
 #define XI_EA(t, ea) (*reinterpret_cast<t *>(static_cast<uintptr_t>(ea)))
 #define LAST_IND(x, part_type) (sizeof(x) / sizeof(part_type) - 1)
 #define LOW_IND(x, part_type) 0

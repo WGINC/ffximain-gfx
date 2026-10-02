@@ -3,7 +3,7 @@
 #include "CXiOpening.hpp"
 
 // FUNCTION: FFXIMAIN 0x100186C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CXiOpening::Constructor(char *Source)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -75,6 +75,6 @@ CDx * CXiOpening::CXiOpening_Destructor()
   }
   result = g_pCDx;
   if ( g_pCDx->_pad_10[2309] != 0 )
-    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->field_114, this->field_118, this->field_11C);
+    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->savedGammaR, this->savedGammaG, this->savedGammaB);
   return result;
 }

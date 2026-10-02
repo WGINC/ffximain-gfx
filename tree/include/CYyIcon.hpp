@@ -1,5 +1,5 @@
 // CYyIcon -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -10,52 +10,52 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x4];
-    uint32_t field_8;  // +0x8
-    float field_C;  // +0xC
-    float field_10;  // +0x10
+    uint32_t pIconTexture;  // +0x8 read and passed on as the texture by CYyIcon::Draw and DrawSubRect
+    float quad0_x;  // +0xC vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner 
+    float quad0_y;  // +0x10 vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner 
     uint8_t _pad_14[0x8];
-    uint32_t field_1C;  // +0x1C
-    float field_20;  // +0x20
-    float field_24;  // +0x24
-    float field_28;  // +0x28
-    float field_2C;  // +0x2C
+    uint32_t quad0_color;  // +0x1C vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor
+    float quad0_u;  // +0x20 vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner 
+    float quad0_v;  // +0x24 vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner 
+    float quad1_x;  // +0x28 vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner 
+    float quad1_y;  // +0x2C vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner 
     uint8_t _pad_30[0x8];
-    uint32_t field_38;  // +0x38
-    uint32_t field_3C;  // +0x3C
-    uint32_t field_40;  // +0x40
-    float field_44;  // +0x44
-    float field_48;  // +0x48
+    uint32_t quad1_color;  // +0x38 vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor
+    uint32_t quad1_u;  // +0x3C vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner 
+    uint32_t quad1_v;  // +0x40 vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner 
+    float quad2_x;  // +0x44 vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner 
+    float quad2_y;  // +0x48 vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner 
     uint8_t _pad_4C[0x8];
-    uint32_t field_54;  // +0x54
-    uint32_t field_58;  // +0x58
-    uint32_t field_5C;  // +0x5C
-    float field_60;  // +0x60
-    float field_64;  // +0x64
+    uint32_t quad2_color;  // +0x54 vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor
+    uint32_t quad2_u;  // +0x58 vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner 
+    uint32_t quad2_v;  // +0x5C vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner 
+    float quad3_x;  // +0x60 vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner 
+    float quad3_y;  // +0x64 vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner 
     uint8_t _pad_68[0x8];
-    uint32_t field_70;  // +0x70
-    float field_74;  // +0x74
-    float field_78;  // +0x78
+    uint32_t quad3_color;  // +0x70 vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor
+    float quad3_u;  // +0x74 vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner 
+    float quad3_v;  // +0x78 vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner 
 };
 #pragma pack(pop)
 static_assert(sizeof(CYyIcon) == 0x7C, "CYyIcon: sizeof");
-static_assert(XI_OFFSETOF(CYyIcon, field_8) == 0x8, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_C) == 0xC, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_10) == 0x10, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_1C) == 0x1C, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_20) == 0x20, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_24) == 0x24, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_28) == 0x28, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_2C) == 0x2C, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_38) == 0x38, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_3C) == 0x3C, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_40) == 0x40, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_44) == 0x44, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_48) == 0x48, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_54) == 0x54, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_58) == 0x58, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_5C) == 0x5C, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_60) == 0x60, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_64) == 0x64, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_70) == 0x70, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_74) == 0x74, "CYyIcon: layout");
-static_assert(XI_OFFSETOF(CYyIcon, field_78) == 0x78, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, pIconTexture) == 0x8, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad0_x) == 0xC, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad0_y) == 0x10, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad0_color) == 0x1C, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad0_u) == 0x20, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad0_v) == 0x24, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad1_x) == 0x28, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad1_y) == 0x2C, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad1_color) == 0x38, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad1_u) == 0x3C, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad1_v) == 0x40, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad2_x) == 0x44, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad2_y) == 0x48, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad2_color) == 0x54, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad2_u) == 0x58, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad2_v) == 0x5C, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad3_x) == 0x60, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad3_y) == 0x64, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad3_color) == 0x70, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad3_u) == 0x74, "CYyIcon: layout");
+static_assert(XI_OFFSETOF(CYyIcon, quad3_v) == 0x78, "CYyIcon: layout");

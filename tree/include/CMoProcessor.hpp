@@ -1,5 +1,5 @@
 // CMoProcessor -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 // NOTE: class descriptor says 0x10; the IDB struct and the code use 0xBB0.
 #pragma once
 #include "gfx_common.hpp"

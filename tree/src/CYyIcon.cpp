@@ -23,32 +23,32 @@ int CYyIcon::Draw(int a1, int a2, int a3, int a4)
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     g_pCDx->pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
   }
-  result = this->field_8;
+  result = this->pIconTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
   {
     v8 = *(IDirect3DBaseTexture8 **)(result + 64);
     if ( v8 == nullptr )
       v8 = *(IDirect3DBaseTexture8 **)(result + 68);
     g_pCDx->pDevice->SetTexture(0, v8);
-    this->field_1C = a3;
-    this->field_38 = a3;
-    this->field_54 = a3;
-    this->field_70 = a3;
-    v9 = this->field_8;
+    this->quad0_color = a3;
+    this->quad1_color = a3;
+    this->quad2_color = a3;
+    this->quad3_color = a3;
+    v9 = this->pIconTexture;
     v10 = *(_WORD *)(v9 + 38);
     a3a = (float)*(unsigned __int16 *)(v9 + 36);
     v11 = (double)a1 - 0.5;
     a4a = (double)a2 - 0.5;
-    this->field_C = v11;
+    this->quad0_x = v11;
     v12 = a3a + v11;
-    this->field_10 = a4a;
-    this->field_2C = a4a;
-    this->field_28 = v12;
-    this->field_44 = v11;
-    this->field_60 = v12;
+    this->quad0_y = a4a;
+    this->quad1_y = a4a;
+    this->quad1_x = v12;
+    this->quad2_x = v11;
+    this->quad3_x = v12;
     v13 = (double)v10 + a4a;
-    this->field_48 = v13;
-    this->field_64 = v13;
+    this->quad2_y = v13;
+    this->quad3_y = v13;
     g_pCDx->pDevice->SetVertexShader(324u);
     result = orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28);
   }
@@ -76,7 +76,7 @@ int CYyIcon::DrawSubRect(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
   int a5a;
   float a9a;
   float a9b;
-  result = this->field_8;
+  result = this->pIconTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
   {
     v12 = *(IDirect3DBaseTexture8 **)(result + 64);
@@ -84,37 +84,37 @@ int CYyIcon::DrawSubRect(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
       v12 = *(IDirect3DBaseTexture8 **)(result + 68);
     g_pCDx->pDevice->SetTexture(0, v12);
     v13 = (double)a1;
-    this->field_1C = a9;
-    this->field_38 = a9;
+    this->quad0_color = a9;
+    this->quad1_color = a9;
     a9a = v13;
     v15 = (double)a2;
-    this->field_54 = a9;
-    this->field_70 = a9;
+    this->quad2_color = a9;
+    this->quad3_color = a9;
     a1a = v15;
     v16 = (double)a3 + a9a - 0.5;
     a9b = (double)a4 + a1a - 0.5;
     v17 = v13 - 0.5;
-    this->field_C = v17;
-    this->field_48 = a9b;
-    this->field_28 = v16;
-    this->field_44 = v17;
-    v18 = this->field_8;
-    this->field_64 = a9b;
+    this->quad0_x = v17;
+    this->quad2_y = a9b;
+    this->quad1_x = v16;
+    this->quad2_x = v17;
+    v18 = this->pIconTexture;
+    this->quad3_y = a9b;
     v19 = v15 - 0.5;
-    this->field_60 = v16;
-    this->field_10 = v19;
-    this->field_2C = v19;
-    this->field_20 = (double)a5 / (double)*(unsigned __int16 *)(v18 + 36);
-    this->field_24 = (double)a6 / (double)*(unsigned __int16 *)(v18 + 38);
-    this->field_74 = (double)(a7 + a5) / (double)*(unsigned __int16 *)(v18 + 36);
+    this->quad3_x = v16;
+    this->quad0_y = v19;
+    this->quad1_y = v19;
+    this->quad0_u = (double)a5 / (double)*(unsigned __int16 *)(v18 + 36);
+    this->quad0_v = (double)a6 / (double)*(unsigned __int16 *)(v18 + 38);
+    this->quad3_u = (double)(a7 + a5) / (double)*(unsigned __int16 *)(v18 + 36);
     a5a = *(unsigned __int16 *)(v18 + 38);
     v20 = at<uint32_t>(this, 0x24);
     v21 = at<uint32_t>(this, 0x20);
-    this->field_3C = at<uint32_t>(this, 0x74);
-    this->field_40 = v20;
-    this->field_58 = v21;
-    this->field_78 = (double)(a8 + a6) / (double)a5a;
-    this->field_5C = at<uint32_t>(this, 0x78);
+    this->quad1_u = at<uint32_t>(this, 0x74);
+    this->quad1_v = v20;
+    this->quad2_u = v21;
+    this->quad3_v = (double)(a8 + a6) / (double)a5a;
+    this->quad2_v = at<uint32_t>(this, 0x78);
     g_pCDx->pDevice->SetVertexShader(324u);
     return orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28);
   }

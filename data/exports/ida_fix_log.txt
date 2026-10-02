@@ -1,0 +1,22 @@
+ffxi_ida_fix: IDA 9.4, IDB C:\Users\wadeglover\Documents\FFXiMain_recon.i64
+names: 185 applied, 5 skipped
+  skipped 0x10285890: IDB has 'sqPrint', wanted 'sqDebugPrintf'
+  skipped 0x104571E0: IDB has 'stru_104571E0', wanted 'g_modelMaterial'
+  skipped 0x10457210: IDB has '', wanted 'g_modelMaterialEmissiveR'
+  skipped 0x10457214: IDB has '', wanted 'g_modelMaterialEmissiveG'
+  skipped 0x10457218: IDB has '', wanted 'g_modelMaterialEmissiveB'
+prototypes: 7 applied
+viewport global 0x104E1B70 typed D3DVIEWPORT8: True
+viewport global 0x10621904 typed D3DVIEWPORT8: True
+SP 0x10075280 Gfx_InitCubeMapTextures: 105 instructions disagreed, 0 after 1 fixes
+SP 0x100D04C0 CXiSkeletonActor_GetNamePos: 4 instructions disagreed, 0 after 2 fixes
+SP 0x1017B510 sub_1017B510: 488 instructions disagreed, 306 after 5 fixes
+SP 0x1000A6E0 CDx_CreateTexture: 57 instructions disagreed, 0 after 1 fixes
+SP 0x1017C9C0 sub_1017C9C0: 4 instructions disagreed, 37 after 1 fixes
+SP 0x10183490 sub_10183490: 30 instructions disagreed, 0 after 1 fixes
+SP 0x100C63D0 CXiSkeletonActor_OnMove: 538 instructions disagreed, 0 after 2 fixes
+SP 0x100D06F0 CXiSkeletonActor_GetArrowPos: 4 instructions disagreed, 0 after 2 fixes
+SP 0x1017DE20 sub_1017DE20: 66 instructions disagreed, 27 after 1 fixes
+SP 0x10183760 sub_10183760: 26 instructions disagreed, 0 after 1 fixes
+SP: corrected in 10 functions, 3 still disagree
+export: 768 functions written to C:\Users\wadeglover\Documents\gfx_export_ida_reexport.jsonl (13 marked skip)

@@ -63,6 +63,7 @@ def orig_wrapper(name, ea, ftype):
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ftype, re.S)
     if not m or re.search(r'__user|@<', ftype): return None
     ret, cc, args = m.groups(); cc = cc or '__cdecl'
+    if cc.strip() == '__cdecl' and hx2cpp.PURGES.get('0x%08X' % ea): cc = '__stdcall'   # pops (`ret N`): D3DX dispatch thunks
     ret = re.sub(r'\b__noreturn\b|' + CC_RE, '', ret).strip() or 'int'    # `void __cdecl __noreturn`
     TYPEWORDS = {'int', 'char', 'short', 'long', 'float', 'double', 'bool', 'void', 'unsigned', 'signed',
                  '__int8', '__int16', '__int32', '__int64'}

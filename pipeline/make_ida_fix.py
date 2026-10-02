@@ -10,6 +10,7 @@ D = os.path.join(R, 'data')
 data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encoding='utf-8')),
         'types': json.load(open(os.path.join(D, 'type_fixes.json'), encoding='utf-8')),
         'real_sp': json.load(open(os.path.join(D, 'real_sp.json'))),
+        'revert': json.load(open(os.path.join(D, 'ida_sp_revert.json')))['calls'],
         'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl'))]}
 blob = json.dumps(data, separators=(',', ':'), ensure_ascii=True)
 assert "'''" not in blob

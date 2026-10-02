@@ -183,10 +183,12 @@ def truncated_array(body):
     top = max(x + y for x, y, _ in ds)
     starts = sorted({x for x, _, _ in ds})
     for x, y, m in ds:
-        if not m.group(4) or not m.group(7) or m.group(2): continue
+        if not m.group(7) or m.group(2): continue
         el = _ELEM.get(m.group(1).strip())
         if not el: continue
-        end = x + int(m.group(4)[1:-1]) * el
+        # an address-taken scalar counts too: a struct output whose first field alone was named
+        # (Dancer_InitDevice: GetDesc into `int v8`, then 8 unnamed bytes, then the rest as v9[])
+        end = x + (int(m.group(4)[1:-1]) if m.group(4) else 1) * el
         nxt = min([o for o in starts if o > x] + [top])
         if nxt - end >= 4: return True
     return False
@@ -389,6 +391,13 @@ def deleting_dtor_this(body):
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}
 
+def callee_pops_fix(o, pt):
+    # a callee IDA sees as `jmp [ptr]` (the D3DX CPU-dispatch thunks, e.g. D3DXMatrixMultiply at 0x102D6F03)
+    # gets purged 0 and __cdecl, but every implementation behind the pointer is __stdcall (purges.py)
+    if (o.get('purged') or 0) == 0 and PURGES.get('0x%08X' % o['ea']) and '__cdecl' in pt:
+        return pt.replace('__cdecl', '__stdcall', 1)
+    return pt
+
 def ghidra_fix_convention(rec):
     # Ghidra's calling convention for the function itself, checked against its real `ret N`:
     # stdcall that pops nothing is cdecl; cdecl that pops is stdcall
@@ -465,6 +474,7 @@ def translate(rec):
         if o['func']:
             pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
             if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
+            pt = callee_pops_fix(o, pt)
             tok = 'F_%08X' % oea
             syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
@@ -538,7 +548,9 @@ def main(src, outdir):
         ea = rec['ea']
         # library = Microsoft code: byte-identical to DirectX 8.1 d3dx8.lib (libmatch.py) or named D3DX.
         # Calling something runtime-named does NOT make a function library code (1 Oct 2026 audit).
-        if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']):
+        # the statically linked D3DX / runtime code lies after the game's last object (0x102D0000 on): an
+        # unnamed function there (sub_102D538A, which calls _D3DXFilterTexture) is library code too
+        if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']) or 0x102D0000 <= ea < 0x10330000:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX 8.1: %s' % D3DX81.get('0x%x' % ea, {}).get('symbol', rec['name'])}; continue
         if 'skip' in rec or 'text' in rec:
             m = BAD2.search(rec.get('text', ''))

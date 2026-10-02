@@ -546,28 +546,10 @@
   "evidence": "byte 3 of g_ambientColor (alpha)"
  },
  "0x104571E0": {
-  "old": "unk_104571E0",
+  "old": "stru_104571E0",
   "name": "g_modelMaterial",
   "confidence": "high",
   "evidence": "D3DMATERIAL8 passed to SetMaterial; initialised from unk_10351518"
- },
- "0x10457210": {
-  "old": "flt_10457210",
-  "name": "g_modelMaterialEmissiveR",
-  "confidence": "high",
-  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
- },
- "0x10457214": {
-  "old": "flt_10457214",
-  "name": "g_modelMaterialEmissiveG",
-  "confidence": "high",
-  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
- },
- "0x10457218": {
-  "old": "flt_10457218",
-  "name": "g_modelMaterialEmissiveB",
-  "confidence": "high",
-  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
  },
  "0x104572B0": {
   "old": "byte_104572B0",
@@ -1168,5 +1150,17 @@
   "name": "CMoCamera_GetSharedInstance_staticGuard",
   "confidence": "high",
   "evidence": "MSVC static init guard of the function-local static instance in CMoCamera_GetSharedInstance"
+ },
+ "0x102D6F03": {
+  "old": "sub_102D6F03",
+  "name": "D3DXMatrixMultiply_Dispatch",
+  "confidence": "high",
+  "evidence": "jmp through the D3DX CPU-dispatch table slot 0x103CC41C; default implementation 0x102D6F09 multiplies two 4x4 matrices (pOut = pM1 * pM2, temp when pOut aliases), ret 0xC"
+ },
+ "0x102D714C": {
+  "old": "sub_102D714C",
+  "name": "D3DXMatrixTranspose_Dispatch",
+  "confidence": "high",
+  "evidence": "jmp through the D3DX CPU-dispatch table slot 0x103CC4A4; default implementation 0x102D7152 transposes [esp+8] into [esp+4], ret 8"
  }
 }

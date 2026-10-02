@@ -347,6 +347,17 @@ class GfxMachine(G.Machine):
             v = v & 1
         elif spec.get('ret') == 'lowbool':     # AL = 0 or 1; the upper bits are left over from earlier
             v = (v & ~0xFF) | (v & 1)
+        for idx, iface in spec.get('com_out', ()):
+            # an `I...**` output (D3DXAssembleShader's ID3DXBuffer **): on success the callee stores an
+            # interface pointer there, which the caller then calls through -- a fake object of that kind
+            if v & 0x80000000 or iface not in self.obj: continue
+            try:
+                p = struct.unpack('<I', uc.mem_read(esp + 4 + 4 * idx, 4))[0]
+                if p:
+                    self.writes.append((p, bytes(uc.mem_read(p, 4))))
+                    uc.mem_write(p, struct.pack('<I', self.obj[iface]))
+            except Exception:
+                pass
         uc.reg_write(UC_X86_REG_EAX, v)
         uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * spec.get('pops', 0))
         if spec.get('fpret'):

@@ -1,0 +1,181 @@
+{
+ "sp": {
+  "0x10075280": {
+   "name": "Gfx_InitCubeMapTextures",
+   "disagreed_before": 105,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x1007531D",
+     "ida_change_was": 8,
+     "real_change": 4,
+     "now": 4
+    }
+   ]
+  },
+  "0x100D04C0": {
+   "name": "CXiSkeletonActor_GetNamePos",
+   "disagreed_before": 4,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x100D04CF",
+     "ida_change_was": 4,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x100D04DD",
+     "ida_change_was": 4,
+     "real_change": 8,
+     "now": 8
+    }
+   ]
+  },
+  "0x1017B510": {
+   "name": "sub_1017B510",
+   "disagreed_before": 488,
+   "disagreed_after": 306,
+   "fixes": [
+    {
+     "call": "0x1017BFC6",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x1017BFF2",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x1017C0A1",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x1017C25F",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x1017C287",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    }
+   ]
+  },
+  "0x1000A6E0": {
+   "name": "CDx_CreateTexture",
+   "disagreed_before": 57,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x1000A705",
+     "ida_change_was": 8,
+     "real_change": 4,
+     "now": 4
+    }
+   ]
+  },
+  "0x1017C9C0": {
+   "name": "sub_1017C9C0",
+   "disagreed_before": 4,
+   "disagreed_after": 37,
+   "fixes": [
+    {
+     "call": "0x1017C9F2",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    }
+   ]
+  },
+  "0x10183490": {
+   "name": "sub_10183490",
+   "disagreed_before": 30,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x101834B4",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    }
+   ]
+  },
+  "0x100C63D0": {
+   "name": "CXiSkeletonActor_OnMove",
+   "disagreed_before": 538,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x100C6693",
+     "ida_change_was": 4,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x100C7902",
+     "ida_change_was": 0,
+     "real_change": 4,
+     "now": 4
+    }
+   ]
+  },
+  "0x100D06F0": {
+   "name": "CXiSkeletonActor_GetArrowPos",
+   "disagreed_before": 4,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x100D06FC",
+     "ida_change_was": 4,
+     "real_change": 0,
+     "now": 0
+    },
+    {
+     "call": "0x100D070A",
+     "ida_change_was": 4,
+     "real_change": 8,
+     "now": 8
+    }
+   ]
+  },
+  "0x1017DE20": {
+   "name": "sub_1017DE20",
+   "disagreed_before": 66,
+   "disagreed_after": 27,
+   "fixes": [
+    {
+     "call": "0x1017DE5C",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    }
+   ]
+  },
+  "0x10183760": {
+   "name": "sub_10183760",
+   "disagreed_before": 26,
+   "disagreed_after": 0,
+   "fixes": [
+    {
+     "call": "0x10183782",
+     "ida_change_was": 12,
+     "real_change": 0,
+     "now": 0
+    }
+   ]
+  }
+ },
+ "export": {
+  "file": "C:\\Users\\wadeglover\\Documents\\gfx_export_ida_reexport.jsonl",
+  "functions": 768,
+  "skip": 13
+ }
+}

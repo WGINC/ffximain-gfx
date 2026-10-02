@@ -7,9 +7,10 @@ File > Script file... > ffxi_ida_fix.py. Steps:
   1. names: names_pending_idb.json (only where the IDB still has the expected placeholder name);
   2. prototypes: type_fixes.json;
   3. the viewport globals 0x104E1B70 and 0x10621904 typed D3DVIEWPORT8 (24 bytes, not pointers);
-  4. stack pointer: real_sp.json holds the depth the original really has at each instruction (measured by
-     running it, pipeline/real_sp.py). At each call where IDA's SP change differs from the measured one, a
-     user SP change point is set (what Alt+K does), checked by reading IDA's SP back;
+  4. stack pointer: SP points set by the first version of this script where its measurement was wrong are
+     removed (IDA's own analysis returns). Then, at each call whose stack effect was measured from real code
+     (the callee's own `ret N`, pipeline/real_sp.py) and differs from IDA's, a user SP change point is set
+     (what Alt+K does), checked by reading IDA's SP back;
   5. re-export: every function of the current export is decompiled again.
 Output, next to the IDB: gfx_export_ida_reexport.jsonl, ida_fix_report.json and ida_fix_log.txt. Each step
 runs even if an earlier one failed; failures are logged with their traceback.
@@ -74,25 +75,10 @@ def apply_viewports():
 
 
 # ------------------------------------------------------------------ 4: stack pointer
-def is_call(ea):
-    return idc.print_insn_mnem(ea) == 'call'
-
-
-def first_disagreement(real):
-    """the first call (address order) across which IDA's SP change differs from the measured one:
-    (call, IDA's change, real change). real: {ea: depth}, depth = bytes below the entry SP; IDA's SP falls
-    as the stack grows, so a call that pops N changes it by +N."""
-    for ea in sorted(real):
-        nxt = ea + idc.get_item_size(ea)
-        if nxt not in real or not is_call(ea): continue
-        a, b = idc.get_spd(ea), idc.get_spd(nxt)
-        if a is None or b is None: continue
-        if b - a != real[ea] - real[nxt]: return ea, b - a, real[ea] - real[nxt]
-    return None
-
-
-def mismatches(real):
-    return sum(1 for ea, d in real.items() if idc.get_spd(ea) is not None and idc.get_spd(ea) != -d)
+def change_at(call):
+    nxt = call + idc.get_item_size(call)
+    a, b = idc.get_spd(call), idc.get_spd(nxt)
+    return None if a is None or b is None else b - a    # IDA's SP falls as the stack grows: a pop is positive
 
 
 def set_change(call, value):
@@ -100,10 +86,24 @@ def set_change(call, value):
     ida_frame.del_stkpnt(pfn, nxt)
     ida_frame.add_user_stkpnt(nxt, value)
     ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait()
-    return idc.get_spd(nxt) - idc.get_spd(call)
+    return change_at(call)
+
+
+def revert(report):
+    """undo SP points an earlier version of this script set from a gate model that was wrong there"""
+    for k in DATA['revert']:
+        call = int(k, 16); pfn = ida_funcs.get_func(call)
+        if not pfn: continue
+        ida_frame.del_stkpnt(pfn, call + idc.get_item_size(call))
+        ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait()
+        if (idc.get_cmt(call, 0) or '').startswith('[sp fix'): idc.set_cmt(call, '', 0)
+        ida_hexrays.mark_cfunc_dirty(pfn.start_ea)
+        report['reverted'][k] = change_at(call)
+        log('SP point removed at %s: IDA now says the call changes SP by %s' % (k, change_at(call)))
 
 
 def fix_sp(report):
+    """at each call whose effect was measured from real code (the callee's own `ret N`), make IDA agree"""
     funcs = DATA['real_sp']; n = 0
     for fk, rec in funcs.items():
         n += 1
@@ -111,26 +111,25 @@ def fix_sp(report):
         if n % 25 == 0: ida_kernwin.replace_wait_box('SP check %d of %d' % (n, len(funcs)))
         f = int(fk, 16)
         if not ida_funcs.get_func(f): continue
-        real = {int(a, 16): d for a, d in rec.items()}
-        before = mismatches(real)
-        if not before: continue
         fixes = []
-        for _ in range(32):
-            bad = first_disagreement(real)
-            if not bad: break
-            call, c_ida, c_real = bad
-            got = set_change(call, c_real)
-            if got != c_real: got = set_change(call, -c_real)     # the other sign convention
-            fixes.append({'call': '0x%08X' % call, 'ida_change_was': c_ida, 'real_change': c_real, 'now': got})
-            idc.set_cmt(call, '[sp fix 2026-10-02] this call changes SP by %d (measured by running the original); IDA had %d'
-                        % (c_real, c_ida), 0)
-            if got != c_real: break
+        for ck, real in sorted(rec['calls'].items()):
+            call = int(ck, 16); had = change_at(call)
+            if had is None or had == real: continue
+            got = set_change(call, real)
+            if got != real: got = set_change(call, -real)     # the other sign convention
+            if got != real:                                   # neither took: leave IDA's own analysis in place
+                pfn = ida_funcs.get_func(call); ida_frame.del_stkpnt(pfn, call + idc.get_item_size(call))
+                ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait(); got = change_at(call)
+            fixes.append({'call': ck, 'ida_change_was': had, 'real_change': real, 'now': got})
+            if got != real: continue
+            idc.set_cmt(call, '[sp fix 2026-10-03] this call changes SP by %d (the callee\'s own ret, measured by running '
+                        'the original); IDA had %d' % (real, had), 0)
+        if not fixes: continue
         ida_hexrays.mark_cfunc_dirty(f)
-        after = mismatches(real)
-        report['sp'][fk] = {'name': idc.get_func_name(f), 'disagreed_before': before, 'disagreed_after': after, 'fixes': fixes}
-        log('SP %s %s: %d instructions disagreed, %d after %d fixes' % (fk, idc.get_func_name(f), before, after, len(fixes)))
-    log('SP: corrected in %d functions, %d still disagree'
-        % (len(report['sp']), sum(1 for r in report['sp'].values() if r['disagreed_after'])))
+        bad = sum(1 for x in fixes if x['now'] != x['real_change'])
+        report['sp'][fk] = {'name': idc.get_func_name(f), 'fixes': fixes, 'not_corrected': bad}
+        log('SP %s %s: %d calls corrected%s' % (fk, idc.get_func_name(f), len(fixes) - bad, (', %d could not be' % bad) if bad else ''))
+    log('SP: %d functions corrected' % len(report['sp']))
 
 
 # ------------------------------------------------------------------ 5: re-export (same records as ida_gfx.export_one)
@@ -227,13 +226,13 @@ def reexport(report):
 
 
 def main():
-    t0 = time.time(); report = {'sp': {}}
+    t0 = time.time(); report = {'sp': {}, 'reverted': {}}
     log('ffxi_ida_fix: IDA %s, IDB %s' % (idaapi.get_kernel_version(), idc.get_idb_path()))
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
         for step in (apply_names, apply_types, apply_viewports, lambda: ida_auto.auto_wait(),
-                     lambda: fix_sp(report), lambda: reexport(report)):
+                     lambda: revert(report), lambda: fix_sp(report), lambda: reexport(report)):
             try: step()
             except Exception: log('STEP FAILED:\n' + traceback.format_exc())
     finally:

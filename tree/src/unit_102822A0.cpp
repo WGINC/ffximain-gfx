@@ -259,6 +259,61 @@ XI_API int __cdecl sqgxBlendSub(void)
   }
 }
 
+// FUNCTION: FFXIMAIN 0x10282A30  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 72 returned normally, 462 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10282A30(float a1)
+{
+  double v1;
+  int v2;
+  unsigned int v3;
+  v1 = a1 * 255.0 + 0.5;
+  v2 = (__int64)v1;
+  if ( v2 > 255 )
+    v2 = 255;
+  v3 = *(_DWORD *)(g_pSqgxContext + 2840);
+  if ( v3 != 0 )
+  {
+    g_pDancerDevice->SetTextureStageState(v3, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
+    g_pDancerDevice->lpVtbl->SetTextureStageState(
+      g_pDancerDevice,
+      *(_DWORD *)(g_pSqgxContext + 2840),
+      D3DTSS_COLORARG1,
+      2u);
+    g_pDancerDevice->lpVtbl->SetTextureStageState(
+      g_pDancerDevice,
+      *(_DWORD *)(g_pSqgxContext + 2840),
+      D3DTSS_COLORARG2,
+      1u);
+    g_pDancerDevice->lpVtbl->SetTextureStageState(
+      g_pDancerDevice,
+      *(_DWORD *)(g_pSqgxContext + 2840),
+      D3DTSS_ALPHAOP,
+      2u);
+    g_pDancerDevice->lpVtbl->SetTextureStageState(
+      g_pDancerDevice,
+      *(_DWORD *)(g_pSqgxContext + 2840),
+      D3DTSS_ALPHAARG1,
+      2u);
+    g_pDancerDevice->lpVtbl->SetTextureStageState(
+      g_pDancerDevice,
+      *(_DWORD *)(g_pSqgxContext + 2840),
+      D3DTSS_ALPHAARG2,
+      1u);
+    g_pDancerDevice->lpVtbl->SetRenderState(
+      g_pDancerDevice,
+      D3DRS_TEXTUREFACTOR,
+      (unsigned __int8)v2 | (((unsigned __int8)v2 | (((unsigned __int8)v2 | (v2 << 8)) << 8)) << 8));
+  }
+  else
+  {
+    g_pDancerDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    g_pDancerDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    g_pDancerDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+    g_pDancerDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+  }
+  (void)(v1); return;
+}
+
 // FUNCTION: FFXIMAIN 0x10282B90  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 408 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
@@ -532,6 +587,107 @@ XI_API int __cdecl sqgxBlendOff(void)
   return g_pDancerDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
+// FUNCTION: FFXIMAIN 0x10283420  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 80 returned normally, 957 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10283420(void)
+{
+  float v0;
+  __int16 v1; // fps
+  double v2;
+  bool v3; // c0
+  char v4; // c2
+  bool v5; // c3
+  int v6;
+  signed int i;
+  int v8;
+  int result;
+  int v10;
+  unsigned int v11;
+  float v12[17];
+  float v13[4];
+  int v14;
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  memset(v12, 0, sizeof(v12));
+  v12[12] = *(float *)(g_pSqgxContext + 1880) * *(float *)(g_pSqgxContext + 1896);
+  v12[13] = *(float *)(g_pSqgxContext + 1884) * *(float *)(g_pSqgxContext + 1896);
+  v12[14] = *(float *)(g_pSqgxContext + 1888) * *(float *)(g_pSqgxContext + 1896);
+  v12[15] = *(float *)(g_pSqgxContext + 1892) * *(float *)(g_pSqgxContext + 1896);
+  v12[0] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1880);
+  v12[1] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1884);
+  v12[2] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1888);
+  v12[3] = *(float *)(g_pSqgxContext + 1892);
+  if ( *(float *)(g_pSqgxContext + 20) >= 0.001
+    && (v2 = *(float *)(g_pSqgxContext + 20), v3 = v2 < 0.999, v4 = 0, v5 = v2 == 0.999, ((__int16)((v3 ? 0x100 : 0) | (v4 ? 0x400 : 0) | (v5 ? 0x4000 : 0)) & 0x4100) != 0) )
+  {
+    v12[16] = *(float *)(g_pSqgxContext + 20);
+  }
+  else
+  {
+    v12[16] = 0.0;
+  }
+  memset(&v12[8], 0, 16);
+  g_pDancerDevice->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
+  g_pDancerDevice->SetMaterial(v12);
+  v6 = *(_DWORD *)(g_pSqgxContext + 2608);
+  if ( (v6 & 8) != 0 && (v6 & 2) == 0 )
+  {
+    g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 1u);
+  }
+  else if ( (v6 & 8) != 0 )
+  {
+    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 1u);
+  }
+  else if ( (v6 & 2) == 0 )
+  {
+    g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 0);
+    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
+  }
+  else
+  {
+    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
+  }
+  for ( i = 0; i < 4; ++i )
+  {
+    if ( *(_DWORD *)(g_pSqgxContext + 4 * i + 2132) == 0 || (*(_DWORD *)(g_pSqgxContext + 2592) & 0x40000) != 0 )
+    {
+      result = g_pDancerDevice->LightEnable(i, 0);
+    }
+    else
+    {
+      g_pDancerDevice->LightEnable(i, 1u);
+      g_pDancerDevice->GetLight(i, v13);
+      v18 = 0;
+      v19 = 0;
+      v8 = g_pSqgxContext + 12 * i;
+      v20 = 0;
+      v13[1] = *(float *)(v8 + 1940);
+      v13[2] = *(float *)(g_pSqgxContext + 4 * (3 * i + 486));
+      v13[3] = *(float *)(v8 + 1948);
+      if ( i != 0 )
+      {
+        v14 = 0;
+        v15 = 0;
+        v16 = 0;
+      }
+      else
+      {
+        v14 = *(_DWORD *)(g_pSqgxContext + 1940);
+        v15 = *(_DWORD *)(g_pSqgxContext + 1944);
+        v16 = *(_DWORD *)(g_pSqgxContext + 1948);
+      }
+      v17 = 0;
+      result = g_pDancerDevice->SetLight(i, v13);
+    }
+  }
+  dword_109A2720 = 0;
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x10283A10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 81 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
@@ -638,12 +794,12 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   else
   {
     orig::sqgxMatrixPlanarShadow((int)v21);
-    orig::sqMatrix4_10280140(v18, (float *)(g_pSqgxContext + 456), v21);
+    orig_void::sqMatrix4_10280140(v18, (float *)(g_pSqgxContext + 456), v21);
   }
   g_pDancerDevice->SetTransform(D3DTS_PROJECTION, (void *)(g_pSqgxContext + 748));
   g_pDancerDevice->SetTransform(D3DTS_VIEW, (void *)(g_pSqgxContext + 520));
   g_pDancerDevice->SetTransform((D3DTRANSFORMSTATETYPE)256, v18);
-  orig::sqMatrix4_10280140(v20, v18, (float *)(g_pSqgxContext + 520));
+  orig_void::sqMatrix4_10280140(v20, v18, (float *)(g_pSqgxContext + 520));
   orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
   v5 = g_pSqgxContext;
   if ( *(_BYTE *)(g_pSqgxContext + 1876) != 0 )
@@ -709,7 +865,7 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   }
   while ( (int)(v9 - 4) < 4 );
   orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
-  orig::sqMatrix4_10280140(v17, (float *)(g_pSqgxContext + 392), v19);
+  orig_void::sqMatrix4_10280140(v17, (float *)(g_pSqgxContext + 392), v19);
   v12 = v17[13];
   v13 = v17[14];
   *(float *)(g_pSqgxContext + 648) = v17[12];
@@ -718,7 +874,7 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   if ( (v0 & 0x10) != 0 || (result = v0 & 8, (v0 & 8) != 0) )
   {
     orig::sqMatrix4_1027F0E0(v17, g_pSqgxContext + 812);
-    orig::sqMatrix4_10280140((float *)(g_pSqgxContext + 584), (float *)(g_pSqgxContext + 456), v17);
+    orig_void::sqMatrix4_10280140((float *)(g_pSqgxContext + 584), (float *)(g_pSqgxContext + 456), v17);
     result = orig::Mat4_Transpose(v17, (_DWORD *)(g_pSqgxContext + 584));
   }
   g_sqgxViewportDirty = 0;

@@ -23,7 +23,7 @@ XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3)
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v6);
   orig::Vec4_Set((int)v5, 0.0, 0, 0, 1065353216);
   orig::Gfx_ProjectWorldToClip((float *)v5, v5);
-  orig::Gfx_NdcToScreen((float *)v5);
+  orig_void::Gfx_NdcToScreen((float *)v5);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v7);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v8);
   v4 = *(float *)&v5[1] + 0.5;

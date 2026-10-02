@@ -6,8 +6,8 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 |---|---|---|
 | Microsoft D3DX 8.1 (statically linked) | 47 | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |
 | Constructs C++ cannot express | 9 | Stays original code (`orig::`). Listed below with the exact construct. |
-| Did not compile, or compiles with no gate case | 3 | Translator gaps; listed below. |
-| Gate FAIL (decompiled code is wrong) | 43 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
+| Did not compile, or compiles with no gate case | 0 | Translator gaps; listed below. |
+| Gate FAIL (decompiled code is wrong) | 14 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
 | Gate INCONCLUSIVE (no comparable run) | 33 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
 
@@ -77,61 +77,24 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x1028AB50` | sub_1028AB50 | unsupported construct retaddr |  |
 | `0x102D538A` | sub_102D538A | callee _D3DXFilterTexture@16 has no C++ type (int __userpurge@<eax>(unsigned int edi0@<edi>, struct IDirect3DSurface8 *, const struct tagPALETTEENTRY *, char *, int)) |  |
 
-## Did not compile / no gate case (3)
-
-| Address | Name | Reason | What it does |
-|---|---|---|---|
-| `0x10010D20` | App_InitScene | did not compile as C++: cannot convert '_DWORD*' {aka 'unsigned int*'} to '_WORD*' {aka 'short unsigned int*'} in  | Scene/app init: creates every render target (scene A/B CAcc2 @CDx+0x190, 256x256 CAcc @CDx+0x1BC, menu-resolut... |
-| `0x10011A00` | Frame_Render | did not compile as C++: typedef 'T_1032919C' is initialized (use 'decltype' instead) | Per-frame render function: TestCooperativeLevel, BeginScene, ~180 calls, EndScene, Present. 18-case state mach... |
-| `0x101771B0` | sub_101771B0 | did not compile as C++: cannot convert 'char*' to 'LPCWSTR' {aka 'const short unsigned int*'} in argument passing |  |
-
-## Gate FAIL (43)
+## Gate FAIL (14)
 
 | Address | Name | First difference | Reconstruction line at the divergence | What it does |
 |---|---|---|---|---|
-| `0x10009920` | CDx_SetDefaultRenderState | stubbed call #18 differs: original 0x100098E0(ecx=0x30000F50, 0x00000003, 0x30001140, 0x00000028) / reconstruc | `F_100098E0(&self->base.vftable, 3, v2, v5);` | 345 instructions of SetRenderState/SetTextureStageState defaults; called at frame start. |
-| `0x1000BB90` | CDx_DrawStereoOddFrameOverlay | AL 40 vs 1 | `G_10456690 = 0;` | Stereo mode only: draws the 1x16 texture CDx+0x82C stretched as a screen-space quad (FVF 0x144, Z off) over a ... |
-| `0x1000C0B0` | CDx_CompositeSceneToBackBuffer | ended differently: original return  / reconstruction fault access 0x00000000 size 4 type 19 | `F_10009E20((CDx *)self, v6, 0, 0);` | Final composite: draws scene target A over the window viewport with LINEAR filtering and MODULATE2X - this is ... |
-| `0x10015510` | Camera_ApplyViewProjection | x87 result differs: (0, 0) vs (0, 0) |  | Builds and sets D3DTS_VIEW then D3DTS_PROJECTION from the camera object at 0x104568FC. |
-| `0x10017310` | sub_10017310 | memory differs at 1 byte(s), first 0x10350760: original 120 / reconstruction 119 | `G_10350760 = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2 + 2) * 0.000015259022 * 480` |  |
-| `0x1001C930` | sub_1001C930 | stubbed call #19 differs: original 0xC0000332(ecx=0x6E080300, 0x00000089, 0x00000001) / reconstruction 0xC0000 | `G_1045666C->pDevice->lpVtbl->SetVertexShader(G_1045666C->pDevice, 66u);` |  |
+| `0x10010D20` | App_InitScene | stubbed call #17 differs: original 0x1000C6E0(ecx=0x300015C0, 0x00000000, 0x00000000) / reconstruction 0x1000C | `G_1047D128 = 0;` | Scene/app init: creates every render target (scene A/B CAcc2 @CDx+0x190, 256x256 CAcc @CDx+0x1BC, menu-resolut... |
+| `0x10015510` | Camera_ApplyViewProjection | x87 stack depth differs after return |  | Builds and sets D3DTS_VIEW then D3DTS_PROJECTION from the camera object at 0x104568FC. |
+| `0x1001C930` | sub_1001C930 | stubbed call #4 differs: original 0x10026FA0(ecx=0x00000000, 0x87019FA8, 0x38F41988, 0x38F41E88) / reconstruct | `F_10026FA0((float *)((char *)&v34 + v2), (float *)(v2 + a1 + 64), (float *)(v2 + a1 + 1344` |  |
 | `0x10029A50` | sub_10029A50 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21 |  |  |
-| `0x1002B6E0` | CXiSkeletonActor_DrawModel | ended differently: original return  / reconstruction fault access 0x000000D9 size 1 type 20 |  | Per-actor model draw: resets state, transforms, fog modes, animates via Model_AnimateEntry (both branches), dr... |
-| `0x1003CB30` | CMoCamera_SetPathData | ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out) |  | Copies a fixed position/direction pair plus a variable-length waypoint array (packed count field, same format ... |
-| `0x10047C30` | CMoGeneratorClone_InitCloneFromSource | ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out) |  | Zeroes a block, copies transform fields (fixed + a variable-length waypoint-style array) from a source struct. |
-| `0x100820B0` | CXiSkeletonActor_GetWalkSpeed | x87 result differs: (9252071032088428544, 49265) vs (9252070941396647936, 49265) |  | PS2 slot 55 -> PC slot 108. Confirmed derived, not stored: reads GetMoveSpeed's own field (+0x98) and scales b... |
-| `0x10086210` | Actor_DrawWorldText | stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x000 | `F_100279A0();` |  |
-| `0x10086900` | sub_10086900 | stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x000 | `F_100279A0();` |  |
-| `0x100C52A0` | CXiSkeletonActor_Constructor_1Arg | memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1 | `*(_DWORD *)(self + 1840) = 72;` |  |
-| `0x100C5560` | CXiSkeletonActor_Constructor_2Arg | memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1 | `*(_DWORD *)(self + 1868) = 0;` |  |
-| `0x100C5D60` | CXiSkeletonActor_Init | memory differs at 12 byte(s), first 0x30000F94: original unchanged / reconstruction 111 |  | Init/reset. Sets opacity (+0x59C, likely XiControlActor::alpha_base) to 0 so actors fade in; color +0x660 = 0x... |
-| `0x100C63D0` | CXiSkeletonActor_OnMove | ended differently: original return  / reconstruction fault access 0x00000004 size 4 type 19 | `*((float *)self + 559) = *((float *)self + 559) - F_10014CF0();` | PS2 vtable slot 5 (OnMove) -> PC slot 8. The per-frame actor update. |
-| `0x100CCF50` | CXiSkeletonActor_OcclusionClip | stubbed call #3 differs: original no call / reconstruction 0x10015690(ecx=0x00000000, ) | `ViewportHeight = (float)(unsigned __int16)F_10015690();` | PS2 slot 95 -> PC 191 (0 args). Projects a screen rect from +0x8F0..+0x90C using the camera viewport and runs ... |
-| `0x100CFC10` | CXiSkeletonActor_Slot244_Unknown | memory differs at 12 byte(s), first 0x8A514C9D: original 178 / reconstruction unchanged | `*(float *)(a2 + 4) = v35;` | RETRACTED as SetAction candidate (2026-09-26): the real SetAction is 0x100CEE40, found by callee identity. Thi... |
-| `0x100D08E0` | CXiSkeletonActor_GetWidthScale | x87 result differs: (9717509057937408000, 16420) vs (9717509073530558464, 16420) |  | PS2 slot 34 -> PC slot 38. |
-| `0x100D09B0` | CXiSkeletonActor_GetHeightScale | x87 result differs: (16982182230178660352, 16436) vs (16982182285153601536, 16436) |  | PS2 slot 35 -> PC slot 39. |
-| `0x100D0A80` | CXiSkeletonActor_GetDepthScale | x87 result differs: (16297105444927700992, 16492) vs (16297105497684901888, 16492) |  | PS2 slot 36 -> PC slot 40. |
-| `0x100D2F60` | CXiSkeletonActor_LoadSkeletonSync | stubbed call #4 differs: original 0x100C51C0(ecx=0x00000000, 0x00000001, 0x00000001) / reconstruction 0x100C51 | `v32 = F_100C51C0(1, v31);` | Synchronous skeleton-load path taken by CXiSkeletonActor_LoadSkeletonResource for special-case actors (vtable ... |
+| `0x1002B6E0` | CXiSkeletonActor_DrawModel | ended differently: original return  / reconstruction fault access 0x00000068 size 1 type 20 |  | Per-actor model draw: resets state, transforms, fog modes, animates via Model_AnimateEntry (both branches), dr... |
+| `0x1003CB30` | CMoCamera_SetPathData | ended differently: original return  / reconstruction limit  |  | Copies a fixed position/direction pair plus a variable-length waypoint array (packed count field, same format ... |
+| `0x10047C30` | CMoGeneratorClone_InitCloneFromSource | ended differently: original return  / reconstruction limit  |  | Zeroes a block, copies transform fields (fixed + a variable-length waypoint-style array) from a source struct. |
+| `0x100CFC10` | CXiSkeletonActor_Slot244_Unknown | memory differs at 18 byte(s), first 0x8A514C9A: original unchanged / reconstruction 248 | `*(float *)a2 = v28;` | RETRACTED as SetAction candidate (2026-09-26): the real SetAction is 0x100CEE40, found by callee identity. Thi... |
 | `0x100D62C0` | CXiSkeletonActor_DrawResourceShadows | ended differently: original return  / reconstruction fault access 0x00000001 size 4 type 19 | `result = F_1002B5A0(self + 1652);` | AUTHOR-INFERRED, PC slot 194: for each resident resource of the model sub-object (+0x674), draws it through th... |
-| `0x1011AA40` | sub_1011AA40 | ended differently: original return  / reconstruction fault access 0x000022B6 size 1 type 19 |  |  |
 | `0x1011E980` | sub_1011E980 | stubbed call #8 differs: original 0x1011F300(ecx=0x30001390, 0x300013E0, 0x00000001, 0x00000000, 0x00000002) / | `*(v56 - 1) = *(_DWORD *)&v61[i + 16];` |  |
-| `0x10124640` | sub_10124640 | memory differs at 4 byte(s), first 0x30000F58: original 41 / reconstruction 3 |  |  |
-| `0x10162010` | sub_10162010 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 19 |  |  |
-| `0x1017C9C0` | sub_1017C9C0 | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0xC43D691C) / reconstruction no call |  |  |
-| `0x1017DE20` | sub_1017DE20 | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0x444FB08E) / reconstruction no call |  |  |
-| `0x10183DA0` | ZoneMap_DrawMeshById | stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x30039F2C, 0x43824568) / reconstruction no call |  |  |
 | `0x10185CA0` | sub_10185CA0 | ended differently: original return  / reconstruction fault access 0x00000008 size 4 type 19 | `pDevice = G_1045666C->pDevice;` |  |
-| `0x101EEBD0` | sub_101EEBD0 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21 | `LOBYTE(v14) = F_10150CC0((void *)G_1057847C, v15, 2);` |  |
-| `0x102214D0` | sub_102214D0 | stubbed call #1 differs: original 0x10220EF0(ecx=0x30001390, 0xE1CE863B, 0x00000010, 0x00000001) / reconstruct | `F_10220EF0(self, *(_DWORD *)(self + 88) + *(_DWORD *)(self + 96) / 2, *(_DWORD *)(self + 9` |  |
 | `0x1024CF50` | sub_1024CF50 | stubbed call #23 differs: original 0x10271C80(ecx=0x00000000, 0x00000000, 0x00000040, 0x00000001, 0x00000040)  | `a1[11] = 0;` |  |
-| `0x102501C0` | sub_102501C0 | stubbed call #12 differs: original 0x10282A30(ecx=0x00000000, 0x3D08887B) / reconstruction 0x10282A30(ecx=0x00 | `F_10282A30(v2);` |  |
-| `0x10281DB0` | sub_10281DB0 | ended differently: original return  / reconstruction fault access 0xB7774858 size 4 type 19 | `G_1066941C->lpVtbl->SetTexture(G_1066941C, v2, (&G_1099D638)[10 * v3]);` |  |
-| `0x10282A30` | sub_10282A30 | x87 result differs: None vs (12302071664836870144, 49167) |  |  |
-| `0x10283420` | sub_10283420 | stubbed call #3 differs: original 0xC0000332(ecx=0x6E080300, 0x00000094, 0x00000001) / reconstruction 0xC00003 | `result = ((int (__cdecl *)(IDirect3DDevice8 *, signed int, float *))G_1066941C->lpVtbl->Se` |  |
-| `0x10284950` | sqgxVertexShaderCreate | ended differently: original return  / reconstruction fault Invalid memory read (UC_ERR_READ_UNMAPPED) |  |  |
 | `0x1028AFE0` | sqgxShape_1028AFE0 | ended differently: original return  / reconstruction limit  | `F_1028BB10(i);` |  |
 | `0x1029B620` | sub_1029B620 | memory differs at 5 byte(s), first 0x30E70A40: original 0 / reconstruction 3 | `*v2 = *(_DWORD *)((char *)v2 + 2400 - (_DWORD)v0 + G_1099D200);` |  |
-| `0x1029B9D0` | sub_1029B9D0 | ended differently: original return  / reconstruction limit  | `G_1066941C->lpVtbl->SetStreamSource(G_1066941C, v7, a1[v4 - 651], 8u);` |  |
 
 ## Gate INCONCLUSIVE (33)
 

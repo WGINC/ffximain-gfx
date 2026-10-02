@@ -15,6 +15,7 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_);  // 0x10003B60
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3);  // 0x10003D70
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_);  // 0x10007EF0
+XI_API int __thiscall Frame_Render(void *self_);  // 0x10011A00
 XI_API int __cdecl Post_Afterimage(void);  // 0x10012F40
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_);  // 0x100132B0
 XI_API char __thiscall App_StepGameState5Connect(int self_, int a2);  // 0x10013AD0
@@ -26,6 +27,7 @@ XI_API char __thiscall fn_100141C0(_WORD *self_);  // 0x100141C0
 XI_API int __cdecl App_WinMain(int a1, int a2);  // 0x100157E0
 XI_API char __cdecl App_CreateRendererAndApp(void);  // 0x100161B0
 XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_);  // 0x10017230
+XI_API int __stdcall fn_10017310(int a1, int a2);  // 0x10017310
 XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void);  // 0x1001D0A0
 XI_API char __thiscall Model_BeginTranslucentPass(int self_);  // 0x1001D240
 XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_);  // 0x1001D350
@@ -66,6 +68,9 @@ XI_API char ** __cdecl CMoRabRes_GetRuntimeClass(void);  // 0x10056260
 XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a3, float a4, float a5, int a6, int a7, int a8, char a9, int a10);  // 0x1006C280
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_);  // 0x1006C9B0
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_);  // 0x100755A0
+XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, int a4, int a5);  // 0x10086210
+XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3);  // 0x10086900
+XI_API int __thiscall fn_1011AA40(__int16 *self_);  // 0x1011AA40
 XI_API int __cdecl Gfx_ApplyViewport1B70(void);  // 0x1011AAC0
 XI_API char __thiscall Font_BindGlyphTexture(int self_);  // 0x1011BAE0
 XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsigned int a4, float a5, float a6);  // 0x1011BBD0
@@ -77,17 +82,20 @@ XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4,
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12);  // 0x1011EF60
 XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, int a4, int a5);  // 0x1011F300
 XI_API int __thiscall Cursor_Init(int self_);  // 0x10124440
+XI_API int __thiscall fn_10124640(int self_, int *a2, __int16 a3);  // 0x10124640
 XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsigned __int8 a2);  // 0x101252F0
 XI_API int __cdecl Gfx_SetDefault2DStates(void);  // 0x101604B0
 XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void);  // 0x10160650
+XI_API int __cdecl fn_10162010(int a1, int a2);  // 0x10162010
 XI_API int __cdecl Gfx_ApplyViewport1904(void);  // 0x101620B0
 XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2);  // 0x10163400
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3);  // 0x1016DDF0
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2);  // 0x10174B10
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void);  // 0x10174EC0
+XI_API int __stdcall fn_101771B0(int a1, int a2);  // 0x101771B0
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2);  // 0x10177240
 XI_API int __cdecl Gfx_SetZBias(unsigned int a1);  // 0x10177400
-XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_);  // 0x10177420
+XI_API void __thiscall ZoneMap_SetOverlayProjection(float *self_);  // 0x10177420
 XI_API int __cdecl Gfx_SetupLineDrawState(void);  // 0x101779C0
 XI_API int __cdecl Gfx_DrawQuadOutline(float *a3, char a4, unsigned __int8 a5, unsigned __int8 a6, char a7, char a8);  // 0x10177B40
 XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6);  // 0x10177C50
@@ -96,13 +104,19 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(unsigned int *self_);  // 0x1017
 XI_API int __thiscall ZoneMap_DrawBox(void *self_);  // 0x101791F0
 XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_);  // 0x101792A0
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(_DWORD *self_, _DWORD *a2);  // 0x1017ADE0
+XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4);  // 0x1017C9C0
+XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4);  // 0x1017DE20
 XI_API int __stdcall Gfx_DrawWireBox(int a1);  // 0x10182F10
+XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3);  // 0x10183DA0
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3);  // 0x10188E00
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2);  // 0x10188FA0
 XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3);  // 0x101C8DA0
+XI_API char __thiscall fn_101EEBD0(int self_);  // 0x101EEBD0
 XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2);  // 0x1021E060
+XI_API int __thiscall fn_102214D0(int self_);  // 0x102214D0
 XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_);  // 0x102394A0
 XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1);  // 0x1024F900
+XI_API int __cdecl fn_102501C0(_BYTE *a1);  // 0x102501C0
 XI_API int __cdecl StAvatar_Shutdown(int *a1);  // 0x102504D0
 XI_API char __thiscall Dancer_InitDevice(int *self_);  // 0x10251A80
 XI_API int __thiscall Gfx_DrawSpriteAlphaTested(void *self_, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);  // 0x10253F60
@@ -113,6 +127,7 @@ XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3);  // 0x102
 XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE *a4);  // 0x10281830
 XI_API int __cdecl sqgxTextureAddPalette(int a1, int a2, int a3);  // 0x102819D0
 XI_API int __cdecl sqgxTextureSetPalette(int a1);  // 0x10281D60
+XI_API int __cdecl fn_10281DB0(void);  // 0x10281DB0
 XI_API int __cdecl sqgxTextureStencilClear(int a1);  // 0x10282010
 XI_API int __cdecl sqgxTextureClear(float *a1, int a2);  // 0x10282030
 XI_API int __cdecl sqgxTextureSetRenderTarget(IDirect3DSurface8 *a1);  // 0x102820E0
@@ -125,6 +140,7 @@ XI_API int __cdecl fn_10282640(void);  // 0x10282640
 XI_API int __cdecl sqgxBlendAdd(void);  // 0x102826C0
 XI_API int __cdecl fn_102827D0(void);  // 0x102827D0
 XI_API int __cdecl sqgxBlendSub(void);  // 0x10282910
+XI_API void __cdecl fn_10282A30(float a1);  // 0x10282A30
 XI_API int __cdecl sqgxBlendTrsp_Candidate(void);  // 0x10282B90
 XI_API int __cdecl sqgxBlendTrspInv(void);  // 0x10282CB0
 XI_API int __cdecl sqgxBlendAddDestAlpha(void);  // 0x10282DC0
@@ -132,10 +148,12 @@ XI_API int __cdecl fn_10282ED0(void);  // 0x10282ED0
 XI_API int __cdecl sqgxBlendZeroSrcAlpha(void);  // 0x10282FF0
 XI_API int __cdecl sqgxBlendMul(void);  // 0x10283110
 XI_API int __cdecl sqgxBlendOff(void);  // 0x10283220
+XI_API int __cdecl fn_10283420(void);  // 0x10283420
 XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4);  // 0x10283A10
 XI_API int __cdecl sqgxZBiasAdd(int a1);  // 0x10283F70
 XI_API int __cdecl sqgxZBiasSet(int a1);  // 0x10283FC0
 XI_API int __cdecl sqgxFlushTransformsLights(void);  // 0x10284410
+XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1);  // 0x10284950
 XI_API int __cdecl sqgxVertexShaderSelect(void);  // 0x10284A80
 XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2);  // 0x10284B20
 XI_API int __cdecl sqgxVertexShaderRelease(void);  // 0x10284EF0
@@ -144,5 +162,6 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1);  // 0x1028F8C0
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1);  // 0x10297CC0
 XI_API int __cdecl sqsnShadowStencilTest(int a1);  // 0x10297EC0
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void);  // 0x102981E0
+XI_API void __cdecl fn_1029B9D0(IDirect3DVertexBuffer8 **a1);  // 0x1029B9D0
 XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3);  // 0x102A21F0
 XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2);  // 0x102A2530

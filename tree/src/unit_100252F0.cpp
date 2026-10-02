@@ -435,7 +435,7 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
   v6[0] = 0.0;
   v6[1] = 0.0;
   v6[2] = -4.0;
-  orig::Mat4_TransformPointInPlace(v8, v6);
+  orig_void::Mat4_TransformPointInPlace(v8, v6);
   orig::Mat4_SetScale(v9, v7);
   orig::Mat4_SetTranslation(v9, v6);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);

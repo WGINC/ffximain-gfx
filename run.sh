@@ -23,7 +23,8 @@ case "$1" in
   facts|all)     # facts read from the game DLL that the translator and the gate use (data/*.json)
                  python3 "$P/fpconst.py" "${FFXI_DLL:?set FFXI_DLL}" "$EXP" "$ROOT/data/fp_consts.json"
                  python3 "$P/ret_kinds.py" "$FFXI_DLL" "$ROOT/data/ret_kinds.json"
-                 python3 "$P/fp_callsites.py" "$FFXI_DLL" "$EXP" "$ROOT/data/fp_callsites.json" ;;&
+                 python3 "$P/fp_callsites.py" "$FFXI_DLL" "$EXP" "$ROOT/data/fp_callsites.json"
+                 python3 "$P/purges.py" "$FFXI_DLL" "$ROOT/data/purges.json" ;;&
   translate|all) rm -rf "$W/raw"; python3 "$P/hx2cpp.py" "$EXP" "$W/raw"; "$P/build_raw.sh" "$W/raw" | tail -1
                  python3 "$P/repair_compile.py" "$W/raw" | tail -1; "$P/build_raw.sh" "$W/raw" | tail -1 ;;&
   cases|all)     python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"

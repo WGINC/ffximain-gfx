@@ -48,3 +48,71 @@ XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
   }
   return result;
 }
+
+// FUNCTION: FFXIMAIN 0x102214D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall fn_102214D0(int self_)
+{
+  unsigned __int8 *RenderTargetTop;
+  int v3;
+  int v4;
+  unsigned __int8 *v5;
+  int v6;
+  int v7;
+  __int16 v8;
+  int result;
+  unsigned __int8 *v10;
+  int v11;
+  int v12;
+  int v13[2];
+  _DWORD v14[6];
+  _BYTE v15[24];
+  if ( *(_DWORD *)(self_ + 100) != 0 )
+  {
+    orig::sub_10220EF0(self_, *(_DWORD *)(self_ + 88) + *(int *)(self_ + 96) / 2, *(_DWORD *)(self_ + 92), 1);
+  }
+  else if ( *(int *)(self_ + 112) < 4 && *(_DWORD *)(self_ + 72) != 0 && *(_DWORD *)(self_ + 80) != 0 )
+  {
+    RenderTargetTop = orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx);
+    v3 = *(_DWORD *)(self_ + 88);
+    qmemcpy(v15, RenderTargetTop, sizeof(v15));
+    qmemcpy(v14, v15, sizeof(v14));
+    if ( v3 < 0 )
+      v3 = 0;
+    v14[2] = *(_DWORD *)(self_ + 96);
+    v14[0] = v3;
+    orig::CDx_SetViewport(g_pCDx, v14);
+    v10 = *(unsigned __int8 **)(self_ + 72);
+    v4 = *(_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) - (*(int *)(self_ + 76) >> 4);
+    v5 = orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx);
+    v6 = *(_DWORD *)(self_ + 96);
+    v11 = *(_DWORD *)(self_ + 92) + *((_DWORD *)v5 + 1);
+    v7 = 0;
+    v12 = v6 + (*(int *)(self_ + 76) >> 4);
+    if ( v12 >= 0 )
+    {
+      do
+      {
+        v8 = orig::sub_1011D050(&v10);
+        v13[1] = v11;
+        v13[0] = v7 + v4;
+        orig::sub_1011BBA0((float *)g_pFontGlyphs, v8, v13, 1.0, 1.0);
+        v7 += orig::sub_10221770(v8);
+        if ( *v10 == 0 )
+        {
+          if ( *(_BYTE *)(self_ + 928) == 0 )
+            break;
+          v10 = (unsigned __int8 *)(self_ + *(_DWORD *)(self_ + 112) + 202 * *(_DWORD *)(self_ + 112) + 116);
+        }
+      }
+      while ( v7 <= v12 );
+    }
+    orig::CDx_SetViewport(g_pCDx, v15);
+  }
+  if ( *(_DWORD *)(self_ + 104) != 0 )
+    orig::sub_10220F40(self_ + 24, *(_DWORD *)(self_ + 88) + *(_DWORD *)(self_ + 96), *(_DWORD *)(self_ + 92));
+  result = *(_DWORD *)(self_ + 108);
+  if ( result != 0 )
+    return orig::sub_10220F40(self_ + 48, *(_DWORD *)(self_ + 88) + *(_DWORD *)(self_ + 96), *(_DWORD *)(self_ + 92));
+  return result;
+}

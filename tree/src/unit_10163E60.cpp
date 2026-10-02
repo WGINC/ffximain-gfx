@@ -84,8 +84,8 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
       do
       {
         v4 = *(self_ + 3);
-        v5 = *(float *)(v4 + v17) * 0.18285714 + 256.0;
-        v6 = *(float *)(v4 + v17 + 8) * 0.18285714;
+        v5 = *(float *)(v4 + v17) * 0x1.767dce0000000p-3 + 256.0;
+        v6 = *(float *)(v4 + v17 + 8) * 0x1.767dce0000000p-3;
         a3[2] = 981668463;
         a3[3] = 1065353216;
         a3[4] = -2139095040;
@@ -113,8 +113,8 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
       do
       {
         v9 = *(self_ + 1);
-        v10 = *(float *)(v9 + v18) * 0.18285714 + 256.0;
-        v11 = *(float *)(v9 + v18 + 8) * 0.18285714;
+        v10 = *(float *)(v9 + v18) * 0x1.767dce0000000p-3 + 256.0;
+        v11 = *(float *)(v9 + v18 + 8) * 0x1.767dce0000000p-3;
         a3[2] = 981668463;
         a3[3] = 1065353216;
         a3[4] = -2139062272;
@@ -135,13 +135,13 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
       }
       while ( v8 < *(self_ + 2) );
     }
-    v13 = *a2 * 0.18285714;
+    v13 = *a2 * 0x1.767dce0000000p-3;
     a3[2] = 981668463;
     a3[3] = 1065353216;
     a3[4] = -2147450752;
     a3[6] = 0;
     v14 = v13 + 256.0;
-    v15 = a2[2] * 0.18285714;
+    v15 = a2[2] * 0x1.767dce0000000p-3;
     a3[5] = 0;
     v16 = 256.0 - v15;
     *(float *)a3 = v14;
@@ -305,15 +305,15 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
           v20[0] = *(v3 - 2);
           v20[5] = v4;
           v20[10] = v5;
-          orig::Mat44_Multiply(v18, (int)v18, v20);
+          orig_void::Mat44_Multiply(v18, (int)v18, v20);
           v17 = *(v3 - 4);
           v19[0] = cos(v17);
           v6 = sin(v17);
           v19[2] = -v6;
           v19[8] = v6;
           v19[10] = v19[0];
-          orig::Mat44_Multiply(v18, (int)v18, v19);
-          orig::Mat4_MulTranslation(v18, (int)v18, v2);
+          orig_void::Mat44_Multiply(v18, (int)v18, v19);
+          orig_void::Mat4_MulTranslation(v18, (int)v18, v2);
           g_upVerts_1A18_v4_diffuse = -2139078656;
           g_upVerts_1A18_v3_diffuse = -2139078656;
           g_upVerts_1A18_v2_diffuse = -2139078656;

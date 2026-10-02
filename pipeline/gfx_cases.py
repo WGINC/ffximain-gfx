@@ -73,11 +73,26 @@ def class_of(r):
     if r['args'] and 'CDx' in (r['args'][0][3] or ''): return 'CDx'
     return None
 
+GSIZE = {'char': 1, 'byte': 1, 'undefined': 1, 'undefined1': 1, 'bool': 1, 'short': 2, 'ushort': 2, 'undefined2': 2,
+         'word': 2, 'int': 4, 'uint': 4, 'undefined4': 4, 'dword': 4, 'float': 4, 'double': 8, 'undefined8': 8}
+
+def ghidra_record(r):
+    # Ghidra exports (pipeline/ghidra/GfxExport.java): bare calling convention, and args in the IDA
+    # shape [name, type, size, pointee type, pointee size] (pointee size from the type name)
+    if r.get('source') != 'ghidra': return r
+    import hx2cpp
+    r = hx2cpp.ghidra_fix_convention(r)
+    args = []
+    for nm, t in r['args']:
+        pt = t.rstrip()[:-1].strip() if t.rstrip().endswith('*') else None
+        args.append([nm, t, 8 if t in ('double', 'undefined8') else 4, pt, GSIZE.get(pt) if pt else None])
+    return dict(r, cc=r['cc'].lstrip('_'), args=args)
+
 def main(exp, metaf, protof, out):
     meta = json.load(open(metaf)); protos = json.load(open(protof))
     cases = []
     for line in open(exp):
-        r = json.loads(line); key = '%08X' % r['ea']
+        r = ghidra_record(json.loads(line)); key = '%08X' % r['ea']
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']

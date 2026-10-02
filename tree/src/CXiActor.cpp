@@ -33,6 +33,13 @@ void CXiActor::CXiSkeletonActor_SetMoveSpeedBase(float speed)
   self->moveSpeedBase = speed;
 }
 
+// FUNCTION: FFXIMAIN 0x100820B0  (placed by tree manifest)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+double CXiActor::CXiSkeletonActor_GetWalkSpeed()
+{
+  return this->field_98 * 0x1.5555560000000p-2;
+}
+
 // FUNCTION: FFXIMAIN 0x100820C0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)

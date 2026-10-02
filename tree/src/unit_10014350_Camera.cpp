@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100157E0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl App_WinMain(int a1, int a2)
 {
   int v2;
@@ -196,4 +196,44 @@ XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
   pDevice = g_pCDx->pDevice;
   if ( pDevice != nullptr && g_windowMode == 0 )
     pDevice->SetGammaRamp(0, (void *)(self_ + 4));
+}
+
+// FUNCTION: FFXIMAIN 0x10017310  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 58 returned normally, 16064 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __stdcall fn_10017310(int a1, int a2)
+{
+  int v2;
+  int v3;
+  int a2a;
+  dword_10350758 = a2;
+  dword_1035076C = a2;
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+  g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+  v2 = 0;
+  a2a = 0;
+  do
+  {
+    v3 = v2 + 1;
+    flt_10350748 = (double)a2a * 2.5;
+    flt_1035074C = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2) * 0x1.0001000000000p-16 * 480.0;
+    flt_1035075C = (double)(v2 + 1) * 2.5;
+    flt_10350760 = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2 + 2) * 0x1.0001000000000p-16 * 480.0;
+    g_pCDx->pDevice->SetVertexShader(68u);
+    orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 2, (int)&flt_10350748, 20);
+    v2 = v3;
+    a2a = v3;
+  }
+  while ( v3 < 255 );
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+  return g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 }

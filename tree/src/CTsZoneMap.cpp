@@ -44,7 +44,7 @@ XI_API int __cdecl Gfx_SetZBias(unsigned int a1)
 
 // FUNCTION: FFXIMAIN 0x10177420  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
-XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_)
+XI_API void __thiscall ZoneMap_SetOverlayProjection(float *self_)
 {
   long double v2;
   float v5;
@@ -67,10 +67,10 @@ XI_API float __thiscall ZoneMap_SetOverlayProjection(float *self_)
   v2 = atan2(192.0, v12);
   v5 = v2 + v2;
   orig::D3DXMatrixPerspectiveFovLH_static((int)v13, v5, v6, v7, v8);
-  return ((float (__stdcall *)(IDirect3DDevice8 *, int, int *))g_pCDx->pDevice->lpVtbl->SetTransform)(
+  (void)(((void (__stdcall *)(IDirect3DDevice8 *, int, int *))g_pCDx->pDevice->lpVtbl->SetTransform)(
            g_pCDx->pDevice,
            3,
-           v13);
+           v13)); return;
 }
 
 // FUNCTION: FFXIMAIN 0x101779C0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
@@ -203,12 +203,12 @@ char CTsZoneMap::CTsZoneMap_Destructor()
   at<uint32_t>(this, 0x0) = &CTsZoneMap_vtbl;
   orig::ZoneMap_TeardownStep(self);
   orig::ZoneMap_ReleaseStateBlock((unsigned int *)self);
-  if ( this->field_39454 != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_39454);
-  if ( this->field_39458 != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_39458);
-  if ( this->field_3946C != 0 )
-    g_pCDx->pDevice->DeleteVertexShader(this->field_3946C);
+  if ( this->vsHandleA != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandleA);
+  if ( this->vsHandleB != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandleB);
+  if ( this->vsHandles != 0 )
+    g_pCDx->pDevice->DeleteVertexShader(this->vsHandles);
   if ( this->field_39470 != 0 )
     g_pCDx->pDevice->DeleteVertexShader(this->field_39470);
   if ( this->field_39474 != 0 )
@@ -217,8 +217,8 @@ char CTsZoneMap::CTsZoneMap_Destructor()
     g_pCDx->pDevice->DeleteVertexShader(this->field_39478);
   if ( this->field_3947C != 0 )
     g_pCDx->pDevice->DeleteVertexShader(this->field_3947C);
-  if ( this->field_39494 != 0 )
-    g_pCDx->pDevice->DeletePixelShader(this->field_39494);
+  if ( this->psHandle != 0 )
+    g_pCDx->pDevice->DeletePixelShader(this->psHandle);
   orig::Vt1032B6D8_Destructor((int **)(self + 234908));
   orig::Vt10336614_Destructor((_DWORD *)(self + 214056));
   orig::nullsub_1();
@@ -408,7 +408,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   v70 = 1.0;
   v71 = 0;
   v75 = 1065353216;
-  orig::Mat44_Multiply(v94, (int)v94, &v60);
+  orig_void::Mat44_Multiply(v94, (int)v94, &v60);
   v60 = flt_10377344;
   v65 = *(float *)&dword_10377348;
   v70 = flt_1037734C;
@@ -425,7 +425,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   v73 = 0;
   v74 = 0.0;
   v75 = 1065353216;
-  orig::Mat44_Multiply(v94, (int)v94, &v60);
+  orig_void::Mat44_Multiply(v94, (int)v94, &v60);
   v72 = *(float *)&dword_10377338;
   v73 = dword_1037733C;
   v74 = *(float *)&dword_10377340;
@@ -442,7 +442,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   v70 = 1.0;
   v71 = 0;
   v75 = 1065353216;
-  orig::Mat44_Multiply(v94, (int)v94, &v60);
+  orig_void::Mat44_Multiply(v94, (int)v94, &v60);
   result = (float *)orig::GetPtr8IfField60Set((_DWORD *)(self + 376));
   v9 = *(float *)&result;
   v86 = result;
@@ -571,7 +571,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                       v41 = v40 < 0.0;
                       v42 = 0;
                       v43 = v40 == 0.0;
-                      if ( (v39 & 0x4100) != 0 )
+                      if ( ((__int16)((v41 ? 0x100 : 0) | (v42 ? 0x400 : 0) | (v43 ? 0x4000 : 0)) & 0x4100) != 0 )
                       {
                         v44 = (char *)(v26 + 6);
                         v45 = v60;
@@ -684,29 +684,29 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
     v25 = Light;
     if ( Light != nullptr )
     {
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 1u);
-      orig::CDx_SetLight(g_pCDx, this->field_394B0, Light + 2);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 1u);
+      orig::CDx_SetLight(g_pCDx, this->lightSlotNamed, Light + 2);
     }
     else
     {
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 0);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 0);
     }
   }
   g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
   memset(v28, 0, sizeof(v28));
-  if ( this->field_394A4 != 0 )
+  if ( this->useTwoDirLights != 0 )
   {
     orig::XiZone_GetDirLights((int)g_pXiZone, v28, v29);
-    orig::CDx_SetLight(g_pCDx, this->field_394A8, v28);
-    orig::CDx_SetLight(g_pCDx, this->field_394AC, v29);
-    g_pCDx->pDevice->LightEnable(this->field_394A8, 1u);
-    v6 = this->field_394AC;
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir0, v28);
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir1, v29);
+    g_pCDx->pDevice->LightEnable(this->lightSlotDir0, 1u);
+    v6 = this->lightSlotDir1;
   }
   else
   {
     orig::XiZone_GetDirLight(g_pXiZone, v28, 0, 0);
-    orig::CDx_SetLight(g_pCDx, this->field_394A8, v28);
-    v6 = this->field_394A8;
+    orig::CDx_SetLight(g_pCDx, this->lightSlotDir0, v28);
+    v6 = this->lightSlotDir0;
   }
   g_pCDx->pDevice->LightEnable(v6, 1u);
   orig::XiZone_GetAmbient((char *)g_pXiZone, &v22, 0, 0);
@@ -778,7 +778,7 @@ LABEL_12:
     v12->SetRenderState(v11, D3DRS_CULLMODE, 2u);
   else
     v12->SetRenderState(v11, D3DRS_CULLMODE, 3u);
-  this->field_39120 = 0;
+  this->curTwoSided = 0;
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, (const void *)(a2 + 64));
   v13 = (int *)v4[24];
   if ( v13 != nullptr )
@@ -803,9 +803,9 @@ LABEL_12:
               g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, v24);
               g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, v27);
               v16 = *(__int16 *)(v15 + 32);
-              if ( v16 != this->field_39120 )
+              if ( v16 != this->curTwoSided )
               {
-                this->field_39120 = v16;
+                this->curTwoSided = v16;
                 if ( v16 != 0 )
                 {
                   g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -813,7 +813,7 @@ LABEL_12:
                 else
                 {
                   v17 = g_pCDx->pDevice;
-                  if ( this->field_390FC != 0 )
+                  if ( this->cullCW != 0 )
                     v17->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
                   else
                     v17->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -858,7 +858,7 @@ LABEL_12:
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     if ( v25 != nullptr )
-      g_pCDx->pDevice->LightEnable(this->field_394B0, 0);
+      g_pCDx->pDevice->LightEnable(this->lightSlotNamed, 0);
   }
 }
 
@@ -976,7 +976,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     v92 = 1.0 / *(float *)&a2;
     v90 = v92;
   }
-  result = this->field_343E4;
+  result = this->overlayTex;
   v94 = -*(float *)a1;
   v95 = -*(float *)(a1 + 4);
   v96 = -*(float *)(a1 + 8);
@@ -996,10 +996,10 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
     v90 = 0.0;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    if ( this->field_39598 != 0 )
+    if ( this->overlayUseProjection != 0 )
     {
       g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, pMatrix);
-      orig::ZoneMap_SetOverlayProjection((float *)self);
+      orig_void::ZoneMap_SetOverlayProjection((float *)self);
     }
     else
     {
@@ -1153,7 +1153,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                         v35 = v34 < 0.0;
                         v36 = 0;
                         v37 = v34 == 0.0;
-                        if ( (v33 & 0x4100) != 0 )
+                        if ( ((__int16)((v35 ? 0x100 : 0) | (v36 ? 0x400 : 0) | (v37 ? 0x4000 : 0)) & 0x4100) != 0 )
                         {
                           v38 = (float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF));
                           *((float *)v22 + 4) = v66 * *v38 + v72 * v38[2] + v69 * v38[1] + v75;

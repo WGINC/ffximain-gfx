@@ -68,13 +68,14 @@ XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, 
   double v11;
   double v12;
   float v14;
-  unsigned __int8 *v15;
+  alignas(16) unsigned char xi_frame[0x42C];  // address-taken locals at their original offsets
+  unsigned __int8 * &v15 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0x8);
   int v16;
   int v17;
   float v18;
-  _DWORD v19[2];
+  _DWORD (&v19)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0x18);
   int a3a[3];
-  char v21;
+  char &v21 = *reinterpret_cast<char *>(xi_frame + 0x2C);
   float v22;
   float v23;
   float v24;

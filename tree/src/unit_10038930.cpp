@@ -26,7 +26,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 790 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 778 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -212,14 +212,14 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       else
       {
         g_pCDx->pDevice->SetVertexShader(324u);
-        v10 = (double)(v1[2] + v22 / v5) * 0.017452778;
-        v11 = v10 < 3.1415;
+        v10 = (double)(v1[2] + v22 / v5) * 0x1.1df2420000000p-6;
+        v11 = v10 < 0x1.921cac0000000p+1;
         v12 = 0;
-        v13 = v10 == 3.1415;
-        if ( (v9 & 0x4100) == 0 )
-          v10 = v10 - 6.283;
-        if ( v10 < -3.1415 )
-          v10 = v10 + 6.283;
+        v13 = v10 == 0x1.921cac0000000p+1;
+        if ( ((__int16)((v11 ? 0x100 : 0) | (v12 ? 0x400 : 0) | (v13 ? 0x4000 : 0)) & 0x4100) == 0 )
+          v10 = v10 - 0x1.921cac0000000p+2;
+        if ( v10 < -0x1.921cac0000000p+1 )
+          v10 = v10 + 0x1.921cac0000000p+2;
         v14 = *(v6 - 1) * 0.0625;
         HIBYTE(v15) = *((_BYTE *)v6 + 3);
         LOBYTE(v15) = *(_BYTE *)v6;

@@ -1,117 +1,39 @@
 {
- "0x10009920": {
-  "name": "CDx_SetDefaultRenderState 0x10009920",
-  "why": "stubbed call #18 differs: original 0x100098E0(ecx=0x30000F50, 0x00000003, 0x30001140, 0x00000028) / reconstruction 0x100098E0(ecx=0x30000F50, 0x00000003, 0x3000",
-  "event_index": 17,
-  "original_event": [
-   "C",
-   "0x10009AB8",
-   "0x100098E0",
-   "0x30000F50",
-   [
-    3,
-    805310784,
-    40
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x600012D9",
-   "0x100098E0",
-   "0x30000F50",
-   [
-    3,
-    805310784,
-    1
-   ]
-  ],
-  "recon_line": [
-   60,
-   "F_100098E0(&self->base.vftable, 3, v2, v5);"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   46,
-   46
-  ]
- },
- "0x1000BB90": {
-  "name": "CDx_DrawStereoOddFrameOverlay 0x1000BB90",
-  "why": "AL 40 vs 1",
-  "event_index": 6,
+ "0x10010D20": {
+  "name": "App_InitScene 0x10010D20",
+  "why": "stubbed call #17 differs: original 0x1000C6E0(ecx=0x300015C0, 0x00000000, 0x00000000) / reconstruction 0x1000C6E0(ecx=0x300015C0, 0x00000000, 0x51510000)",
+  "event_index": 4,
   "original_event": [
    "W",
-   "0x1000BBDF",
-   "0x1045667C",
+   "0x100114BB",
+   "0x1047D140",
    "0x4",
-   "0xCE8F5232"
+   "0x0"
   ],
   "recon_event": [
    "W",
-   "0x6000105B",
-   "0x10456690",
+   "0x6000104F",
+   "0x1047D128",
    "0x4",
    "0x0"
   ],
   "recon_line": [
-   89,
-   "G_10456690 = 0;"
+   237,
+   "G_1047D128 = 0;"
   ],
   "status": [
    "return",
    "return"
   ],
   "events": [
-   30,
-   30
-  ]
- },
- "0x1000C0B0": {
-  "name": "CDx_CompositeSceneToBackBuffer 0x1000C0B0",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000000 size 4 type 19",
-  "event_index": 1,
-  "original_event": [
-   "C",
-   "0x1000C548",
-   "0xC000033F",
-   "0x6E080300",
-   [
-    0,
-    11,
-    0
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001048",
-   "0x10009E20",
-   "0x30000F50",
-   [
-    814330468,
-    0,
-    0
-   ]
-  ],
-  "recon_line": [
-   61,
-   "F_10009E20((CDx *)self, v6, 0, 0);"
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   21,
-   20
+   63,
+   60
   ]
  },
  "0x10015510": {
   "name": "Camera_ApplyViewProjection 0x10015510",
-  "why": "x87 result differs: (0, 0) vs (0, 0)",
-  "event_index": 14,
+  "why": "x87 stack depth differs after return",
+  "event_index": 9,
   "original_event": null,
   "recon_event": null,
   "recon_line": null,
@@ -120,75 +42,47 @@
    "return"
   ],
   "events": [
-   14,
-   14
+   9,
+   9
   ]
  },
- "0x10017310": {
-  "name": "sub_10017310 0x10017310",
-  "why": "memory differs at 1 byte(s), first 0x10350760: original 120 / reconstruction 119",
-  "event_index": 46,
+ "0x1001C930": {
+  "name": "sub_1001C930 0x1001C930",
+  "why": "stubbed call #4 differs: original 0x10026FA0(ecx=0x00000000, 0x87019FA8, 0x38F41988, 0x38F41E88) / reconstruction 0x10026FA0(ecx=0x00000000, 0x87019FF4, 0x38F41",
+  "event_index": 3,
   "original_event": [
-   "W",
-   "0x1001749D",
-   "0x10350760",
-   "0x4",
-   "0x422230A2"
+   "C",
+   "0x1001C9AD",
+   "0x10026FA0",
+   "0x0",
+   [
+    2265030568,
+    955521416,
+    955522696
+   ]
   ],
   "recon_event": [
-   "W",
-   "0x6000126F",
-   "0x10350760",
-   "0x4",
-   "0x422230A1"
+   "C",
+   "0x600010D6",
+   "0x10026FA0",
+   "0x0",
+   [
+    2265030644,
+    955521416,
+    955522696
+   ]
   ],
   "recon_line": [
-   49,
-   "G_10350760 = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2 + 2) * 0.000015259022 * 480.0;"
+   70,
+   "F_10026FA0((float *)((char *)&v34 + v2), (float *)(v2 + a1 + 64), (float *)(v2 + a1 + 1344));"
   ],
   "status": [
    "return",
    "return"
   ],
   "events": [
-   1546,
-   1546
-  ]
- },
- "0x1001C930": {
-  "name": "sub_1001C930 0x1001C930",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21",
-  "event_index": 18,
-  "original_event": [
-   "C",
-   "0x1001CEF3",
-   "0xC0000332",
-   "0x6E080300",
-   [
-    137,
-    1
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x600019C4",
-   "0xC000034C",
-   "0x6E080300",
-   [
-    66
-   ]
-  ],
-  "recon_line": [
-   143,
-   "G_1045666C->pDevice->lpVtbl->SetVertexShader(G_1045666C->pDevice, 66u);"
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   25,
-   29
+   107,
+   107
   ]
  },
  "0x10029A50": {
@@ -217,11 +111,16 @@
   "events": [
    17,
    13
+  ],
+  "recon_stop": [
+   "0x00000000",
+   null,
+   "access 0x00000000 size 1 type 21"
   ]
  },
  "0x1002B6E0": {
-  "name": "sub_1002B6E0 0x1002B6E0",
-  "why": "ended differently: original return  / reconstruction fault access 0x000000D9 size 1 type 20",
+  "name": "CXiSkeletonActor_DrawModel 0x1002B6E0",
+  "why": "ended differently: original return  / reconstruction fault access 0x00000068 size 1 type 20",
   "event_index": 15,
   "original_event": [
    "W",
@@ -239,11 +138,19 @@
   "events": [
    41,
    15
+  ],
+  "recon_stop": [
+   "0x60002300",
+   [
+    "rt.c:?",
+    ""
+   ],
+   "access 0x00000068 size 1 type 20"
   ]
  },
  "0x1003CB30": {
   "name": "CMoCamera_SetPathData 0x1003CB30",
-  "why": "ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out)",
+  "why": "ended differently: original return  / reconstruction limit ",
   "event_index": 8,
   "original_event": [
    "W",
@@ -270,11 +177,19 @@
   "events": [
    299833,
    99994
+  ],
+  "recon_stop": [
+   "0x600010A0",
+   [
+    "rt.c:?",
+    ""
+   ],
+   ""
   ]
  },
  "0x10047C30": {
   "name": "CMoGeneratorClone_InitCloneFromSource 0x10047C30",
-  "why": "ended differently: original return / reconstruction runs away (instruction limit every trial; gate timed out)",
+  "why": "ended differently: original return  / reconstruction limit ",
   "event_index": 0,
   "original_event": [
    "W",
@@ -301,260 +216,37 @@
   "events": [
    299841,
    99999
-  ]
- },
- "0x100820B0": {
-  "name": "CXiSkeletonActor_GetWalkSpeed 0x100820B0",
-  "why": "x87 result differs: (9252071032088428544, 49265) vs (9252070941396647936, 49265)",
-  "event_index": 0,
-  "original_event": null,
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
   ],
-  "events": [
-   0,
-   0
-  ]
- },
- "0x10086210": {
-  "name": "sub_10086210 0x10086210",
-  "why": "stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x00000000, )",
-  "event_index": 5,
-  "original_event": [
-   "C",
-   "0x100862CE",
-   "0x100278E0",
-   "0x0",
+  "recon_stop": [
+   "0x600010D1",
    [
-    1461174272
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001075",
-   "0x100279A0",
-   "0x0",
-   []
-  ],
-  "recon_line": [
-   375,
-   "F_100279A0();"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   12,
-   6
-  ]
- },
- "0x10086900": {
-  "name": "sub_10086900 0x10086900",
-  "why": "stubbed call #6 differs: original 0x100278E0(ecx=0x00000000, 0x5717C000) / reconstruction 0x100279A0(ecx=0x00000000, )",
-  "event_index": 5,
-  "original_event": [
-   "C",
-   "0x100869B2",
-   "0x100278E0",
-   "0x0",
-   [
-    1461174272
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001078",
-   "0x100279A0",
-   "0x0",
-   []
-  ],
-  "recon_line": [
-   290,
-   "F_100279A0();"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   12,
-   6
-  ]
- },
- "0x100C52A0": {
-  "name": "CXiSkeletonActor_Constructor_1Arg 0x100C52A0",
-  "why": "memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1",
-  "event_index": 3,
-  "original_event": [
-   "W",
-   "0x100C52C4",
-   "0x300016A0",
-   "0x4",
-   "0x0"
-  ],
-  "recon_event": [
-   "W",
-   "0x60001037",
-   "0x30001680",
-   "0x4",
-   "0x48"
-  ],
-  "recon_line": [
-   40,
-   "*(_DWORD *)(self + 1840) = 72;"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   33,
-   34
-  ]
- },
- "0x100C5560": {
-  "name": "CXiSkeletonActor_Constructor_2Arg 0x100C5560",
-  "why": "memory differs at 1 byte(s), first 0x3000178C: original unchanged / reconstruction 1",
-  "event_index": 3,
-  "original_event": [
-   "W",
-   "0x100C5584",
-   "0x300016A0",
-   "0x4",
-   "0x0"
-  ],
-  "recon_event": [
-   "W",
-   "0x60001036",
-   "0x3000169C",
-   "0x4",
-   "0x0"
-  ],
-  "recon_line": [
-   37,
-   "*(_DWORD *)(self + 1868) = 0;"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   32,
-   33
-  ]
- },
- "0x100C5D60": {
-  "name": "CXiSkeletonActor_Init 0x100C5D60",
-  "why": "memory differs at 12 byte(s), first 0x30000F94: original unchanged / reconstruction 111",
-  "event_index": 2,
-  "original_event": [
-   "W",
-   "0x100C5D83",
-   "0x300016B8",
-   "0x4",
-   "0x0"
-  ],
-  "recon_event": [
-   "W",
-   "0x60001818",
-   "0x300016B8",
-   "0x1",
-   "0x0"
-  ],
-  "recon_line": [
-   "rt.c:?",
+    "rt.c:?",
+    ""
+   ],
    ""
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   144,
-   205
-  ]
- },
- "0x100C63D0": {
-  "name": "CXiSkeletonActor_OnMove 0x100C63D0",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000004 size 4 type 19",
-  "event_index": 8,
-  "original_event": [
-   "C",
-   "0x100C64A9",
-   "0x100A4740",
-   "0x300017D0",
-   []
-  ],
-  "recon_event": [
-   "C",
-   "0x6000109E",
-   "0x10014CF0",
-   "0x0",
-   []
-  ],
-  "recon_line": [
-   438,
-   "*((float *)self + 559) = *((float *)self + 559) - F_10014CF0();"
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   15,
-   41
-  ]
- },
- "0x100CCF50": {
-  "name": "CXiSkeletonActor_OcclusionClip 0x100CCF50",
-  "why": "stubbed call #3 differs: original no call / reconstruction 0x10015690(ecx=0x00000000, )",
-  "event_index": 2,
-  "original_event": null,
-  "recon_event": [
-   "C",
-   "0x6000107E",
-   "0x10015690",
-   "0x0",
-   []
-  ],
-  "recon_line": [
-   54,
-   "ViewportHeight = (float)(unsigned __int16)F_10015690();"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   2,
-   5
   ]
  },
  "0x100CFC10": {
   "name": "CXiSkeletonActor_Slot244_Unknown 0x100CFC10",
-  "why": "memory differs at 12 byte(s), first 0x8A514C9D: original 178 / reconstruction unchanged",
-  "event_index": 19,
+  "why": "memory differs at 18 byte(s), first 0x8A514C9A: original unchanged / reconstruction 248",
+  "event_index": 18,
   "original_event": [
    "W",
-   "0x100CFEA3",
-   "0x8A514C9E",
+   "0x100CFE73",
+   "0x8A514C9A",
    "0x4",
-   "0x80000000"
+   "0x0"
   ],
   "recon_event": [
    "W",
-   "0x600012A0",
-   "0x8A514C9E",
+   "0x600012C7",
+   "0x8A514C9A",
    "0x4",
-   "0x7AA50000"
+   "0x80000000"
   ],
   "recon_line": [
-   189,
-   "*(float *)(a2 + 4) = v35;"
+   172,
+   "*(float *)a2 = v28;"
   ],
   "status": [
    "return",
@@ -562,92 +254,7 @@
   ],
   "events": [
    54,
-   42
-  ]
- },
- "0x100D08E0": {
-  "name": "CXiSkeletonActor_GetWidthScale 0x100D08E0",
-  "why": "x87 result differs: (9717509057937408000, 16420) vs (9717509073530558464, 16420)",
-  "event_index": 4,
-  "original_event": null,
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   4,
-   4
-  ]
- },
- "0x100D09B0": {
-  "name": "CXiSkeletonActor_GetHeightScale 0x100D09B0",
-  "why": "x87 result differs: (16982182230178660352, 16436) vs (16982182285153601536, 16436)",
-  "event_index": 4,
-  "original_event": null,
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   4,
-   4
-  ]
- },
- "0x100D0A80": {
-  "name": "CXiSkeletonActor_GetDepthScale 0x100D0A80",
-  "why": "x87 result differs: (16297105444927700992, 16492) vs (16297105497684901888, 16492)",
-  "event_index": 4,
-  "original_event": null,
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   4,
-   4
-  ]
- },
- "0x100D2F60": {
-  "name": "CXiSkeletonActor_LoadSkeletonSync 0x100D2F60",
-  "why": "stubbed call #4 differs: original 0x100C51C0(ecx=0x00000000, 0x00000001, 0x00000001) / reconstruction 0x100C51C0(ecx=0x00000000, 0x00000001, 0x0000006C)",
-  "event_index": 3,
-  "original_event": [
-   "C",
-   "0x100D330A",
-   "0x100C51C0",
-   "0x0",
-   [
-    1,
-    1
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x600012C3",
-   "0x100C51C0",
-   "0x0",
-   [
-    1,
-    108
-   ]
-  ],
-  "recon_line": [
-   343,
-   "v32 = F_100C51C0(1, v31);"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   7,
-   7
+   50
   ]
  },
  "0x100D62C0": {
@@ -679,37 +286,14 @@
   "events": [
    4,
    2
-  ]
- },
- "0x1011AA40": {
-  "name": "sub_1011AA40 0x1011AA40",
-  "why": "ended differently: original return  / reconstruction fault access 0x000022B6 size 1 type 19",
-  "event_index": 1,
-  "original_event": [
-   "W",
-   "0x1011AA5F",
-   "0x104E1B70",
-   "0x4",
-   "0x22B6"
   ],
-  "recon_event": [
-   "W",
-   "0x600010D0",
-   "0x104E1B70",
-   "0x1",
-   "0xB6"
-  ],
-  "recon_line": [
-   "rt.c:?",
-   ""
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   8,
-   25
+  "recon_stop": [
+   "0x60001044",
+   [
+    29,
+    "v5 = *(char **)result;"
+   ],
+   "access 0x00000001 size 4 type 19"
   ]
  },
  "0x1011E980": {
@@ -725,7 +309,7 @@
   ],
   "recon_event": [
    "W",
-   "0x6000136F",
+   "0x600012FF",
    "0x300013F0",
    "0x4",
    "0xC40F2F99"
@@ -741,112 +325,6 @@
   "events": [
    38,
    33
-  ]
- },
- "0x10162010": {
-  "name": "sub_10162010 0x10162010",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 19",
-  "event_index": 1,
-  "original_event": [
-   "W",
-   "0x10162029",
-   "0x10621904",
-   "0x4",
-   "0x0"
-  ],
-  "recon_event": [
-   "W",
-   "0x600010F0",
-   "0x10621904",
-   "0x1",
-   "0x0"
-  ],
-  "recon_line": [
-   "rt.c:?",
-   ""
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   18,
-   25
-  ]
- },
- "0x1017C9C0": {
-  "name": "sub_1017C9C0 0x1017C9C0",
-  "why": "stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0xC43D691C) / reconstruction no call",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x1017CB5A",
-   "0x10181BB0",
-   "0x0",
-   [
-    805544812,
-    3292358940
-   ]
-  ],
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   1,
-   0
-  ]
- },
- "0x1017DE20": {
-  "name": "sub_1017DE20 0x1017DE20",
-  "why": "stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x3003A36C, 0x444FB08E) / reconstruction no call",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x1017DFD3",
-   "0x10181BB0",
-   "0x0",
-   [
-    805544812,
-    1146073230
-   ]
-  ],
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   1,
-   0
-  ]
- },
- "0x10183DA0": {
-  "name": "sub_10183DA0 0x10183DA0",
-  "why": "stubbed call #1 differs: original 0x10181BB0(ecx=0x00000000, 0x30039F2C, 0x43824568) / reconstruction no call",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x10183E3F",
-   "0x10181BB0",
-   "0x0",
-   [
-    805543724,
-    1132610920
-   ]
-  ],
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   9,
-   0
   ]
  },
  "0x10185CA0": {
@@ -878,82 +356,14 @@
   "events": [
    27,
    15
-  ]
- },
- "0x101EEBD0": {
-  "name": "sub_101EEBD0 0x101EEBD0",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21",
-  "event_index": 5,
-  "original_event": [
-   "C",
-   "0x101EEF80",
-   "0x10150CC0",
-   "0xA36A0000",
+  ],
+  "recon_stop": [
+   "0x60001251",
    [
-    818848016,
-    2
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x6000147C",
-   "0x10150CC0",
-   "0x3F8E77",
-   [
-    2741633024,
-    818848016
-   ]
-  ],
-  "recon_line": [
-   190,
-   "LOBYTE(v14) = F_10150CC0((void *)G_1057847C, v15, 2);"
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   6,
-   6
-  ]
- },
- "0x102214D0": {
-  "name": "sub_102214D0 0x102214D0",
-  "why": "stubbed call #1 differs: original 0x10220EF0(ecx=0x30001390, 0xE1CE863B, 0x00000010, 0x00000001) / reconstruction 0x10220EF0(ecx=0x30001390, 0x61CE863A, 0x00000",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x102214F6",
-   "0x10220EF0",
-   "0x30001390",
-   [
-    3788408379,
-    16,
-    1
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001046",
-   "0x10220EF0",
-   "0x30001390",
-   [
-    1640924730,
-    16,
-    1
-   ]
-  ],
-  "recon_line": [
-   37,
-   "F_10220EF0(self, *(_DWORD *)(self + 88) + *(_DWORD *)(self + 96) / 2, *(_DWORD *)(self + 92), 1);"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   3,
-   3
+    201,
+    "v8 = atan2(-*v121, v121[2]);"
+   ],
+   "access 0x00000008 size 4 type 19"
   ]
  },
  "0x1024CF50": {
@@ -965,7 +375,7 @@
    "0x1024CF8A",
    "0x30000F78",
    "0x4",
-   "0x0"
+   "0x3A"
   ],
   "recon_event": [
    "W",
@@ -987,161 +397,8 @@
    63
   ]
  },
- "0x102501C0": {
-  "name": "sub_102501C0 0x102501C0",
-  "why": "stubbed call #12 differs: original 0x10282A30(ecx=0x00000000, 0x3D08887B) / reconstruction 0x10282A30(ecx=0x00000000, 0x3D08887C)",
-  "event_index": 12,
-  "original_event": [
-   "C",
-   "0x10250298",
-   "0x10282A30",
-   "0x0",
-   [
-    1023969403
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001127",
-   "0x10282A30",
-   "0x0",
-   [
-    1023969404
-   ]
-  ],
-  "recon_line": [
-   65,
-   "F_10282A30(v2);"
-  ],
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   16,
-   16
-  ]
- },
- "0x10281DB0": {
-  "name": "sub_10281DB0 0x10281DB0",
-  "why": "ended differently: original return  / reconstruction fault access 0xB7774858 size 4 type 19",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x10281FFC",
-   "0xC000033F",
-   "0x6E080300",
-   [
-    3690895350,
-    1,
-    1
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x600010C0",
-   "0xC000033D",
-   "0x6E080300",
-   [
-    0,
-    7
-   ]
-  ],
-  "recon_line": [
-   42,
-   "G_1066941C->lpVtbl->SetTexture(G_1066941C, v2, (&G_1099D638)[10 * v3]);"
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   2,
-   1155
-  ]
- },
- "0x10282A30": {
-  "name": "sub_10282A30 0x10282A30",
-  "why": "x87 result differs: None vs (12302071664836870144, 49167)",
-  "event_index": 7,
-  "original_event": null,
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "return"
-  ],
-  "events": [
-   7,
-   7
-  ]
- },
- "0x10283420": {
-  "name": "sub_10283420 0x10283420",
-  "why": "ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21",
-  "event_index": 9,
-  "original_event": [
-   "C",
-   "0x10283699",
-   "0xC000032C",
-   "0x6E080300",
-   [
-    1,
-    1461174272
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x60001275",
-   "0xC000032C",
-   "0x6E080300",
-   [
-    0,
-    1461174272
-   ]
-  ],
-  "recon_line": [
-   113,
-   "result = ((int (__cdecl *)(IDirect3DDevice8 *, signed int, float *))G_1066941C->lpVtbl->SetLight)("
-  ],
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   13,
-   12
-  ]
- },
- "0x10284950": {
-  "name": "sub_10284950 0x10284950",
-  "why": "ended differently: original return  / reconstruction fault Invalid memory read (UC_ERR_READ_UNMAPPED)",
-  "event_index": 0,
-  "original_event": [
-   "C",
-   "0x10284A5E",
-   "0xC000034B",
-   "0x6E080300",
-   [
-    1461174272,
-    0,
-    805310288,
-    0
-   ]
-  ],
-  "recon_event": null,
-  "recon_line": null,
-  "status": [
-   "return",
-   "fault"
-  ],
-  "events": [
-   3,
-   0
-  ]
- },
  "0x1028AFE0": {
-  "name": "sub_1028AFE0 0x1028AFE0",
+  "name": "sqgxShape_1028AFE0 0x1028AFE0",
   "why": "ended differently: original return  / reconstruction limit ",
   "event_index": 0,
   "original_event": [
@@ -1161,7 +418,7 @@
    ]
   ],
   "recon_line": [
-   106,
+   107,
    "F_1028BB10(i);"
   ],
   "status": [
@@ -1171,6 +428,14 @@
   "events": [
    5,
    26696
+  ],
+  "recon_stop": [
+   "0x600010A5",
+   [
+    122,
+    "F_1028A790(*(_DWORD *)(G_1099D200 + 2364));"
+   ],
+   ""
   ]
  },
  "0x1029B620": {
@@ -1202,45 +467,6 @@
   "events": [
    30,
    30
-  ]
- },
- "0x1029B9D0": {
-  "name": "sub_1029B9D0 0x1029B9D0",
-  "why": "ended differently: original return  / reconstruction limit ",
-  "event_index": 2,
-  "original_event": [
-   "C",
-   "0x1029BADF",
-   "0xC0000353",
-   "0x6E080300",
-   [
-    0,
-    817053388,
-    12
-   ]
-  ],
-  "recon_event": [
-   "C",
-   "0x600010F5",
-   "0xC0000353",
-   "0x6E080300",
-   [
-    0,
-    0,
-    8
-   ]
-  ],
-  "recon_line": [
-   52,
-   "G_1066941C->lpVtbl->SetStreamSource(G_1066941C, v7, a1[v4 - 651], 8u);"
-  ],
-  "status": [
-   "return",
-   "limit"
-  ],
-  "events": [
-   8,
-   3510
   ]
  }
 }

@@ -493,8 +493,8 @@ def main(exp, gate, manf, incdir, outdir):
         sig = re.sub(r'\bthis\b', 'self', sig); body = re.sub(r'\bthis\b', 'self', body)
         body = body.replace('->base.vftable', '->vftable')
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
+        body = hx2cpp.body_rules(ea, body)       # before strip_noise: exact_frame reads the [esp+..] comments
         body = strip_noise(body); body = com_calls(body); body = name_d3d_values(body)
-        body = hx2cpp.body_rules(ea, body)
         body = void_float_calls(ea, body)
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()

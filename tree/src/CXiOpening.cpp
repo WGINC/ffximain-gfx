@@ -75,6 +75,6 @@ CDx * CXiOpening::CXiOpening_Destructor()
   }
   result = g_pCDx;
   if ( g_pCDx->_pad_10[2309] != 0 )
-    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->field_114, this->field_118, this->field_11C);
+    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->savedGammaR, this->savedGammaG, this->savedGammaB);
   return result;
 }

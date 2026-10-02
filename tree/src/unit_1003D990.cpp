@@ -150,7 +150,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
           while ( !v8 );
           v13 = *(unsigned __int8 *)(v6 + 18);
           Float2E0 = orig::Camera_GetFloat2E0();
-          v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0.80000001;
+          v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0x1.99999a0000000p-1;
           orig::Sky_DrawGradientDome(v12, COERCE_FLOAT(8), v13, v18, COERCE_FLOAT(v6 + 64));
           orig::Camera_SetClearColorRGB(v18[2], v18[1], v18[0]);
           *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;

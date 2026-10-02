@@ -11,6 +11,7 @@ typedef unsigned long ulong; typedef long long longlong; typedef unsigned long l
 typedef unsigned short word; typedef uint32_t dword; typedef uint64_t qword;
 typedef long double float10;                 // x87 80-bit; GCC's long double on i686
 typedef unsigned short wchar16; typedef unsigned int wchar32;
+typedef int32_t int3; typedef uint32_t uint3; typedef int64_t int5; typedef uint64_t uint5; typedef int64_t int6; typedef uint64_t uint6; typedef int64_t int7; typedef uint64_t uint7;   // Ghidra's odd-width integers
 typedef int code(...);                       // `(*(code *)p)(...)`: a call through an untyped pointer
 typedef void *pointer; typedef void *addr;
 
@@ -51,3 +52,19 @@ typedef void *pointer; typedef void *addr;
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 #define SQRT(x) __builtin_sqrtl(x)
 #define POPCOUNT(x) __builtin_popcount(x)
+
+// Ghidra intrinsics
+static inline long double xi_fpatan(long double y, long double x) {      // x87 fpatan: atan(ST1 / ST0)
+    long double r; __asm__("fpatan" : "=t"(r) : "0"(x), "u"(y) : "st(1)"); return r;
+}
+#define fpatan(y, x) xi_fpatan((y), (x))
+
+// An argument slot of a called game function: 4 bytes on the stack, holding the bits of whatever the
+// caller passes (int, pointer or float), exactly as the original pushes them.
+struct XI_ANY {
+    uint32_t bits;
+    template <class T> XI_ANY(T v) { static_assert(sizeof(T) <= 4, "XI_ANY: 4-byte argument"); bits = 0; __builtin_memcpy(&bits, &v, sizeof(T)); }
+    XI_ANY(float v) { __builtin_memcpy(&bits, &v, 4); }       // a float parameter is pushed as 4 bytes
+    XI_ANY(double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
+    XI_ANY(long double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
+};

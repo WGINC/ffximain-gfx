@@ -1,5 +1,5 @@
 // CYyOs2VtxBuffer -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -13,15 +13,15 @@ public:
     uint8_t _pad_4[0x30];
     uint32_t field_34;  // +0x34
     uint32_t field_38;  // +0x38
-    int32_t field_3C;  // +0x3C
+    int32_t createStep;  // +0x3C state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an
     uint32_t field_40;  // +0x40
     uint32_t field_44;  // +0x44
     uint32_t field_48;  // +0x48
     uint32_t field_4C;  // +0x4C
     uint32_t field_50;  // +0x50
     uint32_t field_54;  // +0x54
-    int32_t field_58;  // +0x58
-    int32_t field_5C;  // +0x5C
+    int32_t indexCount;  // +0x58 loop bound over the 16-bit index array in CreateBuffersStep
+    int32_t pIndices;  // +0x5C 16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit
     uint32_t field_60;  // +0x60
     uint32_t field_64;  // +0x64
     uint8_t field_68;  // +0x68
@@ -37,15 +37,15 @@ public:
 static_assert(sizeof(CYyOs2VtxBuffer) == 0x9E, "CYyOs2VtxBuffer: sizeof");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_34) == 0x34, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_38) == 0x38, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_3C) == 0x3C, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, createStep) == 0x3C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_40) == 0x40, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_44) == 0x44, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_48) == 0x48, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_4C) == 0x4C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_50) == 0x50, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_54) == 0x54, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_58) == 0x58, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_5C) == 0x5C, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, indexCount) == 0x58, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, pIndices) == 0x5C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_60) == 0x60, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_64) == 0x64, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_68) == 0x68, "CYyOs2VtxBuffer: layout");

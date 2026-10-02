@@ -49,7 +49,7 @@ XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
     v7 = v6 < 0.9999;
     v8 = 0;
     v9 = v6 == 0.9999;
-    if ( (v5 & 0x4100) == 0 )
+    if ( ((__int16)((v7 ? 0x100 : 0) | (v8 ? 0x400 : 0) | (v9 ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       orig::sqgxTextureStencilClear(0);
@@ -78,7 +78,7 @@ XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2)
     v18 = v17 < 0.9999;
     v19 = 0;
     v20 = v17 == 0.9999;
-    if ( (v16 & 0x4100) != 0 )
+    if ( ((__int16)((v18 ? 0x100 : 0) | (v19 ? 0x400 : 0) | (v20 ? 0x4000 : 0)) & 0x4100) != 0 )
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
     else
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);

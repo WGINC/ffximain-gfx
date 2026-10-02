@@ -134,6 +134,89 @@ XI_API int __cdecl sqgxTextureSetPalette(int a1)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x10281DB0  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
+// GATE: PASS -- 100 trials, 57 returned normally, 348581 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10281DB0(void)
+{
+  int result;
+  int v1;
+  unsigned int v2;
+  int v3;
+  int v4;
+  result = g_sqgxRenderStateDirty;
+  if ( g_sqgxRenderStateDirty != 0 )
+  {
+    v1 = g_pSqgxContext;
+    v2 = 0;
+    if ( *(int *)(g_pSqgxContext + 2840) + 1 > 0 )
+    {
+      while ( 1 )
+      {
+        v3 = *(_DWORD *)(v1 + 4 * v2 + 2224);
+        if ( v3 >= 0 && (*(_BYTE *)(v1 + 2608) & 4) != 0 )
+          break;
+        g_pDancerDevice->SetTexture(v2, nullptr);
+        g_pDancerDevice->SetTextureStageState(v2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+LABEL_21:
+        v1 = g_pSqgxContext;
+        if ( (int)++v2 >= *(int *)(g_pSqgxContext + 2840) + 1 )
+          goto LABEL_22;
+      }
+      g_pDancerDevice->SetTexture(v2, (&g_sqgxTex_texture)[10 * v3]);
+      if ( v2 == 0 )
+      {
+        v4 = *(_DWORD *)(g_pSqgxContext + 2240);
+        if ( v4 != 1 )
+        {
+          if ( v4 != 0 )
+          {
+            if ( v4 != 2 )
+              goto LABEL_13;
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
+          }
+          else
+          {
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+          }
+          g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+          g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+          goto LABEL_13;
+        }
+        g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+        g_pDancerDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+        g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+        g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+      }
+LABEL_13:
+      if ( *(_DWORD *)(g_pSqgxContext + 4 * v2 + 2248) != 0 )
+        g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+      else
+        g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
+      if ( *(_DWORD *)(g_pSqgxContext + 4 * v2 + 2256) != 0 )
+        g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+      else
+        g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+      g_pDancerDevice->SetTextureStageState(v2, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+      g_pDancerDevice->SetTextureStageState(v2, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      goto LABEL_21;
+    }
+LABEL_22:
+    result = g_pDancerDevice->lpVtbl->SetTextureStageState(
+               g_pDancerDevice,
+               *(_DWORD *)(v1 + 2840) + 1,
+               D3DTSS_COLOROP,
+               1u);
+    g_sqgxRenderStateDirty = 0;
+  }
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x10282010  (unit sqgxTexture: name sqgxTextureStencilClear)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureStencilClear(int a1)

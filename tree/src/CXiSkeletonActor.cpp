@@ -120,7 +120,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         do
         {
           if ( *v14 != 0xFF )
-            orig::Vec3_MulInPlace((float *)(52 * (char)*(v14 - 2) + 273018956), (float *)(52 * (char)*v14 + 273018956));
+            orig_void::Vec3_MulInPlace((float *)(52 * (char)*(v14 - 2) + 273018956), (float *)(52 * (char)*v14 + 273018956));
           ++v14;
         }
         while ( (int)&v14[-2 - (_DWORD)a6] < 2 );
@@ -155,7 +155,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
 }
 
 // FUNCTION: FFXIMAIN 0x10082F20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char * CXiSkeletonActor::GetEnglishName()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -172,9 +172,9 @@ char * CXiSkeletonActor::GetEnglishName()
 int CXiSkeletonActor::SubRef()
 {
   int result;
-  result = this->field_80;
+  result = this->refCount;
   if ( result != 0 )
-    this->field_80 = --result;
+    this->refCount = --result;
   return result;
 }
 
@@ -198,7 +198,7 @@ char * CXiSkeletonActor::GetDir()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 BOOL CXiSkeletonActor::IsMotionLock()
 {
-  return (this->field_840 & 0x40) != 0;
+  return (at<uint32_t>(this, 0x840) & 0x40) != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4770  (placed by tree manifest)
@@ -206,8 +206,8 @@ BOOL CXiSkeletonActor::IsMotionLock()
 int CXiSkeletonActor::IsMotionLock_Set(char a2)
 {
   int result;
-  result = this->field_840;
-  this->field_840 = result ^ ((unsigned __int8)result ^ (unsigned __int8)(a2 << 6)) & 0x40;
+  result = at<uint32_t>(this, 0x840);
+  at<uint32_t>(this, 0x840) = result ^ ((unsigned __int8)result ^ (unsigned __int8)(a2 << 6)) & 0x40;
   return result;
 }
 
@@ -359,8 +359,8 @@ void CXiSkeletonActor::DisableEffectAll()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::SetUVOffset(int a2, int a3)
 {
-  this->field_73C = a2;
-  this->field_740 = a3;
+  this->uvOffsetU = a2;
+  this->uvOffsetV = a3;
   return a2;
 }
 
@@ -425,7 +425,7 @@ int CXiSkeletonActor::get_field_74C()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::set_field_73C(int a2)
 {
-  this->field_73C = a2;
+  this->uvOffsetU = a2;
   return a2;
 }
 
@@ -440,7 +440,7 @@ double CXiSkeletonActor::get_field_73C()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::set_field_740(int a2)
 {
-  this->field_740 = a2;
+  this->uvOffsetV = a2;
   return a2;
 }
 
@@ -490,7 +490,7 @@ int CXiSkeletonActor::IsDirectionLock()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CXiSkeletonActor::IsConstrain()
 {
-  return this->field_83C;
+  return at<uint16_t>(this, 0x83C);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A30  (placed by tree manifest)
@@ -506,7 +506,7 @@ bool CXiSkeletonActor::IsConstrain_Set(char a2, int a3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CXiSkeletonActor::IsConstrain2()
 {
-  return this->field_83E;
+  return this->constrain2;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A60  (placed by tree manifest)
@@ -629,6 +629,51 @@ char ** __cdecl CXiSkeletonActor::GetRuntimeClass_variant1()
   return &CXiSkeletonActor_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x100C52A0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CXiSkeletonActor::Constructor_1Arg(int a2)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  _DWORD *v3;
+  orig::CXiCollisionActor_Constructor((_DWORD *)self);
+  orig::CYyModel_Constructor((char *)(self + 1652));
+  this->effectFlags = 0;
+  at<uint32_t>(this, 0x750) = 0;
+  at<uint32_t>(this, 0x744) = 1036831949;
+  this->uvOffsetV = 0;
+  this->uvOffsetU = 0;
+  this->emapColor = 0;
+  this->emapAlphaMode = 72;
+  this->field_738 = 0;
+  orig::ActorHandle_Constructor(self + 1960);
+  orig::Actor_InitIndexTable((_BYTE *)(self + 2168));
+  orig::LinkNode_Init((_DWORD *)(self + 2248));
+  orig::OcclusionQuery_Init(self + 2288);
+  orig::fn_10027990((Iostream_init *)(self + 2456));
+  at<uint32_t>(this, 0x0) = &CXiSkeletonActor_vtbl_ambiguous0;
+  orig::CXiSkeletonActor_Init((int *)self);
+  this->field_8C4 = a2;
+  v3 = (_DWORD *)(orig::Camera_GetField50() + 80);
+  orig::Vec4_Copy((_DWORD *)(self + 1532), v3);
+  this->field_608 = 1065353216;
+  orig::Vec4_Copy((_DWORD *)(self + 2520), v3);
+  this->field_9E4 = 1065353216;
+  orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
+  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
+  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
+  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(TargetActor_SlotHandler4));
+  if ( orig::CXiActor_GetModelField170((_DWORD *)self) == 1
+    && (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 0 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 6)
+    || (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 2 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 7)
+    && orig::CXiActor_IsModelMissingOrFlag2000((_DWORD *)self) )
+  {
+    this->constrain = 1;
+  }
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
+  orig::Net_SendPacket00COnce();
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x100C5540  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::ScalarDeletingDtor(char a1)
@@ -637,6 +682,50 @@ int CXiSkeletonActor::ScalarDeletingDtor(char a1)
   orig::CXiSkeletonActor_DestructorBody(self);
   if ( (a1 & 1) != 0 )
     orig::SharedDeleteHelper(self);
+  return self;
+}
+
+// FUNCTION: FFXIMAIN 0x100C5560  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CXiSkeletonActor::Constructor_2Arg(_DWORD *a2, int a3)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  orig::CXiCollisionActor_Constructor((_DWORD *)self);
+  orig::CYyModel_Constructor((char *)(self + 1652));
+  this->effectFlags = 0;
+  at<uint32_t>(this, 0x750) = 0;
+  at<uint32_t>(this, 0x744) = 1036831949;
+  this->uvOffsetV = 0;
+  this->uvOffsetU = 0;
+  this->emapColor = 0;
+  this->emapAlphaMode = 72;
+  this->field_738 = 0;
+  orig::ActorHandle_Constructor(self + 1960);
+  orig::Actor_InitIndexTable((_BYTE *)(self + 2168));
+  orig::LinkNode_Init((_DWORD *)(self + 2248));
+  orig::OcclusionQuery_Init(self + 2288);
+  orig::fn_10027990((Iostream_init *)(self + 2456));
+  at<uint32_t>(this, 0x0) = &CXiSkeletonActor_vtbl_ambiguous0;
+  orig::CXiSkeletonActor_Init((int *)self);
+  this->field_8C4 = a3;
+  orig::Vec4_Copy((_DWORD *)(self + 1532), a2);
+  this->field_608 = 1065353216;
+  orig::Vec4_Copy((_DWORD *)(self + 2520), a2);
+  this->field_9E4 = 1065353216;
+  orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
+  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
+  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
+  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(TargetActor_SlotHandler4));
+  if ( orig::CXiActor_GetModelField170((_DWORD *)self) == 1
+    && (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 0 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 6)
+    || (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 2 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 7)
+    && orig::CXiActor_IsModelMissingOrFlag2000((_DWORD *)self) )
+  {
+    this->constrain = 1;
+  }
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
+  if ( orig::Net_SendPacket00COnce() )
+    orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, -1);
   return self;
 }
 
@@ -650,8 +739,8 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
   this->effectFlags = 0;
   at<uint32_t>(this, 0x750) = 0;
   at<uint32_t>(this, 0x744) = 1036831949;
-  this->field_740 = 0;
-  this->field_73C = 0;
+  this->uvOffsetV = 0;
+  this->uvOffsetU = 0;
   this->emapColor = 0;
   this->emapAlphaMode = 72;
   this->field_738 = 0;
@@ -671,7 +760,7 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
   orig::Vec4_Copy((_DWORD *)(self + 2520), a2);
   this->field_9E4 = 1065353216;
   orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
-  this->field_70 = a3;
+  this->pModelInfo = a3;
   orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, -1);
   orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
   orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
@@ -681,7 +770,7 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
     || (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 2 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 7)
     && orig::CXiActor_IsModelMissingOrFlag2000((_DWORD *)self) )
   {
-    at<uint8_t>(this, 0x83C) = 1;
+    this->constrain = 1;
   }
   orig::CMoTask_RegisterWithMng((void *)self, 4);
   orig::Net_SendPacket00COnce();
@@ -698,8 +787,8 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
   this->effectFlags = 0;
   at<uint32_t>(this, 0x750) = 0;
   at<uint32_t>(this, 0x744) = 1036831949;
-  this->field_740 = 0;
-  this->field_73C = 0;
+  this->uvOffsetV = 0;
+  this->uvOffsetU = 0;
   this->emapColor = 0;
   this->emapAlphaMode = 72;
   this->field_738 = 0;
@@ -716,7 +805,7 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
   orig::Vec4_Copy((_DWORD *)(self + 2520), a2);
   this->field_9E4 = 1065353216;
   orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
-  this->field_70 = a3;
+  this->pModelInfo = a3;
   orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, a4);
   orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
   orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
@@ -741,8 +830,8 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
   this->effectFlags = 0;
   at<uint32_t>(this, 0x750) = 0;
   at<uint32_t>(this, 0x744) = 1036831949;
-  this->field_740 = 0;
-  this->field_73C = 0;
+  this->uvOffsetV = 0;
+  this->uvOffsetU = 0;
   this->emapColor = 0;
   this->emapAlphaMode = 72;
   this->field_738 = 0;
@@ -789,7 +878,7 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
     orig::Vec4_Copy((_DWORD *)(self + 2520), a2);
     this->field_9E4 = 1065353216;
     orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
-    this->field_70 = *(_DWORD *)(*(_DWORD *)(v9 + self) + 112);
+    this->pModelInfo = *(_DWORD *)(*(_DWORD *)(v9 + self) + 112);
     orig::CMoTaskMng_Forward10075120(v7);
     if ( orig::Net_SendPacket00COnce() )
       orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, -1);
@@ -894,11 +983,11 @@ char CXiSkeletonActor::DestructorBody()
   v12 = g_actorUpdateBucketCountB[v11];
   if ( v12 != 0 )
     g_actorUpdateBucketCountB[v11] = v12 - 1;
-  v13 = this->field_A08;
+  v13 = this->pSkeletonRes;
   if ( v13 != 0 )
   {
     (*(void (__thiscall **)(int, int))(*(_DWORD *)v13 + 24))(v13, 1);
-    this->field_A08 = 0;
+    this->pSkeletonRes = 0;
   }
   orig::nullsub_1();
   orig::OcclusionQuery_Release((int *)(self + 2288));
@@ -906,6 +995,1634 @@ char CXiSkeletonActor::DestructorBody()
   orig::ActorHandle_Destructor((_DWORD *)(self + 1960));
   orig::CYyModel_Destructor((int *)(self + 1652));
   return orig::CXiControlActor_Destructor((_DWORD *)self);
+}
+
+// FUNCTION: FFXIMAIN 0x100C5D60  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CXiSkeletonActor::Init()
+{
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  int v2;
+  int v3;
+  int v4;
+  float *v5;
+  __int16 v6; // fps
+  double v7;
+  bool v8; // c0
+  char v9; // c2
+  bool v10; // c3
+  __int16 v11; // fps
+  double v12;
+  bool v13; // c0
+  char v14; // c2
+  bool v15; // c3
+  __int16 v16; // fps
+  double v17;
+  bool v18; // c0
+  char v19; // c2
+  bool v20; // c3
+  __int16 v21; // fps
+  double v22;
+  bool v23; // c0
+  char v24; // c2
+  bool v25; // c3
+  __int16 v26; // fps
+  double v27;
+  bool v28; // c0
+  char v29; // c2
+  bool v30; // c3
+  __int16 v31; // fps
+  double v32;
+  bool v33; // c0
+  char v34; // c2
+  bool v35; // c3
+  unsigned int v36;
+  float v37;
+  float v38;
+  int v39;
+  int v40;
+  char v41;
+  int v42;
+  int v43;
+  int v44;
+  int v45;
+  int v46;
+  int v47;
+  int result;
+  at<int32_t>(this, 0x5F8) = 0;
+  at<int32_t>(this, 0x764) = 0;
+  memset(self + 474, 0, 0x30u);
+  v2 = *self;
+  this->field_798 = 0;
+  (*(void (__thiscall **)(int *, int))(v2 + 508))(self, 1);
+  v3 = *self;
+  this->lockFlags &= ~0x800000u;
+  this->directionLockCount = 0;
+  (*(void (__thiscall **)(int *, _DWORD, _DWORD))(v3 + 796))(self, 0, 0);
+  (*(void (__thiscall **)(int *, _DWORD, int))(*self + 796))(self, 0, 1);
+  (*(void (__thiscall **)(int *, _DWORD, _DWORD))(*self + 804))(self, 0, 0);
+  (*(void (__thiscall **)(int *, _DWORD, int))(*self + 804))(self, 0, 1);
+  this->field_7F8 = 538976288;
+  this->field_7FC = 0;
+  this->field_800 = 0;
+  this->field_804 = 538976288;
+  this->field_80C = 538976288;
+  this->field_810 = 0;
+  this->field_808 = 0;
+  at<int32_t>(this, 0x814) = 0;
+  this->field_818 = 0;
+  v4 = this->lockFlags;
+  LOBYTE(v4) = v4 & 0xFC;
+  this->lockFlags = v4;
+  this->field_848 = dword_1035D694;
+  this->field_84C = dword_1035D698;
+  this->field_850 = dword_1035D69C;
+  this->field_854 = -1082130432;
+  orig::Vec3_Copy(self + 523, dword_1035D6A4);
+  this->field_828 = 0;
+  v5 = (float *)(self + 17);
+  at<int32_t>(this, 0x61C) = dword_1035D6B0;
+  at<int32_t>(this, 0x620) = dword_1035D6B4;
+  at<int32_t>(this, 0x624) = dword_1035D6B8;
+  this->field_628 = dword_1035D6BC;
+  orig::Vec4_Copy(self + 17, self + 391);
+  v7 = this->field_44;
+  v8 = v7 < 0x1.921cac0000000p+1;
+  v9 = 0;
+  v10 = v7 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v8 ? 0x100 : 0) | (v9 ? 0x400 : 0) | (v10 ? 0x4000 : 0)) & 0x4100) == 0 )
+    *v5 = *v5 - 0x1.921cac0000000p+2;
+  if ( *v5 < -0x1.921cac0000000p+1 )
+    *v5 = *v5 + 0x1.921cac0000000p+2;
+  v12 = this->field_48;
+  v13 = v12 < 0x1.921cac0000000p+1;
+  v14 = 0;
+  v15 = v12 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v13 ? 0x100 : 0) | (v14 ? 0x400 : 0) | (v15 ? 0x4000 : 0)) & 0x4100) == 0 )
+    this->field_48 = this->field_48 - 0x1.921cac0000000p+2;
+  if ( this->field_48 < -0x1.921cac0000000p+1 )
+    this->field_48 = this->field_48 + 0x1.921cac0000000p+2;
+  v17 = this->field_4C;
+  v18 = v17 < 0x1.921cac0000000p+1;
+  v19 = 0;
+  v20 = v17 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v18 ? 0x100 : 0) | (v19 ? 0x400 : 0) | (v20 ? 0x4000 : 0)) & 0x4100) == 0 )
+    this->field_4C = this->field_4C - 0x1.921cac0000000p+2;
+  if ( this->field_4C < -0x1.921cac0000000p+1 )
+    this->field_4C = this->field_4C + 0x1.921cac0000000p+2;
+  this->field_5FC = dword_1035D6C0;
+  this->field_600 = dword_1035D6C4;
+  this->field_604 = dword_1035D6C8;
+  at<int32_t>(this, 0x608) = dword_1035D6CC;
+  orig::Vec4_Copy(self + 17, self + 383);
+  v22 = *v5;
+  v23 = v22 < 0x1.921cac0000000p+1;
+  v24 = 0;
+  v25 = v22 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v23 ? 0x100 : 0) | (v24 ? 0x400 : 0) | (v25 ? 0x4000 : 0)) & 0x4100) == 0 )
+    *v5 = *v5 - 0x1.921cac0000000p+2;
+  if ( *v5 < -0x1.921cac0000000p+1 )
+    *v5 = *v5 + 0x1.921cac0000000p+2;
+  v27 = this->field_48;
+  v28 = v27 < 0x1.921cac0000000p+1;
+  v29 = 0;
+  v30 = v27 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v28 ? 0x100 : 0) | (v29 ? 0x400 : 0) | (v30 ? 0x4000 : 0)) & 0x4100) == 0 )
+    this->field_48 = this->field_48 - 0x1.921cac0000000p+2;
+  if ( this->field_48 < -0x1.921cac0000000p+1 )
+    this->field_48 = this->field_48 + 0x1.921cac0000000p+2;
+  v32 = this->field_4C;
+  v33 = v32 < 0x1.921cac0000000p+1;
+  v34 = 0;
+  v35 = v32 == 0x1.921cac0000000p+1;
+  if ( ((__int16)((v33 ? 0x100 : 0) | (v34 ? 0x400 : 0) | (v35 ? 0x4000 : 0)) & 0x4100) == 0 )
+    this->field_4C = this->field_4C - 0x1.921cac0000000p+2;
+  if ( this->field_4C < -0x1.921cac0000000p+1 )
+    this->field_4C = this->field_4C + 0x1.921cac0000000p+2;
+  this->field_9D8 = dword_1035D6D0;
+  this->field_9DC = dword_1035D6D4;
+  this->field_9E0 = dword_1035D6D8;
+  at<int32_t>(this, 0x9E4) = dword_1035D6DC;
+  this->field_60C = dword_1035D6E0;
+  this->field_610 = dword_1035D6E4;
+  this->field_614 = dword_1035D6E8;
+  this->field_618 = dword_1035D6EC;
+  this->field_62C = dword_1035D6F0;
+  this->field_630 = dword_1035D6F4;
+  this->field_634 = dword_1035D6F8;
+  this->field_638 = dword_1035D6FC;
+  v36 = this->lockFlags & 0xFF8FFFFF;
+  at<int32_t>(this, 0x758) = -1082130432;
+  at<int32_t>(this, 0x75C) = -1082130432;
+  at<int32_t>(this, 0x760) = -1082130432;
+  this->lockFlags = v36;
+  this->field_65C = 0;
+  at<int32_t>(this, 0x754) = 1065353216;
+  this->color = -2139062144;
+  at<int32_t>(this, 0x664) = 1065353216;
+  at<int32_t>(this, 0x59C) = 0;
+  this->multiTexAlpha = 128;
+  this->shadowAlpha = 128;
+  this->field_670 = 0;
+  at<int32_t>(this, 0x8D4) = 0;
+  this->field_8E8 = 1;
+  this->field_8EC = 0;
+  this->field_7A0 = 0;
+  this->field_7E8 = 0;
+  this->field_7EC = 0;
+  this->field_7F0 = 0;
+  this->field_7F4 = 0;
+  this->field_8B8 = 1123024896;
+  this->field_9E8 = 0;
+  this->field_81C = 0;
+  this->field_820 = 0;
+  this->field_8B5 = 0;
+  orig::sub_100D5430(self, 0);
+  v37 = at<float>(this, 0x0);
+  this->field_824 = 0;
+  strcpy((char *)self + 1992, "idl?wlk?run?btl?");
+  this->field_7D9 = 0;
+  this->field_7DA = 0;
+  this->field_7DC = 1065353216;
+  this->field_7E0 = 1065353216;
+  at<int32_t>(this, 0x8C4) = 0;
+  this->field_7C4 = 0;
+  this->resourceList = 0;
+  this->field_8A0 = 0;
+  this->field_8A4 = 0;
+  (*(void (__thiscall **)(int *, int))(LODWORD(v37) + 168))(self, 8);
+  (*(void (__thiscall **)(int *, int))(*self + 176))(self, 2);
+  (*(void (__thiscall **)(int *, int))(*self + 184))(self, 2);
+  v38 = at<float>(this, 0x0);
+  at<int32_t>(this, 0x8C0) = 0;
+  (*(void (__thiscall **)(int *, int))(LODWORD(v38) + 192))(self, 128);
+  (*(void (__thiscall **)(int *, int))(*self + 200))(self, 128);
+  this->field_8B0 = 0;
+  this->field_8B4 = 1;
+  this->field_8AA = 0;
+  this->field_8AB = 0;
+  orig::sub_100D6240((char *)self, 0);
+  v39 = this->lockFlags;
+  v40 = this->posHandle;
+  this->field_8AC &= 0xF8u;
+  v41 = at<uint8_t>(this, 0xB2) | 1;
+  at<int32_t>(this, 0x8BC) = 0;
+  this->field_8B6 = 0;
+  this->field_86C = 0;
+  at<int32_t>(this, 0x870) = 0;
+  at<int32_t>(this, 0x874) = 0;
+  this->field_858 = 0;
+  this->field_85C = 0;
+  this->field_860 = 0;
+  this->field_868 = 0;
+  at<int32_t>(this, 0x864) = 0;
+  this->lockFlags = v39 & 0xF9F00003 | 0x7FF00;
+  this->field_844 = 0;
+  this->posHandle = v40 & 0xFFFFF9FF;
+  at<uint8_t>(this, 0xB2) = v41;
+  this->hiddenFlagByte = 1;
+  at<int32_t>(this, 0x7A4) = -1;
+  orig::sub_100814F0((int)(self + 490), 0);
+  this->field_7B4 = dword_1035D700;
+  this->field_7B8 = dword_1035D704;
+  this->field_7BC = dword_1035D708;
+  this->field_7C0 = dword_1035D70C;
+  (*(void (__thiscall **)(int *))(*self + 84))(self);
+  v42 = 1;
+  this->updateSerial = dword_1048A34C++;
+  v43 = 0;
+  this->visibleSampleCount = 1;
+  v44 = 0;
+  do
+  {
+    if ( g_actorUpdateBucketCountA[v44] > g_actorUpdateBucketCountA[v42] )
+    {
+      v43 = v42;
+      v44 = v42;
+    }
+    ++v42;
+  }
+  while ( v42 < 4 );
+  this->bucketA = v43;
+  ++g_actorUpdateBucketCountA[v43];
+  this->forceUpdateFlag = 1;
+  v45 = 0;
+  at<int32_t>(this, 0xA00) = 0;
+  v46 = 1;
+  v47 = 0;
+  do
+  {
+    if ( g_actorUpdateBucketCountB[v47] > g_actorUpdateBucketCountB[v46] )
+    {
+      v45 = v46;
+      v47 = v46;
+    }
+    ++v46;
+  }
+  while ( v46 < 4 );
+  this->bucketB = v45;
+  result = g_actorUpdateBucketCountB[v45] + 1;
+  g_actorUpdateBucketCountB[v45] = result;
+  at<uint8_t>(this, 0xA04) = 1;
+  at<int32_t>(this, 0xA08) = 0;
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x100C63D0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CXiSkeletonActor::OnMove()
+{
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  bool v2;
+  __int16 v3; // fps
+  double v4;
+  bool v5; // c0
+  char v6; // c2
+  bool v7; // c3
+  _DWORD *v8;
+  _DWORD *v9;
+  int ModelField170;
+  int v11;
+  _DWORD *v12;
+  double v13;
+  __int16 v14; // fps
+  bool v15; // c0
+  char v16; // c2
+  bool v17; // c3
+  double v18;
+  __int16 v19; // fps
+  bool v20; // c0
+  char v21; // c2
+  bool v22; // c3
+  float *v23;
+  float *v24;
+  char v25;
+  __int16 v26; // fps
+  double v27;
+  bool v28; // c0
+  char v29; // c2
+  bool v30; // c3
+  double v31;
+  __int16 v32; // fps
+  double v34;
+  unsigned __int8 v35; // c0
+  unsigned __int8 v36; // c2
+  double v37;
+  __int16 v38; // fps
+  double v39;
+  bool v40; // c0
+  char v41; // c2
+  bool v42; // c3
+  double v43;
+  __int16 v44; // fps
+  int v45;
+  int v46;
+  double FrameScale;
+  __int16 v48; // fps
+  bool v49; // c0
+  char v50; // c2
+  bool v51; // c3
+  float v52;
+  __int16 v53; // fps
+  bool v54; // c0
+  char v55; // c2
+  bool v56; // c3
+  __int16 v57; // fps
+  bool v58; // c0
+  char v59; // c2
+  bool v60; // c3
+  __int16 v61; // fps
+  bool v62; // c0
+  char v63; // c2
+  bool v64; // c3
+  double v65;
+  __int16 v66; // fps
+  bool v67; // c0
+  char v68; // c2
+  bool v69; // c3
+  __int16 v70; // fps
+  double v71;
+  bool v72; // c0
+  char v73; // c2
+  bool v74; // c3
+  __int16 v75; // fps
+  double v76;
+  bool v77; // c0
+  char v78; // c2
+  bool v79; // c3
+  __int16 v80; // fps
+  double v81;
+  bool v82; // c0
+  char v83; // c2
+  bool v84; // c3
+  long double v85;
+  long double v86;
+  double v87;
+  unsigned __int16 *v88;
+  __int16 v89; // fps
+  bool v90; // c0
+  char v91; // c2
+  bool v92; // c3
+  __int16 v93; // fps
+  double v94;
+  unsigned __int8 v95; // c0
+  unsigned __int8 v96; // c2
+  bool v97; // c0
+  char v98; // c2
+  bool v99; // c3
+  __int16 v100; // fps
+  double v101;
+  unsigned __int8 v102; // c0
+  unsigned __int8 v103; // c2
+  bool v104; // c0
+  char v105; // c2
+  bool v106; // c3
+  double v107;
+  __int16 v108; // fps
+  bool v109; // c0
+  char v110; // c2
+  bool v111; // c3
+  float v112;
+  __int16 v113; // fps
+  bool v114; // c0
+  char v115; // c2
+  bool v116; // c3
+  __int16 v117; // fps
+  bool v118; // c0
+  char v119; // c2
+  bool v120; // c3
+  __int16 v121; // fps
+  bool v122; // c0
+  char v123; // c2
+  bool v124; // c3
+  double v125;
+  __int16 v126; // fps
+  bool v127; // c0
+  char v128; // c2
+  bool v129; // c3
+  __int16 v130; // fps
+  double v131;
+  float *v132;
+  bool v133; // c0
+  char v134; // c2
+  bool v135; // c3
+  __int16 v136; // fps
+  double v137;
+  bool v138; // c0
+  char v139; // c2
+  bool v140; // c3
+  __int16 v141; // fps
+  double v142;
+  bool v143; // c0
+  char v144; // c2
+  bool v145; // c3
+  float *v146;
+  __int16 v147; // fps
+  double v148;
+  bool v149; // c0
+  char v150; // c2
+  bool v151; // c3
+  __int16 v152; // fps
+  double v153;
+  bool v154; // c0
+  char v155; // c2
+  bool v156; // c3
+  __int16 v157; // fps
+  double v158;
+  bool v159; // c0
+  char v160; // c2
+  bool v161; // c3
+  float *v162;
+  float *v163;
+  int v164;
+  int v165;
+  float *v166;
+  int v167;
+  double v168;
+  int v169;
+  int v170;
+  __int16 v171; // fps
+  double v172;
+  bool v173; // c0
+  char v174; // c2
+  bool v175; // c3
+  int v176;
+  int v177;
+  float *v178;
+  float *v179;
+  int v180;
+  int v181;
+  int v182;
+  bool v183;
+  void *v184;
+  int v185;
+  bool v186;
+  _DWORD *v187;
+  int v188;
+  int v189;
+  bool v190;
+  int v191;
+  int v192;
+  int v193;
+  int v194;
+  unsigned int v195;
+  int v196;
+  int v197;
+  int v198;
+  int v199;
+  __int16 v200; // fps
+  double v201;
+  bool v202; // c0
+  char v203; // c2
+  bool v204; // c3
+  double v205;
+  int v206;
+  double v207;
+  int v208;
+  double v209;
+  double v210;
+  __int16 v211; // fps
+  bool v212; // c0
+  char v213; // c2
+  bool v214; // c3
+  _DWORD *v215;
+  int v216;
+  int v217;
+  double v218;
+  double v219;
+  double v220;
+  double v221;
+  double v222;
+  float *v223;
+  int v224;
+  int v225;
+  float *v226;
+  int i;
+  __int16 v228; // fps
+  bool v229; // c0
+  char v230; // c2
+  bool v231; // c3
+  char v232;
+  int j;
+  __int16 v234; // fps
+  double v235;
+  bool v236; // c0
+  char v237; // c2
+  bool v238; // c3
+  float *v239;
+  float *v240;
+  int k;
+  __int16 v242; // fps
+  double v243;
+  bool v244; // c0
+  char v245; // c2
+  bool v246; // c3
+  int v247;
+  double v248;
+  char v249;
+  char v250;
+  int v251;
+  _DWORD *v252;
+  float *v253;
+  double v254;
+  float v255;
+  int v256;
+  int v257;
+  double v258;
+  _WORD *v259;
+  float *v260;
+  float *v261;
+  double v262;
+  int v263;
+  double v264;
+  int v265;
+  double v266;
+  bool v267; // zf
+  int v268;
+  int result;
+  int v270;
+  int v271;
+  float v272;
+  float v273;
+  float v274;
+  float v275;
+  float v276;
+  float v277;
+  int a1;
+  float v279;
+  float v280;
+  int v281;
+  float v282;
+  float v283;
+  int v284;
+  float v285;
+  float Float2DC;
+  float v287;
+  float v288;
+  float v289;
+  int v290;
+  float v291;
+  float v292;
+  float v293;
+  float v294;
+  float v295;
+  float v296;
+  float v297;
+  float v298[2];
+  float v299[4];
+  float v300[2];
+  float v301;
+  float v302[4];
+  float v303;
+  float v304[19];
+  int v305;
+  float v306;
+  _DWORD v307[15];
+  float v308[18];
+  float v309[62];
+  v2 = orig::CXiActor_IsInModelSlotTable(self);
+  LODWORD(Float2DC) = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 328))(self) != 0;
+  dword_1048A344 = (int)self;
+  this->field_6A4 &= 0x10u;
+  at<uint8_t>(this, 0xB2) &= ~1u;
+  orig::sub_10026E00((_DWORD *)self + 387);
+  orig::sub_10026E00((_DWORD *)self + 395);
+  if ( !v2 )
+  {
+    if ( orig::sub_100846D0(self) )
+    {
+      if ( this->field_8BC < 0.0 )
+      {
+        at<uint32_t>(this, 0x8BC) = 1107296256;
+        this->field_8B6 = 1;
+      }
+      orig::sub_100846F0(self, 0);
+    }
+    v4 = this->field_8BC;
+    v5 = v4 < 0.0;
+    v6 = 0;
+    v7 = v4 == 0.0;
+    if ( ((__int16)((v5 ? 0x100 : 0) | (v6 ? 0x400 : 0) | (v7 ? 0x4000 : 0)) & 0x100) == 0 )
+      this->field_8BC = this->field_8BC - orig::Camera_GetFrameScale();
+  }
+  v8 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+  orig::Vec4_Copy(v299, v8);
+  v9 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
+  orig::Vec4_Copy(v302, v9);
+  HIBYTE(v284) = orig::sub_100A4ED0(self);
+  if ( HIBYTE(v284) == 0 )
+  {
+    orig::sub_100D1070((int)self);
+    if ( this->field_103 != 0
+      || this->field_104 != 0
+      || (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 412))(self) != 0
+      || this->field_102 != 0
+      || this->field_101 != 0 )
+    {
+      v23 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+      v24 = (float *)((char *)self + 1476);
+    }
+    else
+    {
+      ModelField170 = orig::CXiActor_GetModelField170(self);
+      if ( orig::CXiActor_ModelTest95680(self, ModelField170)
+        || (v11 = orig::CXiActor_GetModelField170(self), orig::CXiActor_ModelTest956A0(self, v11)) )
+      {
+        if ( this->field_768 == 0 )
+        {
+          v277 = *(float *)&dword_1035D710;
+          a1 = dword_1035D714;
+          v279 = *(float *)&dword_1035D718;
+          v280 = *(float *)&dword_1035D71C;
+LABEL_23:
+          v25 = 0;
+          if ( (*(int (__thiscall **)(void *))(*(_DWORD *)self + 792))(self) != 0
+            || this->field_102 != 0
+            || this->field_7A4 != -1 )
+          {
+            goto LABEL_139;
+          }
+          if ( at<uint32_t>(this, 0x86C) != 0 )
+          {
+            v27 = this->field_870;
+            v28 = v27 < 0.0;
+            v29 = 0;
+            v30 = v27 == 0.0;
+            if ( ((__int16)((v28 ? 0x100 : 0) | (v29 ? 0x400 : 0) | (v30 ? 0x4000 : 0)) & 0x4100) == 0 )
+            {
+              v31 = this->field_874 + this->field_620;
+              this->field_620 = v31;
+              if ( ((__int16)((v28 ? 0x100 : 0) | (v29 ? 0x400 : 0) | (v30 ? 0x4000 : 0)) & 0x4100) == 0 )
+                this->field_620 = v31 - 0x1.921cac0000000p+2;
+              if ( this->field_620 < -0x1.921cac0000000p+1 )
+                this->field_620 = this->field_620 + 0x1.921cac0000000p+2;
+              v34 = this->field_874;
+              if ( (v35 | v36) != 0 )
+                v34 = -v34;
+              v37 = this->field_870 - v34;
+              if ( v37 < 0.0 )
+              {
+                v39 = this->field_874;
+                v40 = v39 < 0.0;
+                v41 = 0;
+                v42 = v39 == 0.0;
+                if ( ((__int16)((v40 ? 0x100 : 0) | (v41 ? 0x400 : 0) | (v42 ? 0x4000 : 0)) & 0x4100) != 0 )
+                  v37 = -v37;
+                v43 = v37 + this->field_620;
+                this->field_620 = v43;
+                if ( ((__int16)((v40 ? 0x100 : 0) | (v41 ? 0x400 : 0) | (v42 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  this->field_620 = v43 - 0x1.921cac0000000p+2;
+                if ( this->field_620 < -0x1.921cac0000000p+1 )
+                  this->field_620 = this->field_620 + 0x1.921cac0000000p+2;
+                v37 = 0.0;
+              }
+              this->field_870 = v37;
+            }
+            goto LABEL_139;
+          }
+          if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0
+            && (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 832))(self) != 0
+            && ((v45 = orig::CXiActor_GetModelField170(self), orig::CXiActor_ModelTest95680(self, v45))
+             || (v46 = orig::CXiActor_GetModelField170(self), orig::CXiActor_ModelTest956A0(self, v46)))
+            || (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 816))(self) == 0 )
+          {
+            orig::Vec3_Copy(&v291, (_DWORD *)self + 57);
+            v277 = 0.125;
+            if ( orig::sub_10087060() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
+              v277 = (double)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) * 0x1.47ae140000000p-10;
+            FrameScale = orig::Camera_GetFrameScale();
+            v274 = FrameScale;
+            v49 = FrameScale < 0.0;
+            v50 = 0;
+            v51 = FrameScale == 0.0;
+            if ( ((__int16)((v49 ? 0x100 : 0) | (v50 ? 0x400 : 0) | (v51 ? 0x4000 : 0)) & 0x4100) == 0 )
+            {
+              v52 = v277;
+              do
+              {
+                *(float *)&v281 = v291 - this->field_61C;
+                v282 = v292 - this->field_620;
+                v283 = v293 - this->field_624;
+                v54 = *(float *)&v281 < 0x1.921cac0000000p+1;
+                v55 = 0;
+                v56 = *(float *)&v281 == 0x1.921cac0000000p+1;
+                if ( ((__int16)((v54 ? 0x100 : 0) | (v55 ? 0x400 : 0) | (v56 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  *(float *)&v281 = *(float *)&v281 - 0x1.921cac0000000p+2;
+                if ( *(float *)&v281 < -0x1.921cac0000000p+1 )
+                  *(float *)&v281 = *(float *)&v281 + 0x1.921cac0000000p+2;
+                v58 = v282 < 0x1.921cac0000000p+1;
+                v59 = 0;
+                v60 = v282 == 0x1.921cac0000000p+1;
+                if ( ((__int16)((v58 ? 0x100 : 0) | (v59 ? 0x400 : 0) | (v60 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  v282 = v282 - 0x1.921cac0000000p+2;
+                if ( v282 < -0x1.921cac0000000p+1 )
+                  v282 = v282 + 0x1.921cac0000000p+2;
+                v62 = v283 < 0x1.921cac0000000p+1;
+                v63 = 0;
+                v64 = v283 == 0x1.921cac0000000p+1;
+                if ( ((__int16)((v62 ? 0x100 : 0) | (v63 ? 0x400 : 0) | (v64 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  v283 = v283 - 0x1.921cac0000000p+2;
+                if ( v283 < -0x1.921cac0000000p+1 )
+                  v283 = v283 + 0x1.921cac0000000p+2;
+                orig::fn_100272B0((int)&v281, v52);
+                orig_void::Vec3_AddInPlace((float *)self + 391, (float *)&v281);
+                v65 = v274 - 1.0;
+                v274 = v65;
+                v67 = v65 < 0.0;
+                v68 = 0;
+                v69 = v65 == 0.0;
+              }
+              while ( ((__int16)((v67 ? 0x100 : 0) | (v68 ? 0x400 : 0) | (v69 ? 0x4000 : 0)) & 0x4100) == 0 );
+            }
+            v71 = this->field_61C;
+            v72 = v71 < 0x1.921cac0000000p+1;
+            v73 = 0;
+            v74 = v71 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v72 ? 0x100 : 0) | (v73 ? 0x400 : 0) | (v74 ? 0x4000 : 0)) & 0x4100) == 0 )
+              this->field_61C = this->field_61C - 0x1.921cac0000000p+2;
+            if ( this->field_61C < -0x1.921cac0000000p+1 )
+              this->field_61C = this->field_61C + 0x1.921cac0000000p+2;
+            v76 = this->field_620;
+            v77 = v76 < 0x1.921cac0000000p+1;
+            v78 = 0;
+            v79 = v76 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v77 ? 0x100 : 0) | (v78 ? 0x400 : 0) | (v79 ? 0x4000 : 0)) & 0x4100) == 0 )
+              this->field_620 = this->field_620 - 0x1.921cac0000000p+2;
+            if ( this->field_620 < -0x1.921cac0000000p+1 )
+              this->field_620 = this->field_620 + 0x1.921cac0000000p+2;
+            v81 = this->field_624;
+            v82 = v81 < 0x1.921cac0000000p+1;
+            v83 = 0;
+            v84 = v81 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v82 ? 0x100 : 0) | (v83 ? 0x400 : 0) | (v84 ? 0x4000 : 0)) & 0x4100) == 0 )
+              this->field_624 = this->field_624 - 0x1.921cac0000000p+2;
+            if ( this->field_624 < -0x1.921cac0000000p+1 )
+              this->field_624 = this->field_624 + 0x1.921cac0000000p+2;
+            goto LABEL_139;
+          }
+          if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0
+            && (orig::Vec3_Copy(&v295, (_DWORD *)self + 365),
+                orig::Vec3_Copy(v298, &a1),
+                orig::sub_100274B0(&v295),
+                orig::sub_100274B0(v298),
+                v296 = 0.0,
+                v298[1] = 0.0,
+                orig::sub_10027530(&v295, v298) < 0.0) )
+          {
+            orig::Vec3_Copy(&v291, (_DWORD *)self + 57);
+            v85 = v297;
+            v86 = v295;
+          }
+          else
+          {
+            if ( v279 >= 0.0 )
+              v87 = v280 * v280 + *(float *)&a1 * *(float *)&a1;
+            else
+              v87 = orig::sub_10027530((float *)&a1, (float *)&a1);
+            v277 = sqrt(v87);
+            orig::Vec3_Copy(&v291, (_DWORD *)self + 57);
+            v88 = at<unsigned __int16 *>(this, 0x70);
+            if ( v88 != nullptr && orig::Entity_GetIndexedPtr(v88) != 0 )
+              goto LABEL_95;
+            v90 = v277 < 0x1.47ae140000000p-7;
+            v91 = 0;
+            v92 = v277 == 0x1.47ae140000000p-7;
+            if ( ((__int16)((v90 ? 0x100 : 0) | (v91 ? 0x400 : 0) | (v92 ? 0x4000 : 0)) & 0x100) != 0 )
+              goto LABEL_95;
+            v94 = v280;
+            if ( (v95 | v96) != 0 )
+              v94 = -v94;
+            v97 = v94 < 0x1.47ae140000000p-7;
+            v98 = 0;
+            v99 = v94 == 0x1.47ae140000000p-7;
+            if ( ((__int16)((v97 ? 0x100 : 0) | (v98 ? 0x400 : 0) | (v99 ? 0x4000 : 0)) & 0x4100) != 0 )
+            {
+              v101 = *(float *)&a1;
+              if ( (v102 | v103) != 0 )
+                v101 = -v101;
+              v104 = v101 < 0x1.47ae140000000p-7;
+              v105 = 0;
+              v106 = v101 == 0x1.47ae140000000p-7;
+              if ( ((__int16)((v104 ? 0x100 : 0) | (v105 ? 0x400 : 0) | (v106 ? 0x4000 : 0)) & 0x4100) != 0 )
+                goto LABEL_95;
+            }
+            v85 = v280;
+            v86 = *(float *)&a1;
+          }
+          v25 = 1;
+          v292 = -atan2(v85, v86);
+LABEL_95:
+          v277 = 0.125;
+          if ( orig::sub_10087060() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
+            v277 = (double)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) * 0x1.47ae140000000p-10;
+          v107 = orig::Camera_GetFrameScale();
+          v275 = v107;
+          v109 = v107 < 0.0;
+          v110 = 0;
+          v111 = v107 == 0.0;
+          if ( ((__int16)((v109 ? 0x100 : 0) | (v110 ? 0x400 : 0) | (v111 ? 0x4000 : 0)) & 0x4100) == 0 )
+          {
+            v112 = v277;
+            do
+            {
+              *(float *)&v281 = v291 - this->field_61C;
+              v282 = v292 - this->field_620;
+              v283 = v293 - this->field_624;
+              v114 = *(float *)&v281 < 0x1.921cac0000000p+1;
+              v115 = 0;
+              v116 = *(float *)&v281 == 0x1.921cac0000000p+1;
+              if ( ((__int16)((v114 ? 0x100 : 0) | (v115 ? 0x400 : 0) | (v116 ? 0x4000 : 0)) & 0x4100) == 0 )
+                *(float *)&v281 = *(float *)&v281 - 0x1.921cac0000000p+2;
+              if ( *(float *)&v281 < -0x1.921cac0000000p+1 )
+                *(float *)&v281 = *(float *)&v281 + 0x1.921cac0000000p+2;
+              v118 = v282 < 0x1.921cac0000000p+1;
+              v119 = 0;
+              v120 = v282 == 0x1.921cac0000000p+1;
+              if ( ((__int16)((v118 ? 0x100 : 0) | (v119 ? 0x400 : 0) | (v120 ? 0x4000 : 0)) & 0x4100) == 0 )
+                v282 = v282 - 0x1.921cac0000000p+2;
+              if ( v282 < -0x1.921cac0000000p+1 )
+                v282 = v282 + 0x1.921cac0000000p+2;
+              v122 = v283 < 0x1.921cac0000000p+1;
+              v123 = 0;
+              v124 = v283 == 0x1.921cac0000000p+1;
+              if ( ((__int16)((v122 ? 0x100 : 0) | (v123 ? 0x400 : 0) | (v124 ? 0x4000 : 0)) & 0x4100) == 0 )
+                v283 = v283 - 0x1.921cac0000000p+2;
+              if ( v283 < -0x1.921cac0000000p+1 )
+                v283 = v283 + 0x1.921cac0000000p+2;
+              orig::fn_100272B0((int)&v281, v112);
+              orig_void::Vec3_AddInPlace((float *)self + 391, (float *)&v281);
+              v125 = v275 - 1.0;
+              v275 = v125;
+              v127 = v125 < 0.0;
+              v128 = 0;
+              v129 = v125 == 0.0;
+            }
+            while ( ((__int16)((v127 ? 0x100 : 0) | (v128 ? 0x400 : 0) | (v129 ? 0x4000 : 0)) & 0x4100) == 0 );
+          }
+          v131 = this->field_61C;
+          v132 = (float *)((char *)self + 1564);
+          v133 = v131 < 0x1.921cac0000000p+1;
+          v134 = 0;
+          v135 = v131 == 0x1.921cac0000000p+1;
+          if ( ((__int16)((v133 ? 0x100 : 0) | (v134 ? 0x400 : 0) | (v135 ? 0x4000 : 0)) & 0x4100) == 0 )
+            *v132 = *v132 - 0x1.921cac0000000p+2;
+          if ( *v132 < -0x1.921cac0000000p+1 )
+            *v132 = *v132 + 0x1.921cac0000000p+2;
+          v137 = this->field_620;
+          v138 = v137 < 0x1.921cac0000000p+1;
+          v139 = 0;
+          v140 = v137 == 0x1.921cac0000000p+1;
+          if ( ((__int16)((v138 ? 0x100 : 0) | (v139 ? 0x400 : 0) | (v140 ? 0x4000 : 0)) & 0x4100) == 0 )
+            this->field_620 = this->field_620 - 0x1.921cac0000000p+2;
+          if ( this->field_620 < -0x1.921cac0000000p+1 )
+            this->field_620 = this->field_620 + 0x1.921cac0000000p+2;
+          v142 = this->field_624;
+          v143 = v142 < 0x1.921cac0000000p+1;
+          v144 = 0;
+          v145 = v142 == 0x1.921cac0000000p+1;
+          if ( ((__int16)((v143 ? 0x100 : 0) | (v144 ? 0x400 : 0) | (v145 ? 0x4000 : 0)) & 0x4100) == 0 )
+            this->field_624 = this->field_624 - 0x1.921cac0000000p+2;
+          if ( this->field_624 < -0x1.921cac0000000p+1 )
+            this->field_624 = this->field_624 + 0x1.921cac0000000p+2;
+          if ( v25 != 0 && byte_10487F80 == 0 )
+          {
+            v146 = (float *)((char *)self + 68);
+            orig::Vec4_Copy((_DWORD *)self + 17, (_DWORD *)self + 391);
+            v148 = this->field_44;
+            v149 = v148 < 0x1.921cac0000000p+1;
+            v150 = 0;
+            v151 = v148 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v149 ? 0x100 : 0) | (v150 ? 0x400 : 0) | (v151 ? 0x4000 : 0)) & 0x4100) == 0 )
+              *v146 = *v146 - 0x1.921cac0000000p+2;
+            if ( *v146 < -0x1.921cac0000000p+1 )
+              *v146 = *v146 + 0x1.921cac0000000p+2;
+            v153 = this->field_48;
+            v154 = v153 < 0x1.921cac0000000p+1;
+            v155 = 0;
+            v156 = v153 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v154 ? 0x100 : 0) | (v155 ? 0x400 : 0) | (v156 ? 0x4000 : 0)) & 0x4100) == 0 )
+              this->field_48 = this->field_48 - 0x1.921cac0000000p+2;
+            if ( this->field_48 < -0x1.921cac0000000p+1 )
+              this->field_48 = this->field_48 + 0x1.921cac0000000p+2;
+            v158 = this->field_4C;
+            v159 = v158 < 0x1.921cac0000000p+1;
+            v160 = 0;
+            v161 = v158 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v159 ? 0x100 : 0) | (v160 ? 0x400 : 0) | (v161 ? 0x4000 : 0)) & 0x4100) == 0 )
+              this->field_4C = this->field_4C - 0x1.921cac0000000p+2;
+            if ( this->field_4C < -0x1.921cac0000000p+1 )
+              this->field_4C = this->field_4C + 0x1.921cac0000000p+2;
+          }
+LABEL_139:
+          if ( this->field_7A4 != -1 )
+          {
+            v162 = (float *)orig::ActorHandle_Resolve((_DWORD *)self + 490);
+            v163 = v162;
+            if ( self == v162 || v162 == nullptr )
+            {
+              this->field_7A4 = -1;
+            }
+            else
+            {
+              v164 = this->field_7A4;
+              if ( v164 < 48 || v164 >= 61 )
+              {
+                (*(void (__thiscall **)(float *, int, float *))(*(_DWORD *)v163 + 452))(v163, v164, &v288);
+              }
+              else
+              {
+                orig_void::sub_1003BA20(&v288, v164, v163, (int *)self, 0);
+                v289 = *(float *)((*(int (__thiscall **)(float *))(*(_DWORD *)v163 + 444))(v163) + 4);
+              }
+              orig::fn_10027990((Iostream_init *)v304);
+              orig::Mat4_SetIdentity(v304);
+              v165 = (*(int (__thiscall **)(float *))(*(_DWORD *)v163 + 448))(v163);
+              orig::Mat4_PostRotateY(*(float *)(v165 + 4));
+              orig_void::sub_10028230(v304, &v295, (float *)self + 493);
+              orig_void::Vec3_AddInPlace(&v288, &v295);
+              v166 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+              orig_void::Vec3_Sub((float *)&a1, &v288, v166);
+              v167 = this->field_7A4;
+              if ( v167 < 48 || v167 >= 61 )
+              {
+                v168 = *(float *)((*(int (__thiscall **)(float *))(*(_DWORD *)v163 + 448))(v163) + 4) + 0x1.921fb60000000p+1;
+                v169 = at<uint32_t>(this, 0x0);
+                v277 = v168;
+                v170 = (*(int (__thiscall **)(void *))(v169 + 448))(self);
+                *(float *)(v170 + 4) = v277;
+                v172 = *(float *)((*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self) + 4);
+                v173 = v172 < 0x1.921cac0000000p+1;
+                v174 = 0;
+                v175 = v172 == 0x1.921cac0000000p+1;
+                if ( ((__int16)((v173 ? 0x100 : 0) | (v174 ? 0x400 : 0) | (v175 ? 0x4000 : 0)) & 0x4100) == 0 )
+                {
+                  v176 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
+                  *(float *)(v176 + 4) = *(float *)(v176 + 4) - 0x1.921cac0000000p+2;
+                }
+                if ( *(float *)((*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self) + 4) < -0x1.921cac0000000p+1 )
+                {
+                  v177 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
+                  *(float *)(v177 + 4) = *(float *)(v177 + 4) + 0x1.921cac0000000p+2;
+                }
+              }
+              orig::nullsub_1();
+            }
+          }
+          if ( sqrt(orig::sub_10027530((float *)&a1, (float *)&a1)) < 0x1.47ae140000000p-7 )
+          {
+            v178 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+            orig_void::Vec3_AddInPlace(v178, (float *)&a1);
+            orig::Vec3_Copy(&a1, dword_1048A37C);
+          }
+          v179 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+          orig_void::Vec3_AddInPlace(v179, (float *)&a1);
+          if ( this->field_B4 == 0
+            || (v277 = at<float>(this, 0xB4), !orig::ResourceHandle_IsResident((_DWORD ***)&v277, v180)) )
+          {
+LABEL_228:
+            orig::Vec3_Copy((_DWORD *)self + 426, &a1);
+            if ( this->field_B4 != 0 )
+            {
+              v277 = at<float>(this, 0xB4);
+              if ( orig::ResourceHandle_IsResident((_DWORD ***)&v277, v194) )
+              {
+                v195 = orig::CXiActor_GetModelField170(self);
+                v196 = v195;
+                if ( v195 == 28
+                  || v195 == 31
+                  || v195 < 2
+                  || v195 == 4
+                  || orig::CXiActor_ModelTest95680(self, v195)
+                  || orig::CXiActor_ModelTest956A0(self, v196) )
+                {
+                  orig::sub_100D4BC0((int *)self);
+                }
+              }
+            }
+            if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 484))(self) == 1 )
+            {
+              if ( (v197 = orig::CXiActor_GetModelField170(self), !orig::CXiActor_ModelTest95680(self, v197))
+                && (v198 = orig::CXiActor_GetModelField170(self), !orig::CXiActor_ModelTest956A0(self, v198))
+                || (v199 = this->field_768) != 0
+                && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v199 + 484))(v199) != 0 )
+              {
+                v277 = this->field_59C;
+                v201 = orig::Camera_GetFrameScale() * 0.03125 + v277;
+                v202 = v201 < 1.0;
+                v203 = 0;
+                v204 = v201 == 1.0;
+                if ( ((__int16)((v202 ? 0x100 : 0) | (v203 ? 0x400 : 0) | (v204 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  v201 = 1.0;
+                this->field_59C = v201;
+              }
+            }
+            orig::CDx_SetTransform(&g_pCDx->vftable, 256, g_identityWorldMatrix);
+            Float2DC = orig::Camera_GetFloat2DC();
+            orig::Camera_GetFloat2E0();
+            v277 = 0.0;
+            orig::fn_10027990((Iostream_init *)v307);
+            if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+            {
+              v205 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+            }
+            else if ( this->widthScale >= 0.0 )
+            {
+              v205 = this->widthScale;
+            }
+            else
+            {
+              v205 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+              if ( v205 >= 0.0 )
+                (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+              else
+                v205 = this->baseScale;
+            }
+            v206 = at<uint32_t>(this, 0x0);
+            v295 = v205;
+            if ( ((double (__thiscall *)(void *))*(_DWORD *)(v206 + 272))(self) >= 0.0 )
+            {
+              v207 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+            }
+            else if ( this->heightScale >= 0.0 )
+            {
+              v207 = this->heightScale;
+            }
+            else
+            {
+              v207 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+              if ( v207 >= 0.0 )
+                (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+              else
+                v207 = this->baseScale;
+            }
+            v208 = at<uint32_t>(this, 0x0);
+            v296 = v207;
+            if ( ((double (__thiscall *)(void *))*(_DWORD *)(v208 + 272))(self) >= 0.0 )
+            {
+              v209 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+            }
+            else if ( this->depthScale >= 0.0 )
+            {
+              v209 = this->depthScale;
+            }
+            else
+            {
+              v209 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+              if ( v209 >= 0.0 )
+                (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+              else
+                v209 = this->baseScale;
+            }
+            v297 = v209;
+            orig::Mat4_SetScale(v307, &v295);
+            v210 = *(float *)((*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self) + 4) + 0x1.2d97c80000000p+2;
+            v276 = v210;
+            v212 = v210 < 0x1.921cac0000000p+1;
+            v213 = 0;
+            v214 = v210 == 0x1.921cac0000000p+1;
+            if ( ((__int16)((v212 ? 0x100 : 0) | (v213 ? 0x400 : 0) | (v214 ? 0x4000 : 0)) & 0x4100) == 0 )
+              v276 = v276 - 0x1.921cac0000000p+2;
+            if ( v276 < -0x1.921cac0000000p+1 )
+              v276 = v276 + 0x1.921cac0000000p+2;
+            orig::Mat4_PostRotateY(v276);
+            v215 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+            orig::Mat4_SetTranslation(v307, v215);
+            v216 = (*(int (__thiscall **)(void *, _DWORD))(*(_DWORD *)self + 968))(self, 0);
+            if ( v216 != 0 )
+            {
+              v218 = *(float *)v216;
+              v219 = *(float *)(v216 + 4);
+              v220 = *(float *)(v216 + 8);
+              v221 = *(float *)(v216 + 12);
+              v222 = *(float *)(v216 + 20);
+              v305 = *(_DWORD *)(v216 + 16);
+              if ( v218 - v219 == 0.0 )
+              {
+                v218 = v218 - 1.0;
+                v219 = v219 + 1.0;
+              }
+              if ( v220 - v221 == 0.0 )
+              {
+                v220 = v220 - 1.0;
+                v221 = v221 + 1.0;
+              }
+              v223 = (float *)((char *)self + 2328);
+              v224 = v305;
+              v225 = v305;
+              this->field_918 = v220;
+              this->field_950 = v225;
+              this->field_91C = v219;
+              this->field_920 = v222;
+              this->field_928 = v221;
+              this->field_940 = v224;
+              this->field_92C = v219;
+              this->field_980 = v224;
+              this->field_990 = v224;
+              this->field_930 = v222;
+              this->field_938 = -v220;
+              this->field_93C = v219;
+              this->field_948 = -v221;
+              this->field_94C = v219;
+              this->field_958 = -v220;
+              this->field_95C = v218;
+              this->field_960 = v222;
+              this->field_968 = -v221;
+              this->field_96C = v218;
+              this->field_970 = v222;
+              this->field_978 = v220;
+              this->field_97C = v218;
+              this->field_988 = v221;
+              this->field_98C = v218;
+              orig::Vec4_Set((int)self + 2296, 1000.0, 1148846080, 1148846080, 1065353216);
+              orig::Vec4_Set((int)self + 2312, -1000.0, -998637568, -998637568, 1065353216);
+              orig::fn_10027990((Iostream_init *)&v303);
+              orig::CDx_GetTransformCached(g_pCDx, 2, &v303);
+              orig::fn_10027990((Iostream_init *)v308);
+              orig::CDx_GetTransformCached(g_pCDx, 3, v308);
+              v273 = 1.0;
+              v226 = v309;
+              for ( i = 8; i != 0; --i )
+              {
+                orig_void::Mat4_TransformPointInPlace(&v306, v223);
+                v223[3] = 1.0;
+                orig_void::sub_10028170(&v303, v226 - 2, v223);
+                v229 = v273 < (double)*v226;
+                v230 = 0;
+                v231 = v273 == *v226;
+                if ( ((__int16)((v229 ? 0x100 : 0) | (v230 ? 0x400 : 0) | (v231 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  v273 = *v226;
+                v223 += 4;
+                v226 += 4;
+              }
+              v232 = 0;
+              for ( j = 0; j < 32; j += 4 )
+              {
+                v235 = v309[j];
+                v236 = v235 < v285;
+                v237 = 0;
+                v238 = v235 == v285;
+                if ( ((__int16)((v236 ? 0x100 : 0) | (v237 ? 0x400 : 0) | (v238 ? 0x4000 : 0)) & 0x4100) == 0 )
+                  ++LODWORD(v276);
+                if ( -*((float *)orig::Camera_GetMatrix154Ptr() + 5) < v309[j] )
+                {
+                  v309[j] = -*((float *)orig::Camera_GetMatrix154Ptr() + 5);
+                  v232 = 1;
+                }
+                orig::sub_10028370(v308, &v309[j + 30], &v308[j + 16]);
+                orig_void::Gfx_NdcToScreen(&v309[j + 30]);
+                v239 = &v309[j + 30];
+                v240 = (float *)((char *)self + 2312);
+                for ( k = 4; k != 0; --k )
+                {
+                  v243 = *(v240 - 4);
+                  v244 = v243 < *v239;
+                  v245 = 0;
+                  v246 = v243 == *v239;
+                  if ( ((__int16)((v244 ? 0x100 : 0) | (v245 ? 0x400 : 0) | (v246 ? 0x4000 : 0)) & 0x4100) == 0 )
+                    *(v240 - 4) = *v239;
+                  if ( *v240 < (double)*v239 )
+                    *v240 = *v239;
+                  ++v239;
+                  ++v240;
+                }
+              }
+              if ( LODWORD(v276) != 8 )
+              {
+                if ( v232 != 0 )
+                  at<uint32_t>(this, 0x900) = 1008981770;
+                v301 = v273;
+                orig::nullsub_1();
+                orig::nullsub_1();
+LABEL_300:
+                orig::nullsub_1();
+                *(float *)&v270 = -v301;
+                orig::sub_10085000(self, v270);
+                *(float *)&v271 = -v301;
+                orig::sub_10085BF0(self, v271);
+                if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0
+                  && byte_10487F80 != 0
+                  || Float2DC != 0.0 )
+                {
+                  at<uint8_t>(this, 0xB2) &= ~1u;
+                  orig::sub_10085000(self, 1036831949);
+                  orig::sub_10085BF0(self, 1036831949);
+                }
+                else if ( this->hiddenFlagWord == 0 )
+                {
+                  at<uint8_t>(this, 0xB2) &= ~1u;
+                  if ( *((_DWORD *)g_pXiZone + 7) != 0 )
+                  {
+                    v285 = -v301;
+                    v248 = orig::sub_1018B8F0((int)g_pXiZone, 1);
+                    if ( v248 < v285 )
+                    {
+                      v249 = at<uint8_t>(this, 0xB2);
+                      this->hiddenFlagByte = 1;
+                      at<uint8_t>(this, 0xB2) = v249 | 1;
+                    }
+                  }
+                }
+                if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
+                {
+                  if ( byte_10487F80 == 0 )
+                    goto LABEL_310;
+                }
+                else if ( byte_10487F80 == 0
+                       || ((v256 = this->field_768, orig::ActorHandle_Resolve(g_targetActorHandle) != v256)
+                        || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 844))(self) == 0
+                        && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 856))(self) == 0)
+                       && ((v257 = this->field_768, orig::ActorHandle_Resolve(g_targetActorHandle) != v257)
+                        || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) == 0) )
+                {
+LABEL_310:
+                  this->field_664 = orig::sub_100CD040(self);
+                  if ( this->field_59C == 0.0 )
+                  {
+                    v250 = at<uint8_t>(this, 0xB2);
+                    this->hiddenFlagByte = 1;
+                    at<uint8_t>(this, 0xB2) = v250 | 1;
+                  }
+LABEL_312:
+                  v251 = this->pModelInfo;
+                  if ( v251 != 0 && (*(_DWORD *)(v251 + 300) & 0x4000000) != 0 )
+                    at<uint32_t>(this, 0x664) = 1065353216;
+                  if ( this->hiddenFlagWord != 0 )
+                    goto LABEL_333;
+                  if ( this->field_59C * this->field_664 >= 1.0
+                    && (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 112))(self) == 0 )
+                  {
+                    v252 = (_DWORD *)*orig::sub_10039410((_DWORD *)self + 452, &v285);
+                    if ( v252 == nullptr || *v252 == 0 )
+                      goto LABEL_333;
+                  }
+                  orig::Gfx_ProjectWorldToClip(&v294, (_DWORD *)self + 383);
+                  v253 = (float *)((char *)self + 2248);
+                  v254 = v296 * 512.0 + at<float>(this, 0x8EC);
+                  this->field_8C8 = v254;
+                  if ( v254 < 0.0 )
+                    *v253 = 0.0;
+                  v255 = *v253;
+                  this->field_8D4 = self;
+                  this->field_8D0 = XI_CODE(sub_100CBD90);
+                  if ( orig::sub_1006CA20(v255) != 0 )
+                  {
+                    orig::sub_100553C0(dword_1047BC94, (int)self + 2248);
+                  }
+                  else
+                  {
+LABEL_333:
+                    this->field_8D4 = 0;
+                    this->field_8E8 = 1;
+                  }
+                  v259 = at<_WORD *>(this, 0x70);
+                  if ( v259 != nullptr
+                    && (orig::sub_1008E130(v259) && (*(_DWORD *)(this->pModelInfo + 300) & 0x40000000) == 0
+                     || orig::sub_10084670(self)
+                     || (*(_DWORD *)(this->pModelInfo + 300) & 0x400000) != 0) )
+                  {
+                    (*(void (__thiscall **)(void *, int, _DWORD))(*(_DWORD *)self + 796))(self, 1, 0);
+                  }
+                  orig::sub_1002C2A0((char *)self + 1652, self);
+                  if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
+                    orig::sub_100C8280((int)self);
+                  v260 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+                  orig_void::Vec3_Add_10026FA0(v299, v260, (float *)self + 387);
+                  v299[3] = 1.0;
+                  orig::Vec4_Copy((_DWORD *)self + 414, v299);
+                  v261 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
+                  orig_void::Vec3_Add_10026FA0(v302, v261, (float *)self + 395);
+                  v302[3] = 1.0;
+                  orig::Vec4_Copy((_DWORD *)self + 418, v302);
+                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+                  {
+                    v262 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                  }
+                  else if ( this->depthScale >= 0.0 )
+                  {
+                    v262 = this->depthScale;
+                  }
+                  else
+                  {
+                    v262 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                    if ( v262 >= 0.0 )
+                      (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+                    else
+                      v262 = this->baseScale;
+                  }
+                  v263 = at<uint32_t>(this, 0x0);
+                  this->field_698 = v262;
+                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(v263 + 272))(self) >= 0.0 )
+                  {
+                    v264 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                  }
+                  else if ( this->heightScale >= 0.0 )
+                  {
+                    v264 = this->heightScale;
+                  }
+                  else
+                  {
+                    v264 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                    if ( v264 >= 0.0 )
+                      (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+                    else
+                      v264 = this->baseScale;
+                  }
+                  v265 = at<uint32_t>(this, 0x0);
+                  this->field_6A0 = v264;
+                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(v265 + 272))(self) >= 0.0 )
+                  {
+                    v266 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                  }
+                  else if ( this->widthScale >= 0.0 )
+                  {
+                    v266 = this->widthScale;
+                  }
+                  else
+                  {
+                    v266 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
+                    if ( v266 >= 0.0 )
+                      (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
+                    else
+                      v266 = this->baseScale;
+                  }
+                  v267 = this->hiddenFlagWord == 0;
+                  this->field_69C = v266;
+                  if ( !v267 )
+                  {
+                    orig::sub_1002C270((char *)self + 1652, 0);
+                    v268 = *(_DWORD *)orig::CYyModel_GetField44Addr((char *)self + 1652);
+                    if ( v268 != 0 )
+                    {
+                      orig_void::Vec3_Sub(&v277, v299, (float *)self + 630);
+                      orig::Skel_OffsetAllTranslations((int *)(v268 + 8), &v277, 0);
+                    }
+                  }
+                  if ( *((_BYTE *)g_pCamera + 8) != 0
+                    && (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
+                  {
+                    orig::sub_100A5E10((int)self);
+                  }
+                  goto LABEL_369;
+                }
+                v285 = this->field_59C;
+                v258 = v285 - orig::Camera_GetFrameScale() * 0.0625;
+                if ( v258 < 0.0 )
+                  v258 = 0.0;
+                this->field_59C = v258;
+                goto LABEL_312;
+              }
+              if ( Float2DC == 0.0 )
+              {
+                v247 = at<uint8_t>(this, 0xB2);
+                this->hiddenFlagByte = 1;
+                at<uint8_t>(this, 0xB2) = v247 | 1;
+              }
+              orig::nullsub_1();
+              orig::nullsub_1();
+            }
+            else
+            {
+              v217 = at<uint8_t>(this, 0xB2);
+              this->hiddenFlagByte = 1;
+              at<uint8_t>(this, 0xB2) = v217 | 1;
+            }
+            orig::nullsub_1();
+            orig::fn_10027990((Iostream_init *)&v303);
+            orig::CDx_GetTransformCached(g_pCDx, 2, &v303);
+            orig_void::sub_10028230(&v303, v300, (float *)self + 383);
+            goto LABEL_300;
+          }
+          v181 = 0;
+          if ( this->refCount != 0 )
+          {
+            if ( this->field_103 != 0
+              || this->field_104 != 0
+              || this->field_101 != 0
+              || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) != 0
+              || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 916))(self) != 0
+              || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 932))(self) != 0 )
+            {
+              goto LABEL_221;
+            }
+            if ( this->field_102 == 0 )
+            {
+              if ( (*(int (__thiscall **)(void *))(*(_DWORD *)self + 844))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 856))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 864))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 888))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 900))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 916))(self) != 0
+                || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 932))(self) != 0 )
+              {
+                goto LABEL_222;
+              }
+              v189 = orig::CXiActor_GetModelField170(self);
+              v190 = orig::CXiActor_ModelTest95680(self, v189);
+              v184 = self;
+              if ( v190 )
+                goto LABEL_172;
+              v191 = orig::CXiActor_GetModelField170(self);
+              if ( orig::CXiActor_ModelTest956A0(self, v191) )
+                goto LABEL_174;
+              v187 = self;
+              goto LABEL_175;
+            }
+          }
+          else
+          {
+            if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 308))(self) != 0 )
+            {
+LABEL_196:
+              if ( this->field_102 != 0 )
+                goto LABEL_209;
+              if ( this->field_101 == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 916))(self) == 0 )
+              {
+                goto LABEL_222;
+              }
+LABEL_221:
+              orig::sub_100C83C0((int)self, (float *)&a1);
+              goto LABEL_222;
+            }
+            if ( this->field_102 == 0 )
+            {
+              if ( this->field_101 == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 844))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 856))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 864))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 888))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 900))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 916))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 932))(self) == 0
+                && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 340))(self) == 0 )
+              {
+                orig::sub_100C83C0((int)self, (float *)&a1);
+                orig::sub_100C9810(self, (int)&a1);
+                orig::sub_100C9C10(self, (int)&a1);
+                orig::sub_100CA310(self, (int)&a1);
+                orig::sub_100CA730(self, (int)&a1);
+                v182 = orig::CXiActor_GetModelField170(self);
+                v183 = orig::CXiActor_ModelTest95680(self, v182);
+                v184 = self;
+                if ( v183 )
+                {
+LABEL_172:
+                  v181 = orig::sub_100C8ED0(v184, (int)&a1);
+LABEL_222:
+                  if ( this->field_8B4 != 0 )
+                  {
+                    switch ( orig::CXiActor_GetModelField170(self) )
+                    {
+                      case 0:
+                      case 1:
+                      case 4:
+                      case 6:
+                      case 28:
+                      case 31:
+                      case 38:
+                      case 39:
+                      case 40:
+                      case 41:
+                      case 42:
+                      case 43:
+                      case 47:
+                      case 48:
+                      case 50:
+                      case 51:
+                      case 52:
+                      case 53:
+                      case 56:
+                      case 57:
+                      case 58:
+                      case 59:
+                      case 60:
+                      case 61:
+                      case 62:
+                      case 63:
+                      case 64:
+                      case 65:
+                      case 66:
+                      case 67:
+                      case 68:
+                      case 69:
+                      case 70:
+                      case 71:
+                      case 72:
+                      case 73:
+                      case 74:
+                      case 75:
+                      case 76:
+                      case 77:
+                      case 78:
+                      case 79:
+                      case 80:
+                      case 81:
+                      case 82:
+                      case 83:
+                        goto LABEL_226;
+                      default:
+                        v192 = orig::CXiActor_GetModelField170(self);
+                        if ( orig::CXiActor_ModelTest95680(self, v192)
+                          || (v193 = orig::CXiActor_GetModelField170(self), orig::CXiActor_ModelTest956A0(self, v193)) )
+                        {
+LABEL_226:
+                          orig::sub_100CDF90((float *)self);
+                        }
+                        break;
+                    }
+                  }
+                  orig::sub_100CB390((char *)self, v181);
+                  orig::sub_100CB400((char *)self, at<uint32_t>(this, 0x798));
+                  goto LABEL_228;
+                }
+                v185 = orig::CXiActor_GetModelField170(self);
+                v186 = orig::CXiActor_ModelTest956A0(self, v185);
+                v187 = self;
+                if ( v186 )
+                {
+LABEL_174:
+                  v181 = orig::sub_100C9330(self, (int)&a1);
+                  goto LABEL_222;
+                }
+LABEL_175:
+                if ( orig::CXiActor_GetModelField170(v187) == 6
+                  || orig::CXiActor_GetModelField170(self) == 38
+                  || orig::CXiActor_GetModelField170(self) == 39
+                  || orig::CXiActor_GetModelField170(self) == 40
+                  || orig::CXiActor_GetModelField170(self) == 41
+                  || orig::CXiActor_GetModelField170(self) == 42
+                  || orig::CXiActor_GetModelField170(self) == 43
+                  || orig::CXiActor_GetModelField170(self) == 50
+                  || orig::CXiActor_GetModelField170(self) == 56
+                  || orig::CXiActor_GetModelField170(self) == 57
+                  || orig::CXiActor_GetModelField170(self) == 58
+                  || orig::CXiActor_GetModelField170(self) == 59
+                  || orig::CXiActor_GetModelField170(self) == 60
+                  || orig::CXiActor_GetModelField170(self) == 61
+                  || orig::CXiActor_GetModelField170(self) == 62
+                  || orig::CXiActor_GetModelField170(self) == 51
+                  || orig::CXiActor_GetModelField170(self) == 52
+                  || orig::CXiActor_GetModelField170(self) == 53 )
+                {
+                  v181 = orig::sub_100CAA60(self);
+                }
+                else
+                {
+                  v188 = orig::CXiActor_GetModelField170(self);
+                  if ( orig::CXiActor_ModelTest95790(self, v188) )
+                    v181 = orig::sub_100CAF90(self);
+                }
+                goto LABEL_222;
+              }
+              goto LABEL_196;
+            }
+          }
+LABEL_209:
+          orig::sub_100CA8C0((int)self);
+          goto LABEL_222;
+        }
+      }
+      v12 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+      orig::Vec3_Copy(&v287, v12);
+      orig::Vec3_Copy(&v290, (_DWORD *)self + 369);
+      v13 = orig::Camera_GetFrameScale();
+      v272 = v13;
+      v15 = v13 < 0.0;
+      v16 = 0;
+      v17 = v13 == 0.0;
+      if ( ((__int16)((v15 ? 0x100 : 0) | (v16 ? 0x400 : 0) | (v17 ? 0x4000 : 0)) & 0x4100) == 0 )
+      {
+        do
+        {
+          orig_void::Vec3_Sub(&v277, (float *)&v290, &v287);
+          v277 = v277 * 0.125;
+          *(float *)&a1 = *(float *)&a1 * 0.125;
+          v279 = v279 * 0.125;
+          v287 = v287 + v277;
+          v288 = v288 + *(float *)&a1;
+          v289 = v289 + v279;
+          v18 = v272 - 1.0;
+          v272 = v18;
+          v20 = v18 < 0.0;
+          v21 = 0;
+          v22 = v18 == 0.0;
+        }
+        while ( ((__int16)((v20 ? 0x100 : 0) | (v21 ? 0x400 : 0) | (v22 ? 0x4000 : 0)) & 0x4100) == 0 );
+      }
+      v23 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
+      v24 = &v287;
+    }
+    orig_void::Vec3_Sub(&v277, v24, v23);
+    goto LABEL_23;
+  }
+LABEL_369:
+  result = orig::Vec4_Copy((_DWORD *)self + 630, v299);
+  LOBYTE(result) = HIBYTE(v284);
+  this->field_9E4 = 1065353216;
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x100CBD60  (placed by IDB name)
@@ -1022,25 +2739,27 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   int v93;
   int v94;
   int v95;
-  float v96;
+  alignas(16) unsigned char xi_frame[0x4E8];  // address-taken locals at their original offsets
+  float &v96 = *reinterpret_cast<float *>(xi_frame + 0x40);
   float v97;
   float v98;
   float v99;
   int ViewportHeight;
-  float v101;
+  float &v101 = *reinterpret_cast<float *>(xi_frame + 0x58);
   float v102;
   int v103;
   int v104;
-  float v105;
+  float &v105 = *reinterpret_cast<float *>(xi_frame + 0x6C);
   float v106;
   float v107;
-  float v108;
+  float &v108 = *reinterpret_cast<float *>(xi_frame + 0x78);
   float v109;
-  int v110[4];
-  _BYTE v111[64];
-  float v112[4];
-  char v113;
-  v2 = this->field_70;
+  int (&v110)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x88);
+  _BYTE (&v111)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x98);
+  float (&v112)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0xD8);
+  char &v113 = *reinterpret_cast<char *>(xi_frame + 0xE8);
+
+  v2 = this->pModelInfo;
   v86 = false;
   v91 = 0;
   if ( v2 != 0 )
@@ -1055,10 +2774,10 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
     v4 = at<uint8_t>(this, 0xB2) | 1;
     this->hiddenFlagByte = 1;
     at<uint8_t>(this, 0xB2) = v4;
-    orig::sub_100CCE60(self);
+    orig::Actor_SetCameraFromModelPoints(self);
     return;
   }
-  v5 = this->field_70;
+  v5 = this->pModelInfo;
   v85 = 0;
   v90 = 0;
   if ( v5 != 0 )
@@ -1079,10 +2798,10 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   orig::Mat4_Copy(g_offscreenWorldMatrix, g_identityWorldMatrix);
   orig::Actor_SelectNearestLights(self);
   v7 = this->field_664;
-  v8 = v7 < 0.80000001;
+  v8 = v7 < 0x1.99999a0000000p-1;
   v9 = 0;
-  v10 = v7 == 0.80000001;
-  if ( (v6 & 0x100) != 0 )
+  v10 = v7 == 0x1.99999a0000000p-1;
+  if ( ((__int16)((v8 ? 0x100 : 0) | (v9 ? 0x400 : 0) | (v10 ? 0x4000 : 0)) & 0x100) != 0 )
     v11 = v7 * 1.25;
   else
     v11 = 1.0;
@@ -1090,10 +2809,10 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   v14 = v13 < 1.0;
   v15 = 0;
   v16 = v13 == 1.0;
-  if ( (v12 & 0x4100) == 0 )
+  if ( ((__int16)((v14 ? 0x100 : 0) | (v15 ? 0x400 : 0) | (v16 ? 0x4000 : 0)) & 0x4100) == 0 )
     v13 = 1.0;
   v94 = ((unsigned int)(__int64)(128.0 * v13) << 24) | this->color & 0xFFFFFF;
-  if ( v13 < 0.000099999997 )
+  if ( v13 < 0x1.a36e2e0000000p-14 )
     goto LABEL_105;
   word_1045B814 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 992))(self);
   if ( *((_DWORD *)g_pXiZone + 109) == 33
@@ -1108,12 +2827,12 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
     goto LABEL_64;
   v82 = (float *)(orig::Camera_GetField50() + 68);
   v17 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-  orig::Vec3_Sub(&v105, v17, v82);
+  orig_void::Vec3_Sub(&v105, v17, v82);
   if ( v106 < -2.0 )
     goto LABEL_64;
   if ( g_shadowSetting == 2 && g_shadowCasterDistance < 40.0 )
     goto LABEL_43;
-  g_shadowCasterDistance = this->field_BC;
+  g_shadowCasterDistance = this->distanceToCamera;
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) == 0 )
   {
     if ( this->field_728 <= 1 )
@@ -1226,7 +2945,7 @@ LABEL_50:
   else if ( *(_DWORD *)g_nearestLight == 1 )
   {
     v23 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-    orig::Vec3_Sub(&v105, (float *)(g_nearestLight + 52), v23);
+    orig_void::Vec3_Sub(&v105, (float *)(g_nearestLight + 52), v23);
   }
   else
   {
@@ -1237,10 +2956,10 @@ LABEL_50:
   orig::Shadow_SmoothLightDirection((float *)self + 431, &v105);
   v24 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
   orig::Vec3_Copy(&g_lightLookAtTarget, v24);
-  orig::Vec3_Sub((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)self + 436);
+  orig_void::Vec3_Sub((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)self + 436);
   orig::fn_102D7FF9(g_lightViewMatrix, (float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)&g_lightLookAtUp);
   orig::fn_10027990((Iostream_init *)v111);
-  orig::Mat4_TransformNormal(g_lightViewMatrix, v112, (float *)self + 582);
+  orig_void::Mat4_TransformNormal(g_lightViewMatrix, v112, (float *)self + 582);
   orig::Vec4_Copy(&v96, v112);
   orig::Vec4_Copy(&v101, v112);
   v25 = (float *)&v113;
@@ -1248,7 +2967,7 @@ LABEL_50:
   ViewportHeight = 7;
   do
   {
-    orig::Mat4_TransformNormal(g_lightViewMatrix, v25, v26);
+    orig_void::Mat4_TransformNormal(g_lightViewMatrix, v25, v26);
     orig::Vec3_Copy(&v108, v25);
     if ( v96 >= (double)v108 )
       v96 = v108;
@@ -1257,12 +2976,12 @@ LABEL_50:
     v28 = v101 < (double)v108;
     v29 = 0;
     v30 = v101 == v108;
-    if ( (v27 & 0x4100) != 0 )
+    if ( ((__int16)((v28 ? 0x100 : 0) | (v29 ? 0x400 : 0) | (v30 ? 0x4000 : 0)) & 0x4100) != 0 )
       v101 = v108;
     v32 = v102 < (double)v109;
     v33 = 0;
     v34 = v102 == v109;
-    if ( (v31 & 0x4100) != 0 )
+    if ( ((__int16)((v32 ? 0x100 : 0) | (v33 ? 0x400 : 0) | (v34 ? 0x4000 : 0)) & 0x4100) != 0 )
       v102 = v109;
     v26 += 4;
     v25 += 4;
@@ -1281,21 +3000,21 @@ LABEL_50:
   v40 = *(float *)&ViewportHeight == v36;
   if ( g_actorShadowMode == 1 )
   {
-    if ( (v37 & 0x4100) == 0 )
+    if ( ((__int16)((v38 ? 0x100 : 0) | (v39 ? 0x400 : 0) | (v40 ? 0x4000 : 0)) & 0x4100) == 0 )
       v36 = *(float *)&ViewportHeight;
   }
   else
   {
-    if ( (v37 & 0x4100) == 0 )
+    if ( ((__int16)((v38 ? 0x100 : 0) | (v39 ? 0x400 : 0) | (v40 ? 0x4000 : 0)) & 0x4100) == 0 )
       v36 = *(float *)&ViewportHeight;
-    v36 = v36 * 0.55555558;
+    v36 = v36 * 0x1.1c71c80000000p-1;
   }
-  if ( v36 < 0.0099999998 )
-    v36 = 0.0099999998;
+  if ( v36 < 0x1.47ae140000000p-7 )
+    v36 = 0x1.47ae140000000p-7;
   *(float *)&dword_1045B810 = v36;
   v83 = *(float *)&dword_1045B810 * -12.0;
-  orig::Vec3_Scale((float *)&g_lightLookAtEye, (float *)self + 436, v83);
-  orig::Vec3_AddInPlace((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget);
+  orig_void::Vec3_Scale((float *)&g_lightLookAtEye, (float *)self + 436, v83);
+  orig_void::Vec3_AddInPlace((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget);
   orig::fn_102D7FF9(g_lightViewMatrix, (float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)&g_lightLookAtUp);
   orig::nullsub_1();
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
@@ -1319,7 +3038,7 @@ LABEL_50:
   v46 = 0;
   v47 = v44 == 0.0;
   this->forceUpdateFlag = 0;
-  if ( (v43 & 0x100) != 0 )
+  if ( ((__int16)((v45 ? 0x100 : 0) | (v46 ? 0x400 : 0) | (v47 ? 0x4000 : 0)) & 0x100) != 0 )
     goto LABEL_98;
   v48 = this->field_910 - this->boundRadius;
   v49 = at<float>(this, 0x8F8);
@@ -1386,7 +3105,7 @@ LABEL_156:
       }
       else
       {
-        if ( this->field_760 >= 0.0 )
+        if ( this->widthScale >= 0.0 )
         {
           v89 = at<int32_t>(this, 0x760);
           goto LABEL_169;
@@ -1395,7 +3114,7 @@ LABEL_156:
         if ( v63 >= 0.0 )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
-          v63 = this->field_754;
+          v63 = this->baseScale;
       }
       *(float *)&v89 = v63;
 LABEL_169:
@@ -1405,7 +3124,7 @@ LABEL_169:
       }
       else
       {
-        if ( this->field_75C >= 0.0 )
+        if ( this->heightScale >= 0.0 )
         {
           v93 = at<int32_t>(this, 0x75C);
           goto LABEL_177;
@@ -1414,7 +3133,7 @@ LABEL_169:
         if ( v66 >= 0.0 )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
-          v66 = this->field_754;
+          v66 = this->baseScale;
       }
       *(float *)&v93 = v66;
 LABEL_177:
@@ -1424,7 +3143,7 @@ LABEL_177:
       }
       else
       {
-        if ( this->field_758 >= 0.0 )
+        if ( this->depthScale >= 0.0 )
         {
           ViewportHeight = at<int32_t>(this, 0x758);
           goto LABEL_185;
@@ -1433,7 +3152,7 @@ LABEL_177:
         if ( v67 >= 0.0 )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
-          v67 = this->field_754;
+          v67 = this->baseScale;
       }
       *(float *)&ViewportHeight = v67;
 LABEL_185:
@@ -1451,7 +3170,7 @@ LABEL_185:
           && orig::CXiActor_GetModelField170(self) != 3 )
         {
           v69 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
-          orig::Vec3_Add_10026FA0(&v96, v69, (float *)self + 395);
+          orig_void::Vec3_Add_10026FA0(&v96, v69, (float *)self + 395);
           if ( orig::CXiActor_HasNonzeroField150or158(self) )
           {
             orig::Mat4_PostRotateZ(v98);
@@ -1470,7 +3189,7 @@ LABEL_185:
           orig::CXiSkeletonActor_CalcGroundTiltMatrix((float *)self, (float *)self + 614, 0.1875);
         }
         v70 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-        orig::Vec3_Add_10026FA0(&v101, v70, (float *)self + 387);
+        orig_void::Vec3_Add_10026FA0(&v101, v70, (float *)self + 387);
         v103 = 1065353216;
         orig::Mat4_SetRow3((_DWORD *)self + 614, &v101);
       }
@@ -1506,7 +3225,7 @@ LABEL_208:
             v84);
 LABEL_210:
           this->hiddenFlagByte = 0;
-          orig::sub_100CCE60(self);
+          orig::Actor_SetCameraFromModelPoints(self);
           return;
         }
         v73 = this->field_76C;
@@ -1530,7 +3249,7 @@ LABEL_104:
 LABEL_105:
   if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
     goto LABEL_110;
-  if ( this->field_760 >= 0.0 )
+  if ( this->widthScale >= 0.0 )
   {
     v95 = at<int32_t>(this, 0x760);
     goto LABEL_112;
@@ -1539,7 +3258,7 @@ LABEL_105:
 LABEL_110:
     v54 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   else
-    v54 = this->field_754;
+    v54 = this->baseScale;
   *(float *)&v95 = v54;
 LABEL_112:
   if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
@@ -1548,7 +3267,7 @@ LABEL_112:
   }
   else
   {
-    if ( this->field_75C >= 0.0 )
+    if ( this->heightScale >= 0.0 )
     {
       v92 = at<int32_t>(this, 0x75C);
       goto LABEL_120;
@@ -1557,7 +3276,7 @@ LABEL_112:
     if ( v55 >= 0.0 )
       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
     else
-      v55 = this->field_754;
+      v55 = this->baseScale;
   }
   *(float *)&v92 = v55;
 LABEL_120:
@@ -1569,16 +3288,16 @@ LABEL_127:
     orig::Vec4_Set((int)v110, v88, v92, v95, 1065353216);
     goto LABEL_128;
   }
-  if ( this->field_758 < 0.0 )
+  if ( this->depthScale < 0.0 )
   {
     v56 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
     if ( v56 >= 0.0 )
       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
     else
-      v56 = this->field_754;
+      v56 = this->baseScale;
     goto LABEL_127;
   }
-  orig::Vec4_Set((int)v110, this->field_758, v92, v95, 1065353216);
+  orig::Vec4_Set((int)v110, this->depthScale, v92, v95, 1065353216);
 LABEL_128:
   orig::Mat4_BuildScale((_DWORD *)self + 614, v110);
   if ( this->field_5F8 != 0 )
@@ -1593,7 +3312,7 @@ LABEL_128:
       && orig::CXiActor_GetModelField170(self) != 3 )
     {
       v58 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
-      orig::Vec3_Add_10026FA0(&v96, v58, (float *)self + 395);
+      orig_void::Vec3_Add_10026FA0(&v96, v58, (float *)self + 395);
       orig::Mat4_PostRotateX(v96);
       orig::Mat4_PostRotateY(v97);
       orig::Mat4_PostRotateZ(v98);
@@ -1603,7 +3322,7 @@ LABEL_128:
       orig::CXiSkeletonActor_CalcGroundTiltMatrix((float *)self, (float *)self + 614, 0.1875);
     }
     v59 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-    orig::Vec3_Add_10026FA0(&v101, v59, (float *)self + 387);
+    orig_void::Vec3_Add_10026FA0(&v101, v59, (float *)self + 387);
     v103 = 1065353216;
     orig::Mat4_SetRow3((_DWORD *)self + 614, &v101);
   }
@@ -1614,16 +3333,83 @@ LABEL_128:
       (int)self + 1652,
       self,
       (__int16 *)self + 1228,
-      COERCE_INT(this->field_BC),
+      COERCE_INT(this->distanceToCamera),
       nullptr);
   else
     orig::CXiSkeletonActor_AnimateModels(
       (int)self + 1652,
       self,
       (__int16 *)self + 1228,
-      COERCE_INT(this->field_BC),
+      COERCE_INT(this->distanceToCamera),
       &v96);
-  orig::sub_100CCE60(self);
+  orig::Actor_SetCameraFromModelPoints(self);
+}
+
+// FUNCTION: FFXIMAIN 0x100CCF50  (placed by IDB name)
+// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CXiSkeletonActor::OcclusionClip()
+{
+  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
+  char *v2;
+  int ScreenRect;
+  __int16 v4; // fps
+  double v5;
+  bool v6; // c0
+  char v7; // c2
+  bool v8; // c3
+  int v9;
+  int v10;
+  float ViewportWidth;
+  float ViewportHeight;
+  IDirect3DBaseTexture8 *v14;
+  int v15;
+  int v16[4];
+  v2 = self + 1652;
+  if ( *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652) == 0 )
+    goto LABEL_5;
+  LOBYTE(ScreenRect) = (*(int (__thiscall **)(char *))(*(_DWORD *)self + 772))(self);
+  if ( (_BYTE)ScreenRect == 0 )
+  {
+    v5 = this->boundRadius;
+    v6 = v5 < 0.0;
+    v7 = 0;
+    v8 = v5 == 0.0;
+    LOBYTE(ScreenRect) = 0;
+    if ( ((__int16)((v6 ? 0x100 : 0) | (v7 ? 0x400 : 0) | (v8 ? 0x4000 : 0)) & 0x4100) == 0 )
+    {
+      v9 = at<uint32_t>(this, 0x8F8);
+      v10 = at<uint32_t>(this, 0x8FC);
+      v16[3] = at<uint32_t>(this, 0x90C);
+      v16[0] = v9;
+      v16[1] = v10;
+      v15 = g_translucentTarget;
+      v14 = pTexture;
+      v16[2] = at<uint32_t>(this, 0x908);
+      ViewportHeight = (float)(unsigned __int16)orig::Camera_GetViewportHeight();
+      ViewportWidth = (float)(unsigned __int16)orig::Camera_GetViewportWidth();
+      ScreenRect = orig::Occlusion_QueryScreenRect(
+                     (__int16 *)self + 1144,
+                     (float *)v16,
+                     at<uint32_t>(this, 0x900),
+                     ViewportWidth,
+                     ViewportHeight,
+                     (int)v14,
+                     v15,
+                     1,
+                     1,
+                     0);
+      if ( ScreenRect == 0 )
+      {
+LABEL_5:
+        orig::sub_1002C270(v2, 0);
+        LOBYTE(ScreenRect) = at<int8_t>(this, 0xB2);
+        this->hiddenFlagByte = 1;
+        LOBYTE(ScreenRect) = ScreenRect | 1;
+        at<int8_t>(this, 0xB2) = ScreenRect;
+      }
+    }
+  }
+  return ScreenRect;
 }
 
 // FUNCTION: FFXIMAIN 0x100CD490  (placed by IDB name)
@@ -2000,7 +3786,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -2247,7 +4033,7 @@ LABEL_67:
         *(float *)&a2 = orig::Actor_GetPercentScaleByIndex((_BYTE *)(self + 2168), *(unsigned __int8 *)(v37 + 2181));
         ModelFlags120Top2 = orig::CXiActor_GetModelFlags120Top2((_DWORD *)v37);
         PercentScaleByIndex = orig::Actor_GetPercentScaleByIndex((_BYTE *)(v37 + 2168), ModelFlags120Top2);
-        this->field_754 = PercentScaleByIndex * *(float *)&a2;
+        this->baseScale = PercentScaleByIndex * *(float *)&a2;
       }
       else
       {
@@ -2260,7 +4046,7 @@ LABEL_67:
       if ( v25 != 0 )
       {
         v26 = orig::CXiActor_GetModelFlags120Top2(*(_DWORD **)(self + 1896));
-        this->field_754 = orig::Actor_GetPercentScaleByIndex((_BYTE *)(v25 + 2168), v26);
+        this->baseScale = orig::Actor_GetPercentScaleByIndex((_BYTE *)(v25 + 2168), v26);
       }
       else
       {
@@ -2272,7 +4058,7 @@ LABEL_67:
       v27 = *(int **)(self + 1936);
       if ( v27 != nullptr )
       {
-        this->field_754 = orig::CXiActor_GetModelFloat9AEC0(v27);
+        this->baseScale = orig::CXiActor_GetModelFloat9AEC0(v27);
         at<uint32_t>(this, 0x75C) = 1065353216;
       }
       else
@@ -2294,12 +4080,12 @@ LABEL_67:
         v30 = orig::CXiActor_GetModelByteEF((_DWORD *)v28);
         v31 = orig::Actor_LookupPercentScaleB(v30);
         v32 = a2;
-        this->field_758 = v31;
+        this->depthScale = v31;
         at<uint32_t>(this, 0x760) = v32;
         v33 = orig::CXiActor_GetModelFlags120Top2((_DWORD *)v28);
         *(float *)&a2 = orig::Actor_GetPercentScaleByIndex((_BYTE *)(v28 + 2168), v33);
         v34 = orig::Actor_GetPercentScaleByIndex((_BYTE *)(v28 + 2168), 1u);
-        this->field_754 = *(float *)&a2 / v34;
+        this->baseScale = *(float *)&a2 / v34;
       }
       else
       {
@@ -2322,7 +4108,7 @@ LABEL_67:
       {
         ModelFlags130Top2 = orig::CXiActor_GetModelFlags120Top2((_DWORD *)self);
       }
-      this->field_754 = orig::Actor_GetPercentScaleByIndex((_BYTE *)(self + 2168), ModelFlags130Top2);
+      this->baseScale = orig::Actor_GetPercentScaleByIndex((_BYTE *)(self + 2168), ModelFlags130Top2);
     }
 LABEL_93:
     if ( this->field_814 == 0 )
@@ -2375,7 +4161,7 @@ char CXiSkeletonActor::GetNamePos(int a2, float *a3, int a4)
   v5 = at<uint32_t>(this, 0x0);
   v6 = (*(int (__thiscall **)(float *, int))(*(_DWORD *)self + 180))(self, a2);
   (*(void (__thiscall **)(float *, _DWORD))(v5 + 452))(self, v6);
-  *(float *)(a2 + 4) = this->field_8C0 + *(float *)(a2 + 4);
+  *(float *)(a2 + 4) = this->nameHeightOffset + *(float *)(a2 + 4);
   return orig::CXiActor_NameCalc(self, (_DWORD *)a2, (int)v8, a3, a4);
 }
 
@@ -2479,7 +4265,7 @@ int CXiSkeletonActor::GetArrowPos(int a2, int a3, int a4)
   v5 = at<uint32_t>(this, 0x0);
   v6 = (*(int (__thiscall **)(float *, int))(*(_DWORD *)self + 172))(self, a2);
   (*(void (__thiscall **)(float *, _DWORD))(v5 + 452))(self, v6);
-  *(float *)(a2 + 4) = this->field_8C0 + *(float *)(a2 + 4);
+  *(float *)(a2 + 4) = this->nameHeightOffset + *(float *)(a2 + 4);
   return (*(int (__thiscall **)(float *, int, int, int))(*(_DWORD *)self + 640))(self, a2, a3, a4);
 }
 
@@ -2503,7 +4289,7 @@ char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v5);
   orig::Vec4_Set(a1, 0.0, 0, 0, 1065353216);
   orig::Gfx_ProjectWorldToClip((float *)a1, (_DWORD *)a1);
-  orig::Gfx_NdcToScreen((float *)a1);
+  orig_void::Gfx_NdcToScreen((float *)a1);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v6);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v7);
   if ( *(float *)(a1 + 12) >= 0.0 )
@@ -2522,6 +4308,84 @@ char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
   }
 }
 
+// FUNCTION: FFXIMAIN 0x100D08E0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+double CXiSkeletonActor::GetWidthScale()
+{
+  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
+  int v2;
+  int v3;
+  unsigned __int16 *v4;
+  float v6;
+  v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
+  if ( v2 == 0 )
+    return 1.0;
+  v4 = orig::sub_10035250(v2 + 8, v3);
+  if ( v4 == nullptr )
+    return 1.0;
+  v6 = *((float *)v4 + 2) - *((float *)v4 + 3);
+  if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+  {
+    if ( this->widthScale >= 0.0 )
+      return this->widthScale * v6 * 0x1.2d2d2c0000000p-1;
+    if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+      return this->baseScale * v6 * 0x1.2d2d2c0000000p-1;
+  }
+  return ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) * v6 * 0x1.2d2d2c0000000p-1;
+}
+
+// FUNCTION: FFXIMAIN 0x100D09B0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+double CXiSkeletonActor::GetHeightScale()
+{
+  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
+  int v2;
+  int v3;
+  float *v4;
+  float v6;
+  v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
+  if ( v2 == 0 )
+    return 1.0;
+  v4 = (float *)orig::sub_10035250(v2 + 8, v3);
+  if ( v4 == nullptr )
+    return 1.0;
+  v6 = v4[1] - *v4;
+  if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+  {
+    if ( this->heightScale >= 0.0 )
+      return this->heightScale * v6 * 0x1.0d79440000000p-1;
+    if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+      return this->baseScale * v6 * 0x1.0d79440000000p-1;
+  }
+  return ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) * v6 * 0x1.0d79440000000p-1;
+}
+
+// FUNCTION: FFXIMAIN 0x100D0A80  (placed by IDB name)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+double CXiSkeletonActor::GetDepthScale()
+{
+  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
+  int v2;
+  int v3;
+  unsigned __int16 *v4;
+  float v6;
+  v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
+  if ( v2 == 0 )
+    return 1.0;
+  v4 = orig::sub_10035250(v2 + 8, v3);
+  if ( v4 == nullptr )
+    return 1.0;
+  v6 = *((float *)v4 + 4) - *((float *)v4 + 5);
+  if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+  {
+    if ( this->depthScale >= 0.0 )
+      return this->depthScale * v6 * 0x1.0d79440000000p-1;
+    if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
+      return this->baseScale * v6 * 0x1.0d79440000000p-1;
+  }
+  return ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) * v6 * 0x1.0d79440000000p-1;
+}
+
 // FUNCTION: FFXIMAIN 0x100D12D0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 bool CXiSkeletonActor::IsReadCompleteBody()
@@ -2537,7 +4401,7 @@ bool CXiSkeletonActor::IsReadCompleteBody()
   _DWORD **v9;
   if ( this->field_8A4 != 0 )
     return false;
-  for ( i = orig::List_GetTail((_DWORD *)this->field_7E4); i != nullptr; i = (_DWORD *)i[2] )
+  for ( i = orig::List_GetTail((_DWORD *)at<uint32_t>(this, 0x7E4)); i != nullptr; i = (_DWORD *)i[2] )
   {
     v9 = (_DWORD **)i[7];
     if ( v9 == nullptr || !orig::ResourceHandle_IsResident(&v9, v3) )
@@ -2574,6 +4438,861 @@ char __cdecl CXiSkeletonActor::OnSkeletonLoaded(int a1, int a2)
   return orig::CXiSkeletonActor_LoadSkeletonSync(a1, *(_DWORD *)(a2 + 68));
 }
 
+// FUNCTION: FFXIMAIN 0x100D2F60  (placed by IDB name)
+// GATE: PASS -- 100 trials, 17 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CXiSkeletonActor::LoadSkeletonSync(int a2)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  char v3;
+  int v4;
+  int v5;
+  int v6;
+  int ModelByteEF;
+  int v8;
+  int v9;
+  _DWORD *v10;
+  _DWORD *v11;
+  int v12;
+  int v13;
+  int v14;
+  int v15;
+  int *v16;
+  int v17;
+  int v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  _DWORD *v24;
+  _DWORD *v25;
+  int v26;
+  int v27;
+  int v28;
+  int v30;
+  BOOL v31;
+  int v32;
+  int v33;
+  _DWORD *v34;
+  _DWORD *v35;
+  int v36;
+  int v37;
+  int v38;
+  int v39;
+  int v40;
+  _DWORD *v41;
+  int v42;
+  int v43;
+  int v44;
+  int v45;
+  int v46;
+  _DWORD *v47;
+  int v48;
+  int v49;
+  int v50;
+  int v51;
+  int v52;
+  int v53;
+  int v54;
+  int v55;
+  int **v56;
+  int v57;
+  int v58;
+  int v59;
+  _DWORD *v60;
+  int v61;
+  int v62;
+  int v63;
+  _DWORD *v64;
+  _DWORD *v65;
+  int v66;
+  int v67;
+  int v68;
+  int v69;
+  _DWORD *v70;
+  _DWORD *v71;
+  int v72;
+  int v73;
+  int v74;
+  int v75;
+  int *v76;
+  int v77;
+  int v78;
+  int v79;
+  int v80;
+  int v81;
+  int v82;
+  int v83;
+  _DWORD *v84;
+  _DWORD *v85;
+  _DWORD *v86;
+  _DWORD *v87;
+  int v88;
+  int v89;
+  int v90;
+  int v91;
+  int *v92;
+  int v93;
+  unsigned int v94;
+  int v95;
+  int v96;
+  int v97;
+  int v98;
+  int v99;
+  int v100;
+  int v101;
+  _DWORD *v102;
+  _DWORD *v103;
+  int v104;
+  int v105;
+  int v106;
+  int v107;
+  int v108;
+  _DWORD *v109;
+  _DWORD *v110;
+  int v111;
+  int v112;
+  int v113;
+  int v114;
+  int v115;
+  _DWORD *v116;
+  int v117;
+  int *v118;
+  int *v119;
+  int v120;
+  int i;
+  int v122;
+  int v123;
+  int v124;
+  int v125;
+  int v126;
+  int v127;
+  int v128;
+  int v129;
+  int v130;
+  int v131;
+  __int16 v132;
+  _WORD v133[9];
+  v3 = 0;
+  v4 = this->pModelInfo;
+  if ( v4 != 0 )
+  {
+    v5 = *(_DWORD *)(v4 + 288);
+    if ( (v5 & 0x80) != 0 || (v5 & 0x100) != 0 )
+      v3 = 1;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 852))(self) != 0 )
+  {
+    v6 = this->field_768;
+    v124 = v6;
+    ModelByteEF = orig::CXiActor_GetModelByteEF((_DWORD *)self);
+    v120 = ModelByteEF;
+    if ( ModelByteEF >= 9 && ModelByteEF < 29 || ModelByteEF >= 37 )
+    {
+      orig::nullsub_12(byte_1035FB3C);
+      ModelByteEF = 32;
+      v120 = 32;
+    }
+    v119 = (int *)*orig::sub_100730E0(&a2, (unsigned __int16)word_1035F410[ModelByteEF]);
+    if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v8) )
+    {
+      orig::sub_100D0D40((_DWORD *)self, v119, *(int **)(self + 2540));
+      v9 = 0;
+      i = 0;
+      goto LABEL_17;
+    }
+    if ( v6 == 0 )
+      goto LABEL_15;
+    v10 = orig::Allocator_Generic(0x18u);
+    v11 = v10;
+    if ( v10 != nullptr )
+    {
+      orig::ActorHandle_Constructor((int)(v10 + 1));
+      v12 = *(_DWORD *)(v6 + 2540);
+      v11[5] = 0;
+      *v11 = v12;
+      *v11 = this->updateSerial;
+      v11[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+      orig::sub_100814F0((int)(v11 + 1), v6);
+      v11[4] = self;
+      orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D4100), (int)v11, (_DWORD *)self, nullptr);
+LABEL_15:
+      v9 = 0;
+      for ( i = 0; ; v9 = i )
+      {
+LABEL_17:
+        LOWORD(v13) = orig::CXiActor_GetModelPartWord((_DWORD *)self, v9);
+        v14 = v13;
+        a2 = v13;
+        v15 = v13 >> 12;
+        if ( v13 >> 12 != v9 )
+        {
+          v15 = v9;
+          v14 = (v9 << 12) | v13 & 0xFFF;
+          a2 = v14;
+        }
+        v123 = (int)*(&off_1035F378 + v120);
+        v16 = (int *)(48 * v15 + v123);
+        if ( *v16 != 0 )
+        {
+          if ( (v14 & 0xFFF) >= v16[9] + v16[1] + v16[3] + v16[5] + v16[7] + v16[11] )
+          {
+            orig::nullsub_12(byte_1035FB0C, v14, i, v120);
+            v14 = v15 << 12;
+            a2 = v15 << 12;
+          }
+          if ( v123 != 0 )
+          {
+            v17 = v16[1];
+            v18 = v14 & 0xFFF;
+            if ( v18 >= v17 )
+            {
+              v20 = v16[3];
+              if ( v18 >= v17 + v20 )
+              {
+                v122 = v16[5];
+                if ( v18 >= v122 + v17 + v20 )
+                {
+                  v123 = v16[7];
+                  if ( v18 >= v123 + v122 + v17 + v20 )
+                  {
+                    if ( v18 >= v16[9] + v123 + v122 + v17 + v20 )
+                    {
+                      v21 = v16[9];
+                      if ( v18 >= v21 + v123 + v122 + v20 + v17 + v16[11] )
+                        goto LABEL_41;
+                      v19 = v16[10] - v17 - v20 - v122 - v123 - v21;
+                    }
+                    else
+                    {
+                      v19 = v16[8] - v17 - v20 - v122 - v123;
+                    }
+                  }
+                  else
+                  {
+                    v19 = v16[6] - v17 - v20 - v122;
+                  }
+                }
+                else
+                {
+                  v19 = v16[4] - v17 - v20;
+                }
+                v14 = a2;
+              }
+              else
+              {
+                v19 = v16[2] - v17;
+              }
+            }
+            else
+            {
+              v19 = *v16;
+            }
+            v22 = v18 + v19;
+            v119 = (int *)*orig::sub_100730E0(&v125, v22);
+            if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v23) )
+            {
+              orig::sub_100D0B50(self, v119, v14, *(_DWORD **)(self + 2540), 1);
+            }
+            else if ( v124 != 0 )
+            {
+              v24 = orig::Allocator_Generic(0x20u);
+              v25 = v24;
+              if ( v24 != nullptr )
+              {
+                orig::ActorHandle_Constructor((int)(v24 + 1));
+                v26 = *(_DWORD *)(v124 + 2540);
+                v25[5] = 0;
+                *v25 = v26;
+                *v25 = this->updateSerial;
+                v27 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+                v28 = v124;
+                v25[5] = v27;
+                orig::sub_100814F0((int)(v25 + 1), v28);
+                v25[4] = self;
+                v25[6] = v14;
+                v25[7] = v22;
+                orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D0E80), (int)v25, (_DWORD *)self, nullptr);
+              }
+            }
+          }
+        }
+LABEL_41:
+        if ( ++i >= 9 )
+          return 1;
+      }
+    }
+    goto LABEL_197;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 844))(self) != 0 )
+  {
+    v30 = this->field_768;
+    v31 = false;
+    if ( v3 == 0 )
+      v31 = orig::sub_100FD3A0(*((_DWORD *)g_pXiZone + 109));
+    v32 = orig::sub_100C51C0(1, v31);
+    v119 = (int *)*orig::sub_100730E0(&a2, v32);
+    if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v33) )
+      goto LABEL_47;
+    if ( v30 != 0 )
+    {
+      v34 = orig::Allocator_Generic(0x18u);
+      v35 = v34;
+      if ( v34 != nullptr )
+      {
+        orig::ActorHandle_Constructor((int)(v34 + 1));
+        v36 = *(_DWORD *)(v30 + 2540);
+        v35[5] = 0;
+        *v35 = v36;
+        *v35 = this->updateSerial;
+        v35[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+        orig::sub_100814F0((int)(v35 + 1), v30);
+        v35[4] = self;
+LABEL_195:
+        orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D4220), (int)v35, (_DWORD *)self, nullptr);
+        return 1;
+      }
+LABEL_197:
+      v117 = orig::sub_100C51C0(0, 0);
+      v118 = (int *)*orig::sub_10072FD0((_DWORD *)g_pMeshResourceMng, &a2, v117);
+      v119 = v118;
+      if ( v118 != nullptr && *v118 != 0 )
+      {
+        (*(void (__thiscall **)(int, int *))(*(_DWORD *)self + 656))(self, v118);
+        return 0;
+      }
+      else
+      {
+        orig::nullsub_12(byte_1035FA30);
+        return 0;
+      }
+    }
+    return 1;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 856))(self) != 0 )
+  {
+    v37 = this->field_768;
+    if ( orig::CXiActor_GetModelByte1DB((_DWORD *)self) != 0 )
+      v38 = orig::CXiActor_GetModelByte1DB((_DWORD *)self) - 1;
+    else
+      v38 = 0;
+    v39 = orig::sub_100C51C0(4, v38);
+    v119 = (int *)*orig::sub_100730E0(&a2, v39);
+    if ( !orig::ResourceHandle_IsResident((_DWORD ***)&v119, v40) )
+    {
+      if ( v37 == 0 )
+        return 1;
+      v41 = orig::Allocator_Generic(0x18u);
+      v35 = v41;
+      if ( v41 == nullptr )
+        goto LABEL_197;
+      goto LABEL_58;
+    }
+LABEL_47:
+    orig::sub_100D0D70(self, (int)v119, *(int **)(self + 2540));
+    return 1;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 864))(self) != 0 )
+  {
+    v43 = this->field_768;
+    v44 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self) - 5;
+    v45 = orig::CXiActor_GetModelByteEF(*(_DWORD **)(self + 1896));
+    if ( v45 >= 9 && v45 < 29 )
+    {
+      orig::nullsub_12(byte_1035FAD0);
+      v45 = 1;
+    }
+    v119 = (int *)*orig::sub_100730E0(&a2, v44 + (unsigned __int16)word_1035F598[v45]);
+    if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v46) )
+      goto LABEL_47;
+    if ( v43 != 0 )
+    {
+      v47 = orig::Allocator_Generic(0x18u);
+      v35 = v47;
+      if ( v47 != nullptr )
+      {
+        orig::ActorHandle_Constructor((int)(v47 + 1));
+        v48 = *(_DWORD *)(v43 + 2540);
+        v35[5] = 0;
+        *v35 = v48;
+        *v35 = this->updateSerial;
+        v35[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+        orig::sub_100814F0((int)(v35 + 1), v43);
+        v35[4] = self;
+        goto LABEL_195;
+      }
+      goto LABEL_197;
+    }
+    return 1;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 876))(self) != 0 )
+  {
+    v37 = this->field_768;
+    v49 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self) - 61;
+    v50 = orig::CXiActor_GetModelByteEF(*(_DWORD **)(self + 1896));
+    if ( v50 >= 9 && v50 < 29 )
+      orig::nullsub_12(byte_1035FA94);
+    v51 = orig::sub_100C51C0(3, v49);
+    v119 = (int *)*orig::sub_100730E0(&a2, v51);
+    if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v52) )
+      goto LABEL_47;
+    if ( v37 == 0 )
+      return 1;
+    v41 = orig::Allocator_Generic(0x18u);
+    v35 = v41;
+    if ( v41 == nullptr )
+      goto LABEL_197;
+LABEL_58:
+    orig::ActorHandle_Constructor((int)(v41 + 1));
+    v42 = *(_DWORD *)(v37 + 2540);
+    v35[5] = 0;
+    *v35 = v42;
+    *v35 = this->updateSerial;
+    v35[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+    orig::sub_100814F0((int)(v35 + 1), v37);
+    v35[4] = self;
+    goto LABEL_195;
+  }
+  v53 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 932))(self);
+  v54 = self;
+  if ( v53 != 0 || (v58 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 916))(self), v54 = self, v58 != 0) )
+  {
+    v55 = *(_DWORD *)(self + 4 * (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(v54) + 1608);
+    v56 = (int **)orig::sub_100730E0(&a2, 52743);
+    goto LABEL_83;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 900))(self) != 0 )
+  {
+    v55 = *(_DWORD *)(self + 4 * (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self) + 1692);
+    v59 = orig::sub_100D43E0();
+LABEL_82:
+    v56 = (int **)orig::sub_100730E0(&a2, v59);
+LABEL_83:
+    v119 = *v56;
+    if ( !orig::ResourceHandle_IsResident((_DWORD ***)&v119, v57) )
+    {
+      if ( v55 != 0 )
+      {
+        v60 = orig::Allocator_Generic(0x18u);
+        v35 = v60;
+        if ( v60 != nullptr )
+        {
+          orig::ActorHandle_Constructor((int)(v60 + 1));
+          *v35 = *(_DWORD *)(v55 + 2540);
+          v35[5] = 0;
+          *v35 = this->updateSerial;
+          v35[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
+          orig::sub_100814F0((int)(v35 + 1), v55);
+          v35[4] = self;
+          goto LABEL_195;
+        }
+        goto LABEL_197;
+      }
+      return 1;
+    }
+    goto LABEL_47;
+  }
+  if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 888))(self) != 0 )
+  {
+    v55 = this->field_76C;
+    v59 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self) + 52174;
+    goto LABEL_82;
+  }
+  switch ( orig::CXiActor_GetModelByteEE((_DWORD *)self) )
+  {
+    case 0:
+    case 1:
+      goto LABEL_97;
+    case 2:
+      goto LABEL_186;
+    case 6:
+      LOWORD(v61) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
+      v63 = v61;
+      BYTE1(v63) = BYTE1(v61) | 0x90;
+      if ( (v63 & 0xFFF) != 0 )
+      {
+        v124 = orig::sub_100C51C0(0, v63 & 0xFFF);
+        v119 = (int *)*orig::sub_100730E0(&v125, v124);
+      }
+      else
+      {
+        v119 = nullptr;
+      }
+      if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v62) )
+      {
+        orig::sub_100D0B50(self, v119, v63, *(_DWORD **)(self + 2540), 1);
+      }
+      else
+      {
+        v64 = orig::Allocator_Generic(0x20u);
+        v65 = v64;
+        if ( v64 == nullptr )
+          goto LABEL_197;
+        orig::ActorHandle_Constructor((int)(v64 + 1));
+        *v65 = this->updateSerial;
+        v65[5] = 0;
+        orig::sub_100814F0((int)(v65 + 1), self);
+        v65[7] = v124;
+        v65[4] = 0;
+        v65[6] = v63;
+        orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D0E80), (int)v65, (_DWORD *)self, nullptr);
+      }
+      if ( orig::CXiActor_GetModelByteEF((_DWORD *)self) == 0 )
+        return 1;
+LABEL_97:
+      v66 = orig::CXiActor_GetModelByteEF((_DWORD *)self);
+      v120 = v66;
+      if ( v66 >= 9 && v66 < 29 || v66 >= 37 )
+      {
+        orig::nullsub_12(byte_1035FB3C);
+        v66 = 1;
+        v120 = 1;
+      }
+      v119 = (int *)*orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v128, (unsigned __int16)word_1035F410[v66]);
+      if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v67) )
+      {
+        orig::sub_100D0D40((_DWORD *)self, v119, *(int **)(self + 2540));
+      }
+      else
+      {
+        v86 = orig::Allocator_Generic(0x18u);
+        v87 = v86;
+        if ( v86 == nullptr )
+          goto LABEL_197;
+        orig::ActorHandle_Constructor((int)(v86 + 1));
+        *v87 = this->updateSerial;
+        v87[5] = 0;
+        orig::sub_100814F0((int)(v87 + 1), self);
+        v87[4] = 0;
+        orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D4100), (int)v87, (_DWORD *)self, nullptr);
+      }
+      i = 0;
+      while ( 2 )
+      {
+        if ( v120 < 29 || i <= 5 )
+        {
+          v88 = i;
+          LOWORD(v89) = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
+          v90 = v89;
+          v122 = v89;
+          v91 = v89 >> 12;
+          if ( v89 >> 12 != v88 )
+          {
+            v91 = v88;
+            v90 = (v88 << 12) | v89 & 0xFFF;
+            v122 = v90;
+          }
+          v124 = (int)*(&off_1035F378 + v120);
+          v92 = (int *)(48 * v91 + v124);
+          if ( *v92 != 0 )
+          {
+            if ( (v90 & 0xFFF) >= v92[9] + v92[1] + v92[3] + v92[5] + v92[7] + v92[11] )
+            {
+              orig::nullsub_12(byte_1035FB0C, v90, i, v120);
+              v90 = v91 << 12;
+              v122 = v91 << 12;
+            }
+            v132 = 0;
+            v133[0] = 63;
+            v133[1] = 117;
+            v133[2] = 143;
+            v133[3] = 471;
+            v133[4] = 511;
+            v133[5] = 640;
+            v133[6] = 703;
+            v133[7] = 1180;
+            v133[8] = 1195;
+            if ( v91 == 7 )
+            {
+              this->field_8B5 = 1;
+              v93 = v90 & 0xFFF;
+              v94 = 0;
+              while ( v93 < (unsigned __int16)v133[v94 - 1] || v93 > (unsigned __int16)v133[v94] )
+              {
+                v94 += 2;
+                if ( v94 >= 0xA )
+                  goto LABEL_154;
+              }
+              this->field_8B5 = 0;
+            }
+LABEL_154:
+            if ( v124 != 0 )
+            {
+              v95 = v92[1];
+              v96 = v90 & 0xFFF;
+              if ( v96 >= v95 )
+              {
+                v98 = v92[3];
+                if ( v96 >= v95 + v98 )
+                {
+                  v123 = v92[5];
+                  if ( v96 >= v123 + v95 + v98 )
+                  {
+                    v124 = v92[7];
+                    if ( v96 >= v124 + v123 + v95 + v98 )
+                    {
+                      if ( v96 >= v92[9] + v124 + v123 + v95 + v98 )
+                      {
+                        v99 = v92[9];
+                        if ( v96 >= v99 + v124 + v123 + v98 + v95 + v92[11] )
+                          goto LABEL_172;
+                        v97 = v92[10] - v95 - v98 - v123 - v124 - v99;
+                      }
+                      else
+                      {
+                        v97 = v92[8] - v95 - v98 - v123 - v124;
+                      }
+                    }
+                    else
+                    {
+                      v97 = v92[6] - v95 - v98 - v123;
+                    }
+                  }
+                  else
+                  {
+                    v97 = v92[4] - v95 - v98;
+                  }
+                  v90 = v122;
+                }
+                else
+                {
+                  v97 = v92[2] - v95;
+                }
+              }
+              else
+              {
+                v97 = *v92;
+              }
+              v100 = v96 + v97;
+              v119 = (int *)*orig::sub_100730E0(&v129, v100);
+              if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v101) )
+              {
+                orig::sub_100D0B50(self, v119, v90, *(_DWORD **)(self + 2540), 1);
+              }
+              else
+              {
+                v102 = orig::Allocator_Generic(0x20u);
+                v103 = v102;
+                if ( v102 != nullptr )
+                {
+                  orig::ActorHandle_Constructor((int)(v102 + 1));
+                  *v103 = this->updateSerial;
+                  v103[5] = 0;
+                  orig::sub_100814F0((int)(v103 + 1), self);
+                  v103[4] = 0;
+                  v103[6] = v90;
+                  v103[7] = v100;
+                  orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D0E80), (int)v103, (_DWORD *)self, nullptr);
+                }
+              }
+            }
+          }
+LABEL_172:
+          if ( ++i >= 9 )
+            break;
+          continue;
+        }
+        break;
+      }
+      if ( v120 >= 9 )
+        return 1;
+      if ( a2 >= 0 )
+      {
+        at<uint32_t>(this, 0x8A0) = a2;
+        this->field_8A4 = 4;
+      }
+      else
+      {
+        orig::sub_100D1190(self);
+      }
+      return 1;
+    case 7:
+      LOWORD(v104) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+      if ( v104 == 0 )
+      {
+        LOWORD(v105) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
+        v107 = v105 | 0x9000;
+        v108 = v105 & 0xFFF;
+        if ( v108 != 0 )
+        {
+          v124 = orig::sub_100C51C0(0, v108);
+          v119 = (int *)*orig::sub_100730E0(&v130, v124);
+        }
+        else
+        {
+          v119 = nullptr;
+        }
+        if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v106) )
+        {
+          orig::sub_100D0B50(self, v119, v107, *(_DWORD **)(self + 2540), 1);
+          return 1;
+        }
+        v109 = orig::Allocator_Generic(0x20u);
+        v110 = v109;
+        if ( v109 != nullptr )
+        {
+          orig::ActorHandle_Constructor((int)(v109 + 1));
+          *v110 = this->updateSerial;
+          v110[5] = 0;
+          orig::sub_100814F0((int)(v110 + 1), self);
+          v111 = v124;
+          v110[4] = 0;
+          v110[6] = v107;
+          v110[7] = v111;
+          orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D0E80), (int)v110, (_DWORD *)self, nullptr);
+          return 1;
+        }
+        goto LABEL_197;
+      }
+LABEL_186:
+      if ( orig::sub_10083340((_DWORD *)self) )
+      {
+        LOWORD(v112) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+        v113 = orig::sub_100C51C0(2, v112);
+      }
+      else
+      {
+        if ( orig::sub_10084670((_DWORD *)self) )
+          v114 = (unsigned __int16)orig::sub_10084690((_DWORD *)self);
+        else
+          LOWORD(v114) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+        v113 = orig::sub_100C51C0(0, v114);
+      }
+      v119 = (int *)*orig::sub_100730E0(&v131, v113);
+      if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v115) )
+        goto LABEL_47;
+      v116 = orig::Allocator_Generic(0x18u);
+      v35 = v116;
+      if ( v116 == nullptr )
+        goto LABEL_197;
+      orig::ActorHandle_Constructor((int)(v116 + 1));
+      *v35 = this->updateSerial;
+      v35[5] = 0;
+      orig::sub_100814F0((int)(v35 + 1), self);
+      v35[4] = 0;
+      goto LABEL_195;
+    case 8:
+      v68 = orig::CXiActor_GetModelByteEF((_DWORD *)self);
+      v120 = v68;
+      if ( v68 >= 9 && v68 < 29 || v68 >= 37 )
+      {
+        orig::nullsub_12(byte_1035FB3C);
+        v68 = 32;
+        v120 = 32;
+      }
+      v119 = (int *)*orig::sub_100730E0(&v126, (unsigned __int16)word_1035F410[v68]);
+      if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v69) )
+      {
+        orig::sub_100D0D40((_DWORD *)self, v119, *(int **)(self + 2540));
+      }
+      else
+      {
+        v70 = orig::Allocator_Generic(0x18u);
+        v71 = v70;
+        if ( v70 == nullptr )
+          goto LABEL_197;
+        orig::ActorHandle_Constructor((int)(v70 + 1));
+        *v71 = this->updateSerial;
+        v71[5] = 0;
+        orig::sub_100814F0((int)(v71 + 1), self);
+        v71[4] = 0;
+        orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D4100), (int)v71, (_DWORD *)self, nullptr);
+      }
+      i = 0;
+      break;
+    default:
+      return 1;
+  }
+  while ( 1 )
+  {
+    v72 = i;
+    LOWORD(v73) = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
+    v74 = v73;
+    a2 = v73;
+    v75 = v73 >> 12;
+    if ( v73 >> 12 != v72 )
+    {
+      v75 = v72;
+      v74 = (v72 << 12) | v73 & 0xFFF;
+      a2 = v74;
+    }
+    v124 = (int)*(&off_1035F378 + v120);
+    v76 = (int *)(48 * v75 + v124);
+    if ( *v76 == 0 )
+      goto LABEL_135;
+    if ( (v74 & 0xFFF) >= v76[1] + v76[3] + v76[5] + v76[7] + v76[11] + v76[9] )
+    {
+      orig::nullsub_12(byte_1035FB0C, v74, i, v120);
+      v74 = v75 << 12;
+      a2 = v75 << 12;
+    }
+    if ( v124 == 0 )
+      goto LABEL_135;
+    v77 = v76[1];
+    v78 = v74 & 0xFFF;
+    if ( v78 < v77 )
+    {
+      v79 = *v76;
+      goto LABEL_131;
+    }
+    v80 = v76[3];
+    if ( v78 < v77 + v80 )
+      break;
+    v123 = v76[5];
+    if ( v78 < v123 + v77 + v80 )
+    {
+      v79 = v76[4] - v77 - v80;
+      goto LABEL_130;
+    }
+    v122 = v76[7];
+    if ( v78 < v122 + v123 + v77 + v80 )
+    {
+      v79 = v76[6] - v77 - v80 - v123;
+      goto LABEL_130;
+    }
+    if ( v78 < v76[9] + v122 + v123 + v77 + v80 )
+    {
+      v79 = v76[8] - v77 - v80 - v123 - v122;
+      goto LABEL_130;
+    }
+    v81 = v76[9];
+    if ( v78 < v81 + v122 + v123 + v80 + v77 + v76[11] )
+    {
+      v79 = v76[10] - v77 - v80 - v123 - v122 - v81;
+LABEL_130:
+      v74 = a2;
+LABEL_131:
+      v82 = v78 + v79;
+      v119 = (int *)*orig::sub_100730E0(&v127, v82);
+      if ( orig::ResourceHandle_IsResident((_DWORD ***)&v119, v83) )
+      {
+        orig::sub_100D0B50(self, v119, v74, *(_DWORD **)(self + 2540), 1);
+      }
+      else
+      {
+        v84 = orig::Allocator_Generic(0x20u);
+        v85 = v84;
+        if ( v84 != nullptr )
+        {
+          orig::ActorHandle_Constructor((int)(v84 + 1));
+          *v85 = this->updateSerial;
+          v85[5] = 0;
+          orig::sub_100814F0((int)(v85 + 1), self);
+          v85[4] = 0;
+          v85[6] = v74;
+          v85[7] = v82;
+          orig::sub_100710F0((int *)&v119, (int)XI_CODE(sub_100D0E80), (int)v85, (_DWORD *)self, nullptr);
+        }
+      }
+    }
+LABEL_135:
+    if ( ++i >= 9 )
+      return 1;
+  }
+  v79 = v76[2] - v77;
+  goto LABEL_131;
+}
+
 // FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name)
 // GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CXiSkeletonActor::LoadSkeletonResource(int a2)
@@ -2585,7 +5304,7 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
   _DWORD *v6;
   _DWORD *v7;
   v3 = 0;
-  v4 = this->field_70;
+  v4 = this->pModelInfo;
   if ( v4 != 0 )
   {
     v5 = *(_DWORD *)(v4 + 288);
@@ -2606,7 +5325,7 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
       v7 = orig::CXiSkeletonActorRes_Constructor(v6, (int)self, (int)XI_CODE(CXiSkeletonActor_OnSkeletonLoaded));
     else
       v7 = nullptr;
-    this->field_A08 = v7;
+    this->pSkeletonRes = v7;
     if ( v7 != nullptr )
       v7[17] = a2;
     else
@@ -2713,9 +5432,9 @@ LABEL_19:
   {
     v15 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   }
-  else if ( this->field_75C >= 0.0 )
+  else if ( this->heightScale >= 0.0 )
   {
-    v15 = this->field_75C;
+    v15 = this->heightScale;
   }
   else
   {
@@ -2723,7 +5442,7 @@ LABEL_19:
     if ( v15 >= 0.0 )
       (*(void (__thiscall **)(int))(*(_DWORD *)self + 272))(self);
     else
-      v15 = this->field_754;
+      v15 = this->baseScale;
   }
   *(float *)(a3 + 4) = v15 * v21 + *(float *)(a3 + 4);
   return ElemThunk;
@@ -2785,9 +5504,9 @@ char CXiSkeletonActor::GetElemLocal(unsigned int a2, int a3)
   {
     v9 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   }
-  else if ( this->field_75C >= 0.0 )
+  else if ( this->heightScale >= 0.0 )
   {
-    v9 = this->field_75C;
+    v9 = this->heightScale;
   }
   else
   {
@@ -2795,7 +5514,7 @@ char CXiSkeletonActor::GetElemLocal(unsigned int a2, int a3)
     if ( v9 >= 0.0 )
       (*(void (__thiscall **)(int))(*(_DWORD *)self + 272))(self);
     else
-      v9 = this->field_754;
+      v9 = this->baseScale;
   }
   *(float *)(a3 + 4) = v9 * v13 + *(float *)(a3 + 4);
   return ElemThunk;
@@ -2817,14 +5536,14 @@ char CXiSkeletonActor::IsDirectionLock_Set(char a2)
   LOBYTE(v2) = a2;
   if ( a2 == 1 )
   {
-    v2 = this->field_838 + 1;
-    this->field_838 = v2;
+    v2 = this->directionLockCount + 1;
+    this->directionLockCount = v2;
   }
   else if ( a2 == 0 )
   {
-    v2 = this->field_838;
+    v2 = this->directionLockCount;
     if ( v2 > 0 )
-      this->field_838 = --v2;
+      this->directionLockCount = --v2;
   }
   return v2;
 }

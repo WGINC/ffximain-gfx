@@ -128,13 +128,25 @@ public class GfxExport extends GhidraScript {
                     String sig = g != null ? g.getSignature(true).getPrototypeString(true) : "int __cdecl(void)";
                     int purge = g != null ? g.getStackPurgeSize() : 0;
                     objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d}",
-                            ta.getOffset(), esc(sig.replaceFirst("\\s*" + java.util.regex.Pattern.quote(nm) + "\\s*\\(", "(")), esc(nm), Math.max(purge, 0)));
+                            ta.getOffset(), esc(sig.replaceFirst("\\s*" + java.util.regex.Pattern.quote(nm) + "\\s*\\(", "(")), esc(nm), (purge == Function.UNKNOWN_STACK_DEPTH_CHANGE || purge < 0 ? -1 : purge)));
+                } else if (!(t instanceof ClangVariableToken) && nm.matches("[A-Za-z_][A-Za-z0-9_]*")) {
+                    // any other token that names a program symbol (PTR_ labels, functions used as values)
+                    SymbolIterator it = currentProgram.getSymbolTable().getSymbols(nm);
+                    Symbol sy = it.hasNext() ? it.next() : null;
+                    if (sy == null || !sy.getAddress().isMemoryAddress() || f.getBody().contains(sy.getAddress())) continue;
+                    Function g = getFunctionAt(sy.getAddress());
+                    if (g != null)
+                        objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d}",
+                                sy.getAddress().getOffset(), esc(g.getSignature(true).getPrototypeString(true).replaceFirst("\\s*" + java.util.regex.Pattern.quote(g.getName()) + "\\s*\\(", "(")), esc(nm), (g.getStackPurgeSize() == Function.UNKNOWN_STACK_DEPTH_CHANGE || g.getStackPurgeSize() < 0 ? -1 : g.getStackPurgeSize())));
+                    else
+                        objs.put(nm, String.format("{\"ea\": %d, \"func\": false, \"type\": \"undefined4\", \"printed\": [%s], \"size\": 4, \"is_str\": false}",
+                                sy.getAddress().getOffset(), esc(nm)));
                 } else if (t instanceof ClangVariableToken) {
                     HighVariable hv = ((ClangVariableToken) t).getHighVariable();
                     if (!(hv instanceof HighGlobal)) continue;
                     HighSymbol hs = hv.getSymbol();
                     Address ga = hs != null && hs.getStorage() != null ? hs.getStorage().getMinAddress() : null;
-                    if (ga == null || !ga.isMemoryAddress()) continue;
+                    if (ga == null || !ga.isMemoryAddress() || f.getBody().contains(ga)) continue;
                     DataType dt = hv.getDataType();
                     Data dd = getDataAt(ga);
                     boolean str = dd != null && dd.hasStringValue();

@@ -3,13 +3,14 @@
 #include "CApp.hpp"
 
 // FUNCTION: FFXIMAIN 0x10001520  (placed by IDB name)
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CApp::RunMainLoop()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   char *v2;
   char *v3;
-  char v5;
+  alignas(16) unsigned char xi_frame[0x413];  // address-taken locals at their original offsets
+  char &v5 = *reinterpret_cast<char *>(xi_frame + 0x13);
   struct tagMSG Msg;
   orig::App_ForceForegroundWindow(*((HWND *)self + 6));
   if ( orig::CDx_Initialize(g_pCDx) != 0 && orig::App_CreateInputSystem(*((HINSTANCE *)self + 5)) != 0 )

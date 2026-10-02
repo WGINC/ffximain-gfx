@@ -1,5 +1,5 @@
 // CTsZoneMap -- graphics members reconstructed from Hex-Rays output, gate-verified.
-// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.
+// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.
 #pragma once
 #include "gfx_common.hpp"
 #pragma pack(push, 1)
@@ -15,50 +15,50 @@ public:
     uint8_t _pad_4[0x178];
     float field_17C;  // +0x17C
     uint8_t _pad_180[0x34264];
-    uint32_t field_343E4;  // +0x343E4
+    uint32_t overlayTex;  // +0x343E4 CYyTex* of the multiplicative overlay quad
     uint8_t _pad_343E8[0x4D14];
-    int32_t field_390FC;  // +0x390FC
+    int32_t cullCW;  // +0x390FC one-sided batches: nonzero -> D3DCULL_CW, else CCW
     uint8_t _pad_39100[0x20];
-    int32_t field_39120;  // +0x39120
+    int32_t curTwoSided;  // +0x39120 cached two-sided state of the last batch
     uint8_t _pad_39124[0x330];
-    uint32_t field_39454;  // +0x39454
-    uint32_t field_39458;  // +0x39458
+    uint32_t vsHandleA;  // +0x39454 vertex shader from g_zoneVSDeclA
+    uint32_t vsHandleB;  // +0x39458 vertex shader from g_zoneVSDeclB
     uint8_t _pad_3945C[0x10];
-    uint32_t field_3946C;  // +0x3946C
+    uint32_t vsHandles;  // +0x3946C 5 more vertex shader handles
     uint32_t field_39470;  // +0x39470
     uint32_t field_39474;  // +0x39474
     uint32_t field_39478;  // +0x39478
     uint32_t field_3947C;  // +0x3947C
     uint8_t _pad_39480[0x14];
-    uint32_t field_39494;  // +0x39494
+    uint32_t psHandle;  // +0x39494 pixel shader handle
     uint8_t _pad_39498[0xC];
-    int32_t field_394A4;  // +0x394A4
-    int32_t field_394A8;  // +0x394A8
-    int32_t field_394AC;  // +0x394AC
-    int32_t field_394B0;  // +0x394B0
+    int32_t useTwoDirLights;  // +0x394A4 nonzero: two zone-environment directional lights
+    int32_t lightSlotDir0;  // +0x394A8 D3D light index, directional light 0
+    int32_t lightSlotDir1;  // +0x394AC D3D light index, directional light 1
+    int32_t lightSlotNamed;  // +0x394B0 D3D light index of zone-table light 'l_01'
     uint8_t _pad_394B4[0x98];
     uint32_t field_3954C;  // +0x3954C
     uint8_t _pad_39550[0x48];
-    uint8_t field_39598;  // +0x39598
+    uint8_t overlayUseProjection;  // +0x39598 byte: overlay uses saved projection, else Z-bias
     uint8_t _pad_39599[0x1B];
 };
 #pragma pack(pop)
 static_assert(sizeof(CTsZoneMap) == 0x395B4, "CTsZoneMap: sizeof");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_17C) == 0x17C, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_343E4) == 0x343E4, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_390FC) == 0x390FC, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39120) == 0x39120, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39454) == 0x39454, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39458) == 0x39458, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_3946C) == 0x3946C, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, overlayTex) == 0x343E4, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, cullCW) == 0x390FC, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, curTwoSided) == 0x39120, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleA) == 0x39454, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleB) == 0x39458, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandles) == 0x3946C, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_39470) == 0x39470, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_39474) == 0x39474, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_39478) == 0x39478, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_3947C) == 0x3947C, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39494) == 0x39494, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_394A4) == 0x394A4, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_394A8) == 0x394A8, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_394AC) == 0x394AC, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_394B0) == 0x394B0, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, psHandle) == 0x39494, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, useTwoDirLights) == 0x394A4, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, lightSlotDir0) == 0x394A8, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, lightSlotDir1) == 0x394AC, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, lightSlotNamed) == 0x394B0, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_3954C) == 0x3954C, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39598) == 0x39598, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, overlayUseProjection) == 0x39598, "CTsZoneMap: layout");

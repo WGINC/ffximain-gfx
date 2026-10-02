@@ -256,7 +256,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
             v15 = v14 < 1.5;
             v16 = 0;
             v17 = v14 == 1.5;
-            if ( (v13 & 0x4100) != 0 )
+            if ( ((__int16)((v15 ? 0x100 : 0) | (v16 ? 0x400 : 0) | (v17 ? 0x4000 : 0)) & 0x4100) != 0 )
             {
               g_modelMaterialEmissiveR = 0.0;
               g_modelMaterialEmissiveG = 0.0;

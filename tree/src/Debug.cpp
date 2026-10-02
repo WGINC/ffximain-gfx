@@ -45,7 +45,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 291 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 236 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
 {
   int v3;
@@ -69,15 +69,17 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
   int v21;
   int v22;
   _BYTE *v23;
-  float v24[3];
+  alignas(16) unsigned char xi_frame[0x14F0];  // address-taken locals at their original offsets
+  float (&v24)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x20);
   int v25;
-  int v26[3];
-  int v27[16];
+  int (&v26)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x30);
+  int (&v27)[16] = *reinterpret_cast<int (*)[16]>(xi_frame + 0x3C);
   int a3a[3];
-  char v29;
-  _WORD v30[2048];
-  char v31;
-  _BYTE v32[32764];
+  char &v29 = *reinterpret_cast<char *>(xi_frame + 0x88);
+  _WORD (&v30)[2048] = *reinterpret_cast<_WORD (*)[2048]>(xi_frame + 0xEC);
+  char &v31 = *reinterpret_cast<char *>(xi_frame + 0x10EC);
+  _BYTE (&v32)[32764] = *reinterpret_cast<_BYTE (*)[32764]>(xi_frame + 0x10F0);
+
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;
@@ -87,7 +89,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
     orig::Mat4_SetTranslation(v27, a1);
     orig::CDx_SetTransform(&g_pCDx->vftable, 256, v27);
     orig::Gfx_ProjectWorldToClip(v24, v24);
-    orig::Gfx_NdcToScreen(v24);
+    orig_void::Gfx_NdcToScreen(v24);
     v3 = strlen(a2);
     v25 = 1065353216;
     v21 = v3;
@@ -157,8 +159,8 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
           flt_1034F768 = flt_1034F75C;
           do
           {
-            orig::Vec3_Scale((float *)v26, v17, 1.0);
-            orig::Vec3_Add_10026FA0(v12 - 3, v24, (float *)v26);
+            orig_void::Vec3_Scale((float *)v26, v17, 1.0);
+            orig_void::Vec3_Add_10026FA0(v12 - 3, v24, (float *)v26);
             v18 = *(v10 - 1);
             v19 = *v10;
             *v12 = 1.0;

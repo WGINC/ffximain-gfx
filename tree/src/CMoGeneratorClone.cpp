@@ -27,7 +27,7 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   v2 = this->field_E8;
   v3 = this->field_EC;
   v4 = this->field_E4;
-  this->field_E0 += self + 96;
+  this->pCommandStream += self + 96;
   this->field_E4 = self + 96 + v4;
   this->field_E8 = self + 96 + v2;
   v5 = self + 48;
@@ -54,7 +54,7 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
     this->field_DE = (at<uint8_t>(this, 0x21) - 48) & 0x7B | 0x80;
   }
   v6 = (_DWORD *)self;
-  v7 = (this->field_D8 & 0x1000) != 0;
+  v7 = (this->flags & 0x1000) != 0;
   while ( 1 )
   {
     v8 = v6;
@@ -88,7 +88,7 @@ LABEL_48:
   }
   if ( Global_1047D114 == 83895 || Global_1047D114 == 83896 || Global_1047D114 == 83903 || Global_1047D114 == 83904 )
   {
-    v15 = this->field_20;
+    v15 = this->typeTag;
     if ( v15 == 825319984
       || v15 == 842097200
       || v15 == 825385520
@@ -101,13 +101,13 @@ LABEL_48:
   }
   if ( Global_1047D114 == 83897 )
   {
-    v16 = this->field_20 == 825516656;
+    v16 = this->typeTag == 825516656;
   }
   else
   {
     if ( Global_1047D114 != 83905 && Global_1047D114 != 83906 && Global_1047D114 != 83907 && Global_1047D114 != 83908 )
       goto LABEL_49;
-    v17 = this->field_20;
+    v17 = this->typeTag;
     if ( v17 == 808542768 || v17 == 825319984 || v17 == 842097200 || v17 == 808608304 || v17 == 825385520 )
       goto LABEL_47;
     v16 = v17 == 842162736;
@@ -187,13 +187,13 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
   orig::CMoResource_RegisterInTypeList((_DWORD *)v6);
   if ( (_BYTE)a4 != 0 )
     orig::SharedConditionalStateReset(v6);
-  for ( i = this->field_E0; i != 0; i += 4 * ((*(_DWORD *)i >> 8) & 0x1F) )
+  for ( i = this->pCommandStream; i != 0; i += 4 * ((*(_DWORD *)i >> 8) & 0x1F) )
   {
     if ( *(_BYTE *)i == 4 )
     {
       if ( *(_DWORD *)(i + 4) == 0 )
         *(_DWORD *)(i + 4) = *orig::CMoResource_FindByTypeAndId(self, &a2, 25, *(_DWORD *)(i + 8));
-      a4 = this->field_D8 & 0x1FF;
+      a4 = this->flags & 0x1FF;
       *(float *)(i + 16) = (float)a4;
     }
     if ( (unsigned __int8)*(_DWORD *)i == 0 )

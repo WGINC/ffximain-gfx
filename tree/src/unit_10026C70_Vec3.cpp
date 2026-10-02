@@ -35,7 +35,7 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
   orig::CDx_GetTransformCached(g_pCDx, 2, v3);
   orig::Mat4_PostMultiply((int)v2, (int)v3);
   orig::Vec4_Copy(a1, a2);
-  orig::Mat4_TransformVec4InPlace(v2, a1);
+  orig_void::Mat4_TransformVec4InPlace(v2, a1);
   orig::nullsub_1();
   orig::nullsub_1();
 }

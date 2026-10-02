@@ -70,7 +70,7 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     v18 = 0;
     v22 = 0;
     orig::Mat4_Transpose(v31, &v11);
-    orig::sqMatrix4_10280140(v30, v31, (float *)&v11);
+    orig_void::sqMatrix4_10280140(v30, v31, (float *)&v11);
     v1 = 1.0 / v30[0];
     v2 = &v12;
     v3 = 3;
@@ -90,7 +90,7 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     v27[1] = v9[14];
     v27[2] = v9[18];
     orig::Mat4_Transpose(v31, &v11);
-    orig::Mat4_TransformPoint(v29, v31, v27);
+    orig_void::Mat4_TransformPoint(v29, v31, v27);
     v28[0] = v11;
     *(float *)&v23 = -(flt_103890E4 * v29[0]);
     v28[3] = v14;
@@ -135,6 +135,53 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
   }
   orig::nullsub_1();
+}
+
+// FUNCTION: FFXIMAIN 0x102501C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 112 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_102501C0(_BYTE *a1)
+{
+  int result;
+  float v2;
+  _DWORD v3[4];
+  v3[0] = 1065353216;
+  v3[1] = 1065353216;
+  v3[2] = 1065353216;
+  v3[3] = 1065353216;
+  orig::sub_102502D0(a1);
+  result = *((_DWORD *)a1 + 1);
+  if ( result >= 2 )
+  {
+    if ( g_stateBlock_914C != 0 )
+      g_pCDx->pDevice->ApplyStateBlock(g_stateBlock_914C);
+    ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->Clear)(
+      g_pDancerDevice,
+      0,
+      0,
+      6,
+      -16777216,
+      1065353216,
+      0);
+    orig::___setargv_3();
+    orig::___setargv_24();
+    orig::___setargv_9();
+    orig::nullsub_59();
+    orig::___setargv_16();
+    orig::sub_102717F0();
+    result = orig::sub_10251960(g_self_106693FC);
+    if ( (_BYTE)result != 0 )
+    {
+      --*((_DWORD *)a1 + 16);
+      orig::sqgxTextureSet(-1);
+      orig::sqgxColor(v3);
+      v2 = 1.0 - (double)*((int *)a1 + 16) * 0x1.1111120000000p-5;
+      orig_void::sub_10282A30(v2);
+      orig::sqgxZTest(0);
+      orig::sqgx_DrawRect_Candidate(0, 0, 447, 383, 0, 0, -1, -1, 0);
+      return orig::sqgxZTest(1);
+    }
+  }
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x102504D0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)

@@ -187,6 +187,69 @@ def fpu_status_words(body):
     out.append(body[pos:])
     return ''.join(out)
 
+_PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
+PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}
+
+def ghidra_fix_convention(rec):
+    # Ghidra's calling convention for the function itself, checked against its real `ret N`:
+    # stdcall that pops nothing is cdecl; cdecl that pops is stdcall
+    real = PURGES.get('0x%08X' % rec['ea'])
+    t, cc = rec.get('type', ''), rec.get('cc', '__cdecl')
+    if real == 0 and '__stdcall' in t: t, cc = t.replace('__stdcall', '__cdecl'), '__cdecl'
+    elif real and '__cdecl' in t: t, cc = t.replace('__cdecl', '__stdcall'), '__stdcall'
+    return dict(rec, type=t, cc=cc)
+
+GHIDRA_AUTO = re.compile(r'\b((DAT|PTR|FUN|s|u|UNK|BYTE|WORD|DWORD)_(?:\w*?_)?([0-9a-f]{8}))\b')
+
+def ghidra_auto_objs(rec, body):
+    # Ghidra's automatic names carry their address (DAT_10456a2c, s_text_1034f00c, FUN_1011bba0); they
+    # are not stored symbols, so the exporter cannot list them. LAB_ (goto labels) stay labels.
+    objs = dict(rec.get('objs', {}))
+    for m in GHIDRA_AUTO.finditer(body):
+        nm, kind, ea = m.group(1), m.group(2), int(m.group(3), 16)
+        if nm in objs: continue
+        if kind == 'FUN':
+            objs[nm] = {'ea': ea, 'func': True, 'type': 'undefined4 __cdecl(void)', 'printed': [nm], 'purged': None}
+        else:
+            objs[nm] = {'ea': ea, 'func': False, 'type': 'undefined4', 'printed': [nm], 'size': 4,
+                        'is_str': kind in ('s', 'u')}
+    return objs
+
+def call_arg_counts(body, name):
+    # number of arguments at each call `name(...)` in the body (top-level commas)
+    out = []
+    for m in re.finditer(r'(?<![\w.>])%s\s*\(' % re.escape(name), body):
+        depth, i, n, empty = 1, m.end(), 1, True
+        while i < len(body) and depth:
+            c = body[i]
+            if c in '([{': depth += 1
+            elif c in ')]}': depth -= 1
+            elif c == ',' and depth == 1: n += 1
+            if depth and not c.isspace(): empty = False
+            i += 1
+        out.append(0 if empty else n)
+    return out
+
+def ghidra_ptr_type(name, o, body):
+    # Ghidra's committed prototypes can disagree with its call sites (a callee's unused parameters are
+    # dropped). What the original really pushes is fixed by the callee's purge (callee-cleanup) or by
+    # the call sites (cdecl), so the call goes through XI_ANY slots of that count (xi_ghidra.hpp).
+    m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', SPOILS.sub('', o['type']), re.S)
+    ret = (m.group(1).strip() if m else 'int') or 'int'
+    cc = (m.group(2) if m else None) or '__cdecl'
+    regs = {'__thiscall': 1, '__fastcall': 2}.get(cc, 0)
+    real = PURGES.get('0x%08X' % o['ea'])
+    if o.get('purged') is not None and not 0 <= o['purged'] <= 0x400: o = dict(o, purged=None)   # Ghidra: unknown
+    if real == 0 and cc == '__stdcall': cc = '__cdecl'      # pops nothing: the caller cleans up
+    if cc in ('__stdcall', '__thiscall', '__fastcall') and (real is not None or o.get('purged') is not None):
+        nstack = (real if real is not None else o['purged']) // 4
+    elif real:                                       # Ghidra says cdecl, but the callee pops: stdcall
+        cc, nstack = '__stdcall', real // 4
+    else:
+        nstack = max(call_arg_counts(body, name) or [0]) - regs
+    params = ['void *'] * regs + ['XI_ANY'] * max(nstack, 0)
+    return '%s (%s *)(%s)' % (ret, cc, ', '.join(params))
+
 def translate(rec):
     ea = rec['ea']; text = rec['text']
     head, brace, body = text.partition('\n{')
@@ -197,10 +260,11 @@ def translate(rec):
     sig = ' '.join(sig_lines).strip()
     body = '{' + body
     syms = []; reps = []
+    if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
     for nm, o in rec.get('objs', {}).items():
         oea = o['ea']
         if o['func']:
-            pt = ptr_type(o['type'])
+            pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
             if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
             tok = 'F_%08X' % oea
             syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
@@ -284,6 +348,12 @@ def main(src, outdir):
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
         rec = hx_patches.apply(rec)
+        if rec.get('source') == 'ghidra':
+            rec = ghidra_fix_convention(rec)
+        if rec.get('source') == 'ghidra' and rec.get('type'):
+            # Ghidra's text omits the calling convention in its signature; the record's type has it
+            head, brace, rest = rec['text'].partition('\n{')
+            rec = dict(rec, text='\n'.join(l for l in head.splitlines() if l.startswith('//')) + '\n' + rec['type'] + brace + rest)
         rec = dict(rec, text=SPOILS.sub('', rec['text']))
         r, why = translate(rec)
         if r is None:

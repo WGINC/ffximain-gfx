@@ -79,7 +79,7 @@ void CMoDistRingElem::AllocRingGeometry()
   v8 = 0;
   v31 = v3 - 1;
   v29 = 0;
-  v34 = 6.2831841 / (double)this->field_1B4;
+  v34 = 0x1.921fb00000000p+2 / (double)this->field_1B4;
   if ( v3 - 1 > 0 )
   {
     v9 = (float *)(self + 408);

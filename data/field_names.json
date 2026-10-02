@@ -326,5 +326,25 @@
    "summary": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit",
    "evidence": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed with Mem_FreeObject"
   }
+ },
+ "CMoGeneratorClone": {
+  "0x20": {
+   "name": "typeTag",
+   "confidence": "medium",
+   "summary": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-chara",
+   "evidence": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-character resource tag"
+  },
+  "0xD8": {
+   "name": "flags",
+   "confidence": "medium",
+   "summary": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in Creat",
+   "evidence": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in CreateInstance"
+  },
+  "0xE0": {
+   "name": "pCommandStream",
+   "confidence": "medium",
+   "summary": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks ",
+   "evidence": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks it as variable-length records (length in bits 8..12, in dwords)"
+  }
  }
 }

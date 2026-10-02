@@ -3,10 +3,11 @@
 #
 #   FFXI_DLL=/path/to/FFXiMain_unpacked.dll ./run.sh all [EXPORT] [RUN]
 #
-# Steps (each can be run alone: ./run.sh translate|cases|gate|clean|cleangate|residue ...):
+# Steps (each can be run alone: ./run.sh facts|translate|cases|gate|clean|cleangate|residue ...):
+#   facts      per-function facts read from the DLL: x87 constants, return kinds, consumed x87 results
 #   translate  Hex-Rays export -> one C++ unit per function (runs/RUN/raw), build, cast repairs
 #   cases      gate cases for every translated function
-#   gate       equivalence gate, original vs reconstruction (2 shards)
+#   gate       equivalence gate, original vs reconstruction ($JOBS shards, default one per core)
 #   clean      class-shaped tree from the passing functions -> runs/RUN/tree
 #   cleangate  gate the clean tree exactly as built; annotate each function with its result
 #   residue    RESIDUE.md: every graphics function not in the verified tree, with the reason
@@ -15,12 +16,17 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
 EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_current.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
-gate2() {  # gate2 DLL CASES OUTPREFIX: two shards in parallel
-  python3 -c "import json,sys;c=json.load(open('$2'));json.dump(c[0::2],open('$3_c0.json','w'));json.dump(c[1::2],open('$3_c1.json','w'))"
-  for s in 0 1; do python3 "$P/diffemu_gfx.py" "${FFXI_DLL:?set FFXI_DLL}" "$1" "$3_c$s.json" "$3_$s.jsonl" --trials 100 --seed 11 > "$3_$s.log" 2>&1 & done; wait
-  cat "$3_0.jsonl" "$3_1.jsonl" > "$3.jsonl"
+gate2() {  # gate2 DLL CASES OUTPREFIX: $JOBS shards in parallel (default: one per core)
+  local n=${JOBS:-$(nproc)}
+  python3 -c "import json,sys;c=json.load(open('$2'));[json.dump(c[i::$n],open('$3_c%d.json'%i,'w')) for i in range($n)]"
+  for s in $(seq 0 $((n-1))); do python3 "$P/diffemu_gfx.py" "${FFXI_DLL:?set FFXI_DLL}" "$1" "$3_c$s.json" "$3_$s.jsonl" --trials 100 --seed 11 > "$3_$s.log" 2>&1 & done; wait
+  cat $(for s in $(seq 0 $((n-1))); do echo "$3_$s.jsonl"; done) > "$3.jsonl"
 }
 case "$1" in
+  facts|all)     # facts read from the game DLL that the translator and the gate use (data/*.json)
+                 python3 "$P/fpconst.py" "${FFXI_DLL:?set FFXI_DLL}" "$EXP" "$ROOT/data/fp_consts.json"
+                 python3 "$P/ret_kinds.py" "$FFXI_DLL" "$ROOT/data/ret_kinds.json"
+                 python3 "$P/fp_callsites.py" "$FFXI_DLL" "$EXP" "$ROOT/data/fp_callsites.json" ;;&
   translate|all) rm -rf "$W/raw"; python3 "$P/hx2cpp.py" "$EXP" "$W/raw"; "$P/build_raw.sh" "$W/raw" | tail -1
                  python3 "$P/repair_compile.py" "$W/raw" | tail -1; "$P/build_raw.sh" "$W/raw" | tail -1 ;;&
   cases|all)     python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"

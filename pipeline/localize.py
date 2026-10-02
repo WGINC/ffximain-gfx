@@ -105,7 +105,12 @@ def main(game, rawdir, casesf, gatef, outf, limit=200):
         res[g['original']] = {'name': g['name'], 'why': g['first_mismatch']['why'][:160], 'event_index': i,
                               'original_event': e_o, 'recon_event': e_r, 'recon_line': line,
                               'status': [a.status, b.status], 'events': [len(ta), len(tb)]}
-        print(g['original'], g['name'][:30], 'event', i, '| recon line', line, flush=True)
+        if b.status in ('fault', 'limit'):     # where the reconstruction crashed or was stopped
+            res[g['original']]['recon_stop'] = ['0x%08X' % b.stop_eip, src_line(dll, b.stop_eip), b.detail[:120]]
+        if a.status in ('fault', 'limit'):
+            res[g['original']]['original_stop'] = ['0x%08X' % a.stop_eip, a.detail[:120]]
+        print(g['original'], g['name'][:30], 'event', i, '| recon line', line,
+              '| recon stop', res[g['original']].get('recon_stop'), flush=True)
     json.dump(res, open(outf, 'w'), indent=1)
 
 if __name__ == '__main__':

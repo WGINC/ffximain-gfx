@@ -24,6 +24,8 @@ def ptr_type(ftype):
     __spoils<..> (callee preserves a scratch register) is dropped: it lets Hex-Rays see a value survive
     the call; the C++ caller re-supplies it explicitly, and GCC assumes eax/ecx/edx clobbered anyway."""
     ftype = SPOILS.sub('', ftype)
+    ftype = re.sub(r'^(.*?)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
+    ftype = re.sub(r'\b__noreturn\b', '', ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'\s*\((.*)\)\s*$', ftype, re.S)
     if m:
         ret, cc, args = m.groups()
@@ -40,7 +42,9 @@ def ptr_type(ftype):
         if ch == ',' and depth == 0: parts.append(cur); cur = ''; continue
         depth += (ch == '(') - (ch == ')'); cur += ch
     if cur.strip(): parts.append(cur)
-    parts = ['void *' if '*' in p or '[' in p else p.strip() for p in parts]
+    # Windows pointer typedefs (LPCWSTR, LPSYSTEMTIME, ...) are pointers too
+    parts = ['void *' if '*' in p or '[' in p or re.match(r'^(const\s+)?LP[A-Z]\w*\b', p.strip()) else p.strip() for p in parts]
+    ret = re.sub(CC_RE, '', ret)          # a calling convention left in the return type (`void __cdecl __noreturn`)
     return '%s (%s *)(%s)' % (ret.strip() or 'int', cc, ', '.join(parts))
 
 def typedef_for(name, t):
@@ -125,11 +129,18 @@ def exact_frame(body):
     return ''.join(out)
 
 SIGNED_CMP = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (?=\(__int16\)|SHIWORD\(|SLOWORD\(|\(int\)|\(char\)|\(__int8\)|\(signed)')
+SIGNED_CMP_LIT = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\))((?: [+-] \d+)?) (<=|>=|<|>) (-?\d+)(?![\w.])')
+SIGNED_CMP_INT = re.compile(r'(\(int\)[^;<>=()]*? (?:<=|>=|<|>) )\*\(_DWORD \*\)')
+SIGNED_DIV = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) ([/%]) (\d+)(?![\w.])')
 
 def signed_dword_compares(body):
-    # `_DWORD` has no signedness in Hex-Rays output; a comparison takes it from the other operand.
-    # In C++ `_DWORD` is uint32_t, so `*(_DWORD *)p > (__int16)x` would compare unsigned: read it as int.
-    return SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
+    # `_DWORD` has no signedness in Hex-Rays output: a comparison or division takes it from the other
+    # operand, and an unsigned one is written with a `u` literal (`<= 2u`). In C++ `_DWORD` is
+    # uint32_t, which would make `*(_DWORD *)p + 1 > 0` or `*(_DWORD *)p / 2` unsigned: read it as int.
+    body = SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
+    body = SIGNED_CMP_LIT.sub(r'*(int *)\1\2 \3 \4', body)
+    body = SIGNED_CMP_INT.sub(r'\1*(int *)', body)
+    return SIGNED_DIV.sub(r'*(int *)\1 \2 \3', body)
 
 def fpu_status_words(body):
     # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
@@ -186,6 +197,13 @@ def translate(rec):
             if dm: forms.add(dm)
         for p in forms:
             reps.append((p, tok, oea))
+    # a global with the same name as a parameter (the IDB has a global named `self`): Hex-Rays writes
+    # the global as `::name`, so only that form is the global
+    pnames = set(re.findall(r'(\w+)\s*(?:\[[^]]*\])?\s*(?:,|$)', sig[sig.find('(') + 1:sig.rfind(')')]))
+    shadow = {p for p, tok, oea in reps if p in pnames}
+    for p, tok, oea in reps:
+        if p in shadow: body = body.replace('::' + p, tok)
+    reps = [r for r in reps if r[0] not in shadow]
     # longest printed form first so `sub_1000` never eats part of `sub_10001234`
     for p, tok, oea in sorted(reps, key=lambda r: -len(r[0])):
         if oea == ea:  # the function's own name in its signature is handled below

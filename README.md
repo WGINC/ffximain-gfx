@@ -65,6 +65,16 @@ The one FAIL, `CXiSkeletonActor_OnMove`, is an IDA stack-pointer error, not a tr
 names. The correction is in `data/ida_sp_fixes.json`; apply it in IDA (`ida_apply_names.apply_sp()`) and
 re-export the function.
 
+**Latest raw-tree gates (dev7, after commit `60b62b3`)**, recorded in `verification/gate_raw_latest.jsonl` and
+`verification/gate_live_latest.jsonl`. The clean tree has not been regenerated from these yet:
+- **Fuzz gate:** 680 PASS, 30 INCONCLUSIVE, 2 FAIL. The second FAIL, `Dancer_InitDevice` (0x10251A80), is a
+  regression from the last pipeline changes and is still to be traced.
+- **Live gate** (inputs taken from a memory dump of the running game, `FFXI_LIVE`): 658 PASS, 51
+  INCONCLUSIVE, 3 FAIL. The FAILs are `CXiSkeletonActor_OnMove` (IDA SP error, above),
+  `CTsZoneMap_DrawProjectedShadow` (Hex-Rays names stack slots 12 bytes off in its later region; needs an
+  IDA-side fix and re-export) and `Dancer_InitDevice` (the same regression). Most INCONCLUSIVE results are
+  sqgx/sqsn functions, which are idle in the dump (`g_pDancerDevice` is null) and pass under fuzzing.
+
 On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The repairs since,
 to the translator, the gate model and the data, are described in `docs/REPORT-2026-10-02.md`.
 

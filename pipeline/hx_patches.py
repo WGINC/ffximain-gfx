@@ -58,6 +58,11 @@ def fix_types(rec):
         size = int(n.group(1)) * elem.get(t[o['ea']][:n.start()].strip(), 0) if n else o.get('size')
         return dict(o, type=t[o['ea']], size=size or o.get('size'))
     rec = dict(rec, objs={n: fixed(o) for n, o in objs.items()})
+    # a callee whose corrected return is a full int: `LOWORD(x) = f(...)` (from a 16-bit IDB type) keeps
+    # all 32 bits, as the original's `push eax` / `test eax, eax` after the call does
+    for n, o in objs.items():
+        if o.get('func') and o.get('ea') in t and re.match(r'(unsigned )?int\s', t[o['ea']]):
+            rec['text'] = re.sub(r'\bLOWORD\((\w+)\) = (%s\()' % re.escape(n), r'\1 = \2', rec['text'])
     if rec['ea'] in t:
         rec['type'] = t[rec['ea']]
         if '(' in t[rec['ea']]:

@@ -123,10 +123,18 @@ BYREF_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \
 STACK_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])?(?: BYREF)?$', re.M)
 
 def pointer_walks_locals(body):
+    # p = &v (v a scalar stack local), then p -- or an alias of it (q = p) -- is moved or offset:
+    # `p += 4`, `++q`, `q[k]`, `p - 1`, `(char *)p + k`
     scalars = {m.group(4) for m in STACK_DECL.finditer(body) if not m.group(5) and not m.group(3)}
     for p, v in re.findall(r'\b([A-Za-z_]\w*) = (?:\([^()]*\))?&([A-Za-z_]\w*);', body):
-        if v in scalars and re.search(r'\b%s\s*(\+=|-=|\+\+|--|\[|[-+] \d)|(\+\+|--)%s\b' % (p, p), body):
-            return True
+        if v not in scalars: continue
+        ptrs, grow = {p}, True
+        while grow:
+            new = {q for q, r in re.findall(r'\b([A-Za-z_]\w*) = (?:\([^()]*\))?([A-Za-z_]\w*);', body) if r in ptrs} - ptrs
+            grow = bool(new); ptrs |= new
+        for q in ptrs:
+            if re.search(r'\b%s\s*(\+=|-=|\+\+|--|\[|[-+] [\w(])|(\+\+|--)%s\b|\(char \*\)%s [-+] ' % (q, q, q), body):
+                return True
     return False
 
 _ELEM = {'float': 4, 'int': 4, '_DWORD': 4, 'unsigned int': 4, '_BYTE': 1, 'char': 1, 'unsigned __int8': 1,
@@ -211,6 +219,7 @@ def body_rules(ea, body):
     body = fpu_status_words(body)
     body = negate_if_negative(body)
     body = float_args_in_casts(body)
+    body = deleting_dtor_this(body)
     body = signed_dword_compares(body)
     body = exact_frame(body)
     return inplace_buffers(body)
@@ -325,6 +334,14 @@ def float_args_in_casts(body):
             out.append(body[pos:i]); out.append(', '.join(new)); pos = j - 1
     out.append(body[pos:])
     return ''.join(out)
+
+DTOR_NO_THIS = re.compile(r'\(\*\(void \(__stdcall \*\*\)\(int\)\)\(\*\(_DWORD \*\)([A-Za-z_]\w*) \+ 24\)\)\(1\)')
+
+def deleting_dtor_this(body):
+    # `mov eax,[ecx]; push 1; call [eax+0x18]`: the scalar deleting destructor (vtable slot 6), thiscall on
+    # the object whose vtable it reads. Hex-Rays writes it `__stdcall (int)` and drops the object
+    # (TexRef_EnsureRenderTarget 0x100755DD, CXiSkeletonActorRes_ProcessLoadS 0x100D70B3).
+    return DTOR_NO_THIS.sub(lambda m: '(*(void (__thiscall **)(void *, int))(*(_DWORD *)%s + 24))((void *)%s, 1)' % (m.group(1), m.group(1)), body)
 
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}

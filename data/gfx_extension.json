@@ -1,0 +1,2556 @@
+{
+ "what": "functions outside the 768-function graphics set that call graphics code (gfx_coverage.py)",
+ "tiers": {
+  "1": "named in a graphics family, or calls D3DX resource/shader code",
+  "2": "unnamed, calls 2 or more graphics functions",
+  "3": "calls exactly one graphics function (often game logic using a helper)"
+ },
+ "functions": {
+  "0x100016C0": {
+   "name": "App_PreTranslateInputMessage",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetVisible"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10001B50": {
+   "name": "App_RenderFrameMaskedFPU",
+   "tier": 3,
+   "calls_graphics": [
+    "Frame_Render"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10001D90": {
+   "name": "sub_10001D90",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10124640"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10003110": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_D3DBootstrap"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10003710": {
+   "name": "sub_10003710",
+   "tier": 2,
+   "calls_graphics": [
+    "Debug_DrawTextTable",
+    "sub_10003890"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x100058F0": {
+   "name": "sub_100058F0",
+   "tier": 3,
+   "calls_graphics": [
+    "DirectInput_InstallMouse"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100089D0": {
+   "name": "sub_100089D0",
+   "tier": 3,
+   "calls_graphics": [
+    "DirectInput_InstallMouse"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10009120": {
+   "name": "CDx_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_ReleaseStereoResources"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10009E60": {
+   "name": "sub_10009E60",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_PushRenderTargetTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10009EA0": {
+   "name": "sub_10009EA0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_PushRenderTargetTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10009EE0": {
+   "name": "sub_10009EE0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_PushRenderTargetTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1000A390": {
+   "name": "sub_1000A390",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_EndClearBegin"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1000A5A0": {
+   "name": "CDx_DrawTexturedScreenQuad",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1000ABE0": {
+   "name": "sub_1000ABE0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_DrawScreenQuadAtDepth",
+    "CDx_SetDefaultRenderState"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1000AEA0": {
+   "name": "sub_1000AEA0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP",
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1000B1B0": {
+   "name": "sub_1000B1B0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP",
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1000B460": {
+   "name": "sub_1000B460",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP",
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1000B7C0": {
+   "name": "sub_1000B7C0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP",
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1000CDF0": {
+   "name": "sub_1000CDF0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_ApplyStereoEyeProjection",
+    "CDx_GetStereoSecondEyeTarget",
+    "CDx_PushRenderTarget",
+    "CDx_RestoreProjection"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x100139E0": {
+   "name": "sub_100139E0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiOpening_Constructor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10014170": {
+   "name": "sub_10014170",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_100141C0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100157B0": {
+   "name": "sub_100157B0",
+   "tier": 3,
+   "calls_graphics": [
+    "App_WinMain"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10015AB0": {
+   "name": "App_RunWithCOM",
+   "tier": 2,
+   "calls_graphics": [
+    "App_CreateRendererAndApp",
+    "sub_10016320"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10016300": {
+   "name": "sub_10016300",
+   "tier": 3,
+   "calls_graphics": [
+    "CApp_RunMainLoop"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100172D0": {
+   "name": "sub_100172D0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10017310"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100177E0": {
+   "name": "sub_100177E0",
+   "tier": 1,
+   "calls_graphics": [],
+   "n_calls": 0,
+   "d3dx": [
+    "D3DXAssembleShader"
+   ]
+  },
+  "0x10017C20": {
+   "name": "sub_10017C20",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_CopySurfaceRectToTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100186A0": {
+   "name": "CXiOpening_ScalarDeletingDtor",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiOpening_Destructor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1001BC80": {
+   "name": "sub_1001BC80",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_ProjectWorldToClip"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1001D8E0": {
+   "name": "sub_1001D8E0",
+   "tier": 3,
+   "calls_graphics": [
+    "TexObj_InitFromHeader"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10026890": {
+   "name": "CYyIcon_Constructor",
+   "tier": 1,
+   "calls_graphics": [
+    "TexObj_InitFromHeader"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100277C0": {
+   "name": "sub_100277C0",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_ProjectWorldToClip"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100278C0": {
+   "name": "sub_100278C0",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_NdcToScreen",
+    "Gfx_ProjectWorldToClip"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x100294B0": {
+   "name": "sub_100294B0",
+   "tier": 3,
+   "calls_graphics": [
+    "Mem_DrawHeapUsageBar"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002A000": {
+   "name": "sub_1002A000",
+   "tier": 3,
+   "calls_graphics": [
+    "CYyModelDt_SkinAndDrawV2"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002B4B0": {
+   "name": "CYyModel_Constructor",
+   "tier": 1,
+   "calls_graphics": [
+    "sub_10025260",
+    "sub_10033710"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1002C990": {
+   "name": "sub_1002C990",
+   "tier": 3,
+   "calls_graphics": [
+    "CYyOs2VtxBuffer_CreateBuffersStep"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002D660": {
+   "name": "CYyOs2VtxBuffer_ScalarDeletingDtor",
+   "tier": 1,
+   "calls_graphics": [
+    "CYyOs2VtxBuffer_Destructor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002D8F0": {
+   "name": "sub_1002D8F0",
+   "tier": 3,
+   "calls_graphics": [
+    "CYyOs2VtxBuffer_Constructor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002F130": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_ApplyCachedStreamSource"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1002F1C0": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_ApplyCachedVertexShader"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10033DA0": {
+   "name": "sub_10033DA0",
+   "tier": 2,
+   "calls_graphics": [
+    "CTsZoneMap_DrawProjectedShadow",
+    "sub_10184C90",
+    "sub_10185CA0"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x10036AF0": {
+   "name": "sub_10036AF0",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10039A30": {
+   "name": "TexObj_CreateAndUpload",
+   "tier": 1,
+   "calls_graphics": [
+    "TexObj_Create"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10039A60": {
+   "name": "TexObj_Reupload",
+   "tier": 1,
+   "calls_graphics": [
+    "TexObj_Upload"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003B080": {
+   "name": "sub_1003B080",
+   "tier": 3,
+   "calls_graphics": [
+    "CYyVbMng_AcquireVertexBuffer"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003D620": {
+   "name": "sub_1003D620",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoCameraTask_GetRuntimeClass"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003D630": {
+   "name": "sub_1003D630",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoCameraTask_ScalarDeletingDtor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003EBF0": {
+   "name": "sub_1003EBF0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003EF20": {
+   "name": "CMoVuAnmElem_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003FB10": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003FBB0": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoDistMorphElem_ApplyMorph"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1003FC30": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoDistMorphElem_ComputeMorphHandle"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10040220": {
+   "name": "sub_10040220",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10040670": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10040BA0": {
+   "name": "sub_10040BA0",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedEarlyExit"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10040E70": {
+   "name": null,
+   "tier": 2,
+   "calls_graphics": [
+    "CMoElemFamily_SharedEarlyExit",
+    "sub_100467E0"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10041110": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10041130": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100412B0": {
+   "name": "sub_100412B0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_SetTransform",
+    "CMoElemFamily_SharedEarlyExit"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10041AF0": {
+   "name": "sub_10041AF0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop",
+    "Font_DrawProjectedText3D"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10042020": {
+   "name": "sub_10042020",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetTransformCached"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100421A0": {
+   "name": "sub_100421A0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100430D0": {
+   "name": "sub_100430D0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_100426F0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100431B0": {
+   "name": "sub_100431B0",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_SetTransform",
+    "sub_10183490"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10043F40": {
+   "name": "sub_10043F40",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_DrawPrimitive"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100441C0": {
+   "name": "sub_100441C0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetTransformCached"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10044210": {
+   "name": "Gfx_SetViewMatrixFromField10",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10044230": {
+   "name": "Gfx_SetViewMatrixFromField90",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10046070": {
+   "name": "sub_10046070",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_GetTransformCached",
+    "sub_100467E0"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10046550": {
+   "name": "sub_10046550",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100474D0": {
+   "name": "sub_100474D0",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10047900": {
+   "name": "CMoSkeletonElem_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10047960": {
+   "name": "sub_10047960",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1004A870": {
+   "name": "sub_1004A870",
+   "tier": 3,
+   "calls_graphics": [
+    "Occlusion_QueryScreenRect"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1004E630": {
+   "name": "sub_1004E630",
+   "tier": 3,
+   "calls_graphics": [
+    "Occlusion_QueryScreenRect"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1004E8D0": {
+   "name": "sub_1004E8D0",
+   "tier": 2,
+   "calls_graphics": [
+    "CMoD3mSpecularElem_Ctor",
+    "CMoGeneratorClone_CreateInstance"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10052ED0": {
+   "name": "CXi471011C8_VT_1032B3B8_Dtor",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10052FB0": {
+   "name": "CXi471011C8_VT_1032B478_Dtor",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100548C0": {
+   "name": "CMoLfdElem_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10054D70": {
+   "name": "sub_10054D70",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10054F80": {
+   "name": "sub_10054F80",
+   "tier": 3,
+   "calls_graphics": [
+    "CTsZoneMap_DrawProjectedTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10056390": {
+   "name": "CMoPointLightProgElem_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CMoElemFamily_SharedCleanup"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100575A0": {
+   "name": "sub_100575A0",
+   "tier": 2,
+   "calls_graphics": [
+    "CMoGeneratorClone_CreateInstance",
+    "CMoSchedularTask_Interpret"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10057E10": {
+   "name": "sub_10057E10",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoSchedularTask_Interpret"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10063050": {
+   "name": "sub_10063050",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoSchedularTask_GetRuntimeClass"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10063060": {
+   "name": "sub_10063060",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoSchedularTask_ScalarDeletingDtor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A060": {
+   "name": "sub_1006A060",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_PushRenderTarget"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A150": {
+   "name": "CMoDX_CreateTexture",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_CreateTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A180": {
+   "name": "sub_1006A180",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop",
+    "CDx_GetTransformCached"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1006A300": {
+   "name": "sub_1006A300",
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop",
+    "CDx_SetTransform"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1006A480": {
+   "name": "CMoDX_SetWorldMatrix",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A4A0": {
+   "name": "CMoDX_GetWorldMatrix",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_GetTransformCached"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A520": {
+   "name": "CMoDX_SetViewMatrix",
+   "tier": 1,
+   "calls_graphics": [
+    "CDx_SetTransform"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006A540": {
+   "name": "sub_1006A540",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetTransformCached"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006AA30": {
+   "name": "sub_1006AA30",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_DrawPrimitive"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006C210": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "OcclusionMng_CreateTarget"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1006C300": {
+   "name": null,
+   "tier": 2,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop",
+    "sub_1006C530"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1006CB50": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CMoProcessor_InitRotationMatrices"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10075700": {
+   "name": "sub_10075700",
+   "tier": 3,
+   "calls_graphics": [
+    "TexRef_EnsureRenderTarget"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100759C0": {
+   "name": "sub_100759C0",
+   "tier": 3,
+   "calls_graphics": [
+    "TexRef_EnsureRenderTarget"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10075C40": {
+   "name": "sub_10075C40",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10076030": {
+   "name": "sub_10076030",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_DrawPrimitiveUP"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10084CC0": {
+   "name": "CXiActor_KillAction",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_ReverseFindRes"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10084D40": {
+   "name": "CXiActor_IsMovingAction",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_ReverseFindRes"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10085060": {
+   "name": "CXiActor_SpawnResourceGenerators",
+   "tier": 1,
+   "calls_graphics": [
+    "CMoGeneratorClone_CreateInstance"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100856F0": {
+   "name": "sub_100856F0",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoGeneratorClone_CreateInstance"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10085E40": {
+   "name": "sub_10085E40",
+   "tier": 2,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg",
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1008B460": {
+   "name": "sub_1008B460",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1008C480": {
+   "name": "sub_1008C480",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1008CD90": {
+   "name": "sub_1008CD90",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10177CD0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1008E9A0": {
+   "name": "sub_1008E9A0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1008F740": {
+   "name": "sub_1008F740",
+   "tier": 2,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_3Arg",
+    "CXiSkeletonActor_Constructor_4Arg",
+    "CXiSkeletonActor_Constructor_Factory",
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x1009F4C0": {
+   "name": "sub_1009F4C0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100A4430": {
+   "name": "sub_100A4430",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100A6240": {
+   "name": "sub_100A6240",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetVisible"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100A9500": {
+   "name": "sub_100A9500",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_ReverseFindRes"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AB1B0": {
+   "name": "sub_100AB1B0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AB360": {
+   "name": "sub_100AB360",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AB590": {
+   "name": "sub_100AB590",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AB6C0": {
+   "name": "sub_100AB6C0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AB700": {
+   "name": "sub_100AB700",
+   "tier": 2,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg",
+    "CXiSkeletonActor_LoadSkeletonResource"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x100AB810": {
+   "name": "sub_100AB810",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_DestructorBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100ABBD0": {
+   "name": "sub_100ABBD0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_OnMove"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100ABC10": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_RunStaggeredUpdates"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100ABFE0": {
+   "name": "sub_100ABFE0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_AddSchRef"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AC010": {
+   "name": "sub_100AC010",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_SubSchRef"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100AC5A0": {
+   "name": "sub_100AC5A0",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_NdcToScreen",
+    "Occlusion_QueryScreenRect"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x100B5210": {
+   "name": "sub_100B5210",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100B5510": {
+   "name": "sub_100B5510",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100B8E90": {
+   "name": "sub_100B8E90",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100C4C20": {
+   "name": "sub_100C4C20",
+   "tier": 3,
+   "calls_graphics": [
+    "ModelActor_Draw"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100C83C0": {
+   "name": "sub_100C83C0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100CBD90": {
+   "name": "sub_100CBD90",
+   "tier": 3,
+   "calls_graphics": [
+    "PerActor_FourBucketStaggeredUpdate"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100CDF90": {
+   "name": "sub_100CDF90",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100CE0E0": {
+   "name": "sub_100CE0E0",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_ReverseFindRes"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D0880": {
+   "name": "CXiSkeletonActor_DrawNameIfVisible",
+   "tier": 1,
+   "calls_graphics": [
+    "Actor_DrawWorldText"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D08B0": {
+   "name": "CXiSkeletonActor_DrawName2IfVisible",
+   "tier": 1,
+   "calls_graphics": [
+    "sub_10086900"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D1070": {
+   "name": "sub_100D1070",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_IsReadCompleteBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D63F0": {
+   "name": "sub_100D63F0",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoGeneratorClone_CreateInstance"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D64D0": {
+   "name": "sub_100D64D0",
+   "tier": 3,
+   "calls_graphics": [
+    "CMoGeneratorClone_CreateInstance"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D6940": {
+   "name": "sub_100D6940",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiSkeletonActor_ReverseFindRes"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D7160": {
+   "name": "XiSkeletonActor2_Constructor_1Arg",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D71A0": {
+   "name": "XiSkeletonActor2_Constructor_2Arg",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_2Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D71D0": {
+   "name": "XiSkeletonActor2_Constructor_3Arg",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_3Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D7200": {
+   "name": "XiSkeletonActor2_Constructor_4Arg",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_4Arg"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D7240": {
+   "name": "sub_100D7240",
+   "tier": 2,
+   "calls_graphics": [
+    "CXiSkeletonActor_Constructor_1Arg",
+    "CXiSkeletonActor_Init"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x100D73D0": {
+   "name": "XiSkeletonActor2_Destructor",
+   "tier": 1,
+   "calls_graphics": [
+    "CXiSkeletonActor_DestructorBody"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x100D7FA0": {
+   "name": "sub_100D7FA0",
+   "tier": 3,
+   "calls_graphics": [
+    "Font_DrawString"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101177D0": {
+   "name": "sub_101177D0",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_ApplyViewport1B70",
+    "sub_1011AA40"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10118DB0": {
+   "name": "sub_10118DB0",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011BBA0": {
+   "name": "sub_1011BBA0",
+   "tier": 3,
+   "calls_graphics": [
+    "Font_DrawGlyphQuad"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011BE10": {
+   "name": "sub_1011BE10",
+   "tier": 2,
+   "calls_graphics": [
+    "Font_BindGlyphTexture",
+    "Gfx_SetAdditiveBlend"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1011BF40": {
+   "name": "Font_DrawChar",
+   "tier": 1,
+   "calls_graphics": [
+    "Font_BindGlyphTexture",
+    "Gfx_SetAdditiveBlend"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1011C670": {
+   "name": null,
+   "tier": 1,
+   "calls_graphics": [
+    "_D3DXLoadSurfaceFromFileInMemory@36"
+   ],
+   "n_calls": 1,
+   "d3dx": [
+    "D3DXLoadSurfaceFromFileInMemory"
+   ]
+  },
+  "0x1011ED70": {
+   "name": "sub_1011ED70",
+   "tier": 3,
+   "calls_graphics": [
+    "Cell_DrawTransformed"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011F2D0": {
+   "name": "Cell_DrawWithDefaultBlend",
+   "tier": 1,
+   "calls_graphics": [
+    "Cell_DrawQuadBlended"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011FB60": {
+   "name": "sub_1011FB60",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1011E980"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011FBF0": {
+   "name": "sub_1011FBF0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1011E980"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011FC80": {
+   "name": "Shape_DrawScaled",
+   "tier": 1,
+   "calls_graphics": [
+    "sub_1011E980"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011FDE0": {
+   "name": "sub_1011FDE0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1011E980"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1011FF70": {
+   "name": "Shape_DrawTransformed",
+   "tier": 1,
+   "calls_graphics": [
+    "Cell_DrawTransformed"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10120000": {
+   "name": "sub_10120000",
+   "tier": 3,
+   "calls_graphics": [
+    "Cell_DrawStretchedWrapped"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101245D0": {
+   "name": "sub_101245D0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10124640"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10124B70": {
+   "name": "sub_10124B70",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10125F70": {
+   "name": "sub_10125F70",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetVisible"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10129F00": {
+   "name": "sub_10129F00",
+   "tier": 3,
+   "calls_graphics": [
+    "Obj_104E1B90_DrawString"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10129F40": {
+   "name": "sub_10129F40",
+   "tier": 3,
+   "calls_graphics": [
+    "Obj_104E1B90_DrawString"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101370F0": {
+   "name": "sub_101370F0",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_ApplyViewport1904",
+    "sub_10162010"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1013A350": {
+   "name": "sub_1013A350",
+   "tier": 2,
+   "calls_graphics": [
+    "Font_BindGlyphTexture",
+    "Gfx_SetAdditiveBlend",
+    "sub_102214D0"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x10150B40": {
+   "name": "sub_10150B40",
+   "tier": 2,
+   "calls_graphics": [
+    "Font_BindGlyphTexture",
+    "Gfx_SetAdditiveBlend",
+    "sub_102214D0"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x1015B580": {
+   "name": "sub_1015B580",
+   "tier": 2,
+   "calls_graphics": [
+    "CXiMovie_Draw",
+    "CYyIcon_Draw"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1015F6A0": {
+   "name": "sub_1015F6A0",
+   "tier": 2,
+   "calls_graphics": [
+    "Cursor_Draw",
+    "Gfx_DisableFogAndAlphaBlend",
+    "Gfx_SetDefault2DStates",
+    "Obj_10621944_Draw"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x1015FA00": {
+   "name": "sub_1015FA00",
+   "tier": 2,
+   "calls_graphics": [
+    "Cursor_SetPosition",
+    "Gfx_DisableFogAndAlphaBlend",
+    "Gfx_SetDefault2DStates",
+    "sub_10125360"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x10160A70": {
+   "name": "sub_10160A70",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10125360"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10160C60": {
+   "name": "sub_10160C60",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_Draw"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101620D0": {
+   "name": "sub_101620D0",
+   "tier": 2,
+   "calls_graphics": [
+    "Font_BindGlyphTexture",
+    "Gfx_SetAdditiveBlend"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x101622E0": {
+   "name": "sub_101622E0",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_ApplyViewport1904",
+    "sub_10162010"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x101626E0": {
+   "name": "sub_101626E0",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10163390": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_DrawSolidRect2D"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10165070": {
+   "name": "sub_10165070",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_Init"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10177F80": {
+   "name": "CTsZoneMap_ScalarDeletingDtor",
+   "tier": 1,
+   "calls_graphics": [
+    "CTsZoneMap_Destructor"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10178B30": {
+   "name": "sub_10178B30",
+   "tier": 2,
+   "calls_graphics": [
+    "CTsZoneMap_InitZBiasPresets",
+    "ZoneMap_CreateVertexShaders",
+    "sub_10178250",
+    "sub_1017B510"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x101792F0": {
+   "name": "sub_101792F0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1016FCD0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1017B310": {
+   "name": "sub_1017B310",
+   "tier": 3,
+   "calls_graphics": [
+    "Env_ComputeAmbient"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1017C8B0": {
+   "name": "sub_1017C8B0",
+   "tier": 2,
+   "calls_graphics": [
+    "sub_1017C9C0",
+    "sub_1017DE20"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1018B860": {
+   "name": "sub_1018B860",
+   "tier": 3,
+   "calls_graphics": [
+    "Sky_DrawDomeViewCentered"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1018B9E0": {
+   "name": "XiZone_GetAmbient",
+   "tier": 1,
+   "calls_graphics": [
+    "Env_ComputeAmbient"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101907E0": {
+   "name": "sub_101907E0",
+   "tier": 3,
+   "calls_graphics": [
+    "Obj_104E1B90_DrawString"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10197370": {
+   "name": "sub_10197370",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_IsGammaSupported"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101AA650": {
+   "name": "sub_101AA650",
+   "tier": 2,
+   "calls_graphics": [
+    "Gfx_IsGammaSupported",
+    "Gfx_SetGammaB",
+    "Gfx_SetGammaG",
+    "Gfx_SetGammaR"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x101B29F0": {
+   "name": "sub_101B29F0",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetVisible"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101C7CB0": {
+   "name": "sub_101C7CB0",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_DrawSpriteAlphaTested"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101CB770": {
+   "name": "sub_101CB770",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10017C60"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101CF410": {
+   "name": "sub_101CF410",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_DrawQuadOutline"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101CF510": {
+   "name": "sub_101CF510",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_DrawQuadOutline"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101D0B00": {
+   "name": "sub_101D0B00",
+   "tier": 3,
+   "calls_graphics": [
+    "CDx_GetRenderTargetTop"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101D3FC0": {
+   "name": "sub_101D3FC0",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_ProjectWorldToScreen"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101D5DD0": {
+   "name": "sub_101D5DD0",
+   "tier": 3,
+   "calls_graphics": [
+    "Gfx_SetupLineDrawState"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x101EF0A0": {
+   "name": "sub_101EF0A0",
+   "tier": 2,
+   "calls_graphics": [
+    "Cursor_SetPosition",
+    "Cursor_SetVisible"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x101FA9A0": {
+   "name": "sub_101FA9A0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_101EEBD0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10214980": {
+   "name": "sub_10214980",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10214B30": {
+   "name": "sub_10214B30",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10214CD0": {
+   "name": "sub_10214CD0",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10214E70": {
+   "name": "sub_10214E70",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10218340": {
+   "name": "sub_10218340",
+   "tier": 3,
+   "calls_graphics": [
+    "Cursor_SetPosition"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10227F70": {
+   "name": "sub_10227F70",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiMovie_Draw"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10228440": {
+   "name": "sub_10228440",
+   "tier": 3,
+   "calls_graphics": [
+    "CXiMovie_Draw"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1024DB60": {
+   "name": "sub_1024DB60",
+   "tier": 3,
+   "calls_graphics": [
+    "StAvatar_SetViewFromDancerCamera"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10250190": {
+   "name": "sub_10250190",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_102501C0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10251500": {
+   "name": null,
+   "tier": 2,
+   "calls_graphics": [
+    "Dancer_InitDevice",
+    "sub_1024CF50"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10251620": {
+   "name": "sub_10251620",
+   "tier": 3,
+   "calls_graphics": [
+    "StAvatar_Shutdown"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1025C790": {
+   "name": "sub_1025C790",
+   "tier": 3,
+   "calls_graphics": [
+    "FontGlyphCache_CreateVertexBuffer"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1025C900": {
+   "name": "sub_1025C900",
+   "tier": 3,
+   "calls_graphics": [
+    "FontGlyphCache_GetDevice"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1025CAF0": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "FontGlyphCache_CreateTexture"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1025D820": {
+   "name": "sub_1025D820",
+   "tier": 3,
+   "calls_graphics": [
+    "FontGlyphCache_GetDevice"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1025DAF0": {
+   "name": "sub_1025DAF0",
+   "tier": 3,
+   "calls_graphics": [
+    "FontGlyphCache_GetDevice"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1026E730": {
+   "name": "sub_1026E730",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendOff",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxZTest"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x1026E870": {
+   "name": "sub_1026E870",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102717F0": {
+   "name": "sub_102717F0",
+   "tier": 3,
+   "calls_graphics": [
+    "sqsnSceneDrawLayers"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10271800": {
+   "name": "sub_10271800",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sqgxFlushTransformsLights",
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x102746C0": {
+   "name": "sub_102746C0",
+   "tier": 3,
+   "calls_graphics": [],
+   "n_calls": 0,
+   "d3dx": []
+  },
+  "0x102813B0": {
+   "name": "sub_102813B0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxSetZWrite",
+    "sub_10281DB0"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x10281440": {
+   "name": "sub_10281440",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxSetZWrite",
+    "sub_10281DB0"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x102822A0": {
+   "name": "sub_102822A0",
+   "tier": 1,
+   "calls_graphics": [
+    "_D3DXLoadSurfaceFromSurface@32"
+   ],
+   "n_calls": 1,
+   "d3dx": [
+    "D3DXLoadSurfaceFromSurface"
+   ]
+  },
+  "0x10284EC0": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxVertexShaderSelect"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102886D0": {
+   "name": "sub_102886D0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxTextureAddPalette",
+    "sub_10281830"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1028A800": {
+   "name": "sqgxContext_BatchIndices",
+   "tier": 1,
+   "calls_graphics": [
+    "sqgxShapeIndexBufferBegin",
+    "sub_1028AB50"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x1028BBD0": {
+   "name": "sub_1028BBD0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1028AB50"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1028EC10": {
+   "name": "sub_1028EC10",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10281830"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1028EC70": {
+   "name": "sub_1028EC70",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10281830"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x1028FF80": {
+   "name": "sub_1028FF80",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxTextureDraw",
+    "sqgxZTest",
+    "sqgx_DrawRect_Candidate"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x1028FFF0": {
+   "name": null,
+   "tier": 3,
+   "calls_graphics": [
+    "sqsnSceneLayerDrawPlanarShadows"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10290B60": {
+   "name": "sub_10290B60",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendAddDestAlpha",
+    "sqgxBlendOff",
+    "sqgxBlendTrsp_Candidate",
+    "sqgxColorMask",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxTextureSetPalette",
+    "sqgxZBiasAdd",
+    "sub_102827D0",
+    "sub_10282A30"
+   ],
+   "n_calls": 11,
+   "d3dx": []
+  },
+  "0x10290FC0": {
+   "name": "sqsdGeneric_BakeOntoShape",
+   "tier": 1,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sub_1029B620"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x102981B0": {
+   "name": "sub_102981B0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sqgxTextureStencilClear"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10298C50": {
+   "name": "sub_10298C50",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxTextureSetPalette"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10298C90": {
+   "name": "sub_10298C90",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxTextureAddPalette",
+    "sub_10281830"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x10298D30": {
+   "name": "sub_10298D30",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10281830"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10298DA0": {
+   "name": "sub_10298DA0",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10281830"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10298E10": {
+   "name": "sub_10298E10",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_10281830"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10299090": {
+   "name": "sub_10299090",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendAddDestAlpha",
+    "sqgxBlendOff",
+    "sqgxBlendTrsp_Candidate",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxTextureSetPalette",
+    "sqgxZBiasAdd"
+   ],
+   "n_calls": 8,
+   "d3dx": []
+  },
+  "0x10299250": {
+   "name": "sqsdSampling_BakeOntoShape",
+   "tier": 1,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sub_1029B620"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x102993B0": {
+   "name": "sub_102993B0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendOff",
+    "sqgxBlendTrsp_Candidate",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetAlphaTest",
+    "sqgxTextureSetPalette",
+    "sub_102827D0"
+   ],
+   "n_calls": 6,
+   "d3dx": []
+  },
+  "0x10299610": {
+   "name": "sqsdAniso_BakeOntoShape",
+   "tier": 1,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sub_1029B620"
+   ],
+   "n_calls": 2,
+   "d3dx": []
+  },
+  "0x102997A0": {
+   "name": "sub_102997A0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendOff",
+    "sqgxBlendSub",
+    "sqgxContext_SelectShaderMode",
+    "sqgxZBiasAdd"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x102999A0": {
+   "name": "sub_102999A0",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x10299AB0": {
+   "name": "sqsdGlow_BakeOntoShape",
+   "tier": 1,
+   "calls_graphics": [
+    "sub_1029B620"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102A1F20": {
+   "name": "sub_102A1F20",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxContext_SelectShaderMode",
+    "sqgxZBiasAdd",
+    "sqgxZBiasSet"
+   ],
+   "n_calls": 5,
+   "d3dx": []
+  },
+  "0x102A2430": {
+   "name": "sub_102A2430",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxFlushTransformsLights",
+    "sqsnShadowVolumeDraw",
+    "sqsnShadowVolumeSetPass"
+   ],
+   "n_calls": 3,
+   "d3dx": []
+  },
+  "0x102A2720": {
+   "name": "sub_102A2720",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxTextureClear",
+    "sqgxTextureDraw",
+    "sqgxZTest",
+    "sub_10281830",
+    "sub_10283420"
+   ],
+   "n_calls": 7,
+   "d3dx": []
+  },
+  "0x102A28C0": {
+   "name": "sub_102A28C0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sqgxTextureClear",
+    "sqgxTextureDraw",
+    "sqgxTextureSetRenderTarget"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x102A2A80": {
+   "name": "sub_102A2A80",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendOff",
+    "sqgxBlendZeroSrcAlpha",
+    "sqgxContext_SelectShaderMode",
+    "sqgxZBiasAdd",
+    "sqsnShadowStencilTest"
+   ],
+   "n_calls": 5,
+   "d3dx": []
+  },
+  "0x102A2B10": {
+   "name": "sub_102A2B10",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxZBiasAdd",
+    "sqsnShadowStencilTest"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x102A2C00": {
+   "name": "sub_102A2C00",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendOff",
+    "sqgxBlendZeroSrcAlpha",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxZBiasAdd"
+   ],
+   "n_calls": 5,
+   "d3dx": []
+  },
+  "0x102A2CC0": {
+   "name": "sub_102A2CC0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxColorMask",
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetZWrite",
+    "sqgxZBiasAdd",
+    "sqsnShadowStencilTest"
+   ],
+   "n_calls": 7,
+   "d3dx": []
+  },
+  "0x102A2F80": {
+   "name": "sub_102A2F80",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxContext_SelectShaderMode",
+    "sqgxSetViewport",
+    "sqgxTextureStencilClear",
+    "sqsnShadowVolumeSetPass"
+   ],
+   "n_calls": 4,
+   "d3dx": []
+  },
+  "0x102B2CA0": {
+   "name": "sub_102B2CA0",
+   "tier": 2,
+   "calls_graphics": [
+    "sqgxBlendAdd",
+    "sqgxBlendOff",
+    "sqgxContext_SelectShaderMode",
+    "sqgxZBiasSet",
+    "sub_10281DB0"
+   ],
+   "n_calls": 5,
+   "d3dx": []
+  },
+  "0x102B2DE0": {
+   "name": "sqshDraw_Submit",
+   "tier": 1,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B2F40": {
+   "name": "sub_102B2F40",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3090": {
+   "name": "sub_102B3090",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3320": {
+   "name": "sub_102B3320",
+   "tier": 3,
+   "calls_graphics": [
+    "sub_1029B9D0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3340": {
+   "name": "sub_102B3340",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B34E0": {
+   "name": "sub_102B34E0",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3670": {
+   "name": "sub_102B3670",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3770": {
+   "name": "sub_102B3770",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  },
+  "0x102B3820": {
+   "name": "sub_102B3820",
+   "tier": 3,
+   "calls_graphics": [
+    "sqgxShape_1028AFE0"
+   ],
+   "n_calls": 1,
+   "d3dx": []
+  }
+ }
+}

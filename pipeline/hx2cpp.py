@@ -240,7 +240,9 @@ def translate(rec):
         # IDA typed it as returning a float, but the code returns with an empty x87 stack (fpret.py):
         # the value Hex-Rays returns is computed and dropped, as the original does (e.g. through __ftol)
         ret = 'void'
-        body = re.sub(r'\breturn ([^;]+);', r'(void)(\1); return;', body)
+        # a call it returns cannot return on the x87 stack either: retype such casts to void too
+        body = re.sub(r'\breturn ([^;]+);', lambda m: '(void)(%s); return;' % re.sub(
+            r'\((?:float|double|long double) \((__\w+) \*\)', r'(void (\1 *)', m.group(1)), body)
     out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     syms = unconsumed_fp_calls(ea, syms, body)
@@ -280,7 +282,8 @@ def main(src, outdir):
         if r is None:
             meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
         with open(os.path.join(outdir, 'fn_%08X.cpp' % ea), 'w') as f:
-            f.write(PRELUDE + '\n'.join(r['syms']) + '\n\n' + r['code'] + '\n')
+            f.write(PRELUDE + ('#include "xi_ghidra.hpp"\n' if rec.get('source') == 'ghidra' else '')
+                    + '\n'.join(r['syms']) + '\n\n' + r['code'] + '\n')
         meta['%08X' % ea] = {'status': 'translated', 'export': r['export'], 'cc': r['cc'], 'ret': r['ret'],
                              'name': rec['name']}
     json.dump(meta, open(os.path.join(outdir, 'meta.json'), 'w'), indent=0)

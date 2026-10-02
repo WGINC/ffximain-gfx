@@ -8,6 +8,8 @@ as Shift-JIS), the bodies of functions outside the graphics set, and the IDB's c
     python3 ida_listing.py LISTING xrefs NAME              the DATA/CODE XREF lines of a label
     python3 ida_listing.py LISTING labels OUT.json         every label (name -> line number)
     python3 ida_listing.py LISTING missing NAME...         which names no longer exist (renamed in the IDB)
+    python3 ida_listing.py LISTING addrnames OUT.json      address -> current IDB name of every function, by
+                                                           anchoring on sub_XXXXXXXX labels (data/func_extents.json)
 
 Set $FFXI_LISTING instead of passing LISTING by writing `-` for it.
 """
@@ -59,6 +61,29 @@ class Listing:
             out += re.findall(r'XREF: ([\w:@?$+]+)', l)
         return out
 
+    def procs(self):
+        return [m.group(1).decode() for m in re.finditer(rb'^(\S+)\s+proc\s', self.m, re.M)]
+
+    def addrnames(self, starts):
+        # The listing has no addresses, but procedures appear in address order and unnamed ones are
+        # sub_ADDR. Between two such anchors, named procedures are assigned to the function starts
+        # in between only when the counts agree exactly.
+        starts = sorted(starts); idx = {a: i for i, a in enumerate(starts)}
+        names, seq, last = {}, self.procs(), None
+        pending = []
+        for n in seq + ['sub_FFFFFFFF']:
+            m = re.match(r'^sub_([0-9A-F]{8})$', n)
+            if not m:
+                pending.append(n); continue
+            a = int(m.group(1), 16)
+            if a != 0xFFFFFFFF and a not in idx: pending = []; last = None; continue
+            hi = idx.get(a, len(starts)); lo = idx[last] + 1 if last is not None else None
+            if lo is not None and hi - lo == len(pending):
+                for k, nm in enumerate(pending): names[starts[lo + k]] = nm
+            if a != 0xFFFFFFFF: names[a] = n
+            pending = []; last = a
+        return names
+
     def labels(self):
         return {m.group(1).decode(): self.m.count(b'\n', 0, m.start()) + 1
                 for m in re.finditer(rb'^([A-Za-z_?@$][\w?@$]*)\s', self.m, re.M)}
@@ -78,6 +103,12 @@ def main():
         print('\n'.join(L.xrefs(args[0])))
     elif cmd == 'labels':
         json.dump(L.labels(), open(args[0], 'w'))
+    elif cmd == 'addrnames':
+        D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        starts = [int(k, 16) for k in json.load(open(os.path.join(D, 'func_extents.json')))]
+        n = L.addrnames(starts)
+        json.dump({'0x%08X' % a: v for a, v in sorted(n.items())}, open(args[0], 'w'), indent=0)
+        print(len(n), 'functions named')
     elif cmd == 'missing':
         have = L.labels()
         print('\n'.join(a for a in args if a not in have))

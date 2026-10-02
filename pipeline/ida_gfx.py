@@ -154,6 +154,15 @@ def export_one(ea):
                     (a.type.get_pointed_object().get_size() if a.type.is_ptr() else None)] for a in fd]
     return rec
 
+def select_extension(path, tiers=(1, 2)):
+    """add the functions gfx_coverage.py found outside the set (data/gfx_extension.json) to the
+    export targets: tier 1 = graphics family or D3DX resource code, tier 2 = calls 2+ graphics functions"""
+    ext = json.load(open(path))['functions']
+    add = {int(a, 16) for a, v in ext.items() if v['tier'] in tiers}
+    S['targets'] = sorted(set(S.get('targets', [])) | add)
+    S['exp_pos'] = 0
+    return len(add)
+
 def export_step(budget=40, out='gfx_export.jsonl'):
     t0 = time.time()
     pos = S.setdefault('exp_pos', 0); T = S['targets']

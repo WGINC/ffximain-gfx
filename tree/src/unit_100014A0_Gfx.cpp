@@ -66,9 +66,11 @@ XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 {
   CDx *result;
-  int v2;
-  int v3;
-  int v4;
+  alignas(16) unsigned char xi_frame[0x40C];  // address-taken locals at their original offsets
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x0);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x4);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0x8);
+
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
@@ -84,9 +86,11 @@ XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 {
   CDx *result;
-  int v2;
-  int v3;
-  int v4;
+  alignas(16) unsigned char xi_frame[0x40C];  // address-taken locals at their original offsets
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x0);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x4);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0x8);
+
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
@@ -102,9 +106,11 @@ XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 {
   CDx *result;
-  int v2;
-  int v3;
-  int v4;
+  alignas(16) unsigned char xi_frame[0x40C];  // address-taken locals at their original offsets
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x0);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x4);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0x8);
+
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
@@ -194,10 +200,12 @@ XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char 
   unsigned int v14;
   _DWORD *v15;
   int v17;
-  unsigned int v18;
-  unsigned int v19;
-  unsigned int v20;
-  unsigned int v21;
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
+  unsigned int &v18 = *reinterpret_cast<unsigned int *>(xi_frame + 0x18);
+  unsigned int &v19 = *reinterpret_cast<unsigned int *>(xi_frame + 0x1C);
+  unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x20);
+  unsigned int &v21 = *reinterpret_cast<unsigned int *>(xi_frame + 0x24);
+
   v8 = orig::Direct3DCreate8(220);
   *(_DWORD *)(self_ + 4) = v8;
   if ( v8 != 0 )
@@ -280,8 +288,9 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
   int *i;
   int v10;
   int v11;
-  _DWORD v13[3];
-  int v14;
+  alignas(16) unsigned char xi_frame[0x41C];  // address-taken locals at their original offsets
+  _DWORD (&v13)[3] = *reinterpret_cast<_DWORD (*)[3]>(xi_frame + 0xC);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x18);
   int *v15;
   if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD *))(**(self_ + 1) + 32))(*(self_ + 1), 0, v13) < 0 )
     return 0;

@@ -34,15 +34,17 @@ XI_API void __cdecl fn_1001C930(int a1)
   int v27;
   int v28;
   int v29;
-  int v30;
-  _DWORD v31[8];
-  _DWORD *v32;
-  _DWORD *v33;
-  int v34;
-  int v35;
-  _BYTE v36[1280];
-  int a3[3];
-  _BYTE v38[2408];
+  alignas(16) unsigned char xi_frame[0x1418];  // address-taken locals at their original offsets
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  _DWORD (&v31)[8] = *reinterpret_cast<_DWORD (*)[8]>(xi_frame + 0x11C);
+  _DWORD * &v32 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x13C);
+  _DWORD * &v33 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x140);
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x15C);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x160);
+  _BYTE (&v36)[1280] = *reinterpret_cast<_BYTE (*)[1280]>(xi_frame + 0x1A4);
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x6A4);
+  _BYTE (&v38)[2408] = *reinterpret_cast<_BYTE (*)[2408]>(xi_frame + 0x6B0);
+
   if ( a1 != 0 )
   {
     orig::fn_10027990((Iostream_init *)v31);

@@ -19,12 +19,13 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
   int v14;
   int v15;
   int v16;
-  int v17;
-  float v18;
-  float v19;
-  float v20;
-  int v21[3];
-  float v22[16];
+  alignas(16) unsigned char xi_frame[0x468];  // address-taken locals at their original offsets
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  float &v18 = *reinterpret_cast<float *>(xi_frame + 0x10);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  int (&v21)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x1C);
+  float (&v22)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x28);
   int v23;
   int v24;
   v3 = 3 * a3;

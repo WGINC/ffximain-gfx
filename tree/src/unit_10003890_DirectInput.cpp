@@ -8,11 +8,13 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
   _DWORD *v2;
   int v3;
   int v4;
-  int v5;
-  int v6;
-  int v7;
-  int v8;
-  int v9;
+  alignas(16) unsigned char xi_frame[0x438];  // address-taken locals at their original offsets
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x34);
+
   if ( g_windowMode != 0 )
   {
     g_mouseAcquired = 0;

@@ -9,12 +9,14 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   unsigned int v3;
   int v5;
   IDirect3DDevice8 *pDevice;
-  int v7;
-  _BYTE v8[24];
-  unsigned int v9;
-  int v10;
-  _BYTE pIdentifier[1020];
-  int v12;
+  alignas(16) unsigned char xi_frame[0x83C];  // address-taken locals at their original offsets
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x4);
+  _BYTE (&v8)[24] = *reinterpret_cast<_BYTE (*)[24]>(xi_frame + 0x1C);
+  unsigned int &v9 = *reinterpret_cast<unsigned int *>(xi_frame + 0x34);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  _BYTE (&pIdentifier)[1020] = *reinterpret_cast<_BYTE (*)[1020]>(xi_frame + 0x3C);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x438);
+
   *self_ = 11534336;
   v2 = orig::Mem_AllocObject(11534352, 0);
   v3 = ((unsigned int)v2 + 15) & 0xFFFFFFF0;

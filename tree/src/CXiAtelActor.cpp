@@ -41,7 +41,7 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, in
   unsigned int v38;
   unsigned int *v39;
   int i;
-  alignas(16) unsigned char xi_frame[0x658];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x659];  // address-taken locals at their original offsets
   unsigned __int8 &v41 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x10);
   int &v42 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v43 = *reinterpret_cast<int *>(xi_frame + 0x10);
@@ -372,7 +372,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   unsigned int v31;
   unsigned int *v32;
   int i;
-  alignas(16) unsigned char xi_frame[0x664];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x665];  // address-taken locals at their original offsets
   int &v34 = *reinterpret_cast<int *>(xi_frame + 0xC);
   int &ViewportWidth = *reinterpret_cast<int *>(xi_frame + 0x28);
   int &v36 = *reinterpret_cast<int *>(xi_frame + 0x2C);

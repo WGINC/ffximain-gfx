@@ -650,39 +650,41 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
   int v11;
   double v12;
   int result;
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  int v21;
-  int v22;
-  int v23;
-  float v24;
-  int v25[7];
-  float v26;
-  float v27;
-  int v28;
-  int v29;
-  int v30;
-  int v31;
-  int v32;
-  float v33;
-  float v34;
-  int v35;
-  int v36;
-  int v37;
-  int v38;
-  int v39;
-  float v40;
-  float v41;
-  int v42;
-  int v43;
-  int v44;
-  int v45;
-  int v46;
+  alignas(16) unsigned char xi_frame[0x6B4];  // address-taken locals at their original offsets
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x210);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x214);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x214);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x218);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x21C);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x21C);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x230);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x234);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x238);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x23C);
+  float &v24 = *reinterpret_cast<float *>(xi_frame + 0x240);
+  int (&v25)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0x244);
+  float &v26 = *reinterpret_cast<float *>(xi_frame + 0x260);
+  float &v27 = *reinterpret_cast<float *>(xi_frame + 0x264);
+  int &v28 = *reinterpret_cast<int *>(xi_frame + 0x268);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x26C);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x270);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x274);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x278);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x27C);
+  float &v34 = *reinterpret_cast<float *>(xi_frame + 0x280);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x284);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x288);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x28C);
+  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x290);
+  int &v39 = *reinterpret_cast<int *>(xi_frame + 0x294);
+  float &v40 = *reinterpret_cast<float *>(xi_frame + 0x298);
+  float &v41 = *reinterpret_cast<float *>(xi_frame + 0x29C);
+  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x2A0);
+  int &v43 = *reinterpret_cast<int *>(xi_frame + 0x2A4);
+  int &v44 = *reinterpret_cast<int *>(xi_frame + 0x2A8);
+  int &v45 = *reinterpret_cast<int *>(xi_frame + 0x2AC);
+  int &v46 = *reinterpret_cast<int *>(xi_frame + 0x2B0);
+
   if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
   {
     v6 = this->field_824;
@@ -972,8 +974,10 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v5;
   int v6;
-  int v8;
-  int v9;
+  alignas(16) unsigned char xi_frame[0x418];  // address-taken locals at their original offsets
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x14);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v9, (int)&v8) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(
              at<uint32_t>(this, 0xC),
@@ -1002,8 +1006,10 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v7;
   int v8;
-  int v10;
-  int v11;
+  alignas(16) unsigned char xi_frame[0x420];  // address-taken locals at their original offsets
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v11, (int)&v10) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
              at<uint32_t>(this, 0xC),
@@ -1046,8 +1052,10 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v6;
   int v7;
-  int v9;
-  int v10;
+  alignas(16) unsigned char xi_frame[0x41C];  // address-taken locals at their original offsets
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x18);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v10, (int)&v9) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
              at<uint32_t>(this, 0xC),
@@ -1085,7 +1093,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
-  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x440];  // address-taken locals at their original offsets
   float (&v3)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0xC);
   float &v4 = *reinterpret_cast<float *>(xi_frame + 0x3C);
 

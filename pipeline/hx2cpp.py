@@ -150,6 +150,22 @@ def split_array(body):
         if t in _ELEM and o1 + n * _ELEM[t] == o2 and b.group(2).strip() == t: return True
     return False
 
+def filled_past_array(body):
+    # An address-taken array followed directly by a local that is read but never assigned: the
+    # buffer is one struct cut by Hex-Rays where the code stops naming bytes, and the callee that
+    # fills it (Dancer_InitDevice: GetDesc into `_BYTE v8[24]`, then Width/Height read as v9/v10)
+    # is the only writer of the locals after it.
+    ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
+    for (o1, a), (o2, b) in zip(ds, ds[1:]):
+        if 'BYREF' not in a.group(0) or not a.group(5) or a.group(3): continue
+        el = _ELEM.get(a.group(2).strip())
+        if not el or o1 + int(a.group(5)[1:-1]) * el != o2: continue
+        v = re.escape(b.group(4)); rest = body[b.end():]
+        if not re.search(r'\b%s\b' % v, rest): continue
+        if re.search(r'\b%s\s*(=(?!=)|[-+*/|&^]=|\+\+|--)|(\+\+|--|&)%s\b|\w+\(%s\) =' % (v, v, v), rest): continue
+        return True
+    return False
+
 def negative_index(body):
     # `v72[v5 - 1]` with v5 from 0: an index below a stack array reaches the local before it (one array
     # split by Hex-Rays), which GCC places elsewhere
@@ -189,7 +205,8 @@ def exact_frame(body):
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     decls = list(BYREF_DECL.finditer(body))
-    if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body):
+    if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body) \
+            or filled_past_array(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body

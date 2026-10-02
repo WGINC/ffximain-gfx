@@ -65,7 +65,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
   float *v17;
   int v18;
   int v19;
-  alignas(16) unsigned char xi_frame[0x14F0];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x94EC];  // address-taken locals at their original offsets
   int &v20 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v21 = *reinterpret_cast<int *>(xi_frame + 0x14);
   int &v22 = *reinterpret_cast<int *>(xi_frame + 0x18);

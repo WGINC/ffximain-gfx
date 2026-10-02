@@ -16,7 +16,7 @@ char CXiSkeletonActor::DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, in
   IDirect3DDevice8 *pDevice;
   IDirect3DDevice8 *v16;
   IDirect3DDevice8 v17;
-  alignas(16) unsigned char xi_frame[0x7E4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x824];  // address-taken locals at their original offsets
   int &v18 = *reinterpret_cast<int *>(xi_frame + 0x3A8);
   char &v19 = *reinterpret_cast<char *>(xi_frame + 0x3AC);
   __int64 &v20 = *reinterpret_cast<__int64 *>(xi_frame + 0x3B0);
@@ -1601,7 +1601,7 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   int v73;
   _DWORD *v74;
   _DWORD *v75;
-  alignas(16) unsigned char xi_frame[0x4E8];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4E9];  // address-taken locals at their original offsets
   float &v76 = *reinterpret_cast<float *>(xi_frame + 0x0);
   float &v77 = *reinterpret_cast<float *>(xi_frame + 0x4);
   IDirect3DBaseTexture8 * &v78 = *reinterpret_cast<IDirect3DBaseTexture8 * *>(xi_frame + 0x8);
@@ -2351,10 +2351,12 @@ _DWORD * CXiSkeletonActor::ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, in
   int *v29;
   int v30;
   _DWORD *v31;
-  _DWORD **v32;
-  int v33;
-  _DWORD v34[5];
-  int v35;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  _DWORD ** &v32 = *reinterpret_cast<_DWORD ** *>(xi_frame + 0x10);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  _DWORD (&v34)[5] = *reinterpret_cast<_DWORD (*)[5]>(xi_frame + 0x18);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   v8 = (_DWORD *)this->resourceList;
   v33 = 0;
   Tail = orig::List_GetTail(v8);
@@ -2515,10 +2517,12 @@ _DWORD * CXiSkeletonActor::ActorFindResource(_DWORD *a2, int a3, int a4)
   _DWORD *Parent;
   _DWORD *v17;
   int v18;
-  _DWORD **v20;
-  char *v21;
-  _DWORD v22[5];
-  int v23;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  _DWORD ** &v20 = *reinterpret_cast<_DWORD ** *>(xi_frame + 0x10);
+  char * &v21 = *reinterpret_cast<char * *>(xi_frame + 0x14);
+  _DWORD (&v22)[5] = *reinterpret_cast<_DWORD (*)[5]>(xi_frame + 0x18);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   v4 = self;
   v21 = self;
   Field44Addr = orig::CYyModel_GetField44Addr(self + 1652);
@@ -2620,10 +2624,12 @@ _DWORD * CXiSkeletonActor::ActorFindResourceNth(_DWORD *a2, int a3, int a4, int 
   _DWORD *Parent;
   _DWORD *v20;
   int v21;
-  _DWORD **v23;
-  char *v24;
-  _DWORD v25[5];
-  int v26;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  _DWORD ** &v23 = *reinterpret_cast<_DWORD ** *>(xi_frame + 0x10);
+  char * &v24 = *reinterpret_cast<char * *>(xi_frame + 0x14);
+  _DWORD (&v25)[5] = *reinterpret_cast<_DWORD (*)[5]>(xi_frame + 0x18);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   v5 = self;
   v6 = 0;
   v24 = self;
@@ -2743,10 +2749,12 @@ int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
   _DWORD *Parent;
   _DWORD *v17;
   int v18;
-  _DWORD **v20;
-  char *v21;
-  _DWORD v22[5];
-  int v23;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  _DWORD ** &v20 = *reinterpret_cast<_DWORD ** *>(xi_frame + 0x10);
+  char * &v21 = *reinterpret_cast<char * *>(xi_frame + 0x14);
+  _DWORD (&v22)[5] = *reinterpret_cast<_DWORD (*)[5]>(xi_frame + 0x18);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   v3 = self;
   v21 = self;
   v4 = 0;
@@ -2961,9 +2969,11 @@ char CXiSkeletonActor::SetModel(int a2)
   int Instance;
   int v43;
   int v44;
-  int *v46;
-  _DWORD v47[5];
-  int v48;
+  alignas(16) unsigned char xi_frame[0x42C];  // address-taken locals at their original offsets
+  int * &v46 = *reinterpret_cast<int * *>(xi_frame + 0x10);
+  _DWORD (&v47)[5] = *reinterpret_cast<_DWORD (*)[5]>(xi_frame + 0x14);
+  int &v48 = *reinterpret_cast<int *>(xi_frame + 0x28);
+
   v2 = (int *)a2;
   v4 = orig::ResourceHandle_Deref(a2);
   orig::CMoResource_FindInScope(&v46, v4, 41, 0);
@@ -3240,7 +3250,7 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
   char v42; // c2
   bool v43; // c3
   double v44;
-  alignas(16) unsigned char xi_frame[0x4D4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4D8];  // address-taken locals at their original offsets
   float &v45 = *reinterpret_cast<float *>(xi_frame + 0x4);
   float &v46 = *reinterpret_cast<float *>(xi_frame + 0x8);
   float &v47 = *reinterpret_cast<float *>(xi_frame + 0xC);
@@ -3462,10 +3472,12 @@ void CXiSkeletonActor::OnDrawName()
   int v8;
   const char *v9;
   const char *v10;
-  float v11;
-  int v12;
-  int v13[4];
-  char Buffer[256];
+  alignas(16) unsigned char xi_frame[0x524];  // address-taken locals at their original offsets
+  float &v11 = *reinterpret_cast<float *>(xi_frame + 0xC);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int (&v13)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x14);
+  char (&Buffer)[256] = *reinterpret_cast<char (*)[256]>(xi_frame + 0x24);
+
   v2 = (unsigned __int16 *)at<int32_t>(this, 0x70);
   if ( (byte_10487F80 == 0
      || v2 == nullptr
@@ -3557,7 +3569,7 @@ int CXiSkeletonActor::GetArrowPos(int a2, int a3, int a4)
 char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
 {
   char *ViewMatrixPtr;
-  alignas(16) unsigned char xi_frame[0x480];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4C0];  // address-taken locals at their original offsets
   _DWORD (&v5)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x0);
   _BYTE (&v6)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x40);
   _BYTE (&v7)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x80);
@@ -3707,7 +3719,7 @@ bool CXiSkeletonActor::IsReadCompleteBody()
     }
     else if ( orig::CXiActor_GetModelByteEE(self) == 7 )
     {
-      LOWORD(v7) = orig::CXiActor_GetModelPartWord(self, 0);
+      v7 = orig::CXiActor_GetModelPartWord(self, 0);
       if ( v7 != 0 )
         return false;
     }
@@ -3843,21 +3855,23 @@ char CXiSkeletonActor::LoadSkeletonSync(int a2)
   _DWORD *v116;
   int v117;
   int *v118;
-  int *v119;
-  int v120;
-  int i;
-  int v122;
-  int v123;
-  int v124;
-  int v125;
-  int v126;
-  int v127;
-  int v128;
-  int v129;
-  int v130;
-  int v131;
-  __int16 v132;
-  _WORD v133[9];
+  alignas(16) unsigned char xi_frame[0x458];  // address-taken locals at their original offsets
+  int * &v119 = *reinterpret_cast<int * *>(xi_frame + 0x10);
+  int &v120 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v122 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+  int &v123 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v124 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v125 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v126 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v127 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v128 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  int &v129 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  int &v130 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  int &v131 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  __int16 &v132 = *reinterpret_cast<__int16 *>(xi_frame + 0x44);
+  _WORD (&v133)[9] = *reinterpret_cast<_WORD (*)[9]>(xi_frame + 0x46);
+
   v3 = 0;
   v4 = this->pModelInfo;
   if ( v4 != 0 )
@@ -3906,7 +3920,7 @@ LABEL_15:
       for ( i = 0; ; v9 = i )
       {
 LABEL_17:
-        LOWORD(v13) = orig::CXiActor_GetModelPartWord((_DWORD *)self, v9);
+        v13 = orig::CXiActor_GetModelPartWord((_DWORD *)self, v9);
         v14 = v13;
         a2 = v13;
         v15 = v13 >> 12;
@@ -4191,7 +4205,7 @@ LABEL_83:
     case 2:
       goto LABEL_186;
     case 6:
-      LOWORD(v61) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
+      v61 = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
       v63 = v61;
       BYTE1(v63) = BYTE1(v61) | 0x90;
       if ( (v63 & 0xFFF) != 0 )
@@ -4257,7 +4271,7 @@ LABEL_97:
         if ( v120 < 29 || i <= 5 )
         {
           v88 = i;
-          LOWORD(v89) = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
+          v89 = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
           v90 = v89;
           v122 = v89;
           v91 = v89 >> 12;
@@ -4392,10 +4406,10 @@ LABEL_172:
       }
       return 1;
     case 7:
-      LOWORD(v104) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+      v104 = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
       if ( v104 == 0 )
       {
-        LOWORD(v105) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
+        v105 = orig::CXiActor_GetModelPartWord((_DWORD *)self, 9);
         v107 = v105 | 0x9000;
         v108 = v105 & 0xFFF;
         if ( v108 != 0 )
@@ -4432,7 +4446,7 @@ LABEL_172:
 LABEL_186:
       if ( orig::sub_10083340((_DWORD *)self) )
       {
-        LOWORD(v112) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+        v112 = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
         v113 = orig::sub_100C51C0(2, v112);
       }
       else
@@ -4440,7 +4454,7 @@ LABEL_186:
         if ( orig::sub_10084670((_DWORD *)self) )
           v114 = (unsigned __int16)orig::sub_10084690((_DWORD *)self);
         else
-          LOWORD(v114) = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
+          v114 = orig::CXiActor_GetModelPartWord((_DWORD *)self, 0);
         v113 = orig::sub_100C51C0(0, v114);
       }
       v119 = (int *)*orig::sub_100730E0(&v131, v113);
@@ -4491,7 +4505,7 @@ LABEL_186:
   while ( 1 )
   {
     v72 = i;
-    LOWORD(v73) = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
+    v73 = orig::CXiActor_GetModelPartWord((_DWORD *)self, i);
     v74 = v73;
     a2 = v73;
     v75 = v73 >> 12;

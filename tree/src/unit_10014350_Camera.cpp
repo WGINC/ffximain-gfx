@@ -179,8 +179,10 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
   _DWORD *v2;
   void *v3;
   int *v5;
-  int v6;
-  int v7;
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x24);
+
   orig::MenuMng_Init((int)g_menuMng);
   orig::ShapeMng_Init(g_shapeMng);
   v0 = (CDx *)orig::Mem_AllocDefault(2640);

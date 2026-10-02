@@ -61,12 +61,14 @@ XI_API int __thiscall fn_102214D0(int self_)
   int v7;
   __int16 v8;
   int result;
-  unsigned __int8 *v10;
-  int v11;
-  int v12;
-  int v13[2];
-  _DWORD v14[6];
-  _BYTE v15[24];
+  alignas(16) unsigned char xi_frame[0x448];  // address-taken locals at their original offsets
+  unsigned __int8 * &v10 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0x4);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x8);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  int (&v13)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x10);
+  _DWORD (&v14)[6] = *reinterpret_cast<_DWORD (*)[6]>(xi_frame + 0x18);
+  _BYTE (&v15)[24] = *reinterpret_cast<_BYTE (*)[24]>(xi_frame + 0x30);
+
   if ( *(_DWORD *)(self_ + 100) != 0 )
   {
     orig::sub_10220EF0(self_, *(_DWORD *)(self_ + 88) + *(int *)(self_ + 96) / 2, *(_DWORD *)(self_ + 92), 1);

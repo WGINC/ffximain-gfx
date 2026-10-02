@@ -135,7 +135,7 @@ XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int
   int ii;
   unsigned __int16 v97;
   int v98;
-  alignas(16) unsigned char xi_frame[0x4A0];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4B0];  // address-taken locals at their original offsets
   unsigned int &v100 = *reinterpret_cast<unsigned int *>(xi_frame + 0x3C);
   unsigned int &v101 = *reinterpret_cast<unsigned int *>(xi_frame + 0x40);
   D3DPOOL &v102 = *reinterpret_cast<D3DPOOL *>(xi_frame + 0x44);
@@ -735,12 +735,14 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
   double v14;
   double v15;
   double v16;
-  int v17;
-  int v18;
-  int a3[7];
-  float v20[7];
-  float v21[7];
-  float v22[7];
+  alignas(16) unsigned char xi_frame[0x514];  // address-taken locals at their original offsets
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int (&a3)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0xA4);
+  float (&v20)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xC0);
+  float (&v21)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xDC);
+  float (&v22)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xF8);
+
   v3 = 0;
   if ( *(self_ + 4) != 0 )
   {
@@ -852,7 +854,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
   int *v9;
   int v10;
   const char *v11;
-  alignas(16) unsigned char xi_frame[0x544];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x584];  // address-taken locals at their original offsets
   int &v12 = *reinterpret_cast<int *>(xi_frame + 0xAC);
   int &v13 = *reinterpret_cast<int *>(xi_frame + 0xB0);
   int &v14 = *reinterpret_cast<int *>(xi_frame + 0xB4);

@@ -12,9 +12,11 @@ XI_API _DWORD * __cdecl fn_1029B620(void)
   int v4;
   int v5;
   int v6;
-  int v8;
-  int v9;
-  void *v10;
+  alignas(16) unsigned char xi_frame[0x46C];  // address-taken locals at their original offsets
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x60);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x64);
+  void * &v10 = *reinterpret_cast<void * *>(xi_frame + 0x68);
+
   v8 = 0;
   v9 = 0;
   v0 = *(_DWORD **)(g_pSqgxContext + 2564);

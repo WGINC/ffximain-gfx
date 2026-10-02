@@ -167,7 +167,7 @@ XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6
   int v7;
   int v8;
   int v9;
-  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
   int (&v11)[9] = *reinterpret_cast<int (*)[9]>(xi_frame + 0x0);
   int &v12 = *reinterpret_cast<int *>(xi_frame + 0x24);
 
@@ -331,43 +331,45 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   int v55;
   bool v56; // cc
   bool v57; // zf
-  float *v58;
-  int v59;
-  float v60;
-  float v61;
-  float v62;
-  int v63;
-  float v64;
-  float v65;
-  float v66;
-  int v67;
-  float v68;
-  float v69;
-  float v70;
-  int v71;
-  float v72;
-  int v73;
-  float v74;
-  int v75;
-  float *v76;
-  _DWORD *v77;
-  int a2a;
-  int v79;
-  int j;
-  int v81;
-  int i;
-  int v83;
-  int v84;
-  float *v85;
-  float *v86;
-  float v87;
-  float v88;
-  float v89;
-  float v90;
-  int v91;
-  int k;
-  __int16 *v93;
-  float v94[16];
+  alignas(16) unsigned char xi_frame[0x504];  // address-taken locals at their original offsets
+  float * &v58 = *reinterpret_cast<float * *>(xi_frame + 0x34);
+  int &v59 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  float &v60 = *reinterpret_cast<float *>(xi_frame + 0x3C);
+  float &v61 = *reinterpret_cast<float *>(xi_frame + 0x40);
+  float &v62 = *reinterpret_cast<float *>(xi_frame + 0x44);
+  int &v63 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  float &v64 = *reinterpret_cast<float *>(xi_frame + 0x4C);
+  float &v65 = *reinterpret_cast<float *>(xi_frame + 0x50);
+  float &v66 = *reinterpret_cast<float *>(xi_frame + 0x54);
+  int &v67 = *reinterpret_cast<int *>(xi_frame + 0x58);
+  float &v68 = *reinterpret_cast<float *>(xi_frame + 0x5C);
+  float &v69 = *reinterpret_cast<float *>(xi_frame + 0x60);
+  float &v70 = *reinterpret_cast<float *>(xi_frame + 0x64);
+  int &v71 = *reinterpret_cast<int *>(xi_frame + 0x68);
+  float &v72 = *reinterpret_cast<float *>(xi_frame + 0x6C);
+  int &v73 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  float &v74 = *reinterpret_cast<float *>(xi_frame + 0x74);
+  int &v75 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  float * &v76 = *reinterpret_cast<float * *>(xi_frame + 0x7C);
+  _DWORD * &v77 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x80);
+  int &a2a = *reinterpret_cast<int *>(xi_frame + 0x84);
+  int &v79 = *reinterpret_cast<int *>(xi_frame + 0x88);
+  int &j = *reinterpret_cast<int *>(xi_frame + 0x8C);
+  int &v81 = *reinterpret_cast<int *>(xi_frame + 0x90);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x94);
+  int &v83 = *reinterpret_cast<int *>(xi_frame + 0x98);
+  int &v84 = *reinterpret_cast<int *>(xi_frame + 0x9C);
+  float * &v85 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
+  float * &v86 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
+  float &v87 = *reinterpret_cast<float *>(xi_frame + 0xA8);
+  float &v88 = *reinterpret_cast<float *>(xi_frame + 0xAC);
+  float &v89 = *reinterpret_cast<float *>(xi_frame + 0xB0);
+  float &v90 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  int &v91 = *reinterpret_cast<int *>(xi_frame + 0xB8);
+  int &k = *reinterpret_cast<int *>(xi_frame + 0xBC);
+  __int16 * &v93 = *reinterpret_cast<__int16 * *>(xi_frame + 0xC0);
+  float (&v94)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC4);
+
   if ( a5 == 0.0 )
   {
     flt_1037734C = 1.0;
@@ -667,7 +669,7 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
   int v18;
   IDirect3DBaseTexture8 *v19;
   int v20;
-  alignas(16) unsigned char xi_frame[0x6E4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x74C];  // address-taken locals at their original offsets
   int &v21 = *reinterpret_cast<int *>(xi_frame + 0x260);
   unsigned int &v22 = *reinterpret_cast<unsigned int *>(xi_frame + 0x264);
   int &v23 = *reinterpret_cast<int *>(xi_frame + 0x268);
@@ -927,7 +929,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
   int v58;
   int v59;
   bool v60; // zf
-  alignas(16) unsigned char xi_frame[0x584];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x5BC];  // address-taken locals at their original offsets
   float * &v61 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
   float * &v62 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
   float * &v63 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
@@ -1026,7 +1028,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     if ( v92 != 0.0 )
     {
       v6 = *(float *)(LODWORD(v92) + 56) + *(float *)a1;
-      v95 = *(float *)(LODWORD(v90) + 380);
+      v95 = *(float *)((char *)self + 380);
       v7 = (__int64)(v6 * 0.25);
       v8 = (__int64)((*(float *)(LODWORD(v92) + 60) + *(float *)(a1 + 8)) * 0.25);
       if ( v7 - 1 >= 0 )
@@ -1291,7 +1293,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    if ( v87[234904] != 0 )
+    if ( this->overlayUseProjection != 0 )
       return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, v101);
     else
       return orig::Gfx_SetZBias(g_zbiasRestore);

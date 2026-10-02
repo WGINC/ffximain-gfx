@@ -75,7 +75,7 @@ void Obj_104E1D4C::Cursor_Draw()
   int *v2;
   _DWORD *v3;
   int v4;
-  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
   float (&v5)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x14);
   float (&v6)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
 

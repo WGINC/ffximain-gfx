@@ -32,11 +32,13 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
   int v26;
   float v27;
   int v28;
-  _DWORD *v30;
-  int i;
-  float v32;
-  float v33;
-  float v34[15];
+  alignas(16) unsigned char xi_frame[0x460];  // address-taken locals at their original offsets
+  _DWORD * &v30 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x10);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x14);
+  float &v32 = *reinterpret_cast<float *>(xi_frame + 0x1C);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x20);
+  float (&v34)[15] = *reinterpret_cast<float (*)[15]>(xi_frame + 0x24);
+
   v4 = at<uint16_t>(this, 0x36);
   v5 = at<uint16_t>(this, 0x34);
   if ( v5 > v4 )

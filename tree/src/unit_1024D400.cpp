@@ -13,7 +13,7 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
   double v6;
   char *ViewMatrixPtr;
   int v8;
-  alignas(16) unsigned char xi_frame[0x4EC];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x52C];  // address-taken locals at their original offsets
   float * &v9 = *reinterpret_cast<float * *>(xi_frame + 0xC);
   int &v10 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v11 = *reinterpret_cast<int *>(xi_frame + 0x14);

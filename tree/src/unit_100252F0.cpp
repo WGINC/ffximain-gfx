@@ -404,7 +404,7 @@ XI_API void __cdecl Dbg_DrawGroundGrid(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 {
-  alignas(16) unsigned char xi_frame[0x548];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x588];  // address-taken locals at their original offsets
   int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x90);
   int &v1 = *reinterpret_cast<int *>(xi_frame + 0x9C);
   int &v2 = *reinterpret_cast<int *>(xi_frame + 0xA0);
@@ -473,7 +473,7 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 // GATE: PASS -- 100 trials, 55 returned normally, 165 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Dbg_DrawAxesAt(int a1)
 {
-  alignas(16) unsigned char xi_frame[0x4B8];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4F8];  // address-taken locals at their original offsets
   int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x18);
   int &v2 = *reinterpret_cast<int *>(xi_frame + 0x24);
   int &v3 = *reinterpret_cast<int *>(xi_frame + 0x28);

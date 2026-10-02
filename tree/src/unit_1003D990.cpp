@@ -11,10 +11,12 @@ XI_API int __cdecl Sky_DrawDome(void)
   unsigned __int8 *v3;
   _BYTE *v4;
   int i;
-  float v6;
-  int v7;
-  float Float2E0;
-  unsigned __int8 v9[12];
+  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  float &v6 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  float &Float2E0 = *reinterpret_cast<float *>(xi_frame + 0x2C);
+  unsigned __int8 (&v9)[12] = *reinterpret_cast<unsigned __int8 (*)[12]>(xi_frame + 0x30);
+
   result = (int)g_pXiZone;
   v1 = *((_DWORD *)g_pXiZone + 6);
   if ( v1 != 0 )
@@ -92,13 +94,15 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
   CMoProcessor *v9;
   int v10;
   int v11;
-  float v12;
-  int v13;
-  unsigned __int8 *v14;
-  int v15;
-  int v16;
-  float Float2E0;
-  unsigned __int8 v18[12];
+  alignas(16) unsigned char xi_frame[0x440];  // address-taken locals at their original offsets
+  float &v12 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  unsigned __int8 * &v14 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0x2C);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  float &Float2E0 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  unsigned __int8 (&v18)[12] = *reinterpret_cast<unsigned __int8 (*)[12]>(xi_frame + 0x34);
+
   result = g_pResourceMng;
   if ( g_pResourceMng != 0 )
   {

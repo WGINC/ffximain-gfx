@@ -95,7 +95,7 @@ char CXiSkeletonActorRes::ProcessLoadState()
   else
   {
     if ( self != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)self + 24))(1);
+      (*(void (__thiscall **)(void *, int))(*(_DWORD *)self + 24))((void *)self, 1);
     return 1;
   }
 }

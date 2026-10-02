@@ -27,7 +27,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   int v24;
   int *v25;
   int i;
-  alignas(16) unsigned char xi_frame[0x538];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x539];  // address-taken locals at their original offsets
   int &v27 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v28 = *reinterpret_cast<int *>(xi_frame + 0x14);
   float (&v29)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x18);

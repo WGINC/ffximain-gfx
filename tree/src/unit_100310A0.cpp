@@ -5,8 +5,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
 {
-  int v5[16];
-  _BYTE v6[64];
+  alignas(16) unsigned char xi_frame[0x528];  // address-taken locals at their original offsets
+  int (&v5)[16] = *reinterpret_cast<int (*)[16]>(xi_frame + 0xA8);
+  _BYTE (&v6)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0xE8);
+
   orig::fn_10027990((Iostream_init *)v6);
   orig::fn_10027990((Iostream_init *)v5);
   if ( g_actorShadowMode == 1 && g_shadowCasterDistance < 4.0 && *(_DWORD *)(self_ + 8) != 0 )

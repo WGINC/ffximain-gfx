@@ -298,7 +298,7 @@ XI_ORIG void MoTask_KillGlobalSlot1(float a0) { reinterpret_cast<void (__cdecl *
 XI_ORIG int sub_100361D0() { return reinterpret_cast<int (__cdecl *)()>(0x100361D0u)(); }
 XI_ORIG char sub_10036230() { return reinterpret_cast<char (__cdecl *)()>(0x10036230u)(); }
 XI_ORIG unsigned int Font_QueueText(void * a0, int a1, int a2, char a3) { return reinterpret_cast<unsigned int (__cdecl *)(void *, int, int, char)>(0x100384B0u)(a0, a1, a2, a3); }
-XI_ORIG int Font_DrawPass(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10038520u)(a0); }
+XI_ORIG int Font_DrawPass() { return reinterpret_cast<int (__cdecl *)()>(0x10038520u)(); }
 XI_ORIG unsigned __int8 * Font_DrawString(void * a0, float a1, float a2, float a3) { return reinterpret_cast<unsigned __int8 * (__cdecl *)(void *, float, float, float)>(0x10038720u)(a0, a1, a2, a3); }
 XI_ORIG _DWORD * Post_CreateScreenEffectTargets() { return reinterpret_cast<_DWORD * (__cdecl *)()>(0x10038930u)(); }
 XI_ORIG void sub_10038A70(int a0) { reinterpret_cast<void (__stdcall *)(int)>(0x10038A70u)(a0); }
@@ -529,7 +529,7 @@ XI_ORIG int CXiActor_GetModelField170(void * a0) { return reinterpret_cast<int (
 XI_ORIG bool CXiActor_HasNonzeroField150or158(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(0x100843B0u)(a0); }
 XI_ORIG int CXiActor_GetModelByteEE(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10084400u)(a0); }
 XI_ORIG int CXiActor_GetModelByteEF(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10084420u)(a0); }
-XI_ORIG __int16 CXiActor_GetModelPartWord(void * a0, int a1) { return reinterpret_cast<__int16 (__thiscall *)(void *, int)>(0x10084480u)(a0, a1); }
+XI_ORIG int CXiActor_GetModelPartWord(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(0x10084480u)(a0, a1); }
 XI_ORIG int CXiActor_GetModelFlags120Top2(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10084500u)(a0); }
 XI_ORIG int CXiActor_GetModelFlags130Top2(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10084520u)(a0); }
 XI_ORIG double CXiActor_GetModelFloat9AEC0(void * a0) { return reinterpret_cast<double (__thiscall *)(void *)>(0x10084540u)(a0); }

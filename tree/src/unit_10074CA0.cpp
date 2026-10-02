@@ -18,7 +18,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
       return;
     }
     if ( g_pCubeMapTarget != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)g_pCubeMapTarget + 24))(1);
+      (*(void (__thiscall **)(void *, int))(*(_DWORD *)g_pCubeMapTarget + 24))((void *)g_pCubeMapTarget, 1);
     g_pCubeMapTarget = 0;
   }
   if ( *self_ != 0 )

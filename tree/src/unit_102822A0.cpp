@@ -604,14 +604,16 @@ XI_API int __cdecl fn_10283420(void)
   int v10;
   unsigned int v11;
   float v12[17];
-  float v13[4];
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
+  alignas(16) unsigned char xi_frame[0x468];  // address-taken locals at their original offsets
+  float (&v13)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x38);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x50);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x54);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x58);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x5C);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x60);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x64);
+
   memset(v12, 0, sizeof(v12));
   v12[12] = *(float *)(g_pSqgxContext + 1880) * *(float *)(g_pSqgxContext + 1896);
   v12[13] = *(float *)(g_pSqgxContext + 1884) * *(float *)(g_pSqgxContext + 1896);
@@ -762,7 +764,7 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   double v12;
   double v13;
   int result;
-  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x5F8];  // address-taken locals at their original offsets
   char &v15 = *reinterpret_cast<char *>(xi_frame + 0x48);
   float (&v16)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x50);
   float (&v17)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xB8);

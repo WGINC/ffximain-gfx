@@ -95,22 +95,24 @@ XI_API int __thiscall Frame_Render(void *self_)
   unsigned int v90;
   unsigned int v91;
   char v92;
-  float v93;
-  int v94;
-  int v95;
-  int v96;
-  float v97;
-  int v98;
-  int v99;
-  char v100;
-  char i;
-  int a4;
-  int v103;
-  int a2;
-  int v105;
-  struct _SYSTEMTIME SystemTime;
-  _DWORD v107[6];
-  char Buffer[512];
+  alignas(16) unsigned char xi_frame[0x888];  // address-taken locals at their original offsets
+  float &v93 = *reinterpret_cast<float *>(xi_frame + 0x234);
+  int &v94 = *reinterpret_cast<int *>(xi_frame + 0x248);
+  int &v95 = *reinterpret_cast<int *>(xi_frame + 0x248);
+  int &v96 = *reinterpret_cast<int *>(xi_frame + 0x248);
+  float &v97 = *reinterpret_cast<float *>(xi_frame + 0x248);
+  int &v98 = *reinterpret_cast<int *>(xi_frame + 0x248);
+  int &v99 = *reinterpret_cast<int *>(xi_frame + 0x248);
+  char &v100 = *reinterpret_cast<char *>(xi_frame + 0x24F);
+  char &i = *reinterpret_cast<char *>(xi_frame + 0x24F);
+  int &a4 = *reinterpret_cast<int *>(xi_frame + 0x250);
+  int &v103 = *reinterpret_cast<int *>(xi_frame + 0x254);
+  int &a2 = *reinterpret_cast<int *>(xi_frame + 0x258);
+  int &v105 = *reinterpret_cast<int *>(xi_frame + 0x25C);
+  struct _SYSTEMTIME &SystemTime = *reinterpret_cast<struct _SYSTEMTIME *>(xi_frame + 0x260);
+  _DWORD (&v107)[6] = *reinterpret_cast<_DWORD (*)[6]>(xi_frame + 0x270);
+  char (&Buffer)[512] = *reinterpret_cast<char (*)[512]>(xi_frame + 0x288);
+
   dword_10456904 = 0;
   g_modelDrawCallCount = 0;
   if ( g_pEnv != 0 )
@@ -620,7 +622,7 @@ LABEL_102:
   orig::CXiMovie_DrawFrame();
   orig::sub_101D0C70();
   orig::Font_QueueText(word_1034F2B8, 1134886912, 1111490560, 0);
-  orig::Font_DrawPass(v33);
+  orig::Font_DrawPass();
   if ( g_pEnv != 0 && (*(_BYTE *)(g_pEnv + 28) & 1) != 0 )
   {
     *(_DWORD *)&SystemTime.wYear = 0;
@@ -941,7 +943,7 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
   int v12;
   unsigned int v13;
   int v14;
-  alignas(16) unsigned char xi_frame[0x618];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x628];  // address-taken locals at their original offsets
   int (&v15)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x208);
   int &a4 = *reinterpret_cast<int *>(xi_frame + 0x210);
   int &v17 = *reinterpret_cast<int *>(xi_frame + 0x214);
@@ -1122,8 +1124,10 @@ XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
   bool v9; // cc
   int v10;
   int v11;
-  int v12[4];
-  float v13[2];
+  alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
+  int (&v12)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x4C);
+  float (&v13)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x5C);
+
   v3 = *(_WORD *)(self_ + 4);
   switch ( v3 )
   {

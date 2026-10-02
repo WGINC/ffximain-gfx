@@ -31,8 +31,10 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
   unsigned __int8 v3;
-  int v4;
-  int a3[27];
+  alignas(16) unsigned char xi_frame[0x54C];  // address-taken locals at their original offsets
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0xDC);
+  int (&a3)[27] = *reinterpret_cast<int (*)[27]>(xi_frame + 0xE0);
+
   result = orig::Settings_GetValue(200);
   if ( result != 0
     && (result = *((_DWORD *)self_ + 1)) != 0
@@ -130,7 +132,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   unsigned __int16 v15;
   unsigned __int8 v16;
   CDx *v17;
-  alignas(16) unsigned char xi_frame[0x5B4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
   unsigned __int8 &v18 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x113);
   float &v19 = *reinterpret_cast<float *>(xi_frame + 0x114);
   unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x118);

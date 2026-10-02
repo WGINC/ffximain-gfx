@@ -20,12 +20,13 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
   bool v16; // c0
   char v17; // c2
   bool v18; // c3
-  float v20;
-  float v21;
-  float v22;
-  float v23;
-  float v24;
-  float v25[2];
+  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x4);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  float &v22 = *reinterpret_cast<float *>(xi_frame + 0xC);
+  float &v23 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  float &v24 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  float (&v25)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x1C);
   int v26;
   LODWORD(v3) = *((_DWORD *)self_ - 7);
   if ( (_DWORD)v3 == 1 )
@@ -110,12 +111,14 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
   bool v13; // c0
   char v14; // c2
   bool v15; // c3
-  float v16;
-  float v17;
-  float v18;
-  float v19;
-  float v20;
-  float v21[2];
+  alignas(16) unsigned char xi_frame[0x420];  // address-taken locals at their original offsets
+  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x0);
+  float &v17 = *reinterpret_cast<float *>(xi_frame + 0x4);
+  float &v18 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x10);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  float (&v21)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x18);
+
   if ( *((_DWORD *)self_ - 7) == 1 )
   {
     if ( self_ == (char *)-36 )

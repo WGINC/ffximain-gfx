@@ -34,14 +34,15 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
   bool v28; // c3
   void (*v29)(void);
   int v30;
-  int v31;
-  int v32;
-  int v33;
-  int v34;
-  int v35;
-  int v36;
-  int v37;
-  int v38;
+  alignas(16) unsigned char xi_frame[0x454];  // address-taken locals at their original offsets
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x50);
   float *a1a;
   v2 = 0;
   v3 = 0;

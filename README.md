@@ -43,7 +43,7 @@ To gate only part of it, use `pipeline/gate_some.py RUN fail|notpass|changed:DIR
 - Optionally Ghidra 12 with JDK 21 (see *Coverage*).
 - `gen_d3dx_bind.py` needs `DX81_INCLUDE` pointing at the DirectX 8.1 SDK headers.
 
-## Status (2 Oct 2026, evening)
+## Status (2 Oct 2026, night)
 
 768 graphics functions, every one with a stated outcome (`docs/RESIDUE.md`):
 
@@ -60,20 +60,39 @@ Placement of the 681 tree functions:
 - **507 are class members:** 456 instance methods and 51 static methods.
 - **174 are free functions,** each in the file of its source unit: 147 in units identified only by link order (`unit_*.cpp`) and 27 in named units.
 
-The one FAIL, `CXiSkeletonActor_OnMove`, is an IDA stack-pointer error, not a translation error: IDA's SP is
-4 bytes short between two indirect calls (0x100C6693..0x100C7902), so Hex-Rays gives one stack slot two
-names. The correction is in `data/ida_sp_fixes.json`; apply it in IDA (`ida_apply_names.apply_sp()`) and
-re-export the function.
+The tree is regenerated from the current pipeline (the translator and data fixes through `60b62b3`, plus
+`filled_past_array`, below) and gated as built: 681 PASS. Gates are recorded in `verification/`:
+- **Fuzz gate** (`gate_raw_final.jsonl`): 681 PASS, 30 INCONCLUSIVE, 1 FAIL.
+- **Live gate** (`gate_live_latest.jsonl`, inputs from the 7 Sep memory dump, `FFXI_LIVE`): 659 PASS, 51
+  INCONCLUSIVE, 2 FAIL. Most INCONCLUSIVE results are sqgx/sqsn functions, which are idle in the dump
+  (`g_pDancerDevice` is null) and pass under fuzzing.
 
-**Latest raw-tree gates (dev7, after commit `60b62b3`)**, recorded in `verification/gate_raw_latest.jsonl` and
-`verification/gate_live_latest.jsonl`. The clean tree has not been regenerated from these yet:
-- **Fuzz gate:** 680 PASS, 30 INCONCLUSIVE, 2 FAIL. The second FAIL, `Dancer_InitDevice` (0x10251A80), is a
-  regression from the last pipeline changes and is still to be traced.
-- **Live gate** (inputs taken from a memory dump of the running game, `FFXI_LIVE`): 658 PASS, 51
-  INCONCLUSIVE, 3 FAIL. The FAILs are `CXiSkeletonActor_OnMove` (IDA SP error, above),
-  `CTsZoneMap_DrawProjectedShadow` (Hex-Rays names stack slots 12 bytes off in its later region; needs an
-  IDA-side fix and re-export) and `Dancer_InitDevice` (the same regression). Most INCONCLUSIVE results are
-  sqgx/sqsn functions, which are idle in the dump (`g_pDancerDevice` is null) and pass under fuzzing.
+The two FAILs are IDA stack-pointer errors, not translation errors. Hex-Rays names stack slots from IDA's SP,
+so where IDA's SP is wrong one slot gets two names:
+- `CXiSkeletonActor_OnMove`: IDA takes `push ebp; push edi` as the arguments of `call [eax+318h]`
+  (0x100C6693) and misses the `ret 4` of `call [eax+3C8h]` (0x100C7902).
+- `CTsZoneMap_DrawProjectedShadow` (live gate only): `SetVertexShader` at 0x101851B4 pops 8 of the 12
+  bytes pushed before it; the `push edi` stays on the stack, and Hex-Rays reads `this` 12 bytes off later.
+
+Both are fixed in IDA by **`pipeline/ida_fix_reexport.py`** (see *Next step in IDA*).
+
+## Next step in IDA
+
+1. Save the IDB (or work on a copy). Put this repo's checkout where IDA can read it.
+2. In IDA 9.x with the FFXiMain_unpacked.dll IDB open: **File > Script file... >
+   `pipeline/ida_fix_reexport.py`**. It runs unattended (the re-export of 768 functions takes a while) and:
+   - applies the pending names and prototype fixes (`names_pending_idb.json`, `type_fixes.json`);
+   - types the viewport globals 0x104E1B70 and 0x10621904 as `D3DVIEWPORT8`;
+   - corrects IDA's SP from `data/real_sp.json`, the real stack depth at 28,708 instructions of the 712
+     functions, measured by running the originals (`pipeline/real_sp.py`). Each call where IDA's SP change
+     differs from the measured one gets a user SP change point (what Alt+K does), checked by re-reading
+     IDA's SP. The result is in `data/exports/ida_sp_report.json`; each fix is commented in the IDB;
+   - writes `data/exports/gfx_export_ida_reexport.jsonl`.
+3. Commit the two new files under `data/exports/` (or send them back), then:
+   `./run.sh all data/exports/gfx_export_ida_reexport.jsonl RUN`. OnMove and DrawProjectedShadow should
+   pass, and their hand patches will be reported stale.
+
+If anything in step 2 fails, the console output says where; the parts before it have already been applied.
 
 On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The repairs since,
 to the translator, the gate model and the data, are described in `docs/REPORT-2026-10-02.md`.
@@ -83,9 +102,8 @@ Names:
 - **2 Oct:**
   - 195 globals and callees were named (`docs/NAMES-2026-10-02.md`);
   - 90 fields were named (`data/field_names.json`).
-- These names, and the type and SP corrections in `data/`, are applied by the generator but are **not yet
-  in the IDB**: run `pipeline/ida_apply_names.py` in IDA (it applies names, `type_fixes.json` and
-  `ida_sp_fixes.json`), then re-export.
+- These names and the type corrections in `data/` are applied by the generator but are **not yet in the
+  IDB**: `pipeline/ida_fix_reexport.py` applies them (see *Next step in IDA*).
 - Still unnamed in the tree: 198 distinct `sub_` names (functions and callees) and 233 `field_XXX` members.
 
 ## Coverage: is every graphical system here?
@@ -130,6 +148,7 @@ Names:
 | `gfx_coverage.py` | The coverage audit above |
 | `same_code.py` | Are two builds the same code, function by function (renames and moves must be) |
 | `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py`, `cdecl_args.py`, `leaf_funcs.py` | Facts from the DLL (`run.sh facts`) |
+| `real_sp.py` | The real stack depth at each instruction, observed by running the original (input of `ida_fix_reexport.py`) |
 | `stack_depth.py`, `ida_sp_check.py` | The real stack depth at each instruction, and where IDA's own SP (read from its listing) differs: the cause of a stack variable with two names |
 | `unset_reads.py` | Locals Hex-Rays reads but never assigns (a lost return value, a misframed argument, an unmodelled condition code) |
 | `loop_bounds.py` | Why an original runs to the instruction limit: the loop and the fuzzed bound it compares against |

@@ -193,7 +193,7 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   IDirect3DVertexBuffer8 *v109;
   IDirect3DVertexBuffer8 *v110;
   bool v111; // cc
-  alignas(16) unsigned char xi_frame[0x6A0];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x6E0];  // address-taken locals at their original offsets
   int &v112 = *reinterpret_cast<int *>(xi_frame + 0x11C);
   float * &v113 = *reinterpret_cast<float * *>(xi_frame + 0x11C);
   float &v114 = *reinterpret_cast<float *>(xi_frame + 0x120);
@@ -1245,7 +1245,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   float *v338;
   int v339;
   int v340;
-  alignas(16) unsigned char xi_frame[0x668];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x6A8];  // address-taken locals at their original offsets
   float * &v341 = *reinterpret_cast<float * *>(xi_frame + 0xB4);
   float &v342 = *reinterpret_cast<float *>(xi_frame + 0xCC);
   float &v343 = *reinterpret_cast<float *>(xi_frame + 0xCC);
@@ -3341,47 +3341,48 @@ XI_API int __thiscall fn_10185CA0(void *self_, int a1, int a2, int a3, int a4)
   int v76;
   int v77;
   bool v78; // zf
-  float v80;
-  float v81;
-  float v82;
-  int v83;
-  float v84;
-  float v85;
-  float v86;
-  int v87;
-  float v88;
-  float v89;
-  float v90;
-  int v91;
-  float v92;
-  float v93;
-  float v94;
-  int v95;
-  float *v96;
-  float *v97;
-  float *v98;
-  int v99;
-  int v100;
-  int v101;
-  int k;
-  int v103;
-  int v104;
-  _DWORD **v105;
-  int v106;
-  int i;
-  int j;
-  int v109;
-  __int16 *v110;
-  int v111;
-  float v112;
-  float v113;
-  float *v114;
-  float v115;
-  float v116;
-  float v117;
-  float v118[12];
-  _DWORD v119[4];
-  char pMatrix[48];
+  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
+  float &v80 = *reinterpret_cast<float *>(xi_frame + 0xB0);
+  float &v81 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  float &v82 = *reinterpret_cast<float *>(xi_frame + 0xB8);
+  int &v83 = *reinterpret_cast<int *>(xi_frame + 0xBC);
+  float &v84 = *reinterpret_cast<float *>(xi_frame + 0xC0);
+  float &v85 = *reinterpret_cast<float *>(xi_frame + 0xC4);
+  float &v86 = *reinterpret_cast<float *>(xi_frame + 0xC8);
+  int &v87 = *reinterpret_cast<int *>(xi_frame + 0xCC);
+  float &v88 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v89 = *reinterpret_cast<float *>(xi_frame + 0xD4);
+  float &v90 = *reinterpret_cast<float *>(xi_frame + 0xD8);
+  int &v91 = *reinterpret_cast<int *>(xi_frame + 0xDC);
+  float &v92 = *reinterpret_cast<float *>(xi_frame + 0xE0);
+  float &v93 = *reinterpret_cast<float *>(xi_frame + 0xE4);
+  float &v94 = *reinterpret_cast<float *>(xi_frame + 0xE8);
+  int &v95 = *reinterpret_cast<int *>(xi_frame + 0xEC);
+  float * &v96 = *reinterpret_cast<float * *>(xi_frame + 0xF0);
+  float * &v97 = *reinterpret_cast<float * *>(xi_frame + 0xF4);
+  float * &v98 = *reinterpret_cast<float * *>(xi_frame + 0xF8);
+  int &v99 = *reinterpret_cast<int *>(xi_frame + 0xFC);
+  int &v100 = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v101 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &k = *reinterpret_cast<int *>(xi_frame + 0x108);
+  int &v103 = *reinterpret_cast<int *>(xi_frame + 0x10C);
+  int &v104 = *reinterpret_cast<int *>(xi_frame + 0x110);
+  _DWORD ** &v105 = *reinterpret_cast<_DWORD ** *>(xi_frame + 0x114);
+  int &v106 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x11C);
+  int &j = *reinterpret_cast<int *>(xi_frame + 0x120);
+  int &v109 = *reinterpret_cast<int *>(xi_frame + 0x124);
+  __int16 * &v110 = *reinterpret_cast<__int16 * *>(xi_frame + 0x128);
+  int &v111 = *reinterpret_cast<int *>(xi_frame + 0x12C);
+  float &v112 = *reinterpret_cast<float *>(xi_frame + 0x130);
+  float &v113 = *reinterpret_cast<float *>(xi_frame + 0x134);
+  float * &v114 = *reinterpret_cast<float * *>(xi_frame + 0x138);
+  float &v115 = *reinterpret_cast<float *>(xi_frame + 0x13C);
+  float &v116 = *reinterpret_cast<float *>(xi_frame + 0x140);
+  float &v117 = *reinterpret_cast<float *>(xi_frame + 0x144);
+  float (&v118)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0x148);
+  _DWORD (&v119)[4] = *reinterpret_cast<_DWORD (*)[4]>(xi_frame + 0x178);
+  char (&pMatrix)[48] = *reinterpret_cast<char (*)[48]>(xi_frame + 0x188);
   float *v121;
   IDirect3DBaseTexture8 *v122;
   v5 = (float *)self_;
@@ -3796,7 +3797,7 @@ LABEL_67:
             v19 = *v105;
           }
           while ( *v105 != nullptr );
-          v5 = v114;
+          v5 = (float *)self_;
           v18 = j;
           v17 = i;
         }

@@ -55,14 +55,16 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
   int v51;
   unsigned __int16 v52;
   unsigned __int16 v53;
-  int i;
-  float v55;
-  int v56;
-  int v57;
-  int v58;
-  int *v59;
-  int v60;
-  int v61;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x10);
+  float &v55 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  int &v56 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v57 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+  int &v58 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int * &v59 = *reinterpret_cast<int * *>(xi_frame + 0x24);
+  int &v60 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v61 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   orig::CDx_BeginScene(&g_pCDx->vftable);
   orig::nullsub_36();
   if ( *(_WORD *)(self_ + 4) == 0 )

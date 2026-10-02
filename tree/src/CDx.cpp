@@ -120,7 +120,7 @@ int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
   int v8;
   orig::CDx_EndScene(self);
   v8 = a4;
-  if ( *(_DWORD *)(dword_103D3CB8 + 92) != 0 && (a4 & 2) != 0 )
+  if ( *(_DWORD *)(g_pAppSettings + 92) != 0 && (a4 & 2) != 0 )
     v8 = a4 | 4;
   (*(void (__stdcall **)(_DWORD, int, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 144))(
     at<_DWORD *>(this, 0xC),
@@ -183,8 +183,8 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
   HCURSOR result;
   int HwCursorSlot;
   HCURSOR CursorA;
-  result = (HCURSOR)dword_10456BF8;
-  if ( dword_10456BF8 != 0 )
+  result = (HCURSOR)g_cfgHardwareMouse;
+  if ( g_cfgHardwareMouse != 0 )
   {
     HwCursorSlot = 0;
     switch ( a2 )
@@ -200,7 +200,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
         break;
       case 4:
       case 5:
-        HwCursorSlot = orig::Cursor_GetHwCursorSlot((_WORD *)dword_104E1D4C);
+        HwCursorSlot = orig::Cursor_GetHwCursorSlot((_WORD *)g_pCursor);
         break;
       default:
         break;
@@ -554,7 +554,7 @@ char CDx::GetStereoSecondEyeTarget(int a1, int a2)
       pTexture->lpVtbl[1].AddRef(nullptr);
       if ( *(_DWORD *)v12 == v11 )
       {
-        *(_DWORD *)a1 = dword_10456D54;
+        *(_DWORD *)a1 = g_translucentTargetEye2;
         v9 = this->field_1A8;
         *(_DWORD *)a2 = v9;
         v6 = *(_DWORD *)a1 != 0 && v9 != 0;

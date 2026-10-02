@@ -6,12 +6,12 @@
 XI_API int __cdecl sqgxVertexShaderRelease(void)
 {
   int result;
-  result = *(_DWORD *)(dword_1099D200 + 2584);
+  result = *(_DWORD *)(g_pSqgxContext + 2584);
   if ( result != 0 )
   {
-    g_pDancerDevice->DeleteVertexShader(*(_DWORD *)(dword_1099D200 + 2584));
-    result = dword_1099D200;
-    *(_DWORD *)(dword_1099D200 + 2584) = 0;
+    g_pDancerDevice->DeleteVertexShader(*(_DWORD *)(g_pSqgxContext + 2584));
+    result = g_pSqgxContext;
+    *(_DWORD *)(g_pSqgxContext + 2584) = 0;
   }
   return result;
 }

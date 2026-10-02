@@ -23,17 +23,17 @@ XI_API int __cdecl Post_Afterimage(void)
     LOWORD(result) = v1;
     if ( g_afterimageStrength > 0.0 )
     {
-      if ( dword_10456920 == 1 )
+      if ( g_afterimageState == 1 )
       {
-        dword_10456924[0] = 1;
+        g_afterimageBufferState[0] = 1;
         if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
-          dword_10456928 = 1;
+          g_afterimagePhase = 1;
       }
-      else if ( dword_10456920 == 2 )
+      else if ( g_afterimageState == 2 )
       {
-        dword_10456924[0] = 2;
-        if ( dword_10456928 == 1 )
-          dword_10456928 = 2;
+        g_afterimageBufferState[0] = 2;
+        if ( g_afterimagePhase == 1 )
+          g_afterimagePhase = 2;
       }
       v5 = 0;
       while ( 1 )
@@ -53,9 +53,9 @@ XI_API int __cdecl Post_Afterimage(void)
         g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
         g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
         g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-        if ( dword_10456924[v5] == 1 )
+        if ( g_afterimageBufferState[v5] == 1 )
           break;
-        if ( dword_10456924[v5] == 2 )
+        if ( g_afterimageBufferState[v5] == 2 )
           goto LABEL_17;
 LABEL_23:
         if ( ++v5 >= 2 )
@@ -68,11 +68,11 @@ LABEL_23:
       v6 = g_afterimageTex[v5];
       if ( v6 != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388] != 0 )
       {
-        orig::CDx_PushRenderTarget(g_pCDx, v6, dword_10456918[v5], 0);
+        orig::CDx_PushRenderTarget(g_pCDx, v6, g_afterimageDepth[v5], 0);
         orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388], -2139062144, -1);
         orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
       }
-      dword_10456920 = 2;
+      g_afterimageState = 2;
 LABEL_17:
       if ( g_afterimageTex[v5] != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v5 + 388] != 0 )
       {
@@ -130,7 +130,7 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
     RenderTargetTop = orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx);
     LODWORD(v3) = *(_DWORD *)RenderTargetTop;
     *(_QWORD *)v15 = v3;
-    flt_103501A8 = (float)v3;
+    g_feedbackQuad = (float)v3;
     v15[0] = *((_DWORD *)RenderTargetTop + 1);
     flt_103501AC = (float)*(__int64 *)v15;
     v15[0] = *((_DWORD *)RenderTargetTop + 2);
@@ -171,11 +171,11 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
     g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
     g_pCDx->pDevice->SetVertexShader(68u);
-    orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&flt_103501A8, 20);
+    orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&g_feedbackQuad, 20);
     if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
     {
       orig::CDx_PushRenderTarget(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[392], *(_DWORD *)&g_pCDx->_pad_10[400], 0);
-      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&flt_103501A8, 20);
+      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&g_feedbackQuad, 20);
       orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
     }
     g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
@@ -185,10 +185,10 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
   }
   if ( g_feedbackTexHalfRes[0] != 0 && *((_BYTE *)self_ + 815) != 0 )
   {
-    v7 = dword_1045692C;
-    if ( dword_1045692C != 0 )
+    v7 = g_feedbackBufferIndex;
+    if ( g_feedbackBufferIndex != 0 )
     {
-      if ( dword_1045692C != 1 )
+      if ( g_feedbackBufferIndex != 1 )
       {
 LABEL_20:
         v8 = 0;
@@ -209,9 +209,9 @@ LABEL_20:
           g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-          if ( dword_10456930[v8] == 1 )
+          if ( g_feedbackBufferState[v8] == 1 )
             break;
-          if ( dword_10456930[v8] == 2 )
+          if ( g_feedbackBufferState[v8] == 2 )
             goto LABEL_28;
 LABEL_36:
           if ( ++v8 >= 2 )
@@ -224,11 +224,11 @@ LABEL_36:
         v9 = g_feedbackTexHalfRes[v8];
         if ( v9 != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388] != 0 )
         {
-          orig::CDx_PushRenderTarget(g_pCDx, v9, dword_10456940[v8], 0);
+          orig::CDx_PushRenderTarget(g_pCDx, v9, g_feedbackDepth[v8], 0);
           orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
           orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
         }
-        dword_10456930[v8] = 2;
+        g_feedbackBufferState[v8] = 2;
 LABEL_28:
         if ( g_feedbackTexHalfRes[v8] != 0 && *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388] != 0 )
         {
@@ -265,7 +265,7 @@ LABEL_28:
             orig::CDx_DrawTexturedScreenQuad(g_pCDx, g_feedbackTexHalfRes[0], v14, (int)v18, (int)v15, -1);
           }
           g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-          orig::CDx_PushRenderTarget(g_pCDx, g_feedbackTexHalfRes[v8], dword_10456940[v8], 0);
+          orig::CDx_PushRenderTarget(g_pCDx, g_feedbackTexHalfRes[v8], g_feedbackDepth[v8], 0);
           orig::CDx_DrawTextureToViewport(g_pCDx, *(_DWORD *)&g_pCDx->_pad_10[4 * v8 + 388], -2139062144, -1);
           orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
         }
@@ -275,13 +275,13 @@ LABEL_28:
     else
     {
       v7 = 1;
-      dword_10456934 = 0;
-      dword_1045692C = 1;
+      g_feedbackActive = 0;
+      g_feedbackBufferIndex = 1;
     }
-    dword_10456930[0] = v7;
+    g_feedbackBufferState[0] = v7;
     if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
-      dword_10456934 = 1;
-    ++dword_1045692C;
+      g_feedbackActive = 1;
+    ++g_feedbackBufferIndex;
     goto LABEL_20;
   }
   return result;
@@ -307,7 +307,7 @@ XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
     case 0:
       orig::Call1008A0E0With2();
       orig::sub_101AB6D0();
-      if ( orig::GameMode_GetField98(off_103601BC) < 3 )
+      if ( orig::GameMode_GetField98(g_pGameMode) < 3 )
         goto LABEL_25;
       orig::CYyCamMng2_CreateGlobal();
       orig::Actor_ResetDrawLists();
@@ -366,7 +366,7 @@ LABEL_7:
           dword_10669014 = 0;
           if ( v8 == -2 )
           {
-            orig::GameMode_OpenTacticsUrl((int *)off_103601BC, 0);
+            orig::GameMode_OpenTacticsUrl((int *)g_pGameMode, 0);
             orig::App_SetGlobal_104569C8(2);
           }
           *(_DWORD *)(self_ + 68) = 13;
@@ -417,38 +417,38 @@ XI_API char __thiscall App_StepGameState6(_WORD *self_)
   {
     case 0:
       orig::App_RegisterSystemDats();
-      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
-      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
+      orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
       orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
       result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
         goto LABEL_6;
       return result;
     case 1:
-      orig::GameMode_RequestState(off_103601BC, 6, 0);
+      orig::GameMode_RequestState(g_pGameMode, 6, 0);
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 2:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 != 6 )
         return v3 > 200;
       goto LABEL_6;
     case 3:
-      orig::GameMode_RequestState(off_103601BC, 7, 0);
+      orig::GameMode_RequestState(g_pGameMode, 7, 0);
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 7 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::GameMode_RequestState(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(g_pGameMode, 9, 0);
 LABEL_6:
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -466,38 +466,38 @@ XI_API char __thiscall App_StepGameState7(_WORD *self_)
   switch ( *(self_ + 2) )
   {
     case 0:
-      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
-      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
+      orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
       orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
       result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
         goto LABEL_6;
       return result;
     case 1:
-      orig::GameMode_RequestState(off_103601BC, 6, 0);
+      orig::GameMode_RequestState(g_pGameMode, 6, 0);
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 2:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 != 6 )
         return v3 > 200;
       goto LABEL_6;
     case 3:
-      orig::GameMode_RequestState(off_103601BC, 8, 0);
+      orig::GameMode_RequestState(g_pGameMode, 8, 0);
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 8 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::GameMode_RequestState(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(g_pGameMode, 9, 0);
 LABEL_6:
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -516,8 +516,8 @@ XI_API char __thiscall App_StepGameState8(_WORD *self_)
   {
     case 0:
       orig::App_RegisterSystemDats();
-      orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
-      orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+      orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
+      orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
       orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
       result = orig::Unit10086E90_ResetGlobals();
       if ( result != 0 )
@@ -527,21 +527,21 @@ XI_API char __thiscall App_StepGameState8(_WORD *self_)
     case 2:
       goto LABEL_6;
     case 3:
-      orig::GameMode_RequestState(off_103601BC, 8, 0);
+      orig::GameMode_RequestState(g_pGameMode, 8, 0);
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 4:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 8 )
         goto LABEL_6;
       return v3 > 200;
     case 5:
-      orig::GameMode_RequestState(off_103601BC, 9, 0);
+      orig::GameMode_RequestState(g_pGameMode, 9, 0);
 LABEL_6:
       orig::App_AdvanceSeqStep(self_);
       return 0;
     case 6:
-      v3 = orig::GameMode_PollPendingState((int *)off_103601BC);
+      v3 = orig::GameMode_PollPendingState((int *)g_pGameMode);
       if ( v3 == 9 )
         return 1;
       return v3 > 200;
@@ -555,8 +555,8 @@ LABEL_6:
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();
-  orig::Ui_KeyPrompt_Init((_DWORD *)dword_10668FD8, 2);
-  orig::MenuMng_OpenByName(word_10621838, aMenuChdummy, 1, 0);
+  orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
+  orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
   orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
   return orig::Unit10086E90_ResetGlobals() != 0;
 }
@@ -565,8 +565,8 @@ XI_API bool __cdecl App_StepGameState9(void)
 // GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall fn_100141C0(_WORD *self_)
 {
-  if ( *(_DWORD *)(dword_103D3CB8 + 8) != 0 )
-    word_104568F8 = *(_WORD *)(dword_103D3CB8 + 8) + 1;
+  if ( *(_DWORD *)(g_pAppSettings + 8) != 0 )
+    word_104568F8 = *(_WORD *)(g_pAppSettings + 8) + 1;
   orig::CDx_StepFadeCounter((float *)g_pCDx, 0.0, 0.0, 1);
   orig::App_AdvanceSeqStep(self_);
   return 1;

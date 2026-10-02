@@ -64,9 +64,9 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
       {
         v8 = 1;
         if ( a4 != -1 )
-          dword_1045EC28[a4] = 1;
+          g_boneTouched[a4] = 1;
         if ( a5 != -1 )
-          dword_1045EC28[a5] = 1;
+          g_boneTouched[a5] = 1;
         result = a6;
         if ( a6 != nullptr )
         {
@@ -79,7 +79,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
               orig::Mat4_Copy(
                 (_DWORD *)(g_boneWeightMatrixTable + ((char)*v9 << 6)),
                 (_DWORD *)(g_boneWeightMatrixTable + ((char)*(v9 - 2) << 6)));
-              dword_1045EC28[(char)*v9] = 1;
+              g_boneTouched[(char)*v9] = 1;
             }
             ++v9;
             result = &v9[v10];
@@ -93,14 +93,14 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
           v12 = (float *)&unk_1045F064;
           do
           {
-            if ( dword_1045EC28[v8] == 0 )
+            if ( g_boneTouched[v8] == 0 )
             {
               v13 = *v20;
               orig::Mat4_SetScale((_DWORD *)(v11 + g_boneWeightMatrixTable), (_DWORD *)v12 + 7);
-              orig::sub_10032FA0(v12, v11 + g_boneWeightMatrixTable);
+              orig::BoneXform_PostMultiplyInto(v12, v11 + g_boneWeightMatrixTable);
               orig::Mat4_SetTranslation((_DWORD *)(v11 + g_boneWeightMatrixTable), (_DWORD *)v12 + 4);
               orig::Mat4_PostMultiply(v11 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v13 << 6));
-              dword_1045EC28[v8] = 1;
+              g_boneTouched[v8] = 1;
             }
             v12 += 13;
             ++v8;
@@ -125,9 +125,9 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         }
         while ( (int)&v14[-2 - (_DWORD)a6] < 2 );
       }
-      orig::Mat4_SetScale((_DWORD *)g_boneWeightMatrixTable, dword_1045F04C);
-      orig::sub_10032FA0(g_poseScratch, g_boneWeightMatrixTable);
-      orig::Mat4_SetTranslation((_DWORD *)g_boneWeightMatrixTable, dword_1045F040);
+      orig::Mat4_SetScale((_DWORD *)g_boneWeightMatrixTable, g_poseScale);
+      orig::BoneXform_PostMultiplyInto(g_poseScratch, g_boneWeightMatrixTable);
+      orig::Mat4_SetTranslation((_DWORD *)g_boneWeightMatrixTable, g_poseTranslation);
       result = (_BYTE *)orig::Mat4_PostMultiply(g_boneWeightMatrixTable, a2);
       v15 = (unsigned __int8 *)(g_pSharedSkeleton[0] + 82);
       if ( v7 > 1 )
@@ -139,7 +139,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         {
           v18 = *v15;
           orig::Mat4_SetScale((_DWORD *)(v16 + g_boneWeightMatrixTable), (_DWORD *)v17 + 7);
-          orig::sub_10032FA0(v17, v16 + g_boneWeightMatrixTable);
+          orig::BoneXform_PostMultiplyInto(v17, v16 + g_boneWeightMatrixTable);
           orig::Mat4_SetTranslation((_DWORD *)(v16 + g_boneWeightMatrixTable), (_DWORD *)v17 + 4);
           orig::Mat4_PostMultiply(v16 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v18 << 6));
           v15 += 30;
@@ -159,12 +159,12 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
 char * CXiSkeletonActor::GetEnglishName()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  byte_1047D580 = 0;
+  g_actorNameBuffer = 0;
   if ( at<int32_t>(this, 0x70) == 0 )
     return (char *)(self + 46);
   if ( !orig::CXiActor_IsInModelSlotTable(self) )
-    strcpy(&byte_1047D580, orig::Entity_BuildDisplayName(at<int32_t>(this, 0x70)));
-  return &byte_1047D580;
+    strcpy(&g_actorNameBuffer, orig::Entity_BuildDisplayName(at<int32_t>(this, 0x70)));
+  return &g_actorNameBuffer;
 }
 
 // FUNCTION: FFXIMAIN 0x100832E0  (placed by IDB name)
@@ -673,9 +673,9 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
   orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
   this->field_70 = a3;
   orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, -1);
-  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(sub_100C5410));
-  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(sub_100C5440));
-  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(sub_100C54C0));
+  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
+  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
+  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(TargetActor_SlotHandler4));
   if ( orig::CXiActor_GetModelField170((_DWORD *)self) == 1
     && (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 0 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 6)
     || (orig::CXiActor_GetModelByteEE((_DWORD *)self) == 2 || orig::CXiActor_GetModelByteEE((_DWORD *)self) == 7)
@@ -718,9 +718,9 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
   orig::Vec4_Copy((_DWORD *)(self + 1656), (_DWORD *)(self + 1532));
   this->field_70 = a3;
   orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, a4);
-  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(sub_100C5410));
-  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(sub_100C5440));
-  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(sub_100C54C0));
+  orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
+  orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
+  orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(TargetActor_SlotHandler4));
   orig::CMoTask_RegisterWithMng((void *)self, 4);
   orig::Net_SendPacket00COnce();
   return self;
@@ -805,39 +805,39 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
         {
           if ( a4 == 82 )
           {
-            orig::nullsub_12(byte_1035F6D8);
+            orig::nullsub_12(aNoOwnerRange);
             return self;
           }
           else
           {
             if ( a4 == 83 )
-              orig::nullsub_12(byte_1035F680);
+              orig::nullsub_12(aNoOwnerGroundTarget);
             else
-              orig::nullsub_12(byte_1035F638);
+              orig::nullsub_12(aNoOwnerChocobo);
             return self;
           }
         }
         else
         {
-          orig::nullsub_12(byte_1035F728);
+          orig::nullsub_12(aNoOwnerBorder);
           return self;
         }
       }
       else
       {
-        orig::nullsub_12(byte_1035F778);
+        orig::nullsub_12(aNoOwnerChair);
         return self;
       }
     }
     else
     {
-      orig::nullsub_12(byte_1035F7C0);
+      orig::nullsub_12(aNoOwnerFishingRod);
       return self;
     }
   }
   else
   {
-    orig::nullsub_12(byte_1035F808);
+    orig::nullsub_12(aNoOwnerMagicCircle);
     return self;
   }
 }
@@ -884,8 +884,8 @@ char CXiSkeletonActor::DestructorBody()
     orig::CMoResource_ReleaseChain(*v8, v7);
     orig::ResHandle_FreeIfUnreferenced((int **)(self + 2148));
   }
-  if ( orig::ActorHandle_Resolve(dword_1047D600) == self && this->field_F9 == 0 )
-    orig::sub_10157660((int)dword_1057876C, 0);
+  if ( orig::ActorHandle_Resolve(g_targetActorHandle) == self && this->field_F9 == 0 )
+    orig::sub_10157660((int)g_pTargetMng, 0);
   v9 = this->bucketA;
   v10 = g_actorUpdateBucketCountA[v9];
   if ( v10 != 0 )
@@ -1072,11 +1072,11 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
     }
   }
   g_skinningCapabilityFlag = 1;
-  byte_104570FC = 0;
-  byte_104572B0 = 0;
+  g_envMapEnabled = 0;
+  g_projTexEnabled = 0;
   byte_104570F0 = 0;
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, dword_104574B8);
-  orig::Mat4_Copy(dword_1045B780, dword_104574B8);
+  orig::CDx_SetTransform(&g_pCDx->vftable, 256, g_identityWorldMatrix);
+  orig::Mat4_Copy(g_offscreenWorldMatrix, g_identityWorldMatrix);
   orig::Actor_SelectNearestLights(self);
   v7 = this->field_664;
   v8 = v7 < 0.80000001;
@@ -1104,16 +1104,16 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   }
   if ( (*(int (__thiscall **)(void *))(*(_DWORD *)self + 64))(self) == 0 )
     goto LABEL_64;
-  if ( dword_10456ACC == 1 )
+  if ( g_shadowSetting == 1 )
     goto LABEL_64;
   v82 = (float *)(orig::Camera_GetField50() + 68);
   v17 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
   orig::Vec3_Sub(&v105, v17, v82);
   if ( v106 < -2.0 )
     goto LABEL_64;
-  if ( dword_10456ACC == 2 && flt_1045B80C < 40.0 )
+  if ( g_shadowSetting == 2 && g_shadowCasterDistance < 40.0 )
     goto LABEL_43;
-  flt_1045B80C = this->field_BC;
+  g_shadowCasterDistance = this->field_BC;
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) == 0 )
   {
     if ( this->field_728 <= 1 )
@@ -1166,55 +1166,55 @@ LABEL_42:
     if ( v20 != 0 )
       goto LABEL_64;
 LABEL_49:
-    word_1045B77A = this->field_17C != 0 ? 2 : 0;
+    g_actorShadowMode = this->field_17C != 0 ? 2 : 0;
     goto LABEL_50;
   }
   v18 = this->field_768;
   if ( v18 == 0 )
   {
 LABEL_43:
-    word_1045B77A = 1;
-    flt_1045B80C = 0.0;
+    g_actorShadowMode = 1;
+    g_shadowCasterDistance = 0.0;
     goto LABEL_50;
   }
   if ( (*(int (__thiscall **)(_DWORD))(*(_DWORD *)v18 + 844))(this->field_768) != 0 )
   {
 LABEL_64:
-    word_1045B77A = 3;
+    g_actorShadowMode = 3;
     goto LABEL_50;
   }
   if ( (*(int (__thiscall **)(int))(*(_DWORD *)v18 + 856))(v18) == 0 )
     goto LABEL_43;
-  word_1045B77A = 3;
+  g_actorShadowMode = 3;
 LABEL_50:
-  if ( (byte_1048A328 & 1) == 0 )
+  if ( (PerActor_FourBucketStaggeredUpdate_staticGuards & 1) == 0 )
   {
-    dword_1048A318 = 0;
-    byte_1048A328 |= 1u;
+    g_lightLookAtEye = 0;
+    PerActor_FourBucketStaggeredUpdate_staticGuards |= 1u;
     dword_1048A31C = 0;
     dword_1048A320 = 1082130432;
     orig::_atexit(XI_CODE(nullsub_279));
   }
-  if ( (byte_1048A328 & 2) == 0 )
+  if ( (PerActor_FourBucketStaggeredUpdate_staticGuards & 2) == 0 )
   {
-    dword_1048A30C = 0;
-    byte_1048A328 |= 2u;
+    g_lightLookAtTarget = 0;
+    PerActor_FourBucketStaggeredUpdate_staticGuards |= 2u;
     dword_1048A310 = 0;
     dword_1048A314 = 0;
     orig::_atexit(XI_CODE(nullsub_278));
   }
-  if ( (byte_1048A328 & 4) == 0 )
+  if ( (PerActor_FourBucketStaggeredUpdate_staticGuards & 4) == 0 )
   {
-    dword_1048A338 = 0;
-    byte_1048A328 |= 4u;
+    g_lightLookAtUp = 0;
+    PerActor_FourBucketStaggeredUpdate_staticGuards |= 4u;
     dword_1048A33C = -1082130432;
     dword_1048A340 = 0;
     orig::_atexit(XI_CODE(nullsub_277));
   }
-  if ( (byte_1048A328 & 8) == 0 )
+  if ( (PerActor_FourBucketStaggeredUpdate_staticGuards & 8) == 0 )
   {
     dword_1048A32C = 0;
-    byte_1048A328 |= 8u;
+    PerActor_FourBucketStaggeredUpdate_staticGuards |= 8u;
     dword_1048A330 = -1082130432;
     dword_1048A334 = 0;
     orig::_atexit(XI_CODE(nullsub_276));
@@ -1223,24 +1223,24 @@ LABEL_50:
   {
     orig::Vec3_Copy(&v105, &dword_1048A32C);
   }
-  else if ( *(_DWORD *)dword_1048A308 == 1 )
+  else if ( *(_DWORD *)g_nearestLight == 1 )
   {
     v23 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-    orig::Vec3_Sub(&v105, (float *)(dword_1048A308 + 52), v23);
+    orig::Vec3_Sub(&v105, (float *)(g_nearestLight + 52), v23);
   }
   else
   {
-    v105 = -*(float *)(dword_1048A308 + 64);
-    v106 = -*(float *)(dword_1048A308 + 68);
-    v107 = -*(float *)(dword_1048A308 + 72);
+    v105 = -*(float *)(g_nearestLight + 64);
+    v106 = -*(float *)(g_nearestLight + 68);
+    v107 = -*(float *)(g_nearestLight + 72);
   }
   orig::Shadow_SmoothLightDirection((float *)self + 431, &v105);
   v24 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-  orig::Vec3_Copy(&dword_1048A30C, v24);
-  orig::Vec3_Sub((float *)&dword_1048A318, (float *)&dword_1048A30C, (float *)self + 436);
-  orig::fn_102D7FF9(flt_1045B7C0, (float *)&dword_1048A318, (float *)&dword_1048A30C, (float *)&dword_1048A338);
+  orig::Vec3_Copy(&g_lightLookAtTarget, v24);
+  orig::Vec3_Sub((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)self + 436);
+  orig::fn_102D7FF9(g_lightViewMatrix, (float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)&g_lightLookAtUp);
   orig::fn_10027990((Iostream_init *)v111);
-  orig::Mat4_TransformNormal(flt_1045B7C0, v112, (float *)self + 582);
+  orig::Mat4_TransformNormal(g_lightViewMatrix, v112, (float *)self + 582);
   orig::Vec4_Copy(&v96, v112);
   orig::Vec4_Copy(&v101, v112);
   v25 = (float *)&v113;
@@ -1248,7 +1248,7 @@ LABEL_50:
   ViewportHeight = 7;
   do
   {
-    orig::Mat4_TransformNormal(flt_1045B7C0, v25, v26);
+    orig::Mat4_TransformNormal(g_lightViewMatrix, v25, v26);
     orig::Vec3_Copy(&v108, v25);
     if ( v96 >= (double)v108 )
       v96 = v108;
@@ -1279,7 +1279,7 @@ LABEL_50:
   v38 = *(float *)&ViewportHeight < v36;
   v39 = 0;
   v40 = *(float *)&ViewportHeight == v36;
-  if ( word_1045B77A == 1 )
+  if ( g_actorShadowMode == 1 )
   {
     if ( (v37 & 0x4100) == 0 )
       v36 = *(float *)&ViewportHeight;
@@ -1294,15 +1294,15 @@ LABEL_50:
     v36 = 0.0099999998;
   *(float *)&dword_1045B810 = v36;
   v83 = *(float *)&dword_1045B810 * -12.0;
-  orig::Vec3_Scale((float *)&dword_1048A318, (float *)self + 436, v83);
-  orig::Vec3_AddInPlace((float *)&dword_1048A318, (float *)&dword_1048A30C);
-  orig::fn_102D7FF9(flt_1045B7C0, (float *)&dword_1048A318, (float *)&dword_1048A30C, (float *)&dword_1048A338);
+  orig::Vec3_Scale((float *)&g_lightLookAtEye, (float *)self + 436, v83);
+  orig::Vec3_AddInPlace((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget);
+  orig::fn_102D7FF9(g_lightViewMatrix, (float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)&g_lightLookAtUp);
   orig::nullsub_1();
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
     goto LABEL_155;
   if ( v86 || v91 != 0 )
     goto LABEL_98;
-  if ( this->forceUpdateFlag == 0 && v85 == 0 && *(_DWORD *)(dword_103D3CB8 + 76) == 0 )
+  if ( this->forceUpdateFlag == 0 && v85 == 0 && *(_DWORD *)(g_pAppSettings + 76) == 0 )
   {
     v41 = this->bucketA;
     if ( orig::GetFrameCounter() % 4 != v41 )
@@ -1328,7 +1328,7 @@ LABEL_50:
   v96 = v49;
   v97 = v50;
   v51 = v48 * 0.25 + this->boundRadius;
-  v79 = dword_10456D58;
+  v79 = g_translucentTarget;
   v78 = pTexture;
   v98 = at<float>(this, 0x908);
   *(float *)&v87 = v51;
@@ -1353,7 +1353,7 @@ LABEL_98:
     ModelField170 = orig::CXiActor_GetModelField170(self);
     if ( orig::CXiActor_ModelTest956A0(self, ModelField170) || !v42 )
       goto LABEL_155;
-    switch ( dword_10456C00 )
+    switch ( g_cfg0020 )
     {
       case 1:
         v65 = this->bucketB;
@@ -1483,10 +1483,10 @@ LABEL_185:
         v81 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
         v75 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
         orig::CXiSkeletonActor_DrawModel((int)self + 1652, self, (__int16 *)self + 1228, (int)v110, v75, v81, (int)&v96, v94);
-        ++dword_1048A350;
+        ++g_actorUpdateCounter;
         goto LABEL_210;
       }
-      if ( ++dword_1048A350 >= dword_1048A354 && v90 == 0 )
+      if ( ++g_actorUpdateCounter >= g_actorUpdateInterval && v90 == 0 )
       {
         v72 = this->field_768;
         if ( v72 != 0 && *(_DWORD *)(v72 + 1700) == 4 )
@@ -1736,7 +1736,7 @@ LABEL_18:
       if ( Parent == v17 )
         goto LABEL_18;
       v14 = (_DWORD **)Parent[5];
-      --dword_1047D130;
+      --g_resourceFindDepth;
     }
     *a2 = *(_DWORD *)(v23 + 20);
     return a2;
@@ -1844,7 +1844,7 @@ LABEL_14:
       if ( Parent == v20 )
         goto LABEL_20;
       v16 = (_DWORD **)Parent[5];
-      --dword_1047D130;
+      --g_resourceFindDepth;
     }
     while ( a5 != v6 )
     {
@@ -1954,7 +1954,7 @@ int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
                   if ( Parent == v17 )
                     break;
                   v14 = (_DWORD **)Parent[5];
-                  --dword_1047D130;
+                  --g_resourceFindDepth;
                 }
               }
             }
@@ -1996,7 +1996,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
   (*(void (__thiscall **)(void *, int, int, _DWORD))(*(_DWORD *)self + 664))(self, a2, a3, 0);
   BYTE2(a3) = 0;
   LOWORD(a3) = 20;
-  return orig::ChatLog_AddMessage(dword_10578158, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
+  return orig::ChatLog_AddMessage(g_pChatLog, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)
@@ -2059,7 +2059,7 @@ int CXiSkeletonActor::SetAttack_SchStatus(int a2)
   int v5;
   v3 = *self;
   v4 = *(_DWORD *)(*(_DWORD *)(a2 + 12) + 16);
-  v5 = orig::sub_1018CA20(a2);
+  v5 = orig::Sch_GetStatusEntry(a2);
   return (*(int (__thiscall **)(int *, int, int, int))(v3 + 664))(self, v4, v5, a2);
 }
 
@@ -2251,7 +2251,7 @@ LABEL_67:
       }
       else
       {
-        orig::nullsub_12(byte_1035F870);
+        orig::nullsub_12(aSubActorNoMainChocobo);
       }
     }
     else if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 864))(self) != 0 )
@@ -2264,7 +2264,7 @@ LABEL_67:
       }
       else
       {
-        orig::nullsub_12(byte_1035F964);
+        orig::nullsub_12(aSubActorNoMainFishingRod);
       }
     }
     else if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 916))(self) != 0 )
@@ -2277,7 +2277,7 @@ LABEL_67:
       }
       else
       {
-        orig::nullsub_12(byte_1035F928);
+        orig::nullsub_12(aSubActorNoMainRange);
       }
     }
     else if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 932))(self) != 0 )
@@ -2303,7 +2303,7 @@ LABEL_67:
       }
       else
       {
-        orig::nullsub_12(byte_1035F8EC);
+        orig::nullsub_12(aSubActorNoMainChair);
       }
     }
     else
@@ -2313,7 +2313,7 @@ LABEL_67:
         v35 = *(_DWORD **)(self + 1900);
         if ( v35 == nullptr )
         {
-          orig::nullsub_12(byte_1035F8B0);
+          orig::nullsub_12(aSubActorNoMainMagicCircle);
           goto LABEL_93;
         }
         ModelFlags130Top2 = orig::CXiActor_GetModelFlags130Top2(v35);
@@ -2400,7 +2400,7 @@ void CXiSkeletonActor::OnDrawName()
   v2 = (unsigned __int16 *)at<int32_t>(this, 0x70);
   if ( (byte_10487F80 == 0
      || v2 == nullptr
-     || (v3 = orig::ActorHandle_Resolve(dword_1047D600)) == 0
+     || (v3 = orig::ActorHandle_Resolve(g_targetActorHandle)) == 0
      || (unsigned __int16 *)orig::Entity_GetIndexedPtr(*(unsigned __int16 **)(v3 + 112)) != v2)
     && (*(unsigned __int8 (__thiscall **)(int *))(*self + 608))(self) == 0
     && !orig::CXiActor_TestModelFlag128_8(self)
@@ -2601,7 +2601,7 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
   {
     v6 = orig::Mem_AllocFromArea(72, 4);
     orig::CMoTask_ResetFields((int)v6);
-    byte_1047D13C = 1;
+    g_resourcesDirty = 1;
     if ( v6 != nullptr )
       v7 = orig::CXiSkeletonActorRes_Constructor(v6, (int)self, (int)XI_CODE(CXiSkeletonActor_OnSkeletonLoaded));
     else

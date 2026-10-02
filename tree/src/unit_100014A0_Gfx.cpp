@@ -320,7 +320,7 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
     if ( a7 != 0 )
     {
       *(self_ + 10) = 0;
-      if ( *(_DWORD *)(dword_103D3CB8 + 104) != 0 )
+      if ( *(_DWORD *)(g_pAppSettings + 104) != 0 )
       {
         if ( (*(_BYTE *)(a9 + 20) & 1) != 0 )
         {

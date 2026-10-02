@@ -6,21 +6,21 @@
 XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void)
 {
   _DWORD *result;
-  result = (_DWORD *)dword_1099D200;
-  if ( *(_DWORD *)(dword_1099D200 + 2452) == 0 )
+  result = (_DWORD *)g_pSqgxContext;
+  if ( *(_DWORD *)(g_pSqgxContext + 2452) == 0 )
   {
-    *(_DWORD *)(dword_1099D200 + 2452) = 3072;
-    if ( *(_DWORD *)(dword_1099D200 + 720) != 0 )
-      *(_DWORD *)(dword_1099D200 + 2460) = orig::_malloc_0(2 * *(_DWORD *)(dword_1099D200 + 2452));
+    *(_DWORD *)(g_pSqgxContext + 2452) = 3072;
+    if ( *(_DWORD *)(g_pSqgxContext + 720) != 0 )
+      *(_DWORD *)(g_pSqgxContext + 2460) = orig::_malloc_0(2 * *(_DWORD *)(g_pSqgxContext + 2452));
     else
       g_pDancerDevice->lpVtbl->CreateIndexBuffer(
         g_pDancerDevice,
-        2 * *(_DWORD *)(dword_1099D200 + 2452),
+        2 * *(_DWORD *)(g_pSqgxContext + 2452),
         520u,
         D3DFMT_INDEX16,
         D3DPOOL_DEFAULT,
-        (IDirect3DIndexBuffer8 **)(dword_1099D200 + 2448));
-    result = (_DWORD *)dword_1099D200;
+        (IDirect3DIndexBuffer8 **)(g_pSqgxContext + 2448));
+    result = (_DWORD *)g_pSqgxContext;
   }
   if ( result[180] != 0 )
   {
@@ -29,13 +29,13 @@ XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void)
   else
   {
     g_pDancerDevice->SetIndices((IDirect3DIndexBuffer8 *)result[612], 0);
-    result = (_DWORD *)(*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(dword_1099D200 + 2448) + 44))(
-                         *(_DWORD *)(dword_1099D200 + 2448),
+    result = (_DWORD *)(*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(g_pSqgxContext + 2448) + 44))(
+                         *(_DWORD *)(g_pSqgxContext + 2448),
                          0,
-                         2 * *(_DWORD *)(dword_1099D200 + 2452),
-                         dword_1099D200 + 2460,
+                         2 * *(_DWORD *)(g_pSqgxContext + 2452),
+                         g_pSqgxContext + 2460,
                          0x2000);
-    *(_DWORD *)(dword_1099D200 + 2456) = 0;
+    *(_DWORD *)(g_pSqgxContext + 2456) = 0;
   }
   return result;
 }

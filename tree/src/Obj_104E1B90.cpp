@@ -14,9 +14,9 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
   int v15;
   v9 = a6;
   orig::Gfx_SetCellBlendMode(1, a6 & 3, (a6 >> 2) & 3, (a6 >> 6) & 3);
-  dword_104E1B88 = a1;
+  g_textCursorX = a1;
   a6 = a3;
-  dword_104E1B8C = a2;
+  g_textCursorY = a2;
   orig::Gfx_SetAdditiveBlend();
   orig::Font_BindGlyphTexture((int)self);
   v11 = 0;
@@ -27,13 +27,13 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
     if ( Char == 135 )
     {
       v13 = *(_DWORD *)(g_pSceneState + 8);
-      if ( (*(char *)(g_pSceneState + 24) >= 0 || v13 != 2 && v13 != 3) && v13 == 2 && dword_104E1B88 >= 8 )
-        dword_104E1B88 -= 8;
+      if ( (*(char *)(g_pSceneState + 24) >= 0 || v13 != 2 && v13 != 3) && v13 == 2 && g_textCursorX >= 8 )
+        g_textCursorX -= 8;
     }
     orig::Font_DrawChar(Char, a5, v9, *(float *)&a7, *(float *)&a8);
     v15 = 0;
     orig::Font_AddGlyphAdvance(Char, &v15);
-    dword_104E1B88 += (__int64)((double)v15 * *(float *)&a7 + 0.5);
+    g_textCursorX += (__int64)((double)v15 * *(float *)&a7 + 0.5);
   }
   this->field_64 = -2139062144;
   this->field_48 = -2139062144;

@@ -331,9 +331,9 @@ XI_API void __thiscall Font_LoadHighResTexture(int *self_)
   int v8;
   _DWORD *v9;
   int v10;
-  if ( dword_10456AA0 == 0 )
+  if ( g_cfgFontCompression == 0 )
     goto LABEL_16;
-  v2 = dword_10456AA0 - 1;
+  v2 = g_cfgFontCompression - 1;
   if ( g_pCDx->_pad_10[2337] != 0 )
     goto LABEL_16;
   if ( *(_DWORD *)&g_pCDx->_pad_10[2340] < 0x800u )
@@ -341,10 +341,10 @@ XI_API void __thiscall Font_LoadHighResTexture(int *self_)
   if ( *(_DWORD *)&g_pCDx->_pad_10[2344] < 0x1000u )
     v2 = 0;
   v3 = 3 * v2;
-  v4 = dword_10333004[v3];
-  v5 = dword_10333008[v3];
-  v10 = dword_10333000[v3];
-  if ( orig::sub_101C4AF0((int *)dword_10662DCC, v10) < 0 )
+  v4 = g_hiResFont_width[v3];
+  v5 = g_hiResFont_height[v3];
+  v10 = g_hiResFont_fileId[v3];
+  if ( orig::FileMng_ResolveOrExit((int *)g_pFileMng, v10) < 0 )
     goto LABEL_16;
   orig::Font_AllocHighResImage(self_ + 31, v4, v5);
   if ( *(self_ + 31) != 0 )
@@ -1080,24 +1080,24 @@ XI_API int __thiscall Cursor_Init(int self_)
   *(_WORD *)(self_ + 162) = 0;
   *(_WORD *)(self_ + 164) = 0;
   *(_BYTE *)(self_ + 160) = 0;
-  v2 = (__int16)(dword_106218B8 - dword_106218B4);
+  v2 = (__int16)(g_screenRectBottomRight - g_screenRectTopLeft);
   *(_DWORD *)(self_ + 4) = v2 / 2;
   *(_DWORD *)(self_ + 12) = v2 / 2;
-  v3 = HIWORD(dword_106218B8) - HIWORD(dword_106218B4);
+  v3 = HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft);
   *(_BYTE *)(self_ + 76) = 0;
   *(_DWORD *)(self_ + 8) = v3 / 2;
   *(_DWORD *)(self_ + 16) = v3 / 2;
-  *(_DWORD *)(self_ + 64) = orig::ShapeMng_FindShape(dword_104E1BF8, aAncAncScro);
+  *(_DWORD *)(self_ + 64) = orig::ShapeMng_FindShape(g_shapeMng, aAncAncScro);
   *(_WORD *)(self_ + 68) = 0;
   *(_DWORD *)(self_ + 128) = 1065353216;
   *(_WORD *)(self_ + 132) = 0;
-  if ( dword_1036E4EC[0] == 0 )
+  if ( g_cursorShapes[0] == 0 )
   {
-    v4 = dword_1036E4EC;
-    v5 = dword_1036E4EC;
+    v4 = g_cursorShapes;
+    v5 = g_cursorShapes;
     do
     {
-      Shape = orig::ShapeMng_FindShape(dword_104E1BF8, (char *)v5 - 36);
+      Shape = orig::ShapeMng_FindShape(g_shapeMng, (char *)v5 - 36);
       v5 += 16;
       *v4 = (int)Shape;
       v4 = v5;
@@ -1134,9 +1134,9 @@ XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsi
 {
   unsigned __int8 result;
   CDx *v4;
-  result = dword_10456BF8;
+  result = g_cfgHardwareMouse;
   v4 = g_pCDx;
-  if ( dword_10456BF8 != 0 )
+  if ( g_cfgHardwareMouse != 0 )
   {
     if ( g_pCDx != nullptr )
     {

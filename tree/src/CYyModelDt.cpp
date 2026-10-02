@@ -60,9 +60,9 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
         *(_BYTE *)(a6 + 60) = 0;
     }
     v39 = 0;
-    v9 = (unsigned __int8)((unsigned int)(dword_104574AC * dword_103515BC) >> 7)
-       | (((HIWORD(dword_104574AC) * HIWORD(dword_103515BC)) & 0x7F80 | 0xFFC00000) << 9)
-       | ((unsigned __int16)((unsigned int)dword_104574AC >> 8) * (((unsigned int)dword_103515BC >> 7) & 0xFFFE))
+    v9 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
+       | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
+       | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE))
        & 0xFF00;
     g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v9);
     HIWORD(v10) = 0;
@@ -90,11 +90,11 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
               {
                 v27 = (unsigned __int16)v10 + 2;
                 v28 = 32 * v27;
-                if ( v27 + dword_1045B630 < 512 )
+                if ( v27 + g_stripVertexCursor < 512 )
                 {
                   while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7154 + 44))(
                             g_vertexBuffer_7154,
-                            32 * dword_1045B630,
+                            32 * g_stripVertexCursor,
                             v28,
                             &v32,
                             4096) != 0 )
@@ -109,7 +109,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                             &v32,
                             0x2000) != 0 )
                     Sleep(0);
-                  dword_1045B630 = 0;
+                  g_stripVertexCursor = 0;
                 }
                 v36 = (unsigned __int16)orig::CYyModelDt_ExpandTriStrip(
                                           (unsigned __int16)v10,
@@ -123,13 +123,13 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                   0,
                   (IDirect3DVertexBuffer8 *)g_vertexBuffer_7154,
                   32u);
-                orig::CDx_DrawPrimitive(g_pCDx, 5, dword_1045B630, (unsigned __int16)v10);
+                orig::CDx_DrawPrimitive(g_pCDx, 5, g_stripVertexCursor, (unsigned __int16)v10);
                 if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
                 {
-                  orig::CDx_DrawPrimitive(g_pCDx, 5, dword_1045B630, (unsigned __int16)v10);
+                  orig::CDx_DrawPrimitive(g_pCDx, 5, g_stripVertexCursor, (unsigned __int16)v10);
                   orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
                 }
-                dword_1045B630 += v36;
+                g_stripVertexCursor += v36;
               }
               v10 = (unsigned __int16)v10;
               v7 += 10 * (unsigned __int16)v10 + 24;
@@ -159,11 +159,11 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                   }
                   v25 = 32 * v24;
                   v26 = *(_DWORD *)g_vertexBuffer_7150;
-                  if ( v24 + dword_1045B62C < 1024 )
+                  if ( v24 + g_lineVertexCursor < 1024 )
                   {
                     if ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(v26 + 44))(
                            g_vertexBuffer_7150,
-                           32 * dword_1045B62C,
+                           32 * g_lineVertexCursor,
                            v25,
                            &v32,
                            4096) != 0 )
@@ -172,7 +172,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                         Sleep(0);
                       while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7150 + 44))(
                                 g_vertexBuffer_7150,
-                                32 * dword_1045B62C,
+                                32 * g_lineVertexCursor,
                                 v25,
                                 &v32,
                                 4096) != 0 );
@@ -197,7 +197,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                                 &v32,
                                 0x2000) != 0 );
                     }
-                    dword_1045B62C = 0;
+                    g_lineVertexCursor = 0;
                   }
                   v35 = (unsigned __int16)orig::CYyModelDt_ExpandTriList(v33, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
                   while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7150 + 48))(g_vertexBuffer_7150) != 0 )
@@ -208,14 +208,14 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     0,
                     (IDirect3DVertexBuffer8 *)g_vertexBuffer_7150,
                     32u);
-                  orig::CDx_DrawPrimitive(g_pCDx, 4, dword_1045B62C, a3b);
+                  orig::CDx_DrawPrimitive(g_pCDx, 4, g_lineVertexCursor, a3b);
                   if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
                   {
-                    orig::CDx_DrawPrimitive(g_pCDx, 4, dword_1045B62C, a3b);
+                    orig::CDx_DrawPrimitive(g_pCDx, 4, g_lineVertexCursor, a3b);
                     orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
                   }
                   LOWORD(v10) = v34;
-                  dword_1045B62C += v35;
+                  g_lineVertexCursor += v35;
                 }
                 v10 = (unsigned __int16)v10;
                 v7 += 30 * (unsigned __int16)v10 + 4;
@@ -240,11 +240,11 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
             {
               if ( *(_DWORD *)v12 != 0 )
               {
-                qmemcpy(&flt_10456DD0, a3a, 0x68u);
-                flt_10456DD4 = flt_10456DD4 * *(float *)(v7 + 18);
-                flt_10456DD8 = flt_10456DD8 * *(float *)(v7 + 18);
-                flt_10456DDC = flt_10456DDC * *(float *)(v7 + 18);
-                orig::CDx_SetLight(g_pCDx, v40, &flt_10456DD0);
+                qmemcpy(&g_modelLight, a3a, 0x68u);
+                g_modelLightDiffuseR = g_modelLightDiffuseR * *(float *)(v7 + 18);
+                g_modelLightDiffuseG = g_modelLightDiffuseG * *(float *)(v7 + 18);
+                g_modelLightDiffuseB = g_modelLightDiffuseB * *(float *)(v7 + 18);
+                orig::CDx_SetLight(g_pCDx, v40, &g_modelLight);
                 v12 = a3a;
               }
               v12 += 26;
@@ -258,17 +258,17 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
             v17 = v14 == 1.5;
             if ( (v13 & 0x4100) != 0 )
             {
-              flt_10457210 = 0.0;
-              flt_10457214 = 0.0;
-              flt_10457218 = 0.0;
+              g_modelMaterialEmissiveR = 0.0;
+              g_modelMaterialEmissiveG = 0.0;
+              g_modelMaterialEmissiveB = 0.0;
             }
             else
             {
-              flt_10457210 = *(float *)(v7 + 18) - 1.5;
-              flt_10457214 = *(float *)(v7 + 18) - 1.5;
-              flt_10457218 = *(float *)(v7 + 18) - 1.5;
+              g_modelMaterialEmissiveR = *(float *)(v7 + 18) - 1.5;
+              g_modelMaterialEmissiveG = *(float *)(v7 + 18) - 1.5;
+              g_modelMaterialEmissiveB = *(float *)(v7 + 18) - 1.5;
             }
-            g_pCDx->pDevice->SetMaterial(&unk_104571E0);
+            g_pCDx->pDevice->SetMaterial(&g_modelMaterial);
             HIWORD(v10) = 0;
             if ( *(_WORD *)(v7 + 16) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v31 == 1 )
             {
@@ -279,7 +279,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TEXTURE);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_ADD);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-              g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, dword_10457108);
+              g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, g_texture1Matrix);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 65537u);
               g_pCDx->pDevice->SetTexture(1u, nullptr);
@@ -312,7 +312,7 @@ LABEL_28:
                 g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TEXTURE);
                 g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_ADD);
                 g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-                g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, flt_10457198);
+                g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, g_shadowTexMatrix);
                 g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
                 g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 196609u);
                 g_pCDx->pDevice->SetTexture(1u, nullptr);
@@ -330,9 +330,9 @@ LABEL_28:
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
               g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 0);
-              v9 = (unsigned __int8)((unsigned int)(dword_104574AC * *(_DWORD *)(v7 + 2)) >> 7)
-                 | (((HIWORD(dword_104574AC) * *(_WORD *)(v7 + 4)) & 0x7F80 | 0xFFC00000) << 9)
-                 | ((unsigned __int16)((unsigned int)dword_104574AC >> 8) * ((*(_DWORD *)(v7 + 2) >> 7) & 0xFFFE))
+              v9 = (unsigned __int8)((unsigned int)(g_modelColor * *(_DWORD *)(v7 + 2)) >> 7)
+                 | (((HIWORD(g_modelColor) * *(_WORD *)(v7 + 4)) & 0x7F80 | 0xFFC00000) << 9)
+                 | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * ((*(_DWORD *)(v7 + 2) >> 7) & 0xFFFE))
                  & 0xFF00;
               g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v9);
             }
@@ -600,9 +600,9 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
     }
   }
   a1 = 0;
-  v12 = (unsigned __int8)((unsigned int)(dword_104574AC * dword_103515BC) >> 7)
-      | (((HIWORD(dword_104574AC) * HIWORD(dword_103515BC)) & 0x7F80 | 0xFFC00000) << 9)
-      | ((unsigned __int16)((unsigned int)dword_104574AC >> 8) * (((unsigned int)dword_103515BC >> 7) & 0xFFFE))
+  v12 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
+      | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
+      | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE))
       & 0xFF00;
   g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v12);
   g_pCDx->pDevice->SetTexture(0, nullptr);
@@ -683,8 +683,8 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
                 *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                 v9,
                 v26);
-              ++dword_10456908;
-              dword_104574A8 += v26;
+              ++g_modelDrawCallCount;
+              g_modelPrimitiveCount += v26;
               if ( (this->field_34 & 1) != 0 )
               {
                 orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -696,11 +696,11 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
                   *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                   v9,
                   v26);
-                dword_104574A8 += v26;
-                ++dword_10456908;
+                g_modelPrimitiveCount += v26;
+                ++g_modelDrawCallCount;
               }
 LABEL_125:
-              if ( byte_104570FC != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
+              if ( g_envMapEnabled != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)g_envMapTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
@@ -717,7 +717,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -729,13 +729,13 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 orig::EnvMap_EndPass(a1);
               }
-              if ( byte_104572B0 != 0
-                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
+              if ( g_projTexEnabled != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, g_projTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
@@ -752,7 +752,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -764,7 +764,7 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 orig::ProjTex_EndPass((void *)(a3 + 144), a1);
@@ -787,7 +787,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -799,7 +799,7 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 else
@@ -853,8 +853,8 @@ LABEL_125:
                   *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                   v9,
                   v26);
-                dword_104574A8 += v26;
-                ++dword_10456908;
+                g_modelPrimitiveCount += v26;
+                ++g_modelDrawCallCount;
                 if ( (this->field_34 & 1) != 0 )
                 {
                   orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -866,15 +866,15 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     v9,
                     v26);
-                  dword_104574A8 += v26;
-                  ++dword_10456908;
+                  g_modelPrimitiveCount += v26;
+                  ++g_modelDrawCallCount;
                 }
               }
               v32 += 15 * v26 + 2;
             }
             if ( !v29 )
             {
-              if ( byte_104570FC != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)dword_10457158) != 0 )
+              if ( g_envMapEnabled != 0 && orig::EnvMap_BeginPass(&dword_1045B648, v12, (float *)g_envMapTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
@@ -891,7 +891,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -903,13 +903,13 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 orig::EnvMap_EndPass(a1);
               }
-              if ( byte_104572B0 != 0
-                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, dword_104574F8) != 0 )
+              if ( g_projTexEnabled != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &dword_1045B648, v12, g_projTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
@@ -926,7 +926,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -938,7 +938,7 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 orig::ProjTex_EndPass((void *)(a3 + 144), a1);
@@ -961,7 +961,7 @@ LABEL_125:
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4a,
                     v26);
-                  ++dword_10456908;
+                  ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
@@ -973,7 +973,7 @@ LABEL_125:
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4a,
                       v26);
-                    ++dword_10456908;
+                    ++g_modelDrawCallCount;
                   }
                 }
                 else
@@ -1039,11 +1039,11 @@ LABEL_145:
         {
           if ( *(_DWORD *)v17 != 0 )
           {
-            qmemcpy(&flt_10457568, v37, 0x68u);
-            flt_1045756C = v39[4] * flt_1045756C;
-            flt_10457570 = v39[4] * flt_10457570;
-            flt_10457574 = v39[4] * flt_10457574;
-            orig::CDx_SetLight(g_pCDx, a1a, &flt_10457568);
+            qmemcpy(&g_skinLight, v37, 0x68u);
+            g_skinLightDiffuseR = v39[4] * g_skinLightDiffuseR;
+            g_skinLightDiffuseG = v39[4] * g_skinLightDiffuseG;
+            g_skinLightDiffuseB = v39[4] * g_skinLightDiffuseB;
+            orig::CDx_SetLight(g_pCDx, a1a, &g_skinLight);
             v17 = v37;
           }
           v17 += 26;
@@ -1051,19 +1051,19 @@ LABEL_145:
           v37 = v17;
         }
         while ( (int)v17 < (int)&g_lightTable_End );
-        v18 = (__int64)((double)(unsigned __int8)byte_104571DA * v39[4]);
+        v18 = (__int64)((double)(unsigned __int8)g_ambientColorR * v39[4]);
         if ( (unsigned int)v18 > 0xFF )
           LOBYTE(v18) = -1;
         BYTE2(v36) = v18;
-        v19 = (__int64)((double)(unsigned __int8)byte_104571D9 * v39[4]);
+        v19 = (__int64)((double)(unsigned __int8)g_ambientColorG * v39[4]);
         if ( (unsigned int)v19 > 0xFF )
           LOBYTE(v19) = -1;
         BYTE1(v36) = v19;
-        v20 = (__int64)((double)unk_104571D8_as_u8 * v39[4]);
+        v20 = (__int64)((double)g_ambientColor_as_u8 * v39[4]);
         if ( (unsigned int)v20 > 0xFF )
           LOBYTE(v20) = -1;
         LOBYTE(v36) = v20;
-        HIBYTE(v36) = byte_104571DB;
+        HIBYTE(v36) = g_ambientColorA;
         g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, v36);
         if ( HIWORD(v39[3]) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v30 == 1 )
         {
@@ -1074,7 +1074,7 @@ LABEL_145:
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TEXTURE);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_ADD);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-          g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, dword_10457108);
+          g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, g_texture1Matrix);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 65537u);
           dword_1045B64C = 0;
@@ -1102,9 +1102,9 @@ LABEL_145:
             g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
             g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
             g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 0);
-            v12 = (unsigned __int8)((unsigned int)(dword_104574AC * LODWORD(v39[0])) >> 7)
-                | (HIWORD(dword_104574AC) * ((LODWORD(v39[0]) >> 7) & 0x1FFFE00)) & 0xFF0000
-                | ((unsigned __int16)((unsigned int)dword_104574AC >> 8) * ((LODWORD(v39[0]) >> 7) & 0xFFFE)) & 0xFF00
+            v12 = (unsigned __int8)((unsigned int)(g_modelColor * LODWORD(v39[0])) >> 7)
+                | (HIWORD(g_modelColor) * ((LODWORD(v39[0]) >> 7) & 0x1FFFE00)) & 0xFF0000
+                | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * ((LODWORD(v39[0]) >> 7) & 0xFFFE)) & 0xFF00
                 | 0x80000000;
             g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v12);
 LABEL_77:
@@ -1119,7 +1119,7 @@ LABEL_77:
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TEXTURE);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_ADD);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-          g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, flt_10457198);
+          g_pCDx->pDevice->SetTransform(D3DTS_TEXTURE1, g_shadowTexMatrix);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
           g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 196609u);
           dword_1045B64C = dword_104570F4;

@@ -6,12 +6,12 @@
 XI_API int __cdecl sqgxZTest(int a1)
 {
   int result;
-  result = dword_1099D200;
-  if ( a1 != *(_DWORD *)(dword_1099D200 + 2280) )
+  result = g_pSqgxContext;
+  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2280) )
   {
-    *(_DWORD *)(dword_1099D200 + 2280) = a1;
-    dword_109A2618 = 1;
-    if ( *(_DWORD *)(dword_1099D200 + 2280) != 0 )
+    *(_DWORD *)(g_pSqgxContext + 2280) = a1;
+    g_sqgxRenderStateDirty = 1;
+    if ( *(_DWORD *)(g_pSqgxContext + 2280) != 0 )
       return g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
     else
       return g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
@@ -25,11 +25,11 @@ XI_API int __cdecl sqgxSetAlphaTest(unsigned int a1, unsigned int a2)
 {
   int result;
   result = a2;
-  if ( a1 != *(_DWORD *)(dword_1099D200 + 2284) || a2 != *(_DWORD *)(dword_1099D200 + 2296) )
+  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2284) || a2 != *(_DWORD *)(g_pSqgxContext + 2296) )
   {
-    *(_DWORD *)(dword_1099D200 + 2284) = a1;
-    *(_DWORD *)(dword_1099D200 + 2296) = a2;
-    dword_109A2618 = 1;
+    *(_DWORD *)(g_pSqgxContext + 2284) = a1;
+    *(_DWORD *)(g_pSqgxContext + 2296) = a2;
+    g_sqgxRenderStateDirty = 1;
     g_pDancerDevice->SetRenderState(D3DRS_ALPHAREF, a2);
     g_pDancerDevice->SetRenderState(D3DRS_ALPHATESTENABLE, a1);
     return g_pDancerDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
@@ -42,20 +42,20 @@ XI_API int __cdecl sqgxSetAlphaTest(unsigned int a1, unsigned int a2)
 XI_API int __cdecl sqgxSetZWrite(int a1)
 {
   int result;
-  result = dword_1099D200;
-  if ( a1 != *(_DWORD *)(dword_1099D200 + 2324) )
+  result = g_pSqgxContext;
+  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2324) )
   {
     if ( a1 != 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-      result = dword_1099D200;
-      *(_DWORD *)(dword_1099D200 + 2324) = a1;
+      result = g_pSqgxContext;
+      *(_DWORD *)(g_pSqgxContext + 2324) = a1;
     }
     else
     {
       g_pDancerDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-      result = dword_1099D200;
-      *(_DWORD *)(dword_1099D200 + 2324) = 0;
+      result = g_pSqgxContext;
+      *(_DWORD *)(g_pSqgxContext + 2324) = 0;
     }
   }
   return result;
@@ -67,12 +67,12 @@ XI_API int __cdecl sqgxColorMask(int a1, int a2, int a3, int a4)
 {
   int result;
   unsigned int v5;
-  result = dword_1099D200;
+  result = g_pSqgxContext;
   v5 = 0;
-  if ( a4 != *(_DWORD *)(dword_1099D200 + 2320)
-    || a1 != *(_DWORD *)(dword_1099D200 + 2308)
-    || a3 != *(_DWORD *)(dword_1099D200 + 2316)
-    || a2 != *(_DWORD *)(dword_1099D200 + 2312) )
+  if ( a4 != *(_DWORD *)(g_pSqgxContext + 2320)
+    || a1 != *(_DWORD *)(g_pSqgxContext + 2308)
+    || a3 != *(_DWORD *)(g_pSqgxContext + 2316)
+    || a2 != *(_DWORD *)(g_pSqgxContext + 2312) )
   {
     if ( a1 == 0 )
       v5 = 1;
@@ -83,11 +83,11 @@ XI_API int __cdecl sqgxColorMask(int a1, int a2, int a3, int a4)
     if ( a4 == 0 )
       v5 |= 8u;
     g_pDancerDevice->SetRenderState(D3DRS_COLORWRITEENABLE, v5);
-    *(_DWORD *)(dword_1099D200 + 2308) = a1;
-    *(_DWORD *)(dword_1099D200 + 2312) = a2;
-    *(_DWORD *)(dword_1099D200 + 2316) = a3;
-    result = dword_1099D200;
-    *(_DWORD *)(dword_1099D200 + 2320) = a4;
+    *(_DWORD *)(g_pSqgxContext + 2308) = a1;
+    *(_DWORD *)(g_pSqgxContext + 2312) = a2;
+    *(_DWORD *)(g_pSqgxContext + 2316) = a3;
+    result = g_pSqgxContext;
+    *(_DWORD *)(g_pSqgxContext + 2320) = a4;
   }
   return result;
 }
@@ -98,24 +98,24 @@ XI_API int __cdecl fn_10282640(void)
 {
   int result;
   unsigned int v1;
-  result = dword_1099D200;
-  v1 = *(_DWORD *)(dword_1099D200 + 2840);
+  result = g_pSqgxContext;
+  v1 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v1 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v1, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG1,
              2u);
   }
@@ -127,33 +127,33 @@ XI_API int __cdecl fn_10282640(void)
 XI_API int __cdecl sqgxBlendAdd(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_ADD);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       3u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              1u);
   }
@@ -171,38 +171,38 @@ XI_API int __cdecl sqgxBlendAdd(void)
 XI_API int __cdecl fn_102827D0(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MULTIPLYADD);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG0,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       32u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       1u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              2u);
   }
@@ -220,33 +220,33 @@ XI_API int __cdecl fn_102827D0(void)
 XI_API int __cdecl sqgxBlendSub(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_SUBTRACT);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              1u);
   }
@@ -264,33 +264,33 @@ XI_API int __cdecl sqgxBlendSub(void)
 XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              1u);
   }
@@ -308,33 +308,33 @@ XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
 XI_API int __cdecl sqgxBlendTrspInv(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              1u);
   }
@@ -352,33 +352,33 @@ XI_API int __cdecl sqgxBlendTrspInv(void)
 XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       1u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              2u);
   }
@@ -396,33 +396,33 @@ XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 XI_API int __cdecl fn_10282ED0(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       3u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG2,
       1u);
     return g_pDancerDevice->SetRenderState(D3DRS_TEXTUREFACTOR, 0);
@@ -441,33 +441,33 @@ XI_API int __cdecl fn_10282ED0(void)
 XI_API int __cdecl sqgxBlendZeroSrcAlpha(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       3u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG2,
       1u);
     return g_pDancerDevice->SetRenderState(D3DRS_TEXTUREFACTOR, 0);
@@ -486,33 +486,33 @@ XI_API int __cdecl sqgxBlendZeroSrcAlpha(void)
 XI_API int __cdecl sqgxBlendMul(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(dword_1099D200 + 2840);
+  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATE);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG1,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_COLORARG2,
       1u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAOP,
       2u);
     g_pDancerDevice->lpVtbl->SetTextureStageState(
       g_pDancerDevice,
-      *(_DWORD *)(dword_1099D200 + 2840),
+      *(_DWORD *)(g_pSqgxContext + 2840),
       D3DTSS_ALPHAARG1,
       2u);
     return g_pDancerDevice->lpVtbl->SetTextureStageState(
              g_pDancerDevice,
-             *(_DWORD *)(dword_1099D200 + 2840),
+             *(_DWORD *)(g_pSqgxContext + 2840),
              D3DTSS_ALPHAARG2,
              1u);
   }
@@ -538,8 +538,8 @@ XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
 {
   int result;
   _DWORD v5[6];
-  *(float *)(dword_1099D200 + 688) = a3;
-  *(float *)(dword_1099D200 + 692) = a4;
+  *(float *)(g_pSqgxContext + 688) = a3;
+  *(float *)(g_pSqgxContext + 692) = a4;
   v5[0] = (__int64)a1;
   v5[1] = (__int64)a2;
   v5[2] = (__int64)a3;
@@ -547,14 +547,14 @@ XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
   v5[4] = 0;
   v5[5] = 1065353216;
   g_pDancerDevice->SetViewport(v5);
-  *(float *)(dword_1099D200 + 1868) = a4 / a3 / *(float *)(dword_1099D200 + 732);
-  *(float *)(dword_1099D200 + 748) = *(float *)(dword_1099D200 + 1868) * *(float *)(dword_1099D200 + 768);
-  *(float *)(dword_1099D200 + 704) = *(float *)(dword_1099D200 + 708) / *(float *)(dword_1099D200 + 1868);
-  *(float *)(dword_1099D200 + 712) = sqrt(*(float *)(dword_1099D200 + 704) * *(float *)(dword_1099D200 + 704) + 1.0);
-  dword_109A2730 = 1;
-  *(float *)(dword_1099D200 + 780) = 2.0 / *(float *)(dword_1099D200 + 688) * *(float *)(dword_1099D200 + 736);
-  result = dword_1099D200;
-  *(float *)(dword_1099D200 + 784) = 2.0 / *(float *)(dword_1099D200 + 692) * *(float *)(dword_1099D200 + 740);
+  *(float *)(g_pSqgxContext + 1868) = a4 / a3 / *(float *)(g_pSqgxContext + 732);
+  *(float *)(g_pSqgxContext + 748) = *(float *)(g_pSqgxContext + 1868) * *(float *)(g_pSqgxContext + 768);
+  *(float *)(g_pSqgxContext + 704) = *(float *)(g_pSqgxContext + 708) / *(float *)(g_pSqgxContext + 1868);
+  *(float *)(g_pSqgxContext + 712) = sqrt(*(float *)(g_pSqgxContext + 704) * *(float *)(g_pSqgxContext + 704) + 1.0);
+  g_sqgxViewportDirty = 1;
+  *(float *)(g_pSqgxContext + 780) = 2.0 / *(float *)(g_pSqgxContext + 688) * *(float *)(g_pSqgxContext + 736);
+  result = g_pSqgxContext;
+  *(float *)(g_pSqgxContext + 784) = 2.0 / *(float *)(g_pSqgxContext + 692) * *(float *)(g_pSqgxContext + 740);
   return result;
 }
 
@@ -565,9 +565,9 @@ XI_API int __cdecl sqgxZBiasAdd(int a1)
   int result;
   if ( a1 != 0 )
   {
-    *(_DWORD *)(dword_1099D200 + 744) += a1;
-    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(dword_1099D200 + 744));
-    dword_109A2730 = 1;
+    *(_DWORD *)(g_pSqgxContext + 744) += a1;
+    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(g_pSqgxContext + 744));
+    g_sqgxViewportDirty = 1;
   }
   return result;
 }
@@ -577,12 +577,12 @@ XI_API int __cdecl sqgxZBiasAdd(int a1)
 XI_API int __cdecl sqgxZBiasSet(int a1)
 {
   int result;
-  result = dword_1099D200;
-  if ( *(_DWORD *)(dword_1099D200 + 744) != a1 )
+  result = g_pSqgxContext;
+  if ( *(_DWORD *)(g_pSqgxContext + 744) != a1 )
   {
-    *(_DWORD *)(dword_1099D200 + 744) = a1;
-    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(dword_1099D200 + 744));
-    dword_109A2730 = 1;
+    *(_DWORD *)(g_pSqgxContext + 744) = a1;
+    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(g_pSqgxContext + 744));
+    g_sqgxViewportDirty = 1;
   }
   return result;
 }
@@ -615,11 +615,11 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   float v21[16];
   v0 = 0;
   v1 = 0;
-  v2 = *(_DWORD *)(dword_1099D200 + 2840) + 1;
+  v2 = *(_DWORD *)(g_pSqgxContext + 2840) + 1;
   v15 = 0;
   if ( v2 > 0 )
   {
-    v3 = (int *)(dword_1099D200 + 2592);
+    v3 = (int *)(g_pSqgxContext + 2592);
     do
     {
       v4 = *v3;
@@ -633,23 +633,23 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   }
   if ( v0 >= 0 )
   {
-    orig::Mat4_Copy_1027EB10(v18, (const void *)(dword_1099D200 + 456));
+    orig::Mat4_Copy_1027EB10(v18, (const void *)(g_pSqgxContext + 456));
   }
   else
   {
     orig::sqgxMatrixPlanarShadow((int)v21);
-    orig::sqMatrix4_10280140(v18, (float *)(dword_1099D200 + 456), v21);
+    orig::sqMatrix4_10280140(v18, (float *)(g_pSqgxContext + 456), v21);
   }
-  g_pDancerDevice->SetTransform(D3DTS_PROJECTION, (void *)(dword_1099D200 + 748));
-  g_pDancerDevice->SetTransform(D3DTS_VIEW, (void *)(dword_1099D200 + 520));
+  g_pDancerDevice->SetTransform(D3DTS_PROJECTION, (void *)(g_pSqgxContext + 748));
+  g_pDancerDevice->SetTransform(D3DTS_VIEW, (void *)(g_pSqgxContext + 520));
   g_pDancerDevice->SetTransform((D3DTRANSFORMSTATETYPE)256, v18);
-  orig::sqMatrix4_10280140(v20, v18, (float *)(dword_1099D200 + 520));
-  orig::sqMatrix4_1027F0E0(v19, dword_1099D200 + 456);
-  v5 = dword_1099D200;
-  if ( *(_BYTE *)(dword_1099D200 + 1876) != 0 )
+  orig::sqMatrix4_10280140(v20, v18, (float *)(g_pSqgxContext + 520));
+  orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
+  v5 = g_pSqgxContext;
+  if ( *(_BYTE *)(g_pSqgxContext + 1876) != 0 )
   {
     orig::sqMatrix4_1027FCC0((int)v20);
-    v5 = dword_1099D200;
+    v5 = g_pSqgxContext;
   }
   v6 = 0;
   v7 = 0;
@@ -677,14 +677,14 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
     v7 += 64;
     if ( v8 >= 2148 )
       break;
-    v5 = dword_1099D200;
+    v5 = g_pSqgxContext;
   }
   v9 = 4;
   v10 = 0;
   v11 = 2164;
   do
   {
-    if ( *(_DWORD *)(v11 + dword_1099D200) == 0 || (*(_DWORD *)(dword_1099D200 + 2592) & 0x40000) != 0 )
+    if ( *(_DWORD *)(v11 + g_pSqgxContext) == 0 || (*(_DWORD *)(g_pSqgxContext + 2592) & 0x40000) != 0 )
     {
       g_pDancerDevice->LightEnable(v9, 0);
     }
@@ -693,12 +693,12 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
       memset(v16, 0, sizeof(v16));
       LODWORD(v16[0]) = 1;
       v16[19] = 1000.0;
-      v16[16] = *(float *)(v10 + dword_1099D200 + 1356);
-      v16[17] = *(float *)(v10 + dword_1099D200 + 1360);
-      v16[18] = *(float *)(v10 + dword_1099D200 + 1364);
-      v16[13] = *(float *)(v10 + dword_1099D200 + 1372);
-      v16[14] = *(float *)(v10 + dword_1099D200 + 1376);
-      v16[15] = *(float *)(v10 + dword_1099D200 + 1380);
+      v16[16] = *(float *)(v10 + g_pSqgxContext + 1356);
+      v16[17] = *(float *)(v10 + g_pSqgxContext + 1360);
+      v16[18] = *(float *)(v10 + g_pSqgxContext + 1364);
+      v16[13] = *(float *)(v10 + g_pSqgxContext + 1372);
+      v16[14] = *(float *)(v10 + g_pSqgxContext + 1376);
+      v16[15] = *(float *)(v10 + g_pSqgxContext + 1380);
       g_pDancerDevice->LightEnable(v9, 1u);
       g_pDancerDevice->SetLight(v9, v16);
       LOBYTE(v0) = v15;
@@ -708,19 +708,19 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
     ++v9;
   }
   while ( (int)(v9 - 4) < 4 );
-  orig::sqMatrix4_1027F0E0(v19, dword_1099D200 + 456);
-  orig::sqMatrix4_10280140(v17, (float *)(dword_1099D200 + 392), v19);
+  orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
+  orig::sqMatrix4_10280140(v17, (float *)(g_pSqgxContext + 392), v19);
   v12 = v17[13];
   v13 = v17[14];
-  *(float *)(dword_1099D200 + 648) = v17[12];
-  *(float *)(dword_1099D200 + 652) = v12;
-  *(float *)(dword_1099D200 + 656) = v13;
+  *(float *)(g_pSqgxContext + 648) = v17[12];
+  *(float *)(g_pSqgxContext + 652) = v12;
+  *(float *)(g_pSqgxContext + 656) = v13;
   if ( (v0 & 0x10) != 0 || (result = v0 & 8, (v0 & 8) != 0) )
   {
-    orig::sqMatrix4_1027F0E0(v17, dword_1099D200 + 812);
-    orig::sqMatrix4_10280140((float *)(dword_1099D200 + 584), (float *)(dword_1099D200 + 456), v17);
-    result = orig::Mat4_Transpose(v17, (_DWORD *)(dword_1099D200 + 584));
+    orig::sqMatrix4_1027F0E0(v17, g_pSqgxContext + 812);
+    orig::sqMatrix4_10280140((float *)(g_pSqgxContext + 584), (float *)(g_pSqgxContext + 456), v17);
+    result = orig::Mat4_Transpose(v17, (_DWORD *)(g_pSqgxContext + 584));
   }
-  dword_109A2730 = 0;
+  g_sqgxViewportDirty = 0;
   return result;
 }

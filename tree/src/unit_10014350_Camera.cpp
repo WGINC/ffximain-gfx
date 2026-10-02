@@ -11,11 +11,11 @@ XI_API int __cdecl App_WinMain(int a1, int a2)
   int v5;
   char v6;
   int v8;
-  dword_10662DCC = 0;
+  g_pFileMng = 0;
   v8 = -2005467136;
   g_pSceneState = (int)&dword_10456984;
   dword_10456A2C = dword_104569B4;
-  if ( orig::App_SetCommandLine((const char *)dword_104569B0) != 0 )
+  if ( orig::App_SetCommandLine((const char *)g_cmdLine) != 0 )
   {
     *(_DWORD *)(g_pSceneState + 8) = dword_104569D0;
     *(_DWORD *)(g_pSceneState + 4) = phkResult;
@@ -40,7 +40,7 @@ XI_API int __cdecl App_WinMain(int a1, int a2)
                        aFinalFantasyXi,
                        ClassName,
                        hmod,
-                       (const char *)dword_104569B8,
+                       (const char *)g_installDir,
                        g_windowMode,
                        xRight,
                        yBottom);
@@ -50,11 +50,11 @@ XI_API int __cdecl App_WinMain(int a1, int a2)
           v5 = (int)MainWindow;
           if ( byte_104569EC == 1 )
           {
-            if ( orig::App_LoadImeUiDll((int)MainWindow, (const char *)dword_104569B8) != 0 )
+            if ( orig::App_LoadImeUiDll((int)MainWindow, (const char *)g_installDir) != 0 )
             {
               if ( byte_104569EC == 1 )
               {
-                if ( orig::App_LoadKeyInputDll((int)hWnd, (const char *)dword_104569B8) != 0 )
+                if ( orig::App_LoadKeyInputDll((int)hWnd, (const char *)g_installDir) != 0 )
                 {
                   if ( byte_104569EC == 1 )
                     orig::App_EnableImeUi();
@@ -71,21 +71,21 @@ XI_API int __cdecl App_WinMain(int a1, int a2)
             }
           }
           v6 = g_windowMode == 0;
-          if ( orig::Gfx_CreateD3DHolder(v5, v3, v2, g_windowMode == 0, *(_DWORD *)(dword_103D3CB8 + 88) != 0) == 0 )
+          if ( orig::Gfx_CreateD3DHolder(v5, v3, v2, g_windowMode == 0, *(_DWORD *)(g_pAppSettings + 88) != 0) == 0 )
           {
             orig::Gfx_DestroyD3DHolder();
             orig::App_SetErrorCode(0);
             if ( orig::Gfx_CreateD3DHolder(v5, xRight, yBottom, v6, 1) == 0 )
               goto LABEL_24;
-            *(_DWORD *)(dword_103D3CB8 + 88) = 1;
+            *(_DWORD *)(g_pAppSettings + 88) = 1;
             if ( g_pD3DHolder->_rest[1128] == 0 )
             {
               orig::App_SetErrorCode(2001);
               goto LABEL_24;
             }
-            *(_DWORD *)(dword_103D3CB8 + 92) = 1;
+            *(_DWORD *)(g_pAppSettings + 92) = 1;
           }
-          if ( dword_10456A88 == 0 || orig::App_InitSoundSystem() != 0 )
+          if ( g_cfgSoundEnabled == 0 || orig::App_InitSoundSystem() != 0 )
           {
             orig::App_DetectDat11();
             v8 = orig::App_RunWithCOM(a1, a2);
@@ -95,7 +95,7 @@ XI_API int __cdecl App_WinMain(int a1, int a2)
     }
   }
 LABEL_24:
-  if ( dword_10456A88 != 0 )
+  if ( g_cfgSoundEnabled != 0 )
     orig::thunk_sub_10035900();
   orig::Gfx_DestroyD3DHolder();
   if ( byte_104569EC == 1 )
@@ -122,8 +122,8 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
   int *v5;
   int v6;
   int v7;
-  orig::MenuMng_Init((int)word_10621838);
-  orig::ShapeMng_Init(dword_104E1BF8);
+  orig::MenuMng_Init((int)g_menuMng);
+  orig::ShapeMng_Init(g_shapeMng);
   v0 = (CDx *)orig::Mem_AllocDefault(2640);
   if ( v0 == nullptr )
   {
@@ -145,17 +145,17 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
   v2 = orig::Mem_AllocDefault(68);
   if ( v2 == nullptr )
   {
-    dword_103D3C64 = nullptr;
+    g_pApp = nullptr;
     return 0;
   }
   v3 = (void *)orig::CApp_Constructor(
                  (int)v2,
-                 dword_104569B8,
+                 g_installDir,
                  hmod,
                  (int)hWnd,
                  (const char *)dword_104569BC,
                  (const char *)dword_104569C0);
-  dword_103D3C64 = v3;
+  g_pApp = v3;
   if ( v3 == nullptr )
     return 0;
   orig::App_BeginTimerPeriod();

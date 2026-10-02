@@ -6,9 +6,9 @@
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 {
   IDirect3DVertexBuffer8 *v1;
-  v1 = (IDirect3DVertexBuffer8 *)dword_1045B690[a1];
+  v1 = (IDirect3DVertexBuffer8 *)g_streamSourceVB[a1];
   if ( v1 != nullptr )
-    return g_pCDx->pDevice->SetStreamSource(a1, v1, dword_10457554[a1]);
+    return g_pCDx->pDevice->SetStreamSource(a1, v1, g_streamSourceStride[a1]);
   else
     return 0;
 }

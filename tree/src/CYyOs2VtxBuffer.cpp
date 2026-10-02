@@ -51,7 +51,7 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
       this->field_3C = 4;
       return 0;
     case 4:
-      v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)dword_1047B974, 8 * v3 + 4, 520, 0, 0, self + 19, 0);
+      v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 8 * v3 + 4, 520, 0, 0, self + 19, 0);
 LABEL_11:
       if ( v7 < 0 )
       {
@@ -194,11 +194,11 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   this->field_76 = 0;
   for ( i = 0; i < 16; ++i )
   {
-    if ( dword_1045B650[i] == self )
+    if ( g_os2VtxBufferSlots[i] == self )
       break;
   }
   if ( i != 16 )
-    dword_1045B650[i] = 0;
+    g_os2VtxBufferSlots[i] = 0;
   if ( this->field_7A != 0 )
   {
     orig::Mem_FreeObject(this->field_7A);

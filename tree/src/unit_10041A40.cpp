@@ -69,13 +69,13 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
       v28 = 16;
       v9 = 16;
     }
-    if ( (byte_1047BAC0 & 1) == 0 )
+    if ( (Font_DrawProjectedText3D_staticGuard & 1) == 0 )
     {
-      byte_1047BAC0 |= 1u;
-      orig::fn_1006AD90((exception *)dword_1047BADC);
+      Font_DrawProjectedText3D_staticGuard |= 1u;
+      orig::fn_1006AD90((exception *)Font_DrawProjectedText3D_stateBlock);
       orig::_atexit(XI_CODE(StaticDtor_StateBlock_1047BADC));
     }
-    orig::StateBlock_ApplyTSS(dword_1047BADC, (int)dword_10352D30);
+    orig::StateBlock_ApplyTSS(Font_DrawProjectedText3D_stateBlock, (int)Font_DrawProjectedText3D_textureStageStates);
     v10 = 0;
     v11 = 0;
     if ( v9 > 0 )
@@ -92,7 +92,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
         }
         else
         {
-          orig::ShapeMng_GetDmgNumGlyph(dword_104E1BF8, v14, (int)v13, v12, nullptr, nullptr);
+          orig::ShapeMng_GetDmgNumGlyph(g_shapeMng, v14, (int)v13, v12, nullptr, nullptr);
           v10 += *v12;
         }
         ++v11;
@@ -140,7 +140,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
         }
         while ( (int)v21 < (int)&flt_10352D2C );
         v32 = a3;
-        if ( orig::ShapeMng_BindDmgNumTexture(dword_104E1BF8, *(char *)(a2 + v15), &v32, &v35) == 0 )
+        if ( orig::ShapeMng_BindDmgNumTexture(g_shapeMng, *(char *)(a2 + v15), &v32, &v35) == 0 )
           break;
         v24 = v32;
         v25 = (int *)&v41;

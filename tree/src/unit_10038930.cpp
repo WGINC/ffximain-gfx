@@ -6,21 +6,21 @@
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
-  dword_1047B960 = 0;
-  dword_1047B958 = (int)orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &dword_1047B960, 1, 0);
+  g_sceneCaptureDepth = 0;
+  g_sceneCaptureTex = (int)orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &g_sceneCaptureDepth, 1, 0);
   result = (_DWORD *)g_pEnv;
   if ( *(_DWORD *)(g_pEnv + 24) != 0 )
   {
-    dword_1047B964 = dword_10456D5C;
-    if ( dword_10456D5C != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)dword_10456D5C + 4))(dword_10456D5C);
-    result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &dword_1047B964, 1, 0);
-    dword_1047B95C = (int)result;
+    g_sceneCaptureDepthEye2 = g_translucentDepth;
+    if ( g_translucentDepth != 0 )
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_translucentDepth + 4))(g_translucentDepth);
+    result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &g_sceneCaptureDepthEye2, 1, 0);
+    g_sceneCaptureTexEye2 = (int)result;
   }
   else
   {
-    dword_1047B95C = 0;
-    dword_1047B964 = 0;
+    g_sceneCaptureTexEye2 = 0;
+    g_sceneCaptureDepthEye2 = 0;
   }
   return result;
 }
@@ -36,7 +36,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
   result = orig::Settings_GetValue(200);
   if ( result != 0
     && (result = *((_DWORD *)self_ + 1)) != 0
-    && (result = dword_1047B958, dword_1047B958 != 0)
+    && (result = g_sceneCaptureTex, g_sceneCaptureTex != 0)
     && (result = (int)pTexture, pTexture != nullptr) )
   {
     v4 = 0;
@@ -86,15 +86,15 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
     g_pCDx->pDevice->SetVertexShader(0x144u);
     v3 = g_pCDx->_pad_10[2072];
     g_pCDx->_pad_10[2072] = 0;
-    if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && dword_1047B95C != 0 && dword_10456D54 != 0 )
+    if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && g_sceneCaptureTexEye2 != 0 && g_translucentTargetEye2 != 0 )
     {
-      g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)dword_10456D54);
-      orig::CDx_PushRenderTarget(g_pCDx, dword_1047B95C, dword_1047B964, 0);
+      g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)g_translucentTargetEye2);
+      orig::CDx_PushRenderTarget(g_pCDx, g_sceneCaptureTexEye2, g_sceneCaptureDepthEye2, 0);
       orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
       orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
     }
     g_pCDx->pDevice->SetTexture(0, pTexture);
-    orig::CDx_PushRenderTarget(g_pCDx, dword_1047B958, dword_1047B960, 0);
+    orig::CDx_PushRenderTarget(g_pCDx, g_sceneCaptureTex, g_sceneCaptureDepth, 0);
     orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&v4, 28);
     orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
     g_pCDx->_pad_10[2072] = v3;
@@ -169,7 +169,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   result = orig::Settings_GetValue(200);
   if ( result == 0
     || (result = v1[1]) == 0
-    || (v3 = *(_DWORD *)result, result = dword_1047B958, dword_1047B958 == 0)
+    || (v3 = *(_DWORD *)result, result = g_sceneCaptureTex, g_sceneCaptureTex == 0)
     || (result = (int)pTexture, pTexture == nullptr) )
   {
     LOBYTE(result) = 0;
@@ -263,12 +263,12 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       v16 = g_pCDx->_pad_10[2072];
       g_pCDx->_pad_10[2072] = 0;
       v18 = v16;
-      if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && dword_1047B95C != 0 )
+      if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && g_sceneCaptureTexEye2 != 0 )
       {
         v17 = g_pCDx;
         if ( *(_DWORD *)&g_pCDx->_pad_10[392] == 0 || *(_DWORD *)&g_pCDx->_pad_10[408] == 0 )
           goto LABEL_21;
-        g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)dword_1047B95C);
+        g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)g_sceneCaptureTexEye2);
         orig::CDx_PushRenderTarget(
           g_pCDx,
           *(_DWORD *)&g_pCDx->_pad_10[392],
@@ -279,7 +279,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       }
       v17 = g_pCDx;
 LABEL_21:
-      v17->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)dword_1047B958);
+      v17->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)g_sceneCaptureTex);
       orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v27, 28);
       v1 = self_;
       ++v4;

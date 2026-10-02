@@ -25,7 +25,7 @@ int CYyVbMng::AcquireVertexBuffer(int a2, unsigned int a3, unsigned int a4, D3DP
   v7 = self;
   v8 = nullptr;
   v23 = -1;
-  v9 = 2000 * ((unsigned int)(((unsigned int)(a2 + 1999) * (unsigned __int64)(unsigned int)&unk_10624DD3) >> 32) >> 7);
+  v9 = 2000 * ((unsigned int)(((unsigned int)(a2 + 1999) * (unsigned __int64)(unsigned int)&c_div2000Magic) >> 32) >> 7);
   if ( a7 != 0 )
     goto LABEL_26;
   v10 = *(_DWORD **)(g_pVertexBufferListHead + 8);

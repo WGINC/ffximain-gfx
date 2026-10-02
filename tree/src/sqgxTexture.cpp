@@ -14,9 +14,9 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
   v4 = a3;
   v5 = 0;
   v10 = 0;
-  if ( dword_109A261C > 0 )
+  if ( g_counter_109A261C > 0 )
   {
-    v6 = dword_1099D61C;
+    v6 = g_sqgxTex_width;
     do
     {
       if ( v6[5] == -1 && *v6 == a1 && v6[1] == a2 && (IDirect3DBaseTexture8 *)v6[2] == a3 )
@@ -24,25 +24,25 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
       ++v5;
       v6 += 10;
     }
-    while ( v5 < dword_109A261C );
+    while ( v5 < g_counter_109A261C );
   }
-  if ( v5 == dword_109A261C )
+  if ( v5 == g_counter_109A261C )
   {
-    if ( dword_109A261C == 512 )
+    if ( g_counter_109A261C == 512 )
     {
-      orig::sub_10285890(aErrorSqgxtextu);
+      orig::sqDebugPrintf(aErrorSqgxtextu);
       return -1;
     }
     v8 = 10 * v5;
-    ++dword_109A261C;
-    dword_1099D61C[v8] = a1;
-    dword_1099D620[v8] = a2;
-    dword_1099D624[v8] = (int)v4;
-    dword_1099D628[10 * v5] = orig::sub_10281810(a1);
-    dword_1099D62C[10 * v5] = orig::sub_10281810(a2);
+    ++g_counter_109A261C;
+    g_sqgxTex_width[v8] = a1;
+    g_sqgxTex_height[v8] = a2;
+    g_sqgxTex_kind[v8] = (int)v4;
+    g_sqgxTex_log2Width[10 * v5] = orig::sqgxCeilLog2(a1);
+    g_sqgxTex_log2Height[10 * v5] = orig::sqgxCeilLog2(a2);
   }
   v9 = a4;
-  dword_1099D618[10 * v5] = (int)a4;
+  g_sqgxTex_name[10 * v5] = (int)a4;
   if ( v4 == (IDirect3DBaseTexture8 *)4 )
   {
     v10 = 21;
@@ -57,30 +57,30 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
   }
   else if ( v4 == (IDirect3DBaseTexture8 *)1 )
   {
-    v10 = *(_DWORD *)(dword_1099D200 + 720) != 0 ? 50 : 41;
+    v10 = *(_DWORD *)(g_pSqgxContext + 720) != 0 ? 50 : 41;
   }
-  dword_1099D630[10 * v5] = v10;
+  g_sqgxTex_format[10 * v5] = v10;
   if ( v9 != nullptr )
   {
-    orig::sub_10281510(v5, v9);
+    orig::sqgxTextureCreateFromImage(v5, v9);
   }
   else
   {
-    orig::sub_10285890(aCreatingTextur);
+    orig::sqDebugPrintf(aCreatingTextur);
     if ( g_pDancerDevice->lpVtbl->CreateTexture(
            g_pDancerDevice,
-           dword_1099D61C[10 * v5],
-           dword_1099D620[10 * v5],
+           g_sqgxTex_width[10 * v5],
+           g_sqgxTex_height[10 * v5],
            1u,
            1u,
-           (D3DFORMAT)dword_1099D630[10 * v5],
+           (D3DFORMAT)g_sqgxTex_format[10 * v5],
            D3DPOOL_DEFAULT,
            (IDirect3DTexture8 **)&a3) != 0 )
-      orig::sub_10285890(aError);
-    (&dword_1099D638)[10 * v5] = a3;
+      orig::sqDebugPrintf(aError);
+    (&g_sqgxTex_texture)[10 * v5] = a3;
   }
-  dword_1099D634[10 * v5] = -2;
-  dword_1099D63C[10 * v5] = 0;
+  g_sqgxTex_paletteSlot[10 * v5] = -2;
+  g_sqgxTex_surface[10 * v5] = 0;
   return v5;
 }
 
@@ -94,11 +94,11 @@ XI_API int __cdecl sqgxTextureAddPalette(int a1, int a2, int a3)
   _BYTE v7[1024];
   for ( i = 1; i < 256; ++i )
   {
-    if ( byte_109A2620[i] == 0 )
+    if ( g_sqgxPaletteUsed[i] == 0 )
       break;
   }
   v4 = 0;
-  byte_109A2620[i] = 1;
+  g_sqgxPaletteUsed[i] = 1;
   v5 = (_BYTE *)(a3 + 2);
   do
   {
@@ -127,8 +127,8 @@ XI_API int __cdecl sqgxTextureSetPalette(int a1)
     return g_pDancerDevice->SetCurrentTexturePalette(a1);
   if ( a1 == -1 )
   {
-    result = *(_DWORD *)(dword_1099D200 + 4 * *(_DWORD *)(dword_1099D200 + 2840) + 2224);
-    if ( dword_1099D624[10 * result] == 1 )
+    result = *(_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2224);
+    if ( g_sqgxTex_kind[10 * result] == 1 )
       return g_pDancerDevice->SetCurrentTexturePalette(0);
   }
   return result;
@@ -187,28 +187,28 @@ XI_API int __cdecl sqgxTextureSetRenderTarget(IDirect3DSurface8 *a1)
   IDirect3DSurface8 *v4;
   int result;
   v1 = a1;
-  *(_DWORD *)(dword_1099D200 + 2208) = a1;
-  v2 = dword_1099D200;
-  v3 = *(_DWORD *)(dword_1099D200 + 2204);
-  if ( v3 == *(_DWORD *)(dword_1099D200 + 2216) )
+  *(_DWORD *)(g_pSqgxContext + 2208) = a1;
+  v2 = g_pSqgxContext;
+  v3 = *(_DWORD *)(g_pSqgxContext + 2204);
+  if ( v3 == *(_DWORD *)(g_pSqgxContext + 2216) )
   {
-    v4 = *(IDirect3DSurface8 **)(dword_1099D200 + 2300);
+    v4 = *(IDirect3DSurface8 **)(g_pSqgxContext + 2300);
     a1 = v4;
   }
   else
   {
-    (&dword_1099D638)[10 * v3]->lpVtbl[1].AddRef((&dword_1099D638)[10 * v3]);
+    (&g_sqgxTex_texture)[10 * v3]->lpVtbl[1].AddRef((&g_sqgxTex_texture)[10 * v3]);
     v4 = a1;
-    v2 = dword_1099D200;
+    v2 = g_pSqgxContext;
   }
   if ( v1 != *(IDirect3DSurface8 **)(v2 + 2220) )
     return g_pDancerDevice->lpVtbl->SetRenderTarget(
              g_pDancerDevice,
              v4,
-             (IDirect3DSurface8 *)dword_1099D63C[10 * (_DWORD)v1]);
+             (IDirect3DSurface8 *)g_sqgxTex_surface[10 * (_DWORD)v1]);
   g_pDancerDevice->SetRenderTarget(v4, *(IDirect3DSurface8 **)(v2 + 2304));
-  result = dword_1099D200;
-  if ( *(_DWORD *)(dword_1099D200 + 2204) != *(_DWORD *)(dword_1099D200 + 2216) )
+  result = g_pSqgxContext;
+  if ( *(_DWORD *)(g_pSqgxContext + 2204) != *(_DWORD *)(g_pSqgxContext + 2216) )
     return a1->Release();
   return result;
 }
@@ -223,33 +223,33 @@ XI_API int __cdecl sqgxTextureDraw(int a1, char a2)
   float v6;
   float v7;
   float v8;
-  *(_DWORD *)(dword_1099D200 + 2204) = a1;
-  v2 = *(_DWORD *)(dword_1099D200 + 2208);
-  if ( v2 == *(_DWORD *)(dword_1099D200 + 2220) )
-    v3 = *(IDirect3DSurface8 **)(dword_1099D200 + 2304);
+  *(_DWORD *)(g_pSqgxContext + 2204) = a1;
+  v2 = *(_DWORD *)(g_pSqgxContext + 2208);
+  if ( v2 == *(_DWORD *)(g_pSqgxContext + 2220) )
+    v3 = *(IDirect3DSurface8 **)(g_pSqgxContext + 2304);
   else
-    v3 = (IDirect3DSurface8 *)dword_1099D63C[10 * v2];
+    v3 = (IDirect3DSurface8 *)g_sqgxTex_surface[10 * v2];
   if ( a2 != 0 )
   {
-    v7 = (double)*(int *)(dword_1099D200 + 728) / (double)dword_1099D620[10 * a1];
-    v5 = (double)*(int *)(dword_1099D200 + 724) / (double)dword_1099D61C[10 * a1];
+    v7 = (double)*(int *)(g_pSqgxContext + 728) / (double)g_sqgxTex_height[10 * a1];
+    v5 = (double)*(int *)(g_pSqgxContext + 724) / (double)g_sqgxTex_width[10 * a1];
     orig::sqgxSetAspectRatio(v5, v7);
   }
   else
   {
     orig::sqgxSetAspectRatio(1.0, 1.0);
   }
-  if ( a1 == *(_DWORD *)(dword_1099D200 + 2216) )
+  if ( a1 == *(_DWORD *)(g_pSqgxContext + 2216) )
   {
-    g_pDancerDevice->SetRenderTarget(*(IDirect3DSurface8 **)(dword_1099D200 + 2300), v3);
+    g_pDancerDevice->SetRenderTarget(*(IDirect3DSurface8 **)(g_pSqgxContext + 2300), v3);
   }
   else
   {
-    if ( dword_1099D63C[10 * a1] == 0 )
-      (&dword_1099D638)[10 * a1]->lpVtbl[1].AddRef((&dword_1099D638)[10 * a1]);
-    g_pDancerDevice->SetRenderTarget((IDirect3DSurface8 *)dword_1099D63C[10 * a1], v3);
+    if ( g_sqgxTex_surface[10 * a1] == 0 )
+      (&g_sqgxTex_texture)[10 * a1]->lpVtbl[1].AddRef((&g_sqgxTex_texture)[10 * a1]);
+    g_pDancerDevice->SetRenderTarget((IDirect3DSurface8 *)g_sqgxTex_surface[10 * a1], v3);
   }
-  v8 = (float)dword_1099D620[10 * a1];
-  v6 = (float)dword_1099D61C[10 * a1];
+  v8 = (float)g_sqgxTex_height[10 * a1];
+  v6 = (float)g_sqgxTex_width[10 * a1];
   return orig::sqgxSetViewport(0.0, 0.0, v6, v8);
 }

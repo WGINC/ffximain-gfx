@@ -52,7 +52,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 // GATE: PASS -- 100 trials, 86 returned normally, 562 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowStencilTest(int a1)
 {
-  *(_DWORD *)(dword_1099D200 + 292) = a1;
+  *(_DWORD *)(g_pSqgxContext + 292) = a1;
   if ( a1 != 0 )
   {
     g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
@@ -75,27 +75,27 @@ XI_API int __cdecl sqsnShadowStencilTest(int a1)
 // GATE: PASS -- 100 trials, 12 returned normally, 177 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
-  *(_DWORD *)(dword_1099D200 + 324) = 0;
-  if ( *(_DWORD *)(dword_1099D200 + 316) == 0 )
+  *(_DWORD *)(g_pSqgxContext + 324) = 0;
+  if ( *(_DWORD *)(g_pSqgxContext + 316) == 0 )
     g_pDancerDevice->lpVtbl->CreateVertexBuffer(
       g_pDancerDevice,
       720000u,
       520u,
       2u,
       D3DPOOL_DEFAULT,
-      (IDirect3DVertexBuffer8 **)(dword_1099D200 + 316));
+      (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 316));
   if ( g_pDancerDevice->lpVtbl->SetStreamSource(
          g_pDancerDevice,
          0,
-         *(IDirect3DVertexBuffer8 **)(dword_1099D200 + 316),
+         *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 316),
          12u) != 0 )
     orig::sqDebugPrintf(aErrorInSetStre);
   if ( g_pDancerDevice->SetVertexShader(2u) != 0 )
     orig::sqDebugPrintf(aErrorInSetVert);
-  return (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int))(**(_DWORD **)(dword_1099D200 + 316) + 44))(
-           *(_DWORD *)(dword_1099D200 + 316),
+  return (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int))(**(_DWORD **)(g_pSqgxContext + 316) + 44))(
+           *(_DWORD *)(g_pSqgxContext + 316),
            0,
            0,
-           dword_1099D200 + 320,
+           g_pSqgxContext + 320,
            0x2000);
 }

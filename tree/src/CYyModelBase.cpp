@@ -59,7 +59,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
       v7 = 0;
     this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, off_10351514, v7);
   }
-  g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, unk_104571D8);
+  g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, g_ambientColor);
   v8 = 0;
   v9 = &g_lightTable_Start;
   do
@@ -95,7 +95,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
         {
           if ( v11[7] == 0
             && orig::CYyVbMng_AcquireVertexBuffer(
-                 (_DWORD *)dword_1047B974,
+                 (_DWORD *)g_pVbMng,
                  12 * v14 + 4,
                  520,
                  0,
@@ -104,7 +104,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
                  0) < 0
             || v11[9] == 0
             && orig::CYyVbMng_AcquireVertexBuffer(
-                 (_DWORD *)dword_1047B974,
+                 (_DWORD *)g_pVbMng,
                  12 * v14 + 4,
                  520,
                  0,
@@ -115,7 +115,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
                 (*(_BYTE *)(v16 + 52) & 1) != 0
              && (v11[11] == 0
               && orig::CYyVbMng_AcquireVertexBuffer(
-                   (_DWORD *)dword_1047B974,
+                   (_DWORD *)g_pVbMng,
                    12 * v14 + 4,
                    520,
                    0,
@@ -124,7 +124,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
                    0) < 0
               || v11[13] == 0
               && orig::CYyVbMng_AcquireVertexBuffer(
-                   (_DWORD *)dword_1047B974,
+                   (_DWORD *)g_pVbMng,
                    12 * v14 + 4,
                    520,
                    0,

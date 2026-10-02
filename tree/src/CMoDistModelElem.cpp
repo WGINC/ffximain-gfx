@@ -85,7 +85,7 @@ void CMoDistModelElem::BuildDistortedMesh()
       if ( v14 > 0 && orig::CMoDistMorphElem_ValidateMorphData(v13, v14, (int)v9, 1) != 0 )
       {
         orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v12);
-        v15 = orig::DynVB_Lock((void *)dword_1047BBB0);
+        v15 = orig::DynVB_Lock((void *)g_pDynVB_FVF152);
         a1 = (int)v15;
         if ( v15 != nullptr )
           qmemcpy(v15, v5, 36 * v23);

@@ -1,0 +1,1160 @@
+{
+ "0x10032FA0": {
+  "old": "sub_10032FA0",
+  "name": "BoneXform_PostMultiplyInto",
+  "confidence": "medium",
+  "evidence": "builds a temporary 4x4 from this (sub_10032FE0) and Mat4_PostMultiply(arg, tmp)"
+ },
+ "0x100C5410": {
+  "old": "sub_100C5410",
+  "name": "TargetActor_SlotHandler1",
+  "confidence": "medium",
+  "evidence": "resolves g_targetActorHandle, calls its vfunc +0x334 with 1, clears dword_10456DAC; installed in actor slot table entry 1 by every CXiSkeletonActor constructor"
+ },
+ "0x100C5440": {
+  "old": "sub_100C5440",
+  "name": "TargetActor_SlotHandler0",
+  "confidence": "medium",
+  "evidence": "resolves g_targetActorHandle, vfunc +0x334(0), scales dword_10456DA8 for model kinds 5/6, sets dword_10456DAC = 0; slot table entry 0"
+ },
+ "0x100C54C0": {
+  "old": "sub_100C54C0",
+  "name": "TargetActor_SlotHandler4",
+  "confidence": "medium",
+  "evidence": "as TargetActor_SlotHandler0 but sets dword_10456DAC = 5.0f; slot table entry 4"
+ },
+ "0x1018CA20": {
+  "old": "sub_1018CA20",
+  "name": "Sch_GetStatusEntry",
+  "confidence": "medium",
+  "evidence": "called with the schedular status in CMoSchedularTask_Interpret and CXiSkeletonActor_SetAttack_SchStatus; result used as an entry pointer"
+ },
+ "0x101C4AF0": {
+  "old": "sub_101C4AF0",
+  "name": "FileMng_ResolveOrExit",
+  "confidence": "medium",
+  "evidence": "thiscall on g_pFileMng: calls sub_101C1B20(id) on this+4; on failure reports (id, id>>8) with sub_10253670 and calls exit(2003)"
+ },
+ "0x1021D980": {
+  "old": "sub_1021D980",
+  "name": "Movie_Update",
+  "confidence": "medium",
+  "evidence": "thiscall on g_pMovie: when sub_1021DD50 returns 1 sets state (+4) = 2 and returns 0, else returns 1; called before Movie_GetCurrentTexture"
+ },
+ "0x10271B40": {
+  "old": "sub_10271B40",
+  "name": "scnFini",
+  "confidence": "high",
+  "evidence": "current IDB name (IDA listing 2026-10-02); the export record predates it"
+ },
+ "0x10281510": {
+  "old": "sub_10281510",
+  "name": "sqgxTextureCreateFromImage",
+  "confidence": "high",
+  "evidence": "IDB name"
+ },
+ "0x10281810": {
+  "old": "sub_10281810",
+  "name": "sqgxCeilLog2",
+  "confidence": "high",
+  "evidence": "IDB name"
+ },
+ "0x10285890": {
+  "old": "sub_10285890",
+  "name": "sqDebugPrintf",
+  "confidence": "high",
+  "evidence": "IDB name (export record exported before the rename)"
+ },
+ "0x10333000": {
+  "old": "dword_10333000",
+  "name": "g_hiResFont_fileId",
+  "confidence": "high",
+  "evidence": "row 0 = 0x9A77, row 1 = 0x9A78: DAT file id; rows of 3 ints {file id, width, height} indexed by g_cfgFontCompression-1 in Font_LoadHighResTexture"
+ },
+ "0x10333004": {
+  "old": "dword_10333004",
+  "name": "g_hiResFont_width",
+  "confidence": "high",
+  "evidence": "second int of each high-res font row (row 0: 0x400)"
+ },
+ "0x10333008": {
+  "old": "dword_10333008",
+  "name": "g_hiResFont_height",
+  "confidence": "high",
+  "evidence": "third int of each high-res font row (row 0: 0x800)"
+ },
+ "0x10341DBC": {
+  "old": "unk_10341DBC",
+  "name": "GUID_SysMouse_ref",
+  "confidence": "medium",
+  "evidence": "GUID passed to IDirectInput::CreateDevice in DirectInput_InstallMouse"
+ },
+ "0x10349EF4": {
+  "old": "unk_10349EF4",
+  "name": "c_dfDIMouse_ref",
+  "confidence": "medium",
+  "evidence": "data-format struct passed to IDirectInputDevice::SetDataFormat (vtable +0x2C) in DirectInput_InstallMouse"
+ },
+ "0x1034F92C": {
+  "old": "byte_1034F92C",
+  "name": "g_mouseAcquired",
+  "confidence": "medium",
+  "evidence": "set 1/0 around DirectInput device acquisition in DirectInput_InstallMouse"
+ },
+ "0x103501A8": {
+  "old": "flt_103501A8",
+  "name": "g_feedbackQuad",
+  "confidence": "medium",
+  "evidence": "start of the 20-byte-stride XYZRHW|TEX1 vertex array drawn with DrawPrimitiveUP(TRIANGLESTRIP, 2) in Post_FlashAndZoomFeedback"
+ },
+ "0x103515BC": {
+  "old": "dword_103515BC",
+  "name": "c_ps2White",
+  "confidence": "high",
+  "evidence": "initial value 0x80808080: PS2 colour 1.0 on all channels; multiplied with g_modelColor >>7 when the mesh has no colour"
+ },
+ "0x10351D60": {
+  "old": "dword_10351D60",
+  "name": "Sky_DrawDome_textureStageStates",
+  "confidence": "medium",
+  "evidence": "3rd arg of StateBlock_ApplyRSTSS in Sky_DrawDome: texture-stage-state list"
+ },
+ "0x10351DB8": {
+  "old": "dword_10351DB8",
+  "name": "Sky_DrawDome_renderStates",
+  "confidence": "medium",
+  "evidence": "2nd arg of StateBlock_ApplyRSTSS in Sky_DrawDome: render-state list (int[16])"
+ },
+ "0x10351DF8": {
+  "old": "dword_10351DF8",
+  "name": "Sky_DrawDomeViewCentered_textureStageStates",
+  "confidence": "medium",
+  "evidence": "texture-stage-state list passed to StateBlock_ApplyRSTSS in Sky_DrawDomeViewCentered"
+ },
+ "0x10351E4C": {
+  "old": "dword_10351E4C",
+  "name": "Sky_DrawDomeViewCentered_renderStates",
+  "confidence": "medium",
+  "evidence": "render-state list passed to StateBlock_ApplyRSTSS in Sky_DrawDomeViewCentered"
+ },
+ "0x10352D30": {
+  "old": "dword_10352D30",
+  "name": "Font_DrawProjectedText3D_textureStageStates",
+  "confidence": "medium",
+  "evidence": "TSS list passed to StateBlock_ApplyTSS in Font_DrawProjectedText3D"
+ },
+ "0x10353378": {
+  "old": "dword_10353378",
+  "name": "CMoDistRingElem_textureStageStates",
+  "confidence": "medium",
+  "evidence": "TSS list passed to StateBlock_ApplyTSS in CMoDistRingElem_AllocRingGeometry"
+ },
+ "0x1035F638": {
+  "old": "byte_1035F638",
+  "name": "aNoOwnerChocobo",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: チョコボの相手がいません。チョコボコンストラクタをスキップします。 \"No owner for the chocobo; skipping the chocobo constructor.\""
+ },
+ "0x1035F680": {
+  "old": "byte_1035F680",
+  "name": "aNoOwnerGroundTarget",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: グランドターゲットを持つ相手がいません。ターゲットコンストラクタをスキップします。 \"No owner holding a ground target; skipping the target constructor.\""
+ },
+ "0x1035F6D8": {
+  "old": "byte_1035F6D8",
+  "name": "aNoOwnerRange",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: レンジを持つ相手がいません。ターゲットコンストラクタをスキップします。 \"No owner holding a range; skipping the target constructor.\""
+ },
+ "0x1035F728": {
+  "old": "byte_1035F728",
+  "name": "aNoOwnerBorder",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: ボーダーを持つ相手がいません。ボーダーコンストラクタをスキップします。 \"No owner holding a border; skipping the border constructor.\""
+ },
+ "0x1035F778": {
+  "old": "byte_1035F778",
+  "name": "aNoOwnerChair",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 椅子を持つ相手がいません。椅子コンストラクタをスキップします。 \"No owner holding a chair; skipping the chair constructor.\""
+ },
+ "0x1035F7C0": {
+  "old": "byte_1035F7C0",
+  "name": "aNoOwnerFishingRod",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 釣り竿を持つ相手がいません。釣り竿コンストラクタをスキップします。 \"No owner holding a fishing rod; skipping the fishing-rod constructor.\""
+ },
+ "0x1035F808": {
+  "old": "byte_1035F808",
+  "name": "aNoOwnerMagicCircle",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 魔方陣を持つ相手がいません。魔方陣コンストラクタをスキップします。 \"No owner holding a magic circle; skipping the magic-circle constructor.\""
+ },
+ "0x1035F870": {
+  "old": "byte_1035F870",
+  "name": "aSubActorNoMainChocobo",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(チョコボ)なのに、メインアクターがいません。 \"Treated as a sub-actor (Chocobo) but there is no main actor.\""
+ },
+ "0x1035F8B0": {
+  "old": "byte_1035F8B0",
+  "name": "aSubActorNoMainMagicCircle",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(魔方陣)なのに、メインアクターがいません。 \"Treated as a sub-actor (MagicCircle) but there is no main actor.\""
+ },
+ "0x1035F8EC": {
+  "old": "byte_1035F8EC",
+  "name": "aSubActorNoMainChair",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(椅子)なのに、メインアクターがいません。 \"Treated as a sub-actor (Chair) but there is no main actor.\""
+ },
+ "0x1035F928": {
+  "old": "byte_1035F928",
+  "name": "aSubActorNoMainRange",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(レンジ)なのに、メインアクターがいません。 \"Treated as a sub-actor (Range) but there is no main actor.\""
+ },
+ "0x1035F964": {
+  "old": "byte_1035F964",
+  "name": "aSubActorNoMainFishingRod",
+  "confidence": "high",
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(釣り竿)なのに、メインアクターがいません。 \"Treated as a sub-actor (FishingRod) but there is no main actor.\""
+ },
+ "0x103601BC": {
+  "old": "off_103601BC",
+  "name": "g_pGameMode",
+  "confidence": "high",
+  "evidence": "object passed to GameMode_RequestState/GameMode_PollPendingState/GameMode_OpenTacticsUrl in App_StepGameState5..9"
+ },
+ "0x1036E4EC": {
+  "old": "dword_1036E4EC",
+  "name": "g_cursorShapes",
+  "confidence": "medium",
+  "evidence": "cursor shape table, 16 ints per shape indexed by cursor+0x4C; Cursor_Init fills it when empty"
+ },
+ "0x1036E4F4": {
+  "old": "dword_1036E4F4",
+  "name": "g_cursorShapeRotation",
+  "confidence": "medium",
+  "evidence": "float in the cursor shape record, passed to Mat4_PostRotateZ in Cursor_Draw"
+ },
+ "0x1036E4F8": {
+  "old": "word_1036E4F8",
+  "name": "g_cursorShapeFrame",
+  "confidence": "medium",
+  "evidence": "animation frame counter in the cursor shape record, incremented and wrapped in Cursor_Draw"
+ },
+ "0x103B4910": {
+  "old": "dword_103B4910",
+  "name": "g_sqgxVertexShaderHandle",
+  "confidence": "high",
+  "evidence": "int[1024] of handles passed to SetVertexShader in sqgxVertexShaderSelect"
+ },
+ "0x103B5910": {
+  "old": "dword_103B5910",
+  "name": "g_sqgxVertexShaderKeyA",
+  "confidence": "medium",
+  "evidence": "first word of the (key A, key B) pair searched for in sqgxVertexShaderSelect"
+ },
+ "0x103B5914": {
+  "old": "dword_103B5914",
+  "name": "g_sqgxVertexShaderKeyB",
+  "confidence": "medium",
+  "evidence": "second word of the key pair in sqgxVertexShaderSelect"
+ },
+ "0x103D3C64": {
+  "old": "dword_103D3C64",
+  "name": "g_pApp",
+  "confidence": "high",
+  "evidence": "holds the CApp created by App_CreateRendererAndApp (stores CApp vtable, data/global_objects.json); +0x18 is the HWND passed to GetWindowRect, +0x1C an active flag; released through vtable slot 6 in sub_10016320"
+ },
+ "0x103D3CB8": {
+  "old": "dword_103D3CB8",
+  "name": "g_pAppSettings",
+  "confidence": "medium",
+  "evidence": "pointer to the settings block read at startup: +0x58 passed to Gfx_CreateD3DHolder as its last flag, +0x5C gates the env-map pass, +0x28 is the network/login state set to 3 after _snprintf(\"net3 port 54001\")"
+ },
+ "0x10456908": {
+  "old": "dword_10456908",
+  "name": "g_modelDrawCallCount",
+  "confidence": "medium",
+  "evidence": "reset to 0 in Frame_Render and incremented once per DrawIndexedPrimitive in CYyModelDt_SkinAndDrawV2"
+ },
+ "0x10456918": {
+  "old": "dword_10456918",
+  "name": "g_afterimageDepth",
+  "confidence": "medium",
+  "evidence": "depth surface returned by CDx_CreateTexture next to g_afterimageTex; pushed with it in Post_Afterimage"
+ },
+ "0x10456920": {
+  "old": "dword_10456920",
+  "name": "g_afterimageState",
+  "confidence": "medium",
+  "evidence": "1 set by CMoSchedularTask_Interpret to start, 2 while running in Post_Afterimage"
+ },
+ "0x10456924": {
+  "old": "dword_10456924",
+  "name": "g_afterimageBufferState",
+  "confidence": "medium",
+  "evidence": "per-buffer state (1/2) in Post_Afterimage"
+ },
+ "0x10456928": {
+  "old": "dword_10456928",
+  "name": "g_afterimagePhase",
+  "confidence": "medium",
+  "evidence": "1/2 phase flag of Post_Afterimage"
+ },
+ "0x1045692C": {
+  "old": "dword_1045692C",
+  "name": "g_feedbackBufferIndex",
+  "confidence": "medium",
+  "evidence": "ping-pong index in Post_FlashAndZoomFeedback, reset by CMoSchedularTask_Interpret"
+ },
+ "0x10456930": {
+  "old": "dword_10456930",
+  "name": "g_feedbackBufferState",
+  "confidence": "medium",
+  "evidence": "per-buffer state (1/2) in Post_FlashAndZoomFeedback"
+ },
+ "0x10456934": {
+  "old": "dword_10456934",
+  "name": "g_feedbackActive",
+  "confidence": "medium",
+  "evidence": "0/1 in Post_FlashAndZoomFeedback"
+ },
+ "0x10456940": {
+  "old": "dword_10456940",
+  "name": "g_feedbackDepth",
+  "confidence": "medium",
+  "evidence": "depth surfaces created in App_InitScene, pushed with g_feedbackTexHalfRes in Post_FlashAndZoomFeedback"
+ },
+ "0x104569B0": {
+  "old": "dword_104569B0",
+  "name": "g_cmdLine",
+  "confidence": "medium",
+  "evidence": "string passed to App_SetCommandLine in App_WinMain"
+ },
+ "0x104569B8": {
+  "old": "dword_104569B8",
+  "name": "g_installDir",
+  "confidence": "medium",
+  "evidence": "path string passed to App_LoadImeUiDll and App_LoadKeyInputDll (DLL search directory) and to the CApp constructor"
+ },
+ "0x10456A74": {
+  "old": "dword_10456A74",
+  "name": "g_cfgGraphicsStabilization",
+  "confidence": "medium",
+  "evidence": "registry setting key \"0040\" (config table at .rdata: {&global, key} pairs read by the settings loader); meaning from the public FFXI settings list; EnvMap_BeginPass reads it"
+ },
+ "0x10456A88": {
+  "old": "dword_10456A88",
+  "name": "g_cfgSoundEnabled",
+  "confidence": "high",
+  "evidence": "registry setting key \"0007\" (config table at .rdata: {&global, key} pairs read by the settings loader); App_WinMain calls App_InitSoundSystem only when nonzero"
+ },
+ "0x10456AA0": {
+  "old": "dword_10456AA0",
+  "name": "g_cfgFontCompression",
+  "confidence": "high",
+  "evidence": "registry setting key \"0036\" (config table at .rdata: {&global, key} pairs read by the settings loader); Font_LoadHighResTexture uses value-1 as the row of the {file id, width, height} high-res font table; 0 keeps the compressed font"
+ },
+ "0x10456ACC": {
+  "old": "dword_10456ACC",
+  "name": "g_shadowSetting",
+  "confidence": "medium",
+  "evidence": "not a registry key; set by the setter sub_10002D50 (default 0); 1 skips actor shadows, 2 allows render-to-texture shadows up to distance 40"
+ },
+ "0x10456BF8": {
+  "old": "dword_10456BF8",
+  "name": "g_cfgHardwareMouse",
+  "confidence": "high",
+  "evidence": "registry setting key \"0021\" (config table at .rdata: {&global, key} pairs read by the settings loader); gates the hardware-cursor path in CDx_SetCursorShape, Cursor_SetPosition, Cursor_Draw, Cursor_SetVisible"
+ },
+ "0x10456C00": {
+  "old": "dword_10456C00",
+  "name": "g_cfg0020",
+  "confidence": "high",
+  "evidence": "registry setting key \"0020\" (config table at .rdata: {&global, key} pairs read by the settings loader); meaning not identified; switched on in PerActor_FourBucketStaggeredUpdate; default 1"
+ },
+ "0x10456D48": {
+  "old": "byte_10456D48",
+  "name": "g_translucentForce",
+  "confidence": "medium",
+  "evidence": "when 0 and the model colour alpha is 0x80 (opaque in PS2 units) the translucent pass is skipped"
+ },
+ "0x10456D4C": {
+  "old": "dword_10456D4C",
+  "name": "g_translucentColor",
+  "confidence": "medium",
+  "evidence": "PS2 colour (0x80 = 1.0); its alpha decides whether Model_*Translucent* run, written into the composite quad vertices"
+ },
+ "0x10456D54": {
+  "old": "dword_10456D54",
+  "name": "g_translucentTargetEye2",
+  "confidence": "medium",
+  "evidence": "second-eye texture from Model_CreateTranslucentTargets, returned by CDx_GetStereoSecondEyeTarget"
+ },
+ "0x10456D58": {
+  "old": "dword_10456D58",
+  "name": "g_translucentTarget",
+  "confidence": "medium",
+  "evidence": "texture from Model_CreateTranslucentTargets; the translucent models are drawn into it"
+ },
+ "0x10456D5C": {
+  "old": "dword_10456D5C",
+  "name": "g_translucentDepth",
+  "confidence": "medium",
+  "evidence": "depth surface returned by CDx_CreateTexture with the translucent target"
+ },
+ "0x10456DD0": {
+  "old": "flt_10456DD0",
+  "name": "g_modelLight",
+  "confidence": "high",
+  "evidence": "0x68-byte D3DLIGHT8 copy passed to CDx_SetLight in CYyModelDt_PrepareRenderState"
+ },
+ "0x10456DD4": {
+  "old": "flt_10456DD4",
+  "name": "g_modelLightDiffuseR",
+  "confidence": "high",
+  "evidence": "g_modelLight+4 = D3DLIGHT8.Diffuse.r, scaled per mesh"
+ },
+ "0x10456DD8": {
+  "old": "flt_10456DD8",
+  "name": "g_modelLightDiffuseG",
+  "confidence": "high",
+  "evidence": "g_modelLight+8 = Diffuse.g"
+ },
+ "0x10456DDC": {
+  "old": "flt_10456DDC",
+  "name": "g_modelLightDiffuseB",
+  "confidence": "high",
+  "evidence": "g_modelLight+0xC = Diffuse.b"
+ },
+ "0x10456E50": {
+  "old": "dword_10456E50",
+  "name": "g_projTexFactor",
+  "confidence": "medium",
+  "evidence": "TEXTUREFACTOR set by ProjTex_BeginPass, captured by ProjTex_CaptureToTarget"
+ },
+ "0x10456E58": {
+  "old": "dword_10456E58",
+  "name": "g_projTexPrevTex0",
+  "confidence": "medium",
+  "evidence": "texture slot 0 saved by ProjTex_BeginPass, restored by ProjTex_EndPass"
+ },
+ "0x10456E5C": {
+  "old": "dword_10456E5C",
+  "name": "g_projTexPrevTex1",
+  "confidence": "medium",
+  "evidence": "texture slot 1 saved by ProjTex_BeginPass, restored by ProjTex_EndPass"
+ },
+ "0x10456E64": {
+  "old": "dword_10456E64",
+  "name": "g_projTexTarget",
+  "confidence": "medium",
+  "evidence": "texture captured in ProjTex_CaptureToTarget and bound to stage 0"
+ },
+ "0x10456E68": {
+  "old": "dword_10456E68",
+  "name": "g_projTexPrevFactor",
+  "confidence": "medium",
+  "evidence": "TEXTUREFACTOR saved by ProjTex_BeginPass, restored by ProjTex_EndPass"
+ },
+ "0x10456E7C": {
+  "old": "dword_10456E7C",
+  "name": "g_envMapPrevFactor",
+  "confidence": "medium",
+  "evidence": "TEXTUREFACTOR saved by EnvMap_BeginPass, restored by EnvMap_EndPass"
+ },
+ "0x10456E80": {
+  "old": "dword_10456E80",
+  "name": "g_envMapPrevTex0",
+  "confidence": "medium",
+  "evidence": "texture slot 0 saved by EnvMap_BeginPass, restored by EnvMap_EndPass"
+ },
+ "0x10456E84": {
+  "old": "dword_10456E84",
+  "name": "g_envMapPrevTex1",
+  "confidence": "medium",
+  "evidence": "texture slot 1 saved by EnvMap_BeginPass, restored by EnvMap_EndPass"
+ },
+ "0x10456E8C": {
+  "old": "dword_10456E8C",
+  "name": "g_envMapFactor",
+  "confidence": "medium",
+  "evidence": "TEXTUREFACTOR set by EnvMap_BeginPass"
+ },
+ "0x104570FC": {
+  "old": "byte_104570FC",
+  "name": "g_envMapEnabled",
+  "confidence": "medium",
+  "evidence": "gates EnvMap_BeginPass in CYyModelDt_SkinAndDrawV2 and CXiSkeletonActor_DrawModel; cleared per actor"
+ },
+ "0x10457108": {
+  "old": "dword_10457108",
+  "name": "g_texture1Matrix",
+  "confidence": "medium",
+  "evidence": "identity set in DrawModel; set as D3DTS_TEXTURE1 transform"
+ },
+ "0x10457158": {
+  "old": "dword_10457158",
+  "name": "g_envMapTexMatrix",
+  "confidence": "high",
+  "evidence": "matrix built in CXiSkeletonActor_DrawModel and passed to EnvMap_BeginPass"
+ },
+ "0x10457198": {
+  "old": "flt_10457198",
+  "name": "g_shadowTexMatrix",
+  "confidence": "medium",
+  "evidence": "texture-1 transform built from g_lightViewMatrix in CXiSkeletonActor_DrawModel"
+ },
+ "0x104571D8": {
+  "old": "unk_104571D8",
+  "name": "g_ambientColor",
+  "confidence": "high",
+  "evidence": "D3DRS_AMBIENT value in CYyModelBase_DrawLit; filled by XiZone_GetAmbient in Actor_SelectNearestLights"
+ },
+ "0x104571D9": {
+  "old": "byte_104571D9",
+  "name": "g_ambientColorG",
+  "confidence": "high",
+  "evidence": "byte 1 of g_ambientColor (ARGB little-endian: green)"
+ },
+ "0x104571DA": {
+  "old": "byte_104571DA",
+  "name": "g_ambientColorR",
+  "confidence": "high",
+  "evidence": "byte 2 of g_ambientColor (red)"
+ },
+ "0x104571DB": {
+  "old": "byte_104571DB",
+  "name": "g_ambientColorA",
+  "confidence": "high",
+  "evidence": "byte 3 of g_ambientColor (alpha)"
+ },
+ "0x104571E0": {
+  "old": "unk_104571E0",
+  "name": "g_modelMaterial",
+  "confidence": "high",
+  "evidence": "D3DMATERIAL8 passed to SetMaterial; initialised from unk_10351518"
+ },
+ "0x10457210": {
+  "old": "flt_10457210",
+  "name": "g_modelMaterialEmissiveR",
+  "confidence": "high",
+  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
+ },
+ "0x10457214": {
+  "old": "flt_10457214",
+  "name": "g_modelMaterialEmissiveG",
+  "confidence": "high",
+  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
+ },
+ "0x10457218": {
+  "old": "flt_10457218",
+  "name": "g_modelMaterialEmissiveB",
+  "confidence": "high",
+  "evidence": "g_modelMaterial (D3DMATERIAL8 at 0x104571E0) + 0x30/0x34/0x38 = Emissive.r/g/b; set to (mesh value - 1.5) in CYyModelDt_PrepareRenderState"
+ },
+ "0x104572B0": {
+  "old": "byte_104572B0",
+  "name": "g_projTexEnabled",
+  "confidence": "medium",
+  "evidence": "gates ProjTex_BeginPass in CYyModelDt_SkinAndDrawV2; cleared per actor"
+ },
+ "0x104574A8": {
+  "old": "dword_104574A8",
+  "name": "g_modelPrimitiveCount",
+  "confidence": "medium",
+  "evidence": "accumulated per DrawIndexedPrimitive in CYyModelDt_SkinAndDrawV2, reset and stored to actor+0xB4 in DrawModel"
+ },
+ "0x104574AC": {
+  "old": "dword_104574AC",
+  "name": "g_modelColor",
+  "confidence": "high",
+  "evidence": "per-draw model colour in PS2 units: CXiSkeletonActor_DrawModel stores a8 (or a8 alpha | 0x808080) and the draw code multiplies channels by it >>7"
+ },
+ "0x104574B8": {
+  "old": "dword_104574B8",
+  "name": "g_identityWorldMatrix",
+  "confidence": "medium",
+  "evidence": "Mat4_SetIdentity then set as D3DTS_WORLD before drawing actors"
+ },
+ "0x104574F8": {
+  "old": "dword_104574F8",
+  "name": "g_projTexMatrix",
+  "confidence": "high",
+  "evidence": "matrix built in CXiSkeletonActor_DrawModel and passed to ProjTex_BeginPass"
+ },
+ "0x10457554": {
+  "old": "dword_10457554",
+  "name": "g_streamSourceStride",
+  "confidence": "high",
+  "evidence": "int[5]: stride argument of SetStreamSource(stream, vb, stride[stream]) in Gfx_ApplyCachedStreamSource"
+ },
+ "0x10457568": {
+  "old": "flt_10457568",
+  "name": "g_skinLight",
+  "confidence": "high",
+  "evidence": "0x68-byte D3DLIGHT8 copy passed to CDx_SetLight in CYyModelDt_SkinAndDrawV2"
+ },
+ "0x1045756C": {
+  "old": "flt_1045756C",
+  "name": "g_skinLightDiffuseR",
+  "confidence": "high",
+  "evidence": "g_skinLight+4 = Diffuse.r"
+ },
+ "0x10457570": {
+  "old": "flt_10457570",
+  "name": "g_skinLightDiffuseG",
+  "confidence": "high",
+  "evidence": "g_skinLight+8 = Diffuse.g"
+ },
+ "0x10457574": {
+  "old": "flt_10457574",
+  "name": "g_skinLightDiffuseB",
+  "confidence": "high",
+  "evidence": "g_skinLight+0xC = Diffuse.b"
+ },
+ "0x1045B62C": {
+  "old": "dword_1045B62C",
+  "name": "g_lineVertexCursor",
+  "confidence": "medium",
+  "evidence": "running vertex offset (x32 bytes) into a 1024-vertex buffer in CYyModelDt_PrepareRenderState; reset to 0 on wrap"
+ },
+ "0x1045B630": {
+  "old": "dword_1045B630",
+  "name": "g_stripVertexCursor",
+  "confidence": "medium",
+  "evidence": "start vertex for CDx_DrawPrimitive(TRIANGLESTRIP) in a 512-vertex buffer; reset on wrap"
+ },
+ "0x1045B650": {
+  "old": "dword_1045B650",
+  "name": "g_os2VtxBufferSlots",
+  "confidence": "medium",
+  "evidence": "int[16] of CYyOs2VtxBuffer pointers; CYyOs2VtxBuffer_Destructor clears the slot that holds this"
+ },
+ "0x1045B690": {
+  "old": "dword_1045B690",
+  "name": "g_streamSourceVB",
+  "confidence": "high",
+  "evidence": "vertex buffer argument of SetStreamSource in Gfx_ApplyCachedStreamSource, indexed by stream"
+ },
+ "0x1045B77A": {
+  "old": "word_1045B77A",
+  "name": "g_actorShadowMode",
+  "confidence": "medium",
+  "evidence": "per-actor shadow mode set in PerActor_FourBucketStaggeredUpdate: 1 = render-to-texture shadow, 0/2 = blob (2 if actor+0x17C), 3 = none"
+ },
+ "0x1045B780": {
+  "old": "dword_1045B780",
+  "name": "g_offscreenWorldMatrix",
+  "confidence": "medium",
+  "evidence": "set as D3DTS_WORLD (256) in Model_BeginOffscreenPass"
+ },
+ "0x1045B7C0": {
+  "old": "flt_1045B7C0",
+  "name": "g_lightViewMatrix",
+  "confidence": "medium",
+  "evidence": "D3DXMatrixLookAtRH from the light position; set as D3DTS_VIEW in Model_BeginOffscreenPass"
+ },
+ "0x1045B800": {
+  "old": "dword_1045B800",
+  "name": "g_offscreenPrevTex0",
+  "confidence": "medium",
+  "evidence": "texture slot 0 saved by Model_BeginOffscreenPass, rebound by Model_EndOffscreenPassBindTextures"
+ },
+ "0x1045B804": {
+  "old": "dword_1045B804",
+  "name": "g_offscreenPrevTex1",
+  "confidence": "medium",
+  "evidence": "texture slot 1 saved by Model_BeginOffscreenPass, rebound by Model_EndOffscreenPassBindTextures"
+ },
+ "0x1045B80C": {
+  "old": "flt_1045B80C",
+  "name": "g_shadowCasterDistance",
+  "confidence": "medium",
+  "evidence": "actor distance (+0xBC); shadow pass only when < 4.0 (40.0 when quality setting is 2)"
+ },
+ "0x1045EC28": {
+  "old": "dword_1045EC28",
+  "name": "g_boneTouched",
+  "confidence": "medium",
+  "evidence": "int[256] flags set per bone index in CXiSkeletonActor_PoseCompose"
+ },
+ "0x1045F040": {
+  "old": "dword_1045F040",
+  "name": "g_poseTranslation",
+  "confidence": "medium",
+  "evidence": "uninitialised vec3 written by MotionQueue_UpdateAllChannels and applied with Mat4_SetTranslation in CXiSkeletonActor_PoseCompose"
+ },
+ "0x1045F04C": {
+  "old": "dword_1045F04C",
+  "name": "g_poseScale",
+  "confidence": "medium",
+  "evidence": "uninitialised vec3 written by MotionQueue_UpdateAllChannels and applied with Mat4_SetScale in CXiSkeletonActor_PoseCompose"
+ },
+ "0x1047B958": {
+  "old": "dword_1047B958",
+  "name": "g_sceneCaptureTex",
+  "confidence": "medium",
+  "evidence": "256x256 texture created in Post_CreateScreenEffectTargets; target of Post_CaptureSceneToTarget, drawn by Post_DrawRotatingGhostLayers"
+ },
+ "0x1047B95C": {
+  "old": "dword_1047B95C",
+  "name": "g_sceneCaptureTexEye2",
+  "confidence": "medium",
+  "evidence": "second capture texture, used only when CEnv_IsStereoMode"
+ },
+ "0x1047B960": {
+  "old": "dword_1047B960",
+  "name": "g_sceneCaptureDepth",
+  "confidence": "medium",
+  "evidence": "depth surface returned with g_sceneCaptureTex"
+ },
+ "0x1047B964": {
+  "old": "dword_1047B964",
+  "name": "g_sceneCaptureDepthEye2",
+  "confidence": "medium",
+  "evidence": "depth surface returned with g_sceneCaptureTexEye2"
+ },
+ "0x1047B974": {
+  "old": "dword_1047B974",
+  "name": "g_pVbMng",
+  "confidence": "high",
+  "evidence": "CYyVbMng singleton (data/global_objects.json); first arg of CYyVbMng_AcquireVertexBuffer"
+ },
+ "0x1047B984": {
+  "old": "byte_1047B984",
+  "name": "Sky_DrawDomeViewCentered_staticGuard",
+  "confidence": "high",
+  "evidence": "`if ((g & 1) == 0) { g |= 1; ... }` at entry of Sky_DrawDomeViewCentered: MSVC function-local static init guard; guards dword_1047B994 state block"
+ },
+ "0x1047B985": {
+  "old": "byte_1047B985",
+  "name": "Sky_DrawDome_staticGuard",
+  "confidence": "high",
+  "evidence": "MSVC static init guard in Sky_DrawDome; guards the dword_1047B988 state block"
+ },
+ "0x1047B988": {
+  "old": "dword_1047B988",
+  "name": "Sky_DrawDome_stateBlock",
+  "confidence": "high",
+  "evidence": "static object constructed under Sky_DrawDome_staticGuard, then StateBlock_ApplyRSTSS(it, rs, tss)"
+ },
+ "0x1047B994": {
+  "old": "dword_1047B994",
+  "name": "Sky_DrawDomeViewCentered_stateBlock",
+  "confidence": "high",
+  "evidence": "static state block applied with StateBlock_ApplyRSTSS in Sky_DrawDomeViewCentered"
+ },
+ "0x1047BAC0": {
+  "old": "byte_1047BAC0",
+  "name": "Font_DrawProjectedText3D_staticGuard",
+  "confidence": "high",
+  "evidence": "MSVC static init guard in Font_DrawProjectedText3D"
+ },
+ "0x1047BADC": {
+  "old": "dword_1047BADC",
+  "name": "Font_DrawProjectedText3D_stateBlock",
+  "confidence": "high",
+  "evidence": "static state block applied with StateBlock_ApplyTSS in Font_DrawProjectedText3D"
+ },
+ "0x1047BB78": {
+  "old": "byte_1047BB78",
+  "name": "CMoDistRingElem_AllocRingGeometry_staticGuard",
+  "confidence": "high",
+  "evidence": "MSVC static init guard in CMoDistRingElem_AllocRingGeometry"
+ },
+ "0x1047BB7C": {
+  "old": "dword_1047BB7C",
+  "name": "CMoDistRingElem_stateBlock",
+  "confidence": "high",
+  "evidence": "static state block applied with StateBlock_ApplyTSS in CMoDistRingElem_AllocRingGeometry"
+ },
+ "0x1047BB88": {
+  "old": "dword_1047BB88",
+  "name": "g_pMoAccumTarget",
+  "confidence": "medium",
+  "evidence": "CAcc object from Mo_InitSharedRenderResources; +4 is a 256x256 texture from CMoDX_CreateTexture and +8 its depth surface"
+ },
+ "0x1047BB90": {
+  "old": "dword_1047BB90",
+  "name": "g_cubemapSpecName",
+  "confidence": "high",
+  "evidence": "16-byte resource name \"cubemap spec    \" resolved with TexRef_ResolveByName in Mo_InitSharedRenderResources"
+ },
+ "0x1047BBA0": {
+  "old": "dword_1047BBA0",
+  "name": "g_pDynVB_FVF42",
+  "confidence": "medium",
+  "evidence": "DynVB created with FVF 0x42 (XYZ|DIFFUSE), 4096 vertices, in Mo_InitSharedRenderResources"
+ },
+ "0x1047BBA4": {
+  "old": "dword_1047BBA4",
+  "name": "g_pDynVB_FVF44",
+  "confidence": "medium",
+  "evidence": "DynVB created with FVF 0x44 (XYZRHW|DIFFUSE), 4096 vertices"
+ },
+ "0x1047BBA8": {
+  "old": "dword_1047BBA8",
+  "name": "g_pDynVB_FVF144",
+  "confidence": "medium",
+  "evidence": "DynVB created with FVF 0x144 (XYZRHW|DIFFUSE|TEX1), 4096 vertices"
+ },
+ "0x1047BBAC": {
+  "old": "dword_1047BBAC",
+  "name": "g_pDynVB_FVF142",
+  "confidence": "medium",
+  "evidence": "DynVB created with FVF 0x142 (XYZ|DIFFUSE|TEX1), 4096 vertices"
+ },
+ "0x1047BBB0": {
+  "old": "dword_1047BBB0",
+  "name": "g_pDynVB_FVF152",
+  "confidence": "medium",
+  "evidence": "DynVB created with FVF 0x152 (XYZ|NORMAL|DIFFUSE|TEX1), 0x2000 vertices; used by the CMoDist mesh builders"
+ },
+ "0x1047BBB4": {
+  "old": "dword_1047BBB4",
+  "name": "g_pMoCamera",
+  "confidence": "medium",
+  "evidence": "created in Mo_InitSharedRenderResources; Sky_DrawDome sets the view matrix from its fields, Camera_ApplyViewProjection updates it"
+ },
+ "0x1047BFF4": {
+  "old": "dword_1047BFF4",
+  "name": "g_pDxStatusMng",
+  "confidence": "high",
+  "evidence": "result of CMoDxStatusMng_Constructor in CMoDX_CreateAndInitSystem"
+ },
+ "0x1047BFF8": {
+  "old": "dword_1047BFF8",
+  "name": "g_pVbPool",
+  "confidence": "high",
+  "evidence": "result of VBPool_Constructor in CMoDX_CreateAndInitSystem"
+ },
+ "0x1047C004": {
+  "old": "dword_1047C004",
+  "name": "g_pOcclusionMng",
+  "confidence": "high",
+  "evidence": "CMoOcclusionMng singleton created in CMoDX_CreateAndInitSystem; passed to OcclusionMng_CreateTarget/Prepare"
+ },
+ "0x1047CF31": {
+  "old": "byte_1047CF31",
+  "name": "CMoProcessor_InitRotationMatrices_staticGuard",
+  "confidence": "high",
+  "evidence": "MSVC static init guard in CMoProcessor_InitRotationMatrices"
+ },
+ "0x1047D130": {
+  "old": "dword_1047D130",
+  "name": "g_resourceFindDepth",
+  "confidence": "high",
+  "evidence": "incremented on entry of CMoResource_FindByTypeAndId and decremented on each exit path of the CXiSkeletonActor resource-search functions"
+ },
+ "0x1047D13C": {
+  "old": "byte_1047D13C",
+  "name": "g_resourcesDirty",
+  "confidence": "medium",
+  "evidence": "set to 1 after resource loads in App_InitScene, CMoSchedularTask_Interpret and CXiSkeletonActor_LoadSkeletonResource"
+ },
+ "0x1047D150": {
+  "old": "dword_1047D150",
+  "name": "g_cubeMapTargetHeight",
+  "confidence": "medium",
+  "evidence": "compared with the requested height (+0x26) and passed as height to CMoDX_CreateTexture"
+ },
+ "0x1047D158": {
+  "old": "dword_1047D158",
+  "name": "g_pCubeMapTarget",
+  "confidence": "medium",
+  "evidence": "render target recreated by TexRef_EnsureRenderTarget when the requested size changes; +4 texture from CMoDX_CreateTexture"
+ },
+ "0x1047D200": {
+  "old": "dword_1047D200",
+  "name": "g_cubeMapTargetWidth",
+  "confidence": "medium",
+  "evidence": "compared with the requested width (+0x24) in TexRef_EnsureRenderTarget"
+ },
+ "0x1047D580": {
+  "old": "byte_1047D580",
+  "name": "g_actorNameBuffer",
+  "confidence": "high",
+  "evidence": "static buffer CXiSkeletonActor_GetEnglishName strcpy()s the display name into and returns"
+ },
+ "0x1047D600": {
+  "old": "dword_1047D600",
+  "name": "g_targetActorHandle",
+  "confidence": "medium",
+  "evidence": "handle resolved with ActorHandle_Resolve and compared with actors in OnMove/OnDrawName/DestructorBody"
+ },
+ "0x1048A308": {
+  "old": "dword_1048A308",
+  "name": "g_nearestLight",
+  "confidence": "medium",
+  "evidence": "pointer to the selected light record (actor + 0x388 + 104*i) chosen in Actor_SelectNearestLights"
+ },
+ "0x1048A30C": {
+  "old": "dword_1048A30C",
+  "name": "g_lightLookAtTarget",
+  "confidence": "medium",
+  "evidence": "static vec3 (x at +0, y +4, z +8): LookAt target for g_lightViewMatrix"
+ },
+ "0x1048A318": {
+  "old": "dword_1048A318",
+  "name": "g_lightLookAtEye",
+  "confidence": "medium",
+  "evidence": "static vec3: LookAt eye for g_lightViewMatrix"
+ },
+ "0x1048A328": {
+  "old": "byte_1048A328",
+  "name": "PerActor_FourBucketStaggeredUpdate_staticGuards",
+  "confidence": "high",
+  "evidence": "bits 1 and 2 are MSVC static init guards for the two static vectors/matrices of PerActor_FourBucketStaggeredUpdate (dword_1048A30C.., dword_1048A32C..)"
+ },
+ "0x1048A338": {
+  "old": "dword_1048A338",
+  "name": "g_lightLookAtUp",
+  "confidence": "medium",
+  "evidence": "static vec3 (0,0,-1): LookAt up vector for g_lightViewMatrix"
+ },
+ "0x1048A350": {
+  "old": "dword_1048A350",
+  "name": "g_actorUpdateCounter",
+  "confidence": "medium",
+  "evidence": "incremented per actor and compared with dword_1048A354 for the staggered update"
+ },
+ "0x1048A354": {
+  "old": "dword_1048A354",
+  "name": "g_actorUpdateInterval",
+  "confidence": "medium",
+  "evidence": "limit for g_actorUpdateCounter"
+ },
+ "0x104E1B88": {
+  "old": "dword_104E1B88",
+  "name": "g_textCursorX",
+  "confidence": "medium",
+  "evidence": "Obj_104E1B90_DrawString stores its x argument here and advances it by each glyph width"
+ },
+ "0x104E1B8C": {
+  "old": "dword_104E1B8C",
+  "name": "g_textCursorY",
+  "confidence": "medium",
+  "evidence": "Obj_104E1B90_DrawString stores its y argument here"
+ },
+ "0x104E1B90": {
+  "old": "dword_104E1B90",
+  "name": "g_pFontGlyphs",
+  "confidence": "medium",
+  "evidence": "singleton created in App_InitScene; Font_DrawPass binds it with Font_BindGlyphTexture"
+ },
+ "0x104E1BF8": {
+  "old": "dword_104E1BF8",
+  "name": "g_shapeMng",
+  "confidence": "high",
+  "evidence": "static object passed to ShapeMng_Init, ShapeMng_GetFontGlyph, ShapeMng_BindFontTexture, ShapeMng_GetDmgNumGlyph, ShapeMng_BindDmgNumTexture"
+ },
+ "0x104E1D4C": {
+  "old": "dword_104E1D4C",
+  "name": "g_pCursor",
+  "confidence": "high",
+  "evidence": "cursor singleton (docs/NAMES-2026-10-01.md); passed to Cursor_GetHwCursorSlot"
+ },
+ "0x10578158": {
+  "old": "dword_10578158",
+  "name": "g_pChatLog",
+  "confidence": "high",
+  "evidence": "first arg of ChatLog_AddMessage in CXiSkeletonActor_SetAttack; created in App_InitScene"
+ },
+ "0x1057876C": {
+  "old": "dword_1057876C",
+  "name": "g_pTargetMng",
+  "confidence": "medium",
+  "evidence": "object used by Actor_SelectNearestLights, Frame_Render and CXiSkeletonActor_DestructorBody"
+ },
+ "0x10621838": {
+  "old": "word_10621838",
+  "name": "g_menuMng",
+  "confidence": "high",
+  "evidence": "static menu manager: first arg of MenuMng_OpenByName(.., \"menu    chdummy\", ..) in Frame_Render and App_StepGameState6..8"
+ },
+ "0x106218B4": {
+  "old": "dword_106218B4",
+  "name": "g_screenRectTopLeft",
+  "confidence": "medium",
+  "evidence": "packed int16 x (low word) / y (high word); every reader takes g_screenRectBottomRight - this for width/height (Cursor_Init, Cursor_SetPosition)"
+ },
+ "0x106218B8": {
+  "old": "dword_106218B8",
+  "name": "g_screenRectBottomRight",
+  "confidence": "medium",
+  "evidence": "packed int16 x/y; minus g_screenRectTopLeft gives the screen width/height; sub_10124640 clamps the cursor to it"
+ },
+ "0x10621A08": {
+  "old": "dword_10621A08",
+  "name": "g_dbgBoxList",
+  "confidence": "medium",
+  "evidence": "linked list walked by Dbg_DrawOrientedBoxes"
+ },
+ "0x10624DD3": {
+  "old": "unk_10624DD3",
+  "name": "c_div2000Magic",
+  "confidence": "high",
+  "evidence": "not data: the address is the magic constant 0x10624DD3 of the unsigned divide-by-2000 sequence in CYyVbMng_AcquireVertexBuffer (round up to multiple of 2000)"
+ },
+ "0x10639088": {
+  "old": "unk_10639088",
+  "name": "g_zoneProjVerts",
+  "confidence": "medium",
+  "evidence": "vertex buffer (24-byte stride) drawn with DrawPrimitiveUP(TRIANGLELIST) by the CTsZoneMap projected texture/shadow functions"
+ },
+ "0x10662DCC": {
+  "old": "dword_10662DCC",
+  "name": "g_pFileMng",
+  "confidence": "medium",
+  "evidence": "object passed to the file functions sub_101C4AF0/CC0/CD0/D10; Font_LoadHighResTexture loads through it"
+ },
+ "0x10666E7C": {
+  "old": "dword_10666E7C",
+  "name": "g_pMovie",
+  "confidence": "high",
+  "evidence": "object passed to Movie_GetCurrentTexture in CXiMovie_DrawFrame; Frame_Render skips the scene while it is set"
+ },
+ "0x10668FD8": {
+  "old": "dword_10668FD8",
+  "name": "g_pKeyPrompt",
+  "confidence": "medium",
+  "evidence": "object passed to Ui_KeyPrompt_Init in Frame_Render and App_StepGameState6..9"
+ },
+ "0x10669400": {
+  "old": "dword_10669400",
+  "name": "g_dancerMainMemSize",
+  "confidence": "high",
+  "evidence": "size argument of Dancer_SetMemPool(0, base, size, \"mainmem\") in Dancer_InitDevice"
+ },
+ "0x10669404": {
+  "old": "dword_10669404",
+  "name": "g_dancerMainMemBase",
+  "confidence": "high",
+  "evidence": "base argument of Dancer_SetMemPool(0, base, size, \"mainmem\")"
+ },
+ "0x10669408": {
+  "old": "dword_10669408",
+  "name": "g_dancerMemBlock",
+  "confidence": "medium",
+  "evidence": "the allocation Dancer_InitDevice carves the mainmem/workmem pools from"
+ },
+ "0x1066940C": {
+  "old": "dword_1066940C",
+  "name": "g_dancerWorkMemSize",
+  "confidence": "high",
+  "evidence": "set to 0x200000 and passed as size to Dancer_SetMemPool(1, base, size, \"workmem\")"
+ },
+ "0x10669410": {
+  "old": "dword_10669410",
+  "name": "g_dancerWorkMemBase",
+  "confidence": "high",
+  "evidence": "mainmem base + mainmem size; base argument of Dancer_SetMemPool(1, .., \"workmem\")"
+ },
+ "0x1099D200": {
+  "old": "dword_1099D200",
+  "name": "g_pSqgxContext",
+  "confidence": "high",
+  "evidence": "IDB name (parallel session, accepted)"
+ },
+ "0x1099D618": {
+  "old": "dword_1099D618",
+  "name": "g_sqgxTex_name",
+  "confidence": "medium",
+  "evidence": "sqgx texture table entry +0 (stride 10 ints): a4 of the texture-add function"
+ },
+ "0x1099D61C": {
+  "old": "dword_1099D61C",
+  "name": "g_sqgxTex_width",
+  "confidence": "high",
+  "evidence": "entry +4: width (CreateTexture width; divides context width in sqgxTextureDraw)"
+ },
+ "0x1099D620": {
+  "old": "dword_1099D620",
+  "name": "g_sqgxTex_height",
+  "confidence": "high",
+  "evidence": "entry +8: height (CreateTexture height; divides context height in sqgxTextureDraw)"
+ },
+ "0x1099D624": {
+  "old": "dword_1099D624",
+  "name": "g_sqgxTex_kind",
+  "confidence": "medium",
+  "evidence": "entry +0xC: kind; 1 means paletted (sqgxTextureSetPalette only acts when 1), 4 a level-chain upload"
+ },
+ "0x1099D628": {
+  "old": "dword_1099D628",
+  "name": "g_sqgxTex_log2Width",
+  "confidence": "high",
+  "evidence": "entry +0x10 = sqgxCeilLog2(width)"
+ },
+ "0x1099D62C": {
+  "old": "dword_1099D62C",
+  "name": "g_sqgxTex_log2Height",
+  "confidence": "high",
+  "evidence": "entry +0x14 = sqgxCeilLog2(height)"
+ },
+ "0x1099D630": {
+  "old": "dword_1099D630",
+  "name": "g_sqgxTex_format",
+  "confidence": "high",
+  "evidence": "entry +0x18: D3DFORMAT passed to CreateTexture"
+ },
+ "0x1099D634": {
+  "old": "dword_1099D634",
+  "name": "g_sqgxTex_paletteSlot",
+  "confidence": "medium",
+  "evidence": "entry +0x1C: initialised to -2 (no palette)"
+ },
+ "0x1099D638": {
+  "old": "dword_1099D638",
+  "name": "g_sqgxTex_texture",
+  "confidence": "high",
+  "evidence": "entry +0x20: IDirect3DTexture8* passed to SetTexture"
+ },
+ "0x1099D63C": {
+  "old": "dword_1099D63C",
+  "name": "g_sqgxTex_surface",
+  "confidence": "high",
+  "evidence": "entry +0x24: surface passed to SetRenderTarget in sqgxTextureSetRenderTarget/sqgxTextureDraw"
+ },
+ "0x109A2618": {
+  "old": "dword_109A2618",
+  "name": "g_sqgxRenderStateDirty",
+  "confidence": "medium",
+  "evidence": "set by sqgxZTest and sqgxSetAlphaTest, consumed and cleared by sub_10281DB0"
+ },
+ "0x109A261C": {
+  "old": "dword_109A261C",
+  "name": "g_counter_109A261C",
+  "confidence": "high",
+  "evidence": "IDB name"
+ },
+ "0x109A2620": {
+  "old": "byte_109A2620",
+  "name": "g_sqgxPaletteUsed",
+  "confidence": "high",
+  "evidence": "byte[256]: sqgxTextureAddPalette takes the first entry that is 0 and sets it to 1"
+ },
+ "0x109A2730": {
+  "old": "dword_109A2730",
+  "name": "g_sqgxViewportDirty",
+  "confidence": "medium",
+  "evidence": "set by sqgxSetViewport/sqgxZBiasAdd/sqgxZBiasSet, cleared by sqgxFlushTransformsLights"
+ },
+ "0x109A2740": {
+  "old": "dword_109A2740",
+  "name": "g_sqgxShaderDirty",
+  "confidence": "medium",
+  "evidence": "set by sqgxVertexShaderCreate and sqgxContext_SelectShaderMode"
+ },
+ "0x109F81A4": {
+  "old": "byte_109F81A4",
+  "name": "CMoCamera_GetSharedInstance_staticGuard",
+  "confidence": "high",
+  "evidence": "MSVC static init guard of the function-local static instance in CMoCamera_GetSharedInstance"
+ }
+}

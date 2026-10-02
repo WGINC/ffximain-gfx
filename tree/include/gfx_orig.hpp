@@ -214,7 +214,7 @@ XI_ORIG int Gfx_SetStreamSourceCached(unsigned int a0, int a1, int a2) { return 
 XI_ORIG int Gfx_ApplyCachedVertexShader() { return reinterpret_cast<int (__cdecl *)()>(0x1002F1A0u)(); }
 XI_ORIG int Gfx_SetVertexShaderCached(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(0x1002F1C0u)(a0); }
 XI_ORIG _DWORD * Model_SkinVerticesCpu(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(0x1002F1D0u)(a0); }
-XI_ORIG void sub_10032FA0(void * a0, int a1) { reinterpret_cast<void (__thiscall *)(void *, int)>(0x10032FA0u)(a0, a1); }
+XI_ORIG void BoneXform_PostMultiplyInto(void * a0, int a1) { reinterpret_cast<void (__thiscall *)(void *, int)>(0x10032FA0u)(a0, a1); }
 XI_ORIG char Model_BeginOffscreenPass(int a0, void * a1, int a2) { return reinterpret_cast<char (__thiscall *)(int, void *, int)>(0x10033800u)(a0, a1, a2); }
 XI_ORIG char Model_EndOffscreenPassBindTextures(void * a0, int a1) { return reinterpret_cast<char (__thiscall *)(void *, int)>(0x10033A70u)(a0, a1); }
 XI_ORIG void Shadow_SmoothLightDirection(void * a0, void * a1) { reinterpret_cast<void (__thiscall *)(void *, void *)>(0x10033EA0u)(a0, a1); }
@@ -448,9 +448,9 @@ XI_ORIG _DWORD * CXiCollisionActor_Constructor(void * a0) { return reinterpret_c
 XI_ORIG char CXiControlActor_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(0x100A8CA0u)(a0); }
 XI_ORIG char CMoTask_VT_1032E808_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(0x100A9D30u)(a0); }
 XI_ORIG _DWORD * CMoTask_VT_1032E808_ScalarDeletingDtor(void * a0, char a1) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, char)>(0x100A9DB0u)(a0, a1); }
-XI_ORIG int sub_100C5410() { return reinterpret_cast<int (__cdecl *)()>(0x100C5410u)(); }
-XI_ORIG _DWORD * sub_100C5440() { return reinterpret_cast<_DWORD * (__cdecl *)()>(0x100C5440u)(); }
-XI_ORIG _DWORD * sub_100C54C0() { return reinterpret_cast<_DWORD * (__cdecl *)()>(0x100C54C0u)(); }
+XI_ORIG int TargetActor_SlotHandler1() { return reinterpret_cast<int (__cdecl *)()>(0x100C5410u)(); }
+XI_ORIG _DWORD * TargetActor_SlotHandler0() { return reinterpret_cast<_DWORD * (__cdecl *)()>(0x100C5440u)(); }
+XI_ORIG _DWORD * TargetActor_SlotHandler4() { return reinterpret_cast<_DWORD * (__cdecl *)()>(0x100C54C0u)(); }
 XI_ORIG char CXiSkeletonActor_DestructorBody(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(0x100C5C00u)(a0); }
 XI_ORIG int CXiSkeletonActor_Init(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x100C5D60u)(a0); }
 XI_ORIG int Actor_SelectNearestLights(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x100CB4E0u)(a0); }
@@ -548,14 +548,14 @@ XI_ORIG int XiZone_GetDirLight(void * a0, void * a1, int a2, int a3) { return re
 XI_ORIG int XiZone_GetAmbient(void * a0, void * a1, int a2, int a3) { return reinterpret_cast<int (__thiscall *)(void *, void *, int, int)>(0x1018B9E0u)(a0, a1, a2, a3); }
 XI_ORIG void XiZone_GetFog(void * a0, void * a1, void * a2, void * a3, int a4, int a5) { reinterpret_cast<void (__thiscall *)(void *, void *, void *, void *, int, int)>(0x1018BA20u)(a0, a1, a2, a3, a4, a5); }
 XI_ORIG char CXiSchStatus_Destructor(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(0x1018C620u)(a0); }
-XI_ORIG int sub_1018CA20(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(0x1018CA20u)(a0); }
+XI_ORIG int Sch_GetStatusEntry(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(0x1018CA20u)(a0); }
 XI_ORIG int Settings_GetValue(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(0x10193850u)(a0); }
 XI_ORIG int sub_1019EBB0(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(0x1019EBB0u)(a0); }
 XI_ORIG int sub_101AB6D0() { return reinterpret_cast<int (__cdecl *)()>(0x101AB6D0u)(); }
 XI_ORIG int sub_101AB720() { return reinterpret_cast<int (__cdecl *)()>(0x101AB720u)(); }
-XI_ORIG int sub_101C4AF0(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(0x101C4AF0u)(a0, a1); }
+XI_ORIG int FileMng_ResolveOrExit(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(0x101C4AF0u)(a0, a1); }
 XI_ORIG int sub_101CC4F0() { return reinterpret_cast<int (__cdecl *)()>(0x101CC4F0u)(); }
-XI_ORIG char sub_1021D980(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(0x1021D980u)(a0); }
+XI_ORIG char Movie_Update(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(0x1021D980u)(a0); }
 XI_ORIG int Movie_GetCurrentTexture(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x1021DDF0u)(a0); }
 XI_ORIG int Ui_KeyPrompt_Init(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(0x10239460u)(a0, a1); }
 XI_ORIG int LobbyThread_Start(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(0x10245600u)(a0); }
@@ -564,7 +564,7 @@ XI_ORIG int thunk_sub_10245BB0() { return reinterpret_cast<int (__cdecl *)()>(0x
 XI_ORIG int StAvatar_ReleaseResources(void * a0, int a1) { return reinterpret_cast<int (__cdecl *)(void *, int)>(0x1024D2C0u)(a0, a1); }
 XI_ORIG int StAvatar_StopAndFreeBuffers(void * a0) { return reinterpret_cast<int (__cdecl *)(void *)>(0x1024D790u)(a0); }
 XI_ORIG int mdl_1026E900() { return reinterpret_cast<int (__cdecl *)()>(0x1026E900u)(); }
-XI_ORIG char sub_10271B40() { return reinterpret_cast<char (__cdecl *)()>(0x10271B40u)(); }
+XI_ORIG char scnFini() { return reinterpret_cast<char (__cdecl *)()>(0x10271B40u)(); }
 XI_ORIG _DWORD * Dancer_GetFlags(void * a0) { return reinterpret_cast<_DWORD * (__cdecl *)(void *)>(0x10271E90u)(a0); }
 XI_ORIG int Dancer_GetCameraEntry(int a0, void * a1, void * a2) { return reinterpret_cast<int (__cdecl *)(int, void *, void *)>(0x10273370u)(a0, a1, a2); }
 XI_ORIG void chasm_10273920(int a0) { reinterpret_cast<void (__cdecl *)(int)>(0x10273920u)(a0); }
@@ -579,10 +579,9 @@ XI_ORIG int sqMatrix4_1027F0E0(void * a0, int a1) { return reinterpret_cast<int 
 XI_ORIG double sqMatrix4_1027FCC0(int a0) { return reinterpret_cast<double (__cdecl *)(int)>(0x1027FCC0u)(a0); }
 XI_ORIG float * sqMatrix4_10280140(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x10280140u)(a0, a1, a2); }
 XI_ORIG int sqgx_DrawRect_Candidate(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8) { return reinterpret_cast<int (__cdecl *)(int, int, int, int, int, int, int, int, int)>(0x10280DE0u)(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
-XI_ORIG int sub_10281510(int a0, void * a1) { return reinterpret_cast<int (__cdecl *)(int, void *)>(0x10281510u)(a0, a1); }
+XI_ORIG int sqgxTextureCreateFromImage(int a0, void * a1) { return reinterpret_cast<int (__cdecl *)(int, void *)>(0x10281510u)(a0, a1); }
 XI_ORIG int sqgxTextureAddDepthStencil(int a0, int a1, int a2) { return reinterpret_cast<int (__cdecl *)(int, int, int)>(0x102816E0u)(a0, a1, a2); }
 XI_ORIG int sqgxCeilLog2(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(0x10281810u)(a0); }
-XI_ORIG int sub_10281810(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(0x10281810u)(a0); }
 XI_ORIG int sqgxTextureAdd(int a0, int a1, void * a2, void * a3) { return reinterpret_cast<int (__cdecl *)(int, int, void *, void *)>(0x10281830u)(a0, a1, a2, a3); }
 XI_ORIG int sqgxTextureGetSize(int a0, void * a1, void * a2) { return reinterpret_cast<int (__cdecl *)(int, void *, void *)>(0x10281B60u)(a0, a1, a2); }
 XI_ORIG _DWORD * sqgxTextureSet(int a0) { return reinterpret_cast<_DWORD * (__cdecl *)(int)>(0x10281C20u)(a0); }
@@ -610,7 +609,6 @@ XI_ORIG _DWORD * sqgxContext_SelectShaderMode(int a0, int a1) { return reinterpr
 XI_ORIG int nullsub_32() { return reinterpret_cast<int (__cdecl *)()>(0x10284EB0u)(); }
 XI_ORIG int sqCallHook30(void * a0) { return reinterpret_cast<int (__cdecl *)(void *)>(0x10285850u)(a0); }
 template <class... R> XI_ORIG void sqDebugPrintf(void * a0, R... rest) { reinterpret_cast<void (__cdecl *)(void *, ...)>(0x10285890u)(a0, rest...); }
-template <class... R> XI_ORIG void sub_10285890(void * a0, R... rest) { reinterpret_cast<void (__cdecl *)(void *, ...)>(0x10285890u)(a0, rest...); }
 XI_ORIG int sqsnScene_1028F5F0(int a0, int a1, int a2) { return reinterpret_cast<int (__cdecl *)(int, int, int)>(0x1028F5F0u)(a0, a1, a2); }
 XI_ORIG int sqsnSceneLayerDraw(void * a0, int a1) { return reinterpret_cast<int (__cdecl *)(void *, int)>(0x1028FDD0u)(a0, a1); }
 XI_ORIG int sqsnSceneLayerDrawShadowed(void * a0, int a1) { return reinterpret_cast<int (__cdecl *)(void *, int)>(0x1028FFF0u)(a0, a1); }
@@ -856,7 +854,7 @@ constexpr uint32_t Gfx_SetStreamSourceCached = 0x1002F130u;
 constexpr uint32_t Gfx_ApplyCachedVertexShader = 0x1002F1A0u;
 constexpr uint32_t Gfx_SetVertexShaderCached = 0x1002F1C0u;
 constexpr uint32_t Model_SkinVerticesCpu = 0x1002F1D0u;
-constexpr uint32_t sub_10032FA0 = 0x10032FA0u;
+constexpr uint32_t BoneXform_PostMultiplyInto = 0x10032FA0u;
 constexpr uint32_t Model_BeginOffscreenPass = 0x10033800u;
 constexpr uint32_t Model_EndOffscreenPassBindTextures = 0x10033A70u;
 constexpr uint32_t Shadow_SmoothLightDirection = 0x10033EA0u;
@@ -1090,9 +1088,9 @@ constexpr uint32_t CXiCollisionActor_Constructor = 0x100A4C20u;
 constexpr uint32_t CXiControlActor_Destructor = 0x100A8CA0u;
 constexpr uint32_t CMoTask_VT_1032E808_Destructor = 0x100A9D30u;
 constexpr uint32_t CMoTask_VT_1032E808_ScalarDeletingDtor = 0x100A9DB0u;
-constexpr uint32_t sub_100C5410 = 0x100C5410u;
-constexpr uint32_t sub_100C5440 = 0x100C5440u;
-constexpr uint32_t sub_100C54C0 = 0x100C54C0u;
+constexpr uint32_t TargetActor_SlotHandler1 = 0x100C5410u;
+constexpr uint32_t TargetActor_SlotHandler0 = 0x100C5440u;
+constexpr uint32_t TargetActor_SlotHandler4 = 0x100C54C0u;
 constexpr uint32_t CXiSkeletonActor_DestructorBody = 0x100C5C00u;
 constexpr uint32_t CXiSkeletonActor_Init = 0x100C5D60u;
 constexpr uint32_t Actor_SelectNearestLights = 0x100CB4E0u;
@@ -1190,14 +1188,14 @@ constexpr uint32_t XiZone_GetDirLight = 0x1018B9A0u;
 constexpr uint32_t XiZone_GetAmbient = 0x1018B9E0u;
 constexpr uint32_t XiZone_GetFog = 0x1018BA20u;
 constexpr uint32_t CXiSchStatus_Destructor = 0x1018C620u;
-constexpr uint32_t sub_1018CA20 = 0x1018CA20u;
+constexpr uint32_t Sch_GetStatusEntry = 0x1018CA20u;
 constexpr uint32_t Settings_GetValue = 0x10193850u;
 constexpr uint32_t sub_1019EBB0 = 0x1019EBB0u;
 constexpr uint32_t sub_101AB6D0 = 0x101AB6D0u;
 constexpr uint32_t sub_101AB720 = 0x101AB720u;
-constexpr uint32_t sub_101C4AF0 = 0x101C4AF0u;
+constexpr uint32_t FileMng_ResolveOrExit = 0x101C4AF0u;
 constexpr uint32_t sub_101CC4F0 = 0x101CC4F0u;
-constexpr uint32_t sub_1021D980 = 0x1021D980u;
+constexpr uint32_t Movie_Update = 0x1021D980u;
 constexpr uint32_t Movie_GetCurrentTexture = 0x1021DDF0u;
 constexpr uint32_t Ui_KeyPrompt_Init = 0x10239460u;
 constexpr uint32_t LobbyThread_Start = 0x10245600u;
@@ -1206,7 +1204,7 @@ constexpr uint32_t thunk_sub_10245BB0 = 0x10245BA0u;
 constexpr uint32_t StAvatar_ReleaseResources = 0x1024D2C0u;
 constexpr uint32_t StAvatar_StopAndFreeBuffers = 0x1024D790u;
 constexpr uint32_t mdl_1026E900 = 0x1026E900u;
-constexpr uint32_t sub_10271B40 = 0x10271B40u;
+constexpr uint32_t scnFini = 0x10271B40u;
 constexpr uint32_t Dancer_GetFlags = 0x10271E90u;
 constexpr uint32_t Dancer_GetCameraEntry = 0x10273370u;
 constexpr uint32_t chasm_10273920 = 0x10273920u;
@@ -1221,10 +1219,9 @@ constexpr uint32_t sqMatrix4_1027F0E0 = 0x1027F0E0u;
 constexpr uint32_t sqMatrix4_1027FCC0 = 0x1027FCC0u;
 constexpr uint32_t sqMatrix4_10280140 = 0x10280140u;
 constexpr uint32_t sqgx_DrawRect_Candidate = 0x10280DE0u;
-constexpr uint32_t sub_10281510 = 0x10281510u;
+constexpr uint32_t sqgxTextureCreateFromImage = 0x10281510u;
 constexpr uint32_t sqgxTextureAddDepthStencil = 0x102816E0u;
 constexpr uint32_t sqgxCeilLog2 = 0x10281810u;
-constexpr uint32_t sub_10281810 = 0x10281810u;
 constexpr uint32_t sqgxTextureAdd = 0x10281830u;
 constexpr uint32_t sqgxTextureGetSize = 0x10281B60u;
 constexpr uint32_t sqgxTextureSet = 0x10281C20u;
@@ -1252,7 +1249,6 @@ constexpr uint32_t sqgxContext_SelectShaderMode = 0x10284B20u;
 constexpr uint32_t nullsub_32 = 0x10284EB0u;
 constexpr uint32_t sqCallHook30 = 0x10285850u;
 constexpr uint32_t sqDebugPrintf = 0x10285890u;
-constexpr uint32_t sub_10285890 = 0x10285890u;
 constexpr uint32_t sqsnScene_1028F5F0 = 0x1028F5F0u;
 constexpr uint32_t sqsnSceneLayerDraw = 0x1028FDD0u;
 constexpr uint32_t sqsnSceneLayerDrawShadowed = 0x1028FFF0u;

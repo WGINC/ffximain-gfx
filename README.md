@@ -12,9 +12,9 @@ Private work: nothing here is published, and no game bytes are in the repo.
 | `d3dx/` | The statically linked DirectX 8.1 D3DX code: manifest of 825 byte-matched functions, binding header |
 | `verification/` | Gate results (raw and clean), cases, first-divergence localisation, mutation test |
 | `docs/` | Reports (`REPORT-gfx2.md` is current), `RESIDUE.md` (every function not in the verified tree, with the reason), `PLAN.md` |
-| `pipeline/` | IDA side (`ida_gfx.py`, `ida_regflow.py`), translator (`hx2cpp.py`, `hx2clean.py`), gate (`diffemu_gfx.py`), tools |
-| `data/` | Metadata inputs: the Hex-Rays export, class vtables, prototypes, D3D8 spec, DancingMad names, class-model headers |
-| `incoming/` | Work from elsewhere not yet merged (the parallel session's renamed/organised tree) |
+| `pipeline/` | IDA side (`ida_gfx.py`, `ida_regflow.py`, `ida_apply_names.py`), translator (`hx2cpp.py`, `hx2clean.py`), gate (`diffemu_gfx.py`), tools |
+| `data/` | Metadata inputs: the Hex-Rays export, `names_pending_idb.json` (reviewed names not yet in the IDB), class vtables, prototypes, D3D8 spec, DancingMad names, class-model headers |
+| `incoming/` | The parallel session's renamed/organised tree. It has been reviewed and merged (`docs/REVIEW-parallel.md`) and is kept for provenance |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
 ## Reproduce
@@ -46,6 +46,10 @@ DirectX 8.1 SDK headers.
 - 43 fail the gate and 33 are inconclusive, each with its first divergence recorded.
 - 3 do not compile.
 
-Names: 545 previously unnamed functions (154 in the tree, plus the functions they call) were named from the code on 1 Oct, each with its confidence and evidence (`docs/NAMES-2026-10-01.md`). 6 tree functions are still unnamed.
+Names:
+- **1 Oct:** 545 previously unnamed functions were named from the code: 154 in the tree, plus the functions they call (`docs/NAMES-2026-10-01.md`). 6 tree functions are still unnamed.
+- **2 Oct:** 193 placeholder globals and callees used by the tree were named from the code and the IDA listing (`docs/NAMES-2026-10-02.md`). The tree went from 24 `sub_` and 283 data placeholders to 13 and 105. The build is byte-identical.
+  - The names are in `data/names_pending_idb.json`, and the generator applies them.
+  - Run `pipeline/ida_apply_names.py` in IDA to put them in the IDB.
 
-See `docs/PLAN.md`, `docs/RESIDUE.md`, `docs/PLACEMENT.md` and `docs/NAMES-2026-10-01.md`.
+See `docs/PLAN.md`, `docs/RESIDUE.md`, `docs/PLACEMENT.md`, `docs/NAMES-2026-10-01.md` and `docs/NAMES-2026-10-02.md`.

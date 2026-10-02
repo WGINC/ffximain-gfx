@@ -9,34 +9,34 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
   _DWORD *v3;
   unsigned __int16 v4;
   int v5;
-  if ( dword_1047D158 != 0 )
+  if ( g_pCubeMapTarget != 0 )
   {
     v2 = *self_;
-    if ( (*self_ == 0 || dword_1047D200 == *(unsigned __int16 *)(v2 + 36))
-      && dword_1047D150 == *(unsigned __int16 *)(v2 + 38) )
+    if ( (*self_ == 0 || g_cubeMapTargetWidth == *(unsigned __int16 *)(v2 + 36))
+      && g_cubeMapTargetHeight == *(unsigned __int16 *)(v2 + 38) )
     {
       return;
     }
-    if ( dword_1047D158 != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)dword_1047D158 + 24))(1);
-    dword_1047D158 = 0;
+    if ( g_pCubeMapTarget != 0 )
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_pCubeMapTarget + 24))(1);
+    g_pCubeMapTarget = 0;
   }
   if ( *self_ != 0 )
   {
     v3 = orig::Mem_AllocDefault(16);
     if ( v3 != nullptr )
-      dword_1047D158 = (int)orig::CAcc_Constructor(v3);
+      g_pCubeMapTarget = (int)orig::CAcc_Constructor(v3);
     else
-      dword_1047D158 = 0;
+      g_pCubeMapTarget = 0;
     v4 = *(_WORD *)(*self_ + 36);
-    dword_1047D200 = v4;
-    dword_1047D150 = *(unsigned __int16 *)(*self_ + 38);
+    g_cubeMapTargetWidth = v4;
+    g_cubeMapTargetHeight = *(unsigned __int16 *)(*self_ + 38);
     v5 = 0;
-    *(_DWORD *)(dword_1047D158 + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, v4, dword_1047D150, &v5);
-    *(_DWORD *)(dword_1047D158 + 8) = v5;
-    *(_DWORD *)(dword_1047D158 + 12) = orig::CDx_CreateDepthSurfaceLikeMain(
+    *(_DWORD *)(g_pCubeMapTarget + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, v4, g_cubeMapTargetHeight, &v5);
+    *(_DWORD *)(g_pCubeMapTarget + 8) = v5;
+    *(_DWORD *)(g_pCubeMapTarget + 12) = orig::CDx_CreateDepthSurfaceLikeMain(
                                          &g_pCDx->vftable,
-                                         dword_1047D200,
-                                         dword_1047D150);
+                                         g_cubeMapTargetWidth,
+                                         g_cubeMapTargetHeight);
   }
 }

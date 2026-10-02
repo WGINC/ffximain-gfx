@@ -24,8 +24,8 @@ XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
   int result;
   int v3;
   _BYTE v4[32];
-  if ( *(_DWORD *)(dword_1047C004 + 12) == 0 )
-    orig::OcclusionMng_CreateTarget((_DWORD *)dword_1047C004);
+  if ( *(_DWORD *)(g_pOcclusionMng + 12) == 0 )
+    orig::OcclusionMng_CreateTarget((_DWORD *)g_pOcclusionMng);
   result = *(self_ + 1);
   if ( result == 0 )
   {
@@ -35,7 +35,7 @@ XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
       &v3);
     (*(void (__stdcall **)(int, _BYTE *))(*(_DWORD *)v3 + 32))(v3, v4);
     (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 8))(v3);
-    result = *(_DWORD *)(dword_1047C004 + 24);
+    result = *(_DWORD *)(g_pOcclusionMng + 24);
     *(self_ + 1) = result;
     if ( result != 0 )
       result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 4))(result);

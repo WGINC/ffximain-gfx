@@ -81,7 +81,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;
-  if ( orig::ShapeMng_BindFontTexture(dword_104E1BF8, -1, nullptr, nullptr) != 0 )
+  if ( orig::ShapeMng_BindFontTexture(g_shapeMng, -1, nullptr, nullptr) != 0 )
   {
     orig::Mat4_SetIdentity(v27);
     orig::Mat4_SetTranslation(v27, a1);
@@ -113,7 +113,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
         }
         else
         {
-          orig::ShapeMng_GetFontGlyph(dword_104E1BF8, v8, (int)v7, v6, nullptr, nullptr);
+          orig::ShapeMng_GetFontGlyph(g_shapeMng, v8, (int)v7, v6, nullptr, nullptr);
           v3 = v21;
         }
         ++v5;

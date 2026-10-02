@@ -16,61 +16,61 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   _DWORD *result;
   int v9;
   orig::Rand_SeedMT19937(4357);
-  qmemcpy(&dword_1047BB90, "cubemap spec    ", 16);
+  qmemcpy(&g_cubemapSpecName, "cubemap spec    ", 16);
   v0 = *(int **)(g_pMeshResourceMng + 262152);
   if ( v0 != nullptr )
     v1 = *v0;
   else
     v1 = 0;
-  orig::TexRef_ResolveByName((char *)&dword_1047BB90, v1);
+  orig::TexRef_ResolveByName((char *)&g_cubemapSpecName, v1);
   v2 = orig::Mem_AllocDefault(16);
   if ( v2 != nullptr )
-    dword_1047BB88 = (int)orig::CAcc_Constructor(v2);
+    g_pMoAccumTarget = (int)orig::CAcc_Constructor(v2);
   else
-    dword_1047BB88 = 0;
+    g_pMoAccumTarget = 0;
   v9 = 0;
-  *(_DWORD *)(dword_1047BB88 + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, 0x100u, 0x100u, &v9);
-  *(_DWORD *)(dword_1047BB88 + 8) = v9;
-  *(_DWORD *)(dword_1047BB88 + 12) = orig::CDx_CreateDepthSurfaceLikeMain(&g_pCDx->vftable, 0x100u, 0x100u);
+  *(_DWORD *)(g_pMoAccumTarget + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, 0x100u, 0x100u, &v9);
+  *(_DWORD *)(g_pMoAccumTarget + 8) = v9;
+  *(_DWORD *)(g_pMoAccumTarget + 12) = orig::CDx_CreateDepthSurfaceLikeMain(&g_pCDx->vftable, 0x100u, 0x100u);
   v3 = (char *)orig::Allocator_Generic(0x48u);
   if ( v3 != nullptr )
-    dword_1047BBA0 = (int)orig::DynVB_Constructor(v3);
+    g_pDynVB_FVF42 = (int)orig::DynVB_Constructor(v3);
   else
-    dword_1047BBA0 = 0;
+    g_pDynVB_FVF42 = 0;
   v4 = (char *)orig::Allocator_Generic(0x48u);
   if ( v4 != nullptr )
-    dword_1047BBA4 = (int)orig::DynVB_Constructor(v4);
+    g_pDynVB_FVF44 = (int)orig::DynVB_Constructor(v4);
   else
-    dword_1047BBA4 = 0;
+    g_pDynVB_FVF44 = 0;
   v5 = (char *)orig::Allocator_Generic(0x48u);
   if ( v5 != nullptr )
-    dword_1047BBA8 = (int)orig::DynVB_Constructor(v5);
+    g_pDynVB_FVF144 = (int)orig::DynVB_Constructor(v5);
   else
-    dword_1047BBA8 = 0;
+    g_pDynVB_FVF144 = 0;
   v6 = (char *)orig::Allocator_Generic(0x48u);
   if ( v6 != nullptr )
-    dword_1047BBAC = (int)orig::DynVB_Constructor(v6);
+    g_pDynVB_FVF142 = (int)orig::DynVB_Constructor(v6);
   else
-    dword_1047BBAC = 0;
+    g_pDynVB_FVF142 = 0;
   v7 = (char *)orig::Allocator_Generic(0x48u);
   if ( v7 != nullptr )
-    dword_1047BBB0 = (int)orig::DynVB_Constructor(v7);
+    g_pDynVB_FVF152 = (int)orig::DynVB_Constructor(v7);
   else
-    dword_1047BBB0 = 0;
-  orig::DynVB_Create((_DWORD *)dword_1047BBA0, 4096, 0x42u, 1);
-  orig::DynVB_Create((_DWORD *)dword_1047BBA4, 4096, 0x44u, 1);
-  orig::DynVB_Create((_DWORD *)dword_1047BBA8, 4096, 0x144u, 1);
-  orig::DynVB_Create((_DWORD *)dword_1047BBAC, 4096, 0x142u, 1);
-  orig::DynVB_Create((_DWORD *)dword_1047BBB0, 0x2000, 0x152u, 1);
+    g_pDynVB_FVF152 = 0;
+  orig::DynVB_Create((_DWORD *)g_pDynVB_FVF42, 4096, 0x42u, 1);
+  orig::DynVB_Create((_DWORD *)g_pDynVB_FVF44, 4096, 0x44u, 1);
+  orig::DynVB_Create((_DWORD *)g_pDynVB_FVF144, 4096, 0x144u, 1);
+  orig::DynVB_Create((_DWORD *)g_pDynVB_FVF142, 4096, 0x142u, 1);
+  orig::DynVB_Create((_DWORD *)g_pDynVB_FVF152, 0x2000, 0x152u, 1);
   result = orig::Mem_AllocDefault(208);
   if ( result != nullptr )
   {
     *result = &CYyObject_vtbl_ambiguous2;
-    dword_1047BBB4 = (int)result;
+    g_pMoCamera = (int)result;
   }
   else
   {
-    dword_1047BBB4 = 0;
+    g_pMoCamera = 0;
   }
   return result;
 }

@@ -46,8 +46,8 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
   if ( v9 != nullptr )
   {
     qmemcpy(v28, orig::Camera_GetMatrix154Ptr(), sizeof(v28));
-    v28[0] = *(_DWORD *)(dword_1099D200 + 748);
-    v28[5] = *(_DWORD *)(dword_1099D200 + 768);
+    v28[0] = *(_DWORD *)(g_pSqgxContext + 748);
+    v28[5] = *(_DWORD *)(g_pSqgxContext + 768);
     orig::Camera_SetMatrix154(
       v28[0],
       v28[1],
@@ -149,7 +149,7 @@ XI_API int __cdecl StAvatar_Shutdown(int *a1)
     orig::chasm_10273920((int)(a1 + 160));
     orig::mdl_1026E900();
     orig::StAvatar_ReleaseResources(a1, 1);
-    orig::sub_10271B40();
+    orig::scnFini();
     orig::MoTask_KillAllGlobalSlots(0.0);
     orig::MoTask_KillGlobalSlot1(1.0);
     v1 = *a1;

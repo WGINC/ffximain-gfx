@@ -31,18 +31,18 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
         this->field_48 = a3;
       if ( (g_windowMode == 0 || g_windowMode == 3)
         && g_pCDx != nullptr
-        && dword_10456BF8 != 0
-        && dword_103D3C64 != nullptr
-        && *((_BYTE *)dword_103D3C64 + 28) == 1 )
+        && g_cfgHardwareMouse != 0
+        && g_pApp != nullptr
+        && *((_BYTE *)g_pApp + 28) == 1 )
       {
         v4 = (double)at<int32_t>(this, 0x4);
         v5 = (double)at<int32_t>(this, 0x8);
         if ( g_windowMode != 0 )
         {
-          v10 = v4 / (double)((__int16)dword_106218B8 - (__int16)dword_106218B4);
+          v10 = v4 / (double)((__int16)g_screenRectBottomRight - (__int16)g_screenRectTopLeft);
           v13 = v5;
-          v11 = v13 / (double)(SHIWORD(dword_106218B8) - SHIWORD(dword_106218B4));
-          GetWindowRect(*((HWND *)dword_103D3C64 + 6), &Rect);
+          v11 = v13 / (double)(SHIWORD(g_screenRectBottomRight) - SHIWORD(g_screenRectTopLeft));
+          GetWindowRect(*((HWND *)g_pApp + 6), &Rect);
           SystemMetrics = GetSystemMetrics(32);
           v15 = SystemMetrics;
           v7 = GetSystemMetrics(33);
@@ -80,22 +80,22 @@ void Obj_104E1D4C::Cursor_Draw()
   if ( this->field_4E != 0 )
   {
     v2 = nullptr;
-    v3 = (_DWORD *)dword_1036E4EC[16 * this->field_4C];
+    v3 = (_DWORD *)g_cursorShapes[16 * this->field_4C];
     if ( v3 != nullptr )
     {
-      v2 = *(int **)(*v3 + 4 * (unsigned __int16)word_1036E4F8[32 * this->field_4C]);
+      v2 = *(int **)(*v3 + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->field_4C]);
       if ( v2 != nullptr )
       {
-        ++word_1036E4F8[32 * this->field_4C];
+        ++g_cursorShapeFrame[32 * this->field_4C];
       }
       else
       {
-        word_1036E4F8[32 * this->field_4C] = 0;
-        v2 = *(int **)(*(_DWORD *)dword_1036E4EC[16 * this->field_4C]
-                     + 4 * (unsigned __int16)word_1036E4F8[32 * this->field_4C]);
+        g_cursorShapeFrame[32 * this->field_4C] = 0;
+        v2 = *(int **)(*(_DWORD *)g_cursorShapes[16 * this->field_4C]
+                     + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->field_4C]);
       }
     }
-    if ( dword_10456BF8 != 0 )
+    if ( g_cfgHardwareMouse != 0 )
     {
       if ( g_pCDx != nullptr )
       {
@@ -110,7 +110,7 @@ void Obj_104E1D4C::Cursor_Draw()
         orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
       orig::fn_10027990((Iostream_init *)v6);
       orig::Mat4_SetIdentity(v6);
-      orig::Mat4_PostRotateZ(*(float *)&dword_1036E4F4[16 * this->field_4C]);
+      orig::Mat4_PostRotateZ(*(float *)&g_cursorShapeRotation[16 * this->field_4C]);
       v4 = this->field_4C;
       v5[3] = 0.0;
       v5[0] = (float)word_1036E4FA[32 * v4];

@@ -23,13 +23,13 @@ XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2)
   int v17;
   int v18;
   int v19;
-  v2 = *(_DWORD *)(dword_1099D200 + 2840);
-  *(_DWORD *)(dword_1099D200 + 8 * v2 + 2592) = a1;
-  *(_DWORD *)(dword_1099D200 + 8 * v2 + 2596) = a2;
-  v3 = dword_1099D200;
-  if ( *(_DWORD *)(dword_1099D200 + 2840) == 0 )
+  v2 = *(_DWORD *)(g_pSqgxContext + 2840);
+  *(_DWORD *)(g_pSqgxContext + 8 * v2 + 2592) = a1;
+  *(_DWORD *)(g_pSqgxContext + 8 * v2 + 2596) = a2;
+  v3 = g_pSqgxContext;
+  if ( *(_DWORD *)(g_pSqgxContext + 2840) == 0 )
   {
-    v4 = *(_DWORD *)(dword_1099D200 + 2592);
+    v4 = *(_DWORD *)(g_pSqgxContext + 2592);
     if ( (v4 & 0x4000) != 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -43,83 +43,83 @@ XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2)
       g_pDancerDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     }
     orig::nullsub_32();
-    v3 = dword_1099D200;
+    v3 = g_pSqgxContext;
   }
   *(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 2840) + 2612) = 1;
-  result = (_DWORD *)dword_1099D200;
-  v6 = *(_DWORD *)(dword_1099D200 + 2840);
-  v7 = *(_DWORD *)(dword_1099D200 + 8 * v6 + 2592);
+  result = (_DWORD *)g_pSqgxContext;
+  v6 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v7 = *(_DWORD *)(g_pSqgxContext + 8 * v6 + 2592);
   if ( (v7 & 0x400000) != 0 || (v7 & 0x8000000) != 0 )
   {
-    *(_DWORD *)(dword_1099D200 + 4 * v6 + 2612) |= 8u;
-    result = (_DWORD *)dword_1099D200;
+    *(_DWORD *)(g_pSqgxContext + 4 * v6 + 2612) |= 8u;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v8 = result[710];
   if ( (result[2 * v8 + 648] & 1) != 0 )
   {
     result[v8 + 653] |= 8u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v9 = result[710];
   if ( (result[2 * v9 + 648] & 4) != 0 )
   {
     result[v9 + 653] |= 4u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v10 = result[710];
   if ( (result[2 * v10 + 648] & 2) != 0 )
   {
     result[v10 + 653] |= 2u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   if ( (result[2 * result[710] + 648] & 0x40) != 0 )
   {
     orig::sqgxTextureClamp(1);
     orig::sqgxTextureDecal(1);
-    v11 = (_DWORD *)(dword_1099D200 + 4 * *(_DWORD *)(dword_1099D200 + 2840) + 2612);
+    v11 = (_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2612);
     *v11 |= 2u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   if ( (result[2 * result[710] + 648] & 0x20000000) != 0 )
   {
     orig::sqgxTextureClamp(1);
     orig::sqgxTextureDecal(1);
-    v12 = (_DWORD *)(dword_1099D200 + 4 * *(_DWORD *)(dword_1099D200 + 2840) + 2612);
+    v12 = (_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2612);
     *v12 |= 4u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v13 = result[710];
   if ( (result[2 * v13 + 648] & 0x40000000) != 0 )
   {
     result[v13 + 653] |= 2u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v14 = result[710];
   if ( (result[2 * v14 + 648] & 0x20) != 0 )
   {
     result[v14 + 653] |= 6u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   if ( (result[2 * result[710] + 648] & 8) != 0 )
   {
     orig::sqgxTextureDecal(1);
     orig::sqgxTextureClamp(0);
-    v15 = (_DWORD *)(dword_1099D200 + 4 * *(_DWORD *)(dword_1099D200 + 2840) + 2612);
+    v15 = (_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2612);
     *v15 |= 4u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   if ( (result[2 * result[710] + 648] & 0x100000) != 0 )
   {
     orig::sqgxTextureClamp(1);
-    v16 = (_DWORD *)(dword_1099D200 + 4 * *(_DWORD *)(dword_1099D200 + 2840) + 2612);
+    v16 = (_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2612);
     *v16 |= 0xEu;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v17 = result[710];
   if ( (result[2 * v17 + 648] & 0x40000) != 0 )
   {
     result[v17 + 653] |= 8u;
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v18 = result[710];
   if ( (result[2 * v18 + 648] & 0x10) != 0 )
@@ -127,13 +127,13 @@ XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2)
     result[v18 + 653] |= 0xCu;
     orig::sqgxTextureDecal(0);
     orig::sqgxTextureClamp(1);
-    result = (_DWORD *)dword_1099D200;
+    result = (_DWORD *)g_pSqgxContext;
   }
   v19 = result[653];
   if ( result[710] != 0 )
     result[652] = v19 | result[654];
   else
     result[652] = v19;
-  dword_109A2740 = 1;
+  g_sqgxShaderDirty = 1;
   return result;
 }

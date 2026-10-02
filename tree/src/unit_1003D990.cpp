@@ -26,15 +26,15 @@ XI_API int __cdecl Sky_DrawDome(void)
       LOBYTE(result) = v2[18];
       if ( (unsigned __int8)result > 2u )
       {
-        if ( (byte_1047B985 & 1) == 0 )
+        if ( (Sky_DrawDome_staticGuard & 1) == 0 )
         {
-          byte_1047B985 |= 1u;
-          orig::fn_1006AD90((exception *)dword_1047B988);
+          Sky_DrawDome_staticGuard |= 1u;
+          orig::fn_1006AD90((exception *)Sky_DrawDome_stateBlock);
           orig::_atexit(XI_CODE(Sky_DestroyDomeShaderStatic));
         }
-        orig::StateBlock_ApplyRSTSS(dword_1047B988, (int)dword_10351DB8, (int)dword_10351D60);
+        orig::StateBlock_ApplyRSTSS(Sky_DrawDome_stateBlock, (int)Sky_DrawDome_renderStates, (int)Sky_DrawDome_textureStageStates);
         orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
-        orig::Gfx_SetViewMatrixFromField90(dword_1047BBB4);
+        orig::Gfx_SetViewMatrixFromField90(g_pMoCamera);
         v3 = v9;
         v4 = v2 + 32;
         for ( i = 8; i != 0; --i )
@@ -49,7 +49,7 @@ XI_API int __cdecl Sky_DrawDome(void)
         orig::Sky_DrawGradientDome(v6, COERCE_FLOAT(8), v7, v9, COERCE_FLOAT(v2 + 64));
         orig::Camera_SetClearColorRGB(v9[2], v9[1], v9[0]);
         *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;
-        orig::Gfx_SetViewMatrixFromField10(dword_1047BBB4);
+        orig::Gfx_SetViewMatrixFromField10(g_pMoCamera);
         (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
           *(_DWORD *)(g_pResourceMng + 3772),
           27,
@@ -113,13 +113,13 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
         LOBYTE(result) = v1[18];
         if ( (unsigned __int8)result > 2u )
         {
-          if ( (byte_1047B984 & 1) == 0 )
+          if ( (Sky_DrawDomeViewCentered_staticGuard & 1) == 0 )
           {
-            byte_1047B984 |= 1u;
-            orig::fn_1006AD90((exception *)dword_1047B994);
+            Sky_DrawDomeViewCentered_staticGuard |= 1u;
+            orig::fn_1006AD90((exception *)Sky_DrawDomeViewCentered_stateBlock);
             orig::_atexit(XI_CODE(Sky_DestroyViewCenteredShaderStatic));
           }
-          orig::StateBlock_ApplyRSTSS(dword_1047B994, (int)dword_10351E4C, (int)dword_10351DF8);
+          orig::StateBlock_ApplyRSTSS(Sky_DrawDomeViewCentered_stateBlock, (int)Sky_DrawDomeViewCentered_renderStates, (int)Sky_DrawDomeViewCentered_textureStageStates);
           ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
           v3 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
           g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;

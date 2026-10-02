@@ -215,6 +215,28 @@ def rewrite_members(body, self_type, cls, layout_fields):
         if c == cls: body = re.sub(r'\bself->%s\b' % re.escape(v[1]), 'this->' + v[1], body)
     return body
 
+PLACEHOLDER = re.compile(r'^(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}$')
+
+def canonicalise_names(R, pending):
+    # A record exported before an IDB rename still prints the old name, so one address can carry
+    # two names across records. Every referenced object gets one name: the reviewed name from
+    # names_pending_idb.json (not yet in the IDB), else the IDB's real name, else the placeholder.
+    # Only references are renamed; a record's own name drives class placement and is left alone.
+    seen = collections.defaultdict(collections.Counter)
+    for r in R.values():
+        for nm, o in r['objs'].items():
+            if not PLACEHOLDER.match(nm): seen[o['ea']][nm] += 1
+    canon = {ea: c.most_common(1)[0][0] for ea, c in seen.items()}
+    canon.update({int(k, 16): v['name'] for k, v in pending.items()})
+    for r in R.values():
+        for nm, o in list(r['objs'].items()):
+            new = canon.get(o['ea'])
+            if not new or new == nm or o['ea'] == r['ea']: continue
+            if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
+            r['text'] = re.sub(r'\b%s\b' % re.escape(nm), new, r['text'])
+            o['printed'] = [new if p == nm else p for p in o.get('printed', [])]
+            r['objs'].setdefault(new, o); del r['objs'][nm]
+
 # ------------------------------------------------------------------ main
 def main(exp, gate, manf, incdir, outdir):
     R = {}
@@ -225,6 +247,7 @@ def main(exp, gate, manf, incdir, outdir):
         if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
             r['name'] = dmn[0]                       # DancingMad's newer name (Sep 2026 update)
         R[r['ea']] = r
+    canonicalise_names(R, json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'names_pending_idb.json'))))
     passed = set()
     for l in open(gate):
         g = json.loads(l)

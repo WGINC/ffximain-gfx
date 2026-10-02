@@ -128,13 +128,13 @@ void CMoDistRingElem::AllocRingGeometry()
   v19 = (char *)a3;
   if ( orig::CMoDistMorphElem_ValidateMorphData(a3, v35, (int)(self + 160), 0) != 0 )
   {
-    if ( (byte_1047BB78 & 1) == 0 )
+    if ( (CMoDistRingElem_AllocRingGeometry_staticGuard & 1) == 0 )
     {
-      byte_1047BB78 |= 1u;
-      orig::fn_1006AD90((exception *)dword_1047BB7C);
+      CMoDistRingElem_AllocRingGeometry_staticGuard |= 1u;
+      orig::fn_1006AD90((exception *)CMoDistRingElem_stateBlock);
       orig::_atexit(XI_CODE(StaticDtor_StateBlock_1047BB7C));
     }
-    orig::StateBlock_ApplyTSS(dword_1047BB7C, (int)dword_10353378);
+    orig::StateBlock_ApplyTSS(CMoDistRingElem_stateBlock, (int)CMoDistRingElem_textureStageStates);
     if ( v7 > 0 )
     {
       v20 = v7;

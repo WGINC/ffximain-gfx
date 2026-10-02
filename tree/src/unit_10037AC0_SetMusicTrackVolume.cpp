@@ -11,7 +11,7 @@ XI_API int __thiscall Font_DrawPass(void *self_)
   unsigned __int8 *v4;
   char v5;
   float v7;
-  orig::Font_BindGlyphTexture((int)dword_104E1B90);
+  orig::Font_BindGlyphTexture((int)g_pFontGlyphs);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);

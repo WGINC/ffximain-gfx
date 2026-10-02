@@ -20,9 +20,9 @@ void CMoCamera::vf008()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __cdecl CMoCamera::GetSharedInstance()
 {
-  if ( (byte_109F81A4 & 1) == 0 )
+  if ( (CMoCamera_GetSharedInstance_staticGuard & 1) == 0 )
   {
-    byte_109F81A4 |= 1u;
+    CMoCamera_GetSharedInstance_staticGuard |= 1u;
     orig::_atexit(XI_CODE(nullsub_171));
   }
   return &g_pCameraSharedInstance;

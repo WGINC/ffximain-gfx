@@ -273,7 +273,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
     g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
     g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
     result = g_pCDx->pDevice->SetVertexShader(66u);
-    for ( i = (_DWORD *)dword_10621A08; i != nullptr; i = (_DWORD *)*i )
+    for ( i = (_DWORD *)g_dbgBoxList; i != nullptr; i = (_DWORD *)*i )
     {
       result = i[2];
       v2 = (_DWORD *)(i[1] + 64);
@@ -345,7 +345,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
         while ( v16 < v7 );
       }
     }
-    for ( j = (_DWORD *)dword_10621A08; j != nullptr; j = (_DWORD *)*j )
+    for ( j = (_DWORD *)g_dbgBoxList; j != nullptr; j = (_DWORD *)*j )
     {
       result = j[3];
       v9 = (int *)(j[1] + 64);

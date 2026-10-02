@@ -9,9 +9,9 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
   orig::fn_10027990((Iostream_init *)v6);
   if ( *(self_ + 1) != 0 )
   {
-    dword_10456E58 = *a2;
-    dword_10456E5C = a2[1];
-    dword_10456E68 = a3;
+    g_projTexPrevTex0 = *a2;
+    g_projTexPrevTex1 = a2[1];
+    g_projTexPrevFactor = a3;
     g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)*(self_ + 1));
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
@@ -19,7 +19,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
     orig::Mat4_Copy(v6, a4);
-    if ( (dword_10456E50 & 0xFF000000) != 0x80000000 )
+    if ( (g_projTexFactor & 0xFF000000) != 0x80000000 )
     {
       g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
       g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -37,7 +37,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
     g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
     g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_COLOROP, D3DTOP_DISABLE);
     g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, dword_10456E50);
+    g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_projTexFactor);
     orig::nullsub_1();
     return 1;
   }
@@ -62,22 +62,22 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
   result = *((_DWORD *)self_ + 1);
   if ( result != 0 )
   {
-    if ( dword_10456E58 != 0 )
+    if ( g_projTexPrevTex0 != 0 )
     {
       pDevice = g_pCDx->pDevice;
       v4.lpVtbl = pDevice->lpVtbl;
-      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E58);
+      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)g_projTexPrevTex0);
       v4.lpVtbl->SetTexture(pDevice, 0, D3DTexture);
     }
     else
     {
       g_pCDx->pDevice->SetTexture(0, nullptr);
     }
-    if ( dword_10456E5C != 0 )
+    if ( g_projTexPrevTex1 != 0 )
     {
       v6 = g_pCDx->pDevice;
       lpVtbl = v6->lpVtbl;
-      v8 = orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E5C);
+      v8 = orig::TexObj_GetD3DTexture((_DWORD *)g_projTexPrevTex1);
       lpVtbl->SetTexture(v6, 1u, (IDirect3DBaseTexture8 *)v8);
     }
     else
@@ -111,7 +111,7 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
     }
-    result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, dword_10456E68);
+    result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_projTexPrevFactor);
     LOBYTE(result) = 1;
   }
   else
@@ -153,10 +153,10 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
   int v31;
   int v32;
   int v33;
-  dword_10456E50 = a1;
+  g_projTexFactor = a1;
   dword_10456E60 = a3;
   v6 = (unsigned int)a2;
-  dword_10456E64 = a2;
+  g_projTexTarget = a2;
   dword_10456E54 = a4;
   result = *((_DWORD *)self_ + 1);
   if ( result != 0 )
@@ -203,7 +203,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
     g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)dword_10456E64);
+    g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)g_projTexTarget);
     g_pCDx->pDevice->SetVertexShader(324u);
     orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v11, 28);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -224,16 +224,16 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
   orig::fn_10027990((Iostream_init *)v4);
   if ( dword_10456E88 != 0 )
   {
-    dword_10456E80 = *a1;
-    dword_10456E84 = a1[1];
-    dword_10456E7C = a2;
+    g_envMapPrevTex0 = *a1;
+    g_envMapPrevTex1 = a1[1];
+    g_envMapPrevFactor = a2;
     if ( *(_DWORD *)dword_10456E88 != 0 )
       orig::TexRef_SetTexture((int *)(*(_DWORD *)dword_10456E88 + 48), 0);
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
-    if ( *(_DWORD *)(dword_103D3CB8 + 92) == 0 && dword_10456A74 == 0 )
+    if ( *(_DWORD *)(g_pAppSettings + 92) == 0 && g_cfgGraphicsStabilization == 0 )
       g_pCDx->pDevice->SetRenderState(D3DRS_WRAP0, 7u);
     orig::Mat4_SetIdentity(v4);
     LODWORD(v4[12]) = dword_10456E74;
@@ -260,7 +260,7 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
     g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
     g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_COLOROP, D3DTOP_DISABLE);
     g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, dword_10456E8C);
+    g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_envMapFactor);
     orig::nullsub_1();
     return 1;
   }
@@ -285,22 +285,22 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
   result = dword_10456E88;
   if ( dword_10456E88 != 0 )
   {
-    if ( dword_10456E80 != 0 )
+    if ( g_envMapPrevTex0 != 0 )
     {
       pDevice = g_pCDx->pDevice;
       v3.lpVtbl = pDevice->lpVtbl;
-      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E80);
+      D3DTexture = (IDirect3DBaseTexture8 *)orig::TexObj_GetD3DTexture((_DWORD *)g_envMapPrevTex0);
       v3.lpVtbl->SetTexture(pDevice, 0, D3DTexture);
     }
     else
     {
       g_pCDx->pDevice->SetTexture(0, nullptr);
     }
-    if ( dword_10456E84 != 0 )
+    if ( g_envMapPrevTex1 != 0 )
     {
       v5 = g_pCDx->pDevice;
       lpVtbl = v5->lpVtbl;
-      v7 = orig::TexObj_GetD3DTexture((_DWORD *)dword_10456E84);
+      v7 = orig::TexObj_GetD3DTexture((_DWORD *)g_envMapPrevTex1);
       lpVtbl->SetTexture(v5, 1u, (IDirect3DBaseTexture8 *)v7);
     }
     else
@@ -334,7 +334,7 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
     }
-    result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, dword_10456E7C);
+    result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_envMapPrevFactor);
     LOBYTE(result) = 1;
   }
   else

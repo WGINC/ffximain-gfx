@@ -14,9 +14,9 @@ XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3)
   int v10;
   v3 = 0;
   v10 = 0;
-  if ( dword_109A261C > 0 )
+  if ( g_counter_109A261C > 0 )
   {
-    v4 = dword_1099D61C;
+    v4 = g_sqgxTex_width;
     do
     {
       if ( v4[5] == -1 && *v4 == a1 && v4[1] == a2 && v4[2] == a3 )
@@ -24,22 +24,22 @@ XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3)
       ++v3;
       v4 += 10;
     }
-    while ( v3 < dword_109A261C );
+    while ( v3 < g_counter_109A261C );
   }
-  if ( v3 == dword_109A261C )
+  if ( v3 == g_counter_109A261C )
   {
-    if ( dword_109A261C == 512 )
+    if ( g_counter_109A261C == 512 )
     {
       orig::sqDebugPrintf(aErrorSqgxtextu);
       return -1;
     }
     v6 = 10 * v3;
-    ++dword_109A261C;
-    dword_1099D61C[v6] = a1;
-    dword_1099D620[v6] = a2;
-    dword_1099D624[v6] = a3;
-    dword_1099D628[10 * v3] = orig::sqgxCeilLog2(a1);
-    dword_1099D62C[10 * v3] = orig::sqgxCeilLog2(a2);
+    ++g_counter_109A261C;
+    g_sqgxTex_width[v6] = a1;
+    g_sqgxTex_height[v6] = a2;
+    g_sqgxTex_kind[v6] = a3;
+    g_sqgxTex_log2Width[10 * v3] = orig::sqgxCeilLog2(a1);
+    g_sqgxTex_log2Height[10 * v3] = orig::sqgxCeilLog2(a2);
     switch ( a3 )
     {
       case 4:
@@ -55,17 +55,17 @@ XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3)
         break;
     }
     v7 = g_pDancerDevice;
-    dword_1099D630[10 * v3] = v10;
-    v9 = dword_1099D620[10 * v3];
-    v8 = dword_1099D61C[10 * v3];
-    (&dword_1099D638)[10 * v3] = nullptr;
+    g_sqgxTex_format[10 * v3] = v10;
+    v9 = g_sqgxTex_height[10 * v3];
+    v8 = g_sqgxTex_width[10 * v3];
+    (&g_sqgxTex_texture)[10 * v3] = nullptr;
     if ( v7->lpVtbl->CreateDepthStencilSurface(
            v7,
            v8,
            v9,
            (D3DFORMAT)v10,
            D3DMULTISAMPLE_NONE,
-           (IDirect3DSurface8 **)&dword_1099D63C[v6]) == -2005530516 )
+           (IDirect3DSurface8 **)&g_sqgxTex_surface[v6]) == -2005530516 )
       orig::sqDebugPrintf(aErrorCouldNotA);
   }
   return v3;

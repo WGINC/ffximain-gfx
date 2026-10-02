@@ -42,9 +42,9 @@ _DWORD * CMoDX::CreateAndInitSystem()
   orig::CMoDX_Initialize((int)v1, (int)g_pCDx);
   v2 = orig::Mem_AllocDefault(1192);
   if ( v2 != nullptr )
-    dword_1047BFF8 = (int)orig::VBPool_Constructor(v2);
+    g_pVbPool = (int)orig::VBPool_Constructor(v2);
   else
-    dword_1047BFF8 = 0;
+    g_pVbPool = 0;
   orig::MeshResourceMng_LoadSystemResources(g_pMeshResourceMng, 0);
   v3 = (int *)*orig::CMoResource_FindByTypeAndId(**(_DWORD ***)(g_pMeshResourceMng + 262152), &v8, 7, 1668248176);
   if ( v3 != nullptr )
@@ -56,20 +56,20 @@ _DWORD * CMoDX::CreateAndInitSystem()
   orig::Mo_InitSharedRenderResources();
   v5 = orig::Mem_AllocDefault(16);
   if ( v5 != nullptr )
-    dword_1047BFF4 = (int)orig::CMoDxStatusMng_Constructor((int)v5);
+    g_pDxStatusMng = (int)orig::CMoDxStatusMng_Constructor((int)v5);
   else
-    dword_1047BFF4 = 0;
+    g_pDxStatusMng = 0;
   orig::Gfx_InitCubeMapTextures();
   orig::sub_100555D0();
   v6 = orig::Mem_AllocDefault(28);
   if ( v6 != nullptr )
   {
-    dword_1047C004 = (int)orig::CMoOcclusionMng_Constructor(v6);
-    return orig::j_OcclusionMng_CreateTarget((_DWORD *)dword_1047C004);
+    g_pOcclusionMng = (int)orig::CMoOcclusionMng_Constructor(v6);
+    return orig::j_OcclusionMng_CreateTarget((_DWORD *)g_pOcclusionMng);
   }
   else
   {
-    dword_1047C004 = 0;
+    g_pOcclusionMng = 0;
     return orig::j_OcclusionMng_CreateTarget(nullptr);
   }
 }

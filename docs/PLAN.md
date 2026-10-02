@@ -62,6 +62,16 @@ placement only, as claimed.
   - All 633 tree functions can be gated.
 - **Tree:** 633 functions, all PASS in the clean build.
 
+## Progress, 2 Oct 2026
+
+- **Placeholders in the tree:** 193 more were named. The tree went from 24 `sub_` and 283 data placeholders to 13 and 105 (`docs/NAMES-2026-10-02.md`).
+- **The IDB has not caught up yet.** The IDA bridge was unreachable, so the names are in `data/names_pending_idb.json`:
+  - the generator applies them;
+  - `pipeline/ida_apply_names.py` pushes them into the IDB.
+  - **Next at the desktop:** run it, re-export, and then empty the file.
+- **The generator now gives each address one name across the whole export.** Records exported before a rename no longer leak old placeholders into the tree.
+- **The tree is byte-identical,** so the 633 PASS results stand.
+
 ## Tasks (also in the task list)
 
 1. **Tidy the repo.** Done: this layout, `run.sh`, repo-relative paths, reproduction checked.

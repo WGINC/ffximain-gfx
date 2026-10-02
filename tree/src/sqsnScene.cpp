@@ -85,7 +85,7 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
           g_sceneRT[0] = v8;
         }
         orig::sqgxTextureDraw(v8, 1);
-        orig::sqgxTextureClear((float *)(dword_1099D200 + 1912), 1);
+        orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
         if ( v3 > 1 )
         {
           v9 = g_sceneRT1;
@@ -95,7 +95,7 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
             g_sceneRT1 = v9;
           }
           orig::sqgxTextureDraw(v9, 1);
-          orig::sqgxTextureClear((float *)(dword_1099D200 + 1912), 1);
+          orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
         }
       }
     }
@@ -125,8 +125,8 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
           }
           else
           {
-            orig::sqgxTextureDraw(*(_DWORD *)(dword_1099D200 + 2216), 1);
-            orig::sqgxTextureClear((float *)(dword_1099D200 + 1912), 1);
+            orig::sqgxTextureDraw(*(_DWORD *)(g_pSqgxContext + 2216), 1);
+            orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
           }
           orig::sqsnSceneLayerSnapShotComposite(a1, v11);
         }
@@ -139,14 +139,14 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
     orig::sqgxMatrixCamera(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
     if ( *(float *)(a1 + 56) < 1.0 )
     {
-      orig::sqgxTextureGetSize(*(_DWORD *)(dword_1099D200 + 2216), &v34, &v33);
+      orig::sqgxTextureGetSize(*(_DWORD *)(g_pSqgxContext + 2216), &v34, &v33);
       v14 = g_sceneFadeMaskRT;
       if ( g_sceneFadeMaskRT == -1 )
       {
         v14 = orig::sqgxTextureAdd(v34, v33, (IDirect3DBaseTexture8 *)4, nullptr);
         g_sceneFadeMaskRT = v14;
       }
-      v32 = *(_DWORD *)(dword_1099D200 + 2216);
+      v32 = *(_DWORD *)(g_pSqgxContext + 2216);
       orig::sqgxTextureDraw(v14, 1);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       v35 = 0;

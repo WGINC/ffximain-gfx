@@ -33,15 +33,15 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
       v5 = 2 * (_DWORD)v4;
       if ( 2 * (int)v4 > 8 )
         v5 = 8;
-      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape(dword_104E1BF8, aMenuKeytops3)
+      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape(g_shapeMng, aMenuKeytops3)
                      + 4 * (((unsigned int)*(self_ + 10) >> 2) % 5)
                      + 660);
-      *(float *)&v10 = orig::MenuMng_GetOffsetX((float *)word_10621838, 1) * 0.5;
-      v7 = orig::MenuMng_GetOffsetY((float *)word_10621838, 1) * 0.5;
+      *(float *)&v10 = orig::MenuMng_GetOffsetX((float *)g_menuMng, 1) * 0.5;
+      v7 = orig::MenuMng_GetOffsetY((float *)g_menuMng, 1) * 0.5;
       return (char *)orig::Shape_DrawScaled(
                        v6,
-                       (__int64)((double)(__int16)(dword_106218B8 - dword_106218B4) * (1.0 - *(float *)&v10) - 234.0),
-                       (__int64)((double)(__int16)(HIWORD(dword_106218B8) - HIWORD(dword_106218B4)) * (1.0 - v7) - 48.0)
+                       (__int64)((double)(__int16)(g_screenRectBottomRight - g_screenRectTopLeft) * (1.0 - *(float *)&v10) - 234.0),
+                       (__int64)((double)(__int16)(HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft)) * (1.0 - v7) - 48.0)
                      - v5
                      + 8,
                        1065353216,
@@ -60,11 +60,11 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
       result = (char *)*orig::CMoResource_FindByTypeAndId(*(_DWORD **)result, &v10, 49, 0);
       if ( result != nullptr )
       {
-        result = orig::ShapeMng_FindShape(dword_104E1BF8, (char *)(*(_DWORD *)result + 48));
+        result = orig::ShapeMng_FindShape(g_shapeMng, (char *)(*(_DWORD *)result + 48));
         v3 = **(_DWORD **)result;
         if ( v3 != 0 )
         {
-          orig::MenuMng_GetUiScale(word_10621838, (float *)&v9, &v8);
+          orig::MenuMng_GetUiScale(g_menuMng, (float *)&v9, &v8);
           g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
           g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
           orig::Shape_DrawScaled(

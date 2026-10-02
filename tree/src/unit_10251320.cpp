@@ -18,7 +18,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   *self_ = 11534336;
   v2 = orig::Mem_AllocObject(11534352, 0);
   v3 = ((unsigned int)v2 + 15) & 0xFFFFFFF0;
-  dword_10669408 = (int)v2;
+  g_dancerMemBlock = (int)v2;
   if ( v3 != 0 )
   {
     v7 = *self_;
@@ -28,19 +28,19 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     orig::nullsub_12(aMainpool0x08xB, v5);
     This = g_pD3DHolder->pD3D;
     pDevice = g_pD3DHolder->pDevice;
-    dword_10669400 = v5;
+    g_dancerMainMemSize = v5;
     g_pDancerDevice = pDevice;
-    dword_10669404 = v3;
-    dword_1066940C = 0x200000;
-    dword_10669410 = v3 + v5;
+    g_dancerMainMemBase = v3;
+    g_dancerWorkMemSize = 0x200000;
+    g_dancerWorkMemBase = v3 + v5;
     orig::Dancer_ResetMemPools();
-    orig::Dancer_SetMemPool(0, dword_10669404, dword_10669400, aMainmem);
-    orig::Dancer_SetMemPool(1, dword_10669410, dword_1066940C, aWorkmem);
-    dword_1099D200 = (int)orig::sqgxContext_Create();
-    g_pDancerDevice->GetRenderTarget((IDirect3DSurface8 **)(dword_1099D200 + 2300));
-    g_pDancerDevice->GetDepthStencilSurface((IDirect3DSurface8 **)(dword_1099D200 + 2304));
-    (*(void (__stdcall **)(_DWORD, _BYTE *))(**(_DWORD **)(dword_1099D200 + 2300) + 32))(
-      *(_DWORD *)(dword_1099D200 + 2300),
+    orig::Dancer_SetMemPool(0, g_dancerMainMemBase, g_dancerMainMemSize, aMainmem);
+    orig::Dancer_SetMemPool(1, g_dancerWorkMemBase, g_dancerWorkMemSize, aWorkmem);
+    g_pSqgxContext = (int)orig::sqgxContext_Create();
+    g_pDancerDevice->GetRenderTarget((IDirect3DSurface8 **)(g_pSqgxContext + 2300));
+    g_pDancerDevice->GetDepthStencilSurface((IDirect3DSurface8 **)(g_pSqgxContext + 2304));
+    (*(void (__stdcall **)(_DWORD, _BYTE *))(**(_DWORD **)(g_pSqgxContext + 2300) + 32))(
+      *(_DWORD *)(g_pSqgxContext + 2300),
       v8);
     if ( v9 > 0x200 )
     {
@@ -55,13 +55,13 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
       orig::sqgxTextureAddDepthStencil(v9, v10, 3);
     }
     This->GetAdapterIdentifier(0, 2u, pIdentifier);
-    *(_DWORD *)(dword_1099D200 + 720) = v12 == 4098 || g_pCDx->_pad_10[2306] == 0;
-    *(_DWORD *)(dword_1099D200 + 2212) = 1;
-    *(_DWORD *)(dword_1099D200 + 2216) = 0;
-    *(_DWORD *)(dword_1099D200 + 2220) = 2;
-    *(_DWORD *)(dword_1099D200 + 2200) = 1;
-    *(_DWORD *)(dword_1099D200 + 2204) = 0;
-    *(_DWORD *)(dword_1099D200 + 2208) = 2;
+    *(_DWORD *)(g_pSqgxContext + 720) = v12 == 4098 || g_pCDx->_pad_10[2306] == 0;
+    *(_DWORD *)(g_pSqgxContext + 2212) = 1;
+    *(_DWORD *)(g_pSqgxContext + 2216) = 0;
+    *(_DWORD *)(g_pSqgxContext + 2220) = 2;
+    *(_DWORD *)(g_pSqgxContext + 2200) = 1;
+    *(_DWORD *)(g_pSqgxContext + 2204) = 0;
+    *(_DWORD *)(g_pSqgxContext + 2208) = 2;
     orig::sqgxTextureClear(kF_0_9874, 1);
     orig::sqgxTextureDraw(0, 1);
     return 1;

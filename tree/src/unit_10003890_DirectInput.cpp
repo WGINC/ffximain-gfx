@@ -15,7 +15,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
   int v9;
   if ( g_windowMode != 0 )
   {
-    byte_1034F92C = 0;
+    g_mouseAcquired = 0;
     return 1;
   }
   else
@@ -23,24 +23,24 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
     v2 =(_DWORD*)(self_ + 35);
     if ( (*(int (__stdcall **)(_DWORD, void *, _DWORD **, _DWORD))(**(self_ + 33) + 12))(
            *(self_ + 33),
-           &unk_10341DBC,
+           &GUID_SysMouse_ref,
            self_ + 35,
            0) >= 0 )
     {
-      if ( (*(int (__stdcall **)(_DWORD, void *))(*(_DWORD *)*v2 + 44))(*v2, &unk_10349EF4) >= 0 )
+      if ( (*(int (__stdcall **)(_DWORD, void *))(*(_DWORD *)*v2 + 44))(*v2, &c_dfDIMouse_ref) >= 0 )
       {
-        if ( dword_10456BF8 != 0 )
+        if ( g_cfgHardwareMouse != 0 )
           orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
-        byte_1034F92C = 1;
+        g_mouseAcquired = 1;
         v3 = *v2;
-        if ( dword_10456BF8 != 0 )
+        if ( g_cfgHardwareMouse != 0 )
         {
           if ( v3 != 0 )
           {
             (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*v2);
             *v2 = 0;
           }
-          byte_1034F92C = 0;
+          g_mouseAcquired = 0;
           return 1;
         }
         else
@@ -60,7 +60,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
           (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v4 + 24))(v4, 1, &v5);
           if ( (*(int (__stdcall **)(_DWORD, _DWORD, int))(*(_DWORD *)*v2 + 52))(
                  *v2,
-                 *((_DWORD *)dword_103D3C64 + 6),
+                 *((_DWORD *)g_pApp + 6),
                  6) >= 0 )
           {
             (*(void (__stdcall **)(_DWORD))(*(_DWORD *)*v2 + 28))(*v2);

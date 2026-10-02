@@ -116,17 +116,17 @@ int __cdecl CXiMovie::DrawFrame()
   int v41;
   int v42;
   float *v43;
-  if ( dword_10666E7C != 0 )
+  if ( g_pMovie != 0 )
   {
-    orig::sub_1021D980(dword_10666E7C);
-    result = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
+    orig::Movie_Update(g_pMovie);
+    result = orig::Movie_GetCurrentTexture((_DWORD *)g_pMovie);
     if ( result != 0 )
     {
       pDevice = g_pCDx->pDevice;
       lpVtbl = pDevice->lpVtbl;
-      CurrentTexture = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
+      CurrentTexture = orig::Movie_GetCurrentTexture((_DWORD *)g_pMovie);
       lpVtbl->SetTexture(pDevice, 0, (IDirect3DBaseTexture8 *)CurrentTexture);
-      v4 = orig::Movie_GetCurrentTexture((_DWORD *)dword_10666E7C);
+      v4 = orig::Movie_GetCurrentTexture((_DWORD *)g_pMovie);
       result = (*(int (__stdcall **)(int, _DWORD, _BYTE *))(*(_DWORD *)v4 + 56))(v4, 0, v34);
       if ( result >= 0 )
       {

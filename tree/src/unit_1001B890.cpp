@@ -16,7 +16,7 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
                                         &g_pCDx->vftable,
                                         ViewportWidth,
                                         ViewportHeight,
-                                        &dword_10456D58,
+                                        &g_translucentTarget,
                                         1,
                                         0);
   result = (_DWORD *)g_pEnv;
@@ -24,13 +24,13 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
   {
     v4 = orig::Camera_GetViewportHeight();
     v2 = orig::Camera_GetViewportWidth();
-    result = orig::CDx_CreateTexture(&g_pCDx->vftable, v2, v4, &dword_10456D5C, 1, 0);
-    dword_10456D54 = (int)result;
+    result = orig::CDx_CreateTexture(&g_pCDx->vftable, v2, v4, &g_translucentDepth, 1, 0);
+    g_translucentTargetEye2 = (int)result;
   }
   else
   {
-    dword_10456D54 = 0;
-    dword_10456D5C = 0;
+    g_translucentTargetEye2 = 0;
+    g_translucentDepth = 0;
   }
   return result;
 }
@@ -42,7 +42,7 @@ XI_API char __thiscall Model_BeginTranslucentPass(int self_)
   int v2;
   int v4;
   v2 = *(_DWORD *)(self_ + 8);
-  if ( v2 == 0 || byte_10456D48 == 0 && (dword_10456D4C & 0xFF000000) == 0x80000000 )
+  if ( v2 == 0 || g_translucentForce == 0 && (g_translucentColor & 0xFF000000) == 0x80000000 )
     return 0;
   if ( *(_BYTE *)(self_ + 4) != 0 )
   {
@@ -79,7 +79,7 @@ XI_API char __thiscall Model_BeginTranslucentPass(int self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 {
-  if ( *(self_ + 2) == 0 || byte_10456D48 == 0 && (dword_10456D4C & 0xFF000000) == 0x80000000 )
+  if ( *(self_ + 2) == 0 || g_translucentForce == 0 && (g_translucentColor & 0xFF000000) == 0x80000000 )
     return 0;
   orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
   return 1;
@@ -99,19 +99,19 @@ XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
   int a3[28];
   if ( *((_DWORD *)self_ + 2) != 0 )
   {
-    result = dword_10456D4C;
-    if ( (byte_10456D48 != 0 || (dword_10456D4C & 0xFF000000) != 0x80000000) && *((_BYTE *)self_ + 4) != 0 )
+    result = g_translucentColor;
+    if ( (g_translucentForce != 0 || (g_translucentColor & 0xFF000000) != 0x80000000) && *((_BYTE *)self_ + 4) != 0 )
     {
       memset(a3, 0, 12);
       a3[3] = 1065353216;
-      a3[4] = dword_10456D4C;
+      a3[4] = g_translucentColor;
       a3[5] = 0;
       a3[6] = 0;
       v6 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2);
       a3[8] = 0;
       a3[9] = 0;
       a3[10] = 1065353216;
-      a3[11] = dword_10456D4C;
+      a3[11] = g_translucentColor;
       a3[12] = 1065353216;
       *(float *)&a3[7] = (float)v6;
       a3[13] = 0;
@@ -119,7 +119,7 @@ XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
       v7 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3);
       a3[16] = 0;
       a3[17] = 1065353216;
-      a3[18] = dword_10456D4C;
+      a3[18] = g_translucentColor;
       a3[19] = 0;
       a3[20] = 1065353216;
       *(float *)&a3[15] = (float)v7;
@@ -127,7 +127,7 @@ XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
       v8 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3);
       a3[23] = 0;
       a3[24] = 1065353216;
-      a3[25] = dword_10456D4C;
+      a3[25] = g_translucentColor;
       a3[26] = 1065353216;
       a3[27] = 1065353216;
       *(float *)&a3[22] = (float)v8;

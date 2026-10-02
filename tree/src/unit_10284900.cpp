@@ -14,10 +14,10 @@ XI_API int __cdecl sqgxVertexShaderSelect(void)
   int v6;
   v0 = 0;
   v1 = 0;
-  v2 = *(_DWORD *)(dword_1099D200 + 2840) + 1;
+  v2 = *(_DWORD *)(g_pSqgxContext + 2840) + 1;
   if ( v2 > 0 )
   {
-    v3 = (int *)(dword_1099D200 + 2592);
+    v3 = (int *)(g_pSqgxContext + 2592);
     do
     {
       v4 = *v3;
@@ -33,18 +33,18 @@ XI_API int __cdecl sqgxVertexShaderSelect(void)
   if ( g_counter_109A2744 <= 0 )
   {
 LABEL_8:
-    dword_103B5910[2 * g_counter_109A2744] = v0;
-    dword_103B5914[2 * v5] = v1;
+    g_sqgxVertexShaderKeyA[2 * g_counter_109A2744] = v0;
+    g_sqgxVertexShaderKeyB[2 * v5] = v1;
     orig::sqgxVertexShaderCreate((_DWORD *)(4 * v5 + 272320784));
     return ++g_counter_109A2744;
   }
   else
   {
-    while ( dword_103B5910[2 * v6] != v0 || dword_103B5914[2 * v6] != v1 )
+    while ( g_sqgxVertexShaderKeyA[2 * v6] != v0 || g_sqgxVertexShaderKeyB[2 * v6] != v1 )
     {
       if ( ++v6 >= g_counter_109A2744 )
         goto LABEL_8;
     }
-    return g_pDancerDevice->SetVertexShader(dword_103B4910[v6]);
+    return g_pDancerDevice->SetVertexShader(g_sqgxVertexShaderHandle[v6]);
   }
 }

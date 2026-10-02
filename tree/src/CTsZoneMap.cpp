@@ -523,7 +523,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                   v24 = *((_WORD **)v22 + 2);
                   v25 = *(_DWORD *)v22;
                   v91 = *((_DWORD *)v22 + 1);
-                  v26 =(_DWORD*)(&unk_10639088);
+                  v26 =(_DWORD*)(&g_zoneProjVerts);
                   a2a = 0;
                   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v21);
                   v27 = &v60;
@@ -616,7 +616,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                     v55 = a2a;
 LABEL_41:
                     if ( v55 != 0 )
-                      orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v55, (int)&unk_10639088, 24);
+                      orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v55, (int)&g_zoneProjVerts, 24);
                   }
                   v19 = v77;
                 }
@@ -1106,7 +1106,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                     v21 = *v82;
                     v96 = v82[1];
                     orig::CDx_SetTransform(&g_pCDx->vftable, 256, v17);
-                    v22 = (char *)&unk_10639088;
+                    v22 = (char *)&g_zoneProjVerts;
                     v80 = 0;
                     v23 = &v66;
                     v84 = (char *)v17 - (char *)&v66;
@@ -1264,7 +1264,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                         v31 = v62;
                       }
                       if ( v80 != 0 )
-                        orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v80, (int)&unk_10639088, 24);
+                        orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v80, (int)&g_zoneProjVerts, 24);
                     }
                   }
                   v60 = v89 == 1;

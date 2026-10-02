@@ -10,10 +10,10 @@ _DWORD * CMoProcessor::InitRotationMatrices()
   _DWORD *result;
   _DWORD *v2;
   int i;
-  if ( (byte_1047CF31 & 1) == 0 )
+  if ( (CMoProcessor_InitRotationMatrices_staticGuard & 1) == 0 )
   {
     g_identityMatrix_1047CC80_m00 = 1065353216;
-    byte_1047CF31 |= 1u;
+    CMoProcessor_InitRotationMatrices_staticGuard |= 1u;
     g_identityMatrix_1047CC80_m01 = 0;
     g_identityMatrix_1047CC80_m02 = 0;
     g_identityMatrix_1047CC80_m03 = 0;

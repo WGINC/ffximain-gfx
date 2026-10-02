@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 from unicorn import UC_HOOK_CODE, UC_PROT_ALL, UC_HOOK_MEM_READ_UNMAPPED, UC_HOOK_MEM_WRITE_UNMAPPED
 import hashlib
+import pefile
 from unicorn import UC_MEM_READ_UNMAPPED, UC_MEM_WRITE_UNMAPPED, UC_MEM_FETCH_UNMAPPED, UC_MEM_FETCH_PROT, UC_PROT_READ, UC_PROT_WRITE
 from unicorn.x86_const import UC_X86_REG_EDX
 from unicorn.x86_const import UC_X86_REG_EAX, UC_X86_REG_ESP, UC_X86_REG_EIP, UC_X86_REG_ECX
@@ -63,6 +64,24 @@ class GfxMachine(G.Machine):
         # aliases the spec uses for base interfaces
         self.obj.setdefault('IDirect3DBaseTexture8', self.obj['IDirect3DTexture8'])
         u.hook_add(UC_HOOK_CODE, self._on_com, begin=COM_TRAP, end=COM_TRAP + 0x100000 - 1)
+        # Execution of data (a call through a fuzzed function pointer lands in a fuzzed page, the pool,
+        # .data or the stack) ends the run as a fault: the game never does it, and the fuzzed bytes run
+        # as code would act on values that legitimately differ between the two sides (return addresses),
+        # so a trial where the original does it is not compared, like any other original fault.
+        code = [(COM_TRAP, COM_TRAP + 0x100000), (FP_TRAMP, FP_TRAMP + 0x10),
+                (G.TRAP_BASE, G.TRAP_BASE + 0x10000), (G.RET_SENTINEL, G.RET_SENTINEL + G.PAGE)]
+        for path in (game_dll, recon_dll):
+            if not path: continue
+            pe = pefile.PE(path, fast_load=True)
+            for sec in pe.sections:
+                if sec.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
+                    a = pe.OPTIONAL_HEADER.ImageBase + sec.VirtualAddress
+                    code.append((a, a + max(sec.Misc_VirtualSize, sec.SizeOfRawData)))
+        lo = 0
+        for a, b in sorted(code):
+            if a > lo: u.hook_add(UC_HOOK_CODE, self._on_data_exec, begin=lo, end=a - 1)
+            lo = max(lo, b)
+        u.hook_add(UC_HOOK_CODE, self._on_data_exec, begin=lo, end=0xFFFFFFFF)
         # demand paging: an access to unmapped memory above 64 KB maps a page whose bytes are a
         # pure function of (trial seed, page address) -- identical for both runs, no replay needed
         self.demand = []; self.page_seed = 0; self.demand_limit = 96; self.wild_limit = 64; self.wild = 0
@@ -70,6 +89,11 @@ class GfxMachine(G.Machine):
         #  fault hook proved non-deterministic between runs, 1 Oct 2026)
         self.rng = random.Random(0)
         self.ctx = u.context_save()
+
+    def _on_data_exec(self, uc, addr, size, _):
+        self.stop_reason = 'fault'
+        self.stop_detail = 'execution of data at 0x%08X' % addr
+        uc.emu_stop()
 
     def _on_trap(self, uc, addr, size, _):
         name = self.trap_names.get(addr, hex(addr))

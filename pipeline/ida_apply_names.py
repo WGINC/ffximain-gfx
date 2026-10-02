@@ -4,6 +4,8 @@ or apply(path) from the MCP bridge).
 Each entry renames one address and appends a comment with its confidence and evidence. An address whose
 current name is not the expected placeholder (renamed in the IDB since) is reported and left alone.
 After applying, re-export: the names then come from the IDB and the entries can be removed from the file.
+
+apply_types() does the same for data/type_fixes.json (corrected prototypes), with the evidence as a comment.
 """
 import json, os
 import idc, ida_name, ida_bytes
@@ -42,5 +44,28 @@ def apply(path=DEFAULT, dry_run=False):
     return done, skipped
 
 
+def apply_types(path=os.path.join(HERE, '..', 'data', 'type_fixes.json'), dry_run=False):
+    done, failed = 0, []
+    for k, v in json.load(open(path, encoding='utf-8')).items():
+        ea = int(k, 16)
+        decl = v['type'].replace('(', ' %s(' % (ida_name.get_name(ea) or 'f'), 1) + ';'
+        if dry_run:
+            done += 1
+            continue
+        if not idc.SetType(ea, decl):
+            failed.append((k, decl))
+            continue
+        note = '[type 2026-10-02] %s %s' % (v['why'], v['evidence'])
+        old = idc.get_func_cmt(ea, 0) or ''
+        if note not in old:
+            idc.set_func_cmt(ea, (old + '\n' + note).strip(), 0)
+        done += 1
+    print('ida_apply_names: %d prototypes applied, %d failed' % (done, len(failed)))
+    for f in failed:
+        print('  failed %s: %s' % f)
+    return done, failed
+
+
 if __name__ == '__main__':
     apply()
+    apply_types()

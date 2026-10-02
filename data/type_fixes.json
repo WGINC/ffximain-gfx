@@ -1,0 +1,7 @@
+{
+ "0x1000C6E0": {
+  "type": "int __thiscall(void *self, unsigned __int16 a1, unsigned __int16 a2)",
+  "why": "CDx_CreateStereoResources(width, height): both parameters are 16-bit. The IDB types them int, so callers' leftover upper register halves (App_InitScene pushes edx after `mov dx, [esi+0x1A]`) looked like part of the argument.",
+  "evidence": "disasm 0x1000C77F..0x1000C791: both arguments are forwarded unchanged as the width/height of CDx_CreateTexture (0x1000A6E0), whose parameters are unsigned __int16; nothing else reads them. Callers load them with 16-bit moves (0x10011728, 0x1001172C)."
+ }
+}

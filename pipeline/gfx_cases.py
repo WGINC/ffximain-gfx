@@ -1,6 +1,7 @@
 """gfx_cases.py -- equivalence-gate cases for the translated graphics functions.
 Usage: python3 gfx_cases.py gfx_export3.jsonl raw/meta.json protos_fixed.json cases.json"""
 import json, os, re, sys
+import hx_patches  # noqa: E402  (prototype corrections, data/type_fixes.json)
 DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 # what each callee can really return (ret_kinds.py): stubs answer within that range
@@ -96,7 +97,7 @@ def main(exp, metaf, protof, out):
     meta = json.load(open(metaf)); protos = json.load(open(protof))
     cases = []
     for line in open(exp):
-        r = ghidra_record(json.loads(line)); key = '%08X' % r['ea']
+        r = hx_patches.fix_types(ghidra_record(json.loads(line))); key = '%08X' % r['ea']
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']

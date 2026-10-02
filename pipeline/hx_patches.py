@@ -9,8 +9,13 @@ for stack variables, a wrong pointer). A patch is data/hx_patches/0xADDR.json:
 It is applied only while the export's text still has that sha1, so a re-export (for example after
 the IDB was fixed) is never silently overridden: the patch is reported as stale instead.
 Both hx2cpp.py (raw translation) and hx2clean.py (the clean tree) call apply().
+
+Prototype corrections, data/type_fixes.json: {"0xADDR": {"type": "<prototype without name>", "why": ...,
+"evidence": ...}}. The corrected type replaces the IDB's wherever that function is referenced (each
+record's `objs`) and as the function's own signature. Use it for a prototype that is wrong in the
+IDB and has not been fixed there yet (pipeline/ida_apply_names.py pushes these to the IDB too).
 """
-import hashlib, json, os, sys
+import hashlib, json, os, re, sys
 
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'hx_patches')
 _P = None
@@ -29,7 +34,41 @@ def load():
 def sha1(text): return hashlib.sha1(text.encode()).hexdigest()
 
 
+TYPE_FIXES = os.path.join(DIR, '..', 'type_fixes.json')
+_T = None
+
+
+def type_fixes():
+    global _T
+    if _T is None:
+        _T = {int(k, 16): v['type'] for k, v in json.load(open(TYPE_FIXES)).items()} if os.path.exists(TYPE_FIXES) else {}
+    return _T
+
+
+def fix_types(rec):
+    t = type_fixes()
+    objs = rec.get('objs', {})
+    if not any(o.get('func') and o.get('ea') in t for o in objs.values()) and rec['ea'] not in t: return rec
+    rec = dict(rec, objs={n: (dict(o, type=t[o['ea']]) if o.get('func') and o.get('ea') in t else o) for n, o in objs.items()})
+    if rec['ea'] in t:
+        rec['type'] = t[rec['ea']]
+        new = [x.strip() for x in t[rec['ea']][t[rec['ea']].index('(') + 1:t[rec['ea']].rindex(')')].split(',')]
+        new = {re.search(r'(\w+)$', x).group(1): re.sub(r'\s*\w+$', '', x) for x in new if re.search(r'\w\s+\**\w+$', x)}
+        text = rec['text']; m = re.search(r'^[^\n]*\b%s\(([^)]*)\)' % re.escape(rec['name']), text, re.M)
+        if m:
+            params = ', '.join(re.sub(r'^(.*?)(\**\s*\b(\w+))$', lambda q: (new[q.group(3)] + ' ' + q.group(3)) if q.group(3) in new else q.group(0), x.strip())
+                               for x in m.group(1).split(','))
+            rec['text'] = text[:m.start(1)] + params + text[m.end(1):]
+        if rec.get('args'):
+            rec['args'] = [[a[0], new.get(a[0], a[1])] + list(a[2:]) for a in rec['args']]
+    return rec
+
+
 def apply(rec):
+    return fix_types(patch_text(rec))
+
+
+def patch_text(rec):
     p = load().get(rec['ea'])
     if not p: return rec
     if sha1(rec['text']) != p['text_sha1']:

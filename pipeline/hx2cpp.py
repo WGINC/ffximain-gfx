@@ -24,7 +24,7 @@ def ptr_type(ftype):
     __spoils<..> (callee preserves a scratch register) is dropped: it lets Hex-Rays see a value survive
     the call; the C++ caller re-supplies it explicitly, and GCC assumes eax/ecx/edx clobbered anyway."""
     ftype = SPOILS.sub('', ftype)
-    ftype = re.sub(r'^(.*?)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
+    ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     ftype = re.sub(r'\b__noreturn\b', '', ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'\s*\((.*)\)\s*$', ftype, re.S)
     if m:
@@ -146,9 +146,26 @@ def signed_dword_compares(body):
 def inplace_buffers(body):
     # A global the IDB types as a pointer but that is really a buffer stored in place: the same
     # function copies into `&G` and then copies out of `G`. The copy out must read from `&G`.
-    for g in set(re.findall(r'qmemcpy\(&(G_[0-9A-F]{8}),', body)):
-        body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % g, r'\1&%s\2' % g, body)
+    for g in set(re.findall(r'qmemcpy\(&([A-Za-z_]\w*),', body)):
+        body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % re.escape(g), r'\1&%s\2' % g, body)
     return body
+
+def body_rules(ea, body):
+    # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean)
+    body = exact_fp_literals(ea, body)
+    body = fpu_status_words(body)
+    body = signed_dword_compares(body)
+    body = exact_frame(body)
+    return inplace_buffers(body)
+
+def drop_float_return(ea, ret, body):
+    # IDA typed it as returning a float, but the code returns with an empty x87 stack (fpret.py): the
+    # value Hex-Rays returns is computed and dropped, as the original does (e.g. through __ftol).
+    # A call it returns cannot return on the x87 stack either, so such casts are retyped void too.
+    if ret.strip() not in ('float', 'double', 'long double') or FPRET_ALL.get('0x%x' % ea) != 'none':
+        return ret, body
+    return 'void', re.sub(r'\breturn ([^;]+);', lambda m: '(void)(%s); return;' % re.sub(
+        r'\((?:float|double|long double) \((__\w+) \*\)', r'(void (\1 *)', m.group(1)), body)
 
 def fpu_status_words(body):
     # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
@@ -228,21 +245,11 @@ def translate(rec):
     body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); params = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', params)
     ret = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', ret)
     body = re.sub(r'\bthis\b', 'self', body)
-    body = exact_fp_literals(ea, body)
-    body = fpu_status_words(body)
-    body = signed_dword_compares(body)
-    body = exact_frame(body)
-    body = inplace_buffers(body)
+    body = body_rules(ea, body)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
-    if ret.strip() in ('float', 'double', 'long double') and FPRET_ALL.get('0x%x' % ea) == 'none':
-        # IDA typed it as returning a float, but the code returns with an empty x87 stack (fpret.py):
-        # the value Hex-Rays returns is computed and dropped, as the original does (e.g. through __ftol)
-        ret = 'void'
-        # a call it returns cannot return on the x87 stack either: retype such casts to void too
-        body = re.sub(r'\breturn ([^;]+);', lambda m: '(void)(%s); return;' % re.sub(
-            r'\((?:float|double|long double) \((__\w+) \*\)', r'(void (\1 *)', m.group(1)), body)
+    ret, body = drop_float_return(ea, ret, body)
     out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     syms = unconsumed_fp_calls(ea, syms, body)

@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import collections
 from msvc_demangle import demangle
 import hx_patches
+import hx2cpp
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
@@ -58,14 +59,16 @@ def split_params(args):
     return [] if parts == ['void'] else parts
 
 def orig_wrapper(name, ea, ftype):
+    ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ftype, re.S)
     if not m or re.search(r'__user|@<', ftype): return None
-    ret, cc, args = m.groups(); cc = cc or '__cdecl'; ret = ret.strip() or 'int'
+    ret, cc, args = m.groups(); cc = cc or '__cdecl'
+    ret = re.sub(r'\b__noreturn\b|' + CC_RE, '', ret).strip() or 'int'    # `void __cdecl __noreturn`
     TYPEWORDS = {'int', 'char', 'short', 'long', 'float', 'double', 'bool', 'void', 'unsigned', 'signed',
                  '__int8', '__int16', '__int32', '__int64'}
     ps = []
     for p in split_params(args):
-        if '*' in p or '[' in p: ps.append('void *'); continue
+        if '*' in p or '[' in p or re.match(r'^(const\s+)?LP[A-Z]\w*\b', p.strip()): ps.append('void *'); continue
         toks = p.split()
         if len(toks) >= 2 and toks[-2] not in ('unsigned', 'signed', 'struct', 'enum', 'const', 'class') \
            and toks[-1] not in TYPEWORDS:
@@ -179,7 +182,11 @@ class Layout:
 def field_name(cls, off, t):
     k = KNOWN_FIELDS.get((cls, off))
     if k: return k[1]
-    return FIELD_NAMES[(cls, off)]['name'] if (cls, off) in FIELD_NAMES else 'field_%X' % off
+    n = FIELD_NAMES[(cls, off)]['name'] if (cls, off) in FIELD_NAMES else None
+    if n and n in RESERVED:            # a global or game function of that name is a macro/function in scope
+        print('field name %s::%s collides with a global; using field_%X' % (cls, n, off), file=sys.stderr); n = None
+    return n or 'field_%X' % off
+RESERVED = set()
 def _ptrwidth(t): return 4 if t.endswith('*') else WIDTH.get(t, 4)
 
 def rewrite_members(body, self_type, cls, layout_fields):
@@ -235,6 +242,19 @@ def canonicalise_names(R, pending):
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
     for r in R.values():
         for nm, o in list(r['objs'].items()):
+            if nm in ('self', 'this') and not o['func']:
+                # the IDB has a global named `self`; Hex-Rays writes it `::self`. As a macro it would
+                # replace every `self` in the tree, so it gets a distinct name.
+                new = 'g_%s_%08X' % (nm, o['ea'])
+                head, _, body = r['text'].partition('\n{')
+                sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
+                params = sig[sig.find('(') + 1:sig.rfind(')')]
+                if re.search(r'\b(self|this)\b', params):       # a parameter shadows it: only `::self` is the global
+                    r['text'] = r['text'].replace('::' + nm, new)
+                else:
+                    r['text'] = head + '\n{' + re.sub(r'(?:::)?\b%s\b' % nm, new, body)
+                o['printed'] = [new]; r['objs'][new] = r['objs'].pop(nm)
+                continue
             new = canon.get(o['ea'])
             if not new or new == nm or o['ea'] == r['ea']: continue
             if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
@@ -369,6 +389,19 @@ def main(exp, gate, manf, incdir, outdir):
     os.makedirs(os.path.join(outdir, 'src'), exist_ok=True)
     # symbol bindings for everything referenced
     origs, globs, gtypes = {}, {}, {}
+    fwrap, voidv = {}, {}
+    def void_float_calls(ea, body):
+        # a float callee whose result this caller never reads (hx2cpp.unconsumed_fp_calls): the call
+        # goes through a void-returning wrapper so neither side touches the x87 stack after it
+        used = set(hx2cpp.FP_SITES.get('0x%08X' % ea, ())) if hx2cpp.FP_SITES is not None else set()
+        for nm, (cea, ctype) in fwrap.items():
+            k = '0x%08X' % cea
+            if not ((k in hx2cpp.FPRET_FNS and k not in used) or hx2cpp.FPRET_ALL.get('0x%x' % cea) == 'none'): continue
+            calls = len(re.findall(r'(?m)^\s*orig::%s\(' % re.escape(nm), body))
+            if calls and calls == len(re.findall(r'\borig::%s\b' % re.escape(nm), body)):
+                body = re.sub(r'\borig::%s\(' % re.escape(nm), 'orig_void::%s(' % nm, body)
+                voidv[nm] = (cea, ctype)
+        return body
     def gtype_of(o):
         t = 'char[1]' if o.get('is_str') else o['type']
         if re.sub(r'^(struct\s+)?(std::)?', '', t.strip()) in ('Iostream_init', 'exception', 'type_info', 'codecvt_base'): t = 'char[1]'
@@ -382,6 +415,8 @@ def main(exp, gate, manf, incdir, outdir):
                 # keyed by (address, name): a record exported before a rename still refers to the
                 # old name, so both names get a wrapper to the same address
                 if w: origs[(o['ea'], nm)] = (nm, w)
+                if w and re.match(r'^(float|double|long double)\b', o['type'].strip()):
+                    fwrap[nm] = (o['ea'], o['type'])
             else:
                 globs.setdefault(o['ea'], (nm, o))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
@@ -404,7 +439,7 @@ def main(exp, gate, manf, incdir, outdir):
         for ea in sorted(globs):
             nm, o = globs[ea]
             gn = nm if re.match(r'^[A-Za-z_]\w*$', nm) else 'g_%08X' % ea
-            gnames[ea] = gn
+            gnames[ea] = gn; RESERVED.add(gn)
             from hx2cpp import typedef_for
             # functions disagree on a global's type when they read it at different widths (Hex-Rays
             # types each use): the most common type gets the plain name, every other gets its own
@@ -459,8 +494,11 @@ def main(exp, gate, manf, incdir, outdir):
         body = body.replace('->base.vftable', '->vftable')
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
         body = strip_noise(body); body = com_calls(body); body = name_d3d_values(body)
+        body = hx2cpp.body_rules(ea, body)
+        body = void_float_calls(ea, body)
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
+        ret, body = hx2cpp.drop_float_return(ea, ret, body)
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
         if cls and nothis.get(ea):
@@ -551,7 +589,16 @@ def main(exp, gate, manf, incdir, outdir):
             f.write('#include "gfx_all.hpp"\n' + inc + '\n')
             f.write('\n\n'.join(c for _, c in sorted(items)) + '\n')
     with open(os.path.join(outdir, 'include', 'gfx_all.hpp'), 'w') as f:
-        f.write('#pragma once\n#include "gfx_common.hpp"\n#include "gfx_globals.hpp"\n#include "gfx_orig.hpp"\n#include "gfx_free.hpp"\n')
+        f.write('#pragma once\n#include "gfx_common.hpp"\n#include "gfx_globals.hpp"\n#include "gfx_orig.hpp"\n'
+                '#include "gfx_orig_void.hpp"\n#include "gfx_free.hpp"\n')
+    with open(os.path.join(outdir, 'include', 'gfx_orig_void.hpp'), 'w') as f:
+        f.write('// gfx_orig_void.hpp -- game functions typed as returning a float, called where the original never\n'
+                '// reads the x87 result: the call returns void, so neither side pops it.\n#pragma once\n#include "gfx_common.hpp"\nnamespace orig_void {\n')
+        for nm in sorted(voidv):
+            cea, ctype = voidv[nm]
+            w = orig_wrapper(nm, cea, re.sub(r'^(float|double|long double)\b', 'void', ctype.strip()))
+            if w: f.write(w + '\n')
+        f.write('}  // namespace orig_void\n')
         for cls in sorted(layouts): f.write('#include "%s.hpp"\n' % cls)
     json.dump(report, open(os.path.join(outdir, 'placement.json'), 'w'), indent=0)
     json.dump(size_conflicts, open(os.path.join(outdir, 'size_conflicts.json'), 'w'), indent=0)

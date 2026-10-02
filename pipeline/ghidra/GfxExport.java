@@ -74,6 +74,29 @@ public class GfxExport extends GhidraScript {
         d.setOptions(opt);
         d.toggleCCode(true); d.toggleSyntaxTree(true);
         d.openProgram(currentProgram);
+        // Pass 1: commit the signatures the decompiler infers for every target and every function it calls,
+        // so calls in the final text carry real prototypes (otherwise callees read `undefined f(void)`).
+        Set<Function> fixSig = new LinkedHashSet<>();
+        for (String line : addrs) {
+            line = line.trim(); if (line.isEmpty()) continue;
+            Function f = getFunctionAt(addr(line));
+            if (f == null) f = createFunction(addr(line), null);
+            if (f == null) continue;
+            fixSig.add(f);
+            for (Function c : f.getCalledFunctions(monitor)) if (!c.isThunk() && !c.isExternal()) fixSig.add(c);
+        }
+        int committed = 0;
+        for (Function f : fixSig) {
+            if (f.getSignatureSource() == SourceType.USER_DEFINED || f.getSignatureSource() == SourceType.IMPORTED) continue;
+            DecompileResults r = d.decompileFunction(f, 60, monitor);
+            if (r == null || !r.decompileCompleted() || r.getHighFunction() == null) continue;
+            try {
+                HighFunctionDBUtil.commitParamsToDatabase(r.getHighFunction(), true, HighFunctionDBUtil.ReturnCommitOption.COMMIT, SourceType.ANALYSIS);
+                committed++;
+            } catch (Exception e) { /* keep Ghidra's */ }
+        }
+        println("signatures committed: " + committed + " of " + fixSig.size());
+        d.dispose(); d = new DecompInterface(); d.setOptions(opt); d.toggleCCode(true); d.toggleSyntaxTree(true); d.openProgram(currentProgram);
         PrintWriter out = new PrintWriter(new FileWriter(a[2]));
         int ok = 0, bad = 0;
         for (String line : addrs) {

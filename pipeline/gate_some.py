@@ -17,6 +17,9 @@ def reference():
             for l in open(os.path.join(ROOT, 'verification', 'gate_raw_final.jsonl'))}
 
 
+CASES = [None]
+
+
 def norm(a): return '0x%08X' % int(a, 16)
 
 
@@ -24,7 +27,7 @@ def select(run, sels):
     ref, out = reference(), set()
     for s in sels:
         if s == 'all':
-            out |= {norm(c['original']) for c in json.load(open(os.path.join(run, 'cases.json')))}
+            out |= {norm(c['original']) for c in json.load(open(CASES[0] or os.path.join(run, 'cases.json')))}
         elif s in ('fail', 'inconclusive', 'notpass'):
             want = {'fail': {'FAIL'}, 'inconclusive': {'INCONCLUSIVE'}}.get(s)
             out |= {k for k, v in ref.items() if (v in want if want else v != 'PASS')}
@@ -45,10 +48,14 @@ def main():
     ap.add_argument('run'); ap.add_argument('select', nargs='+')
     ap.add_argument('--jobs', type=int, default=os.cpu_count()); ap.add_argument('--trials', type=int, default=100)
     ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=4)
+    ap.add_argument('--dll', help='DLL to gate (default RUN/raw/gfx_raw.dll)')
+    ap.add_argument('--cases', help='cases file (default RUN/cases.json)')
     a = ap.parse_args()
     run = os.path.join(ROOT, 'runs', a.run) if not os.path.isdir(a.run) else a.run
+    CASES[0] = a.cases
     want = select(run, a.select)
-    cases = [c for c in json.load(open(os.path.join(run, 'cases.json'))) if norm(c['original']) in want]
+    casesf = a.cases or os.path.join(run, 'cases.json')
+    cases = [c for c in json.load(open(casesf)) if norm(c['original']) in want]
     print('%d selected, %d gateable' % (len(want), len(cases)))
     dll = os.environ['FFXI_DLL']; base = os.path.join(run, a.out)
     # small chunks handed out as workers free up: a few slow cases cannot strand the rest behind them
@@ -60,7 +67,7 @@ def main():
         while k < len(chunks) and len(running) < a.jobs:
             cf, rf = '%s_c%d.json' % (base, k), '%s_%d.jsonl' % (base, k)
             json.dump(chunks[k], open(cf, 'w'))
-            running.append((subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, os.path.join(run, 'raw', 'gfx_raw.dll'),
+            running.append((subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, a.dll or os.path.join(run, 'raw', 'gfx_raw.dll'),
                                               cf, rf, '--trials', str(a.trials), '--seed', '11'],
                                              stdout=open('%s_%d.log' % (base, k), 'w'), stderr=subprocess.STDOUT), rf))
             k += 1

@@ -349,7 +349,7 @@
  },
  "CYyIcon": {
   "0x8": {
-   "name": "pTexture",
+   "name": "pIconTexture",
    "confidence": "medium",
    "summary": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect",
    "evidence": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect"
@@ -497,7 +497,7 @@
  },
  "CXiMovie": {
   "0x8": {
-   "name": "pTexture",
+   "name": "pMovieTexture",
    "confidence": "medium",
    "summary": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)",
    "evidence": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)"

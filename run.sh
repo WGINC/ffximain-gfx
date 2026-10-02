@@ -7,7 +7,7 @@
 #   facts      per-function facts read from the DLL: x87 constants, return kinds, consumed x87 results
 #   translate  Hex-Rays export -> one C++ unit per function (runs/RUN/raw), build, cast repairs
 #   cases      gate cases for every translated function
-#   gate       equivalence gate, original vs reconstruction ($JOBS shards, default one per core)
+#   gate       equivalence gate, original vs reconstruction (work queue, $JOBS workers, default one per core)
 #   clean      class-shaped tree from the passing functions -> runs/RUN/tree
 #   cleangate  gate the clean tree exactly as built; annotate each function with its result
 #   residue    RESIDUE.md: every graphics function not in the verified tree, with the reason
@@ -16,11 +16,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
 EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_current.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
-gate2() {  # gate2 DLL CASES OUTPREFIX: $JOBS shards in parallel (default: one per core)
-  local n=${JOBS:-$(nproc)}
-  python3 -c "import json,sys;c=json.load(open('$2'));[json.dump(c[i::$n],open('$3_c%d.json'%i,'w')) for i in range($n)]"
-  for s in $(seq 0 $((n-1))); do python3 "$P/diffemu_gfx.py" "${FFXI_DLL:?set FFXI_DLL}" "$1" "$3_c$s.json" "$3_$s.jsonl" --trials 100 --seed 11 > "$3_$s.log" 2>&1 & done; wait
-  cat $(for s in $(seq 0 $((n-1))); do echo "$3_$s.jsonl"; done) > "$3.jsonl"
+gate2() {  # gate2 DLL CASES OUTPREFIX: a work queue of small chunks, $JOBS workers (default: one per core)
+  python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" > "$3.log" 2>&1
 }
 case "$1" in
   facts|all)     # facts read from the game DLL that the translator and the gate use (data/*.json)

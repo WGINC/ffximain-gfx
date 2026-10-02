@@ -24,13 +24,14 @@ public:
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
+    int DrawFadeQuad(int a1, int a2);  // 0x1000A820
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
     char DrawStereoOddFrameOverlay(int a1);  // 0x1000BB90
     int SetTransform(int a2, const void *a3);  // 0x1000BD50
     int GetTransformCached(int a2, void *a3);  // 0x1000BDB0
     int SetLight(int a2, float *a3);  // 0x1000BF30
     int CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4);  // 0x1000C0B0
-    int CreateStereoResources(int a1, int a2);  // 0x1000C6E0
+    int CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2);  // 0x1000C6E0
     char CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3);  // 0x1000C900
     char GetStereoSecondEyeTarget(int a1, int a2);  // 0x1000CA00
     int DrawPrimitive(int a1, int a2, int a3);  // 0x1000CB20

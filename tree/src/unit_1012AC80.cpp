@@ -34,7 +34,7 @@ XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10162010  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10162010(int a1, int a2)
 {
   int v2;

@@ -5,28 +5,9 @@
 namespace orig_void {
 XI_ORIG void CYyCamMng2_CreateGlobal() { reinterpret_cast<void (__cdecl *)()>(0x1001E470u)(); }
 XI_ORIG void Camera_ApplyViewProjection() { reinterpret_cast<void (__cdecl *)()>(0x10015510u)(); }
-XI_ORIG void * Env_ComputeAmbientFloat4(void * a0, void * a1) { return reinterpret_cast<void * (__thiscall *)(void *, void *)>(0x10188FA0u)(a0, a1); }
-XI_ORIG void * Gfx_NdcToScreen(void * a0) { return reinterpret_cast<void * (__cdecl *)(void *)>(0x100278E0u)(a0); }
-XI_ORIG void * Mat44_Multiply(void * a0, int a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, int, void *)>(0x1016C060u)(a0, a1, a2); }
-XI_ORIG void * Mat4_MulTranslation(void * a0, int a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, int, void *)>(0x10175780u)(a0, a1, a2); }
-XI_ORIG void * Mat4_TransformNormal(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__thiscall *)(void *, void *, void *)>(0x100282C0u)(a0, a1, a2); }
-XI_ORIG void * Mat4_TransformNormalInPlace(void * a0, void * a1) { return reinterpret_cast<void * (__thiscall *)(void *, void *)>(0x10028290u)(a0, a1); }
-XI_ORIG void * Mat4_TransformPoint(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x1027EF20u)(a0, a1, a2); }
-XI_ORIG void * Mat4_TransformPointInPlace(void * a0, void * a1) { return reinterpret_cast<void * (__thiscall *)(void *, void *)>(0x10028200u)(a0, a1); }
-XI_ORIG void * Mat4_TransformVec4InPlace(void * a0, void * a1) { return reinterpret_cast<void * (__thiscall *)(void *, void *)>(0x10028140u)(a0, a1); }
-XI_ORIG void * Vec2_Add(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x10026FD0u)(a0, a1, a2); }
-XI_ORIG void * Vec2_AddScalar(void * a0, float a1) { return reinterpret_cast<void * (__cdecl *)(void *, float)>(0x10027050u)(a0, a1); }
-XI_ORIG void * Vec2_Mul(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x100273D0u)(a0, a1, a2); }
-XI_ORIG void * Vec3_AddInPlace(void * a0, void * a1) { return reinterpret_cast<void * (__cdecl *)(void *, void *)>(0x10026F20u)(a0, a1); }
-XI_ORIG void * Vec3_Add_10026FA0(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x10026FA0u)(a0, a1, a2); }
-XI_ORIG void * Vec3_MulInPlace(void * a0, void * a1) { return reinterpret_cast<void * (__cdecl *)(void *, void *)>(0x10027310u)(a0, a1); }
-XI_ORIG void * Vec3_Scale(void * a0, void * a1, float a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, float)>(0x100272E0u)(a0, a1, a2); }
-XI_ORIG void * Vec3_Sub(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x10027120u)(a0, a1, a2); }
+XI_ORIG void Camera_BuildProjection() { reinterpret_cast<void (__cdecl *)()>(0x10015480u)(); }
+XI_ORIG void Camera_UpdateController(int a0) { reinterpret_cast<void (__thiscall *)(int)>(0x10021900u)(a0); }
 XI_ORIG void ZoneMap_SetOverlayProjection(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(0x10177420u)(a0); }
-XI_ORIG void * sqMatrix4_10280140(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__cdecl *)(void *, void *, void *)>(0x10280140u)(a0, a1, a2); }
-XI_ORIG void * sub_10028170(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__thiscall *)(void *, void *, void *)>(0x10028170u)(a0, a1, a2); }
-XI_ORIG void * sub_10028230(void * a0, void * a1, void * a2) { return reinterpret_cast<void * (__thiscall *)(void *, void *, void *)>(0x10028230u)(a0, a1, a2); }
-XI_ORIG void * sub_1003BA20(void * a0, int a1, void * a2, void * a3, int a4) { return reinterpret_cast<void * (__cdecl *)(void *, int, void *, void *, int)>(0x1003BA20u)(a0, a1, a2, a3, a4); }
 XI_ORIG void sub_10282A30(float a0) { reinterpret_cast<void (__cdecl *)(float)>(0x10282A30u)(a0); }
 }  // namespace orig_void
 #include "CApp.hpp"

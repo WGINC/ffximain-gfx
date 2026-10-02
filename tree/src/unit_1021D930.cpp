@@ -50,7 +50,7 @@ XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102214D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_102214D0(int self_)
 {
   unsigned __int8 *RenderTargetTop;

@@ -21,7 +21,7 @@ _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 _DWORD * CMoDX::CreateAndInitSystem()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

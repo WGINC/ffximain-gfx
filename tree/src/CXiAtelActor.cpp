@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 280 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 228 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, int a4, int a5)
 {
   __int16 v5; // fps
@@ -41,33 +41,33 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, in
   unsigned int v38;
   unsigned int *v39;
   int i;
-  unsigned __int8 v41;
-  int v42;
-  int v43;
-  float v44;
-  int v45;
-  int v46;
-  float v47;
-  float v48;
-  int v49;
-  char *v50;
-  char *v51;
-  float v52;
-  int v53;
-  int v54;
   alignas(16) unsigned char xi_frame[0x658];  // address-taken locals at their original offsets
+  unsigned __int8 &v41 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x10);
+  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v43 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  float &v44 = *reinterpret_cast<float *>(xi_frame + 0x10);
+  int &v45 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  int &v46 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  float &v47 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  float &v48 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  int &v49 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  char * &v50 = *reinterpret_cast<char * *>(xi_frame + 0x18);
+  char * &v51 = *reinterpret_cast<char * *>(xi_frame + 0x1C);
+  float &v52 = *reinterpret_cast<float *>(xi_frame + 0x1C);
+  int &v53 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v54 = *reinterpret_cast<int *>(xi_frame + 0x20);
   unsigned int &v55 = *reinterpret_cast<unsigned int *>(xi_frame + 0x24);
-  float v56;
-  int v57;
+  float &v56 = *reinterpret_cast<float *>(xi_frame + 0x28);
+  int &v57 = *reinterpret_cast<int *>(xi_frame + 0x2C);
   float &v58 = *reinterpret_cast<float *>(xi_frame + 0x30);
-  float v59;
-  float v60;
-  int v61;
-  float v62;
-  int v63;
-  float v64;
-  float v65;
-  float v66;
+  float &v59 = *reinterpret_cast<float *>(xi_frame + 0x34);
+  float &v60 = *reinterpret_cast<float *>(xi_frame + 0x38);
+  int &v61 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  float &v62 = *reinterpret_cast<float *>(xi_frame + 0x40);
+  int &v63 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  float &v64 = *reinterpret_cast<float *>(xi_frame + 0x48);
+  float &v65 = *reinterpret_cast<float *>(xi_frame + 0x4C);
+  float &v66 = *reinterpret_cast<float *>(xi_frame + 0x50);
   float (&v67)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0x54);
   _DWORD (&v68)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x84);
   _WORD (&v69)[144] = *reinterpret_cast<_WORD (*)[144]>(xi_frame + 0xC4);
@@ -90,10 +90,10 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, in
   v7 = 0;
   v8 = v60 == 1.0;
   v64 = v60;
-  if ( ((__int16)((v6 ? 0x100 : 0) | (v7 ? 0x400 : 0) | (v8 ? 0x4000 : 0)) & 0x100) != 0 && v60 >= 0.0 )
+  if ( ((__int16)(((v6 || __builtin_isunordered(v60, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v60, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v60, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v60 >= 0.0 )
   {
-    orig_void::Gfx_NdcToScreen(&v58);
-    orig_void::Vec2_AddScalar(&v58, -0.5);
+    orig::Gfx_NdcToScreen(&v58);
+    orig::Vec2_AddScalar(&v58, -0.5);
     v47 = v58 >= 0.0 ? v58 : -v58;
     if ( (double)(unsigned __int16)orig::Camera_GetViewportWidth() + 100.0 >= v47 )
     {
@@ -267,7 +267,7 @@ LABEL_50:
             {
               v67[0] = v65 * *(v32 - 1);
               v67[1] = v66 * *v32;
-              orig_void::Vec2_Add(v31 - 2, &v58, v67);
+              orig::Vec2_Add(v31 - 2, &v58, v67);
               v35 = *(v29 - 1);
               v36 = *v29;
               *v31 = v64;
@@ -338,7 +338,7 @@ LABEL_63:
 }
 
 // FUNCTION: FFXIMAIN 0x10086900  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 192 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
 {
   __int16 v3; // fps
@@ -372,22 +372,22 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   unsigned int v31;
   unsigned int *v32;
   int i;
-  int v34;
-  int ViewportWidth;
-  int v36;
-  int v37;
   alignas(16) unsigned char xi_frame[0x664];  // address-taken locals at their original offsets
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  int &ViewportWidth = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x30);
   unsigned int &v38 = *reinterpret_cast<unsigned int *>(xi_frame + 0x34);
-  float v39;
-  float v40;
+  float &v39 = *reinterpret_cast<float *>(xi_frame + 0x38);
+  float &v40 = *reinterpret_cast<float *>(xi_frame + 0x3C);
   float &v41 = *reinterpret_cast<float *>(xi_frame + 0x40);
-  float v42;
-  float v43;
-  int v44;
-  float v45;
-  float v46;
-  float v47;
-  float v48;
+  float &v42 = *reinterpret_cast<float *>(xi_frame + 0x44);
+  float &v43 = *reinterpret_cast<float *>(xi_frame + 0x48);
+  int &v44 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  float &v45 = *reinterpret_cast<float *>(xi_frame + 0x50);
+  float &v46 = *reinterpret_cast<float *>(xi_frame + 0x54);
+  float &v47 = *reinterpret_cast<float *>(xi_frame + 0x58);
+  float &v48 = *reinterpret_cast<float *>(xi_frame + 0x5C);
   float (&v49)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0x60);
   _DWORD (&v50)[52] = *reinterpret_cast<_DWORD (*)[52]>(xi_frame + 0x90);
   char (&v51)[8] = *reinterpret_cast<char (*)[8]>(xi_frame + 0x160);
@@ -410,10 +410,10 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   v5 = 0;
   v6 = v43 == 1.0;
   v47 = v43;
-  if ( ((__int16)((v4 ? 0x100 : 0) | (v5 ? 0x400 : 0) | (v6 ? 0x4000 : 0)) & 0x100) != 0 && v43 >= 0.0 )
+  if ( ((__int16)(((v4 || __builtin_isunordered(v43, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v43, 1.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v43, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v43 >= 0.0 )
   {
-    orig_void::Gfx_NdcToScreen(&v41);
-    orig_void::Vec2_AddScalar(&v41, -0.5);
+    orig::Gfx_NdcToScreen(&v41);
+    orig::Vec2_AddScalar(&v41, -0.5);
     *(float *)&v36 = v41 >= 0.0 ? v41 : -v41;
     ViewportWidth = (unsigned __int16)orig::Camera_GetViewportWidth();
     if ( (double)ViewportWidth + 100.0 >= *(float *)&v36 )
@@ -554,7 +554,7 @@ LABEL_28:
             {
               v49[0] = v45 * *(v26 - 1);
               v49[1] = v46 * *v26;
-              orig_void::Vec2_Add(v22 - 2, &v41, v49);
+              orig::Vec2_Add(v22 - 2, &v41, v49);
               v28 = *(v20 - 1);
               v29 = *v20;
               *v22 = v47;

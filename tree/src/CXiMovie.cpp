@@ -57,7 +57,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
     v14 = *(float *)&a3 < 1.0;
     v15 = 0;
     v16 = *(float *)&a3 == 1.0;
-    LOWORD(result) = (__int16)((v14 ? 0x100 : 0) | (v15 ? 0x400 : 0) | (v16 ? 0x4000 : 0));
+    LOWORD(result) = (__int16)(((v14 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&a3, 1.0)) ? 0x400 : 0) | ((v16 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x4000 : 0));
     if ( *(float *)&a3 != 1.0 )
     {
       g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
@@ -69,7 +69,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 29 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 12 returned normally, 34 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CXiMovie::DrawFrame()
 {
   int result;

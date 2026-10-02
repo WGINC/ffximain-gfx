@@ -15,6 +15,7 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_);  // 0x10003B60
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3);  // 0x10003D70
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_);  // 0x10007EF0
+XI_API char __thiscall App_InitScene(int self_, int a2);  // 0x10010D20
 XI_API int __thiscall Frame_Render(void *self_);  // 0x10011A00
 XI_API int __cdecl Post_Afterimage(void);  // 0x10012F40
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_);  // 0x100132B0
@@ -24,10 +25,12 @@ XI_API char __thiscall App_StepGameState7(_WORD *self_);  // 0x10013F10
 XI_API char __thiscall App_StepGameState8(_WORD *self_);  // 0x10014030
 XI_API bool __cdecl App_StepGameState9(void);  // 0x10014120
 XI_API char __thiscall fn_100141C0(_WORD *self_);  // 0x100141C0
+XI_API void __cdecl Camera_ApplyViewProjection(void);  // 0x10015510
 XI_API int __cdecl App_WinMain(int a1, int a2);  // 0x100157E0
 XI_API char __cdecl App_CreateRendererAndApp(void);  // 0x100161B0
 XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_);  // 0x10017230
 XI_API int __stdcall fn_10017310(int a1, int a2);  // 0x10017310
+XI_API void __cdecl fn_1001C930(int a1);  // 0x1001C930
 XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void);  // 0x1001D0A0
 XI_API char __thiscall Model_BeginTranslucentPass(int self_);  // 0x1001D240
 XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_);  // 0x1001D350
@@ -49,6 +52,7 @@ XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2);  // 0x10027870
 XI_API float * __cdecl Gfx_NdcToScreen(float *a1);  // 0x100278E0
 XI_API float * __cdecl Gfx_ScreenDeltaToNdc(float *a1, float *a2);  // 0x10027930
 XI_API int __stdcall Mem_DrawHeapUsageBar(int a1, int a2, int a3, int a4, int a5);  // 0x100295A0
+XI_API int __cdecl fn_10029A50(void);  // 0x10029A50
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1);  // 0x1002F160
 XI_API int __cdecl Gfx_ApplyCachedVertexShader(void);  // 0x1002F1A0
 XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3);  // 0x10033800
@@ -78,6 +82,7 @@ XI_API int __cdecl Gfx_SetAdditiveBlend(void);  // 0x1011BDC0
 XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4);  // 0x1011C1F0
 XI_API void __thiscall Font_LoadHighResTexture(int *self_);  // 0x1011C720
 XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2);  // 0x1011E800
+XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, int a5, int a6);  // 0x1011E980
 XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21);  // 0x1011EDE0
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12);  // 0x1011EF60
 XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, int a4, int a5);  // 0x1011F300
@@ -90,6 +95,7 @@ XI_API int __cdecl fn_10162010(int a1, int a2);  // 0x10162010
 XI_API int __cdecl Gfx_ApplyViewport1904(void);  // 0x101620B0
 XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2);  // 0x10163400
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3);  // 0x1016DDF0
+XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8);  // 0x1016FCD0
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2);  // 0x10174B10
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void);  // 0x10174EC0
 XI_API int __stdcall fn_101771B0(int a1, int a2);  // 0x101771B0
@@ -108,6 +114,7 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4);  // 0x10
 XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4);  // 0x1017DE20
 XI_API int __stdcall Gfx_DrawWireBox(int a1);  // 0x10182F10
 XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3);  // 0x10183DA0
+XI_API int __thiscall fn_10185CA0(void *self_, int a1, int a2, int a3, int a4);  // 0x10185CA0
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3);  // 0x10188E00
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2);  // 0x10188FA0
 XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3);  // 0x101C8DA0
@@ -115,6 +122,7 @@ XI_API char __thiscall fn_101EEBD0(int self_);  // 0x101EEBD0
 XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2);  // 0x1021E060
 XI_API int __thiscall fn_102214D0(int self_);  // 0x102214D0
 XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_);  // 0x102394A0
+XI_API int __cdecl fn_1024CF50(_DWORD *a1);  // 0x1024CF50
 XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1);  // 0x1024F900
 XI_API int __cdecl fn_102501C0(_BYTE *a1);  // 0x102501C0
 XI_API int __cdecl StAvatar_Shutdown(int *a1);  // 0x102504D0
@@ -158,10 +166,12 @@ XI_API int __cdecl sqgxVertexShaderSelect(void);  // 0x10284A80
 XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2);  // 0x10284B20
 XI_API int __cdecl sqgxVertexShaderRelease(void);  // 0x10284EF0
 XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void);  // 0x1028AA70
+XI_API int __cdecl sqgxShape_1028AFE0(void);  // 0x1028AFE0
 XI_API void __cdecl sqsnSceneDrawLayers(int a1);  // 0x1028F8C0
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1);  // 0x10297CC0
 XI_API int __cdecl sqsnShadowStencilTest(int a1);  // 0x10297EC0
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void);  // 0x102981E0
+XI_API _DWORD * __cdecl fn_1029B620(void);  // 0x1029B620
 XI_API void __cdecl fn_1029B9D0(IDirect3DVertexBuffer8 **a1);  // 0x1029B9D0
 XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3);  // 0x102A21F0
 XI_API void __cdecl sqsnSceneLayerDrawPlanarShadows(int a1, int a2);  // 0x102A2530

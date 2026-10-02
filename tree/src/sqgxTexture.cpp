@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10281830  (unit sqgxTexture: name sqgxTextureAdd)
-// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE *a4)
 {
   IDirect3DBaseTexture8 *v4;
@@ -135,7 +135,7 @@ XI_API int __cdecl sqgxTextureSetPalette(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281DB0  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 57 returned normally, 348581 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 83 returned normally, 773 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10281DB0(void)
 {
   int result;

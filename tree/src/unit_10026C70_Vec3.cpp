@@ -5,9 +5,11 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
 {
-  float v2[16];
-  _BYTE v3[64];
-  _BYTE v4[64];
+  alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
+  float (&v2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4);
+  _BYTE (&v3)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x44);
+  _BYTE (&v4)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x84);
+
   orig::fn_10027990((Iostream_init *)v2);
   orig::fn_10027990((Iostream_init *)v4);
   orig::fn_10027990((Iostream_init *)v3);
@@ -35,7 +37,7 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
   orig::CDx_GetTransformCached(g_pCDx, 2, v3);
   orig::Mat4_PostMultiply((int)v2, (int)v3);
   orig::Vec4_Copy(a1, a2);
-  orig_void::Mat4_TransformVec4InPlace(v2, a1);
+  orig::Mat4_TransformVec4InPlace(v2, a1);
   orig::nullsub_1();
   orig::nullsub_1();
 }
@@ -53,7 +55,7 @@ XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100278E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API float * __cdecl Gfx_NdcToScreen(float *a1)
 {
   unsigned __int8 *RenderTargetTop;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102816E0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 42 returned normally, 23 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 73 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureAddDepthStencil(int a1, int a2, int a3)
 {
   int v3;

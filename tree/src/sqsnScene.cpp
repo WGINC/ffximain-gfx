@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 19 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 19 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnSceneDrawLayers(int a1)
 {
   int v2;
@@ -190,7 +190,7 @@ LABEL_53:
           v21 = v20 < 0.999;
           v22 = 0;
           v23 = v20 == 0.999;
-          if ( ((__int16)((v21 ? 0x100 : 0) | (v22 ? 0x400 : 0) | (v23 ? 0x4000 : 0)) & 0x4100) == 0 )
+          if ( ((__int16)(((v21 || __builtin_isunordered(v20, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 0.999)) ? 0x400 : 0) | ((v23 || __builtin_isunordered(v20, 0.999)) ? 0x4000 : 0)) & 0x4100) == 0 )
           {
 LABEL_46:
             orig::nullsub_60(a1, v15);
@@ -207,7 +207,7 @@ LABEL_46:
           v26 = v25 < 0.999;
           v27 = 0;
           v28 = v25 == 0.999;
-          if ( ((__int16)((v26 ? 0x100 : 0) | (v27 ? 0x400 : 0) | (v28 ? 0x4000 : 0)) & 0x4100) == 0 )
+          if ( ((__int16)(((v26 || __builtin_isunordered(v25, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v25, 0.999)) ? 0x400 : 0) | ((v28 || __builtin_isunordered(v25, 0.999)) ? 0x4000 : 0)) & 0x4100) == 0 )
             goto LABEL_46;
         }
         orig::sqsnSceneLayerDraw((_DWORD *)a1, v15);

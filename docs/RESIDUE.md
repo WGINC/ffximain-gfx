@@ -7,9 +7,9 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | Microsoft D3DX 8.1 (statically linked) | 47 | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |
 | Constructs C++ cannot express | 9 | Stays original code (`orig::`). Listed below with the exact construct. |
 | Did not compile, or compiles with no gate case | 0 | Translator gaps; listed below. |
-| Gate FAIL (decompiled code is wrong) | 14 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
+| Gate FAIL (decompiled code is wrong) | 1 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
-| Gate INCONCLUSIVE (no comparable run) | 33 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
+| Gate INCONCLUSIVE (no comparable run) | 30 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
 
 ## Microsoft D3DX 8.1 (47)
 
@@ -77,36 +77,22 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x1028AB50` | sub_1028AB50 | unsupported construct retaddr |  |
 | `0x102D538A` | sub_102D538A | callee _D3DXFilterTexture@16 has no C++ type (int __userpurge@<eax>(unsigned int edi0@<edi>, struct IDirect3DSurface8 *, const struct tagPALETTEENTRY *, char *, int)) |  |
 
-## Gate FAIL (14)
+## Gate FAIL (1)
 
 | Address | Name | First difference | Reconstruction line at the divergence | What it does |
 |---|---|---|---|---|
-| `0x10010D20` | App_InitScene | stubbed call #17 differs: original 0x1000C6E0(ecx=0x300015C0, 0x00000000, 0x00000000) / reconstruction 0x1000C | `G_1047D128 = 0;` | Scene/app init: creates every render target (scene A/B CAcc2 @CDx+0x190, 256x256 CAcc @CDx+0x1BC, menu-resolut... |
-| `0x10015510` | Camera_ApplyViewProjection | x87 stack depth differs after return |  | Builds and sets D3DTS_VIEW then D3DTS_PROJECTION from the camera object at 0x104568FC. |
-| `0x1001C930` | sub_1001C930 | stubbed call #4 differs: original 0x10026FA0(ecx=0x00000000, 0x87019FA8, 0x38F41988, 0x38F41E88) / reconstruct | `F_10026FA0((float *)((char *)&v34 + v2), (float *)(v2 + a1 + 64), (float *)(v2 + a1 + 1344` |  |
-| `0x10029A50` | sub_10029A50 | ended differently: original return  / reconstruction fault access 0x00000000 size 1 type 21 |  |  |
-| `0x1002B6E0` | CXiSkeletonActor_DrawModel | ended differently: original return  / reconstruction fault access 0x00000068 size 1 type 20 |  | Per-actor model draw: resets state, transforms, fog modes, animates via Model_AnimateEntry (both branches), dr... |
-| `0x1003CB30` | CMoCamera_SetPathData | ended differently: original return  / reconstruction limit  |  | Copies a fixed position/direction pair plus a variable-length waypoint array (packed count field, same format ... |
-| `0x10047C30` | CMoGeneratorClone_InitCloneFromSource | ended differently: original return  / reconstruction limit  |  | Zeroes a block, copies transform fields (fixed + a variable-length waypoint-style array) from a source struct. |
-| `0x100CFC10` | CXiSkeletonActor_Slot244_Unknown | memory differs at 18 byte(s), first 0x8A514C9A: original unchanged / reconstruction 248 | `*(float *)a2 = v28;` | RETRACTED as SetAction candidate (2026-09-26): the real SetAction is 0x100CEE40, found by callee identity. Thi... |
-| `0x100D62C0` | CXiSkeletonActor_DrawResourceShadows | ended differently: original return  / reconstruction fault access 0x00000001 size 4 type 19 | `result = F_1002B5A0(self + 1652);` | AUTHOR-INFERRED, PC slot 194: for each resident resource of the model sub-object (+0x674), draws it through th... |
-| `0x1011E980` | sub_1011E980 | stubbed call #8 differs: original 0x1011F300(ecx=0x30001390, 0x300013E0, 0x00000001, 0x00000000, 0x00000002) / | `*(v56 - 1) = *(_DWORD *)&v61[i + 16];` |  |
-| `0x10185CA0` | sub_10185CA0 | ended differently: original return  / reconstruction fault access 0x00000008 size 4 type 19 | `pDevice = G_1045666C->pDevice;` |  |
-| `0x1024CF50` | sub_1024CF50 | stubbed call #23 differs: original 0x10271C80(ecx=0x00000000, 0x00000000, 0x00000040, 0x00000001, 0x00000040)  | `a1[11] = 0;` |  |
-| `0x1028AFE0` | sqgxShape_1028AFE0 | ended differently: original return  / reconstruction limit  | `F_1028BB10(i);` |  |
-| `0x1029B620` | sub_1029B620 | memory differs at 5 byte(s), first 0x30E70A40: original 0 / reconstruction 3 | `*v2 = *(_DWORD *)((char *)v2 + 2400 - (_DWORD)v0 + G_1099D200);` |  |
+| `0x100C63D0` | CXiSkeletonActor_OnMove | memory differs at 33 byte(s), first 0x30002A8C: original 16 / reconstruction unchanged |  | PS2 vtable slot 5 (OnMove) -> PC slot 8. The per-frame actor update. |
 
-## Gate INCONCLUSIVE (33)
+## Gate INCONCLUSIVE (30)
 
 | Address | Name | Original outcomes | What it does |
 |---|---|---|---|
 | `0x10002130` | Gfx_ProbeDeviceCaps | fault 100 | CheckDeviceType + CheckDeviceFormat probes, including DXT1/DXT3/DXT5. |
-| `0x10003040` | Gfx_DestroyD3DHolder | fault 99, limit 1 |  |
+| `0x10003040` | Gfx_DestroyD3DHolder | fault 100 |  |
 | `0x10003890` | sub_10003890 | fault 100 |  |
 | `0x100091B0` | CDx_Initialize | import 100 | CheckDeviceFormat x3, multisample checks x2, loads mousenor.ani. Queries shader-model support (verified D3DVS_... |
-| `0x10009F20` | CDx_PushRenderTargetTexture | fault 99, limit 1 | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
+| `0x10009F20` | CDx_PushRenderTargetTexture | fault 100 | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
 | `0x1000A6E0` | CDx_CreateTexture | fault 100 | Sole texture-creation wrapper; format passed as variable. 10 calling functions. |
-| `0x1000A820` | CDx_DrawFadeQuad | fault 100 | Global fade quad: alpha <= 0x80 darkens (fade to black), > 0x80 adds (fade to white). |
 | `0x1000C7C0` | CDx_ReleaseStereoResources | fault 100 | Releases +0x814/+0x81C/+0x824/+0x82C. |
 | `0x10016320` | sub_10016320 | fault 100 |  |
 | `0x10017810` | sub_10017810 | fault 100 |  |
@@ -114,23 +100,21 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x10025260` | sub_10025260 | fault 100 |  |
 | `0x10033710` | sub_10033710 | fault 100 |  |
 | `0x1003F440` | CMoDistMorphElem_ApplyMorph | fault 100 | The actual morph-apply function, called with the cached handle and both morph field addresses from CMoDistMorp... |
-| `0x10040C20` | CMoElemFamily_SharedEarlyExit | fault 99, limit 1 | Shared no-op/early-exit path several CMoElem-family update functions tail-jump into when a flag indicates no w... |
+| `0x10040C20` | CMoElemFamily_SharedEarlyExit | fault 100 | Shared no-op/early-exit path several CMoElem-family update functions tail-jump into when a flag indicates no w... |
 | `0x100426F0` | sub_100426F0 | fault 100 |  |
 | `0x10042D00` | CMoDistMorphElem_ValidateMorphData | fault 100 | Validates morph blend data; CMoDistMorphElem_UpdateMorphBlend early-exits if this returns false. |
 | `0x100467E0` | sub_100467E0 | fault 100 |  |
 | `0x10047590` | CMoSkeletonElem_UpdateBoneTransform | fault 100 | Normalizes local rotation (Euler wraparound), calls Mat4x4_Multiply to combine with the parent's matrix (confi... |
-| `0x100548D0` | sub_100548D0 | fault 99, limit 1 |  |
+| `0x100548D0` | sub_100548D0 | fault 100 |  |
 | `0x1006C140` | CMoOcclusionMng_Constructor | fault 100 |  |
 | `0x1006C530` | sub_1006C530 | fault 100 | Draws the queried region into the 16x16 occlusion target: two CDx_DrawPrimitiveUP calls, state set directly on... |
-| `0x1006E6B0` | CMoProcessor_ScratchMatrixOp | fault 99, limit 1 | CORRECTED from an earlier name (Pool_AllocSlot) that undersold what this does. Full decompilation shows a self... |
+| `0x1006E6B0` | CMoProcessor_ScratchMatrixOp | fault 100 | CORRECTED from an earlier name (Pool_AllocSlot) that undersold what this does. Full decompilation shows a self... |
 | `0x10075280` | Gfx_InitCubeMapTextures | fault 100 |  |
 | `0x100AC390` | sub_100AC390 | fault 100 |  |
-| `0x100C4CE0` | sub_100C4CE0 | fault 98, limit 2 |  |
+| `0x100C4CE0` | sub_100C4CE0 | fault 100 |  |
 | `0x100CB4E0` | Actor_SelectNearestLights | fault 100 |  |
-| `0x100CE480` | CXiSkeletonActor_ReverseFindRes | fault 100 | PS2 XiSkeletonActor::ReverseFindRes(RES_TYPE, uint, uint, int) (0x1CF770). Called with (7, id, -1, ...) by Set... |
-| `0x1016FCD0` | sub_1016FCD0 | limit 26, fault 74 |  |
 | `0x1017B510` | sub_1017B510 | fault 100 | Sets D3DTS_PROJECTION plus fog table/vertex/range modes, fog color/start/end and ambient from the renderer blo... |
 | `0x10183490` | sub_10183490 | fault 100 |  |
 | `0x10183760` | sub_10183760 | fault 100 |  |
-| `0x10280DE0` | sqgx_DrawRect_Candidate | fault 99, limit 1 |  |
+| `0x10280DE0` | sqgx_DrawRect_Candidate | fault 100 |  |
 

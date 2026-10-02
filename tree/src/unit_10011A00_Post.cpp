@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 583 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 57 returned normally, 378 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Frame_Render(void *self_)
 {
   double v2;
@@ -458,7 +458,7 @@ LABEL_102:
     *(float *)&a2 = 0.0;
     v105 = 1065353216;
     *(float *)&a2 = -orig::sub_10186FE0(g_pXiZone);
-    orig_void::Mat4_TransformPointInPlace((float *)self_ + 165, (float *)&a4);
+    orig::Mat4_TransformPointInPlace((float *)self_ + 165, (float *)&a4);
     orig::CDx_SetTransform(&g_pCDx->vftable, 256, dword_104568A8);
     orig::CDx_SetTransform(&g_pCDx->vftable, 2, (char *)self_ + 148);
     orig::Gfx_ProjectWorldToClip((float *)&a4, &a4);
@@ -650,7 +650,7 @@ LABEL_102:
     v42 = v39 < v40;
     v43 = 0;
     v44 = v39 == v40;
-    if ( ((__int16)((v42 ? 0x100 : 0) | (v43 ? 0x400 : 0) | (v44 ? 0x4000 : 0)) & 0x100) == 0 )
+    if ( ((__int16)(((v42 || __builtin_isunordered(v39, v40)) ? 0x100 : 0) | ((__builtin_isunordered(v39, v40)) ? 0x400 : 0) | ((v44 || __builtin_isunordered(v39, v40)) ? 0x4000 : 0)) & 0x100) == 0 )
       break;
     Sleep(1u);
     _mm_pause();
@@ -675,7 +675,7 @@ LABEL_102:
       v53 = 0;
       v54 = v51 == *((float *)self_ + 10);
     }
-    while ( ((__int16)((v52 ? 0x100 : 0) | (v53 ? 0x400 : 0) | (v54 ? 0x4000 : 0)) & 0x4100) == 0 );
+    while ( ((__int16)(((v52 || __builtin_isunordered(v51, *((float *)self_ + 10))) ? 0x100 : 0) | ((__builtin_isunordered(v51, *((float *)self_ + 10))) ? 0x400 : 0) | ((v54 || __builtin_isunordered(v51, *((float *)self_ + 10))) ? 0x4000 : 0)) & 0x4100) == 0 );
   }
   v55 = 60.0 / ((double (__thiscall *)(_DWORD))*(_DWORD *)(**((_DWORD **)self_ + 7) + 36))(*((_DWORD *)self_ + 7))
       + *((float *)self_ + 15);
@@ -707,12 +707,12 @@ LABEL_102:
   v64 = v63 < 20.0;
   v65 = 0;
   v66 = v63 == 20.0;
-  if ( ((__int16)((v64 ? 0x100 : 0) | (v65 ? 0x400 : 0) | (v66 ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v64 || __builtin_isunordered(v63, 20.0)) ? 0x100 : 0) | ((__builtin_isunordered(v63, 20.0)) ? 0x400 : 0) | ((v66 || __builtin_isunordered(v63, 20.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
     *((_DWORD *)self_ + 10) = 1101004800;
   v67 = v57 < 20.0;
   v68 = 0;
   v69 = v57 == 20.0;
-  if ( ((__int16)((v67 ? 0x100 : 0) | (v68 ? 0x400 : 0) | (v69 ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v67 || __builtin_isunordered(v57, 20.0)) ? 0x100 : 0) | ((__builtin_isunordered(v57, 20.0)) ? 0x400 : 0) | ((v69 || __builtin_isunordered(v57, 20.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
     v57 = 20.0;
   *((float *)self_ + 11) = v57;
   flt_10456960 = 60.0 / *((float *)self_ + 10);
@@ -728,7 +728,7 @@ LABEL_102:
     v74 = v72 < 4000.0;
     v75 = 0;
     v76 = v72 == 4000.0;
-    if ( ((__int16)((v74 ? 0x100 : 0) | (v75 ? 0x400 : 0) | (v76 ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v74 || __builtin_isunordered(v72, 4000.0)) ? 0x100 : 0) | ((__builtin_isunordered(v72, 4000.0)) ? 0x400 : 0) | ((v76 || __builtin_isunordered(v72, 4000.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       GetLocalTime(&SystemTime);
       if ( SystemTime.wSecond != (_WORD)dword_103501A4 )
@@ -749,7 +749,7 @@ LABEL_102:
             v84 = v79 < 1500.0;
             v85 = 0;
             v86 = v79 == 1500.0;
-            if ( ((__int16)((v84 ? 0x100 : 0) | (v85 ? 0x400 : 0) | (v86 ? 0x4000 : 0)) & 0x100) == 0 )
+            if ( ((__int16)(((v84 || __builtin_isunordered(v79, 1500.0)) ? 0x100 : 0) | ((__builtin_isunordered(v79, 1500.0)) ? 0x400 : 0) | ((v86 || __builtin_isunordered(v79, 1500.0)) ? 0x4000 : 0)) & 0x100) == 0 )
               dword_1045695C = 2;
           }
           else if ( dword_1045695C == 2 )
@@ -757,7 +757,7 @@ LABEL_102:
             v80 = v79 < 1500.0;
             v81 = 0;
             v82 = v79 == 1500.0;
-            if ( ((__int16)((v80 ? 0x100 : 0) | (v81 ? 0x400 : 0) | (v82 ? 0x4000 : 0)) & 0x100) != 0 )
+            if ( ((__int16)(((v80 || __builtin_isunordered(v79, 1500.0)) ? 0x100 : 0) | ((__builtin_isunordered(v79, 1500.0)) ? 0x400 : 0) | ((v82 || __builtin_isunordered(v79, 1500.0)) ? 0x4000 : 0)) & 0x100) != 0 )
             {
               if ( dword_10456958++ > 2 )
               {
@@ -841,7 +841,7 @@ XI_API int __cdecl Post_Afterimage(void)
     v2 = g_afterimageStrength < 0.0;
     v3 = 0;
     v4 = g_afterimageStrength == 0.0;
-    LOWORD(result) = (__int16)((v2 ? 0x100 : 0) | (v3 ? 0x400 : 0) | (v4 ? 0x4000 : 0));
+    LOWORD(result) = (__int16)(((v2 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x4000 : 0));
     if ( g_afterimageStrength > 0.0 )
     {
       if ( g_afterimageState == 1 )
@@ -925,7 +925,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x100132B0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 38 returned normally, 437 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 83 returned normally, 1547 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
 {
   int result;
@@ -941,10 +941,12 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
   int v12;
   unsigned int v13;
   int v14;
-  int v15[2];
-  int a4;
-  int v17;
-  int v18[4];
+  alignas(16) unsigned char xi_frame[0x618];  // address-taken locals at their original offsets
+  int (&v15)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x208);
+  int &a4 = *reinterpret_cast<int *>(xi_frame + 0x210);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x214);
+  int (&v18)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x218);
+
   HIDWORD(v3) = 0;
   if ( *((_BYTE *)self_ + 806) != 0 || *((_BYTE *)self_ + 805) != 0 || *((_BYTE *)self_ + 804) != 0 )
   {
@@ -1109,7 +1111,7 @@ LABEL_28:
 }
 
 // FUNCTION: FFXIMAIN 0x10013AD0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 40 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
 {
   __int16 v3;
@@ -1229,7 +1231,7 @@ LABEL_25:
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
@@ -1279,7 +1281,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
@@ -1328,7 +1330,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
@@ -1372,7 +1374,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();

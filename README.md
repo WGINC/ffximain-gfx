@@ -14,7 +14,7 @@ Private work: nothing here is published, and no game bytes are in the repo.
 | `verification/` | Gate results (raw and clean), cases, first-divergence localisation, mutation test |
 | `docs/` | Reports (`REPORT-2026-10-02.md` is current), `RESIDUE.md` (every function not in the verified tree, with the reason), `PLAN.md`, the name reports |
 | `pipeline/` | Translator (`hx2cpp.py`, `hx2clean.py`), gate (`diffemu_gfx.py`, `gate_some.py`), IDA side (`ida_gfx.py`, `ida_apply_names.py`), Ghidra side (`ghidra/GfxExport.java`), and the tools below |
-| `data/` | Inputs. The Hex-Rays export; facts read from the DLL (`fp_consts`, `ret_kinds`, `fp_callsites`, `fpret`, `purges`); names not yet in the IDB (`names_pending_idb.json`, `field_names.json`); hand corrections (`hx_patches/`); the coverage list (`gfx_extension.json`); class vtables, prototypes, the D3D8 spec, DancingMad names |
+| `data/` | Inputs. The Hex-Rays export; facts read from the DLL (`fp_consts`, `ret_kinds`, `fp_callsites`, `fpret`, `purges`); names not yet in the IDB (`names_pending_idb.json`, `field_names.json`); hand corrections (`hx_patches/`, `type_fixes.json`, `ida_sp_fixes.json`); the gate's input model (`input_ranges.json`, `allocators.json`, `leaf_funcs.json`); the coverage list (`gfx_extension.json`); class vtables, prototypes, the D3D8 spec, DancingMad names |
 | `incoming/` | The parallel session's renamed/organised tree: reviewed, merged (`docs/REVIEW-parallel.md`), kept for provenance |
 | `runs/` | Scratch output of `run.sh` (ignored, like every `*.dll`) |
 
@@ -33,7 +33,7 @@ Private work: nothing here is published, and no game bytes are in the repo.
 
 Steps can be run one at a time: `./run.sh facts|translate|cases|gate|clean|cleangate|residue`.
 
-The gate runs as a work queue with one worker per core (`$JOBS`). A full gate takes about an hour on 4 cores; a few functions are slow (`docs/PLAN.md`).
+The gate runs as a work queue with one worker per core (`$JOBS`). A full gate takes about 8 minutes on 4 cores.
 To gate only part of it, use `pipeline/gate_some.py RUN fail|notpass|changed:DIR|0xADDR...`.
 
 **Requirements**
@@ -43,36 +43,40 @@ To gate only part of it, use `pipeline/gate_some.py RUN fail|notpass|changed:DIR
 - Optionally Ghidra 12 with JDK 21 (see *Coverage*).
 - `gen_d3dx_bind.py` needs `DX81_INCLUDE` pointing at the DirectX 8.1 SDK headers.
 
-## Status (2 Oct 2026)
+## Status (2 Oct 2026, evening)
 
 768 graphics functions, every one with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** | **665**, 0 failures |
+| **Verified in the clean tree, as built** | **681**, 0 failures |
 | Microsoft D3DX 8.1 | 47 |
 | Constructs C++ cannot express | 9 |
-| Gate FAIL (first divergence recorded) | 14 |
-| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 33 |
+| Gate FAIL (first divergence recorded) | 1 |
+| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 30 |
 | Do not compile | 0 |
 
-Placement of the 665 tree functions:
-- **501 are class members:** 450 instance methods and 51 static methods.
-- **164 are free functions,** each in the file of its source unit: 139 in units identified only by link order (`unit_*.cpp`) and 25 in named units.
+Placement of the 681 tree functions:
+- **507 are class members:** 456 instance methods and 51 static methods.
+- **174 are free functions,** each in the file of its source unit: 147 in units identified only by link order (`unit_*.cpp`) and 27 in named units.
 
-On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The gate and translator repairs since then are described in `docs/REPORT-2026-10-02.md`.
+The one FAIL, `CXiSkeletonActor_OnMove`, is an IDA stack-pointer error, not a translation error: IDA's SP is
+4 bytes short between two indirect calls (0x100C6693..0x100C7902), so Hex-Rays gives one stack slot two
+names. The correction is in `data/ida_sp_fixes.json`; apply it in IDA (`ida_apply_names.apply_sp()`) and
+re-export the function.
+
+On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The repairs since,
+to the translator, the gate model and the data, are described in `docs/REPORT-2026-10-02.md`.
 
 Names:
 - **1 Oct:** 545 functions were named from the code (`docs/NAMES-2026-10-01.md`).
 - **2 Oct:**
   - 195 globals and callees were named (`docs/NAMES-2026-10-02.md`);
   - 90 fields were named (`data/field_names.json`).
-- These names are applied by the generator but are **not yet in the IDB**: run `pipeline/ida_apply_names.py` in IDA.
-- Still unnamed in the tree:
-  - 21 functions, all newly verified;
-  - 157 `sub_` callees;
-  - 247 data placeholders;
-  - 252 `field_XXX` members.
+- These names, and the type and SP corrections in `data/`, are applied by the generator but are **not yet
+  in the IDB**: run `pipeline/ida_apply_names.py` in IDA (it applies names, `type_fixes.json` and
+  `ida_sp_fixes.json`), then re-export.
+- Still unnamed in the tree: 198 distinct `sub_` names (functions and callees) and 233 `field_XXX` members.
 
 ## Coverage: is every graphical system here?
 
@@ -115,6 +119,9 @@ Names:
 | `name_context.py` | The evidence for naming placeholders and `field_XXX` members |
 | `gfx_coverage.py` | The coverage audit above |
 | `same_code.py` | Are two builds the same code, function by function (renames and moves must be) |
-| `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py` | Facts from the DLL (`run.sh facts`) |
+| `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py`, `cdecl_args.py`, `leaf_funcs.py` | Facts from the DLL (`run.sh facts`) |
+| `stack_depth.py`, `ida_sp_check.py` | The real stack depth at each instruction, and where IDA's own SP (read from its listing) differs: the cause of a stack variable with two names |
+| `unset_reads.py` | Locals Hex-Rays reads but never assigns (a lost return value, a misframed argument, an unmodelled condition code) |
+| `loop_bounds.py` | Why an original runs to the instruction limit: the loop and the fuzzed bound it compares against |
 
 See `docs/REPORT-2026-10-02.md`, `docs/PLAN.md`, `docs/RESIDUE.md`, `docs/PLACEMENT.md` and the name reports.

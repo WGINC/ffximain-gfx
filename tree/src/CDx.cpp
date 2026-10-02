@@ -141,7 +141,7 @@ bool CDx::TestCooperativeLevel()
 }
 
 // FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 117 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CDx::Present()
 {
   D3DHolder *v0;
@@ -338,7 +338,7 @@ int CDx::SetTexture(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 10 returned normally, 20 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -411,6 +411,63 @@ char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
   return 1;
 }
 
+// FUNCTION: FFXIMAIN 0x1000A820  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 1600 D3D calls compared (diffemu_gfx, clean build)
+int CDx::DrawFadeQuad(int a1, int a2)
+{
+  int v4;
+  IDirect3DDevice8 *pDevice;
+  IDirect3DDevice8 v6;
+  orig::CDx_SetDefaultRenderState(this);
+  v4 = a2;
+  if ( a2 != -2139062144 )
+  {
+    if ( (a2 & 0xFF000000) == 0x80000000 )
+      v4 = ((unsigned __int8)a2 * (((unsigned int)a2 >> 7) & 0x1FE0000)) & 0xFF000000;
+    pDevice = this->pDevice;
+    v6.lpVtbl = pDevice->lpVtbl;
+    if ( (v4 & 0xFF000000) <= 0x80000000 )
+    {
+      v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 6u);
+      this->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+      v4 &= 0xFF000000;
+    }
+    else
+    {
+      v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 5u);
+      this->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+    }
+    dword_1034FE00 = v4;
+    dword_1034FE14 = v4;
+    dword_1034FE28 = v4;
+    dword_1034FE3C = v4;
+    flt_1034FDF0 = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
+    flt_1034FE18 = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
+    flt_1034FE04 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
+    flt_1034FE2C = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
+    flt_1034FDF4 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
+    flt_1034FE08 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
+    flt_1034FE1C = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
+    flt_1034FE30 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
+    this->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    this->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    this->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+    this->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+    this->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    this->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    this->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+    this->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+    this->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+    this->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    this->pDevice->SetVertexShader(68u);
+    orig::CDx_DrawPrimitiveUP(this, 5, 2, (int)&flt_1034FDF0, 20);
+  }
+  return orig::CDx_SetDefaultRenderState(this);
+}
+
 // FUNCTION: FFXIMAIN 0x1000AAB0  (placed by typed this)
 // GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build)
 int CDx::Post_DepthBlurComposite(int a1, int a2)
@@ -435,7 +492,7 @@ int CDx::Post_DepthBlurComposite(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 64 returned normally, 132 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 186 D3D calls compared (diffemu_gfx, clean build)
 char CDx::DrawStereoOddFrameOverlay(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -581,7 +638,7 @@ int CDx::SetLight(int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 35 returned normally, 1807 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 18 returned normally, 1410 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -769,7 +826,7 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 
 // FUNCTION: FFXIMAIN 0x1000C6E0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-int CDx::CreateStereoResources(int a1, int a2)
+int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int result;
@@ -858,7 +915,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CA00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 63 returned normally, 37 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 36 returned normally, 49 D3D calls compared (diffemu_gfx, clean build)
 char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 {
   IDirect3DSurface8 *v3;
@@ -1028,8 +1085,10 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
-  float v3[12];
-  float v4;
+  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  float (&v3)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0xC);
+  float &v4 = *reinterpret_cast<float *>(xi_frame + 0x3C);
+
   orig::fn_10027990((Iostream_init *)v3);
   orig::Mat4_SetIdentity(v3);
   v2 = *(_DWORD *)&at<uint8_t>(this, 0x810);

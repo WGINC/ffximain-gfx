@@ -9,9 +9,10 @@ char CApp::RunMainLoop()
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   char *v2;
   char *v3;
-  alignas(16) unsigned char xi_frame[0x413];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x414];  // address-taken locals at their original offsets
   char &v5 = *reinterpret_cast<char *>(xi_frame + 0x13);
-  struct tagMSG Msg;
+  struct tagMSG &Msg = *reinterpret_cast<struct tagMSG *>(xi_frame + 0x14);
+
   orig::App_ForceForegroundWindow(*((HWND *)self + 6));
   if ( orig::CDx_Initialize(g_pCDx) != 0 && orig::App_CreateInputSystem(*((HINSTANCE *)self + 5)) != 0 )
   {

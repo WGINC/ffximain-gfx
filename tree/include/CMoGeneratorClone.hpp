@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoGeneratorClone {
 public:
+    int InitCloneFromSource(_DWORD *a2);  // 0x10047C30
     _DWORD * FixupClonedPointers();  // 0x10047CE0
     int CreateInstance(_DWORD *a2, _DWORD *a3, int a4);  // 0x100536C0
     int InitDefaultParams();  // 0x10053E00
@@ -14,7 +15,17 @@ public:
     uint32_t field_14;  // +0x14
     uint8_t _pad_18[0x8];
     uint32_t typeTag;  // +0x20 compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-chara
-    uint8_t _pad_24[0x54];
+    uint32_t field_24;  // +0x24
+    uint32_t field_28;  // +0x28
+    uint32_t field_2C;  // +0x2C
+    uint8_t _pad_30[0x4];
+    uint32_t field_34;  // +0x34
+    uint32_t field_38;  // +0x38
+    uint32_t field_3C;  // +0x3C
+    uint32_t field_40;  // +0x40
+    uint8_t _pad_44[0x2C];
+    uint32_t field_70;  // +0x70
+    uint32_t field_74;  // +0x74
     uint32_t field_78;  // +0x78
     uint32_t field_7C;  // +0x7C
     uint32_t field_80;  // +0x80
@@ -23,7 +34,8 @@ public:
     uint32_t field_8C;  // +0x8C
     uint8_t _pad_90[0x8];
     uint32_t field_98;  // +0x98
-    uint8_t _pad_9C[0x8];
+    uint32_t field_9C;  // +0x9C
+    uint8_t _pad_A0[0x4];
     uint32_t field_A4;  // +0xA4
     uint8_t _pad_A8[0x8];
     uint32_t field_B0;  // +0xB0
@@ -42,6 +54,15 @@ public:
 static_assert(sizeof(CMoGeneratorClone) == 0xFC, "CMoGeneratorClone: sizeof");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_14) == 0x14, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, typeTag) == 0x20, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_24) == 0x24, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_28) == 0x28, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_2C) == 0x2C, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_34) == 0x34, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_38) == 0x38, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_3C) == 0x3C, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_40) == 0x40, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_70) == 0x70, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_74) == 0x74, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_78) == 0x78, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_7C) == 0x7C, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_80) == 0x80, "CMoGeneratorClone: layout");
@@ -49,6 +70,7 @@ static_assert(XI_OFFSETOF(CMoGeneratorClone, field_84) == 0x84, "CMoGeneratorClo
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_88) == 0x88, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_8C) == 0x8C, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_98) == 0x98, "CMoGeneratorClone: layout");
+static_assert(XI_OFFSETOF(CMoGeneratorClone, field_9C) == 0x9C, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_A4) == 0xA4, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, field_B0) == 0xB0, "CMoGeneratorClone: layout");
 static_assert(XI_OFFSETOF(CMoGeneratorClone, flags) == 0xD8, "CMoGeneratorClone: layout");

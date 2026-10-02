@@ -49,7 +49,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
 }
 
 // FUNCTION: FFXIMAIN 0x100255C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1314 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 83 returned normally, 1014 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 {
   int result;
@@ -122,7 +122,7 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10025870  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 30 returned normally, 18 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1278 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a3, int a4)
 {
   __int64 v6; // rcx
@@ -272,7 +272,7 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10025F70  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1710 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 72 returned normally, 1218 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall EnvMap_EndPass(int a1)
 {
   int result;
@@ -404,17 +404,19 @@ XI_API void __cdecl Dbg_DrawGroundGrid(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 {
-  int a3[3];
-  int v1;
-  int v2;
-  int v3;
-  int v4;
-  int v5;
-  float v6[3];
-  _DWORD v7[3];
-  float v8[16];
-  _DWORD v9[16];
-  _BYTE v10[64];
+  alignas(16) unsigned char xi_frame[0x548];  // address-taken locals at their original offsets
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x90);
+  int &v1 = *reinterpret_cast<int *>(xi_frame + 0x9C);
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0xA4);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0xA8);
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0xAC);
+  float (&v6)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0xB0);
+  _DWORD (&v7)[3] = *reinterpret_cast<_DWORD (*)[3]>(xi_frame + 0xBC);
+  float (&v8)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC8);
+  _DWORD (&v9)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x108);
+  _BYTE (&v10)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x148);
+
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
@@ -435,7 +437,7 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
   v6[0] = 0.0;
   v6[1] = 0.0;
   v6[2] = -4.0;
-  orig_void::Mat4_TransformPointInPlace(v8, v6);
+  orig::Mat4_TransformPointInPlace(v8, v6);
   orig::Mat4_SetScale(v9, v7);
   orig::Mat4_SetTranslation(v9, v6);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);
@@ -468,18 +470,20 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100266C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 165 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Dbg_DrawAxesAt(int a1)
 {
-  int a3[3];
-  int v2;
-  int v3;
-  int v4;
-  int v5;
-  int v6;
-  _DWORD v7[16];
-  _BYTE v8[64];
-  _BYTE v9[64];
+  alignas(16) unsigned char xi_frame[0x4B8];  // address-taken locals at their original offsets
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x18);
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  _DWORD (&v7)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x38);
+  _BYTE (&v8)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x78);
+  _BYTE (&v9)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0xB8);
+
   orig::fn_10027990((Iostream_init *)v7);
   orig::fn_10027990((Iostream_init *)v8);
   orig::fn_10027990((Iostream_init *)v9);

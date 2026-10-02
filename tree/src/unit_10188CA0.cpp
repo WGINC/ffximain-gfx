@@ -65,17 +65,17 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
         v9 = v20 < 1.0;
         v10 = 0;
         v11 = v20 == 1.0;
-        if ( ((__int16)((v9 ? 0x100 : 0) | (v10 ? 0x400 : 0) | (v11 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v9 || __builtin_isunordered(v20, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v20, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v20 = 1.0;
         v13 = v21 < 1.0;
         v14 = 0;
         v15 = v21 == 1.0;
-        if ( ((__int16)((v13 ? 0x100 : 0) | (v14 ? 0x400 : 0) | (v15 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v13 || __builtin_isunordered(v21, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v21, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v21, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v21 = 1.0;
         v16 = v6 < 1.0;
         v17 = 0;
         v18 = v6 == 1.0;
-        if ( ((__int16)((v16 ? 0x100 : 0) | (v17 ? 0x400 : 0) | (v18 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v16 || __builtin_isunordered(v6, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 1.0)) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v6, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v6 = 1.0;
       }
       HIWORD(v26) = (unsigned __int8)(__int64)(v20 * 128.0);
@@ -142,17 +142,17 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
         v6 = v16 < 1.0;
         v7 = 0;
         v8 = v16 == 1.0;
-        if ( ((__int16)((v6 ? 0x100 : 0) | (v7 ? 0x400 : 0) | (v8 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v6 || __builtin_isunordered(v16, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v16, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v16, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v16 = 1.0;
         v10 = v17 < 1.0;
         v11 = 0;
         v12 = v17 == 1.0;
-        if ( ((__int16)((v10 ? 0x100 : 0) | (v11 ? 0x400 : 0) | (v12 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v10 || __builtin_isunordered(v17, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v17, 1.0)) ? 0x400 : 0) | ((v12 || __builtin_isunordered(v17, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v17 = 1.0;
         v13 = v4 < 1.0;
         v14 = 0;
         v15 = v4 == 1.0;
-        if ( ((__int16)((v13 ? 0x100 : 0) | (v14 ? 0x400 : 0) | (v15 ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v13 || __builtin_isunordered(v4, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v4, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v4, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v4 = 1.0;
       }
       a2[3] = 0.0;

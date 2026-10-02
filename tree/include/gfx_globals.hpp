@@ -25,6 +25,16 @@ typedef int (*CDx_vtbl_t)();
 #define CDx_vtbl XI_EA(CDx_vtbl_t, 0x103299D4u)
 typedef int (*CYyObject_vtbl_ambiguous0_t)();
 #define CYyObject_vtbl_ambiguous0 XI_EA(CYyObject_vtbl_ambiguous0_t, 0x103299F0u)
+typedef int (*CXiActorNameDraw_vtbl_t)();
+#define CXiActorNameDraw_vtbl XI_EA(CXiActorNameDraw_vtbl_t, 0x10329C18u)
+typedef int (*CXiActorDraw_vtbl_t)();
+#define CXiActorDraw_vtbl XI_EA(CXiActorDraw_vtbl_t, 0x10329C44u)
+typedef int (*CMoTask_vtbl_ambiguous0_t)();
+#define CMoTask_vtbl_ambiguous0 XI_EA(CMoTask_vtbl_ambiguous0_t, 0x10329C70u)
+typedef int (*CMoResourceMng_vtbl_t)();
+#define CMoResourceMng_vtbl XI_EA(CMoResourceMng_vtbl_t, 0x10329C9Cu)
+typedef int (*CMoTaskMng_vtbl_t)();
+#define CMoTaskMng_vtbl XI_EA(CMoTaskMng_vtbl_t, 0x10329CB8u)
 typedef char * CShader_classdesc_t;
 #define CShader_classdesc XI_EA(CShader_classdesc_t, 0x10329EC4u)
 typedef int (*CShader_vtbl_t)();
@@ -193,6 +203,30 @@ typedef char aS_t[1];
 #define aS XI_EA(aS_t, 0x1034F7E0u)
 typedef char g_mouseAcquired_t;
 #define g_mouseAcquired XI_EA(g_mouseAcquired_t, 0x1034F92Cu)
+typedef float flt_1034FDF0_t;
+#define flt_1034FDF0 XI_EA(flt_1034FDF0_t, 0x1034FDF0u)
+typedef float flt_1034FDF4_t;
+#define flt_1034FDF4 XI_EA(flt_1034FDF4_t, 0x1034FDF4u)
+typedef int dword_1034FE00_t;
+#define dword_1034FE00 XI_EA(dword_1034FE00_t, 0x1034FE00u)
+typedef float flt_1034FE04_t;
+#define flt_1034FE04 XI_EA(flt_1034FE04_t, 0x1034FE04u)
+typedef float flt_1034FE08_t;
+#define flt_1034FE08 XI_EA(flt_1034FE08_t, 0x1034FE08u)
+typedef int dword_1034FE14_t;
+#define dword_1034FE14 XI_EA(dword_1034FE14_t, 0x1034FE14u)
+typedef float flt_1034FE18_t;
+#define flt_1034FE18 XI_EA(flt_1034FE18_t, 0x1034FE18u)
+typedef float flt_1034FE1C_t;
+#define flt_1034FE1C XI_EA(flt_1034FE1C_t, 0x1034FE1Cu)
+typedef int dword_1034FE28_t;
+#define dword_1034FE28 XI_EA(dword_1034FE28_t, 0x1034FE28u)
+typedef float flt_1034FE2C_t;
+#define flt_1034FE2C XI_EA(flt_1034FE2C_t, 0x1034FE2Cu)
+typedef float flt_1034FE30_t;
+#define flt_1034FE30 XI_EA(flt_1034FE30_t, 0x1034FE30u)
+typedef int dword_1034FE3C_t;
+#define dword_1034FE3C XI_EA(dword_1034FE3C_t, 0x1034FE3Cu)
 typedef int g_stereoEyeOffset_t;
 #define g_stereoEyeOffset XI_EA(g_stereoEyeOffset_t, 0x1034FFA0u)
 typedef int dword_10350174_t;
@@ -253,6 +287,8 @@ typedef int dword_103511E0_t[];
 #define dword_103511E0 XI_EA(dword_103511E0_t, 0x103511E0u)
 typedef char * off_10351514_t;
 #define off_10351514 XI_EA(off_10351514_t, 0x10351514u)
+typedef _DWORD unk_10351518_t[17];
+#define unk_10351518 XI_EA(unk_10351518_t, 0x10351518u)
 typedef int c_ps2White_t;
 #define c_ps2White XI_EA(c_ps2White_t, 0x103515BCu)
 typedef _BYTE g_vsDecl_1628_t;
@@ -361,14 +397,6 @@ typedef int dword_1035D708_t;
 #define dword_1035D708 XI_EA(dword_1035D708_t, 0x1035D708u)
 typedef int dword_1035D70C_t;
 #define dword_1035D70C XI_EA(dword_1035D70C_t, 0x1035D70Cu)
-typedef int dword_1035D710_t;
-#define dword_1035D710 XI_EA(dword_1035D710_t, 0x1035D710u)
-typedef int dword_1035D714_t;
-#define dword_1035D714 XI_EA(dword_1035D714_t, 0x1035D714u)
-typedef int dword_1035D718_t;
-#define dword_1035D718 XI_EA(dword_1035D718_t, 0x1035D718u)
-typedef int dword_1035D71C_t;
-#define dword_1035D71C XI_EA(dword_1035D71C_t, 0x1035D71Cu)
 typedef _UNKNOWN * off_1035F378_t;
 #define off_1035F378 XI_EA(off_1035F378_t, 0x1035F378u)
 typedef __int16 word_1035F410_t[58];
@@ -457,6 +485,8 @@ typedef char aAncAncScro_t[1];
 #define aAncAncScro XI_EA(aAncAncScro_t, 0x1036E6C8u)
 typedef char aMenuKeytops3_t[1];
 #define aMenuKeytops3 XI_EA(aMenuKeytops3_t, 0x1036FFC8u)
+typedef char byte_10376AC0_t[256];
+#define byte_10376AC0 XI_EA(byte_10376AC0_t, 0x10376AC0u)
 typedef char aCTestVsh_t[1];
 #define aCTestVsh XI_EA(aCTestVsh_t, 0x10376CA4u)
 typedef _BYTE g_zoneVSDeclA_t;
@@ -481,6 +511,18 @@ typedef float flt_103773C4_t;
 #define flt_103773C4 XI_EA(flt_103773C4_t, 0x103773C4u)
 typedef float flt_103773C8_t;
 #define flt_103773C8 XI_EA(flt_103773C8_t, 0x103773C8u)
+typedef int dword_103773CC_t;
+#define dword_103773CC XI_EA(dword_103773CC_t, 0x103773CCu)
+typedef int dword_103773D0_t;
+#define dword_103773D0 XI_EA(dword_103773D0_t, 0x103773D0u)
+typedef int dword_103773D4_t;
+#define dword_103773D4 XI_EA(dword_103773D4_t, 0x103773D4u)
+typedef float flt_103773D8_t;
+#define flt_103773D8 XI_EA(flt_103773D8_t, 0x103773D8u)
+typedef int dword_103773DC_t;
+#define dword_103773DC XI_EA(dword_103773DC_t, 0x103773DCu)
+typedef float flt_103773E0_t;
+#define flt_103773E0 XI_EA(flt_103773E0_t, 0x103773E0u)
 typedef float flt_103890E4_t;
 #define flt_103890E4 XI_EA(flt_103890E4_t, 0x103890E4u)
 typedef float kF_0_9874_t[7];
@@ -517,6 +559,8 @@ typedef char aErrorInSetVert_t[1];
 #define aErrorInSetVert XI_EA(aErrorInSetVert_t, 0x103BBC38u)
 typedef char aErrorInSetStre_t[1];
 #define aErrorInSetStre XI_EA(aErrorInSetStre_t, 0x103BBC54u)
+typedef char aCDevDancerModu_30_t[1];
+#define aCDevDancerModu_30 XI_EA(aCDevDancerModu_30_t, 0x103BC70Cu)
 typedef char aShadowVolumesO_0_t[1];
 #define aShadowVolumesO_0 XI_EA(aShadowVolumesO_0_t, 0x103BD56Cu)
 typedef char aShadowVolumesO_t[1];
@@ -597,12 +641,22 @@ typedef int dword_104566E4_t;
 #define dword_104566E4 XI_EA(dword_104566E4_t, 0x104566E4u)
 typedef int g_pEnv_t;
 #define g_pEnv XI_EA(g_pEnv_t, 0x104566E8u)
+typedef int dword_10456790_t;
+#define dword_10456790 XI_EA(dword_10456790_t, 0x10456790u)
+typedef int dword_10456794_t;
+#define dword_10456794 XI_EA(dword_10456794_t, 0x10456794u)
 typedef float g_afterimageStrength_t;
 #define g_afterimageStrength XI_EA(g_afterimageStrength_t, 0x1045689Cu)
+typedef int dword_104568A0_t;
+#define dword_104568A0 XI_EA(dword_104568A0_t, 0x104568A0u)
 typedef char dword_104568A8_t[1];
 #define dword_104568A8 XI_EA(dword_104568A8_t, 0x104568A8u)
+typedef int dword_104568E8_t;
+#define dword_104568E8 XI_EA(dword_104568E8_t, 0x104568E8u)
 typedef int dword_104568EC_t;
 #define dword_104568EC XI_EA(dword_104568EC_t, 0x104568ECu)
+typedef int dword_104568F0_t;
+#define dword_104568F0 XI_EA(dword_104568F0_t, 0x104568F0u)
 typedef __int16 word_104568F8_t;
 #define word_104568F8 XI_EA(word_104568F8_t, 0x104568F8u)
 typedef std::codecvt_base * g_pCamera_t;
@@ -631,8 +685,12 @@ typedef int g_feedbackActive_t;
 #define g_feedbackActive XI_EA(g_feedbackActive_t, 0x10456934u)
 typedef int g_feedbackTexHalfRes_t[];
 #define g_feedbackTexHalfRes XI_EA(g_feedbackTexHalfRes_t, 0x10456938u)
+typedef int dword_1045693C_t;
+#define dword_1045693C XI_EA(dword_1045693C_t, 0x1045693Cu)
 typedef int g_feedbackDepth_t[];
 #define g_feedbackDepth XI_EA(g_feedbackDepth_t, 0x10456940u)
+typedef int dword_10456944_t;
+#define dword_10456944 XI_EA(dword_10456944_t, 0x10456944u)
 typedef int dword_10456948_t;
 #define dword_10456948 XI_EA(dword_10456948_t, 0x10456948u)
 typedef int dword_1045694C_t;
@@ -693,12 +751,20 @@ typedef int dword_10456A80_t;
 #define dword_10456A80 XI_EA(dword_10456A80_t, 0x10456A80u)
 typedef int g_cfgSoundEnabled_t;
 #define g_cfgSoundEnabled XI_EA(g_cfgSoundEnabled_t, 0x10456A88u)
+typedef int g_cfgMenuResY_t;
+#define g_cfgMenuResY XI_EA(g_cfgMenuResY_t, 0x10456A90u)
+typedef int dword_10456A98_t;
+#define dword_10456A98 XI_EA(dword_10456A98_t, 0x10456A98u)
 typedef int g_cfgFontCompression_t;
 #define g_cfgFontCompression XI_EA(g_cfgFontCompression_t, 0x10456AA0u)
 typedef int dword_10456AA4_t;
 #define dword_10456AA4 XI_EA(dword_10456AA4_t, 0x10456AA4u)
 typedef int g_cfgMapCompression_t;
 #define g_cfgMapCompression XI_EA(g_cfgMapCompression_t, 0x10456AB0u)
+typedef int dword_10456AC0_t;
+#define dword_10456AC0 XI_EA(dword_10456AC0_t, 0x10456AC0u)
+typedef int g_cfgMenuResX_t;
+#define g_cfgMenuResX XI_EA(g_cfgMenuResX_t, 0x10456AC8u)
 typedef int g_shadowSetting_t;
 #define g_shadowSetting XI_EA(g_shadowSetting_t, 0x10456ACCu)
 typedef int g_cfgTextureCompression_t;
@@ -713,6 +779,8 @@ typedef int g_cfg0020_t;
 #define g_cfg0020 XI_EA(g_cfg0020_t, 0x10456C00u)
 typedef int yBottom_t;
 #define yBottom XI_EA(yBottom_t, 0x10456C08u)
+typedef void * dword_10456C0C_t;
+#define dword_10456C0C XI_EA(dword_10456C0C_t, 0x10456C0Cu)
 typedef int dword_10456D18_t;
 #define dword_10456D18 XI_EA(dword_10456D18_t, 0x10456D18u)
 typedef int dword_10456D1C_t;
@@ -761,6 +829,10 @@ typedef int g_projTexTarget_t;
 #define g_projTexTarget XI_EA(g_projTexTarget_t, 0x10456E64u)
 typedef int g_projTexPrevFactor_t;
 #define g_projTexPrevFactor XI_EA(g_projTexPrevFactor_t, 0x10456E68u)
+typedef int dword_10456E6C_t;
+#define dword_10456E6C XI_EA(dword_10456E6C_t, 0x10456E6Cu)
+typedef int dword_10456E70_t;
+#define dword_10456E70 XI_EA(dword_10456E70_t, 0x10456E70u)
 typedef int dword_10456E74_t;
 #define dword_10456E74 XI_EA(dword_10456E74_t, 0x10456E74u)
 typedef int dword_10456E78_t;
@@ -779,10 +851,22 @@ typedef char byte_104570F0_t;
 #define byte_104570F0 XI_EA(byte_104570F0_t, 0x104570F0u)
 typedef int dword_104570F4_t;
 #define dword_104570F4 XI_EA(dword_104570F4_t, 0x104570F4u)
+typedef int dword_104570F8_t;
+#define dword_104570F8 XI_EA(dword_104570F8_t, 0x104570F8u)
 typedef char g_envMapEnabled_t;
 #define g_envMapEnabled XI_EA(g_envMapEnabled_t, 0x104570FCu)
+typedef int dword_10457100_t;
+#define dword_10457100 XI_EA(dword_10457100_t, 0x10457100u)
 typedef char g_texture1Matrix_t[1];
 #define g_texture1Matrix XI_EA(g_texture1Matrix_t, 0x10457108u)
+typedef int dword_10457130_t;
+#define dword_10457130 XI_EA(dword_10457130_t, 0x10457130u)
+typedef int dword_10457140_t;
+#define dword_10457140 XI_EA(dword_10457140_t, 0x10457140u)
+typedef int g_vertexBuffer_7148_t;
+#define g_vertexBuffer_7148 XI_EA(g_vertexBuffer_7148_t, 0x10457148u)
+typedef int g_vertexBuffer_714C_t;
+#define g_vertexBuffer_714C XI_EA(g_vertexBuffer_714C_t, 0x1045714Cu)
 typedef int g_vertexBuffer_7150_t;
 #define g_vertexBuffer_7150 XI_EA(g_vertexBuffer_7150_t, 0x10457150u)
 typedef int g_vertexBuffer_7154_t;
@@ -791,6 +875,10 @@ typedef char g_envMapTexMatrix_t[1];
 #define g_envMapTexMatrix XI_EA(g_envMapTexMatrix_t, 0x10457158u)
 typedef char g_shadowTexMatrix_t[1];
 #define g_shadowTexMatrix XI_EA(g_shadowTexMatrix_t, 0x10457198u)
+typedef int dword_104571AC_t;
+#define dword_104571AC XI_EA(dword_104571AC_t, 0x104571ACu)
+typedef int dword_104571C0_t;
+#define dword_104571C0 XI_EA(dword_104571C0_t, 0x104571C0u)
 typedef _DWORD g_ambientColor_t;
 #define g_ambientColor XI_EA(g_ambientColor_t, 0x104571D8u)
 typedef unsigned __int8 g_ambientColor_as_u8_t;
@@ -801,8 +889,16 @@ typedef char g_ambientColorR_t;
 #define g_ambientColorR XI_EA(g_ambientColorR_t, 0x104571DAu)
 typedef char g_ambientColorA_t;
 #define g_ambientColorA XI_EA(g_ambientColorA_t, 0x104571DBu)
-typedef _BYTE g_modelMaterial_t;
+typedef _DWORD g_modelMaterial_t[17];
 #define g_modelMaterial XI_EA(g_modelMaterial_t, 0x104571E0u)
+typedef float flt_104571F0_t;
+#define flt_104571F0 XI_EA(flt_104571F0_t, 0x104571F0u)
+typedef float flt_104571F4_t;
+#define flt_104571F4 XI_EA(flt_104571F4_t, 0x104571F4u)
+typedef float flt_104571F8_t;
+#define flt_104571F8 XI_EA(flt_104571F8_t, 0x104571F8u)
+typedef float flt_104571FC_t;
+#define flt_104571FC XI_EA(flt_104571FC_t, 0x104571FCu)
 typedef float g_modelMaterialEmissiveR_t;
 #define g_modelMaterialEmissiveR XI_EA(g_modelMaterialEmissiveR_t, 0x10457210u)
 typedef float g_modelMaterialEmissiveG_t;
@@ -811,6 +907,10 @@ typedef float g_modelMaterialEmissiveB_t;
 #define g_modelMaterialEmissiveB XI_EA(g_modelMaterialEmissiveB_t, 0x10457218u)
 typedef _BYTE g_matrix_7228_t;
 #define g_matrix_7228 XI_EA(g_matrix_7228_t, 0x10457228u)
+typedef int dword_10457268_t;
+#define dword_10457268 XI_EA(dword_10457268_t, 0x10457268u)
+typedef int dword_1045726C_t;
+#define dword_1045726C XI_EA(dword_1045726C_t, 0x1045726Cu)
 typedef _DWORD g_matrix_7270_t[16];
 #define g_matrix_7270 XI_EA(g_matrix_7270_t, 0x10457270u)
 typedef char g_projTexEnabled_t;
@@ -831,14 +931,22 @@ typedef int g_modelPrimitiveCount_t;
 #define g_modelPrimitiveCount XI_EA(g_modelPrimitiveCount_t, 0x104574A8u)
 typedef int g_modelColor_t;
 #define g_modelColor XI_EA(g_modelColor_t, 0x104574ACu)
+typedef int dword_104574B0_t;
+#define dword_104574B0 XI_EA(dword_104574B0_t, 0x104574B0u)
+typedef int dword_104574B4_t;
+#define dword_104574B4 XI_EA(dword_104574B4_t, 0x104574B4u)
 typedef char g_identityWorldMatrix_t[1];
 #define g_identityWorldMatrix XI_EA(g_identityWorldMatrix_t, 0x104574B8u)
 typedef char g_projTexMatrix_t[1];
 #define g_projTexMatrix XI_EA(g_projTexMatrix_t, 0x104574F8u)
+typedef float flt_10457528_t[4];
+#define flt_10457528 XI_EA(flt_10457528_t, 0x10457528u)
 typedef char byte_10457538_t;
 #define byte_10457538 XI_EA(byte_10457538_t, 0x10457538u)
 typedef int g_vertexBuffer_7540_t;
 #define g_vertexBuffer_7540 XI_EA(g_vertexBuffer_7540_t, 0x10457540u)
+typedef int dword_10457548_t;
+#define dword_10457548 XI_EA(dword_10457548_t, 0x10457548u)
 typedef int dword_10457550_t;
 #define dword_10457550 XI_EA(dword_10457550_t, 0x10457550u)
 typedef int g_streamSourceStride_t[5];
@@ -871,6 +979,8 @@ typedef int g_streamSourceVB_t[];
 #define g_streamSourceVB XI_EA(g_streamSourceVB_t, 0x1045B690u)
 typedef int g_vertexShader_B6A0_t;
 #define g_vertexShader_B6A0 XI_EA(g_vertexShader_B6A0_t, 0x1045B6A0u)
+typedef int dword_1045B774_t;
+#define dword_1045B774 XI_EA(dword_1045B774_t, 0x1045B774u)
 typedef __int16 g_actorShadowMode_t;
 #define g_actorShadowMode XI_EA(g_actorShadowMode_t, 0x1045B77Au)
 typedef char g_offscreenWorldMatrix_t[1];
@@ -959,14 +1069,14 @@ typedef int g_scratchValue_t;
 #define g_scratchValue XI_EA(g_scratchValue_t, 0x1047BC0Cu)
 typedef int g_countdown_1047BC6C_t;
 #define g_countdown_1047BC6C XI_EA(g_countdown_1047BC6C_t, 0x1047BC6Cu)
-typedef int dword_1047BC94_t;
-#define dword_1047BC94 XI_EA(dword_1047BC94_t, 0x1047BC94u)
 typedef int g_pResourceMng_t;
 #define g_pResourceMng XI_EA(g_pResourceMng_t, 0x1047BFA8u)
 typedef int g_pDxStatusMng_t;
 #define g_pDxStatusMng XI_EA(g_pDxStatusMng_t, 0x1047BFF4u)
 typedef int g_pVbPool_t;
 #define g_pVbPool XI_EA(g_pVbPool_t, 0x1047BFF8u)
+typedef int dword_1047BFFC_t;
+#define dword_1047BFFC XI_EA(dword_1047BFFC_t, 0x1047BFFCu)
 typedef int g_pOcclusionMng_t;
 #define g_pOcclusionMng XI_EA(g_pOcclusionMng_t, 0x1047C004u)
 typedef int g_identityMatrix_1047CC80_m00_t;
@@ -1013,6 +1123,8 @@ typedef int g_resourceFindDepth_t;
 #define g_resourceFindDepth XI_EA(g_resourceFindDepth_t, 0x1047D130u)
 typedef char g_resourcesDirty_t;
 #define g_resourcesDirty XI_EA(g_resourcesDirty_t, 0x1047D13Cu)
+typedef char byte_1047D13D_t;
+#define byte_1047D13D XI_EA(byte_1047D13D_t, 0x1047D13Du)
 typedef int dword_1047D140_t;
 #define dword_1047D140 XI_EA(dword_1047D140_t, 0x1047D140u)
 typedef int g_cubeMapTargetHeight_t;
@@ -1027,6 +1139,10 @@ typedef char g_actorNameBuffer_t;
 #define g_actorNameBuffer XI_EA(g_actorNameBuffer_t, 0x1047D580u)
 typedef _DWORD g_targetActorHandle_t[3];
 #define g_targetActorHandle XI_EA(g_targetActorHandle_t, 0x1047D600u)
+typedef int dword_1047D688_t;
+#define dword_1047D688 XI_EA(dword_1047D688_t, 0x1047D688u)
+typedef int dword_1047D68C_t;
+#define dword_1047D68C XI_EA(dword_1047D68C_t, 0x1047D68Cu)
 typedef char byte_1047D694_t;
 #define byte_1047D694 XI_EA(byte_1047D694_t, 0x1047D694u)
 typedef char byte_1047D695_t;
@@ -1063,8 +1179,6 @@ typedef int dword_1048A33C_t;
 #define dword_1048A33C XI_EA(dword_1048A33C_t, 0x1048A33Cu)
 typedef int dword_1048A340_t;
 #define dword_1048A340 XI_EA(dword_1048A340_t, 0x1048A340u)
-typedef int dword_1048A344_t;
-#define dword_1048A344 XI_EA(dword_1048A344_t, 0x1048A344u)
 typedef int dword_1048A34C_t;
 #define dword_1048A34C XI_EA(dword_1048A34C_t, 0x1048A34Cu)
 typedef int g_actorUpdateCounter_t;
@@ -1075,8 +1189,6 @@ typedef int g_actorUpdateBucketCountA_t[];
 #define g_actorUpdateBucketCountA XI_EA(g_actorUpdateBucketCountA_t, 0x1048A358u)
 typedef int g_actorUpdateBucketCountB_t[];
 #define g_actorUpdateBucketCountB XI_EA(g_actorUpdateBucketCountB_t, 0x1048A368u)
-typedef _DWORD dword_1048A37C_t[4];
-#define dword_1048A37C XI_EA(dword_1048A37C_t, 0x1048A37Cu)
 typedef int g_pActiveSkeletonActorRes_t;
 #define g_pActiveSkeletonActorRes XI_EA(g_pActiveSkeletonActorRes_t, 0x1048A3D8u)
 typedef _BYTE * g_viewport_1B70_t;
@@ -1089,12 +1201,20 @@ typedef int g_textCursorY_t;
 #define g_textCursorY XI_EA(g_textCursorY_t, 0x104E1B8Cu)
 typedef void * g_pFontGlyphs_t;
 #define g_pFontGlyphs XI_EA(g_pFontGlyphs_t, 0x104E1B90u)
+typedef int dword_104E1BF4_t;
+#define dword_104E1BF4 XI_EA(dword_104E1BF4_t, 0x104E1BF4u)
 typedef int g_shapeMng_t[17];
 #define g_shapeMng XI_EA(g_shapeMng_t, 0x104E1BF8u)
+typedef int dword_104E1D44_t;
+#define dword_104E1D44 XI_EA(dword_104E1D44_t, 0x104E1D44u)
 typedef int g_pCursor_t;
 #define g_pCursor XI_EA(g_pCursor_t, 0x104E1D4Cu)
 typedef int g_pChatLog_t;
 #define g_pChatLog XI_EA(g_pChatLog_t, 0x10578158u)
+typedef int dword_1057815C_t;
+#define dword_1057815C XI_EA(dword_1057815C_t, 0x1057815Cu)
+typedef int dword_10578160_t;
+#define dword_10578160 XI_EA(dword_10578160_t, 0x10578160u)
 typedef int dword_105781F8_t;
 #define dword_105781F8 XI_EA(dword_105781F8_t, 0x105781F8u)
 typedef int dword_1057847C_t;
@@ -1629,6 +1749,8 @@ typedef IDirect3DDevice8 * g_pDancerDevice_t;
 #define g_pDancerDevice XI_EA(g_pDancerDevice_t, 0x1066941Cu)
 typedef char byte_10669420_t;
 #define byte_10669420 XI_EA(byte_10669420_t, 0x10669420u)
+typedef int dword_10669424_t;
+#define dword_10669424 XI_EA(dword_10669424_t, 0x10669424u)
 typedef int g_pSqgxContext_t;
 #define g_pSqgxContext XI_EA(g_pSqgxContext_t, 0x1099D200u)
 typedef int g_sqgxTex_name_t[];

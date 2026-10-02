@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10284B20  (unit sqgxContext: name sqgxContext_SelectShaderMode)
-// GATE: PASS -- 100 trials, 69 returned normally, 13 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 72 returned normally, 32 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl sqgxContext_SelectShaderMode(int a1, int a2)
 {
   int v2;

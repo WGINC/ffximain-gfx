@@ -3,7 +3,7 @@
 #include "CYyOs2VtxBuffer.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002CCB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 88 returned normally, 1 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -136,7 +136,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 26 returned normally, 22 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 17 returned normally, 13 D3D calls compared (diffemu_gfx, clean build)
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

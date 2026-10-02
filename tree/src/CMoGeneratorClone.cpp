@@ -2,8 +2,30 @@
 #include "gfx_all.hpp"
 #include "CMoGeneratorClone.hpp"
 
+// FUNCTION: FFXIMAIN 0x10047C30  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
+{
+  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
+  memset(self + 28, 0, 0x50u);
+  this->typeTag = *a2;
+  this->field_24 = a2[1];
+  this->field_28 = a2[2];
+  this->field_2C = a2[3];
+  this->field_34 = a2[4];
+  this->field_38 = a2[5];
+  this->field_3C = a2[6];
+  this->field_40 = a2[7];
+  qmemcpy(self + 48, a2 + 24, 16 * (((a2[1] >> 7) & 0x7FFFF) - 6));
+  this->field_9C = 0;
+  this->field_70 = a2[8];
+  this->field_74 = a2[9];
+  this->field_98 = a2[11];
+  return orig::CMoAttachments_Reset(self + 12);
+}
+
 // FUNCTION: FFXIMAIN 0x10047CE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 13 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 9 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 _DWORD * CMoGeneratorClone::FixupClonedPointers()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -136,7 +158,7 @@ LABEL_49:
 }
 
 // FUNCTION: FFXIMAIN 0x100536C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

@@ -40,6 +40,683 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
   return orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&g_upVerts_1988, 16);
 }
 
+// FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 3 returned normally, 62 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
+{
+  unsigned int v8;
+  int v9;
+  int v10;
+  _BYTE *v11;
+  int v12;
+  int v13;
+  int i;
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  int v19;
+  _DWORD *v20;
+  int v21;
+  int v22;
+  int v23;
+  int v24;
+  int v25;
+  int v26;
+  _DWORD *v27;
+  int *v28;
+  int v29;
+  int v30;
+  double v31;
+  double v32;
+  double v33;
+  long double v34;
+  int *v35;
+  int v36;
+  int v37;
+  int *v38;
+  int v39;
+  int v40;
+  int v41;
+  _DWORD *v42;
+  _DWORD *v43;
+  int v44;
+  bool v45; // cc
+  int v46;
+  int v47;
+  int v48;
+  int v49;
+  int v50;
+  int v51;
+  int v52;
+  int v53;
+  int v54;
+  int v55;
+  unsigned int v56;
+  _DWORD *v57;
+  int v58;
+  int v59;
+  int v60;
+  int v61;
+  int v62;
+  int v63;
+  IDirect3DVertexBuffer8 **v64;
+  double v65;
+  float *v66;
+  int m;
+  double v68;
+  IDirect3DDevice8 *pDevice;
+  struct IDirect3DDevice8Vtbl *lpVtbl;
+  int v71;
+  int n;
+  unsigned __int16 v73;
+  unsigned __int16 *v74;
+  int v75;
+  int v76;
+  int v77;
+  unsigned __int16 *v78;
+  int v79;
+  int v80;
+  unsigned __int16 *v81;
+  int v82;
+  int v83;
+  int v84;
+  int v85;
+  int v86;
+  int v87;
+  int v88;
+  int v89;
+  int v90;
+  int v91;
+  int v92;
+  float *v93;
+  float *v94;
+  float *v95;
+  int ii;
+  unsigned __int16 v97;
+  int v98;
+  alignas(16) unsigned char xi_frame[0x4A0];  // address-taken locals at their original offsets
+  unsigned int &v100 = *reinterpret_cast<unsigned int *>(xi_frame + 0x3C);
+  unsigned int &v101 = *reinterpret_cast<unsigned int *>(xi_frame + 0x40);
+  D3DPOOL &v102 = *reinterpret_cast<D3DPOOL *>(xi_frame + 0x44);
+  IDirect3DVertexBuffer8 ** &v103 = *reinterpret_cast<IDirect3DVertexBuffer8 ** *>(xi_frame + 0x48);
+  char * &v104 = *reinterpret_cast<char * *>(xi_frame + 0x5C);
+  float * &v105 = *reinterpret_cast<float * *>(xi_frame + 0x60);
+  _DWORD * &v106 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x64);
+  int &v107 = *reinterpret_cast<int *>(xi_frame + 0x68);
+  float * &v108 = *reinterpret_cast<float * *>(xi_frame + 0x6C);
+  int &v109 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  int &v110 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  int &v111 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  int &v112 = *reinterpret_cast<int *>(xi_frame + 0x7C);
+  _DWORD * &v113 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x80);
+  D3DPOOL &v114 = *reinterpret_cast<D3DPOOL *>(xi_frame + 0x84);
+  int &v115 = *reinterpret_cast<int *>(xi_frame + 0x88);
+  void * &v116 = *reinterpret_cast<void * *>(xi_frame + 0x8C);
+  char (&v117)[16] = *reinterpret_cast<char (*)[16]>(xi_frame + 0x90);
+  char (&Str2)[16] = *reinterpret_cast<char (*)[16]>(xi_frame + 0xA0);
+  int *v119;
+  int v120;
+  int *v121;
+  int k;
+  int v123;
+  int v124;
+  int v125;
+  int j;
+  v107 = (int)self_;
+  v8 = *(unsigned __int8 *)(a3 + 3);
+  v9 = *(_DWORD *)a3 & 0xFFFFFF;
+  v114 = v9;
+  v112 = v8;
+  if ( v8 >= 5 )
+  {
+    v10 = v9 - 8;
+    v11 = (_BYTE *)(a3 + 8);
+    v12 = (unsigned __int8)byte_10376AC0[*(unsigned __int8 *)(a3 + 5) ^ 0xF0];
+    v13 = 0;
+    if ( v10 > 0 )
+    {
+      for ( i = v10; i != 0; --i )
+      {
+        v15 = (unsigned __int8)v12;
+        v16 = v13 + 1;
+        v17 = (unsigned __int8)v12;
+        v18 = v16 + v12;
+        v19 = (v15 | (v17 << 8)) >> (v18 & 7);
+        v13 = v16 + 1;
+        v12 = v13 + v18;
+        *v11++ ^= v19;
+      }
+    }
+  }
+  v20 = orig::sub_10170C80(v107);
+  v113 = v20;
+  if ( a8 == 0 )
+    *((_BYTE *)v20 + 221) = 1;
+  v20[1] = a3;
+  v20[56] = *a7;
+  v20[57] = a7[1];
+  v20[58] = a7[2];
+  v20[59] = a7[3];
+  v20[16] = 0;
+  v21 = *(_DWORD *)(a3 + 4);
+  v20[26] = 0;
+  v20[8] = 338;
+  v20[7] = (unsigned __int8)v21;
+  v22 = (unsigned __int8)v21 - 1;
+  if ( v22 == 0 )
+  {
+    v23 = 5;
+    goto LABEL_17;
+  }
+  if ( v22 != 1 )
+  {
+    v23 = 4;
+LABEL_17:
+    v20[11] = v23;
+    v20[9] = 36;
+    v20[10] = 36;
+    v20[14] = 36;
+    v20[15] = v23;
+    goto LABEL_18;
+  }
+  v20[9] = 36;
+  v20[10] = 48;
+  v20[11] = 4;
+  if ( dword_10456AC0 != 0 )
+  {
+    v24 = 1;
+    if ( dword_10456AC0 == 2 )
+      v25 = 32;
+    else
+      v25 = 16;
+  }
+  else
+  {
+    v25 = 1;
+    v24 = 0;
+  }
+  v20[25] = v25;
+  v20[26] = v24;
+  v20[14] = 36;
+  v20[15] = 4;
+  *((float *)v20 + 27) = (float)(v25 - 1);
+LABEL_18:
+  v26 = v114;
+  v20[12] = 324;
+  v20[13] = 28;
+  orig::sub_10170E80(*(_DWORD *)(a3 + 4), v26, *(unsigned __int8 *)(a3 + 5) ^ 0xF0, a3 + 8);
+  v27 = (_DWORD *)(v20[1] + 16);
+  v20[2] = *v27;
+  v20[3] = v27[1];
+  v20[4] = v27[2];
+  v20[5] = v27[3];
+  v20[6] = a4;
+  v28 = v20 + 18;
+  v20[17] = *(_DWORD *)(a3 + 32);
+  qmemcpy(v20 + 18, (const void *)(a3 + 36), 0x18u);
+  v29 = 9;
+  if ( v112 >= 2 )
+    v29 = v20[17];
+  v30 = *v28;
+  v109 = v29;
+  v20[28] = v30;
+  *((float *)v20 + 29) = *((float *)v20 + 20);
+  *((float *)v20 + 30) = *((float *)v20 + 23);
+  *((float *)v20 + 31) = *((float *)v20 + 19);
+  *((float *)v20 + 32) = *((float *)v20 + 20);
+  *((float *)v20 + 33) = *((float *)v20 + 23);
+  *((float *)v20 + 34) = *((float *)v20 + 19);
+  *((float *)v20 + 35) = *((float *)v20 + 20);
+  *((float *)v20 + 36) = *((float *)v20 + 22);
+  v20[37] = *v28;
+  *((float *)v20 + 38) = *((float *)v20 + 20);
+  *((float *)v20 + 39) = *((float *)v20 + 22);
+  v20[40] = *v28;
+  *((float *)v20 + 41) = *((float *)v20 + 21);
+  *((float *)v20 + 42) = *((float *)v20 + 23);
+  *((float *)v20 + 43) = *((float *)v20 + 19);
+  *((float *)v20 + 44) = *((float *)v20 + 21);
+  *((float *)v20 + 45) = *((float *)v20 + 23);
+  *((float *)v20 + 46) = *((float *)v20 + 19);
+  *((float *)v20 + 47) = *((float *)v20 + 21);
+  *((float *)v20 + 48) = *((float *)v20 + 22);
+  v20[49] = *v28;
+  *((float *)v20 + 50) = *((float *)v20 + 21);
+  *((float *)v20 + 51) = *((float *)v20 + 22);
+  v31 = *((float *)v20 + 21) - *((float *)v20 + 20);
+  v32 = *((float *)v20 + 23) - *((float *)v20 + 22);
+  v33 = *((float *)v20 + 19) - *((float *)v20 + 18);
+  v34 = v32 * v32 + v31 * v31 + v33 * v33;
+  if ( v34 == 0.0 )
+    v20[53] = 0;
+  else
+    *((float *)v20 + 53) = sqrt(v34) * 0.5;
+  v35 = orig::Mem_AllocObject(36 * v29, 4);
+  v20[24] = v35;
+  v119 = v35;
+  if ( *((_DWORD *)g_pZoneMap + 58662) != 0 && a5 != 0 )
+  {
+    v120 = 0;
+    v111 = 0;
+    v125 = 0;
+    if ( v109 > 0 )
+    {
+      do
+      {
+        v36 = *(_DWORD *)(a3 + 4 * v125 + 60);
+        if ( v36 != 0 )
+        {
+          v37 = 0;
+          v38 = (int *)(v36 + v20[1]);
+          if ( *v38 > 0 )
+          {
+            do
+            {
+              orig::Util_Copy16Bytes(v117, (int)(v38 + 8));
+              if ( orig::sub_1003ADC0(g_pTextureMng, (int)v117, a5) != 0 )
+                v111 = 1;
+              else
+                v120 = 1;
+              ++v37;
+            }
+            while ( v37 < *v38 );
+          }
+        }
+        ++v125;
+      }
+      while ( v125 < v109 );
+      if ( v120 == 0 && v111 != 0 && v20[7] == 1 )
+      {
+        v20[7] = 3;
+        v20[8] = 338;
+        v20[9] = 36;
+        v20[10] = 36;
+        v20[11] = 5;
+      }
+    }
+  }
+  v39 = 0;
+  for ( j = 0; v39 < v109; j = v39 )
+  {
+    v40 = *(_DWORD *)(a3 + 4 * v39 + 60);
+    if ( v40 != 0 )
+    {
+      v121 = (int *)(v40 + v20[1]);
+      v41 = *v121;
+      *v119 = *v121;
+      v42 = orig::Mem_AllocObject(192 * v41, 4);
+      v119[1] = (int)v42;
+      qmemcpy(v119 + 2, v121 + 1, 0x18u);
+      v43 = v42;
+      v44 = v121[7];
+      v112 = (int)(v121 + 8);
+      v45 = *v119 <= 0;
+      v119[8] = v44;
+      v115 = 0;
+      if ( !v45 )
+      {
+        do
+        {
+          v46 = v112;
+          orig::Util_Copy16Bytes(Str2, v112);
+          if ( a2 != nullptr )
+            v47 = *a2;
+          else
+            v47 = 0;
+          v48 = orig::sub_1003AD40(g_pTextureMng, Str2, v47);
+          v43[1] = v48;
+          if ( v48 == 0 )
+            v43[1] = orig::sub_1003ACD0(g_pTextureMng, (int)Str2);
+          if ( *((_DWORD *)g_pZoneMap + 58662) != 0 && a5 != 0 && v20[7] == 3 )
+          {
+            orig::Util_Copy16Bytes(v117, v46);
+            v43[47] = orig::sub_1003ADC0(g_pTextureMng, (int)v117, a5);
+          }
+          v49 = *(_DWORD *)(v46 + 16) & 0xFFFFFFF;
+          v43[3] = v46 + 20;
+          v43[2] = v49;
+          *((_WORD *)v43 + 16) = *(_DWORD *)(v46 + 16) >> 31;
+          *((_WORD *)v43 + 17) = (*(_DWORD *)(v46 + 16) & 0x40000000) != 0;
+          *((_WORD *)v43 + 18) = (*(_DWORD *)(v46 + 16) & 0x20000000) != 0;
+          *((_WORD *)v43 + 19) = (*(_DWORD *)(v46 + 16) & 0x10000000) != 0;
+          v50 = v20[10] * v43[2];
+          v51 = *(_DWORD *)(v50 + v46 + 20);
+          v52 = v46 + 20 + v50;
+          v43[4] = v51;
+          v43[5] = v52 + 4;
+          v53 = v20[7];
+          if ( v53 == 1 || v53 == 3 )
+          {
+            v54 = v43[4];
+            v55 = v54 - 2;
+          }
+          else
+          {
+            v54 = v51;
+            v55 = v51 / 3;
+          }
+          v43[6] = v55;
+          v43[10] = 0;
+          v43[11] = 0;
+          v56 = v52 + 2 * ((v54 + 1) & 0xFFFFFFFE) + 4;
+          v57 = v43 + 10;
+          v112 = v56;
+          v43[46] = 0;
+          v43[44] = 0;
+          v43[45] = 0;
+          memset(v43 + 12, 0, 0x80u);
+          v58 = v43[2];
+          if ( v58 != 0 )
+          {
+            v59 = v20[7];
+            if ( v59 == 2 )
+            {
+              if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
+                     g_pCDx->pDevice,
+                     24 * v58,
+                     *(_DWORD *)&g_pCDx->_pad_10[2324],
+                     0,
+                     *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                     (IDirect3DVertexBuffer8 **)(v43 + 44)) >= 0 )
+              {
+                v20[16] += 24 * v43[2];
+                while ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, _DWORD **, _DWORD))(*(_DWORD *)v43[44] + 44))(
+                          v43[44],
+                          0,
+                          0,
+                          &v106,
+                          0) < 0 )
+                  ;
+                v60 = 0;
+                if ( (int)v43[2] > 0 )
+                {
+                  v61 = v43[3] + 28;
+                  do
+                  {
+                    v62 = *(_DWORD *)(v61 - 4);
+                    ++v60;
+                    v61 += 48;
+                    *v106 = v62;
+                    v106[1] = *(_DWORD *)(v61 - 48);
+                    v106[2] = *(_DWORD *)(v61 - 44);
+                    v106[3] = *(_DWORD *)(v61 - 40);
+                    v106[4] = *(_DWORD *)(v61 - 36);
+                    v106[5] = *(_DWORD *)(v61 - 32);
+                    v106 += 6;
+                  }
+                  while ( v60 < v43[2] );
+                }
+                (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[44] + 48))(v43[44]);
+              }
+              v63 = 0;
+              for ( k = 0; k < v20[25]; ++k )
+              {
+                v64 = (IDirect3DVertexBuffer8 **)&v43[v63 + 12];
+                if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
+                       g_pCDx->pDevice,
+                       12 * v43[2],
+                       *(_DWORD *)&g_pCDx->_pad_10[2324],
+                       0,
+                       *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                       v64) < 0
+                  || (v20[16] += 12 * v43[2], (*v64)->lpVtbl->Lock(*v64, 0, 0, (void **)&v108, 0) < 0) )
+                {
+                  *v64 = nullptr;
+                }
+                else
+                {
+                  if ( k != 0 )
+                    v65 = (double)k / *((float *)v20 + 27);
+                  else
+                    v65 = 0.0;
+                  v66 = (float *)v43[3];
+                  for ( m = 0; m < v43[2]; v108 += 3 )
+                  {
+                    ++m;
+                    v68 = v65 * v66[3] + *v66;
+                    v66 += 12;
+                    *v108 = v68;
+                    v108[1] = v65 * *(v66 - 8) + *(v66 - 11);
+                    v108[2] = v65 * *(v66 - 7) + *(v66 - 10);
+                  }
+                  (*v64)->lpVtbl->Unlock(*v64);
+                }
+                v63 = k + 1;
+              }
+              if ( g_pCDx->pDevice->lpVtbl->CreateIndexBuffer(
+                     g_pCDx->pDevice,
+                     2 * v43[4],
+                     *(_DWORD *)&g_pCDx->_pad_10[2324],
+                     D3DFMT_INDEX16,
+                     *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                     (IDirect3DIndexBuffer8 **)(v43 + 46)) >= 0 )
+              {
+                v20[16] += 2 * v43[4];
+                while ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, void **, _DWORD))(*(_DWORD *)v43[46] + 44))(
+                          v43[46],
+                          0,
+                          0,
+                          &v116,
+                          0) < 0 )
+                  ;
+                qmemcpy(v116, (const void *)v43[5], 2 * v43[4]);
+                (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[46] + 48))(v43[46]);
+              }
+            }
+            else
+            {
+              v103 = (IDirect3DVertexBuffer8 **)(v43 + 10);
+              pDevice = g_pCDx->pDevice;
+              v102 = *(_DWORD *)&g_pCDx->_pad_10[2328];
+              lpVtbl = pDevice->lpVtbl;
+              v101 = v20[8];
+              v100 = *(_DWORD *)&g_pCDx->_pad_10[2324];
+              v71 = v43[4];
+              if ( v59 == 3 )
+              {
+                if ( lpVtbl->CreateVertexBuffer(pDevice, v20[9] * v71, v100, v101, v102, v103) >= 0 )
+                {
+                  v20[16] += v20[9] * v43[4];
+                  while ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, char **, _DWORD))(*(_DWORD *)*v57 + 44))(
+                            *v57,
+                            0,
+                            0,
+                            &v104,
+                            0) < 0 )
+                    ;
+                  for ( n = 0; n < v43[4]; v104 += 36 )
+                  {
+                    v73 = *(_WORD *)(v43[5] + 2 * n++);
+                    qmemcpy(v104, (const void *)(v43[3] + 36 * v73), 0x24u);
+                  }
+                  (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[10] + 48))(v43[10]);
+                }
+                v74 = (unsigned __int16 *)v43[5];
+                v75 = v43[4];
+                v76 = *v74;
+                v77 = v74[1];
+                v123 = 0;
+                if ( v75 > 2 )
+                {
+                  v78 = v74 + 2;
+                  v79 = v75 - 2;
+                  do
+                  {
+                    v80 = *v78;
+                    if ( v76 != v77 && v77 != v80 && v80 != v76 )
+                      ++v123;
+                    ++v78;
+                    v76 = v77;
+                    --v79;
+                    v77 = v80;
+                  }
+                  while ( v79 != 0 );
+                }
+                v43[7] = v123;
+                if ( v123 != 0 )
+                {
+                  v114 = *(_DWORD *)&g_pCDx->_pad_10[2328];
+                  if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
+                         g_pCDx->pDevice,
+                         144 * v123,
+                         *(_DWORD *)&g_pCDx->_pad_10[2324],
+                         0,
+                         v114,
+                         (IDirect3DVertexBuffer8 **)(v43 + 45)) >= 0 )
+                  {
+                    v20[16] += 144 * v123;
+                    while ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, float **, _DWORD))(*(_DWORD *)v43[45] + 44))(
+                              v43[45],
+                              0,
+                              0,
+                              &v105,
+                              0) < 0 )
+                      ;
+                    v81 = (unsigned __int16 *)v43[5];
+                    v82 = 2;
+                    v83 = *v81;
+                    v84 = v81[1];
+                    v124 = (unsigned __int16)v84;
+                    v104 = (char *)v43[3];
+                    v85 = v43[4];
+                    v111 = 0;
+                    v114 = D3DPOOL_SYSTEMMEM;
+                    if ( v85 > 2 )
+                    {
+                      do
+                      {
+                        v86 = *(unsigned __int16 *)(v43[5] + 2 * v82);
+                        v110 = (unsigned __int16)v86;
+                        if ( v83 != v84 && v84 != v86 && v86 != v83 )
+                        {
+                          v87 = 36 * v83;
+                          v88 = v110;
+                          *v105 = *(float *)&v104[36 * v83];
+                          v105[1] = *(float *)&v104[36 * v83 + 4];
+                          v105[2] = *(float *)&v104[36 * v83 + 8];
+                          v105[3] = *(float *)&v104[36 * v83 + 12];
+                          v105[4] = *(float *)&v104[36 * v83 + 16];
+                          v105[5] = *(float *)&v104[36 * v83 + 20];
+                          v105[6] = *(float *)&v104[36 * v83 + 24];
+                          v105[7] = *(float *)&v104[36 * v83 + 28];
+                          v89 = *(_DWORD *)&v104[36 * v83 + 32];
+                          v90 = v111;
+                          v91 = 36 * v124;
+                          v92 = 36 * v88;
+                          *((_DWORD *)v105 + 8) = v89;
+                          if ( v90 != 0 )
+                          {
+                            v93 = (float *)&v104[v91];
+                            v94 = (float *)&v104[v92];
+                          }
+                          else
+                          {
+                            v93 = (float *)&v104[v92];
+                            v94 = (float *)&v104[v91];
+                          }
+                          orig::sub_10170B30(v105, (float *)&v104[v87], v94, v93);
+                          v95 = v105 + 12;
+                          v105 += 12;
+                          if ( v111 != 0 )
+                          {
+                            *v95 = *(float *)&v104[v92];
+                            v105[1] = *(float *)&v104[v92 + 4];
+                            v105[2] = *(float *)&v104[v92 + 8];
+                            v105[3] = *(float *)&v104[v92 + 12];
+                            v105[4] = *(float *)&v104[v92 + 16];
+                            v105[5] = *(float *)&v104[v92 + 20];
+                            v105[6] = *(float *)&v104[v92 + 24];
+                            v105[7] = *(float *)&v104[v92 + 28];
+                            v105[8] = *(float *)&v104[v92 + 32];
+                            orig::sub_10170B30(v105, (float *)&v104[v92], (float *)&v104[v91], (float *)&v104[v87]);
+                            v105 += 12;
+                            *v105 = *(float *)&v104[v91];
+                            v105[1] = *(float *)&v104[v91 + 4];
+                            v105[2] = *(float *)&v104[v91 + 8];
+                            v105[3] = *(float *)&v104[v91 + 12];
+                            v105[4] = *(float *)&v104[v91 + 16];
+                            v105[5] = *(float *)&v104[v91 + 20];
+                            v105[6] = *(float *)&v104[v91 + 24];
+                            v105[7] = *(float *)&v104[v91 + 28];
+                            v105[8] = *(float *)&v104[v91 + 32];
+                            orig::sub_10170B30(v105, (float *)&v104[v91], (float *)&v104[v87], (float *)&v104[v92]);
+                          }
+                          else
+                          {
+                            *v95 = *(float *)&v104[v91];
+                            v105[1] = *(float *)&v104[v91 + 4];
+                            v105[2] = *(float *)&v104[v91 + 8];
+                            v105[3] = *(float *)&v104[v91 + 12];
+                            v105[4] = *(float *)&v104[v91 + 16];
+                            v105[5] = *(float *)&v104[v91 + 20];
+                            v105[6] = *(float *)&v104[v91 + 24];
+                            v105[7] = *(float *)&v104[v91 + 28];
+                            v105[8] = *(float *)&v104[v91 + 32];
+                            orig::sub_10170B30(v105, (float *)&v104[v91], (float *)&v104[v92], (float *)&v104[v87]);
+                            v105 += 12;
+                            *v105 = *(float *)&v104[v92];
+                            v105[1] = *(float *)&v104[v92 + 4];
+                            v105[2] = *(float *)&v104[v92 + 8];
+                            v105[3] = *(float *)&v104[v92 + 12];
+                            v105[4] = *(float *)&v104[v92 + 16];
+                            v105[5] = *(float *)&v104[v92 + 20];
+                            v105[6] = *(float *)&v104[v92 + 24];
+                            v105[7] = *(float *)&v104[v92 + 28];
+                            v105[8] = *(float *)&v104[v92 + 32];
+                            orig::sub_10170B30(v105, (float *)&v104[v92], (float *)&v104[v87], (float *)&v104[v91]);
+                          }
+                          v86 = v110;
+                          v84 = v124;
+                          v20 = v113;
+                          v105 += 12;
+                        }
+                        v83 = v84;
+                        v84 = v86;
+                        v82 = v114 + 1;
+                        v114 = v82;
+                        v111 = 1 - v111;
+                        v124 = v86;
+                      }
+                      while ( v82 < v43[4] );
+                    }
+                    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[45] + 48))(v43[45]);
+                  }
+                }
+              }
+              else if ( lpVtbl->CreateVertexBuffer(pDevice, v20[9] * v71, v100, v101, v102, v103) >= 0 )
+              {
+                v20[16] += v20[9] * v43[4];
+                while ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, char **, _DWORD))(*(_DWORD *)*v57 + 44))(
+                          *v57,
+                          0,
+                          0,
+                          &v104,
+                          0) < 0 )
+                  ;
+                for ( ii = 0; ii < v43[4]; v104 += 36 )
+                {
+                  v97 = *(_WORD *)(v43[5] + 2 * ii++);
+                  qmemcpy(v104, (const void *)(v43[3] + 36 * v97), 0x24u);
+                }
+                (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[10] + 48))(v43[10]);
+              }
+            }
+          }
+          v43 += 48;
+          v98 = *v119;
+          ++v115;
+        }
+        while ( v115 < v98 );
+      }
+      v39 = j;
+      v119 += 9;
+    }
+    ++v39;
+  }
+  return v20;
+}
+
 // FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 33 returned normally, 880 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
@@ -160,7 +837,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 18 returned normally, 57260 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 18 returned normally, 49504 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;
@@ -175,15 +852,17 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
   int *v9;
   int v10;
   const char *v11;
-  int v12;
-  int v13;
-  int v14;
-  int v15;
-  int v16;
-  float v17;
-  float v18[16];
-  float v19[16];
-  float v20[16];
+  alignas(16) unsigned char xi_frame[0x544];  // address-taken locals at their original offsets
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0xAC);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0xB0);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0xB4);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0xB8);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0xBC);
+  float &v17 = *reinterpret_cast<float *>(xi_frame + 0xC0);
+  float (&v18)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC4);
+  float (&v19)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x104);
+  float (&v20)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x144);
+
   g_upVerts_1A18 = -1090519040;
   g_upVerts_1A18_v0_y = -1090519040;
   g_upVerts_1A18_v0_z = 1056964608;
@@ -305,15 +984,15 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
           v20[0] = *(v3 - 2);
           v20[5] = v4;
           v20[10] = v5;
-          orig_void::Mat44_Multiply(v18, (int)v18, v20);
+          orig::Mat44_Multiply(v18, (int)v18, v20);
           v17 = *(v3 - 4);
           v19[0] = cos(v17);
           v6 = sin(v17);
           v19[2] = -v6;
           v19[8] = v6;
           v19[10] = v19[0];
-          orig_void::Mat44_Multiply(v18, (int)v18, v19);
-          orig_void::Mat4_MulTranslation(v18, (int)v18, v2);
+          orig::Mat44_Multiply(v18, (int)v18, v19);
+          orig::Mat4_MulTranslation(v18, (int)v18, v2);
           g_upVerts_1A18_v4_diffuse = -2139078656;
           g_upVerts_1A18_v3_diffuse = -2139078656;
           g_upVerts_1A18_v2_diffuse = -2139078656;

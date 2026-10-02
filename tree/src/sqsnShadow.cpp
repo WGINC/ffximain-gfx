@@ -73,7 +73,7 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
     v22[11] = 0.0;
     v20 = v12;
   }
-  orig_void::Mat4_TransformPoint((float *)v21, v22, &v18);
+  orig::Mat4_TransformPoint((float *)v21, v22, &v18);
   v13 = v6[13];
   if ( v13 != 0 )
     v13 = *(_DWORD *)(v13 + 84);

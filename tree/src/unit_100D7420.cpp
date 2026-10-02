@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1011AA40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1011AA40(__int16 *self_)
 {
   int v2;
@@ -29,7 +29,7 @@ XI_API int __cdecl Gfx_ApplyViewport1B70(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1011BAE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 64 returned normally, 53 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 62 returned normally, 53 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Font_BindGlyphTexture(int self_)
 {
   int v2;
@@ -339,7 +339,7 @@ LABEL_43:
 }
 
 // FUNCTION: FFXIMAIN 0x1011C720  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Font_LoadHighResTexture(int *self_)
 {
   int v2;
@@ -468,6 +468,209 @@ XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
   return orig::Cell_DrawQuadBlended(self_, (int)self_ + 80, v21, v20, v22, v23);
 }
 
+// FUNCTION: FFXIMAIN 0x1011E980  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 78 returned normally, 352 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, int a5, int a6)
+{
+  int v8;
+  int result;
+  IDirect3DBaseTexture8 *v10;
+  __int16 *v11;
+  unsigned int *v12;
+  int v13;
+  unsigned int v14;
+  unsigned int v15;
+  double v16;
+  float *v17;
+  double v18;
+  double v20;
+  unsigned __int8 v21; // c0
+  unsigned __int8 v22; // c2
+  double v23;
+  double v24;
+  __int16 v25; // fps
+  double v26;
+  bool v27; // c0
+  char v28; // c2
+  bool v29; // c3
+  double v30;
+  double v32;
+  unsigned __int8 v33; // c0
+  unsigned __int8 v34; // c2
+  double v35;
+  double v36;
+  double v37;
+  double v39;
+  unsigned __int8 v40; // c0
+  unsigned __int8 v41; // c2
+  double v42;
+  double v43;
+  __int16 v44; // fps
+  double v45;
+  bool v46; // c0
+  char v47; // c2
+  bool v48; // c3
+  double v49;
+  double v51;
+  unsigned __int8 v52; // c0
+  unsigned __int8 v53; // c2
+  double v54;
+  double v55;
+  _DWORD *v56;
+  int i;
+  int v58;
+  int v59;
+  float v60;
+  _BYTE v61[64];
+  int a1b;
+  int a1a;
+  float a2a;
+  int a2b;
+  v8 = *((_DWORD *)self_ + 19);
+  if ( v8 != 0 )
+  {
+    if ( *(_DWORD *)(v8 + 64) != 0 )
+      v10 = *(IDirect3DBaseTexture8 **)(v8 + 64);
+    else
+      v10 = *(IDirect3DBaseTexture8 **)(v8 + 68);
+    g_pCDx->pDevice->SetTexture(0, v10);
+  }
+  else
+  {
+    orig::__strlwr((char *)self_ + 50);
+    orig::Util_Copy16Bytes(v61, (int)self_ + 50);
+    result = orig::CYyTexMng_FindByName(g_pTextureMng, (int)v61);
+    *((_DWORD *)self_ + 19) = result;
+    if ( result == 0 )
+      return result;
+  }
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+  v11 = (__int16 *)((char *)self_ + 200);
+  v12 = (unsigned int *)((char *)self_ + 96);
+  v13 = 0;
+  v60 = (float)a1;
+  a2a = (float)a2;
+  do
+  {
+    v14 = *v12;
+    v15 = v12[2];
+    *(_DWORD *)&v61[v13 + 32] = v12[1];
+    *(_DWORD *)&v61[v13 + 16] = v14;
+    *(_DWORD *)&v61[v13 + 48] = v15;
+    *v12 = orig::Color_ModulateArgb128(v14, a5);
+    v13 += 4;
+    v16 = (double)*(v11 - 4) * *(float *)&a3;
+    a1b = *v11++;
+    v12 += 7;
+    *((float *)v12 - 11) = v16 + v60 - 0.5;
+    *((float *)v12 - 10) = (double)a1b * *(float *)&a4 + a2a - 0.5;
+  }
+  while ( v13 < 16 );
+  v17 = (float *)((char *)self_ + 80);
+  *(float *)&a1a = (double)(__int16)(g_screenRectBottomRight - g_screenRectTopLeft) - 1.0;
+  *(float *)&a2b = (double)(__int16)(HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft)) - 1.0;
+  if ( *((float *)self_ + 20) < 0.0 )
+  {
+    v18 = *((float *)self_ + 27) - *v17;
+    v20 = v18;
+    if ( v18 < 0.0 )
+      v20 = -v18;
+    if ( v20 < 1.0 )
+      goto LABEL_35;
+    v23 = *((float *)self_ + 27) - -0.5;
+    *v17 = -0.5;
+    *((_DWORD *)self_ + 34) = -1090519040;
+    v24 = v23 / v18 * (*((float *)self_ + 32) - *((float *)self_ + 25));
+    *((float *)self_ + 25) = *((float *)self_ + 32) - v24;
+    *((float *)self_ + 39) = *((float *)self_ + 46) - v24;
+  }
+  v26 = *((float *)self_ + 27);
+  v27 = v26 < *(float *)&a1a;
+  v28 = 0;
+  v29 = v26 == *(float *)&a1a;
+  if ( ((__int16)(((v27 || __builtin_isunordered(v26, *(float *)&a1a)) ? 0x100 : 0) | ((__builtin_isunordered(v26, *(float *)&a1a)) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v26, *(float *)&a1a)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  {
+    v30 = *((float *)self_ + 27) - *v17;
+    v32 = v30;
+    if ( v30 < 0.0 )
+      v32 = -v30;
+    if ( v32 < 1.0 )
+      goto LABEL_35;
+    v35 = *(float *)&a1a - 0.5;
+    *((float *)self_ + 27) = v35;
+    *((float *)self_ + 41) = v35;
+    v36 = (v35 - *v17) / v30 * (*((float *)self_ + 32) - *((float *)self_ + 25)) + *((float *)self_ + 25);
+    *((float *)self_ + 32) = v36;
+    *((float *)self_ + 46) = v36;
+  }
+  if ( *((float *)self_ + 21) < 0.0 )
+  {
+    v37 = *((float *)self_ + 35) - *((float *)self_ + 21);
+    v39 = v37;
+    if ( v37 < 0.0 )
+      v39 = -v37;
+    if ( v39 < 1.0 )
+      goto LABEL_35;
+    v42 = *((float *)self_ + 35) - -0.5;
+    *((_DWORD *)self_ + 21) = -1090519040;
+    *((_DWORD *)self_ + 28) = -1090519040;
+    v43 = v42 / v37 * (*((float *)self_ + 40) - *((float *)self_ + 26));
+    *((float *)self_ + 26) = *((float *)self_ + 40) - v43;
+    *((float *)self_ + 33) = *((float *)self_ + 47) - v43;
+  }
+  v45 = *((float *)self_ + 35);
+  v46 = v45 < *(float *)&a2b;
+  v47 = 0;
+  v48 = v45 == *(float *)&a2b;
+  if ( ((__int16)(((v46 || __builtin_isunordered(v45, *(float *)&a2b)) ? 0x100 : 0) | ((__builtin_isunordered(v45, *(float *)&a2b)) ? 0x400 : 0) | ((v48 || __builtin_isunordered(v45, *(float *)&a2b)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  {
+    v49 = *((float *)self_ + 35) - *((float *)self_ + 21);
+    v51 = v49;
+    if ( v49 < 0.0 )
+      v51 = -v49;
+    if ( v51 < 1.0 )
+      goto LABEL_35;
+    v54 = *(float *)&a2b - 0.5;
+    *((float *)self_ + 35) = v54;
+    *((float *)self_ + 42) = v54;
+    v55 = (v54 - *((float *)self_ + 21)) / v49 * (*((float *)self_ + 40) - *((float *)self_ + 26)) + *((float *)self_ + 26);
+    *((float *)self_ + 40) = v55;
+    *((float *)self_ + 47) = v55;
+  }
+  if ( a6 != 0 )
+  {
+    orig::Cell_DrawQuadBlended(self_, (int)v17, 1, a6 & 3, (a6 >> 2) & 3, (a6 >> 6) & 3);
+  }
+  else if ( *((_BYTE *)self_ + 45) != 0 )
+  {
+    orig::Cell_DrawQuadBlended(
+      self_,
+      (int)v17,
+      1,
+      *((unsigned __int8 *)self_ + 46),
+      *((unsigned __int8 *)self_ + 47),
+      *((unsigned __int8 *)self_ + 48));
+  }
+  else
+  {
+    orig::Cell_DrawWithDefaultBlend(self_);
+  }
+LABEL_35:
+  v56 =(_DWORD*)((char *)self_ + 100);
+  for ( i = 0; i < 16; i += 4 )
+  {
+    v58 = *(_DWORD *)&v61[i + 32];
+    *(v56 - 1) = *(_DWORD *)&v61[i + 16];
+    v59 = *(_DWORD *)&v61[i + 48];
+    *v56 = v58;
+    v56[1] = v59;
+    v56 += 7;
+  }
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+  return g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+}
+
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 88 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
@@ -524,7 +727,7 @@ XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4,
     *(_DWORD *)(v27 + 8) = 1065353216;
     *(float *)v27 = v31;
     *(float *)(v27 + 4) = (float)v30;
-    orig_void::Mat4_TransformNormalInPlace(&a4, (float *)v27);
+    orig::Mat4_TransformNormalInPlace(&a4, (float *)v27);
     v38 = (double)a2 - 0.5;
     v32 = v38 + *(float *)v27;
     *(_DWORD *)(v27 + 8) = 0;
@@ -553,7 +756,7 @@ LABEL_15:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EF60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 381 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 72 returned normally, 383 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
 {
   int v12;

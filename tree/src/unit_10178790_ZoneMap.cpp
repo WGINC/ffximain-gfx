@@ -193,19 +193,19 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   IDirect3DVertexBuffer8 *v109;
   IDirect3DVertexBuffer8 *v110;
   bool v111; // cc
-  int v112;
-  float *v113;
-  float v114;
-  float v115;
-  int v116;
-  int v117;
-  unsigned int v118;
-  int v119;
   alignas(16) unsigned char xi_frame[0x6A0];  // address-taken locals at their original offsets
+  int &v112 = *reinterpret_cast<int *>(xi_frame + 0x11C);
+  float * &v113 = *reinterpret_cast<float * *>(xi_frame + 0x11C);
+  float &v114 = *reinterpret_cast<float *>(xi_frame + 0x120);
+  float &v115 = *reinterpret_cast<float *>(xi_frame + 0x120);
+  int &v116 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  int &v117 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  unsigned int &v118 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  int &v119 = *reinterpret_cast<int *>(xi_frame + 0x124);
   float &v120 = *reinterpret_cast<float *>(xi_frame + 0x128);
-  float v121;
-  float v122;
-  int *v123;
+  float &v121 = *reinterpret_cast<float *>(xi_frame + 0x12C);
+  float &v122 = *reinterpret_cast<float *>(xi_frame + 0x130);
+  int * &v123 = *reinterpret_cast<int * *>(xi_frame + 0x134);
   float (&v124)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x138);
   float (&v125)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x1A0);
   char &v126 = *reinterpret_cast<char *>(xi_frame + 0x1B0);
@@ -249,8 +249,8 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
       v18 = 0;
       v19 = v14 == *((float *)self_ + 58633);
     }
-    result = (__int16)((v17 ? 0x100 : 0) | (v18 ? 0x400 : 0) | (v19 ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)((v17 ? 0x100 : 0) | (v18 ? 0x400 : 0) | (v19 ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v17 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v17 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     result = orig::sub_10181BB0((float *)self_ + 58295, (float *)(a3 + 244));
   }
@@ -274,8 +274,8 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
       v28 = 0;
       v29 = v24 == *((float *)self_ + 58633);
     }
-    result = (__int16)((v27 ? 0x100 : 0) | (v28 ? 0x400 : 0) | (v29 ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)((v27 ? 0x100 : 0) | (v28 ? 0x400 : 0) | (v29 ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v27 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v27 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     result = orig::sub_10181BB0((float *)self_ + 58359, (float *)(a3 + 244));
   }
@@ -285,14 +285,14 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   v32 = v115 < (double)*(float *)(a3 + 204);
   v33 = 0;
   v34 = v115 == *(float *)(a3 + 204);
-  result = (__int16)((v32 ? 0x100 : 0) | (v33 ? 0x400 : 0) | (v34 ? 0x4000 : 0)) & 0x4100;
-  if ( ((__int16)((v32 ? 0x100 : 0) | (v33 ? 0x400 : 0) | (v34 ? 0x4000 : 0)) & 0x4100) != 0 )
+  result = (__int16)(((v32 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x400 : 0) | ((v34 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x4000 : 0)) & 0x4100;
+  if ( ((__int16)(((v32 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x400 : 0) | ((v34 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x4000 : 0)) & 0x4100) != 0 )
   {
     v37 = v115 < (double)*(float *)(a3 + 200);
     v38 = 0;
     v39 = v115 == *(float *)(a3 + 200);
-    result = (__int16)((v37 ? 0x100 : 0) | (v38 ? 0x400 : 0) | (v39 ? 0x4000 : 0)) & 0x4100;
-    v35 = ((__int16)((v37 ? 0x100 : 0) | (v38 ? 0x400 : 0) | (v39 ? 0x4000 : 0)) & 0x4100) != 0 ? *(_DWORD *)(a3 + 24) : *(_DWORD *)(a3 + 20);
+    result = (__int16)(((v37 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x400 : 0) | ((v39 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x4000 : 0)) & 0x4100;
+    v35 = ((__int16)(((v37 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x400 : 0) | ((v39 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x4000 : 0)) & 0x4100) != 0 ? *(_DWORD *)(a3 + 24) : *(_DWORD *)(a3 + 20);
   }
   else
   {
@@ -617,7 +617,7 @@ LABEL_68:
       *((float *)self_ + 58677) = v124[2];
       v75 = *((char **)self_ + 58446);
       *((float *)self_ + 58678) = v74;
-      orig_void::Env_ComputeAmbientFloat4(v75, (float *)self_ + 58680);
+      orig::Env_ComputeAmbientFloat4(v75, (float *)self_ + 58680);
       v76 = *(float *)v66 - *((float *)self_ + 58575);
       *((_DWORD *)self_ + 58690) = *v66;
       *((float *)self_ + 58688) = *((float *)self_ + 58707) / v76;
@@ -648,7 +648,7 @@ LABEL_68:
         *((float *)self_ + 58677) = v82;
         *((float *)self_ + 58678) = v83;
         *((_DWORD *)self_ + 58679) = 0;
-        orig_void::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)self_ + 58680);
+        orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)self_ + 58680);
         v84 = *((float *)self_ + 58518) - *((float *)self_ + 58519);
         *((_DWORD *)self_ + 58690) = *((_DWORD *)self_ + 58518);
         *((float *)self_ + 58688) = *((float *)self_ + 58707) / v84;
@@ -1245,66 +1245,68 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   float *v338;
   int v339;
   int v340;
-  float *v341;
-  float v342;
-  float v343;
-  float v344;
-  float v345;
-  float v346;
-  float v347;
-  float v348;
-  float v349;
-  float v350;
-  float v351;
-  float v352;
-  float v353;
-  float v354;
-  float v355;
-  float v356;
-  float v357;
-  float v358;
-  float v359;
-  int v360;
-  float v361;
-  int v362;
-  float v363;
-  int v364;
-  float v365;
-  float v366;
-  int v367;
-  int v368;
-  int v369;
-  float v370;
-  float v371;
-  int v372;
-  float v373;
-  float v374;
-  int v375;
-  float v376;
-  float v377;
-  int v378;
-  int v379;
-  int v380;
-  float v381;
-  float v382;
-  float *v383;
-  float v384;
-  float v385;
-  int v386;
-  float v387;
-  float v388;
-  float v389;
-  float v390;
-  float v391;
-  _DWORD *v392;
-  int v393;
-  int v394;
-  float v395[30];
-  float *v396;
-  float *v397;
-  float v398[16];
-  float v399[36];
-  _BYTE v400[64];
+  alignas(16) unsigned char xi_frame[0x668];  // address-taken locals at their original offsets
+  float * &v341 = *reinterpret_cast<float * *>(xi_frame + 0xB4);
+  float &v342 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v343 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v344 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v345 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v346 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v347 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v348 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v349 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v350 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v351 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v352 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v353 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v354 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v355 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v356 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v357 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v358 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  float &v359 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  int &v360 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v361 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v362 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v363 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v364 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v365 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v366 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v367 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  int &v368 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  int &v369 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v370 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v371 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v372 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v373 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v374 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v375 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v376 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v377 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  int &v378 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  int &v379 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  int &v380 = *reinterpret_cast<int *>(xi_frame + 0xD4);
+  float &v381 = *reinterpret_cast<float *>(xi_frame + 0xD8);
+  float &v382 = *reinterpret_cast<float *>(xi_frame + 0xDC);
+  float * &v383 = *reinterpret_cast<float * *>(xi_frame + 0xE0);
+  float &v384 = *reinterpret_cast<float *>(xi_frame + 0xE4);
+  float &v385 = *reinterpret_cast<float *>(xi_frame + 0xE8);
+  int &v386 = *reinterpret_cast<int *>(xi_frame + 0xEC);
+  float &v387 = *reinterpret_cast<float *>(xi_frame + 0xF0);
+  float &v388 = *reinterpret_cast<float *>(xi_frame + 0xF4);
+  float &v389 = *reinterpret_cast<float *>(xi_frame + 0xF8);
+  float &v390 = *reinterpret_cast<float *>(xi_frame + 0xFC);
+  float &v391 = *reinterpret_cast<float *>(xi_frame + 0x100);
+  _DWORD * &v392 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x10C);
+  int &v393 = *reinterpret_cast<int *>(xi_frame + 0x110);
+  int &v394 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  float (&v395)[30] = *reinterpret_cast<float (*)[30]>(xi_frame + 0x118);
+  float * &v396 = *reinterpret_cast<float * *>(xi_frame + 0x190);
+  float * &v397 = *reinterpret_cast<float * *>(xi_frame + 0x194);
+  float (&v398)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x198);
+  float (&v399)[36] = *reinterpret_cast<float (*)[36]>(xi_frame + 0x1D8);
+  _BYTE (&v400)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x268);
+
   v4 = self_;
   v383 = self_;
   if ( a4 != 0 )
@@ -1340,8 +1342,8 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v17 = 0;
       v18 = v13 == v383[58633];
     }
-    result = (__int16)((v16 ? 0x100 : 0) | (v17 ? 0x400 : 0) | (v18 ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)((v16 ? 0x100 : 0) | (v17 ? 0x400 : 0) | (v18 ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v16 || __builtin_isunordered(v13, v383[58633])) ? 0x100 : 0) | ((__builtin_isunordered(v13, v383[58633])) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v13, v383[58633])) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v16 || __builtin_isunordered(v13, v383[58633])) ? 0x100 : 0) | ((__builtin_isunordered(v13, v383[58633])) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v13, v383[58633])) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     *(float *)&result = COERCE_FLOAT(orig::sub_10181BB0(v383 + 58295, (float *)(a3 + 244)));
     if ( *(float *)&result != 0.0 )
@@ -1369,8 +1371,8 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v28 = 0;
       v29 = v24 == *(self_ + 58633);
     }
-    result = (__int16)((v27 ? 0x100 : 0) | (v28 ? 0x400 : 0) | (v29 ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)((v27 ? 0x100 : 0) | (v28 ? 0x400 : 0) | (v29 ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v27 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *(self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v27 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *(self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     *(float *)&result = COERCE_FLOAT(orig::sub_10181BB0(self_ + 58359, (float *)(a3 + 244)));
     if ( *(float *)&result != 0.0 )
@@ -1380,12 +1382,12 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   v31 = *(float *)&v393 < (double)*(float *)(v6 + 204);
   v32 = 0;
   v33 = *(float *)&v393 == *(float *)(v6 + 204);
-  if ( ((__int16)((v31 ? 0x100 : 0) | (v32 ? 0x400 : 0) | (v33 ? 0x4000 : 0)) & 0x4100) != 0 )
+  if ( ((__int16)(((v31 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x400 : 0) | ((v33 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x4000 : 0)) & 0x4100) != 0 )
   {
     v35 = *(float *)&v393 < (double)*(float *)(v6 + 200);
     v36 = 0;
     v37 = *(float *)&v393 == *(float *)(v6 + 200);
-    if ( ((__int16)((v35 ? 0x100 : 0) | (v36 ? 0x400 : 0) | (v37 ? 0x4000 : 0)) & 0x4100) != 0 )
+    if ( ((__int16)(((v35 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x400 : 0) | ((v37 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x4000 : 0)) & 0x4100) != 0 )
       v392 = *(_DWORD **)(v6 + 24);
     else
       v392 = *(_DWORD **)(v6 + 20);
@@ -1641,7 +1643,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v72[58677] = v395[2];
       v80 = *((char **)v72 + 58446);
       v72[58678] = v79;
-      orig_void::Env_ComputeAmbientFloat4(v80, v72 + 58680);
+      orig::Env_ComputeAmbientFloat4(v80, v72 + 58680);
       v81 = v396;
       v82 = *v396 - *v397;
       v83 = *(_DWORD *)v397;
@@ -1672,7 +1674,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v90[58677] = v91;
       v90[58678] = v92;
       v90[58679] = 0.0;
-      orig_void::Env_ComputeAmbientFloat4((char *)g_pXiZone, v90 + 58680);
+      orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, v90 + 58680);
       v93 = v90[58518] - v90[58519];
       v90[58690] = v90[58518];
       v90[58688] = v90[58707] / v93;
@@ -1971,7 +1973,7 @@ LABEL_316:
                 v254 = v250 * *(float *)(v228 + 16);
                 v381 = v399[3] * *(float *)(v228 + 12) + v254 + v371;
                 v256 = (v249 * *(float *)(v228 + 12) + v254 + v371) * v354 * v354 * v354;
-                if ( (v257 | v258) != 0 )
+                if ( v256 < 0.0 )
                   v256 = 0.0;
                 v259 = v381 * v385 * v385 * v385;
                 v381 = v259;
@@ -2071,7 +2073,7 @@ LABEL_316:
                 v387 = 1.0 / v282;
                 v382 = v279 * *(float *)(v228 + 12) + v281 * *(float *)(v228 + 20) + v280 * *(float *)(v228 + 16);
                 v284 = (v273 * *(float *)(v228 + 12) + v278 + v374) * v356 * v356 * v356;
-                if ( (v285 | v286) != 0 )
+                if ( v284 < 0.0 )
                   v284 = 0.0;
                 v287 = v381 * v385 * v385 * v385;
                 v381 = v287;
@@ -2189,7 +2191,7 @@ LABEL_316:
                 v388 = 1.0 / v312;
                 v384 = v309 * *(float *)(v228 + 12) + v311 * *(float *)(v228 + 20) + v310 * *(float *)(v228 + 16);
                 v314 = (v299 * *(float *)(v228 + 12) + v304 + v377) * v358 * v358 * v358;
-                if ( (v315 | v316) != 0 )
+                if ( v314 < 0.0 )
                   v314 = 0.0;
                 v317 = v381 * v385 * v385 * v385;
                 v381 = v317;
@@ -2452,7 +2454,7 @@ LABEL_315:
             v144 = v140 * *(float *)(v118 + 28);
             v381 = v399[3] * *(float *)(v118 + 24) + v144 + v384;
             v146 = (v139 * *(float *)(v118 + 24) + v144 + v384) * v345 * v345 * v345;
-            if ( (v147 | v148) != 0 )
+            if ( v146 < 0.0 )
               v146 = 0.0;
             v149 = v381 * v385 * v385 * v385;
             v381 = v149;
@@ -2547,7 +2549,7 @@ LABEL_315:
             v387 = 1.0 / sqrt(v171 * v171 + v170 * v170 + v169 * v169);
             v382 = v169 * *(float *)(v118 + 24) + v171 * *(float *)(v118 + 32) + v170 * *(float *)(v118 + 28);
             v173 = (v163 * *(float *)(v118 + 24) + v168 + v384) * v347 * v347 * v347;
-            if ( (v174 | v175) != 0 )
+            if ( v173 < 0.0 )
               v173 = 0.0;
             v176 = v381 * v385 * v385 * v385;
             v381 = v176;
@@ -2662,7 +2664,7 @@ LABEL_315:
             v388 = 1.0 / v201;
             v384 = v198 * *(float *)(v118 + 24) + v200 * *(float *)(v118 + 32) + v199 * *(float *)(v118 + 28);
             v203 = (v188 * *(float *)(v118 + 24) + v193 + v366) * v349 * v349 * v349;
-            if ( (v204 | v205) != 0 )
+            if ( v203 < 0.0 )
               v203 = 0.0;
             v206 = v381 * v385 * v385 * v385;
             v381 = v206;
@@ -2993,8 +2995,8 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
     v13 = v9 < v10;
     v14 = 0;
     v15 = v9 == v10;
-    result = (_DWORD *)((__int16)((v13 ? 0x100 : 0) | (v14 ? 0x400 : 0) | (v15 ? 0x4000 : 0)) & 0x4100);
-    if ( ((__int16)((v13 ? 0x100 : 0) | (v14 ? 0x400 : 0) | (v15 ? 0x4000 : 0)) & 0x4100) != 0 )
+    result = (_DWORD *)((__int16)(((v13 || __builtin_isunordered(v9, v10)) ? 0x100 : 0) | ((__builtin_isunordered(v9, v10)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v9, v10)) ? 0x4000 : 0)) & 0x4100);
+    if ( ((__int16)(((v13 || __builtin_isunordered(v9, v10)) ? 0x100 : 0) | ((__builtin_isunordered(v9, v10)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v9, v10)) ? 0x4000 : 0)) & 0x4100) != 0 )
     {
       result = (_DWORD *)orig::sub_10181BB0((float *)(self_ + 233436), (float *)(a3 + 244));
       if ( result == nullptr )
@@ -3259,4 +3261,558 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
     }
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x10185CA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 28 returned normally, 864 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall fn_10185CA0(void *self_, int a1, int a2, int a3, int a4)
+{
+  float *v5;
+  IDirect3DDevice8 *pDevice;
+  IDirect3DDevice8 v7;
+  long double v8;
+  long double v9;
+  float v10;
+  float v11;
+  double v12;
+  int v13;
+  __int64 v14; // rax
+  int v15;
+  int v16;
+  int v17;
+  int v18;
+  int *v19;
+  int v20;
+  _DWORD *v21;
+  __int16 v22;
+  int v23;
+  _DWORD *v24;
+  __int16 *v25;
+  int v26;
+  _WORD *v27;
+  int v28;
+  char *v29;
+  float *v30;
+  int v31;
+  float *v32;
+  double v33;
+  float *v34;
+  float *v35;
+  int m;
+  double v37;
+  float *v38;
+  int v39;
+  float *v40;
+  float *v41;
+  float *v42;
+  float *v43;
+  double v44;
+  float *v45;
+  double v46;
+  double v47;
+  float *v48;
+  double v49;
+  float *v50;
+  double v51;
+  double v52;
+  float *v53;
+  float *v54;
+  double v55;
+  __int16 v56;
+  int v57;
+  double v58;
+  double v59;
+  float *v60;
+  double v61;
+  double v62;
+  int v63;
+  double v64;
+  double v65;
+  float *v66;
+  int v67;
+  int v68;
+  int v69;
+  int v70;
+  _DWORD *v71;
+  unsigned int v72;
+  int v73;
+  unsigned int v74;
+  float *v75;
+  int v76;
+  int v77;
+  bool v78; // zf
+  float v80;
+  float v81;
+  float v82;
+  int v83;
+  float v84;
+  float v85;
+  float v86;
+  int v87;
+  float v88;
+  float v89;
+  float v90;
+  int v91;
+  float v92;
+  float v93;
+  float v94;
+  int v95;
+  float *v96;
+  float *v97;
+  float *v98;
+  int v99;
+  int v100;
+  int v101;
+  int k;
+  int v103;
+  int v104;
+  _DWORD **v105;
+  int v106;
+  int i;
+  int j;
+  int v109;
+  __int16 *v110;
+  int v111;
+  float v112;
+  float v113;
+  float *v114;
+  float v115;
+  float v116;
+  float v117;
+  float v118[12];
+  _DWORD v119[4];
+  char pMatrix[48];
+  float *v121;
+  IDirect3DBaseTexture8 *v122;
+  v5 = (float *)self_;
+  v110 = (__int16 *)self_;
+  if ( *(float *)&a4 == 0.0 )
+  {
+    flt_103773E0 = 1.0;
+    flt_103773D8 = 1.0;
+  }
+  else
+  {
+    flt_103773E0 = 1.0 / *(float *)&a4;
+    flt_103773D8 = flt_103773E0;
+  }
+  *(float *)&v111 = -*(float *)a1;
+  pDevice = g_pCDx->pDevice;
+  v112 = -*(float *)(a1 + 4);
+  v7.lpVtbl = pDevice->lpVtbl;
+  v113 = -*(float *)(a1 + 8);
+  v7.lpVtbl->SetRenderState(pDevice, D3DRS_LIGHTING, 0);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
+  g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+  v109 = 0;
+  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+  if ( *((_BYTE *)v5 + 234904) != 0 )
+  {
+    g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, pMatrix);
+    orig_void::ZoneMap_SetOverlayProjection(v5);
+  }
+  else
+  {
+    orig::Gfx_SetZBias(g_zbiasOverlay);
+  }
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)a3);
+  g_pCDx->pDevice->SetVertexShader(322u);
+  v92 = v115;
+  v8 = atan2(-*(float *)a2, *((float *)a2 + 2));
+  v93 = v116;
+  v94 = v117;
+  v118[0] = 1.0;
+  memset(&v118[1], 0, 16);
+  v118[5] = 1.0;
+  memset(&v118[6], 0, 16);
+  v118[10] = 1.0;
+  v118[11] = 0.0;
+  memset(v119, 0, 12);
+  v119[3] = 1065353216;
+  v80 = 1.0;
+  v81 = 0.0;
+  v82 = 0.0;
+  v83 = 0;
+  v84 = 0.0;
+  v85 = 1.0;
+  v86 = 0.0;
+  v87 = 0;
+  v88 = 0.0;
+  v89 = 0.0;
+  v90 = 1.0;
+  v91 = 0;
+  v95 = 1065353216;
+  *(float *)&v100 = v8;
+  orig::Mat44_Multiply(v118, (int)v118, &v80);
+  v80 = cos(*(float *)&v100);
+  v9 = sin(*(float *)&v100);
+  v81 = 0.0;
+  v83 = 0;
+  v84 = 0.0;
+  v85 = 1.0;
+  v86 = 0.0;
+  v87 = 0;
+  v89 = 0.0;
+  v91 = 0;
+  v92 = 0.0;
+  v93 = 0.0;
+  v94 = 0.0;
+  v95 = 1065353216;
+  v82 = -v9;
+  v88 = v9;
+  v90 = v80;
+  orig::Mat44_Multiply(v118, (int)v118, &v80);
+  v80 = flt_103773D8;
+  v85 = *(float *)&dword_103773DC;
+  v90 = flt_103773E0;
+  v81 = 0.0;
+  v82 = 0.0;
+  v83 = 0;
+  v84 = 0.0;
+  v86 = 0.0;
+  v87 = 0;
+  v88 = 0.0;
+  v89 = 0.0;
+  v91 = 0;
+  v92 = 0.0;
+  v93 = 0.0;
+  v94 = 0.0;
+  v95 = 1065353216;
+  orig::Mat44_Multiply(v118, (int)v118, &v80);
+  v92 = *(float *)&dword_103773CC;
+  v93 = *(float *)&dword_103773D0;
+  v94 = *(float *)&dword_103773D4;
+  v80 = 1.0;
+  v81 = 0.0;
+  v82 = 0.0;
+  v83 = 0;
+  v84 = 0.0;
+  v85 = 1.0;
+  v86 = 0.0;
+  v87 = 0;
+  v88 = 0.0;
+  v89 = 0.0;
+  v90 = 1.0;
+  v91 = 0;
+  v95 = 1065353216;
+  orig::Mat44_Multiply(v118, (int)v118, &v80);
+  v10 = COERCE_FLOAT(orig::GetPtr8IfField60Set((_DWORD *)v5 + 94));
+  v11 = v10;
+  v112 = v10;
+  if ( v10 != 0.0 )
+  {
+    v12 = *(float *)(LODWORD(v10) + 56) + *(float *)a1;
+    v113 = v5[95];
+    v13 = (__int64)(v12 * 0.25);
+    v14 = (__int64)((*(float *)(LODWORD(v10) + 60) + *(float *)(a1 + 8)) * 0.25);
+    if ( v13 - 1 >= 0 )
+    {
+      v106 = *(_DWORD *)(LODWORD(v11) + 64) - 1;
+      if ( v13 - 1 <= v106 )
+        v106 = v13 - 1;
+    }
+    else
+    {
+      v106 = 0;
+    }
+    if ( v13 + 1 >= 0 )
+    {
+      v104 = *(_DWORD *)(LODWORD(v11) + 64) - 1;
+      if ( v13 + 1 <= v104 )
+        v104 = v13 + 1;
+    }
+    else
+    {
+      v104 = 0;
+    }
+    v15 = v14 - 1;
+    if ( (int)v14 - 1 >= 0 )
+    {
+      if ( v15 > *(_DWORD *)(LODWORD(v11) + 68) - 1 )
+        v15 = *(_DWORD *)(LODWORD(v11) + 68) - 1;
+    }
+    else
+    {
+      v15 = 0;
+    }
+    v16 = v14 + 1;
+    if ( v16 >= 0 )
+    {
+      v103 = *(_DWORD *)(LODWORD(v11) + 68) - 1;
+      if ( v16 <= v103 )
+        v103 = v16;
+    }
+    else
+    {
+      v103 = 0;
+    }
+    v17 = v15;
+    for ( i = v15; v17 <= v103; i = v17 )
+    {
+      v18 = v106;
+      for ( j = v106; v18 <= v104; j = v18 )
+      {
+        v19 = *(int **)(*(_DWORD *)(LODWORD(v11) + 88) + 4 * (v18 + v17 * *(_DWORD *)(LODWORD(v11) + 64)));
+        if ( v19 != nullptr )
+        {
+          do
+          {
+            v20 = *v19;
+            v21 = v19 + 1;
+            v22 = *v19;
+            v105 = (_DWORD **)v21;
+            v23 = v22 & 0x7FF;
+            if ( (v20 & 0x2000) != 0 )
+            {
+              v105 = (_DWORD **)&v21[2 * v23];
+            }
+            else if ( v23 > 0 )
+            {
+              v111 = v23;
+              do
+              {
+                v24 = (_DWORD *)*v21;
+                v25 = (__int16 *)v21[1];
+                v110 = v25;
+                if ( LODWORD(v113) != v24[47] && v25[7] == 0 )
+                {
+                  v26 = v24[41] & 1;
+                  if ( v109 != v26 )
+                  {
+                    v109 = v24[41] & 1;
+                    if ( v26 != 0 )
+                      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+                    else
+                      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+                  }
+                  v27 = *((_WORD **)v25 + 2);
+                  v28 = *(_DWORD *)v25;
+                  v29 = (char *)&g_zoneProjVerts;
+                  *(float *)&v100 = 0.0;
+                  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v24);
+                  v30 = &v80;
+                  v31 = (char *)v24 - (char *)&v80;
+                  v99 = 4;
+                  for ( k = v31; ; v31 = k )
+                  {
+                    v96 = (float *)((char *)v30 + v31);
+                    v97 = v118;
+                    v32 = v30;
+                    v101 = 4;
+                    do
+                    {
+                      v33 = 0.0;
+                      v34 = v96;
+                      v35 = v97;
+                      *v32 = 0.0;
+                      for ( m = 4; m != 0; --m )
+                      {
+                        v37 = *v34 * *v35;
+                        v35 += 4;
+                        ++v34;
+                        v33 = v33 + v37;
+                      }
+                      v38 = v97;
+                      v39 = v101;
+                      *v32++ = v33;
+                      v97 = v38 + 1;
+                      v101 = v39 - 1;
+                    }
+                    while ( v39 != 1 );
+                    v30 = v32;
+                    if ( --v99 == 0 )
+                      break;
+                  }
+                  k = 0;
+                  if ( v110[6] > 0 )
+                  {
+                    v40 = (float *)&unk_106390C8;
+                    v41 = (float *)&unk_106390B4;
+                    v42 = (float *)&unk_106390B0;
+                    v96 = (float *)&unk_106390CC;
+                    v98 = (float *)&unk_106390C8;
+                    v97 = (float *)&unk_106390B4;
+                    v101 = (int)&unk_106390B0;
+                    while ( 1 )
+                    {
+                      v43 = (float *)(v28 + 12 * (*v27 & 0x7FFF));
+                      *((float *)v29 + 4) = v88 * v43[2] + v84 * v43[1] + v80 * *v43 + v92;
+                      v44 = v89 * v43[2] + v85 * v43[1] + v81 * *v43 + v93;
+                      *((float *)v29 + 5) = v90 * v43[2] + v86 * v43[1] + v82 * *v43 + v94;
+                      v45 = (float *)(v28 + 12 * (*v27 & 0x7FFF));
+                      if ( v44 >= 0.0 )
+                      {
+                        *((float *)v29 + 4) = v80 * *(float *)(v28 + 12 * (*v27 & 0x7FFF))
+                                            + v88 * *(float *)(v28 + 12 * (*v27 & 0x7FFF) + 8)
+                                            + v84 * v45[1]
+                                            + v92;
+                        v47 = v81 * *v45 + v89 * v45[2] + v85 * v45[1] + v93;
+                        *((float *)v29 + 5) = v82 * *v45 + v90 * v45[2] + v86 * v45[1] + v94;
+                      }
+                      else
+                      {
+                        *((float *)v29 + 4) = v88 * *(float *)(v28 + 12 * (*v27 & 0x7FFF) + 8)
+                                            + v84 * *(float *)(v28 + 12 * (*v27 & 0x7FFF) + 4)
+                                            + v80 * *v45
+                                            + v92;
+                        v46 = v89 * v45[2] + v85 * v45[1] + v81 * *v45 + v93;
+                        *((float *)v29 + 5) = v90 * v45[2] + v86 * v45[1] + v82 * *v45 + v94;
+                        v47 = -v46;
+                      }
+                      v48 = (float *)(v28 + 12 * (v27[1] & 0x3FFF));
+                      *v42 = v88 * v48[2] + v84 * v48[1] + v80 * *v48 + v92;
+                      v49 = v89 * v48[2] + v85 * v48[1] + v81 * *v48 + v93;
+                      *v41 = v90 * v48[2] + v86 * v48[1] + v82 * *v48 + v94;
+                      v50 = (float *)(v28 + 12 * (v27[1] & 0x3FFF));
+                      if ( v49 >= 0.0 )
+                      {
+                        *v42 = v88 * *(float *)(v28 + 12 * (v27[1] & 0x3FFF) + 8)
+                             + v84 * *(float *)(v28 + 12 * (v27[1] & 0x3FFF) + 4)
+                             + v80 * *v50
+                             + v92;
+                        v52 = v89 * v50[2] + v85 * v50[1] + v81 * *v50 + v93;
+                        *v41 = v90 * v50[2] + v86 * v50[1] + v82 * *v50 + v94;
+                      }
+                      else
+                      {
+                        *v42 = v80 * *(float *)(v28 + 12 * (v27[1] & 0x3FFF))
+                             + v88 * *(float *)(v28 + 12 * (v27[1] & 0x3FFF) + 8)
+                             + v84 * v50[1]
+                             + v92;
+                        v51 = v81 * *v50 + v89 * v50[2] + v85 * v50[1] + v93;
+                        *v41 = v82 * *v50 + v90 * v50[2] + v86 * v50[1] + v94;
+                        v52 = -v51;
+                      }
+                      v53 = (float *)(v28 + 12 * (v27[2] & 0x3FFF));
+                      v54 = v96;
+                      *v40 = v88 * v53[2] + v84 * v53[1] + v80 * *v53 + v92;
+                      v55 = v89 * v53[2] + v85 * v53[1] + v81 * *v53 + v93;
+                      *v54 = v90 * v53[2] + v86 * v53[1] + v82 * *v53 + v94;
+                      v56 = v27[2];
+                      if ( v55 >= 0.0 )
+                      {
+                        v63 = 3 * (v56 & 0x3FFF);
+                        v64 = v88 * *(float *)(v28 + 4 * v63 + 8);
+                        v65 = v84 * *(float *)(v28 + 4 * v63 + 4);
+                        v66 = (float *)(v28 + 4 * v63);
+                        *v40 = v64 + v65 + v80 * *v66 + v92;
+                        v62 = v89 * v66[2] + v85 * v66[1] + v81 * *v66 + v93;
+                        *v54 = v90 * v66[2] + v86 * v66[1] + v82 * *v66 + v94;
+                      }
+                      else
+                      {
+                        v57 = v56 & 0x3FFF;
+                        v58 = v80 * *(float *)(v28 + 12 * v57);
+                        v59 = v88 * *(float *)(v28 + 12 * v57 + 8);
+                        v60 = (float *)(v28 + 12 * v57);
+                        *v40 = v58 + v59 + v84 * v60[1] + v92;
+                        v61 = v81 * *v60 + v89 * v60[2] + v85 * v60[1] + v93;
+                        *v54 = v82 * *v60 + v90 * v60[2] + v86 * v60[1] + v94;
+                        v62 = -v61;
+                      }
+                      v67 = 64 - (__int64)(v47 * 32.0);
+                      v99 = 64 - (__int64)(v52 * 32.0);
+                      v68 = 64 - (__int64)(v62 * 32.0);
+                      v69 = 0;
+                      if ( v67 < 0 )
+                      {
+                        v67 = 0;
+                        v69 = 1;
+                      }
+                      v70 = v99;
+                      if ( v99 < 0 )
+                      {
+                        v99 = 0;
+                        ++v69;
+                        v70 = 0;
+                      }
+                      if ( v68 < 0 )
+                      {
+                        v68 = 0;
+                        ++v69;
+                      }
+                      if ( v69 <= 2 )
+                      {
+                        v71 =(_DWORD*)(v29 + 48);
+                        *(v71 - 12) = *(_DWORD *)(v28 + 12 * (*v27 & 0x7FFF));
+                        *(v71 - 11) = *(_DWORD *)(v28 + 12 * (*v27 & 0x7FFF) + 4);
+                        *(v71 - 10) = *(_DWORD *)(v28 + 12 * (*v27 & 0x7FFF) + 8);
+                        v72 = v67 | ((v67 | ((v67 | 0xFFFF8000) << 8)) << 8);
+                        v73 = v101;
+                        *(v71 - 9) = v72;
+                        v97 += 6;
+                        v98 += 6;
+                        v96 += 6;
+                        *(v71 - 6) = *(_DWORD *)(v28 + 12 * (v27[1] & 0x3FFF));
+                        *(v71 - 5) = *(_DWORD *)(v28 + 12 * (v27[1] & 0x3FFF) + 4);
+                        *(v71 - 4) = *(_DWORD *)(v28 + 12 * (v27[1] & 0x3FFF) + 8);
+                        v74 = v70 | ((v70 | ((v70 | 0xFFFF8000) << 8)) << 8);
+                        v75 = v97;
+                        *(v71 - 3) = v74;
+                        v98 += 6;
+                        v96 += 6;
+                        *v71 = *(_DWORD *)(v28 + 12 * (v27[2] & 0x3FFF));
+                        v71[1] = *(_DWORD *)(v28 + 12 * (v27[2] & 0x3FFF) + 4);
+                        v71[2] = *(_DWORD *)(v28 + 12 * (v27[2] & 0x3FFF) + 8);
+                        v71[3] = v68 | ((v68 | ((v68 | 0xFFFF8000) << 8)) << 8);
+                        v101 = v73 + 72;
+                        v98 += 6;
+                        v76 = v100;
+                        v29 = (char *)(v71 + 6);
+                        v97 = v75 + 12;
+                        v96 += 6;
+                        if ( v100 > 1500 )
+                          goto LABEL_67;
+                        ++v100;
+                      }
+                      v27 += 4;
+                      v77 = v110[6];
+                      if ( ++k >= v77 )
+                        break;
+                      v42 = (float *)v101;
+                      v40 = v98;
+                      v41 = v97;
+                    }
+                    v76 = v100;
+LABEL_67:
+                    if ( v76 != 0 )
+                      orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v76, (int)&g_zoneProjVerts, 24);
+                  }
+                }
+                v21 =(_DWORD*)(v105 + 2);
+                v78 = v111 == 1;
+                v105 += 2;
+                --v111;
+              }
+              while ( !v78 );
+              v11 = v112;
+            }
+            v19 = *v105;
+          }
+          while ( *v105 != nullptr );
+          v5 = v114;
+          v18 = j;
+          v17 = i;
+        }
+        ++v18;
+      }
+      ++v17;
+    }
+  }
+  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+  if ( *((_BYTE *)v5 + 234904) != 0 )
+    return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, v119);
+  else
+    return orig::Gfx_SetZBias(g_zbiasRestore);
 }

@@ -13,6 +13,7 @@ Usage: python3 hx2cpp.py gfx_export2.jsonl outdir/
 import json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from msvc_demangle import demangle
+import hx_patches
 
 OPAQUE = {'Iostream_init', 'exception', 'type_info', 'codecvt_base'}
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
@@ -95,6 +96,41 @@ def unconsumed_fp_calls(ea, syms, body):
         out.append(s)
     return out
 
+BYREF_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)(v\d+)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])? BYREF$', re.M)
+
+def exact_frame(body):
+    # Hex-Rays sometimes splits one stack array into several variables (`char v70[8]; char v71;
+    # char v72;` ...) and the code then writes through a pointer to one of them across the others.
+    # GCC places such variables anywhere, so the writes land on unrelated locals. When a function has
+    # an address-taken single `char` (the sign of a split array), every address-taken local is
+    # placed at its original stack offset inside one buffer, so overlapping accesses behave as in
+    # the original.
+    decls = list(BYREF_DECL.finditer(body))
+    if not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
+    top = max(int(m.group(6), 16) for m in decls) + 0x400
+    out, pos, first = [], 0, True
+    for m in decls:
+        indent, t, stars, name, arr, off = m.group(1), m.group(2).strip(), m.group(3), m.group(4), m.group(5), int(m.group(6), 16)
+        out.append(body[pos:m.start()])
+        if first:
+            out.append('%salignas(16) unsigned char xi_frame[0x%X];  // address-taken locals at their original offsets\n' % (indent, top))
+            first = False
+        t = t + ' ' + stars if stars else t
+        if arr:
+            out.append('%s%s (&%s)%s = *reinterpret_cast<%s (*)%s>(xi_frame + 0x%X);' % (indent, t, name, arr, t, arr, off))
+        else:
+            out.append('%s%s &%s = *reinterpret_cast<%s *>(xi_frame + 0x%X);' % (indent, t, name, t, off))
+        pos = m.end()
+    out.append(body[pos:])
+    return ''.join(out)
+
+SIGNED_CMP = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (?=\(__int16\)|SHIWORD\(|SLOWORD\(|\(int\)|\(char\)|\(__int8\)|\(signed)')
+
+def signed_dword_compares(body):
+    # `_DWORD` has no signedness in Hex-Rays output; a comparison takes it from the other operand.
+    # In C++ `_DWORD` is uint32_t, so `*(_DWORD *)p > (__int16)x` would compare unsigned: read it as int.
+    return SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
+
 def fpu_status_words(body):
     # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
     # word variable (// fps) unassigned, so `(fps & 0x100)` reads garbage. Each read of the status word
@@ -168,6 +204,8 @@ def translate(rec):
     body = re.sub(r'\bthis\b', 'self', body)
     body = exact_fp_literals(ea, body)
     body = fpu_status_words(body)
+    body = signed_dword_compares(body)
+    body = exact_frame(body)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
@@ -204,6 +242,7 @@ def main(src, outdir):
                 meta['%08X' % ea] = {'status': 'skipped', 'why': 'unsupported construct ' + (m.group(0) if m else rec.get('skip', '?'))}; continue
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
+        rec = hx_patches.apply(rec)
         rec = dict(rec, text=SPOILS.sub('', rec['text']))
         r, why = translate(rec)
         if r is None:

@@ -22,6 +22,7 @@ import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import collections
 from msvc_demangle import demangle
+import hx_patches
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
@@ -247,6 +248,7 @@ def main(exp, gate, manf, incdir, outdir):
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     for l in open(exp):
         r = json.loads(re.sub(r"\s*__spoils<[^>]*>", "", l))   # callee-preserves-register notes: Hex-Rays only
+        r = hx_patches.apply(r)
         dmn = _dm.get(hex(r['ea']))
         if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
             r['name'] = dmn[0]                       # DancingMad's newer name (Sep 2026 update)

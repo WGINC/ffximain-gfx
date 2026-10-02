@@ -1,0 +1,11 @@
+{
+ "why": "Hex-Rays took the arguments pushed before a shared SetRenderState call (0x1028359C) for stack variables overlapping the material struct (v12[4], v12[5]), passed &v10 instead of the material to SetMaterial, and read the saved ESI as a write to v12[5].",
+ "evidence": "disasm 0x10283543..0x102835AA: four branches on g_pSqgxContext+0xA30 bits 8 and 2 push (148, 1), (145, 1), (148, 0)+(145, 0), or (145, 0); SetMaterial gets lea edx,[esp], the 17-dword struct zeroed at entry.",
+ "text_sha1": "c02c144cc64687721a9c6e0fd1170c6267dd3d20",
+ "replace": [
+  [
+   "  g_pDancerDevice->lpVtbl->SetMaterial(g_pDancerDevice, &v10);\n  v6 = *(_DWORD *)(g_pSqgxContext + 2608);\n  if ( (v6 & 8) != 0 && (v6 & 2) == 0 )\n    goto LABEL_12;\n  if ( (*(_DWORD *)(g_pSqgxContext + 2608) & 8) == 0 )\n  {\n    v11 = 0;\n    if ( (v6 & 2) == 0 )\n    {\n      g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_EMISSIVEMATERIALSOURCE, v11);\n      g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_DIFFUSEMATERIALSOURCE, 0);\n      goto LABEL_13;\n    }\n    LODWORD(v12[4]) = 145;\nLABEL_12:\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, SLODWORD(v12[4]), LODWORD(v12[5]));\n    goto LABEL_13;\n  }\n  g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_DIFFUSEMATERIALSOURCE, 1u);\nLABEL_13:\n  v12[5] = v0;\n",
+   "  g_pDancerDevice->lpVtbl->SetMaterial(g_pDancerDevice, v12);\n  v6 = *(_DWORD *)(g_pSqgxContext + 2608);\n  if ( (v6 & 8) != 0 && (v6 & 2) == 0 )\n  {\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_EMISSIVEMATERIALSOURCE, 1u);\n  }\n  else if ( (v6 & 8) != 0 )\n  {\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_DIFFUSEMATERIALSOURCE, 1u);\n  }\n  else if ( (v6 & 2) == 0 )\n  {\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_EMISSIVEMATERIALSOURCE, 0);\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_DIFFUSEMATERIALSOURCE, 0);\n  }\n  else\n  {\n    g_pDancerDevice->lpVtbl->SetRenderState(g_pDancerDevice, D3DRS_DIFFUSEMATERIALSOURCE, 0);\n  }\n"
+  ]
+ ]
+}

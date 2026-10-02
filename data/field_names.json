@@ -346,5 +346,219 @@
    "summary": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks ",
    "evidence": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks it as variable-length records (length in bits 8..12, in dwords)"
   }
+ },
+ "CYyIcon": {
+  "0x8": {
+   "name": "pTexture",
+   "confidence": "medium",
+   "summary": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect",
+   "evidence": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect"
+  },
+  "0xC": {
+   "name": "quad0_x",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x10": {
+   "name": "quad0_y",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x1C": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x20": {
+   "name": "quad0_u",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x24": {
+   "name": "quad0_v",
+   "confidence": "high",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x28": {
+   "name": "quad1_x",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x2C": {
+   "name": "quad1_y",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x38": {
+   "name": "quad1_color",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x3C": {
+   "name": "quad1_u",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x40": {
+   "name": "quad1_v",
+   "confidence": "high",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x44": {
+   "name": "quad2_x",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x48": {
+   "name": "quad2_y",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x54": {
+   "name": "quad2_color",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x58": {
+   "name": "quad2_u",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x5C": {
+   "name": "quad2_v",
+   "confidence": "high",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x60": {
+   "name": "quad3_x",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x64": {
+   "name": "quad3_y",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x70": {
+   "name": "quad3_color",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x74": {
+   "name": "quad3_u",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  },
+  "0x78": {
+   "name": "quad3_v",
+   "confidence": "high",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
+  }
+ },
+ "CXiOpening": {
+  "0x114": {
+   "name": "savedGammaR",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x118": {
+   "name": "savedGammaG",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x11C": {
+   "name": "savedGammaB",
+   "confidence": "high",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  }
+ },
+ "CXiMovie": {
+  "0x8": {
+   "name": "pTexture",
+   "confidence": "medium",
+   "summary": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)",
+   "evidence": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)"
+  },
+  "0xC": {
+   "name": "quad0_x",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  },
+  "0x10": {
+   "name": "quad0_y",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  },
+  "0x1C": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
+  }
+ },
+ "Obj_104E1B90": {
+  "0x10": {
+   "name": "quad0_color",
+   "confidence": "high",
+   "summary": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x2C": {
+   "name": "quad1_color",
+   "confidence": "high",
+   "summary": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x48": {
+   "name": "quad2_color",
+   "confidence": "high",
+   "summary": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  },
+  "0x64": {
+   "name": "quad3_color",
+   "confidence": "high",
+   "summary": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
+   "evidence": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+  }
+ },
+ "CMoDistMorphElem": {
+  "0x104": {
+   "name": "pProcessor",
+   "confidence": "medium",
+   "summary": "used as the CMoProcessor in UpdateMorphBlend",
+   "evidence": "used as the CMoProcessor in UpdateMorphBlend"
+  },
+  "0x1BC": {
+   "name": "morphHandle",
+   "confidence": "medium",
+   "summary": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val",
+   "evidence": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to ValidateMorphData"
+  }
  }
 }

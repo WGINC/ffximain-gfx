@@ -7,7 +7,7 @@ verification/gate_raw_final.jsonl), or `changed:OTHER_RAW_DIR` (functions whose 
 differs from that directory). Results go to runs/RUN/NAME.jsonl (default gate_some), one line per
 function, and a verdict count is printed, with each function's change from the reference verdict.
 """
-import argparse, json, os, subprocess, sys, filecmp, collections
+import argparse, json, os, subprocess, sys, filecmp, collections, time
 
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
 
@@ -44,27 +44,31 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('run'); ap.add_argument('select', nargs='+')
     ap.add_argument('--jobs', type=int, default=os.cpu_count()); ap.add_argument('--trials', type=int, default=100)
-    ap.add_argument('--out', default='gate_some')
+    ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=4)
     a = ap.parse_args()
     run = os.path.join(ROOT, 'runs', a.run) if not os.path.isdir(a.run) else a.run
     want = select(run, a.select)
     cases = [c for c in json.load(open(os.path.join(run, 'cases.json'))) if norm(c['original']) in want]
     print('%d selected, %d gateable' % (len(want), len(cases)))
     dll = os.environ['FFXI_DLL']; base = os.path.join(run, a.out)
-    procs = []
-    for s in range(a.jobs):
-        part = cases[s::a.jobs]
-        if not part: continue
-        json.dump(part, open('%s_c%d.json' % (base, s), 'w'))
-        if os.path.exists('%s_%d.jsonl' % (base, s)): os.remove('%s_%d.jsonl' % (base, s))
-        procs.append(subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, os.path.join(run, 'raw', 'gfx_raw.dll'),
-                                       '%s_c%d.json' % (base, s), '%s_%d.jsonl' % (base, s), '--trials', str(a.trials), '--seed', '11'],
-                                      stdout=open('%s_%d.log' % (base, s), 'w'), stderr=subprocess.STDOUT))
-    for p in procs: p.wait()
-    res = []
-    for s in range(a.jobs):
-        f = '%s_%d.jsonl' % (base, s)
-        if os.path.exists(f): res += [json.loads(l) for l in open(f)]
+    # small chunks handed out as workers free up: a few slow cases cannot strand the rest behind them
+    chunks = [cases[i:i + a.chunk] for i in range(0, len(cases), a.chunk)]
+    for f in os.listdir(run):
+        if f.startswith(os.path.basename(base) + '_') and f.endswith(('.json', '.jsonl', '.log')): os.remove(os.path.join(run, f))
+    running, k, res = [], 0, []
+    while k < len(chunks) or running:
+        while k < len(chunks) and len(running) < a.jobs:
+            cf, rf = '%s_c%d.json' % (base, k), '%s_%d.jsonl' % (base, k)
+            json.dump(chunks[k], open(cf, 'w'))
+            running.append((subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, os.path.join(run, 'raw', 'gfx_raw.dll'),
+                                              cf, rf, '--trials', str(a.trials), '--seed', '11'],
+                                             stdout=open('%s_%d.log' % (base, k), 'w'), stderr=subprocess.STDOUT), rf))
+            k += 1
+        time.sleep(0.5)
+        for p_, rf in list(running):
+            if p_.poll() is not None:
+                running.remove((p_, rf))
+                if os.path.exists(rf): res += [json.loads(l) for l in open(rf)]
     with open(base + '.jsonl', 'w') as f:
         for r in res: f.write(json.dumps(r) + '\n')
     ref = reference()

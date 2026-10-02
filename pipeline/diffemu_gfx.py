@@ -26,6 +26,7 @@ COM_BASE = 0x6E000000          # fake objects + vtables
 COM_TRAP = 0x6E800000          # one 4-byte trap per (interface, slot)
 FP_TRAMP = COM_BASE + 0xF0000  # stub return through the x87 stack (inside the COM_BASE mapping)
 FP_SCRATCH = COM_BASE + 0xF0100
+ALLOC_BASE, ALLOC_SIZE = 0x6F000000, 0x800000   # blocks returned by allocator stubs (data/allocators.json)
 SPEC = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'com_spec.json')))
 IFACES = sorted(SPEC)
 
@@ -49,6 +50,8 @@ class GfxMachine(G.Machine):
         u = self.uc
         u.mem_map(COM_BASE, 0x100000, UC_PROT_ALL)
         u.mem_map(COM_TRAP, 0x100000, UC_PROT_ALL)
+        u.mem_map(ALLOC_BASE, ALLOC_SIZE, UC_PROT_ALL)
+        self.alloc_next = self.alloc_high = ALLOC_BASE
         u.mem_write(COM_TRAP, b'\xF4' * 0x100000)
         u.mem_write(FP_TRAMP, b'\xD9\x05' + struct.pack('<I', FP_SCRATCH) + b'\xC3')
         self.obj = {}; self.trap = {}
@@ -89,6 +92,13 @@ class GfxMachine(G.Machine):
         #  fault hook proved non-deterministic between runs, 1 Oct 2026)
         self.rng = random.Random(0)
         self.ctx = u.context_save()
+
+    def call(self, *a, **k):
+        # each run allocates from the same start, over zeroed memory: both sides get identical blocks
+        if self.alloc_high > ALLOC_BASE:
+            self.uc.mem_write(ALLOC_BASE, bytes(self.alloc_high - ALLOC_BASE))
+        self.alloc_next = self.alloc_high = ALLOC_BASE
+        return super().call(*a, **k)
 
     def _on_data_exec(self, uc, addr, size, _):
         self.stop_reason = 'fault'
@@ -197,7 +207,13 @@ class GfxMachine(G.Machine):
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' else 0, logged))
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
-        if spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
+        if spec.get('ret') == 'alloc':         # an allocator: a fresh zeroed block, never NULL
+            n = args[spec['size_arg']] if spec.get('size_arg') is not None else 0x1000
+            n = (min(n, 0x10000) if 0 < n else 0x1000) + 0xF & ~0xF
+            v = self.alloc_next; self.alloc_next += max(n, 0x40)
+            if self.alloc_next > ALLOC_BASE + ALLOC_SIZE: v = 0          # exhausted: the call fails
+            self.alloc_high = max(self.alloc_high, self.alloc_next)
+        elif spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
             v = v & 1
         elif spec.get('ret') == 'lowbool':     # AL = 0 or 1; the upper bits are left over from earlier
             v = (v & ~0xFF) | (v & 1)

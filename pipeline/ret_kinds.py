@@ -40,6 +40,7 @@ def classify(md, img, base, ranges):
         k = work.pop()
         s = state[k]
         flag_eax = False             # last flag-setter was `test eax, eax` / `or eax, eax` / `cmp eax, 0`
+        flag_al = False              # last flag-setter was `test al, al` / `cmp al, 0`: on the zero branch AL = 0
         while k < len(ins):
             i = ins[k]; m = i.mnemonic; ops = i.operands
             r0 = i.reg_name(ops[0].reg) if ops and ops[0].type == X86_OP_REG else None
@@ -57,6 +58,9 @@ def classify(md, img, base, ranges):
                 taken, through = s, s
                 if flag_eax and m in ('je', 'jz'): taken = ZERO
                 if flag_eax and m in ('jne', 'jnz'): through = ZERO
+                al0 = ZERO if s == ZERO else LOWBOOL          # AL known 0; the upper bits as they were
+                if flag_al and m in ('je', 'jz'): taken = al0
+                if flag_al and m in ('jne', 'jnz'): through = al0
                 nxt = [(at[ops[0].imm], taken)]; s = through; fall = True
             else:
                 fall = True
@@ -73,9 +77,11 @@ def classify(md, img, base, ranges):
                         s = TOP
                 elif m in ('popal', 'popad', 'pop') and r0 == 'eax': s = TOP
                 if m in ('test', 'or') and r0 == 'eax' and r1 == 'eax' or m == 'cmp' and r0 == 'eax' and imm1 == 0:
-                    flag_eax = True
+                    flag_eax = True; flag_al = False
+                elif m in ('test', 'or') and r0 == 'al' and r1 == 'al' or m == 'cmp' and r0 == 'al' and imm1 == 0:
+                    flag_al = True; flag_eax = False
                 elif m in ('test', 'cmp', 'or', 'and', 'xor', 'add', 'sub', 'inc', 'dec', 'neg', 'shl', 'shr', 'sar', 'sbb', 'adc'):
-                    flag_eax = False
+                    flag_eax = False; flag_al = False
             for t, st in nxt:
                 new = join(state.get(t), st)
                 if state.get(t) != new or t not in seen:

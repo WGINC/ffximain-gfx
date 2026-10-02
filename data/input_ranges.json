@@ -63,6 +63,15 @@
    "lo": 8,
    "hi": 2056,
    "why": "sub_1016FCD0 XOR-decodes (size - 8) bytes of the block arg 1 points to; size is the low 24 bits of its first dword. Bounded to 2 KB, inside the gate's buffer (assumption: real blocks fit their buffer)"
+  },
+  {
+   "func": "0x1001C930",
+   "where": "arg",
+   "arg": 0,
+   "off": "0x14A8",
+   "lo": 0,
+   "hi": 79,
+   "why": "ring-buffer head of 80 entries (16 bytes each, arrays at +0x40 and +0x540): zeroed at 0x1001B8BB, and its only update (0x1001BAC7) increments it and wraps at 0x4F; the readers index the ring with it unchecked"
   }
  ]
 }

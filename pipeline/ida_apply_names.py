@@ -48,7 +48,11 @@ def apply_types(path=os.path.join(HERE, '..', 'data', 'type_fixes.json'), dry_ru
     done, failed = 0, []
     for k, v in json.load(open(path, encoding='utf-8')).items():
         ea = int(k, 16)
-        decl = v['type'].replace('(', ' %s(' % (ida_name.get_name(ea) or 'f'), 1) + ';'
+        nm = ida_name.get_name(ea) or 'f'
+        t = v['type']
+        if '(' in t: decl = t.replace('(', ' %s(' % nm, 1) + ';'                 # function prototype
+        elif '[' in t: decl = t.replace('[', ' %s[' % nm, 1) + ';'               # array data
+        else: decl = '%s %s;' % (t, nm)
         if dry_run:
             done += 1
             continue
@@ -56,9 +60,11 @@ def apply_types(path=os.path.join(HERE, '..', 'data', 'type_fixes.json'), dry_ru
             failed.append((k, decl))
             continue
         note = '[type 2026-10-02] %s %s' % (v['why'], v['evidence'])
-        old = idc.get_func_cmt(ea, 0) or ''
+        func = idc.get_func_attr(ea, idc.FUNCATTR_START) == ea
+        old = (idc.get_func_cmt(ea, 0) if func else idc.get_cmt(ea, 0)) or ''
         if note not in old:
-            idc.set_func_cmt(ea, (old + '\n' + note).strip(), 0)
+            new = (old + '\n' + note).strip()
+            idc.set_func_cmt(ea, new, 0) if func else idc.set_cmt(ea, new, 0)
         done += 1
     print('ida_apply_names: %d prototypes applied, %d failed' % (done, len(failed)))
     for f in failed:
@@ -66,6 +72,22 @@ def apply_types(path=os.path.join(HERE, '..', 'data', 'type_fixes.json'), dry_ru
     return done, failed
 
 
+def apply_sp(path=os.path.join(HERE, '..', 'data', 'ida_sp_fixes.json'), dry_run=False):
+    # data/ida_sp_fixes.json: the real SP change at instructions where IDA's analysis is wrong
+    import ida_frame
+    done = 0
+    for k, v in json.load(open(path, encoding='utf-8'))['fixes'].items():
+        ea = int(k, 16)
+        if not dry_run:
+            # the SP change takes effect after the instruction; for a call, positive = bytes popped
+            ida_frame.add_user_stkpnt(ea + idc.get_item_size(ea), -v['delta'])
+            idc.set_cmt(ea, '[sp fix 2026-10-02] ' + v['why'], 0)
+        done += 1
+    print('ida_apply_names: %d SP corrections applied' % done)
+    return done
+
+
 if __name__ == '__main__':
     apply()
     apply_types()
+    apply_sp()

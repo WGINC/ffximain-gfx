@@ -13,6 +13,10 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 # so a loop over the table runs as in the game instead of to the instruction limit
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
+# small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
+LEAF = json.load(open(os.path.join(DATADIR, 'leaf_funcs.json'))) if os.path.exists(os.path.join(DATADIR, 'leaf_funcs.json')) else {}
+ALLOC = {int(k, 16): v for k, v in json.load(open(os.path.join(DATADIR, 'allocators.json'))).items() if k.startswith('0x')} \
+    if os.path.exists(os.path.join(DATADIR, 'allocators.json')) else {}
 DATA = (0x1034F000, 0x109FA000)          # .data: globals the gate may fuzz
 HOLDER, CDX, DANCER, D3D_SQGX = 0x103D3CBC, 0x1045666C, 0x1066941C, 0x10669418
 DEVICE_DATA = {HOLDER, CDX, DANCER, D3D_SQGX}
@@ -119,11 +123,12 @@ def main(exp, metaf, protof, out):
             if cls in VT:
                 c['vptr'] = VT[cls]['vtable']; c['vslots'] = VT[cls]['slots']
         c['args'] = [arg_kind(a[1], a[4]) for a in stack_args]
-        stubs = {}; fuzz = []; glob = {}
+        stubs = {}; fuzz = []; glob = {}; ran = set()
         for nm, o in r.get('objs', {}).items():
             ea = o['ea']
             if o['func']:
                 if ea == r['ea']: continue
+                if '0x%08X' % ea in LEAF: ran.add('0x%08X' % ea); continue      # a trivial leaf runs for real
                 cc = conv_of(o['type']); pops = (o.get('purged') or 0) // 4
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
@@ -136,6 +141,9 @@ def main(exp, metaf, protof, out):
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': arg_masks(o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
+                if ea in ALLOC:
+                    stubs['0x%08X' % ea]['ret'] = 'alloc'
+                    if ALLOC[ea].get('size_arg') is not None: stubs['0x%08X' % ea]['size_arg'] = ALLOC[ea]['size_arg']
                 if '0x%08X' % ea in FP_SITES.get('0x%08X' % r['ea'], ()): stubs['0x%08X' % ea]['fpret'] = 1
             elif o.get('is_str'):
                 continue
@@ -147,7 +155,8 @@ def main(exp, metaf, protof, out):
                     fuzz.append(['0x%08X' % ea, min(o['size'], 0x200)])
         for s in c.pop('vslots', []):
             sa = int(s, 16)
-            if sa == r['ea'] or '0x%08X' % sa in stubs: continue
+            if '0x%08X' % sa in LEAF: ran.add('0x%08X' % sa)
+            if sa == r['ea'] or '0x%08X' % sa in stubs or '0x%08X' % sa in LEAF: continue
             p = protos.get(hex(sa))
             if not p or p[0] not in ('thiscall', 'stdcall', 'cdecl') or p[1] is None: continue
             pops = 0 if p[0] == 'cdecl' else p[1]
@@ -157,6 +166,10 @@ def main(exp, metaf, protof, out):
             if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):
                 stubs['0x%08X' % sa]['fpret'] = 1
         c['stubs'] = stubs
+        for lf in sorted(ran):              # globals a leaf that runs for real reads: fuzzed like the caller's own
+            for g in LEAF[lf]:
+                if int(g, 16) not in DEVICE_DATA and g not in glob and not any(f[0] == g for f in fuzz):
+                    glob[g] = 'ptr:0x400'
         used = {'0x%08X' % o['ea'] for o in r.get('objs', {}).values()}
         rng_ = [e for e in RANGES if (e.get('func') and int(e['func'], 16) == r['ea']) or
                 (not e.get('func') and e['where'] in ('global', 'global_ptr') and '0x%08X' % int(e['addr'], 16) in used)]

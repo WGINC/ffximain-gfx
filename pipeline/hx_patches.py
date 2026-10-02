@@ -10,9 +10,10 @@ It is applied only while the export's text still has that sha1, so a re-export (
 the IDB was fixed) is never silently overridden: the patch is reported as stale instead.
 Both hx2cpp.py (raw translation) and hx2clean.py (the clean tree) call apply().
 
-Prototype corrections, data/type_fixes.json: {"0xADDR": {"type": "<prototype without name>", "why": ...,
-"evidence": ...}}. The corrected type replaces the IDB's wherever that function is referenced (each
-record's `objs`) and as the function's own signature. Use it for a prototype that is wrong in the
+Type corrections, data/type_fixes.json: {"0xADDR": {"type": ..., "why": ..., "evidence": ...}}. For a
+function the type is its prototype without a name; it replaces the IDB's wherever the function is
+referenced (each record's `objs`) and as the function's own signature. For data it is the object's
+type (an array type also sets its size), wherever the object is referenced. Use it for a prototype that is wrong in the
 IDB and has not been fixed there yet (pipeline/ida_apply_names.py pushes these to the IDB too).
 """
 import hashlib, json, os, re, sys
@@ -48,8 +49,15 @@ def type_fixes():
 def fix_types(rec):
     t = type_fixes()
     objs = rec.get('objs', {})
-    if not any(o.get('func') and o.get('ea') in t for o in objs.values()) and rec['ea'] not in t: return rec
-    rec = dict(rec, objs={n: (dict(o, type=t[o['ea']]) if o.get('func') and o.get('ea') in t else o) for n, o in objs.items()})
+    if not any(o.get('ea') in t for o in objs.values()) and rec['ea'] not in t: return rec
+    def fixed(o):
+        if o.get('ea') not in t: return o
+        if o.get('func'): return dict(o, type=t[o['ea']])
+        n = re.search(r'\[(\d+)\]$', t[o['ea']])          # data: an array type also gives the size
+        elem = {'_BYTE': 1, 'char': 1, '_WORD': 2, '__int16': 2, '_DWORD': 4, 'int': 4, 'float': 4, '_QWORD': 8, 'double': 8}
+        size = int(n.group(1)) * elem.get(t[o['ea']][:n.start()].strip(), 0) if n else o.get('size')
+        return dict(o, type=t[o['ea']], size=size or o.get('size'))
+    rec = dict(rec, objs={n: fixed(o) for n, o in objs.items()})
     if rec['ea'] in t:
         rec['type'] = t[rec['ea']]
         new = [x.strip() for x in t[rec['ea']][t[rec['ea']].index('(') + 1:t[rec['ea']].rindex(')')].split(',')]

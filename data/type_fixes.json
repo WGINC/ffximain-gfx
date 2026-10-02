@@ -3,5 +3,20 @@
   "type": "int __thiscall(void *self, unsigned __int16 a1, unsigned __int16 a2)",
   "why": "CDx_CreateStereoResources(width, height): both parameters are 16-bit. The IDB types them int, so callers' leftover upper register halves (App_InitScene pushes edx after `mov dx, [esi+0x1A]`) looked like part of the argument.",
   "evidence": "disasm 0x1000C77F..0x1000C791: both arguments are forwarded unchanged as the width/height of CDx_CreateTexture (0x1000A6E0), whose parameters are unsigned __int16; nothing else reads them. Callers load them with 16-bit moves (0x10011728, 0x1001172C)."
+ },
+ "0x104571E0": {
+  "type": "_DWORD[17]",
+  "why": "g_modelMaterial: a D3DMATERIAL8 (68 bytes) the IDB has no type for, so the translation declared one byte and the copy into it used that byte as its destination.",
+  "evidence": "CXiSkeletonActor_DrawModel 0x1002B82A..0x1002B83D: mov ecx,0x11; mov esi,0x10351518; mov edi,0x104571E0; rep movsd (68 bytes); 0x1002B8B0 pushes it to IDirect3DDevice8::SetMaterial. _DWORD[17] keeps the Hex-Rays copy (array arguments) valid."
+ },
+ "0x10351518": {
+  "type": "_DWORD[17]",
+  "why": "The D3DMATERIAL8 template copied into g_modelMaterial; the IDB types it _BYTE * (a pointer), so the copy read from the address stored in its first four bytes.",
+  "evidence": "0x1002B82F: mov esi,0x10351518 then rep movsd ecx=0x11: the source is the 68 bytes at that address, not a pointer stored there."
+ },
+ "0x10021B70": {
+  "type": "float *__thiscall(_DWORD *this)",
+  "why": "Camera controller: refreshes its view state and returns the view matrix (this + 4) in eax; the IDB types it as returning float, which drops the pointer its caller uses.",
+  "evidence": "0x10021B9B lea eax,[esi+4]; ret with an empty x87 stack (fpret none); Camera_ApplyViewProjection uses eax as a 64-byte matrix source (0x10015564, 0x10015578)."
  }
 }

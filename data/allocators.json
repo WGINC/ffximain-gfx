@@ -1,0 +1,10 @@
+{
+ "about": "Game allocators. Their gate stubs return a fresh zeroed block instead of a fuzzed EAX: the game's callers assume success (Mo_InitSharedRenderResources stores the result of CAcc_Constructor(Mem_AllocDefault(16)) and writes through it), so a fuzzed NULL or wild pointer is an input the game does not produce. size_arg: the stack argument holding the size, when known.",
+ "0x10311BBB": {"name": "Allocator_Generic", "size_arg": 0},
+ "0x1002C890": {"name": "Mem_AllocDefault", "size_arg": 0},
+ "0x10028640": {"name": "Mem_AllocObject"},
+ "0x10028FD0": {"name": "Mem_AllocFromArea"},
+ "0x100286B0": {"name": "Mem_AllocWithFallback"},
+ "0x1006C0F0": {"name": "Mem_AllocWithHeader12"},
+ "0x10312F96": {"name": "_malloc_0", "size_arg": 0}
+}

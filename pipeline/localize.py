@@ -56,26 +56,8 @@ def replay(m, case, trial, seed, orig, cand):
     conv = case.get('conv', 'thiscall'); limit = case.get('insn_limit', 300000)
     fz = G.Fuzzer(m, seed)
     for t in range(trial + 1):
-        fz.reset()
-        for g, n in case.get('fuzz_ranges', []):
-            m.uc.mem_write(int(g, 16), bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n)))
-        for g, spec in case.get('globals', {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack('<I', fz.arg(spec) & 0xFFFFFFFF))
-        for g, iface in case.get('com_globals', {}).items():
-            m.uc.mem_write(int(g, 16), struct.pack('<I', m.obj[iface]))
-        for g, sp in case.get('struct_globals', {}).items():
-            buf = fz.buffer(int(str(sp['size']), 0))
-            for off, iface in sp.get('com', {}).items(): m.uc.mem_write(buf + int(off, 0), struct.pack('<I', m.obj[iface]))
-            m.uc.mem_write(int(g, 16), struct.pack('<I', buf))
-        this = None
-        if conv == 'thiscall':
-            vptr = int(case['vptr'], 16) if case.get('vptr') else None
-            this = fz.buffer(int(str(case.get('this_size', '0x400')), 0), vptr)
-            for off, iface in case.get('this_com', {}).items(): m.uc.mem_write(this + int(off, 0), struct.pack('<I', m.obj[iface]))
-        args = [fz.arg(s) for s in case.get('args', [])]
-        ts = fz.rng.getrandbits(32)
+        this, args, ts = DG.setup_trial(m, case, fz)
         if t < trial: continue
-        m.page_seed = ts; m.reset_demand(); m.constrain(case.get('input_ranges', []), this, args); m.ctx = m.uc.context_save()
         for _ in range(3):
             n = len(m.demand); m.rng = random.Random(ts); m.wild = 0; m.call(orig, conv, this, args, limit)
             if len(m.demand) == n: break

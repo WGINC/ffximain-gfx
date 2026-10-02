@@ -118,7 +118,27 @@ def unconsumed_fp_calls(ea, syms, body):
         out.append(s)
     return out, body
 
-BYREF_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)(v\d+)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])? BYREF$', re.M)
+BYREF_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])? BYREF$', re.M)
+
+STACK_DECL = re.compile(r'^(\s+)([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\](?: \[ebp-[0-9A-F]+h\])?(?: BYREF)?$', re.M)
+
+def pointer_walks_locals(body):
+    scalars = {m.group(4) for m in STACK_DECL.finditer(body) if not m.group(5) and not m.group(3)}
+    for p, v in re.findall(r'\b([A-Za-z_]\w*) = (?:\([^()]*\))?&([A-Za-z_]\w*);', body):
+        if v in scalars and re.search(r'\b%s\s*(\+=|-=|\+\+|--|\[|[-+] \d)|(\+\+|--)%s\b' % (p, p), body):
+            return True
+    return False
+
+_ELEM = {'float': 4, 'int': 4, '_DWORD': 4, 'unsigned int': 4, '_BYTE': 1, 'char': 1, 'unsigned __int8': 1,
+         '__int16': 2, '_WORD': 2, 'unsigned __int16': 2, 'double': 8, '__int64': 8, '_QWORD': 8}
+
+def split_array(body):
+    ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
+    for (o1, a), (o2, b) in zip(ds, ds[1:]):
+        if not a.group(5) or 'BYREF' not in a.group(0) or a.group(3) or b.group(3): continue
+        t = a.group(2).strip()
+        if t in _ELEM and o1 + int(a.group(5)[1:-1]) * _ELEM[t] == o2 and b.group(2).strip() == t: return True
+    return False
 
 def exact_frame(body):
     # Hex-Rays sometimes splits one stack array into several variables (`char v70[8]; char v71;
@@ -127,8 +147,17 @@ def exact_frame(body):
     # an address-taken single `char` (the sign of a split array), every address-taken local is
     # placed at its original stack offset inside one buffer, so overlapping accesses behave as in
     # the original.
+    # A second sign: a pointer set to the address of a scalar local and then moved (`p = &v46; ...
+    # p += 4`): it walks the locals after it, which Hex-Rays declared separately and need not mark
+    # BYREF, so then every stack local is placed.
+    # A third: an address-taken array followed directly by a local of its element type (`float v3[12];`
+    # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
+    # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     decls = list(BYREF_DECL.finditer(body))
-    if not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
+    if pointer_walks_locals(body) or split_array(body):
+        decls = list(STACK_DECL.finditer(body))
+    elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
+    if not decls: return body
     top = max(int(m.group(6), 16) for m in decls) + 0x400
     out, pos, first = [], 0, True
     for m in decls:

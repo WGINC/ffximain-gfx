@@ -65,9 +65,27 @@ def pushed_since_call(calls, ext, m):
     return out
 
 
+RETS = {'hresult': 'HRESULT', 'ptr': 'void *', 'ulong': 'unsigned int'}
+
+
+def com_method(m, t):
+    """(interface, method spec) when t is a fake COM method whose interface the gate knows for certain;
+    IDirect3DResource8 is also the fallback for an untyped COM pointer, so its methods are not trusted"""
+    if t not in getattr(m, 'trap', {}): return None
+    name, slot = m.trap[t]
+    if name == 'IDirect3DResource8': return None
+    return name, DG.SPEC[name][slot]
+
+
+def com_decl(name, spec):
+    ret = RETS.get(spec['ret'], 'int')
+    return '%s __stdcall %s_%s(void *self%s);' % (ret, name, spec['name'], ''.join(', int a%d' % i for i in range(spec['nparams'])))
+
+
 def trusted(m, t):
     """does a call to t change ESP as the game does?"""
-    if t is None or not IMAGE[0] <= t < IMAGE[1]: return False      # fake COM, foreign module, trap
+    if com_method(m, t): return True                                 # a fake of a known interface: its spec's pop
+    if t is None or not IMAGE[0] <= t < IMAGE[1]: return False      # untyped fake COM, foreign module, trap
     spec = m.stubs.get(t)
     if spec is None: return True                                     # game code that runs for real
     real = PURGES.get('0x%08X' % t)
@@ -123,9 +141,18 @@ def main():
         # indirect calls where the bytes pushed since the previous call (what Hex-Rays takes as the
         # arguments when the call has no type) differ from what the callee really pops, with the callees seen
         guess = pushed_since_call(calls, exts['0x%x' % int(x, 16)], m)
-        forced = {'0x%08X' % k: {'pops': pops['0x%08X' % k], 'pushed': guess[k], 'targets': ['0x%08X' % t for t in sorted(targets[k])]}
-                  for k, i in calls.items() if '0x%08X' % k in pops and i.operands[0].type != X86_OP_IMM
-                  and k in guess and guess[k] != pops['0x%08X' % k] and k in targets}
+        forced = {}
+        for k, i in calls.items():
+            ck = '0x%08X' % k
+            if ck not in pops or i.operands[0].type == X86_OP_IMM or k not in guess or guess[k] == pops[ck] or k not in targets: continue
+            coms = [com_method(m, t) for t in targets[k]]
+            if all(coms):
+                # a COM method: forced only where Hex-Rays over-assigns (more pushed than popped), since a
+                # typed lpVtbl call already has the right count and would lose its names
+                if guess[k] < pops[ck] or len({c[1]['name'] for c in coms}) != 1: continue
+                forced[ck] = {'pops': pops[ck], 'pushed': guess[k], 'targets': [], 'decl': com_decl(*coms[0])}
+            elif not any(coms):
+                forced[ck] = {'pops': pops[ck], 'pushed': guess[k], 'targets': ['0x%08X' % t for t in sorted(targets[k])]}
         res[key] = {'depth': {'0x%08X' % k: v for k, v in sorted(depth.items())}, 'calls': pops, 'call_types': forced}
         print('%s: %d instructions observed, %d conflicts %s' % (key, len(seen), len(conflicts),
               {'0x%08X' % k: sorted(v) for k, v in list(conflicts.items())[:5]}))

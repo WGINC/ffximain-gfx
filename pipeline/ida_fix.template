@@ -11,6 +11,9 @@ File > Script file... > ffxi_ida_fix.py. Steps:
      removed (IDA's own analysis returns). Then, at each call whose stack effect was measured from real code
      (the callee's own `ret N`, pipeline/real_sp.py) and differs from IDA's, a user SP change point is set
      (what Alt+K does), checked by reading IDA's SP back;
+  4b. call types: at indirect calls where the bytes pushed just before differ from what the callee (seen
+     running) pops, Hex-Rays guesses the arguments wrong; the call type is forced to the callee's prototype
+     (rebuilt with the measured argument count when its own disagrees), verified by decompiling;
   5. re-export: every function of the current export is decompiled again.
 Output, next to the IDB: gfx_export_ida_reexport.jsonl, ida_fix_report.json and ida_fix_log.txt. Each step
 runs even if an earlier one failed; failures are logged with their traceback.
@@ -132,6 +135,87 @@ def fix_sp(report):
     log('SP: %d functions corrected' % len(report['sp']))
 
 
+# ------------------------------------------------------------------ 4b: call types
+def stack_bytes(fd):
+    n = 0
+    for i in range(fd.size()):
+        a = fd[i]
+        try: on_stack = a.argloc.is_stkoff()
+        except Exception: on_stack = True
+        if on_stack: n += (a.type.get_size() + 3) & ~3
+    return n
+
+
+def call_args(fea, call):
+    """the number of arguments Hex-Rays gives the call at `call` (None if not found)"""
+    try:
+        ida_hexrays.mark_cfunc_dirty(fea)
+        cf = ida_hexrays.decompile(fea, flags=ida_hexrays.DECOMP_NO_CACHE)
+    except Exception:
+        return None
+    found = []
+
+    class V(ida_hexrays.ctree_visitor_t):
+        def __init__(s): super().__init__(ida_hexrays.CV_FAST)
+        def visit_expr(s, e):
+            if e.op == ida_hexrays.cot_call and e.ea == call: found.append(e.a.size())
+            return 0
+    if cf: V().apply_to(cf.body, None)
+    return found[0] if found else None
+
+
+def call_type_for(target, pops):
+    """the callee's own prototype if its stack arguments match what it pops, else one built from it"""
+    t = ida_typeinf.tinfo_t()
+    if not ida_nalt.get_tinfo(t, target): ida_typeinf.guess_tinfo(t, target)
+    fd = ida_typeinf.func_type_data_t()
+    if t.is_func() and t.get_func_details(fd):
+        thiscall = (cc_name(fd) == 'thiscall')
+        if stack_bytes(fd) == pops: return t, thiscall
+        ret = str(fd.rettype)
+    else:
+        ret, thiscall = 'int', True
+    decl = '%s __%s f(%s);' % (ret, 'thiscall' if thiscall else 'stdcall',
+                              ', '.join((['void *self'] if thiscall else []) + ['int a%d' % i for i in range(pops // 4)]) or 'void')
+    nt = ida_typeinf.tinfo_t()
+    if ida_typeinf.parse_decl(nt, None, decl, ida_typeinf.PT_SIL) is None: return None, thiscall
+    return nt, thiscall
+
+
+def force_call_types(report):
+    for fk, rec in DATA['real_sp'].items():
+        for ck, v in sorted(rec.get('call_types', {}).items()):
+            call = int(ck, 16); f = int(fk, 16)
+            if v.get('decl'):                       # a COM method: its declaration from the D3D spec
+                tif = ida_typeinf.tinfo_t(); thiscall = False
+                if ida_typeinf.parse_decl(tif, None, v['decl'], ida_typeinf.PT_SIL) is None: tif = None
+            else:
+                tif, thiscall = call_type_for(int(v['targets'][0], 16), v['pops'])
+            want = v['pops'] // 4 + (1 if thiscall else 0)
+            before = call_args(f, call)
+            res = {'function': idc.get_func_name(f), 'target': v['targets'][0] if v['targets'] else v.get('decl'), 'args_before': before, 'args_wanted': want}
+            if tif is None: res['result'] = 'no type'; report['call_types'][ck] = res; continue
+            if before == want: res['result'] = 'already right'; report['call_types'][ck] = res; continue
+            ptr = ida_typeinf.tinfo_t(); ptr.create_ptr(tif)
+            ways = [('set_op_tinfo(ptr)', lambda: ida_nalt.set_op_tinfo(call, 0, ptr)),
+                    ('set_op_tinfo(func)', lambda: ida_nalt.set_op_tinfo(call, 0, tif)),
+                    ('apply_tinfo', lambda: ida_typeinf.apply_tinfo(call, tif, ida_typeinf.TINFO_DEFINITE)),
+                    ('apply_callee_tinfo', lambda: ida_typeinf.apply_callee_tinfo(call, tif))]
+            res['result'] = 'not taken'
+            for name, way in ways:
+                try: way()
+                except Exception as e:
+                    log('  call type %s via %s: %s' % (ck, name, e)); continue
+                got = call_args(f, call)
+                if got == want:
+                    res['result'] = 'forced via ' + name; break
+                try: ida_nalt.del_op_tinfo(call, 0)
+                except Exception: pass
+            res['args_after'] = call_args(f, call)
+            report['call_types'][ck] = res
+            log('call type %s in %s: %s args -> %s (%s)' % (ck, res['function'], before, res['args_after'], res['result']))
+
+
 # ------------------------------------------------------------------ 5: re-export (same records as ida_gfx.export_one)
 BAD = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|__spoils|BUG\(\)|__halt|_UNKNOWN|MEMORY\[|'
                  r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except')
@@ -226,13 +310,13 @@ def reexport(report):
 
 
 def main():
-    t0 = time.time(); report = {'sp': {}, 'reverted': {}}
+    t0 = time.time(); report = {'sp': {}, 'reverted': {}, 'call_types': {}}
     log('ffxi_ida_fix: IDA %s, IDB %s' % (idaapi.get_kernel_version(), idc.get_idb_path()))
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
         for step in (apply_names, apply_types, apply_viewports, lambda: ida_auto.auto_wait(),
-                     lambda: revert(report), lambda: fix_sp(report), lambda: reexport(report)):
+                     lambda: revert(report), lambda: fix_sp(report), lambda: force_call_types(report), lambda: reexport(report)):
             try: step()
             except Exception: log('STEP FAILED:\n' + traceback.format_exc())
     finally:

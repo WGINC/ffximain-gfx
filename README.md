@@ -84,10 +84,11 @@ Both are fixed in IDA by **`ida/ffxi_ida_fix.py`** (see *Next step in IDA*).
    anywhere. It runs unattended, with a progress box that can cancel, and:
    - applies the pending names and prototype fixes (`names_pending_idb.json`, `type_fixes.json`);
    - types the viewport globals 0x104E1B70 and 0x10621904 as `D3DVIEWPORT8`;
-   - corrects IDA's SP from `data/real_sp.json`, the real stack depth at 28,708 instructions of the 712
-     functions, measured by running the originals (`pipeline/real_sp.py`). Each call where IDA's SP change
-     differs from the measured one gets a user SP change point (what Alt+K does), checked by reading IDA's
-     SP back. Each fix is commented in the IDB;
+   - removes the SP points the first run set wrongly (`data/ida_sp_revert.json`), then corrects IDA's SP at
+     each call whose effect was measured from real code (`data/real_sp.json`, `pipeline/real_sp.py`): game
+     code that ran, a stub with the callee's own `ret N`, or a fake COM object of a known interface;
+   - forces the call type at indirect calls where Hex-Rays mis-assigns the pushed arguments (the bytes
+     pushed before the call differ from what the callee pops), checked by decompiling;
    - re-decompiles all 768 functions.
 3. It writes three files next to the IDB: `gfx_export_ida_reexport.jsonl`, `ida_fix_report.json` and
    `ida_fix_log.txt`. Put the first two in `data/exports/`, then run

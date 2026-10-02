@@ -1,181 +1,413 @@
 {
  "sp": {
-  "0x10075280": {
-   "name": "Gfx_InitCubeMapTextures",
-   "disagreed_before": 105,
-   "disagreed_after": 0,
-   "fixes": [
-    {
-     "call": "0x1007531D",
-     "ida_change_was": 8,
-     "real_change": 4,
-     "now": 4
-    }
-   ]
-  },
-  "0x100D04C0": {
-   "name": "CXiSkeletonActor_GetNamePos",
-   "disagreed_before": 4,
-   "disagreed_after": 0,
-   "fixes": [
-    {
-     "call": "0x100D04CF",
-     "ida_change_was": 4,
-     "real_change": 0,
-     "now": 0
-    },
-    {
-     "call": "0x100D04DD",
-     "ida_change_was": 4,
-     "real_change": 8,
-     "now": 8
-    }
-   ]
-  },
   "0x1017B510": {
    "name": "sub_1017B510",
-   "disagreed_before": 488,
-   "disagreed_after": 306,
    "fixes": [
     {
      "call": "0x1017BFC6",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     },
     {
      "call": "0x1017BFF2",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     },
     {
      "call": "0x1017C0A1",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     },
     {
      "call": "0x1017C25F",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     },
     {
      "call": "0x1017C287",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     }
-   ]
-  },
-  "0x1000A6E0": {
-   "name": "CDx_CreateTexture",
-   "disagreed_before": 57,
-   "disagreed_after": 0,
-   "fixes": [
-    {
-     "call": "0x1000A705",
-     "ida_change_was": 8,
-     "real_change": 4,
-     "now": 4
-    }
-   ]
-  },
-  "0x1017C9C0": {
-   "name": "sub_1017C9C0",
-   "disagreed_before": 4,
-   "disagreed_after": 37,
-   "fixes": [
-    {
-     "call": "0x1017C9F2",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
-    }
-   ]
+   ],
+   "not_corrected": 0
   },
   "0x10183490": {
    "name": "sub_10183490",
-   "disagreed_before": 30,
-   "disagreed_after": 0,
    "fixes": [
     {
      "call": "0x101834B4",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
-    }
-   ]
-  },
-  "0x100C63D0": {
-   "name": "CXiSkeletonActor_OnMove",
-   "disagreed_before": 538,
-   "disagreed_after": 0,
-   "fixes": [
-    {
-     "call": "0x100C6693",
-     "ida_change_was": 4,
-     "real_change": 0,
-     "now": 0
-    },
-    {
-     "call": "0x100C7902",
      "ida_change_was": 0,
-     "real_change": 4,
-     "now": 4
+     "real_change": 12,
+     "now": 12
     }
-   ]
-  },
-  "0x100D06F0": {
-   "name": "CXiSkeletonActor_GetArrowPos",
-   "disagreed_before": 4,
-   "disagreed_after": 0,
-   "fixes": [
-    {
-     "call": "0x100D06FC",
-     "ida_change_was": 4,
-     "real_change": 0,
-     "now": 0
-    },
-    {
-     "call": "0x100D070A",
-     "ida_change_was": 4,
-     "real_change": 8,
-     "now": 8
-    }
-   ]
+   ],
+   "not_corrected": 0
   },
   "0x1017DE20": {
    "name": "sub_1017DE20",
-   "disagreed_before": 66,
-   "disagreed_after": 27,
    "fixes": [
     {
      "call": "0x1017DE5C",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     }
-   ]
+   ],
+   "not_corrected": 0
   },
   "0x10183760": {
    "name": "sub_10183760",
-   "disagreed_before": 26,
-   "disagreed_after": 0,
    "fixes": [
     {
      "call": "0x10183782",
-     "ida_change_was": 12,
-     "real_change": 0,
-     "now": 0
+     "ida_change_was": 0,
+     "real_change": 12,
+     "now": 12
     }
-   ]
+   ],
+   "not_corrected": 0
+  }
+ },
+ "reverted": {
+  "0x1007531D": 0,
+  "0x1000A705": 0,
+  "0x1017C9F2": 0
+ },
+ "call_types": {
+  "0x100033D5": {
+   "function": "Gfx_TryCreateDeviceForMode",
+   "target": "HRESULT __stdcall IDirect3D8_GetAdapterDisplayMode(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009DEA": {
+   "function": "CDx_SetViewport",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetViewport(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000A1DD": {
+   "function": "CDx_SetTexture",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10026CA9": {
+   "function": "CYyIcon_DrawSubRect",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1002F186": {
+   "function": "Gfx_ApplyCachedStreamSource",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetStreamSource(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10038CDE": {
+   "function": "Post_CaptureSceneToTarget",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetVertexShader(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x10054A13": {
+   "function": "sub_100548D0",
+   "target": "0x1006E7D0",
+   "args_before": 8,
+   "args_wanted": 7,
+   "result": "forced via set_op_tinfo(ptr)",
+   "args_after": 7
+  },
+  "0x100CF04B": {
+   "function": "CXiSkeletonActor_SetAttack_SchStatus",
+   "target": "0x100CEE40",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x100D62CE": {
+   "function": "CXiSkeletonActor_DrawResourceShadows",
+   "target": "0x10082210",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1011EF7A": {
+   "function": "Cell_DrawStretchedWrapped",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1017AE08": {
+   "function": "ZoneMap_DrawMeshGroupsWithFog",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100034C9": {
+   "function": "Gfx_CreateDevice",
+   "target": "HRESULT __stdcall IDirect3D8_GetDeviceCaps(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x100091C9": {
+   "function": "CDx_Initialize",
+   "target": "HRESULT __stdcall IDirect3DDevice8_GetDeviceCaps(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1001362F": {
+   "function": "Post_FlashAndZoomFeedback",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10017331": {
+   "function": "sub_10017310",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10038E6E": {
+   "function": "Post_DrawRotatingGhostLayers",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10042D43": {
+   "function": "CMoDistMorphElem_ValidateMorphData",
+   "target": "0x1006EB70",
+   "args_before": 7,
+   "args_wanted": 7,
+   "result": "already right"
+  },
+  "0x100D04CF": {
+   "function": "CXiSkeletonActor_GetNamePos",
+   "target": "0x100A4AD0",
+   "args_before": 2,
+   "args_wanted": 1,
+   "result": "forced via set_op_tinfo(ptr)",
+   "args_after": 1
+  },
+  "0x100D04DD": {
+   "function": "CXiSkeletonActor_GetNamePos",
+   "target": "0x100D4560",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10174B31": {
+   "function": "Dbg_DrawOverheadMapMarkers",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1017B52B": {
+   "function": "sub_1017B510",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x101EEBE6": {
+   "function": "sub_101EEBD0",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x101EEE0A": {
+   "function": "sub_101EEBD0",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1025D797": {
+   "function": "FontGlyphCache_CreateTexture",
+   "target": "HRESULT __stdcall IDirect3DDevice8_CreateTexture(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x100038AB": {
+   "function": "sub_10003890",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10026A01": {
+   "function": "CYyIcon_Draw",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10029670": {
+   "function": "Mem_DrawHeapUsageBar",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1008180F": {
+   "function": "CXiActorNameDraw_SetRenderState",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1011E9F7": {
+   "function": "sub_1011E980",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x101771FF": {
+   "function": "sub_101771B0",
+   "target": "void * __stdcall ID3DXBuffer_GetBufferPointer(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10177462": {
+   "function": "ZoneMap_SetOverlayProjection",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10179202": {
+   "function": "ZoneMap_DrawBox",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x101851B4": {
+   "function": "CTsZoneMap_DrawProjectedShadow",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetVertexShader(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1025D7DD": {
+   "function": "FontGlyphCache_CreateVertexBuffer",
+   "target": "HRESULT __stdcall IDirect3DDevice8_CreateVertexBuffer(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x10003B77": {
+   "function": "Debug_DrawTextTable",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100035C8": {
+   "function": "CDx_Present",
+   "target": "HRESULT __stdcall IDirect3DDevice8_Present(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x10026BF8": {
+   "function": "CXiMovie_Draw",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetVertexShader(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100C6693": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4A10",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7116": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C713D": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7FCC": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C800D": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D06FC": {
+   "function": "CXiSkeletonActor_GetArrowPos",
+   "target": "0x100A4AB0",
+   "args_before": 2,
+   "args_wanted": 1,
+   "result": "forced via set_op_tinfo(ptr)",
+   "args_after": 1
+  },
+  "0x100D070A": {
+   "function": "CXiSkeletonActor_GetArrowPos",
+   "target": "0x100D4560",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1017729A": {
+   "function": "Gfx_AssembleVertexShader",
+   "target": "void * __stdcall ID3DXBuffer_GetBufferPointer(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x101792BE": {
+   "function": "ZoneMap_CreateVertexShaders",
+   "target": "HRESULT __stdcall IDirect3DDevice8_CreateVertexShader(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
   }
  },
  "export": {
   "file": "C:\\Users\\wadeglover\\Documents\\gfx_export_ida_reexport.jsonl",
   "functions": 768,
-  "skip": 13
+  "skip": 12
  }
 }

@@ -41,6 +41,9 @@ for _c, _d in _named.items():
         _m = re.match(r'^(.*?)(\[\d+\])$', _t)
         KNOWN_FIELDS[(_c, _off)] = ((_m.group(1) if _m else _t).replace('void *', 'void *'), _n, _w, _m.group(2) if _m else '')
 VAL = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'd3d_values.json')))
+# names for inferred fields (data/field_names.json): only the identifier changes, never the type or offset
+FIELD_NAMES = {(c, int(off, 16)): v for c, d in json.load(open(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'field_names.json'))).items() for off, v in d.items()}
 
 def ident(s): return re.sub(r'\W', '_', s)
 
@@ -174,7 +177,8 @@ class Layout:
 
 def field_name(cls, off, t):
     k = KNOWN_FIELDS.get((cls, off))
-    return k[1] if k else 'field_%X' % off
+    if k: return k[1]
+    return FIELD_NAMES[(cls, off)]['name'] if (cls, off) in FIELD_NAMES else 'field_%X' % off
 def _ptrwidth(t): return 4 if t.endswith('*') else WIDTH.get(t, 4)
 
 def rewrite_members(body, self_type, cls, layout_fields):
@@ -504,7 +508,7 @@ def main(exp, gate, manf, incdir, outdir):
             size_conflicts[cls] = 'class descriptor says 0x%X; the code reaches offset 0x%X' % (size, max(ends))
             size = None
         lines = ['// %s -- graphics members reconstructed from Hex-Rays output, gate-verified.' % cls,
-                 '// Field names are offsets (field_XXX) unless noted; sizes come from the class descriptor.',
+                 '// Unnamed fields are field_XXX (the offset); sizes come from the class descriptor.',
                  '#pragma once', '#include "gfx_common.hpp"', '#pragma pack(push, 1)', 'class XI_API %s {' % cls, 'public:']
         lines += sorted(set(decls[cls]), key=lambda s: s.split('//')[-1])
         lines.append('')
@@ -521,8 +525,9 @@ def main(exp, gate, manf, incdir, outdir):
             if isinstance(f, tuple):
                 t, n, w, arr = f[1], f[2], f[3], f[4]
             else:
-                t, n, w = FTYPE.get(f, f), 'field_%X' % off, WIDTH.get(f, 4)
-            lines.append('    %s %s%s;  // +0x%X' % (t, n, arr, off)); pos = off + w
+                t, n, w = FTYPE.get(f, f), field_name(cls, off, f), WIDTH.get(f, 4)
+            note = FIELD_NAMES[(cls, off)]['summary'] if (cls, off) in FIELD_NAMES and not isinstance(f, tuple) else ''
+            lines.append('    %s %s%s;  // +0x%X%s' % (t, n, arr, off, ' ' + note if note else '')); pos = off + w
         if size and size > pos: lines.append('    uint8_t _pad_%X[0x%X];' % (pos, size - pos))
         lines += ['};', '#pragma pack(pop)']
         if size: lines.append('static_assert(sizeof(%s) == 0x%X, "%s: sizeof");' % (cls, size, cls))
@@ -530,7 +535,7 @@ def main(exp, gate, manf, incdir, outdir):
         for off in sorted(fields):
             f = fields[off]
             if off < 4: continue
-            n = f[2] if isinstance(f, tuple) else 'field_%X' % off
+            n = f[2] if isinstance(f, tuple) else field_name(cls, off, f)
             lines.append('static_assert(XI_OFFSETOF(%s, %s) == 0x%X, "%s: layout");' % (cls, n, off, cls))
         open(os.path.join(outdir, 'include', '%s.hpp' % cls), 'w').write('\n'.join(lines) + '\n')
     with open(os.path.join(outdir, 'include', 'gfx_free.hpp'), 'w') as f:

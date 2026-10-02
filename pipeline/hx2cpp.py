@@ -10,7 +10,7 @@ replaces. The function itself is exported as xi_<ADDR> with the original calling
 
 Usage: python3 hx2cpp.py gfx_export2.jsonl outdir/
 """
-import json, os, re, sys
+import json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from msvc_demangle import demangle
 
@@ -58,6 +58,62 @@ def token_re(p):
     if re.match(r'^[A-Za-z_][\w:~<>,\s*&]*$', p) and not p.startswith('"'):
         return re.compile(r'(?<![\w:])' + re.escape(p) + r'(?![\w])')
     return re.compile(re.escape(p))
+
+_FPC_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'fp_consts.json')
+FP_CONSTS = json.load(open(_FPC_PATH)) if os.path.exists(_FPC_PATH) else {}
+FP_LIT = re.compile(r'(?<![\w.])(\d+\.\d*(?:[eE][+-]?\d+)?)(?![\w.])')
+
+def exact_fp_literals(ea, body):
+    # Hex-Rays prints a float constant as its shortest decimal; as a C double that is a different
+    # number. Write it as the exact value the original's x87 instruction loads (fpconst.py).
+    f32 = [float.fromhex(v) for k, v in FP_CONSTS.get('0x%08X' % ea, {}).values() if k == 'f32']
+    if not f32: return body
+    def fix(m):
+        d = float(m.group(1))
+        r = struct.unpack('<f', struct.pack('<f', d))[0] if abs(d) < 3.4e38 else d
+        return r.hex() if r != d and r in f32 else m.group(1)
+    return FP_LIT.sub(fix, body)
+
+_FPS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'fp_callsites.json')
+FP_SITES = json.load(open(_FPS_PATH)) if os.path.exists(_FPS_PATH) else None
+FPRET_FNS = {'0x%08X' % int(k, 16) for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+             '..', 'data', 'fpret.json'))).items() if v in ('float', 'double')}
+
+def unconsumed_fp_calls(ea, syms, body):
+    # A callee typed `float`/`double` makes GCC pop its x87 result even when the result is unused.
+    # Where the original caller never reads ST0 after the call (fp_callsites.py), the callee is
+    # declared `void` instead, so neither side touches the x87 stack after it.
+    if FP_SITES is None: return syms
+    used = set(FP_SITES.get('0x%08X' % ea, ()))
+    out = []
+    for s in syms:
+        m = re.match(r'#define (F_([0-9A-F]{8})) \(reinterpret_cast<(float|double) (\(__\w+ \*\)\(.*\))>\(0x[0-9A-F]+u\)\)$', s)
+        if m and '0x' + m.group(2) in FPRET_FNS and '0x' + m.group(2) not in used:
+            calls = re.findall(r'(?m)^(\s*)%s\(' % m.group(1), body)
+            if len(calls) == len(re.findall(r'\b%s\b' % m.group(1), body)):
+                s = s.replace('<%s %s>' % (m.group(3), m.group(4)), '<void %s>' % m.group(4))
+        out.append(s)
+    return out
+
+def fpu_status_words(body):
+    # Hex-Rays splits `fcom; fnstsw ax` into condition variables (// c0, c2, c3) but leaves the status
+    # word variable (// fps) unassigned, so `(fps & 0x100)` reads garbage. Each read of the status word
+    # becomes the word fnstsw stores, built from the condition variables assigned most recently before it.
+    decl = dict((v, k) for v, k in re.findall(r'\b(v\d+); // (fps|c0|c2|c3)\b', body))
+    fps = {v for v, k in decl.items() if k == 'fps'}
+    if not fps: return body
+    cond = {v: k for v, k in decl.items() if k != 'fps'}
+    tok = re.compile(r'\b(v\d+)\b(\s*=(?!=))?')
+    last, out, pos = {}, [], 0
+    start = body.find('\n\n')            # skip the declarations
+    for m in tok.finditer(body, start if start > 0 else 0):
+        v, assign = m.group(1), m.group(2)
+        if v in cond and assign: last[cond[v]] = v
+        elif v in fps and not assign and last:
+            bits = ' | '.join('(%s ? 0x%X : 0)' % (last[k], b) for k, b in (('c0', 0x100), ('c2', 0x400), ('c3', 0x4000)) if k in last)
+            out.append(body[pos:m.start()]); out.append('(__int16)(%s)' % bits); pos = m.end()
+    out.append(body[pos:])
+    return ''.join(out)
 
 def translate(rec):
     ea = rec['ea']; text = rec['text']
@@ -110,11 +166,14 @@ def translate(rec):
     body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); params = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', params)
     ret = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', ret)
     body = re.sub(r'\bthis\b', 'self', body)
+    body = exact_fp_literals(ea, body)
+    body = fpu_status_words(body)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
     out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
+    syms = unconsumed_fp_calls(ea, syms, body)
     return {'syms': syms, 'code': '\n'.join(out), 'export': fname, 'cc': cc, 'ret': ret.strip()}, None
 
 PRELUDE = '''#include "xi_hexrays.hpp"

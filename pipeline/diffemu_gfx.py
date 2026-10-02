@@ -23,6 +23,8 @@ from unicorn.x86_const import UC_X86_REG_EAX, UC_X86_REG_ESP, UC_X86_REG_EIP, UC
 
 COM_BASE = 0x6E000000          # fake objects + vtables
 COM_TRAP = 0x6E800000          # one 4-byte trap per (interface, slot)
+FP_TRAMP = COM_BASE + 0xF0000  # stub return through the x87 stack (inside the COM_BASE mapping)
+FP_SCRATCH = COM_BASE + 0xF0100
 SPEC = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'com_spec.json')))
 IFACES = sorted(SPEC)
 
@@ -43,6 +45,7 @@ class GfxMachine(G.Machine):
         u.mem_map(COM_BASE, 0x100000, UC_PROT_ALL)
         u.mem_map(COM_TRAP, 0x100000, UC_PROT_ALL)
         u.mem_write(COM_TRAP, b'\xF4' * 0x100000)
+        u.mem_write(FP_TRAMP, b'\xD9\x05' + struct.pack('<I', FP_SCRATCH) + b'\xC3')
         self.obj = {}; self.trap = {}
         for i, name in enumerate(IFACES):
             vt = COM_BASE + 0x1000 * i
@@ -140,8 +143,23 @@ class GfxMachine(G.Machine):
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' else 0, logged))
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
+        if spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
+            v = v & 1
+        elif spec.get('ret') == 'lowbool':     # AL = 0 or 1; the upper bits are left over from earlier
+            v = (v & ~0xFF) | (v & 1)
         uc.reg_write(UC_X86_REG_EAX, v)
         uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * spec.get('pops', 0))
+        if spec.get('fpret'):
+            # the callee returns in ST0: return through `fld dword [FP_SCRATCH]; ret` so the value
+            # really lands on the x87 stack. The trampoline is written once: Unicorn caches
+            # translated code, so rewriting it per call could run a stale copy.
+            f = (0.0, 1.0, -1.0, 0.5, 2.0, 100.0)[self.rng.randrange(6)] if self.rng.random() < 0.6 else self.rng.uniform(-1000, 1000)
+            uc.mem_write(FP_SCRATCH, struct.pack('<f', f))
+            sp = esp + 4 * spec.get('pops', 0)          # the trampoline's `ret` pops ret_addr from here
+            uc.mem_write(sp, struct.pack('<I', ret_addr))
+            uc.reg_write(UC_X86_REG_ESP, sp)
+            uc.reg_write(UC_X86_REG_EIP, FP_TRAMP)
+            return
         uc.reg_write(UC_X86_REG_EIP, ret_addr)
 
     def _on_com(self, uc, addr, size, _):

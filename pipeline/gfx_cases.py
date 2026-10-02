@@ -3,6 +3,11 @@ Usage: python3 gfx_cases.py gfx_export3.jsonl raw/meta.json protos_fixed.json ca
 import json, os, re, sys
 DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
+# what each callee can really return (ret_kinds.py): stubs answer within that range
+RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_kinds.json')) else {}
+# calls whose x87 result the original caller consumes (fp_callsites.py): their stubs push a value
+FPRET = json.load(open(os.path.join(DATADIR, 'fpret.json')))
+FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.path.exists(os.path.join(DATADIR, 'fp_callsites.json')) else {}
 DATA = (0x1034F000, 0x109FA000)          # .data: globals the gate may fuzz
 HOLDER, CDX, DANCER, D3D_SQGX = 0x103D3CBC, 0x1045666C, 0x1066941C, 0x10669418
 DEVICE_DATA = {HOLDER, CDX, DANCER, D3D_SQGX}
@@ -107,6 +112,8 @@ def main(exp, metaf, protof, out):
                 stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 4),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': arg_masks(o['type'], cc)}
+                if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
+                if '0x%08X' % ea in FP_SITES.get('0x%08X' % r['ea'], ()): stubs['0x%08X' % ea]['fpret'] = 1
             elif o.get('is_str'):
                 continue
             elif DATA[0] <= ea < DATA[1] and ea not in DEVICE_DATA:
@@ -123,6 +130,9 @@ def main(exp, metaf, protof, out):
             pops = 0 if p[0] == 'cdecl' else p[1]
             stubs['0x%08X' % sa] = {'returns': 'fuzz', 'pops': pops, 'args': min(p[1], 4),
                                     'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': []}
+            if RET_KINDS.get('0x%08X' % sa): stubs['0x%08X' % sa]['ret'] = RET_KINDS['0x%08X' % sa]
+            if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):
+                stubs['0x%08X' % sa]['fpret'] = 1
         c['stubs'] = stubs
         if fuzz: c['fuzz_ranges'] = fuzz
         if glob: c['globals'] = glob

@@ -105,7 +105,7 @@ Names:
   - 195 globals and callees were named (`docs/NAMES-2026-10-02.md`);
   - 90 fields were named (`data/field_names.json`).
 - These names and the type corrections in `data/` are applied by the generator but are **not yet in the
-  IDB**: `pipeline/ida_fix_reexport.py` applies them (see *Next step in IDA*).
+  IDB**: `ida/ffxi_ida_fix.py` applies them (see *Next step in IDA*).
 - Still unnamed in the tree: 198 distinct `sub_` names (functions and callees) and 233 `field_XXX` members.
 
 ## Coverage: is every graphical system here?

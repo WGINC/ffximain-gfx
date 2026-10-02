@@ -1,0 +1,209 @@
+IDAPython: Requested to use virtual environment interpreter at C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\venv\Scripts\python.exe
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll: can't load file
+BinExport 12 (@546b0d5, Jul 20 2026), (c)2004-2011 zynamics GmbH, (c)2011-2025 Google LLC.
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll: can't load file
+WARNING: Python library 'cdifflib' not found. Installing it will significantly improve text diffing performance.
+INFO: Alternatively, you can silence this warning by changing the value of SHOW_IMPORT_WARNINGS in diaphora_config.py.
+WARNING: scikit-learn, numpy, joblib and pandas python libraries are required to use ML models.
+INFO: Alternatively, you can silence this warning by changing the value of SHOW_IMPORT_WARNINGS in diaphora_config.py.
+WARNING: scikit-learn, numpy, joblib and pandas python libraries are required to use ML models.
+INFO: Alternatively, you can silence this warning by changing the value of SHOW_IMPORT_WARNINGS in diaphora_config.py.
+PySide has not been widely tested on Python >= 3.14; IDA cannot guarantee that it will function as expected.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\idamagicstrings-1.2.0\IDAMagicStrings.py: PLUGIN_ENTRY was not defined or the class name 'IDAMagicStringsPlugin' was already used in 'IDAMagicStrings.py'
+OpenLumina: init
+OpenLumina: initialized (Version: Mar 14 2026 20:16:46 64-bit by TOM_RUS)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+ 92143616 11248 8192 allocating memory for b-tree...
+ 24010752  2931 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+116416512            total memory allocated
+
+Loading processor module C:\Program Files\IDA Professional 9.4\procs\pc.dll for metapc...OK
+Loading type libraries...
+Autoanalysis subsystem has been initialized.
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll: can't load file
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\idamagicstrings-1.2.0\IDAMagicStrings.py: PLUGIN_ENTRY was not defined or the class name 'IDAMagicStringsPlugin' was already used in 'IDAMagicStrings.py'
+Database for file 'FFXiMain_unpacked.dll' has been loaded.
+Hex-Rays Decompiler plugin has been loaded (v9.4.0.260713)
+  License: 14-0000-FFFF-88  (1 user)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\bindiff8_ida64.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll) error: The specified procedure could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida.dll: can't load file
+
+LoadLibrary(C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll) error: The specified module could not be found.
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\binexport12_ida64.dll: can't load file
+Hex-rays version 9.4.0.260713 has been detected, gooMBA plugin ready to use
+C:\Users\wadeglover\AppData\Roaming\Hex-Rays\IDA Pro\plugins\idamagicstrings-1.2.0\IDAMagicStrings.py: PLUGIN_ENTRY was not defined or the class name 'IDAMagicStringsPlugin' was already used in 'IDAMagicStrings.py'
+[IDAssistMCP] Initializing plugin module...
+[IDAssistMCP] Python 3.14.7 on Windows-11-10.0.26200-SP0
+[IDAssistMCP] IDA kernel: 9.4
+[IDAssistMCP] Dependency mcp: available
+[IDAssistMCP] Dependency hypercorn: available
+[IDAssistMCP] Dependency pydantic: available
+[IDAssistMCP] Dependency pydantic_settings: available
+[IDAssistMCP] Plugin configuration loaded
+[IDAssistMCP] Registered action: idassistmcp:toggle_server (Ctrl-Shift-M)
+[IDAssistMCP] Registered action: idassistmcp:open_config (Ctrl-Shift-N)
+[IDAssistMCP] Auto-starting server...
+[IDAssistMCP] Starting MCP server on localhost:9080 (transport: streamablehttp)...
+[IDAssistMCP] INFO: Initialized IDAssistMCP server
+[IDAssistMCP] INFO: Starting IDAssistMCP server...
+[IDAssistMCP] INFO: Creating MCPServer instance...
+[IDAssistMCP] INFO: MCPServer instance created
+[IDAssistMCP] INFO: Registering tools...
+[IDAssistMCP] INFO: Registered all MCP tools
+[IDAssistMCP] INFO: Registering resources...
+[IDAssistMCP] INFO: Registered MCP resources
+[IDAssistMCP] INFO: Registering prompts...
+[IDAssistMCP] INFO: Registered MCP prompts
+[IDAssistMCP] INFO: Creating Streamable HTTP ASGI app...
+[IDAssistMCP] INFO: MCP transport startup dispatched; waiting for ASGI lifespan initialization in the server thread
+[IDAssistMCP] INFO: IDAssistMCP server startup dispatched (transport: streamablehttp)
+[IDAssistMCP] INFO: Endpoint: http://localhost:9080/mcp
+[IDAssistMCP] INFO: HTTP readiness will be reported asynchronously by the server thread
+[IDAssistMCP] MCP server running at: http://localhost:9080/mcp
+[IDAssistMCP] Health check: http://localhost:9080/health
+[IDAssistMCP] Claude Desktop (Windows) configuration:
+[IDAssistMCP]   {
+
+[IDAssistMCP]     "mcpServers": {
+
+[IDAssistMCP]       "idassistmcp": {
+
+[IDAssistMCP]         "command": "npx",
+
+[IDAssistMCP]         "args": ["-y", "mcp-remote", "http://localhost:9080/mcp", "--transport", "http-only", "--allow-http"]
+
+[IDAssistMCP]       }
+
+[IDAssistMCP]     }
+
+[IDAssistMCP]   }
+
+[IDAssistMCP] Claude Code configuration:
+  {"type": "http", "url": "http://localhost:9080/mcp"}
+[IDAssistMCP] UI ready hook installed
+[IDAssistMCP] Plugin initialized successfully
+############### PyClassInformer (Yet Another RTTI Parser) ###############
+Press 'Alt-Shift-L' to display the PyClassInformer result.
+Using type parser: legacy
+[IDAssistMCP] INFO: Starting MCP server on localhost:9080
+[IDAssistMCP] INFO: Main-thread call timeout set to 300.0s
+[IDAssistMCP] DEBUG: execute_on_main_thread: dispatching from 'IDAssistMCP-Server' (write=False)
+[IDAssistMCP] DEBUG: execute_on_main_thread: completed successfully
+[IDAssistMCP] INFO: Context refreshed: FFXiMain_unpacked.dll (metapc 32-bit, 21412 functions)
+[IDAssistMCP] INFO: IDAssistMCP server lifespan initialized
+[IDAssistMCP] INFO: MCP server is ready to accept connections
+######################################################################
+# Please note that IDA is now using Qt 6, and PyQt5
+# support will be dropped eventually.
+# It is recommended to port your scripts/plugins to PySide6
+# as soon as possible.
+# Essentially, that means rewriting statement such as:
+#
+#   import PyQt5
+#   import PyQt5.QtWidgets
+#   from PyQt5.QtGui import QGuiApplication
+#
+# into:
+#
+#   import PySide6
+#   import PySide6.QtWidgets
+#   from PySide6.QtGui import QGuiApplication
+#
+# More information here https://docs.hex-rays.com/developer/publishing-plugins/how-tos/migrating-pyqt5-code-to-pyside6
+######################################################################
+[IDAssistMCP] INFO: IDAssistMCP config panel created
+---------------------------------------------------------------------------------------------
+Python 3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)] 
+IDAPython 64-bit v9.4.0 (c) The IDAPython Team <https://github.com/HexRaysSA/ida-sdk/issues>
+---------------------------------------------------------------------------------------------
+C:\Users\wadeglover\Downloads\ffxi_ida_exchange\run_phase67_v2.py:32: DeprecationWarning: get_func() is deprecated, use get_func_start or get_func_entry_info()
+  if ida_funcs.get_func(int(x, 16)) and ida_funcs.get_func(int(x, 16)).start_ea == int(x, 16)]
+[IDAssistMCP] Stopping MCP server...
+[IDAssistMCP] INFO: Stopping IDAssistMCP server
+[IDAssistMCP] INFO: Stopping MCP server
+[IDAssistMCP] INFO: MCP server thread shutdown completed
+[IDAssistMCP] INFO: IDAssistMCP server stopped
+[IDAssistMCP] MCP server stopped.
+[IDAssistMCP] INFO: Shutdown signal received
+[IDAssistMCP] INFO: Shutting down server, clearing IDA context
+[IDAssistMCP] INFO: IDA context cleared
+[IDAssistMCP] INFO: Server lifespan cleanup completed
+[IDAssistMCP] Starting MCP server on localhost:9080 (transport: streamablehttp)...
+[IDAssistMCP] INFO: Initialized IDAssistMCP server
+[IDAssistMCP] INFO: Starting IDAssistMCP server...
+[IDAssistMCP] INFO: Creating MCPServer instance...
+[IDAssistMCP] INFO: MCPServer instance created
+[IDAssistMCP] INFO: Registering tools...
+[IDAssistMCP] INFO: Registered all MCP tools
+[IDAssistMCP] INFO: Registering resources...
+[IDAssistMCP] INFO: Registered MCP resources
+[IDAssistMCP] INFO: Registering prompts...
+[IDAssistMCP] INFO: Registered MCP prompts
+[IDAssistMCP] INFO: Creating Streamable HTTP ASGI app...
+[IDAssistMCP] INFO: MCP transport startup dispatched; waiting for ASGI lifespan initialization in the server thread
+[IDAssistMCP] INFO: IDAssistMCP server startup dispatched (transport: streamablehttp)
+[IDAssistMCP] INFO: Endpoint: http://localhost:9080/mcp
+[IDAssistMCP] INFO: HTTP readiness will be reported asynchronously by the server thread
+[IDAssistMCP] MCP server running at: http://localhost:9080/mcp
+[IDAssistMCP] Health check: http://localhost:9080/health
+[IDAssistMCP] Claude Desktop (Windows) configuration:
+[IDAssistMCP]   {
+
+[IDAssistMCP]     "mcpServers": {
+
+[IDAssistMCP]       "idassistmcp": {
+
+[IDAssistMCP]         "command": "npx",
+
+[IDAssistMCP]         "args": ["-y", "mcp-remote", "http://localhost:9080/mcp", "--transport", "http-only", "--allow-http"]
+
+[IDAssistMCP]       }
+
+[IDAssistMCP]     }
+
+[IDAssistMCP]   }
+
+[IDAssistMCP] Claude Code configuration:
+  {"type": "http", "url": "http://localhost:9080/mcp"}
+[IDAssistMCP] INFO: Starting MCP server on localhost:9080
+[IDAssistMCP] INFO: Main-thread call timeout set to 300.0s
+[IDAssistMCP] DEBUG: execute_on_main_thread: dispatching from 'IDAssistMCP-Server' (write=False)
+[IDAssistMCP] DEBUG: execute_on_main_thread: completed successfully
+[IDAssistMCP] INFO: Context refreshed: FFXiMain_unpacked.dll (metapc 32-bit, 21410 functions)
+[IDAssistMCP] INFO: IDAssistMCP server lifespan initialized
+[IDAssistMCP] INFO: MCP server is ready to accept connections

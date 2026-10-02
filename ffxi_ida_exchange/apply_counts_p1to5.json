@@ -1,0 +1,18 @@
+{
+"p1_label_removed": 1,
+"p1_named": 3,
+"p2_deleted": 243,
+"p2_frag_label_cleared": 80,
+"p3_created": 2562,
+"p3_cmt_restored": 5,
+"p3_created_ida_end": 19,
+"p3_tail_added": 32,
+"p3_not_code": 16,
+"p3_failed": 24,
+"p4_extended": 74,
+"p4_already": 3,
+"p4_failed": 1,
+"p4_owner_missing": 1,
+"p5_parse_errors": 0,
+"p5_size_ok": 242
+}

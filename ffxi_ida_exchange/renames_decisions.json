@@ -1,0 +1,1904 @@
+[
+{
+"original": "dword_10377350",
+"new": "g_overlayScaleX",
+"evidence": "X scale written into the overlay-quad matrix diagonal (fn_10184C90) [use]",
+"decision": "accept"
+},
+{
+"original": "dword_10377354",
+"new": "g_overlayScaleY",
+"evidence": "Y scale of the overlay-quad matrix diagonal (fn_10184C90) [use]",
+"decision": "accept"
+},
+{
+"original": "dword_10377358",
+"new": "g_overlayScaleZ",
+"evidence": "Z scale of the overlay-quad matrix diagonal (fn_10184C90) [use]",
+"decision": "accept"
+},
+{
+"original": "dword_103BA68C",
+"new": "g_sceneFadeMaskRT",
+"evidence": "sqgx render-target index of the back-buffer-size stencil mask for scene fade; -1 = not created [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10456978",
+"new": "g_countdown_10456978",
+"evidence": "countdown (decremented and tested) -- int in .data, written by fn_10013AD0 (values 0x3c), read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10456E4C",
+"new": "g_vertexShader_6E4C",
+"evidence": "SetVertexShader Handle -- int in .data, written by fn_10022FA0, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457148",
+"new": "g_vertexBuffer_7148",
+"evidence": "CreateVertexBuffer ? -- int in .data, written by fn_10029A50, read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1045714C",
+"new": "g_vertexBuffer_714C",
+"evidence": "CreateVertexBuffer ? -- int in .data, written by fn_10029A50, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457150",
+"new": "g_vertexBuffer_7150",
+"evidence": "CreateVertexBuffer ? -- int in .data, written by fn_10029A50, read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457154",
+"new": "g_vertexBuffer_7154",
+"evidence": "CreateVertexBuffer ? -- int in .data, written by fn_10029A50, read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457270",
+"new": "g_matrix_7270",
+"evidence": "arg 3 of CDx_SetTransform -- int in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457468",
+"new": "g_matrix_7468",
+"evidence": "arg 3 of CDx_SetTransform -- int in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10457540",
+"new": "g_vertexBuffer_7540",
+"evidence": "CreateVertexBuffer ppVertexBuffer -- int in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1045B6A0",
+"new": "g_vertexShader_B6A0",
+"evidence": "SetVertexShader Handle -- int in .data, written by sub_1002F1C0, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1045B808",
+"new": "g_texturefactor_B808",
+"evidence": "value for SetRenderState(D3DRS_TEXTUREFACTOR) -- int in .data, written by sub_10033800, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1047BC6C",
+"new": "g_countdown_1047BC6C",
+"evidence": "countdown (decremented and tested) -- int in .data, written by sub_10044890, CMoElemFamily_SharedCleanup, read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC80",
+"new": "g_identityMatrix_1047CC80_m00",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC84",
+"new": "g_identityMatrix_1047CC80_m01",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC88",
+"new": "g_identityMatrix_1047CC80_m02",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC8C",
+"new": "g_identityMatrix_1047CC80_m03",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC90",
+"new": "g_identityMatrix_1047CC80_m10",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC94",
+"new": "g_identityMatrix_1047CC80_m11",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC98",
+"new": "g_identityMatrix_1047CC80_m12",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CC9C",
+"new": "g_identityMatrix_1047CC80_m13",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCA0",
+"new": "g_identityMatrix_1047CC80_m20",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCA4",
+"new": "g_identityMatrix_1047CC80_m21",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCA8",
+"new": "g_identityMatrix_1047CC80_m22",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCAC",
+"new": "g_identityMatrix_1047CC80_m23",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCB0",
+"new": "g_identityMatrix_1047CC80_m30",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCB4",
+"new": "g_identityMatrix_1047CC80_m31",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCB8",
+"new": "g_identityMatrix_1047CC80_m32",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_1047CCBC",
+"new": "g_identityMatrix_1047CC80_m33",
+"evidence": "element of a lazily-built 4x4 identity matrix (1.0 on the diagonal)",
+"decision": "accept"
+},
+{
+"original": "dword_10621988",
+"new": "g_upVerts_1988",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by sub_10168470, fn_1016DDF0, read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10621998",
+"new": "g_upVerts_1988_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_106219A8",
+"new": "g_upVerts_1988_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_106219B8",
+"new": "g_upVerts_1988_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_106219C8",
+"new": "g_upVerts_1988_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_106219D8",
+"new": "g_upVerts_1988_v5_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A18",
+"new": "g_upVerts_1A18",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10174EC0, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10621A1C",
+"new": "g_upVerts_1A18_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A20",
+"new": "g_upVerts_1A18_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A24",
+"new": "g_upVerts_1A18_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A28",
+"new": "g_upVerts_1A18_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A2C",
+"new": "g_upVerts_1A18_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A30",
+"new": "g_upVerts_1A18_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A34",
+"new": "g_upVerts_1A18_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A38",
+"new": "g_upVerts_1A18_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A3C",
+"new": "g_upVerts_1A18_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A40",
+"new": "g_upVerts_1A18_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A44",
+"new": "g_upVerts_1A18_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A48",
+"new": "g_upVerts_1A18_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A4C",
+"new": "g_upVerts_1A18_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A50",
+"new": "g_upVerts_1A18_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A54",
+"new": "g_upVerts_1A18_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A58",
+"new": "g_upVerts_1A18_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A5C",
+"new": "g_upVerts_1A18_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A60",
+"new": "g_upVerts_1A18_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A64",
+"new": "g_upVerts_1A18_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A68",
+"new": "g_upVerts_1A68",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10174EC0, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10621A6C",
+"new": "g_upVerts_1A68_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A70",
+"new": "g_upVerts_1A68_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A74",
+"new": "g_upVerts_1A68_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A78",
+"new": "g_upVerts_1A68_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A7C",
+"new": "g_upVerts_1A68_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A80",
+"new": "g_upVerts_1A68_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A84",
+"new": "g_upVerts_1A68_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A88",
+"new": "g_upVerts_1A68_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A8C",
+"new": "g_upVerts_1A68_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A90",
+"new": "g_upVerts_1A68_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A94",
+"new": "g_upVerts_1A68_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A98",
+"new": "g_upVerts_1A68_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621A9C",
+"new": "g_upVerts_1A68_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AA0",
+"new": "g_upVerts_1A68_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AA4",
+"new": "g_upVerts_1A68_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AA8",
+"new": "g_upVerts_1A68_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AAC",
+"new": "g_upVerts_1A68_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AB0",
+"new": "g_upVerts_1A68_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AB4",
+"new": "g_upVerts_1A68_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AB8",
+"new": "g_upVerts_1AB8",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10174EC0, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10621ABC",
+"new": "g_upVerts_1AB8_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AC0",
+"new": "g_upVerts_1AB8_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AC4",
+"new": "g_upVerts_1AB8_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AC8",
+"new": "g_upVerts_1AB8_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621ACC",
+"new": "g_upVerts_1AB8_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AD0",
+"new": "g_upVerts_1AB8_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AD4",
+"new": "g_upVerts_1AB8_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AD8",
+"new": "g_upVerts_1AB8_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621ADC",
+"new": "g_upVerts_1AB8_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AE0",
+"new": "g_upVerts_1AB8_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AE4",
+"new": "g_upVerts_1AB8_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AE8",
+"new": "g_upVerts_1AB8_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AEC",
+"new": "g_upVerts_1AB8_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AF0",
+"new": "g_upVerts_1AB8_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AF4",
+"new": "g_upVerts_1AB8_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AF8",
+"new": "g_upVerts_1AB8_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621AFC",
+"new": "g_upVerts_1AB8_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B00",
+"new": "g_upVerts_1AB8_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B04",
+"new": "g_upVerts_1AB8_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B08",
+"new": "g_upVerts_1AB8_v5_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B0C",
+"new": "g_upVerts_1AB8_v5_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B10",
+"new": "g_upVerts_1AB8_v5_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B14",
+"new": "g_upVerts_1AB8_v5_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B18",
+"new": "g_upVerts_1AB8_v6_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B1C",
+"new": "g_upVerts_1AB8_v6_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B20",
+"new": "g_upVerts_1AB8_v6_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B24",
+"new": "g_upVerts_1AB8_v6_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B28",
+"new": "g_upVerts_1AB8_v7_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B2C",
+"new": "g_upVerts_1AB8_v7_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B30",
+"new": "g_upVerts_1AB8_v7_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621B34",
+"new": "g_upVerts_1AB8_v7_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10621C00",
+"new": "g_zbiasRestore",
+"evidence": "Z-bias restored after those overlays; 0 [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10631C88",
+"new": "g_zbiasOverlay",
+"evidence": "Z-bias while drawing overlays (fn_10184C90, 0x10184FE0, 0x10185CA0); 15, or 2 on ATI [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10631C90",
+"new": "g_upVerts_1C90",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10182F10, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10631C9C",
+"new": "g_upVerts_1C90_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CA0",
+"new": "g_upVerts_1C90_v0_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CA4",
+"new": "g_upVerts_1C90_v0_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CA8",
+"new": "g_upVerts_1C90_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CB4",
+"new": "g_upVerts_1C90_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CB8",
+"new": "g_upVerts_1C90_v1_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CBC",
+"new": "g_upVerts_1C90_v1_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CCC",
+"new": "g_upVerts_1C90_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CD0",
+"new": "g_upVerts_1C90_v2_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CD4",
+"new": "g_upVerts_1C90_v2_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CE4",
+"new": "g_upVerts_1C90_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CE8",
+"new": "g_upVerts_1C90_v3_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CEC",
+"new": "g_upVerts_1C90_v3_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631CFC",
+"new": "g_upVerts_1C90_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D00",
+"new": "g_upVerts_1C90_v4_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D04",
+"new": "g_upVerts_1C90_v4_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D14",
+"new": "g_upVerts_1C90_v5_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D18",
+"new": "g_upVerts_1C90_v5_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D1C",
+"new": "g_upVerts_1C90_v5_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D20",
+"new": "g_upVerts_1C90_v6_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D2C",
+"new": "g_upVerts_1C90_v6_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D30",
+"new": "g_upVerts_1C90_v6_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D34",
+"new": "g_upVerts_1C90_v6_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D38",
+"new": "g_upVerts_1C90_v7_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D44",
+"new": "g_upVerts_1C90_v7_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D48",
+"new": "g_upVerts_1C90_v7_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D4C",
+"new": "g_upVerts_1C90_v7_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D50",
+"new": "g_upVerts_1D50",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10182F10, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10631D5C",
+"new": "g_upVerts_1D50_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D60",
+"new": "g_upVerts_1D50_v0_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D64",
+"new": "g_upVerts_1D50_v0_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D74",
+"new": "g_upVerts_1D50_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D78",
+"new": "g_upVerts_1D50_v1_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D7C",
+"new": "g_upVerts_1D50_v1_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D8C",
+"new": "g_upVerts_1D50_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D90",
+"new": "g_upVerts_1D50_v2_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D94",
+"new": "g_upVerts_1D50_v2_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631D98",
+"new": "g_upVerts_1D50_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DA4",
+"new": "g_upVerts_1D50_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DA8",
+"new": "g_upVerts_1D50_v3_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DAC",
+"new": "g_upVerts_1D50_v3_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DB0",
+"new": "g_upVerts_1D50_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DBC",
+"new": "g_upVerts_1D50_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DC0",
+"new": "g_upVerts_1D50_v4_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631DC4",
+"new": "g_upVerts_1D50_v4_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E10",
+"new": "g_upVerts_1E10",
+"evidence": "arg 4 of CDx_DrawPrimitiveUP -- int in .data, written by fn_10182F10, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10631E1C",
+"new": "g_upVerts_1E10_v0_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E20",
+"new": "g_upVerts_1E10_v0_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E24",
+"new": "g_upVerts_1E10_v0_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E34",
+"new": "g_upVerts_1E10_v1_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E38",
+"new": "g_upVerts_1E10_v1_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E3C",
+"new": "g_upVerts_1E10_v1_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E4C",
+"new": "g_upVerts_1E10_v2_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E50",
+"new": "g_upVerts_1E10_v2_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E54",
+"new": "g_upVerts_1E10_v2_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E58",
+"new": "g_upVerts_1E10_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E64",
+"new": "g_upVerts_1E10_v3_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E68",
+"new": "g_upVerts_1E10_v3_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E6C",
+"new": "g_upVerts_1E10_v3_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E70",
+"new": "g_upVerts_1E10_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E7C",
+"new": "g_upVerts_1E10_v4_diffuse",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E80",
+"new": "g_upVerts_1E10_v4_u",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631E84",
+"new": "g_upVerts_1E10_v4_v",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "dword_10631F10",
+"new": "g_boxIB",
+"evidence": "index buffer of the same box [use]",
+"decision": "accept"
+},
+{
+"original": "dword_10631F18",
+"new": "g_zbiasPresetAux",
+"evidence": "set with the Z-bias presets (8, or 1 on ATI); read by 0x1017C9C0/0x1017DE20; meaning unconfirmed [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10631F20",
+"new": "g_boxPositionVB",
+"evidence": "vertex buffer, stream 0, stride 12 (positions) of a 24-vertex/12-triangle indexed box [disassembly + use]",
+"decision": "accept"
+},
+{
+"original": "dword_10631F24",
+"new": "g_pZoneMap",
+"evidence": "CTsZoneMap* g_pZoneMap -- the zone (world geometry) renderer singleton; alloc 0x395B4 in App_InitScene, ctor 0x10177D00 [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10632038",
+"new": "g_zbiasZoneMesh",
+"evidence": "Z-bias for zone meshes (passed to sub_10177400 = SetRenderState(D3DRS_ZBIAS)); 0 / 0 on ATI, set in fn_101781D0 [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_10639040",
+"new": "g_boxStream1VB",
+"evidence": "vertex buffer, stream 1, stride 24, of the same box [use]",
+"decision": "accept"
+},
+{
+"original": "dword_1065C4D0",
+"new": "g_zbiasPreset_C4D0",
+"evidence": "Z-bias preset, 15 or 2 on ATI; used by 0x10183490/0x10183760 [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_1066914C",
+"new": "g_stateBlock_914C",
+"evidence": "flag (only 0/1 written) -- DeleteStateBlock Token -- int in .data, written by fn_102504D0 (values 0), read in 3 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_10669150",
+"new": "g_stateBlock_9150",
+"evidence": "flag (only 0/1 written) -- DeleteStateBlock Token -- int in .data, written by fn_102504D0 (values 0), read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_1099D200",
+"new": "g_pSqgxContext",
+"evidence": "sqgxContext* -- dancer render context (sqgxContext.c); field names from sqgxContext_Dump 0x102768E0 [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_109A261C",
+"new": "g_counter_109A261C",
+"evidence": "counter (incremented) -- int in .data, written by sub_102816E0, fn_10281830, sub_10281A70, read in 4 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_109A2744",
+"new": "g_counter_109A2744",
+"evidence": "counter (incremented) -- int in .data, written by fn_10284A80, read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "dword_109A2798",
+"new": "g_sceneRT",
+"evidence": "sqgx render-target indices [0],[1]: 1024x512 ping-pong targets of sqsnSceneDraw (fn_1028F8C0) [disassembly]",
+"decision": "accept"
+},
+{
+"original": "dword_109A279C",
+"new": "g_sceneRT1",
+"evidence": "= dword_109A2798[1], second ping-pong render target of sqsnSceneDraw [disassembly]",
+"decision": "accept"
+},
+{
+"original": "flt_10389874",
+"new": "kF_0_9874",
+"evidence": "arg 1 of sub_10282030 -- float, initial value 0 (never written: a constant)",
+"decision": "accept"
+},
+{
+"original": "flt_1062198C",
+"new": "g_upVerts_1988_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10621990",
+"new": "g_upVerts_1988_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_1062199C",
+"new": "g_upVerts_1988_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219A0",
+"new": "g_upVerts_1988_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219AC",
+"new": "g_upVerts_1988_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219B0",
+"new": "g_upVerts_1988_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219BC",
+"new": "g_upVerts_1988_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219C0",
+"new": "g_upVerts_1988_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219CC",
+"new": "g_upVerts_1988_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219D0",
+"new": "g_upVerts_1988_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219DC",
+"new": "g_upVerts_1988_v5_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_106219E0",
+"new": "g_upVerts_1988_v5_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631C94",
+"new": "g_upVerts_1C90_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631C98",
+"new": "g_upVerts_1C90_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CAC",
+"new": "g_upVerts_1C90_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CB0",
+"new": "g_upVerts_1C90_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CC0",
+"new": "g_upVerts_1C90_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CC4",
+"new": "g_upVerts_1C90_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CC8",
+"new": "g_upVerts_1C90_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CD8",
+"new": "g_upVerts_1C90_v3_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CDC",
+"new": "g_upVerts_1C90_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CE0",
+"new": "g_upVerts_1C90_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CF0",
+"new": "g_upVerts_1C90_v4_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CF4",
+"new": "g_upVerts_1C90_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631CF8",
+"new": "g_upVerts_1C90_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D08",
+"new": "g_upVerts_1C90_v5_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D0C",
+"new": "g_upVerts_1C90_v5_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D10",
+"new": "g_upVerts_1C90_v5_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D24",
+"new": "g_upVerts_1C90_v6_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D28",
+"new": "g_upVerts_1C90_v6_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D3C",
+"new": "g_upVerts_1C90_v7_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D40",
+"new": "g_upVerts_1C90_v7_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D54",
+"new": "g_upVerts_1D50_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D58",
+"new": "g_upVerts_1D50_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D68",
+"new": "g_upVerts_1D50_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D6C",
+"new": "g_upVerts_1D50_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D70",
+"new": "g_upVerts_1D50_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D80",
+"new": "g_upVerts_1D50_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D84",
+"new": "g_upVerts_1D50_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D88",
+"new": "g_upVerts_1D50_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631D9C",
+"new": "g_upVerts_1D50_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631DA0",
+"new": "g_upVerts_1D50_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631DB4",
+"new": "g_upVerts_1D50_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631DB8",
+"new": "g_upVerts_1D50_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E14",
+"new": "g_upVerts_1E10_v0_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E18",
+"new": "g_upVerts_1E10_v0_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E28",
+"new": "g_upVerts_1E10_v1_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E2C",
+"new": "g_upVerts_1E10_v1_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E30",
+"new": "g_upVerts_1E10_v1_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E40",
+"new": "g_upVerts_1E10_v2_x",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E44",
+"new": "g_upVerts_1E10_v2_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E48",
+"new": "g_upVerts_1E10_v2_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E5C",
+"new": "g_upVerts_1E10_v3_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E60",
+"new": "g_upVerts_1E10_v3_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E74",
+"new": "g_upVerts_1E10_v4_y",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "flt_10631E78",
+"new": "g_upVerts_1E10_v4_z",
+"evidence": "vertex field: from the FVF set before the CDx_DrawPrimitiveUP that draws this array",
+"decision": "accept"
+},
+{
+"original": "sub_10003D70",
+"new": "Dev_SetVertexShader_10003D70",
+"evidence": "calls Device::SetVertexShader; calls CDx_SetTransform",
+"decision": "provisional"
+},
+{
+"original": "sub_100161A0",
+"new": "thunk_sub_10035900",
+"evidence": "thunk to 0x10035900",
+"decision": "accept"
+},
+{
+"original": "sub_100177A0",
+"new": "Dev_DeleteVertexShader_100177A0",
+"evidence": "calls Device::DeleteVertexShader",
+"decision": "provisional"
+},
+{
+"original": "sub_10026C70",
+"new": "Dev_SetTexture_10026C70",
+"evidence": "calls Device::SetTexture, Device::SetVertexShader; calls CDx_DrawPrimitiveUP",
+"decision": "provisional"
+},
+{
+"original": "sub_1002A3B0",
+"new": "Dev_SetRenderState_1002A3B0",
+"evidence": "calls Device::SetRenderState, Device::LightEnable, Device::GetDeviceCaps; calls CDx_SetLight",
+"decision": "provisional"
+},
+{
+"original": "sub_1002B5A0",
+"new": "GetField_44_1002B5A0",
+"evidence": "returns immediately (eax, [ecx + 0x44])",
+"decision": "provisional"
+},
+{
+"original": "sub_1002C8B0",
+"new": "thunk_sub_10028AA0",
+"evidence": "thunk to 0x10028aa0",
+"decision": "accept"
+},
+{
+"original": "sub_100398D0",
+"new": "ResetVtbl_1032AA4C",
+"evidence": "returns immediately (dword ptr [ecx], 0x1032aa4c)",
+"decision": "provisional"
+},
+{
+"original": "sub_1003B210",
+"new": "Dev_CreateVertexBuffer_1003B210",
+"evidence": "calls Device::CreateVertexBuffer",
+"decision": "provisional"
+},
+{
+"original": "sub_1003D980",
+"new": "ResetVtbl_1032ABAC",
+"evidence": "returns immediately (dword ptr [ecx], 0x1032abac)",
+"decision": "provisional"
+},
+{
+"original": "sub_10074290",
+"new": "GetGlobal_1047D114",
+"evidence": "returns immediately (eax, dword ptr [0x1047d114])",
+"decision": "provisional"
+},
+{
+"original": "sub_10086210",
+"new": "Dev_SetRenderState_10086210",
+"evidence": "calls Device::SetRenderState, Device::SetVertexShader; strings: \"telActor\"; calls CDx_SetTransform, Camera_GetViewportWidth, Camera_GetViewportHeight",
+"decision": "provisional"
+},
+{
+"original": "sub_100DB100",
+"new": "GetField_98_100DB100",
+"evidence": "returns immediately (eax, dword ptr [ecx + 0x98])",
+"decision": "provisional"
+},
+{
+"original": "sub_101604B0",
+"new": "Dev_SetRenderState_101604B0",
+"evidence": "calls Device::SetRenderState, Device::SetTextureStageState",
+"decision": "provisional"
+},
+{
+"original": "sub_101674B0",
+"new": "ResetVtbl_10336614",
+"evidence": "returns immediately (dword ptr [ecx], 0x10336614)",
+"decision": "provisional"
+},
+{
+"original": "sub_10177400",
+"new": "Gfx_SetZBias",
+"evidence": "SetRenderState(D3DRS_ZBIAS (47), x) on g_pCDx->pDevice [full body]",
+"decision": "accept"
+},
+{
+"original": "sub_10177420",
+"new": "ZoneMap_SetOverlayProjection",
+"evidence": "CTsZoneMap overlay projection setup (called when CTsZoneMap+0x39598 is set) [use]",
+"decision": "accept"
+},
+{
+"original": "sub_10178760",
+"new": "ZoneMap_FindLight",
+"evidence": "zone light table lookup: 256 x 0x70 entries at 0x10632040 keyed by 4-char tag (e.g. 'l_01'); returns entry (D3DLIGHT8 at +8) or NULL [full body]",
+"decision": "accept"
+},
+{
+"original": "sub_10178B00",
+"new": "ZoneMap_ReleaseStateBlock",
+"evidence": "CTsZoneMap: release state block (+0x38D94) [tree body fn_10178B00]",
+"decision": "accept"
+},
+{
+"original": "sub_1017B1E0",
+"new": "ZoneMap_TeardownStep",
+"evidence": "CTsZoneMap teardown step called first by its destructor body [use]",
+"decision": "accept"
+},
+{
+"original": "sub_10183DA0",
+"new": "ZoneMap_DrawMeshById",
+"evidence": "CTsZoneMap: draw one zone mesh by id (reads material and mesh state) [use]",
+"decision": "accept"
+},
+{
+"original": "sub_10186FA0",
+"new": "GetField_104_10186FA0",
+"evidence": "returns immediately (eax, [ecx + 0x104])",
+"decision": "provisional"
+},
+{
+"original": "sub_10188B70",
+"new": "XiZone_GetDirLights",
+"evidence": "XiZone (g_pCurrentCamera is really g_pXiZone): get two directional lights [same pattern as XiZone_GetAmbient/GetFog]",
+"decision": "accept"
+},
+{
+"original": "sub_1018B9A0",
+"new": "XiZone_GetDirLight",
+"evidence": "XiZone: get one directional light [same pattern as XiZone_GetAmbient/GetFog]",
+"decision": "accept"
+},
+{
+"original": "sub_1018B9E0",
+"new": "XiZone_GetAmbient",
+"evidence": "XiZone_GetAmbient (DancingMad name; feeds D3DRS_AMBIENT)",
+"decision": "accept"
+},
+{
+"original": "sub_1018BA20",
+"new": "XiZone_GetFog",
+"evidence": "XiZone_GetFog(color, end, start, mode, subArea) (DancingMad name; feeds FOGCOLOR/FOGEND/FOGSTART)",
+"decision": "accept"
+},
+{
+"original": "sub_10245BA0",
+"new": "thunk_sub_10245BB0",
+"evidence": "thunk to 0x10245bb0",
+"decision": "accept"
+},
+{
+"original": "sub_1026E900",
+"new": "mdl_1026E900",
+"evidence": "dancer module mdl.c; calls sqFree",
+"decision": "accept"
+},
+{
+"original": "sub_10273920",
+"new": "chasm_10273920",
+"evidence": "dancer module chasm.c; calls sqFree",
+"decision": "accept"
+},
+{
+"original": "sub_1027F0E0",
+"new": "sqMatrix4_1027F0E0",
+"evidence": "dancer module sqMatrix4.c; strings: \"Warning in %s, line %d: \" | \"M4fInverse: can't invert the singular ma\"",
+"decision": "accept"
+},
+{
+"original": "sub_1027FCC0",
+"new": "sqMatrix4_1027FCC0",
+"evidence": "dancer module sqMatrix4.c (by address range)",
+"decision": "accept"
+},
+{
+"original": "sub_10280140",
+"new": "sqMatrix4_10280140",
+"evidence": "dancer module sqMatrix4.c (by address range)",
+"decision": "accept"
+},
+{
+"original": "sub_10280DE0",
+"new": "sqgx_DrawRect_Candidate",
+"evidence": "full-screen rectangle draw (by use; not matched)",
+"decision": "accept"
+},
+{
+"original": "sub_10281510",
+"new": "Dev_CreateTexture_10281510",
+"evidence": "calls Device::CreateTexture, Device::GetBackBuffer, Device::SetPaletteEntries, Device::SetCurrentTexturePalette, Device::GetRasterStatus; strings: \"error could not load texture\\n\"",
+"decision": "provisional"
+},
+{
+"original": "sub_102816E0",
+"new": "Dev_CreateDepthStencilSurface_102816E0",
+"evidence": "calls Device::CreateDepthStencilSurface; strings: \"ERROR: sqgxTexture, max 512 textures\\n\" | \"ERROR: could not allocate depth/stencil \"",
+"decision": "provisional"
+},
+{
+"original": "sub_10281830",
+"new": "sqgxTextureAdd",
+"evidence": "sqgxTextureAdd (PS2 name): find-or-create render-target texture (w,h,fmt) -> index; max 512",
+"decision": "accept"
+},
+{
+"original": "sub_10281B60",
+"new": "sqgxTextureGetSize",
+"evidence": "sqgxTextureGetSize (PS2 name): (index, &w, &h)",
+"decision": "accept"
+},
+{
+"original": "sub_10281C20",
+"new": "sqgxTextureSet",
+"evidence": "sqgxTextureSet (PS2 name): bind texture to current stage (txtId[stage])",
+"decision": "accept"
+},
+{
+"original": "sub_10281C50",
+"new": "sqgxTextureDecal",
+"evidence": "sqgxTextureDecal (PS2 name): decal[stage] (flushed as D3DTSS_COLOROP)",
+"decision": "accept"
+},
+{
+"original": "sub_10281C80",
+"new": "sqgxTextureClamp",
+"evidence": "sqgxTextureClamp (PS2 name): uClamp/vClamp[stage] (D3DTSS_ADDRESSU/V)",
+"decision": "accept"
+},
+{
+"original": "sub_10282010",
+"new": "sqgxTextureStencilClear",
+"evidence": "sqgxTextureStencilClear (PS2 name): Device::Clear(D3DCLEAR_STENCIL, v)",
+"decision": "accept"
+},
+{
+"original": "sub_10282030",
+"new": "sqgxTextureClear",
+"evidence": "sqgxTextureClear (PS2 name): clear to float RGBA",
+"decision": "accept"
+},
+{
+"original": "sub_10282190",
+"new": "sqgxTextureDraw",
+"evidence": "sqgxTextureDraw (PS2 name): set draw target (sqgxContext drawBuf +0x89C)",
+"decision": "accept"
+},
+{
+"original": "sub_10282350",
+"new": "sqgxZTest",
+"evidence": "sqgxZTest (PS2 name): D3DRS_ZENABLE, cached at sqgxContext+0x8E8",
+"decision": "accept"
+},
+{
+"original": "sub_10282470",
+"new": "Dev_SetRenderState_10282470",
+"evidence": "calls Device::SetRenderState",
+"decision": "provisional"
+},
+{
+"original": "sub_102824C0",
+"new": "Dev_SetRenderState_102824C0",
+"evidence": "calls Device::SetRenderState",
+"decision": "provisional"
+},
+{
+"original": "sub_10282B90",
+"new": "sqgxBlendTrsp_Candidate",
+"evidence": "sqgxBlend* (src-alpha blend; most likely sqgxBlendTrsp): ALPHABLENDENABLE, BLENDOP ADD, SRCBLEND SRCALPHA",
+"decision": "accept"
+},
+{
+"original": "sub_10283110",
+"new": "Dev_SetRenderState_10283110",
+"evidence": "calls Device::SetRenderState, Device::SetTextureStageState",
+"decision": "provisional"
+},
+{
+"original": "sub_10283220",
+"new": "sqgxBlendOff",
+"evidence": "sqgxBlendOff (PS2 name): ALPHABLENDENABLE = FALSE",
+"decision": "accept"
+},
+{
+"original": "sub_10283330",
+"new": "sqgxColor",
+"evidence": "sqgxColor (PS2 name): sets sqgxContext color +0x758..+0x764",
+"decision": "accept"
+},
+{
+"original": "sub_10283A10",
+"new": "Dev_SetViewport_10283A10",
+"evidence": "calls Device::SetViewport",
+"decision": "provisional"
+},
+{
+"original": "sub_10283C10",
+"new": "sqgxPerspective",
+"evidence": "sqgxPerspective (PS2 name): fov/near/far -> sqgxContext fov,tanX,tanY,iCosX,iCosY",
+"decision": "accept"
+},
+{
+"original": "sub_10283D60",
+"new": "sqgxMatrixCamera",
+"evidence": "sqgxMatrixCamera (PS2 name): sets matCam (+0x188), derives +0x208",
+"decision": "accept"
+},
+{
+"original": "sub_10283F70",
+"new": "Dev_SetRenderState_10283F70",
+"evidence": "calls Device::SetRenderState",
+"decision": "provisional"
+},
+{
+"original": "sub_10284950",
+"new": "Dev_CreateVertexShader_10284950",
+"evidence": "calls Device::CreateVertexShader, Device::SetVertexShader",
+"decision": "provisional"
+},
+{
+"original": "sub_1028AFE0",
+"new": "sqgxShape_1028AFE0",
+"evidence": "dancer module sqgxShape.c (by address range); calls Device::CreateVertexBuffer, Device::SetCursorPosition, Device::SetStreamSource, Device::ShowCursor",
+"decision": "accept"
+},
+{
+"original": "sub_1028F5F0",
+"new": "sqsnScene_1028F5F0",
+"evidence": "dancer module sqsnScene.c (by address range)",
+"decision": "accept"
+},
+{
+"original": "sub_1028FDD0",
+"new": "sqsnSceneLayerDraw",
+"evidence": "sqsnScene: draw layer without shadows [disassembly]",
+"decision": "accept"
+},
+{
+"original": "sub_1028FFF0",
+"new": "sqsnSceneLayerDrawShadowed",
+"evidence": "sqsnScene: draw layer with shadows (taken when shadowOn && numShadows) [disassembly]",
+"decision": "accept"
+},
+{
+"original": "sub_102902C0",
+"new": "sqsnSceneLayerSnapShotComposite",
+"evidence": "sqsnScene layer snapshot composite: loads layer+0x00 and draws with a 16-pair constant kernel [disassembly]",
+"decision": "accept"
+},
+{
+"original": "sub_10290440",
+"new": "sqsnSceneLayerSort",
+"evidence": "sqsnSceneLayerSort (PS2 name; called per layer when layer+0x19 sort flag is set)",
+"decision": "accept"
+},
+{
+"original": "sub_102911E0",
+"new": "sqrdCamera_Apply",
+"evidence": "apply an sqrdCamera (fov +0x14, near +0x18, far +0x1C) through sqgxPerspective [disassembly]",
+"decision": "accept"
+},
+{
+"original": "unk_10351628",
+"new": "g_vsDecl_1628",
+"evidence": "CreateVertexShader declaration -- data in .data, never written (initial 0x20000000), read in 1 function(s)",
+"decision": "accept"
+},
+{
+"original": "unk_103772E8",
+"new": "g_zoneVSDeclA",
+"evidence": "vertex shader declaration -> CTsZoneMap vsHandleA (+0x39454) [use]",
+"decision": "accept"
+},
+{
+"original": "unk_10377304",
+"new": "g_zoneVSDeclB",
+"evidence": "vertex shader declaration -> CTsZoneMap vsHandleB (+0x39458) [use]",
+"decision": "accept"
+},
+{
+"original": "unk_10377360",
+"new": "g_overlayQuadVerts",
+"evidence": "overlay quad vertices: 2-triangle strip, stride 24, FVF 0x142 = XYZ|DIFFUSE|TEX1 [use]",
+"decision": "accept"
+},
+{
+"original": "unk_10457228",
+"new": "g_matrix_7228",
+"evidence": "arg 3 of CDx_SetTransform -- data in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "unk_104E1B70",
+"new": "g_viewport_1B70",
+"evidence": "arg 2 of CDx_SetViewport -- data in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "unk_10621904",
+"new": "g_viewport_1904",
+"evidence": "arg 2 of CDx_SetViewport -- data in .data, never written by code (zero-initialised), read in 2 function(s)",
+"decision": "accept"
+},
+{
+"original": "g_pCurrentCamera",
+"new": "g_pXiZone",
+"evidence": "XiZone singleton (0x1DC bytes, vtable 0x10336838); the old name was a mislabel (also noted by DancingMad)",
+"decision": "accept"
+}
+]

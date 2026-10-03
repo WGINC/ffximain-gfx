@@ -19,6 +19,7 @@ import diffemu_fixed as G
 LIVE_CFG = json.load(open(os.environ['FFXI_LIVE'])) if os.environ.get('FFXI_LIVE') else None
 if LIVE_CFG:
     G.SANDBOX = int(LIVE_CFG['sandbox'], 16); G.POOL = G.SANDBOX + 0x00800000   # a gap the dump does not use
+from unicorn.x86_const import UC_X86_REG_FS, UC_X86_REG_GDTR, UC_X86_REG_CS, UC_X86_REG_SS, UC_X86_REG_DS, UC_X86_REG_ES, UC_X86_REG_GS
 from unicorn import UC_HOOK_CODE, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_PROT_ALL, UC_HOOK_MEM_READ_UNMAPPED, UC_HOOK_MEM_WRITE_UNMAPPED
 import hashlib
 import pefile
@@ -122,7 +123,7 @@ class GfxMachine(G.Machine):
         # (fuzzed data stays executable, as in diffemu_fixed: redirecting execution from Unicorn's
         #  fault hook proved non-deterministic between runs, 1 Oct 2026)
         self.rng = random.Random(0)
-        self.stub_n = {}; self.stub_ret = {}; self.src_log = None; self.import_n = {}; self.site_conflicts = {}
+        self.stub_n = {}; self.stub_ret = {}; self.src_log = None; self.import_n = {}; self.site_conflicts = {}; self.tls = {}; self.files = {}; self.last_error = None
         if LIVE_CFG:
             for a, hx in LIVE_CFG['data_writes']:
                 u.mem_write(int(a, 16), bytes.fromhex(hx))
@@ -134,7 +135,27 @@ class GfxMachine(G.Machine):
             from capstone import Cs, CS_ARCH_X86, CS_MODE_32
             self._md = Cs(CS_ARCH_X86, CS_MODE_32); self._md.detail = True
             self.demand_limit = 4096          # dump pages share the demand list with fuzzed ones
+        # a thread information block at FS, as Windows lays it out: the SEH prologue of MSVC code reads and
+        # writes fs:[0] (ExceptionList; here the end-of-chain marker) and restores it before it returns
+        u.mem_map(TEB, G.PAGE, UC_PROT_ALL); u.mem_map(GDT, G.PAGE, UC_PROT_ALL)
+        u.mem_write(TEB, struct.pack('<7I', 0xFFFFFFFF, G.STACK_TOP, G.STACK_TOP - G.STACK_SIZE, 0, 0, 0, TEB))
+        # a flat GDT as Windows has it (once a GDT exists every segment is loaded from it): 1 code and 2 data,
+        # base 0, 4 GB, 32-bit; 3 the thread block for FS. All ring 0, the level the emulator runs at.
+        def desc(base, lim, access, flags):
+            return (lim & 0xFFFF) | ((base & 0xFFFFFF) << 16) | (access << 40) | (((lim >> 16) & 0xF) << 48) | (flags << 52) | ((base >> 24) << 56)
+        u.mem_write(GDT + 8, struct.pack('<3Q', desc(0, 0xFFFFF, 0x9B, 0xC), desc(0, 0xFFFFF, 0x93, 0xC), desc(TEB, 0xFFF, 0x93, 0x4)))
+        u.reg_write(UC_X86_REG_GDTR, (0, GDT, 4 * 8 - 1, 0x0))
+        for reg, sel in ((UC_X86_REG_CS, 1), (UC_X86_REG_SS, 2), (UC_X86_REG_DS, 2), (UC_X86_REG_ES, 2), (UC_X86_REG_GS, 2), (UC_X86_REG_FS, 3)):
+            u.reg_write(reg, sel << 3)
         self.ctx = u.context_save()
+
+    def alloc(self, n):
+        """a fresh zeroed block from the per-run allocator (the same address on both sides); 0 when exhausted"""
+        n = (min(n, 0x10000) if 0 < n else 0x1000) + 0xF & ~0xF
+        v = self.alloc_next; self.alloc_next += max(n, 0x40)
+        if self.alloc_next > ALLOC_BASE + ALLOC_SIZE: return 0
+        self.alloc_high = max(self.alloc_high, self.alloc_next)
+        return v
 
     def call(self, *a, **k):
         # each run allocates from the same start, over zeroed memory: both sides get identical blocks
@@ -143,6 +164,9 @@ class GfxMachine(G.Machine):
         self.alloc_next = self.alloc_high = ALLOC_BASE
         self.stub_n = {}                  # calls made to each stub so far in this run (input repair keys)
         self.fault_ret = None             # the return address on the stack when execution left the code
+        self.tls = {}                     # the emulated thread's TLS slots (TlsSetValue / TlsGetValue)
+        self.files = {}                   # files the run created: handle -> [position, size]
+        self.last_error = None            # the thread's last-error value once the run sets it
         return super().call(*a, **k)
 
     def _on_data_exec(self, uc, addr, size, _):
@@ -368,11 +392,7 @@ class GfxMachine(G.Machine):
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
         if spec.get('ret') == 'alloc':         # an allocator: a fresh zeroed block, never NULL
-            n = args[spec['size_arg']] if spec.get('size_arg') is not None else 0x1000
-            n = (min(n, 0x10000) if 0 < n else 0x1000) + 0xF & ~0xF
-            v = self.alloc_next; self.alloc_next += max(n, 0x40)
-            if self.alloc_next > ALLOC_BASE + ALLOC_SIZE: v = 0          # exhausted: the call fails
-            self.alloc_high = max(self.alloc_high, self.alloc_next)
+            v = self.alloc(args[spec['size_arg']] if spec.get('size_arg') is not None else 0x1000)
         elif spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
             v = v & 1
         elif spec.get('ret') == 'lowbool':     # AL = 0 or 1; the upper bits are left over from earlier
@@ -488,6 +508,28 @@ def _fake_curdir(m, uc, args):
     return len(path) + 1
 
 
+def _fake_tlsset(m, uc, a):
+    m.tls[a[0]] = a[1]; return 1
+
+
+def _fake_release_sem(m, uc, a):
+    if a[2]: m.writes.append((a[2], bytes(uc.mem_read(a[2], 4)))); uc.mem_write(a[2], struct.pack('<I', m.rng.randrange(0, 4)))
+    return 1 if m.rng.random() < 0.9 else 0
+
+
+def _fake_writefile(m, uc, a):
+    if a[3]: m.writes.append((a[3], bytes(uc.mem_read(a[3], 4)))); uc.mem_write(a[3], struct.pack('<I', a[2]))
+    f = m.files.setdefault(a[0], [0, 0]); f[0] += a[2]; f[1] = max(f[1], f[0])       # [position, size]
+    return 1
+
+
+def _fake_setfilepointer(m, uc, a):
+    # the file CreateFile made is new and empty; position and size follow the writes made to it
+    f = m.files.setdefault(a[0], [0, 0]); dist = struct.unpack('<i', struct.pack('<I', a[1]))[0]
+    if a[2]: return 0xFFFFFFFF                                   # a 64-bit move: not modelled, reported as failure
+    f[0] = max(0, {0: 0, 1: f[0], 2: f[1]}.get(a[3], 0) + dist); return f[0]
+
+
 IMPORT_FAKES = {   # name: (argument count, answer); stdcall: the fake pops the arguments
     'GetCurrentDirectoryA': (2, _fake_curdir),
     'GetTickCount': (0, lambda m, uc, a: 0x00123456),
@@ -496,10 +538,43 @@ IMPORT_FAKES = {   # name: (argument count, answer); stdcall: the fake pops the 
     'SetCursor': (1, lambda m, uc, a: 0),
     'ShowCursor': (1, lambda m, uc, a: 0),
     'DestroyCursor': (1, lambda m, uc, a: 1),
+    # another thread's doing: an input, drawn from the values Win32 documents for it (WAIT_OBJECT_0,
+    # WAIT_ABANDONED, WAIT_FAILED; WAIT_TIMEOUT only with a finite timeout), the same on both sides
+    # the process heap: a block from the gate's per-run allocator, identical on both sides (its contents are
+    # unspecified without HEAP_ZERO_MEMORY; zero is one instance of that); HeapFree reports success
+    'HeapAlloc': (3, lambda m, uc, a: m.alloc(a[2]) if a[2] <= 0x10000 else 0),
+    'HeapFree': (3, lambda m, uc, a: 1),
+    # void, and in a run with one thread entering always acquires: the calls are compared, nothing returned
+    'EnterCriticalSection': (1, lambda m, uc, a: 0),
+    'LeaveCriticalSection': (1, lambda m, uc, a: 0),
+    'InitializeCriticalSection': (1, lambda m, uc, a: 0),
+    'DeleteCriticalSection': (1, lambda m, uc, a: 0),
+    # BOOL results: an input drawn from the documented TRUE / FALSE, the same on both sides
+    'CloseHandle': (1, lambda m, uc, a: 1 if m.rng.random() < 0.9 else 0),
+    'SetEvent': (1, lambda m, uc, a: 1 if m.rng.random() < 0.9 else 0),
+    'ResetEvent': (1, lambda m, uc, a: 1 if m.rng.random() < 0.9 else 0),
+    # files: CreateFile either fails (INVALID_HANDLE_VALUE) or gives a handle, an input like the rest; WriteFile
+    # succeeds and stores the count it was asked to write (the only success Win32 documents for a disk file)
+    'CreateFileA': (7, lambda m, uc, a: 0x0000F11E if m.rng.random() < 0.5 else 0xFFFFFFFF),
+    'WriteFile': (5, _fake_writefile),
+    'GetFileType': (1, lambda m, uc, a: 1 if a[0] == 0x0000F11E else 0),      # FILE_TYPE_DISK for the file it opened
+    # after a failure: a Win32 error code, an input drawn from the ones CreateFile documents for a path
+    'GetLastError': (0, lambda m, uc, a: m.last_error if m.last_error is not None else m.rng.choice([2, 3, 5, 32, 112])),
+    'SetLastError': (1, lambda m, uc, a: setattr(m, 'last_error', a[0]) or 0),
+    # thread-local storage of the one emulated thread, fresh each run: unset slots read 0 (documented)
+    'TlsGetValue': (1, lambda m, uc, a: m.tls.get(a[0], 0)),
+    'TlsSetValue': (2, _fake_tlsset),
+    'ReleaseSemaphore': (3, _fake_release_sem),
+    'SetFilePointer': (4, _fake_setfilepointer),
+    'CreateDirectoryA': (2, lambda m, uc, a: 1 if m.rng.random() < 0.5 else 0),   # BOOL; failure (e.g. it exists) is documented
+    'GetCurrentThreadId': (0, lambda m, uc, a: 0x00000F0C),   # the one emulated thread's id (any fixed id)
+    'WaitForSingleObject': (2, lambda m, uc, a: m.rng.choice([0, 0x80, 0xFFFFFFFF] + ([0x102] if a[1] != 0xFFFFFFFF else []))),
 }
 
 
 REPAIR_SPAN = 0x100000            # the top MB of the sandbox's object half: buffers that input repair hands out
+TEB = 0x7F7F0000                # the emulated thread's information block (FS points here)
+GDT = 0x7F7E0000                # a GDT holding FS's descriptor (32-bit mode takes segment bases from it)
 DATA_RW = (0x1034F000, 0x109FA8E0)   # the image's writable data (.data, .data1)
 IMAGE_LO, IMAGE_HI = 0x10001000, 0x10329000   # the image's code
 
@@ -839,7 +914,9 @@ def run_case(m, case, trials, seed):
         if a.status in ('fault', 'limit', 'unresolved'):
             b = None            # not compared (below): the reconstruction need not run
         else:
-            m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit)
+            # the original returned within `limit`; compiled code may take more instructions for the same
+            # work, so the reconstruction gets ten times that before its not returning counts as a difference
+            m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit * 10)
         restore_inputs(m, patches); demand_pages = len(m.demand); m.reset_demand()
         if b is not None and b.status == 'unresolved':     # the reconstruction met a count no source gives:
             unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared

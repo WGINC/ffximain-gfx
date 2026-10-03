@@ -84,12 +84,17 @@ Both are fixed in IDA by **`ida/ffxi_ida_fix.py`** (see *Next step in IDA*).
    anywhere. It runs unattended, with a progress box that can cancel, and:
    - applies the pending names and prototype fixes (`names_pending_idb.json`, `type_fixes.json`);
    - types the viewport globals 0x104E1B70 and 0x10621904 as `D3DVIEWPORT8`;
+   - retypes `__thiscall` the functions the IDB declares `__stdcall` that use their entry ECX (each with the
+     instruction that reads it, `data/ecx_use.json`), where the stack arguments already match `ret N`;
    - removes the SP points the first run set wrongly (`data/ida_sp_revert.json`), then corrects IDA's SP at
-     each call whose effect was measured from real code (`data/real_sp.json`, `pipeline/real_sp.py`): game
-     code that ran, a stub with the callee's own `ret N`, or a fake COM object of a known interface;
-   - forces the call type at indirect calls where Hex-Rays mis-assigns the pushed arguments (the bytes
-     pushed before the call differ from what the callee pops), checked by decompiling;
-   - re-decompiles all 768 functions.
+     each call whose effect is known exactly: measured from real code (`data/real_sp.json`), solved from the
+     caller's stack balance (`data/sp_solved.json`), or proven by vtable (`data/vcalls.json`); one
+     reanalysis per function, each point read back;
+   - forces the call type where Hex-Rays mis-assigns the pushed arguments: at calls measured running, and at
+     virtual calls whose every possible callee agrees on its pop and its use of ECX; checked by decompiling;
+   - re-decompiles all 768 functions, now also exporting, per call, whether its type is declared in the IDB
+     or made up by Hex-Rays, and per comparison, its signedness as Hex-Rays read it from the jump. The log
+     ends with the count of each, so an export that lost them shows it.
 3. It writes three files next to the IDB: `gfx_export_ida_reexport.jsonl`, `ida_fix_report.json` and
    `ida_fix_log.txt`. Put the first two in `data/exports/`, then run
    `./run.sh all data/exports/gfx_export_ida_reexport.jsonl RUN`. OnMove and DrawProjectedShadow should
@@ -152,6 +157,11 @@ Names:
 | `same_code.py` | Are two builds the same code, function by function (renames and moves must be) |
 | `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py`, `cdecl_args.py`, `leaf_funcs.py` | Facts from the DLL (`run.sh facts`) |
 | `real_sp.py` | The real stack depth at each instruction, observed by running the original (embedded in `ida/ffxi_ida_fix.py` by `make_ida_fix.py`) |
+| `sp_solve.py` | Each call's exact pop from the caller's own stack balance at every `ret` and join (`--selftest`: hides 20002 known `ret N` and solves them back) |
+| `vcall_resolve.py` | Vtables, virtual calls on `this` whose every possible callee is proven, and each function's use of its entry ECX |
+| `callsite_audit.py` | Every indirect call in the export: what each definitive source says it pops, conflicts, and the calls none covers |
+| `bg.sh` | Run a long job in the background and stop it by process group (never `pkill -f`) |
+| `tests/` | Fixed expectations for the translator rules, the solver and the ECX idioms (`./run.sh test`) |
 | `stack_depth.py`, `ida_sp_check.py` | The real stack depth at each instruction, and where IDA's own SP (read from its listing) differs: the cause of a stack variable with two names |
 | `unset_reads.py` | Locals Hex-Rays reads but never assigns (a lost return value, a misframed argument, an unmodelled condition code) |
 | `loop_bounds.py` | Why an original runs to the instruction limit: the loop and the fuzzed bound it compares against |

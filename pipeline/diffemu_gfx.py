@@ -12,7 +12,7 @@ Additions, all applied identically to the original and the reconstruction:
     case "struct_globals": {"0xADDR": {"size": "0x478", "com": {"8": "IDirect3DDevice8"}}}
     puts a fuzzed struct there whose listed fields are fake objects (the D3D holder, CDx).
 """
-import json, os, random, struct, sys
+import bisect, json, os, random, struct, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 # Live mode (FFXI_LIVE=live.json from live_state.py): inputs come from a memory dump of the running game.
@@ -518,6 +518,7 @@ def site_pops(m, ret):
     """What the callee of the call returning to `ret` pops, from definitive sources only:
       data/sp_solved.json   solved from the caller's own stack balance (sp_solve.py, self-tested);
       data/real_sp.json     measured by running real game code (real_sp.py, trusted calls only);
+      data/vcalls.json      a virtual call on `this` whose every possible callee is proven (vcall_resolve.py);
       data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
     Returns (stack dwords popped, ECX carries `this`, dwords to compare) or None when no source has the
     call, or the sources disagree (recorded in m.site_conflicts). Nothing is guessed: a None stops the run
@@ -526,19 +527,29 @@ def site_pops(m, ret):
     if not _BLOCKS:
         ex = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
         _BLOCKS.extend(sorted((a, b, sorted(map(tuple, v))) for v in ex.values() for a, b in v))
+        _STARTS.extend(x[0] for x in _BLOCKS); _MAXLEN[0] = max(b - a for a, b, _ in _BLOCKS)
     if not _CALLSITES:
         d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
         ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
         _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
         _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
         _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
-    hit = next((x for x in _BLOCKS if x[0] < ret <= x[1]), None)
+        _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
+    # the function's instructions, decoded once (the image's code is never written by the gate)
+    # the first piece in sorted order that contains `ret` (as a linear scan would find it): only pieces
+    # starting within the longest piece's length below `ret` can contain it
+    j = bisect.bisect_left(_STARTS, ret); hit = None
+    while j > 0 and _STARTS[j - 1] >= ret - _MAXLEN[0]:
+        j -= 1
+        if _BLOCKS[j][0] < ret <= _BLOCKS[j][1]: hit = _BLOCKS[j]
     if hit is None: return None
-    call = None
-    for a, b in hit[2]:
-        for i in _Cs(_A, _M).disasm(bytes(m.uc.mem_read(a, b - a)), a):
-            if i.address + i.size == ret: call = i; break
-        if call: break
+    key = tuple(map(tuple, hit[2]))
+    ends = _ENDS.get(key)
+    if ends is None:
+        ends = _ENDS[key] = {}
+        for a, b in hit[2]:
+            for i in _Cs(_A, _M).disasm(bytes(m.uc.mem_read(a, b - a)), a): ends[i.address + i.size] = i
+    call = ends.get(ret)
     m.last_site = None
     if call is None or call.mnemonic != 'call': return None
     k = '0x%08X' % call.address; m.last_site = k
@@ -546,6 +557,7 @@ def site_pops(m, ret):
     srcs = {}
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
     if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
+    if k in _CALLSITES['vtable']: srcs['vtable'] = _CALLSITES['vtable'][k]
     if typed: srcs['typed'] = 0 if typed['cc'] == 'cdecl' else 4 * typed['args']
     if len(set(srcs.values())) != 1:
         if srcs: m.site_conflicts[k] = srcs
@@ -557,6 +569,9 @@ def site_pops(m, ret):
 
 
 _CALLSITES = {}
+_STARTS = []
+_MAXLEN = [0]
+_ENDS = {}               # function pieces -> {end address of an instruction: instruction}
 _MD = []
 _R32 = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'ebx', 'cl': 'ecx', 'ch': 'ecx', 'cx': 'ecx',
         'dl': 'edx', 'dh': 'edx', 'dx': 'edx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp', 'sp': 'esp'}

@@ -118,14 +118,24 @@ def fix_sp(report):
         if n % 25 == 0: ida_kernwin.replace_wait_box('SP check %d of %d' % (n, len(funcs)))
         f = int(fk, 16)
         if not ida_funcs.get_func(f): continue
-        fixes = []
+        # every differing call of the function first, then one reanalysis (not one per call), then each is
+        # read back; a call that did not take is retried alone with the other sign, then left to IDA
+        todo = []
         for ck, real in sorted(rec['calls'].items()):
             call = int(ck, 16); had = change_at(call)
-            if had is None or had == real: continue
-            got = set_change(call, real)
+            if had is not None and had != real: todo.append((ck, call, real, had))
+        if not todo: continue
+        pfn = ida_funcs.get_func(f)
+        for ck, call, real, had in todo:
+            nxt = call + idc.get_item_size(call)
+            ida_frame.del_stkpnt(pfn, nxt); ida_frame.add_user_stkpnt(nxt, real)
+        ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait()
+        fixes = []
+        for ck, call, real, had in todo:
+            got = change_at(call)
             if got != real: got = set_change(call, -real)     # the other sign convention
             if got != real:                                   # neither took: leave IDA's own analysis in place
-                pfn = ida_funcs.get_func(call); ida_frame.del_stkpnt(pfn, call + idc.get_item_size(call))
+                ida_frame.del_stkpnt(pfn, call + idc.get_item_size(call))
                 ida_funcs.reanalyze_function(pfn); ida_auto.auto_wait(); got = change_at(call)
             fixes.append({'call': ck, 'ida_change_was': had, 'real_change': real, 'now': got})
             if got != real: continue
@@ -253,6 +263,7 @@ def cc_name(fd):
             ida_typeinf.CM_CC_FASTCALL: 'fastcall'}.get(cc & ida_typeinf.CM_CC_MASK, 'other')
 
 
+STATS = {}         # per-feature counts of the re-export, logged at the end (an empty feature shows as 0)
 CMPS = {ida_hexrays.cot_slt: ('<', 1), ida_hexrays.cot_sle: ('<=', 1), ida_hexrays.cot_sgt: ('>', 1),
         ida_hexrays.cot_sge: ('>=', 1), ida_hexrays.cot_ult: ('<', 0), ida_hexrays.cot_ule: ('<=', 0),
         ida_hexrays.cot_ugt: ('>', 0), ida_hexrays.cot_uge: ('>=', 0)}
@@ -270,7 +281,7 @@ def export_one(ea):
     text = str(cf); rec['text'] = text
     m = BAD.search(text)
     if m: rec['skip'] = 'unsupported construct ' + m.group(0)
-    objs = {}; types = set(); calls = {}; cmps = []
+    objs = {}; types = set(); calls = {}; cmps = []; cmp_err = [0]
 
     class V(ida_hexrays.ctree_visitor_t):
         def __init__(s): super().__init__(ida_hexrays.CV_FAST)
@@ -299,7 +310,7 @@ def export_one(ea):
                     cmps.append([e.ea, CMPS[e.op], ida_lines.tag_remove(e.x.print1(None)),
                                  ida_lines.tag_remove(e.y.print1(None)), max(e.x.type.get_size(), e.y.type.get_size()),
                                  str(e.x.type), str(e.y.type)])
-                except Exception: pass
+                except Exception: cmp_err[0] += 1
             if e.op == ida_hexrays.cot_obj:
                 oea = e.obj_ea; nm = ida_name.get_name(oea) or ('unk_%X' % oea)
                 fn = ida_funcs.get_func(oea); is_func = bool(fn) and fn.start_ea == oea
@@ -320,6 +331,8 @@ def export_one(ea):
     for lv in cf.get_lvars(): type_decl_closure(lv.type(), types)
     type_decl_closure(cf.type, types)
     rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls; rec['cmps'] = cmps
+    for v in calls.values(): STATS['calls_' + v[2]] = STATS.get('calls_' + v[2], 0) + 1
+    STATS['cmps'] = STATS.get('cmps', 0) + len(cmps); STATS['cmp_errors'] = STATS.get('cmp_errors', 0) + cmp_err[0]
     # IDA's stack pointer wherever it changes (compared with the depth measured by running the original)
     pfn = ida_funcs.get_func(ea); spd = []; last = None
     for item in (idautils.FuncItems(ea) if pfn else ()):
@@ -347,6 +360,10 @@ def reexport(report):
             f.write(json.dumps(rec) + '\n')
     report['export'] = {'file': out, 'functions': len(eas), 'skip': skipped}
     log('export: %d functions written to %s (%d marked skip)' % (len(eas), out, skipped))
+    for k in ('calls_typed', 'calls_cast', 'cmps', 'cmp_errors'): STATS.setdefault(k, 0)
+    report['export']['stats'] = STATS
+    log('export: calls typed in the IDB %(calls_typed)d, cast by Hex-Rays %(calls_cast)d; comparisons %(cmps)d '
+        '(%(cmp_errors)d could not be printed)' % STATS)
 
 
 def main():

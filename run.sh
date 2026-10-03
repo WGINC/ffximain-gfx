@@ -3,7 +3,8 @@
 #
 #   FFXI_DLL=/path/to/FFXiMain_unpacked.dll ./run.sh all [EXPORT] [RUN]
 #
-# Steps (each can be run alone: ./run.sh facts|translate|cases|gate|clean|cleangate|residue ...):
+# Steps (each can be run alone: ./run.sh facts|translate|cases|gate|clean|cleangate|residue ...; ./run.sh test
+# runs the rule tests and the stack solver's self-test):
 #   facts      per-function facts read from the DLL: x87 constants, return kinds, consumed x87 results
 #   translate  Hex-Rays export -> one C++ unit per function (runs/RUN/raw), build, cast repairs
 #   cases      gate cases for every translated function
@@ -20,12 +21,16 @@ gate2() {  # gate2 DLL CASES OUTPREFIX: a work queue of small chunks, $JOBS work
   python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" > "$3.log" 2>&1
 }
 case "$1" in
+  test)          # the translator rules and the stack solver: fixed expectations, then the solver's self-test
+                 python3 -m unittest discover -s "$P/tests" || exit 1
+                 python3 "$P/sp_solve.py" --selftest || exit 1 ;;
   facts|all)     # facts read from the game DLL that the translator and the gate use (data/*.json)
                  python3 "$P/fpconst.py" "${FFXI_DLL:?set FFXI_DLL}" "$EXP" "$ROOT/data/fp_consts.json"
                  python3 "$P/ret_kinds.py" "$FFXI_DLL" "$ROOT/data/ret_kinds.json"
                  python3 "$P/fp_callsites.py" "$FFXI_DLL" "$EXP" "$ROOT/data/fp_callsites.json"
                  python3 "$P/purges.py" "$FFXI_DLL" "$ROOT/data/purges.json"
-                 python3 "$P/sp_solve.py" --selftest && python3 "$P/sp_solve.py" "$ROOT/data/sp_solved.json"
+                 python3 "$P/vcall_resolve.py" "$ROOT/data/vcalls.json"
+                 python3 "$P/sp_solve.py" "$ROOT/data/sp_solved.json"
                  python3 "$P/cdecl_args.py" "$FFXI_DLL" "$ROOT/data/cdecl_args.json"
                  python3 "$P/leaf_funcs.py" "$FFXI_DLL" "$ROOT/data/leaf_funcs.json"
                  python3 "$P/callsites.py" "$EXP" "$ROOT/data/callsite_args.json" ;;&

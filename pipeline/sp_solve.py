@@ -8,7 +8,8 @@ exactly (rational Gaussian elimination), p_i is *determined* when the equations 
 otherwise it is left out, never guessed. A function whose equations contradict each other (a call that
 never returns, code the extents got wrong) yields nothing.
 
-Known pops: a direct call's callee `ret N` (data/purges.json); the stack probe _chkstk moves ESP by
+Known pops: a direct call's callee `ret N` (data/purges.json); a virtual call whose every possible callee
+is proven and agrees (data/vcalls.json, vcall_resolve.py); the stack probe _chkstk moves ESP by
 EAX. A frame pointer is followed: `mov ebp, esp` / `mov esp, ebp` / `leave` / `lea esp, [ebp-X]`.
 
     python3 sp_solve.py data/sp_solved.json [ADDR ...]      uses $FFXI_DLL; all functions if none given
@@ -22,6 +23,8 @@ from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+_vc = os.path.join(D, 'vcalls.json')
+VCALLS = {k: v['pops'] for k, v in (json.load(open(_vc)).items() if os.path.exists(_vc) else ()) if not k.startswith('_')}
 CHKSTK = {0x10312150}           # _chkstk: `mov eax, N; call _chkstk` reserves N bytes
 
 
@@ -161,6 +164,8 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
         if op.type == X86_OP_MEM and not op.mem.base and not op.mem.index and iat and iat.get(op.mem.disp) in NORETURN_API:
             return 'noreturn'
         if op.type == X86_OP_IMM and op.imm in nr: return 'noreturn'
+        if op.type != X86_OP_IMM and '0x%08X' % i.address in VCALLS and not hide:
+            return VCALLS['0x%08X' % i.address], None          # a virtual call whose callees are proven (vcall_resolve.py)
         if op.type == X86_OP_IMM:
             if op.imm in CHKSTK: return (-eax, None) if eax is not None else None
             k = purges.get('0x%08X' % op.imm)

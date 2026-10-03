@@ -17,7 +17,11 @@ inlined base constructor's vtable store is dead and the compiler drops it). So n
     every candidate exists and all agree on `ret N` (data/purges.json); otherwise it is left out.
 
     python3 vcall_resolve.py data/vcalls.json                 uses $FFXI_DLL
-Output: {"0xCALL": {"func", "slot", "targets": [...], "pops"}} for settled calls; "_unsettled": {reason: n}.
+Output: {"0xCALL": {"func", "slot", "targets": [...], "pops", "ecx", "ret"}} for settled calls ("ecx": the callees
+read their entry ECX (true) or never do (false), null if that cannot be told; "ret": "eax" or "st0" from
+fpret.json); "_unsettled": {reason: n}. Also ecx_use.json next to it: {"0xFUNC": "the instruction reading it" / false} for every
+function whose use of its entry ECX is decided (`or ecx, -1`, `xor ecx, ecx` are writes; `push ecx`, which
+MSVC also uses to reserve 4 stack bytes, leaves it undecided).
 """
 import bisect, json, os, sys, struct, collections
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
@@ -93,6 +97,91 @@ def this_flow(im, ins, ea, vts):
                 mm = meet(state[n], new)
                 if mm != state[n]: state[n] = mm; work.append(n)
     return state
+
+
+ECX_PARTS = {'ecx', 'cx', 'cl', 'ch'}
+
+
+WRITE_ONLY = ('mov', 'movzx', 'movsx', 'lea', 'pop')
+COVERS = {'ecx': {'ecx', 'cx', 'cl', 'ch'}, 'cx': {'cx', 'cl', 'ch'}, 'cl': {'cl'}, 'ch': {'ch'}}
+
+
+def covered(part, written_parts):
+    """is all of `part` written (so reading it is not reading the entry ECX)?"""
+    have = set().union(*(COVERS[w] for w in written_parts)) if written_parts else set()
+    if {'cl', 'ch'} <= have: have.add('cx')
+    return part in have and (part != 'ecx' or 'ecx' in written_parts)
+
+
+def ecx_effect(i):
+    """(parts of ECX the instruction reads, parts it writes, may-read-unknown)"""
+    m = i.mnemonic; ops = i.operands; rd, wr, unk = set(), set(), False
+    if m in ('pushal', 'pushad'): return rd, wr, True                  # saves it; whether it is used is unknown
+    if m.startswith(('loop', 'rep')) or m == 'jecxz' or (i.prefix[0] in (0xF2, 0xF3) and m.startswith(('movs', 'stos', 'lods', 'scas', 'cmps'))):
+        rd.add('ecx')
+    if m == 'call': return rd, {'ecx'}, False                           # a call leaves ECX clobbered
+    if m in ('xor', 'sub') and len(ops) == 2 and ops[0].type == X86_OP_REG and ops[1].type == X86_OP_REG \
+            and ops[0].reg == ops[1].reg and i.reg_name(ops[0].reg) in ECX_PARTS:
+        return rd, {i.reg_name(ops[0].reg)}, False                     # `xor ecx, ecx`: a write
+    if len(ops) == 2 and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) in ECX_PARTS and ops[1].type == X86_OP_IMM \
+            and ((m == 'or' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == (1 << 8 * ops[0].size) - 1)
+                 or (m == 'and' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == 0)):
+        return rd, {i.reg_name(ops[0].reg)}, False                     # `or ecx, -1` / `and ecx, 0`: a constant
+    if m == 'push' and ops and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'ecx':
+        return rd, wr, True                                             # `push ecx` also reserves 4 stack bytes
+    for n, o in enumerate(ops):
+        if o.type == X86_OP_MEM:
+            for r in (o.mem.base, o.mem.index):
+                if r and i.reg_name(r) in ECX_PARTS: rd.add(i.reg_name(r))
+        elif o.type == X86_OP_REG and i.reg_name(o.reg) in ECX_PARTS:
+            p = i.reg_name(o.reg)
+            if n == 0 and (m in WRITE_ONLY or m.startswith('set')): wr.add(p)
+            elif n == 0 and m in ('xchg',): rd.add(p); wr.add(p)
+            else:
+                rd.add(p)
+                if n == 0 and m not in ('cmp', 'test', 'push'): wr.add(p)
+    return rd, wr, unk
+
+
+FIRST_READ = {}         # function -> the instruction that reads its entry ECX (the evidence)
+
+
+def ecx_inputs(im, code, starts):
+    """{function: True (uses its entry ECX on some path), False (never does), None (cannot tell: a `push ecx`,
+    an indirect call or jump, or a callee that cannot tell, reached with ECX not wholly written)}; a fixpoint
+    over direct calls and tail jumps"""
+    res, pend = {}, {}
+    for f, ins in code.items():
+        if f not in ins: res[f] = None; continue
+        wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False
+        while work:
+            a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
+            rd, wp, unk = ecx_effect(i)
+            if any(not covered(p, w) for p in rd): read = True; FIRST_READ[f] = '0x%08X %s %s' % (a, i.mnemonic, i.op_str); break
+            whole = 'ecx' in w
+            if not whole:
+                if unk: unknown = True
+                if i.mnemonic in ('call', 'jmp') and o:
+                    if o[0].type == X86_OP_IMM:
+                        if o[0].imm in code and not (i.mnemonic == 'jmp' and o[0].imm in ins): callees.add(o[0].imm)
+                    else: unknown = True                    # through a pointer: the callee may read it
+            w2 = frozenset(w | wp)
+            for n in succs(im, ins, a, i) or []:
+                if n not in ins: continue
+                if n not in wr: wr[n] = w2; work.append(n)
+                else:
+                    mm = wr[n] & w2
+                    if mm != wr[n]: wr[n] = mm; work.append(n)
+        if read: res[f] = True
+        else: res[f] = False; pend[f] = (callees, unknown)
+    changed = True
+    while changed:
+        changed = False
+        for f, (callees, unknown) in pend.items():
+            v = True if any(res.get(g) is True for g in callees) else \
+                None if unknown or any(res.get(g, None) is None for g in callees) else False
+            if v != res[f]: res[f] = v; changed = True
+    return res
 
 
 def main(out):
@@ -214,6 +303,16 @@ def main(out):
             if None in pp or len(pp) != 1: why['candidates disagree or pop unknown'] += 1; continue
             res['0x%08X' % a] = {'func': '0x%08X' % f, 'slot': k, 'targets': ['0x%08X' % t for t in tg], 'pops': pp.pop(),
                                  'exact': X is not None}
+    # the convention, from the callees' own code: all read their entry ECX (this in ECX), or none does
+    ecx = ecx_inputs(im, code, starts)
+    fp = json.load(open(os.path.join(D, 'fpret.json')))
+    for k, r in res.items():
+        e = {ecx.get(int(t, 16)) for t in r['targets']}
+        r['ecx'] = e.pop() if len(e) == 1 else None
+        f = {fp.get('0x%x' % int(t, 16)) for t in r['targets']}
+        r['ret'] = 'eax' if f == {'none'} else 'st0' if f == {'float'} else None
+    json.dump({'0x%08X' % f: (FIRST_READ.get(f, 'through a callee') if v else False) for f, v in sorted(ecx.items()) if v is not None},
+              open(os.path.join(os.path.dirname(os.path.abspath(out)), 'ecx_use.json'), 'w'), indent=0)
     res['_unsettled'] = dict(why); res['_vtables'] = len(vt_slots)
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
     print('%d vtables; %d virtual calls on `this` settled; unsettled: %s' % (len(vt_slots), len(res) - 2, dict(why)))

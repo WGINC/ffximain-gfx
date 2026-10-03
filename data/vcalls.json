@@ -1,80 +1,98 @@
 {
 "0x10035964": {
+"ecx": true,
 "exact": false,
 "func": "0x10035940",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10035AE0"
 ]
 },
 "0x10038217": {
+"ecx": true,
 "exact": false,
 "func": "0x100381D0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10038260"
 ]
 },
 "0x1003D481": {
+"ecx": true,
 "exact": false,
 "func": "0x1003D220",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1003D010"
 ]
 },
 "0x1003D5AA": {
+"ecx": true,
 "exact": false,
 "func": "0x1003D220",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1003D010"
 ]
 },
 "0x10040F5E": {
+"ecx": true,
 "exact": false,
 "func": "0x10040E70",
 "pops": 0,
+"ret": "eax",
 "slot": 15,
 "targets": [
 "0x10052EC0"
 ]
 },
 "0x10040F80": {
+"ecx": true,
 "exact": false,
 "func": "0x10040E70",
 "pops": 0,
+"ret": "eax",
 "slot": 15,
 "targets": [
 "0x10052EC0"
 ]
 },
 "0x10043B2A": {
+"ecx": true,
 "exact": false,
 "func": "0x10043B00",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10043A90"
 ]
 },
 "0x10043D2A": {
+"ecx": true,
 "exact": false,
 "func": "0x10043D00",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10043C90"
 ]
 },
 "0x10044B92": {
+"ecx": true,
 "exact": false,
 "func": "0x10044AE0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10036AD0",
@@ -102,9 +120,11 @@
 ]
 },
 "0x10044BA6": {
+"ecx": true,
 "exact": false,
 "func": "0x10044AE0",
 "pops": 0,
+"ret": "eax",
 "slot": 16,
 "targets": [
 "0x10036770",
@@ -112,9 +132,11 @@
 ]
 },
 "0x10044BC1": {
+"ecx": true,
 "exact": false,
 "func": "0x10044AE0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10036AD0",
@@ -142,9 +164,11 @@
 ]
 },
 "0x1004610B": {
+"ecx": null,
 "exact": false,
 "func": "0x10046070",
 "pops": 0,
+"ret": "eax",
 "slot": 19,
 "targets": [
 "0x10036AB0",
@@ -152,9 +176,11 @@
 ]
 },
 "0x10046324": {
+"ecx": null,
 "exact": false,
 "func": "0x10046070",
 "pops": 0,
+"ret": "eax",
 "slot": 18,
 "targets": [
 "0x1003EB30",
@@ -178,171 +204,209 @@
 ]
 },
 "0x10054286": {
+"ecx": true,
 "exact": false,
 "func": "0x10054220",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10053350"
 ]
 },
 "0x10057E24": {
+"ecx": true,
 "exact": false,
 "func": "0x10057E10",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10057250"
 ]
 },
 "0x1005EC75": {
+"ecx": true,
 "exact": false,
 "func": "0x1005E9C0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005F2C0"
 ]
 },
 "0x1005F3E6": {
+"ecx": true,
 "exact": false,
 "func": "0x1005F3C0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005F3F0"
 ]
 },
 "0x1005F64F": {
+"ecx": true,
 "exact": false,
 "func": "0x1005F540",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005F660"
 ]
 },
 "0x1005F834": {
+"ecx": true,
 "exact": false,
 "func": "0x1005F820",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005F990"
 ]
 },
 "0x1005F970": {
+"ecx": true,
 "exact": false,
 "func": "0x1005F820",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005F990"
 ]
 },
 "0x1005FE1B": {
+"ecx": true,
 "exact": false,
 "func": "0x1005FB30",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1005FE30"
 ]
 },
 "0x1005FFF4": {
+"ecx": true,
 "exact": false,
 "func": "0x1005FFD0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060010"
 ]
 },
 "0x10060146": {
+"ecx": true,
 "exact": false,
 "func": "0x100600F0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060190"
 ]
 },
 "0x100602C2": {
+"ecx": true,
 "exact": false,
 "func": "0x100602A0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100602D0"
 ]
 },
 "0x1006037A": {
+"ecx": true,
 "exact": false,
 "func": "0x10060330",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060450"
 ]
 },
 "0x100604FF": {
+"ecx": true,
 "exact": false,
 "func": "0x100604B0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060590"
 ]
 },
 "0x100608A2": {
+"ecx": true,
 "exact": false,
 "func": "0x10060880",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100608B0"
 ]
 },
 "0x10060A14": {
+"ecx": true,
 "exact": false,
 "func": "0x100609F0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060A50"
 ]
 },
 "0x10060BA1": {
+"ecx": true,
 "exact": false,
 "func": "0x10060B80",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060BB0"
 ]
 },
 "0x10060E52": {
+"ecx": true,
 "exact": false,
 "func": "0x10060E30",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10060E60"
 ]
 },
 "0x10060FF2": {
+"ecx": true,
 "exact": false,
 "func": "0x10060FD0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061010"
 ]
 },
 "0x10061132": {
+"ecx": true,
 "exact": false,
 "func": "0x10061110",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061140",
@@ -353,144 +417,176 @@
 ]
 },
 "0x100619F2": {
+"ecx": true,
 "exact": false,
 "func": "0x100619D0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061A00"
 ]
 },
 "0x10061B72": {
+"ecx": true,
 "exact": false,
 "func": "0x10061B50",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061B80"
 ]
 },
 "0x10061CF2": {
+"ecx": true,
 "exact": false,
 "func": "0x10061CD0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061D00"
 ]
 },
 "0x10061E92": {
+"ecx": true,
 "exact": false,
 "func": "0x10061E70",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10061EA0"
 ]
 },
 "0x10062082": {
+"ecx": true,
 "exact": false,
 "func": "0x10062060",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10062090"
 ]
 },
 "0x10062202": {
+"ecx": true,
 "exact": false,
 "func": "0x100621E0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10062210"
 ]
 },
 "0x100623A2": {
+"ecx": true,
 "exact": false,
 "func": "0x10062380",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100623B0"
 ]
 },
 "0x10062542": {
+"ecx": true,
 "exact": false,
 "func": "0x10062520",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10062550"
 ]
 },
 "0x100626F2": {
+"ecx": true,
 "exact": false,
 "func": "0x100626D0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10062700"
 ]
 },
 "0x1006DCA0": {
+"ecx": false,
 "exact": false,
 "func": "0x1006D9C0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006DCA7": {
+"ecx": false,
 "exact": false,
 "func": "0x1006D9C0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006DFD4": {
+"ecx": false,
 "exact": false,
 "func": "0x1006DCF0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006DFDB": {
+"ecx": false,
 "exact": false,
 "func": "0x1006DCF0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006E664": {
+"ecx": false,
 "exact": false,
 "func": "0x1006E380",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006E66B": {
+"ecx": false,
 "exact": false,
 "func": "0x1006E380",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270"
 ]
 },
 "0x1006E6D7": {
+"ecx": true,
 "exact": false,
 "func": "0x1006E6B0",
 "pops": 8,
+"ret": "eax",
 "slot": 23,
 "targets": [
 "0x1006D9C0",
@@ -499,9 +595,11 @@
 ]
 },
 "0x1006E6E9": {
+"ecx": null,
 "exact": false,
 "func": "0x1006E6B0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006D270",
@@ -510,126 +608,154 @@
 ]
 },
 "0x1006F0DE": {
+"ecx": false,
 "exact": false,
 "func": "0x1006F0A0",
 "pops": 8,
+"ret": "eax",
 "slot": 47,
 "targets": [
 "0x1006F560"
 ]
 },
 "0x1006FAC9": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FA40",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x1006FAD0": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FA40",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x1006FB6D": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FAE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x1006FB74": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FAE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x1006FCCD": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FC40",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x1006FCD4": {
+"ecx": true,
 "exact": false,
 "func": "0x1006FC40",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x1006F0A0"
 ]
 },
 "0x10070B69": {
+"ecx": true,
 "exact": false,
 "func": "0x10070AE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10070B70": {
+"ecx": true,
 "exact": false,
 "func": "0x10070AE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10070C0D": {
+"ecx": true,
 "exact": false,
 "func": "0x10070B80",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10070C14": {
+"ecx": true,
 "exact": false,
 "func": "0x10070B80",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10070D6D": {
+"ecx": true,
 "exact": false,
 "func": "0x10070CE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10070D74": {
+"ecx": true,
 "exact": false,
 "func": "0x10070CE0",
 "pops": 12,
+"ret": "eax",
 "slot": 9,
 "targets": [
 "0x10070210"
 ]
 },
 "0x10071002": {
+"ecx": true,
 "exact": false,
 "func": "0x10070FC0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10070F60",
@@ -637,9 +763,11 @@
 ]
 },
 "0x10071048": {
+"ecx": true,
 "exact": false,
 "func": "0x10071010",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10070F60",
@@ -647,99 +775,121 @@
 ]
 },
 "0x10072B11": {
+"ecx": true,
 "exact": false,
 "func": "0x10072A70",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10072A30"
 ]
 },
 "0x10072BAF": {
+"ecx": true,
 "exact": false,
 "func": "0x10072A70",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10072A30"
 ]
 },
 "0x10072C27": {
+"ecx": true,
 "exact": false,
 "func": "0x10072A70",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10072A30"
 ]
 },
 "0x10081BAB": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100820E0"
 ]
 },
 "0x10081BC3": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100820F0"
 ]
 },
 "0x10081C6E": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 4,
+"ret": "eax",
 "slot": 107,
 "targets": [
 "0x100820A0"
 ]
 },
 "0x10081C88": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 4,
+"ret": "eax",
 "slot": 105,
 "targets": [
 "0x10082080"
 ]
 },
 "0x10081CA2": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 4,
+"ret": "eax",
 "slot": 109,
 "targets": [
 "0x100820C0"
 ]
 },
 "0x10081CB1": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 4,
+"ret": "eax",
 "slot": 164,
 "targets": [
 "0x10085010"
 ]
 },
 "0x10081CC3": {
+"ecx": true,
 "exact": false,
 "func": "0x10081BA0",
 "pops": 4,
+"ret": "eax",
 "slot": 212,
 "targets": [
 "0x10082790"
 ]
 },
 "0x10082182": {
+"ecx": true,
 "exact": false,
 "func": "0x10082180",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100820E0",
@@ -750,135 +900,165 @@
 ]
 },
 "0x1008222D": {
+"ecx": true,
 "exact": false,
 "func": "0x10082220",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x10082247": {
+"ecx": true,
 "exact": false,
 "func": "0x10082220",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x10082269": {
+"ecx": true,
 "exact": false,
 "func": "0x10082260",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x100847C9": {
+"ecx": true,
 "exact": false,
 "func": "0x100847C0",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x100847E9": {
+"ecx": true,
 "exact": false,
 "func": "0x100847E0",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084809": {
+"ecx": true,
 "exact": false,
 "func": "0x10084800",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084829": {
+"ecx": true,
 "exact": false,
 "func": "0x10084820",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084849": {
+"ecx": true,
 "exact": false,
 "func": "0x10084840",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084869": {
+"ecx": true,
 "exact": false,
 "func": "0x10084860",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084889": {
+"ecx": true,
 "exact": false,
 "func": "0x10084880",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x100848A9": {
+"ecx": true,
 "exact": false,
 "func": "0x100848A0",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x100848C9": {
+"ecx": true,
 "exact": false,
 "func": "0x100848C0",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x100848F9": {
+"ecx": true,
 "exact": false,
 "func": "0x100848F0",
 "pops": 8,
+"ret": "eax",
 "slot": 66,
 "targets": [
 "0x10084910"
 ]
 },
 "0x10084C3F": {
+"ecx": true,
 "exact": false,
 "func": "0x10084C30",
 "pops": 4,
+"ret": "eax",
 "slot": 119,
 "targets": [
 "0x10082200"
 ]
 },
 "0x10084D95": {
+"ecx": true,
 "exact": false,
 "func": "0x10084D40",
 "pops": 12,
+"ret": "eax",
 "slot": 123,
 "targets": [
 "0x10082260",
@@ -886,72 +1066,88 @@
 ]
 },
 "0x10084F62": {
+"ecx": true,
 "exact": false,
 "func": "0x10084F40",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10084F70"
 ]
 },
 "0x1008502D": {
+"ecx": true,
 "exact": false,
 "func": "0x10085020",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x1008533D": {
+"ecx": true,
 "exact": false,
 "func": "0x10085330",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x100853DE": {
+"ecx": true,
 "exact": false,
 "func": "0x100853D0",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x10085AEC": {
+"ecx": true,
 "exact": false,
 "func": "0x10085AD0",
 "pops": 0,
+"ret": "eax",
 "slot": 194,
 "targets": [
 "0x100D62C0"
 ]
 },
 "0x10085B28": {
+"ecx": true,
 "exact": false,
 "func": "0x10085B10",
 "pops": 0,
+"ret": "eax",
 "slot": 18,
 "targets": [
 "0x100D6370"
 ]
 },
 "0x100A28AE": {
+"ecx": true,
 "exact": false,
 "func": "0x100A2840",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100A27F0"
 ]
 },
 "0x100A4D24": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4D10",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x10082100",
@@ -959,9 +1155,11 @@
 ]
 },
 "0x100A4D38": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4D10",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x10082100",
@@ -969,9 +1167,11 @@
 ]
 },
 "0x100A4D4C": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4D10",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x10082100",
@@ -979,9 +1179,11 @@
 ]
 },
 "0x100A4D60": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4D10",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x10082100",
@@ -989,162 +1191,198 @@
 ]
 },
 "0x100A4F72": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100A4F80": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100A4F8E": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 216,
 "targets": [
 "0x10082820"
 ]
 },
 "0x100A4F9C": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100A4FAA": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 222,
 "targets": [
 "0x100828B0"
 ]
 },
 "0x100A4FBD": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 102,
 "targets": [
 "0x100A46D0"
 ]
 },
 "0x100A504D": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 252,
 "targets": [
 "0x100A4730"
 ]
 },
 "0x100A505F": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100A509A": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 252,
 "targets": [
 "0x100A4730"
 ]
 },
 "0x100A50BE": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 253,
 "targets": [
 "0x100A4720"
 ]
 },
 "0x100A50F7": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 253,
 "targets": [
 "0x100A4720"
 ]
 },
 "0x100A5177": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100A5366": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 131,
 "targets": [
 "0x100AA820"
 ]
 },
 "0x100A5375": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 133,
 "targets": [
 "0x100A45C0"
 ]
 },
 "0x100A5384": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 135,
 "targets": [
 "0x100A45E0"
 ]
 },
 "0x100A53BA": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 97,
 "targets": [
 "0x100A4700"
 ]
 },
 "0x100A53C9": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 138,
 "targets": [
 "0x100AAF70"
 ]
 },
 "0x100A53E4": {
+"ecx": null,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 255,
 "targets": [
 "0x100A4CE0",
@@ -1152,54 +1390,66 @@
 ]
 },
 "0x100A5460": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 131,
 "targets": [
 "0x100AA820"
 ]
 },
 "0x100A546F": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 133,
 "targets": [
 "0x100A45C0"
 ]
 },
 "0x100A547E": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 135,
 "targets": [
 "0x100A45E0"
 ]
 },
 "0x100A54B4": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 97,
 "targets": [
 "0x100A4700"
 ]
 },
 "0x100A54C3": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 138,
 "targets": [
 "0x100AAF70"
 ]
 },
 "0x100A54DE": {
+"ecx": null,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 255,
 "targets": [
 "0x100A4CE0",
@@ -1207,45 +1457,55 @@
 ]
 },
 "0x100A54FD": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100A556D": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 131,
 "targets": [
 "0x100AA820"
 ]
 },
 "0x100A557E": {
+"ecx": true,
 "exact": false,
 "func": "0x100A4ED0",
 "pops": 4,
+"ret": "eax",
 "slot": 133,
 "targets": [
 "0x100A45C0"
 ]
 },
 "0x100A5624": {
+"ecx": true,
 "exact": false,
 "func": "0x100A5620",
 "pops": 4,
+"ret": "eax",
 "slot": 253,
 "targets": [
 "0x100A4720"
 ]
 },
 "0x100A58C7": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740",
@@ -1256,9 +1516,11 @@
 ]
 },
 "0x100A58D7": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740",
@@ -1269,9 +1531,11 @@
 ]
 },
 "0x100A58E8": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740",
@@ -1282,9 +1546,11 @@
 ]
 },
 "0x100A58F9": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740",
@@ -1295,90 +1561,110 @@
 ]
 },
 "0x100A590A": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100A5A04": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100A5A16": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100A5B12": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 216,
 "targets": [
 "0x10082820"
 ]
 },
 "0x100A5B20": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100A5B2E": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100A5B3C": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100A5B4A": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 222,
 "targets": [
 "0x100828B0"
 ]
 },
 "0x100A5CF8": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 140,
 "targets": [
 "0x10082380"
 ]
 },
 "0x100A5D09": {
+"ecx": null,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x10082010",
@@ -1386,2250 +1672,2750 @@
 ]
 },
 "0x100A5D2A": {
+"ecx": true,
 "exact": false,
 "func": "0x100A57F0",
 "pops": 4,
+"ret": "eax",
 "slot": 137,
 "targets": [
 "0x100AAF50"
 ]
 },
 "0x100A951B": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9500",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100A9610"
 ]
 },
 "0x100A9A44": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9A30",
 "pops": 8,
+"ret": "eax",
 "slot": 249,
 "targets": [
 "0x10085B50"
 ]
 },
 "0x100A9A77": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9A30",
 "pops": 4,
+"ret": "eax",
 "slot": 176,
 "targets": [
 "0x100A9230"
 ]
 },
 "0x100A9AA4": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9A90",
 "pops": 8,
+"ret": "eax",
 "slot": 249,
 "targets": [
 "0x10085B50"
 ]
 },
 "0x100A9AD7": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9A90",
 "pops": 4,
+"ret": "eax",
 "slot": 176,
 "targets": [
 "0x100A9230"
 ]
 },
 "0x100A9E83": {
+"ecx": true,
 "exact": false,
 "func": "0x100A9E00",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100A9DB0"
 ]
 },
 "0x100AAF3C": {
+"ecx": false,
 "exact": false,
 "func": "0x100AAF30",
 "pops": 8,
+"ret": "eax",
 "slot": 114,
 "targets": [
 "0x10082120"
 ]
 },
 "0x100AB49A": {
+"ecx": true,
 "exact": false,
 "func": "0x100AB450",
 "pops": 12,
+"ret": "eax",
 "slot": 166,
 "targets": [
 "0x100CEE40"
 ]
 },
 "0x100AC05B": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC010",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100ABE80"
 ]
 },
 "0x100AC135": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC0F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100ABD90"
 ]
 },
 "0x100AC183": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC0F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100ABD90"
 ]
 },
 "0x100AC1D4": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC0F0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100ABD90"
 ]
 },
 "0x100AC399": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC390",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100AC5B1": {
+"ecx": true,
 "exact": false,
 "func": "0x100AC5A0",
 "pops": 0,
+"ret": "eax",
 "slot": 82,
 "targets": [
 "0x10084BA0"
 ]
 },
 "0x100ACAC2": {
+"ecx": true,
 "exact": false,
 "func": "0x100ACAB0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100ACAD4": {
+"ecx": true,
 "exact": false,
 "func": "0x100ACAB0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100ACAE4": {
+"ecx": true,
 "exact": false,
 "func": "0x100ACAB0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100ACAF4": {
+"ecx": true,
 "exact": false,
 "func": "0x100ACAB0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100AD35B": {
+"ecx": true,
 "exact": false,
 "func": "0x100AD320",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100AD37C": {
+"ecx": true,
 "exact": false,
 "func": "0x100AD320",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100AC9C0"
 ]
 },
 "0x100C38E4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C38D0",
 "pops": 12,
+"ret": "eax",
 "slot": 158,
 "targets": [
 "0x100C38A0"
 ]
 },
 "0x100C4A40": {
+"ecx": true,
 "exact": false,
 "func": "0x100C47F0",
 "pops": 4,
+"ret": "eax",
 "slot": 119,
 "targets": [
 "0x10082200"
 ]
 },
 "0x100C4A76": {
+"ecx": true,
 "exact": false,
 "func": "0x100C47F0",
 "pops": 12,
+"ret": "eax",
 "slot": 166,
 "targets": [
 "0x10084C30"
 ]
 },
 "0x100C4B06": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B00",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4B18": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B00",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4B28": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B00",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4B38": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B00",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4B63": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B50",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100C3FC0"
 ]
 },
 "0x100C4B78": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B50",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100C3FC0"
 ]
 },
 "0x100C4B8D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B50",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100C3FC0"
 ]
 },
 "0x100C4BA1": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4B50",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4C28": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4C20",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4C36": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4C20",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100C3FC0"
 ]
 },
 "0x100C4CEC": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4CE0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C4E8B": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4E80",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C4ED9": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4E80",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100C3FC0"
 ]
 },
 "0x100C4EF3": {
+"ecx": true,
 "exact": false,
 "func": "0x100C4E80",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100C3FB0"
 ]
 },
 "0x100C63ED": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 82,
 "targets": [
 "0x10084BA0"
 ]
 },
 "0x100C64A3": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C64BB": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C650C": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 103,
 "targets": [
 "0x100A46F0"
 ]
 },
 "0x100C6595": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C6660": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C6670": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C6693": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 198,
 "targets": [
 "0x100A4A10"
 ]
 },
 "0x100C67E3": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C67F1": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 208,
 "targets": [
 "0x100A46B0"
 ]
 },
 "0x100C6825": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 204,
 "targets": [
 "0x100A4670"
 ]
 },
 "0x100C685C": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 79,
 "targets": [
 "0x10084B40"
 ]
 },
 "0x100C686A": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 79,
 "targets": [
 "0x10084B40"
 ]
 },
 "0x100C6AB9": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C6C3E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 79,
 "targets": [
 "0x10084B40"
 ]
 },
 "0x100C6C4C": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 79,
 "targets": [
 "0x10084B40"
 ]
 },
 "0x100C701D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C7065": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C7076": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C7092": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C70AA": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C70C4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C7116": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C713D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C7183": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 77,
 "targets": [
 "0x10084B00"
 ]
 },
 "0x100C71B1": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100C71C3": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100C71D5": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 216,
 "targets": [
 "0x10082820"
 ]
 },
 "0x100C71E7": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100C71F9": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 222,
 "targets": [
 "0x100828B0"
 ]
 },
 "0x100C720B": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 225,
 "targets": [
 "0x10082900"
 ]
 },
 "0x100C721D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 229,
 "targets": [
 "0x10082960"
 ]
 },
 "0x100C722F": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 233,
 "targets": [
 "0x100829C0"
 ]
 },
 "0x100C7241": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 85,
 "targets": [
 "0x100D6F70"
 ]
 },
 "0x100C742A": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100C7438": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 229,
 "targets": [
 "0x10082960"
 ]
 },
 "0x100C747E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100C7490": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 229,
 "targets": [
 "0x10082960"
 ]
 },
 "0x100C74A2": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 233,
 "targets": [
 "0x100829C0"
 ]
 },
 "0x100C74C8": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100C74DA": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100C74EC": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 216,
 "targets": [
 "0x10082820"
 ]
 },
 "0x100C74FE": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100C7510": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 222,
 "targets": [
 "0x100828B0"
 ]
 },
 "0x100C7522": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 225,
 "targets": [
 "0x10082900"
 ]
 },
 "0x100C7530": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 229,
 "targets": [
 "0x10082960"
 ]
 },
 "0x100C753E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 233,
 "targets": [
 "0x100829C0"
 ]
 },
 "0x100C7733": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C775D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C777C": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7790": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C779E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C77C8": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C77E7": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C77FB": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7809": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7833": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7852": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7866": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C7885": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C78E9": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C7902": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 4,
+"ret": "eax",
 "slot": 242,
 "targets": [
 "0x100CFAD0"
 ]
 },
 "0x100C7CCE": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C7D70": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C7E0A": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x100A49E0"
 ]
 },
 "0x100C7EC7": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100C7ED5": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100C7EFB": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100C7F98": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 8,
+"ret": "eax",
 "slot": 199,
 "targets": [
 "0x100A4A30"
 ]
 },
 "0x100C7FB0": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C7FCC": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C800D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100C8047": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C8071": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C8090": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C80A4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C80B4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C80DE": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C80FD": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C8111": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C8121": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C814B": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C816A": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C817E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100C81E5": {
+"ecx": true,
 "exact": false,
 "func": "0x100C63D0",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100C845D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C83C0",
 "pops": 0,
+"ret": "eax",
 "slot": 128,
 "targets": [
 "0x100A47C0"
 ]
 },
 "0x100C85FC": {
+"ecx": true,
 "exact": false,
 "func": "0x100C83C0",
 "pops": 0,
+"ret": "eax",
 "slot": 128,
 "targets": [
 "0x100A47C0"
 ]
 },
 "0x100C861F": {
+"ecx": true,
 "exact": false,
 "func": "0x100C83C0",
 "pops": 0,
+"ret": "eax",
 "slot": 128,
 "targets": [
 "0x100A47C0"
 ]
 },
 "0x100C91F7": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 132,
 "targets": [
 "0x100A4590"
 ]
 },
 "0x100C920D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100C9223": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100C923C": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100C9298": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100C92AF": {
+"ecx": true,
 "exact": false,
 "func": "0x100C8ED0",
 "pops": 0,
+"ret": "eax",
 "slot": 102,
 "targets": [
 "0x100A46D0"
 ]
 },
 "0x100C92EA": {
+"ecx": true,
 "exact": false,
 "func": "0x100C92D0",
 "pops": 8,
+"ret": "eax",
 "slot": 115,
 "targets": [
 "0x100D49B0"
 ]
 },
 "0x100C9655": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "eax",
 "slot": 132,
 "targets": [
 "0x100A4590"
 ]
 },
 "0x100C966B": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100C9681": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100C969A": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100C96F6": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100C970D": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 0,
+"ret": "eax",
 "slot": 102,
 "targets": [
 "0x100A46D0"
 ]
 },
 "0x100C9760": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9330",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100C9B33": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "eax",
 "slot": 132,
 "targets": [
 "0x100A4590"
 ]
 },
 "0x100C9B49": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100C9B5F": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100C9B78": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100C9BD4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100C9BEB": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9810",
 "pops": 0,
+"ret": "eax",
 "slot": 102,
 "targets": [
 "0x100A46D0"
 ]
 },
 "0x100C9CA0": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C9D6E": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100C9DFF": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100CA1C5": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100CA1DB": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100CA1F4": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100CA250": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100CA267": {
+"ecx": true,
 "exact": false,
 "func": "0x100C9C10",
 "pops": 0,
+"ret": "eax",
 "slot": 102,
 "targets": [
 "0x100A46D0"
 ]
 },
 "0x100CA801": {
+"ecx": true,
 "exact": false,
 "func": "0x100CA730",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100CA817": {
+"ecx": true,
 "exact": false,
 "func": "0x100CA730",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100CA830": {
+"ecx": true,
 "exact": false,
 "func": "0x100CA730",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100CA88C": {
+"ecx": true,
 "exact": false,
 "func": "0x100CA730",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100CAD85": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAA60",
 "pops": 0,
+"ret": "eax",
 "slot": 132,
 "targets": [
 "0x100A4590"
 ]
 },
 "0x100CAD9B": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAA60",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100CADB1": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAA60",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100CADCA": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAA60",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100CAE26": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAA60",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100CB2B5": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAF90",
 "pops": 0,
+"ret": "eax",
 "slot": 132,
 "targets": [
 "0x100A4590"
 ]
 },
 "0x100CB2CB": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAF90",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100CB2E1": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAF90",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100CB2FA": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAF90",
 "pops": 0,
+"ret": "eax",
 "slot": 98,
 "targets": [
 "0x100A4710"
 ]
 },
 "0x100CB356": {
+"ecx": true,
 "exact": false,
 "func": "0x100CAF90",
 "pops": 0,
+"ret": "st0",
 "slot": 129,
 "targets": [
 "0x100A45B0"
 ]
 },
 "0x100CCF71": {
+"ecx": true,
 "exact": false,
 "func": "0x100CCF50",
 "pops": 0,
+"ret": "eax",
 "slot": 193,
 "targets": [
 "0x100A4640"
 ]
 },
 "0x100CD049": {
+"ecx": true,
 "exact": false,
 "func": "0x100CD040",
 "pops": 0,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x100A4850"
 ]
 },
 "0x100CD0C5": {
+"ecx": true,
 "exact": false,
 "func": "0x100CD040",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x100D4560"
 ]
 },
 "0x100CD19B": {
+"ecx": true,
 "exact": false,
 "func": "0x100CD040",
 "pops": 0,
+"ret": "eax",
 "slot": 152,
 "targets": [
 "0x100A47B0"
 ]
 },
 "0x100CD258": {
+"ecx": true,
 "exact": false,
 "func": "0x100CD040",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100CEE0E": {
+"ecx": true,
 "exact": false,
 "func": "0x100CEE00",
 "pops": 12,
+"ret": "eax",
 "slot": 166,
 "targets": [
 "0x100CEE40"
 ]
 },
 "0x100CF04B": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF030",
 "pops": 12,
+"ret": "eax",
 "slot": 166,
 "targets": [
 "0x100CEE40"
 ]
 },
 "0x100CF2C5": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100CF4E0": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100CF4F2": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100CF504": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 216,
 "targets": [
 "0x10082820"
 ]
 },
 "0x100CF544": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 229,
 "targets": [
 "0x10082960"
 ]
 },
 "0x100CF580": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 233,
 "targets": [
 "0x100829C0"
 ]
 },
 "0x100CF59D": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100CF628": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 0,
+"ret": "eax",
 "slot": 222,
 "targets": [
 "0x100828B0"
 ]
 },
 "0x100CF6D6": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 12,
+"ret": "eax",
 "slot": 123,
 "targets": [
 "0x100CE9B0"
 ]
 },
 "0x100CF715": {
+"ecx": true,
 "exact": false,
 "func": "0x100CF210",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x100CFC35": {
+"ecx": true,
 "exact": false,
 "func": "0x100CFC10",
 "pops": 0,
+"ret": "eax",
 "slot": 112,
 "targets": [
 "0x100A4750"
 ]
 },
 "0x100CFC4F": {
+"ecx": true,
 "exact": false,
 "func": "0x100CFC10",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100CFC7C": {
+"ecx": true,
 "exact": false,
 "func": "0x100CFC10",
 "pops": 4,
+"ret": "eax",
 "slot": 242,
 "targets": [
 "0x100CFAD0"
 ]
 },
 "0x100CFFEC": {
+"ecx": true,
 "exact": false,
 "func": "0x100CFF40",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100D04CF": {
+"ecx": true,
 "exact": false,
 "func": "0x100D04C0",
 "pops": 0,
+"ret": "eax",
 "slot": 45,
 "targets": [
 "0x100A4AD0"
 ]
 },
 "0x100D04DD": {
+"ecx": true,
 "exact": false,
 "func": "0x100D04C0",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x100D4560"
 ]
 },
 "0x100D06FC": {
+"ecx": true,
 "exact": false,
 "func": "0x100D06F0",
 "pops": 0,
+"ret": "eax",
 "slot": 43,
 "targets": [
 "0x100A4AB0"
 ]
 },
 "0x100D070A": {
+"ecx": true,
 "exact": false,
 "func": "0x100D06F0",
 "pops": 8,
+"ret": null,
 "slot": 113,
 "targets": [
 "0x100D4560"
 ]
 },
 "0x100D072B": {
+"ecx": false,
 "exact": false,
 "func": "0x100D06F0",
 "pops": 12,
+"ret": "eax",
 "slot": 160,
 "targets": [
 "0x100D0740"
 ]
 },
 "0x100D0918": {
+"ecx": true,
 "exact": false,
 "func": "0x100D08E0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0942": {
+"ecx": true,
 "exact": false,
 "func": "0x100D08E0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D096C": {
+"ecx": true,
 "exact": false,
 "func": "0x100D08E0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0996": {
+"ecx": true,
 "exact": false,
 "func": "0x100D08E0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D09E7": {
+"ecx": true,
 "exact": false,
 "func": "0x100D09B0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0A11": {
+"ecx": true,
 "exact": false,
 "func": "0x100D09B0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0A3B": {
+"ecx": true,
 "exact": false,
 "func": "0x100D09B0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0A65": {
+"ecx": true,
 "exact": false,
 "func": "0x100D09B0",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0AB8": {
+"ecx": true,
 "exact": false,
 "func": "0x100D0A80",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0AE2": {
+"ecx": true,
 "exact": false,
 "func": "0x100D0A80",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0B0C": {
+"ecx": true,
 "exact": false,
 "func": "0x100D0A80",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D0B36": {
+"ecx": true,
 "exact": false,
 "func": "0x100D0A80",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D45EC": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100D471A": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100D4749": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100D4776": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D47A0": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D47BF": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D47D3": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4560",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D488E": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "eax",
 "slot": 211,
 "targets": [
 "0x100827A0"
 ]
 },
 "0x100D48AF": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "eax",
 "slot": 214,
 "targets": [
 "0x100827F0"
 ]
 },
 "0x100D48EC": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "eax",
 "slot": 219,
 "targets": [
 "0x10082860"
 ]
 },
 "0x100D4927": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D4951": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D4970": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D4984": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4800",
 "pops": 0,
+"ret": "st0",
 "slot": 68,
 "targets": [
 "0x100849A0"
 ]
 },
 "0x100D4BC8": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "eax",
 "slot": 152,
 "targets": [
 "0x100A47B0"
 ]
 },
 "0x100D4BFB": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100D4C5A": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100D4C6B": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100D4C7C": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100D4C8D": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100D4C97": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "eax",
 "slot": 111,
 "targets": [
 "0x100A4740"
 ]
 },
 "0x100D4CBA": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100D4CD3": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "st0",
 "slot": 136,
 "targets": [
 "0x100A45F0"
 ]
 },
 "0x100D4D26": {
+"ecx": true,
 "exact": false,
 "func": "0x100D4BC0",
 "pops": 0,
+"ret": "eax",
 "slot": 134,
 "targets": [
 "0x100A45D0"
 ]
 },
 "0x100D62CE": {
+"ecx": true,
 "exact": false,
 "func": "0x100D62C0",
 "pops": 4,
+"ret": "eax",
 "slot": 120,
 "targets": [
 "0x10082210"
 ]
 },
 "0x100D6678": {
+"ecx": true,
 "exact": false,
 "func": "0x100D6670",
 "pops": 0,
+"ret": "eax",
 "slot": 47,
 "targets": [
 "0x100A4AF0"
 ]
 },
 "0x100D668C": {
+"ecx": true,
 "exact": false,
 "func": "0x100D6670",
 "pops": 0,
+"ret": "eax",
 "slot": 47,
 "targets": [
 "0x100A4AF0"
 ]
 },
 "0x100D669A": {
+"ecx": true,
 "exact": false,
 "func": "0x100D6670",
 "pops": 8,
+"ret": null,
 "slot": 114,
 "targets": [
 "0x100D4800"
 ]
 },
 "0x100D67B8": {
+"ecx": true,
 "exact": false,
 "func": "0x100D67B0",
 "pops": 0,
+"ret": "eax",
 "slot": 169,
 "targets": [
 "0x100A8D60"
 ]
 },
 "0x100D67D5": {
+"ecx": true,
 "exact": false,
 "func": "0x100D67B0",
 "pops": 8,
+"ret": "eax",
 "slot": 249,
 "targets": [
 "0x10085B50"
 ]
 },
 "0x100D70B7": {
+"ecx": true,
 "exact": false,
 "func": "0x100D70A0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100D7000"
 ]
 },
 "0x100D70E1": {
+"ecx": true,
 "exact": false,
 "func": "0x100D70A0",
 "pops": 4,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x100D7000"
 ]
 },
 "0x1012AE9A": {
+"ecx": true,
 "exact": false,
 "func": "0x1012AE80",
 "pops": 4,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x1012B4B0"
 ]
 },
 "0x1012CE6C": {
+"ecx": true,
 "exact": false,
 "func": "0x1012CE60",
 "pops": 0,
+"ret": "eax",
 "slot": 1,
 "targets": [
 "0x1012CCD0"
 ]
 },
 "0x1013057B": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x101305A6": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x101305D1": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x101305FC": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x10130627": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x10130652": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x1013069D": {
+"ecx": true,
 "exact": false,
 "func": "0x10130540",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x10130C11": {
+"ecx": true,
 "exact": false,
 "func": "0x10130C00",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x10130D1D": {
+"ecx": true,
 "exact": false,
 "func": "0x10130D00",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10131AC0"
 ]
 },
 "0x10131606": {
+"ecx": null,
 "exact": false,
 "func": "0x10131600",
 "pops": 0,
+"ret": "eax",
 "slot": 18,
 "targets": [
 "0x10131580",
@@ -3639,99 +4425,121 @@
 ]
 },
 "0x10135165": {
+"ecx": true,
 "exact": false,
 "func": "0x10135120",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10134E50"
 ]
 },
 "0x1013553D": {
+"ecx": true,
 "exact": false,
 "func": "0x10135650",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x10134E50"
 ]
 },
 "0x101359B0": {
+"ecx": true,
 "exact": false,
 "func": "0x10135920",
 "pops": 4,
+"ret": "eax",
 "slot": 19,
 "targets": [
 "0x101360E0"
 ]
 },
 "0x10136DEE": {
+"ecx": true,
 "exact": false,
 "func": "0x10136CD0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10136BF0"
 ]
 },
 "0x10136E05": {
+"ecx": true,
 "exact": false,
 "func": "0x10136CD0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10136BF0"
 ]
 },
 "0x1013EDF7": {
+"ecx": true,
 "exact": false,
 "func": "0x1013EBE0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1013E880"
 ]
 },
 "0x10145755": {
+"ecx": true,
 "exact": false,
 "func": "0x10145680",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10145760"
 ]
 },
 "0x10147EFC": {
+"ecx": true,
 "exact": false,
 "func": "0x10147EC0",
 "pops": 4,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x101482D0"
 ]
 },
 "0x1014A93B": {
+"ecx": true,
 "exact": false,
 "func": "0x1014A930",
 "pops": 4,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x1014AAB0"
 ]
 },
 "0x1014C6FB": {
+"ecx": false,
 "exact": false,
 "func": "0x1014C690",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x1012E530"
 ]
 },
 "0x1014E400": {
+"ecx": null,
 "exact": false,
 "func": "0x1014E3E0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x1012AC60",
@@ -3740,45 +4548,55 @@
 ]
 },
 "0x10150F1D": {
+"ecx": false,
 "exact": false,
 "func": "0x10150E60",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x1012E530"
 ]
 },
 "0x10150F63": {
+"ecx": false,
 "exact": false,
 "func": "0x10150E60",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x1012E530"
 ]
 },
 "0x1016197B": {
+"ecx": true,
 "exact": false,
 "func": "0x10161970",
 "pops": 4,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x10161870"
 ]
 },
 "0x10161CAA": {
+"ecx": true,
 "exact": false,
 "func": "0x10161C70",
 "pops": 4,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x10161870"
 ]
 },
 "0x10197BAE": {
+"ecx": null,
 "exact": false,
 "func": "0x10197B80",
 "pops": 0,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x10197B20",
@@ -3787,198 +4605,242 @@
 ]
 },
 "0x1019CCFB": {
+"ecx": false,
 "exact": false,
 "func": "0x1019CCF0",
 "pops": 4,
+"ret": "eax",
 "slot": 24,
 "targets": [
 "0x1019CD20"
 ]
 },
 "0x1019CD03": {
+"ecx": false,
 "exact": false,
 "func": "0x1019CCF0",
 "pops": 4,
+"ret": "eax",
 "slot": 25,
 "targets": [
 "0x1019CD30"
 ]
 },
 "0x101A609F": {
+"ecx": true,
 "exact": false,
 "func": "0x101A5F40",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101A6180"
 ]
 },
 "0x101A6346": {
+"ecx": true,
 "exact": false,
 "func": "0x101A62E0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101A6350"
 ]
 },
 "0x101B1416": {
+"ecx": false,
 "exact": false,
 "func": "0x101B13F0",
 "pops": 0,
+"ret": "eax",
 "slot": 16,
 "targets": [
 "0x101B0060"
 ]
 },
 "0x101B144C": {
+"ecx": true,
 "exact": false,
 "func": "0x101B13F0",
 "pops": 0,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x101B5C40"
 ]
 },
 "0x101B1465": {
+"ecx": true,
 "exact": false,
 "func": "0x101B13F0",
 "pops": 32,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x101B4360"
 ]
 },
 "0x101B14D0": {
+"ecx": true,
 "exact": false,
 "func": "0x101B13F0",
 "pops": 4,
+"ret": "eax",
 "slot": 24,
 "targets": [
 "0x101B3870"
 ]
 },
 "0x101B14D7": {
+"ecx": true,
 "exact": false,
 "func": "0x101B13F0",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x101B40C0"
 ]
 },
 "0x101B4070": {
+"ecx": true,
 "exact": false,
 "func": "0x101B4030",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x101B40C0"
 ]
 },
 "0x101B5765": {
+"ecx": false,
 "exact": false,
 "func": "0x101B5760",
 "pops": 0,
+"ret": "eax",
 "slot": 16,
 "targets": [
 "0x101B0060"
 ]
 },
 "0x101B579B": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5760",
 "pops": 32,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x101B4360"
 ]
 },
 "0x101B57DA": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5760",
 "pops": 32,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x101B4360"
 ]
 },
 "0x101B5A82": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5A80",
 "pops": 0,
+"ret": "eax",
 "slot": 13,
 "targets": [
 "0x101B5AA0"
 ]
 },
 "0x101B5AB3": {
+"ecx": false,
 "exact": false,
 "func": "0x101B5AA0",
 "pops": 4,
+"ret": "eax",
 "slot": 15,
 "targets": [
 "0x101B4340"
 ]
 },
 "0x101B5B15": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5B10",
 "pops": 0,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x101B5C40"
 ]
 },
 "0x101B5CE0": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5CD0",
 "pops": 0,
+"ret": "eax",
 "slot": 13,
 "targets": [
 "0x101B5AA0"
 ]
 },
 "0x101B5CFD": {
+"ecx": true,
 "exact": false,
 "func": "0x101B5CD0",
 "pops": 0,
+"ret": "eax",
 "slot": 12,
 "targets": [
 "0x101B4030"
 ]
 },
 "0x101BAB38": {
+"ecx": true,
 "exact": false,
 "func": "0x101BAAC0",
 "pops": 0,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101BADD0"
 ]
 },
 "0x101BC8CC": {
+"ecx": true,
 "exact": false,
 "func": "0x101BC8B0",
 "pops": 8,
+"ret": "eax",
 "slot": 2,
 "targets": [
 "0x101BC830"
 ]
 },
 "0x101BC8EB": {
+"ecx": true,
 "exact": false,
 "func": "0x101BC8E0",
 "pops": 8,
+"ret": "eax",
 "slot": 1,
 "targets": [
 "0x101BC8B0"
 ]
 },
 "0x101DB0A2": {
+"ecx": false,
 "exact": false,
 "func": "0x101DB0A0",
 "pops": 0,
+"ret": "eax",
 "slot": 25,
 "targets": [
 "0x101DC5E0",
@@ -3986,9 +4848,11 @@
 ]
 },
 "0x101DB22D": {
+"ecx": false,
 "exact": false,
 "func": "0x101DB220",
 "pops": 0,
+"ret": "eax",
 "slot": 25,
 "targets": [
 "0x101DC5E0",
@@ -3996,207 +4860,253 @@
 ]
 },
 "0x101DCB0E": {
+"ecx": true,
 "exact": false,
 "func": "0x101DCA80",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101DCB34": {
+"ecx": true,
 "exact": false,
 "func": "0x101DCA80",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101DE29F": {
+"ecx": true,
 "exact": false,
 "func": "0x101DE290",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x101DE3CA": {
+"ecx": true,
 "exact": false,
 "func": "0x101DE290",
 "pops": 0,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x101DE0C0"
 ]
 },
 "0x101DE404": {
+"ecx": true,
 "exact": false,
 "func": "0x101DE290",
 "pops": 8,
+"ret": "eax",
 "slot": 8,
 "targets": [
 "0x101DE120"
 ]
 },
 "0x101DE869": {
+"ecx": true,
 "exact": false,
 "func": "0x101DE860",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x101E2C9D": {
+"ecx": true,
 "exact": false,
 "func": "0x101E2C30",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101E467A": {
+"ecx": true,
 "exact": false,
 "func": "0x101E4610",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101E8B28": {
+"ecx": true,
 "exact": false,
 "func": "0x101E8B10",
 "pops": 0,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x101EE580"
 ]
 },
 "0x101EC929": {
+"ecx": true,
 "exact": false,
 "func": "0x101EC920",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x101ECA89": {
+"ecx": null,
 "exact": false,
 "func": "0x101EC920",
 "pops": 8,
+"ret": "eax",
 "slot": 8,
 "targets": [
 "0x101EC800"
 ]
 },
 "0x101ECD16": {
+"ecx": true,
 "exact": false,
 "func": "0x101ECD10",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x101ED159": {
+"ecx": true,
 "exact": false,
 "func": "0x101ED150",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x101ED723": {
+"ecx": true,
 "exact": false,
 "func": "0x101ED6D0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101ED730"
 ]
 },
 "0x101F0ED0": {
+"ecx": false,
 "exact": false,
 "func": "0x101F0E30",
 "pops": 16,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x101F0D20"
 ]
 },
 "0x101F0F36": {
+"ecx": false,
 "exact": false,
 "func": "0x101F0E30",
 "pops": 8,
+"ret": "eax",
 "slot": 12,
 "targets": [
 "0x101F0810"
 ]
 },
 "0x101F1BAE": {
+"ecx": true,
 "exact": false,
 "func": "0x101F1BA0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101F2910": {
+"ecx": true,
 "exact": false,
 "func": "0x101F27A0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101F2935": {
+"ecx": true,
 "exact": false,
 "func": "0x101F27A0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101F295A": {
+"ecx": true,
 "exact": false,
 "func": "0x101F27A0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101F6C70"
 ]
 },
 "0x101F4132": {
+"ecx": true,
 "exact": false,
 "func": "0x101F4130",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101F4470"
 ]
 },
 "0x101F4162": {
+"ecx": true,
 "exact": false,
 "func": "0x101F4160",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101F4470"
 ]
 },
 "0x101F694B": {
+"ecx": null,
 "exact": false,
 "func": "0x101F6940",
 "pops": 4,
+"ret": "eax",
 "slot": 18,
 "targets": [
 "0x10148F40",
@@ -4204,9 +5114,11 @@
 ]
 },
 "0x101F69DB": {
+"ecx": null,
 "exact": false,
 "func": "0x101F69D0",
 "pops": 4,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x10149690",
@@ -4231,36 +5143,44 @@
 ]
 },
 "0x101FA8D9": {
+"ecx": true,
 "exact": false,
 "func": "0x101FA8B0",
 "pops": 0,
+"ret": "eax",
 "slot": 2,
 "targets": [
 "0x101FA550"
 ]
 },
 "0x101FA93D": {
+"ecx": true,
 "exact": false,
 "func": "0x101FA900",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101F8870"
 ]
 },
 "0x101FA97D": {
+"ecx": true,
 "exact": false,
 "func": "0x101FA900",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x101FAE40"
 ]
 },
 "0x10205783": {
+"ecx": null,
 "exact": false,
 "func": "0x102056C0",
 "pops": 4,
+"ret": "eax",
 "slot": 19,
 "targets": [
 "0x10201AD0",
@@ -4271,36 +5191,44 @@
 ]
 },
 "0x102073F5": {
+"ecx": true,
 "exact": false,
 "func": "0x102073F0",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101D1BA0"
 ]
 },
 "0x10207455": {
+"ecx": true,
 "exact": false,
 "func": "0x10207450",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101D1BA0"
 ]
 },
 "0x102074A5": {
+"ecx": true,
 "exact": false,
 "func": "0x10207490",
 "pops": 0,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x101D1BA0"
 ]
 },
 "0x1020A555": {
+"ecx": null,
 "exact": false,
 "func": "0x1020A550",
 "pops": 0,
+"ret": "eax",
 "slot": 29,
 "targets": [
 "0x101D82C0",
@@ -4311,36 +5239,44 @@
 ]
 },
 "0x1020FFD8": {
+"ecx": true,
 "exact": false,
 "func": "0x1020FFD0",
 "pops": 0,
+"ret": "eax",
 "slot": 0,
 "targets": [
 "0x101DDFB0"
 ]
 },
 "0x10210BD3": {
+"ecx": true,
 "exact": false,
 "func": "0x10210B70",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10210BE0"
 ]
 },
 "0x10212522": {
+"ecx": true,
 "exact": false,
 "func": "0x10212520",
 "pops": 0,
+"ret": "eax",
 "slot": 1,
 "targets": [
 "0x10212510"
 ]
 },
 "0x10221F3F": {
+"ecx": null,
 "exact": false,
 "func": "0x10221F30",
 "pops": 0,
+"ret": "eax",
 "slot": 19,
 "targets": [
 "0x10221800",
@@ -4351,9 +5287,11 @@
 ]
 },
 "0x10221F47": {
+"ecx": null,
 "exact": false,
 "func": "0x10221F30",
 "pops": 4,
+"ret": "eax",
 "slot": 23,
 "targets": [
 "0x10221840",
@@ -4361,225 +5299,275 @@
 ]
 },
 "0x102249B9": {
+"ecx": true,
 "exact": false,
 "func": "0x10224640",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10224460"
 ]
 },
 "0x1022606A": {
+"ecx": true,
 "exact": false,
 "func": "0x10225F90",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10225F40"
 ]
 },
 "0x10226C71": {
+"ecx": true,
 "exact": false,
 "func": "0x10226B70",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x10226B20"
 ]
 },
 "0x102384D3": {
+"ecx": true,
 "exact": false,
 "func": "0x102384B0",
 "pops": 8,
+"ret": "eax",
 "slot": 6,
 "targets": [
 "0x102384E0"
 ]
 },
 "0x1025C3C4": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C3D0": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C3DC": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C3E8": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C3F4": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C40B": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C422": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C439": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C450": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C467": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C210",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C6A6": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C6B2": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C6BE": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C6CA": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 4,
 "targets": [
 "0x1025C9E0"
 ]
 },
 "0x1025C6D6": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C6ED": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C704": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C71B": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C732": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025C749": {
+"ecx": true,
 "exact": false,
 "func": "0x1025C480",
 "pops": 4,
+"ret": "eax",
 "slot": 5,
 "targets": [
 "0x1025CA20"
 ]
 },
 "0x1025E629": {
+"ecx": false,
 "exact": false,
 "func": "0x1025E610",
 "pops": 0,
+"ret": "eax",
 "slot": 18,
 "targets": [
 "0x1025FF30",
@@ -4587,9 +5575,11 @@
 ]
 },
 "0x1025E651": {
+"ecx": false,
 "exact": false,
 "func": "0x1025E610",
 "pops": 0,
+"ret": "eax",
 "slot": 19,
 "targets": [
 "0x1025FF40",
@@ -4597,108 +5587,132 @@
 ]
 },
 "0x1025E787": {
+"ecx": true,
 "exact": false,
 "func": "0x1025E750",
 "pops": 0,
+"ret": "eax",
 "slot": 40,
 "targets": [
 "0x1025EF70"
 ]
 },
 "0x1025EC6D": {
+"ecx": true,
 "exact": false,
 "func": "0x1025EC40",
 "pops": 0,
+"ret": "eax",
 "slot": 24,
 "targets": [
 "0x1025F3D0"
 ]
 },
 "0x1025EC99": {
+"ecx": true,
 "exact": false,
 "func": "0x1025EC80",
 "pops": 4,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x1025E5E0"
 ]
 },
 "0x1025ECA0": {
+"ecx": true,
 "exact": false,
 "func": "0x1025EC80",
 "pops": 0,
+"ret": "eax",
 "slot": 27,
 "targets": [
 "0x1025EE60"
 ]
 },
 "0x1025ECA7": {
+"ecx": true,
 "exact": false,
 "func": "0x1025EC80",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x1025F2F0"
 ]
 },
 "0x1025ECD5": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ECC0",
 "pops": 4,
+"ret": "eax",
 "slot": 10,
 "targets": [
 "0x1025E5E0"
 ]
 },
 "0x1025ECF6": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ECE0",
 "pops": 0,
+"ret": "eax",
 "slot": 31,
 "targets": [
 "0x1025F590"
 ]
 },
 "0x1025ED43": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ED30",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x1025F2F0"
 ]
 },
 "0x1025EDB0": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ED60",
 "pops": 0,
+"ret": "eax",
 "slot": 25,
 "targets": [
 "0x1025F530"
 ]
 },
 "0x1025EDB7": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ED60",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x1025F2F0"
 ]
 },
 "0x1025EDCD": {
+"ecx": true,
 "exact": false,
 "func": "0x1025ED60",
 "pops": 0,
+"ret": "eax",
 "slot": 32,
 "targets": [
 "0x1025F640"
 ]
 },
 "0x1025EE2D": {
+"ecx": null,
 "exact": false,
 "func": "0x1025EDE0",
 "pops": 12,
+"ret": "eax",
 "slot": 23,
 "targets": [
 "0x1025EE40",
@@ -4706,18 +5720,22 @@
 ]
 },
 "0x1025EEB4": {
+"ecx": true,
 "exact": false,
 "func": "0x1025EE90",
 "pops": 12,
+"ret": "eax",
 "slot": 22,
 "targets": [
 "0x1025EDE0"
 ]
 },
 "0x1025EF4C": {
+"ecx": null,
 "exact": false,
 "func": "0x1025EF20",
 "pops": 4,
+"ret": "eax",
 "slot": 14,
 "targets": [
 "0x1025F890",
@@ -4725,9 +5743,11 @@
 ]
 },
 "0x1025EF5F": {
+"ecx": null,
 "exact": false,
 "func": "0x1025EF20",
 "pops": 4,
+"ret": "eax",
 "slot": 15,
 "targets": [
 "0x1025F8A0",
@@ -4735,9 +5755,11 @@
 ]
 },
 "0x1025F0E4": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F000",
 "pops": 4,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x1025EE90",
@@ -4745,81 +5767,99 @@
 ]
 },
 "0x1025F1ED": {
+"ecx": false,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x1021DF30"
 ]
 },
 "0x1025F23C": {
+"ecx": false,
 "exact": false,
 "func": "0x1025F190",
 "pops": 4,
+"ret": "eax",
 "slot": 13,
 "targets": [
 "0x1021DF20"
 ]
 },
 "0x1025F261": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 11,
 "targets": [
 "0x1025E610"
 ]
 },
 "0x1025F274": {
+"ecx": false,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 20,
 "targets": [
 "0x1021DF30"
 ]
 },
 "0x1025F2B3": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F190",
 "pops": 4,
+"ret": "eax",
 "slot": 42,
 "targets": [
 "0x1025EF20"
 ]
 },
 "0x1025F2BD": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 28,
 "targets": [
 "0x1025F2F0"
 ]
 },
 "0x1025F2C4": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 24,
 "targets": [
 "0x1025F3D0"
 ]
 },
 "0x1025F2CB": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F190",
 "pops": 0,
+"ret": "eax",
 "slot": 27,
 "targets": [
 "0x1025EE60"
 ]
 },
 "0x1025F5DD": {
+"ecx": null,
 "exact": false,
 "func": "0x1025F590",
 "pops": 0,
+"ret": "eax",
 "slot": 16,
 "targets": [
 "0x1025FF00",
@@ -4827,18 +5867,22 @@
 ]
 },
 "0x1025F5EB": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F590",
 "pops": 0,
+"ret": "eax",
 "slot": 24,
 "targets": [
 "0x1025F3D0"
 ]
 },
 "0x1025F60B": {
+"ecx": true,
 "exact": false,
 "func": "0x1025F590",
 "pops": 4,
+"ret": "eax",
 "slot": 21,
 "targets": [
 "0x1025EE90",
@@ -4846,9 +5890,11 @@
 ]
 },
 "0x1025F683": {
+"ecx": null,
 "exact": false,
 "func": "0x1025F640",
 "pops": 0,
+"ret": "eax",
 "slot": 17,
 "targets": [
 "0x1025FF10",
@@ -4856,63 +5902,77 @@
 ]
 },
 "0x1025FF02": {
+"ecx": true,
 "exact": false,
 "func": "0x1025FF00",
 "pops": 0,
+"ret": "eax",
 "slot": 47,
 "targets": [
 "0x1025FE40"
 ]
 },
 "0x102600E9": {
+"ecx": true,
 "exact": false,
 "func": "0x102600C0",
 "pops": 8,
+"ret": "eax",
 "slot": 45,
 "targets": [
 "0x1025FF70"
 ]
 },
 "0x10260115": {
+"ecx": true,
 "exact": false,
 "func": "0x10260100",
 "pops": 8,
+"ret": "eax",
 "slot": 45,
 "targets": [
 "0x1025FF70"
 ]
 },
 "0x10263000": {
+"ecx": true,
 "exact": false,
 "func": "0x10262FF0",
 "pops": 8,
+"ret": "eax",
 "slot": 14,
 "targets": [
 "0x102630B0"
 ]
 },
 "0x10267D1F": {
+"ecx": false,
 "exact": false,
 "func": "0x10267CB0",
 "pops": 24,
+"ret": "eax",
 "slot": 13,
 "targets": [
 "0x10267510"
 ]
 },
 "0x10267D43": {
+"ecx": false,
 "exact": false,
 "func": "0x10267CB0",
 "pops": 24,
+"ret": "eax",
 "slot": 13,
 "targets": [
 "0x10267510"
 ]
 },
 "0x102E23A0": {
+"ecx": null,
 "exact": false,
 "func": "0x102E230A",
 "pops": 12,
+"ret": "eax",
 "slot": 2,
 "targets": [
 "0x102E178F",
@@ -4949,9 +6009,11 @@
 ]
 },
 "0x102E23AA": {
+"ecx": null,
 "exact": false,
 "func": "0x102E230A",
 "pops": 12,
+"ret": "eax",
 "slot": 1,
 "targets": [
 "0x102E178C",

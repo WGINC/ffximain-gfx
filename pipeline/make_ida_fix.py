@@ -26,13 +26,34 @@ for ck, v in solved.items():
         raise SystemExit('measured and solved disagree at %s: %s vs %s' % (ck, r['calls'][ck], v['pops']))
     r['calls'][ck] = v['pops']
     r['why'].setdefault(ck, "solved from this function's stack balance at every ret and join")
+for ck, v in json.load(open(os.path.join(D, 'vcalls.json'))).items():
+    if ck.startswith('_') or v['func'] not in want: continue
+    r = sp_calls.setdefault(v['func'], {'calls': {}, 'why': {}})
+    if ck in r['calls'] and r['calls'][ck] != v['pops']:
+        raise SystemExit('vtable-proven and other source disagree at %s: %s vs %s' % (ck, r['calls'][ck], v['pops']))
+    r['calls'][ck] = v['pops']; r['why'].setdefault(ck, 'every possible callee (by vtable) pops it')
 data['sp_calls'] = sp_calls
+# virtual calls proven by vtable (vcall_resolve.py) in the exported functions, with a known convention and an
+# EAX return: their call type can be forced exactly
+vc = json.load(open(os.path.join(D, 'vcalls.json')))
+data['vcall_types'] = {k: {'func': v['func'], 'targets': v['targets'], 'pops': v['pops'], 'ecx': v['ecx']}
+                       for k, v in vc.items() if not k.startswith('_') and v['func'] in want and v['ecx'] is not None and v['ret'] == 'eax'}
+# functions declared __stdcall (in the export) that use their entry ECX: retyped __thiscall in IDA
+ecx = json.load(open(os.path.join(D, 'ecx_use.json'))); purges = json.load(open(os.path.join(D, 'purges.json')))
+decl = {}
+for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+    r = json.loads(l)
+    if r.get('cc'): decl['0x%08X' % r['ea']] = r['cc']
+    for o in (r.get('objs') or {}).values():
+        if o.get('func') and '__stdcall' in o['type']: decl.setdefault('0x%08X' % o['ea'], 'stdcall')
+data['conv_fix'] = {k: purges[k] for k, cc in decl.items() if cc == 'stdcall' and ecx.get(k) and k in purges}
+data['conv_why'] = {k: ecx[k] for k in data['conv_fix']}
 blob = json.dumps(data, separators=(',', ':'), ensure_ascii=True)
 assert "'''" not in blob
 src = open(os.path.join(R, 'pipeline', 'ida_fix.template')).read().replace('__DATA__', blob, 1)
 os.makedirs(os.path.join(R, 'ida'), exist_ok=True)
 out = os.path.join(R, 'ida', 'ffxi_ida_fix.py')
 open(out, 'w', newline='\n').write(src)
-print('%s: %d names, %d prototypes, %d exact call effects in %d functions, %d to export, %d KB'
-      % (out, len(data['names']), len(data['types']), sum(len(r['calls']) for r in sp_calls.values()), len(sp_calls),
-         len(data['export']), len(src) // 1024))
+print('%s: %d names, %d prototypes, %d conventions, %d exact call effects in %d functions, %d vtable call types, %d to export, %d KB'
+      % (out, len(data['names']), len(data['types']), len(data['conv_fix']), sum(len(r['calls']) for r in sp_calls.values()),
+         len(sp_calls), len(data['vcall_types']), len(data['export']), len(src) // 1024))

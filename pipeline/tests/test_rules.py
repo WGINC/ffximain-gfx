@@ -112,5 +112,34 @@ class Solver(unittest.TestCase):
         self.assertEqual(a, S.Lin(0, {}))
 
 
+class EcxUse(unittest.TestCase):
+    def eff(self, hexbytes):
+        import vcall_resolve as V
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        return V.ecx_effect(next(md.disasm(bytes.fromhex(hexbytes), 0x1000)))
+
+    def test_idioms_are_writes(self):
+        self.assertEqual(self.eff('83C9FF'), (set(), {'ecx'}, False))     # or ecx, -1
+        self.assertEqual(self.eff('33C9'), (set(), {'ecx'}, False))       # xor ecx, ecx
+        self.assertEqual(self.eff('8BC8'), (set(), {'ecx'}, False))       # mov ecx, eax
+
+    def test_reads(self):
+        self.assertIn('ecx', self.eff('8BD1')[0])                         # mov edx, ecx
+        self.assertIn('ecx', self.eff('81C178010000')[0])                 # add ecx, 178h
+        self.assertIn('ecx', self.eff('8B4904')[0])                       # mov ecx, [ecx+4]
+
+    def test_push_ecx_is_undecided(self):
+        self.assertEqual(self.eff('51'), (set(), set(), True))            # push ecx (also reserves 4 bytes)
+
+    def test_partial_register(self):
+        import vcall_resolve as V
+        rd, wr, _ = self.eff('668B4F08')                                  # mov cx, [edi+8]
+        self.assertEqual(wr, {'cx'})
+        rd2, _, _ = self.eff('662B0F')                                    # sub cx, [edi]
+        self.assertTrue(all(V.covered(p, frozenset(wr)) for p in rd2))   # reads only what was written
+        self.assertFalse(V.covered('ecx', frozenset(wr)))                 # the upper half is still the input
+
+
 if __name__ == '__main__':
     unittest.main()

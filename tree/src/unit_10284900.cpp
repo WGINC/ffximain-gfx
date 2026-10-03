@@ -2,12 +2,12 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10284950  (unit unit_10284900: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 136 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
 {
   int v1;
   int v2;
-  int v3;
+  int *v3;
   int v4;
   int v5;
   _BYTE *v6;
@@ -19,14 +19,14 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
   v1 = 0;
   v2 = 0;
   v3 = g_pSqgxContext;
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 1) != 0 )
+  if ( (g_pSqgxContext[652] & 1) != 0 )
   {
     v11[0] = 0x20000000;
     v2 = 1;
     v11[1] = 1073872896;
     v1 = 2;
   }
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 2) != 0 )
+  if ( (g_pSqgxContext[652] & 2) != 0 )
   {
     v11[v1] = v2 | 0x20000000;
     v4 = v1 + 1;
@@ -35,9 +35,9 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
     v1 = v4 + 1;
   }
   v5 = 0;
-  if ( *(int *)(v3 + 2840) + 1 > 0 )
+  if ( v3[710] + 1 > 0 )
   {
-    v6 = (_BYTE *)(v3 + 2612);
+    v6 =(_BYTE*)(v3 + 653);
     do
     {
       if ( (*v6 & 4) != 0 )
@@ -51,9 +51,9 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
       ++v5;
       v6 += 4;
     }
-    while ( v5 < *(_DWORD *)(v3 + 2840) + 1 );
+    while ( v5 < v3[710] + 1 );
   }
-  if ( (*(_BYTE *)(v3 + 2608) & 0x10) != 0 )
+  if ( (v3[652] & 0x10) != 0 )
   {
     v11[v1] = v2 | 0x20000000;
     v8 = v1 + 1;
@@ -61,7 +61,7 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
     v11[v8] = 1073872911;
     v1 = v8 + 1;
   }
-  if ( (*(_BYTE *)(v3 + 2612) & 8) != 0 || (*(_BYTE *)(v3 + 2616) & 8) != 0 && *(int *)(v3 + 2840) > 0 )
+  if ( (v3[653] & 8) != 0 || (v3[654] & 8) != 0 && v3[710] > 0 )
   {
     v11[v1] = v2 | 0x20000000;
     v9 = v1 + 1;
@@ -76,7 +76,7 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10284A80  (unit unit_10284900: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 4 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxVertexShaderSelect(void)
 {
   int v0;
@@ -88,10 +88,10 @@ XI_API int __cdecl sqgxVertexShaderSelect(void)
   int v6;
   v0 = 0;
   v1 = 0;
-  v2 = *(_DWORD *)(g_pSqgxContext + 2840) + 1;
+  v2 = g_pSqgxContext[710] + 1;
   if ( v2 > 0 )
   {
-    v3 = (int *)(g_pSqgxContext + 2592);
+    v3 = g_pSqgxContext + 648;
     do
     {
       v4 = *v3;

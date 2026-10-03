@@ -5,31 +5,31 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1011AA40(__int16 *self_)
 {
-  int v2;
+  DWORD v2;
   int v3;
   int v4;
-  _DWORD v6[6];
-  qmemcpy(&g_viewport_1B70, orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx), 0x18u);
+  D3DVIEWPORT8 v6;
+  qmemcpy(&g_viewport_1B70, orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx), sizeof(g_viewport_1B70));
   v2 = *(self_ + 79);
   v3 = *(self_ + 80);
-  qmemcpy(v6, &g_viewport_1B70, sizeof(v6));
+  v6 = g_viewport_1B70;
   v4 = *(self_ + 81);
-  v6[1] = v2;
-  v6[0] = *(self_ + 78);
-  v6[3] = v4 - v2;
-  v6[2] = v3 - v6[0];
-  return orig::CDx_SetViewport(g_pCDx, v6);
+  v6.Y = v2;
+  v6.X = *(self_ + 78);
+  v6.Height = v4 - v2;
+  v6.Width = v3 - v6.X;
+  return orig::CDx_SetViewport(g_pCDx, &v6);
 }
 
 // FUNCTION: FFXIMAIN 0x1011AAC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_ApplyViewport1B70(void)
 {
-  return orig::CDx_SetViewport(g_pCDx, &g_viewport_1B70_as_v0);
+  return orig::CDx_SetViewport(g_pCDx, &g_viewport_1B70);
 }
 
 // FUNCTION: FFXIMAIN 0x1011BAE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 62 returned normally, 53 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 91 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Font_BindGlyphTexture(int self_)
 {
   int v2;
@@ -339,7 +339,7 @@ LABEL_43:
 }
 
 // FUNCTION: FFXIMAIN 0x1011C720  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Font_LoadHighResTexture(int *self_)
 {
   int v2;
@@ -388,7 +388,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x1011E800  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 77 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 {
   int v4;
@@ -469,7 +469,7 @@ XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1011E980  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 78 returned normally, 352 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 462 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v8;
@@ -672,7 +672,7 @@ LABEL_35:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 88 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 75 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
 {
   int v22;
@@ -756,7 +756,7 @@ LABEL_15:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EF60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 72 returned normally, 383 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 467 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
 {
   int v12;
@@ -1353,32 +1353,32 @@ XI_API int __thiscall Cursor_Init(int self_)
 
 // FUNCTION: FFXIMAIN 0x10124640  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10124640(int self_, int *a2, __int16 a3)
+XI_API int __thiscall fn_10124640(int *self_, int *a2, __int16 a3)
 {
   int result;
-  *(_WORD *)(self_ + 80) = a3;
+  *((_WORD *)self_ + 40) = a3;
   if ( (unsigned __int8)orig::sub_101606F0(g_menuMng) == 0 && (*a2 != 0 || a2[1] != 0) )
   {
     if ( g_pCDx != nullptr )
       orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
-    *(_DWORD *)(self_ + 72) = 0;
+    *(self_ + 18) = 0;
     orig::Cursor_SetVisible((unsigned __int8 *)self_, 1u);
   }
-  *(_DWORD *)(self_ + 4) += (__int64)(double)*a2;
-  *(_DWORD *)(self_ + 8) += (__int64)(double)a2[1];
-  *(_DWORD *)(self_ + 20) = (__int64)(double)*a2;
-  *(_DWORD *)(self_ + 24) = (__int64)(double)a2[1];
-  if ( *(int *)(self_ + 4) < 0 )
-    *(_DWORD *)(self_ + 4) = 0;
-  if ( *(int *)(self_ + 8) < 0 )
-    *(_DWORD *)(self_ + 8) = 0;
-  if ( *(int *)(self_ + 4) > (__int16)g_screenRectBottomRight )
-    *(_DWORD *)(self_ + 4) = (__int16)g_screenRectBottomRight - 1;
+  *(self_ + 1) += (__int64)(double)*a2;
+  *(self_ + 2) += (__int64)(double)a2[1];
+  *(self_ + 5) = (__int64)(double)*a2;
+  *(self_ + 6) = (__int64)(double)a2[1];
+  if ( *(self_ + 1) < 0 )
+    *(self_ + 1) = 0;
+  if ( *(self_ + 2) < 0 )
+    *(self_ + 2) = 0;
+  if ( *(self_ + 1) > (__int16)g_screenRectBottomRight )
+    *(self_ + 1) = (__int16)g_screenRectBottomRight - 1;
   result = SHIWORD(g_screenRectBottomRight);
-  if ( *(int *)(self_ + 8) > SHIWORD(g_screenRectBottomRight) )
+  if ( *(self_ + 2) > SHIWORD(g_screenRectBottomRight) )
   {
     result = SHIWORD(g_screenRectBottomRight) - 1;
-    *(_DWORD *)(self_ + 8) = result;
+    *(self_ + 2) = result;
   }
   return result;
 }

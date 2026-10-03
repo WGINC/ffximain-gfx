@@ -21,7 +21,7 @@ unsigned int * CShader::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100177A0  (placed by callers pass their own this (CShader))
-// GATE: PASS -- 100 trials, 28 returned normally, 22 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 143 D3D calls compared (diffemu_gfx, clean build)
 int CShader::CShader_Destructor()
 {
   unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest

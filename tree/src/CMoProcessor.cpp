@@ -45,3 +45,25 @@ _DWORD * CMoProcessor::InitRotationMatrices()
   }
   return result;
 }
+
+// FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
+{
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  int ScratchMatrixStackTop;
+  float *v6;
+  int result;
+  CMoProcessor *v8;
+  int v9;
+  ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
+  v6 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
+  g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+  (*(void (__thiscall **)(void *, float *, int))(*(_DWORD *)self + 92))(self, v6, a4);
+  result = (*(int (__thiscall **)(void *, int, int, float *))(*(_DWORD *)self + 36))(self, a2, a3, v6);
+  v8 = g_pProcessor;
+  v9 = g_pProcessor->ScratchMatrixStackTop - 1;
+  g_pProcessor->ScratchMatrixStackTop = v9;
+  v8->ScratchMatrixFreeList[v9] = v6;
+  return result;
+}

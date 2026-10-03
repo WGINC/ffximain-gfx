@@ -2,76 +2,63 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1001C930  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 1231 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1001C930(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 2100 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_1001C930(int *a1)
 {
   int v1;
   int v2;
   int v3;
   int v4;
-  int v5;
-  _DWORD *v6;
+  _DWORD *v5;
+  int v6;
   int v7;
   int v8;
-  int v9;
+  _DWORD *v9;
   int v10;
   int v11;
   int v12;
-  int v13;
-  _DWORD *v14;
+  _DWORD *v13;
+  int v14;
   int v15;
-  int v16;
-  __int64 v17; // rax
-  int v18;
-  int v19;
-  int v20;
-  int v21;
-  int v22;
-  _DWORD *v23;
-  int v24;
-  int v25;
-  __int64 v26; // rax
-  int v27;
-  int v28;
-  int v29;
-  alignas(16) unsigned char xi_frame[0x1418];  // address-taken locals at their original offsets
-  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x114);
-  _DWORD (&v31)[8] = *reinterpret_cast<_DWORD (*)[8]>(xi_frame + 0x11C);
-  _DWORD * &v32 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x13C);
-  _DWORD * &v33 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x140);
-  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x15C);
-  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x160);
-  _BYTE (&v36)[1280] = *reinterpret_cast<_BYTE (*)[1280]>(xi_frame + 0x1A4);
-  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x6A4);
-  _BYTE (&v38)[2408] = *reinterpret_cast<_BYTE (*)[2408]>(xi_frame + 0x6B0);
+  alignas(16) unsigned char xi_frame[0xAA4];  // address-taken locals at their original offsets
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int (&v23)[17] = *reinterpret_cast<int (*)[17]>(xi_frame + 0x11C);
+  int (&v24)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x65C);
+  _BYTE (&v25)[60] = *reinterpret_cast<_BYTE (*)[60]>(xi_frame + 0x668);
 
-  if ( a1 != 0 )
+  if ( a1 != nullptr )
   {
-    orig::fn_10027990((Iostream_init *)v31);
-    orig::Mat4_SetIdentity(v31);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, v31);
-    v1 = *(_DWORD *)(a1 + 5288) - 1 + (*(int *)(a1 + 5288) - 1 < 0 ? 0x50 : 0);
-    v30 = 0;
-    if ( *(int *)(a1 + 5292) > 0 )
+    orig::fn_10027990((Iostream_init *)v23);
+    orig::Mat4_SetIdentity(v23);
+    orig::CDx_SetTransform(&g_pCDx->vftable, 256, v23);
+    v1 = a1[1322] - 1 + (a1[1322] - 1 < 0 ? 0x50 : 0);
+    v16 = 0;
+    if ( a1[1323] > 0 )
     {
-      v2 = 16 * v1;
+      v2 = 4 * v1;
       do
       {
-        orig::Vec3_Add_10026FA0((float *)((char *)&v34 + v2), (float *)(v2 + a1 + 64), (float *)(v2 + a1 + 1344));
-        orig::fn_100272B0((int)&v34 + v2, 0.5);
-        ++v30;
+        orig::Vec3_Add_10026FA0((float *)&v23[v2 + 16], (float *)&a1[v2 + 16], (float *)&a1[v2 + 336]);
+        orig::fn_100272B0((int)&v23[v2 + 16], 0.5);
+        ++v16;
         if ( v1 - 1 >= 0 )
         {
           --v1;
-          v2 -= 16;
+          v2 -= 4;
         }
         else
         {
           v1 = v1 - 1 + 80;
-          v2 += 1264;
+          v2 += 316;
         }
       }
-      while ( v30 < *(_DWORD *)(a1 + 5292) );
+      while ( v16 < a1[1323] );
     }
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
@@ -88,137 +75,119 @@ XI_API void __cdecl fn_1001C930(int a1)
     g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    v3 = *(_DWORD *)(a1 + 5288);
-    if ( *(_DWORD *)(a1 + 5404) != 0 )
+    v3 = a1[1322];
+    if ( a1[1351] != 0 )
     {
       v4 = v3 - 1 + (v3 - 1 < 0 ? 0x50 : 0);
-      v5 = *(_DWORD *)(a1 + 5292);
-      v34 = v4;
-      v35 = 0;
-      if ( 2 * v5 > 0 )
+      v17 = v4;
+      v20 = 0;
+      if ( 2 * a1[1323] > 0 )
       {
-        v6 =(_DWORD*)(v38);
-        v7 = 16 * v4;
+        v5 =(_DWORD*)(v25);
+        v6 = 4 * v4;
         do
         {
-          orig::Vec3_Copy(v6 - 3, &v36[v7]);
-          v8 = (__int64)*(float *)(v7 + a1 + 2632)
-             | (((__int64)*(float *)(v7 + a1 + 2628)
-               | (((unsigned int)(__int64)*(float *)(v7 + a1 + 2624) | ((__int64)*(float *)(v7 + a1 + 2636) << 8)) << 8)) << 8);
-          v33 = (_DWORD *)(v7 + a1 + 64);
-          v32 = v6 + 1;
-          *v6 = v8;
-          orig::Vec3_Copy(v32, v33);
-          v9 = v34;
-          v6[4] = v8;
-          v10 = v9 - 1;
-          v6 += 8;
-          v35 += 2;
-          if ( v9 - 1 >= 0 )
+          orig::Vec3_Copy(v5 - 3, &v23[v6 + 16]);
+          v7 = (__int64)*(float *)&a1[v6 + 658]
+             | (((__int64)*(float *)&a1[v6 + 657]
+               | (((unsigned int)(__int64)*(float *)&a1[v6 + 656] | ((__int64)*(float *)&a1[v6 + 659] << 8)) << 8)) << 8);
+          *v5 = v7;
+          orig::Vec3_Copy(v5 + 1, &a1[v6 + 16]);
+          v5[4] = v7;
+          v8 = v17 - 1;
+          v5 += 8;
+          v20 += 2;
+          if ( v17 - 1 >= 0 )
           {
-            v7 -= 16;
+            v6 -= 4;
           }
           else
           {
-            v10 += 80;
-            v7 += 1264;
+            v8 += 80;
+            v6 += 316;
           }
-          v11 = *(_DWORD *)(a1 + 5292);
-          v34 = v10;
+          v17 = v8;
         }
-        while ( v35 < 2 * v11 );
+        while ( v20 < 2 * a1[1323] );
       }
-      if ( 2 * *(int *)(a1 + 5292) - 2 > 0 )
+      if ( 2 * a1[1323] - 2 > 0 )
       {
         g_pCDx->pDevice->SetVertexShader(66u);
-        orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2 * *(_DWORD *)(a1 + 5292) - 2, (int)a3, 16);
+        orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2 * a1[1323] - 2, (int)v24, 16);
       }
-      v12 = *(_DWORD *)(a1 + 5288) - 1 + (*(int *)(a1 + 5288) - 1 < 0 ? 0x50 : 0);
-      v13 = *(_DWORD *)(a1 + 5292);
-      v34 = v12;
-      v35 = 0;
-      if ( 2 * v13 > 0 )
+      v18 = a1[1322] - 1 + (a1[1322] - 1 < 0 ? 0x50 : 0);
+      v21 = 0;
+      if ( 2 * a1[1323] > 0 )
       {
-        v14 =(_DWORD*)(v38);
-        v15 = 16 * v12;
+        v9 =(_DWORD*)(v25);
+        v10 = 4 * (a1[1322] - 1 + (a1[1322] - 1 < 0 ? 0x50 : 0));
         do
         {
-          orig::Vec3_Copy(v14 - 3, &v36[v15]);
-          v16 = ((__int64)*(float *)(v15 + a1 + 2628)
-               | (((unsigned int)(__int64)*(float *)(v15 + a1 + 2624) | ((__int64)*(float *)(v15 + a1 + 2636) << 8)) << 8)) << 8;
-          v17 = (__int64)*(float *)(v15 + a1 + 2632);
-          v33 = (_DWORD *)(v15 + a1 + 1344);
-          v32 = v14 + 1;
-          *v14 = v17 | v16;
-          orig::Vec3_Copy(v32, v33);
-          v18 = v34;
-          v14[4] = (__int64)*(float *)(v15 + a1 + 3912)
-                 | (((__int64)*(float *)(v15 + a1 + 3908)
-                   | (((unsigned int)(__int64)*(float *)(v15 + a1 + 3904) | ((__int64)*(float *)(v15 + a1 + 3916) << 8)) << 8)) << 8);
-          v19 = v18 - 1;
-          v14 += 8;
-          v35 += 2;
+          orig::Vec3_Copy(v9 - 3, &v23[v10 + 16]);
+          *v9 = (__int64)*(float *)&a1[v10 + 658]
+              | (((__int64)*(float *)&a1[v10 + 657]
+                | (((unsigned int)(__int64)*(float *)&a1[v10 + 656] | ((__int64)*(float *)&a1[v10 + 659] << 8)) << 8)) << 8);
+          orig::Vec3_Copy(v9 + 1, &a1[v10 + 336]);
+          v9[4] = (__int64)*(float *)&a1[v10 + 978]
+                | (((__int64)*(float *)&a1[v10 + 977]
+                  | (((unsigned int)(__int64)*(float *)&a1[v10 + 976] | ((__int64)*(float *)&a1[v10 + 979] << 8)) << 8)) << 8);
+          v11 = v18 - 1;
+          v9 += 8;
+          v21 += 2;
           if ( v18 - 1 >= 0 )
           {
-            v15 -= 16;
+            v10 -= 4;
           }
           else
           {
-            v19 += 80;
-            v15 += 1264;
+            v11 += 80;
+            v10 += 316;
           }
-          v20 = *(_DWORD *)(a1 + 5292);
-          v34 = v19;
+          v18 = v11;
         }
-        while ( v35 < 2 * v20 );
+        while ( v21 < 2 * a1[1323] );
       }
     }
     else
     {
-      v21 = v3 - 1 + (v3 - 1 < 0 ? 0x50 : 0);
-      v22 = *(_DWORD *)(a1 + 5292);
-      v34 = v21;
-      v35 = 0;
-      if ( 2 * v22 > 0 )
+      v12 = v3 - 1 + (v3 - 1 < 0 ? 0x50 : 0);
+      v19 = v12;
+      v22 = 0;
+      if ( 2 * a1[1323] > 0 )
       {
-        v23 =(_DWORD*)(v38);
-        v24 = 16 * v21;
+        v13 =(_DWORD*)(v25);
+        v14 = 4 * v12;
         do
         {
-          orig::Vec3_Copy(v23 - 3, (_DWORD *)(v24 + a1 + 64));
-          v25 = ((__int64)*(float *)(v24 + a1 + 2628)
-               | (((unsigned int)(__int64)*(float *)(v24 + a1 + 2624) | ((__int64)*(float *)(v24 + a1 + 2636) << 8)) << 8)) << 8;
-          v26 = (__int64)*(float *)(v24 + a1 + 2632);
-          v33 = (_DWORD *)(v24 + a1 + 1344);
-          v32 = v23 + 1;
-          *v23 = v26 | v25;
-          orig::Vec3_Copy(v32, v33);
-          v27 = v34;
-          v23[4] = (__int64)*(float *)(v24 + a1 + 3912)
-                 | (((__int64)*(float *)(v24 + a1 + 3908)
-                   | (((unsigned int)(__int64)*(float *)(v24 + a1 + 3904) | ((__int64)*(float *)(v24 + a1 + 3916) << 8)) << 8)) << 8);
-          v28 = v27 - 1;
-          v23 += 8;
-          v35 += 2;
-          if ( v27 - 1 >= 0 )
+          orig::Vec3_Copy(v13 - 3, &a1[v14 + 16]);
+          *v13 = (__int64)*(float *)&a1[v14 + 658]
+               | (((__int64)*(float *)&a1[v14 + 657]
+                 | (((unsigned int)(__int64)*(float *)&a1[v14 + 656] | ((__int64)*(float *)&a1[v14 + 659] << 8)) << 8)) << 8);
+          orig::Vec3_Copy(v13 + 1, &a1[v14 + 336]);
+          v13[4] = (__int64)*(float *)&a1[v14 + 978]
+                 | (((__int64)*(float *)&a1[v14 + 977]
+                   | (((unsigned int)(__int64)*(float *)&a1[v14 + 976] | ((__int64)*(float *)&a1[v14 + 979] << 8)) << 8)) << 8);
+          v15 = v19 - 1;
+          v13 += 8;
+          v22 += 2;
+          if ( v19 - 1 >= 0 )
           {
-            v24 -= 16;
+            v14 -= 4;
           }
           else
           {
-            v28 += 80;
-            v24 += 1264;
+            v15 += 80;
+            v14 += 316;
           }
-          v29 = *(_DWORD *)(a1 + 5292);
-          v34 = v28;
+          v19 = v15;
         }
-        while ( v35 < 2 * v29 );
+        while ( v22 < 2 * a1[1323] );
       }
     }
-    if ( 2 * *(int *)(a1 + 5292) - 2 > 0 )
+    if ( 2 * a1[1323] - 2 > 0 )
     {
       g_pCDx->pDevice->SetVertexShader(66u);
-      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2 * *(_DWORD *)(a1 + 5292) - 2, (int)a3, 16);
+      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2 * a1[1323] - 2, (int)v24, 16);
     }
     g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
     g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -231,7 +200,7 @@ XI_API void __cdecl fn_1001C930(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D0A0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 {
   unsigned __int16 ViewportWidth;
@@ -241,15 +210,15 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
   unsigned __int16 v4;
   ViewportHeight = orig::Camera_GetViewportHeight();
   ViewportWidth = orig::Camera_GetViewportWidth();
-  pTexture = (IDirect3DBaseTexture8 *)orig::CDx_CreateTexture(
-                                        &g_pCDx->vftable,
-                                        ViewportWidth,
-                                        ViewportHeight,
-                                        &g_translucentTarget,
-                                        1,
-                                        0);
-  result = (_DWORD *)g_pEnv;
-  if ( *(_DWORD *)(g_pEnv + 24) != 0 )
+  pTexture = (IDirect3DTexture8 *)orig::CDx_CreateTexture(
+                                    &g_pCDx->vftable,
+                                    ViewportWidth,
+                                    ViewportHeight,
+                                    &g_translucentTarget,
+                                    1,
+                                    0);
+  result = g_pEnv;
+  if ( g_pEnv[6] != 0 )
   {
     v4 = orig::Camera_GetViewportHeight();
     v2 = orig::Camera_GetViewportWidth();
@@ -265,7 +234,7 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D240  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_BeginTranslucentPass(int self_)
 {
   int v2;
@@ -287,7 +256,7 @@ XI_API char __thiscall Model_BeginTranslucentPass(int self_)
   }
   else
   {
-    if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
+    if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
     {
       orig::CDx_PushRenderTarget(g_pCDx, *(_DWORD *)(self_ + 12), *(_DWORD *)(self_ + 20), 0);
       orig::CDx_EndClearBegin(&g_pCDx->vftable, 0, 0, 1, 0, 1065353216, 0);
@@ -315,7 +284,7 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D3B0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 83 returned normally, 1268 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1291 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
 {
   int result;
@@ -379,7 +348,7 @@ XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
       v3 = g_pCDx->_pad_10[2072];
       g_pCDx->_pad_10[2072] = 0;
       v5 = v3;
-      if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
+      if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
       {
         g_pCDx->pDevice->SetTexture(0, *((IDirect3DBaseTexture8 **)self_ + 2));
         orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
@@ -415,7 +384,7 @@ LABEL_11:
 }
 
 // FUNCTION: FFXIMAIN 0x1001D940  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
 {
   _DWORD *v4;

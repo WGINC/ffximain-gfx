@@ -26,10 +26,10 @@ _DWORD * CMoOcclusionMng::OcclusionMng_CreateTarget()
 {
   _DWORD *result;
   int v3;
-  int v4;
-  v4 = 0;
-  result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x10u, 0x10u, &v4, 1, 0);
-  v3 = v4;
+  int a4;
+  a4 = 0;
+  result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x10u, 0x10u, &a4, 1, 0);
+  v3 = a4;
   this->field_C = result;
   this->field_10 = v3;
   return result;

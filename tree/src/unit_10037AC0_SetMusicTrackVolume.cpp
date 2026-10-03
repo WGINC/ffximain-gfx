@@ -2,15 +2,15 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 6 returned normally, 1318 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API int __thiscall Font_DrawPass(void *self_)
+// GATE: PASS -- 100 trials, 4 returned normally, 1312 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API int __cdecl Font_DrawPass(void)
 {
-  int *v1;
+  int *v0;
   unsigned __int8 i;
-  int v3;
-  unsigned __int8 *v4;
-  char v5;
-  float v7;
+  int v2;
+  unsigned __int8 *v3;
+  char v4;
+  float v6;
   orig::Font_BindGlyphTexture((int)g_pFontGlyphs);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -25,28 +25,28 @@ XI_API int __thiscall Font_DrawPass(void *self_)
   g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
   g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-  v1 = &dword_10463950;
+  v0 = &dword_10463950;
   *((_BYTE *)&dword_10463950 + dword_1047B950) = 2;
   if ( (_BYTE)dword_10463950 != 2 )
   {
     do
     {
-      for ( i = *(_BYTE *)v1; i != 1; v1 = (int *)(v4 + 1) )
+      for ( i = *(_BYTE *)v0; i != 1; v0 = (int *)(v3 + 1) )
       {
-        v7 = 1.0;
+        v6 = 1.0;
         if ( i == 3 )
         {
-          v3 = *((char *)v1 + 1);
-          v1 = (int *)((char *)v1 + 2);
-          v7 = (double)v3 * 0.25;
+          v2 = *((char *)v0 + 1);
+          v0 = (int *)((char *)v0 + 2);
+          v6 = (double)v2 * 0.25;
         }
-        v4 = orig::Font_DrawString((unsigned __int8 *)v1 + 8, *(float *)v1, *((float *)v1 + 1), v7);
-        i = v4[1];
+        v3 = orig::Font_DrawString((unsigned __int8 *)v0 + 8, *(float *)v0, *((float *)v0 + 1), v6);
+        i = v3[1];
       }
-      v5 = *((_BYTE *)v1 + 1);
-      v1 = (int *)((char *)v1 + 1);
+      v4 = *((_BYTE *)v0 + 1);
+      v0 = (int *)((char *)v0 + 1);
     }
-    while ( v5 != 2 );
+    while ( v4 != 2 );
   }
   dword_1047B950 = 0;
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -56,7 +56,7 @@ XI_API int __thiscall Font_DrawPass(void *self_)
 
 // FUNCTION: FFXIMAIN 0x10038720  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 23 returned normally, 177018 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float a3, float a4)
+XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float arg8, float a4)
 {
   unsigned __int8 *v4;
   bool v5; // zf
@@ -74,7 +74,7 @@ XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, 
   int &v17 = *reinterpret_cast<int *>(xi_frame + 0x10);
   float &v18 = *reinterpret_cast<float *>(xi_frame + 0x14);
   _DWORD (&v19)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0x18);
-  int (&a3a)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x20);
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x20);
   char &v21 = *reinterpret_cast<char *>(xi_frame + 0x2C);
   float &v22 = *reinterpret_cast<float *>(xi_frame + 0x34);
   float &v23 = *reinterpret_cast<float *>(xi_frame + 0x38);
@@ -93,7 +93,7 @@ XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, 
 
   v16 = (__int64)a2;
   v4 = a1;
-  v17 = (__int64)a3;
+  v17 = (__int64)arg8;
   v15 = a1;
   v5 = *a1 == 0;
   v18 = a4 * 16.0;
@@ -129,12 +129,12 @@ XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, 
         v14 = v11;
         v19[1] = 0;
         v28 = v11 - 0.5;
-        *(float *)a3a = v28;
+        *(float *)a3 = v28;
         v32 = v14 + v18 - 0.5;
         v24 = v32;
         v12 = (double)v17;
         *(float *)&v25 = v12 - 0.5;
-        a3a[1] = v25;
+        a3[1] = v25;
         v33 = v12 + v18 - 0.5;
         v29 = v33;
         v30 = v7 * 0.015625;
@@ -148,7 +148,7 @@ XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, 
         orig::Font_AddGlyphAdvance(v6, v19);
         v16 = (__int64)((double)v19[0] * a4 + v14);
         g_pCDx->pDevice->SetVertexShader(324u);
-        orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3a, 28);
+        orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
         v4 = v15;
       }
     }

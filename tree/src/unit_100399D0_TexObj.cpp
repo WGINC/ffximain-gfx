@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10039A80  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall TexObj_Create(int self_)
 {
   unsigned __int16 v2;
@@ -233,7 +233,7 @@ LABEL_58:
 }
 
 // FUNCTION: FFXIMAIN 0x10039E50  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 4 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API int __thiscall TexObj_Upload(void *self_)
 {
   int v1;

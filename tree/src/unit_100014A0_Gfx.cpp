@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10002040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 4 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 99 returned normally, 247 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
 {
   unsigned __int16 v4;
@@ -38,6 +38,194 @@ XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, c
       (*(void (__stdcall **)(_DWORD *))(*Texture + 8))(Texture);
     return 0;
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10002130  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 12 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API char __cdecl Gfx_ProbeDeviceCaps(int a1, unsigned int *a2, int *a3)
+{
+  int v4;
+  int v5;
+  bool v7; // zf
+  unsigned int i;
+  int v10;
+  char *j;
+  unsigned int k;
+  _WORD *v13;
+  int m;
+  unsigned int n;
+  _DWORD *v16;
+  int ii;
+  unsigned int jj;
+  int *v19;
+  int kk;
+  alignas(16) unsigned char xi_frame[0x444];  // address-taken locals at their original offsets
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int (&v24)[8] = *reinterpret_cast<int (*)[8]>(xi_frame + 0x24);
+  unsigned int v25;
+  v4 = 0;
+  v5 = *a3;
+  v25 = a3[3] - a3[1];
+  v21 = a3[2] - v5;
+  if ( (*(int (__stdcall **)(int, int *, _DWORD, int))(*(_DWORD *)a1 + 36))(a1, &v22, 0, 16) < 0 )
+    return 0;
+  (*(void (__stdcall **)(int, int *))(*(_DWORD *)a1 + 32))(a1, v24);
+  if ( v24[0] <= 62 )
+  {
+    if ( v24[0] == 62 )
+    {
+LABEL_11:
+      v4 = 4;
+    }
+    else
+    {
+      switch ( v24[0] )
+      {
+        case 0:
+          goto LABEL_24;
+        case 0x14:
+          v4 = 3;
+          break;
+        case 0x15:
+        case 0x16:
+          goto LABEL_11;
+        case 0x17:
+        case 0x18:
+        case 0x19:
+        case 0x1A:
+        case 0x1D:
+        case 0x1E:
+        case 0x28:
+        case 0x33:
+        case 0x3C:
+        case 0x3D:
+          goto LABEL_18;
+        case 0x1B:
+        case 0x1C:
+        case 0x29:
+        case 0x32:
+        case 0x34:
+          v4 = 1;
+          break;
+        default:
+          goto LABEL_25;
+      }
+    }
+    goto LABEL_25;
+  }
+  if ( v24[0] <= 100 )
+  {
+    if ( v24[0] != 100 )
+    {
+      switch ( v24[0] )
+      {
+        case '?':
+        case '@':
+        case 'A':
+        case 'G':
+        case 'K':
+        case 'M':
+        case 'O':
+          goto LABEL_11;
+        case 'F':
+        case 'I':
+        case 'P':
+          goto LABEL_18;
+        default:
+          goto LABEL_25;
+      }
+    }
+    goto LABEL_24;
+  }
+  if ( v24[0] > 861165636 )
+  {
+    if ( v24[0] == 877942852 || v24[0] == 894720068 )
+      goto LABEL_24;
+    v7 = v24[0] == 1498831189;
+  }
+  else
+  {
+    if ( v24[0] == 861165636 )
+      goto LABEL_24;
+    if ( v24[0] > 844388420 )
+    {
+      v7 = v24[0] == 844715353;
+      goto LABEL_23;
+    }
+    if ( v24[0] == 844388420 )
+    {
+LABEL_24:
+      v4 = 0;
+      goto LABEL_25;
+    }
+    if ( v24[0] == 101 )
+    {
+LABEL_18:
+      v4 = 2;
+      goto LABEL_25;
+    }
+    v7 = v24[0] == 827611204;
+  }
+LABEL_23:
+  if ( v7 )
+    goto LABEL_24;
+LABEL_25:
+  switch ( v4 )
+  {
+    case 1:
+      for ( i = 0; i < v25; ++i )
+      {
+        v10 = v21;
+        for ( j = (char *)(v23 + i * v22); v10 != 0; --v10 )
+          *a2++ = orig::sub_10002440(*j++);
+      }
+      break;
+    case 2:
+      for ( k = 0; k < v25; ++k )
+      {
+        v13 = (_WORD *)(v23 + k * v22);
+        if ( v21 != 0 )
+        {
+          for ( m = v21; m != 0; --m )
+          {
+            *a2++ = orig::sub_10002440(8 * (*v13 & 0x1F | (8 * (*v13 & 0x3E0 | (8 * (*v13 & 0x7C00))))));
+            ++v13;
+          }
+        }
+      }
+      break;
+    case 3:
+      for ( n = 0; n < v25; ++n )
+      {
+        v16 = (_DWORD *)(v23 + n * v22);
+        if ( v21 != 0 )
+        {
+          for ( ii = v21; ii != 0; --ii )
+          {
+            *a2++ = orig::sub_10002440(*v16 & 0xFFFFFF);
+            v16 = (_DWORD *)((char *)v16 + 3);
+          }
+        }
+      }
+      break;
+    case 4:
+      for ( jj = 0; jj < v25; ++jj )
+      {
+        v19 = (int *)(v23 + jj * v22);
+        if ( v21 != 0 )
+        {
+          for ( kk = v21; kk != 0; --kk )
+            *a2++ = orig::sub_10002440(*v19++);
+        }
+      }
+      break;
+    default:
+      break;
+  }
+  (*(void (__stdcall **)(int))(*(_DWORD *)a1 + 40))(a1);
+  return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x10002BE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -122,7 +310,7 @@ XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 {
   int result;
@@ -185,6 +373,23 @@ XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5
     g_pD3DHolder = nullptr;
     return 0;
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10003040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl Gfx_DestroyD3DHolder(void)
+{
+  int result;
+  if ( g_pD3DHolder != nullptr )
+  {
+    result = orig::nullsub_71();
+    if ( g_pD3DHolder != nullptr )
+    {
+      result = (*(int (__thiscall **)(D3DHolder *, int))g_pD3DHolder->vftable)(g_pD3DHolder, 1);
+      g_pD3DHolder = nullptr;
+    }
+  }
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x100031F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -282,7 +487,7 @@ XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char 
 }
 
 // FUNCTION: FFXIMAIN 0x100033C0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 74 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3, int a4, char a5, char a6, int a7, int a8)
 {
   int *i;
@@ -315,7 +520,7 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
 }
 
 // FUNCTION: FFXIMAIN 0x100034B0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 64 returned normally, 148 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 184 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, int a5, int a6, char a7, char a8, int a9)
 {
   _DWORD *v10;

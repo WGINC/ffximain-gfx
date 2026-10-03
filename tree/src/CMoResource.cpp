@@ -10,7 +10,7 @@ char ** __cdecl CMoResource::GetRuntimeClass_variant0()
 }
 
 // FUNCTION: FFXIMAIN 0x10047FC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource::CMoCamera_SetLinkedObject(int a2)
 {
   *this->field_14 = a2;

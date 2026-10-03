@@ -11,7 +11,9 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
   int v11;
   __int16 Char;
   int v13;
-  int v15;
+  alignas(16) unsigned char xi_frame[0x414];  // address-taken locals at their original offsets
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x10);
+
   v9 = a6;
   orig::Gfx_SetCellBlendMode(1, a6 & 3, (a6 >> 2) & 3, (a6 >> 6) & 3);
   g_textCursorX = a1;

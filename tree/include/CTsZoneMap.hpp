@@ -7,7 +7,7 @@ class XI_API CTsZoneMap {
 public:
     char CTsZoneMap_Destructor();  // 0x10178070
     int InitZBiasPresets();  // 0x101781D0
-    float * DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5);  // 0x10182700
+    float * DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5);  // 0x10182700
     void ModelActor_Draw(int a2, int a3);  // 0x101844C0
     int DrawProjectedShadow(int a1, int a2);  // 0x10184FE0
 

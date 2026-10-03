@@ -10,7 +10,7 @@ char ** __cdecl CMoDistRingElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 762 D3D calls compared (diffemu_gfx, clean build)
 void CMoDistRingElem::AllocRingGeometry()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest

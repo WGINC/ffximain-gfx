@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10003B60  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 28 returned normally, 1684 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 1774 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 {
   int v1;
@@ -46,7 +46,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
 // GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
+XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
 {
   int v3;
   int v4;
@@ -74,7 +74,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
   int &v25 = *reinterpret_cast<int *>(xi_frame + 0x2C);
   int (&v26)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x30);
   int (&v27)[16] = *reinterpret_cast<int (*)[16]>(xi_frame + 0x3C);
-  int (&a3a)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x7C);
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x7C);
   char &v29 = *reinterpret_cast<char *>(xi_frame + 0x88);
   _WORD (&v30)[2048] = *reinterpret_cast<_WORD (*)[2048]>(xi_frame + 0xEC);
   char &v31 = *reinterpret_cast<char *>(xi_frame + 0x10EC);
@@ -166,14 +166,14 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int a3)
             *v12 = 1.0;
             *((_DWORD *)v12 + 2) = v18;
             *((_DWORD *)v12 + 3) = v19;
-            *((_DWORD *)v12 + 1) = a3;
+            *((_DWORD *)v12 + 1) = arg8;
             v17 += 3;
             v10 += 2;
             v12 += 7;
           }
           while ( (int)v17 < (int)aErrorSSD );
           g_pCDx->pDevice->SetVertexShader(324u);
-          orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3a, 28);
+          orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
           v4 = v22;
           v3 = v21;
         }

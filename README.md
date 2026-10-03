@@ -43,38 +43,36 @@ To gate only part of it, use `pipeline/gate_some.py RUN fail|notpass|changed:DIR
 - Optionally Ghidra 12 with JDK 21 (see *Coverage*).
 - `gen_d3dx_bind.py` needs `DX81_INCLUDE` pointing at the DirectX 8.1 SDK headers.
 
-## Status (2 Oct 2026, night)
+## Status (3 Oct 2026)
 
 768 graphics functions, every one with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** | **681**, 0 failures |
-| Microsoft D3DX 8.1 | 47 |
-| Constructs C++ cannot express | 9 |
-| Gate FAIL (first divergence recorded) | 1 |
-| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 30 |
-| Do not compile | 0 |
+| **Verified in the clean tree, as built** | **700**, 0 failures |
+| Microsoft D3DX 8.1 | 48 |
+| Constructs C++ cannot express | 5 |
+| Gate UNRESOLVED (a call with no definitive pop or argument count; the call site is named) | 11 |
+| Gate FAIL (first divergence recorded) | 2 |
+| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 1 |
+| Does not compile (`sub_10178250`: a declaration shadows a parameter) | 1 |
 
-Placement of the 681 tree functions:
-- **507 are class members:** 456 instance methods and 51 static methods.
-- **174 are free functions,** each in the file of its source unit: 147 in units identified only by link order (`unit_*.cpp`) and 27 in named units.
+Placement of the 700 tree functions (`tree/placement.json`): 513 class members, 187 free functions in the
+file of their source unit (`docs/PLACEMENT.md`).
 
-The tree is regenerated from the current pipeline (the translator and data fixes through `60b62b3`, plus
-`filled_past_array`, below) and gated as built: 681 PASS. Gates are recorded in `verification/`:
-- **Fuzz gate** (`gate_raw_final.jsonl`): 681 PASS, 30 INCONCLUSIVE, 1 FAIL.
-- **Live gate** (`gate_live_latest.jsonl`, inputs from the 7 Sep memory dump, `FFXI_LIVE`): 659 PASS, 51
-  INCONCLUSIVE, 2 FAIL. Most INCONCLUSIVE results are sqgx/sqsn functions, which are idle in the dump
-  (`g_pDancerDevice` is null) and pass under fuzzing.
+The gate now uses definitive facts only (`CLAUDE.md`; `docs/REPORT-2026-10-02.md` section 11): a call's pop
+count comes from the callee's `ret N`, the caller's solved stack balance, a vtable-proven callee, a
+measurement on real code, or a declared type, and with none of these the verdict is UNRESOLVED instead of
+a guess. Gates are recorded in `verification/`:
+- **Fuzz gate** (`gate_raw_final.jsonl`, translations of the IDA re-export): 700 PASS, 11 UNRESOLVED,
+  2 FAIL, 1 INCONCLUSIVE.
+- **Clean gate** (`gate_clean_final.jsonl`, the tree exactly as built): 700 PASS.
+- **Live gate** (`gate_live_latest.jsonl`, inputs from the 7 Sep memory dump, `FFXI_LIVE`): from the
+  earlier run (2 Oct), before the definitive-only rules; not re-run. That dump is of the 5 Aug build, mapped
+  to the analysed build partly by nearest match, so it is to be replaced by a dump of the analysed build.
 
-The two FAILs are IDA stack-pointer errors, not translation errors. Hex-Rays names stack slots from IDA's SP,
-so where IDA's SP is wrong one slot gets two names:
-- `CXiSkeletonActor_OnMove`: IDA takes `push ebp; push edi` as the arguments of `call [eax+318h]`
-  (0x100C6693) and misses the `ret 4` of `call [eax+3C8h]` (0x100C7902).
-- `CTsZoneMap_DrawProjectedShadow` (live gate only): `SetVertexShader` at 0x101851B4 pops 8 of the 12
-  bytes pushed before it; the `push edi` stays on the stack, and Hex-Rays reads `this` 12 bytes off later.
-
-Both are fixed in IDA by **`ida/ffxi_ida_fix.py`** (see *Next step in IDA*).
+The two FAILs (`sub_1017DE20`, `sub_100548D0`) and the INCONCLUSIVE (`sub_10016320`) are described in
+section 11 of the report. `CXiSkeletonActor_OnMove` now passes.
 
 ## Next step in IDA
 

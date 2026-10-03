@@ -10,7 +10,7 @@ char ** __cdecl CMoD3mSpecularElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10041020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoD3mSpecularElem::Ctor()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

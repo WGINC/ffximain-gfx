@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102394A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 51 returned normally, 36 D3D calls compared (diffemu_gfx, clean build)
 XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
 {
   char *result;
@@ -40,8 +40,12 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
       v7 = orig::MenuMng_GetOffsetY((float *)g_menuMng, 1) * 0.5;
       return (char *)orig::Shape_DrawScaled(
                        v6,
-                       (__int64)((double)(__int16)(g_screenRectBottomRight - g_screenRectTopLeft) * (1.0 - *(float *)&v10) - 234.0),
-                       (__int64)((double)(__int16)(HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft)) * (1.0 - v7) - 48.0)
+                       (__int64)((double)(__int16)(g_screenRectBottomRight - g_screenRectTopLeft)
+                               * (1.0 - *(float *)&v10)
+                               - 234.0),
+                       (__int64)((double)(__int16)(HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft))
+                               * (1.0 - v7)
+                               - 48.0)
                      - v5
                      + 8,
                        1065353216,

@@ -2,10 +2,10 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10281830  (unit sqgxTexture: name sqgxTextureAdd)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE *a4)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *a4)
 {
-  IDirect3DBaseTexture8 *v4;
+  IDirect3DTexture8 *v4;
   int v5;
   int *v6;
   int v8;
@@ -19,7 +19,7 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
     v6 = g_sqgxTex_width;
     do
     {
-      if ( v6[5] == -1 && *v6 == a1 && v6[1] == a2 && (IDirect3DBaseTexture8 *)v6[2] == a3 )
+      if ( v6[5] == -1 && *v6 == a1 && v6[1] == a2 && (IDirect3DTexture8 *)v6[2] == a3 )
         break;
       ++v5;
       v6 += 10;
@@ -43,21 +43,21 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
   }
   v9 = a4;
   g_sqgxTex_name[10 * v5] = (int)a4;
-  if ( v4 == (IDirect3DBaseTexture8 *)4 )
+  if ( v4 == (IDirect3DTexture8 *)4 )
   {
     v10 = 21;
   }
-  else if ( v4 == (IDirect3DBaseTexture8 *)3 )
+  else if ( v4 == (IDirect3DTexture8 *)3 )
   {
     v10 = 22;
   }
-  else if ( v4 == (IDirect3DBaseTexture8 *)2 )
+  else if ( v4 == (IDirect3DTexture8 *)2 )
   {
     v10 = 51;
   }
-  else if ( v4 == (IDirect3DBaseTexture8 *)1 )
+  else if ( v4 == (IDirect3DTexture8 *)1 )
   {
-    v10 = *(_DWORD *)(g_pSqgxContext + 720) != 0 ? 50 : 41;
+    v10 = g_pSqgxContext[180] != 0 ? 50 : 41;
   }
   g_sqgxTex_format[10 * v5] = v10;
   if ( v9 != nullptr )
@@ -75,7 +75,7 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
            1u,
            (D3DFORMAT)g_sqgxTex_format[10 * v5],
            D3DPOOL_DEFAULT,
-           (IDirect3DTexture8 **)&a3) != 0 )
+           &a3) != 0 )
       orig::sqDebugPrintf(aError);
     (&g_sqgxTex_texture)[10 * v5] = a3;
   }
@@ -85,8 +85,8 @@ XI_API int __cdecl fn_10281830(int a1, int a2, IDirect3DBaseTexture8 *a3, _BYTE 
 }
 
 // FUNCTION: FFXIMAIN 0x102819D0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
-// GATE: PASS -- 100 trials, 23 returned normally, 23 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxTextureAddPalette(int a1, int a2, int a3)
+// GATE: PASS -- 100 trials, 44 returned normally, 44 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 {
   signed int i;
   int v4;
@@ -118,8 +118,8 @@ XI_API int __cdecl sqgxTextureAddPalette(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10281D60  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 86 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxTextureSetPalette(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 88 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxTextureClut(int a1)
 {
   int result;
   result = a1;
@@ -127,7 +127,7 @@ XI_API int __cdecl sqgxTextureSetPalette(int a1)
     return g_pDancerDevice->SetCurrentTexturePalette(a1);
   if ( a1 == -1 )
   {
-    result = *(_DWORD *)(g_pSqgxContext + 4 * *(_DWORD *)(g_pSqgxContext + 2840) + 2224);
+    result = g_pSqgxContext[g_pSqgxContext[710] + 556];
     if ( g_sqgxTex_kind[10 * result] == 1 )
       return g_pDancerDevice->SetCurrentTexturePalette(0);
   }
@@ -135,11 +135,11 @@ XI_API int __cdecl sqgxTextureSetPalette(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281DB0  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 83 returned normally, 773 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10281DB0(void)
+// GATE: PASS -- 100 trials, 100 returned normally, 1340 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxTextureUpdate(void)
 {
   int result;
-  int v1;
+  int *v1;
   unsigned int v2;
   int v3;
   int v4;
@@ -148,24 +148,24 @@ XI_API int __cdecl fn_10281DB0(void)
   {
     v1 = g_pSqgxContext;
     v2 = 0;
-    if ( *(int *)(g_pSqgxContext + 2840) + 1 > 0 )
+    if ( g_pSqgxContext[710] + 1 > 0 )
     {
       while ( 1 )
       {
-        v3 = *(_DWORD *)(v1 + 4 * v2 + 2224);
-        if ( v3 >= 0 && (*(_BYTE *)(v1 + 2608) & 4) != 0 )
+        v3 = v1[v2 + 556];
+        if ( v3 >= 0 && (v1[652] & 4) != 0 )
           break;
         g_pDancerDevice->SetTexture(v2, nullptr);
         g_pDancerDevice->SetTextureStageState(v2, D3DTSS_COLOROP, D3DTOP_DISABLE);
 LABEL_21:
         v1 = g_pSqgxContext;
-        if ( (int)++v2 >= *(int *)(g_pSqgxContext + 2840) + 1 )
+        if ( (int)++v2 >= g_pSqgxContext[710] + 1 )
           goto LABEL_22;
       }
-      g_pDancerDevice->SetTexture(v2, (&g_sqgxTex_texture)[10 * v3]);
+      g_pDancerDevice->SetTexture(v2, (IDirect3DBaseTexture8 *)(&g_sqgxTex_texture)[10 * v3]);
       if ( v2 == 0 )
       {
-        v4 = *(_DWORD *)(g_pSqgxContext + 2240);
+        v4 = g_pSqgxContext[560];
         if ( v4 != 1 )
         {
           if ( v4 != 0 )
@@ -194,11 +194,11 @@ LABEL_21:
         g_pDancerDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
       }
 LABEL_13:
-      if ( *(_DWORD *)(g_pSqgxContext + 4 * v2 + 2248) != 0 )
+      if ( g_pSqgxContext[v2 + 562] != 0 )
         g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
       else
         g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-      if ( *(_DWORD *)(g_pSqgxContext + 4 * v2 + 2256) != 0 )
+      if ( g_pSqgxContext[v2 + 564] != 0 )
         g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
       else
         g_pDancerDevice->SetTextureStageState(v2, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
@@ -207,11 +207,7 @@ LABEL_13:
       goto LABEL_21;
     }
 LABEL_22:
-    result = g_pDancerDevice->lpVtbl->SetTextureStageState(
-               g_pDancerDevice,
-               *(_DWORD *)(v1 + 2840) + 1,
-               D3DTSS_COLOROP,
-               1u);
+    result = g_pDancerDevice->SetTextureStageState(v1[710] + 1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     g_sqgxRenderStateDirty = 0;
   }
   return result;
@@ -261,44 +257,44 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102820E0  (unit sqgxTexture: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 5 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API int __cdecl sqgxTextureSetRenderTarget(IDirect3DSurface8 *a1)
+// GATE: PASS -- 100 trials, 99 returned normally, 193 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxTextureDrawZ(IDirect3DSurface8 *a1)
 {
   IDirect3DSurface8 *v1;
-  int v2;
+  int *v2;
   int v3;
   IDirect3DSurface8 *v4;
-  int result;
+  int *result;
   v1 = a1;
-  *(_DWORD *)(g_pSqgxContext + 2208) = a1;
+  g_pSqgxContext[552] = (int)a1;
   v2 = g_pSqgxContext;
-  v3 = *(_DWORD *)(g_pSqgxContext + 2204);
-  if ( v3 == *(_DWORD *)(g_pSqgxContext + 2216) )
+  v3 = g_pSqgxContext[551];
+  if ( v3 == g_pSqgxContext[554] )
   {
-    v4 = *(IDirect3DSurface8 **)(g_pSqgxContext + 2300);
+    v4 = (IDirect3DSurface8 *)g_pSqgxContext[575];
     a1 = v4;
   }
   else
   {
-    (&g_sqgxTex_texture)[10 * v3]->lpVtbl[1].AddRef((&g_sqgxTex_texture)[10 * v3]);
+    (&g_sqgxTex_texture)[10 * v3]->lpVtbl->GetSurfaceLevel((&g_sqgxTex_texture)[10 * v3], 0, &a1);
     v4 = a1;
     v2 = g_pSqgxContext;
   }
-  if ( v1 != *(IDirect3DSurface8 **)(v2 + 2220) )
-    return g_pDancerDevice->lpVtbl->SetRenderTarget(
-             g_pDancerDevice,
-             v4,
-             (IDirect3DSurface8 *)g_sqgxTex_surface[10 * (_DWORD)v1]);
-  g_pDancerDevice->SetRenderTarget(v4, *(IDirect3DSurface8 **)(v2 + 2304));
+  if ( v1 != (IDirect3DSurface8 *)v2[555] )
+    return (int *)g_pDancerDevice->lpVtbl->SetRenderTarget(
+                    g_pDancerDevice,
+                    v4,
+                    (IDirect3DSurface8 *)g_sqgxTex_surface[10 * (_DWORD)v1]);
+  g_pDancerDevice->SetRenderTarget(v4, (IDirect3DSurface8 *)v2[576]);
   result = g_pSqgxContext;
-  if ( *(_DWORD *)(g_pSqgxContext + 2204) != *(_DWORD *)(g_pSqgxContext + 2216) )
-    return a1->Release();
+  if ( g_pSqgxContext[551] != g_pSqgxContext[554] )
+    return (int *)a1->Release();
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10282190  (unit sqgxTexture: name sqgxTextureDraw)
-// GATE: PASS -- 100 trials, 54 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxTextureDraw(int a1, char a2)
+// GATE: PASS -- 100 trials, 99 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxTextureDraw(int a1, char a2)
 {
   int v2;
   IDirect3DSurface8 *v3;
@@ -306,33 +302,36 @@ XI_API int __cdecl sqgxTextureDraw(int a1, char a2)
   float v6;
   float v7;
   float v8;
-  *(_DWORD *)(g_pSqgxContext + 2204) = a1;
-  v2 = *(_DWORD *)(g_pSqgxContext + 2208);
-  if ( v2 == *(_DWORD *)(g_pSqgxContext + 2220) )
-    v3 = *(IDirect3DSurface8 **)(g_pSqgxContext + 2304);
+  g_pSqgxContext[551] = a1;
+  v2 = g_pSqgxContext[552];
+  if ( v2 == g_pSqgxContext[555] )
+    v3 = (IDirect3DSurface8 *)g_pSqgxContext[576];
   else
     v3 = (IDirect3DSurface8 *)g_sqgxTex_surface[10 * v2];
   if ( a2 != 0 )
   {
-    v7 = (double)*(int *)(g_pSqgxContext + 728) / (double)g_sqgxTex_height[10 * a1];
-    v5 = (double)*(int *)(g_pSqgxContext + 724) / (double)g_sqgxTex_width[10 * a1];
-    orig::sqgxSetAspectRatio(v5, v7);
+    v7 = (double)g_pSqgxContext[182] / (double)g_sqgxTex_height[10 * a1];
+    v5 = (double)g_pSqgxContext[181] / (double)g_sqgxTex_width[10 * a1];
+    orig::sqgxPixelSize(v5, v7);
   }
   else
   {
-    orig::sqgxSetAspectRatio(1.0, 1.0);
+    orig::sqgxPixelSize(1.0, 1.0);
   }
-  if ( a1 == *(_DWORD *)(g_pSqgxContext + 2216) )
+  if ( a1 == g_pSqgxContext[554] )
   {
-    g_pDancerDevice->SetRenderTarget(*(IDirect3DSurface8 **)(g_pSqgxContext + 2300), v3);
+    g_pDancerDevice->SetRenderTarget((IDirect3DSurface8 *)g_pSqgxContext[575], v3);
   }
   else
   {
     if ( g_sqgxTex_surface[10 * a1] == 0 )
-      (&g_sqgxTex_texture)[10 * a1]->lpVtbl[1].AddRef((&g_sqgxTex_texture)[10 * a1]);
+      (&g_sqgxTex_texture)[10 * a1]->lpVtbl->GetSurfaceLevel(
+        (&g_sqgxTex_texture)[10 * a1],
+        0,
+        (IDirect3DSurface8 **)&g_sqgxTex_surface[10 * a1]);
     g_pDancerDevice->SetRenderTarget((IDirect3DSurface8 *)g_sqgxTex_surface[10 * a1], v3);
   }
   v8 = (float)g_sqgxTex_height[10 * a1];
   v6 = (float)g_sqgxTex_width[10 * a1];
-  return orig::sqgxSetViewport(0.0, 0.0, v6, v8);
+  return orig::sqgxViewport(0.0, 0.0, v6, v8);
 }

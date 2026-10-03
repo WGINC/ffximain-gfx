@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 9 returned normally, 22 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 100 returned normally, 113 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10029A50(void)
 {
   int result;
@@ -59,7 +59,7 @@ LABEL_7:
           dword_10456E6C = 0;
           dword_10456E70 = g_translucentTarget;
           if ( g_translucentTarget != 0 )
-            return (*(int (__stdcall **)(int))(*(_DWORD *)g_translucentTarget + 4))(g_translucentTarget);
+            return (*(int (__stdcall **)(_DWORD))(*(_DWORD *)g_translucentTarget + 4))(g_translucentTarget);
         }
       }
     }

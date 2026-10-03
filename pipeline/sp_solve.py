@@ -265,7 +265,17 @@ def selftest(im, purges, ext, starts, nr, iat):
             if want == p: ok += 1
             else: bad += 1; ex.append(('0x%08X' % a, p, want))
     print('self-test: %d direct calls solved with their ret N hidden: %d right, %d wrong %s' % (ok + bad, ok, bad, ex[:10]))
-    return bad
+    # a miss is harmless only if normal use rejects its function (inconsistent, or failing its own check)
+    leak = []
+    for a, p, want in ex:
+        f = next(int(k, 16) for k, e in ext.items() if any(x <= int(a, 16) < y for x, y in e))
+        calls, cons, _ = func_calls(im, f, ext['0x%x' % f], purges, starts, nr=nr, iat=iat)
+        if cons:
+            chk, ok2, _ = func_calls(im, f, ext['0x%x' % f], purges, starts, hide=True, nr=nr, iat=iat)
+            if ok2 and not [c for c, q in chk.items() if c not in calls and known_pop(im, purges, c) not in (None, q)]:
+                leak.append(a)
+    print('self-test: %d of %d misses reach the output (the rest are in functions normal use rejects)%s' % (len(leak), bad, (': %s' % leak) if leak else ''))
+    return len(leak)
 
 
 def main(out, *addrs):

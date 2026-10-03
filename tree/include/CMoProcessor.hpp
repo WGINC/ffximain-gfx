@@ -7,6 +7,7 @@
 class XI_API CMoProcessor {
 public:
     _DWORD * InitRotationMatrices();  // 0x1006CE70
+    int ScratchMatrixOp(int a2, int a3, int a4);  // 0x1006E6B0
 
     void **vftable;  // +0x0
     float ScratchMatrices[512];  // +0x4

@@ -22,7 +22,7 @@ int * CYyModelBase::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 28 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 57 returned normally, 895 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -94,23 +94,9 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
         if ( v14 != 0 && v11[5] == 0 )
         {
           if ( v11[7] == 0
-            && orig::CYyVbMng_AcquireVertexBuffer(
-                 (_DWORD *)g_pVbMng,
-                 12 * v14 + 4,
-                 520,
-                 0,
-                 g_vertexBuffer_7540,
-                 v11 + 7,
-                 0) < 0
+            && orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 12 * v14 + 4, 520, 0, g_vertexBuffer_7540, v11 + 7, 0) < 0
             || v11[9] == 0
-            && orig::CYyVbMng_AcquireVertexBuffer(
-                 (_DWORD *)g_pVbMng,
-                 12 * v14 + 4,
-                 520,
-                 0,
-                 g_vertexBuffer_7540,
-                 v11 + 9,
-                 0) < 0
+            && orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 12 * v14 + 4, 520, 0, g_vertexBuffer_7540, v11 + 9, 0) < 0
             || ((v15 = *(int **)(v13 + 52)) == nullptr ? (v16 = 0) : (v16 = *v15),
                 (*(_BYTE *)(v16 + 52) & 1) != 0
              && (v11[11] == 0

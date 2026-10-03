@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 {
   int v2;
@@ -18,7 +18,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
       return;
     }
     if ( g_pCubeMapTarget != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)g_pCubeMapTarget + 24))(1);
+      (*(void (__thiscall **)(void *, int))(*(_DWORD *)g_pCubeMapTarget + 24))((void *)g_pCubeMapTarget, 1);
     g_pCubeMapTarget = 0;
   }
   if ( *self_ != 0 )
@@ -35,8 +35,8 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
     *(_DWORD *)(g_pCubeMapTarget + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, v4, g_cubeMapTargetHeight, &v5);
     *(_DWORD *)(g_pCubeMapTarget + 8) = v5;
     *(_DWORD *)(g_pCubeMapTarget + 12) = orig::CDx_CreateDepthSurfaceLikeMain(
-                                         &g_pCDx->vftable,
-                                         g_cubeMapTargetWidth,
-                                         g_cubeMapTargetHeight);
+                                           &g_pCDx->vftable,
+                                           g_cubeMapTargetWidth,
+                                           g_cubeMapTargetHeight);
   }
 }

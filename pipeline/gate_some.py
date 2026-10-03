@@ -28,8 +28,8 @@ def select(run, sels):
     for s in sels:
         if s == 'all':
             out |= {norm(c['original']) for c in json.load(open(CASES[0] or os.path.join(run, 'cases.json')))}
-        elif s in ('fail', 'inconclusive', 'notpass'):
-            want = {'fail': {'FAIL'}, 'inconclusive': {'INCONCLUSIVE'}}.get(s)
+        elif s in ('fail', 'inconclusive', 'unresolved', 'notpass'):
+            want = {'fail': {'FAIL'}, 'inconclusive': {'INCONCLUSIVE'}, 'unresolved': {'UNRESOLVED'}}.get(s)
             out |= {k for k, v in ref.items() if (v in want if want else v != 'PASS')}
         elif s.startswith('changed:'):
             other = s.split(':', 1)[1]

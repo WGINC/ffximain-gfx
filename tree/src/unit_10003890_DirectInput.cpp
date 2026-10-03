@@ -2,17 +2,19 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10007EF0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 12 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
 {
   _DWORD *v2;
   int v3;
   int v4;
-  int v5;
-  int v6;
-  int v7;
-  int v8;
-  int v9;
+  alignas(16) unsigned char xi_frame[0x438];  // address-taken locals at their original offsets
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x34);
+
   if ( g_windowMode != 0 )
   {
     g_mouseAcquired = 0;
@@ -58,10 +60,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
           v8 = 0;
           v9 = 320;
           (*(void (__stdcall **)(int, int, int *))(*(_DWORD *)v4 + 24))(v4, 1, &v5);
-          if ( (*(int (__stdcall **)(_DWORD, _DWORD, int))(*(_DWORD *)*v2 + 52))(
-                 *v2,
-                 *((_DWORD *)g_pApp + 6),
-                 6) >= 0 )
+          if ( (*(int (__stdcall **)(_DWORD, _DWORD, int))(*(_DWORD *)*v2 + 52))(*v2, *((_DWORD *)g_pApp + 6), 6) >= 0 )
           {
             (*(void (__stdcall **)(_DWORD))(*(_DWORD *)*v2 + 28))(*v2);
             return 1;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x101EEBD0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 69 returned normally, 350 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 370 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall fn_101EEBD0(int self_)
 {
   int v2;
@@ -169,11 +169,11 @@ XI_API char __thiscall fn_101EEBD0(int self_)
   v15 = *(unsigned __int8 **)(self_ + 184);
   if ( v15 == (unsigned __int8 *)-1 )
   {
-    LOBYTE(v14) = orig::sub_10150CC0((void *)dword_1057847C, nullptr, 2);
+    LOBYTE(v14) = orig::sub_10150CC0(dword_1057847C, nullptr, 2);
   }
   else if ( v15 != nullptr )
   {
-    LOBYTE(v14) = orig::sub_10150CC0((void *)dword_1057847C, v15, 2);
+    LOBYTE(v14) = orig::sub_10150CC0(dword_1057847C, v15, 2);
   }
   return (char)v14;
 }

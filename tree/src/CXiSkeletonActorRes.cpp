@@ -35,7 +35,7 @@ _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D7050  (placed by IDB name)
-// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CXiSkeletonActorRes::Destructor()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -57,7 +57,7 @@ int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 }
 
 // FUNCTION: FFXIMAIN 0x100D70A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 20 D3D calls compared (diffemu_gfx, clean build)
 char CXiSkeletonActorRes::ProcessLoadState()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -95,7 +95,7 @@ char CXiSkeletonActorRes::ProcessLoadState()
   else
   {
     if ( self != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)self + 24))(1);
+      (*(void (__thiscall **)(void *, int))(*(_DWORD *)self + 24))((void *)self, 1);
     return 1;
   }
 }

@@ -217,7 +217,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025C40  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 1504 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 2470 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
   float v4[16];
@@ -404,7 +404,7 @@ XI_API void __cdecl Dbg_DrawGroundGrid(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 {
-  alignas(16) unsigned char xi_frame[0x548];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x588];  // address-taken locals at their original offsets
   int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x90);
   int &v1 = *reinterpret_cast<int *>(xi_frame + 0x9C);
   int &v2 = *reinterpret_cast<int *>(xi_frame + 0xA0);
@@ -470,10 +470,10 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100266C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 165 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Dbg_DrawAxesAt(int a1)
 {
-  alignas(16) unsigned char xi_frame[0x4B8];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4F8];  // address-taken locals at their original offsets
   int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x18);
   int &v2 = *reinterpret_cast<int *>(xi_frame + 0x24);
   int &v3 = *reinterpret_cast<int *>(xi_frame + 0x28);

@@ -106,11 +106,12 @@ float * CMoProcessor_VT_1032C1C8::vf021(float *a1, float *a2, float *a3, float a
   return orig::CMoProcessor_VT_1032C368_vf021(a1, a2, a3, a4);
 }
 
-// FUNCTION: FFXIMAIN 0x10070D80  (placed by tree manifest; does not use this)
+// FUNCTION: FFXIMAIN 0x10070D80  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void CMoProcessor_VT_1032C1C8::vf032(float *a1, int a2, int a3, float *a4, float *a5, float a6, float a7)
+void CMoProcessor_VT_1032C1C8::vf032(float * a1, int a2, int a3, float * a4, float * a5, float a6, float a7)
 {
-  orig::CMoProcessor_ProjectPointsToScreen(a1, a2, a3, a4, a5, a6, a7);
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  orig::CMoProcessor_ProjectPointsToScreen(self, a1, a2, a3, a4, a5, a6, a7);
 }
 
 // FUNCTION: FFXIMAIN 0x10070E20  (placed by tree manifest; does not use this)

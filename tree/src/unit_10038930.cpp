@@ -2,18 +2,18 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
   g_sceneCaptureDepth = 0;
   g_sceneCaptureTex = (int)orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &g_sceneCaptureDepth, 1, 0);
-  result = (_DWORD *)g_pEnv;
-  if ( *(_DWORD *)(g_pEnv + 24) != 0 )
+  result = g_pEnv;
+  if ( g_pEnv[6] != 0 )
   {
     g_sceneCaptureDepthEye2 = g_translucentDepth;
     if ( g_translucentDepth != 0 )
-      (*(void (__stdcall **)(int))(*(_DWORD *)g_translucentDepth + 4))(g_translucentDepth);
+      (*(void (__stdcall **)(_DWORD))(*(_DWORD *)g_translucentDepth + 4))(g_translucentDepth);
     result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &g_sceneCaptureDepthEye2, 1, 0);
     g_sceneCaptureTexEye2 = (int)result;
   }
@@ -26,47 +26,44 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 760 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 815 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
   unsigned __int8 v3;
-  int v4;
-  int a3[27];
+  int v4[28];
   result = orig::Settings_GetValue(200);
   if ( result != 0
     && (result = *((_DWORD *)self_ + 1)) != 0
     && (result = g_sceneCaptureTex, g_sceneCaptureTex != 0)
     && (result = (int)pTexture, pTexture != nullptr) )
   {
-    v4 = 0;
-    a3[3] = dword_1047B954;
-    a3[10] = dword_1047B954;
-    a3[17] = dword_1047B954;
-    a3[24] = dword_1047B954;
-    a3[0] = 0;
-    a3[1] = 0;
-    a3[2] = 1065353216;
-    a3[4] = 0;
-    a3[5] = 0;
-    a3[6] = 1132462080;
-    a3[7] = 0;
-    a3[8] = 0;
-    a3[9] = 1065353216;
-    a3[11] = 1065353216;
-    a3[12] = 0;
-    a3[13] = 0;
-    a3[14] = 1132462080;
-    a3[15] = 0;
-    a3[16] = 1065353216;
-    a3[18] = 0;
-    a3[19] = 1065353216;
-    a3[20] = 1132462080;
-    a3[21] = 1132462080;
-    a3[22] = 0;
-    a3[23] = 1065353216;
-    a3[25] = 1065353216;
-    a3[26] = 1065353216;
+    memset(v4, 0, 12);
+    v4[4] = dword_1047B954;
+    v4[11] = dword_1047B954;
+    v4[18] = dword_1047B954;
+    v4[25] = dword_1047B954;
+    v4[3] = 1065353216;
+    v4[5] = 0;
+    v4[6] = 0;
+    v4[7] = 1132462080;
+    v4[8] = 0;
+    v4[9] = 0;
+    v4[10] = 1065353216;
+    v4[12] = 1065353216;
+    v4[13] = 0;
+    v4[14] = 0;
+    v4[15] = 1132462080;
+    v4[16] = 0;
+    v4[17] = 1065353216;
+    v4[19] = 0;
+    v4[20] = 1065353216;
+    v4[21] = 1132462080;
+    v4[22] = 1132462080;
+    v4[23] = 0;
+    v4[24] = 1065353216;
+    v4[26] = 1065353216;
+    v4[27] = 1065353216;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG2);
@@ -86,16 +83,16 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
     g_pCDx->pDevice->SetVertexShader(0x144u);
     v3 = g_pCDx->_pad_10[2072];
     g_pCDx->_pad_10[2072] = 0;
-    if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && g_sceneCaptureTexEye2 != 0 && g_translucentTargetEye2 != 0 )
+    if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 && g_sceneCaptureTexEye2 != 0 && g_translucentTargetEye2 != 0 )
     {
       g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)g_translucentTargetEye2);
       orig::CDx_PushRenderTarget(g_pCDx, g_sceneCaptureTexEye2, g_sceneCaptureDepthEye2, 0);
-      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
+      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v4, 28);
       orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
     }
-    g_pCDx->pDevice->SetTexture(0, pTexture);
+    g_pCDx->pDevice->SetTexture(0, (IDirect3DBaseTexture8 *)pTexture);
     orig::CDx_PushRenderTarget(g_pCDx, g_sceneCaptureTex, g_sceneCaptureDepth, 0);
-    orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&v4, 28);
+    orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v4, 28);
     orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
     g_pCDx->_pad_10[2072] = v3;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -110,7 +107,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 2951 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 11248 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;
@@ -130,7 +127,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   unsigned __int16 v15;
   unsigned __int8 v16;
   CDx *v17;
-  alignas(16) unsigned char xi_frame[0x5B4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
   unsigned __int8 &v18 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x113);
   float &v19 = *reinterpret_cast<float *>(xi_frame + 0x114);
   unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x118);
@@ -265,7 +262,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       v16 = g_pCDx->_pad_10[2072];
       g_pCDx->_pad_10[2072] = 0;
       v18 = v16;
-      if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) && g_sceneCaptureTexEye2 != 0 )
+      if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 && g_sceneCaptureTexEye2 != 0 )
       {
         v17 = g_pCDx;
         if ( *(_DWORD *)&g_pCDx->_pad_10[392] == 0 || *(_DWORD *)&g_pCDx->_pad_10[408] == 0 )

@@ -2,33 +2,33 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10282350  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxZTest(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxZTest(int a1)
 {
-  int result;
+  int *result;
   result = g_pSqgxContext;
-  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2280) )
+  if ( a1 != g_pSqgxContext[570] )
   {
-    *(_DWORD *)(g_pSqgxContext + 2280) = a1;
+    g_pSqgxContext[570] = a1;
     g_sqgxRenderStateDirty = 1;
-    if ( *(_DWORD *)(g_pSqgxContext + 2280) != 0 )
-      return g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+    if ( g_pSqgxContext[570] != 0 )
+      return (int *)g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
     else
-      return g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+      return (int *)g_pDancerDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x102823F0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 69 returned normally, 207 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxSetAlphaTest(unsigned int a1, unsigned int a2)
+// GATE: PASS -- 100 trials, 100 returned normally, 273 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxAlphaTest(unsigned int a1, unsigned int a2)
 {
   int result;
   result = a2;
-  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2284) || a2 != *(_DWORD *)(g_pSqgxContext + 2296) )
+  if ( a1 != g_pSqgxContext[571] || a2 != g_pSqgxContext[574] )
   {
-    *(_DWORD *)(g_pSqgxContext + 2284) = a1;
-    *(_DWORD *)(g_pSqgxContext + 2296) = a2;
+    g_pSqgxContext[571] = a1;
+    g_pSqgxContext[574] = a2;
     g_sqgxRenderStateDirty = 1;
     g_pDancerDevice->SetRenderState(D3DRS_ALPHAREF, a2);
     g_pDancerDevice->SetRenderState(D3DRS_ALPHATESTENABLE, a1);
@@ -38,41 +38,38 @@ XI_API int __cdecl sqgxSetAlphaTest(unsigned int a1, unsigned int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10282470  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 86 returned normally, 84 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxSetZWrite(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxZMask(int a1)
 {
-  int result;
+  int *result;
   result = g_pSqgxContext;
-  if ( a1 != *(_DWORD *)(g_pSqgxContext + 2324) )
+  if ( a1 != g_pSqgxContext[581] )
   {
     if ( a1 != 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
       result = g_pSqgxContext;
-      *(_DWORD *)(g_pSqgxContext + 2324) = a1;
+      g_pSqgxContext[581] = a1;
     }
     else
     {
       g_pDancerDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
       result = g_pSqgxContext;
-      *(_DWORD *)(g_pSqgxContext + 2324) = 0;
+      g_pSqgxContext[581] = 0;
     }
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x102824C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 78 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxColorMask(int a1, int a2, int a3, int a4)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxFBMask(int a1, int a2, int a3, int a4)
 {
-  int result;
+  int *result;
   unsigned int v5;
   result = g_pSqgxContext;
   v5 = 0;
-  if ( a4 != *(_DWORD *)(g_pSqgxContext + 2320)
-    || a1 != *(_DWORD *)(g_pSqgxContext + 2308)
-    || a3 != *(_DWORD *)(g_pSqgxContext + 2316)
-    || a2 != *(_DWORD *)(g_pSqgxContext + 2312) )
+  if ( a4 != g_pSqgxContext[580] || a1 != g_pSqgxContext[577] || a3 != g_pSqgxContext[579] || a2 != g_pSqgxContext[578] )
   {
     if ( a1 == 0 )
       v5 = 1;
@@ -83,79 +80,47 @@ XI_API int __cdecl sqgxColorMask(int a1, int a2, int a3, int a4)
     if ( a4 == 0 )
       v5 |= 8u;
     g_pDancerDevice->SetRenderState(D3DRS_COLORWRITEENABLE, v5);
-    *(_DWORD *)(g_pSqgxContext + 2308) = a1;
-    *(_DWORD *)(g_pSqgxContext + 2312) = a2;
-    *(_DWORD *)(g_pSqgxContext + 2316) = a3;
+    g_pSqgxContext[577] = a1;
+    g_pSqgxContext[578] = a2;
+    g_pSqgxContext[579] = a3;
     result = g_pSqgxContext;
-    *(_DWORD *)(g_pSqgxContext + 2320) = a4;
+    g_pSqgxContext[580] = a4;
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10282640  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 132 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 224 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10282640(void)
 {
   int result;
   unsigned int v1;
-  result = g_pSqgxContext;
-  v1 = *(_DWORD *)(g_pSqgxContext + 2840);
+  result = (int)g_pSqgxContext;
+  v1 = g_pSqgxContext[710];
   if ( v1 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v1, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG1,
-             2u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x102826C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendAdd(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_ADD);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      3u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
   }
   else
   {
@@ -167,44 +132,20 @@ XI_API int __cdecl sqgxBlendAdd(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102827D0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 399 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_102827D0(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MULTIPLYADD);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG0,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      32u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      1u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             2u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG0, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_DIFFUSE | D3DTA_ALPHAREPLICATE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_CURRENT);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
   }
   else
   {
@@ -216,39 +157,19 @@ XI_API int __cdecl fn_102827D0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282910  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendSub(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_SUBTRACT);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
   }
   else
   {
@@ -260,49 +181,27 @@ XI_API int __cdecl sqgxBlendSub(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282A30  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 72 returned normally, 402 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10282A30(float a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 541 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl sqgxBlendLin(float a1)
 {
-  double v1;
-  int v2;
-  unsigned int v3;
-  v1 = a1 * 255.0 + 0.5;
-  v2 = (__int64)v1;
-  if ( v2 > 255 )
-    v2 = 255;
-  v3 = *(_DWORD *)(g_pSqgxContext + 2840);
-  if ( v3 != 0 )
+  int v1;
+  unsigned int v2;
+  v1 = (__int64)(a1 * 255.0 + 0.5);
+  if ( v1 > 255 )
+    v1 = 255;
+  v2 = g_pSqgxContext[710];
+  if ( v2 != 0 )
   {
-    g_pDancerDevice->SetTextureStageState(v3, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG2,
-      1u);
+    g_pDancerDevice->SetTextureStageState(v2, D3DTSS_COLOROP, D3DTOP_BLENDFACTORALPHA);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
     g_pDancerDevice->lpVtbl->SetRenderState(
       g_pDancerDevice,
       D3DRS_TEXTUREFACTOR,
-      (unsigned __int8)v2 | (((unsigned __int8)v2 | (((unsigned __int8)v2 | (v2 << 8)) << 8)) << 8));
+      (unsigned __int8)v1 | (((unsigned __int8)v1 | (((unsigned __int8)v1 | (v1 << 8)) << 8)) << 8));
   }
   else
   {
@@ -311,43 +210,22 @@ XI_API void __cdecl fn_10282A30(float a1)
     g_pDancerDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
     g_pDancerDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
   }
-  (void)(v1); return;
 }
 
 // FUNCTION: FFXIMAIN 0x10282B90  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxBlendTrsp(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
   }
   else
   {
@@ -359,39 +237,19 @@ XI_API int __cdecl sqgxBlendTrsp_Candidate(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282CB0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendTrspInv(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
   }
   else
   {
@@ -403,39 +261,19 @@ XI_API int __cdecl sqgxBlendTrspInv(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282DC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      1u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             2u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_CURRENT);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
   }
   else
   {
@@ -447,39 +285,19 @@ XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282ED0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 399 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10282ED0(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      3u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG2,
-      1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TFACTOR);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
     return g_pDancerDevice->SetRenderState(D3DRS_TEXTUREFACTOR, 0);
   }
   else
@@ -492,39 +310,19 @@ XI_API int __cdecl fn_10282ED0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282FF0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 399 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxBlendZeroSrcAlpha(void)
+// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxBlendMultAlpha(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATEALPHA_ADDCOLOR);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      3u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG2,
-      1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TFACTOR);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
     return g_pDancerDevice->SetRenderState(D3DRS_TEXTUREFACTOR, 0);
   }
   else
@@ -537,39 +335,19 @@ XI_API int __cdecl sqgxBlendZeroSrcAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283110  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 366 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendMul(void)
 {
   unsigned int v0;
-  v0 = *(_DWORD *)(g_pSqgxContext + 2840);
+  v0 = g_pSqgxContext[710];
   if ( v0 != 0 )
   {
     g_pDancerDevice->SetTextureStageState(v0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG1,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_COLORARG2,
-      1u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAOP,
-      2u);
-    g_pDancerDevice->lpVtbl->SetTextureStageState(
-      g_pDancerDevice,
-      *(_DWORD *)(g_pSqgxContext + 2840),
-      D3DTSS_ALPHAARG1,
-      2u);
-    return g_pDancerDevice->lpVtbl->SetTextureStageState(
-             g_pDancerDevice,
-             *(_DWORD *)(g_pSqgxContext + 2840),
-             D3DTSS_ALPHAARG2,
-             1u);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_COLORARG2, D3DTA_CURRENT);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    return g_pDancerDevice->SetTextureStageState(g_pSqgxContext[710], D3DTSS_ALPHAARG2, D3DTA_CURRENT);
   }
   else
   {
@@ -588,100 +366,99 @@ XI_API int __cdecl sqgxBlendOff(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283420  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 80 returned normally, 957 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10283420(void)
+// GATE: PASS -- 100 trials, 100 returned normally, 1145 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxColorUpdate(void)
 {
-  float v0;
-  __int16 v1; // fps
-  double v2;
-  bool v3; // c0
-  char v4; // c2
-  bool v5; // c3
-  int v6;
+  __int16 v0; // fps
+  double v1;
+  bool v2; // c0
+  char v3; // c2
+  bool v4; // c3
+  int v5;
   signed int i;
-  int v8;
+  int *v7;
   int result;
-  int v10;
-  unsigned int v11;
-  float v12[17];
-  float v13[4];
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  memset(v12, 0, sizeof(v12));
-  v12[12] = *(float *)(g_pSqgxContext + 1880) * *(float *)(g_pSqgxContext + 1896);
-  v12[13] = *(float *)(g_pSqgxContext + 1884) * *(float *)(g_pSqgxContext + 1896);
-  v12[14] = *(float *)(g_pSqgxContext + 1888) * *(float *)(g_pSqgxContext + 1896);
-  v12[15] = *(float *)(g_pSqgxContext + 1892) * *(float *)(g_pSqgxContext + 1896);
-  v12[0] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1880);
-  v12[1] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1884);
-  v12[2] = *(float *)(g_pSqgxContext + 1900) * *(float *)(g_pSqgxContext + 1888);
-  v12[3] = *(float *)(g_pSqgxContext + 1892);
-  if ( *(float *)(g_pSqgxContext + 20) >= 0.001
-    && (v2 = *(float *)(g_pSqgxContext + 20), v3 = v2 < 0.999, v4 = 0, v5 = v2 == 0.999, ((__int16)(((v3 || __builtin_isunordered(v2, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v2, 0.999)) ? 0x400 : 0) | ((v5 || __builtin_isunordered(v2, 0.999)) ? 0x4000 : 0)) & 0x4100) != 0) )
+  alignas(16) unsigned char xi_frame[0x480];  // address-taken locals at their original offsets
+  float (&v9)[17] = *reinterpret_cast<float (*)[17]>(xi_frame + 0xC);
+  float (&v10)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x50);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x64);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x68);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x6C);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x7C);
+
+  memset(v9, 0, sizeof(v9));
+  v9[12] = *((float *)g_pSqgxContext + 470) * *((float *)g_pSqgxContext + 474);
+  v9[13] = *((float *)g_pSqgxContext + 471) * *((float *)g_pSqgxContext + 474);
+  v9[14] = *((float *)g_pSqgxContext + 472) * *((float *)g_pSqgxContext + 474);
+  v9[15] = *((float *)g_pSqgxContext + 473) * *((float *)g_pSqgxContext + 474);
+  v9[0] = *((float *)g_pSqgxContext + 475) * *((float *)g_pSqgxContext + 470);
+  v9[1] = *((float *)g_pSqgxContext + 475) * *((float *)g_pSqgxContext + 471);
+  v9[2] = *((float *)g_pSqgxContext + 475) * *((float *)g_pSqgxContext + 472);
+  LODWORD(v9[3]) = g_pSqgxContext[473];
+  if ( *((float *)g_pSqgxContext + 5) >= 0.001
+    && (v1 = *((float *)g_pSqgxContext + 5), v2 = v1 < 0.999, v3 = 0, v4 = v1 == 0.999, ((__int16)(((v2 || __builtin_isunordered(v1, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v1, 0.999)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(v1, 0.999)) ? 0x4000 : 0)) & 0x4100) != 0) )
   {
-    v12[16] = *(float *)(g_pSqgxContext + 20);
+    LODWORD(v9[16]) = g_pSqgxContext[5];
   }
   else
   {
-    v12[16] = 0.0;
+    v9[16] = 0.0;
   }
-  memset(&v12[8], 0, 16);
+  memset(&v9[8], 0, 16);
   g_pDancerDevice->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
-  g_pDancerDevice->SetMaterial(v12);
-  v6 = *(_DWORD *)(g_pSqgxContext + 2608);
-  if ( (v6 & 8) != 0 && (v6 & 2) == 0 )
+  g_pDancerDevice->SetMaterial(v9);
+  v5 = g_pSqgxContext[652];
+  if ( (v5 & 8) == 0 || (v5 & 2) != 0 )
+  {
+    if ( (g_pSqgxContext[652] & 8) != 0 )
+    {
+      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 1u);
+    }
+    else
+    {
+      if ( (v5 & 2) == 0 )
+        g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 0);
+      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
+    }
+  }
+  else
   {
     g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 1u);
   }
-  else if ( (v6 & 8) != 0 )
-  {
-    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 1u);
-  }
-  else if ( (v6 & 2) == 0 )
-  {
-    g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 0);
-    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
-  }
-  else
-  {
-    g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
-  }
   for ( i = 0; i < 4; ++i )
   {
-    if ( *(_DWORD *)(g_pSqgxContext + 4 * i + 2132) == 0 || (*(_DWORD *)(g_pSqgxContext + 2592) & 0x40000) != 0 )
+    if ( g_pSqgxContext[i + 533] == 0 || (g_pSqgxContext[648] & 0x40000) != 0 )
     {
       result = g_pDancerDevice->LightEnable(i, 0);
     }
     else
     {
       g_pDancerDevice->LightEnable(i, 1u);
-      g_pDancerDevice->GetLight(i, v13);
-      v18 = 0;
-      v19 = 0;
-      v8 = g_pSqgxContext + 12 * i;
-      v20 = 0;
-      v13[1] = *(float *)(v8 + 1940);
-      v13[2] = *(float *)(g_pSqgxContext + 4 * (3 * i + 486));
-      v13[3] = *(float *)(v8 + 1948);
+      g_pDancerDevice->GetLight(i, v10);
+      v15 = 0;
+      v16 = 0;
+      v7 = &g_pSqgxContext[3 * i];
+      v17 = 0;
+      LODWORD(v10[1]) = v7[485];
+      v10[2] = *(float *)&g_pSqgxContext[3 * i + 486];
+      LODWORD(v10[3]) = v7[487];
       if ( i != 0 )
       {
-        v14 = 0;
-        v15 = 0;
-        v16 = 0;
+        v11 = 0;
+        v12 = 0;
+        v13 = 0;
       }
       else
       {
-        v14 = *(_DWORD *)(g_pSqgxContext + 1940);
-        v15 = *(_DWORD *)(g_pSqgxContext + 1944);
-        v16 = *(_DWORD *)(g_pSqgxContext + 1948);
+        v11 = g_pSqgxContext[485];
+        v12 = g_pSqgxContext[486];
+        v13 = g_pSqgxContext[487];
       }
-      v17 = 0;
-      result = g_pDancerDevice->SetLight(i, v13);
+      v14 = 0;
+      result = g_pDancerDevice->SetLight(i, v10);
     }
   }
   dword_109A2720 = 0;
@@ -689,13 +466,13 @@ XI_API int __cdecl fn_10283420(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283A10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
 {
-  int result;
+  int *result;
   _DWORD v5[6];
-  *(float *)(g_pSqgxContext + 688) = a3;
-  *(float *)(g_pSqgxContext + 692) = a4;
+  *((float *)g_pSqgxContext + 172) = a3;
+  *((float *)g_pSqgxContext + 173) = a4;
   v5[0] = (__int64)a1;
   v5[1] = (__int64)a2;
   v5[2] = (__int64)a3;
@@ -703,56 +480,56 @@ XI_API int __cdecl sqgxSetViewport(float a1, float a2, float a3, float a4)
   v5[4] = 0;
   v5[5] = 1065353216;
   g_pDancerDevice->SetViewport(v5);
-  *(float *)(g_pSqgxContext + 1868) = a4 / a3 / *(float *)(g_pSqgxContext + 732);
-  *(float *)(g_pSqgxContext + 748) = *(float *)(g_pSqgxContext + 1868) * *(float *)(g_pSqgxContext + 768);
-  *(float *)(g_pSqgxContext + 704) = *(float *)(g_pSqgxContext + 708) / *(float *)(g_pSqgxContext + 1868);
-  *(float *)(g_pSqgxContext + 712) = sqrt(*(float *)(g_pSqgxContext + 704) * *(float *)(g_pSqgxContext + 704) + 1.0);
+  *((float *)g_pSqgxContext + 467) = a4 / a3 / *((float *)g_pSqgxContext + 183);
+  *((float *)g_pSqgxContext + 187) = *((float *)g_pSqgxContext + 467) * *((float *)g_pSqgxContext + 192);
+  *((float *)g_pSqgxContext + 176) = *((float *)g_pSqgxContext + 177) / *((float *)g_pSqgxContext + 467);
+  *((float *)g_pSqgxContext + 178) = sqrt(*((float *)g_pSqgxContext + 176) * *((float *)g_pSqgxContext + 176) + 1.0);
   g_sqgxViewportDirty = 1;
-  *(float *)(g_pSqgxContext + 780) = 2.0 / *(float *)(g_pSqgxContext + 688) * *(float *)(g_pSqgxContext + 736);
+  *((float *)g_pSqgxContext + 195) = 2.0 / *((float *)g_pSqgxContext + 172) * *((float *)g_pSqgxContext + 184);
   result = g_pSqgxContext;
-  *(float *)(g_pSqgxContext + 784) = 2.0 / *(float *)(g_pSqgxContext + 692) * *(float *)(g_pSqgxContext + 740);
+  *((float *)g_pSqgxContext + 196) = 2.0 / *((float *)g_pSqgxContext + 173) * *((float *)g_pSqgxContext + 185);
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10283F70  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 55 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxZBiasAdd(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxPassAdd(int a1)
 {
   int result;
   if ( a1 != 0 )
   {
-    *(_DWORD *)(g_pSqgxContext + 744) += a1;
-    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(g_pSqgxContext + 744));
+    g_pSqgxContext[186] += a1;
+    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, g_pSqgxContext[186]);
     g_sqgxViewportDirty = 1;
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10283FC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxZBiasSet(int a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxPass(int a1)
 {
-  int result;
+  int *result;
   result = g_pSqgxContext;
-  if ( *(_DWORD *)(g_pSqgxContext + 744) != a1 )
+  if ( g_pSqgxContext[186] != a1 )
   {
-    *(_DWORD *)(g_pSqgxContext + 744) = a1;
-    result = g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, *(_DWORD *)(g_pSqgxContext + 744));
+    g_pSqgxContext[186] = a1;
+    result = (int *)g_pDancerDevice->SetRenderState(D3DRS_ZBIAS, g_pSqgxContext[186]);
     g_sqgxViewportDirty = 1;
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10284410  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 1255 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxFlushTransformsLights(void)
+// GATE: PASS -- 100 trials, 100 returned normally, 1513 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl sqgxMatrixUpdate(void)
 {
   int v0;
   int v1;
   int v2;
   int *v3;
   int v4;
-  int v5;
+  int *v5;
   unsigned int v6;
   int v7;
   int v8;
@@ -762,7 +539,7 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   double v12;
   double v13;
   int result;
-  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x5F8];  // address-taken locals at their original offsets
   char &v15 = *reinterpret_cast<char *>(xi_frame + 0x48);
   float (&v16)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x50);
   float (&v17)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xB8);
@@ -773,11 +550,11 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
 
   v0 = 0;
   v1 = 0;
-  v2 = *(_DWORD *)(g_pSqgxContext + 2840) + 1;
+  v2 = g_pSqgxContext[710] + 1;
   v15 = 0;
   if ( v2 > 0 )
   {
-    v3 = (int *)(g_pSqgxContext + 2592);
+    v3 = g_pSqgxContext + 648;
     do
     {
       v4 = *v3;
@@ -791,30 +568,30 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
   }
   if ( v0 >= 0 )
   {
-    orig::Mat4_Copy_1027EB10(v18, (const void *)(g_pSqgxContext + 456));
+    orig::M4fSet(v18, g_pSqgxContext + 114);
   }
   else
   {
-    orig::sqgxMatrixPlanarShadow((int)v21);
-    orig::sqMatrix4_10280140(v18, (float *)(g_pSqgxContext + 456), v21);
+    orig::sqgxShadowPlaneMatrix((int)v21);
+    orig::sqMatrix4_10280140(v18, (float *)g_pSqgxContext + 114, v21);
   }
-  g_pDancerDevice->SetTransform(D3DTS_PROJECTION, (void *)(g_pSqgxContext + 748));
-  g_pDancerDevice->SetTransform(D3DTS_VIEW, (void *)(g_pSqgxContext + 520));
+  g_pDancerDevice->SetTransform(D3DTS_PROJECTION, g_pSqgxContext + 187);
+  g_pDancerDevice->SetTransform(D3DTS_VIEW, g_pSqgxContext + 130);
   g_pDancerDevice->SetTransform((D3DTRANSFORMSTATETYPE)256, v18);
-  orig::sqMatrix4_10280140(v20, v18, (float *)(g_pSqgxContext + 520));
-  orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
+  orig::sqMatrix4_10280140(v20, v18, (float *)g_pSqgxContext + 130);
+  orig::sqMatrix4_1027F0E0(v19, (int)(g_pSqgxContext + 114));
   v5 = g_pSqgxContext;
-  if ( *(_BYTE *)(g_pSqgxContext + 1876) != 0 )
+  if ( *((_BYTE *)g_pSqgxContext + 1876) != 0 )
   {
     orig::sqMatrix4_1027FCC0((int)v20);
     v5 = g_pSqgxContext;
   }
   v6 = 0;
   v7 = 0;
-  v8 = 2132;
+  v8 = 533;
   while ( 1 )
   {
-    if ( *(_DWORD *)(v8 + v5) == 0 || (*(_DWORD *)(v5 + 2592) & 0x40000) != 0 )
+    if ( v5[v8] == 0 || (v5[648] & 0x40000) != 0 )
     {
       g_pDancerDevice->LightEnable(v6, 0);
     }
@@ -823,26 +600,26 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
       memset(v16, 0, sizeof(v16));
       LODWORD(v16[0]) = 3;
       v16[19] = 1000.0;
-      v16[16] = -*(float *)(v7 + v5 + 844);
-      v16[17] = -*(float *)(v7 + v5 + 848);
-      v16[18] = -*(float *)(v7 + v5 + 852);
+      v16[16] = -*(float *)&v5[v7 + 211];
+      v16[17] = -*(float *)&v5[v7 + 212];
+      v16[18] = -*(float *)&v5[v7 + 213];
       g_pDancerDevice->LightEnable(v6, 1u);
       g_pDancerDevice->SetLight(v6, v16);
       LOBYTE(v0) = v15;
     }
-    v8 += 4;
+    ++v8;
     ++v6;
-    v7 += 64;
-    if ( v8 >= 2148 )
+    v7 += 16;
+    if ( v8 >= 537 )
       break;
     v5 = g_pSqgxContext;
   }
   v9 = 4;
   v10 = 0;
-  v11 = 2164;
+  v11 = 541;
   do
   {
-    if ( *(_DWORD *)(v11 + g_pSqgxContext) == 0 || (*(_DWORD *)(g_pSqgxContext + 2592) & 0x40000) != 0 )
+    if ( g_pSqgxContext[v11] == 0 || (g_pSqgxContext[648] & 0x40000) != 0 )
     {
       g_pDancerDevice->LightEnable(v9, 0);
     }
@@ -851,33 +628,33 @@ XI_API int __cdecl sqgxFlushTransformsLights(void)
       memset(v16, 0, sizeof(v16));
       LODWORD(v16[0]) = 1;
       v16[19] = 1000.0;
-      v16[16] = *(float *)(v10 + g_pSqgxContext + 1356);
-      v16[17] = *(float *)(v10 + g_pSqgxContext + 1360);
-      v16[18] = *(float *)(v10 + g_pSqgxContext + 1364);
-      v16[13] = *(float *)(v10 + g_pSqgxContext + 1372);
-      v16[14] = *(float *)(v10 + g_pSqgxContext + 1376);
-      v16[15] = *(float *)(v10 + g_pSqgxContext + 1380);
+      v16[16] = *(float *)&g_pSqgxContext[v10 + 339];
+      v16[17] = *(float *)&g_pSqgxContext[v10 + 340];
+      v16[18] = *(float *)&g_pSqgxContext[v10 + 341];
+      v16[13] = *(float *)&g_pSqgxContext[v10 + 343];
+      v16[14] = *(float *)&g_pSqgxContext[v10 + 344];
+      v16[15] = *(float *)&g_pSqgxContext[v10 + 345];
       g_pDancerDevice->LightEnable(v9, 1u);
       g_pDancerDevice->SetLight(v9, v16);
       LOBYTE(v0) = v15;
     }
-    v11 += 4;
-    v10 += 64;
+    ++v11;
+    v10 += 16;
     ++v9;
   }
   while ( (int)(v9 - 4) < 4 );
-  orig::sqMatrix4_1027F0E0(v19, g_pSqgxContext + 456);
-  orig::sqMatrix4_10280140(v17, (float *)(g_pSqgxContext + 392), v19);
+  orig::sqMatrix4_1027F0E0(v19, (int)(g_pSqgxContext + 114));
+  orig::sqMatrix4_10280140(v17, (float *)g_pSqgxContext + 98, v19);
   v12 = v17[13];
   v13 = v17[14];
-  *(float *)(g_pSqgxContext + 648) = v17[12];
-  *(float *)(g_pSqgxContext + 652) = v12;
-  *(float *)(g_pSqgxContext + 656) = v13;
+  g_pSqgxContext[162] = SLODWORD(v17[12]);
+  *((float *)g_pSqgxContext + 163) = v12;
+  *((float *)g_pSqgxContext + 164) = v13;
   if ( (v0 & 0x10) != 0 || (result = v0 & 8, (v0 & 8) != 0) )
   {
-    orig::sqMatrix4_1027F0E0(v17, g_pSqgxContext + 812);
-    orig::sqMatrix4_10280140((float *)(g_pSqgxContext + 584), (float *)(g_pSqgxContext + 456), v17);
-    result = orig::Mat4_Transpose(v17, (_DWORD *)(g_pSqgxContext + 584));
+    orig::sqMatrix4_1027F0E0(v17, (int)(g_pSqgxContext + 203));
+    orig::sqMatrix4_10280140((float *)g_pSqgxContext + 146, (float *)g_pSqgxContext + 114, v17);
+    result = orig::M4fTranspose(v17, g_pSqgxContext + 146);
   }
   g_sqgxViewportDirty = 0;
   return result;

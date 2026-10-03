@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102A21F0  (unit sqsnShadow: called only from sqsnShadow (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
 {
   int v3;
@@ -19,12 +19,13 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
   int v14;
   int v15;
   int v16;
-  int v17;
-  float v18;
-  float v19;
-  float v20;
-  int v21[3];
-  float v22[16];
+  alignas(16) unsigned char xi_frame[0x468];  // address-taken locals at their original offsets
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  float &v18 = *reinterpret_cast<float *>(xi_frame + 0x10);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  int (&v21)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x1C);
+  float (&v22)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x28);
   int v23;
   int v24;
   v3 = 3 * a3;
@@ -73,7 +74,7 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
     v22[11] = 0.0;
     v20 = v12;
   }
-  orig::Mat4_TransformPoint((float *)v21, v22, &v18);
+  orig::M4fTransform((float *)v21, v22, &v18);
   v13 = v6[13];
   if ( v13 != 0 )
     v13 = *(_DWORD *)(v13 + 84);
@@ -142,10 +143,10 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
     }
     while ( !v10 );
   }
-  (*(void (__cdecl **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 316) + 48))(*(_DWORD *)(g_pSqgxContext + 316));
+  (*(void (__cdecl **)(int))(*(_DWORD *)g_pSqgxContext[79] + 48))(g_pSqgxContext[79]);
   orig::sqsnShadowVolumeSetPass(0);
-  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(int *)(g_pSqgxContext + 324) / 3);
+  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, g_pSqgxContext[81] / 3);
   orig::sqsnShadowVolumeSetPass(1);
-  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, *(int *)(g_pSqgxContext + 324) / 3);
+  g_pDancerDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, g_pSqgxContext[81] / 3);
   orig::sqsnShadowVolumeSetPass(2);
 }

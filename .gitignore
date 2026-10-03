@@ -9,3 +9,6 @@
 runs/
 tree/build/
 __pycache__/
+# memory dumps of the running game and their archives (game memory)
+*.dmp
+*.zip

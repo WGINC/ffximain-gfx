@@ -1,0 +1,11 @@
+{
+ "why": "On the path where no linked actor is found, the original calls this->vtable[6](1) without setting ECX: ECX is still the entry ECX (this), because the only call before it, 0x100D7090, does not write ECX. Hex-Rays treats ECX as overwritten by that call and passes an unassigned register variable (v2).",
+ "evidence": "0x100D70A2 mov esi, ecx; 0x100D70A4 call 0x100D7090 (= mov eax, [ecx+34h]; ret: no ECX write); 0x100D70B3 mov eax, [esi]; 0x100D70B5 push 1; 0x100D70B7 call [eax+18h] with no ECX write in between. Callee 0x100D7000 reads ECX (0x100D7001 mov esi, ecx; data/ecx_use.json), ret 4.",
+ "text_sha1": "590e498f5c311879b049a48a12bdc8046faa04b0",
+ "replace": [
+  [
+   "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);",
+   "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))((_DWORD *)this, 1);"
+  ]
+ ]
+}

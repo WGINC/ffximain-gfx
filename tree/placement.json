@@ -12,6 +12,13 @@
 "symbol": "Gfx_CopySurfaceRectToTexture",
 "unit": "unit_100014A0_Gfx"
 },
+"0x10002130": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_ProbeDeviceCaps",
+"unit": "unit_100014A0_Gfx"
+},
 "0x10002be0": {
 "class": null,
 "method": null,
@@ -59,6 +66,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
 "symbol": "Gfx_CreateD3DHolder",
+"unit": "unit_100014A0_Gfx"
+},
+"0x10003040": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file",
+"symbol": "Gfx_DestroyD3DHolder",
 "unit": "unit_100014A0_Gfx"
 },
 "0x100031f0": {
@@ -120,6 +134,12 @@
 "method": "ScalarDeletingDtor",
 "why": "tree manifest",
 "symbol": "CDx::ScalarDeletingDtor"
+},
+"0x100091b0": {
+"class": "CDx",
+"method": "Initialize",
+"why": "IDB name",
+"symbol": "CDx::Initialize"
 },
 "0x10009620": {
 "class": "CDx",
@@ -264,6 +284,18 @@
 "method": "CreateStereoResources",
 "why": "IDB name",
 "symbol": "CDx::CreateStereoResources"
+},
+"0x1000c7c0": {
+"class": "CDx",
+"method": "ReleaseStereoResources",
+"why": "IDB name",
+"symbol": "CDx::ReleaseStereoResources"
+},
+"0x1000c850": {
+"class": "CDx",
+"method": "CreateRampTexture1x16",
+"why": "IDB name",
+"symbol": "CDx::CreateRampTexture1x16"
 },
 "0x1000c900": {
 "class": "CDx",
@@ -466,6 +498,20 @@
 "why": "callers pass their own this (CShader)",
 "symbol": "CShader::CShader_Destructor"
 },
+"0x10017810": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100177A0 (CShader) and 0x10017BA0 (XiCapture) -- an unnamed source file",
+"symbol": "fn_10017810",
+"unit": "unit_100177E0"
+},
+"0x10017c60": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file",
+"symbol": "fn_10017C60",
+"unit": "unit_10017C10"
+},
 "0x100186c0": {
 "class": "CXiOpening",
 "method": "Constructor",
@@ -623,6 +669,13 @@
 "method": "MarkReferencedBones",
 "why": "IDB name",
 "symbol": "CYyModelDt::MarkReferencedBones"
+},
+"0x10025260": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100251A0 (CYyModelDt) and 0x100252D0 (CYyModelDt_VT_1032A430) -- an unnamed source file",
+"symbol": "fn_10025260",
+"unit": "unit_10025220"
 },
 "0x100252d0": {
 "class": "CYyModelDt_VT_1032A430",
@@ -862,6 +915,13 @@
 "why": "unit: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file",
 "symbol": "Gfx_ApplyCachedVertexShader",
 "unit": "unit_1002F130"
+},
+"0x10033710": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file",
+"symbol": "fn_10033710",
+"unit": "unit_100310A0"
 },
 "0x10033800": {
 "class": null,
@@ -1300,6 +1360,19 @@
 "method": "GetRuntimeClass_variant0",
 "why": "tree manifest; does not use this",
 "symbol": "CMoDist::GetRuntimeClass_variant0"
+},
+"0x100426f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100426E0 (CMoDist) and 0x10042D00 (CMoDistMorphElem) -- an unnamed source file",
+"symbol": "fn_100426F0",
+"unit": "unit_100426F0"
+},
+"0x10042d00": {
+"class": "CMoDistMorphElem",
+"method": "ValidateMorphData",
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoDistMorphElem::ValidateMorphData"
 },
 "0x100430b0": {
 "class": "CMoDist",
@@ -2265,6 +2338,12 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoProcessor_VT_1032C368::vf021"
 },
+"0x1006e6b0": {
+"class": "CMoProcessor",
+"method": "ScratchMatrixOp",
+"why": "IDB name",
+"symbol": "CMoProcessor::ScratchMatrixOp"
+},
 "0x1006f5b0": {
 "class": "CMoProcessor_VT_1032C298",
 "method": "vf014",
@@ -2334,7 +2413,7 @@
 "0x10070d80": {
 "class": "CMoProcessor_VT_1032C1C8",
 "method": "vf032",
-"why": "tree manifest; does not use this",
+"why": "tree manifest",
 "symbol": "CMoProcessor_VT_1032C1C8::vf032"
 },
 "0x10070e20": {
@@ -3114,6 +3193,20 @@
 "why": "IDB name; static (takes no this)",
 "symbol": "CXiSkeletonActor::GetRuntimeClass_variant0"
 },
+"0x100ac390": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_100AC390",
+"unit": "XiDoorActor"
+},
+"0x100c4ce0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100C4400 (XiModelActor) and 0x100C5190 (CXiSkeletonActor) -- an unnamed source file",
+"symbol": "fn_100C4CE0",
+"unit": "unit_100C4410"
+},
 "0x100c5190": {
 "class": "CXiSkeletonActor",
 "method": "GetRuntimeClass_variant1",
@@ -3179,6 +3272,12 @@
 "method": "Init",
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::Init"
+},
+"0x100c63d0": {
+"class": "CXiSkeletonActor",
+"method": "OnMove",
+"why": "IDB name",
+"symbol": "CXiSkeletonActor::OnMove"
 },
 "0x100cbd60": {
 "class": "CXiSkeletonActor",
@@ -3680,6 +3779,13 @@
 "symbol": "Gfx_AssembleVertexShader",
 "unit": "CTsZoneMap"
 },
+"0x101772e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10177050 (CMoResource_VT_103366F0) and 0x101773C0 (CTsZoneMap) -- an unnamed source file",
+"symbol": "fn_101772E0",
+"unit": "unit_10177070"
+},
 "0x101773b0": {
 "class": "CMoTask",
 "method": "GetRuntimeClass_variant19",
@@ -3768,18 +3874,11 @@
 "symbol": "ZoneMap_DrawMeshGroupsWithFog",
 "unit": "unit_10178790_ZoneMap"
 },
-"0x1017c9c0": {
+"0x1017b510": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_1017C9C0",
-"unit": "unit_10178790_ZoneMap"
-},
-"0x1017de20": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_1017DE20",
+"symbol": "Zone_RenderEnvironment",
 "unit": "unit_10178790_ZoneMap"
 },
 "0x10182700": {
@@ -3793,6 +3892,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "Gfx_DrawWireBox",
+"unit": "unit_10178790_ZoneMap"
+},
+"0x10183490": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10183490",
+"unit": "unit_10178790_ZoneMap"
+},
+"0x10183760": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10183760",
 "unit": "unit_10178790_ZoneMap"
 },
 "0x10183da0": {
@@ -3913,7 +4026,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
-"symbol": "StAvatar_Shutdown",
+"symbol": "StAvatarFini",
 "unit": "unit_1024D400"
 },
 "0x10251a80": {
@@ -3951,39 +4064,46 @@
 "symbol": "FontGlyphCache_CreateVertexBuffer",
 "unit": "unit_1025C9E0_FontGlyphCache"
 },
+"0x10281510": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
+"symbol": "sqgxTextureCreateFromImage",
+"unit": "unit_10280C40"
+},
 "0x102816e0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file",
-"symbol": "sqgxTextureAddDepthStencil",
+"symbol": "sqgxTextureAddZ",
 "unit": "unit_10280C40"
 },
 "0x10281830": {
 "class": null,
 "method": null,
 "why": "unit: name sqgxTextureAdd",
-"symbol": "fn_10281830",
+"symbol": "sqgxTextureAdd",
 "unit": "sqgxTexture"
 },
 "0x102819d0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB",
-"symbol": "sqgxTextureAddPalette",
+"symbol": "sqgxTextureClutAdd",
 "unit": "sqgxTexture"
 },
 "0x10281d60": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB",
-"symbol": "sqgxTextureSetPalette",
+"symbol": "sqgxTextureClut",
 "unit": "sqgxTexture"
 },
 "0x10281db0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB",
-"symbol": "fn_10281DB0",
+"symbol": "sqgxTextureUpdate",
 "unit": "sqgxTexture"
 },
 "0x10282010": {
@@ -4004,7 +4124,7 @@
 "class": null,
 "method": null,
 "why": "unit: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB",
-"symbol": "sqgxTextureSetRenderTarget",
+"symbol": "sqgxTextureDrawZ",
 "unit": "sqgxTexture"
 },
 "0x10282190": {
@@ -4025,21 +4145,21 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxSetAlphaTest",
+"symbol": "sqgxAlphaTest",
 "unit": "unit_102822A0"
 },
 "0x10282470": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxSetZWrite",
+"symbol": "sqgxZMask",
 "unit": "unit_102822A0"
 },
 "0x102824c0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxColorMask",
+"symbol": "sqgxFBMask",
 "unit": "unit_102822A0"
 },
 "0x10282640": {
@@ -4074,14 +4194,14 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "fn_10282A30",
+"symbol": "sqgxBlendLin",
 "unit": "unit_102822A0"
 },
 "0x10282b90": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxBlendTrsp_Candidate",
+"symbol": "sqgxBlendTrsp",
 "unit": "unit_102822A0"
 },
 "0x10282cb0": {
@@ -4109,7 +4229,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxBlendZeroSrcAlpha",
+"symbol": "sqgxBlendMultAlpha",
 "unit": "unit_102822A0"
 },
 "0x10283110": {
@@ -4130,35 +4250,35 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "fn_10283420",
+"symbol": "sqgxColorUpdate",
 "unit": "unit_102822A0"
 },
 "0x10283a10": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxSetViewport",
+"symbol": "sqgxViewport",
 "unit": "unit_102822A0"
 },
 "0x10283f70": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxZBiasAdd",
+"symbol": "sqgxPassAdd",
 "unit": "unit_102822A0"
 },
 "0x10283fc0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxZBiasSet",
+"symbol": "sqgxPass",
 "unit": "unit_102822A0"
 },
 "0x10284410": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
-"symbol": "sqgxFlushTransformsLights",
+"symbol": "sqgxMatrixUpdate",
 "unit": "unit_102822A0"
 },
 "0x10284950": {
@@ -4179,7 +4299,7 @@
 "class": null,
 "method": null,
 "why": "unit: name sqgxContext_SelectShaderMode",
-"symbol": "sqgxContext_SelectShaderMode",
+"symbol": "sqgxShader",
 "unit": "sqgxContext"
 },
 "0x10284ef0": {
@@ -4196,18 +4316,25 @@
 "symbol": "sqgxShapeIndexBufferBegin",
 "unit": "sqgxShape"
 },
+"0x1028ab50": {
+"class": null,
+"method": null,
+"why": "unit: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB",
+"symbol": "fn_1028AB50",
+"unit": "sqgxShape"
+},
 "0x1028afe0": {
 "class": null,
 "method": null,
 "why": "unit: name sqgxShape_1028AFE0",
-"symbol": "sqgxShape_1028AFE0",
+"symbol": "sqgxShapeBegin",
 "unit": "sqgxShape"
 },
 "0x1028f8c0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB",
-"symbol": "sqsnSceneDrawLayers",
+"symbol": "sqsnSceneDraw",
 "unit": "sqsnScene"
 },
 "0x10297cc0": {
@@ -4221,7 +4348,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file",
-"symbol": "sqsnShadowStencilTest",
+"symbol": "sqgxShadowStencilEnable",
 "unit": "unit_102971F0"
 },
 "0x102981e0": {
@@ -4235,14 +4362,14 @@
 "class": null,
 "method": null,
 "why": "unit: asserts sqgxDlist.c",
-"symbol": "fn_1029B620",
+"symbol": "sqgxDlistEnd",
 "unit": "sqgxDlist"
 },
 "0x1029b9d0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x1029B620 (asserts sqgxDlist.c) and 0x1029BB60 (asserts sqgxDlist.c), both within 4 KB",
-"symbol": "fn_1029B9D0",
+"symbol": "sqgxDlistDraw",
 "unit": "sqgxDlist"
 },
 "0x102a21f0": {
@@ -4256,7 +4383,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file",
-"symbol": "sqsnSceneLayerDrawPlanarShadows",
+"symbol": "sqsnPlanarShadowDraw",
 "unit": "unit_102A2530"
 }
 }

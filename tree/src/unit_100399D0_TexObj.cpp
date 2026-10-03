@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10039A80  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall TexObj_Create(int self_)
 {
   unsigned __int16 v2;
@@ -20,13 +20,15 @@ XI_API char __thiscall TexObj_Create(int self_)
   struct IDirect3DDevice8 *v15;
   int v16;
   __int16 v17;
-  char v18;
-  char v19;
-  unsigned int v20;
-  unsigned int v21;
-  _D3DFORMAT i;
-  _D3DFORMAT v23;
-  _WORD v24[16];
+  alignas(16) unsigned char xi_frame[0x444];  // address-taken locals at their original offsets
+  char &v18 = *reinterpret_cast<char *>(xi_frame + 0x11);
+  char &v19 = *reinterpret_cast<char *>(xi_frame + 0x12);
+  unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x14);
+  unsigned int &v21 = *reinterpret_cast<unsigned int *>(xi_frame + 0x18);
+  _D3DFORMAT &i = *reinterpret_cast<_D3DFORMAT *>(xi_frame + 0x1C);
+  _D3DFORMAT &v23 = *reinterpret_cast<_D3DFORMAT *>(xi_frame + 0x20);
+  _WORD (&v24)[16] = *reinterpret_cast<_WORD (*)[16]>(xi_frame + 0x24);
+
   v2 = *(_WORD *)(self_ + 38);
   v18 = 0;
   v20 = 0;
@@ -231,7 +233,7 @@ LABEL_58:
 }
 
 // FUNCTION: FFXIMAIN 0x10039E50  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 4 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API int __thiscall TexObj_Upload(void *self_)
 {
   int v1;
@@ -289,15 +291,17 @@ XI_API int __thiscall TexObj_Upload(void *self_)
   struct IDirect3DSurface8 *v54;
   int i;
   int v56;
-  char v57;
-  struct IDirect3DSurface8 *v58;
-  struct IDirect3DSurface8 *v59;
-  IDirect3DTexture8 *v60;
-  IDirect3DTexture8 *v61;
-  struct IDirect3DSurface8 *v62;
-  int v63;
-  int v64;
-  _DWORD v65[4];
+  alignas(16) unsigned char xi_frame[0x4B8];  // address-taken locals at their original offsets
+  char &v57 = *reinterpret_cast<char *>(xi_frame + 0x8B);
+  struct IDirect3DSurface8 * &v58 = *reinterpret_cast<struct IDirect3DSurface8 * *>(xi_frame + 0x8C);
+  struct IDirect3DSurface8 * &v59 = *reinterpret_cast<struct IDirect3DSurface8 * *>(xi_frame + 0x90);
+  IDirect3DTexture8 * &v60 = *reinterpret_cast<IDirect3DTexture8 * *>(xi_frame + 0x94);
+  IDirect3DTexture8 * &v61 = *reinterpret_cast<IDirect3DTexture8 * *>(xi_frame + 0x98);
+  struct IDirect3DSurface8 * &v62 = *reinterpret_cast<struct IDirect3DSurface8 * *>(xi_frame + 0x9C);
+  int &v63 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int &v64 = *reinterpret_cast<int *>(xi_frame + 0xA4);
+  _DWORD (&v65)[4] = *reinterpret_cast<_DWORD (*)[4]>(xi_frame + 0xA8);
+
   v3 = 0;
   v4 = *((_BYTE *)self_ + 41);
   v61 = nullptr;

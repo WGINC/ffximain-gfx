@@ -2,8 +2,8 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 19 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl sqsnSceneDrawLayers(int a1)
+// GATE: PASS -- 100 trials, 58 returned normally, 222 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl sqsnSceneDraw(int a1)
 {
   int v2;
   int v3;
@@ -34,14 +34,15 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
   bool v28; // c3
   void (*v29)(void);
   int v30;
-  int v31;
-  int v32;
-  int v33;
-  int v34;
-  int v35;
-  int v36;
-  int v37;
-  int v38;
+  alignas(16) unsigned char xi_frame[0x454];  // address-taken locals at their original offsets
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x50);
   float *a1a;
   v2 = 0;
   v3 = 0;
@@ -61,7 +62,7 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
         ++v4;
         v2 += 44;
       }
-      while ( v4 < *(_DWORD *)(a1 + 68) );
+      while ( v4 < *(int *)(a1 + 68) );
     }
     if ( *(int *)(a1 + 68) > 0 )
     {
@@ -81,21 +82,21 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
         v8 = g_sceneRT[0];
         if ( g_sceneRT[0] == 0 )
         {
-          v8 = orig::sqgxTextureAdd(1024, 512, (IDirect3DBaseTexture8 *)3, nullptr);
+          v8 = orig::sqgxTextureAdd(1024, 512, (IDirect3DTexture8 *)3, nullptr);
           g_sceneRT[0] = v8;
         }
         orig::sqgxTextureDraw(v8, 1);
-        orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
+        orig::sqgxTextureClear((float *)g_pSqgxContext + 478, 1);
         if ( v3 > 1 )
         {
           v9 = g_sceneRT1;
           if ( g_sceneRT1 == 0 )
           {
-            v9 = orig::sqgxTextureAdd(1024, 512, (IDirect3DBaseTexture8 *)3, nullptr);
+            v9 = orig::sqgxTextureAdd(1024, 512, (IDirect3DTexture8 *)3, nullptr);
             g_sceneRT1 = v9;
           }
           orig::sqgxTextureDraw(v9, 1);
-          orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
+          orig::sqgxTextureClear((float *)g_pSqgxContext + 478, 1);
         }
       }
     }
@@ -125,28 +126,28 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
           }
           else
           {
-            orig::sqgxTextureDraw(*(_DWORD *)(g_pSqgxContext + 2216), 1);
-            orig::sqgxTextureClear((float *)(g_pSqgxContext + 1912), 1);
+            orig::sqgxTextureDraw(g_pSqgxContext[554], 1);
+            orig::sqgxTextureClear((float *)g_pSqgxContext + 478, 1);
           }
           orig::sqsnSceneLayerSnapShotComposite(a1, v11);
         }
         ++v11;
         v12 += 44;
       }
-      while ( v11 < *(_DWORD *)(a1 + 68) );
+      while ( v11 < *(int *)(a1 + 68) );
     }
     orig::sqrdCamera_Apply(a1a);
     orig::sqgxMatrixCamera(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
     if ( *(float *)(a1 + 56) < 1.0 )
     {
-      orig::sqgxTextureGetSize(*(_DWORD *)(g_pSqgxContext + 2216), &v34, &v33);
+      orig::sqgxTextureGetSize(g_pSqgxContext[554], &v34, &v33);
       v14 = g_sceneFadeMaskRT;
       if ( g_sceneFadeMaskRT == -1 )
       {
-        v14 = orig::sqgxTextureAdd(v34, v33, (IDirect3DBaseTexture8 *)4, nullptr);
+        v14 = orig::sqgxTextureAdd(v34, v33, (IDirect3DTexture8 *)4, nullptr);
         g_sceneFadeMaskRT = v14;
       }
-      v32 = *(_DWORD *)(g_pSqgxContext + 2216);
+      v32 = g_pSqgxContext[554];
       orig::sqgxTextureDraw(v14, 1);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       v35 = 0;
@@ -176,7 +177,7 @@ XI_API void __cdecl sqsnSceneDrawLayers(int a1)
 LABEL_53:
         ++v15;
         v16 += 44;
-        if ( v15 >= *(_DWORD *)(a1 + 68) )
+        if ( v15 >= *(int *)(a1 + 68) )
           goto LABEL_54;
       }
       v18 = *(void (**)(void))(v17 + 28);
@@ -229,13 +230,13 @@ LABEL_54:
       v37 = 1065353216;
       v38 = v30;
       orig::sqgxColor(&v35);
-      orig::sqgxBlendTrsp_Candidate();
+      orig::sqgxBlendTrsp();
       orig::sqgxTextureDecal(2);
       orig::sqgxTextureClamp(1);
       orig::sqgxZTest(0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILREF, 0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_LESS);
-      orig::sqgx_DrawRect_Candidate(0, 0, v34, v33, 0, 0, v34, v33, 0);
+      orig::sqgxSprite(0, 0, v34, v33, 0, 0, v34, v33, 0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
       orig::sqgxZTest(1);
       orig::sqgxBlendOff();

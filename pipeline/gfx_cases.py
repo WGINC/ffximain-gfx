@@ -14,6 +14,8 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
+PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
+THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
 LEAF = json.load(open(os.path.join(DATADIR, 'leaf_funcs.json'))) if os.path.exists(os.path.join(DATADIR, 'leaf_funcs.json')) else {}
 ALLOC = {int(k, 16): v for k, v in json.load(open(os.path.join(DATADIR, 'allocators.json'))).items() if k.startswith('0x')} \
     if os.path.exists(os.path.join(DATADIR, 'allocators.json')) else {}
@@ -85,6 +87,15 @@ def class_of(r):
 GSIZE = {'char': 1, 'byte': 1, 'undefined': 1, 'undefined1': 1, 'bool': 1, 'short': 2, 'ushort': 2, 'undefined2': 2,
          'word': 2, 'int': 4, 'uint': 4, 'undefined4': 4, 'dword': 4, 'float': 4, 'double': 8, 'undefined8': 8}
 
+COM_OUT = re.compile(r'^\s*(?:const\s+)?(?:struct\s+)?(ID3DXBuffer|IDirect3D\w*8)\s*\*\s*\*')
+
+def com_outs(t):
+    # stack parameters typed `I... **`: interface pointers the callee returns through (ppShader, ppErrors)
+    if '(' not in t: return []
+    ps = t[t.index('(') + 1:t.rindex(')')].split(',')
+    if '__thiscall' in t[:t.index('(')] and ps: ps = ps[1:]        # ECX
+    return [[i, m.group(1)] for i, p in enumerate(ps) for m in [COM_OUT.match(p)] if m]
+
 def ghidra_record(r):
     # Ghidra exports (pipeline/ghidra/GfxExport.java): bare calling convention, and args in the IDA
     # shape [name, type, size, pointee type, pointee size] (pointee size from the type name)
@@ -122,6 +133,8 @@ def main(exp, metaf, protof, out):
                 c['this_com'] = {'4': 'IDirect3D8', '8': 'IDirect3DDevice8'}      # the D3D holder (DancingMad 18.1)
             if cls in VT:
                 c['vptr'] = VT[cls]['vtable']; c['vslots'] = VT[cls]['slots']
+            hint = THIS_COM.get('0x%08X' % r['ea'])
+            if hint: c['this_com'] = dict(c.get('this_com', {}), **hint['fields'])   # data/this_com.json
         c['args'] = [arg_kind(a[1], a[4]) for a in stack_args]
         stubs = {}; fuzz = []; glob = {}; ran = set()
         for nm, o in r.get('objs', {}).items():
@@ -130,6 +143,9 @@ def main(exp, metaf, protof, out):
                 if ea == r['ea']: continue
                 if '0x%08X' % ea in LEAF: ran.add('0x%08X' % ea); continue      # a trivial leaf runs for real
                 cc = conv_of(o['type']); pops = (o.get('purged') or 0) // 4
+                if PURGES.get('0x%08X' % ea) and not pops:     # the callee's own `ret N` (D3DX dispatch thunks:
+                    pops = PURGES['0x%08X' % ea] // 4            # IDA sees only `jmp [ptr]` and says 0)
+                    if cc == 'cdecl': cc = 'stdcall'
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
                 if cc == 'cdecl' and '0x%08X' % ea in CDECL_ARGS:     # slots past what the callee reads are stale
@@ -141,6 +157,8 @@ def main(exp, metaf, protof, out):
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': arg_masks(o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
+                outs = com_outs(o['type'])
+                if outs: stubs['0x%08X' % ea]['com_out'] = outs
                 if ea in ALLOC:
                     stubs['0x%08X' % ea]['ret'] = 'alloc'
                     if ALLOC[ea].get('size_arg') is not None: stubs['0x%08X' % ea]['size_arg'] = ALLOC[ea]['size_arg']

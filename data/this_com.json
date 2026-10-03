@@ -1,0 +1,8 @@
+{
+ "0x10017810": {
+  "fields": {
+   "8": "ID3DXBuffer"
+  },
+  "why": "sub_10017810 creates a vertex shader from the assembled ID3DXBuffer held at this+8: call [ecx+0Ch] (GetBufferPointer, this only) on [this+8], whose result is CreateVertexShader's pFunction. The two pushes before it (0 and this+0x10) are CreateVertexShader's Usage and pHandle."
+ }
+}

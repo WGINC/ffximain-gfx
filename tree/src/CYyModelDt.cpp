@@ -3,8 +3,8 @@
 #include "CYyModelDt.hpp"
 
 // FUNCTION: FFXIMAIN 0x100224D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 20 returned normally, 150 D3D calls compared (diffemu_gfx, clean build)
-char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
+// GATE: PASS -- 100 trials, 71 returned normally, 258 D3D calls compared (diffemu_gfx, clean build)
+char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
   _BYTE *v6;
@@ -51,19 +51,18 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
   v8 = *(_DWORD *)(a6 + 64) + 15;
   LOBYTE(v8) = v8 & 0xF0;
   g_alignedBufferSize = v8;
-  if ( (*(_BYTE *)(a3 + 48) & 0x10) != 0 )
+  if ( (*(_BYTE *)(arg4 + 48) & 0x10) != 0 )
   {
     if ( g_skinningCapabilityFlag == 1 )
     {
-      orig::SkinVertices((int)v6, a2, (float *)a3, a4, (float *)v8, a6);
+      orig::SkinVertices((int)v6, a2, (float *)arg4, a3, (float *)v8, a6);
       if ( *(_BYTE *)(a6 + 60) != 0 )
         *(_BYTE *)(a6 + 60) = 0;
     }
     v39 = 0;
     v9 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
        | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
-       | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE))
-       & 0xFF00;
+       | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE)) & 0xFF00;
     g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v9);
     HIWORD(v10) = 0;
     g_pCDx->pDevice->SetTexture(0, nullptr);
@@ -124,10 +123,10 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                   (IDirect3DVertexBuffer8 *)g_vertexBuffer_7154,
                   32u);
                 orig::CDx_DrawPrimitive(g_pCDx, 5, g_stripVertexCursor, (unsigned __int16)v10);
-                if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
+                if ( orig::Model_BeginOffscreenPass(arg4 + 72, &dword_10456E44, v9) != 0 )
                 {
                   orig::CDx_DrawPrimitive(g_pCDx, 5, g_stripVertexCursor, (unsigned __int16)v10);
-                  orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
+                  orig::Model_EndOffscreenPassBindTextures((_DWORD *)(arg4 + 72), v39);
                 }
                 g_stripVertexCursor += v36;
               }
@@ -209,10 +208,10 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
                     (IDirect3DVertexBuffer8 *)g_vertexBuffer_7150,
                     32u);
                   orig::CDx_DrawPrimitive(g_pCDx, 4, g_lineVertexCursor, a3b);
-                  if ( orig::Model_BeginOffscreenPass(a3 + 72, &dword_10456E44, v9) != 0 )
+                  if ( orig::Model_BeginOffscreenPass(arg4 + 72, &dword_10456E44, v9) != 0 )
                   {
                     orig::CDx_DrawPrimitive(g_pCDx, 4, g_lineVertexCursor, a3b);
-                    orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), v39);
+                    orig::Model_EndOffscreenPassBindTextures((_DWORD *)(arg4 + 72), v39);
                   }
                   LOWORD(v10) = v34;
                   g_lineVertexCursor += v35;
@@ -234,7 +233,7 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
               goto LABEL_80;
             v40 = 0;
             v12 = &g_lightTable_Start;
-            v30 = *(_BYTE *)((*(_BYTE *)(v7 + 15) & 0xF) + a3 + 168) != 0;
+            v30 = *(_BYTE *)((*(_BYTE *)(v7 + 15) & 0xF) + arg4 + 168) != 0;
             a3a = &g_lightTable_Start;
             do
             {
@@ -258,17 +257,17 @@ char CYyModelDt::PrepareRenderState(int a2, int a3, int a4, int a5, int a6)
             v17 = v14 == 1.5;
             if ( ((__int16)(((v15 || __builtin_isunordered(v14, 1.5)) ? 0x100 : 0) | ((__builtin_isunordered(v14, 1.5)) ? 0x400 : 0) | ((v17 || __builtin_isunordered(v14, 1.5)) ? 0x4000 : 0)) & 0x4100) != 0 )
             {
-              g_modelMaterialEmissiveR = 0.0;
-              g_modelMaterialEmissiveG = 0.0;
-              g_modelMaterialEmissiveB = 0.0;
+              g_modelMaterial[12] = 0;
+              g_modelMaterial[13] = 0;
+              g_modelMaterial[14] = 0;
             }
             else
             {
-              g_modelMaterialEmissiveR = *(float *)(v7 + 18) - 1.5;
-              g_modelMaterialEmissiveG = *(float *)(v7 + 18) - 1.5;
-              g_modelMaterialEmissiveB = *(float *)(v7 + 18) - 1.5;
+              *(float *)&g_modelMaterial[12] = *(float *)(v7 + 18) - 1.5;
+              *(float *)&g_modelMaterial[13] = *(float *)(v7 + 18) - 1.5;
+              *(float *)&g_modelMaterial[14] = *(float *)(v7 + 18) - 1.5;
             }
-            g_pCDx->pDevice->SetMaterial(&g_modelMaterial);
+            g_pCDx->pDevice->SetMaterial(g_modelMaterial);
             HIWORD(v10) = 0;
             if ( *(_WORD *)(v7 + 16) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v31 == 1 )
             {
@@ -385,7 +384,7 @@ int __cdecl CYyModelDt::SetVertexShader(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x100231C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int16 CYyModelDt::PrepareRenderStateSimple(int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -402,7 +401,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimple(int a2, int a3, int a4, in
 }
 
 // FUNCTION: FFXIMAIN 0x10025030  (placed by IDB name)
-// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -412,7 +411,7 @@ char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6,
 }
 
 // FUNCTION: FFXIMAIN 0x10025060  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a4, int a5, int a6)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -422,7 +421,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025180  (placed by IDB name)
-// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __int16 CYyModelDt::GetElementCount()
 {
   int v1;
@@ -435,7 +434,7 @@ __int16 CYyModelDt::GetElementCount()
 }
 
 // FUNCTION: FFXIMAIN 0x100251A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt::MarkReferencedBones(int a2)
 {
   int v2;
@@ -477,8 +476,8 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-__int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7)
+// GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+__int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   unsigned __int8 v8;
@@ -503,7 +502,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
   int v27;
   bool v29;
   unsigned __int8 v30;
-  int a4a;
+  int a4;
   _WORD *v32;
   int a1;
   int a1a;
@@ -523,7 +522,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
   v29 = false;
   v10 = at<uint32_t>(this, 0x5E);
   dword_1045B620 = at<uint32_t>(this, 0x48);
-  a4a = 0;
+  a4 = 0;
   dword_1045B61C = dword_1045B620 + 4 * **(unsigned __int16 **)(self + 66);
   v11 = *(_DWORD *)(v10 + 64);
   if ( v11 == 0 )
@@ -602,8 +601,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int a4, int a5, _DWORD *a6, _D
   a1 = 0;
   v12 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
       | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
-      | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE))
-      & 0xFF00;
+      | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE)) & 0xFF00;
   g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v12);
   g_pCDx->pDevice->SetTexture(0, nullptr);
   dword_1045B648 = 0;
@@ -715,7 +713,7 @@ LABEL_125:
                     5,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -727,7 +725,7 @@ LABEL_125:
                       5,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
@@ -750,7 +748,7 @@ LABEL_125:
                     5,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -762,7 +760,7 @@ LABEL_125:
                       5,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
@@ -779,13 +777,13 @@ LABEL_125:
                   orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
                   orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
-                  v9 = a4a;
+                  v9 = a4;
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
                     5,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -797,20 +795,20 @@ LABEL_125:
                       5,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
                 }
                 else
                 {
-                  v9 = a4a;
+                  v9 = a4;
                 }
                 orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
               }
               else
               {
-                v9 = a4a;
+                v9 = a4;
               }
             }
           }
@@ -889,7 +887,7 @@ LABEL_125:
                     4,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -901,7 +899,7 @@ LABEL_125:
                       4,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
@@ -924,7 +922,7 @@ LABEL_125:
                     4,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -936,7 +934,7 @@ LABEL_125:
                       4,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
@@ -953,13 +951,13 @@ LABEL_125:
                   orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
                   orig::Gfx_SetStreamSourceCached(3u, 0, 0);
                   g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
-                  v9 = a4a;
+                  v9 = a4;
                   orig::CDx_DrawIndexedPrimitive(
                     g_pCDx,
                     4,
                     0,
                     *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                    a4a,
+                    a4,
                     v26);
                   ++g_modelDrawCallCount;
                   if ( (this->field_34 & 1) != 0 )
@@ -971,27 +969,27 @@ LABEL_125:
                       4,
                       0,
                       *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
-                      a4a,
+                      a4,
                       v26);
                     ++g_modelDrawCallCount;
                   }
                 }
                 else
                 {
-                  v9 = a4a;
+                  v9 = a4;
                 }
                 orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
                 v27 = 3 * v26;
                 *a6 += v38;
                 goto LABEL_145;
               }
-              v9 = a4a;
+              v9 = a4;
             }
             v27 = 3 * v26;
             *a6 += v38;
 LABEL_145:
             v9 += v27;
-            a4a = v9;
+            a4 = v9;
             break;
           default:
             break;
@@ -1108,7 +1106,7 @@ LABEL_145:
                 | 0x80000000;
             g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v12);
 LABEL_77:
-            v9 = a4a;
+            v9 = a4;
             v32 += 23;
             goto LABEL_146;
           }
@@ -1129,7 +1127,7 @@ LABEL_77:
             v22 = *(IDirect3DBaseTexture8 **)(dword_104570F4 + 68);
         }
         g_pCDx->pDevice->SetTexture(1u, v22);
-        v9 = a4a;
+        v9 = a4;
         v32 += 23;
       }
     }

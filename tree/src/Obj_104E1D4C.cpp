@@ -68,14 +68,14 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10124EB0  (placed by callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void Obj_104E1D4C::Cursor_Draw()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   int *v2;
   _DWORD *v3;
   int v4;
-  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
   float (&v5)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x14);
   float (&v6)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
 

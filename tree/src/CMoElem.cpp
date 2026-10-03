@@ -112,7 +112,7 @@ int * CMoElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10044970  (placed by callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478))
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoElem::CMoElemFamily_SharedCleanup()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

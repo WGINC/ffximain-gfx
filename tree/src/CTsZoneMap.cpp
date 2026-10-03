@@ -3,36 +3,31 @@
 #include "CTsZoneMap.hpp"
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 14 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 258 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
-  void *v3;
   char *Text;
-  int v6;
+  int v5;
   IDirect3DDevice8 *pDevice;
-  IDirect3DDevice8 v8;
-  void *v9;
+  struct IDirect3DDevice8Vtbl *lpVtbl;
+  int v8;
   char TextLength;
-  void *v12;
-  unsigned int v13;
-  struct ID3DXBuffer *v14;
+  struct ID3DXBuffer *v11;
   char Buffer[512];
-  void *declaration;
   TextLength = orig::Gfx_ShaderSrc_GetTextLength((const char **)self_);
   Text = (char *)orig::Gfx_ShaderSrc_GetText(self_);
-  v6 = orig::fn_102DAA0D(Text, TextLength, 0, nullptr, &v14, nullptr);
-  orig::fn_102DAA71(v6, Buffer, 0x200u);
-  if ( v6 >= 0 )
+  v5 = orig::fn_102DAA0D(Text, TextLength, 0, nullptr, &v11, nullptr);
+  orig::fn_102DAA71(v5, Buffer, 0x200u);
+  if ( v5 >= 0 )
   {
-    v12 = v3;
     pDevice = g_pCDx->pDevice;
-    v8.lpVtbl = pDevice->lpVtbl;
-    v9 = (void *)(*(int (__stdcall **)(struct ID3DXBuffer *, int, _DWORD))(*(_DWORD *)v14 + 12))(v14, a2, 0);
-    v6 = v8.lpVtbl->CreateVertexShader(pDevice, declaration, v9, v12, v13);
-    orig::fn_102DAA71(v6, Buffer, 0x200u);
-    (*(void (__stdcall **)(struct ID3DXBuffer *))(*(_DWORD *)v14 + 8))(v14);
+    lpVtbl = pDevice->lpVtbl;
+    v8 = (*(int (__stdcall **)(struct ID3DXBuffer *))(*(_DWORD *)v11 + 12))(v11);
+    v5 = lpVtbl->CreateVertexShader(pDevice, (void *)a1, (void *)v8, (void *)a2, 0);
+    orig::fn_102DAA71(v5, Buffer, 0x200u);
+    (*(void (__stdcall **)(struct ID3DXBuffer *))(*(_DWORD *)v11 + 8))(v11);
   }
-  return v6;
+  return v5;
 }
 
 // FUNCTION: FFXIMAIN 0x10177400  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
@@ -99,7 +94,7 @@ XI_API int __cdecl Gfx_SetupLineDrawState(void)
 
 // FUNCTION: FFXIMAIN 0x10177B40  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl Gfx_DrawQuadOutline(float *a3, char a4, unsigned __int8 a5, unsigned __int8 a6, char a7, char a8)
+XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8, unsigned __int8 a4, char a5, char a6)
 {
   int v6;
   int v7;
@@ -113,61 +108,61 @@ XI_API int __cdecl Gfx_DrawQuadOutline(float *a3, char a4, unsigned __int8 a5, u
   int v15;
   int v16;
   int result;
-  int a3a[24];
+  int a3[24];
   float v19;
   float v20;
   float v21;
   int v22;
-  v6 = *((_DWORD *)a3 + 4);
-  v7 = *((_DWORD *)a3 + 5);
-  v19 = *a3;
-  *(float *)a3a = v19;
-  v8 = a3[1];
-  a3a[6] = v6;
-  v9 = *((_DWORD *)a3 + 6);
+  v6 = *((_DWORD *)a1 + 4);
+  v7 = *((_DWORD *)a1 + 5);
+  v19 = *a1;
+  *(float *)a3 = v19;
+  v8 = a1[1];
+  a3[6] = v6;
+  v9 = *((_DWORD *)a1 + 6);
   v20 = v8;
-  *(float *)&a3a[1] = v8;
-  v10 = a3[2];
-  a3a[7] = v7;
-  v11 = *((_DWORD *)a3 + 8);
-  a3a[8] = v9;
-  v12 = *((_DWORD *)a3 + 9);
-  a3a[12] = v11;
-  v13 = *((_DWORD *)a3 + 10);
-  a3a[13] = v12;
-  v14 = *((_DWORD *)a3 + 12);
-  a3a[14] = v13;
-  v15 = *((_DWORD *)a3 + 13);
-  v16 = *((_DWORD *)a3 + 14);
-  a3a[18] = v14;
-  a3a[20] = v16;
-  BYTE1(v16) = a7;
-  a3a[19] = v15;
-  LOBYTE(v16) = a4;
+  *(float *)&a3[1] = v8;
+  v10 = a1[2];
+  a3[7] = v7;
+  v11 = *((_DWORD *)a1 + 8);
+  a3[8] = v9;
+  v12 = *((_DWORD *)a1 + 9);
+  a3[12] = v11;
+  v13 = *((_DWORD *)a1 + 10);
+  a3[13] = v12;
+  v14 = *((_DWORD *)a1 + 12);
+  a3[14] = v13;
+  v15 = *((_DWORD *)a1 + 13);
+  v16 = *((_DWORD *)a1 + 14);
+  a3[18] = v14;
+  a3[20] = v16;
+  BYTE1(v16) = a5;
+  a3[19] = v15;
+  LOBYTE(v16) = a2;
   v21 = v10;
-  *(float *)&a3a[2] = v10;
-  v22 = a6 | ((a5 | ((unsigned __int16)v16 << 8)) << 8);
-  a3a[21] = v22;
-  a3a[15] = v22;
-  a3a[9] = v22;
-  a3a[3] = v22;
-  if ( a8 == 0 )
+  *(float *)&a3[2] = v10;
+  v22 = a4 | ((arg8 | ((unsigned __int16)v16 << 8)) << 8);
+  a3[21] = v22;
+  a3[15] = v22;
+  a3[9] = v22;
+  a3[3] = v22;
+  if ( a6 == 0 )
     g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-  result = orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)a3a, 24);
-  if ( a8 == 0 )
+  result = orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)a3, 24);
+  if ( a6 == 0 )
     return g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x10177C50  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v6;
   int v7;
   int v8;
   int v9;
-  alignas(16) unsigned char xi_frame[0x424];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
   int (&v11)[9] = *reinterpret_cast<int (*)[9]>(xi_frame + 0x0);
   int &v12 = *reinterpret_cast<int *>(xi_frame + 0x24);
 
@@ -275,8 +270,8 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(unsigned int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
-// GATE: PASS -- 100 trials, 61 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
-float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture8 *a4, float a5)
+// GATE: PASS -- 100 trials, 62 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
+float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   IDirect3DDevice8 *pDevice;
@@ -331,43 +326,45 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   int v55;
   bool v56; // cc
   bool v57; // zf
-  float *v58;
-  int v59;
-  float v60;
-  float v61;
-  float v62;
-  int v63;
-  float v64;
-  float v65;
-  float v66;
-  int v67;
-  float v68;
-  float v69;
-  float v70;
-  int v71;
-  float v72;
-  int v73;
-  float v74;
-  int v75;
-  float *v76;
-  _DWORD *v77;
-  int a2a;
-  int v79;
-  int j;
-  int v81;
-  int i;
-  int v83;
-  int v84;
-  float *v85;
-  float *v86;
-  float v87;
-  float v88;
-  float v89;
-  float v90;
-  int v91;
-  int k;
-  __int16 *v93;
-  float v94[16];
+  alignas(16) unsigned char xi_frame[0x504];  // address-taken locals at their original offsets
+  float * &v58 = *reinterpret_cast<float * *>(xi_frame + 0x34);
+  int &v59 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  float &v60 = *reinterpret_cast<float *>(xi_frame + 0x3C);
+  float &v61 = *reinterpret_cast<float *>(xi_frame + 0x40);
+  float &v62 = *reinterpret_cast<float *>(xi_frame + 0x44);
+  int &v63 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  float &v64 = *reinterpret_cast<float *>(xi_frame + 0x4C);
+  float &v65 = *reinterpret_cast<float *>(xi_frame + 0x50);
+  float &v66 = *reinterpret_cast<float *>(xi_frame + 0x54);
+  int &v67 = *reinterpret_cast<int *>(xi_frame + 0x58);
+  float &v68 = *reinterpret_cast<float *>(xi_frame + 0x5C);
+  float &v69 = *reinterpret_cast<float *>(xi_frame + 0x60);
+  float &v70 = *reinterpret_cast<float *>(xi_frame + 0x64);
+  int &v71 = *reinterpret_cast<int *>(xi_frame + 0x68);
+  float &v72 = *reinterpret_cast<float *>(xi_frame + 0x6C);
+  int &v73 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  float &v74 = *reinterpret_cast<float *>(xi_frame + 0x74);
+  int &v75 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  float * &v76 = *reinterpret_cast<float * *>(xi_frame + 0x7C);
+  _DWORD * &v77 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x80);
+  int &a2 = *reinterpret_cast<int *>(xi_frame + 0x84);
+  int &v79 = *reinterpret_cast<int *>(xi_frame + 0x88);
+  int &j = *reinterpret_cast<int *>(xi_frame + 0x8C);
+  int &v81 = *reinterpret_cast<int *>(xi_frame + 0x90);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x94);
+  int &v83 = *reinterpret_cast<int *>(xi_frame + 0x98);
+  int &v84 = *reinterpret_cast<int *>(xi_frame + 0x9C);
+  float * &v85 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
+  float * &v86 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
+  float &v87 = *reinterpret_cast<float *>(xi_frame + 0xA8);
+  float &v88 = *reinterpret_cast<float *>(xi_frame + 0xAC);
+  float &v89 = *reinterpret_cast<float *>(xi_frame + 0xB0);
+  float &v90 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  int &v91 = *reinterpret_cast<int *>(xi_frame + 0xB8);
+  int &k = *reinterpret_cast<int *>(xi_frame + 0xBC);
+  __int16 * &v93 = *reinterpret_cast<__int16 * *>(xi_frame + 0xC0);
+  float (&v94)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC4);
+
   if ( a5 == 0.0 )
   {
     flt_1037734C = 1.0;
@@ -379,11 +376,11 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
     flt_10377344 = flt_1037734C;
   }
   g_pCDx->pDevice->SetTexture(0, a4);
-  v88 = -*a2;
+  v88 = -*arg0;
   pDevice = g_pCDx->pDevice;
-  v89 = -a2[1];
+  v89 = -arg0[1];
   lpVtbl = pDevice->lpVtbl;
-  v90 = -a2[2];
+  v90 = -arg0[2];
   lpVtbl->SetTextureStageState(pDevice, 0, D3DTSS_ADDRESSU, 3u);
   g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
   g_pCDx->pDevice->SetVertexShader(322u);
@@ -450,10 +447,10 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
   v86 = result;
   if ( result != nullptr )
   {
-    v10 = result[14] + *a2;
+    v10 = result[14] + *arg0;
     v87 = this->field_17C;
     v11 = (__int64)(v10 * 0.25);
-    v12 = (__int64)((result[15] + a2[2]) * 0.25);
+    v12 = (__int64)((result[15] + arg0[2]) * 0.25);
     if ( v11 - 1 >= 0 )
     {
       v79 = *(_DWORD *)(LODWORD(v9) + 64) - 1;
@@ -477,7 +474,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
     v13 = v12 - 1;
     if ( (int)v12 - 1 >= 0 )
     {
-      if ( v13 > *(_DWORD *)(LODWORD(v9) + 68) - 1 )
+      if ( v13 > *(int *)(LODWORD(v9) + 68) - 1 )
         v13 = *(_DWORD *)(LODWORD(v9) + 68) - 1;
     }
     else
@@ -526,7 +523,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                   v25 = *(_DWORD *)v22;
                   v91 = *((_DWORD *)v22 + 1);
                   v26 =(_DWORD*)(&g_zoneProjVerts);
-                  a2a = 0;
+                  a2 = 0;
                   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v21);
                   v27 = &v60;
                   v28 = (_BYTE *)v21 - (_BYTE *)&v60;
@@ -604,18 +601,18 @@ float * CTsZoneMap::DrawProjectedTexture(float *a2, int a3, IDirect3DBaseTexture
                         *((float *)v26 - 2) = v50 * v52[2] + v64 * v52[1] + v60 * *v52 + v72;
                         v53 = v70 * v52[2] + v66 * v52[1];
                         v54 = v62 * *v52;
-                        v55 = a2a;
-                        v56 = a2a <= 1500;
+                        v55 = a2;
+                        v56 = a2 <= 1500;
                         *((float *)v26 - 1) = v53 + v54 + v74;
                         if ( !v56 )
                           goto LABEL_41;
-                        a2a = v55 + 1;
+                        a2 = v55 + 1;
                       }
                       ++v38;
                       v24 += 4;
                     }
                     while ( v38 < *((__int16 *)v37 + 6) );
-                    v55 = a2a;
+                    v55 = a2;
 LABEL_41:
                     if ( v55 != 0 )
                       orig::CDx_DrawPrimitiveUP(g_pCDx, 4, v55, (int)&g_zoneProjVerts, 24);
@@ -646,7 +643,7 @@ LABEL_41:
 }
 
 // FUNCTION: FFXIMAIN 0x101844C0  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
-// GATE: PASS -- 100 trials, 27 returned normally, 2332 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 18572 D3D calls compared (diffemu_gfx, clean build)
 void CTsZoneMap::ModelActor_Draw(int a2, int a3)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -667,7 +664,7 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
   int v18;
   IDirect3DBaseTexture8 *v19;
   int v20;
-  alignas(16) unsigned char xi_frame[0x6E4];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x74C];  // address-taken locals at their original offsets
   int &v21 = *reinterpret_cast<int *>(xi_frame + 0x260);
   unsigned int &v22 = *reinterpret_cast<unsigned int *>(xi_frame + 0x264);
   int &v23 = *reinterpret_cast<int *>(xi_frame + 0x268);
@@ -867,7 +864,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x10184FE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -885,10 +882,10 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
   __int16 v15;
   int v16;
   int *v17;
-  float *v18;
+  __int16 *v18;
   int v19;
   _WORD *v20;
-  float v21;
+  int v21;
   char *v22;
   float *v23;
   float *v24;
@@ -927,65 +924,64 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
   int v58;
   int v59;
   bool v60; // zf
-  alignas(16) unsigned char xi_frame[0x584];  // address-taken locals at their original offsets
-  float * &v61 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
-  float * &v62 = *reinterpret_cast<float * *>(xi_frame + 0xA0);
-  float * &v63 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
-  float * &v64 = *reinterpret_cast<float * *>(xi_frame + 0xA4);
-  float * &v65 = *reinterpret_cast<float * *>(xi_frame + 0xA8);
-  float &v66 = *reinterpret_cast<float *>(xi_frame + 0xAC);
-  float &v67 = *reinterpret_cast<float *>(xi_frame + 0xB0);
-  float &v68 = *reinterpret_cast<float *>(xi_frame + 0xB4);
-  float &v69 = *reinterpret_cast<float *>(xi_frame + 0xBC);
-  float &v70 = *reinterpret_cast<float *>(xi_frame + 0xC0);
-  float &v71 = *reinterpret_cast<float *>(xi_frame + 0xC4);
-  float &v72 = *reinterpret_cast<float *>(xi_frame + 0xCC);
-  float &v73 = *reinterpret_cast<float *>(xi_frame + 0xD0);
-  float &v74 = *reinterpret_cast<float *>(xi_frame + 0xD4);
-  float &v75 = *reinterpret_cast<float *>(xi_frame + 0xDC);
-  float &v76 = *reinterpret_cast<float *>(xi_frame + 0xE0);
-  float &v77 = *reinterpret_cast<float *>(xi_frame + 0xE4);
-  int &n = *reinterpret_cast<int *>(xi_frame + 0xEC);
-  int &k = *reinterpret_cast<int *>(xi_frame + 0xF0);
-  int &v80 = *reinterpret_cast<int *>(xi_frame + 0xF4);
-  int ** &v81 = *reinterpret_cast<int ** *>(xi_frame + 0xF8);
-  float * &v82 = *reinterpret_cast<float * *>(xi_frame + 0xFC);
-  int &v83 = *reinterpret_cast<int *>(xi_frame + 0x100);
-  int &v84 = *reinterpret_cast<int *>(xi_frame + 0x104);
-  int &v85 = *reinterpret_cast<int *>(xi_frame + 0x108);
-  _BYTE * &j = *reinterpret_cast<_BYTE * *>(xi_frame + 0x10C);
-  _BYTE * &v87 = *reinterpret_cast<_BYTE * *>(xi_frame + 0x110);
-  int &i = *reinterpret_cast<int *>(xi_frame + 0x114);
-  int &v89 = *reinterpret_cast<int *>(xi_frame + 0x118);
-  float &v90 = *reinterpret_cast<float *>(xi_frame + 0x11C);
-  int &v91 = *reinterpret_cast<int *>(xi_frame + 0x120);
-  float &v92 = *reinterpret_cast<float *>(xi_frame + 0x124);
-  float &v93 = *reinterpret_cast<float *>(xi_frame + 0x128);
-  float &v94 = *reinterpret_cast<float *>(xi_frame + 0x130);
-  float &v95 = *reinterpret_cast<float *>(xi_frame + 0x134);
-  float &v96 = *reinterpret_cast<float *>(xi_frame + 0x138);
-  float &v97 = *reinterpret_cast<float *>(xi_frame + 0x13C);
-  float &v98 = *reinterpret_cast<float *>(xi_frame + 0x140);
-  float &v99 = *reinterpret_cast<float *>(xi_frame + 0x144);
-  float (&v100)[13] = *reinterpret_cast<float (*)[13]>(xi_frame + 0x148);
-  float (&v101)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x17C);
-  int (&pMatrix)[14] = *reinterpret_cast<int (*)[14]>(xi_frame + 0x184);
+  alignas(16) unsigned char xi_frame[0x580];  // address-taken locals at their original offsets
+  float * &v61 = *reinterpret_cast<float * *>(xi_frame + 0x94);
+  float * &v62 = *reinterpret_cast<float * *>(xi_frame + 0x94);
+  float * &v63 = *reinterpret_cast<float * *>(xi_frame + 0x98);
+  float * &v64 = *reinterpret_cast<float * *>(xi_frame + 0x98);
+  float * &v65 = *reinterpret_cast<float * *>(xi_frame + 0x9C);
+  float &v66 = *reinterpret_cast<float *>(xi_frame + 0xA0);
+  float &v67 = *reinterpret_cast<float *>(xi_frame + 0xA4);
+  float &v68 = *reinterpret_cast<float *>(xi_frame + 0xA8);
+  float &v69 = *reinterpret_cast<float *>(xi_frame + 0xB0);
+  float &v70 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  float &v71 = *reinterpret_cast<float *>(xi_frame + 0xB8);
+  float &v72 = *reinterpret_cast<float *>(xi_frame + 0xC0);
+  float &v73 = *reinterpret_cast<float *>(xi_frame + 0xC4);
+  float &v74 = *reinterpret_cast<float *>(xi_frame + 0xC8);
+  float &v75 = *reinterpret_cast<float *>(xi_frame + 0xD0);
+  float &v76 = *reinterpret_cast<float *>(xi_frame + 0xD4);
+  float &v77 = *reinterpret_cast<float *>(xi_frame + 0xD8);
+  int &n = *reinterpret_cast<int *>(xi_frame + 0xE0);
+  int &k = *reinterpret_cast<int *>(xi_frame + 0xE4);
+  int &v80 = *reinterpret_cast<int *>(xi_frame + 0xE8);
+  int ** &v81 = *reinterpret_cast<int ** *>(xi_frame + 0xEC);
+  __int16 * &v82 = *reinterpret_cast<__int16 * *>(xi_frame + 0xF0);
+  int &v83 = *reinterpret_cast<int *>(xi_frame + 0xF4);
+  int &v84 = *reinterpret_cast<int *>(xi_frame + 0xF8);
+  int &v85 = *reinterpret_cast<int *>(xi_frame + 0xFC);
+  int &j = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v87 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &i = *reinterpret_cast<int *>(xi_frame + 0x108);
+  int &v89 = *reinterpret_cast<int *>(xi_frame + 0x10C);
+  float * &v90 = *reinterpret_cast<float * *>(xi_frame + 0x110);
+  int &v91 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  float * &Ptr8IfField60Set = *reinterpret_cast<float * *>(xi_frame + 0x118);
+  float &v93 = *reinterpret_cast<float *>(xi_frame + 0x11C);
+  float &v94 = *reinterpret_cast<float *>(xi_frame + 0x124);
+  float &v95 = *reinterpret_cast<float *>(xi_frame + 0x128);
+  int &v96 = *reinterpret_cast<int *>(xi_frame + 0x12C);
+  float &v97 = *reinterpret_cast<float *>(xi_frame + 0x130);
+  float &v98 = *reinterpret_cast<float *>(xi_frame + 0x134);
+  float &v99 = *reinterpret_cast<float *>(xi_frame + 0x138);
+  float (&v100)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x13C);
+  float &v101 = *reinterpret_cast<float *>(xi_frame + 0x17C);
 
-  v87 = self;
+  v90 = (float *)self;
   if ( *(float *)&a2 == 0.0 )
   {
-    v92 = 1.0;
-    v90 = 1.0;
+    v94 = 1.0;
+    v93 = 1.0;
   }
   else
   {
-    v92 = 1.0 / *(float *)&a2;
-    v90 = v92;
+    v94 = 1.0 / *(float *)&a2;
+    v93 = v94;
   }
   result = this->overlayTex;
-  v94 = -*(float *)a1;
-  v95 = -*(float *)(a1 + 4);
-  v96 = -*(float *)(a1 + 8);
+  v97 = -*(float *)a1;
+  v98 = -*(float *)(a1 + 4);
+  v99 = -*(float *)(a1 + 8);
   if ( result != 0 )
   {
     v5 = *(IDirect3DBaseTexture8 **)(result + 64);
@@ -1000,11 +996,11 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-    v90 = 0.0;
+    v91 = 0;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     if ( this->overlayUseProjection != 0 )
     {
-      g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, pMatrix);
+      g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, &v101);
       orig_void::ZoneMap_SetOverlayProjection((float *)self);
     }
     else
@@ -1019,29 +1015,29 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     v100[12] = v97 * v93 + flt_103773C0;
     memset(&v100[6], 0, 16);
     v100[11] = 0.0;
-    pMatrix[0] = 1065353216;
-    v101[0] = flt_103773C4 + v98;
-    v101[1] = v99 * v94 + flt_103773C8;
-    v92 = COERCE_FLOAT(orig::GetPtr8IfField60Set((_DWORD *)self + 94));
-    if ( v92 != 0.0 )
+    v100[15] = 1.0;
+    v100[13] = flt_103773C4 + v98;
+    v100[14] = v99 * v94 + flt_103773C8;
+    Ptr8IfField60Set = (float *)orig::GetPtr8IfField60Set((_DWORD *)self + 94);
+    if ( Ptr8IfField60Set != nullptr )
     {
-      v6 = *(float *)(LODWORD(v92) + 56) + *(float *)a1;
-      v95 = *(float *)(LODWORD(v90) + 380);
+      v6 = Ptr8IfField60Set[14] + *(float *)a1;
+      v95 = v90[95];
       v7 = (__int64)(v6 * 0.25);
-      v8 = (__int64)((*(float *)(LODWORD(v92) + 60) + *(float *)(a1 + 8)) * 0.25);
+      v8 = (__int64)((Ptr8IfField60Set[15] + *(float *)(a1 + 8)) * 0.25);
       if ( v7 - 1 >= 0 )
       {
-        v87 = (_BYTE *)(*(_DWORD *)(LODWORD(v92) + 64) - 1);
-        if ( v7 - 1 <= (int)v87 )
-          v87 = (_BYTE *)(v7 - 1);
+        v87 = *((_DWORD *)Ptr8IfField60Set + 16) - 1;
+        if ( v7 - 1 <= v87 )
+          v87 = v7 - 1;
       }
       else
       {
-        v87 = nullptr;
+        v87 = 0;
       }
       if ( v7 + 1 >= 0 )
       {
-        v83 = *(_DWORD *)(LODWORD(v92) + 64) - 1;
+        v83 = *((_DWORD *)Ptr8IfField60Set + 16) - 1;
         if ( v7 + 1 <= v83 )
           v83 = v7 + 1;
       }
@@ -1052,8 +1048,8 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
       v9 = v8 - 1;
       if ( (int)v8 - 1 >= 0 )
       {
-        if ( v9 > *(_DWORD *)(LODWORD(v92) + 68) - 1 )
-          v9 = *(_DWORD *)(LODWORD(v92) + 68) - 1;
+        if ( v9 > *((_DWORD *)Ptr8IfField60Set + 17) - 1 )
+          v9 = *((_DWORD *)Ptr8IfField60Set + 17) - 1;
       }
       else
       {
@@ -1062,7 +1058,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
       v10 = v8 + 1;
       if ( v10 >= 0 )
       {
-        v11 = *(_DWORD *)(LODWORD(v92) + 68);
+        v11 = *((_DWORD *)Ptr8IfField60Set + 17);
         if ( v10 > v11 - 1 )
           v10 = v11 - 1;
       }
@@ -1073,9 +1069,9 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
       v85 = v10;
       for ( i = v9; i <= v85; ++i )
       {
-        for ( j = v87; (int)j <= v83; ++j )
+        for ( j = v87; j <= v83; ++j )
         {
-          v12 = *(int **)(*(_DWORD *)(LODWORD(v92) + 88) + 4 * (_DWORD)&j[i * *(_DWORD *)(LODWORD(v92) + 64)]);
+          v12 = *(int **)(*((_DWORD *)Ptr8IfField60Set + 22) + 4 * (j + i * *((_DWORD *)Ptr8IfField60Set + 16)));
           if ( v12 != nullptr )
           {
             do
@@ -1095,9 +1091,9 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                 do
                 {
                   v17 = *v81;
-                  v18 = (float *)v81[1];
+                  v18 = (__int16 *)v81[1];
                   v82 = v18;
-                  if ( LODWORD(v95) != v17[47] && *((_WORD *)v18 + 7) == 0 )
+                  if ( LODWORD(v95) != v17[47] && v18[7] == 0 )
                   {
                     v19 = v17[41] & 1;
                     if ( v91 != v19 )
@@ -1109,8 +1105,8 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                         g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
                     }
                     v20 = *((_WORD **)v82 + 2);
-                    v21 = *v82;
-                    v96 = v82[1];
+                    v21 = *(_DWORD *)v82;
+                    v96 = *((_DWORD *)v82 + 1);
                     orig::CDx_SetTransform(&g_pCDx->vftable, 256, v17);
                     v22 = (char *)&g_zoneProjVerts;
                     v80 = 0;
@@ -1144,7 +1140,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                       v23 = v24;
                     }
                     v84 = 0;
-                    if ( *((__int16 *)v82 + 6) > 0 )
+                    if ( v82[6] > 0 )
                     {
                       v31 = (float *)&unk_106390B4;
                       v32 = (float *)&unk_106390B0;
@@ -1153,23 +1149,23 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                       v62 = (float *)&unk_106390B4;
                       for ( n = (int)&unk_106390B0; ; v32 = (float *)n )
                       {
-                        v34 = v73 * *(float *)(LODWORD(v96) + 12 * (v20[3] & 0x7FFF) + 8)
-                            + v70 * *(float *)(LODWORD(v96) + 12 * (v20[3] & 0x7FFF) + 4)
-                            + v67 * *(float *)(LODWORD(v96) + 12 * (v20[3] & 0x7FFF));
+                        v34 = v73 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF) + 8)
+                            + v70 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF) + 4)
+                            + v67 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF));
                         v35 = v34 < 0.0;
                         v36 = 0;
                         v37 = v34 == 0.0;
                         if ( ((__int16)(((v35 || __builtin_isunordered(v34, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v34, 0.0)) ? 0x400 : 0) | ((v37 || __builtin_isunordered(v34, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
                         {
-                          v38 = (float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF));
+                          v38 = (float *)(v21 + 12 * (*v20 & 0x7FFF));
                           *((float *)v22 + 4) = v66 * *v38 + v72 * v38[2] + v69 * v38[1] + v75;
                           v39 = v67 * *v38 + v73 * v38[2] + v70 * v38[1] + v76;
                           *((float *)v22 + 5) = v68 * *v38 + v74 * v38[2] + v71 * v38[1] + v77;
-                          v40 = (float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF));
+                          v40 = (float *)(v21 + 12 * (*v20 & 0x7FFF));
                           if ( v39 >= 0.0 )
                           {
-                            *((float *)v22 + 4) = v66 * *(float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF))
-                                                + v72 * *(float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF) + 8)
+                            *((float *)v22 + 4) = v66 * *(float *)(v21 + 12 * (*v20 & 0x7FFF))
+                                                + v72 * *(float *)(v21 + 12 * (*v20 & 0x7FFF) + 8)
                                                 + v69 * v40[1]
                                                 + v75;
                             v42 = v67 * *v40 + v73 * v40[2] + v70 * v40[1] + v76;
@@ -1177,32 +1173,32 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                           }
                           else
                           {
-                            *((float *)v22 + 4) = v72 * *(float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF) + 8)
-                                                + v69 * *(float *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF) + 4)
+                            *((float *)v22 + 4) = v72 * *(float *)(v21 + 12 * (*v20 & 0x7FFF) + 8)
+                                                + v69 * *(float *)(v21 + 12 * (*v20 & 0x7FFF) + 4)
                                                 + v66 * *v40
                                                 + v75;
                             v41 = v73 * v40[2] + v70 * v40[1] + v67 * *v40 + v76;
                             *((float *)v22 + 5) = v74 * v40[2] + v71 * v40[1] + v68 * *v40 + v77;
                             v42 = -v41;
                           }
-                          v43 = (float *)(LODWORD(v21) + 12 * (v20[1] & 0x3FFF));
+                          v43 = (float *)(v21 + 12 * (v20[1] & 0x3FFF));
                           *v32 = v72 * v43[2] + v69 * v43[1] + v66 * *v43 + v75;
                           *v31 = v74 * v43[2] + v71 * v43[1] + v68 * *v43 + v77;
-                          v47 = (float *)(LODWORD(v21) + 12 * (v20[1] & 0x3FFF));
+                          v47 = (float *)(v21 + 12 * (v20[1] & 0x3FFF));
                           *v32 = v66 * *v47 + v72 * v47[2] + v69 * v47[1] + v75;
                           v48 = v67 * *v47 + v73 * v47[2] + v70 * v47[1] + v76;
                           *v31 = v68 * *v47 + v74 * v47[2] + v71 * v47[1] + v77;
                           if ( v48 < 0.0 )
                             v48 = -v48;
-                          v49 = (float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF));
+                          v49 = (float *)(v21 + 12 * (v20[2] & 0x3FFF));
                           *v65 = v66 * *v49 + v72 * v49[2] + v69 * v49[1] + v75;
                           v50 = v67 * *v49 + v73 * v49[2] + v70 * v49[1] + v76;
                           *v64 = v68 * *v49 + v74 * v49[2] + v71 * v49[1] + v77;
-                          v51 = (float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF));
+                          v51 = (float *)(v21 + 12 * (v20[2] & 0x3FFF));
                           if ( v50 >= 0.0 )
                           {
-                            *v65 = v66 * *(float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF))
-                                 + v72 * *(float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF) + 8)
+                            *v65 = v66 * *(float *)(v21 + 12 * (v20[2] & 0x3FFF))
+                                 + v72 * *(float *)(v21 + 12 * (v20[2] & 0x3FFF) + 8)
                                  + v69 * v51[1]
                                  + v75;
                             v53 = v67 * *v51 + v73 * v51[2] + v70 * v51[1] + v76;
@@ -1210,8 +1206,8 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                           }
                           else
                           {
-                            *v65 = v72 * *(float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF) + 8)
-                                 + v69 * *(float *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF) + 4)
+                            *v65 = v72 * *(float *)(v21 + 12 * (v20[2] & 0x3FFF) + 8)
+                                 + v69 * *(float *)(v21 + 12 * (v20[2] & 0x3FFF) + 4)
                                  + v66 * *v51
                                  + v75;
                             v52 = v73 * v51[2] + v70 * v51[1] + v67 * *v51 + v76;
@@ -1239,19 +1235,19 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                           }
                           if ( v56 <= 2 )
                           {
-                            *(_DWORD *)v22 = *(_DWORD *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF));
-                            *((_DWORD *)v22 + 1) = *(_DWORD *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF) + 4);
-                            *((_DWORD *)v22 + 2) = *(_DWORD *)(LODWORD(v21) + 12 * (*v20 & 0x7FFF) + 8);
+                            *(_DWORD *)v22 = *(_DWORD *)(v21 + 12 * (*v20 & 0x7FFF));
+                            *((_DWORD *)v22 + 1) = *(_DWORD *)(v21 + 12 * (*v20 & 0x7FFF) + 4);
+                            *((_DWORD *)v22 + 2) = *(_DWORD *)(v21 + 12 * (*v20 & 0x7FFF) + 8);
                             *((_DWORD *)v22 + 3) = v54 | ((v54 | ((v54 | 0xFFFF8000) << 8)) << 8);
                             v57 =(_DWORD*)(v22 + 48);
                             v58 = n + 48;
-                            *(v57 - 6) = *(_DWORD *)(LODWORD(v21) + 12 * (v20[1] & 0x3FFF));
-                            *(v57 - 5) = *(_DWORD *)(LODWORD(v21) + 12 * (v20[1] & 0x3FFF) + 4);
-                            *(v57 - 4) = *(_DWORD *)(LODWORD(v21) + 12 * (v20[1] & 0x3FFF) + 8);
+                            *(v57 - 6) = *(_DWORD *)(v21 + 12 * (v20[1] & 0x3FFF));
+                            *(v57 - 5) = *(_DWORD *)(v21 + 12 * (v20[1] & 0x3FFF) + 4);
+                            *(v57 - 4) = *(_DWORD *)(v21 + 12 * (v20[1] & 0x3FFF) + 8);
                             *(v57 - 3) = k | ((k | ((k | 0xFFFF8000) << 8)) << 8);
-                            *v57 = *(_DWORD *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF));
-                            v57[1] = *(_DWORD *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF) + 4);
-                            v57[2] = *(_DWORD *)(LODWORD(v21) + 12 * (v20[2] & 0x3FFF) + 8);
+                            *v57 = *(_DWORD *)(v21 + 12 * (v20[2] & 0x3FFF));
+                            v57[1] = *(_DWORD *)(v21 + 12 * (v20[2] & 0x3FFF) + 4);
+                            v57[2] = *(_DWORD *)(v21 + 12 * (v20[2] & 0x3FFF) + 8);
                             v57[3] = v55 | ((v55 | ((v55 | 0xFFFF8000) << 8)) << 8);
                             v22 = (char *)(v57 + 6);
                             n = v58 + 24;
@@ -1264,7 +1260,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                           }
                         }
                         v20 += 4;
-                        v59 = *((__int16 *)v82 + 6);
+                        v59 = v82[6];
                         if ( ++v84 >= v59 )
                           break;
                         v31 = v62;
@@ -1291,8 +1287,8 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
     g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    if ( v87[234904] != 0 )
-      return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, v101);
+    if ( *((_BYTE *)v90 + 234904) != 0 )
+      return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, &v101);
     else
       return orig::Gfx_SetZBias(g_zbiasRestore);
   }

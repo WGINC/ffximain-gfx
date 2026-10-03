@@ -1,0 +1,15 @@
+{
+ "_doc": "Access paths proven to hold a Direct3D 8 interface (or null), for com_calls.py. path: a global, then the offsets dereferenced in turn ([[global]+off]...). Each entry's `checks` are recomputed against the binary on every run; an entry whose check fails is not used. `proof` is the argument in full, `dumps` what the verified dumps of the analysed build show.",
+ "device_via_1047BFA8": {
+  "path": ["0x1047BFA8", "0xEBC"],
+  "iface": "IDirect3DDevice8",
+  "proof": "0x1047BFA8 is written in two places: 0x1006B2D2 stores the object just constructed at 0x1006B2B0 (vtable 0x1032C0D8), and 0x1006B466 stores EDI, zeroed at 0x1006B3B8 and kept across the calls between (EDI is callee-saved in the MSVC x86 calling convention). Right after constructing it, 0x1006B2B0 calls 0x10069DD0 on it (ECX = the object) with the CDx* from 0x1045666C pushed as the argument; 0x10069DD0 is referred to nowhere else. 0x10069DD0 stores that argument at +0xDC8 (0x10069DE1, the only write of +0xDC8 in the binary) and at 0x10069E65 copies [[+0xDC8]+0xC] -- the CDx's pDevice, declared IDirect3DDevice8* in the IDB's CDx -- into +0xEBC (the only write of +0xEBC in the binary).",
+  "dumps": "In all four verified dumps (town, town2, combat, zonetoinn): [[0x1047BFA8]+0xDC8] == [0x1045666C] and [[0x1047BFA8]+0xEBC] == CDx->pDevice.",
+  "checks": [
+   {"kind": "writers_global", "global": "0x1047BFA8", "expect": ["0x1006B2D2", "0x1006B466"]},
+   {"kind": "writers_disp", "disp": "0xEBC", "expect": ["0x10069E65"]},
+   {"kind": "writers_disp", "disp": "0xDC8", "expect": ["0x10069DE1"]},
+   {"kind": "refs_to", "function": "0x10069DD0", "expect": ["0x1006B2DA"]}
+  ]
+ }
+}

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1024F900  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
 {
   double v1;
@@ -13,7 +13,7 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
   double v6;
   char *ViewMatrixPtr;
   int v8;
-  alignas(16) unsigned char xi_frame[0x4EC];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x52C];  // address-taken locals at their original offsets
   float * &v9 = *reinterpret_cast<float * *>(xi_frame + 0xC);
   int &v10 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v11 = *reinterpret_cast<int *>(xi_frame + 0x14);
@@ -39,17 +39,17 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
   float (&v31)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xEC);
 
   orig::fn_10027990((Iostream_init *)v28);
-  orig::Dancer_GetFlags(&v10);
+  orig::scnGetFlags(&v10);
   if ( (v10 & 0x100) != 0 )
     v8 = 6;
   else
     v8 = *(_DWORD *)(a1 + 28);
-  orig::Dancer_GetCameraEntry(v8, nullptr, (int *)&v9);
+  orig::scnCameraGetInfo(v8, nullptr, (int *)&v9);
   if ( v9 != nullptr )
   {
     qmemcpy(v28, orig::Camera_GetMatrix154Ptr(), sizeof(v28));
-    v28[0] = *(_DWORD *)(g_pSqgxContext + 748);
-    v28[5] = *(_DWORD *)(g_pSqgxContext + 768);
+    v28[0] = g_pSqgxContext[187];
+    v28[5] = g_pSqgxContext[192];
     orig::Camera_SetMatrix154(
       v28[0],
       v28[1],
@@ -67,11 +67,11 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
       v28[13],
       v28[14],
       v28[15]);
-    orig::Mat4_Copy_1027EB10(&v11, v9 + 7);
+    orig::M4fSet(&v11, v9 + 7);
     v14 = 0;
     v18 = 0;
     v22 = 0;
-    orig::Mat4_Transpose(v31, &v11);
+    orig::M4fTranspose(v31, &v11);
     orig::sqMatrix4_10280140(v30, v31, (float *)&v11);
     v1 = 1.0 / v30[0];
     v2 = &v12;
@@ -91,8 +91,8 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     v27[0] = v9[10];
     v27[1] = v9[14];
     v27[2] = v9[18];
-    orig::Mat4_Transpose(v31, &v11);
-    orig::Mat4_TransformPoint(v29, v31, v27);
+    orig::M4fTranspose(v31, &v11);
+    orig::M4fTransform(v29, v31, v27);
     v28[0] = v11;
     *(float *)&v23 = -(flt_103890E4 * v29[0]);
     v28[3] = v14;
@@ -141,17 +141,17 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
 
 // FUNCTION: FFXIMAIN 0x102501C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102501C0(_BYTE *a1)
+XI_API int __cdecl fn_102501C0(_BYTE *arg0)
 {
   int result;
-  float v2;
+  float a1;
   _DWORD v3[4];
   v3[0] = 1065353216;
   v3[1] = 1065353216;
   v3[2] = 1065353216;
   v3[3] = 1065353216;
-  orig::sub_102502D0(a1);
-  result = *((_DWORD *)a1 + 1);
+  orig::sub_102502D0(arg0);
+  result = *((_DWORD *)arg0 + 1);
   if ( result >= 2 )
   {
     if ( g_stateBlock_914C != 0 )
@@ -170,17 +170,17 @@ XI_API int __cdecl fn_102501C0(_BYTE *a1)
     orig::nullsub_59();
     orig::___setargv_16();
     orig::sub_102717F0();
-    result = orig::sub_10251960(g_self_106693FC);
+    result = orig::sub_10251960(g_pStDancer);
     if ( (_BYTE)result != 0 )
     {
-      --*((_DWORD *)a1 + 16);
+      --*((_DWORD *)arg0 + 16);
       orig::sqgxTextureSet(-1);
       orig::sqgxColor(v3);
-      v2 = 1.0 - (double)*((int *)a1 + 16) * 0x1.1111120000000p-5;
-      orig_void::sub_10282A30(v2);
+      a1 = 1.0 - (double)*((int *)arg0 + 16) * 0x1.1111120000000p-5;
+      orig::sqgxBlendLin(a1);
       orig::sqgxZTest(0);
-      orig::sqgx_DrawRect_Candidate(0, 0, 447, 383, 0, 0, -1, -1, 0);
-      return orig::sqgxZTest(1);
+      orig::sqgxSprite(0, 0, 447, 383, 0, 0, -1, -1, 0);
+      return (int)orig::sqgxZTest(1);
     }
   }
   return result;
@@ -188,7 +188,7 @@ XI_API int __cdecl fn_102501C0(_BYTE *a1)
 
 // FUNCTION: FFXIMAIN 0x102504D0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl StAvatar_Shutdown(int *a1)
+XI_API int __cdecl StAvatarFini(int *a1)
 {
   int v1;
   if ( (*(_BYTE *)a1 & 1) != 0 )

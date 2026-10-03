@@ -1,1616 +1,1648 @@
 {
-"IDirect3D8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "RegisterSoftwareDevice",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetAdapterCount",
-"nparams": 0,
-"out": null,
-"ret": "uint"
-},
-{
-"name": "GetAdapterIdentifier",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetAdapterModeCount",
-"nparams": 1,
-"out": null,
-"ret": "uint"
-},
-{
-"name": "EnumAdapterModes",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetAdapterDisplayMode",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CheckDeviceType",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CheckDeviceFormat",
-"nparams": 6,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CheckDeviceMultiSampleType",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CheckDepthStencilMatch",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDeviceCaps",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetAdapterMonitor",
-"nparams": 1,
-"out": null,
-"ret": "hmonitor"
-},
-{
-"name": "CreateDevice",
-"nparams": 6,
-"out": [
-5,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-}
-],
-"IDirect3DVolume8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetContainer",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDesc",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "LockBox",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UnlockBox",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DSwapChain8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Present",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetBackBuffer",
-"nparams": 3,
-"out": [
-2,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-}
-],
-"IDirect3DSurface8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetContainer",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDesc",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "LockRect",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UnlockRect",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DResource8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-}
-],
-"IDirect3DVertexBuffer8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "Lock",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "Unlock",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDesc",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DIndexBuffer8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "Lock",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "Unlock",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDesc",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DBaseTexture8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "SetLOD",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLOD",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelCount",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-}
-],
-"IDirect3DCubeTexture8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "SetLOD",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLOD",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelCount",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelDesc",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetCubeMapSurface",
-"nparams": 3,
-"out": [
-2,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "LockRect",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UnlockRect",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddDirtyRect",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DTexture8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "SetLOD",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLOD",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelCount",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelDesc",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetSurfaceLevel",
-"nparams": 2,
-"out": [
-1,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "LockRect",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UnlockRect",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddDirtyRect",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DVolumeTexture8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "GetDevice",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DDevice8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetPrivateData",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPrivateData",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "FreePrivateData",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPriority",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetPriority",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "PreLoad",
-"nparams": 0,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetType",
-"nparams": 0,
-"out": null,
-"ret": "d3dresourcetype"
-},
-{
-"name": "SetLOD",
-"nparams": 1,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLOD",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelCount",
-"nparams": 0,
-"out": null,
-"ret": "dword"
-},
-{
-"name": "GetLevelDesc",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetVolumeLevel",
-"nparams": 2,
-"out": [
-1,
-"IDirect3DVolume8"
-],
-"ret": "hresult"
-},
-{
-"name": "LockBox",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UnlockBox",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddDirtyBox",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-}
-],
-"IDirect3DDevice8": [
-{
-"name": "QueryInterface",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "AddRef",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "Release",
-"nparams": 0,
-"out": null,
-"ret": "ulong"
-},
-{
-"name": "TestCooperativeLevel",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetAvailableTextureMem",
-"nparams": 0,
-"out": null,
-"ret": "uint"
-},
-{
-"name": "ResourceManagerDiscardBytes",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDirect3D",
-"nparams": 1,
-"out": [
-0,
-"IDirect3D8"
-],
-"ret": "hresult"
-},
-{
-"name": "GetDeviceCaps",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetDisplayMode",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetCreationParameters",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetCursorProperties",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetCursorPosition",
-"nparams": 3,
-"out": null,
-"ret": "void"
-},
-{
-"name": "ShowCursor",
-"nparams": 1,
-"out": null,
-"ret": "winbool"
-},
-{
-"name": "CreateAdditionalSwapChain",
-"nparams": 2,
-"out": [
-1,
-"IDirect3DSwapChain8"
-],
-"ret": "hresult"
-},
-{
-"name": "Reset",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "Present",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetBackBuffer",
-"nparams": 3,
-"out": [
-2,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "GetRasterStatus",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetGammaRamp",
-"nparams": 2,
-"out": null,
-"ret": "void"
-},
-{
-"name": "GetGammaRamp",
-"nparams": 1,
-"out": null,
-"ret": "void"
-},
-{
-"name": "CreateTexture",
-"nparams": 7,
-"out": [
-6,
-"IDirect3DTexture8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateVolumeTexture",
-"nparams": 8,
-"out": [
-7,
-"IDirect3DVolumeTexture8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateCubeTexture",
-"nparams": 6,
-"out": [
-5,
-"IDirect3DCubeTexture8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateVertexBuffer",
-"nparams": 5,
-"out": [
-4,
-"IDirect3DVertexBuffer8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateIndexBuffer",
-"nparams": 5,
-"out": [
-4,
-"IDirect3DIndexBuffer8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateRenderTarget",
-"nparams": 6,
-"out": [
-5,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateDepthStencilSurface",
-"nparams": 5,
-"out": [
-4,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreateImageSurface",
-"nparams": 4,
-"out": [
-3,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "CopyRects",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "UpdateTexture",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetFrontBuffer",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetRenderTarget",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetRenderTarget",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "GetDepthStencilSurface",
-"nparams": 1,
-"out": [
-0,
-"IDirect3DSurface8"
-],
-"ret": "hresult"
-},
-{
-"name": "BeginScene",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "EndScene",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "Clear",
-"nparams": 6,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetTransform",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetTransform",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "MultiplyTransform",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetViewport",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetViewport",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetMaterial",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetMaterial",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetLight",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetLight",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "LightEnable",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetLightEnable",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetClipPlane",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetClipPlane",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetRenderState",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetRenderState",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "BeginStateBlock",
-"nparams": 0,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "EndStateBlock",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "ApplyStateBlock",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CaptureStateBlock",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DeleteStateBlock",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CreateStateBlock",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetClipStatus",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetClipStatus",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetTexture",
-"nparams": 2,
-"out": [
-1,
-"IDirect3DBaseTexture8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetTexture",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetTextureStageState",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetTextureStageState",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "ValidateDevice",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetInfo",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPaletteEntries",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPaletteEntries",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetCurrentTexturePalette",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetCurrentTexturePalette",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawPrimitive",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawIndexedPrimitive",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawPrimitiveUP",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawIndexedPrimitiveUP",
-"nparams": 8,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "ProcessVertices",
-"nparams": 5,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "CreateVertexShader",
-"nparams": 4,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetVertexShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetVertexShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DeleteVertexShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetVertexShaderConstant",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetVertexShaderConstant",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetVertexShaderDeclaration",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetVertexShaderFunction",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetStreamSource",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetStreamSource",
-"nparams": 3,
-"out": [
-1,
-"IDirect3DVertexBuffer8"
-],
-"ret": "hresult"
-},
-{
-"name": "SetIndices",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetIndices",
-"nparams": 2,
-"out": [
-0,
-"IDirect3DIndexBuffer8"
-],
-"ret": "hresult"
-},
-{
-"name": "CreatePixelShader",
-"nparams": 2,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPixelShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPixelShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DeletePixelShader",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "SetPixelShaderConstant",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPixelShaderConstant",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "GetPixelShaderFunction",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawRectPatch",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DrawTriPatch",
-"nparams": 3,
-"out": null,
-"ret": "hresult"
-},
-{
-"name": "DeletePatch",
-"nparams": 1,
-"out": null,
-"ret": "hresult"
-}
-]
+ "IDirect3D8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "RegisterSoftwareDevice",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetAdapterCount",
+   "nparams": 0,
+   "out": null,
+   "ret": "uint"
+  },
+  {
+   "name": "GetAdapterIdentifier",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetAdapterModeCount",
+   "nparams": 1,
+   "out": null,
+   "ret": "uint"
+  },
+  {
+   "name": "EnumAdapterModes",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetAdapterDisplayMode",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CheckDeviceType",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CheckDeviceFormat",
+   "nparams": 6,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CheckDeviceMultiSampleType",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CheckDepthStencilMatch",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDeviceCaps",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetAdapterMonitor",
+   "nparams": 1,
+   "out": null,
+   "ret": "hmonitor"
+  },
+  {
+   "name": "CreateDevice",
+   "nparams": 6,
+   "out": [
+    5,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DVolume8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetContainer",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDesc",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "LockBox",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UnlockBox",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DSwapChain8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Present",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetBackBuffer",
+   "nparams": 3,
+   "out": [
+    2,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DSurface8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetContainer",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDesc",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "LockRect",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UnlockRect",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DResource8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  }
+ ],
+ "IDirect3DVertexBuffer8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "Lock",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "Unlock",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDesc",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DIndexBuffer8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "Lock",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "Unlock",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDesc",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DBaseTexture8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "SetLOD",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLOD",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelCount",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  }
+ ],
+ "IDirect3DCubeTexture8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "SetLOD",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLOD",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelCount",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelDesc",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetCubeMapSurface",
+   "nparams": 3,
+   "out": [
+    2,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "LockRect",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UnlockRect",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddDirtyRect",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DTexture8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "SetLOD",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLOD",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelCount",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelDesc",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetSurfaceLevel",
+   "nparams": 2,
+   "out": [
+    1,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "LockRect",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UnlockRect",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddDirtyRect",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DVolumeTexture8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetDevice",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DDevice8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPrivateData",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPrivateData",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "FreePrivateData",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPriority",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetPriority",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "PreLoad",
+   "nparams": 0,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetType",
+   "nparams": 0,
+   "out": null,
+   "ret": "d3dresourcetype"
+  },
+  {
+   "name": "SetLOD",
+   "nparams": 1,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLOD",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelCount",
+   "nparams": 0,
+   "out": null,
+   "ret": "dword"
+  },
+  {
+   "name": "GetLevelDesc",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetVolumeLevel",
+   "nparams": 2,
+   "out": [
+    1,
+    "IDirect3DVolume8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "LockBox",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UnlockBox",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddDirtyBox",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "IDirect3DDevice8": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "TestCooperativeLevel",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetAvailableTextureMem",
+   "nparams": 0,
+   "out": null,
+   "ret": "uint"
+  },
+  {
+   "name": "ResourceManagerDiscardBytes",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDirect3D",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3D8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDeviceCaps",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDisplayMode",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetCreationParameters",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetCursorProperties",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetCursorPosition",
+   "nparams": 3,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "ShowCursor",
+   "nparams": 1,
+   "out": null,
+   "ret": "winbool"
+  },
+  {
+   "name": "CreateAdditionalSwapChain",
+   "nparams": 2,
+   "out": [
+    1,
+    "IDirect3DSwapChain8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "Reset",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "Present",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetBackBuffer",
+   "nparams": 3,
+   "out": [
+    2,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "GetRasterStatus",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetGammaRamp",
+   "nparams": 2,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "GetGammaRamp",
+   "nparams": 1,
+   "out": null,
+   "ret": "void"
+  },
+  {
+   "name": "CreateTexture",
+   "nparams": 7,
+   "out": [
+    6,
+    "IDirect3DTexture8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateVolumeTexture",
+   "nparams": 8,
+   "out": [
+    7,
+    "IDirect3DVolumeTexture8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateCubeTexture",
+   "nparams": 6,
+   "out": [
+    5,
+    "IDirect3DCubeTexture8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateVertexBuffer",
+   "nparams": 5,
+   "out": [
+    4,
+    "IDirect3DVertexBuffer8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateIndexBuffer",
+   "nparams": 5,
+   "out": [
+    4,
+    "IDirect3DIndexBuffer8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateRenderTarget",
+   "nparams": 6,
+   "out": [
+    5,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateDepthStencilSurface",
+   "nparams": 5,
+   "out": [
+    4,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateImageSurface",
+   "nparams": 4,
+   "out": [
+    3,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CopyRects",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "UpdateTexture",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetFrontBuffer",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetRenderTarget",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetRenderTarget",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "GetDepthStencilSurface",
+   "nparams": 1,
+   "out": [
+    0,
+    "IDirect3DSurface8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "BeginScene",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "EndScene",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "Clear",
+   "nparams": 6,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetTransform",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetTransform",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "MultiplyTransform",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetViewport",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetViewport",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetMaterial",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetMaterial",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetLight",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetLight",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "LightEnable",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetLightEnable",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetClipPlane",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetClipPlane",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetRenderState",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetRenderState",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "BeginStateBlock",
+   "nparams": 0,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "EndStateBlock",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "ApplyStateBlock",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CaptureStateBlock",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DeleteStateBlock",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateStateBlock",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetClipStatus",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetClipStatus",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetTexture",
+   "nparams": 2,
+   "out": [
+    1,
+    "IDirect3DBaseTexture8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetTexture",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetTextureStageState",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetTextureStageState",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "ValidateDevice",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetInfo",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPaletteEntries",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPaletteEntries",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetCurrentTexturePalette",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetCurrentTexturePalette",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawPrimitive",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawIndexedPrimitive",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawPrimitiveUP",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawIndexedPrimitiveUP",
+   "nparams": 8,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "ProcessVertices",
+   "nparams": 5,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "CreateVertexShader",
+   "nparams": 4,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetVertexShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetVertexShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DeleteVertexShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetVertexShaderConstant",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetVertexShaderConstant",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetVertexShaderDeclaration",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetVertexShaderFunction",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetStreamSource",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetStreamSource",
+   "nparams": 3,
+   "out": [
+    1,
+    "IDirect3DVertexBuffer8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "SetIndices",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetIndices",
+   "nparams": 2,
+   "out": [
+    0,
+    "IDirect3DIndexBuffer8"
+   ],
+   "ret": "hresult"
+  },
+  {
+   "name": "CreatePixelShader",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPixelShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPixelShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DeletePixelShader",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "SetPixelShaderConstant",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPixelShaderConstant",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "GetPixelShaderFunction",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawRectPatch",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DrawTriPatch",
+   "nparams": 3,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "DeletePatch",
+   "nparams": 1,
+   "out": null,
+   "ret": "hresult"
+  }
+ ],
+ "ID3DXBuffer": [
+  {
+   "name": "QueryInterface",
+   "nparams": 2,
+   "out": null,
+   "ret": "hresult"
+  },
+  {
+   "name": "AddRef",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "Release",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  },
+  {
+   "name": "GetBufferPointer",
+   "nparams": 0,
+   "out": null,
+   "ret": "ptr"
+  },
+  {
+   "name": "GetBufferSize",
+   "nparams": 0,
+   "out": null,
+   "ret": "ulong"
+  }
+ ]
 }

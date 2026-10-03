@@ -2,19 +2,18 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10251A80  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 20 returned normally, 240 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 28 returned normally, 256 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Dancer_InitDevice(int *self_)
 {
   _DWORD *v2;
   unsigned int v3;
   int v5;
   IDirect3DDevice8 *pDevice;
-  int v7;
-  _BYTE v8[24];
-  unsigned int v9;
-  int v10;
-  _BYTE pIdentifier[1020];
-  int v12;
+  alignas(16) unsigned char xi_frame[0x85C];  // address-taken locals at their original offsets
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x4);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int (&v9)[272] = *reinterpret_cast<int (*)[272]>(xi_frame + 0x1C);
+
   *self_ = 11534336;
   v2 = orig::Mem_AllocObject(11534352, 0);
   v3 = ((unsigned int)v2 + 15) & 0xFFFFFFF0;
@@ -33,35 +32,33 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     g_dancerMainMemBase = v3;
     g_dancerWorkMemSize = 0x200000;
     g_dancerWorkMemBase = v3 + v5;
-    orig::Dancer_ResetMemPools();
-    orig::Dancer_SetMemPool(0, g_dancerMainMemBase, g_dancerMainMemSize, aMainmem);
-    orig::Dancer_SetMemPool(1, g_dancerWorkMemBase, g_dancerWorkMemSize, aWorkmem);
-    g_pSqgxContext = (int)orig::sqgxContext_Create();
-    g_pDancerDevice->GetRenderTarget((IDirect3DSurface8 **)(g_pSqgxContext + 2300));
-    g_pDancerDevice->GetDepthStencilSurface((IDirect3DSurface8 **)(g_pSqgxContext + 2304));
-    (*(void (__stdcall **)(_DWORD, _BYTE *))(**(_DWORD **)(g_pSqgxContext + 2300) + 32))(
-      *(_DWORD *)(g_pSqgxContext + 2300),
-      v8);
-    if ( v9 > 0x200 )
+    orig::sqMemInit();
+    orig::sqMemPoolRegister(0, g_dancerMainMemBase, g_dancerMainMemSize, aMainmem);
+    orig::sqMemPoolRegister(1, g_dancerWorkMemBase, g_dancerWorkMemSize, aWorkmem);
+    g_pSqgxContext = orig::sqgxContext_Create();
+    g_pDancerDevice->GetRenderTarget((IDirect3DSurface8 **)g_pSqgxContext + 575);
+    g_pDancerDevice->GetDepthStencilSurface((IDirect3DSurface8 **)(g_pSqgxContext + 576));
+    (*(void (__stdcall **)(int, int *))(*(_DWORD *)g_pSqgxContext[575] + 32))(g_pSqgxContext[575], &v8);
+    if ( v9[3] > 0x200u )
     {
-      orig::sqgxTextureAdd(2, 2, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sqgxTextureAdd(2, 2, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sqgxTextureAddDepthStencil(2, 2, 3);
+      orig::sqgxTextureAdd(2, 2, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(2, 2, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAddZ(2, 2, 3);
     }
     else
     {
-      orig::sqgxTextureAdd(v9, v10, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sqgxTextureAdd(xRight, yBottom, (IDirect3DBaseTexture8 *)4, nullptr);
-      orig::sqgxTextureAddDepthStencil(v9, v10, 3);
+      orig::sqgxTextureAdd(v9[3], v9[4], (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(xRight, yBottom, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAddZ(v9[3], v9[4], 3);
     }
-    This->GetAdapterIdentifier(0, 2u, pIdentifier);
-    *(_DWORD *)(g_pSqgxContext + 720) = v12 == 4098 || g_pCDx->_pad_10[2306] == 0;
-    *(_DWORD *)(g_pSqgxContext + 2212) = 1;
-    *(_DWORD *)(g_pSqgxContext + 2216) = 0;
-    *(_DWORD *)(g_pSqgxContext + 2220) = 2;
-    *(_DWORD *)(g_pSqgxContext + 2200) = 1;
-    *(_DWORD *)(g_pSqgxContext + 2204) = 0;
-    *(_DWORD *)(g_pSqgxContext + 2208) = 2;
+    This->GetAdapterIdentifier(0, 2u, &v9[5]);
+    g_pSqgxContext[180] = v9[263] == 4098 || g_pCDx->_pad_10[2306] == 0;
+    g_pSqgxContext[553] = 1;
+    g_pSqgxContext[554] = 0;
+    g_pSqgxContext[555] = 2;
+    g_pSqgxContext[550] = 1;
+    g_pSqgxContext[551] = 0;
+    g_pSqgxContext[552] = 2;
     orig::sqgxTextureClear(kF_0_9874, 1);
     orig::sqgxTextureDraw(0, 1);
     return 1;

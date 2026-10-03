@@ -143,9 +143,27 @@ _ELEM = {'float': 4, 'int': 4, '_DWORD': 4, 'unsigned int': 4, '_BYTE': 1, 'char
 def split_array(body):
     ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
     for (o1, a), (o2, b) in zip(ds, ds[1:]):
-        if not a.group(5) or 'BYREF' not in a.group(0) or a.group(3) or b.group(3): continue
-        t = a.group(2).strip()
-        if t in _ELEM and o1 + int(a.group(5)[1:-1]) * _ELEM[t] == o2 and b.group(2).strip() == t: return True
+        if 'BYREF' not in a.group(0) or a.group(3) or b.group(3): continue
+        t = a.group(2).strip(); n = int(a.group(5)[1:-1]) if a.group(5) else 1
+        # an address-taken array -- or scalar: a struct such as a rect passed by pointer -- followed
+        # directly by a local of its element type
+        if t in _ELEM and o1 + n * _ELEM[t] == o2 and b.group(2).strip() == t: return True
+    return False
+
+def filled_past_array(body):
+    # An address-taken array followed directly by a local that is read but never assigned: the
+    # buffer is one struct cut by Hex-Rays where the code stops naming bytes, and the callee that
+    # fills it (Dancer_InitDevice: GetDesc into `_BYTE v8[24]`, then Width/Height read as v9/v10)
+    # is the only writer of the locals after it.
+    ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
+    for (o1, a), (o2, b) in zip(ds, ds[1:]):
+        if 'BYREF' not in a.group(0) or not a.group(5) or a.group(3): continue
+        el = _ELEM.get(a.group(2).strip())
+        if not el or o1 + int(a.group(5)[1:-1]) * el != o2: continue
+        v = re.escape(b.group(4)); rest = body[b.end():]
+        if not re.search(r'\b%s\b' % v, rest): continue
+        if re.search(r'\b%s\s*(=(?!=)|[-+*/|&^]=|\+\+|--)|(\+\+|--|&)%s\b|\w+\(%s\) =' % (v, v, v), rest): continue
+        return True
     return False
 
 def negative_index(body):
@@ -153,6 +171,27 @@ def negative_index(body):
     # split by Hex-Rays), which GCC places elsewhere
     arrays = {m.group(4) for m in STACK_DECL.finditer(body) if m.group(5)}
     return any(re.search(r'\b%s\[[^\]\[;]*- \d+\]' % re.escape(a), body) for a in arrays)
+
+FRAME_DECL = re.compile(r'^\s+([^;\n]*?)\s+(\**)([A-Za-z_]\w*)(\[\d+\])?; // \[esp\+([0-9A-F]+)h\] \[ebp-([0-9A-F]+)h\]( BYREF)?$', re.M)
+
+def truncated_array(body):
+    # An address-taken array followed by frame space no local is declared in (4 bytes or more, up to the
+    # next local or the frame top): Hex-Rays sized the array by the elements the code names, and a callee
+    # filling the whole buffer overruns GCC's shorter one (Sky_DrawDome: v9[12] filled with 8 dwords).
+    ds = [(int(m.group(5), 16), int(m.group(6), 16), m) for m in FRAME_DECL.finditer(body)]
+    if not ds: return False
+    top = max(x + y for x, y, _ in ds)
+    starts = sorted({x for x, _, _ in ds})
+    for x, y, m in ds:
+        if not m.group(7) or m.group(2): continue
+        el = _ELEM.get(m.group(1).strip())
+        if not el: continue
+        # an address-taken scalar counts too: a struct output whose first field alone was named
+        # (Dancer_InitDevice: GetDesc into `int v8`, then 8 unnamed bytes, then the rest as v9[])
+        end = x + (int(m.group(4)[1:-1]) if m.group(4) else 1) * el
+        nxt = min([o for o in starts if o > x] + [top])
+        if nxt - end >= 4: return True
+    return False
 
 def exact_frame(body):
     # Hex-Rays sometimes splits one stack array into several variables (`char v70[8]; char v71;
@@ -168,11 +207,17 @@ def exact_frame(body):
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     decls = list(BYREF_DECL.finditer(body))
-    if pointer_walks_locals(body) or split_array(body) or negative_index(body):
+    if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body) \
+            or filled_past_array(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body
-    top = max(int(m.group(6), 16) for m in decls) + 0x400
+    # the buffer reaches past the end of the last local (its size counted), plus slack for overruns
+    def _end(m):
+        n = int(m.group(5)[1:-1]) if m.group(5) else 1
+        el = 4 if m.group(3) else _ELEM.get(m.group(2).strip(), 16)
+        return int(m.group(6), 16) + n * el
+    top = max(_end(m) for m in decls) + 0x400
     out, pos, first = [], 0, True
     for m in decls:
         indent, t, stars, name, arr, off = m.group(1), m.group(2).strip(), m.group(3), m.group(4), m.group(5), int(m.group(6), 16)
@@ -193,6 +238,8 @@ SIGNED_CMP = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (?=\(__int16\
 SIGNED_CMP_LIT = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\))((?: [+-] \d+)?) (<=|>=|<|>) (-?\d+)(?![\w.])')
 SIGNED_CMP_INT = re.compile(r'(\(int\)[^;<>=()]*? (?:<=|>=|<|>) )\*\(_DWORD \*\)')
 SIGNED_CONV = re.compile(r'(\((?:double|float|long double)\)\(?)\*\(_DWORD \*\)')
+SIGNED_LOCAL = re.compile(r'^\s*(?:int|signed int|__int16|__int8|char|short|signed __int16|signed __int8) (\w+);', re.M)
+DWORD_PTR_LOCAL = re.compile(r'^\s*_DWORD \*(\w+);', re.M)
 SIGNED_DIV = re.compile(r'\*\(_DWORD \*\)(\([^;()]*\)) ([/%]) (\d+)(?![\w.])')
 
 def signed_dword_compares(body):
@@ -203,6 +250,16 @@ def signed_dword_compares(body):
     body = SIGNED_CMP.sub(r'*(int *)\1 \2 ', body)
     body = SIGNED_CMP_LIT.sub(r'*(int *)\1\2 \3 \4', body)
     body = SIGNED_CMP_INT.sub(r'\1*(int *)', body)
+    # a signed local (`int i`) compared with a `_DWORD`: Hex-Rays writes `(unsigned int)i` when the
+    # comparison is unsigned, so a bare one is signed (`for ( i = 0; i < *(_DWORD *)(a3 + 68); ++i )`, `jl`)
+    for v in set(SIGNED_LOCAL.findall(body)) | set(re.findall(r'\b(?:int|__int16|char) (\w+)[,)]', body.split('\n', 1)[0])):
+        body = re.sub(r'(\b%s (?:<=|>=|<|>) )\*\(_DWORD \*\)' % re.escape(v), r'\1*(int *)', body)
+        body = re.sub(r'\*\(_DWORD \*\)(\([^;()]*\)) (<=|>=|<|>) (%s)(?![\w\[(.])' % re.escape(v), r'*(int *)\1 \2 \3', body)
+        # ... or with a read through a `_DWORD *` local (`v41 < *(v42 - 5)`)
+        for q in DWORD_PTR_LOCAL.findall(body):
+            d = r'(\*\(%s [+-] \d+\)|\*%s\b(?![\[(])|%s\[[^\];]+\])' % ((re.escape(q),) * 3)
+            body = re.sub(r'(\b%s (?:<=|>=|<|>) )%s' % (re.escape(v), d), r'\1(int)\2', body)
+            body = re.sub(r'%s( (?:<=|>=|<|>) %s)(?![\w\[(.])' % (d, re.escape(v)), r'(int)\1\2', body)
     body = SIGNED_CONV.sub(r'\1*(int *)', body)     # x87 has only signed `fild`: an unsigned source would show its correction
     return SIGNED_DIV.sub(r'*(int *)\1 \2 \3', body)
 
@@ -213,14 +270,73 @@ def inplace_buffers(body):
         body = re.sub(r'(qmemcpy\([^,;]+, )%s(, )' % re.escape(g), r'\1&%s\2' % g, body)
     return body
 
-def body_rules(ea, body):
-    # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean)
+def c_signed(t):
+    """the signedness C++ gives an operand of IDA type t (as xi_hexrays.hpp declares it); None if unclear"""
+    t = re.sub(r'^(const |volatile )+', '', t.strip())
+    if '*' in t or '[' in t: return False                                # a pointer compares unsigned
+    if re.match(r'(unsigned\b|_BYTE\b|_WORD\b|_DWORD\b|_QWORD\b|bool\b|BYTE\b|WORD\b|DWORD\b|UINT\b|ULONG\b|size_t\b)', t): return False
+    if re.match(r'(signed |__int8\b|__int16\b|__int32\b|__int64\b|int\b|char\b|short\b|long\b|_BYTE_S\b|INT\b|LONG\b|HRESULT\b)', t): return True
+    return None
+
+CMP_LEFT = ('( ', '(', '!', ', ', '&& ', '|| ', '; ', '? ', ': ', '= ', 'return ')
+CMP_RIGHT = (' )', ')', ';', ',', ' &&', ' ||', ' ?', ' :')
+
+def ctree_signs(rec, body):
+    """Each comparison as signed or unsigned as Hex-Rays read it from the jump (`jl` vs `jb`): the export's
+    rec['cmps'] = [[ea, [op, signed], left, right, size, left type, right type]] (ida/ffxi_ida_fix.py). Where
+    the operand types would give C++ the other signedness, both operands are cast to the comparison's own
+    width and sign. A comparison whose text is not found once and unambiguously is left as it is."""
+    todo = {}; both = {}
+    for ea, (op, sgn), l, r, size, lt, rt in rec.get('cmps') or ():
+        both.setdefault('%s %s %s' % (l, op, r), set()).add(sgn)
+    for ea, (op, sgn), l, r, size, lt, rt in rec.get('cmps') or ():
+        a, b = c_signed(lt), c_signed(rt)
+        if a is None or b is None or size not in (1, 2, 4, 8): continue
+        if size >= 4: wrong = (not (a and b)) if sgn else (a and b)     # C++: unsigned if either is unsigned
+        else: wrong = a != bool(sgn) or b != bool(sgn)                # promoted to int: the operands' own sign
+        if not wrong: continue
+        k = '%s %s %s' % (l, op, r)
+        todo[k] = sgn if len(both[k]) == 1 else None                 # the same text read both ways: ambiguous
+        todo.setdefault(('size', k), size)
+    T = {(1, 1): '__int8', (2, 1): '__int16', (4, 1): 'int', (8, 1): '__int64',
+         (1, 0): 'unsigned __int8', (2, 0): 'unsigned __int16', (4, 0): 'unsigned int', (8, 0): 'unsigned __int64'}
+    n = 0
+    for k, sgn in todo.items():
+        if isinstance(k, tuple) or sgn is None: continue
+        hits = []
+        i = body.find(k)
+        while i >= 0:
+            pre, post = body[:i], body[i + len(k):]
+            if pre.endswith(CMP_LEFT) and post.startswith(CMP_RIGHT): hits.append(i)
+            i = body.find(k, i + 1)
+        if not hits: continue
+        e = next(x for x in rec['cmps'] if '%s %s %s' % (x[2], x[1][0], x[3]) == k)
+        t = T[(todo[('size', k)], sgn)]
+        new = '(%s)(%s) %s (%s)(%s)' % (t, e[2], e[1][0], t, e[3])
+        for i in reversed(hits): body = body[:i] + new + body[i + len(k):]; n += 1
+    ctree_signs.count = n
+    return body
+
+STDCALL_VMETHOD = re.compile(r'\(\*\(\((\w[\w\s\*]*?) \(__stdcall \*\*\)\(([^()]*)\)\)(\w+)->vftable \+ (\d+)\)\)\(')
+
+def vmethod_this(body):
+    # A virtual call through a C++ object's own vftable (`g_pProcessor->vftable + 33`) that Hex-Rays typed
+    # __stdcall without `this`: the original loads the vtable from ECX and passes the object there
+    # (`mov ecx, [g_pProcessor]; mov edx, [ecx]; call [edx+84h]`), so it is a __thiscall on the object.
+    return STDCALL_VMETHOD.sub(lambda m: '(*((%s (__thiscall **)(void *, %s))%s->vftable + %s))(%s, ' % (
+        m.group(1), m.group(2), m.group(3), m.group(4), m.group(3)), body)
+
+def body_rules(ea, body, exact_signs=False):
+    # the text-level repairs, shared by the raw translation (hx2cpp) and the clean tree (hx2clean).
+    # exact_signs: the export carries each comparison's signedness (ctree_signs has applied it), so the
+    # pattern rule signed_dword_compares, which infers it from how Hex-Rays prints, is not used
     body = exact_fp_literals(ea, body)
     body = fpu_status_words(body)
     body = negate_if_negative(body)
     body = float_args_in_casts(body)
     body = deleting_dtor_this(body)
-    body = signed_dword_compares(body)
+    if not exact_signs: body = signed_dword_compares(body)
+    body = vmethod_this(body)
     body = exact_frame(body)
     return inplace_buffers(body)
 
@@ -346,6 +462,13 @@ def deleting_dtor_this(body):
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}
 
+def callee_pops_fix(o, pt):
+    # a callee IDA sees as `jmp [ptr]` (the D3DX CPU-dispatch thunks, e.g. D3DXMatrixMultiply at 0x102D6F03)
+    # gets purged 0 and __cdecl, but every implementation behind the pointer is __stdcall (purges.py)
+    if (o.get('purged') or 0) == 0 and PURGES.get('0x%08X' % o['ea']) and '__cdecl' in pt:
+        return pt.replace('__cdecl', '__stdcall', 1)
+    return pt
+
 def ghidra_fix_convention(rec):
     # Ghidra's calling convention for the function itself, checked against its real `ret N`:
     # stdcall that pops nothing is cdecl; cdecl that pops is stdcall
@@ -414,7 +537,7 @@ def translate(rec):
     sig_lines = [l for l in head.splitlines() if not l.startswith('//')]
     comments = [l for l in head.splitlines() if l.startswith('//')]
     sig = ' '.join(sig_lines).strip()
-    body = '{' + body
+    body = ctree_signs(rec, '{' + body)          # on Hex-Rays' own text, before any name is replaced
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
     for nm, o in rec.get('objs', {}).items():
@@ -422,6 +545,7 @@ def translate(rec):
         if o['func']:
             pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
             if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
+            pt = callee_pops_fix(o, pt)
             tok = 'F_%08X' % oea
             syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
@@ -465,7 +589,7 @@ def translate(rec):
     body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); params = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', params)
     ret = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', ret)
     body = re.sub(r'\bthis\b', 'self', body)
-    body = body_rules(ea, body)
+    body = body_rules(ea, body, 'cmps' in rec)
     fname = 'xi_%08X' % ea
     out = ['// FUNCTION: FFXIMAIN 0x%08X  %s' % (ea, rec['name'])]
     out += comments
@@ -495,7 +619,9 @@ def main(src, outdir):
         ea = rec['ea']
         # library = Microsoft code: byte-identical to DirectX 8.1 d3dx8.lib (libmatch.py) or named D3DX.
         # Calling something runtime-named does NOT make a function library code (1 Oct 2026 audit).
-        if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']):
+        # the statically linked D3DX / runtime code lies after the game's last object (0x102D0000 on): an
+        # unnamed function there (sub_102D538A, which calls _D3DXFilterTexture) is library code too
+        if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']) or 0x102D0000 <= ea < 0x10330000:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX 8.1: %s' % D3DX81.get('0x%x' % ea, {}).get('symbol', rec['name'])}; continue
         if 'skip' in rec or 'text' in rec:
             m = BAD2.search(rec.get('text', ''))

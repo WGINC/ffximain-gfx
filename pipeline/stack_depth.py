@@ -35,18 +35,22 @@ def depths(ea, vtable=None):
         elif op.type == X86_OP_MEM and vtable and op.mem.base and op.mem.index == 0:
             t = struct.unpack('<I', img[vtable + op.mem.disp - base:vtable + op.mem.disp - base + 4])[0]
             k = purges.get('0x%08X' % t)
-        if k is None: unresolved.add(i.address); return 0
+        if k is None:
+            unresolved.add(i.address)
+            # stdcall guess: what was pushed since the previous call (MSVC pushes arguments right before)
+            return pushed_since_call[0] if op.type == X86_OP_MEM else 0
         return k
     depth, conflicts, work = {ea: 0}, [], [ea]
+    pushed_since_call = [0]
     while work:
-        a = work.pop(); d = depth[a]
+        a = work.pop(); d = depth[a]; pushed_since_call[0] = 0
         while a in ins:
             i = ins[a]; m = i.mnemonic; ops = i.operands; nd = d
-            if m == 'push': nd = d + 4
+            if m == 'push': nd = d + 4; pushed_since_call[0] += 4
             elif m == 'pop': nd = d - 4
             elif m in ('sub', 'add') and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'esp' and ops[1].type == X86_OP_IMM:
                 nd = d + ops[1].imm if m == 'sub' else d - ops[1].imm
-            elif m == 'call': nd = d - purge_of(i)
+            elif m == 'call': nd = d - purge_of(i); pushed_since_call[0] = 0
             nxt = []
             if m.startswith('ret'): nxt = []
             elif m == 'jmp':

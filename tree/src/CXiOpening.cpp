@@ -3,7 +3,7 @@
 #include "CXiOpening.hpp"
 
 // FUNCTION: FFXIMAIN 0x100186C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CXiOpening::Constructor(char *Source)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -53,7 +53,7 @@ void * CXiOpening::Constructor(char *Source)
 }
 
 // FUNCTION: FFXIMAIN 0x100187D0  (placed by callers pass their own this (CXiOpening))
-// GATE: PASS -- 100 trials, 11 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 146 D3D calls compared (diffemu_gfx, clean build)
 CDx * CXiOpening::CXiOpening_Destructor()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

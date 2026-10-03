@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1016DDF0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 17 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 {
   _DWORD v4[16];
@@ -41,7 +41,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 3 returned normally, 62 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 20 returned normally, 325 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
@@ -135,7 +135,7 @@ XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int
   int ii;
   unsigned __int16 v97;
   int v98;
-  alignas(16) unsigned char xi_frame[0x4A0];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4B0];  // address-taken locals at their original offsets
   unsigned int &v100 = *reinterpret_cast<unsigned int *>(xi_frame + 0x3C);
   unsigned int &v101 = *reinterpret_cast<unsigned int *>(xi_frame + 0x40);
   D3DPOOL &v102 = *reinterpret_cast<D3DPOOL *>(xi_frame + 0x44);
@@ -445,12 +445,12 @@ LABEL_18:
                     v106[5] = *(_DWORD *)(v61 - 32);
                     v106 += 6;
                   }
-                  while ( v60 < v43[2] );
+                  while ( v60 < (int)v43[2] );
                 }
                 (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[44] + 48))(v43[44]);
               }
               v63 = 0;
-              for ( k = 0; k < v20[25]; ++k )
+              for ( k = 0; k < (int)v20[25]; ++k )
               {
                 v64 = (IDirect3DVertexBuffer8 **)&v43[v63 + 12];
                 if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
@@ -471,7 +471,7 @@ LABEL_18:
                   else
                     v65 = 0.0;
                   v66 = (float *)v43[3];
-                  for ( m = 0; m < v43[2]; v108 += 3 )
+                  for ( m = 0; m < (int)v43[2]; v108 += 3 )
                   {
                     ++m;
                     v68 = v65 * v66[3] + *v66;
@@ -525,7 +525,7 @@ LABEL_18:
                             &v104,
                             0) < 0 )
                     ;
-                  for ( n = 0; n < v43[4]; v104 += 36 )
+                  for ( n = 0; n < (int)v43[4]; v104 += 36 )
                   {
                     v73 = *(_WORD *)(v43[5] + 2 * n++);
                     qmemcpy(v104, (const void *)(v43[3] + 36 * v73), 0x24u);
@@ -678,7 +678,7 @@ LABEL_18:
                         v111 = 1 - v111;
                         v124 = v86;
                       }
-                      while ( v82 < v43[4] );
+                      while ( v82 < (int)v43[4] );
                     }
                     (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[45] + 48))(v43[45]);
                   }
@@ -694,7 +694,7 @@ LABEL_18:
                           &v104,
                           0) < 0 )
                   ;
-                for ( ii = 0; ii < v43[4]; v104 += 36 )
+                for ( ii = 0; ii < (int)v43[4]; v104 += 36 )
                 {
                   v97 = *(_WORD *)(v43[5] + 2 * ii++);
                   qmemcpy(v104, (const void *)(v43[3] + 36 * v97), 0x24u);
@@ -735,12 +735,14 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
   double v14;
   double v15;
   double v16;
-  int v17;
-  int v18;
-  int a3[7];
-  float v20[7];
-  float v21[7];
-  float v22[7];
+  alignas(16) unsigned char xi_frame[0x514];  // address-taken locals at their original offsets
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int (&a3)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0xA4);
+  float (&v20)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xC0);
+  float (&v21)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xDC);
+  float (&v22)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xF8);
+
   v3 = 0;
   if ( *(self_ + 4) != 0 )
   {
@@ -837,7 +839,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 18 returned normally, 49504 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 27 returned normally, 136806 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;
@@ -852,7 +854,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
   int *v9;
   int v10;
   const char *v11;
-  alignas(16) unsigned char xi_frame[0x544];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x584];  // address-taken locals at their original offsets
   int &v12 = *reinterpret_cast<int *>(xi_frame + 0xAC);
   int &v13 = *reinterpret_cast<int *>(xi_frame + 0xB0);
   int &v14 = *reinterpret_cast<int *>(xi_frame + 0xB4);

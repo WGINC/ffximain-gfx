@@ -19,3 +19,5 @@ namespace std { struct codecvt_base; }
 struct tagRECT; typedef tagRECT *LPRECT;
 struct tagMSG; typedef tagMSG *LPMSG; typedef tagMSG MSG; struct tagPOINT; typedef tagPOINT *LPPOINT;
 struct tagSIZE; typedef tagSIZE *LPSIZE; typedef void *LPUNKNOWN_; typedef unsigned int *LPDWORD; typedef int BOOL_;
+// MSVC runtime classes FLIRT names in the IDB (the undecorator's DNameNode): used only through pointers
+struct DNameNode;

@@ -6,6 +6,7 @@
 class XI_API CMoDistMorphElem {
 public:
     _DWORD * ComputeMorphHandle(int a2, int a3);  // 0x1003F8A0
+    static char __stdcall ValidateMorphData(int a1, int a2, int a3, int a4);  // 0x10042D00
     static char ** __cdecl GetRuntimeClass();  // 0x10043580
     char UpdateMorphBlend();  // 0x10043590
     BOOL vf012(int a1);  // 0x10052E40

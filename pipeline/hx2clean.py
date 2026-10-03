@@ -63,6 +63,7 @@ def orig_wrapper(name, ea, ftype):
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ftype, re.S)
     if not m or re.search(r'__user|@<', ftype): return None
     ret, cc, args = m.groups(); cc = cc or '__cdecl'
+    if cc.strip() == '__cdecl' and hx2cpp.PURGES.get('0x%08X' % ea): cc = '__stdcall'   # pops (`ret N`): D3DX dispatch thunks
     ret = re.sub(r'\b__noreturn\b|' + CC_RE, '', ret).strip() or 'int'    # `void __cdecl __noreturn`
     TYPEWORDS = {'int', 'char', 'short', 'long', 'float', 'double', 'bool', 'void', 'unsigned', 'signed',
                  '__int8', '__int16', '__int32', '__int64'}
@@ -461,7 +462,7 @@ def main(exp, gate, manf, incdir, outdir):
     for ea, (cls, meth, why) in sorted(place.items()):
         r = R[ea]; text = r['text']
         head, _, body = text.partition('\n{')
-        body = '{' + body
+        body = hx2cpp.ctree_signs(r, '{' + body)
         # the IDB's own status lines ([gfx-recon ...]) describe a previous build; don't copy them
         comments = [l for l in head.splitlines() if l.startswith('//') and '[gfx-recon' not in l]
         sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
@@ -497,7 +498,7 @@ def main(exp, gate, manf, incdir, outdir):
         sig = re.sub(r'\bthis\b', 'self', sig); body = re.sub(r'\bthis\b', 'self', body)
         body = body.replace('->base.vftable', '->vftable')
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
-        body = hx2cpp.body_rules(ea, body)       # before strip_noise: exact_frame reads the [esp+..] comments
+        body = hx2cpp.body_rules(ea, body, 'cmps' in r)       # before strip_noise: exact_frame reads the [esp+..] comments
         body = strip_noise(body); body = com_calls(body); body = name_d3d_values(body)
         body = void_float_calls(ea, body)
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)

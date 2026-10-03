@@ -5,7 +5,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
 {
-  alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x4C4];  // address-taken locals at their original offsets
   float (&v2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4);
   _BYTE (&v3)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x44);
   _BYTE (&v4)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x84);
@@ -29,8 +29,10 @@ XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
 {
-  float v2[16];
-  _BYTE v3[64];
+  alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
+  float (&v2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4);
+  _BYTE (&v3)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x44);
+
   orig::fn_10027990((Iostream_init *)v2);
   orig::fn_10027990((Iostream_init *)v3);
   orig::CDx_GetTransformCached(g_pCDx, 256, v2);

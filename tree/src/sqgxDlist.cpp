@@ -2,8 +2,8 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1029B620  (unit sqgxDlist: asserts sqgxDlist.c)
-// GATE: PASS -- 100 trials, 2 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API _DWORD * __cdecl fn_1029B620(void)
+// GATE: PASS -- 100 trials, 7 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 {
   _DWORD *v0;
   int v1;
@@ -12,55 +12,57 @@ XI_API _DWORD * __cdecl fn_1029B620(void)
   int v4;
   int v5;
   int v6;
-  int v8;
-  int v9;
-  void *v10;
+  alignas(16) unsigned char xi_frame[0x46C];  // address-taken locals at their original offsets
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x60);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x64);
+  void * &v10 = *reinterpret_cast<void * *>(xi_frame + 0x68);
+
   v8 = 0;
   v9 = 0;
-  v0 = *(_DWORD **)(g_pSqgxContext + 2564);
-  *(_DWORD *)(g_pSqgxContext + 2564) = 0;
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 1) != 0 )
-    *v0 = *(_DWORD *)(g_pSqgxContext + 2392);
+  v0 = (_DWORD *)g_pSqgxContext[641];
+  g_pSqgxContext[641] = 0;
+  if ( (g_pSqgxContext[652] & 1) != 0 )
+    *v0 = g_pSqgxContext[598];
   else
     *v0 = 0;
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 2) != 0 )
-    v0[1] = *(_DWORD *)(g_pSqgxContext + 2400);
+  if ( (g_pSqgxContext[652] & 2) != 0 )
+    v0[1] = g_pSqgxContext[600];
   else
     v0[1] = 0;
   v1 = 0;
   v2 = v0 + 2;
   do
   {
-    if ( v1 < *(_DWORD *)(g_pSqgxContext + 2840) + 1 && (*(_BYTE *)(g_pSqgxContext + 2608) & 4) != 0 )
-      *v2 = *(_DWORD *)((char *)v2 + 2400 - (_DWORD)v0 + g_pSqgxContext);
+    if ( v1 < g_pSqgxContext[710] + 1 && (g_pSqgxContext[652] & 4) != 0 )
+      *v2 = *(int *)((char *)g_pSqgxContext + (_DWORD)v2 + 2400 - (_DWORD)v0);
     else
       *v2 = 0;
     ++v1;
     ++v2;
   }
   while ( v1 < 2 );
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 8) != 0 )
-    v0[4] = *(_DWORD *)(g_pSqgxContext + 2440);
+  if ( (g_pSqgxContext[652] & 8) != 0 )
+    v0[4] = g_pSqgxContext[610];
   else
     v0[4] = 0;
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 0x10) != 0 )
-    v0[5] = *(_DWORD *)(g_pSqgxContext + 2424);
+  if ( (g_pSqgxContext[652] & 0x10) != 0 )
+    v0[5] = g_pSqgxContext[606];
   else
     v0[5] = 0;
-  *(_DWORD *)(g_pSqgxContext + 2396) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2404) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2416) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2420) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2444) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2428) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2392) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2400) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2408) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2412) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2440) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2424) = 0;
-  v0[6] = *(_DWORD *)(g_pSqgxContext + 2368);
-  v3 = *(_DWORD *)(g_pSqgxContext + 2568);
+  g_pSqgxContext[599] = 0;
+  g_pSqgxContext[601] = 0;
+  g_pSqgxContext[604] = 0;
+  g_pSqgxContext[605] = 0;
+  g_pSqgxContext[611] = 0;
+  g_pSqgxContext[607] = 0;
+  g_pSqgxContext[598] = 0;
+  g_pSqgxContext[600] = 0;
+  g_pSqgxContext[602] = 0;
+  g_pSqgxContext[603] = 0;
+  g_pSqgxContext[610] = 0;
+  g_pSqgxContext[606] = 0;
+  v0[6] = g_pSqgxContext[592];
+  v3 = g_pSqgxContext[642];
   if ( v3 != 0 )
   {
     g_pDancerDevice->lpVtbl->CreateIndexBuffer(
@@ -73,13 +75,13 @@ XI_API _DWORD * __cdecl fn_1029B620(void)
     (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)v8 + 44))(
       v8,
       0,
-      2 * *(_DWORD *)(g_pSqgxContext + 2568),
+      2 * g_pSqgxContext[642],
       &v10,
       0x2000);
-    qmemcpy(v10, *(const void **)(g_pSqgxContext + 2572), 2 * *(_DWORD *)(g_pSqgxContext + 2568));
+    qmemcpy(v10, (const void *)g_pSqgxContext[643], 2 * g_pSqgxContext[642]);
     (*(void (__stdcall **)(int))(*(_DWORD *)v8 + 48))(v8);
   }
-  v4 = *(_DWORD *)(g_pSqgxContext + 2576);
+  v4 = g_pSqgxContext[644];
   if ( v4 != 0 )
   {
     g_pDancerDevice->lpVtbl->CreateIndexBuffer(
@@ -92,35 +94,35 @@ XI_API _DWORD * __cdecl fn_1029B620(void)
     (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)v9 + 44))(
       v9,
       0,
-      2 * *(_DWORD *)(g_pSqgxContext + 2576),
+      2 * g_pSqgxContext[644],
       &v10,
       0x2000);
-    qmemcpy(v10, *(const void **)(g_pSqgxContext + 2580), 2 * *(_DWORD *)(g_pSqgxContext + 2576));
+    qmemcpy(v10, (const void *)g_pSqgxContext[645], 2 * g_pSqgxContext[644]);
     (*(void (__stdcall **)(int))(*(_DWORD *)v9 + 48))(v9);
   }
-  v0[8] = *(_DWORD *)(g_pSqgxContext + 2568) - 2;
+  v0[8] = g_pSqgxContext[642] - 2;
   v0[7] = v8;
-  v0[10] = *(int *)(g_pSqgxContext + 2576) / 3;
+  v0[10] = g_pSqgxContext[644] / 3;
   v0[9] = v9;
-  v5 = *(_DWORD *)(g_pSqgxContext + 2572);
+  v5 = g_pSqgxContext[643];
   if ( v5 != 0 )
     orig::sqFree(v5, aCDevDancerModu_30, 107);
-  *(_DWORD *)(g_pSqgxContext + 2572) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2568) = 0;
-  v6 = *(_DWORD *)(g_pSqgxContext + 2580);
+  g_pSqgxContext[643] = 0;
+  g_pSqgxContext[642] = 0;
+  v6 = g_pSqgxContext[645];
   if ( v6 != 0 )
     orig::sqFree(v6, aCDevDancerModu_30, 112);
-  *(_DWORD *)(g_pSqgxContext + 2580) = 0;
-  *(_DWORD *)(g_pSqgxContext + 2576) = 0;
+  g_pSqgxContext[645] = 0;
+  g_pSqgxContext[644] = 0;
   return v0;
 }
 
 // FUNCTION: FFXIMAIN 0x1029B9D0  (unit sqgxDlist: between 0x1029B620 (asserts sqgxDlist.c) and 0x1029BB60 (asserts sqgxDlist.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 78 returned normally, 385 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029B9D0(IDirect3DVertexBuffer8 **a1)
+// GATE: PASS -- 100 trials, 100 returned normally, 541 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl sqgxDlistDraw(IDirect3DVertexBuffer8 **a1)
 {
   unsigned int v1;
-  int v2;
+  int *v2;
   int v4;
   IDirect3DIndexBuffer8 *v5;
   IDirect3DIndexBuffer8 *v6;
@@ -130,27 +132,27 @@ XI_API void __cdecl fn_1029B9D0(IDirect3DVertexBuffer8 **a1)
   int v10;
   v1 = 0;
   orig::sub_1028A730(0, 0);
-  orig::sqgxShape_1028AFE0();
+  orig::sqgxShapeBegin();
   v2 = g_pSqgxContext;
-  if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 1) != 0 )
+  if ( (g_pSqgxContext[652] & 1) != 0 )
   {
     v1 = 1;
     g_pDancerDevice->SetStreamSource(0, *a1, 12u);
     v2 = g_pSqgxContext;
   }
-  if ( (*(_BYTE *)(v2 + 2608) & 2) != 0 )
+  if ( (v2[652] & 2) != 0 )
   {
     v8 = v1++;
     g_pDancerDevice->SetStreamSource(v8, a1[1], 12u);
     v2 = g_pSqgxContext;
   }
   v10 = 0;
-  if ( *(int *)(v2 + 2840) + 1 > 0 )
+  if ( v2[710] + 1 > 0 )
   {
     v4 = 653;
     do
     {
-      if ( (*(_BYTE *)(v4 * 4 + v2) & 4) != 0 )
+      if ( (v2[v4] & 4) != 0 )
       {
         v7 = v1++;
         g_pDancerDevice->SetStreamSource(v7, a1[v4 - 651], 8u);
@@ -159,15 +161,15 @@ XI_API void __cdecl fn_1029B9D0(IDirect3DVertexBuffer8 **a1)
       ++v4;
       ++v10;
     }
-    while ( v10 < *(_DWORD *)(v2 + 2840) + 1 );
+    while ( v10 < v2[710] + 1 );
   }
-  if ( (*(_BYTE *)(v2 + 2608) & 8) != 0 )
+  if ( (v2[652] & 8) != 0 )
   {
     v9 = v1++;
     g_pDancerDevice->SetStreamSource(v9, a1[4], 4u);
     v2 = g_pSqgxContext;
   }
-  if ( (*(_BYTE *)(v2 + 2608) & 0x10) != 0 )
+  if ( (v2[652] & 0x10) != 0 )
     g_pDancerDevice->SetStreamSource(v1, a1[5], 12u);
   v5 = (IDirect3DIndexBuffer8 *)a1[7];
   if ( v5 != nullptr )

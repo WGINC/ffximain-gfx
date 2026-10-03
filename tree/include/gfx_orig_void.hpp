@@ -4,11 +4,7 @@
 #include "gfx_common.hpp"
 namespace orig_void {
 XI_ORIG void CYyCamMng2_CreateGlobal() { reinterpret_cast<void (__cdecl *)()>(0x1001E470u)(); }
-XI_ORIG void Camera_ApplyViewProjection() { reinterpret_cast<void (__cdecl *)()>(0x10015510u)(); }
-XI_ORIG void Camera_BuildProjection() { reinterpret_cast<void (__cdecl *)()>(0x10015480u)(); }
-XI_ORIG void Camera_UpdateController(int a0) { reinterpret_cast<void (__thiscall *)(int)>(0x10021900u)(a0); }
 XI_ORIG void ZoneMap_SetOverlayProjection(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(0x10177420u)(a0); }
-XI_ORIG void sub_10282A30(float a0) { reinterpret_cast<void (__cdecl *)(float)>(0x10282A30u)(a0); }
 }  // namespace orig_void
 #include "CApp.hpp"
 #include "CDx.hpp"

@@ -59,9 +59,9 @@ CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
   *(_DWORD *)&this->field_818 = 0;
   *(_DWORD *)&this->field_81C = 0;
   *(_DWORD *)&this->field_820 = 0;
-  *(_DWORD *)&at<uint8_t>(this, 0x824) = 0;
+  *(_DWORD *)&this->field_824 = 0;
   this->stereoTargetsReady = 0;
-  *(_DWORD *)&at<uint8_t>(this, 0x82C) = 0;
+  *(_DWORD *)&this->stereoOddLineTexture = 0;
   *(_DWORD *)&this->field_9FC = 0;
   this->vftable = (void **)&CDx_vtbl;
   *(_DWORD *)&this->field_174 = 1124073472;
@@ -82,6 +82,203 @@ void * CDx::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
   return this;
+}
+
+// FUNCTION: FFXIMAIN 0x100091B0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build)
+char CDx::Initialize()
+{
+  unsigned __int8 *v2;
+  int v3;
+  IDirect3DDevice8 *pDevice;
+  int v5;
+  IDirect3D8 *pD3D;
+  char v7;
+  char *v8;
+  char *v9;
+  const char *v10;
+  int v11;
+  CHAR v12;
+  const char *v13;
+  int v14;
+  CHAR v15;
+  alignas(16) unsigned char xi_frame[0x24D8];  // address-taken locals at their original offsets
+  unsigned __int8 * &v17 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0xB0);
+  unsigned __int8 * &v18 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0xB0);
+  _BYTE (&v19)[12] = *reinterpret_cast<_BYTE (*)[12]>(xi_frame + 0xB8);
+  D3DFORMAT &v20 = *reinterpret_cast<D3DFORMAT *>(xi_frame + 0xC4);
+  _BYTE (&v21)[12] = *reinterpret_cast<_BYTE (*)[12]>(xi_frame + 0xC8);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0xD4);
+  CHAR (&FileName)[512] = *reinterpret_cast<CHAR (*)[512]>(xi_frame + 0xD8);
+  _BYTE (&v24)[1032] = *reinterpret_cast<_BYTE (*)[1032]>(xi_frame + 0x2D8);
+  int &v25 = *reinterpret_cast<int *>(xi_frame + 0x6E0);
+
+  v2 = &this->field_834;
+  this->pDevice->GetDeviceCaps(&this->field_834);
+  *(_DWORD *)&this->field_924 = 8;
+  *(_DWORD *)&this->field_928 = 1;
+  if ( (*((_DWORD *)v2 + 7) & 0x10000) != 0 )
+  {
+    this->field_908 = 1;
+    *(_DWORD *)&this->field_924 = 8;
+    *(_DWORD *)&this->field_928 = 1;
+  }
+  else
+  {
+    *(_DWORD *)&this->field_924 = 16;
+    *(_DWORD *)&this->field_928 = 2;
+  }
+  if ( *((_DWORD *)v2 + 49) >= 0xFFFE0101 )
+  {
+    this->field_909 = 1;
+    *(_WORD *)&this->field_90C = 257;
+  }
+  if ( *((_DWORD *)v2 + 51) >= 0xFFFF0101 )
+  {
+    this->field_90A = 1;
+    *(_WORD *)&this->field_90E = 257;
+    if ( *((_DWORD *)v2 + 51) >= 0xFFFF0104 )
+      *(_WORD *)&this->field_90E = 260;
+    if ( *((_DWORD *)v2 + 51) >= 0xFFFF0200 )
+      *(_WORD *)&this->field_90E = 512;
+  }
+  if ( (*((_DWORD *)v2 + 8) & 0x800) != 0 )
+    this->field_913 = 1;
+  if ( (*((_DWORD *)v2 + 8) & 0x400) != 0 )
+    this->field_914 = 1;
+  if ( (*((_DWORD *)v2 + 3) & 0x20000) != 0 )
+    this->field_915 = 1;
+  *(_DWORD *)&this->field_918 = *((_DWORD *)v2 + 43);
+  if ( (*((_DWORD *)v2 + 9) & 0x20000) != 0 )
+  {
+    v3 = *((_DWORD *)v2 + 16);
+    if ( (v3 & 0x4000000) != 0 && (v3 & 0x400) != 0 && *((_DWORD *)v2 + 27) >= 2u )
+      this->field_92C = 1;
+  }
+  if ( (*((_DWORD *)v2 + 15) & 0x800) != 0 )
+    this->field_921 = 1;
+  if ( (v2[60] & 2) != 0 )
+    this->field_930 = 1;
+  if ( (v2[60] & 0x20) != 0 )
+    this->field_931 = 1;
+  *(_DWORD *)&this->field_934 = *((_DWORD *)v2 + 22);
+  pDevice = this->pDevice;
+  *(_DWORD *)&this->field_938 = *((_DWORD *)v2 + 23);
+  pDevice->GetDisplayMode(v21);
+  v5 = v22;
+  *(_DWORD *)&this->field_830 = 32;
+  switch ( v5 )
+  {
+    case 21:
+    case 22:
+      *(_DWORD *)&this->field_830 = 32;
+      break;
+    case 23:
+    case 24:
+    case 25:
+      *(_DWORD *)&this->field_830 = 16;
+      break;
+    default:
+      break;
+  }
+  this->pD3D->GetAdapterDisplayMode(0, v19);
+  this->field_910 = this->pD3D->lpVtbl->CheckDeviceFormat(
+                          this->pD3D,
+                          0,
+                          D3DDEVTYPE_HAL,
+                          v20,
+                          0,
+                          D3DRTYPE_TEXTURE,
+                          D3DFMT_DXT1) >= 0;
+  this->field_911 = this->pD3D->lpVtbl->CheckDeviceFormat(
+                          this->pD3D,
+                          0,
+                          D3DDEVTYPE_HAL,
+                          v20,
+                          0,
+                          D3DRTYPE_TEXTURE,
+                          D3DFMT_DXT3) >= 0;
+  this->field_912 = this->pD3D->lpVtbl->CheckDeviceFormat(
+                          this->pD3D,
+                          0,
+                          D3DDEVTYPE_HAL,
+                          v20,
+                          0,
+                          D3DRTYPE_TEXTURE,
+                          D3DFMT_P8) >= 0;
+  if ( this->pD3D->CheckDeviceMultiSampleType(0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_2_SAMPLES) >= 0 )
+    *(_DWORD *)&this->field_91C = 2;
+  if ( this->pD3D->CheckDeviceMultiSampleType(0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_4_SAMPLES) >= 0 )
+    *(_DWORD *)&this->field_91C = 4;
+  if ( (*((_DWORD *)v2 + 9) & 0x100) != 0 )
+    this->field_92D = 1;
+  if ( (v2[36] & 0x80u) != 0 )
+    this->field_92E = 1;
+  if ( (*((_DWORD *)v2 + 9) & 0x10000) != 0 )
+    this->field_92F = 1;
+  pD3D = this->pD3D;
+  this->field_920 = 0;
+  pD3D->GetAdapterIdentifier(0, 2u, v24);
+  if ( v25 == 4098 )
+    this->field_920 = 1;
+  *(_DWORD *)&this->field_A00 = -1;
+  v7 = 0;
+  if ( GetCurrentDirectoryA(0x104u, byte_10456568) == 0 )
+  {
+    v13 = aMousenorAni;
+    v18 = &this->field_A04;
+    do
+    {
+      v14 = 0;
+      do
+      {
+        v15 = byte_10456568[v14];
+        FileName[v14++] = v15;
+      }
+      while ( v15 != 0 );
+      strcat(FileName, v13);
+      v13 += 32;
+      *(_DWORD *)v18 = LoadCursorA(nullptr, (LPCSTR)0x7F00);
+      v18 += 4;
+    }
+    while ( (int)v13 < (int)&flt_1034FDF0 );
+LABEL_68:
+    *(_DWORD *)&this->field_A4C = 0;
+    goto LABEL_69;
+  }
+  v8 = orig::_strrchr(byte_10456568, 92);
+  if ( v8 != nullptr || (v8 = orig::_strrchr(byte_10456568, 47), v7 = 1, v8 != nullptr) )
+  {
+    if ( v8[1] != 0 )
+    {
+      v9 = &v8[strlen(v8) + 1];
+      if ( v7 != 0 )
+        *(_WORD *)(v9 - 1) = *(_WORD *)word_1034FFB8;
+      else
+        *(_WORD *)(v9 - 1) = word_1034F8E0;
+    }
+    v10 = aMousenorAni;
+    v17 = &this->field_A04;
+    do
+    {
+      v11 = 0;
+      do
+      {
+        v12 = byte_10456568[v11];
+        FileName[v11++] = v12;
+      }
+      while ( v12 != 0 );
+      strcat(FileName, v10);
+      v10 += 32;
+      *(_DWORD *)v17 = LoadCursorFromFileA(FileName);
+      v17 += 4;
+    }
+    while ( (int)v10 < (int)&flt_1034FDF0 );
+    goto LABEL_68;
+  }
+LABEL_69:
+  SetCursor(nullptr);
+  return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x10009620  (placed by IDB name)
@@ -113,7 +310,7 @@ int CDx::SetClearColor(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100096B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 80 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -177,7 +374,7 @@ int CDx::EndScene()
 }
 
 // FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 HCURSOR CDx::SetCursorShape(int a2, int a3)
 {
   HCURSOR result;
@@ -200,7 +397,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
         break;
       case 4:
       case 5:
-        HwCursorSlot = orig::Cursor_GetHwCursorSlot((_WORD *)g_pCursor);
+        HwCursorSlot = orig::Cursor_GetHwCursorSlot(g_pCursor);
         break;
       default:
         break;
@@ -222,11 +419,11 @@ int CDx::SetDefaultRenderState()
 {
   unsigned __int8 *v2;
   IDirect3DDevice8 *pDevice;
-  bool v5;
-  bool v6;
+  char v5;
+  char v6;
   v2 = &this->field_1F0;
   v5 = orig::sub_10009870((int)this, 3, &this->field_1F0);
-  if ( v5 )
+  if ( v5 != 0 )
   {
     this->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
     this->pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
@@ -266,7 +463,7 @@ LABEL_5:
   }
   orig::sub_100098E0(&this->vftable, 3, v2, v5);
   v6 = orig::sub_10009870((int)this, 2, &this->field_1EC);
-  if ( v6 )
+  if ( v6 != 0 )
   {
     this->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
     this->pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -492,7 +689,7 @@ int CDx::Post_DepthBlurComposite(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 55 returned normally, 186 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 354 D3D calls compared (diffemu_gfx, clean build)
 char CDx::DrawStereoOddFrameOverlay(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -539,15 +736,15 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
     flt_104566D0 = v7;
     dword_104566E4 = 1065353216;
   }
-  if ( g_pEnv != 0 )
+  if ( g_pEnv != nullptr )
   {
-    result = orig::CEnv_IsStereoMode((_DWORD *)g_pEnv);
-    if ( result != 0 && this->stereoOddLineTexture != 0 )
+    result = orig::CEnv_IsStereoMode(g_pEnv);
+    if ( result != 0 && at<uint32_t>(this, 0x82C) != 0 )
     {
       (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(*at<_DWORD *>(this, 0xC) + 244))(
         at<uint32_t>(this, 0xC),
         0,
-        this->stereoOddLineTexture);
+        at<uint32_t>(this, 0x82C));
       (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
       (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 0);
       (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 0);
@@ -638,7 +835,7 @@ int CDx::SetLight(int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 18 returned normally, 1410 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 3218 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -650,42 +847,44 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
   int v11;
   double v12;
   int result;
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  int v21;
-  int v22;
-  int v23;
-  float v24;
-  int v25[7];
-  float v26;
-  float v27;
-  int v28;
-  int v29;
-  int v30;
-  int v31;
-  int v32;
-  float v33;
-  float v34;
-  int v35;
-  int v36;
-  int v37;
-  int v38;
-  int v39;
-  float v40;
-  float v41;
-  int v42;
-  int v43;
-  int v44;
-  int v45;
-  int v46;
-  if ( orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
+  alignas(16) unsigned char xi_frame[0x6B4];  // address-taken locals at their original offsets
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x210);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x214);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x214);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x218);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x21C);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x21C);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x230);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x234);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x238);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x23C);
+  float &v24 = *reinterpret_cast<float *>(xi_frame + 0x240);
+  int (&v25)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0x244);
+  float &v26 = *reinterpret_cast<float *>(xi_frame + 0x260);
+  float &v27 = *reinterpret_cast<float *>(xi_frame + 0x264);
+  int &v28 = *reinterpret_cast<int *>(xi_frame + 0x268);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x26C);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x270);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x274);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x278);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x27C);
+  float &v34 = *reinterpret_cast<float *>(xi_frame + 0x280);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x284);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x288);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x28C);
+  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x290);
+  int &v39 = *reinterpret_cast<int *>(xi_frame + 0x294);
+  float &v40 = *reinterpret_cast<float *>(xi_frame + 0x298);
+  float &v41 = *reinterpret_cast<float *>(xi_frame + 0x29C);
+  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x2A0);
+  int &v43 = *reinterpret_cast<int *>(xi_frame + 0x2A4);
+  int &v44 = *reinterpret_cast<int *>(xi_frame + 0x2A8);
+  int &v45 = *reinterpret_cast<int *>(xi_frame + 0x2AC);
+  int &v46 = *reinterpret_cast<int *>(xi_frame + 0x2B0);
+
+  if ( orig::CEnv_IsStereoMode(g_pEnv) == 1 )
   {
-    v6 = this->field_824;
+    v6 = at<uint32_t>(this, 0x824);
     orig::CDx_PushRenderTarget((CDx *)self, v6, 0, 0);
     v7 = *at<_DWORD *>(this, 0xC);
     v14 = at<uint32_t>(this, 0xC);
@@ -825,7 +1024,7 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -835,8 +1034,8 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
   char v7;
   char v8;
   char v9;
-  result = g_pEnv;
-  if ( *(_DWORD *)(g_pEnv + 24) != 0 )
+  result = (int)g_pEnv;
+  if ( g_pEnv[6] != 0 )
   {
     v5 = -2139094912;
     v9 = 0x80;
@@ -852,7 +1051,7 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
           orig::CDx_CreateRampTextures1024x2((CDx *)self, (IDirect3DTexture8 **)self + 519, (int)&v5) == 0)
       || (unsigned __int8)orig::CDx_CreateRampTexture1x16(self, (int)self + 2092) == 0
       || (result = (int)orig::CDx_CreateTexture((_DWORD **)self, a1, a2, nullptr, 1, 0),
-          this->field_824 = result,
+          at<uint32_t>(this, 0x824) = result,
           result == 0) )
     {
       orig::nullsub_38();
@@ -862,8 +1061,121 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x1000C7C0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 98 returned normally, 442 D3D calls compared (diffemu_gfx, clean build)
+int CDx::ReleaseStereoResources()
+{
+  int v2;
+  int v3;
+  int v4;
+  int v5;
+  int v6;
+  int result;
+  v2 = *(_DWORD *)&this->field_814;
+  if ( v2 != 0 )
+  {
+    (*(void (__stdcall **)(int))(*(_DWORD *)v2 + 8))(v2);
+    *(_DWORD *)&this->field_814 = 0;
+  }
+  v3 = *(_DWORD *)&this->field_818;
+  if ( v3 != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*(_DWORD *)&this->field_818);
+    *(_DWORD *)&this->field_818 = 0;
+  }
+  v4 = *(_DWORD *)&this->field_81C;
+  if ( v4 != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v4 + 8))(*(_DWORD *)&this->field_81C);
+    *(_DWORD *)&this->field_81C = 0;
+  }
+  v5 = *(_DWORD *)&this->field_820;
+  if ( v5 != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v5 + 8))(*(_DWORD *)&this->field_820);
+    *(_DWORD *)&this->field_820 = 0;
+  }
+  v6 = *(_DWORD *)&this->field_824;
+  if ( v6 != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v6 + 8))(*(_DWORD *)&this->field_824);
+    *(_DWORD *)&this->field_824 = 0;
+  }
+  result = *(_DWORD *)&this->stereoOddLineTexture;
+  if ( result != 0 )
+  {
+    result = (*(int (__stdcall **)(_DWORD))(*(_DWORD *)result + 8))(*(_DWORD *)&this->stereoOddLineTexture);
+    *(_DWORD *)&this->stereoOddLineTexture = 0;
+  }
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1000C850  (placed by IDB name)
+// GATE: PASS -- 100 trials, 35 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
+int CDx::CreateRampTexture1x16(int a1)
+{
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  int result;
+  _DWORD *v3;
+  char v4;
+  int v5;
+  _BYTE *v6;
+  alignas(16) unsigned char xi_frame[0x41C];  // address-taken locals at their original offsets
+  char (&v7)[4] = *reinterpret_cast<char (*)[4]>(xi_frame + 0x14);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x18);
+
+  result = (int)g_pEnv;
+  if ( g_pEnv[6] != 0 )
+  {
+    v3 = (_DWORD *)a1;
+    result = orig::fn_102D2FB9(
+               *((struct IDirect3DDevice8 **)self + 3),
+               1u,
+               0x10u,
+               1u,
+               0,
+               D3DFMT_A8R8G8B8,
+               D3DPOOL_MANAGED,
+               (IDirect3DTexture8 **)a1);
+    if ( result < 0 )
+    {
+      LOBYTE(result) = 0;
+      return result;
+    }
+    (*(void (__stdcall **)(_DWORD, _DWORD, char *, _DWORD, _DWORD))(**(_DWORD **)a1 + 64))(*(_DWORD *)a1, 0, v7, 0, 0);
+    v4 = a1;
+    v5 = 0;
+    while ( v5 != 0 )
+    {
+      if ( v5 == 1 )
+      {
+        BYTE2(a1) = 72;
+LABEL_9:
+        v4 = 0;
+        BYTE1(a1) = 0;
+      }
+      v6 = (_BYTE *)(v8 + v5 * *(_DWORD *)v7);
+      ++v5;
+      v6[1] = BYTE1(a1);
+      *v6 = v4;
+      v6[2] = BYTE2(a1);
+      v6[3] = 0x80;
+      if ( v5 >= 16 )
+      {
+        result = (*(int (__stdcall **)(_DWORD, _DWORD))(*(_DWORD *)*v3 + 68))(*v3, 0);
+        goto LABEL_12;
+      }
+    }
+    BYTE2(a1) = 0;
+    goto LABEL_9;
+  }
+LABEL_12:
+  LOBYTE(result) = 1;
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x1000C900  (placed by IDB name)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 41 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
 char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 {
   IDirect3DTexture8 **v3;
@@ -872,7 +1184,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
   _BYTE *v6;
   int j;
   _DWORD v10[2];
-  if ( *(_DWORD *)(g_pEnv + 24) == 0 )
+  if ( g_pEnv[6] == 0 )
     return 1;
   v3 = a2;
   v4 = 0;
@@ -915,54 +1227,56 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CA00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 36 returned normally, 49 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 45 returned normally, 55 D3D calls compared (diffemu_gfx, clean build)
 char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 {
-  IDirect3DSurface8 *v3;
-  IDirect3DSurface8 *v4;
-  char v6;
-  int v7;
+  char v4;
+  IDirect3DSurface8 *v5;
+  int v6;
+  IDirect3DSurface8 *v7;
   int v8;
-  int v9;
-  int v11;
-  char v12[4];
-  IDirect3DSurface8 *ppRenderTarget;
-  IDirect3DSurface8 *v14;
-  v6 = 0;
-  if ( this->stereoTargetsReady != 0 && orig::CEnv_IsStereoMode((_DWORD *)g_pEnv) )
+  IDirect3DSurface8 *v10;
+  IDirect3DSurface8 *v11;
+  IDirect3DSurface8 *v12;
+  v4 = 0;
+  if ( this->stereoTargetsReady != 0 && orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
-    g_pCDx->pDevice->GetRenderTarget(&ppRenderTarget);
-    (*(void (__stdcall **)(_DWORD, _DWORD, char *))(*this->sceneTargetA + 60))(at<uint32_t>(this, 0x194), 0, v12);
+    g_pCDx->pDevice->GetRenderTarget(&v11);
+    (*(void (__stdcall **)(_DWORD, _DWORD, IDirect3DSurface8 **))(*this->sceneTargetA + 60))(
+      at<uint32_t>(this, 0x194),
+      0,
+      &v10);
     (*(void (__stdcall **)(_DWORD, _DWORD, IDirect3DSurface8 **))(*at<_DWORD *>(this, 0x198) + 60))(
       this->sceneTargetB,
       0,
-      &v14);
-    v7 = *(_DWORD *)v12;
-    if ( ppRenderTarget == *(IDirect3DSurface8 **)v12 || ppRenderTarget == v14 )
+      &v12);
+    v5 = v10;
+    if ( v11 == v10 || v11 == v12 )
     {
       *(_DWORD *)a1 = this->sceneTargetB;
-      v8 = this->sceneTargetBDepth;
-      *(_DWORD *)a2 = v8;
-      v6 = *(_DWORD *)a1 != 0 && v8 != 0;
+      v6 = this->sceneTargetBDepth;
+      *(_DWORD *)a2 = v6;
+      v4 = *(_DWORD *)a1 != 0 && v6 != 0;
     }
-    (*(void (__stdcall **)(IDirect3DSurface8 *))(*(_DWORD *)v7 + 8))(v4);
-    v14->Release();
-    if ( v6 != 1 )
+    v5->Release();
+    v12->Release();
+    if ( v4 != 1 )
     {
-      pTexture->lpVtbl[1].AddRef(nullptr);
-      if ( *(_DWORD *)v12 == v11 )
+      pTexture->GetSurfaceLevel(0, &v10);
+      v7 = v10;
+      if ( v11 == v10 )
       {
         *(_DWORD *)a1 = g_translucentTargetEye2;
-        v9 = this->sceneTargetBDepth;
-        *(_DWORD *)a2 = v9;
-        v6 = *(_DWORD *)a1 != 0 && v9 != 0;
+        v8 = this->sceneTargetBDepth;
+        *(_DWORD *)a2 = v8;
+        v4 = *(_DWORD *)a1 != 0 && v8 != 0;
       }
-      (*(void (__stdcall **)(IDirect3DSurface8 *))(*(_DWORD *)v11 + 8))((IDirect3DSurface8 *)v12);
+      v7->Release();
     }
-    if ( *(_DWORD *)v12 != 0 )
-      (*(void (__stdcall **)(IDirect3DSurface8 *))(**(_DWORD **)v12 + 8))(v3);
+    if ( v11 != nullptr )
+      v11->Release();
   }
-  return v6;
+  return v4;
 }
 
 // FUNCTION: FFXIMAIN 0x1000CB20  (placed by IDB name)
@@ -972,8 +1286,10 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v5;
   int v6;
-  int v8;
-  int v9;
+  alignas(16) unsigned char xi_frame[0x418];  // address-taken locals at their original offsets
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x14);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v9, (int)&v8) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(
              at<uint32_t>(this, 0xC),
@@ -1002,8 +1318,10 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v7;
   int v8;
-  int v10;
-  int v11;
+  alignas(16) unsigned char xi_frame[0x420];  // address-taken locals at their original offsets
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v11, (int)&v10) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
              at<uint32_t>(this, 0xC),
@@ -1046,8 +1364,10 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v6;
   int v7;
-  int v9;
-  int v10;
+  alignas(16) unsigned char xi_frame[0x41C];  // address-taken locals at their original offsets
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x18);
+
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v10, (int)&v9) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
              at<uint32_t>(this, 0xC),
@@ -1085,7 +1405,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
-  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x440];  // address-taken locals at their original offsets
   float (&v3)[12] = *reinterpret_cast<float (*)[12]>(xi_frame + 0xC);
   float &v4 = *reinterpret_cast<float *>(xi_frame + 0x3C);
 

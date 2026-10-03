@@ -2,25 +2,25 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028AA70  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
-// GATE: PASS -- 100 trials, 55 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
-XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void)
+// GATE: PASS -- 100 trials, 82 returned normally, 34 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 {
-  _DWORD *result;
-  result = (_DWORD *)g_pSqgxContext;
-  if ( *(_DWORD *)(g_pSqgxContext + 2452) == 0 )
+  int *result;
+  result = g_pSqgxContext;
+  if ( g_pSqgxContext[613] == 0 )
   {
-    *(_DWORD *)(g_pSqgxContext + 2452) = 3072;
-    if ( *(_DWORD *)(g_pSqgxContext + 720) != 0 )
-      *(_DWORD *)(g_pSqgxContext + 2460) = orig::_malloc_0(2 * *(_DWORD *)(g_pSqgxContext + 2452));
+    g_pSqgxContext[613] = 3072;
+    if ( g_pSqgxContext[180] != 0 )
+      g_pSqgxContext[615] = (int)orig::_malloc_0(2 * g_pSqgxContext[613]);
     else
       g_pDancerDevice->lpVtbl->CreateIndexBuffer(
         g_pDancerDevice,
-        2 * *(_DWORD *)(g_pSqgxContext + 2452),
+        2 * g_pSqgxContext[613],
         520u,
         D3DFMT_INDEX16,
         D3DPOOL_DEFAULT,
-        (IDirect3DIndexBuffer8 **)(g_pSqgxContext + 2448));
-    result = (_DWORD *)g_pSqgxContext;
+        (IDirect3DIndexBuffer8 **)(g_pSqgxContext + 612));
+    result = g_pSqgxContext;
   }
   if ( result[180] != 0 )
   {
@@ -29,26 +29,232 @@ XI_API _DWORD * __cdecl sqgxShapeIndexBufferBegin(void)
   else
   {
     g_pDancerDevice->SetIndices((IDirect3DIndexBuffer8 *)result[612], 0);
-    result = (_DWORD *)(*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(g_pSqgxContext + 2448) + 44))(
-                         *(_DWORD *)(g_pSqgxContext + 2448),
-                         0,
-                         2 * *(_DWORD *)(g_pSqgxContext + 2452),
-                         g_pSqgxContext + 2460,
-                         0x2000);
-    *(_DWORD *)(g_pSqgxContext + 2456) = 0;
+    result = (int *)(*(int (__stdcall **)(int, _DWORD, int, int *, int))(*(_DWORD *)g_pSqgxContext[612] + 44))(
+                      g_pSqgxContext[612],
+                      0,
+                      2 * g_pSqgxContext[613],
+                      g_pSqgxContext + 615,
+                      0x2000);
+    g_pSqgxContext[614] = 0;
+  }
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1028AB50  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
+// GATE: PASS -- 100 trials, 39 returned normally, 12 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1028AB50(void)
+{
+  int result;
+  int *v1;
+  int v2;
+  unsigned int v3;
+  int *v4;
+  int v5;
+  int v6;
+  int v7;
+  int *v8;
+  int v9;
+  int v10;
+  int v11;
+  int *v12;
+  int i;
+  int v14;
+  int *v15;
+  int v16;
+  int v17;
+  int v18;
+  int *v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  unsigned int v24;
+  v1 = g_pSqgxContext;
+  v2 = g_pSqgxContext[614];
+  if ( v2 != 0 )
+  {
+    switch ( g_pSqgxContext[616] )
+    {
+      case 1:
+        goto LABEL_4;
+      case 2:
+        v3 = v2 / 2;
+        break;
+      case 3:
+        v3 = v2 - 1;
+        break;
+      case 4:
+        v2 /= 3;
+LABEL_4:
+        v3 = v2;
+        break;
+      case 5:
+      case 6:
+        v3 = v2 - 2;
+        break;
+      default:
+        v3 = v24;
+        break;
+    }
+    if ( g_pSqgxContext[180] != 0 )
+    {
+      if ( (g_pSqgxContext[652] & 1) != 0 )
+      {
+        (*(void (__stdcall **)(int, _DWORD, int, int *, int))(*(_DWORD *)g_pSqgxContext[598] + 44))(
+          g_pSqgxContext[598],
+          0,
+          12 * g_pSqgxContext[614],
+          &v23,
+          0x2000);
+        v4 = g_pSqgxContext;
+        v5 = 0;
+        if ( g_pSqgxContext[614] > 0 )
+        {
+          v6 = 8;
+          do
+          {
+            v6 += 12;
+            v7 = *(__int16 *)(v4[615] + 2 * v5++);
+            v7 *= 3;
+            *(_DWORD *)(v6 + v23 - 20) = *(_DWORD *)(v4[582] + 4 * v7);
+            *(_DWORD *)(v6 + v23 - 16) = *(_DWORD *)(g_pSqgxContext[582] + 4 * v7 + 4);
+            *(_DWORD *)(v6 + v23 - 12) = *(_DWORD *)(g_pSqgxContext[582] + 4 * v7 + 8);
+            v4 = g_pSqgxContext;
+          }
+          while ( v5 < g_pSqgxContext[614] );
+        }
+        (*(void (__stdcall **)(int))(*(_DWORD *)v4[598] + 48))(v4[598]);
+        v1 = g_pSqgxContext;
+      }
+      if ( (v1[652] & 2) != 0 )
+      {
+        (*(void (__stdcall **)(int, _DWORD, int, int *, int))(*(_DWORD *)v1[600] + 44))(
+          v1[600],
+          0,
+          12 * v1[614],
+          &v23,
+          0x2000);
+        v8 = g_pSqgxContext;
+        v9 = 0;
+        if ( g_pSqgxContext[614] > 0 )
+        {
+          v10 = 8;
+          do
+          {
+            v10 += 12;
+            v11 = *(__int16 *)(v8[615] + 2 * v9++);
+            v11 *= 3;
+            *(_DWORD *)(v10 + v23 - 20) = *(_DWORD *)(v8[583] + 4 * v11);
+            *(_DWORD *)(v10 + v23 - 16) = *(_DWORD *)(g_pSqgxContext[583] + 4 * v11 + 4);
+            *(_DWORD *)(v10 + v23 - 12) = *(_DWORD *)(g_pSqgxContext[583] + 4 * v11 + 8);
+            v8 = g_pSqgxContext;
+          }
+          while ( v9 < g_pSqgxContext[614] );
+        }
+        (*(void (__stdcall **)(int))(*(_DWORD *)v8[600] + 48))(v8[600]);
+        v1 = g_pSqgxContext;
+      }
+      if ( (v1[652] & 8) != 0 )
+      {
+        (*(void (__stdcall **)(int, _DWORD, int, unsigned int *, int))(*(_DWORD *)v1[610] + 44))(
+          v1[610],
+          0,
+          4 * v1[614],
+          &v24,
+          0x2000);
+        v12 = g_pSqgxContext;
+        for ( i = 0; i < g_pSqgxContext[614]; v12 = g_pSqgxContext )
+        {
+          v14 = 16 * *(__int16 *)(v12[615] + 2 * i);
+          *(_BYTE *)(v24 + 4 * i + 2) = (__int64)(*(float *)(v12[588] + v14) * 255.0);
+          *(_BYTE *)(v24 + 4 * i + 1) = (__int64)(*(float *)(g_pSqgxContext[588] + v14 + 4) * 255.0);
+          *(_BYTE *)(v24 + 4 * i++) = (__int64)(*(float *)(g_pSqgxContext[588] + v14 + 8) * 255.0);
+          *(_BYTE *)(v24 + 4 * i - 1) = (__int64)(*(float *)(g_pSqgxContext[588] + v14 + 12) * 255.0);
+        }
+        (*(void (__stdcall **)(int))(*(_DWORD *)v12[610] + 48))(v12[610]);
+        v1 = g_pSqgxContext;
+      }
+      if ( (v1[653] & 4) != 0 )
+      {
+        (*(void (__stdcall **)(int, _DWORD, int, int *, int))(*(_DWORD *)v1[602] + 44))(
+          v1[602],
+          0,
+          8 * v1[614],
+          &v23,
+          0x2000);
+        v15 = g_pSqgxContext;
+        v16 = 0;
+        if ( g_pSqgxContext[614] > 0 )
+        {
+          v17 = 0;
+          do
+          {
+            v18 = 2 * *(__int16 *)(v15[615] + v17);
+            ++v16;
+            v17 += 2;
+            *(_DWORD *)(v23 + 4 * v17 - 8) = *(_DWORD *)(v15[584] + 4 * v18);
+            *(_DWORD *)(v23 + 4 * v17 - 4) = *(_DWORD *)(g_pSqgxContext[584] + 4 * v18 + 4);
+            v15 = g_pSqgxContext;
+          }
+          while ( v16 < g_pSqgxContext[614] );
+        }
+        (*(void (__stdcall **)(int))(*(_DWORD *)v15[602] + 48))(v15[602]);
+        v1 = g_pSqgxContext;
+      }
+      if ( (v1[654] & 4) != 0 )
+      {
+        (*(void (__stdcall **)(int, _DWORD, int, int *, int))(*(_DWORD *)v1[603] + 44))(
+          v1[603],
+          0,
+          8 * v1[614],
+          &v23,
+          0x2000);
+        v19 = g_pSqgxContext;
+        v20 = 0;
+        if ( g_pSqgxContext[614] > 0 )
+        {
+          v21 = 0;
+          do
+          {
+            v22 = 2 * *(__int16 *)(v19[615] + v21);
+            ++v20;
+            v21 += 2;
+            *(_DWORD *)(v23 + 4 * v21 - 8) = *(_DWORD *)(v19[585] + 4 * v22);
+            *(_DWORD *)(v23 + 4 * v21 - 4) = *(_DWORD *)(g_pSqgxContext[585] + 4 * v22 + 4);
+            v19 = g_pSqgxContext;
+          }
+          while ( v20 < g_pSqgxContext[614] );
+        }
+        (*(void (__stdcall **)(int))(*(_DWORD *)v19[603] + 48))(v19[603]);
+        v1 = g_pSqgxContext;
+      }
+      result = g_pDancerDevice->DrawPrimitive((D3DPRIMITIVETYPE)v1[616], 0, v3);
+    }
+    else
+    {
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_pSqgxContext[612] + 48))(g_pSqgxContext[612]);
+      result = g_pDancerDevice->lpVtbl->DrawIndexedPrimitive(
+                 g_pDancerDevice,
+                 (D3DPRIMITIVETYPE)g_pSqgxContext[616],
+                 0,
+                 g_pSqgxContext[592],
+                 0,
+                 v3);
+    }
+    g_pSqgxContext[614] = 0;
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x1028AFE0  (unit sqgxShape: name sqgxShape_1028AFE0)
-// GATE: PASS -- 100 trials, 62 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl sqgxShape_1028AFE0(void)
+// GATE: PASS -- 100 trials, 87 returned normally, 164 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl sqgxShapeBegin(void)
 {
-  int v0;
+  int *v0;
   int i;
   int v2;
   float *v3;
-  int result;
+  int *result;
   int v5;
   unsigned int v6;
   int v7;
@@ -58,7 +264,7 @@ XI_API int __cdecl sqgxShape_1028AFE0(void)
   struct IDirect3DDevice8Vtbl *v11;
   int v12;
   int v13;
-  int v14;
+  int *v14;
   _BYTE *v15;
   float *v16;
   _BYTE *v17;
@@ -77,411 +283,379 @@ XI_API int __cdecl sqgxShape_1028AFE0(void)
   int v30;
   int v31;
   v0 = g_pSqgxContext;
-  for ( i = 0; i < *(_DWORD *)(g_pSqgxContext + 2840) + 1; ++i )
+  for ( i = 0; i < g_pSqgxContext[710] + 1; ++i )
   {
-    if ( (*(_DWORD *)(v0 + 8 * i + 2592) & 0x10) != 0 )
+    if ( (v0[2 * i + 648] & 0x10) != 0 )
     {
       orig::sub_1028BB10(i);
-      if ( i == 1
-        && ((v2 = *(_DWORD *)(g_pSqgxContext + 2592), v31 = *(_DWORD *)(g_pSqgxContext + 2596), (v2 & 0x40000) != 0)
-         || (v2 & 1) != 0) )
+      if ( i == 1 && ((v2 = g_pSqgxContext[648], v31 = g_pSqgxContext[649], (v2 & 0x40000) != 0) || (v2 & 1) != 0) )
       {
         orig::sub_1029C950(
-          *(_DWORD *)(g_pSqgxContext + 2368),
+          g_pSqgxContext[592],
           0,
-          *(float **)(g_pSqgxContext + 2328),
-          *(float **)(g_pSqgxContext + 2332),
-          *(float **)(g_pSqgxContext + 2360),
-          *(float **)(g_pSqgxContext + 2352));
-        orig::sub_1028A770(*(_DWORD *)(g_pSqgxContext + 2360), 1);
+          (float *)g_pSqgxContext[582],
+          (float *)g_pSqgxContext[583],
+          (float *)g_pSqgxContext[590],
+          (float *)g_pSqgxContext[588]);
+        orig::sub_1028A770(g_pSqgxContext[590], 1);
       }
       else
       {
         orig::sub_1028BB70();
         orig::sub_1029C950(
-          *(_DWORD *)(g_pSqgxContext + 2368),
+          g_pSqgxContext[592],
           1,
-          *(float **)(g_pSqgxContext + 2328),
-          *(float **)(g_pSqgxContext + 2332),
-          *(float **)(g_pSqgxContext + 4 * i + 2356),
-          *(float **)(g_pSqgxContext + 2364));
-        orig::sub_1028A770(*(_DWORD *)(g_pSqgxContext + 4 * i + 2356), i);
-        orig::sub_1028A790(*(_DWORD *)(g_pSqgxContext + 2364));
+          (float *)g_pSqgxContext[582],
+          (float *)g_pSqgxContext[583],
+          (float *)g_pSqgxContext[i + 589],
+          (float *)g_pSqgxContext[591]);
+        orig::sub_1028A770(g_pSqgxContext[i + 589], i);
+        orig::sub_1028A790(g_pSqgxContext[591]);
       }
     }
-    if ( (*(_DWORD *)(g_pSqgxContext + 8 * i + 2592) & 8) != 0 )
+    if ( (g_pSqgxContext[2 * i + 648] & 8) != 0 )
     {
       orig::sub_1028BB10(i);
-      orig::sub_1029C610(
-        *(_DWORD *)(g_pSqgxContext + 2368),
-        *(float **)(g_pSqgxContext + 2328),
-        *(_DWORD *)(g_pSqgxContext + 2332),
-        *(_DWORD *)(g_pSqgxContext + 4 * i + 2356));
-      orig::sub_1028A770(*(_DWORD *)(g_pSqgxContext + 4 * i + 2356), i);
+      orig::sub_1029C610(g_pSqgxContext[592], (float *)g_pSqgxContext[582], g_pSqgxContext[583], g_pSqgxContext[i + 589]);
+      orig::sub_1028A770(g_pSqgxContext[i + 589], i);
     }
-    if ( (*(_DWORD *)(g_pSqgxContext + 8 * i + 2592) & 0x100000) != 0 )
+    if ( (g_pSqgxContext[2 * i + 648] & 0x100000) != 0 )
     {
       orig::sub_1028BB10(i);
       orig::sub_1028BB70();
-      if ( *(_DWORD *)(g_pSqgxContext + 3620) != 0 )
-        v3 = *(float **)(g_pSqgxContext + 2348);
+      if ( g_pSqgxContext[905] != 0 )
+        v3 = (float *)g_pSqgxContext[587];
       else
-        v3 = *(float **)(g_pSqgxContext + 2344);
+        v3 = (float *)g_pSqgxContext[586];
       orig::sub_1029C480(
-        *(_DWORD *)(g_pSqgxContext + 2368),
-        *(float **)(g_pSqgxContext + 2328),
+        g_pSqgxContext[592],
+        (float *)g_pSqgxContext[582],
         v3,
-        *(_DWORD *)(g_pSqgxContext + 4 * i + 2356),
-        *(_DWORD *)(g_pSqgxContext + 2336),
-        *(float **)(g_pSqgxContext + 2332),
-        *(float **)(g_pSqgxContext + 2364));
-      orig::sub_1028A770(*(_DWORD *)(g_pSqgxContext + 4 * i + 2356), i);
-      orig::sub_1028A790(*(_DWORD *)(g_pSqgxContext + 2364));
+        g_pSqgxContext[i + 589],
+        g_pSqgxContext[584],
+        (float *)g_pSqgxContext[583],
+        (float *)g_pSqgxContext[591]);
+      orig::sub_1028A770(g_pSqgxContext[i + 589], i);
+      orig::sub_1028A790(g_pSqgxContext[591]);
     }
-    if ( (*(_DWORD *)(g_pSqgxContext + 8 * i + 2592) & 0x8000000) != 0 )
+    if ( (g_pSqgxContext[2 * i + 648] & 0x8000000) != 0 )
     {
       orig::sub_1028BB70();
-      orig::sub_1029BF50(
-        *(_DWORD *)(g_pSqgxContext + 2368),
-        *(float **)(g_pSqgxContext + 2332),
-        *(float **)(g_pSqgxContext + 2364));
-      orig::sub_1028A790(*(_DWORD *)(g_pSqgxContext + 2364));
+      orig::sub_1029BF50(g_pSqgxContext[592], (float *)g_pSqgxContext[583], (float *)g_pSqgxContext[591]);
+      orig::sub_1028A790(g_pSqgxContext[591]);
     }
-    if ( (*(_DWORD *)(g_pSqgxContext + 8 * i + 2592) & 0x20000000) != 0 )
+    if ( (g_pSqgxContext[2 * i + 648] & 0x20000000) != 0 )
     {
       orig::sub_1028BB10(i);
-      orig::sub_10297320(
-        *(_DWORD *)(g_pSqgxContext + 2368),
-        *(_DWORD *)(g_pSqgxContext + 2328),
-        *(_DWORD *)(g_pSqgxContext + 4 * i + 2356));
-      orig::sub_1028A770(*(_DWORD *)(g_pSqgxContext + 4 * i + 2356), i);
+      orig::sub_10297320(g_pSqgxContext[592], g_pSqgxContext[582], g_pSqgxContext[i + 589]);
+      orig::sub_1028A770(g_pSqgxContext[i + 589], i);
     }
-    if ( (*(_DWORD *)(g_pSqgxContext + 8 * i + 2592) & 0x40000) != 0 )
+    if ( (g_pSqgxContext[2 * i + 648] & 0x40000) != 0 )
     {
       orig::sub_1028BB70();
-      orig::sub_1029BD50(
-        *(_DWORD *)(g_pSqgxContext + 2368),
-        *(_DWORD *)(g_pSqgxContext + 2328),
-        *(float **)(g_pSqgxContext + 2332),
-        *(float **)(g_pSqgxContext + 2364));
-      orig::sub_1028A790(*(_DWORD *)(g_pSqgxContext + 2364));
+      orig::sub_1029BD50(g_pSqgxContext[592], g_pSqgxContext[582], (float *)g_pSqgxContext[583], (float *)g_pSqgxContext[591]);
+      orig::sub_1028A790(g_pSqgxContext[591]);
     }
     v0 = g_pSqgxContext;
   }
   orig::j_sqgxVertexShaderSelect();
   orig::nullsub_31();
-  orig::sqgxFlushTransformsLights();
-  orig::sub_10283420();
-  orig::sub_10281DB0();
+  orig::sqgxMatrixUpdate();
+  orig::sqgxColorUpdate();
+  orig::sqgxTextureUpdate();
   result = g_pSqgxContext;
-  v5 = *(_DWORD *)(g_pSqgxContext + 2368);
-  if ( *(_DWORD *)(g_pSqgxContext + 720) != 0 )
+  v5 = g_pSqgxContext[592];
+  if ( g_pSqgxContext[180] != 0 )
   {
     if ( v5 != 0 )
     {
       v20 = 0;
-      if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 1) != 0 )
+      if ( (g_pSqgxContext[652] & 1) != 0 )
       {
-        if ( *(_DWORD *)(g_pSqgxContext + 2396) == 0 )
+        if ( g_pSqgxContext[599] == 0 )
         {
-          *(_DWORD *)(g_pSqgxContext + 2396) = 3072;
+          g_pSqgxContext[599] = 3072;
           g_pDancerDevice->lpVtbl->CreateVertexBuffer(
             g_pDancerDevice,
-            12 * *(_DWORD *)(g_pSqgxContext + 2396),
+            12 * g_pSqgxContext[599],
             520u,
             2u,
             D3DPOOL_DEFAULT,
-            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2392));
+            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 598));
           result = g_pSqgxContext;
         }
         v20 = 1;
-        g_pDancerDevice->SetStreamSource(0, *(IDirect3DVertexBuffer8 **)(result + 2392), 12u);
+        g_pDancerDevice->SetStreamSource(0, (IDirect3DVertexBuffer8 *)result[598], 12u);
         result = g_pSqgxContext;
       }
-      if ( (*(_BYTE *)(result + 2608) & 2) != 0 )
+      if ( (result[652] & 2) != 0 )
       {
-        if ( *(_DWORD *)(result + 2404) == 0 )
+        if ( result[601] == 0 )
         {
-          *(_DWORD *)(result + 2404) = 3072;
+          result[601] = 3072;
           g_pDancerDevice->lpVtbl->CreateVertexBuffer(
             g_pDancerDevice,
-            12 * *(_DWORD *)(g_pSqgxContext + 2404),
+            12 * g_pSqgxContext[601],
             520u,
             16u,
             D3DPOOL_DEFAULT,
-            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2400));
+            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 600));
           result = g_pSqgxContext;
         }
         v26 = v20++;
-        g_pDancerDevice->SetStreamSource(v26, *(IDirect3DVertexBuffer8 **)(result + 2400), 12u);
+        g_pDancerDevice->SetStreamSource(v26, (IDirect3DVertexBuffer8 *)result[600], 12u);
         result = g_pSqgxContext;
       }
-      for ( j = 0; j < *(_DWORD *)(result + 2840) + 1; ++j )
+      for ( j = 0; j < result[710] + 1; ++j )
       {
-        if ( (*(_BYTE *)(result + 4 * j + 2612) & 4) != 0 )
+        if ( (result[j + 653] & 4) != 0 )
         {
-          if ( *(_DWORD *)(result + 4 * j + 2416) == 0 )
+          if ( result[j + 604] == 0 )
           {
-            *(_DWORD *)(result + 4 * j + 2416) = 3072;
+            result[j + 604] = 3072;
             lpVtbl = g_pDancerDevice->lpVtbl;
             if ( j != 0 )
               lpVtbl->CreateVertexBuffer(
                 g_pDancerDevice,
-                8 * *(_DWORD *)(g_pSqgxContext + 4 * j + 2416),
+                8 * g_pSqgxContext[j + 604],
                 520u,
                 512u,
                 D3DPOOL_DEFAULT,
-                (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 4 * j + 2408));
+                (IDirect3DVertexBuffer8 **)&g_pSqgxContext[j + 602]);
             else
               lpVtbl->CreateVertexBuffer(
                 g_pDancerDevice,
-                8 * *(_DWORD *)(g_pSqgxContext + 2416),
+                8 * g_pSqgxContext[604],
                 520u,
                 256u,
                 D3DPOOL_DEFAULT,
-                (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2408));
+                (IDirect3DVertexBuffer8 **)g_pSqgxContext + 602);
             result = g_pSqgxContext;
           }
           v27 = v20++;
-          g_pDancerDevice->lpVtbl->SetStreamSource(
-            g_pDancerDevice,
-            v27,
-            *(IDirect3DVertexBuffer8 **)(result + 4 * j + 2408),
-            8u);
+          g_pDancerDevice->SetStreamSource(v27, (IDirect3DVertexBuffer8 *)result[j + 602], 8u);
           result = g_pSqgxContext;
         }
       }
-      if ( (*(_BYTE *)(result + 2608) & 0x10) != 0 )
+      if ( (result[652] & 0x10) != 0 )
       {
-        if ( *(_DWORD *)(result + 2428) == 0 )
+        if ( result[607] == 0 )
         {
-          *(_DWORD *)(result + 2428) = 3072;
+          result[607] = 3072;
           g_pDancerDevice->lpVtbl->CreateVertexBuffer(
             g_pDancerDevice,
-            12 * *(_DWORD *)(g_pSqgxContext + 2428),
+            12 * g_pSqgxContext[607],
             520u,
             0,
             D3DPOOL_DEFAULT,
-            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2424));
+            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 606));
           result = g_pSqgxContext;
         }
         v28 = v20++;
-        g_pDancerDevice->SetStreamSource(v28, *(IDirect3DVertexBuffer8 **)(result + 2424), 12u);
+        g_pDancerDevice->SetStreamSource(v28, (IDirect3DVertexBuffer8 *)result[606], 12u);
         result = g_pSqgxContext;
       }
-      if ( (*(_BYTE *)(result + 2608) & 8) != 0 )
+      if ( (result[652] & 8) != 0 )
       {
-        if ( *(_DWORD *)(result + 2444) == 0 )
+        if ( result[611] == 0 )
         {
-          *(_DWORD *)(result + 2444) = 3072;
+          result[611] = 3072;
           g_pDancerDevice->lpVtbl->CreateVertexBuffer(
             g_pDancerDevice,
-            4 * *(_DWORD *)(g_pSqgxContext + 2444),
+            4 * g_pSqgxContext[611],
             520u,
             0,
             D3DPOOL_DEFAULT,
-            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2440));
+            (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 610));
           result = g_pSqgxContext;
         }
-        return g_pDancerDevice->lpVtbl->SetStreamSource(
-                 g_pDancerDevice,
-                 v20,
-                 *(IDirect3DVertexBuffer8 **)(result + 2440),
-                 4u);
+        return (int *)g_pDancerDevice->lpVtbl->SetStreamSource(
+                        g_pDancerDevice,
+                        v20,
+                        (IDirect3DVertexBuffer8 *)result[610],
+                        4u);
       }
     }
   }
   else if ( v5 != 0 )
   {
     v6 = 0;
-    if ( (*(_BYTE *)(g_pSqgxContext + 2608) & 1) != 0 )
+    if ( (g_pSqgxContext[652] & 1) != 0 )
     {
-      if ( *(_DWORD *)(g_pSqgxContext + 2396) < *(_DWORD *)(g_pSqgxContext + 2368) )
+      if ( g_pSqgxContext[599] < g_pSqgxContext[592] )
       {
-        v7 = *(_DWORD *)(g_pSqgxContext + 2392);
+        v7 = g_pSqgxContext[598];
         if ( v7 != 0 )
         {
-          (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v7 + 8))(*(_DWORD *)(g_pSqgxContext + 2392));
+          (*(void (__stdcall **)(int))(*(_DWORD *)v7 + 8))(g_pSqgxContext[598]);
           result = g_pSqgxContext;
         }
-        *(_DWORD *)(result + 2396) = *(_DWORD *)(result + 2368);
+        result[599] = result[592];
         g_pDancerDevice->lpVtbl->CreateVertexBuffer(
           g_pDancerDevice,
-          12 * *(_DWORD *)(g_pSqgxContext + 2396),
+          12 * g_pSqgxContext[599],
           520u,
           2u,
           D3DPOOL_DEFAULT,
-          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2392));
+          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 598));
         result = g_pSqgxContext;
       }
-      (*(void (__stdcall **)(_DWORD, _DWORD, int, void **, int))(**(_DWORD **)(result + 2392) + 44))(
-        *(_DWORD *)(result + 2392),
+      (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)result[598] + 44))(
+        result[598],
         0,
-        12 * *(_DWORD *)(result + 2368),
+        12 * result[592],
         &v29,
         0x2000);
-      qmemcpy(v29, *(const void **)(g_pSqgxContext + 2328), 12 * *(_DWORD *)(g_pSqgxContext + 2368));
-      (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 2392) + 48))(*(_DWORD *)(g_pSqgxContext + 2392));
+      qmemcpy(v29, (const void *)g_pSqgxContext[582], 12 * g_pSqgxContext[592]);
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_pSqgxContext[598] + 48))(g_pSqgxContext[598]);
       v6 = 1;
-      g_pDancerDevice->lpVtbl->SetStreamSource(
-        g_pDancerDevice,
-        0,
-        *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2392),
-        12u);
+      g_pDancerDevice->SetStreamSource(0, (IDirect3DVertexBuffer8 *)g_pSqgxContext[598], 12u);
       result = g_pSqgxContext;
     }
-    if ( (*(_BYTE *)(result + 2608) & 2) != 0 )
+    if ( (result[652] & 2) != 0 )
     {
-      if ( *(_DWORD *)(result + 2404) < *(_DWORD *)(result + 2368) )
+      if ( result[601] < result[592] )
       {
-        v8 = *(_DWORD *)(result + 2400);
+        v8 = result[600];
         if ( v8 != 0 )
         {
           (*(void (__stdcall **)(int))(*(_DWORD *)v8 + 8))(v8);
           result = g_pSqgxContext;
         }
-        *(_DWORD *)(result + 2404) = *(_DWORD *)(result + 2368);
+        result[601] = result[592];
         g_pDancerDevice->lpVtbl->CreateVertexBuffer(
           g_pDancerDevice,
-          12 * *(_DWORD *)(g_pSqgxContext + 2404),
+          12 * g_pSqgxContext[601],
           520u,
           16u,
           D3DPOOL_DEFAULT,
-          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2400));
+          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 600));
         result = g_pSqgxContext;
       }
-      (*(void (__stdcall **)(_DWORD, _DWORD, int, void **, int))(**(_DWORD **)(result + 2400) + 44))(
-        *(_DWORD *)(result + 2400),
+      (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)result[600] + 44))(
+        result[600],
         0,
-        12 * *(_DWORD *)(result + 2368),
+        12 * result[592],
         &v29,
         0x2000);
-      qmemcpy(v29, *(const void **)(g_pSqgxContext + 2332), 12 * *(_DWORD *)(g_pSqgxContext + 2368));
-      (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 2400) + 48))(*(_DWORD *)(g_pSqgxContext + 2400));
+      qmemcpy(v29, (const void *)g_pSqgxContext[583], 12 * g_pSqgxContext[592]);
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_pSqgxContext[600] + 48))(g_pSqgxContext[600]);
       v23 = v6++;
-      g_pDancerDevice->lpVtbl->SetStreamSource(
-        g_pDancerDevice,
-        v23,
-        *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2400),
-        12u);
+      g_pDancerDevice->SetStreamSource(v23, (IDirect3DVertexBuffer8 *)g_pSqgxContext[600], 12u);
       result = g_pSqgxContext;
     }
-    for ( k = 0; k < *(_DWORD *)(result + 2840) + 1; ++k )
+    for ( k = 0; k < result[710] + 1; ++k )
     {
-      if ( (*(_BYTE *)(result + 4 * k + 2612) & 4) != 0 )
+      if ( (result[k + 653] & 4) != 0 )
       {
-        if ( *(_DWORD *)(result + 4 * k + 2416) < *(_DWORD *)(result + 2368) )
+        if ( result[k + 604] < result[592] )
         {
-          v10 = *(_DWORD *)(result + 4 * k + 2408);
+          v10 = result[k + 602];
           if ( v10 != 0 )
           {
             (*(void (__stdcall **)(int))(*(_DWORD *)v10 + 8))(v10);
             result = g_pSqgxContext;
           }
-          *(_DWORD *)(result + 4 * k + 2416) = *(_DWORD *)(result + 2368);
+          result[k + 604] = result[592];
           v11 = g_pDancerDevice->lpVtbl;
           if ( k != 0 )
             v11->CreateVertexBuffer(
               g_pDancerDevice,
-              8 * *(_DWORD *)(g_pSqgxContext + 4 * k + 2416),
+              8 * g_pSqgxContext[k + 604],
               520u,
               512u,
               D3DPOOL_DEFAULT,
-              (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 4 * k + 2408));
+              (IDirect3DVertexBuffer8 **)&g_pSqgxContext[k + 602]);
           else
             v11->CreateVertexBuffer(
               g_pDancerDevice,
-              8 * *(_DWORD *)(g_pSqgxContext + 2416),
+              8 * g_pSqgxContext[604],
               520u,
               256u,
               D3DPOOL_DEFAULT,
-              (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2408));
+              (IDirect3DVertexBuffer8 **)g_pSqgxContext + 602);
           result = g_pSqgxContext;
         }
-        (*(void (__stdcall **)(_DWORD, _DWORD, int, void **, int))(**(_DWORD **)(result + 4 * k + 2408) + 44))(
-          *(_DWORD *)(result + 4 * k + 2408),
+        (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)result[k + 602] + 44))(
+          result[k + 602],
           0,
-          8 * *(_DWORD *)(result + 2368),
+          8 * result[592],
           &v29,
           0x2000);
-        qmemcpy(v29, *(const void **)(g_pSqgxContext + 4 * k + 2336), 8 * *(_DWORD *)(g_pSqgxContext + 2368));
-        (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 4 * k + 2408) + 48))(*(_DWORD *)(g_pSqgxContext + 4 * k + 2408));
+        qmemcpy(v29, (const void *)g_pSqgxContext[k + 584], 8 * g_pSqgxContext[592]);
+        (*(void (__stdcall **)(int))(*(_DWORD *)g_pSqgxContext[k + 602] + 48))(g_pSqgxContext[k + 602]);
         v24 = v6++;
         g_pDancerDevice->lpVtbl->SetStreamSource(
           g_pDancerDevice,
           v24,
-          *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 4 * k + 2408),
+          (IDirect3DVertexBuffer8 *)g_pSqgxContext[k + 602],
           8u);
         result = g_pSqgxContext;
       }
     }
-    if ( (*(_BYTE *)(result + 2608) & 0x10) != 0 )
+    if ( (result[652] & 0x10) != 0 )
     {
-      if ( *(_DWORD *)(result + 2428) < *(_DWORD *)(result + 2368) )
+      if ( result[607] < result[592] )
       {
-        v12 = *(_DWORD *)(result + 2424);
+        v12 = result[606];
         if ( v12 != 0 )
         {
           (*(void (__stdcall **)(int))(*(_DWORD *)v12 + 8))(v12);
           result = g_pSqgxContext;
         }
-        *(_DWORD *)(result + 2428) = *(_DWORD *)(result + 2368);
+        result[607] = result[592];
         g_pDancerDevice->lpVtbl->CreateVertexBuffer(
           g_pDancerDevice,
-          12 * *(_DWORD *)(g_pSqgxContext + 2428),
+          12 * g_pSqgxContext[607],
           520u,
           0,
           D3DPOOL_DEFAULT,
-          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2424));
+          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 606));
         result = g_pSqgxContext;
       }
-      (*(void (__stdcall **)(_DWORD, _DWORD, int, void **, int))(**(_DWORD **)(result + 2424) + 44))(
-        *(_DWORD *)(result + 2424),
+      (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)result[606] + 44))(
+        result[606],
         0,
-        12 * *(_DWORD *)(result + 2368),
+        12 * result[592],
         &v29,
         0x2000);
-      qmemcpy(v29, *(const void **)(g_pSqgxContext + 2344), 12 * *(_DWORD *)(g_pSqgxContext + 2368));
-      (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pSqgxContext + 2424) + 48))(*(_DWORD *)(g_pSqgxContext + 2424));
+      qmemcpy(v29, (const void *)g_pSqgxContext[586], 12 * g_pSqgxContext[592]);
+      (*(void (__stdcall **)(int))(*(_DWORD *)g_pSqgxContext[606] + 48))(g_pSqgxContext[606]);
       v25 = v6++;
-      g_pDancerDevice->lpVtbl->SetStreamSource(
-        g_pDancerDevice,
-        v25,
-        *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2424),
-        12u);
+      g_pDancerDevice->SetStreamSource(v25, (IDirect3DVertexBuffer8 *)g_pSqgxContext[606], 12u);
       result = g_pSqgxContext;
     }
-    if ( (*(_BYTE *)(result + 2608) & 8) != 0 )
+    if ( (result[652] & 8) != 0 )
     {
-      if ( *(_DWORD *)(result + 2444) < *(_DWORD *)(result + 2368) )
+      if ( result[611] < result[592] )
       {
-        v13 = *(_DWORD *)(result + 2440);
+        v13 = result[610];
         if ( v13 != 0 )
         {
-          (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v13 + 8))(*(_DWORD *)(result + 2440));
+          (*(void (__stdcall **)(int))(*(_DWORD *)v13 + 8))(result[610]);
           result = g_pSqgxContext;
         }
-        *(_DWORD *)(result + 2444) = *(_DWORD *)(result + 2368);
+        result[611] = result[592];
         g_pDancerDevice->lpVtbl->CreateVertexBuffer(
           g_pDancerDevice,
-          4 * *(_DWORD *)(g_pSqgxContext + 2444),
+          4 * g_pSqgxContext[611],
           520u,
           0,
           D3DPOOL_DEFAULT,
-          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2440));
+          (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 610));
         result = g_pSqgxContext;
       }
-      (*(void (__stdcall **)(_DWORD, _DWORD, int, void **, int))(**(_DWORD **)(result + 2440) + 44))(
-        *(_DWORD *)(result + 2440),
+      (*(void (__stdcall **)(int, _DWORD, int, void **, int))(*(_DWORD *)result[610] + 44))(
+        result[610],
         0,
-        4 * *(_DWORD *)(result + 2368),
+        4 * result[592],
         &v29,
         0x2000);
       v14 = g_pSqgxContext;
       v15 = v29;
       v30 = 0;
-      v16 = *(float **)(g_pSqgxContext + 2352);
-      if ( *(int *)(g_pSqgxContext + 2368) > 0 )
+      v16 = (float *)g_pSqgxContext[588];
+      if ( g_pSqgxContext[592] > 0 )
       {
         do
         {
@@ -494,17 +668,17 @@ XI_API int __cdecl sqgxShape_1028AFE0(void)
           v14 = g_pSqgxContext;
           v15 = v17 + 1;
           v16 += 4;
-          v19 = *(_DWORD *)(g_pSqgxContext + 2368);
+          v19 = g_pSqgxContext[592];
           v30 = v18 + 1;
         }
         while ( v18 + 1 < v19 );
       }
-      (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(v14 + 2440) + 48))(*(_DWORD *)(v14 + 2440));
-      return g_pDancerDevice->lpVtbl->SetStreamSource(
-               g_pDancerDevice,
-               v6,
-               *(IDirect3DVertexBuffer8 **)(g_pSqgxContext + 2440),
-               4u);
+      (*(void (__stdcall **)(int))(*(_DWORD *)v14[610] + 48))(v14[610]);
+      return (int *)g_pDancerDevice->lpVtbl->SetStreamSource(
+                      g_pDancerDevice,
+                      v6,
+                      (IDirect3DVertexBuffer8 *)g_pSqgxContext[610],
+                      4u);
     }
   }
   return result;

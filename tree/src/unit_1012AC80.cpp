@@ -37,42 +37,42 @@ XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10162010(int a1, int a2)
 {
-  int v2;
-  int v3;
-  int v4;
-  int v5;
-  qmemcpy(&g_viewport_1904, orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx), 0x18u);
-  qmemcpy(&dword_1062191C, &g_viewport_1904, 24);
+  DWORD v2;
+  DWORD Height;
+  DWORD v4;
+  DWORD Width;
+  qmemcpy(&g_viewport_1904, orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx), sizeof(g_viewport_1904));
+  stru_1062191C = g_viewport_1904;
   v2 = SHIWORD(a1);
   if ( a1 < 0 )
     v2 = 0;
-  v3 = SHIWORD(a2);
-  if ( SHIWORD(a2) > dword_10621910 )
-    v3 = dword_10621910;
+  Height = SHIWORD(a2);
+  if ( SHIWORD(a2) > (int)g_viewport_1904.Height )
+    Height = g_viewport_1904.Height;
   v4 = (__int16)a1;
   if ( (a1 & 0x8000u) != 0 )
     v4 = 0;
-  v5 = (__int16)a2;
-  if ( (__int16)a2 > dword_1062190C )
-    v5 = dword_1062190C;
-  dword_10621928 = v3 - v2;
-  dword_10621920 = v2;
-  if ( v3 == v2 )
-    dword_10621928 = 1;
-  dword_1062191C = v4;
-  dword_10621924 = v5 - v4;
-  return orig::CDx_SetViewport(g_pCDx, &dword_1062191C);
+  Width = (__int16)a2;
+  if ( (__int16)a2 > (int)g_viewport_1904.Width )
+    Width = g_viewport_1904.Width;
+  stru_1062191C.Height = Height - v2;
+  stru_1062191C.Y = v2;
+  if ( Height == v2 )
+    stru_1062191C.Height = 1;
+  stru_1062191C.X = v4;
+  stru_1062191C.Width = Width - v4;
+  return orig::CDx_SetViewport(g_pCDx, &stru_1062191C);
 }
 
 // FUNCTION: FFXIMAIN 0x101620B0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_ApplyViewport1904(void)
 {
-  return orig::CDx_SetViewport(g_pCDx, &g_viewport_1904_as_v0);
+  return orig::CDx_SetViewport(g_pCDx, &g_viewport_1904);
 }
 
 // FUNCTION: FFXIMAIN 0x10163400  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 60 returned normally, 780 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1300 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2)
 {
   int v3;

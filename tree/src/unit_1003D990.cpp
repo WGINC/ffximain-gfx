@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003D9A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDome(void)
 {
   int result;
@@ -11,10 +11,12 @@ XI_API int __cdecl Sky_DrawDome(void)
   unsigned __int8 *v3;
   _BYTE *v4;
   int i;
-  float v6;
-  int v7;
-  float Float2E0;
-  unsigned __int8 v9[12];
+  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  float &v6 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  float &Float2E0 = *reinterpret_cast<float *>(xi_frame + 0x2C);
+  unsigned __int8 (&v9)[12] = *reinterpret_cast<unsigned __int8 (*)[12]>(xi_frame + 0x30);
+
   result = (int)g_pXiZone;
   v1 = *((_DWORD *)g_pXiZone + 6);
   if ( v1 != 0 )
@@ -32,7 +34,10 @@ XI_API int __cdecl Sky_DrawDome(void)
           orig::fn_1006AD90((exception *)Sky_DrawDome_stateBlock);
           orig::_atexit(XI_CODE(Sky_DestroyDomeShaderStatic));
         }
-        orig::StateBlock_ApplyRSTSS(Sky_DrawDome_stateBlock, (int)Sky_DrawDome_renderStates, (int)Sky_DrawDome_textureStageStates);
+        orig::StateBlock_ApplyRSTSS(
+          Sky_DrawDome_stateBlock,
+          (int)Sky_DrawDome_renderStates,
+          (int)Sky_DrawDome_textureStageStates);
         orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
         orig::Gfx_SetViewMatrixFromField90(g_pMoCamera);
         v3 = v9;
@@ -77,7 +82,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
@@ -92,13 +97,15 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
   CMoProcessor *v9;
   int v10;
   int v11;
-  float v12;
-  int v13;
-  unsigned __int8 *v14;
-  int v15;
-  int v16;
-  float Float2E0;
-  unsigned __int8 v18[12];
+  alignas(16) unsigned char xi_frame[0x440];  // address-taken locals at their original offsets
+  float &v12 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  unsigned __int8 * &v14 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0x2C);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  float &Float2E0 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  unsigned __int8 (&v18)[12] = *reinterpret_cast<unsigned __int8 (*)[12]>(xi_frame + 0x34);
+
   result = g_pResourceMng;
   if ( g_pResourceMng != 0 )
   {
@@ -119,7 +126,10 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
             orig::fn_1006AD90((exception *)Sky_DrawDomeViewCentered_stateBlock);
             orig::_atexit(XI_CODE(Sky_DestroyViewCenteredShaderStatic));
           }
-          orig::StateBlock_ApplyRSTSS(Sky_DrawDomeViewCentered_stateBlock, (int)Sky_DrawDomeViewCentered_renderStates, (int)Sky_DrawDomeViewCentered_textureStageStates);
+          orig::StateBlock_ApplyRSTSS(
+            Sky_DrawDomeViewCentered_stateBlock,
+            (int)Sky_DrawDomeViewCentered_renderStates,
+            (int)Sky_DrawDomeViewCentered_textureStageStates);
           ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
           v3 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
           g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;

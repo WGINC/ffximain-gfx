@@ -2,52 +2,49 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10015510  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 50 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Camera_ApplyViewProjection(void)
 {
   int Field50;
   float *v1;
   _DWORD *v2;
-  const void *v3;
-  const void *v4;
-  double v5;
+  float *v3;
   char *Matrix154Ptr;
-  int v8[16];
+  int v5[16];
   if ( orig::Camera_GetField50() != 0 )
   {
     Field50 = orig::Camera_GetField50();
-    orig_void::Camera_UpdateController(Field50);
+    orig::Camera_UpdateController(Field50);
     v1 = (float *)orig::Camera_GetField50();
     if ( orig::sub_10021AE0(v1) || *(_BYTE *)(orig::Camera_GetField50() + 244) != 0 )
     {
       *(_BYTE *)(orig::Camera_GetField50() + 244) = 0;
       v2 = (_DWORD *)orig::Camera_GetField50();
       v3 = orig::sub_10021B70(v2);
-      v4 = v3;
       orig::CDx_SetTransform(&g_pCDx->vftable, 2, v3);
-      qmemcpy(v8, v4, sizeof(v8));
+      qmemcpy(v5, v3, sizeof(v5));
       orig::Camera_SetViewMatrix(
-        v8[0],
-        v8[1],
-        v8[2],
-        v8[3],
-        v8[4],
-        v8[5],
-        v8[6],
-        v8[7],
-        v8[8],
-        v8[9],
-        v8[10],
-        v8[11],
-        v8[12],
-        v8[13],
-        v8[14],
-        v8[15]);
+        v5[0],
+        v5[1],
+        v5[2],
+        v5[3],
+        v5[4],
+        v5[5],
+        v5[6],
+        v5[7],
+        v5[8],
+        v5[9],
+        v5[10],
+        v5[11],
+        v5[12],
+        v5[13],
+        v5[14],
+        v5[15]);
     }
   }
   if ( g_pCamera != nullptr )
     *((_DWORD *)g_pCamera + 189) = *((_DWORD *)g_pCamera + 190);
-  v5 = (orig_void::Camera_BuildProjection(), 0.0);
+  orig::Camera_BuildProjection();
   Matrix154Ptr = orig::Camera_GetMatrix154Ptr();
   orig::CDx_SetTransform(&g_pCDx->vftable, 3, Matrix154Ptr);
   if ( g_pResourceMng != 0 && g_pMoCamera != 0 )
@@ -57,11 +54,10 @@ XI_API void __cdecl Camera_ApplyViewProjection(void)
     orig::sub_100441C0((_DWORD *)g_pMoCamera);
     orig::sub_1006A180(g_pResourceMng, 0, 0, 0, 0);
   }
-  (void)(v5); return;
 }
 
 // FUNCTION: FFXIMAIN 0x100157E0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl App_WinMain(int a1, int a2)
 {
   int v2;
@@ -179,8 +175,10 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
   _DWORD *v2;
   void *v3;
   int *v5;
-  int v6;
-  int v7;
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x24);
+
   orig::MenuMng_Init((int)g_menuMng);
   orig::ShapeMng_Init(g_shapeMng);
   v0 = (CDx *)orig::Mem_AllocDefault(2640);
@@ -258,7 +256,7 @@ XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10017310  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 16064 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 26900 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall fn_10017310(int a1, int a2)
 {
   int v2;

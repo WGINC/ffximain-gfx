@@ -1,5 +1,5 @@
 {
- "about": "Stack-pointer corrections for the IDB (Alt+K in IDA; pipeline/ida_apply_names.apply_sp pushes them): the real SP change of an instruction where IDA's own analysis is wrong, found by pipeline/ida_sp_check.py. After applying, re-export the function; its hx_patches entry then becomes stale and is dropped.",
+ "about": "Superseded by data/real_sp.json + ida/ffxi_ida_fix.py, which measure the real depth and correct IDA wherever it differs (including these two points). Kept as the hand-found record: the real SP change of an instruction where IDA's analysis is wrong, found by pipeline/ida_sp_check.py.",
  "fixes": {
   "0x100C6693": {
    "func": "0x100C63D0",

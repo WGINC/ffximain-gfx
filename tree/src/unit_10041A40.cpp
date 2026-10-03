@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10041C20  (unit unit_10041A40: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int a5)
 {
   __int16 v5; // fps
@@ -27,7 +27,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   int v24;
   int *v25;
   int i;
-  alignas(16) unsigned char xi_frame[0x538];  // address-taken locals at their original offsets
+  alignas(16) unsigned char xi_frame[0x539];  // address-taken locals at their original offsets
   int &v27 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v28 = *reinterpret_cast<int *>(xi_frame + 0x14);
   float (&v29)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x18);

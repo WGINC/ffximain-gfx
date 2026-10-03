@@ -251,6 +251,8 @@ enum D3DSTATEBLOCKTYPE {
 };
 struct D3DLOCKED_RECT { int Pitch; void *pBits; };
 struct D3DLOCKED_BOX { int RowPitch; int SlicePitch; void *pBits; };
+struct D3DVIEWPORT8 { unsigned int X; unsigned int Y; unsigned int Width; unsigned int Height; float MinZ; float MaxZ; };
+typedef D3DVIEWPORT8 _D3DVIEWPORT8;
 struct IDirect3D8;
 struct IDirect3DVolume8;
 struct IDirect3DSwapChain8;

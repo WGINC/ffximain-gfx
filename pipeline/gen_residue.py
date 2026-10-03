@@ -36,8 +36,12 @@ for k, v in meta.items():
             rows['fail'].append((ea, nm, g['first_mismatch']['why'][:110], (l.get('recon_line') or [None, ''])[1][:90], dmc(ea)))
         elif g['verdict'] == 'INCONCLUSIVE':
             rows['inconclusive'].append((ea, nm, ', '.join('%s %d' % kv for kv in g['original_outcomes'].items()), dmc(ea)))
+        elif g['verdict'] == 'UNRESOLVED':
+            rows['unresolved'].append((ea, nm, '; '.join('%s (%d trial%s)' % (kv[0], kv[1], '' if kv[1] == 1 else 's') for kv in sorted(g['unresolved'].items(), key=lambda kv: -kv[1])), dmc(ea)))
         elif g['verdict'] == 'PASS' and ea in C:
             rows['clean_regress'].append((ea, nm, C[ea].get('verdict'), dmc(ea)))
+        elif g['verdict'] != 'PASS':
+            raise SystemExit('gen_residue.py: 0x%08X has gate verdict %r, which no group covers' % (ea, g['verdict']))
         elif g['verdict'] == 'PASS':
             rows['unplaced'].append((ea, nm, 'passes as decompiled; the clean stage has no export for it to gate', dmc(ea)))
 w = []
@@ -50,7 +54,12 @@ w.append('| Did not compile, or compiles with no gate case | %d | Translator gap
 w.append('| Gate FAIL (decompiled code is wrong) | %d | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |' % len(rows['fail']))
 w.append('| Verified as decompiled, not in the clean tree | %d | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |' % len(rows['unplaced']))
 w.append('| Gate INCONCLUSIVE (no comparable run) | %d | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |' % len(rows['inconclusive']))
+w.append('| Gate UNRESOLVED (no definitive fact for a call) | %d | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |' % len(rows['unresolved']))
+w.append('| Passes as decompiled, fails in the clean tree | %d | Clean-stage regression; listed below. |' % len(rows['clean_regress']))
 w.append('')
+listed = sum(len(v) for v in rows.values())
+if listed != len(meta) - sum(1 for k in meta if int(k, 16) in C and C[int(k, 16)]['verdict'] == 'PASS'):
+    raise SystemExit('gen_residue.py: %d functions listed, but %d are not verified in the clean tree' % (listed, len(meta) - sum(1 for k in meta if int(k, 16) in C and C[int(k, 16)]['verdict'] == 'PASS')))
 def table(title, head, rs, fmt):
     if not rs: return
     w.append('## %s (%d)\n' % (title, len(rs)))
@@ -69,6 +78,10 @@ table('Verified as decompiled, not in the clean tree', ['Address', 'Name', 'Why'
 table('Gate FAIL', ['Address', 'Name', 'First difference', 'Reconstruction line at the divergence', 'What it does'], rows['fail'],
       lambda r: ['`0x%08X`' % r[0], esc(r[1]), esc(r[2]), '`%s`' % esc(r[3]) if r[3] else '', esc(r[4])])
 table('Gate INCONCLUSIVE', ['Address', 'Name', 'Original outcomes', 'What it does'], rows['inconclusive'],
+      lambda r: ['`0x%08X`' % r[0], esc(r[1]), esc(r[2]), esc(r[3])])
+table('Gate UNRESOLVED', ['Address', 'Name', 'Call without a definitive fact', 'What it does'], rows['unresolved'],
+      lambda r: ['`0x%08X`' % r[0], esc(r[1]), esc(r[2]), esc(r[3])])
+table('Passes as decompiled, fails in the clean tree', ['Address', 'Name', 'Clean verdict', 'What it does'], rows['clean_regress'],
       lambda r: ['`0x%08X`' % r[0], esc(r[1]), esc(r[2]), esc(r[3])])
 open(out, 'w').write('\n'.join(w) + '\n')
 print({k: len(v) for k, v in rows.items()})

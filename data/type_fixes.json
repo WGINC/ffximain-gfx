@@ -28,5 +28,45 @@
   "type": "int __thiscall(_DWORD *this, int a2)",
   "why": "CXiActor_GetModelPartWord returns a 32-bit value: on its last path (index << 12) | table word. The IDB types it __int16, so Hex-Rays kept only the low half (LOWORD(v) = ...) while callers push or test all of EAX.",
   "evidence": "0x100844C4..0x100844D7: mov ax,[ecx*2+0x1047D61C]; shl ecx,0xC; or eax,ecx; ret 4. Caller 0x100D3FF9..0x100D3FFE (LoadSkeletonSync): call; push eax (full dword) to 0x100C51C0, which compares it as an int (cmp eax,0xDAC)."
+ },
+ "0x10038520": {
+  "type": "int __cdecl()",
+  "why": "Font_DrawPass takes no this: its `push ecx` only reserves a stack slot and it loads ECX itself (g_pFontGlyphs). The IDB types it thiscall(void *), so callers passed an unassigned value (Frame_Render: v33) that the gate then compared.",
+  "evidence": "0x10038520 push ecx; 0x10038521 mov ecx,[0x104E1B90]; call Font_BindGlyphTexture. Frame_Render 0x10012A9C calls it with ECX left from earlier code."
+ },
+ "0x102D6F03": {
+  "type": "float *__stdcall(float *pOut, float *pM1, float *pM2)",
+  "why": "D3DXMatrixMultiply through the D3DX CPU-dispatch table (jmp [0x103CC41C]); IDA typed the thunk __cdecl, so Hex-Rays took the 12 argument bytes as left on the stack and named every later stack slot 12 bytes off (sub_10183760 reads a never-assigned local where the code reads a3).",
+  "evidence": "every implementation behind the pointer is stdcall: the default 0x102D6F09 (copied into the table by 0x102E7650 from 0x103CC504) ends `ret 0xC`; callers read the same [esp+N] before and after the call (0x1017C9D8 / 0x1017C9F7: [esp+0x1DC])."
+ },
+ "0x102D714C": {
+  "type": "float *__stdcall(float *pOut, float *pM)",
+  "why": "D3DXMatrixTranspose through the D3DX CPU-dispatch table (jmp [0x103CC4A4]); IDA typed it with one argument, so Hex-Rays dropped pM and misframed the stack after the call.",
+  "evidence": "default implementation 0x102D7152 (table copy 0x103CC594) transposes [esp+8] into [esp+4] and ends `ret 8`."
+ },
+ "0x1000A6E0": {
+  "type": "_DWORD *__thiscall(_DWORD **this, unsigned __int16 width, unsigned __int16 height, _DWORD *a4, int a5, int a6)",
+  "why": "CDx_CreateTexture takes 16-bit width and height; the IDB once typed the height int (a re-decompile with a wrong SP point), and callers pass leftover upper halves (CDx_CreateStereoResources, App_InitScene) that are not part of the argument.",
+  "evidence": "0x1000A71B and esi, 0xFFFF / 0x1000A72C and edi, 0xFFFF: both size arguments are cut to 16 bits before CreateTexture(width, height, ...)."
+ },
+ "0x10178250": {
+  "type": "void __thiscall(void *this)",
+  "why": "returns nothing: EAX at its ret is left over from the last type_info destructor call, and its only caller (0x10178CD7) overwrites EAX at once.",
+  "evidence": "0x10178CD7 call sub_10178250; next: mov eax, [ebx+0x3949C]. The function never sets EAX before either ret (0x10178495, 0x101784D0)."
+ },
+ "0x1006E7D0": {
+  "type": "void __thiscall(void *this, float *a1, int a2, int a3, float *a4, float *a5, float a6, float a7)",
+  "why": "CMoProcessor virtual method (vtable slot 32): called with the processor in ECX (sub_100548D0: mov ecx,[g_pProcessor]; mov edx,[ecx]; call [edx+80h]) and 7 stack arguments; the IDB has it __stdcall, so Hex-Rays dropped `this`.",
+  "evidence": "ret 1Ch (purges.json); 0x100549FB mov edx,[ecx]; 0x10054A13 call [edx+80h] after 7 pushes."
+ },
+ "0x1006FE70": {
+  "type": "void __thiscall(void *this, float *a1, int a2, int a3, int a4, int a5, int a6, int a7)",
+  "why": "CMoProcessor virtual method (vtable slot 33): called with the processor in ECX (CMoDistMorphElem_ValidateMorphData) and 7 stack arguments; the IDB has it __stdcall, so Hex-Rays dropped `this`.",
+  "evidence": "ret 1Ch (purges.json); 0x10042D14 mov ecx,[g_pProcessor]; 0x10042D36..0x10042D42 7 pushes; 0x10042D43 call [edx+84h]."
+ },
+ "0x10070D80": {
+  "type": "void __thiscall(void *this, float *a1, int a2, int a3, float *a4, float *a5, float a6, float a7)",
+  "why": "Tail-jump thunk to CMoProcessor_ProjectPointsToScreen (0x1006E7D0, __thiscall): ECX passes through unchanged as the callee's this; same 7 stack arguments.",
+  "evidence": "0x10070D80..0x10070D90: four movs that rewrite two stack slots with their own values, then jmp 0x1006E7D0; no ECX write. Vtable 0x1032C1C8 slot 32. Callee ret 1Ch (purges.json)."
  }
 }

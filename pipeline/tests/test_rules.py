@@ -89,6 +89,26 @@ class VmethodThis(unittest.TestCase):
         self.assertEqual(H.vmethod_this(s), s)
 
 
+class TypeFixes(unittest.TestCase):
+    def fixed(self, rec, ftype):
+        import hx_patches as P
+        saved = P._T; P._T = {rec['ea']: ftype}
+        try: return P.fix_types(rec)
+        finally: P._T = saved
+
+    def test_added_this_sets_convention_and_parameter(self):
+        rec = {'ea': 1, 'name': 'f', 'cc': 'stdcall', 'ret': 'void', 'objs': {},
+               'text': 'void __stdcall f(float *a1, int a2)\n{\n}', 'args': [['a1', 'float *', 4, 'float', 4], ['a2', 'int', 4, None, None]]}
+        r = self.fixed(rec, 'void __thiscall(void *this, float *a1, int a2)')
+        self.assertEqual(r['cc'], 'thiscall')
+        self.assertEqual(r['args'], [['this', 'void *', 4, None, None], ['a1', 'float *', 4, 'float', 4], ['a2', 'int', 4, None, None]])
+
+    def test_added_parameter_of_undefined_size_is_refused(self):
+        rec = {'ea': 1, 'name': 'f', 'cc': 'stdcall', 'ret': 'void', 'objs': {}, 'text': 'void __stdcall f(int a1)\n{\n}',
+               'args': [['a1', 'int', 4, None, None]]}
+        with self.assertRaises(ValueError): self.fixed(rec, 'void __stdcall(struct S s, int a1)')
+
+
 class Solver(unittest.TestCase):
     def test_determined(self):
         # p0 + p1 = 8 and p1 = 4  ->  p0 = 4, p1 = 4

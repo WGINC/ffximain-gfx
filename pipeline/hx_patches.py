@@ -46,6 +46,18 @@ def type_fixes():
     return _T
 
 
+SIZES = {'int': 4, 'unsigned int': 4, 'float': 4, 'double': 8, '_DWORD': 4, 'char': 1, '_BYTE': 1, '__int16': 2, '_WORD': 2}
+
+
+def arg_size(ty, ea):
+    """the size of a parameter a type fix adds: a pointer is 4 bytes on this 32-bit target; otherwise the
+    type must be one whose size is fixed by definition"""
+    ty = ty.strip()
+    if ty.endswith('*'): return 4
+    if ty in SIZES: return SIZES[ty]
+    raise ValueError('type_fixes.json 0x%08X: no defined size for an added parameter of type %r' % (ea, ty))
+
+
 def fix_types(rec):
     t = type_fixes()
     objs = rec.get('objs', {})
@@ -77,8 +89,17 @@ def fix_types(rec):
             params = ', '.join(re.sub(r'^(.*?)(\**\s*\b(\w+))$', lambda q: (new[q.group(3)] + ' ' + q.group(3)) if q.group(3) in new else q.group(0), x.strip())
                                for x in m.group(1).split(','))
             rec['text'] = text[:m.start(1)] + params + text[m.end(1):]
-        if rec.get('args'):
-            rec['args'] = [[a[0], new.get(a[0], a[1])] + list(a[2:]) for a in rec['args']]
+        cc = re.search(r'__(cdecl|stdcall|thiscall|fastcall)\b', t[rec['ea']][:t[rec['ea']].index('(')])
+        if cc: rec['cc'] = cc.group(1)              # the corrected convention, as declared
+        if rec.get('args') is not None:
+            # the corrected parameter list, in its order: an entry the record had keeps its sizes; a
+            # parameter the fix adds (a `this` the IDB's type dropped) gets its declared type's size
+            old = {a[0]: a for a in rec['args']}
+            order = [(re.search(r'(\w+)$', x).group(1), re.sub(r'\s*\w+$', '', x)) for x in
+                     [x.strip() for x in t[rec['ea']][t[rec['ea']].index('(') + 1:t[rec['ea']].rindex(')')].split(',')]
+                     if re.search(r'\w\s+\**\w+$', x)]
+            rec['args'] = [[n, ty] + list(old[n][2:]) if n in old else [n, ty, arg_size(ty, rec['ea']), None, None]
+                           for n, ty in order]
     return rec
 
 

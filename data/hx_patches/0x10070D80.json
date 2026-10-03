@@ -1,0 +1,15 @@
+{
+ "why": "0x10070D80 (CMoProcessor_VT_1032C1C8 vtable slot 32) is a tail-jump thunk to CMoProcessor_ProjectPointsToScreen (0x1006E7D0, __thiscall per type_fixes.json): it leaves ECX unchanged, so the callee's `this` is this function's entry ECX. The IDB has both __stdcall, so Hex-Rays drops `this` from the signature and from the call.",
+ "evidence": "0x10070D80 mov eax,[esp+1Ch]; mov edx,[esp+18h]; mov [esp+1Ch],eax; mov [esp+18h],edx (each slot written back unchanged); jmp 0x1006E7D0. No instruction writes ECX. Callee ret 1Ch (purges.json).",
+ "text_sha1": "4f758879cf5188bf09bc24c935ac7c744dd29ded",
+ "replace": [
+  [
+   "void __stdcall CMoProcessor_VT_1032C1C8_vf032(float *a1,",
+   "void __thiscall CMoProcessor_VT_1032C1C8_vf032(void *this, float *a1,"
+  ],
+  [
+   "  CMoProcessor_ProjectPointsToScreen(a1, a2,",
+   "  CMoProcessor_ProjectPointsToScreen(this, a1, a2,"
+  ]
+ ]
+}

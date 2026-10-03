@@ -17,6 +17,12 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
 EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_current.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
+# every stage after translate must read the export the raw translation came from (runs/RUN/raw/export.sha1)
+same_export() {
+  [ -f "$W/raw/export.sha1" ] || return 0
+  [ "$(sha1sum < "$EXP")" = "$(cut -d' ' -f2- "$W/raw/export.sha1")" ] && return 0
+  echo "run.sh: $EXP is not the export runs/$RUN/raw was translated from ($(cut -d' ' -f1 "$W/raw/export.sha1")); pass that one" >&2; exit 1
+}
 gate2() {  # gate2 DLL CASES OUTPREFIX: a work queue of small chunks, $JOBS workers (default: one per core)
   python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" > "$3.log" 2>&1
 }
@@ -35,16 +41,18 @@ case "$1" in
                  python3 "$P/leaf_funcs.py" "$FFXI_DLL" "$ROOT/data/leaf_funcs.json"
                  python3 "$P/callsites.py" "$EXP" "$ROOT/data/callsite_args.json"
                  python3 "$P/callsite_audit.py" "$EXP" "$ROOT/data/callsite_audit.json" ;;&
-  translate|all) rm -rf "$W/raw"; python3 "$P/hx2cpp.py" "$EXP" "$W/raw"; "$P/build_raw.sh" "$W/raw" | tail -1
+  translate|all) rm -rf "$W/raw"; python3 "$P/hx2cpp.py" "$EXP" "$W/raw"; echo "$EXP $(sha1sum < "$EXP")" > "$W/raw/export.sha1"
+                 "$P/build_raw.sh" "$W/raw" | tail -1
                  python3 "$P/repair_compile.py" "$W/raw" | tail -1; "$P/build_raw.sh" "$W/raw" | tail -1 ;;&
-  cases|all)     python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"
+  cases|all)     same_export; python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"
                  python3 -c "import json,os;c=[x for x in json.load(open('$W/cases_all.json')) if os.path.exists('$W/raw/obj/fn_%s.o'%x['original'][2:])];json.dump(c,open('$W/cases.json','w'));print(len(c),'gateable')" ;;&
   gate|all)      gate2 "$W/raw/gfx_raw.dll" "$W/cases.json" "$W/gate_raw" ;;&
-  clean|all)     "$P/regen_clean.sh" "$EXP" "$W/gate_raw.jsonl" "$W/tree" ;;&
+  clean|all)     same_export; "$P/regen_clean.sh" "$EXP" "$W/gate_raw.jsonl" "$W/tree" | tee "$W/tree.log"
+                 grep -q 'failed: none$' "$W/tree.log" || { echo "run.sh: the clean tree does not build (runs/$RUN/tree/build/err)" >&2; exit 1; } ;;&
   cleangate|all) python3 "$P/map_clean_cases.py" "$W/tree/build/gfx_recon.dll" "$W/tree/placement.json" "$W/cases.json" "$W/cases_clean_all.json" | tail -1
                  python3 -c "import json;g={json.loads(l)['original'] for l in open('$W/gate_raw.jsonl') if json.loads(l)['verdict']=='PASS'};c=[x for x in json.load(open('$W/cases_clean_all.json')) if x['original'] in g];json.dump(c,open('$W/cases_clean.json','w'))"
                  gate2 "$W/tree/build/gfx_recon.dll" "$W/cases_clean.json" "$W/gate_clean"
                  python3 "$P/annotate_gate.py" "$W/tree" "$W/gate_clean.jsonl" ;;&
-  residue|all)   (cd "$W" && python3 "$P/gen_residue.py" "$EXP" "$W/raw/meta.json" "$W/gate_raw.jsonl" "$ROOT/verification/localize_fail.json" "$W/no_byte_returns.json" "$W/gate_clean.jsonl" "$W/RESIDUE.md") ;;
+  residue|all)   same_export; (cd "$W" && python3 "$P/gen_residue.py" "$EXP" "$W/raw/meta.json" "$W/gate_raw.jsonl" "$ROOT/verification/localize_fail.json" "$W/no_byte_returns.json" "$W/gate_clean.jsonl" "$W/RESIDUE.md") ;;
   *) ;;
 esac

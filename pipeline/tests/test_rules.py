@@ -109,6 +109,19 @@ class TypeFixes(unittest.TestCase):
         with self.assertRaises(ValueError): self.fixed(rec, 'void __stdcall(struct S s, int a1)')
 
 
+class FreeSelf(unittest.TestCase):
+    def test_local_named_self_is_renamed(self):
+        import hx_patches as P
+        rec = {'ea': 1, 'args': [['this', '_DWORD *']], 'text': 'void __thiscall f(_DWORD *this)\n{\n  _DWORD self[16];\n  g(self, this);\n}'}
+        r = P.free_self(rec)
+        self.assertEqual(r['text'], 'void __thiscall f(_DWORD *this)\n{\n  _DWORD self_v[16];\n  g(self_v, this);\n}')
+
+    def test_first_parameter_named_self_is_this(self):
+        import hx_patches as P
+        rec = {'ea': 1, 'args': [['self', 'void *'], ['a2', 'float']], 'text': 'int __thiscall f(void *self, float a2)\n{\n  return g(self);\n}'}
+        self.assertEqual(P.free_self(rec), rec)
+
+
 class Solver(unittest.TestCase):
     def test_determined(self):
         # p0 + p1 = 8 and p1 = 4  ->  p0 = 4, p1 = 4

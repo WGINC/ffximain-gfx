@@ -131,7 +131,7 @@ class GfxMachine(G.Machine):
             self.live_this = {int(k, 16): (kind, int(a, 16)) for k, (kind, a) in LIVE_CFG['this_sources'].items()}
             self.live_inst = {int(k, 16): [int(x, 16) for x in v] for k, v in LIVE_CFG['instances'].items()}
             self.trial_no = 0
-            self._vt_iface = {}; self.com_guess = 0
+            self._vt_iface = {}
             from capstone import Cs, CS_ARCH_X86, CS_MODE_32
             self._md = Cs(CS_ARCH_X86, CS_MODE_32); self._md.detail = True
             self.demand_limit = 4096          # dump pages share the demand list with fuzzed ones
@@ -295,7 +295,16 @@ class GfxMachine(G.Machine):
         t = self._com_target(uc, addr, esp, ret_addr)
         if t is not None:                 # a method of a real D3D8 object: the fake COM trap answers it
             uc.reg_write(UC_X86_REG_EIP, t); return
-        n = self.live.pops(addr)
+        # what the callee pops: the call site's definitive count (site_pops), as for any other call; with none,
+        # the run stops as unresolved (no `ret N` read off foreign code, which would be a guess)
+        site = site_pops(self, ret_addr) if IMAGE_LO <= ret_addr < IMAGE_HI else None
+        if site is None:
+            self.stop_reason = 'unresolved'
+            self.stop_detail = 'call %s into %s: pop count unknown%s' % (
+                self.last_site or 'returning to 0x%08X' % ret_addr, self.live.module_of(addr),
+                (' (sources disagree: %s)' % self.site_conflicts[self.last_site]) if self.last_site in self.site_conflicts else '')
+            uc.emu_stop(); return
+        n = 4 * site[0]
         if os.environ.get('FFXI_LIVE_TRACE'):
             print('foreign %08X pops %d ret %08X esp %08X' % (addr, n, ret_addr, esp), file=sys.stderr)
         args = struct.unpack('<%dI' % min(n // 4, 4), uc.mem_read(esp + 4, 4 * min(n // 4, 4))) if n else ()
@@ -341,14 +350,14 @@ class GfxMachine(G.Machine):
                 w = self.live.read(vt + 4 * n, 4)
                 if w is None or not (mod[0] <= struct.unpack('<I', w)[0] < mod[1]): break
                 n += 1
-            cands = [k for k in IFACES if len(SPEC[k]) == n]
-            if not cands:                 # vtables sit back to back, so the length can run on: the
-                cands = PREFER              # resource interfaces in order of how often the game uses them
-                self.com_guess += 1
-            self._vt_iface[vt] = cands
+            # vtables sit back to back, so a run of n entries into the module can be one interface's vtable
+            # followed by the next: every interface no longer than the run is a candidate
+            self._vt_iface[vt] = [k for k in IFACES if len(SPEC[k]) <= n]
         cands = [k for k in self._vt_iface[vt] if slot < len(SPEC[k])]
         if not cands: return None
-        name = cands[0]
+        if any(SPEC[k][slot] != SPEC[cands[0]][slot] for k in cands):
+            return None                   # the candidates differ at this slot: not a known method (site_pops decides)
+        name = cands[0]                   # all candidates have this very method: any of them answers it the same
         return COM_TRAP + 0x1000 * IFACES.index(name) + 4 * slot
 
     def live_map(self, page):

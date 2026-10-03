@@ -156,7 +156,10 @@ def fix_sp(report):
         todo = []
         for ck, real in sorted(rec['calls'].items()):
             call = int(ck, 16); had = change_at(call)
-            if had is not None and had != real: todo.append((ck, call, real, had))
+            STATS['sp_checked'] = STATS.get('sp_checked', 0) + 1
+            if had is None: STATS['sp_unreadable'] = STATS.get('sp_unreadable', 0) + 1
+            elif had == real: STATS['sp_already_right'] = STATS.get('sp_already_right', 0) + 1
+            else: todo.append((ck, call, real, had))
         if not todo: continue
         pfn = ida_funcs.get_func(f)
         for ck, call, real, had in todo:
@@ -179,7 +182,8 @@ def fix_sp(report):
         bad = sum(1 for x in fixes if x['now'] != x['real_change'])
         report['sp'][fk] = {'name': idc.get_func_name(f), 'fixes': fixes, 'not_corrected': bad}
         log('SP %s %s: %d calls corrected%s' % (fk, idc.get_func_name(f), len(fixes) - bad, (', %d could not be' % bad) if bad else ''))
-    log('SP: %d functions corrected' % len(report['sp']))
+    log('SP: %d calls checked, %d already right, %d unreadable (IDA has no SP there); %d functions corrected' % (
+        STATS.get('sp_checked', 0), STATS.get('sp_already_right', 0), STATS.get('sp_unreadable', 0), len(report['sp'])))
 
 
 # ------------------------------------------------------------------ 4b: call types

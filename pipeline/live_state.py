@@ -11,8 +11,10 @@ expressed in the analysed build:
   * this_source(func): how callers pass `this` (mov ecx, [global] / a static object), read from the code;
   * sandbox(): a 16 MB gap the dump does not use, for the gate's own fuzzed buffers.
 
-    python3 live_state.py DUMP.dmp BUILD_MAP.json OUT.json      precompute (data writes, this sources,
-                                                                instances for the cases' vtables)
+    python3 live_state.py DUMP.dmp BUILD_MAP.json OUT.json [DLL [CASES]]   a dump of another build (build_map.py)
+    python3 live_state.py DUMP.dmp - OUT.json [DLL [CASES]]                a dump of the analysed build itself
+                                       (dump_verify.py must confirm it); precompute data writes, this sources,
+                                       instances for the cases' vtables
 """
 import bisect, json, mmap, os, struct, sys, collections
 
@@ -32,12 +34,17 @@ class LiveState:
         self.base, self.size = mod.baseaddress, mod.size
         # every other module (D3D8 wrapper, polcore, Windows): calls into them are answered as stubs
         self.foreign = sorted((x.baseaddress, x.size, x.name.split('\\')[-1]) for x in m.modules.modules if x is not mod)
-        self._pops = {}
         self.rel = self.base - 0x10000000
-        bm = json.load(open(build_map))
-        self.f_sep_aug = {int(k, 16): int(v, 16) for k, v in bm['functions'].items()}
-        self.g_sep_aug = {int(k, 16): int(v, 16) for k, v in bm['globals'].items()}
-        self.aug_sep = {v: k for k, v in list(self.f_sep_aug.items()) + list(self.g_sep_aug.items())}
+        self.same_build = build_map is None
+        if self.same_build:
+            # the dump is the analysed build (dump_verify.py: every code byte matches once relocated), so an
+            # address in its image is the analysed address plus the load offset, and nothing else is mapped
+            self.f_sep_aug = self.g_sep_aug = self.aug_sep = None
+        else:
+            bm = json.load(open(build_map))
+            self.f_sep_aug = {int(k, 16): int(v, 16) for k, v in bm['functions'].items()}
+            self.g_sep_aug = {int(k, 16): int(v, 16) for k, v in bm['globals'].items()}
+            self.aug_sep = {v: k for k, v in list(self.f_sep_aug.items()) + list(self.g_sep_aug.items())}
 
     def read(self, a, n):
         i = bisect.bisect_right(self.starts, a) - 1
@@ -47,8 +54,12 @@ class LiveState:
         return self.mm[fo + a - s:fo + a - s + n]
 
     def translate(self, v):
+        """a dword of the dump as the analysed build would hold it. Every dword inside the dump's image range is
+        taken to be an address there. That is input preparation, not a fact a verdict rests on: the original
+        and the reconstruction start from the same prepared memory and are compared on it, as with fuzzed
+        inputs; an integer that only looked like an address makes the state less real, not a verdict wrong."""
         if self.base <= v < self.base + self.size:
-            return self.aug_sep.get(v - self.rel, v)
+            return v - self.rel if self.same_build else self.aug_sep.get(v - self.rel, v)
         return v
 
     def page(self, a):
@@ -59,27 +70,17 @@ class LiveState:
         w = list(struct.unpack('<1024I', b))
         lo, hi = self.base, self.base + self.size
         for k, v in enumerate(w):
-            if lo <= v < hi: w[k] = self.aug_sep.get(v - self.rel, v)
+            if lo <= v < hi: w[k] = self.translate(v)
         return struct.pack('<1024I', *w)
 
     def value(self, sep_global):
-        aug = self.g_sep_aug.get(sep_global)
+        aug = sep_global if self.same_build else self.g_sep_aug.get(sep_global)
         if aug is None: return None
         b = self.read(aug + self.rel, 4)
         return None if b is None else self.translate(struct.unpack('<I', b)[0])
 
-    def pops(self, ea):
-        """bytes a foreign function pops on return: its first `ret N` in the dump's code"""
-        if ea not in self._pops:
-            from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-            code = self.read(ea, 0x400) or self.read(ea, 0x100) or b''
-            n = 0
-            for i in Cs(CS_ARCH_X86, CS_MODE_32).disasm(code, ea):
-                if i.mnemonic in ('ret', 'retn'):
-                    n = int(i.op_str, 0) if i.op_str else 0; break
-                if i.mnemonic == 'jmp' and not i.op_str.startswith('0x'): break   # import thunk / tail jump
-            self._pops[ea] = n
-        return self._pops[ea]
+    def module_of(self, ea):
+        return next((n for b, sz, n in self.foreign if b <= ea < b + sz), 'memory of no module')
 
     def sandbox(self, size=0x1000000):
         a = 0x20000000
@@ -90,8 +91,17 @@ class LiveState:
 
 
 def data_writes(ls, sizes):
-    """(analysed address, bytes) for every mapped .data global; arrays as far as both builds agree"""
+    """(analysed address, bytes) for every mapped .data global; arrays as far as both builds agree. Same build:
+    the whole of .data and .data1, page by page, as the dump holds it (translated)"""
     out = []
+    if ls.same_build:
+        for lo, hi in (DATA, (0x109FA000, 0x109FB000)):
+            for a in range(lo, hi, 0x1000):
+                b = ls.read(a + ls.rel, 0x1000)
+                if b is None: continue
+                w = [ls.translate(x) for x in struct.unpack('<1024I', b)]
+                out.append(['0x%08X' % a, struct.pack('<1024I', *w).hex()])
+        return out
     for sep, aug in sorted(ls.g_sep_aug.items()):
         if not (DATA[0] <= sep < DATA[1]): continue
         n = max(4, min(sizes.get(sep, 4), 0x2000)) & ~3
@@ -103,7 +113,9 @@ def data_writes(ls, sizes):
 
 
 def this_sources(dll, funcs):
-    """{func: ('global', addr) | ('static', addr)} from the instruction that sets ECX before each call"""
+    """{func: ('global', addr) | ('static', addr)} from the instruction that sets ECX before each call. Where
+    callers differ, the most common source is taken: this chooses which real object a trial starts from (an
+    input), not a fact about the code"""
     import pefile
     from capstone import Cs, CS_ARCH_X86, CS_MODE_32
     from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
@@ -133,7 +145,7 @@ def instances(ls, vptrs, limit=16):
     """{sep vptr: [object addresses]} -- heap dwords equal to the class's vtable in the dump"""
     out = {}
     for v in vptrs:
-        aug = ls.g_sep_aug.get(v)
+        aug = v if ls.same_build else ls.g_sep_aug.get(v)
         if aug is None: continue
         pat = struct.pack('<I', aug + ls.rel); found = []
         for s, n, fo in ls.segs:
@@ -148,16 +160,24 @@ def instances(ls, vptrs, limit=16):
 
 
 def main(dmp, build_map, out, dll=None, cases=None):
+    """build_map '-' = the dump is the analysed build; dump_verify.py must confirm it, or nothing is written"""
     dll = dll or os.environ['FFXI_DLL']
+    if build_map == '-':
+        import dump_verify
+        v = dump_verify.verify(dmp, dll)
+        if not v['result'].startswith('analysed build'):
+            raise SystemExit('live_state.py: %s is not shown to be the analysed build (%s); give a build map' % (dmp, v['result']))
+        build_map = None
     ls = LiveState(dmp, build_map)
     sizes = {}
-    for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
-        for o in json.loads(l)['objs'].values():
-            if not o['func'] and 0 < o.get('size', 0) < 1 << 20: sizes[o['ea']] = o['size']
+    if build_map:
+        for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+            for o in json.loads(l)['objs'].values():
+                if not o['func'] and 0 < o.get('size', 0) < 1 << 20: sizes[o['ea']] = o['size']
     cs = json.load(open(cases)) if cases else []
     th = this_sources(dll, [int(c['original'], 16) for c in cs if c.get('conv') == 'thiscall'])
     inst = instances(ls, {int(c['vptr'], 16) for c in cs if c.get('vptr')})
-    res = {'dump': os.path.abspath(dmp), 'build_map': os.path.abspath(build_map), 'image_base': '0x%08X' % ls.base,
+    res = {'dump': os.path.abspath(dmp), 'build_map': os.path.abspath(build_map) if build_map else None, 'image_base': '0x%08X' % ls.base,
            'sandbox': '0x%08X' % ls.sandbox(), 'data_writes': data_writes(ls, sizes),
            'this_sources': {'0x%08X' % f: [k, '0x%08X' % a] for f, (k, a) in th.items()}, 'instances': inst}
     json.dump(res, open(out, 'w'))

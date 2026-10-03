@@ -1,78 +1,5 @@
 {
- "sp": {
-  "0x1017B510": {
-   "name": "sub_1017B510",
-   "fixes": [
-    {
-     "call": "0x1017BFC6",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    },
-    {
-     "call": "0x1017BFF2",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    },
-    {
-     "call": "0x1017C0A1",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    },
-    {
-     "call": "0x1017C25F",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    },
-    {
-     "call": "0x1017C287",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    }
-   ],
-   "not_corrected": 0
-  },
-  "0x10183490": {
-   "name": "sub_10183490",
-   "fixes": [
-    {
-     "call": "0x101834B4",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    }
-   ],
-   "not_corrected": 0
-  },
-  "0x1017DE20": {
-   "name": "sub_1017DE20",
-   "fixes": [
-    {
-     "call": "0x1017DE5C",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    }
-   ],
-   "not_corrected": 0
-  },
-  "0x10183760": {
-   "name": "sub_10183760",
-   "fixes": [
-    {
-     "call": "0x10183782",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    }
-   ],
-   "not_corrected": 0
-  }
- },
+ "sp": {},
  "reverted": {
   "0x1007531D": 0,
   "0x1000A705": 0,
@@ -121,14 +48,6 @@
    "args_wanted": 2,
    "result": "already right"
   },
-  "0x10054A13": {
-   "function": "sub_100548D0",
-   "target": "0x1006E7D0",
-   "args_before": 8,
-   "args_wanted": 7,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 7
-  },
   "0x100CF04B": {
    "function": "CXiSkeletonActor_SetAttack_SchStatus",
    "target": "0x100CEE40",
@@ -150,11 +69,25 @@
    "args_wanted": 4,
    "result": "already right"
   },
-  "0x1017AE08": {
-   "function": "ZoneMap_DrawMeshGroupsWithFog",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
-   "args_before": 3,
-   "args_wanted": 3,
+  "0x1017731E": {
+   "function": "sub_101772E0",
+   "target": "void * __stdcall ID3DXBuffer_GetBufferPointer(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x101792BE": {
+   "function": "ZoneMap_CreateVertexShaders",
+   "target": "HRESULT __stdcall IDirect3DDevice8_CreateVertexShader(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1028154A": {
+   "function": "sqgxTextureCreateFromImage",
+   "target": "HRESULT __stdcall IDirect3DDevice8_CreateTexture(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
    "result": "already right"
   },
   "0x100034C9": {
@@ -171,18 +104,18 @@
    "args_wanted": 2,
    "result": "already right"
   },
-  "0x1001362F": {
-   "function": "Post_FlashAndZoomFeedback",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
-   "args_before": 3,
-   "args_wanted": 3,
-   "result": "already right"
-  },
   "0x10017331": {
    "function": "sub_10017310",
    "target": "HRESULT __stdcall IDirect3DDevice8_SetTextureStageState(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10017828": {
+   "function": "sub_10017810",
+   "target": "void * __stdcall ID3DXBuffer_GetBufferPointer(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
    "result": "already right"
   },
   "0x10038E6E": {
@@ -192,20 +125,12 @@
    "args_wanted": 3,
    "result": "already right"
   },
-  "0x10042D43": {
-   "function": "CMoDistMorphElem_ValidateMorphData",
-   "target": "0x1006EB70",
-   "args_before": 7,
-   "args_wanted": 7,
-   "result": "already right"
-  },
   "0x100D04CF": {
    "function": "CXiSkeletonActor_GetNamePos",
    "target": "0x100A4AD0",
-   "args_before": 2,
+   "args_before": 1,
    "args_wanted": 1,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 1
+   "result": "already right"
   },
   "0x100D04DD": {
    "function": "CXiSkeletonActor_GetNamePos",
@@ -221,9 +146,9 @@
    "args_wanted": 3,
    "result": "already right"
   },
-  "0x1017B52B": {
-   "function": "sub_1017B510",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+  "0x1017AE08": {
+   "function": "ZoneMap_DrawMeshGroupsWithFog",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
@@ -256,6 +181,13 @@
    "args_wanted": 3,
    "result": "already right"
   },
+  "0x1000CA3C": {
+   "function": "CDx_GetStereoSecondEyeTarget",
+   "target": "HRESULT __stdcall IDirect3DDevice8_GetRenderTarget(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
   "0x10026A01": {
    "function": "CYyIcon_Draw",
    "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
@@ -270,11 +202,11 @@
    "args_wanted": 4,
    "result": "already right"
   },
-  "0x1008180F": {
-   "function": "CXiActorNameDraw_SetRenderState",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
-   "args_before": 3,
-   "args_wanted": 3,
+  "0x100C5D8F": {
+   "function": "CXiSkeletonActor_Init",
+   "target": "0x100A47D0",
+   "args_before": 2,
+   "args_wanted": 2,
    "result": "already right"
   },
   "0x1011E9F7": {
@@ -291,25 +223,11 @@
    "args_wanted": 1,
    "result": "already right"
   },
-  "0x10177462": {
-   "function": "ZoneMap_SetOverlayProjection",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
-   "args_before": 3,
-   "args_wanted": 3,
-   "result": "already right"
-  },
-  "0x10179202": {
-   "function": "ZoneMap_DrawBox",
+  "0x1017B52B": {
+   "function": "sub_1017B510",
    "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
-   "result": "already right"
-  },
-  "0x101851B4": {
-   "function": "CTsZoneMap_DrawProjectedShadow",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetVertexShader(void *self, int a0);",
-   "args_before": 2,
-   "args_wanted": 2,
    "result": "already right"
   },
   "0x1025D7DD": {
@@ -378,10 +296,9 @@
   "0x100D06FC": {
    "function": "CXiSkeletonActor_GetArrowPos",
    "target": "0x100A4AB0",
-   "args_before": 2,
+   "args_before": 1,
    "args_wanted": 1,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 1
+   "result": "already right"
   },
   "0x100D070A": {
    "function": "CXiSkeletonActor_GetArrowPos",
@@ -397,17 +314,674 @@
    "args_wanted": 1,
    "result": "already right"
   },
-  "0x101792BE": {
-   "function": "ZoneMap_CreateVertexShaders",
-   "target": "HRESULT __stdcall IDirect3DDevice8_CreateVertexShader(void *self, int a0, int a1, int a2, int a3);",
-   "args_before": 5,
-   "args_wanted": 5,
+  "0x10177462": {
+   "function": "ZoneMap_SetOverlayProjection",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetRenderState(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
    "result": "already right"
+  },
+  "0x10179202": {
+   "function": "ZoneMap_DrawBox",
+   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1006E6D7": {
+   "function": "CMoProcessor_ScratchMatrixOp",
+   "target": "0x1006D9C0",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100AC399": {
+   "function": "sub_100AC390",
+   "target": "0x100AC9C0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C4CEC": {
+   "function": "sub_100C4CE0",
+   "target": "0x100C3FB0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C63ED": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084BA0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C64A3": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C64BB": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C650C": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A46F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6595": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6660": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6670": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C67E3": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C67F1": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A46B0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6825": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4670",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C685C": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084B40",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C686A": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084B40",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6AB9": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6C3E": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084B40",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C6C4C": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084B40",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C701D": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7065": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7076": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7092": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C70AA": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C70C4": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7183": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10084B00",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C71B1": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C71C3": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C71D5": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082820",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C71E7": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C71F9": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100828B0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C720B": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082900",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C721D": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082960",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C722F": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100829C0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7241": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100D6F70",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C742A": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7438": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082960",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C747E": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7490": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082960",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C74A2": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100829C0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C74C8": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C74DA": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C74EC": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082820",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C74FE": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7510": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100828B0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7522": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082900",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7530": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082960",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C753E": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100829C0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7885": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C78E9": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7902": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100CFAD0",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100C7CCE": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7D70": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7E0A": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A49E0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7EC7": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7ED5": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7EFB": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C7F98": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4A30",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100C7FB0": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100C81E5": {
+   "function": "CXiSkeletonActor_OnMove",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CCF71": {
+   "function": "CXiSkeletonActor_OcclusionClip",
+   "target": "0x100A4640",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CEE0E": {
+   "function": "CXiSkeletonActor_SetAttack",
+   "target": "0x100CEE40",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x100CF2C5": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF4E0": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF4F2": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF504": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x10082820",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF544": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x10082960",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF580": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100829C0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF59D": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF628": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100828B0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CF6D6": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x100CE9B0",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x100CF715": {
+   "function": "CXiSkeletonActor_SetModel",
+   "target": "0x10082210",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100CFC35": {
+   "function": "CXiSkeletonActor_Slot244_Unknown",
+   "target": "0x100A4750",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CFC4F": {
+   "function": "CXiSkeletonActor_Slot244_Unknown",
+   "target": "0x100A4740",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100CFC7C": {
+   "function": "CXiSkeletonActor_Slot244_Unknown",
+   "target": "0x100CFAD0",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100D072B": {
+   "function": "CXiSkeletonActor_GetArrowPos",
+   "target": "0x100D0740",
+   "args_before": 4,
+   "args_wanted": 3,
+   "result": "forced via set_op_tinfo(ptr)",
+   "args_after": 3
+  },
+  "0x100D45EC": {
+   "function": "CXiSkeletonActor_GetElem",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D471A": {
+   "function": "CXiSkeletonActor_GetElem",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D4749": {
+   "function": "CXiSkeletonActor_GetElem",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D488E": {
+   "function": "CXiSkeletonActor_GetElemLocal",
+   "target": "0x100827A0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D48AF": {
+   "function": "CXiSkeletonActor_GetElemLocal",
+   "target": "0x100827F0",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D48EC": {
+   "function": "CXiSkeletonActor_GetElemLocal",
+   "target": "0x10082860",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x100D70B7": {
+   "function": "CXiSkeletonActorRes_ProcessLoadState",
+   "target": "0x100D7000",
+   "args_before": 1,
+   "args_wanted": 2,
+   "result": "forced via set_op_tinfo(ptr)",
+   "args_after": 2
+  },
+  "0x100D70E1": {
+   "function": "CXiSkeletonActorRes_ProcessLoadState",
+   "target": "0x100D7000",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  }
+ },
+ "conventions": {
+  "0x10022190": {
+   "name": "Actor_LookupPercentScaleA",
+   "was": "double __stdcall(int)",
+   "now": "double __thiscall(void *self, int)",
+   "result": "thiscall"
+  },
+  "0x100221E0": {
+   "name": "Actor_LookupPercentScaleB",
+   "was": "double __stdcall(int)",
+   "now": "double __thiscall(void *self, int)",
+   "result": "thiscall"
+  },
+  "0x100230D0": {
+   "name": "CYyModelDt_ExpandTriStrip",
+   "was": "__int16 __stdcall(unsigned int, unsigned __int16 *, _DWORD *)",
+   "now": "__int16 __thiscall(void *self, unsigned int, unsigned __int16 *, _DWORD *)",
+   "result": "thiscall"
+  },
+  "0x10027A60": {
+   "name": "Mat4_PostScale",
+   "was": "int __stdcall(_DWORD *)",
+   "now": "int __thiscall(void *self, _DWORD *)",
+   "result": "thiscall"
+  },
+  "0x10027B80": {
+   "name": "Mat4_PostRotateX",
+   "was": "int __stdcall(float)",
+   "now": "int __thiscall(void *self, float)",
+   "result": "thiscall"
+  },
+  "0x10027BD0": {
+   "name": "Mat4_PostRotateY",
+   "was": "int __stdcall(float)",
+   "now": "int __thiscall(void *self, float)",
+   "result": "thiscall"
+  },
+  "0x10027C20": {
+   "name": "Mat4_PostRotateZ",
+   "was": "int __stdcall(float)",
+   "now": "int __thiscall(void *self, float)",
+   "result": "thiscall"
+  },
+  "0x10033DA0": {
+   "name": "sub_10033DA0",
+   "was": "char __thiscall(int self, float *a1)",
+   "result": "already thiscall"
+  },
+  "0x10177CD0": {
+   "name": "sub_10177CD0",
+   "was": "int __stdcall(float *, int, float)",
+   "now": "int __thiscall(void *self, float *, int, float)",
+   "result": "thiscall"
+  },
+  "0x102E7317": {
+   "name": "?Open@CResource@D3DXCore@@QAEJPAUHINSTANCE__@@PBXHH@Z",
+   "was": "int __stdcall(HMODULE hModule, LPCSTR lpName, int, int)",
+   "now": "int __thiscall(void *self, HMODULE hModule, LPCSTR lpName, int, int)",
+   "result": "thiscall"
   }
  },
  "export": {
   "file": "C:\\Users\\wadeglover\\Documents\\gfx_export_ida_reexport.jsonl",
   "functions": 768,
-  "skip": 12
+  "skip": 12,
+  "stats": {
+   "calls_typed": 6923,
+   "cmps": 889,
+   "cmp_errors": 0,
+   "calls_cast": 777
+  }
  }
 }

@@ -104,7 +104,19 @@ def fix_types(rec):
 
 
 def apply(rec):
-    return fix_types(patch_text(rec))
+    return free_self(fix_types(patch_text(rec)))
+
+
+def free_self(rec):
+    """the translators name a function's `this` parameter `self`. Hex-Rays can also give `self` to something
+    else -- a local passed as `this` to a callee whose IDB prototype names its parameter `self` -- and the
+    two then collide. Such a `self` is renamed to an unused name; a first parameter named `self` is this."""
+    args = rec.get('args') or []
+    if 'text' not in rec or not re.search(r'\bself\b', rec['text']) or (args and args[0][0] == 'self'): return rec
+    new = next(n for n in ('self_v', 'self_v2', 'self_v3', 'self_v4') if not re.search(r'\b%s\b' % n, rec['text']))
+    rec = dict(rec, text=re.sub(r'\bself\b', new, rec['text']))
+    if args: rec['args'] = [[new if a[0] == 'self' else a[0]] + list(a[1:]) for a in args]
+    return rec
 
 
 def patch_text(rec):

@@ -16,7 +16,7 @@ EAX. A frame pointer is followed: `mov ebp, esp` / `mov esp, ebp` / `leave` / `l
 Output: {"0xCALL": {"pops": bytes, "func": "0xFUNC"}} for determined calls,
         plus "_inconsistent": [functions whose equations contradict], "_undetermined": count.
 """
-import json, os, sys, struct
+import bisect, json, os, sys, struct
 from fractions import Fraction
 import pefile
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
@@ -25,6 +25,8 @@ from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 _vc = os.path.join(D, 'vcalls.json')
 VCALLS = {k: v['pops'] for k, v in (json.load(open(_vc)).items() if os.path.exists(_vc) else ()) if not k.startswith('_')}
+_cc = os.path.join(D, 'com_calls.json')
+COMCALLS = {k: v['pops'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ())}
 CHKSTK = {0x10312150}           # _chkstk: `mov eax, N; call _chkstk` reserves N bytes
 
 
@@ -152,10 +154,89 @@ def switch_bound(prev, jmp):
     return c.operands[1].imm + 1
 
 
+class Labels(dict):
+    """{target: [addresses of the direct jumps and branches to it]}, with the instructions to look back from"""
+    def __init__(self, ins):
+        super().__init__(); self.ins = ins; self.keys = sorted(ins)
+        for a, i in ins.items():
+            if (i.mnemonic == 'jmp' or i.mnemonic.startswith(('j', 'loop'))) and i.operands and i.operands[0].type == X86_OP_IMM:
+                self.setdefault(i.operands[0].imm, []).append(a)
+
+    def before(self, a):
+        """the instruction that ends exactly where a begins, or None"""
+        k = bisect.bisect_left(self.keys, a)
+        if k == 0: return None
+        p = self.ins[self.keys[k - 1]]
+        return p if p.address + p.size == a else None
+
+
+def labels_of(ins): return Labels(ins)
+
+
+def entry_bound(labels, jmp, idx):
+    """every jump straight to the dispatch must itself bound the index (`cmp idx, M; jbe dispatch`): the
+    largest M, or None when one does not"""
+    if not isinstance(labels, Labels): return None
+    hi = -1
+    for a in labels.get(jmp.address, ()):
+        j = labels.ins[a]; c = labels.before(a)
+        if j.mnemonic != 'jbe' or c is None or c.mnemonic != 'cmp' or len(c.operands) != 2 or c.operands[0].type != X86_OP_REG \
+                or c.reg_name(c.operands[0].reg) != idx or c.operands[1].type != X86_OP_IMM: return None
+        hi = max(hi, c.operands[1].imm)
+    return hi
+
+
+def switch_targets(im, prev, jmp, labels=frozenset()):
+    """the targets of a switch `jmp [r*4 + T]`, read from its tables, when the straight-line code before it
+    bounds the index; None otherwise. Two forms (MSVC):
+      cmp idx, N; ja default; jmp [idx*4 + T]                          T[0..N]
+      cmp idx, N; ja default; [xor r, r;] mov r8|movzx r, byte [idx + B]; jmp [r*4 + T]
+                                                                       T[b] for every byte b in B[0..N]
+    prev: the instructions directly before the jump, in order, each ending where the next begins. labels: the
+    function's jump targets -- a jump into the sequence after its `cmp` would skip the bound, so none may"""
+    o = jmp.operands[0]
+    if o.type != X86_OP_MEM or o.mem.scale != 4 or not o.mem.index or o.mem.base: return None
+    if any(prev[k].address + prev[k].size != (prev[k + 1].address if k + 1 < len(prev) else jmp.address) for k in range(len(prev))):
+        return None
+    r = jmp.reg_name(o.mem.index); T = o.mem.disp
+    n = switch_bound(prev[-2:], jmp) if len(prev) >= 2 else None
+    if n is not None:
+        if prev[-1].address in labels: return None                  # a jump onto the `ja` skips the `cmp`
+        if jmp.address in labels:                                     # other paths reach the dispatch directly
+            m = entry_bound(labels, jmp, r)
+            if m is None: return None
+            n = max(n, m + 1)
+        return [im.u32(T + 4 * k) for k in range(n)]
+    # two-level: the index register is a byte read from a table at [idx + B]
+    k = len(prev) - 1
+    if k < 0: return None
+    ld = prev[k]; lo = ld.operands
+    if ld.mnemonic not in ('mov', 'movzx') or len(lo) != 2 or lo[0].type != X86_OP_REG or lo[1].type != X86_OP_MEM or lo[1].size != 1:
+        return None
+    dst = ld.reg_name(lo[0].reg)
+    if not (dst == r or (ld.mnemonic == 'mov' and dst == {'eax': 'al', 'ebx': 'bl', 'ecx': 'cl', 'edx': 'dl'}.get(r))): return None
+    if ld.mnemonic == 'mov':        # an 8-bit load leaves the upper 24 bits: they must have been zeroed just before
+        k -= 1
+        if k < 0: return None
+        z = prev[k]
+        if not (z.mnemonic == 'xor' and len(z.operands) == 2 and all(x.type == X86_OP_REG and z.reg_name(x.reg) == r for x in z.operands)):
+            return None
+    if lo[1].mem.base == 0 or lo[1].mem.index: return None
+    idx = ld.reg_name(lo[1].mem.base); B = lo[1].mem.disp
+    if k < 2: return None
+    c, j = prev[k - 2], prev[k - 1]
+    if j.mnemonic != 'ja' or c.mnemonic != 'cmp' or len(c.operands) != 2 or c.operands[0].type != X86_OP_REG \
+            or c.reg_name(c.operands[0].reg) != idx or c.operands[1].type != X86_OP_IMM: return None
+    if any(x.address in labels for x in prev[k - 1:] + [jmp]): return None
+    cases = sorted({im.img[B - im.base + q] for q in range(c.operands[1].imm + 1)})
+    return [im.u32(T + 4 * b) for b in cases]
+
+
 def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None):
     """({call address: pops}, consistent, n unknown) for one function"""
     ins = im.code(ext)
     if ea not in ins: return {}, True, 0
+    labels = labels_of(ins)
     var, eqs, src = {}, [], []
     reg = lambda i, op: i.reg_name(op.reg) if op.type == X86_OP_REG else None
 
@@ -166,6 +247,8 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
         if op.type == X86_OP_IMM and op.imm in nr: return 'noreturn'
         if op.type != X86_OP_IMM and '0x%08X' % i.address in VCALLS and not hide:
             return VCALLS['0x%08X' % i.address], None          # a virtual call whose callees are proven (vcall_resolve.py)
+        if op.type != X86_OP_IMM and '0x%08X' % i.address in COMCALLS and not hide:
+            return COMCALLS['0x%08X' % i.address], None        # a D3D8 method on a proven object (com_calls.py)
         if op.type == X86_OP_IMM:
             if op.imm in CHKSTK: return (-eax, None) if eax is not None else None
             k = purges.get('0x%08X' % op.imm)
@@ -217,16 +300,13 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
                     else: nxt = []                  # out of the function: no equation (a jump into shared
                                                     # code can leave at any depth, e.g. 0x102BCE07 at 104)
                 elif ops[0].type == X86_OP_MEM and ops[0].mem.scale == 4 and ops[0].mem.index and not ops[0].mem.base:
-                    nxt = []; t = ops[0].mem.disp   # a switch: its jump table, as long as the bound check
-                    n = switch_bound(prev, i)       # in front of it says (`cmp reg, N; ja default`); none: stop
-                    for k in range(n or 0):
-                        x = im.u32(t + 4 * k)
-                        if x in ins: nxt.append(x)
+                    # a switch: its targets, as far as the bound check in front of it fixes them (switch_targets)
+                    nxt = [x for x in (switch_targets(im, prev, i, labels) or []) if x in ins]
                 else: nxt = []
             elif m.startswith(('j', 'loop')):
                 nxt = [a + i.size] + ([ops[0].imm] if ops[0].type == X86_OP_IMM else [])
             elif m in ('int3', 'hlt', 'ud2'): nxt = []
-            prev = (prev + [i])[-2:]
+            prev = (prev + [i])[-5:]
             cont = None
             for n in nxt:
                 if n not in ins: continue

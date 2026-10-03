@@ -34,7 +34,7 @@ class LiveState:
         self.base, self.size = mod.baseaddress, mod.size
         # every other module (D3D8 wrapper, polcore, Windows): calls into them are answered as stubs
         self.foreign = sorted((x.baseaddress, x.size, x.name.split('\\')[-1]) for x in m.modules.modules if x is not mod)
-        self.rel = self.base - 0x10000000
+        self.rel = self.base - 0x10000000; self._purges = {}
         self.same_build = build_map is None
         if self.same_build:
             # the dump is the analysed build (dump_verify.py: every code byte matches once relocated), so an
@@ -81,6 +81,43 @@ class LiveState:
 
     def module_of(self, ea):
         return next((n for b, sz, n in self.foreign if b <= ea < b + sz), 'memory of no module')
+
+    def purge(self, ea, _seen=None):
+        """bytes the function at ea pops, from its own code in the dump: every instruction reachable from its
+        entry is decoded (both sides of each branch, past each call, into each direct tail jump), every
+        reachable `ret` is collected, and the answer stands only if they all pop the same and the walk is
+        complete. None when it is not: an indirect jump (a switch or a jump through memory), code the dump
+        does not hold, a walk past 20000 instructions, or rets that disagree. The walk takes in more than can
+        run (both sides of every branch), so when all rets it finds agree, the one that runs pops that."""
+        if ea in self._purges: return self._purges[ea]
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = getattr(self, '_md32', None) or Cs(CS_ARCH_X86, CS_MODE_32); self._md32 = md
+        seen = set() if _seen is None else _seen
+        work = [ea]; rets = set(); n = 0; res = None
+        while work:
+            a = work.pop()
+            if a in seen: continue
+            seen.add(a); n += 1
+            if n > 20000: break
+            b = self.read(a, 16)
+            if b is None: break
+            i = next(md.disasm(b, a), None)
+            if i is None: break
+            m = i.mnemonic
+            if m in ('ret', 'retn'):
+                rets.add(int(i.op_str, 0) if i.op_str else 0); continue
+            if m in ('int3', 'hlt', 'ud2'): continue
+            if m == 'jmp':
+                if i.op_str.startswith('0x'): work.append(int(i.op_str, 16)); continue
+                break                                       # through a register or memory: not followed
+            if m.startswith(('j', 'loop')):
+                if not i.op_str.startswith('0x'): break
+                work += [a + i.size, int(i.op_str, 16)]; continue
+            work.append(a + i.size)                         # a call returns to the next instruction
+        else:
+            if len(rets) == 1: res = rets.pop()
+        self._purges[ea] = res
+        return res
 
     def sandbox(self, size=0x1000000):
         a = 0x20000000

@@ -5,6 +5,7 @@ Sources (none of them a guess):
   solved   data/sp_solved.json   the caller's own stack balance (sp_solve.py, self-tested)
   measured data/real_sp.json     running real game code (real_sp.py, trusted calls only)
   vtable   data/vcalls.json      every possible callee proven by vtable (vcall_resolve.py)
+  com      data/com_calls.json   a D3D8 method on an object proven to hold that interface (com_calls.py)
   typed    the export's calls    a call type declared in the IDB (`"src": "typed"`, e.g. lpVtbl->Method from the
                                  D3D8 header); `"cast"` types Hex-Rays made up are reported, never counted
 For a call no source covers, the code's own evidence about its convention is recorded as evidence only:
@@ -46,6 +47,7 @@ def main(exp, out):
     solved = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
     measured = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
     vtable = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
+    com = {k: v['pops'] for k, v in ld('com_calls.json').items()}
     typed, cast, funcs = {}, {}, []
     for l in open(exp):
         r = json.loads(l); funcs.append(r['ea'])
@@ -64,7 +66,7 @@ def main(exp, out):
             i = ins[a]
             if i.mnemonic != 'call' or i.operands[0].type == X86_OP_IMM: continue
             k = '0x%08X' % a
-            srcs = {n: d[k] for n, d in (('solved', solved), ('measured', measured), ('vtable', vtable), ('typed', typed)) if k in d}
+            srcs = {n: d[k] for n, d in (('solved', solved), ('measured', measured), ('vtable', vtable), ('com', com), ('typed', typed)) if k in d}
             rec = {'func': '0x%08X' % f, 'sources': srcs}
             if k in cast: rec['hexrays_cast'] = cast[k]
             if len(set(srcs.values())) > 1: rec['conflict'] = True; conflicts.append(k); stats['conflict'] += 1

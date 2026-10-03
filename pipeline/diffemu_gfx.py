@@ -603,6 +603,7 @@ def site_pops(m, ret):
       data/sp_solved.json   solved from the caller's own stack balance (sp_solve.py, self-tested);
       data/real_sp.json     measured by running real game code (real_sp.py, trusted calls only);
       data/vcalls.json      a virtual call on `this` whose every possible callee is proven (vcall_resolve.py);
+      data/com_calls.json   a D3D8 method on an object proven to hold that interface (com_calls.py);
       data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
     Returns (stack dwords popped, ECX carries `this`, dwords to compare) or None when no source has the
     call, or the sources disagree (recorded in m.site_conflicts). Nothing is guessed: a None stops the run
@@ -619,6 +620,7 @@ def site_pops(m, ret):
         _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
         _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
         _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
+        _CALLSITES['com'] = {k: v['pops'] for k, v in ld('com_calls.json').items()}
     # the function's instructions, decoded once (the image's code is never written by the gate)
     # the first piece in sorted order that contains `ret` (as a linear scan would find it): only pieces
     # starting within the longest piece's length below `ret` can contain it
@@ -642,6 +644,7 @@ def site_pops(m, ret):
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
     if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
     if k in _CALLSITES['vtable']: srcs['vtable'] = _CALLSITES['vtable'][k]
+    if k in _CALLSITES['com']: srcs['com'] = _CALLSITES['com'][k]
     if typed: srcs['typed'] = 0 if typed['cc'] == 'cdecl' else 4 * typed['args']
     if len(set(srcs.values())) != 1:
         if srcs: m.site_conflicts[k] = srcs

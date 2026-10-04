@@ -791,8 +791,8 @@ typedef D3DHolder * g_pD3DHolder_t;
 #define g_pD3DHolder XI_EA(g_pD3DHolder_t, 0x103D3CBCu)
 typedef int g_pDebugOverlay_t;
 #define g_pDebugOverlay XI_EA(g_pDebugOverlay_t, 0x10455AF8u)
-typedef int dword_10455C20_t;
-#define g_pAppInputState XI_EA(dword_10455C20_t, 0x10455C20u)
+typedef int g_pAppInputState_t;
+#define g_pAppInputState XI_EA(g_pAppInputState_t, 0x10455C20u)
 typedef char CDx_DrawStereoOddFrameOverlay_staticGuard_t;
 #define CDx_DrawStereoOddFrameOverlay_staticGuard XI_EA(CDx_DrawStereoOddFrameOverlay_staticGuard_t, 0x10456560u)
 typedef CHAR g_currentDirectory_t[40];
@@ -1223,8 +1223,8 @@ typedef _DWORD g_poseTranslation_t[3];
 #define g_poseTranslation XI_EA(g_poseTranslation_t, 0x1045F040u)
 typedef _DWORD g_poseScale_t[3];
 #define g_poseScale XI_EA(g_poseScale_t, 0x1045F04Cu)
-typedef _BYTE unk_1045F064_t;
-#define g_poseScratch_bone1 XI_EA(unk_1045F064_t, 0x1045F064u)
+typedef _BYTE g_poseScratch_bone1_t;
+#define g_poseScratch_bone1 XI_EA(g_poseScratch_bone1_t, 0x1045F064u)
 typedef int dword_10463950_t;
 #define dword_10463950 XI_EA(dword_10463950_t, 0x10463950u)
 typedef int dword_1047B950_t;

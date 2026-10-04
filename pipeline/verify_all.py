@@ -78,6 +78,7 @@ def main():
              ('edx_use.json', 'edx_inputs.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
              ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
              ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
+             ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
              ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, src['raw_gate']))]     # the verified raw translation's
     for f, cmd in facts:
         o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))

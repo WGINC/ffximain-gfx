@@ -14,6 +14,12 @@ from fractions import Fraction
 def body(*lines): return '{\n' + '\n'.join('  ' + l for l in lines) + '\n}'
 
 
+class PtrTypes(unittest.TestCase):
+    def test_returns_pointer_to_function_pointer(self):
+        # 0x1003B8B0, called from CMoSchedularTask_Interpret: the return is a pointer in EAX
+        self.assertEqual(H.ptr_type('int (__thiscall ***__thiscall(_DWORD *this))(_DWORD)'), 'void * (__thiscall *)(void *)')
+
+
 class CtreeSigns(unittest.TestCase):
     def cmp(self, op, sgn, l, r, size, lt, rt): return [0, [op, sgn], l, r, size, lt, rt]
 

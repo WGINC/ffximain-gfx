@@ -1058,8 +1058,7 @@
 },
 "0x1000A705": {
 "func": "0x1000A6E0",
-"hexrays_cast": 0,
-"hexrays_wrong": true,
+"hexrays_cast": 8,
 "sources": {
 "solved": 8
 }
@@ -18771,7 +18770,7 @@
 "_stats": {
 "conflict": 11,
 "definitive": 2456,
-"hexrays cast differs": 2,
+"hexrays cast differs": 1,
 "no source": 195
 }
 }

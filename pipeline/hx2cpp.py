@@ -26,6 +26,10 @@ def ptr_type(ftype):
     ftype = SPOILS.sub('', ftype)
     ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     ftype = re.sub(r'\b__noreturn\b', '', ftype)
+    # a function returning a pointer to a function pointer, `R (cc1 *..*cc(args))(fargs)`: the return is a
+    # pointer in EAX, so `void *` (as pointer parameters are below) -- same ABI
+    m = re.match(r'^[^()]*\(\s*(?:__\w+\s*)?\*+\s*(' + CC_RE + r')?\s*\(([^()]*)\)\s*\)\s*\([^()]*\)\s*$', ftype)
+    if m: ftype = 'void * %s(%s)' % (m.group(1) or '', m.group(m.lastindex))
     m = re.match(r'^(.*?)\s*' + CC_RE + r'\s*\((.*)\)\s*$', ftype, re.S)
     if m:
         ret, cc, args = m.groups()

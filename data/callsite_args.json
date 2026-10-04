@@ -1196,18 +1196,8 @@
 },
 "0x1000A705": {
 "args": 2,
-"cc": "cdecl",
+"cc": "stdcall",
 "src": "cast"
-},
-"0x1000A72C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1000A735": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
 },
 "0x1000A737": {
 "args": 8,

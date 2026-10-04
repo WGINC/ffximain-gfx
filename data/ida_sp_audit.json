@@ -1,13 +1,1 @@
-{
- "0x1000A6E0": {
-  "name": "CDx_CreateTexture",
-  "fixes": [
-   {
-    "at": "0x1000A705",
-    "change": 8,
-    "why": "the call pops 8 (sp_solve)"
-   }
-  ],
-  "unexplained": []
- }
-}
+{}

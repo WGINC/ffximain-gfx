@@ -1,0 +1,15 @@
+{
+ "why": "Both halvings compile to `sub eax,ecx; cdq; sub eax,edx; sar eax,1; add eax,ecx` (0x10125460..0x10125467 and 0x10125472..0x10125479): cdq/sub/sar is MSVC's signed division by 2 of the 32-bit difference. Hex-Rays typed the fields _DWORD (unsigned), so the difference was divided unsigned (a logical shift) and a negative difference came out with its top bit set. The difference stays a wrapping 32-bit subtraction and is divided as int.",
+ "evidence": "Disassembly of 0x1012545A..0x1012547B. runs/r7 gate: FAIL trial 51, memory differs at 0x30001C23 (original 0x30, reconstruction 0xB0); localize.py: first divergent write 0x1012547B [esi+0x10] = 0x309F7B00 vs 0xB09F7B00.",
+ "text_sha1": "947423c7938a33e80d041bbac77d98d02dfa4494",
+ "replace": [
+  [
+   "*((_DWORD *)this + 3) += (*((_DWORD *)this + 1) - *((_DWORD *)this + 3)) / 2;",
+   "*((_DWORD *)this + 3) += (int)(*((_DWORD *)this + 1) - *((_DWORD *)this + 3)) / 2;"
+  ],
+  [
+   "*((_DWORD *)this + 4) = v16 + (*((_DWORD *)this + 2) - v16) / 2;",
+   "*((_DWORD *)this + 4) = v16 + (int)(*((_DWORD *)this + 2) - v16) / 2;"
+  ]
+ ]
+}

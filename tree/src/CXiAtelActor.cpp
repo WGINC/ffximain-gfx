@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 228 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 276 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5)
 {
   __int16 v5; // fps
@@ -90,15 +90,15 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
   v7 = 0;
   v8 = v60 == 1.0;
   v64 = v60;
-  if ( ((__int16)(((v6 || __builtin_isunordered(v60, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v60, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v60, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v60 >= 0.0 )
+  if ( ((__int16)(((v6 || __builtin_isunordered(v60, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v60, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v60, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v60 < 0.0) )
   {
     orig::Gfx_NdcToScreen(&v58);
     orig::Vec2_AddScalar(&v58, -0.5);
     v47 = v58 >= 0.0 ? v58 : -v58;
-    if ( (double)(unsigned __int16)orig::Camera_GetViewportWidth() + 100.0 >= v47 )
+    if ( !((double)(unsigned __int16)orig::Camera_GetViewportWidth() + 100.0 < v47) )
     {
       v48 = v59 >= 0.0 ? v59 : -v59;
-      if ( (double)(unsigned __int16)orig::Camera_GetViewportHeight() + 100.0 >= v48 )
+      if ( !((double)(unsigned __int16)orig::Camera_GetViewportHeight() + 100.0 < v48) )
       {
         v65 = (double)(unsigned __int16)orig::Camera_GetViewportWidth() * 0x1.3333340000000p-9 * a3;
         ViewportHeight = (double)(unsigned __int16)orig::Camera_GetViewportHeight();
@@ -338,7 +338,7 @@ LABEL_63:
 }
 
 // FUNCTION: FFXIMAIN 0x10086900  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 252 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
 {
   __int16 v3; // fps
@@ -410,17 +410,17 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   v5 = 0;
   v6 = v43 == 1.0;
   v47 = v43;
-  if ( ((__int16)(((v4 || __builtin_isunordered(v43, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v43, 1.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v43, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v43 >= 0.0 )
+  if ( ((__int16)(((v4 || __builtin_isunordered(v43, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v43, 1.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v43, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v43 < 0.0) )
   {
     orig::Gfx_NdcToScreen(&v41);
     orig::Vec2_AddScalar(&v41, -0.5);
     *(float *)&v36 = v41 >= 0.0 ? v41 : -v41;
     ViewportWidth = (unsigned __int16)orig::Camera_GetViewportWidth();
-    if ( (double)ViewportWidth + 100.0 >= *(float *)&v36 )
+    if ( !((double)ViewportWidth + 100.0 < *(float *)&v36) )
     {
       *(float *)&v36 = v42 >= 0.0 ? v42 : -v42;
       ViewportWidth = (unsigned __int16)orig::Camera_GetViewportHeight();
-      if ( (double)ViewportWidth + 100.0 >= *(float *)&v36 )
+      if ( !((double)ViewportWidth + 100.0 < *(float *)&v36) )
       {
         v45 = (double)(unsigned __int16)orig::Camera_GetViewportWidth() * 0x1.3333340000000p-9 * a3;
         ViewportWidth = (unsigned __int16)orig::Camera_GetViewportHeight();

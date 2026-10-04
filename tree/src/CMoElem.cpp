@@ -177,7 +177,7 @@ char CMoElem::CMoElemFamily_SharedCleanup()
 }
 
 // FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 77 returned normally, 1488 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 72, town2 PASS 72, combat PASS 73, zonetoinn PASS 72
+// GATE: PASS -- 100 trials, 74 returned normally, 1447 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74, town PASS 73, town2 PASS 73, combat PASS 73, zonetoinn PASS 73
 XI_API int __thiscall fn_100467E0(void *self_, int a1)
 {
   int **v2;

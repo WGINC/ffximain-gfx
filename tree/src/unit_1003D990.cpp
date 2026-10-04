@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003D9A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 225 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 290 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API int __cdecl Sky_DrawDome(void)
 {
   int result;
@@ -82,7 +82,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 150 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 93, town2 PASS 93, combat PASS 93, zonetoinn PASS 93
+// GATE: PASS -- 100 trials, 94 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;

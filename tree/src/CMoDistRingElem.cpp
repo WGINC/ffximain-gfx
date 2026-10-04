@@ -10,7 +10,7 @@ char ** __cdecl CMoDistRingElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 762 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 67 returned normally, 1011 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 67, town2 PASS 67, combat PASS 67, zonetoinn PASS 67
 void CMoDistRingElem::AllocRingGeometry()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest

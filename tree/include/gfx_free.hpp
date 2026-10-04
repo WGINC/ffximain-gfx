@@ -31,6 +31,7 @@ XI_API char __thiscall fn_100141C0(_WORD *self_);  // 0x100141C0
 XI_API void __cdecl Camera_ApplyViewProjection(void);  // 0x10015510
 XI_API int __cdecl App_WinMain(int a1, int a2);  // 0x100157E0
 XI_API char __cdecl App_CreateRendererAndApp(void);  // 0x100161B0
+XI_API _DWORD * __cdecl fn_10016320(void);  // 0x10016320
 XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_);  // 0x10017230
 XI_API int __stdcall fn_10017310(int a1, int a2);  // 0x10017310
 XI_API int __thiscall fn_10017810(void *self_, int a1);  // 0x10017810
@@ -104,6 +105,7 @@ XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, 
 XI_API int __thiscall Cursor_Init(int self_);  // 0x10124440
 XI_API int __thiscall fn_10124640(int *self_, int *a2, __int16 a3);  // 0x10124640
 XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsigned __int8 a2);  // 0x101252F0
+XI_API char __thiscall fn_10125360(_BYTE *self_);  // 0x10125360
 XI_API int __cdecl Gfx_SetDefault2DStates(void);  // 0x101604B0
 XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void);  // 0x10160650
 XI_API int __cdecl fn_10162010(int a1, int a2);  // 0x10162010
@@ -117,7 +119,6 @@ XI_API int __stdcall fn_101771B0(int a1, int a2);  // 0x101771B0
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2);  // 0x10177240
 XI_API int __thiscall fn_101772E0(const char **self_, int a2);  // 0x101772E0
 XI_API int __cdecl Gfx_SetZBias(unsigned int a1);  // 0x10177400
-XI_API void __thiscall ZoneMap_SetOverlayProjection(float *self_);  // 0x10177420
 XI_API int __cdecl Gfx_SetupLineDrawState(void);  // 0x101779C0
 XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8, unsigned __int8 a4, char a5, char a6);  // 0x10177B40
 XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6);  // 0x10177C50
@@ -128,10 +129,13 @@ XI_API int __thiscall ZoneMap_DrawBox(void *self_);  // 0x101791F0
 XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_);  // 0x101792A0
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(_DWORD *self_, _DWORD *a2);  // 0x1017ADE0
 XI_API int __thiscall Zone_RenderEnvironment(int self_);  // 0x1017B510
+XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4);  // 0x1017C9C0
+XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4);  // 0x1017DE20
 XI_API int __stdcall Gfx_DrawWireBox(int a1);  // 0x10182F10
 XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3);  // 0x10183490
 XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int a5);  // 0x10183760
 XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3);  // 0x10183DA0
+XI_API int __thiscall fn_10184C90(void *self_, int a1, int a2, int a3);  // 0x10184C90
 XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4);  // 0x10185CA0
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3);  // 0x10188E00
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2);  // 0x10188FA0

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10033710  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 188 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 94, town2 PASS 94, combat PASS 95, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 100 returned normally, 191 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
 XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
 {
   _DWORD *Texture;

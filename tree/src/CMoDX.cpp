@@ -21,7 +21,7 @@ _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoDX::CreateAndInitSystem()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

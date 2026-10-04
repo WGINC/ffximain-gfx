@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 22 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96, town PASS 84, town2 PASS 84, combat PASS 83, zonetoinn PASS 84
+// GATE: PASS -- 100 trials, 95 returned normally, 31 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 89, town2 PASS 89, combat PASS 91, zonetoinn PASS 89
 XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 {
   int *v3;
@@ -29,7 +29,7 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
   int v24[4];
   int i;
   int v26;
-  if ( *(float *)(a1 + 56) >= 1.0 )
+  if ( !(*(float *)(a1 + 56) < 1.0) )
   {
     v3 = (int *)(*(_DWORD *)(a1 + 64) + 48 * a2);
     v4 = *(float **)(*(_DWORD *)(a1 + 36) + 12 * *v3);

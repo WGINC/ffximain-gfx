@@ -166,7 +166,7 @@
   "uses": [
    "v835[0] = v224;"
   ],
-  "gate": null,
+  "gate": "PASS",
   "class": "not proven",
   "why": [
    "not a direct call argument: v835[0] = v224;"
@@ -180,7 +180,7 @@
   "uses": [
    "v835[0] = v368;"
   ],
-  "gate": null,
+  "gate": "PASS",
   "class": "not proven",
   "why": [
    "not a direct call argument: v835[0] = v368;"
@@ -194,7 +194,7 @@
   "uses": [
    "v835[0] = v409;"
   ],
-  "gate": null,
+  "gate": "PASS",
   "class": "not proven",
   "why": [
    "not a direct call argument: v835[0] = v409;"
@@ -209,7 +209,7 @@
    "LOBYTE(v608) = (v611 & 0xF0) != 0;",
    "v835[0] = v608;"
   ],
-  "gate": null,
+  "gate": "PASS",
   "class": "not proven",
   "why": [
    "not a direct call argument: LOBYTE(v608) = (v611 & 0xF0) != 0;",

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10282350  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int * __cdecl sqgxZTest(int a1)
 {
   int *result;
@@ -20,7 +20,7 @@ XI_API int * __cdecl sqgxZTest(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102823F0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 273 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 282 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxAlphaTest(unsigned int a1, unsigned int a2)
 {
   int result;
@@ -38,7 +38,7 @@ XI_API int __cdecl sqgxAlphaTest(unsigned int a1, unsigned int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10282470  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 91 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int * __cdecl sqgxZMask(int a1)
 {
   int *result;
@@ -90,7 +90,7 @@ XI_API int * __cdecl sqgxFBMask(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10282640  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 224 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 212 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl fn_10282640(void)
 {
   int result;
@@ -108,7 +108,7 @@ XI_API int __cdecl fn_10282640(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102826C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendAdd(void)
 {
   unsigned int v0;
@@ -132,7 +132,7 @@ XI_API int __cdecl sqgxBlendAdd(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102827D0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 559 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl fn_102827D0(void)
 {
   unsigned int v0;
@@ -157,7 +157,7 @@ XI_API int __cdecl fn_102827D0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282910  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendSub(void)
 {
   unsigned int v0;
@@ -181,7 +181,7 @@ XI_API int __cdecl sqgxBlendSub(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282A30  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 541 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 583 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl sqgxBlendLin(float a1)
 {
   int v1;
@@ -213,7 +213,7 @@ XI_API void __cdecl sqgxBlendLin(float a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10282B90  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendTrsp(void)
 {
   unsigned int v0;
@@ -237,7 +237,7 @@ XI_API int __cdecl sqgxBlendTrsp(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282CB0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendTrspInv(void)
 {
   unsigned int v0;
@@ -261,7 +261,7 @@ XI_API int __cdecl sqgxBlendTrspInv(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282DC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 {
   unsigned int v0;
@@ -285,7 +285,7 @@ XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282ED0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 559 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl fn_10282ED0(void)
 {
   unsigned int v0;
@@ -310,7 +310,7 @@ XI_API int __cdecl fn_10282ED0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282FF0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 559 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendMultAlpha(void)
 {
   unsigned int v0;
@@ -335,7 +335,7 @@ XI_API int __cdecl sqgxBlendMultAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283110  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 512 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 506 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxBlendMul(void)
 {
   unsigned int v0;
@@ -366,7 +366,7 @@ XI_API int __cdecl sqgxBlendOff(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283420  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1145 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1197 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxColorUpdate(void)
 {
   __int16 v0; // fps
@@ -398,7 +398,7 @@ XI_API int __cdecl sqgxColorUpdate(void)
   v9[1] = *((float *)g_pSqgxContext + 475) * *((float *)g_pSqgxContext + 471);
   v9[2] = *((float *)g_pSqgxContext + 475) * *((float *)g_pSqgxContext + 472);
   LODWORD(v9[3]) = g_pSqgxContext[473];
-  if ( *((float *)g_pSqgxContext + 5) >= 0.001
+  if ( !(*((float *)g_pSqgxContext + 5) < 0.001)
     && (v1 = *((float *)g_pSqgxContext + 5), v2 = v1 < 0.999, v3 = 0, v4 = v1 == 0.999, ((__int16)(((v2 || __builtin_isunordered(v1, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v1, 0.999)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(v1, 0.999)) ? 0x4000 : 0)) & 0x4100) != 0) )
   {
     LODWORD(v9[16]) = g_pSqgxContext[5];
@@ -492,7 +492,7 @@ XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10283F70  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxPassAdd(int a1)
 {
   int result;
@@ -506,7 +506,7 @@ XI_API int __cdecl sqgxPassAdd(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10283FC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int * __cdecl sqgxPass(int a1)
 {
   int *result;
@@ -521,7 +521,7 @@ XI_API int * __cdecl sqgxPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10284410  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1513 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1529 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxMatrixUpdate(void)
 {
   int v0;

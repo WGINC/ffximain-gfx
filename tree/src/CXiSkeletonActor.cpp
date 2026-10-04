@@ -3,7 +3,7 @@
 #include "CXiSkeletonActor.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002B6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1727 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1830 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -242,7 +242,7 @@ LABEL_24:
 }
 
 // FUNCTION: FFXIMAIN 0x1002C360  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 92 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -272,7 +272,7 @@ void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100343C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 95, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89, town PASS 90, town2 PASS 90, combat PASS 90, zonetoinn PASS 90
 _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
 {
   _BYTE *result;
@@ -1055,7 +1055,7 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x100C59B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83, town PASS 84, town2 PASS 84, combat PASS 84, zonetoinn PASS 83
+// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84, town PASS 81, town2 PASS 81, combat PASS 80, zonetoinn PASS 81
 int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1171,7 +1171,7 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100C5C00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::DestructorBody()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1508,7 +1508,7 @@ int CXiSkeletonActor::Init()
 }
 
 // FUNCTION: FFXIMAIN 0x100C63D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 92, town2 PASS 92, combat PASS 92, zonetoinn PASS 92
+// GATE: PASS -- 100 trials, 75 returned normally, 1 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75, town PASS 93, town2 PASS 93, combat PASS 93, zonetoinn PASS 93
 int CXiSkeletonActor::OnMove()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -2007,7 +2007,7 @@ LABEL_23:
           }
           else
           {
-            if ( *(float *)&a1 >= 0.0 )
+            if ( !(*(float *)&a1 < 0.0) )
               v86 = v275 * v275 + *(float *)&v273 * *(float *)&v273;
             else
               v86 = orig::sub_10027530((float *)&v273, (float *)&v273);
@@ -2250,54 +2250,54 @@ LABEL_226:
             orig::Camera_GetFloat2E0();
             *(float *)&v272 = 0.0;
             orig::fn_10027990((Iostream_init *)&v299);
-            if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+            if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
             {
               v200 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
             }
-            else if ( this->widthScale >= 0.0 )
+            else if ( !(this->widthScale < 0.0) )
             {
               v200 = this->widthScale;
             }
             else
             {
               v200 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-              if ( v200 >= 0.0 )
+              if ( !(v200 < 0.0) )
                 (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
               else
                 v200 = this->baseScale;
             }
             v201 = at<uint32_t>(this, 0x0);
             v289 = v200;
-            if ( ((double (__thiscall *)(void *))*(_DWORD *)(v201 + 272))(self) >= 0.0 )
+            if ( !(((double (__thiscall *)(void *))*(_DWORD *)(v201 + 272))(self) < 0.0) )
             {
               v202 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
             }
-            else if ( this->heightScale >= 0.0 )
+            else if ( !(this->heightScale < 0.0) )
             {
               v202 = this->heightScale;
             }
             else
             {
               v202 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-              if ( v202 >= 0.0 )
+              if ( !(v202 < 0.0) )
                 (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
               else
                 v202 = this->baseScale;
             }
             v203 = at<uint32_t>(this, 0x0);
             v290 = v202;
-            if ( ((double (__thiscall *)(void *))*(_DWORD *)(v203 + 272))(self) >= 0.0 )
+            if ( !(((double (__thiscall *)(void *))*(_DWORD *)(v203 + 272))(self) < 0.0) )
             {
               v204 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
             }
-            else if ( this->depthScale >= 0.0 )
+            else if ( !(this->depthScale < 0.0) )
             {
               v204 = this->depthScale;
             }
             else
             {
               v204 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-              if ( v204 >= 0.0 )
+              if ( !(v204 < 0.0) )
                 (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
               else
                 v204 = this->baseScale;
@@ -2477,7 +2477,7 @@ LABEL_310:
                     at<uint32_t>(this, 0x664) = 1065353216;
                   if ( this->hiddenFlagWord != 0 )
                     goto LABEL_331;
-                  if ( this->field_59C * this->field_664 >= 1.0
+                  if ( !(this->field_59C * this->field_664 < 1.0)
                     && (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 112))(self) == 0 )
                   {
                     v247 = (_DWORD *)*orig::sub_10039410((_DWORD *)self + 452, &Float2DC);
@@ -2522,54 +2522,54 @@ LABEL_331:
                   orig::Vec3_Add_10026FA0(v296, v256, (float *)self + 395);
                   v296[3] = 1.0;
                   orig::Vec4_Copy((_DWORD *)self + 418, v296);
-                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+                  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
                   {
                     v257 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
                   }
-                  else if ( this->depthScale >= 0.0 )
+                  else if ( !(this->depthScale < 0.0) )
                   {
                     v257 = this->depthScale;
                   }
                   else
                   {
                     v257 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-                    if ( v257 >= 0.0 )
+                    if ( !(v257 < 0.0) )
                       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
                     else
                       v257 = this->baseScale;
                   }
                   v258 = at<uint32_t>(this, 0x0);
                   this->field_698 = v257;
-                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(v258 + 272))(self) >= 0.0 )
+                  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(v258 + 272))(self) < 0.0) )
                   {
                     v259 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
                   }
-                  else if ( this->heightScale >= 0.0 )
+                  else if ( !(this->heightScale < 0.0) )
                   {
                     v259 = this->heightScale;
                   }
                   else
                   {
                     v259 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-                    if ( v259 >= 0.0 )
+                    if ( !(v259 < 0.0) )
                       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
                     else
                       v259 = this->baseScale;
                   }
                   v260 = at<uint32_t>(this, 0x0);
                   this->field_6A0 = v259;
-                  if ( ((double (__thiscall *)(void *))*(_DWORD *)(v260 + 272))(self) >= 0.0 )
+                  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(v260 + 272))(self) < 0.0) )
                   {
                     v261 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
                   }
-                  else if ( this->widthScale >= 0.0 )
+                  else if ( !(this->widthScale < 0.0) )
                   {
                     v261 = this->widthScale;
                   }
                   else
                   {
                     v261 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-                    if ( v261 >= 0.0 )
+                    if ( !(v261 < 0.0) )
                       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
                     else
                       v261 = this->baseScale;
@@ -2872,7 +2872,7 @@ void CXiSkeletonActor::RunStaggeredUpdates()
 }
 
 // FUNCTION: FFXIMAIN 0x100CBDE0  (placed by callers pass their own this (CXiSkeletonActor))
-// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 19, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -3206,9 +3206,9 @@ LABEL_50:
   {
     orig::Mat4_TransformNormal(g_lightViewMatrix, v25, v26);
     orig::Vec3_Copy(&v110, v25);
-    if ( v98 >= (double)v110 )
+    if ( !(v98 < (double)v110) )
       v98 = v110;
-    if ( v99 >= (double)v111 )
+    if ( !(v99 < (double)v111) )
       v99 = v111;
     v28 = v103 < (double)v110;
     v29 = 0;
@@ -3340,57 +3340,57 @@ LABEL_98:
 LABEL_156:
       orig::CXiSkeletonActor_UpdateHeadLook((char *)self);
       orig::Actor_PrepareDrawGlobals((int *)self);
-      if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+      if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
       {
         v63 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
       }
       else
       {
-        if ( this->widthScale >= 0.0 )
+        if ( !(this->widthScale < 0.0) )
         {
           v91 = at<int32_t>(this, 0x760);
           goto LABEL_169;
         }
         v63 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-        if ( v63 >= 0.0 )
+        if ( !(v63 < 0.0) )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
           v63 = this->baseScale;
       }
       *(float *)&v91 = v63;
 LABEL_169:
-      if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+      if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
       {
         v66 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
       }
       else
       {
-        if ( this->heightScale >= 0.0 )
+        if ( !(this->heightScale < 0.0) )
         {
           v95 = at<int32_t>(this, 0x75C);
           goto LABEL_177;
         }
         v66 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-        if ( v66 >= 0.0 )
+        if ( !(v66 < 0.0) )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
           v66 = this->baseScale;
       }
       *(float *)&v95 = v66;
 LABEL_177:
-      if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+      if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
       {
         v67 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
       }
       else
       {
-        if ( this->depthScale >= 0.0 )
+        if ( !(this->depthScale < 0.0) )
         {
           ViewportHeight = at<int32_t>(this, 0x758);
           goto LABEL_185;
         }
         v67 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-        if ( v67 >= 0.0 )
+        if ( !(v67 < 0.0) )
           (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
         else
           v67 = this->baseScale;
@@ -3490,40 +3490,40 @@ LABEL_104:
   this->hiddenFlagByte = 1;
   at<uint8_t>(this, 0xB2) = v53;
 LABEL_105:
-  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
     goto LABEL_110;
-  if ( this->widthScale >= 0.0 )
+  if ( !(this->widthScale < 0.0) )
   {
     v97 = at<uint32_t>(this, 0x760);
     goto LABEL_112;
   }
-  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
 LABEL_110:
     v54 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   else
     v54 = this->baseScale;
   *(float *)&v97 = v54;
 LABEL_112:
-  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
   {
     v55 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   }
   else
   {
-    if ( this->heightScale >= 0.0 )
+    if ( !(this->heightScale < 0.0) )
     {
       v94 = at<int32_t>(this, 0x75C);
       goto LABEL_120;
     }
     v55 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-    if ( v55 >= 0.0 )
+    if ( !(v55 < 0.0) )
       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
     else
       v55 = this->baseScale;
   }
   *(float *)&v94 = v55;
 LABEL_120:
-  if ( ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
   {
     v56 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
 LABEL_127:
@@ -3534,7 +3534,7 @@ LABEL_127:
   if ( this->depthScale < 0.0 )
   {
     v56 = ((double (__thiscall *)(void *))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-    if ( v56 >= 0.0 )
+    if ( !(v56 < 0.0) )
       (*(void (__thiscall **)(void *))(*(_DWORD *)self + 272))(self);
     else
       v56 = this->baseScale;
@@ -3685,7 +3685,7 @@ char * CXiSkeletonActor::SetMotion(int *a2, float a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100CE480  (placed by IDB name)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 38, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -3856,7 +3856,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x100CE9B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ActorFindResource(_DWORD *a2, int a3, int a4)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3960,7 +3960,7 @@ LABEL_21:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEB00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 36, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4085,7 +4085,7 @@ LABEL_30:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEC90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 33, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4203,7 +4203,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -4813,7 +4813,7 @@ char CXiSkeletonActor::GetNamePos(int a2, float *a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100D0510  (placed by IDB name)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 81, town2 PASS 81, combat PASS 80, zonetoinn PASS 80
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92, town PASS 83, town2 PASS 83, combat PASS 83, zonetoinn PASS 83
 void CXiSkeletonActor::OnDrawName()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -4943,7 +4943,7 @@ char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
   orig::Gfx_NdcToScreen((float *)a1);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v6);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v7);
-  if ( *(float *)(a1 + 12) >= 0.0 )
+  if ( !(*(float *)(a1 + 12) < 0.0) )
   {
     orig::nullsub_1();
     orig::nullsub_1();
@@ -4977,7 +4977,7 @@ double CXiSkeletonActor::GetWidthScale()
   v6 = *((float *)v4 + 2) - *((float *)v4 + 3);
   if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
   {
-    if ( this->widthScale >= 0.0 )
+    if ( !(this->widthScale < 0.0) )
       return this->widthScale * v6 * 0x1.2d2d2c0000000p-1;
     if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
       return this->baseScale * v6 * 0x1.2d2d2c0000000p-1;
@@ -5003,7 +5003,7 @@ double CXiSkeletonActor::GetHeightScale()
   v6 = v4[1] - *v4;
   if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
   {
-    if ( this->heightScale >= 0.0 )
+    if ( !(this->heightScale < 0.0) )
       return this->heightScale * v6 * 0x1.0d79440000000p-1;
     if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
       return this->baseScale * v6 * 0x1.0d79440000000p-1;
@@ -5029,7 +5029,7 @@ double CXiSkeletonActor::GetDepthScale()
   v6 = *((float *)v4 + 4) - *((float *)v4 + 5);
   if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
   {
-    if ( this->depthScale >= 0.0 )
+    if ( !(this->depthScale < 0.0) )
       return this->depthScale * v6 * 0x1.0d79440000000p-1;
     if ( ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0 )
       return this->baseScale * v6 * 0x1.0d79440000000p-1;
@@ -5038,7 +5038,7 @@ double CXiSkeletonActor::GetDepthScale()
 }
 
 // FUNCTION: FFXIMAIN 0x100D12D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 bool CXiSkeletonActor::IsReadCompleteBody()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -5084,7 +5084,7 @@ char __cdecl CXiSkeletonActor::OnSkeletonLoaded(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D2F60  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 93, town2 PASS 94, combat PASS 100, zonetoinn PASS 90
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 98, town2 PASS 95, combat PASS 100, zonetoinn PASS 94
 char CXiSkeletonActor::LoadSkeletonSync(int arg0)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -5964,7 +5964,7 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D4560  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetElem(unsigned int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -6057,18 +6057,18 @@ LABEL_14:
       v21 = -0.5;
   }
 LABEL_19:
-  if ( ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
   {
     v15 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   }
-  else if ( this->heightScale >= 0.0 )
+  else if ( !(this->heightScale < 0.0) )
   {
     v15 = this->heightScale;
   }
   else
   {
     v15 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-    if ( v15 >= 0.0 )
+    if ( !(v15 < 0.0) )
       (*(void (__thiscall **)(int))(*(_DWORD *)self + 272))(self);
     else
       v15 = this->baseScale;
@@ -6129,18 +6129,18 @@ char CXiSkeletonActor::GetElemLocal(unsigned int a2, int a3)
   {
     v13 = -1.3;
   }
-  if ( ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self) >= 0.0 )
+  if ( !(((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self) < 0.0) )
   {
     v9 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
   }
-  else if ( this->heightScale >= 0.0 )
+  else if ( !(this->heightScale < 0.0) )
   {
     v9 = this->heightScale;
   }
   else
   {
     v9 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)self + 272))(self);
-    if ( v9 >= 0.0 )
+    if ( !(v9 < 0.0) )
       (*(void (__thiscall **)(int))(*(_DWORD *)self + 272))(self);
     else
       v9 = this->baseScale;
@@ -6178,7 +6178,7 @@ char CXiSkeletonActor::IsDirectionLock_Set(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D62C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 51 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 51, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::DrawResourceShadows()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10003B60  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 58 returned normally, 1774 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 58, town2 PASS 58, combat PASS 58, zonetoinn PASS 58
+// GATE: PASS -- 100 trials, 47 returned normally, 1741 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 47, town PASS 47, town2 PASS 47, combat PASS 47, zonetoinn PASS 47
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 {
   int v1;
@@ -45,7 +45,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 215 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
 {
   int v3;

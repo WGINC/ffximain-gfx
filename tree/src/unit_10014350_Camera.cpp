@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10015510  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60, town PASS 60, town2 PASS 60, combat PASS 60, zonetoinn PASS 60
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
 XI_API void __cdecl Camera_ApplyViewProjection(void)
 {
   int Field50;
@@ -167,7 +167,7 @@ LABEL_24:
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 23 returned normally, 77 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 23
+// GATE: PASS -- 100 trials, 28 returned normally, 72 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28, town PASS 28, town2 PASS 28, combat PASS 28, zonetoinn PASS 28
 XI_API char __cdecl App_CreateRendererAndApp(void)
 {
   CDx *v0;
@@ -223,8 +223,39 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
   return 1;
 }
 
+// FUNCTION: FFXIMAIN 0x10016320  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 1 returned normally, 694 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 1, town PASS 1, town2 PASS 1, combat PASS 1, zonetoinn PASS 1
+XI_API _DWORD * __cdecl fn_10016320(void)
+{
+  int *v0;
+  v0 = (int *)&unk_10456A00;
+  do
+  {
+    if ( *v0 != 0 )
+    {
+      (*(void (__thiscall **)(int, int))(*(_DWORD *)*v0 + 24))(*v0, 1);
+      *v0 = 0;
+    }
+    ++v0;
+  }
+  while ( (int)v0 < (int)&g_pSceneState );
+  orig::sub_100191B0();
+  if ( g_pApp != nullptr )
+  {
+    (*(void (__thiscall **)(void *, int))(*(_DWORD *)g_pApp + 24))(g_pApp, 1);
+    g_pApp = nullptr;
+  }
+  if ( g_pCDx != nullptr )
+  {
+    (*((void (__thiscall **)(CDx *, int))g_pCDx->vftable + 6))(g_pCDx, 1);
+    g_pCDx = nullptr;
+  }
+  orig::sub_10120200(g_shapeMng);
+  return orig::sub_1015D9E0(g_menuMng);
+}
+
 // FUNCTION: FFXIMAIN 0x10017230  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 6 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
 {
   char v2;

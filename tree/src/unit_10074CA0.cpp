@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 703 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59, town PASS 55, town2 PASS 55, combat PASS 55, zonetoinn PASS 55
+// GATE: PASS -- 100 trials, 55 returned normally, 705 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 {
   int v0;
@@ -16,11 +16,10 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   void *v8;
   int v9;
   alignas(16) unsigned char xi_frame[0x4A0];  // address-taken locals at their original offsets
-  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x44);
-  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x70);
-  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x74);
-  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x78);
-  _DWORD (&v14)[8] = *reinterpret_cast<_DWORD (*)[8]>(xi_frame + 0x80);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x7C);
+  _DWORD (&v13)[8] = *reinterpret_cast<_DWORD (*)[8]>(xi_frame + 0x80);
 
   g_pCubeMapTarget = 0;
   (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
@@ -45,7 +44,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
     1);
   (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(*(_DWORD *)(g_pResourceMng + 3528) + 144) + 32))(
     *(_DWORD *)(*(_DWORD *)(g_pResourceMng + 3528) + 144),
-    v14);
+    v13);
   dword_1047D14C = 3;
   v0 = 0;
   do
@@ -60,12 +59,12 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
     v3 = **(_DWORD **)(g_pResourceMng + 3772);
     v10 = *(_DWORD *)(g_pResourceMng + 3772);
     v12 = 32 << v0;
-    (*(void (__stdcall **)(int, int, int, int, int, _DWORD, int))(v3 + 88))(
+    (*(void (__stdcall **)(int, int, int, int, _DWORD, _DWORD, int))(v3 + 88))(
       v10,
       32 << v0,
       1,
       1,
-      v14[0],
+      v13[0],
       0,
       4 * v0 + 273142108);
     if ( dword_1047D15C[v0] == 0 )
@@ -112,7 +111,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 100 returned normally, 96 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 95, zonetoinn PASS 96
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 {
   int v2;

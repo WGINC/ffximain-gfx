@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10039A80  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 76, town2 PASS 76, combat PASS 76, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 73 returned normally, 63 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 73, town PASS 73, town2 PASS 73, combat PASS 73, zonetoinn PASS 73
 XI_API char __thiscall TexObj_Create(int self_)
 {
   unsigned __int16 v2;
@@ -210,7 +210,7 @@ LABEL_58:
 }
 
 // FUNCTION: FFXIMAIN 0x10039E50  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 4 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 4, town PASS 4, town2 PASS 3, combat PASS 4, zonetoinn PASS 3
+// GATE: PASS -- 100 trials, 3 returned normally, 9 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 3, town PASS 3, town2 PASS 3, combat PASS 3, zonetoinn PASS 3
 XI_API int __thiscall TexObj_Upload(void *self_)
 {
   int v1;

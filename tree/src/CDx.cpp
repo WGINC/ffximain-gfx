@@ -285,7 +285,7 @@ LABEL_69:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 {
-  *(_DWORD *)&this->defaultBackBuffer = a3;
+  *(_DWORD *)&at<uint8_t>(this, 0x90) = a3;
   *(_DWORD *)&this->defaultDepthSurface = a4;
   return 1;
 }
@@ -338,7 +338,7 @@ bool CDx::TestCooperativeLevel()
 }
 
 // FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 127 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int __cdecl CDx::Present()
 {
   D3DHolder *v0;
@@ -374,7 +374,7 @@ int CDx::EndScene()
 }
 
 // FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 HCURSOR CDx::SetCursorShape(int a2, int a3)
 {
   HCURSOR result;
@@ -414,7 +414,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10009920  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1826 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1996 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::SetDefaultRenderState()
 {
   unsigned __int8 *v2;
@@ -600,6 +600,70 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
   return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)a3, 28);
 }
 
+// FUNCTION: FFXIMAIN 0x1000A6E0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 99 returned normally, 223 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town UNRESOLVED 0, town2 UNRESOLVED 0, combat UNRESOLVED 0, zonetoinn UNRESOLVED 0
+_DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6)
+{
+  int v7;
+  _DWORD v9[8];
+  if ( a4 != nullptr )
+    *a4 = 0;
+  (*(void (__stdcall **)(_DWORD, _DWORD *))(*this->defaultBackBuffer + 32))(this->defaultBackBuffer, v9);
+  v7 = a6;
+  if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int, int, int, _DWORD **))(*at<_DWORD *>(this, 0xC) + 80))(
+         at<_DWORD *>(this, 0xC),
+         width,
+         height,
+         1,
+         a5,
+         21,
+         a6,
+         &a4) < 0
+    && (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int, int, int, _DWORD **))(*at<_DWORD *>(this, 0xC) + 80))(
+         at<_DWORD *>(this, 0xC),
+         width,
+         height,
+         1,
+         a5,
+         25,
+         v7,
+         &a4) < 0
+    && (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int, int, int, _DWORD **))(*at<_DWORD *>(this, 0xC) + 80))(
+         at<_DWORD *>(this, 0xC),
+         width,
+         height,
+         1,
+         a5,
+         22,
+         v7,
+         &a4) < 0
+    && (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int, int, int, _DWORD **))(*at<_DWORD *>(this, 0xC) + 80))(
+         at<_DWORD *>(this, 0xC),
+         width,
+         height,
+         1,
+         a5,
+         24,
+         v7,
+         &a4) < 0
+    && (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, int, int, _DWORD, int, _DWORD **))(*at<_DWORD *>(this, 0xC) + 80))(
+         at<_DWORD *>(this, 0xC),
+         width,
+         height,
+         1,
+         a5,
+         v9[0],
+         v7,
+         &a4) < 0 )
+  {
+    return nullptr;
+  }
+  else
+  {
+    return a4;
+  }
+}
+
 // FUNCTION: FFXIMAIN 0x1000A800  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
@@ -689,7 +753,7 @@ int CDx::Post_DepthBlurComposite(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 354 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 312 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CDx::DrawStereoOddFrameOverlay(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -809,7 +873,7 @@ int CDx::GetTransformCached(int a2, void *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BF30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::SetLight(int a2, float *a3)
 {
   float v5[26];
@@ -835,7 +899,7 @@ int CDx::SetLight(int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 3218 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3240 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1062,7 +1126,7 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C7C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 98 returned normally, 442 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 98 returned normally, 437 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::ReleaseStereoResources()
 {
   int v2;
@@ -1111,7 +1175,7 @@ int CDx::ReleaseStereoResources()
 }
 
 // FUNCTION: FFXIMAIN 0x1000C850  (placed by IDB name)
-// GATE: PASS -- 100 trials, 35 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35, town PASS 40, town2 PASS 40, combat PASS 40, zonetoinn PASS 40
+// GATE: PASS -- 100 trials, 44 returned normally, 56 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44, town PASS 32, town2 PASS 32, combat PASS 32, zonetoinn PASS 32
 int CDx::CreateRampTexture1x16(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1175,7 +1239,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x1000C900  (placed by IDB name)
-// GATE: PASS -- 100 trials, 41 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 41, town PASS 38, town2 PASS 38, combat PASS 38, zonetoinn PASS 38
+// GATE: PASS -- 100 trials, 35 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35, town PASS 33, town2 PASS 33, combat PASS 33, zonetoinn PASS 33
 char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 {
   IDirect3DTexture8 **v3;
@@ -1227,7 +1291,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CA00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 45 returned normally, 55 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 45, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 44 returned normally, 56 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 {
   char v4;
@@ -1280,7 +1344,7 @@ char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CB20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 175 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 170 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::DrawPrimitive(int a1, int a2, int a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1312,7 +1376,7 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CC00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 174 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 169 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1358,7 +1422,7 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CD00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 170 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 176 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

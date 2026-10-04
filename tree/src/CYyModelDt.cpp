@@ -3,7 +3,7 @@
 #include "CYyModelDt.hpp"
 
 // FUNCTION: FFXIMAIN 0x100224D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 71 returned normally, 258 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 78, town2 PASS 78, combat PASS 78, zonetoinn PASS 78
+// GATE: PASS -- 100 trials, 72 returned normally, 240 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 72, town PASS 75, town2 PASS 75, combat PASS 74, zonetoinn PASS 75
 char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -374,7 +374,7 @@ LABEL_80:
 }
 
 // FUNCTION: FFXIMAIN 0x10022FA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int __cdecl CYyModelDt::SetVertexShader(int a1)
 {
   g_vertexShader_6E4C = a1;
@@ -435,7 +435,7 @@ __int16 CYyModelDt::GetElementCount()
 }
 
 // FUNCTION: FFXIMAIN 0x100251A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 73, town PASS 42, town2 PASS 58, combat PASS 45, zonetoinn PASS 21
+// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74, town PASS 41, town2 PASS 54, combat PASS 46, zonetoinn PASS 23
 int CYyModelDt::MarkReferencedBones(int a2)
 {
   int v2;
@@ -477,7 +477,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 62, town PASS 59, town2 PASS 23, combat PASS 59, zonetoinn PASS 23
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 49, town2 PASS 27, combat PASS 49, zonetoinn PASS 27
 __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

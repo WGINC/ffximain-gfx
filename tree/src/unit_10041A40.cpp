@@ -60,7 +60,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   v7 = 0;
   v8 = v30 == 1.0;
   v33 = v30;
-  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v30 >= 0.0 )
+  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v30 < 0.0) )
   {
     orig::Gfx_NdcToScreen(v29);
     orig::Vec2_AddScalar(v29, -0.5);

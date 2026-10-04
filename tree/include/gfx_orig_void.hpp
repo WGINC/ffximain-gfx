@@ -3,8 +3,6 @@
 #pragma once
 #include "gfx_common.hpp"
 namespace orig_void {
-XI_ORIG void CYyCamMng2_CreateGlobal() { reinterpret_cast<void (__cdecl *)()>(0x1001E470u)(); }
-XI_ORIG void ZoneMap_SetOverlayProjection(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(0x10177420u)(a0); }
 }  // namespace orig_void
 #include "CApp.hpp"
 #include "CDx.hpp"

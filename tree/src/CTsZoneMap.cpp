@@ -3,7 +3,7 @@
 #include "CTsZoneMap.hpp"
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 258 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 267 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
   char *Text;
@@ -37,37 +37,6 @@ XI_API int __cdecl Gfx_SetZBias(unsigned int a1)
   return g_pCDx->pDevice->SetRenderState(D3DRS_ZBIAS, a1);
 }
 
-// FUNCTION: FFXIMAIN 0x10177420  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API void __thiscall ZoneMap_SetOverlayProjection(float *self_)
-{
-  long double v2;
-  float v5;
-  float v6;
-  float v7;
-  float v8;
-  float v9;
-  float v10;
-  float v11;
-  float v12;
-  int v13[16];
-  v12 = *((float *)g_pCamera + 189);
-  v11 = *((float *)g_pCamera + 186);
-  v10 = *((float *)g_pCamera + 183);
-  v9 = *((float *)g_pCamera + 184);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZBIAS, 0);
-  v8 = v9 + *(self_ + 58724);
-  v7 = v10 + *(self_ + 58724);
-  v6 = 1.0 / (v11 * *((float *)g_pCamera + 188));
-  v2 = atan2(192.0, v12);
-  v5 = v2 + v2;
-  orig::D3DXMatrixPerspectiveFovLH_static((int)v13, v5, v6, v7, v8);
-  (void)(((void (__stdcall *)(IDirect3DDevice8 *, int, int *))g_pCDx->pDevice->lpVtbl->SetTransform)(
-           g_pCDx->pDevice,
-           3,
-           v13)); return;
-}
-
 // FUNCTION: FFXIMAIN 0x101779C0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_SetupLineDrawState(void)
@@ -93,7 +62,7 @@ XI_API int __cdecl Gfx_SetupLineDrawState(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10177B40  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 40 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8, unsigned __int8 a4, char a5, char a6)
 {
   int v6;
@@ -345,7 +314,7 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(unsigned int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
-// GATE: PASS -- 100 trials, 62 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 62, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 69
+// GATE: PASS -- 100 trials, 58 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 76
 float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -718,7 +687,7 @@ LABEL_41:
 }
 
 // FUNCTION: FFXIMAIN 0x101844C0  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
-// GATE: PASS -- 100 trials, 69 returned normally, 18572 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69, town PASS 70, town2 PASS 70, combat PASS 69, zonetoinn PASS 70
+// GATE: PASS -- 100 trials, 67 returned normally, 18605 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 72, town2 PASS 72, combat PASS 70, zonetoinn PASS 71
 void CTsZoneMap::ModelActor_Draw(int a2, int a3)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -939,7 +908,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x10184FE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 60
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 49
 int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1076,7 +1045,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     if ( this->overlayUseProjection != 0 )
     {
       g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, &v101);
-      orig_void::ZoneMap_SetOverlayProjection((float *)self);
+      orig::ZoneMap_SetOverlayProjection((float *)self);
     }
     else
     {

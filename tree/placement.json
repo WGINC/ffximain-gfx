@@ -238,6 +238,12 @@
 "why": "IDB name",
 "symbol": "CDx::DrawScreenQuadAtDepth"
 },
+"0x1000a6e0": {
+"class": "CDx",
+"method": "CreateTexture",
+"why": "IDB name",
+"symbol": "CDx::CreateTexture"
+},
 "0x1000a800": {
 "class": "CDx",
 "method": "PushRenderTargetRet1",
@@ -471,6 +477,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
 "symbol": "App_CreateRendererAndApp",
+"unit": "unit_10014350_Camera"
+},
+"0x10016320": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_10016320",
 "unit": "unit_10014350_Camera"
 },
 "0x10017230": {
@@ -2002,6 +2015,12 @@
 "method": "ScalarDeletingDtor",
 "why": "tree manifest",
 "symbol": "CMoSchedularTask::ScalarDeletingDtor"
+},
+"0x10057fb0": {
+"class": "CMoSchedularTask",
+"method": "Interpret",
+"why": "IDB name",
+"symbol": "CMoSchedularTask::Interpret"
 },
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
@@ -3726,6 +3745,13 @@
 "symbol": "Cursor_SetVisible",
 "unit": "unit_100D7420"
 },
+"0x10125360": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10125360",
+"unit": "unit_100D7420"
+},
 "0x101604b0": {
 "class": null,
 "method": null,
@@ -3847,13 +3873,6 @@
 "symbol": "Gfx_SetZBias",
 "unit": "CTsZoneMap"
 },
-"0x10177420": {
-"class": null,
-"method": null,
-"why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
-"symbol": "ZoneMap_SetOverlayProjection",
-"unit": "CTsZoneMap"
-},
 "0x101779c0": {
 "class": null,
 "method": null,
@@ -3936,6 +3955,20 @@
 "symbol": "Zone_RenderEnvironment",
 "unit": "unit_10178790_ZoneMap"
 },
+"0x1017c9c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_1017C9C0",
+"unit": "unit_10178790_ZoneMap"
+},
+"0x1017de20": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_1017DE20",
+"unit": "unit_10178790_ZoneMap"
+},
 "0x10182700": {
 "class": "CTsZoneMap",
 "method": "DrawProjectedTexture",
@@ -3975,6 +4008,13 @@
 "method": "ModelActor_Draw",
 "why": "callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)",
 "symbol": "CTsZoneMap::ModelActor_Draw"
+},
+"0x10184c90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10184C90",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x10184fe0": {
 "class": "CTsZoneMap",

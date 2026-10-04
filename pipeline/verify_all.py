@@ -1,0 +1,166 @@
+"""verify_all.py -- everything committed, checked one to one against the game binary.
+
+Each check either re-derives a result from the DLL and compares it with what is committed, or checks a
+committed result against the code directly. Nothing is taken from an earlier run's word.
+
+  1 binary     the DLL is the analysed build (sha256, data/binary.json); every live dump is that build
+               (verification/live/dump_verify.json: module timestamp = the analysed one)
+  2 facts      every fact file re-derived from the DLL (and the committed export) and compared with data/
+  3 agreement  no call has two different stack effects across purges, sp_solve, vcall_resolve, com_calls,
+               real_sp and the IDA SP audit
+  4 self-tests the rule tests and sp_solve's self-test (every known pop hidden and re-solved)
+  5 export     IDA's SP in the committed export against the exact depths (ida_sp_check): no unexplained
+               difference; hand corrections (hx_patches, type_fixes, constructs) each apply and carry evidence
+  6 accepted   every accepted, unproven declaration, with what rests on it (reported, never a pass)
+  7 tree       tree/ regenerated from the committed export and gate verdicts: byte-identical sources
+  8 gate       tree/ as committed, built, and every function in it run against the original in the DLL:
+               the fuzz gate and, with LIVE="name=live.json ...", the gate on each verified dump; every
+               function must PASS everywhere it is comparable (--quick skips this)
+
+    FFXI_DLL=... [LIVE="town=... ..."] python3 pipeline/verify_all.py [--quick] [--jobs N]
+Writes verification/verify_all.json; exits 1 if any check fails.
+"""
+import filecmp, hashlib, json, os, shutil, subprocess, sys, tempfile, collections
+P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(P); D = os.path.join(ROOT, 'data')
+V = os.path.join(ROOT, 'verification'); EXP = os.path.join(D, 'exports', 'gfx_export.jsonl')
+DLL = os.environ['FFXI_DLL']
+res = collections.OrderedDict(); ok_all = True
+
+
+def report(name, ok, **kw):
+    global ok_all
+    res[name] = dict(ok=ok, **kw); ok_all &= ok is not False
+    print('%-10s %s  %s' % ('PASS' if ok else ('INFO' if ok is None else 'FAIL'), name,
+                            '; '.join('%s=%s' % (k, v if not isinstance(v, (list, dict)) or len(v) < 8 else '%d items' % len(v)) for k, v in kw.items())))
+
+
+def sh(cmd, **kw):
+    r = subprocess.run(cmd, shell=True, cwd=ROOT, capture_output=True, text=True, **kw)
+    return r.returncode, r.stdout + r.stderr
+
+
+def load(p):
+    return json.load(open(p))
+
+
+def jdiff(a, b):
+    """keys whose values differ between two JSON objects (top level), or a type mismatch"""
+    if isinstance(a, dict) and isinstance(b, dict):
+        return sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
+    return [] if a == b else ['<whole file>']
+
+
+def main():
+    quick = '--quick' in sys.argv
+    jobs = sys.argv[sys.argv.index('--jobs') + 1] if '--jobs' in sys.argv else str(os.cpu_count())
+    tmp = tempfile.mkdtemp(prefix='verify_all_')
+
+    # 1 binary
+    h = hashlib.sha256(open(DLL, 'rb').read()).hexdigest(); want = load(os.path.join(D, 'binary.json'))
+    report('binary', h == want['sha256'], sha256=h, expected=want['sha256'])
+    recs, dec, s = [], json.JSONDecoder(), open(os.path.join(V, 'live', 'dump_verify.json')).read().strip()
+    while s: r, n = dec.raw_decode(s); recs.append(r); s = s[n:].strip()
+    bad = [r['dump'] for r in recs if r['timestamp'] != r['analysed_timestamp']]
+    report('dumps', not bad and bool(recs), dumps=[r['dump'] for r in recs], not_the_build=bad)
+
+    # 2 facts re-derived (each tool reads the committed inputs it depends on, so the chain is checked link by link)
+    facts = [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
+             ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
+             ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
+             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'),
+             ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
+             ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
+             ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP)]
+    for f, cmd in facts:
+        o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))
+        if rc or not os.path.exists(o): report('facts:' + f, False, error=out.strip().splitlines()[-1:] or rc); continue
+        d = jdiff(load(o), load(os.path.join(D, f)))
+        report('facts:' + f, not d, differing=d[:20], n_differing=len(d))
+        if f == 'vcalls.json':
+            d = jdiff(load(os.path.join(tmp, 'ecx_use.json')), load(os.path.join(D, 'ecx_use.json')))
+            report('facts:ecx_use.json', not d, n_differing=len(d))
+
+    # 3 one stack effect per call
+    purges = load(os.path.join(D, 'purges.json')); vals = collections.defaultdict(dict)
+    for name in ('sp_solved', 'vcalls', 'com_calls'):
+        for k, v in load(os.path.join(D, name + '.json')).items():
+            if not k.startswith('_'): vals[k][name] = v['pops']
+    for fk, r in load(os.path.join(D, 'real_sp.json')).items():
+        for ck, p in r['calls'].items(): vals[ck]['real_sp'] = p
+    for fk, r in load(os.path.join(D, 'ida_sp_audit.json')).items():
+        for fx in r['fixes']:
+            if fx['why'].startswith('the call pops'): vals[fx['at']]['ida_sp_audit'] = fx['change']
+    conflict = {k: v for k, v in vals.items() if len(set(v.values())) > 1}
+    report('agreement', not conflict, calls_with_two_or_more_sources=sum(len(v) > 1 for v in vals.values()), conflicts=conflict)
+
+    # 4 self-tests
+    rc, out = sh('python3 -m unittest discover -s pipeline/tests'); report('rule-tests', rc == 0, result=out.strip().splitlines()[-1])
+    rc, out = sh('python3 pipeline/sp_solve.py --selftest'); report('sp-selftest', rc == 0, result=out.strip().splitlines()[-1])
+
+    # 5 the export and the hand corrections
+    audit = load(os.path.join(D, 'ida_sp_audit.json'))
+    report('export-sp', not any(r['unexplained'] for r in audit.values()),
+           ida_wrong=sorted(audit), unexplained=[r['unexplained'] for r in audit.values() if r['unexplained']])
+    sys.path.insert(0, P); import hx_patches
+    recs = {json.loads(l)['ea']: json.loads(l) for l in open(EXP)}
+    stale, noev = [], []
+    for fn in sorted(os.listdir(os.path.join(D, 'hx_patches'))):
+        p = load(os.path.join(D, 'hx_patches', fn)); ea = int(fn[:-5], 16); r = recs.get(ea)
+        if not (p.get('why') and p.get('evidence')): noev.append(fn)
+        if r is None or hx_patches.sha1(r['text']) != p['text_sha1'] or any(r['text'].count(o) != 1 for o, _ in p['replace']): stale.append(fn)
+    report('hx_patches', not stale and not noev, patches=len(os.listdir(os.path.join(D, 'hx_patches'))), stale=stale, without_evidence=noev)
+    tf = load(os.path.join(D, 'type_fixes.json')); items = tf.items() if isinstance(tf, dict) else enumerate(tf)
+    noev = [k for k, v in items if not k.startswith('_') and isinstance(v, dict) and not (v.get('evidence') or v.get('why'))] if isinstance(tf, dict) else []
+    report('type_fixes', not noev, without_evidence=noev)
+    cs = load(os.path.join(D, 'constructs.json'))
+    report('constructs', all(v.get('evidence') for k, v in cs.items() if not k.startswith('_')), functions=[k for k in cs if not k.startswith('_')])
+
+    # 6 accepted declarations (not proofs): what rests on them
+    for name, fd in load(os.path.join(D, 'com_fields.json')).items():
+        if name.startswith('_') or 'status' not in fd: continue
+        cc = [k for k, v in load(os.path.join(D, 'com_calls.json')).items() if v.get('field') == name]
+        sp = [k for k, v in load(os.path.join(D, 'sp_solved.json')).items() if isinstance(v, dict) and name in v.get('rests_on_accepted', [])]
+        report('accepted:' + name, None, status=fd['status'][:60] + '...', com_calls=len(cc), balances=sp)
+
+    # 7 the tree is what the committed export and verdicts generate
+    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s verification/gate_raw_combined.jsonl %s' % (EXP, t))
+    diff = []
+    for sub in ('src', 'include'):
+        c = filecmp.dircmp(os.path.join(ROOT, 'tree', sub), os.path.join(t, sub))
+        diff += [sub + '/' + x for x in c.left_only + c.right_only + c.diff_files]
+    report('tree-regen', not diff and 'failed: none' in out, differing=diff, build=out.strip().splitlines()[-1:])
+
+    # 8 the committed tree, built, against the original in the DLL
+    if quick: report('tree-gate', None, skipped='--quick'); return finish(tmp)
+    b = os.path.join(tmp, 'built'); shutil.copytree(os.path.join(ROOT, 'tree'), b)
+    rc, out = sh('cd %s && ./build.sh' % b)
+    dll = os.path.join(b, 'build', 'gfx_recon.dll')
+    if not os.path.exists(dll): report('tree-gate', False, build=out.strip().splitlines()[-1:]); return finish(tmp)
+    cases = os.path.join(tmp, 'cases.json')
+    sh('python3 pipeline/map_clean_cases.py %s tree/placement.json verification/cases_raw_final.json %s' % (dll, cases))
+    placed = {c['original'] for c in load(cases)}
+    runs = [('fuzz', None)] + [tuple(x.split('=', 1)) for x in os.environ.get('LIVE', '').split()]
+    verdicts = {}
+    for name, live in runs:
+        env = dict(os.environ, **({'FFXI_LIVE': live} if live else {}))
+        out = os.path.join(tmp, 'g_' + name)
+        subprocess.run([sys.executable, os.path.join(P, 'gate_some.py'), tmp, 'all', '--dll', dll, '--cases', cases,
+                        '--out', os.path.basename(out), '--jobs', jobs], env=env, cwd=ROOT, capture_output=True)
+        verdicts[name] = {json.loads(l)['original']: json.loads(l)['verdict'] for l in open(out + '.jsonl')}
+    bad = {o: {n: v[o] for n, v in verdicts.items()} for o in placed
+           if any(v.get(o) == 'FAIL' for v in verdicts.values()) or not any(v.get(o) == 'PASS' for v in verdicts.values())}
+    counts = {n: dict(collections.Counter(v.values())) for n, v in verdicts.items()}
+    report('tree-gate', not bad, functions=len(placed), gates=counts, not_passing=bad,
+           live='not run (set LIVE)' if len(runs) == 1 else [n for n, _ in runs[1:]])
+    finish(tmp)
+
+
+def finish(tmp):
+    shutil.rmtree(tmp, ignore_errors=True)
+    json.dump(res, open(os.path.join(V, 'verify_all.json'), 'w'), indent=1)
+    print('verify_all: %s (verification/verify_all.json)' % ('every check passed' if ok_all else 'FAILED'))
+    sys.exit(0 if ok_all else 1)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,6 @@
+{
+ "_doc": "The analysed build of FFXiMain.dll (unpacked). verify_all.py checks $FFXI_DLL against it. The binary itself is never committed.",
+ "sha256": "1b9b59aedc18a5b7dcbd531fff598c3b43a359eeb5dc2798763bc0ff8a21a3ad",
+ "size": 6208512,
+ "pe_timestamp": "0x6A995428"
+}

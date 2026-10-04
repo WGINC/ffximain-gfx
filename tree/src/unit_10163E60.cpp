@@ -839,7 +839,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 23 returned normally, 129544 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 28, town2 PASS 28, combat PASS 28, zonetoinn PASS 28
+// GATE: PASS -- 100 trials, 24 returned normally, 127357 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;

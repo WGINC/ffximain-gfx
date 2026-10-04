@@ -49,6 +49,6 @@ int __cdecl CXiActorNameDraw::SetRenderState()
     g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
     result = g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
   }
-  LOBYTE(result) = 0;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   return result;
 }

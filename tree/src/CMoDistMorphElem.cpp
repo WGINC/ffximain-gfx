@@ -346,7 +346,7 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10042D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 30
+// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 30, town2 PASS 30, combat PASS 30, zonetoinn PASS 29
 char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a4)
 {
   int v4;
@@ -486,7 +486,7 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 char CMoDistMorphElem::UpdateMorphBlend()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

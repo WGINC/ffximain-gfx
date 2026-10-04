@@ -97,11 +97,11 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
     g_pCDx->_pad_10[2072] = v3;
     g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     result = g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    LOBYTE(result) = 1;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   }
   else
   {
-    LOBYTE(result) = 0;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   }
   return result;
 }
@@ -171,7 +171,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
     || (v3 = *(_DWORD *)result, result = g_sceneCaptureTex, g_sceneCaptureTex == 0)
     || (result = (int)pTexture, pTexture == nullptr) )
   {
-    LOBYTE(result) = 0;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
     return result;
   }
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -220,8 +220,8 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
         if ( v10 < -0x1.921cac0000000p+1 )
           v10 = v10 + 0x1.921cac0000000p+2;
         v14 = *(v6 - 1) * 0.0625;
-        HIBYTE(v15) = *((_BYTE *)v6 + 3);
-        LOBYTE(v15) = *(_BYTE *)v6;
+        v15 = (unsigned __int16)(((uint16_t)(v15) & 0xFFu) | ((uint16_t)(uint8_t)(*((_BYTE *)v6 + 3)) << 8));
+        v15 = (unsigned __int16)(((uint16_t)(v15) & 0xFF00u) | ((uint16_t)(uint8_t)(*(_BYTE *)v6) << 0));
         v8 = *(_DWORD *)v6 & 0xFF00 | ((*(_DWORD *)v6 & 0xFFFFFFu) >> 16) | (v15 << 16);
         v20 = v8;
         v19 = sin(v10) * v14;
@@ -294,6 +294,6 @@ LABEL_21:
   g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
   g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
   result = g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-  LOBYTE(result) = 1;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   return result;
 }

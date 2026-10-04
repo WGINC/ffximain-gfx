@@ -223,7 +223,7 @@ XI_API int __thiscall fn_100467E0(void *self_, int a1)
   v2 = (int **)self_;
   v35 = (int)self_;
   if ( (_WORD)a1 == 0xFFFF )
-    LOWORD(a1) = *((_WORD *)self_ + 182);
+    a1 = (int)(((uint32_t)(a1) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*((_WORD *)self_ + 182)) << 0));
   ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
   v4 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
   g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
@@ -256,7 +256,7 @@ XI_API int __thiscall fn_100467E0(void *self_, int a1)
     case 67:
     case 98:
       if ( (_BYTE)a1 == 98 )
-        HIBYTE(g_scratchValue) = BYTE1(a1);
+        HIBYTE(g_scratchValue) = (_BYTE)((uint32_t)(a1) >> 8);
       goto LABEL_14;
     case 66:
 LABEL_14:
@@ -627,7 +627,7 @@ LABEL_9:
   v28 = g_pProcessor->ScratchMatrixStackTop - 1;
   g_pProcessor->ScratchMatrixStackTop = v28;
   *(_DWORD *)(result + 4 * v28 + 2576) = v4;
-  LOBYTE(result) = 0;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   return result;
 }
 

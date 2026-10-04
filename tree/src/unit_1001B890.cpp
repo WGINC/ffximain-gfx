@@ -411,14 +411,14 @@ XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
   *(_WORD *)(a1 + 38) = *(_WORD *)(a2 + 24);
   *(_BYTE *)(a1 + 40) = *(_BYTE *)(a2 + 30);
   *(_BYTE *)(a1 + 41) = *(_BYTE *)(a2 + 52);
-  LOBYTE(i) = a4;
+  i = (int)(((uint32_t)(i) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(a4) << 0));
   switch ( a4 )
   {
     case 0:
     case 1:
       goto LABEL_21;
     case 2:
-      LOBYTE(i) = a3;
+      i = (int)(((uint32_t)(i) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(a3) << 0));
       if ( (_BYTE)a3 == 0 || *v4 == 0 )
         return i;
       for ( i = 0; i < 5; ++i )
@@ -441,13 +441,13 @@ XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
       if ( i == 5 )
         return i;
 LABEL_19:
-      LOBYTE(i) = i | 0x80;
+      i = (int)(((uint32_t)(i) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(i | 0x80) << 0));
       *(_DWORD *)(a1 + 32) = a2 + 60;
       *(_BYTE *)(a1 + 41) = i;
       return i;
     case 3:
       v7 = *(_DWORD *)(a1 + 44);
-      LOBYTE(v7) = v7 & 0xF;
+      v7 = (int)(((uint32_t)(v7) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v7 & 0xF) << 0));
       v8 = v7 ^ (16 * (*(_BYTE *)v4 & 0xF));
       v4 = (_DWORD *)(a2 + 60);
       *(_DWORD *)(a1 + 44) = v8;

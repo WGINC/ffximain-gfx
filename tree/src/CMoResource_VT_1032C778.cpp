@@ -39,7 +39,7 @@ char CMoResource_VT_1032C778::vf009()
   int v2;
   char *v3;
   v3 = self + 48;
-  LOBYTE(v1) = v3[28];
+  v1 = (int)(((uint32_t)(v1) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v3[28]) << 0));
   if ( (_BYTE)v1 != 0 )
   {
     v2 = *((_DWORD *)v3 + 5);

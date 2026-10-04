@@ -21,7 +21,7 @@ unsigned int * CShader::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100177A0  (placed by callers pass their own this (CShader))
-// GATE: PASS -- 100 trials, 100 returned normally, 161 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 161 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
 int CShader::CShader_Destructor()
 {
   unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest

@@ -58,9 +58,9 @@ LABEL_8:
     dword_10457130 = 0;
     *(float *)&g_modelMaterial[4] = (double)(unsigned __int8)a8 * 0.0078125;
     dword_10457140 = -1082130432;
-    *(float *)&g_modelMaterial[5] = (double)BYTE1(a8) * 0.0078125;
-    v20 = HIBYTE(a8);
-    *(float *)&g_modelMaterial[6] = (double)BYTE2(a8) * 0.0078125;
+    *(float *)&g_modelMaterial[5] = (double)(_BYTE)((uint32_t)(a8) >> 8) * 0.0078125;
+    v20 = (_BYTE)((uint32_t)(a8) >> 24);
+    *(float *)&g_modelMaterial[6] = (double)(_BYTE)((uint32_t)(a8) >> 16) * 0.0078125;
     *(float *)&g_modelMaterial[7] = (double)v20 * 0.0078125;
     result = g_pCDx->pDevice->SetMaterial(g_modelMaterial);
     g_modelColor = a8;
@@ -265,7 +265,7 @@ void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 0);
       v6 = this->field_30;
-      LOBYTE(v6) = v6 | 4;
+      v6 = (int)(((uint32_t)(v6) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v6 | 4) << 0));
       this->field_30 = v6;
     }
   }
@@ -1311,7 +1311,7 @@ int CXiSkeletonActor::Init()
   at<int32_t>(this, 0x814) = 0;
   this->field_818 = 0;
   v4 = this->lockFlags;
-  LOBYTE(v4) = v4 & 0xFC;
+  v4 = (int)(((uint32_t)(v4) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v4 & 0xFC) << 0));
   this->lockFlags = v4;
   this->field_848 = dword_1035D694;
   this->field_84C = dword_1035D698;
@@ -2849,7 +2849,7 @@ LABEL_207:
   }
 LABEL_367:
   result = orig::Vec4_Copy((_DWORD *)self + 630, v293);
-  LOBYTE(result) = HIBYTE(v280);
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(HIBYTE(v280)) << 0));
   this->field_9E4 = 1065353216;
   return result;
 }
@@ -3610,14 +3610,14 @@ char CXiSkeletonActor::OcclusionClip()
   v2 = self + 1652;
   if ( *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652) == 0 )
     goto LABEL_5;
-  LOBYTE(ScreenRect) = (*(int (__thiscall **)(char *))(*(_DWORD *)self + 772))(self);
+  ScreenRect = (int)(((uint32_t)(ScreenRect) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)((*(int (__thiscall **)(char *))(*(_DWORD *)self + 772))(self)) << 0));
   if ( (_BYTE)ScreenRect == 0 )
   {
     v5 = this->boundRadius;
     v6 = v5 < 0.0;
     v7 = 0;
     v8 = v5 == 0.0;
-    LOBYTE(ScreenRect) = 0;
+    ScreenRect = (int)(((uint32_t)(ScreenRect) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
     if ( ((__int16)(((v6 || __builtin_isunordered(v5, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v5, 0.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v5, 0.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       v9 = at<uint32_t>(this, 0x8F8);
@@ -3645,9 +3645,9 @@ char CXiSkeletonActor::OcclusionClip()
       {
 LABEL_5:
         orig::sub_1002C270(v2, 0);
-        LOBYTE(ScreenRect) = at<int8_t>(this, 0xB2);
+        ScreenRect = (int)(((uint32_t)(ScreenRect) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(at<int8_t>(this, 0xB2)) << 0));
         this->hiddenFlagByte = 1;
-        LOBYTE(ScreenRect) = ScreenRect | 1;
+        ScreenRect = (int)(((uint32_t)(ScreenRect) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(ScreenRect | 1) << 0));
         at<int8_t>(this, 0xB2) = ScreenRect;
       }
     }
@@ -6162,7 +6162,7 @@ char CXiSkeletonActor::GetEidMatrix(int a2, _DWORD *a3)
 char CXiSkeletonActor::IsDirectionLock_Set(char a2)
 {
   int v2;
-  LOBYTE(v2) = a2;
+  v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(a2) << 0));
   if ( a2 == 1 )
   {
     v2 = this->directionLockCount + 1;

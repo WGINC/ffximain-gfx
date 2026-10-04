@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 102 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 101 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API int __cdecl fn_10029A50(void)
 {
   int result;

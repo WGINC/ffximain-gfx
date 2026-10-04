@@ -112,11 +112,11 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
     }
     result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_projTexPrevFactor);
-    LOBYTE(result) = 1;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   }
   else
   {
-    LOBYTE(result) = 0;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   }
   return result;
 }
@@ -165,7 +165,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
     v11[3] = 1065353216;
     v11[4] = -2139062144;
     v12 = 0;
-    LODWORD(v6) = *((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2);
+    v6 = (__int64)(((uint64_t)(v6) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(*((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2)) << 0));
     v14 = 0;
     v15 = 0;
     v16 = 1065353216;
@@ -182,7 +182,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
     v21 = (float)v10;
     v26 = 1065353216;
     v27 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2);
-    LODWORD(v6) = *((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3);
+    v6 = (__int64)(((uint64_t)(v6) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(*((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3)) << 0));
     v9 = *((_DWORD *)self_ + 2);
     v8 = *((_DWORD *)self_ + 1);
     v29 = 0;
@@ -335,11 +335,11 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
     }
     result = g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_envMapPrevFactor);
-    LOBYTE(result) = 1;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   }
   else
   {
-    LOBYTE(result) = 0;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   }
   return result;
 }

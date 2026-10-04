@@ -129,7 +129,7 @@ XI_API int __thiscall Frame_Render(void *self_)
       result = orig::App_SetErrorCode(10);
     else
       result = orig::App_SetErrorCode(3);
-    LOBYTE(result) = 0;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
     return result;
   }
   orig::CDx_BeginScene(&g_pCDx->vftable);
@@ -501,7 +501,7 @@ LABEL_102:
   LOWORD(g_screenRectTopLeft) = a4;
   HIWORD(g_screenRectTopLeft) = v16;
   LOWORD(g_screenRectBottomRight) = v102;
-  HIWORD(g_screenRectBottomRight) = HIWORD(v15);
+  HIWORD(g_screenRectBottomRight) = (_WORD)((uint32_t)(v15) >> 16);
   g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
   g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
   orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
@@ -804,13 +804,13 @@ LABEL_102:
     v89 = v88 + (unsigned __int8)dword_10350174 - 128;
     v90 = *((unsigned __int8 *)self_ + 804) + (unsigned __int8)dword_10350174 - 128;
     if ( v89 > 0xFF )
-      LOBYTE(v89) = -1;
+      v89 = (unsigned int)(((uint32_t)(v89) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(-1) << 0));
     if ( (unsigned int)a4 <= 0xFF )
       v91 = a4;
     else
       v91 = -1;
     if ( v90 > 0xFF )
-      LOBYTE(v90) = -1;
+      v90 = (unsigned int)(((uint32_t)(v90) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(-1) << 0));
     HIWORD(v98) = (unsigned __int8)v89;
     BYTE1(v98) = v91;
     LOBYTE(v98) = v90;
@@ -819,7 +819,7 @@ LABEL_102:
   result = (int)g_pCDx;
   if ( g_pCDx->_pad_10[2309] != 0 )
     orig::GammaRamp_ApplyIfChanged((int)&g_pCDx->_pad_10[484]);
-  LOBYTE(result) = *((_BYTE *)self_ + 10);
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*((_BYTE *)self_ + 10)) << 0));
   return result;
 }
 
@@ -842,7 +842,7 @@ XI_API int __cdecl Post_Afterimage(void)
     v2 = g_afterimageStrength < 0.0;
     v3 = 0;
     v4 = g_afterimageStrength == 0.0;
-    LOWORD(result) = (__int16)(((v2 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x4000 : 0));
+    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v2 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x4000 : 0))) << 0));
     if ( !(g_afterimageStrength <= 0.0) )
     {
       if ( g_afterimageState == 1 )
@@ -948,11 +948,11 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
   int &v17 = *reinterpret_cast<int *>(xi_frame + 0x214);
   int (&v18)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x218);
 
-  HIDWORD(v3) = 0;
+  v3 = (__int64)(((uint64_t)(v3) & 0xFFFFFFFFull) | ((uint64_t)(uint32_t)(0) << 32));
   if ( *((_BYTE *)self_ + 806) != 0 || *((_BYTE *)self_ + 805) != 0 || *((_BYTE *)self_ + 804) != 0 )
   {
     RenderTargetTop = orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx);
-    LODWORD(v3) = *(_DWORD *)RenderTargetTop;
+    v3 = (__int64)(((uint64_t)(v3) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(*(_DWORD *)RenderTargetTop) << 0));
     *(_QWORD *)v15 = v3;
     g_feedbackQuad = (float)v3;
     v15[0] = *((_DWORD *)RenderTargetTop + 1);
@@ -971,7 +971,7 @@ XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
     flt_103501E8 = (float)*(__int64 *)v15;
     v5 = 2 * *((unsigned __int8 *)self_ + 807);
     if ( v5 > 0xFF )
-      LOBYTE(v5) = -1;
+      v5 = (unsigned int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(-1) << 0));
     *((_BYTE *)self_ + 807) = v5;
     v6 =(_DWORD*)(&unk_103501B8);
     do

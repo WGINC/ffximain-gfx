@@ -25,7 +25,7 @@ XI_API int __cdecl Sky_DrawDome(void)
     if ( v2 != nullptr )
     {
       result = orig::Camera_SetClearColorRGB(*v2, v2[1], v2[2]);
-      LOBYTE(result) = v2[18];
+      result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v2[18]) << 0));
       if ( (unsigned __int8)result > 2u )
       {
         if ( (Sky_DrawDome_staticGuard & 1) == 0 )
@@ -82,7 +82,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 94 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 94, town2 PASS 94, combat PASS 94, zonetoinn PASS 94
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
@@ -117,7 +117,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
       if ( result != -76 )
       {
         result = orig::Camera_SetClearColorRGB(*v1, *(_BYTE *)(result + 77), *(_BYTE *)(result + 78));
-        LOBYTE(result) = v1[18];
+        result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v1[18]) << 0));
         if ( (unsigned __int8)result > 2u )
         {
           if ( (Sky_DrawDomeViewCentered_staticGuard & 1) == 0 )

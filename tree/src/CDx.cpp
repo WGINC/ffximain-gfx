@@ -1203,7 +1203,7 @@ int CDx::CreateRampTexture1x16(int a1)
                (IDirect3DTexture8 **)a1);
     if ( result < 0 )
     {
-      LOBYTE(result) = 0;
+      result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
       return result;
     }
     (*(void (__stdcall **)(_DWORD, _DWORD, char *, _DWORD, _DWORD))(**(_DWORD **)a1 + 64))(*(_DWORD *)a1, 0, v7, 0, 0);
@@ -1213,16 +1213,16 @@ int CDx::CreateRampTexture1x16(int a1)
     {
       if ( v5 == 1 )
       {
-        BYTE2(a1) = 72;
+        a1 = (int)(((uint32_t)(a1) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(72) << 16));
 LABEL_9:
         v4 = 0;
-        BYTE1(a1) = 0;
+        a1 = (int)(((uint32_t)(a1) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(0) << 8));
       }
       v6 = (_BYTE *)(v8 + v5 * *(_DWORD *)v7);
       ++v5;
-      v6[1] = BYTE1(a1);
+      v6[1] = (_BYTE)((uint32_t)(a1) >> 8);
       *v6 = v4;
-      v6[2] = BYTE2(a1);
+      v6[2] = (_BYTE)((uint32_t)(a1) >> 16);
       v6[3] = 0x80;
       if ( v5 >= 16 )
       {
@@ -1230,11 +1230,11 @@ LABEL_9:
         goto LABEL_12;
       }
     }
-    BYTE2(a1) = 0;
+    a1 = (int)(((uint32_t)(a1) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(0) << 16));
     goto LABEL_9;
   }
 LABEL_12:
-  LOBYTE(result) = 1;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   return result;
 }
 

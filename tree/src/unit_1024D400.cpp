@@ -202,7 +202,7 @@ XI_API int __cdecl StAvatarFini(int *a1)
     orig::MoTask_KillAllGlobalSlots(0.0);
     orig::MoTask_KillGlobalSlot1(1.0);
     v1 = *a1;
-    LOBYTE(v1) = *a1 & 0xFE;
+    v1 = (int)(((uint32_t)(v1) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*a1 & 0xFE) << 0));
     *a1 = v1;
   }
   if ( g_stateBlock_914C != 0 )

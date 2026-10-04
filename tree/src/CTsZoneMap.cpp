@@ -105,9 +105,9 @@ XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8,
   v16 = *((_DWORD *)a1 + 14);
   a3[18] = v14;
   a3[20] = v16;
-  BYTE1(v16) = a5;
+  v16 = (int)(((uint32_t)(v16) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(a5) << 8));
   a3[19] = v15;
-  LOBYTE(v16) = a2;
+  v16 = (int)(((uint32_t)(v16) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(a2) << 0));
   v21 = v10;
   *(float *)&a3[2] = v10;
   v22 = a4 | ((arg8 | ((unsigned __int16)v16 << 8)) << 8);
@@ -144,9 +144,9 @@ XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6
   v9 = *(_DWORD *)(a2 + 8);
   v11[6] = *(_DWORD *)a2;
   v11[8] = v9;
-  BYTE1(v9) = a6;
+  v9 = (int)(((uint32_t)(v9) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(a6) << 8));
   v11[7] = v8;
-  LOBYTE(v9) = a3;
+  v9 = (int)(((uint32_t)(v9) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(a3) << 0));
   v12 = (unsigned __int8)a5 | (((unsigned __int8)a4 | ((unsigned __int16)v9 << 8)) << 8);
   v11[3] = v12;
   return orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)v11, 24);

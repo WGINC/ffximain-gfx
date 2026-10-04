@@ -43,11 +43,11 @@ XI_API int __cdecl fn_10162010(int a1, int a2)
   DWORD Width;
   qmemcpy(&g_viewport_1904, orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx), sizeof(g_viewport_1904));
   stru_1062191C = g_viewport_1904;
-  v2 = SHIWORD(a1);
+  v2 = (int16_t)((uint32_t)(a1) >> 16);
   if ( a1 < 0 )
     v2 = 0;
-  Height = SHIWORD(a2);
-  if ( SHIWORD(a2) > (int)g_viewport_1904.Height )
+  Height = (int16_t)((uint32_t)(a2) >> 16);
+  if ( (int16_t)((uint32_t)(a2) >> 16) > (int)g_viewport_1904.Height )
     Height = g_viewport_1904.Height;
   v4 = (__int16)a1;
   if ( (a1 & 0x8000u) != 0 )

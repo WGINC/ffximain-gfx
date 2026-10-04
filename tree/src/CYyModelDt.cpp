@@ -49,7 +49,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
   v30 = false;
   v31 = g_pCDx->_pad_10[2321];
   v8 = *(_DWORD *)(a6 + 64) + 15;
-  LOBYTE(v8) = v8 & 0xF0;
+  v8 = (int)(((uint32_t)(v8) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v8 & 0xF0) << 0));
   g_alignedBufferSize = v8;
   if ( (*(_BYTE *)(arg4 + 48) & 0x10) != 0 )
   {
@@ -64,21 +64,21 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
        | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
        | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE)) & 0xFF00;
     g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, v9);
-    HIWORD(v10) = 0;
+    v10 = (int)(((uint32_t)(v10) & 0xFFFFu) | ((uint32_t)(uint16_t)(0) << 16));
     g_pCDx->pDevice->SetTexture(0, nullptr);
     g_pCDx->pDevice->SetTexture(1u, nullptr);
     dword_10456E44 = 0;
     dword_10456E48 = 0;
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    LOWORD(v8) = *(_WORD *)v7;
+    v8 = (int)(((uint32_t)(v8) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*(_WORD *)v7) << 0));
     if ( *(_WORD *)v7 != 0xFFFF )
     {
       while ( 1 )
       {
         if ( (v8 & 0x8000) == 0 )
         {
-          LOWORD(v10) = *(_WORD *)(v7 + 2);
+          v10 = (int)(((uint32_t)(v10) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*(_WORD *)(v7 + 2)) << 0));
           v34 = v10;
           a3b = v10;
           if ( (unsigned __int16)v8 > 0x4353u )
@@ -214,7 +214,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                     orig::CDx_DrawPrimitive(g_pCDx, 4, g_lineVertexCursor, a3b);
                     orig::Model_EndOffscreenPassBindTextures((_DWORD *)(arg4 + 72), v39);
                   }
-                  LOWORD(v10) = v34;
+                  v10 = (int)(((uint32_t)(v10) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(v34) << 0));
                   g_lineVertexCursor += v35;
                 }
                 v10 = (unsigned __int16)v10;
@@ -269,7 +269,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
               *(float *)&g_modelMaterial[14] = *(float *)(v7 + 18) - 1.5;
             }
             g_pCDx->pDevice->SetMaterial(g_modelMaterial);
-            HIWORD(v10) = 0;
+            v10 = (int)(((uint32_t)(v10) & 0xFFFFu) | ((uint32_t)(uint16_t)(0) << 16));
             if ( *(_WORD *)(v7 + 16) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v31 == 1 )
             {
               v39 = 2;
@@ -363,7 +363,7 @@ LABEL_28:
           }
         }
 LABEL_80:
-        LOWORD(v8) = *(_WORD *)v7;
+        v8 = (int)(((uint32_t)(v8) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*(_WORD *)v7) << 0));
         if ( *(_WORD *)v7 == 0xFFFF )
           return v8;
         v6 = self_v;
@@ -655,7 +655,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
       break;
   }
   v13 =(_BYTE*)(v32);
-  LOWORD(v11) = *v32;
+  v11 = (int)(((uint32_t)(v11) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*v32) << 0));
   while ( *v32 != 0xFFFF )
   {
     if ( (v11 & 0x8000) == 0 )
@@ -1052,17 +1052,17 @@ LABEL_145:
         while ( (int)v17 < (int)&g_lightTable_End );
         v18 = (__int64)((double)(unsigned __int8)g_ambientColorR * v39[4]);
         if ( (unsigned int)v18 > 0xFF )
-          LOBYTE(v18) = -1;
-        BYTE2(v36) = v18;
+          v18 = (__int64)(((uint64_t)(v18) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(v18) << 16));
         v19 = (__int64)((double)(unsigned __int8)g_ambientColorG * v39[4]);
         if ( (unsigned int)v19 > 0xFF )
-          LOBYTE(v19) = -1;
-        BYTE1(v36) = v19;
+          v19 = (__int64)(((uint64_t)(v19) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(v19) << 8));
         v20 = (__int64)((double)g_ambientColor_as_u8 * v39[4]);
         if ( (unsigned int)v20 > 0xFF )
-          LOBYTE(v20) = -1;
-        LOBYTE(v36) = v20;
-        HIBYTE(v36) = g_ambientColorA;
+          v20 = (__int64)(((uint64_t)(v20) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v20) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFFFFu) | ((uint32_t)(uint8_t)(g_ambientColorA) << 24));
         g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, v36);
         if ( HIWORD(v39[3]) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v30 == 1 )
         {
@@ -1134,7 +1134,7 @@ LABEL_77:
     }
 LABEL_146:
     v13 =(_BYTE*)(v32);
-    LOWORD(v11) = *v32;
+    v11 = (int)(((uint32_t)(v11) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*v32) << 0));
   }
   return v11;
 }

@@ -378,21 +378,21 @@ LABEL_10:
                 case 0x18:
                   v60 = *(IDirect3DTexture8 **)(3 * (v28 + v27 * (*((unsigned __int16 *)self_ + 19) - v3 - 1))
                                               + *((_DWORD *)self_ + 8));
-                  LOBYTE(v31) = BYTE2(v60) & 0xF8;
-                  HIBYTE(v31) = -1;
-                  LOWORD(v1) = BYTE1(v60) & 0xF8;
+                  v31 = (__int16)(((uint16_t)(v31) & 0xFF00u) | ((uint16_t)(uint8_t)(BYTE2(v60) & 0xF8) << 0));
+                  v31 = (__int16)(((uint16_t)(v31) & 0xFFu) | ((uint16_t)(uint8_t)(-1) << 8));
+                  v1 = (int)(((uint32_t)(v1) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(BYTE1(v60) & 0xF8) << 0));
                   *v26 = ((unsigned __int8)v60 >> 3) | (4 * (v1 | (32 * v31)));
                   goto LABEL_52;
                 case 0x20:
-                  HIBYTE(v32) = 0;
+                  v32 = (__int16)(((uint16_t)(v32) & 0xFFu) | ((uint16_t)(uint8_t)(0) << 8));
                   v33 = v27 * (*((unsigned __int16 *)self_ + 19) - v3 - 1);
                   v34 = *((_DWORD *)self_ + 8);
                   v35 = *(IDirect3DTexture8 **)(v34 + 4 * (v28 + v33));
                   v60 = v35;
-                  LOBYTE(v32) = HIBYTE(v35);
-                  LOWORD(v34) = BYTE2(v35) & 0xF8;
+                  v32 = (__int16)(((uint16_t)(v32) & 0xFF00u) | ((uint16_t)(uint8_t)(HIBYTE(v35)) << 0));
+                  v34 = (int)(((uint32_t)(v34) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(BYTE2(v35) & 0xF8) << 0));
                   v36 = v34 | (2 * (v32 & 0xFF80));
-                  LOWORD(v34) = BYTE1(v35) & 0xF8;
+                  v34 = (int)(((uint32_t)(v34) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(BYTE1(v35) & 0xF8) << 0));
                   LOWORD(v35) = (unsigned __int8)v35 >> 3;
                   v1 = (unsigned int)v35 | (4 * (v34 | (32 * v36)));
                   *v26 = v1;
@@ -541,7 +541,7 @@ LABEL_40:
                                     + 2 * (v10 + v9 * (*((unsigned __int16 *)self_ + 19) - v7 - 1)));
                     *v8 = 8 * v14;
                     v8[1] = (v14 >> 2) & 0xF8;
-                    v8[2] = BYTE1(v14) & 0x80;
+                    v8[2] = (_BYTE)((uint32_t)(v14) >> 8) & 0x80;
                     goto LABEL_26;
                   case 0x18:
                     v15 = *(IDirect3DTexture8 **)(3 * (v10 + v9 * (*((unsigned __int16 *)self_ + 19) - v7 - 1))
@@ -903,7 +903,7 @@ LABEL_136:
     result = (int)v61;
     if ( v61 != nullptr )
       result = v61->Release();
-    LOBYTE(result) = 1;
+    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
     return result;
   }
 LABEL_67:
@@ -920,6 +920,6 @@ LABEL_67:
   result = (int)v61;
   if ( v61 != nullptr )
     result = v61->Release();
-  LOBYTE(result) = 0;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   return result;
 }

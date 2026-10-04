@@ -18,7 +18,7 @@ _DWORD * CMoD3mSpecularElem::Ctor()
   _DWORD *result;
   orig::CMoElem_Constructor((int)self);
   v2 = this->field_198;
-  LOBYTE(v2) = v2 & 0xF7;
+  v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v2 & 0xF7) << 0));
   *self = &CMoD3mSpecularElem_vtbl;
   this->field_176 = 448;
   this->field_1A8 = 0;

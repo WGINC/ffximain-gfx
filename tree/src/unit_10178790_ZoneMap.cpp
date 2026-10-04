@@ -452,7 +452,7 @@ LABEL_17:
           {
             v28 = *(_DWORD *)(self_ + 234572);
             v40 = 4;
-            LOBYTE(v28) = v28 | 2;
+            v28 = (int)(((uint32_t)(v28) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v28 | 2) << 0));
             *(_DWORD *)(self_ + 234572) = v28;
             v29 = (int *)(*v23 + 104);
             do
@@ -581,7 +581,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x1017C9C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 84 returned normally, 4095 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84, town PASS 86, town2 PASS 86, combat PASS 88, zonetoinn PASS 86
+// GATE: PASS -- 100 trials, 85 returned normally, 3532 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 87, town2 PASS 87, combat PASS 89, zonetoinn PASS 87
 XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
 {
   double v6;
@@ -2416,7 +2416,7 @@ LABEL_316:
                 if ( (int)v241 > 255 )
                   LODWORD(v241) = 255;
                 v228 += 36;
-                v243 = v241 | v369 & 0xFF000000 | ((HIDWORD(v241) | (v242 << 8)) << 8);
+                v243 = v241 | v369 & 0xFF000000 | (((_DWORD)((uint64_t)(v241) >> 32) | (v242 << 8)) << 8);
                 v244 = v386;
                 *(_DWORD *)(v380 + 16) = v243;
                 v380 += 28;
@@ -2509,7 +2509,7 @@ LABEL_316:
                 if ( (int)v265 > 255 )
                   LODWORD(v265) = 255;
                 v228 += 36;
-                v267 = v265 | v372 & 0xFF000000 | ((HIDWORD(v265) | (v266 << 8)) << 8);
+                v267 = v265 | v372 & 0xFF000000 | (((_DWORD)((uint64_t)(v265) >> 32) | (v266 << 8)) << 8);
                 v268 = v386;
                 *(_DWORD *)(v380 + 16) = v267;
                 v380 += 28;
@@ -2620,7 +2620,7 @@ LABEL_316:
                 if ( (int)v291 > 255 )
                   LODWORD(v291) = 255;
                 v228 += 36;
-                v293 = v291 | v375 & 0xFF000000 | ((HIDWORD(v291) | (v292 << 8)) << 8);
+                v293 = v291 | v375 & 0xFF000000 | (((_DWORD)((uint64_t)(v291) >> 32) | (v292 << 8)) << 8);
                 v294 = v386;
                 *(_DWORD *)(v380 + 16) = v293;
                 v380 += 28;
@@ -2749,7 +2749,7 @@ LABEL_316:
                 if ( (int)v323 > 255 )
                   LODWORD(v323) = 255;
                 v228 += 36;
-                v325 = v323 | v378 & 0xFF000000 | ((HIDWORD(v323) | (v324 << 8)) << 8);
+                v325 = v323 | v378 & 0xFF000000 | (((_DWORD)((uint64_t)(v323) >> 32) | (v324 << 8)) << 8);
                 v326 = v386;
                 *(_DWORD *)(v380 + 16) = v325;
                 v380 += 28;
@@ -2808,7 +2808,7 @@ LABEL_316:
                 if ( (int)v334 > 255 )
                   LODWORD(v334) = 255;
                 v228 += 36;
-                v336 = v334 | v379 & 0xFF000000 | ((HIDWORD(v334) | (v335 << 8)) << 8);
+                v336 = v334 | v379 & 0xFF000000 | (((_DWORD)((uint64_t)(v334) >> 32) | (v335 << 8)) << 8);
                 v337 = v386;
                 *(_DWORD *)(v380 + 16) = v336;
                 v380 += 28;
@@ -2900,7 +2900,7 @@ LABEL_315:
             if ( (int)v131 > 255 )
               LODWORD(v131) = 255;
             v118 += 48;
-            v133 = v131 | v360 & 0xFF000000 | ((HIDWORD(v131) | (v132 << 8)) << 8);
+            v133 = v131 | v360 & 0xFF000000 | (((_DWORD)((uint64_t)(v131) >> 32) | (v132 << 8)) << 8);
             v134 = v386;
             *(_DWORD *)(v380 + 16) = v133;
             v380 += 28;
@@ -2990,7 +2990,7 @@ LABEL_315:
             if ( (int)v155 > 255 )
               LODWORD(v155) = 255;
             v118 += 48;
-            v157 = v155 | v362 & 0xFF000000 | ((HIDWORD(v155) | (v156 << 8)) << 8);
+            v157 = v155 | v362 & 0xFF000000 | (((_DWORD)((uint64_t)(v155) >> 32) | (v156 << 8)) << 8);
             v158 = v386;
             *(_DWORD *)(v380 + 16) = v157;
             v380 += 28;
@@ -3096,7 +3096,7 @@ LABEL_315:
             if ( (int)v180 > 255 )
               LODWORD(v180) = 255;
             v118 += 48;
-            v182 = v180 | v364 & 0xFF000000 | ((HIDWORD(v180) | (v181 << 8)) << 8);
+            v182 = v180 | v364 & 0xFF000000 | (((_DWORD)((uint64_t)(v180) >> 32) | (v181 << 8)) << 8);
             v183 = v386;
             *(_DWORD *)(v380 + 16) = v182;
             v380 += 28;
@@ -3222,7 +3222,7 @@ LABEL_315:
             if ( (int)v212 > 255 )
               LODWORD(v212) = 255;
             v118 += 48;
-            v214 = v212 | v367 & 0xFF000000 | ((HIDWORD(v212) | (v213 << 8)) << 8);
+            v214 = v212 | v367 & 0xFF000000 | (((_DWORD)((uint64_t)(v212) >> 32) | (v213 << 8)) << 8);
             v215 = v386;
             *(_DWORD *)(v380 + 16) = v214;
             v380 += 28;
@@ -3278,7 +3278,7 @@ LABEL_315:
             if ( (int)v223 > 255 )
               LODWORD(v223) = 255;
             v118 += 48;
-            v225 = v223 | v368 & 0xFF000000 | ((HIDWORD(v223) | (v224 << 8)) << 8);
+            v225 = v223 | v368 & 0xFF000000 | (((_DWORD)((uint64_t)(v223) >> 32) | (v224 << 8)) << 8);
             v226 = v386;
             *(_DWORD *)(v380 + 16) = v225;
             v380 += 28;
@@ -3426,7 +3426,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10183490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 2182 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 90, town2 PASS 90, combat PASS 90, zonetoinn PASS 90
+// GATE: PASS -- 100 trials, 87 returned normally, 2184 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 90, town2 PASS 90, combat PASS 90, zonetoinn PASS 90
 XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
 {
   float *result;
@@ -3548,7 +3548,7 @@ XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int
       orig::Gfx_SetZBias(g_zbiasPreset_C4D0);
     g_pCDx->pDevice->SetVertexShader(*(_DWORD *)(a3 + 32));
     g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    LOBYTE(v5) = g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+    v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP)) << 0));
     v7 = *(int **)(a3 + 96);
     if ( v7 != nullptr )
     {
@@ -3647,9 +3647,9 @@ LABEL_26:
       g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
       g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
       g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      LOBYTE(v5) = *((_BYTE *)self_ + 234904);
+      v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*((_BYTE *)self_ + 234904)) << 0));
       if ( (_BYTE)v5 == 0 )
-        LOBYTE(v5) = orig::Gfx_SetZBias(g_zbiasRestore);
+        v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::Gfx_SetZBias(g_zbiasRestore)) << 0));
     }
   }
   return v5;
@@ -4072,7 +4072,7 @@ XI_API int __thiscall fn_10184C90(void *self_, int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10185CA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 64 returned normally, 1622 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 63 returned normally, 1620 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 76
 XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4)
 {
   float *v5;

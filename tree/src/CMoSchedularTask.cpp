@@ -21,7 +21,7 @@ void * CMoSchedularTask::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10057FB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 93 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 80, town2 PASS 78, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 93 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 80, town2 PASS 77, combat PASS 100, zonetoinn PASS 100
 int CMoSchedularTask::Interpret()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1190,8 +1190,8 @@ LABEL_212:
       orig::sub_10052880((_DWORD *)(this->field_88 + 12), 0);
       v614 = this->field_88;
       v615 = *(_DWORD *)(v614 + 8);
-      v616 = HIBYTE(v615);
-      if ( HIBYTE(v615) == 63 )
+      v616 = (_BYTE)((uint32_t)(v615) >> 24);
+      if ( (_BYTE)((uint32_t)(v615) >> 24) == 63 )
       {
         v617 = (_DWORD *)orig::sub_10062770(self);
         if ( orig::sub_10083220(v617) || v615 != 1063544164 && v615 != 1064464227 )
@@ -1289,7 +1289,7 @@ LABEL_212:
         v636 = *(_WORD *)(v635 + 24);
         *(_QWORD *)v841 = (unsigned __int16)*(_DWORD *)(v635 + 28);
         v637 = (double)*(__int64 *)v841;
-        LOBYTE(v635) = *(_BYTE *)(v635 + 30);
+        v635 = (int)(((uint32_t)(v635) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v635 + 30)) << 0));
         *(_QWORD *)v841 = v636;
         v831 = v637;
         v796 = (float)v636;
@@ -1329,7 +1329,7 @@ LABEL_212:
       v652 = *(_WORD *)(v651 + 24);
       *(_QWORD *)v841 = (unsigned __int16)*(_DWORD *)(v651 + 28);
       v653 = (double)*(__int64 *)v841;
-      LOBYTE(v651) = *(_BYTE *)(v651 + 30);
+      v651 = (int)(((uint32_t)(v651) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v651 + 30)) << 0));
       *(_QWORD *)v841 = v652;
       v832 = v653;
       v797 = (float)v652;
@@ -1484,7 +1484,7 @@ LABEL_212:
       *((float *)v106 + 13) = v111;
       *((float *)v106 + 14) = v111;
       *((_WORD *)v106 + 30) = v112;
-      v114 = HIBYTE(v109);
+      v114 = (_BYTE)((uint16_t)(v109) >> 8);
       v115 = (unsigned __int8)v109 - *((unsigned __int8 *)v106 + 68);
       *((_WORD *)v106 + 31) = v114 - v113;
       v116 = *((unsigned __int8 *)v106 + 71);
@@ -2352,7 +2352,7 @@ LABEL_825:
         v837 = *(float *)&v701;
       }
 LABEL_793:
-      LOBYTE(v702) = 0;
+      v702 = (int)(((uint32_t)(v702) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
       if ( orig::sub_1005E1F0(at<_DWORD *>(this, 0x88)) == 175 )
         v702 = *(_DWORD *)(this->field_88 + 8);
       if ( !orig::sub_1005E020((_DWORD *)g_pSceneState, v702) || !orig::sub_1005E000((_DWORD *)g_pSceneState, v702) )
@@ -2542,7 +2542,7 @@ LABEL_573:
       *((float *)v117 + 13) = v122;
       *((float *)v117 + 14) = v122;
       *((_WORD *)v117 + 30) = v123;
-      v125 = HIBYTE(v120);
+      v125 = (_BYTE)((uint16_t)(v120) >> 8);
       v126 = (unsigned __int8)v120 - *((unsigned __int8 *)v117 + 68);
       *((_WORD *)v117 + 31) = v125 - v124;
       v127 = *((unsigned __int8 *)v117 + 71);
@@ -3281,22 +3281,22 @@ LABEL_370:
           v835[0] = (int *)(v695 >> orig::sub_1005E4A0(dword_1047BCBC));
           goto LABEL_786;
         case 11:
-          LOBYTE(v677) = orig::sub_10068F80(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10068F80(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
           goto LABEL_784;
         case 12:
-          LOBYTE(v677) = orig::sub_10068EF0(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10068EF0(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
           goto LABEL_784;
         case 13:
-          LOBYTE(v677) = orig::sub_10069010(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10069010(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
           goto LABEL_784;
         case 14:
-          LOBYTE(v677) = orig::sub_100690A0(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_100690A0(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
           goto LABEL_784;
         case 15:
-          LOBYTE(v677) = orig::sub_10069130(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10069130(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
           goto LABEL_784;
         case 16:
-          LOBYTE(v677) = orig::sub_100691C0(&dword_1047BEFC, (int *)dword_1047BCBC);
+          v677 = (int)(((uint32_t)(v677) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_100691C0(&dword_1047BEFC, (int *)dword_1047BCBC)) << 0));
 LABEL_784:
           v677 = (unsigned __int8)v677;
           goto LABEL_785;
@@ -3479,7 +3479,7 @@ LABEL_787:
       *((float *)v128 + 13) = v133;
       *((float *)v128 + 14) = v133;
       *((_WORD *)v128 + 30) = v134;
-      v136 = HIBYTE(v131);
+      v136 = (_BYTE)((uint16_t)(v131) >> 8);
       v137 = (unsigned __int8)v131 - *((unsigned __int8 *)v128 + 68);
       *((_WORD *)v128 + 31) = v136 - v135;
       v138 = *((unsigned __int8 *)v128 + 71);
@@ -3751,9 +3751,9 @@ LABEL_427:
       v357 = v845[(2 * v356) | *(__int16 *)(v355 + 8)];
       v358 =(_BYTE*)(v354 + 542);
       if ( v326 )
-        LOBYTE(v359) = orig::sub_1005E2B0(v358);
+        v359 = (int)(((uint32_t)(v359) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_1005E2B0(v358)) << 0));
       else
-        LOBYTE(v359) = orig::sub_1005E2C0(v358);
+        v359 = (int)(((uint32_t)(v359) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_1005E2C0(v358)) << 0));
       v359 = (char)v359;
       if ( (v359 & 0x80u) != 0 )
         v359 = 0;
@@ -3960,9 +3960,9 @@ LABEL_527:
       if ( v570 == nullptr )
         return 0;
       v571 = (__int64)orig::sub_1005E590((int)self);
-      HIDWORD(v571) = this->field_88;
+      v571 = (__int64)(((uint64_t)(v571) & 0xFFFFFFFFull) | ((uint64_t)(uint32_t)(this->field_88) << 32));
       v835[0] = (int *)v571;
-      v828 = *(_DWORD *)(HIDWORD(v571) + 8);
+      v828 = *(_DWORD *)((_DWORD)((uint64_t)(v571) >> 32) + 8);
       v792 = (_DWORD *)orig::sub_100627D0(self);
       v572 = (_DWORD *)orig::sub_10062770(self);
       orig::sub_10061E00((int)v570, self, v572, v792, v828, (int)v835[0]);
@@ -4017,7 +4017,7 @@ LABEL_102:
       if ( v577 == 0 )
         return 0;
       v578 = this->field_88;
-      LOBYTE(v578) = *(_BYTE *)(v578 + 8);
+      v578 = (int)(((uint32_t)(v578) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v578 + 8)) << 0));
       (*(void (__thiscall **)(int, int))(*(_DWORD *)v577 + 176))(v577, v578);
       return 0;
     case 0x9Fu:
@@ -4025,7 +4025,7 @@ LABEL_102:
       if ( v579 == 0 )
         return 0;
       v580 = this->field_88;
-      LOBYTE(v580) = *(_BYTE *)(v580 + 8);
+      v580 = (int)(((uint32_t)(v580) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v580 + 8)) << 0));
       (*(void (__thiscall **)(int, int))(*(_DWORD *)v579 + 184))(v579, v580);
       return 0;
     case 0xA0u:
@@ -4168,7 +4168,7 @@ LABEL_475:
       if ( v581 == 0 )
         return 0;
       v582 = this->field_88;
-      LOBYTE(v582) = *(_BYTE *)(v582 + 8);
+      v582 = (int)(((uint32_t)(v582) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v582 + 8)) << 0));
       (*(void (__thiscall **)(int, int))(*(_DWORD *)v581 + 192))(v581, v582);
       return 0;
     case 0xAEu:
@@ -4287,7 +4287,7 @@ LABEL_496:
       if ( v583 == 0 )
         return 0;
       v584 = this->field_88;
-      LOBYTE(v584) = *(_BYTE *)(v584 + 8);
+      v584 = (int)(((uint32_t)(v584) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v584 + 8)) << 0));
       (*(void (__thiscall **)(int, int))(*(_DWORD *)v583 + 200))(v583, v584);
       return 0;
     case 0xBEu:

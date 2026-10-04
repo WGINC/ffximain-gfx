@@ -10,7 +10,7 @@ char ** __cdecl CMoDistModelElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043320  (placed by IDB name)
-// GATE: PASS -- 100 trials, 51 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 51, town PASS 25, town2 PASS 25, combat PASS 25, zonetoinn PASS 52
+// GATE: PASS -- 100 trials, 50 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 51
 void CMoDistModelElem::BuildDistortedMesh()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

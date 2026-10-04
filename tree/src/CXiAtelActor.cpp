@@ -287,7 +287,7 @@ LABEL_50:
             {
               if ( *((_BYTE *)&v67[3] + v25) != 0x92 )
                 v37 = -2139062144;
-              v55 = v37 & 0xFF00 | BYTE2(v37) | (((unsigned __int8)v37 | 0xFFFF8000) << 16);
+              v55 = v37 & 0xFF00 | (_BYTE)((uint32_t)(v37) >> 16) | (((unsigned __int8)v37 | 0xFFFF8000) << 16);
               g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
             }
             else
@@ -505,9 +505,9 @@ LABEL_25:
                 ViewportWidth = v15[1];
                 *v15 = v17;
                 v18 = (__int64)((double)ViewportWidth * 0.5);
-                HIDWORD(v18) = *v15;
+                v18 = (__int64)(((uint64_t)(v18) & 0xFFFFFFFFull) | ((uint64_t)(uint32_t)(*v15) << 32));
                 *((_WORD *)&v50[34] + v14) += v18;
-                LODWORD(v13) = HIDWORD(v18) + LODWORD(v39);
+                LODWORD(v13) = (_DWORD)((uint64_t)(v18) >> 32) + LODWORD(v39);
                 v15[1] = v18;
                 v9 = *(float *)&v36;
                 v39 = v13;
@@ -576,7 +576,7 @@ LABEL_28:
             {
               if ( *((_BYTE *)&v49[3] + v19) != 0x92 )
                 v30 = -2139062144;
-              v38 = v30 & 0xFF00 | BYTE2(v30) | (((unsigned __int8)v30 | 0xFFFF8000) << 16);
+              v38 = v30 & 0xFF00 | (_BYTE)((uint32_t)(v30) >> 16) | (((unsigned __int8)v30 | 0xFFFF8000) << 16);
               g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
             }
             else

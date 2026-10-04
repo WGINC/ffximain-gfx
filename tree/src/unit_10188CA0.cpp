@@ -28,7 +28,7 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
   float &v24 = *reinterpret_cast<float *>(xi_frame + 0x18);
   float (&v25)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x1C);
   int v26;
-  LODWORD(v3) = *((_DWORD *)self_ - 7);
+  v3 = (__int64)(((uint64_t)(v3) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(*((_DWORD *)self_ - 7)) << 0));
   if ( (_DWORD)v3 == 1 )
   {
     *a2 = 0;
@@ -79,17 +79,17 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
         if ( ((__int16)(((v16 || __builtin_isunordered(v6, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 1.0)) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v6, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
           v6 = 1.0;
       }
-      HIWORD(v26) = (unsigned __int8)(__int64)(v20 * 128.0);
-      BYTE1(v26) = (__int64)(v21 * 128.0);
+      v26 = (int)(((uint32_t)(v26) & 0xFFFFu) | ((uint32_t)(uint16_t)((unsigned __int8)(__int64)(v20 * 128.0)) << 16));
+      v26 = (int)(((uint32_t)(v26) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)((__int64)(v21 * 128.0)) << 8));
       v3 = (__int64)(v6 * 128.0);
-      LOBYTE(v26) = v3;
+      v26 = (int)(((uint32_t)(v26) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v3) << 0));
       *a2 = v26;
     }
   }
   else
   {
     *a2 = -1;
-    LODWORD(v3) = a2;
+    v3 = (__int64)(((uint64_t)(v3) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(a2) << 0));
   }
   return (_DWORD *)v3;
 }

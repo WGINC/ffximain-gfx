@@ -605,7 +605,7 @@ XI_API int __cdecl sqgxMatrixUpdate(void)
       v16[18] = -*(float *)&v5[v7 + 213];
       g_pDancerDevice->LightEnable(v6, 1u);
       g_pDancerDevice->SetLight(v6, v16);
-      LOBYTE(v0) = v15;
+      v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v15) << 0));
     }
     ++v8;
     ++v6;
@@ -636,7 +636,7 @@ XI_API int __cdecl sqgxMatrixUpdate(void)
       v16[15] = *(float *)&g_pSqgxContext[v10 + 345];
       g_pDancerDevice->LightEnable(v9, 1u);
       g_pDancerDevice->SetLight(v9, v16);
-      LOBYTE(v0) = v15;
+      v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v15) << 0));
     }
     ++v11;
     v10 += 16;

@@ -308,7 +308,11 @@
 "class": "CDx",
 "method": "CreateRampTexture1x16",
 "why": "IDB name",
-"symbol": "CDx::CreateRampTexture1x16"
+"symbol": "CDx::CreateRampTexture1x16",
+"partial_regs": {
+"store rewritten": 5,
+"read rewritten": 2
+}
 },
 "0x1000c900": {
 "class": "CDx",
@@ -363,7 +367,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file",
 "symbol": "App_InitScene",
-"unit": "unit_10010370_App"
+"unit": "unit_10010370_App",
+"partial_regs": {
+"read left: operand not a local or parameter": 1
+}
 },
 "0x10011920": {
 "class": "CMoTask",
@@ -400,21 +407,34 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Frame_Render",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 4,
+"store left: operand not a local or parameter": 17,
+"lvalue use left": 17,
+"read left: operand not a local or parameter": 2,
+"read rewritten": 1
+}
 },
 "0x10012f40": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Post_Afterimage",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x100132b0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Post_FlashAndZoomFeedback",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 3
+}
 },
 "0x10013ad0": {
 "class": null,
@@ -523,7 +543,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100177A0 (CShader) and 0x10017BA0 (XiCapture) -- an unnamed source file",
 "symbol": "fn_10017810",
-"unit": "unit_100177E0"
+"unit": "unit_100177E0",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10017c60": {
 "class": null,
@@ -602,7 +625,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
 "symbol": "TexObj_InitFromHeader",
-"unit": "unit_1001B890"
+"unit": "unit_1001B890",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x1001dc20": {
 "class": "CMoResource_VT_1032C8AC",
@@ -640,7 +666,11 @@
 "class": "CYyModelDt",
 "method": "PrepareRenderState",
 "why": "IDB name",
-"symbol": "CYyModelDt::PrepareRenderState"
+"symbol": "CYyModelDt::PrepareRenderState",
+"partial_regs": {
+"store rewritten": 7,
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10022fa0": {
 "class": "CYyModelDt",
@@ -715,14 +745,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "ProjTex_EndPass",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10025870": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "ProjTex_CaptureToTarget",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10025c40": {
 "class": null,
@@ -736,7 +772,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "EnvMap_EndPass",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x100262c0": {
 "class": null,
@@ -769,7 +808,10 @@
 "class": "CXiMovie",
 "method": "Draw",
 "why": "IDB name",
-"symbol": "CXiMovie::Draw"
+"symbol": "CXiMovie::Draw",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10026c70": {
 "class": "CYyIcon",
@@ -878,13 +920,19 @@
 "class": "CXiSkeletonActor",
 "method": "DrawModel",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::DrawModel"
+"symbol": "CXiSkeletonActor::DrawModel",
+"partial_regs": {
+"read rewritten": 3
+}
 },
 "0x1002c360": {
 "class": "CXiSkeletonActor",
 "method": "PrepareModelsOnce",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::PrepareModelsOnce"
+"symbol": "CXiSkeletonActor::PrepareModelsOnce",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1002c950": {
 "class": "CMoTask",
@@ -920,7 +968,11 @@
 "class": "CYyModelDt",
 "method": "SkinAndDrawV2",
 "why": "IDB name",
-"symbol": "CYyModelDt::SkinAndDrawV2"
+"symbol": "CYyModelDt::SkinAndDrawV2",
+"partial_regs": {
+"store rewritten": 9,
+"read left: operand not a local or parameter": 19
+}
 },
 "0x1002f160": {
 "class": null,
@@ -1055,14 +1107,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
 "symbol": "Post_CaptureSceneToTarget",
-"unit": "unit_10038930"
+"unit": "unit_10038930",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10038e10": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
 "symbol": "Post_DrawRotatingGhostLayers",
-"unit": "unit_10038930"
+"unit": "unit_10038930",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x10039770": {
 "class": "CYyTexBase",
@@ -1099,14 +1157,25 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
 "symbol": "TexObj_Create",
-"unit": "unit_100399D0_TexObj"
+"unit": "unit_100399D0_TexObj",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10039e50": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
 "symbol": "TexObj_Upload",
-"unit": "unit_100399D0_TexObj"
+"unit": "unit_100399D0_TexObj",
+"partial_regs": {
+"store rewritten": 9,
+"store left: operand not a local or parameter": 2,
+"read left: operand not a local or parameter": 16,
+"lvalue use left": 2,
+"read rewritten": 1
+}
 },
 "0x1003aa40": {
 "class": "CYyTexMng",
@@ -1209,14 +1278,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
 "symbol": "Sky_DrawDome",
-"unit": "unit_1003D990"
+"unit": "unit_1003D990",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1003db60": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
 "symbol": "Sky_DrawDomeViewCentered",
-"unit": "unit_1003D990"
+"unit": "unit_1003D990",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1003e690": {
 "class": "CMoElem",
@@ -1288,7 +1363,12 @@
 "class": "CMoDistMorphElem",
 "method": "ComputeMorphHandle",
 "why": "IDB name",
-"symbol": "CMoDistMorphElem::ComputeMorphHandle"
+"symbol": "CMoDistMorphElem::ComputeMorphHandle",
+"partial_regs": {
+"store left: operand type float is not an integer type": 1,
+"lvalue use left": 3,
+"read left: operand type float is not an integer type": 7
+}
 },
 "0x10040c20": {
 "class": null,
@@ -1313,7 +1393,10 @@
 "class": "CMoD3mSpecularElem",
 "method": "Ctor",
 "why": "IDB name",
-"symbol": "CMoD3mSpecularElem::Ctor"
+"symbol": "CMoD3mSpecularElem::Ctor",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x100410e0": {
 "class": "CMoD3mSpecularElem",
@@ -1453,7 +1536,11 @@
 "class": "CMoDistMorphElem",
 "method": "UpdateMorphBlend",
 "why": "IDB name",
-"symbol": "CMoDistMorphElem::UpdateMorphBlend"
+"symbol": "CMoDistMorphElem::UpdateMorphBlend",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10043700": {
 "class": "CMoElem",
@@ -1471,7 +1558,10 @@
 "class": "CMoDistRingElem",
 "method": "AllocRingGeometry",
 "why": "IDB name",
-"symbol": "CMoDistRingElem::AllocRingGeometry"
+"symbol": "CMoDistRingElem::AllocRingGeometry",
+"partial_regs": {
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10043a90": {
 "class": "CMoTask_VT_1032AF60",
@@ -1539,7 +1629,13 @@
 "method": null,
 "why": "unit: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB",
 "symbol": "fn_100467E0",
-"unit": "CMoElem"
+"unit": "CMoElem",
+"partial_regs": {
+"store rewritten": 2,
+"store left: operand not a local or parameter": 2,
+"lvalue use left": 2,
+"read rewritten": 1
+}
 },
 "0x100472e0": {
 "class": "CMoElem",
@@ -2020,7 +2116,16 @@
 "class": "CMoSchedularTask",
 "method": "Interpret",
 "why": "IDB name",
-"symbol": "CMoSchedularTask::Interpret"
+"symbol": "CMoSchedularTask::Interpret",
+"partial_regs": {
+"store rewritten": 16,
+"store left: operand not a local or parameter": 2,
+"store left: the variable's address is taken": 2,
+"read rewritten": 6,
+"read left: operand not a local or parameter": 31,
+"lvalue use left": 5,
+"read left: operand type float is not an integer type": 4
+}
 },
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
@@ -2539,13 +2644,20 @@
 "class": "CMoResource_VT_1032C778",
 "method": "vf008",
 "why": "tree manifest",
-"symbol": "CMoResource_VT_1032C778::vf008"
+"symbol": "CMoResource_VT_1032C778::vf008",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10071a30": {
 "class": "CMoResource_VT_1032C778",
 "method": "vf009",
 "why": "tree manifest",
-"symbol": "CMoResource_VT_1032C778::vf009"
+"symbol": "CMoResource_VT_1032C778::vf009",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10071a40": {
 "class": "CMoResource_VT_1032C8AC",
@@ -2775,7 +2887,10 @@
 "class": "CXiActorNameDraw",
 "method": "SetRenderState",
 "why": "IDB name; static (takes no this)",
-"symbol": "CXiActorNameDraw::SetRenderState"
+"symbol": "CXiActorNameDraw::SetRenderState",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10082070": {
 "class": "CXiActor",
@@ -2860,14 +2975,28 @@
 "method": null,
 "why": "unit: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB",
 "symbol": "Actor_DrawWorldText",
-"unit": "CXiAtelActor"
+"unit": "CXiAtelActor",
+"partial_regs": {
+"store left: operand not a local or parameter": 3,
+"lvalue use left": 3,
+"read left: operand not a local or parameter": 3,
+"read rewritten": 1
+}
 },
 "0x10086900": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB",
 "symbol": "fn_10086900",
-"unit": "CXiAtelActor"
+"unit": "CXiAtelActor",
+"partial_regs": {
+"store left: operand type float is not an integer type": 2,
+"store rewritten": 1,
+"read left: operand type float is not an integer type": 9,
+"lvalue use left": 4,
+"read rewritten": 2,
+"read left: operand not a local or parameter": 1
+}
 },
 "0x100a27f0": {
 "class": "CMoTask_VT_1032D6D4",
@@ -3331,20 +3460,37 @@
 "class": "CXiSkeletonActor",
 "method": "Init",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::Init"
+"symbol": "CXiSkeletonActor::Init",
+"partial_regs": {
+"store rewritten": 1,
+"read left: operand type float is not an integer type": 2
+}
 },
 "0x100c63d0": {
 "class": "CXiSkeletonActor",
 "method": "OnMove",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OnMove"
+"symbol": "CXiSkeletonActor::OnMove",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"store rewritten": 1,
+"lvalue use left": 1,
+"read left: operand not a local or parameter": 2
+}
 },
 "0x100cb4e0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file",
 "symbol": "Actor_SelectNearestLights",
-"unit": "unit_100C8280"
+"unit": "unit_100C8280",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"store rewritten": 2,
+"lvalue use left": 2,
+"read left: operand type float is not an integer type": 1,
+"read left: operand not a local or parameter": 3
+}
 },
 "0x100cbd60": {
 "class": "CXiSkeletonActor",
@@ -3362,7 +3508,10 @@
 "class": "CXiSkeletonActor",
 "method": "OcclusionClip",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OcclusionClip"
+"symbol": "CXiSkeletonActor::OcclusionClip",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x100cd490": {
 "class": "CXiSkeletonActor",
@@ -3404,7 +3553,11 @@
 "class": "CXiSkeletonActor",
 "method": "SetAttack",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::SetAttack"
+"symbol": "CXiSkeletonActor::SetAttack",
+"partial_regs": {
+"store left: the variable's address is taken": 2,
+"lvalue use left": 2
+}
 },
 "0x100cee40": {
 "class": "CXiSkeletonActor",
@@ -3428,7 +3581,12 @@
 "class": "CXiSkeletonActor",
 "method": "SetModel",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::SetModel"
+"symbol": "CXiSkeletonActor::SetModel",
+"partial_regs": {
+"store left: the variable's address is taken": 1,
+"store left: operand not a local or parameter": 2,
+"lvalue use left": 3
+}
 },
 "0x100cfc10": {
 "class": "CXiSkeletonActor",
@@ -3452,7 +3610,10 @@
 "class": "CXiSkeletonActor",
 "method": "OnDrawName",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OnDrawName"
+"symbol": "CXiSkeletonActor::OnDrawName",
+"partial_regs": {
+"lvalue use left": 1
+}
 },
 "0x100d06f0": {
 "class": "CXiSkeletonActor",
@@ -3500,7 +3661,10 @@
 "class": "CXiSkeletonActor",
 "method": "LoadSkeletonSync",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::LoadSkeletonSync"
+"symbol": "CXiSkeletonActor::LoadSkeletonSync",
+"partial_regs": {
+"lvalue use left": 1
+}
 },
 "0x100d4330": {
 "class": "CXiSkeletonActor",
@@ -3530,7 +3694,10 @@
 "class": "CXiSkeletonActor",
 "method": "IsDirectionLock_Set",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::IsDirectionLock_Set"
+"symbol": "CXiSkeletonActor::IsDirectionLock_Set",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x100d62c0": {
 "class": "CXiSkeletonActor",
@@ -3677,7 +3844,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_1011E980",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x1011ede0": {
 "class": null,
@@ -3691,7 +3861,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Cell_DrawStretchedWrapped",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand type float is not an integer type": 1
+}
 },
 "0x1011f300": {
 "class": null,
@@ -3717,20 +3890,29 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Cursor_Init",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x10124640": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10124640",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10124700": {
 "class": "Obj_104E1D4C",
 "method": "Cursor_SetPosition",
 "why": "callers pass the object in dword_104E1D4C as this (9 of 11 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified",
-"symbol": "Obj_104E1D4C::Cursor_SetPosition"
+"symbol": "Obj_104E1D4C::Cursor_SetPosition",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x10124eb0": {
 "class": "Obj_104E1D4C",
@@ -3750,7 +3932,12 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10125360",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"store rewritten": 4,
+"read left: operand not a local or parameter": 2,
+"lvalue use left": 1
+}
 },
 "0x101604b0": {
 "class": null,
@@ -3771,7 +3958,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10162010",
-"unit": "unit_1012AC80"
+"unit": "unit_1012AC80",
+"partial_regs": {
+"read rewritten": 3
+}
 },
 "0x101620b0": {
 "class": null,
@@ -3885,14 +4075,20 @@
 "method": null,
 "why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
 "symbol": "Gfx_DrawQuadOutline",
-"unit": "CTsZoneMap"
+"unit": "CTsZoneMap",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10177c50": {
 "class": null,
 "method": null,
 "why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
 "symbol": "Gfx_DrawLine3D",
-"unit": "CTsZoneMap"
+"unit": "CTsZoneMap",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10177cd0": {
 "class": null,
@@ -3953,7 +4149,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "Zone_RenderEnvironment",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1017c9c0": {
 "class": null,
@@ -3967,13 +4166,25 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "fn_1017DE20",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store left: the variable's address is taken": 20,
+"store left: operand not a local or parameter": 4,
+"lvalue use left": 43,
+"read left: operand type float is not an integer type": 8,
+"read left: operand not a local or parameter": 31,
+"read rewritten": 10
+}
 },
 "0x10182700": {
 "class": "CTsZoneMap",
 "method": "DrawProjectedTexture",
 "why": "IDB name",
-"symbol": "CTsZoneMap::DrawProjectedTexture"
+"symbol": "CTsZoneMap::DrawProjectedTexture",
+"partial_regs": {
+"read left: operand not a local or parameter": 2,
+"read left: operand type float is not an integer type": 7
+}
 },
 "0x10182f10": {
 "class": null,
@@ -3994,7 +4205,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "fn_10183760",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store rewritten": 3
+}
 },
 "0x10183da0": {
 "class": null,
@@ -4020,7 +4234,10 @@
 "class": "CTsZoneMap",
 "method": "DrawProjectedShadow",
 "why": "IDB name",
-"symbol": "CTsZoneMap::DrawProjectedShadow"
+"symbol": "CTsZoneMap::DrawProjectedShadow",
+"partial_regs": {
+"read left: operand not a local or parameter": 1
+}
 },
 "0x10185ca0": {
 "class": null,
@@ -4034,7 +4251,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
 "symbol": "Env_ComputeAmbient",
-"unit": "unit_10188CA0"
+"unit": "unit_10188CA0",
+"partial_regs": {
+"store rewritten": 5
+}
 },
 "0x10188fa0": {
 "class": null,
@@ -4067,7 +4287,11 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
 "symbol": "fn_101EEBD0",
-"unit": "unit_101D7020"
+"unit": "unit_101D7020",
+"partial_regs": {
+"store left: operand not a local or parameter": 4,
+"lvalue use left": 4
+}
 },
 "0x1021d4c0": {
 "class": "CXiMovie",
@@ -4094,7 +4318,11 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file",
 "symbol": "Ui_DrawKeyPrompt",
-"unit": "unit_10237880"
+"unit": "unit_10237880",
+"partial_regs": {
+"read left: operand not a local or parameter": 2,
+"read left: operand type float is not an integer type": 2
+}
 },
 "0x1024cf50": {
 "class": null,
@@ -4122,7 +4350,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
 "symbol": "StAvatarFini",
-"unit": "unit_1024D400"
+"unit": "unit_1024D400",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10251a80": {
 "class": null,
@@ -4374,7 +4605,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "symbol": "sqgxMatrixUpdate",
-"unit": "unit_102822A0"
+"unit": "unit_102822A0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10284950": {
 "class": null,

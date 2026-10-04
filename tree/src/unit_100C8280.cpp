@@ -408,12 +408,12 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       }
     }
     v43 = *((_DWORD *)self_ + 528);
-    LOBYTE(v43) = v43 | 4;
+    v43 = (int)(((uint32_t)(v43) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v43 | 4) << 0));
   }
   else
   {
     v43 = *((_DWORD *)self_ + 528);
-    LOBYTE(v43) = v43 & 0xFB;
+    v43 = (int)(((uint32_t)(v43) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v43 & 0xFB) << 0));
   }
   *((_DWORD *)self_ + 528) = v43;
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, v85);

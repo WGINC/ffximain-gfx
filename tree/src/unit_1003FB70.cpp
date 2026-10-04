@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10040C20  (unit unit_1003FB70: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 320 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 100 returned normally, 320 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 95, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
 XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
 {
   int ScratchMatrixStackTop;

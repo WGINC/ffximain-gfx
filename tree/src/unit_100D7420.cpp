@@ -1540,7 +1540,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
   if ( (unsigned __int8)orig::sub_101606F0(g_menuMng) != 0 || g_pMovie != 0 )
   {
     *(self_ + 77) = 0;
-    LOBYTE(v2) = orig::Cursor_SetVisible(self_, 0);
+    v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::Cursor_SetVisible(self_, 0)) << 0));
   }
   else
   {
@@ -1955,7 +1955,7 @@ LABEL_141:
             if ( v117 != nullptr )
               *((_BYTE *)v117 + 40) = orig::sub_102347D0(v117, v120, v121);
             v107 = self_v;
-            LOWORD(v108) = orig::sub_10118CB0(self_v, (_DWORD *)self_ + 1, &v115);
+            v108 = (int)(((uint32_t)(v108) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(orig::sub_10118CB0(self_v, (_DWORD *)self_ + 1, &v115)) << 0));
             *((_WORD *)self_ + 41) = v108;
             if ( (__int16)v108 > 0 && (_WORD)v108 != v106 )
               orig::sub_10118DB0(v107, v108, 0);
@@ -2041,11 +2041,11 @@ LABEL_141:
           default:
             break;
         }
-        LOBYTE(v2) = g_cfgHardwareMouse;
+        v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(g_cfgHardwareMouse) << 0));
         if ( g_cfgHardwareMouse == 0 || (LOBYTE(v2) = *(self_ + 78), (_BYTE)v2 == 0) )
         {
           if ( g_pCDx != nullptr )
-            LOBYTE(v2) = (unsigned __int8)orig::sub_10009750(nullptr);
+            v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)((unsigned __int8)orig::sub_10009750(nullptr)) << 0));
         }
         break;
       default:

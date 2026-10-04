@@ -47,7 +47,7 @@ _DWORD * CMoProcessor::InitRotationMatrices()
 }
 
 // FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 198 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 54, town2 PASS 54, combat PASS 54, zonetoinn PASS 54
+// GATE: PASS -- 100 trials, 99 returned normally, 198 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 51, town2 PASS 51, combat PASS 51, zonetoinn PASS 51
 int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

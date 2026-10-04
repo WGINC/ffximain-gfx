@@ -614,14 +614,7 @@ def site_pops(m, ret):
         ex = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
         _BLOCKS.extend(sorted((a, b, sorted(map(tuple, v))) for v in ex.values() for a, b in v))
         _STARTS.extend(x[0] for x in _BLOCKS); _MAXLEN[0] = max(b - a for a, b, _ in _BLOCKS)
-    if not _CALLSITES:
-        d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
-        ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
-        _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
-        _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
-        _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
-        _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
-        _CALLSITES['com'] = {k: v['pops'] for k, v in ld('com_calls.json').items()}
+    site_pops_init()
     # the function's instructions, decoded once (the image's code is never written by the gate)
     # the first piece in sorted order that contains `ret` (as a linear scan would find it): only pieces
     # starting within the longest piece's length below `ret` can contain it
@@ -640,6 +633,7 @@ def site_pops(m, ret):
     m.last_site = None
     if call is None or call.mnemonic != 'call': return None
     k = '0x%08X' % call.address; m.last_site = k
+    if getattr(m, 'dep_sites', None) is not None: m.dep_sites.add(k)       # gate_cache: a dependency of this run
     typed = _CALLSITES['typed'].get(k)
     srcs = {}
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
@@ -657,6 +651,17 @@ def site_pops(m, ret):
 
 
 _CALLSITES = {}
+
+
+def site_pops_init():
+    if not _CALLSITES:
+        d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
+        _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
+        _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
+        _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
+        _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
+        _CALLSITES['com'] = {k: v['pops'] for k, v in ld('com_calls.json').items()}
 _STARTS = []
 _MAXLEN = [0]
 _ENDS = {}               # function pieces -> {end address of an instruction: instruction}
@@ -1007,6 +1012,7 @@ def main():
     ap.add_argument('game'); ap.add_argument('recon'); ap.add_argument('cases'); ap.add_argument('out')
     ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--only', default=None)
+    ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
     o = ap.parse_args()
     cases = json.load(open(o.cases))
     if o.only: cases = [c for c in cases if c['original'].lower() in o.only.lower().split(',')]
@@ -1015,14 +1021,32 @@ def main():
         done = {json.loads(l)['candidate'] for l in open(o.out)}
     cases = [c for c in cases if c['candidate'] not in done]
     f = open(o.out, 'a'); k = 0
+    # gate_cache: a verdict is reused only when the run would be the same run (see gate_cache.py)
+    use_cache = o.cache
+    if use_cache:
+        import gate_cache as GC
+        base = GC.base_key(o.game, os.environ.get('FFXI_LIVE')); images = {}; hits = 0
+        site_pops_init()
     for chunk, stubs in batches(cases):
-        m = GfxMachine(o.game, o.recon, stubs, [])
+        # RECON may be a directory of per-function DLLs (build_raw.sh: fndll/fn_<address>.dll)
+        recon = os.path.join(o.recon, 'fn_%08X.dll' % int(chunk[0]['original'], 16)) if os.path.isdir(o.recon) else o.recon
+        if use_cache:
+            img = images.get(recon) or images.setdefault(recon, GC.Image(recon))
+            c = chunk[0]; key = GC.case_key(base, c, o.trials, o.seed)
+            r = GC.lookup(key, img, _CALLSITES) if len(chunk) == 1 else None
+            if r is not None:
+                hits += 1; f.write(json.dumps(r) + '\n'); f.flush(); k += len(chunk)
+                print('%d/%d (cached)' % (k, len(cases)), flush=True); continue
+        m = GfxMachine(o.game, recon, stubs, [])
+        tr = GC.Tracker(m) if use_cache else None
         for c in chunk:
             try:
                 r = run_case(m, c, o.trials, o.seed)
             except Exception as e:
                 r = {'name': c['name'], 'original': c['original'], 'candidate': c['candidate'],
                      'verdict': 'ERROR', 'reason': repr(e)[:300]}
+            if tr is not None and len(chunk) == 1 and r.get('verdict') != 'ERROR':
+                GC.store(key, tr.deps(img, _CALLSITES), r)
             f.write(json.dumps(r) + '\n'); f.flush()
         k += len(chunk)
         print('%d/%d' % (k, len(cases)), flush=True)

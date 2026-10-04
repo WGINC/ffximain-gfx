@@ -12,7 +12,8 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
         'real_sp': json.load(open(os.path.join(D, 'real_sp.json'))),
         'revert': json.load(open(os.path.join(D, 'ida_sp_revert.json')))['calls'],
         'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))],
-        'classes': json.load(open(os.path.join(D, 'ida_classes.json')))['classes']}     # make_ida_types.py
+        'classes': json.load(open(os.path.join(D, 'ida_classes.json')))['classes'],
+        'pre_class_types': json.load(open(os.path.join(D, 'pre_class_types.json')))['types']}     # make_ida_types.py
 # every call whose stack effect is known exactly, per exported function: measured (real_sp) or solved (sp_solve)
 solved = json.load(open(os.path.join(D, 'sp_solved.json')))
 want = {'0x%08X' % e for e in data['export']}; sp_calls = {}

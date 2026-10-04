@@ -184,6 +184,19 @@ def extend_existing(cname, c, t):
     return '; '.join(out)
 
 
+ART = re.compile(r'\*\s*\(\s*\(?\s*_(?:BYTE|WORD|DWORD|QWORD)\s*\*\s*\)|\(__\w+ \*\*\)|\b(?:S?LO|S?HI)(?:BYTE|WORD|DWORD)\s*\(|\bS?(?:BYTE|WORD)\d\s*\(')
+
+
+def artifacts(ea):
+    """casts, cast vtable calls and partial-register macros in the function's pseudocode now
+    (pipeline/artifact_count.py's cast, untyped_vcall and partial_reg kinds); None if it does not decompile"""
+    try:
+        ida_hexrays.mark_cfunc_dirty(ea); cf = ida_hexrays.decompile(ea)
+        return len(ART.findall(str(cf))) if cf else None
+    except Exception:
+        return None
+
+
 def apply_classes(report):
     """structs for classes whose methods' `this` the code proves to hold one vtable: a vtable struct (members typed
     as the slot functions' own prototypes), fields at every offset the methods access at one width, `this`
@@ -226,8 +239,17 @@ def apply_classes(report):
             fd = ida_typeinf.func_type_data_t(); t.get_func_details(fd)
             if cc_name(fd) != 'thiscall' or fd.size() == 0: r['methods'][m] = 'left: not __thiscall'; continue
             fd[0].type = pt; nt = ida_typeinf.tinfo_t()
+            pre = DATA['pre_class_types'].get(m)
+            if pre and str(t).find(cname + ' *') >= 0 and idc.SetType(ea, re.sub(r'^(.*?)\(', r'\1 f(', pre, 1) + ';'):
+                t = ida_typeinf.tinfo_t(); ida_nalt.get_tinfo(t, ea)     # typed by an earlier run: measure against the type before it
+            before = artifacts(ea)
             if nt.create_func(fd) and ida_typeinf.apply_tinfo(ea, nt, ida_typeinf.TINFO_DEFINITE):
-                typed += 1; r['methods'][m] = 'this: %s *' % cname; ida_hexrays.mark_cfunc_dirty(ea)
+                ida_hexrays.mark_cfunc_dirty(ea); after = artifacts(ea)
+                if before is not None and after is not None and after > before:
+                    # measured, not assumed: the typed `this` made this function's pseudocode worse
+                    ida_typeinf.apply_tinfo(ea, t, ida_typeinf.TINFO_DEFINITE); ida_hexrays.mark_cfunc_dirty(ea)
+                    r['methods'][m] = 'reverted: artifacts rose %d -> %d with this: %s *' % (before, after, cname); continue
+                typed += 1; r['methods'][m] = 'this: %s * (artifacts %s -> %s)' % (cname, before, after)
             else: r['methods'][m] = 'not applied'
     log('classes: %d structs created, %d methods given a typed this (of %d classes, %d methods)' % (
         made, typed, len(DATA['classes']), sum(len(c['methods']) for c in DATA['classes'].values())))

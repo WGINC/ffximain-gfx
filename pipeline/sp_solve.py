@@ -27,6 +27,8 @@ _vc = os.path.join(D, 'vcalls.json')
 VCALLS = {k: v['pops'] for k, v in (json.load(open(_vc)).items() if os.path.exists(_vc) else ()) if not k.startswith('_')}
 _cc = os.path.join(D, 'com_calls.json')
 COMCALLS = {k: v['pops'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ())}
+# COM calls settled by an accepted (unproven) declaration in com_fields.json: a balance using one says so
+ACCEPTED = {k: v['field'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ()) if 'accepted' in v}
 CHKSTK = {0x10312150}           # _chkstk: `mov eax, N; call _chkstk` reserves N bytes
 ALIGN = -1                      # the variable for the padding of `and esp, -N` (see func_calls)
 
@@ -407,7 +409,10 @@ def main(out, *addrs):
         wrong = [a for a, p in chk.items() if a not in calls and known_pop(im, purges, a) not in (None, p)]
         if not ok2 or wrong: suspect.append('0x%08X' % ea); und += len(calls); tot += n; continue
         tot += n; und += n - len(calls)
-        for a, p in calls.items(): res['0x%08X' % a] = {'pops': p, 'func': '0x%08X' % ea}
+        acc = sorted({ACCEPTED[k] for k in ACCEPTED if any(x <= int(k, 16) < y for x, y in e)})
+        for a, p in calls.items():
+            res['0x%08X' % a] = {'pops': p, 'func': '0x%08X' % ea}
+            if acc: res['0x%08X' % a]['rests_on_accepted'] = acc
     res['_inconsistent'] = bad; res['_suspect'] = suspect; res['_undetermined'] = und
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
     print('%d unknown calls: %d solved, %d undetermined; %d functions inconsistent, %d failed their own check'

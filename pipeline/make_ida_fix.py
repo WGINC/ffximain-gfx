@@ -25,7 +25,9 @@ for ck, v in solved.items():
     if ck in r['calls'] and r['calls'][ck] != v['pops']:
         raise SystemExit('measured and solved disagree at %s: %s vs %s' % (ck, r['calls'][ck], v['pops']))
     r['calls'][ck] = v['pops']
-    r['why'].setdefault(ck, "solved from this function's stack balance at every ret and join")
+    r['why'].setdefault(ck, "solved from this function's stack balance at every ret and join" + (
+        '; UNCERTAIN: the balance uses D3D calls settled by an accepted, unproven declaration (%s, data/com_fields.json)'
+        % ', '.join(v['rests_on_accepted']) if v.get('rests_on_accepted') else ''))
 for ck, v in json.load(open(os.path.join(D, 'vcalls.json'))).items():
     if ck.startswith('_') or v['func'] not in want: continue
     r = sp_calls.setdefault(v['func'], {'calls': {}, 'why': {}})

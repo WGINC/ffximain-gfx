@@ -1,5 +1,5 @@
 {
- "_doc": "Access paths proven to hold a Direct3D 8 interface (or null), for com_calls.py. path: a global, then the offsets dereferenced in turn ([[global]+off]...). Each entry's `checks` are recomputed against the binary on every run; an entry whose check fails is not used. `proof` is the argument in full, `dumps` what the verified dumps of the analysed build show.",
+ "_doc": "Access paths proven to hold a Direct3D 8 interface (or null), for com_calls.py. path: a global, then the offsets dereferenced in turn ([[global]+off]...). Each entry's `checks` are recomputed against the binary on every run; an entry whose check fails is not used. `proof` is the argument in full, `dumps` what the verified dumps of the analysed build show. An entry with path [\"this\", off...] is an ACCEPTED declaration, not a proof: it applies in the functions whose `this` the IDB declares as `this_class` (or whose IDB name carries the class prefix), and every call it settles is marked \"accepted\" with its `status`.",
  "device_via_1047BFA8": {
   "path": [
    "0x1047BFA8",
@@ -40,5 +40,15 @@
    }
   ],
   "depends": "The last link, that the CDx's +0xC holds the device, rests on the IDB's CDx declaration (pDevice: IDirect3DDevice8*), written in this project from the constructor 0x100161B0 storing the D3D holder's device there; that no other instruction overwrites +0xC of that object afterwards is not shown (192 instructions write some [reg+0xC]). The four dumps agree with it."
+ },
+ "device_via_CDx_this": {
+  "path": [
+   "this",
+   "0xC"
+  ],
+  "this_class": "CDx",
+  "iface": "IDirect3DDevice8",
+  "status": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+  "checks": []
  }
 }

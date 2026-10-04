@@ -389,31 +389,21 @@
 },
 "0x1000955A": {
 "func": "0x100091B0",
-"pops": 4
+"pops": 4,
+"rests_on_accepted": [
+"device_via_CDx_this"
+]
 },
 "0x100095CF": {
 "func": "0x100091B0",
-"pops": 8
+"pops": 8,
+"rests_on_accepted": [
+"device_via_CDx_this"
+]
 },
 "0x100096A7": {
 "func": "0x10009680",
 "pops": 28
-},
-"0x100096F1": {
-"func": "0x100096B0",
-"pops": 28
-},
-"0x10009716": {
-"func": "0x10009710",
-"pops": 4
-},
-"0x10009736": {
-"func": "0x10009730",
-"pops": 4
-},
-"0x10009746": {
-"func": "0x10009740",
-"pops": 4
 },
 "0x1000979D": {
 "func": "0x10009780",
@@ -443,10 +433,6 @@
 "func": "0x100098E0",
 "pops": 8
 },
-"0x10009D0D": {
-"func": "0x10009920",
-"pops": 12
-},
 "0x10009DB7": {
 "func": "0x10009D20",
 "pops": 8
@@ -454,10 +440,6 @@
 "0x10009DEA": {
 "func": "0x10009DC0",
 "pops": 8
-},
-"0x1000A1DD": {
-"func": "0x1000A1D0",
-"pops": 12
 },
 "0x1000A20D": {
 "func": "0x1000A200",
@@ -487,21 +469,12 @@
 "func": "0x1000A360",
 "pops": 28
 },
-"0x1000A755": {
+"0x1000A705": {
 "func": "0x1000A6E0",
-"pops": 32
-},
-"0x1000A773": {
-"func": "0x1000A6E0",
-"pops": 32
-},
-"0x1000A791": {
-"func": "0x1000A6E0",
-"pops": 32
-},
-"0x1000A7B2": {
-"func": "0x1000A6E0",
-"pops": 32
+"pops": 8,
+"rests_on_accepted": [
+"device_via_CDx_this"
+]
 },
 "0x1000BD96": {
 "func": "0x1000BD50",
@@ -510,14 +483,6 @@
 "0x1000BE36": {
 "func": "0x1000BE10",
 "pops": 8
-},
-"0x1000BFFB": {
-"func": "0x1000BF30",
-"pops": 12
-},
-"0x1000C015": {
-"func": "0x1000BF30",
-"pops": 12
 },
 "0x1000C045": {
 "func": "0x1000C030",
@@ -555,29 +520,9 @@
 "func": "0x1000CA00",
 "pops": 4
 },
-"0x1000CBED": {
-"func": "0x1000CB20",
-"pops": 16
-},
-"0x1000CCEB": {
-"func": "0x1000CC00",
-"pops": 24
-},
-"0x1000CDDC": {
-"func": "0x1000CD00",
-"pops": 20
-},
 "0x1000CF08": {
 "func": "0x1000CDF0",
 "pops": 36
-},
-"0x1000CF7A": {
-"func": "0x1000CF20",
-"pops": 12
-},
-"0x1000CF9F": {
-"func": "0x1000CF90",
-"pops": 12
 },
 "0x1000D003": {
 "func": "0x1000CFF0",
@@ -17399,5 +17344,5 @@
 "0x10B7193C"
 ],
 "_suspect": [],
-"_undetermined": 4093
+"_undetermined": 3958
 }

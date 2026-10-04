@@ -175,10 +175,21 @@ def norm(v):
     return U1 if UNK in v else v
 
 
+def owner(o, off):
+    """the object (o, off) lies in, as lose() names it at an unknown offset"""
+    return ('DA', BASE_OF[0](off)) if o == ('D',) else o
+
+
 def widen(v):
     """at a join: an object reached at more than WIDEN offsets is reached at an unknown offset (a pointer stepped in
-    a loop would otherwise take a new offset every pass); sound, as (obj, None) covers every offset"""
+    a loop would otherwise take a new offset every pass); sound, as (obj, None) covers every offset.
+    A set is also kept canonical: (obj, None) absorbs every (obj, off), which it already covers. Without that, a
+    loop stepping a pointer cycled for ever (unknown offset -> plus one offset -> ... -> more than WIDEN ->
+    collapsed back to the unknown offset), so the function's fixpoint never ended."""
     if UNK in v: return U1
+    whole = {o for o, off in v if off is None}
+    if whole and len(whole) < len(v):
+        v = frozenset((o, off) for o, off in v if off is None or owner(o, off) not in whole)
     if len(v) <= WIDEN: return v
     c = collections.Counter(o if o != ('D',) else ('DA', BASE_OF[0](off)) for o, off in v if off is not None)
     many = {o for o, n in c.items() if n > WIDEN}

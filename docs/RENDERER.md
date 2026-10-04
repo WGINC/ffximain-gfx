@@ -241,8 +241,8 @@ the call sites map to the functions in data/render_map.json and the reconstructe
 
 ## 7. First in-game profile (owner's capture, d3dprof, process 1368)
 
-Source: one CSV of 600 frames, taken with speedfix_hook also installed (the injection order, and so which
-side of speedfix's caches d3dprof counted, is not recorded). The call sites were joined with the code by
+Source: one CSV of 600 frames, taken without speedfix_hook (owner's statement), so the counts are the
+game's own calls with no cache or batching in between. The call sites were joined with the code by
 `kit/d3dprof/analyze.py`. A row counts only if the instruction ending at its return address calls through
 that method's own vtable slot, or calls a wrapper that tail-jumps through it. 523 of 526 rows pass. The
 other 3 are TestCooperativeLevel from outside FFXiMain (0x67CBxxxx, 7.5 calls per frame).

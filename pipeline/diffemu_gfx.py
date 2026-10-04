@@ -97,6 +97,7 @@ class GfxMachine(G.Machine):
         u.mem_write(COM_TRAP, b'\xF4' * 0x100000)
         u.mem_write(FP_TRAMP, b'\xD9\x05' + struct.pack('<I', FP_SCRATCH) + b'\xC3')
         self.obj = {}; self.trap = {}
+        self.com_sites = {} if os.environ.get('FFXI_COM_SITES') else None
         for i, name in enumerate(IFACES):
             vt = COM_BASE + 0x1000 * i
             obj = COM_BASE + 0x80000 + 0x100 * i     # object: vtable pointer + zero padding
@@ -311,7 +312,13 @@ class GfxMachine(G.Machine):
         # compared like a stubbed call, answered with a fuzzed EAX, popping what the real function pops
         esp = uc.reg_read(UC_X86_REG_ESP)
         ret_addr = struct.unpack('<I', uc.mem_read(esp, 4))[0]
+        self._last_com = None
         t = self._com_target(uc, addr, esp, ret_addr)
+        if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
+            # record only (render_map.py): the original's call site, the callee, and the object's vtable, slot
+            # and address when the call went through one; nothing here changes the run
+            vt, slot, this = self._last_com or (None, None, None)
+            self._record_site((ret_addr, addr, vt, slot), this, esp + 4 if vt is not None else esp, 3)
         if t is not None:                 # a method of a real D3D8 object: the fake COM trap answers it
             uc.reg_write(UC_X86_REG_EIP, t); return
         # what the callee pops: the call site's definitive count (site_pops), as for any other call; with none,
@@ -334,6 +341,17 @@ class GfxMachine(G.Machine):
         uc.reg_write(UC_X86_REG_EAX, v)
         uc.reg_write(UC_X86_REG_ESP, esp + 4 + n)
         uc.reg_write(UC_X86_REG_EIP, ret_addr)
+
+    def _record_site(self, k, this, argp, nargs):
+        # render_map.py: per call site, how often it ran, the objects it ran on and up to 8 distinct tuples of
+        # its first arguments (the dwords after `this`); read from the stack, nothing written
+        r = self.com_sites.get(k)
+        if r is None: r = self.com_sites[k] = [0, set(), set()]
+        r[0] += 1
+        if len(r[1]) < 8: r[1].add(this)
+        if len(r[2]) < 8 and nargs:
+            try: r[2].add(struct.unpack('<%dI' % nargs, self.uc.mem_read(argp + 4, 4 * nargs)))
+            except Exception: pass
 
     def _com_target(self, uc, addr, esp, ret_addr):
         # A real D3D8 object's method: `call [reg+slot*4]` with `this` as the first stack argument
@@ -363,6 +381,7 @@ class GfxMachine(G.Machine):
                 slot = next((k for k in range(128) if rd(vt + 4 * k) == addr), None)
                 if slot is None: return None
         except Exception: return None
+        self._last_com = (vt, slot, this)
         if vt not in self._vt_iface:
             mod = next(((a, b) for a, b in self.foreign if a <= addr < b), None)
             n = 0
@@ -490,6 +509,8 @@ class GfxMachine(G.Machine):
         esp = uc.reg_read(UC_X86_REG_ESP)
         vals = struct.unpack('<%dI' % (2 + n), uc.mem_read(esp, 4 * (2 + n)))
         ret_addr, this, args = vals[0], vals[1], vals[2:]
+        if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
+            self._record_site((ret_addr, 'fake', name, slot), this, esp + 4, min(n, 3))   # record only
         self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args)))
         if m['ret'] == 'hresult':
             k = self.rng.random()
@@ -1094,6 +1115,11 @@ def gate_file(o, cases_path, out_path):
             if tr is not None and len(chunk) == 1 and r.get('verdict') != 'ERROR':
                 GC.store(key, tr.deps(img, _CALLSITES), r)
             f.write(json.dumps(r) + '\n'); f.flush()
+        if m.com_sites is not None:
+            with open(out_path + '.com', 'a') as cf:
+                cf.write(json.dumps({'original': chunk[0]['original'], 'sites': [
+                    list(k) + [r[0], sorted(r[1], key=str), sorted(r[2], key=str)]
+                    for k, r in sorted(m.com_sites.items(), key=str)]}) + '\n')
         with open(out_path + '.times', 'a') as tf:
             tf.write('%s %.3f\n' % (chunk[0]['original'], (time.time() - t0) / len(chunk)))
         k += len(chunk)

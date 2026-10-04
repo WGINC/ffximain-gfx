@@ -41,12 +41,15 @@ Premises (not shown from the code; every result depending on them says so in "pr
       target at the fixpoint is not a pointer to anything the program can reach, and an access through it
       is not modelled. (Registers are not covered by this premise: every register a function reads at entry
       gets whatever every caller leaves in it.)
+  P6  a data object in the image starts at an address the program refers to (an operand or a stored
+      pointer) and ends before the next such address: an indexed access [table + i*s] stays in the table
+      the address `table` falls in. (Without it any indexed read of a global table can be any pointer.)
   P3  a called function preserves a register it saves on entry and restores (MSVC prologue/epilogue)
       and imports preserve EBX/ESI/EDI/EBP (Windows x86 calling convention).
 
     python3 points_to.py OUT.json [--max-rounds N]        uses $FFXI_DLL
 """
-import collections, json, os, pickle, sys, time
+import bisect, collections, json, os, pickle, sys, time
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
@@ -149,6 +152,17 @@ def build(im, ext, cache):
 WIDEN = 4
 
 
+BASE_OF = [None]          # set by PT: the data object an address belongs to (premise P6)
+
+
+def lose(o, off):
+    """the target (o, off) at an unknown offset: inside the same object (P1); for the image's data, inside the
+    data object holding `off` (P6), which is ('DA', its start)"""
+    if o == ('U',): return UNK
+    if o == ('D',): return (('DA', BASE_OF[0](off)), None) if off is not None else UNK
+    return (o, None)
+
+
 def norm(v):
     """UNK already stands for every target: a set holding it is just UNK"""
     return U1 if UNK in v else v
@@ -159,10 +173,10 @@ def widen(v):
     a loop would otherwise take a new offset every pass); sound, as (obj, None) covers every offset"""
     if UNK in v: return U1
     if len(v) <= WIDEN: return v
-    c = collections.Counter(o for o, off in v if off is not None)
+    c = collections.Counter(o if o != ('D',) else ('DA', BASE_OF[0](off)) for o, off in v if off is not None)
     many = {o for o, n in c.items() if n > WIDEN}
     if not many: return v
-    return frozenset((o, None) if o in many else (o, off) for o, off in v)
+    return frozenset(lose(o, off) if (o if o != ('D',) else ('DA', BASE_OF[0](off))) in many and off is not None else (o, off) for o, off in v)
 
 
 class PT:
@@ -188,6 +202,8 @@ class PT:
         self.unfollowed = set()                            # functions with control flow this cannot follow
         self.clob = self.clobbers()
         self.taken = self.address_taken(); self.taken_external = False
+        self.refs = self.data_refs(); self.dkeys = []; self._sr = {}
+        BASE_OF[0] = self.base_of
         entry = [base + pe.OPTIONAL_HEADER.AddressOfEntryPoint] + [base + s.address for s in getattr(getattr(pe, 'DIRECTORY_ENTRY_EXPORT', None), 'symbols', [])]
         for f in entry:
             if f in fns: self.external(f)
@@ -212,6 +228,16 @@ class PT:
         if obj[0] in ('C', 'XC'): return E
         self.readers[obj].add(f); self.any_readers.add(f)
         cells = self.M.get(obj, {})
+        if obj[0] == 'DA':                                 # a data object at an unknown offset (P6)
+            self.readers[('D',)].add(f)
+            a = obj[1]; b = self.next_ref(a); dc = self.M.get(('D',), {})
+            i = bisect.bisect_left(self.dkeys, a); v = frozenset().union(*cells.values()) if cells else E
+            while i < len(self.dkeys) and self.dkeys[i] < b: v = v | dc[self.dkeys[i]]; i += 1
+            return norm(v | self.static_range(a, b) | self.ANYW)
+        if obj == ('D',) and off is not None:
+            da = self.M.get(('DA', self.base_of(off)))
+            if da: cells = dict(cells); cells[None] = frozenset().union(*da.values())
+            self.readers[('DA', self.base_of(off))].add(f)
         if off is None:
             v = frozenset().union(*cells.values()) if cells else E
             if obj == ('D',): v = v | U1                   # any data address: every pointer the image holds
@@ -229,9 +255,12 @@ class PT:
                 self.ANYW = self.ANYW | val; self.dirty |= self.any_readers
             return
         if obj[0] in ('C', 'XC', 'XV', 'X'): return
+        if obj[0] == 'DA': off = None
         cell = self.M[obj]; old = cell.get(off, E)
         if not val <= old:
+            if obj == ('D',) and off not in cell and off is not None: bisect.insort(self.dkeys, off)
             cell[off] = old | val; self.dirty |= self.readers.get(obj, set())
+            if obj[0] == 'DA': self.dirty |= self.readers.get(('D',), set())
 
     def clobbers(self):
         """registers each function may change: written and not saved in its first block, or changed by a callee"""
@@ -262,6 +291,43 @@ class PT:
                         n = cl[f] | (cl[x[1][1]] - self._saved(f))
                         if n != cl[f]: cl[f] = n; changed = True
         return cl
+
+    def data_refs(self):
+        """every data address the program refers to: an operand constant or memory displacement in code, or a
+        dword in the image, that lies in the image outside code -- the starts of the data objects (P6)"""
+        lo, hi = self.img_rng; code = self.code_rng
+        isdata = lambda v: lo <= v < hi and not any(x <= v < y for x, y in code)
+        refs = {lo}
+        def scan(part):
+            if isinstance(part, tuple):
+                if len(part) == 2 and part[0] == 'I' and isdata(part[1]): refs.add(part[1])
+                elif len(part) == 5 and isinstance(part[2], int) and isdata(part[2] & 0xFFFFFFFF): refs.add(part[2] & 0xFFFFFFFF)
+                else:
+                    for q in part: scan(q)
+            elif isinstance(part, list):
+                for q in part: scan(q)
+        for f, (irs, succ, dep, ebp) in self.fns.items():
+            for x in irs.values(): scan(x[1:])
+        img = bytes(self.im.img); b = self.im.base
+        for k in range(0, len(img) - 3, 4):
+            v = int.from_bytes(img[k:k + 4], 'little')
+            if isdata(v): refs.add(v)
+        return sorted(refs)
+
+    def base_of(self, x):
+        i = bisect.bisect_right(self.refs, x) - 1
+        return self.refs[i] if i >= 0 else x
+
+    def next_ref(self, a):
+        i = bisect.bisect_right(self.refs, a)
+        return self.refs[i] if i < len(self.refs) else self.img_rng[1]
+
+    def static_range(self, a, b):
+        if a not in self._sr:
+            v = set()
+            for x in range(a, b, 4): v |= self.static(x)
+            self._sr[a] = frozenset(v)
+        return self._sr[a]
 
     def address_taken(self):
         """functions whose address the program holds as a value (an operand that is not a direct call or
@@ -326,11 +392,12 @@ class PT:
                 iv = regs.get(idx, E) if idx else E
                 if base is None:                       # [index*scale + disp]: an array at a constant address
                     t = self.const(disp)
-                    return frozenset((o, None) for o, _ in t) | (iv and frozenset((o, None) for o, _ in iv if o != ('U',))) | (U1 if UNK in iv or not t else E)
+                    return frozenset(lose(o, off) for o, off in t) | frozenset(lose(o, off) for o, off in iv) | (U1 if not t else E)
                 out = set()
                 for o, off in bv | (iv if idx else E):
                     if o == ('U',): out.add(UNK)
-                    else: out.add((o, None if idx or off is None else off + disp))
+                    elif idx or off is None: out.add(lose(o, off))
+                    else: out.add((o, off + disp))
                 return frozenset(out)
 
             def load(mo):
@@ -353,21 +420,21 @@ class PT:
                         for k in range(off - 3, off + mo[3]): frame.pop(k, None)
                 for o, off in tg:
                     if o == fr and (off is None): frame.clear()
-                    self.write(o, off, v if mo[3] == 4 else (v and frozenset((oo, None) for oo, _ in v)), f, at)
+                    self.write(o, off, v if mo[3] == 4 else frozenset(lose(oo, x) for oo, x in v), f, at)
 
             def gen(srcs):
                 v = set()
                 for s in srcs:
-                    for o, off in val(s): v.add(UNK if o == ('U',) else (o, None))
+                    for o, off in val(s): v.add(lose(o, off))
                 return norm(frozenset(v))
 
             k = x[0]; nxt = succ.get(a)
             if k == 'MOV': regs[x[1]] = norm(val(x[2]))
             elif k == 'LEA':
                 if x[2][1] is None: regs[x[1]] = addr(x[2])
-                else: regs[x[1]] = frozenset((o, None) if o != ('U',) else UNK for o, _ in addr(x[2]))
+                else: regs[x[1]] = frozenset(lose(o, off) for o, off in addr(x[2]))
             elif k == 'ADDI':
-                regs[x[1]] = frozenset((o, off + x[2] if off is not None else None) if o != ('U',) else UNK for o, off in regs.get(x[1], E))
+                regs[x[1]] = frozenset((o, off + x[2]) if off is not None and o != ('U',) else (UNK if o == ('U',) else (o, None)) for o, off in regs.get(x[1], E))
             elif k == 'ST': store(x[1], val(x[2]), a)
             elif k == 'PUSH':
                 v = val(x[1])
@@ -388,19 +455,19 @@ class PT:
             elif k == 'GEN':
                 v = gen(x[2])
                 for r in x[1]: regs[r] = v
-                for mo in x[3]: store(mo, v | (load(mo) and frozenset((o, None) if o != ('U',) else UNK for o, _ in load(mo))), a)
+                for mo in x[3]: store(mo, v | frozenset(lose(o, off) for o, off in load(mo)), a)
             elif k == 'STR':
                 m = x[1]; src = regs.get('esi', E); dst = regs.get('edi', E)
                 if 'movs' in m:
                     v = E
-                    for o, _ in src: v |= self.read(o, None, f) if o != ('U',) else U1
-                    for o, _ in dst: self.write(o, None, v, f, a)
+                    for o, off in src: v |= self.read(*lose(o, off), f)
+                    for o, off in dst: self.write(*lose(o, off), v, f, a)
                     if any(o == fr for o, _ in dst): frame.clear()
                 elif 'stos' in m:
                     v = regs.get('eax', E) if m.endswith('d') or m.endswith('stosd') else E
-                    for o, _ in dst: self.write(o, None, v, f, a)
+                    for o, off in dst: self.write(*lose(o, off), v, f, a)
                     if any(o == fr for o, _ in dst): frame.clear()
-                for r in ('esi', 'edi'): regs[r] = frozenset((o, None) if o != ('U',) else UNK for o, _ in regs.get(r, E))
+                for r in ('esi', 'edi'): regs[r] = frozenset(lose(o, off) for o, off in regs.get(r, E))
                 regs['ecx'] = E
                 if 'lods' in m: regs['eax'] = gen([('M', ('esi', None, 0, 4, False))])
             elif k in ('CALL', 'JMP'):
@@ -469,7 +536,8 @@ class PT:
                 v = frozenset([(('X', out[1]), 0)]) if out and out[0] + 1 == k else frozenset([(('XM',), None)])
                 for o, off in args[k]:
                     if o[0] in ('X', 'XM', 'C'): continue
-                    self.write(o, off if out and out[0] + 1 == k else None, v, f, a)
+                    if out and out[0] + 1 == k: self.write(o, off, v, f, a)
+                    else: self.write(*lose(o, off), v, f, a)
         if imp is not None:
             if imp in ALLOC_API: res['eax'] = frozenset([(('H', a), 0)])
             else:
@@ -502,8 +570,8 @@ class PT:
         for o, off in given:
             if o == ('C',) and off in self.fns: self.external(off); continue
             if o[0] in ('C', 'XC', 'XV', 'X', 'U'): continue
-            self.write(o, None, v, f, a)
-            for o2, off2 in self.read(o, None, f) if deep else ():
+            self.write(*lose(o, off), v, f, a)
+            for o2, off2 in self.read(*lose(o, off), f) if deep else ():
                 if o2 == ('C',) and off2 in self.fns: self.external(off2)
 
     def solve(self, max_rounds=10 ** 9, log=print):

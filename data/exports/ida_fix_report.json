@@ -1,57 +1,19 @@
 {
  "sp": {
-  "0x10075280": {
-   "name": "Gfx_InitCubeMapTextures",
+  "0x1000A6E0": {
+   "name": "CDx_CreateTexture",
    "fixes": [
     {
-     "call": "0x1007531D",
+     "call": "0x1000A705",
      "ida_change_was": 0,
      "real_change": 8,
      "now": 8
     }
    ],
    "not_corrected": 0
-  },
-  "0x1017DE20": {
-   "name": "sub_1017DE20",
-   "fixes": [
-    {
-     "call": "0x1017EB08",
-     "ida_change_was": 0,
-     "real_change": 4,
-     "now": 4
-    }
-   ],
-   "not_corrected": 0
-  },
-  "0x1017C9C0": {
-   "name": "sub_1017C9C0",
-   "fixes": [
-    {
-     "call": "0x1017C9F2",
-     "ida_change_was": 0,
-     "real_change": 12,
-     "now": 12
-    }
-   ],
-   "not_corrected": 0
-  },
-  "0x102D538A": {
-   "name": "sub_102D538A",
-   "fixes": [
-    {
-     "call": "0x102D538F",
-     "ida_change_was": -16,
-     "real_change": 0,
-     "now": 0
-    }
-   ],
-   "not_corrected": 0
   }
  },
- "reverted": {
-  "0x1000A705": 0
- },
+ "reverted": {},
  "call_types": {
   "0x100033D5": {
    "function": "Gfx_TryCreateDeviceForMode",
@@ -69,7 +31,7 @@
   },
   "0x1000A1DD": {
    "function": "CDx_SetTexture",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
@@ -146,7 +108,7 @@
   },
   "0x100091C9": {
    "function": "CDx_Initialize",
-   "target": "HRESULT __stdcall IDirect3DDevice8_GetDeviceCaps(void *self, int a0);",
+   "target": "int __stdcall f(void *self, int a0);",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
@@ -956,6 +918,1049 @@
    "args_wanted": 2,
    "result": "already right"
   },
+  "0x10009322": {
+   "function": "CDx_Initialize",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100096F1": {
+   "function": "CDx_EndClearBegin",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5);",
+   "args_before": 7,
+   "args_wanted": 7,
+   "result": "already right"
+  },
+  "0x10009716": {
+   "function": "CDx_TestCooperativeLevel",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009736": {
+   "function": "CDx_BeginScene",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009746": {
+   "function": "CDx_EndScene",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009949": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009959": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000996C": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000997F": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009992": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099B8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099C8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099D8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099EB": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099FE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A11": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A24": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A37": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A4A": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A5D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A70": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A83": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A93": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AA3": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009ADE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AEE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AFE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B11": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B21": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B31": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B41": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B51": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B61": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B71": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B81": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B91": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BAC": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BCF": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BDF": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C02": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C14": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C24": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C34": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C44": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C54": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C67": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C7A": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C8D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CA0": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CB3": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CC6": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CD9": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CEB": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10009D0D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009F57": {
+   "function": "CDx_PushRenderTargetTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000A4AF": {
+   "function": "CDx_DrawScreenQuadAtDepth",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000A4C0": {
+   "function": "CDx_DrawScreenQuadAtDepth",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000A737": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A755": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A773": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A791": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A7B2": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000AAC2": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000AAD2": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000AAE4": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AAF6": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB08": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB1A": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB2C": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB3E": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB50": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB62": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB74": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB86": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000ABA7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000ABB7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000ABC7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BCD8": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BCE9": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000BCF9": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD09": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD2B": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD3B": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BFFB": {
+   "function": "CDx_SetLight",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C015": {
+   "function": "CDx_SetLight",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C11F": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C131": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C143": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C155": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C167": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C179": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C18B": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C19D": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1AF": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1C1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1D1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C1E1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C1F1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C201": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C211": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C224": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C31B": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000C3DC": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C3EE": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C400": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C412": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C424": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C436": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C448": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C45A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C46C": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C47E": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C490": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4A2": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4B4": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4C7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4D7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4E7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4F7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C507": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C517": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C542": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C554": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C566": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C578": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C58A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C59C": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5AE": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5C0": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5D2": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5E4": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5F6": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C608": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C61A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C62A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C63A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C693": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C6A3": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000CB6E": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CBAC": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CBED": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CC58": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CCA0": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CCEB": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CD53": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CD96": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CDDC": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CF7A": {
+   "function": "CDx_ApplyStereoEyeProjection",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000CF9F": {
+   "function": "CDx_RestoreProjection",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
   "0x1003DAD5": {
    "function": "Sky_DrawDome",
    "target": "int __stdcall f(void *self, int a0, int a1);",
@@ -1591,12 +2596,12 @@
  "export": {
   "file": "C:\\Users\\wadeglover\\Documents\\gfx_export.jsonl",
   "functions": 768,
-  "skip": 9,
+  "skip": 8,
   "stats": {
-   "sp_checked": 3848,
-   "sp_already_right": 3844,
-   "calls_typed": 6651,
-   "cmps": 887,
+   "sp_checked": 3844,
+   "sp_already_right": 3843,
+   "calls_typed": 6649,
+   "cmps": 889,
    "fcmps": 556,
    "cmp_errors": 0,
    "calls_cast": 777

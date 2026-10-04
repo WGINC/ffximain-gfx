@@ -1,24 +1,11 @@
 ffxi_ida_fix: IDA 9.4, IDB C:\Users\wadeglover\Documents\FFXiMain_recon.i64
 names: 0 applied, 1 skipped
   skipped 0x10285890: IDB has 'sqPrint', wanted 'sqDebugPrintf'
-prototypes: 14 applied
+prototypes: 18 applied
 viewport global 0x104E1B70 typed D3DVIEWPORT8: True
 viewport global 0x10621904 typed D3DVIEWPORT8: True
-convention 0x10022190 Actor_LookupPercentScaleA: thiscall
-convention 0x100221E0 Actor_LookupPercentScaleB: thiscall
-convention 0x100230D0 CYyModelDt_ExpandTriStrip: thiscall
-convention 0x10027A60 Mat4_PostScale: thiscall
-convention 0x10027B80 Mat4_PostRotateX: thiscall
-convention 0x10027BD0 Mat4_PostRotateY: thiscall
-convention 0x10027C20 Mat4_PostRotateZ: thiscall
-convention 0x10177CD0 sub_10177CD0: thiscall
-convention 0x102E7317 ?Open@CResource@D3DXCore@@QAEJPAUHINSTANCE__@@PBXHH@Z: thiscall
-conventions: 9 of 10 retyped __thiscall
-SP point removed at 0x1007531D: IDA now says the call changes SP by 0
-SP point removed at 0x1000A705: IDA now says the call changes SP by 0
-SP point removed at 0x1017C9F2: IDA now says the call changes SP by 0
-SP: 0 functions corrected
-call type 0x100D072B in CXiSkeletonActor_GetArrowPos: 4 args -> 3 (forced via set_op_tinfo(ptr))
-call type 0x100D70B7 in CXiSkeletonActorRes_ProcessLoadState: 1 args -> 2 (forced via set_op_tinfo(ptr))
-export: 768 functions written to C:\Users\wadeglover\Documents\gfx_export_ida_reexport.jsonl (12 marked skip)
-export: calls typed in the IDB 6923, cast by Hex-Rays 777; comparisons 889 (0 could not be printed)
+conventions: 0 of 0 retyped __thiscall
+SP 0x1000A6E0 CDx_CreateTexture: 1 calls corrected
+SP: 3844 calls checked, 3843 already right, 0 unreadable (IDA has no SP there); 1 functions corrected
+export: 768 functions written to C:\Users\wadeglover\Documents\gfx_export.jsonl (8 marked skip)
+export: calls typed in the IDB 6649, cast by Hex-Rays 777; comparisons 889 integer, 556 float (0 could not be printed)

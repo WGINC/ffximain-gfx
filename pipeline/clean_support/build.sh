@@ -14,6 +14,16 @@ for f in src/*.cpp; do
   o=build/obj/$(basename "$f" .cpp).o
   if $CXX "${FLAGS[@]}" -c "$f" -o "$o" 2> "build/err/$(basename "$f" .cpp).txt"; then ok+=("$o"); else bad+=("$f"); fi
 done
-$CXX -shared -nostdlib -o build/gfx_recon.dll "${ok[@]}" build/obj/rt.o -lgcc \
-     -Wl,--image-base=0x60000000 -Wl,-e,_DllMainCRTStartup@12 -Wl,--disable-auto-image-base -Wl,--kill-at
+# a pinned layout, so a change to one source file moves no other file's code or data and the gate cache
+# (pipeline/gate_cache.py) can reuse every other function's verdict: each object's .text starts on its own
+# 8 KB boundary and its .rdata/.data on 4 KB ones, the runtime is linked first, and each section kind has
+# a fixed base. A file that outgrows its slot moves the files after it (their verdicts are re-run, not reused).
+for o in build/obj/rt.o "${ok[@]}"; do
+  i686-w64-mingw32-objcopy --set-section-alignment .text=8192 --set-section-alignment .rdata=4096 \
+                           --set-section-alignment .data=4096 "$o"
+done
+$CXX -shared -nostdlib -o build/gfx_recon.dll build/obj/rt.o "${ok[@]}" -lgcc \
+     -Wl,--image-base=0x60000000 -Wl,-e,_DllMainCRTStartup@12 -Wl,--disable-auto-image-base -Wl,--kill-at \
+     -Wl,--section-start=.rdata=0x60800000 -Wl,--section-start=.data=0x60A00000 -Wl,--section-start=.bss=0x60B00000 \
+     -Wl,--no-insert-timestamp
 echo "built build/gfx_recon.dll from ${#ok[@]} files; failed: ${bad[*]:-none}"

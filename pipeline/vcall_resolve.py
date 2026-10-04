@@ -204,7 +204,10 @@ def vtables(code, img, base, starts):
     return vt_slots
 
 
-def main(out):
+def analyse():
+    """the whole-image analysis: {'im', 'code', 'starts', 'purges', 'flows' (per function, the state before each
+    instruction: regs holding the entry ECX, regs holding its vtable, exact vtable stored), 'classes' (per
+    function, the vtables its `this` can have, or TOP), 'vt_slots', 'reason'}"""
     im = S.Image(os.environ['FFXI_DLL']); base = im.base; img = im.img
     ext = json.load(open(os.path.join(D, 'func_extents.json')))
     purges = json.load(open(os.path.join(D, 'purges.json')))
@@ -290,6 +293,13 @@ def main(out):
                     classes[f] = TOP; reason[f] = 'called with an object other than the caller\'s this (from 0x%08X)' % g; changed = True; break
                 if not add <= cur: cur |= add; changed = True
 
+    return {'im': im, 'code': code, 'starts': starts, 'purges': purges, 'flows': flows, 'classes': classes,
+            'vt_slots': vt_slots, 'reason': reason}
+
+
+def main(out):
+    A = analyse()
+    im, code, starts, purges, flows, classes, vt_slots = (A[k] for k in ('im', 'code', 'starts', 'purges', 'flows', 'classes', 'vt_slots'))
     # resolve
     res = {}; why = collections.Counter()
     for f, ins in code.items():

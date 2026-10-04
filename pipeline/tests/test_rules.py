@@ -252,5 +252,59 @@ class EcxUse(unittest.TestCase):
         self.assertFalse(V.covered('ecx', frozenset(wr)))                 # the upper half is still the input
 
 
+class PartialRegs(unittest.TestCase):
+    """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
+    are run over values that exercise every bit of every part"""
+    TYPES = ['char', 'unsigned __int8', '__int16', 'unsigned __int16', 'int', 'unsigned int', '_DWORD',
+             '__int64', 'unsigned __int64']
+    CASE = ('  { %(t)s x = (%(t)s)v, y = (%(t)s)v, y0 = (%(t)s)v; long long e = (long long)w;\n'
+            '    long long a = (long long)%(m)s(x); long long r; %(rd)s long long b = r;\n'
+            '    %(m)s(y0) = e; %(wr)s\n'
+            '    if (a != b || y0 != y) { printf("%(t)s %(m)s %%llx %%llx\\n", v, w); return 1; } }')
+
+    def test_rewrites_equal_the_macros(self):
+        import partial_regs as P, subprocess, tempfile, shutil
+        cases = []
+        for t in self.TYPES:
+            W = P.INT[P.norm(t)][0]
+            for mac, (u, idx, sg) in sorted(P.MACROS.items()):
+                k = idx(W)
+                if k < 0 or (k + 1) * u > W: continue
+                rd, st = P.rewrite('{\n  r = %s(x);\n}' % mac, {'x': t})
+                self.assertEqual(st, {'read rewritten': 1}, (t, mac))
+                wr, st = P.rewrite('{\n  %s(y) = e;\n}' % mac, {'y': t})
+                self.assertEqual(st, {'store rewritten': 1}, (t, mac))
+                cases.append(self.CASE % {'t': t, 'm': mac, 'rd': rd.strip('{}\n '), 'wr': wr.strip('{}\n ')})
+        src = ('#include <cstdint>\n#include <cstdio>\n#ifndef __int64\n#define __int64 long long\n#endif\n#include "xi_hexrays.hpp"\nint main() {\n'
+               '  const unsigned long long vals[] = {0, 1, 0x7F, 0x80, 0xFF, 0x100, 0x7FFF, 0x8000, 0xFFFF, 0x12345678,\n'
+               '    0x80000000ull, 0xFFFFFFFFull, 0x0123456789ABCDEFull, 0xFEDCBA9876543210ull, 0x8000000000000000ull, ~0ull};\n'
+               '  for (unsigned long long v : vals) for (unsigned long long w : vals) {\n' + '\n'.join(cases) +
+               '\n  }\n  return 0;\n}\n')
+        d = tempfile.mkdtemp()
+        try:
+            open(os.path.join(d, 't.cpp'), 'w').write(src)
+            inc = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+            c = subprocess.run(['g++', '-std=c++17', '-fno-strict-aliasing', '-I', inc, '-o', os.path.join(d, 't'),
+                                os.path.join(d, 't.cpp')], capture_output=True, text=True)
+            self.assertEqual(c.returncode, 0, c.stderr[-3000:])
+            r = subprocess.run([os.path.join(d, 't')], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stdout)
+        finally:
+            shutil.rmtree(d)
+        self.assertGreater(len(cases), 40)
+
+    def test_left_alone(self):
+        import partial_regs as P
+        T = {'f': 'float', 'p': 'int', 'q': 'int', 's': 'int', 'h': 'int'}
+        for src in ['{\n  r = LOBYTE(f);\n}', '{\n  r = LOBYTE(g);\n}', '{\n  BYTE1(p) &= ~4u;\n}',
+                    '{\n  r = HIDWORD(q);\n}', '{\n  g(&s);\n  LOBYTE(s) = 1;\n}', '{\n  LOBYTE(h) = h++;\n}',
+                    '{\n  g(&LOBYTE(p));\n}']:
+            self.assertEqual(P.rewrite(src, T)[0], src)
+
+    def test_bitwise_and_is_a_read(self):
+        import partial_regs as P
+        self.assertEqual(P.rewrite('{\n  r = a & BYTE1(p);\n}', {'p': 'int'})[0], '{\n  r = a & (_BYTE)((uint32_t)(p) >> 8);\n}')
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -15,6 +15,7 @@ Per function:
   * calls into the game: `orig::Name(...)` (always-inline wrapper around the original address);
     globals keep their IDB names, bound to their addresses in gfx_globals.hpp.
   * decompiler noise (register / stack-slot comments) removed.
+  * partial-variable macros (LOBYTE, HIWORD, ...) on integer locals and parameters: exact C (partial_regs.py).
 
 Usage: python3 hx2clean.py export.jsonl gate.jsonl manifest.json tree_include_dir out_dir
 """
@@ -24,6 +25,7 @@ import collections
 from msvc_demangle import demangle
 import hx_patches
 import hx2cpp
+import partial_regs
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
@@ -519,6 +521,8 @@ def main(exp, gate, manf, incdir, outdir):
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
         ret, body = hx2cpp.drop_float_return(ea, ret, body)
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
+        # LOBYTE(x), HIWORD(x), ... on integer locals and parameters: the exact C (partial_regs.py)
+        body, preg = partial_regs.rewrite(body, partial_regs.var_types(ps, body))
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
         if cls and nothis.get(ea):
             mp = ', '.join(ps)
@@ -558,6 +562,7 @@ def main(exp, gate, manf, incdir, outdir):
         report[hex(ea)] = {'class': cls, 'method': meth, 'why': why,
                            'symbol': '%s::%s' % (cls, meth) if cls else fname}
         if not cls and UNITS.get(hex(ea)): report[hex(ea)]['unit'] = UNITS[hex(ea)]['unit']
+        if preg: report[hex(ea)]['partial_regs'] = preg
 
     # headers
     for cls, L in layouts.items():

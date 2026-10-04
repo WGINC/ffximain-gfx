@@ -13,11 +13,10 @@ char ** __cdecl CXiSkeletonActorRes::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CXiSkeletonActorRes_Destructor(self);
+  orig::CXiSkeletonActorRes_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(((unsigned __int8 *)((char *)this + 0x0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D7020  (placed by IDB name)
@@ -43,7 +42,7 @@ char CXiSkeletonActorRes::Destructor()
   *self = &CXiSkeletonActorRes_vtbl;
   if ( (_DWORD *)g_pActiveSkeletonActorRes == self )
     g_pActiveSkeletonActorRes = 0;
-  LinkedActor = orig::CXiSkeletonActorRes_GetLinkedActor(self);
+  LinkedActor = orig::CXiSkeletonActorRes_GetLinkedActor((CXiSkeletonActorRes *)self);
   if ( LinkedActor != 0 )
     *(_DWORD *)(LinkedActor + 2568) = 0;
   return orig::CMoTask_Destructor(self);
@@ -53,34 +52,33 @@ char CXiSkeletonActorRes::Destructor()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 {
-  return at<uint32_t>(this, 0x34);
+  return (int)(*(void * *)((char *)this + 0x34));
 }
 
 // FUNCTION: FFXIMAIN 0x100D70A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 17 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 27 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActorRes::ProcessLoadState()
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   _DWORD *v2;
   _DWORD *LinkedActor;
-  int v5;
+  int loadState;
   int v6;
-  LinkedActor = (_DWORD *)orig::CXiSkeletonActorRes_GetLinkedActor((_DWORD *)self);
+  LinkedActor = (_DWORD *)orig::CXiSkeletonActorRes_GetLinkedActor(this);
   if ( LinkedActor != nullptr )
   {
-    v5 = this->loadState;
-    if ( v5 != 0 )
+    loadState = this->loadState;
+    if ( loadState != 0 )
     {
-      v6 = v5 - 1;
+      v6 = loadState - 1;
       if ( v6 == 0 )
       {
-        (*(void (__cdecl **)(_DWORD *, int))(self + 56))(LinkedActor, self);
+        ((void (__cdecl *)(_DWORD *, CXiSkeletonActorRes *))(*(void * *)((char *)this + 0x38)))(LinkedActor, this);
         ++this->loadState;
         return 0;
       }
       if ( v6 == 1 && (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 484))(LinkedActor) == 1 )
       {
-        (*(void (__thiscall **)(int, int))(*(_DWORD *)self + 24))(self, 1);
+        (*(void (__thiscall **)(CXiSkeletonActorRes *, int))(*(_DWORD *)((unsigned __int8 *)((char *)this + 0x0)) + 24))(this, 1);
         return 1;
       }
     }
@@ -88,15 +86,15 @@ char CXiSkeletonActorRes::ProcessLoadState()
            || g_pActiveSkeletonActorRes == 0
            || orig::CXiActor_GetModelByteEE(LinkedActor) != 0 )
     {
-      g_pActiveSkeletonActorRes = self;
+      g_pActiveSkeletonActorRes = (int)this;
       ++this->loadState;
     }
     return 0;
   }
   else
   {
-    if ( self != 0 )
-      (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)self + 24))((_DWORD *)self, 1);
+    if ( this != nullptr )
+      (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)((unsigned __int8 *)((char *)this + 0x0)) + 24))((_DWORD *)this, 1);
     return 1;
   }
 }

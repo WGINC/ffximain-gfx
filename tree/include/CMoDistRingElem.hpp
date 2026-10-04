@@ -12,13 +12,21 @@ public:
     int * ScalarDeletingDtor(char a2);  // 0x10053010
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x1B0];
-    int8_t field_1B4;  // +0x1B4
-    int8_t field_1B5;  // +0x1B5
-    uint32_t field_1B6;  // +0x1B6
+    uint8_t _pad_4[0x9C];
+    uint8_t field_A0;  // +0xA0
+    uint8_t _pad_A1[0xF7];
+    uint8_t field_198;  // +0x198
+    uint8_t _pad_199[0xC];
+    uint8_t field_1A5;  // +0x1A5
+    uint8_t _pad_1A6[0xE];
+    uint8_t field_1B4;  // +0x1B4
+    uint8_t field_1B5;  // +0x1B5
+    uint8_t _pad_1B6[0x4];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoDistRingElem) == 0x1BA, "CMoDistRingElem: sizeof");
+static_assert(XI_OFFSETOF(CMoDistRingElem, field_A0) == 0xA0, "CMoDistRingElem: layout");
+static_assert(XI_OFFSETOF(CMoDistRingElem, field_198) == 0x198, "CMoDistRingElem: layout");
+static_assert(XI_OFFSETOF(CMoDistRingElem, field_1A5) == 0x1A5, "CMoDistRingElem: layout");
 static_assert(XI_OFFSETOF(CMoDistRingElem, field_1B4) == 0x1B4, "CMoDistRingElem: layout");
 static_assert(XI_OFFSETOF(CMoDistRingElem, field_1B5) == 0x1B5, "CMoDistRingElem: layout");
-static_assert(XI_OFFSETOF(CMoDistRingElem, field_1B6) == 0x1B6, "CMoDistRingElem: layout");

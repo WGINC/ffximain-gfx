@@ -14,6 +14,10 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
         'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))],
         'classes': json.load(open(os.path.join(D, 'ida_classes.json')))['classes'],
         'pre_class_types': json.load(open(os.path.join(D, 'pre_class_types.json')))['types']}     # make_ida_types.py
+# functions outside the export that use the device (device_users.py: a holder global, a proven D3D8 call or a
+# CDx draw wrapper), exported from the next run on
+_more = sorted(int(k, 16) for k in json.load(open(os.path.join(D, 'gfx_device_users.json')))['functions'])
+data['export'] += [e for e in _more if e not in set(data['export'])]
 # names that state a fact (evidence_names.py), for functions with no other pending name
 for k, v in json.load(open(os.path.join(D, 'evidence_names.json'))).items():
     if k.startswith('_') or k in data['names']: continue

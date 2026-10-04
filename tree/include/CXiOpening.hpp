@@ -13,9 +13,9 @@ public:
     uint32_t field_108;  // +0x108
     uint8_t _pad_10C[0x4];
     uint32_t field_110;  // +0x110
-    int32_t savedGammaR;  // +0x114 restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
-    int32_t savedGammaG;  // +0x118 restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
-    int32_t savedGammaB;  // +0x11C restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
+    uint32_t savedGammaR;  // +0x114 restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
+    uint32_t savedGammaG;  // +0x118 restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
+    uint32_t savedGammaB;  // +0x11C restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor
     uint32_t field_120;  // +0x120
     uint32_t field_124;  // +0x124
 };

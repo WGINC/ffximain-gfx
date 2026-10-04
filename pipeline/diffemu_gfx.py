@@ -12,7 +12,7 @@ Additions, all applied identically to the original and the reconstruction:
     case "struct_globals": {"0xADDR": {"size": "0x478", "com": {"8": "IDirect3DDevice8"}}}
     puts a fuzzed struct there whose listed fields are fake objects (the D3D holder, CDx).
 """
-import bisect, json, os, random, struct, sys
+import bisect, json, os, random, struct, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 # Live mode (FFXI_LIVE=live.json from live_state.py): inputs come from a memory dump of the running game.
@@ -60,6 +60,31 @@ def _bound(v, sh, mk, lo, hi):
     f = (v >> sh) & mk
     return (v & ~(mk << sh) & 0xFFFFFFFF) | (((lo + f % (hi - lo + 1)) & mk) << sh)
 
+_EXEC_RANGES, _LIVE = {}, []
+
+
+def _exec_ranges(path):
+    """the executable sections of a PE file as address ranges, read once per process (per file version)"""
+    st = os.stat(path); key = (os.path.abspath(path), st.st_size, st.st_mtime_ns)
+    if key not in _EXEC_RANGES:
+        pe = pefile.PE(path, fast_load=True); r = []
+        for sec in pe.sections:
+            if sec.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
+                a = pe.OPTIONAL_HEADER.ImageBase + sec.VirtualAddress
+                r.append((a, a + max(sec.Misc_VirtualSize, sec.SizeOfRawData)))
+        _EXEC_RANGES[key] = r
+    return list(_EXEC_RANGES[key])
+
+
+def _live_state():
+    """the dump, opened once per process: LiveState only reads it (its one cache, the pops of foreign code it
+    has decoded, is a function of the dump's bytes), so every case of the process shares it"""
+    if not _LIVE:
+        import live_state
+        _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
+    return _LIVE[0]
+
+
 class GfxMachine(G.Machine):
     def __init__(self, game_dll, recon_dll, stubs=None, overlays=()):
         super().__init__(game_dll, recon_dll, stubs, overlays)
@@ -72,6 +97,7 @@ class GfxMachine(G.Machine):
         u.mem_write(COM_TRAP, b'\xF4' * 0x100000)
         u.mem_write(FP_TRAMP, b'\xD9\x05' + struct.pack('<I', FP_SCRATCH) + b'\xC3')
         self.obj = {}; self.trap = {}
+        self.com_sites = {} if os.environ.get('FFXI_COM_SITES') else None
         for i, name in enumerate(IFACES):
             vt = COM_BASE + 0x1000 * i
             obj = COM_BASE + 0x80000 + 0x100 * i     # object: vtable pointer + zero padding
@@ -94,18 +120,12 @@ class GfxMachine(G.Machine):
         code = [(COM_TRAP, COM_TRAP + 0x100000), (FP_TRAMP, FP_TRAMP + 0x10),
                 (G.TRAP_BASE, G.TRAP_BASE + 0x10000), (G.RET_SENTINEL, G.RET_SENTINEL + G.PAGE)]
         for path in (game_dll, recon_dll):
-            if not path: continue
-            pe = pefile.PE(path, fast_load=True)
-            for sec in pe.sections:
-                if sec.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
-                    a = pe.OPTIONAL_HEADER.ImageBase + sec.VirtualAddress
-                    code.append((a, a + max(sec.Misc_VirtualSize, sec.SizeOfRawData)))
+            if path: code += _exec_ranges(path)
         self.foreign = []
         if LIVE_CFG:
             # live mode: the dump's other modules are not data (they are called through real objects'
             # vtables); execution there is trapped and answered like a stub (_on_foreign)
-            import live_state
-            self.live = live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map'])
+            self.live = _live_state()
             clash = [(G.TRAP_BASE, G.RET_SENTINEL + G.PAGE), (COM_BASE, ALLOC_BASE + ALLOC_SIZE),
                      (G.STACK_TOP - G.STACK_SIZE, G.STACK_TOP), (0x10000000, 0x11000000), (0x60000000, 0x61000000)]
             for fb, fs, fn in self.live.foreign:
@@ -292,7 +312,13 @@ class GfxMachine(G.Machine):
         # compared like a stubbed call, answered with a fuzzed EAX, popping what the real function pops
         esp = uc.reg_read(UC_X86_REG_ESP)
         ret_addr = struct.unpack('<I', uc.mem_read(esp, 4))[0]
+        self._last_com = None
         t = self._com_target(uc, addr, esp, ret_addr)
+        if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
+            # record only (render_map.py): the original's call site, the callee, and the object's vtable, slot
+            # and address when the call went through one; nothing here changes the run
+            vt, slot, this = self._last_com or (None, None, None)
+            self._record_site((ret_addr, addr, vt, slot), this, esp + 4 if vt is not None else esp, 3)
         if t is not None:                 # a method of a real D3D8 object: the fake COM trap answers it
             uc.reg_write(UC_X86_REG_EIP, t); return
         # what the callee pops: the call site's definitive count (site_pops), as for any other call; with none,
@@ -315,6 +341,17 @@ class GfxMachine(G.Machine):
         uc.reg_write(UC_X86_REG_EAX, v)
         uc.reg_write(UC_X86_REG_ESP, esp + 4 + n)
         uc.reg_write(UC_X86_REG_EIP, ret_addr)
+
+    def _record_site(self, k, this, argp, nargs):
+        # render_map.py: per call site, how often it ran, the objects it ran on and up to 8 distinct tuples of
+        # its first arguments (the dwords after `this`); read from the stack, nothing written
+        r = self.com_sites.get(k)
+        if r is None: r = self.com_sites[k] = [0, set(), set()]
+        r[0] += 1
+        if len(r[1]) < 8: r[1].add(this)
+        if len(r[2]) < 8 and nargs:
+            try: r[2].add(struct.unpack('<%dI' % nargs, self.uc.mem_read(argp + 4, 4 * nargs)))
+            except Exception: pass
 
     def _com_target(self, uc, addr, esp, ret_addr):
         # A real D3D8 object's method: `call [reg+slot*4]` with `this` as the first stack argument
@@ -344,6 +381,7 @@ class GfxMachine(G.Machine):
                 slot = next((k for k in range(128) if rd(vt + 4 * k) == addr), None)
                 if slot is None: return None
         except Exception: return None
+        self._last_com = (vt, slot, this)
         if vt not in self._vt_iface:
             mod = next(((a, b) for a, b in self.foreign if a <= addr < b), None)
             n = 0
@@ -471,6 +509,8 @@ class GfxMachine(G.Machine):
         esp = uc.reg_read(UC_X86_REG_ESP)
         vals = struct.unpack('<%dI' % (2 + n), uc.mem_read(esp, 4 * (2 + n)))
         ret_addr, this, args = vals[0], vals[1], vals[2:]
+        if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
+            self._record_site((ret_addr, 'fake', name, slot), this, esp + 4, min(n, 3))   # record only
         self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args)))
         if m['ret'] == 'hresult':
             k = self.rng.random()
@@ -1013,25 +1053,51 @@ def main():
     ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--only', default=None)
     ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
+    ap.add_argument('--serve', action='store_true',
+                    help='CASES and OUT are ignored; read "CASES OUT" pairs from stdin, one per line, and answer '
+                         '"done OUT" for each (one process for many chunks: gate_some.py)')
     o = ap.parse_args()
-    cases = json.load(open(o.cases))
+    if not o.serve:
+        gate_file(o, o.cases, o.out); return
+    # each case runs on an emulator of its own (batches(size=1)) and nothing a case sees depends on the
+    # cases run before it in the process (checked: one process for many cases gives the same bytes as one
+    # process per case), so a worker only saves the start-up: imports, PE parses, the dump
+    for line in sys.stdin:
+        if not line.strip(): continue
+        cf, of = line.split()
+        with open(of + '.log', 'w') as log:
+            so = sys.stdout; sys.stdout = log
+            try: gate_file(o, cf, of)
+            except Exception as e: print('worker error: %r' % e)
+            finally: sys.stdout = so
+        print('done', of, flush=True)
+
+
+_GC_STATE = {}
+
+
+def gate_file(o, cases_path, out_path):
+    """gate every case of one cases file into out_path (resuming: cases already in out_path are skipped)"""
+    cases = json.load(open(cases_path))
     if o.only: cases = [c for c in cases if c['original'].lower() in o.only.lower().split(',')]
     done = set()
-    if os.path.exists(o.out):
-        done = {json.loads(l)['candidate'] for l in open(o.out)}
+    if os.path.exists(out_path):
+        done = {json.loads(l)['candidate'] for l in open(out_path)}
     cases = [c for c in cases if c['candidate'] not in done]
-    f = open(o.out, 'a'); k = 0
+    f = open(out_path, 'a'); k = 0
     # gate_cache: a verdict is reused only when the run would be the same run (see gate_cache.py)
     use_cache = o.cache
     if use_cache:
         import gate_cache as GC
-        base = GC.base_key(o.game, os.environ.get('FFXI_LIVE')); images = {}; hits = 0
-        site_pops_init()
+        if not _GC_STATE:
+            _GC_STATE.update(base=GC.base_key(o.game, os.environ.get('FFXI_LIVE')), images={}); site_pops_init()
+        base, images = _GC_STATE['base'], _GC_STATE['images']; hits = 0
     for chunk, stubs in batches(cases):
         # RECON may be a directory of per-function DLLs (build_raw.sh: fndll/fn_<address>.dll)
         recon = os.path.join(o.recon, 'fn_%08X.dll' % int(chunk[0]['original'], 16)) if os.path.isdir(o.recon) else o.recon
         if use_cache:
-            img = images.get(recon) or images.setdefault(recon, GC.Image(recon))
+            st = os.stat(recon); ik = (recon, st.st_size, st.st_mtime_ns)     # a worker outlives files: key by version
+            img = images.get(ik) or images.setdefault(ik, GC.Image(recon))
             c = chunk[0]; key = GC.case_key(base, c, o.trials, o.seed)
             r = GC.lookup(key, img, _CALLSITES) if len(chunk) == 1 else None
             if r is not None:
@@ -1039,6 +1105,7 @@ def main():
                 print('%d/%d (cached)' % (k, len(cases)), flush=True); continue
         m = GfxMachine(o.game, recon, stubs, [])
         tr = GC.Tracker(m) if use_cache else None
+        t0 = time.time()
         for c in chunk:
             try:
                 r = run_case(m, c, o.trials, o.seed)
@@ -1048,8 +1115,16 @@ def main():
             if tr is not None and len(chunk) == 1 and r.get('verdict') != 'ERROR':
                 GC.store(key, tr.deps(img, _CALLSITES), r)
             f.write(json.dumps(r) + '\n'); f.flush()
+        if m.com_sites is not None:
+            with open(out_path + '.com', 'a') as cf:
+                cf.write(json.dumps({'original': chunk[0]['original'], 'sites': [
+                    list(k) + [r[0], sorted(r[1], key=str), sorted(r[2], key=str)]
+                    for k, r in sorted(m.com_sites.items(), key=str)]}) + '\n')
+        with open(out_path + '.times', 'a') as tf:
+            tf.write('%s %.3f\n' % (chunk[0]['original'], (time.time() - t0) / len(chunk)))
         k += len(chunk)
         print('%d/%d' % (k, len(cases)), flush=True)
+    f.close()
 
 if __name__ == '__main__':
     main()

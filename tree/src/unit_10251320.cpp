@@ -52,7 +52,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
       orig::sqgxTextureAddZ(v9[3], v9[4], 3);
     }
     g_This_10669418->GetAdapterIdentifier(0, 2u, &v9[5]);
-    g_pSqgxContext[180] = v9[263] == 4098 || g_pCDx->_pad_10[2306] == 0;
+    g_pSqgxContext[180] = v9[263] == 4098 || (*(unsigned __int8 *)((char *)g_pCDx + 0x912)) == 0;
     g_pSqgxContext[553] = 1;
     g_pSqgxContext[554] = 0;
     g_pSqgxContext[555] = 2;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 102 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 101 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API int __cdecl fn_10029A50(void)
 {
   int result;
@@ -13,8 +13,8 @@ XI_API int __cdecl fn_10029A50(void)
   g_vertexBuffer_7154 = 0;
   if ( dword_10457548 != 0 )
     goto LABEL_7;
-  result = g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-             g_pCDx->pDevice,
+  result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
              28672u,
              520u,
              82u,
@@ -22,8 +22,8 @@ XI_API int __cdecl fn_10029A50(void)
              (IDirect3DVertexBuffer8 **)&g_vertexBuffer_7148);
   if ( result >= 0 )
   {
-    result = g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-               g_pCDx->pDevice,
+    result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+               (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                36864u,
                520u,
                338u,
@@ -31,8 +31,8 @@ XI_API int __cdecl fn_10029A50(void)
                (IDirect3DVertexBuffer8 **)&g_vertexBuffer_714C);
     if ( result >= 0 )
     {
-      result = g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-                 g_pCDx->pDevice,
+      result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+                 (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                  0x8000u,
                  520u,
                  274u,
@@ -40,8 +40,8 @@ XI_API int __cdecl fn_10029A50(void)
                  (IDirect3DVertexBuffer8 **)&g_vertexBuffer_7150);
       if ( result >= 0 )
       {
-        result = g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-                   g_pCDx->pDevice,
+        result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+                   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                    0x4000u,
                    520u,
                    274u,
@@ -56,7 +56,7 @@ LABEL_7:
           orig::Post_CreateScreenEffectTargets();
           orig::nullsub_39();
           result = g_translucentTarget;
-          dword_10456E6C = 0;
+          Fn10025260_targetTex = 0;
           dword_10456E70 = g_translucentTarget;
           if ( g_translucentTarget != 0 )
             return (*(int (__stdcall **)(_DWORD))(*(_DWORD *)g_translucentTarget + 4))(g_translucentTarget);

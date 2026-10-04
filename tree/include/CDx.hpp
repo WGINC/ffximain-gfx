@@ -6,7 +6,6 @@
 class XI_API CDx {
 public:
     static _UNKNOWN ** __cdecl GetRuntimeClass();  // 0x10008F80
-    CDx * Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice);  // 0x10008F90
     void * ScalarDeletingDtor(char a2);  // 0x10009100
     char Initialize();  // 0x100091B0
     char SetDefaultRenderTargets(int a2, int a3, int a4);  // 0x10009620
@@ -24,6 +23,7 @@ public:
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
+    int DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5);  // 0x1000A5A0
     _DWORD * CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6);  // 0x1000A6E0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int DrawFadeQuad(int a1, int a2);  // 0x1000A820
@@ -61,37 +61,15 @@ public:
     uint8_t clearZ;  // +0x16C third Clear value (Z)
     uint8_t _pad_16D[0x3];
     uint8_t clearStencil;  // +0x170 fourth Clear value (Stencil)
-    uint8_t _pad_171[0x3];
-    uint8_t field_174;  // +0x174
-    uint8_t _pad_175[0x3];
-    uint8_t field_178;  // +0x178
-    uint8_t _pad_179[0x3];
-    uint8_t field_17C;  // +0x17C
-    uint8_t _pad_17D[0x3];
-    uint8_t field_180;  // +0x180
-    uint8_t _pad_181[0x3];
-    uint8_t field_184;  // +0x184
-    uint8_t _pad_185[0x3];
-    uint8_t field_188;  // +0x188
-    uint8_t _pad_189[0x3];
-    uint8_t field_18C;  // +0x18C
-    uint8_t _pad_18D[0x3];
-    uint8_t acc2;  // +0x190 sub-object constructed by CAcc2_Constructor in CDx::Constructor
-    uint8_t _pad_191[0x3];
+    uint8_t _pad_171[0x23];
     _DWORD * sceneTargetA;  // +0x194 texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0
     uint32_t sceneTargetB;  // +0x198 texture: the second scene target
     uint8_t _pad_19C[0xC];
     uint32_t sceneTargetBDepth;  // +0x1A8 depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget
-    uint8_t field_1AC;  // +0x1AC
-    uint8_t _pad_1AD[0x2F];
-    uint8_t acc;  // +0x1DC sub-object constructed by CAcc_Constructor in CDx::Constructor
-    uint8_t _pad_1DD[0xF];
-    uint8_t field_1EC;  // +0x1EC
-    uint8_t _pad_1ED[0x3];
-    uint8_t field_1F0;  // +0x1F0
-    uint8_t _pad_1F1[0x3];
-    uint8_t gammaRamp;  // +0x1F4 GammaRamp_Constructor(this+0x1F4) in CDx::Constructor
-    uint8_t _pad_1F5[0x61B];
+    uint8_t _pad_1AC[0x40];
+    uint32_t field_1EC;  // +0x1EC
+    uint32_t field_1F0;  // +0x1F0
+    uint8_t _pad_1F4[0x61C];
     uint32_t stereoEye;  // +0x810 0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting
     uint8_t field_814;  // +0x814
     uint8_t _pad_815[0x3];
@@ -125,8 +103,7 @@ public:
     uint8_t field_913;  // +0x913
     uint8_t field_914;  // +0x914
     uint8_t field_915;  // +0x915
-    uint8_t field_916;  // +0x916
-    uint8_t _pad_917[0x1];
+    uint8_t _pad_916[0x2];
     uint8_t field_918;  // +0x918
     uint8_t _pad_919[0x3];
     uint8_t field_91C;  // +0x91C
@@ -154,9 +131,7 @@ public:
     uint8_t cachedView;  // +0x97C D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached
     uint8_t _pad_97D[0x3F];
     uint8_t cachedProjection;  // +0x9BC D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached
-    uint8_t _pad_9BD[0x3F];
-    uint8_t field_9FC;  // +0x9FC
-    uint8_t _pad_9FD[0x3];
+    uint8_t _pad_9BD[0x43];
     uint8_t field_A00;  // +0xA00
     uint8_t _pad_A01[0x3];
     uint8_t field_A04;  // +0xA04
@@ -175,22 +150,11 @@ static_assert(XI_OFFSETOF(CDx, clearFlags) == 0x164, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearColor) == 0x168, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearZ) == 0x16C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearStencil) == 0x170, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_174) == 0x174, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_178) == 0x178, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_17C) == 0x17C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_180) == 0x180, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_184) == 0x184, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_188) == 0x188, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_18C) == 0x18C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, acc2) == 0x190, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetA) == 0x194, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetB) == 0x198, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetBDepth) == 0x1A8, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_1AC) == 0x1AC, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, acc) == 0x1DC, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_1EC) == 0x1EC, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_1F0) == 0x1F0, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, gammaRamp) == 0x1F4, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoEye) == 0x810, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_814) == 0x814, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_818) == 0x818, "CDx: layout");
@@ -212,7 +176,6 @@ static_assert(XI_OFFSETOF(CDx, field_912) == 0x912, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_913) == 0x913, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_914) == 0x914, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_915) == 0x915, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_916) == 0x916, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_918) == 0x918, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_91C) == 0x91C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_920) == 0x920, "CDx: layout");
@@ -230,7 +193,6 @@ static_assert(XI_OFFSETOF(CDx, field_938) == 0x938, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedWorld) == 0x93C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedView) == 0x97C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedProjection) == 0x9BC, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_9FC) == 0x9FC, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_A00) == 0xA00, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_A04) == 0xA04, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_A4C) == 0xA4C, "CDx: layout");

@@ -13,19 +13,19 @@ int CYyModelDt_VT_1032A430::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CYyModelDt_Destructor(self);
+  orig::CYyModelDt_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return (int *)this;
 }
 
 // FUNCTION: FFXIMAIN 0x100252D0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CYyModelDt_VT_1032A430::ScalarDeletingDtor_2(int a1)
 {
-  orig::ProjTex_Destructor((int *)this);
+  Vt_1032A460 * self = reinterpret_cast<Vt_1032A460 *>(this);  // byte-exact view for the rest
+  orig::ProjTex_Destructor((int *)self);
   if ( (a1 & 1) != 0 )
-    orig::operator_delete(this);
-  return (int)this;
+    orig::operator_delete(self);
+  return (int)self;
 }

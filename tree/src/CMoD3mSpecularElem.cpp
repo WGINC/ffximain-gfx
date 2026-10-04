@@ -9,57 +9,6 @@ char ** __cdecl CMoD3mSpecularElem::GetRuntimeClass()
   return &CMoD3mSpecularElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10041020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-_DWORD * CMoD3mSpecularElem::Ctor()
-{
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  int v2;
-  _DWORD *result;
-  orig::CMoElem_Constructor((int)self);
-  v2 = this->field_198;
-  LOBYTE(v2) = v2 & 0xF7;
-  *self = &CMoD3mSpecularElem_vtbl;
-  this->field_176 = 448;
-  this->field_1A8 = 0;
-  this->field_198 = v2;
-  if ( *(_DWORD *)(g_pResourceMng + 3684) <= 2u )
-  {
-    this->field_1B8 = 0;
-  }
-  else if ( (*(_DWORD *)(g_pResourceMng + 3564) & 0x400) != 0 )
-  {
-    this->field_1B8 = 3;
-  }
-  else
-  {
-    this->field_1B8 = 2;
-  }
-  switch ( this->field_1B8 )
-  {
-    case 0:
-      this->field_1BD = 1;
-      this->field_1BC = 0;
-      result = self;
-      break;
-    case 1:
-      this->field_1BC = 1;
-      this->field_1BD = 0;
-      result = self;
-      break;
-    case 2:
-    case 3:
-      this->field_1BD = 2;
-      this->field_1BC = 0;
-      goto LABEL_10;
-    default:
-LABEL_10:
-      result = self;
-      break;
-  }
-  return result;
-}
-
 // FUNCTION: FFXIMAIN 0x100410E0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoD3mSpecularElem::vf012(int a1)
@@ -71,9 +20,375 @@ BOOL CMoD3mSpecularElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CXi471011C8_VT_1032AD80_Dtor(self);
+  orig::CXi471011C8_VT_1032AD80_Dtor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+}
+
+// FUNCTION: FFXIMAIN 0x100412B0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 76 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 37, town2 PASS 37, combat PASS 37, zonetoinn PASS 77
+void CMoD3mSpecularElem::vf18()
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  char **v2;
+  char *v3;
+  int *v4;
+  int ScratchMatrixStackTop;
+  float *v6;
+  int v7;
+  float *v8;
+  CMoProcessor *v9;
+  int v10;
+  int *v11;
+  int v12;
+  char *v13;
+  int v14;
+  int *v15;
+  int v16;
+  int *v17;
+  int v18;
+  int v19;
+  float *v20;
+  CMoProcessor *v21;
+  int v22;
+  int v23;
+  char *v24;
+  char *v25;
+  int v26;
+  char *v27;
+  unsigned __int16 v28;
+  char *v29;
+  CMoProcessor *v30;
+  int v31;
+  int v32;
+  int v33;
+  int v34;
+  float v35;
+  float v36;
+  float v37;
+  int v38;
+  char *v39;
+  int *v40;
+  if ( this->field_104 != 0 )
+  {
+    if ( this->field_179 != 0 )
+    {
+      orig::CMoElemFamily_SharedEarlyExit((void *)self);
+    }
+    else
+    {
+      v2 = *(char ***)(self + 260);
+      if ( v2 != nullptr )
+      {
+        v3 = *v2;
+        v39 = *v2;
+      }
+      else
+      {
+        v39 = nullptr;
+        v3 = nullptr;
+      }
+      if ( *((_DWORD *)orig::sub_1003FCF0(v3) + 1) != 0 )
+      {
+        v4 = *(int **)(self + 260);
+        if ( v4 != nullptr )
+          v38 = *v4;
+        else
+          v38 = 0;
+        (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+          *(_DWORD *)(g_pResourceMng + 3772),
+          7,
+          1);
+        (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+          *(_DWORD *)(g_pResourceMng + 3772),
+          60,
+          g_scratchValue);
+        ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+        v6 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+        (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+        if ( (this->field_198 & 1) != 0 )
+        {
+          v37 = -this->field_1A4;
+          v36 = -(this->field_1A0 + 0x1.921fb60000000p+0);
+          v35 = -this->field_19C;
+          (*((void (__thiscall **)(void *, float *, _DWORD, _DWORD, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 22))(g_pProcessor, 
+            v6,
+            LODWORD(v35),
+            LODWORD(v36),
+            LODWORD(v37));
+          if ( (this->field_198 & 2) != 0 )
+          {
+            v7 = (*(int *)((char *)g_pProcessor + 0xA90));
+            v8 = ((float * *)((char *)g_pProcessor + 0xA10))[v7];
+            (*(int *)((char *)g_pProcessor + 0xA90)) = v7 + 1;
+            qmemcpy(v8, orig::sub_10015230(), 0x40u);
+            v8[12] = 0.0;
+            v8[13] = 0.0;
+            v8[14] = 0.0;
+            v8[15] = 1.0;
+            (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
+              g_pProcessor,
+              v6,
+              v6,
+              v8);
+            v9 = g_pProcessor;
+            v10 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+            (*(int *)((char *)g_pProcessor + 0xA90)) = v10;
+            ((float * *)((char *)v9 + 0xA10))[v10] = v8;
+            v3 = v39;
+          }
+        }
+        else
+        {
+          (*((void (__thiscall **)(CMoProcessor *, float *, _DWORD, int, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 22))(
+            g_pProcessor,
+            v6,
+            0,
+            -1077342245,
+            0);
+        }
+        (*(void (__stdcall **)(_DWORD, int, float *))(**(_DWORD **)(g_pResourceMng + 3772) + 148))(
+          *(_DWORD *)(g_pResourceMng + 3772),
+          this->field_1BD + 16,
+          v6);
+        if ( *(_BYTE *)(v38 + 52) != 0 )
+        {
+          if ( this->field_16C == 100 || (v14 = 6, (this->field_10C & 0x10000000) != 0) )
+            v14 = 2;
+          if ( (this->field_1B8 & 2) != 0 )
+          {
+            if ( (Fn100412B0_staticGuards & 2) == 0 )
+            {
+              Fn100412B0_staticGuards |= 2u;
+              orig::fn_1006AD90((exception *)Fn100412B0_stateBlock2);
+              orig::_atexit(XI_CODE(unknown_libname_41));
+            }
+            orig::StateBlock_ApplyRSTSS(
+              Fn100412B0_stateBlock2,
+              (int)Fn100412B0_renderStates,
+              (int)Fn100412B0_textureStageStates2);
+            (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              1,
+              4,
+              v14);
+            v15 = *(int **)(g_pResourceMng + 3772);
+            v16 = *v15;
+            if ( (this->field_198 & 8) != 0 )
+            {
+              (*(void (__stdcall **)(int *, int, int, int))(v16 + 252))(v15, 2, 13, 3);
+              (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+                *(_DWORD *)(g_pResourceMng + 3772),
+                2,
+                14,
+                3);
+            }
+            else
+            {
+              (*(void (__stdcall **)(int *, int, int, int))(v16 + 252))(v15, 2, 13, 1);
+              (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+                *(_DWORD *)(g_pResourceMng + 3772),
+                2,
+                14,
+                1);
+            }
+          }
+          else
+          {
+            if ( (Fn100412B0_staticGuards & 4) == 0 )
+            {
+              Fn100412B0_staticGuards |= 4u;
+              orig::fn_1006AD90((exception *)Fn100412B0_stateBlock3);
+              orig::_atexit(XI_CODE(unknown_libname_40));
+            }
+            orig::StateBlock_ApplyRSTSS(
+              Fn100412B0_stateBlock3,
+              (int)Fn100412B0_renderStates2,
+              (int)Fn100412B0_textureStageStates3);
+            (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              1,
+              4,
+              v14);
+            v17 = *(int **)(g_pResourceMng + 3772);
+            v18 = *v17;
+            if ( (this->field_198 & 8) != 0 )
+            {
+              (*(void (__stdcall **)(void *, int, int, int))(v18 + 252))(v17, 1, 13, 3);
+              (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+                *(void **)(g_pResourceMng + 3772),
+                1,
+                14,
+                3);
+            }
+            else
+            {
+              (*(void (__stdcall **)(void *, int, int, int))(v18 + 252))(v17, 1, 13, 1);
+              (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+                *(void **)(g_pResourceMng + 3772),
+                1,
+                14,
+                1);
+            }
+          }
+          if ( (this->field_17B & 3) != 0 )
+          {
+            v19 = (*(int *)((char *)g_pProcessor + 0xA90));
+            v20 = ((float * *)((char *)g_pProcessor + 0xA10))[v19];
+            (*(int *)((char *)g_pProcessor + 0xA90)) = v19 + 1;
+            orig::MoProcessor_CallVSlot49(v20);
+            v20[8] = this->field_120;
+            v20[9] = this->field_124;
+            (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC,
+              13,
+              1);
+            (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC,
+              14,
+              1);
+            (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC,
+              11,
+              0);
+            (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC,
+              24,
+              2);
+            orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), this->field_1BC + 16, v20);
+            v21 = g_pProcessor;
+            v22 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+            (*(int *)((char *)g_pProcessor + 0xA90)) = v22;
+            ((float * *)((char *)v21 + 0xA10))[v22] = v20;
+          }
+          else
+          {
+            (*(void (__stdcall **)(_DWORD, int, float *))(**(_DWORD **)(g_pResourceMng + 3772) + 148))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC + 16,
+              ((float *)((char *)g_pProcessor + 0x810)));
+          }
+          v23 = 0;
+          v24 = orig::sub_1003FCE0(v3);
+          v25 = orig::sub_1003FCF0(v39);
+          v26 = 0;
+          if ( *(_BYTE *)(v38 + 52) != 0 )
+          {
+            v40 = (int *)v25;
+            do
+            {
+              orig::sub_10075700(v40, this->field_1BC, this->field_140, this->field_144, this->field_148);
+              v33 = *(unsigned __int16 *)&v24[2 * v26];
+              v27 = orig::sub_1003FCF0(v39);
+              orig::sub_10043F40(*((int **)v27 + 1), v23, v33, 4, 0, -1);
+              v28 = *(_WORD *)&v24[2 * v26++];
+              v23 += v28 + 2 * v28;
+              v40 += 4;
+            }
+            while ( (int)(v26) < (int)(*(unsigned __int8 *)(v38 + 52)) );
+          }
+          if ( *(_BYTE *)(v38 + 53) != 0 )
+          {
+            if ( (Fn100412B0_staticGuards & 8) == 0 )
+            {
+              Fn100412B0_staticGuards |= 8u;
+              orig::fn_1006AD90((exception *)Fn100412B0_stateBlock);
+              orig::_atexit(XI_CODE(unknown_libname_39));
+            }
+            orig::StateBlock_ApplyTSS(Fn100412B0_stateBlock, (int)Fn100412B0_textureStageStates);
+            v34 = *(unsigned __int16 *)(v38 + 54) - v23 / 3;
+            v29 = orig::sub_1003FCF0(v39);
+            orig::sub_10043F40(*((int **)v29 + 1), v23, v34, 4, 0, -1);
+          }
+          (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+            *(void **)(g_pResourceMng + 3772),
+            0,
+            28,
+            1);
+          (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+            *(_DWORD *)(g_pResourceMng + 3772),
+            0,
+            1,
+            1);
+          (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+            *(_DWORD *)(g_pResourceMng + 3772),
+            0,
+            4,
+            1);
+          (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+            *(_DWORD *)(g_pResourceMng + 3772),
+            this->field_1BD,
+            11,
+            0);
+          (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+            *(_DWORD *)(g_pResourceMng + 3772),
+            this->field_1BD,
+            24,
+            0);
+          (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+            *(_DWORD *)(g_pResourceMng + 3772),
+            143,
+            0);
+          if ( (this->field_17B & 3) != 0 )
+          {
+            (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(_DWORD *)(g_pResourceMng + 3772),
+              this->field_1BC,
+              24,
+              0);
+            orig::CDx_SetTransform(
+              *(_DWORD ***)(g_pResourceMng + 3528),
+              this->field_1BC + 16,
+              ((float *)((char *)g_pProcessor + 0x810)));
+          }
+          v6 = (float *)v39;
+        }
+        else
+        {
+          if ( (Fn100412B0_staticGuards & 1) == 0 )
+          {
+            Fn100412B0_staticGuards |= 1u;
+            orig::fn_1006AD90((exception *)Fn100412B0_stateBlock4);
+            orig::_atexit(XI_CODE(unknown_libname_42));
+          }
+          orig::StateBlock_ApplyRSTSS(
+            Fn100412B0_stateBlock4,
+            (int)Fn100412B0_renderStates3,
+            (int)Fn100412B0_textureStageStates4);
+          v11 = *(int **)(g_pResourceMng + 3772);
+          v12 = *v11;
+          if ( (this->field_198 & 8) != 0 )
+          {
+            (*(void (__stdcall **)(void *, int, int, int))(v12 + 252))(v11, 1, 13, 3);
+            (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(void **)(g_pResourceMng + 3772),
+              1,
+              14,
+              3);
+          }
+          else
+          {
+            (*(void (__stdcall **)(void *, int, int, int))(v12 + 252))(v11, 1, 13, 1);
+            (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+              *(void **)(g_pResourceMng + 3772),
+              1,
+              14,
+              1);
+          }
+          v32 = *(unsigned __int16 *)(v38 + 54);
+          v13 = orig::sub_1003FCF0(v3);
+          orig::sub_10043F40(*((int **)v13 + 1), 0, v32, 4, 0, -1);
+        }
+        v30 = g_pProcessor;
+        v31 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+        (*(int *)((char *)g_pProcessor + 0xA90)) = v31;
+        ((float * *)((char *)v30 + 0xA10))[v31] = v6;
+      }
+    }
+  }
 }

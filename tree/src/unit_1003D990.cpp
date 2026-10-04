@@ -25,7 +25,7 @@ XI_API int __cdecl Sky_DrawDome(void)
     if ( v2 != nullptr )
     {
       result = orig::Camera_SetClearColorRGB(*v2, v2[1], v2[2]);
-      LOBYTE(result) = v2[18];
+      result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v2[18]) << 0));
       if ( (unsigned __int8)result > 2u )
       {
         if ( (Sky_DrawDome_staticGuard & 1) == 0 )
@@ -38,7 +38,7 @@ XI_API int __cdecl Sky_DrawDome(void)
           Sky_DrawDome_stateBlock,
           (int)Sky_DrawDome_renderStates,
           (int)Sky_DrawDome_textureStageStates);
-        orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+        orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, ((float *)((char *)g_pProcessor + 0x810)));
         orig::Gfx_SetViewMatrixFromField90(g_pMoCamera);
         v3 = v9;
         v4 = v2 + 32;
@@ -53,7 +53,7 @@ XI_API int __cdecl Sky_DrawDome(void)
         v6 = Float2E0 - orig::Camera_GetFloat2DC() - 1.0;
         orig::Sky_DrawGradientDome(v6, COERCE_FLOAT(8), v7, v9, COERCE_FLOAT(v2 + 64));
         orig::Camera_SetClearColorRGB(v9[2], v9[1], v9[0]);
-        *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;
+        *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x178)) = 1124073472;
         orig::Gfx_SetViewMatrixFromField10(g_pMoCamera);
         (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
           *(_DWORD *)(g_pResourceMng + 3772),
@@ -82,7 +82,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 94 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 94, town2 PASS 94, combat PASS 94, zonetoinn PASS 94
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
@@ -117,7 +117,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
       if ( result != -76 )
       {
         result = orig::Camera_SetClearColorRGB(*v1, *(_BYTE *)(result + 77), *(_BYTE *)(result + 78));
-        LOBYTE(result) = v1[18];
+        result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v1[18]) << 0));
         if ( (unsigned __int8)result > 2u )
         {
           if ( (Sky_DrawDomeViewCentered_staticGuard & 1) == 0 )
@@ -130,16 +130,16 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
             Sky_DrawDomeViewCentered_stateBlock,
             (int)Sky_DrawDomeViewCentered_renderStates,
             (int)Sky_DrawDomeViewCentered_textureStageStates);
-          ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-          v3 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-          g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+          ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+          v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+          (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
           qmemcpy(v3, (const void *)(g_pResourceMng + 2896), 0x40u);
-          v4 = g_pProcessor->ScratchMatrixStackTop;
-          v5 = g_pProcessor->ScratchMatrixFreeList[v4];
-          g_pProcessor->ScratchMatrixStackTop = v4 + 1;
+          v4 = (*(int *)((char *)g_pProcessor + 0xA90));
+          v5 = ((float * *)((char *)g_pProcessor + 0xA10))[v4];
+          (*(int *)((char *)g_pProcessor + 0xA90)) = v4 + 1;
           qmemcpy(v5, (const void *)(g_pResourceMng + 3408), 0x40u);
           orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v5);
-          orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+          orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, ((float *)((char *)g_pProcessor + 0x810)));
           orig::CMoDX_PushViewMatrix((int *)g_pResourceMng);
           v3[15] = 1.0;
           v3[12] = 0.0;
@@ -163,7 +163,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
           v12 = (Float2E0 - orig::Camera_GetFloat2DC()) * 0x1.99999a0000000p-1;
           orig::Sky_DrawGradientDome(v12, COERCE_FLOAT(8), v13, v18, COERCE_FLOAT(v6 + 64));
           orig::Camera_SetClearColorRGB(v18[2], v18[1], v18[0]);
-          *(_DWORD *)&g_pCDx->_pad_10[360] = 1124073472;
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x178)) = 1124073472;
           orig::CMoDX_PopViewMatrix(g_pResourceMng);
           (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
             *(_DWORD *)(g_pResourceMng + 3772),
@@ -186,16 +186,101 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
             14,
             1);
           v9 = g_pProcessor;
-          v10 = g_pProcessor->ScratchMatrixStackTop - 1;
-          g_pProcessor->ScratchMatrixStackTop = v10;
-          v9->ScratchMatrixFreeList[v10] = v5;
+          v10 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+          (*(int *)((char *)g_pProcessor + 0xA90)) = v10;
+          ((float * *)((char *)v9 + 0xA10))[v10] = v5;
           result = (int)g_pProcessor;
-          v11 = g_pProcessor->ScratchMatrixStackTop - 1;
-          g_pProcessor->ScratchMatrixStackTop = v11;
+          v11 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+          (*(int *)((char *)g_pProcessor + 0xA90)) = v11;
           *(_DWORD *)(result + 4 * v11 + 2576) = v3;
         }
       }
     }
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1003E3A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API __int64 __thiscall fn_1003E3A0(unsigned __int8 *self_, unsigned __int8 *a2)
+{
+  double v2;
+  __int64 result; // rax
+
+  v2 = *(float *)(g_pResourceMng + 3756);
+  *(self_ + 2) = (__int64)((double)*a2 * v2 + (double)*(self_ + 2));
+  *(self_ + 1) = (__int64)((double)a2[1] * v2 + (double)*(self_ + 1));
+  *self_ = (__int64)((double)a2[2] * v2 + (double)*self_);
+  result = (__int64)((double)a2[3] * v2 + (double)*(self_ + 3));
+  *(self_ + 3) = result;
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1003E450  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2)
+{
+  double v2;
+  __int64 result; // rax
+
+  v2 = *(float *)(g_pResourceMng + 3756);
+  *(self_ + 2) = (__int64)((double)*a2 * v2 + (double)*(self_ + 2));
+  *(self_ + 1) = (__int64)((double)a2[1] * v2 + (double)*(self_ + 1));
+  *self_ = (__int64)((double)a2[2] * v2 + (double)*self_);
+  result = (__int64)((double)a2[3] * v2 + (double)*(self_ + 3));
+  *(self_ + 3) = result;
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1003E500  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API int __thiscall fn_1003E500(unsigned __int8 *self_, __int16 *a2)
+{
+  double v2;
+  int v4;
+  __int16 v5;
+  int v6;
+  __int16 v7;
+  int v8;
+  __int16 v9;
+  int v10;
+  int v11;
+  int result;
+  v2 = *(float *)(g_pResourceMng + 3760);
+  v4 = (*(self_ + 2) << 8) + (__int16)(__int64)((double)*a2 * v2);
+  if ( v4 <= 0xFFFF )
+    v5 = v4 < 0 ? 0 : v4;
+  else
+    v5 = (__int16)(((uint16_t)(v5) & 0xFFu) | ((uint16_t)(uint8_t)(-1) << 8));
+  v6 = (__int16)(__int64)((double)a2[1] * v2) + (*(self_ + 1) << 8);
+  if ( v6 <= 0xFFFF )
+    v7 = v6 < 0 ? 0 : v6;
+  else
+    v7 = (__int16)(((uint16_t)(v7) & 0xFFu) | ((uint16_t)(uint8_t)(-1) << 8));
+  v8 = (__int16)(__int64)((double)a2[2] * v2) + (*self_ << 8);
+  if ( v8 <= 0xFFFF )
+    v9 = v8 < 0 ? 0 : v8;
+  else
+    v9 = (__int16)(((uint16_t)(v9) & 0xFFu) | ((uint16_t)(uint8_t)(-1) << 8));
+  v10 = (__int16)(__int64)((double)a2[3] * v2) + (*(self_ + 3) << 8);
+  if ( v10 <= 0xFFFF )
+    v11 = v10 < 0 ? 0 : v10;
+  else
+    v11 = 0xFFFF;
+  *(self_ + 2) = (_BYTE)((uint16_t)(v5) >> 8);
+  result = v11 >> 8;
+  *(self_ + 1) = (_BYTE)((uint16_t)(v7) >> 8);
+  *self_ = (_BYTE)((uint16_t)(v9) >> 8);
+  *(self_ + 3) = result;
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1003E660  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API void __thiscall fn_1003E660(void *self_, int a1)
+{
+  double v2;
+  v2 = *(float *)(g_pResourceMng + 3756) * (double)a1 + (double)*((unsigned __int8 *)self_ + 3);
+  *((_BYTE *)self_ + 3) = (__int64)v2;
+  (void)(v2); return;
 }

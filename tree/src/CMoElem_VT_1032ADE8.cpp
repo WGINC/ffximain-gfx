@@ -2,13 +2,62 @@
 #include "gfx_all.hpp"
 #include "CMoElem_VT_1032ADE8.hpp"
 
+// FUNCTION: FFXIMAIN 0x10041AF0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 82 returned normally, 23 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 77, town2 PASS 77, combat PASS 85, zonetoinn PASS 77
+void CMoElem_VT_1032ADE8::vf18()
+{
+  int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
+  int *v2;
+  int v3;
+  _DWORD *v4;
+  int *v5;
+  unsigned int v6;
+  alignas(16) unsigned char xi_frame[0x448];  // address-taken locals at their original offsets
+  float &v7 = *reinterpret_cast<float *>(xi_frame + 0x8);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  _BYTE (&v9)[4] = *reinterpret_cast<_BYTE (*)[4]>(xi_frame + 0x10);
+  int (&a1)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x14);
+  int (&a4)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x20);
+  float (&v12)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x2C);
+  _BYTE (&v13)[16] = *reinterpret_cast<_BYTE (*)[16]>(xi_frame + 0x38);
+
+  v2 = this->field_FC;
+  if ( v2 != nullptr )
+    v3 = *v2;
+  else
+    v3 = 0;
+  v4 = (_DWORD *)orig::sub_1003B700((_DWORD *)(v3 + 48));
+  if ( v4 != nullptr )
+  {
+    v7 = 1.0;
+    v5 = (int *)orig::sub_10044C40((int)self, v12);
+    a1[0] = *v5;
+    a1[1] = v5[1];
+    a1[2] = v5[2];
+    if ( orig::CXiActor_NameCalc(v4, a1, (int)v13, &v7, (int)v9) != 0 )
+    {
+      v8 = *((_DWORD *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
+      *(float *)a4 = (double)v8 * v7 * 0x1.3333340000000p-9;
+      v8 = *((_DWORD *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 3);
+      v6 = g_scratchValue;
+      *(float *)&a4[1] = (double)v8 * v7 * 0x1.3333340000000p-9;
+      if ( (g_scratchValue & 0xFFFFFF) == 0x808080 )
+        v6 = (unsigned int)at<int *>(this, 0x194) | g_scratchValue & 0xFF000000;
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        60,
+        g_scratchValue);
+      orig::Font_DrawProjectedText3D((int)a1, (int)(self + 102), v6, (int)a4, 1036831949);
+    }
+  }
+}
+
 // FUNCTION: FFXIMAIN 0x10041FE0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoElem_VT_1032ADE8::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CMoElemFamily_SharedCleanup(self);
+  orig::CMoElemFamily_SharedCleanup((int *)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int *)this;
 }

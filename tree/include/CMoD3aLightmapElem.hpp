@@ -11,9 +11,7 @@ public:
     int * ScalarDeletingDtor(char a2);  // 0x10052C70
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x190];
-    uint32_t field_194;  // +0x194
+    uint8_t _pad_4[0x194];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoD3aLightmapElem) == 0x198, "CMoD3aLightmapElem: sizeof");
-static_assert(XI_OFFSETOF(CMoD3aLightmapElem, field_194) == 0x194, "CMoD3aLightmapElem: layout");

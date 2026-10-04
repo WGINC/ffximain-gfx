@@ -84,7 +84,7 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
   v61 = 1065353216;
   orig::Mat4_SetIdentity(v68);
   orig::Mat4_SetTranslation(v68, a1);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v68);
+  orig::CDx_SetTransform(g_pCDx, 256, v68);
   orig::Gfx_ProjectWorldToClip(&v58, &v58);
   v6 = v60 < 1.0;
   v7 = 0;
@@ -248,20 +248,20 @@ LABEL_50:
             v30 = (double)SLODWORD(v56) + (double)v57;
             LODWORD(v56) = (__int16)v69[v25 + 108];
             v31 = (float *)&v71;
-            v32 = (float *)&dword_103582E4;
+            v32 = (float *)&g_worldTextQuad_v0_y;
             v33 = (double)SLODWORD(v56);
             LODWORD(v56) = (__int16)v69[2 * v25 + 1];
             *(float *)&v54 = v33 + (double)v53 + v62;
-            dword_103582E4 = v54;
-            dword_103582F0 = v54;
+            g_worldTextQuad_v0_y = v54;
+            g_worldTextQuad_v1_y = v54;
             v56 = (double)SLODWORD(v56) * v27;
             v34 = v30 + v52;
-            flt_103582E0 = v34;
-            flt_103582EC = (double)v46 * v27 + v34;
-            flt_103582F8 = v34;
-            flt_10358304 = flt_103582EC;
-            flt_103582FC = v56 + *(float *)&v54;
-            flt_10358308 = flt_103582FC;
+            g_worldTextQuad = v34;
+            g_worldTextQuad_v1_x = (double)v46 * v27 + v34;
+            g_worldTextQuad_v2_x = v34;
+            g_worldTextQuad_v3_x = g_worldTextQuad_v1_x;
+            g_worldTextQuad_v2_y = v56 + *(float *)&v54;
+            g_worldTextQuad_v3_y = g_worldTextQuad_v2_y;
             v52 = v28 + v52;
             do
             {
@@ -278,7 +278,7 @@ LABEL_50:
               v29 += 2;
               v31 += 7;
             }
-            while ( (int)v32 < 271942420 );
+            while ( (int)v32 < (int)XI_GAME(0x10358314u) );
             v55 = a4;
             if ( orig::ShapeMng_BindFontTexture(g_shapeMng, *((unsigned __int8 *)&v67[3] + v25), &v55, &a5) == 0 )
               goto LABEL_63;
@@ -287,14 +287,14 @@ LABEL_50:
             {
               if ( *((_BYTE *)&v67[3] + v25) != 0x92 )
                 v37 = -2139062144;
-              v55 = v37 & 0xFF00 | BYTE2(v37) | (((unsigned __int8)v37 | 0xFFFF8000) << 16);
-              g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
+              v55 = v37 & 0xFF00 | (_BYTE)((uint32_t)(v37) >> 16) | (((unsigned __int8)v37 | 0xFFFF8000) << 16);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
             }
             else
             {
-              g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
             }
-            g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
             v38 = v55;
             v39 = (unsigned int *)&v72;
             for ( i = 4; i != 0; --i )
@@ -302,9 +302,9 @@ LABEL_50:
               *v39 = v38;
               v39 += 7;
             }
-            g_pCDx->pDevice->SetVertexShader(324u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
             orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v70, 28);
-            g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
             v12 = v63;
 LABEL_62:
             ++v25;
@@ -404,7 +404,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   v44 = 1065353216;
   orig::Mat4_SetIdentity(v50);
   orig::Mat4_SetTranslation(v50, a1);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v50);
+  orig::CDx_SetTransform(g_pCDx, 256, v50);
   orig::Gfx_ProjectWorldToClip(&v41, &v41);
   v4 = v43 < 1.0;
   v5 = 0;
@@ -505,9 +505,9 @@ LABEL_25:
                 ViewportWidth = v15[1];
                 *v15 = v17;
                 v18 = (__int64)((double)ViewportWidth * 0.5);
-                HIDWORD(v18) = *v15;
+                v18 = (__int64)(((uint64_t)(v18) & 0xFFFFFFFFull) | ((uint64_t)(uint32_t)(*v15) << 32));
                 *((_WORD *)&v50[34] + v14) += v18;
-                LODWORD(v13) = HIDWORD(v18) + LODWORD(v39);
+                LODWORD(v13) = (_DWORD)((uint64_t)(v18) >> 32) + LODWORD(v39);
                 v15[1] = v18;
                 v9 = *(float *)&v36;
                 v39 = v13;
@@ -536,19 +536,19 @@ LABEL_28:
             v23 = (__int16)v54[2 * v19];
             v24 = (double)v37 + v39;
             v25 = (__int16)v54[2 * v19 + 1];
-            v26 = (float *)&dword_103582E4;
+            v26 = (float *)&g_worldTextQuad_v0_y;
             *(float *)&v37 = (float)v21;
             v27 = (double)v23;
-            dword_103582E4 = v37;
+            g_worldTextQuad_v0_y = v37;
             v48 = v27;
-            dword_103582F0 = v37;
+            g_worldTextQuad_v1_y = v37;
             v40 = (float)v25;
-            flt_103582E0 = v24;
-            flt_103582EC = v27 + v24;
-            flt_103582F8 = v24;
-            flt_10358304 = flt_103582EC;
-            flt_103582FC = v40 + *(float *)&v37;
-            flt_10358308 = flt_103582FC;
+            g_worldTextQuad = v24;
+            g_worldTextQuad_v1_x = v27 + v24;
+            g_worldTextQuad_v2_x = v24;
+            g_worldTextQuad_v3_x = g_worldTextQuad_v1_x;
+            g_worldTextQuad_v2_y = v40 + *(float *)&v37;
+            g_worldTextQuad_v3_y = g_worldTextQuad_v2_y;
             v39 = v48 + v39;
             do
             {
@@ -565,7 +565,7 @@ LABEL_28:
               v20 += 2;
               v22 += 7;
             }
-            while ( (int)v26 < 271942420 );
+            while ( (int)v26 < (int)XI_GAME(0x10358314u) );
             v34 = *((unsigned __int8 *)&v49[3] + v19);
             v38 = -2139062144;
             ViewportWidth = -2139062144;
@@ -576,14 +576,14 @@ LABEL_28:
             {
               if ( *((_BYTE *)&v49[3] + v19) != 0x92 )
                 v30 = -2139062144;
-              v38 = v30 & 0xFF00 | BYTE2(v30) | (((unsigned __int8)v30 | 0xFFFF8000) << 16);
-              g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
+              v38 = v30 & 0xFF00 | (_BYTE)((uint32_t)(v30) >> 16) | (((unsigned __int8)v30 | 0xFFFF8000) << 16);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
             }
             else
             {
-              g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
             }
-            g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
             v31 = v38;
             v32 = (unsigned int *)&v53;
             for ( i = 4; i != 0; --i )
@@ -591,9 +591,9 @@ LABEL_28:
               *v32 = v31;
               v32 += 7;
             }
-            g_pCDx->pDevice->SetVertexShader(324u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
             orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v51, 28);
-            g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
             ++v19;
           }
           while ( v19 < v36 );

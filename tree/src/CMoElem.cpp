@@ -104,11 +104,10 @@ char ** __cdecl CMoElem::GetRuntimeClass_variant8()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoElem::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CMoElemFamily_SharedCleanup(self);
+  orig::CMoElemFamily_SharedCleanup((int *)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int *)this;
 }
 
 // FUNCTION: FFXIMAIN 0x10044970  (placed by callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478))
@@ -176,6 +175,49 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   return orig::CMoTask_Destructor(self);
 }
 
+// FUNCTION: FFXIMAIN 0x10045920  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 4 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API bool __thiscall fn_10045920(int self_)
+{
+  int v2;
+  int v4;
+  int v5;
+  _BYTE v6[16];
+  if ( *(_BYTE *)(self_ + 377) != 0 )
+    return true;
+  v2 = *(_DWORD *)(self_ + 252);
+  if ( v2 == 0 )
+    return true;
+  if ( *(_DWORD *)v2 == 0 )
+    return true;
+  if ( *(char *)(*(_DWORD *)v2 + 222) < 0 )
+    return true;
+  orig::RegisterWithProcessor(self_);
+  if ( (*(_DWORD *)(self_ + 268) & 0x40000) == 0 )
+    return true;
+  if ( (Fn10045920_staticGuards & 1) == 0 )
+  {
+    Fn10045920_static_BC10 = 0;
+    Fn10045920_staticGuards |= 1u;
+    Fn10045920_static_BC14 = 0;
+    Fn10045920_static_BC18 = 0;
+    orig::_atexit(XI_CODE(nullsub_140));
+  }
+  v4 = *(_DWORD *)(g_pResourceMng + 3524);
+  v5 = *(_DWORD *)(g_pResourceMng + 3520);
+  orig::RegisterWithProcessor(self_);
+  (*((void (__thiscall **)(CMoProcessor *, _BYTE *, int *, int, int, int, int, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 35))(
+    g_pProcessor,
+    v6,
+    &Fn10045920_static_BC10,
+    1,
+    self_ + 160,
+    g_pResourceMng + 2832,
+    v5,
+    v4);
+  return *(_DWORD *)((unsigned __int8 *)((char *)g_pProcessor + 0xA94)) != 0;
+}
+
 // FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
 // GATE: PASS -- 100 trials, 74 returned normally, 1447 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74, town PASS 73, town2 PASS 73, combat PASS 73, zonetoinn PASS 73
 XI_API int __thiscall fn_100467E0(void *self_, int a1)
@@ -223,11 +265,11 @@ XI_API int __thiscall fn_100467E0(void *self_, int a1)
   v2 = (int **)self_;
   v35 = (int)self_;
   if ( (_WORD)a1 == 0xFFFF )
-    LOWORD(a1) = *((_WORD *)self_ + 182);
-  ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-  v4 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-  g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
-  orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+    a1 = (int)(((uint32_t)(a1) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*((_WORD *)self_ + 182)) << 0));
+  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  v4 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, ((float *)((char *)g_pProcessor + 0x810)));
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),
     27,
@@ -256,7 +298,7 @@ XI_API int __thiscall fn_100467E0(void *self_, int a1)
     case 67:
     case 98:
       if ( (_BYTE)a1 == 98 )
-        HIBYTE(g_scratchValue) = BYTE1(a1);
+        HIBYTE(g_scratchValue) = (_BYTE)((uint32_t)(a1) >> 8);
       goto LABEL_14;
     case 66:
 LABEL_14:
@@ -359,52 +401,52 @@ LABEL_9:
       v8 = (*(_BYTE *)(*v7 + 223) & 2) != 0;
     if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::sub_100473F0(v2) != 0 )
     {
-      v9 = g_pProcessor->ScratchMatrixStackTop;
-      v10 = g_pProcessor->ScratchMatrixFreeList[v9];
-      g_pProcessor->ScratchMatrixStackTop = v9 + 1;
+      v9 = (*(int *)((char *)g_pProcessor + 0xA90));
+      v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
       qmemcpy(v10, (const void *)orig::sub_100473F0((int **)v35), 0x40u);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))g_pProcessor->vftable + 30))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
         v4,
         1083624418);
       orig::sub_10045800(v10);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 8))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 8))(
         g_pProcessor,
         v4,
         v4,
         v10);
       v11 = g_pProcessor;
-      v12 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v12;
-      v11->ScratchMatrixFreeList[v12] = v10;
+      v12 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v12;
+      ((float * *)((char *)v11 + 0xA10))[v12] = v10;
       v2 = (int **)v35;
     }
     if ( (((unsigned int)v2[67] >> 6) & 7) != 0 && (((unsigned int)v2[67] >> 6) & 7) <= 2 && ((_BYTE)v2[67] & 1) != 0 )
     {
-      v13 = g_pProcessor->ScratchMatrixStackTop;
-      v14 = g_pProcessor->ScratchMatrixFreeList[v13];
-      g_pProcessor->ScratchMatrixStackTop = v13 + 1;
+      v13 = (*(int *)((char *)g_pProcessor + 0xA90));
+      v14 = ((float * *)((char *)g_pProcessor + 0xA10))[v13];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v13 + 1;
       qmemcpy(v14, (const void *)(g_pResourceMng + 2896), 0x40u);
       v14[12] = 0.0;
       v14[13] = 0.0;
       v14[14] = 0.0;
       v14[15] = 1.0;
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
         g_pProcessor,
         v4,
         v14,
         v4);
       qmemcpy(v4, v14, 0x40u);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))g_pProcessor->vftable + 30))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
         v4,
         1078530008);
       v15 = g_pProcessor;
-      v16 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v16;
-      v15->ScratchMatrixFreeList[v16] = v14;
+      v16 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v16;
+      ((float * *)((char *)v15 + 0xA10))[v16] = v14;
       v2 = (int **)v35;
     }
     v17 = v2[63];
@@ -414,7 +456,7 @@ LABEL_9:
         orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, *(_DWORD *)(*v17 + 196));
       else
         orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, 0);
-      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))g_pProcessor->vftable + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         v37,
         v4,
@@ -444,12 +486,12 @@ LABEL_9:
       {
         orig::XiZone_GetDirLights((int)g_pXiZone, &v36, v38);
       }
-      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))g_pProcessor->vftable + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         v37,
         v4,
         v37);
-      (*((void (__thiscall **)(CMoProcessor *, int *, float *, int *))g_pProcessor->vftable + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, int *, float *, int *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         &v39,
         v4,
@@ -556,13 +598,13 @@ LABEL_9:
     if ( v24 != nullptr && *v24 != 0 )
       orig::XiZone_GetFog(
         g_pXiZone,
-        &dword_1047BBE0,
-        (float *)&dword_1047BBDC,
-        (float *)&dword_1047BBF8,
+        &g_zoneFogOut1,
+        (float *)&g_zoneFogOut2,
+        (float *)&g_zoneFogOut3,
         0,
         *(_DWORD *)(*v24 + 196));
     else
-      orig::XiZone_GetFog(g_pXiZone, &dword_1047BBE0, (float *)&dword_1047BBDC, (float *)&dword_1047BBF8, 0, 0);
+      orig::XiZone_GetFog(g_pXiZone, &g_zoneFogOut1, (float *)&g_zoneFogOut2, (float *)&g_zoneFogOut3, 0, 0);
     orig::sub_100464D0();
     (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
       *(_DWORD *)(g_pResourceMng + 3772),
@@ -613,21 +655,21 @@ LABEL_9:
       orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, *(_DWORD *)(*v27 + 196));
     else
       orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, 0);
-    g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, v35);
-    g_pCDx->pDevice->SetMaterial(&dword_1047BC28);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, v35);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &Fn100467E0_material);
   }
-  if ( (byte_1047BBE4 & 1) == 0 )
+  if ( (Fn100467E0_staticGuards & 1) == 0 )
   {
-    byte_1047BBE4 |= 1u;
-    orig::fn_1006AD90((exception *)dword_1047BBB8);
+    Fn100467E0_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)Fn100467E0_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_53));
   }
-  orig::StateBlock_ApplyTSS(dword_1047BBB8, (int)dword_10353598);
+  orig::StateBlock_ApplyTSS(Fn100467E0_stateBlock, (int)Fn100467E0_textureStageStates);
   result = (int)g_pProcessor;
-  v28 = g_pProcessor->ScratchMatrixStackTop - 1;
-  g_pProcessor->ScratchMatrixStackTop = v28;
+  v28 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v28;
   *(_DWORD *)(result + 4 * v28 + 2576) = v4;
-  LOBYTE(result) = 0;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   return result;
 }
 
@@ -636,6 +678,37 @@ LABEL_9:
 void CMoElem::vf018()
 {
   ;
+}
+
+// FUNCTION: FFXIMAIN 0x100472F0  (unit CMoElem: between 0x100472E0 (class model places it in CMoElem) and 0x100473E0 (class model places it in CMoElem), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 97, combat PASS 98, zonetoinn PASS 97
+XI_API int __thiscall fn_100472F0(_WORD *a1, __int16 a4)
+{
+  __int16 v4;
+  _BYTE v6[64];
+  v4 = (__int16)(((uint16_t)(v4) & 0xFF00u) | ((uint16_t)(uint8_t)(a4) << 0));
+  if ( a4 == -1 )
+    v4 = a1[182];
+  if ( (unsigned __int8)v4 == 98 || (unsigned __int8)v4 == 66 || (unsigned __int8)v4 == 67 || (unsigned __int8)v4 == 65 )
+    orig::sub_10046550(a1, 0);
+  orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, (const void *)(g_pResourceMng + 2896));
+  if ( (Fn100472F0_staticGuards & 1) == 0 )
+  {
+    Fn100472F0_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)Fn100472F0_stateBlock);
+    orig::_atexit(XI_CODE(unknown_libname_54));
+  }
+  orig::sub_1006AF00(Fn100472F0_stateBlock, Fn100472F0_renderStates);
+  if ( *((_BYTE *)g_pZoneMap + 234904) == 0 )
+    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             47,
+             0);
+  qmemcpy(v6, (char *)g_pZoneMap + 234832, sizeof(v6));
+  return (*(int (__stdcall **)(_DWORD, int, _BYTE *))(**(_DWORD **)(g_pResourceMng + 3772) + 148))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           3,
+           v6);
 }
 
 // FUNCTION: FFXIMAIN 0x10047550  (placed by IDB name; static (takes no this))

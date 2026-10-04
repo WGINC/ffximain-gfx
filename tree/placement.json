@@ -130,12 +130,6 @@
 "why": "tree manifest; does not use this",
 "symbol": "CDx::GetRuntimeClass"
 },
-"0x10008f90": {
-"class": "CDx",
-"method": "Constructor",
-"why": "IDB name",
-"symbol": "CDx::Constructor"
-},
 "0x10009100": {
 "class": "CDx",
 "method": "ScalarDeletingDtor",
@@ -238,6 +232,12 @@
 "why": "IDB name",
 "symbol": "CDx::DrawScreenQuadAtDepth"
 },
+"0x1000a5a0": {
+"class": "CDx",
+"method": "DrawTexturedScreenQuad",
+"why": "IDB name",
+"symbol": "CDx::DrawTexturedScreenQuad"
+},
 "0x1000a6e0": {
 "class": "CDx",
 "method": "CreateTexture",
@@ -308,7 +308,11 @@
 "class": "CDx",
 "method": "CreateRampTexture1x16",
 "why": "IDB name",
-"symbol": "CDx::CreateRampTexture1x16"
+"symbol": "CDx::CreateRampTexture1x16",
+"partial_regs": {
+"store rewritten": 5,
+"read rewritten": 2
+}
 },
 "0x1000c900": {
 "class": "CDx",
@@ -363,7 +367,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file",
 "symbol": "App_InitScene",
-"unit": "unit_10010370_App"
+"unit": "unit_10010370_App",
+"partial_regs": {
+"read left: operand not a local or parameter": 1
+}
 },
 "0x10011920": {
 "class": "CMoTask",
@@ -400,21 +407,34 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Frame_Render",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 4,
+"store left: operand not a local or parameter": 17,
+"lvalue use left": 17,
+"read left: operand not a local or parameter": 2,
+"read rewritten": 1
+}
 },
 "0x10012f40": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Post_Afterimage",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x100132b0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
 "symbol": "Post_FlashAndZoomFeedback",
-"unit": "unit_10011A00_Post"
+"unit": "unit_10011A00_Post",
+"partial_regs": {
+"store rewritten": 3
+}
 },
 "0x10013ad0": {
 "class": null,
@@ -523,7 +543,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100177A0 (CShader) and 0x10017BA0 (XiCapture) -- an unnamed source file",
 "symbol": "fn_10017810",
-"unit": "unit_100177E0"
+"unit": "unit_100177E0",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10017c60": {
 "class": null,
@@ -602,7 +625,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
 "symbol": "TexObj_InitFromHeader",
-"unit": "unit_1001B890"
+"unit": "unit_1001B890",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x1001dc20": {
 "class": "CMoResource_VT_1032C8AC",
@@ -640,7 +666,11 @@
 "class": "CYyModelDt",
 "method": "PrepareRenderState",
 "why": "IDB name",
-"symbol": "CYyModelDt::PrepareRenderState"
+"symbol": "CYyModelDt::PrepareRenderState",
+"partial_regs": {
+"store rewritten": 7,
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10022fa0": {
 "class": "CYyModelDt",
@@ -715,14 +745,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "ProjTex_EndPass",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10025870": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "ProjTex_CaptureToTarget",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10025c40": {
 "class": null,
@@ -736,7 +772,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
 "symbol": "EnvMap_EndPass",
-"unit": "unit_100252F0"
+"unit": "unit_100252F0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x100262c0": {
 "class": null,
@@ -769,7 +808,10 @@
 "class": "CXiMovie",
 "method": "Draw",
 "why": "IDB name",
-"symbol": "CXiMovie::Draw"
+"symbol": "CXiMovie::Draw",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10026c70": {
 "class": "CYyIcon",
@@ -878,13 +920,19 @@
 "class": "CXiSkeletonActor",
 "method": "DrawModel",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::DrawModel"
+"symbol": "CXiSkeletonActor::DrawModel",
+"partial_regs": {
+"read rewritten": 3
+}
 },
 "0x1002c360": {
 "class": "CXiSkeletonActor",
 "method": "PrepareModelsOnce",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::PrepareModelsOnce"
+"symbol": "CXiSkeletonActor::PrepareModelsOnce",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1002c950": {
 "class": "CMoTask",
@@ -920,7 +968,11 @@
 "class": "CYyModelDt",
 "method": "SkinAndDrawV2",
 "why": "IDB name",
-"symbol": "CYyModelDt::SkinAndDrawV2"
+"symbol": "CYyModelDt::SkinAndDrawV2",
+"partial_regs": {
+"store rewritten": 9,
+"read left: operand not a local or parameter": 19
+}
 },
 "0x1002f160": {
 "class": null,
@@ -973,7 +1025,8 @@
 "class": "CXiSkeletonActor",
 "method": "PoseCompose",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::PoseCompose"
+"symbol": "CXiSkeletonActor::PoseCompose",
+"reloc_literals": 2
 },
 "0x100353c0": {
 "class": "CMoElem",
@@ -1055,14 +1108,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
 "symbol": "Post_CaptureSceneToTarget",
-"unit": "unit_10038930"
+"unit": "unit_10038930",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10038e10": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
 "symbol": "Post_DrawRotatingGhostLayers",
-"unit": "unit_10038930"
+"unit": "unit_10038930",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x10039770": {
 "class": "CYyTexBase",
@@ -1099,14 +1158,25 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
 "symbol": "TexObj_Create",
-"unit": "unit_100399D0_TexObj"
+"unit": "unit_100399D0_TexObj",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10039e50": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file",
 "symbol": "TexObj_Upload",
-"unit": "unit_100399D0_TexObj"
+"unit": "unit_100399D0_TexObj",
+"partial_regs": {
+"store rewritten": 9,
+"store left: operand not a local or parameter": 2,
+"read left: operand not a local or parameter": 16,
+"lvalue use left": 2,
+"read rewritten": 1
+}
 },
 "0x1003aa40": {
 "class": "CYyTexMng",
@@ -1155,6 +1225,16 @@
 "method": "ScalarDeletingDtor",
 "why": "tree manifest",
 "symbol": "CMoAttachments::ScalarDeletingDtor"
+},
+"0x1003be10": {
+"class": null,
+"method": null,
+"why": "unit: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB",
+"symbol": "fn_1003BE10",
+"unit": "CMoAttachments",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x1003c880": {
 "class": "CMoCamera",
@@ -1209,13 +1289,51 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
 "symbol": "Sky_DrawDome",
-"unit": "unit_1003D990"
+"unit": "unit_1003D990",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1003db60": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
 "symbol": "Sky_DrawDomeViewCentered",
+"unit": "unit_1003D990",
+"partial_regs": {
+"store rewritten": 1
+}
+},
+"0x1003e3a0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003E3A0",
+"unit": "unit_1003D990"
+},
+"0x1003e450": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003E450",
+"unit": "unit_1003D990"
+},
+"0x1003e500": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003E500",
+"unit": "unit_1003D990",
+"partial_regs": {
+"store rewritten": 3,
+"read rewritten": 3
+}
+},
+"0x1003e660": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file",
+"symbol": "fn_1003E660",
 "unit": "unit_1003D990"
 },
 "0x1003e690": {
@@ -1229,6 +1347,19 @@
 "method": "GetRuntimeClass_variant0",
 "why": "tree manifest; does not use this",
 "symbol": "CMoD3aElem::GetRuntimeClass_variant0"
+},
+"0x1003e9a0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003E6A0 (CMoD3aElem) and 0x1003EE60 (CMoD3aLightmapElem) -- an unnamed source file",
+"symbol": "fn_1003E9A0",
+"unit": "unit_1003E6B0"
+},
+"0x1003eb30": {
+"class": "CMoD3aElem",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoD3aElem::vf18"
 },
 "0x1003ee50": {
 "class": "CMoD3aElem",
@@ -1288,7 +1419,21 @@
 "class": "CMoDistMorphElem",
 "method": "ComputeMorphHandle",
 "why": "IDB name",
-"symbol": "CMoDistMorphElem::ComputeMorphHandle"
+"symbol": "CMoDistMorphElem::ComputeMorphHandle",
+"partial_regs": {
+"store left: operand type float is not an integer type": 1,
+"lvalue use left": 3,
+"read left: operand type float is not an integer type": 7
+}
+},
+"0x10040670": {
+"class": "CMoDistModelElem",
+"method": "DrawMesh",
+"why": "IDB name",
+"symbol": "CMoDistModelElem::DrawMesh",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10040c20": {
 "class": null,
@@ -1309,12 +1454,6 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoD3mSpecularElem::GetRuntimeClass"
 },
-"0x10041020": {
-"class": "CMoD3mSpecularElem",
-"method": "Ctor",
-"why": "IDB name",
-"symbol": "CMoD3mSpecularElem::Ctor"
-},
 "0x100410e0": {
 "class": "CMoD3mSpecularElem",
 "method": "vf012",
@@ -1333,6 +1472,21 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoElem::CMoElemFamily_IsKind0"
 },
+"0x100412b0": {
+"class": "CMoD3mSpecularElem",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoD3mSpecularElem::vf18",
+"partial_regs": {
+"read left: operand type float is not an integer type": 3
+}
+},
+"0x10041af0": {
+"class": "CMoElem_VT_1032ADE8",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoElem_VT_1032ADE8::vf18"
+},
 "0x10041c20": {
 "class": null,
 "method": null,
@@ -1345,6 +1499,12 @@
 "method": "ScalarDeletingDtor",
 "why": "tree manifest",
 "symbol": "CMoElem_VT_1032ADE8::ScalarDeletingDtor"
+},
+"0x10042020": {
+"class": "CMoOtTask_VT_1032AE64",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoOtTask_VT_1032AE64::vf8"
 },
 "0x10042640": {
 "class": "CMoTask",
@@ -1431,6 +1591,13 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoDistModelElem::GetRuntimeClass"
 },
+"0x100431b0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100431A0 (class model places it in CMoDistModelElem) and 0x10043310 (class model places it in CMoDistModelElem), both within 4 KB",
+"symbol": "fn_100431B0",
+"unit": "CMoDistModelElem"
+},
 "0x10043320": {
 "class": "CMoDistModelElem",
 "method": "BuildDistortedMesh",
@@ -1453,7 +1620,11 @@
 "class": "CMoDistMorphElem",
 "method": "UpdateMorphBlend",
 "why": "IDB name",
-"symbol": "CMoDistMorphElem::UpdateMorphBlend"
+"symbol": "CMoDistMorphElem::UpdateMorphBlend",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10043700": {
 "class": "CMoElem",
@@ -1471,7 +1642,10 @@
 "class": "CMoDistRingElem",
 "method": "AllocRingGeometry",
 "why": "IDB name",
-"symbol": "CMoDistRingElem::AllocRingGeometry"
+"symbol": "CMoDistRingElem::AllocRingGeometry",
+"partial_regs": {
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10043a90": {
 "class": "CMoTask_VT_1032AF60",
@@ -1502,6 +1676,41 @@
 "method": "ScalarDeletingDtor_2",
 "why": "tree manifest",
 "symbol": "CMoTask_VT_1032AFA8::ScalarDeletingDtor_2"
+},
+"0x10043e50": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "DynVB_Create",
+"unit": "unit_10043E40"
+},
+"0x10043f40": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "CMoVuElem_Draw",
+"unit": "unit_10043E40"
+},
+"0x100441c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "fn_100441C0",
+"unit": "unit_10043E40"
+},
+"0x10044210": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "Gfx_SetViewMatrixFromField10",
+"unit": "unit_10043E40"
+},
+"0x10044230": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
+"symbol": "Gfx_SetViewMatrixFromField90",
+"unit": "unit_10043E40"
 },
 "0x10044270": {
 "class": null,
@@ -1534,18 +1743,69 @@
 "why": "callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)",
 "symbol": "CMoElem::CMoElemFamily_SharedCleanup"
 },
+"0x10044f10": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file",
+"symbol": "fn_10044F10",
+"unit": "unit_10044C40"
+},
+"0x10045920": {
+"class": null,
+"method": null,
+"why": "unit: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB",
+"symbol": "fn_10045920",
+"unit": "CMoElem"
+},
+"0x10045c50": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file",
+"symbol": "fn_10045C50",
+"unit": "unit_10044C40"
+},
+"0x100464d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file",
+"symbol": "fn_100464D0",
+"unit": "unit_10044C40"
+},
 "0x100467e0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB",
 "symbol": "fn_100467E0",
-"unit": "CMoElem"
+"unit": "CMoElem",
+"partial_regs": {
+"store rewritten": 2,
+"store left: operand not a local or parameter": 2,
+"lvalue use left": 2,
+"read rewritten": 1
+}
 },
 "0x100472e0": {
 "class": "CMoElem",
 "method": "vf018",
 "why": "tree manifest; does not use this",
 "symbol": "CMoElem::vf018"
+},
+"0x100472f0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100472E0 (class model places it in CMoElem) and 0x100473E0 (class model places it in CMoElem), both within 4 KB",
+"symbol": "fn_100472F0",
+"unit": "CMoElem",
+"partial_regs": {
+"store rewritten": 1
+}
+},
+"0x100474d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100473E0 (CMoElem) and 0x10047560 (CMoNullProgElem) -- an unnamed source file",
+"symbol": "fn_100474D0",
+"unit": "unit_100473F0"
 },
 "0x10047550": {
 "class": "CMoElem",
@@ -1606,6 +1866,27 @@
 "method": "ScalarDeletingDtor",
 "why": "tree manifest",
 "symbol": "CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor"
+},
+"0x1004a870": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file",
+"symbol": "fn_1004A870",
+"unit": "unit_10048000"
+},
+"0x1004e630": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file",
+"symbol": "fn_1004E630",
+"unit": "unit_10048000"
+},
+"0x1004e720": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file",
+"symbol": "fn_1004E720",
+"unit": "unit_10048000"
 },
 "0x10052bf0": {
 "class": "CMoVuLineProgElem",
@@ -1793,6 +2074,13 @@
 "why": "tree manifest",
 "symbol": "CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor"
 },
+"0x100538e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file",
+"symbol": "fn_100538E0",
+"unit": "unit_10053860"
+},
 "0x10053e00": {
 "class": "CMoGeneratorClone",
 "method": "InitDefaultParams",
@@ -1846,6 +2134,20 @@
 "method": "GetRuntimeClass",
 "why": "tree manifest; does not use this",
 "symbol": "CMoLfdElem::GetRuntimeClass"
+},
+"0x10054d70": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file",
+"symbol": "fn_10054D70",
+"unit": "unit_100548D0"
+},
+"0x10054f80": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file",
+"symbol": "fn_10054F80",
+"unit": "unit_100548D0"
 },
 "0x10055290": {
 "class": "CMoOT",
@@ -1938,6 +2240,12 @@
 "why": "tree manifest",
 "symbol": "CMoPointLightProgElem::ScalarDeletingDtor"
 },
+"0x100565a0": {
+"class": "CXi471011C8_VT_1032B478",
+"method": "RebuildBlendWeights",
+"why": "IDB name",
+"symbol": "CXi471011C8_VT_1032B478::RebuildBlendWeights"
+},
 "0x10056930": {
 "class": "CMoTask",
 "method": "GetRuntimeClass_variant6",
@@ -2020,7 +2328,122 @@
 "class": "CMoSchedularTask",
 "method": "Interpret",
 "why": "IDB name",
-"symbol": "CMoSchedularTask::Interpret"
+"symbol": "CMoSchedularTask::Interpret",
+"partial_regs": {
+"store rewritten": 16,
+"store left: operand not a local or parameter": 2,
+"store left: the variable's address is taken": 2,
+"read rewritten": 6,
+"read left: operand not a local or parameter": 31,
+"lvalue use left": 5,
+"read left: operand type float is not an integer type": 4
+}
+},
+"0x1005f3c0": {
+"class": "CMoLockColorDriveTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoLockColorDriveTask::vf8"
+},
+"0x1005f540": {
+"class": "CMoLockLookAtDriveTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoLockLookAtDriveTask::vf8"
+},
+"0x100602a0": {
+"class": "CMoTask_VT_1032BB0C",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BB0C::vf8"
+},
+"0x100605e0": {
+"class": "CMoTask_VT_1032B8BC",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032B8BC::vf8",
+"partial_regs": {
+"store rewritten": 4
+}
+},
+"0x10060880": {
+"class": "CMoTask_VT_1032BB54",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BB54::vf8"
+},
+"0x10060e30": {
+"class": "CMoTask_VT_1032BC10",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BC10::vf8"
+},
+"0x10060fd0": {
+"class": "CMoTask_VT_1032BC3C",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BC3C::vf8"
+},
+"0x10061110": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
+"symbol": "fn_10061110",
+"unit": "unit_1005FFD0_AfterimageTask"
+},
+"0x100619d0": {
+"class": "CMoTask_VT_1032BE08",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE08::vf8"
+},
+"0x10061b50": {
+"class": "CMoTask_VT_1032BE50",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE50::vf8"
+},
+"0x10061cd0": {
+"class": "CMoTask_VT_1032BE98",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE98::vf8"
+},
+"0x10061e70": {
+"class": "CMoTask_VT_1032BEE0",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BEE0::vf8"
+},
+"0x10062060": {
+"class": "CMoTask_VT_1032BF28",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BF28::vf8"
+},
+"0x100621e0": {
+"class": "CMoTask_VT_1032BF70",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BF70::vf8"
+},
+"0x10062380": {
+"class": "CMoTask_VT_1032BFB8",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BFB8::vf8"
+},
+"0x10062520": {
+"class": "CMoTask_VT_1032C000",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032C000::vf8"
+},
+"0x100626d0": {
+"class": "CMoTask_VT_1032C048",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032C048::vf8"
 },
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
@@ -2220,6 +2643,17 @@
 "why": "tree manifest",
 "symbol": "CMoResource_VT_1032C55C::vf008"
 },
+"0x10063c80": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10063C50 (CMoResource_VT_1032C55C) and 0x10064170 (CMoVuLineProgElem) -- an unnamed source file",
+"symbol": "fn_10063C80",
+"unit": "unit_10063C60",
+"partial_regs": {
+"store rewritten": 2,
+"read left: operand not a local or parameter": 6
+}
+},
 "0x10064160": {
 "class": "CMoElem",
 "method": "GetRuntimeClass_variant13",
@@ -2250,6 +2684,41 @@
 "why": "tree manifest",
 "symbol": "CMoDX::ScalarDeletingDtor"
 },
+"0x1006a020": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file",
+"symbol": "fn_1006A020",
+"unit": "unit_10069DD0"
+},
+"0x1006aa30": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file",
+"symbol": "fn_1006AA30",
+"unit": "unit_10069DD0"
+},
+"0x1006adc0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file",
+"symbol": "fn_1006ADC0",
+"unit": "unit_10069DD0"
+},
+"0x1006af00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file",
+"symbol": "fn_1006AF00",
+"unit": "unit_10069DD0"
+},
+"0x1006af90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file",
+"symbol": "StateBlock_ApplyTSS",
+"unit": "unit_10069DD0"
+},
 "0x1006b040": {
 "class": "CMoDxStatusMng",
 "method": "GetRuntimeClass",
@@ -2267,6 +2736,25 @@
 "method": "CreateAndInitSystem",
 "why": "IDB name",
 "symbol": "CMoDX::CreateAndInitSystem"
+},
+"0x1006b3b0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file",
+"symbol": "fn_1006B3B0",
+"unit": "unit_1006B3B0"
+},
+"0x1006b480": {
+"class": "CMoTask_VT_10329C70",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_10329C70::vf8"
+},
+"0x1006b4c0": {
+"class": "CMoTask_VT_10329C70",
+"method": "vf1",
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask_VT_10329C70::vf1"
 },
 "0x1006c130": {
 "class": "CMoOcclusionMng",
@@ -2291,6 +2779,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
 "symbol": "Occlusion_QueryScreenRect",
+"unit": "unit_1006C210_Occlusion"
+},
+"0x1006c300": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "Occlusion_QueryScreenRectImpl",
 "unit": "unit_1006C210_Occlusion"
 },
 "0x1006c530": {
@@ -2396,6 +2891,12 @@
 "method": "ScratchMatrixOp",
 "why": "IDB name",
 "symbol": "CMoProcessor::ScratchMatrixOp"
+},
+"0x1006e970": {
+"class": "CMoProcessor",
+"method": "CalcScreenBounds",
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoProcessor::CalcScreenBounds"
 },
 "0x1006f5b0": {
 "class": "CMoProcessor_VT_1032C298",
@@ -2539,13 +3040,20 @@
 "class": "CMoResource_VT_1032C778",
 "method": "vf008",
 "why": "tree manifest",
-"symbol": "CMoResource_VT_1032C778::vf008"
+"symbol": "CMoResource_VT_1032C778::vf008",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"lvalue use left": 1
+}
 },
 "0x10071a30": {
 "class": "CMoResource_VT_1032C778",
 "method": "vf009",
 "why": "tree manifest",
-"symbol": "CMoResource_VT_1032C778::vf009"
+"symbol": "CMoResource_VT_1032C778::vf009",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10071a40": {
 "class": "CMoResource_VT_1032C8AC",
@@ -2744,13 +3252,49 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
 "symbol": "Gfx_InitCubeMapTextures",
-"unit": "unit_10074CA0"
+"unit": "unit_10074CA0",
+"reloc_literals": 1
 },
 "0x100755a0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
 "symbol": "TexRef_EnsureRenderTarget",
+"unit": "unit_10074CA0"
+},
+"0x10075700": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "fn_10075700",
+"unit": "unit_10074CA0"
+},
+"0x10075960": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "TexRef_SetTexture",
+"unit": "unit_10074CA0"
+},
+"0x100759c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "fn_100759C0",
+"unit": "unit_10074CA0"
+},
+"0x10076030": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "fn_10076030",
+"unit": "unit_10074CA0"
+},
+"0x10076520": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "fn_10076520",
 "unit": "unit_10074CA0"
 },
 "0x10081710": {
@@ -2775,7 +3319,10 @@
 "class": "CXiActorNameDraw",
 "method": "SetRenderState",
 "why": "IDB name; static (takes no this)",
-"symbol": "CXiActorNameDraw::SetRenderState"
+"symbol": "CXiActorNameDraw::SetRenderState",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10082070": {
 "class": "CXiActor",
@@ -2855,19 +3402,41 @@
 "why": "IDB name; static (takes no this)",
 "symbol": "CMoTask::GetRuntimeClass_variant16"
 },
+"0x10084f40": {
+"class": "XiActorTimerTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "XiActorTimerTask::vf8"
+},
 "0x10086210": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB",
 "symbol": "Actor_DrawWorldText",
-"unit": "CXiAtelActor"
+"unit": "CXiAtelActor",
+"partial_regs": {
+"store left: operand not a local or parameter": 3,
+"lvalue use left": 3,
+"read left: operand not a local or parameter": 3,
+"read rewritten": 1
+},
+"reloc_literals": 1
 },
 "0x10086900": {
 "class": null,
 "method": null,
 "why": "unit: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB",
 "symbol": "fn_10086900",
-"unit": "CXiAtelActor"
+"unit": "CXiAtelActor",
+"partial_regs": {
+"store left: operand type float is not an integer type": 2,
+"store rewritten": 1,
+"read left: operand type float is not an integer type": 9,
+"lvalue use left": 4,
+"read rewritten": 2,
+"read left: operand not a local or parameter": 1
+},
+"reloc_literals": 1
 },
 "0x100a27f0": {
 "class": "CMoTask_VT_1032D6D4",
@@ -3331,20 +3900,37 @@
 "class": "CXiSkeletonActor",
 "method": "Init",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::Init"
+"symbol": "CXiSkeletonActor::Init",
+"partial_regs": {
+"store rewritten": 1,
+"read left: operand type float is not an integer type": 2
+}
 },
 "0x100c63d0": {
 "class": "CXiSkeletonActor",
 "method": "OnMove",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OnMove"
+"symbol": "CXiSkeletonActor::OnMove",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"store rewritten": 1,
+"lvalue use left": 1,
+"read left: operand not a local or parameter": 2
+}
 },
 "0x100cb4e0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file",
 "symbol": "Actor_SelectNearestLights",
-"unit": "unit_100C8280"
+"unit": "unit_100C8280",
+"partial_regs": {
+"store left: operand not a local or parameter": 1,
+"store rewritten": 2,
+"lvalue use left": 2,
+"read left: operand type float is not an integer type": 1,
+"read left: operand not a local or parameter": 3
+}
 },
 "0x100cbd60": {
 "class": "CXiSkeletonActor",
@@ -3362,7 +3948,10 @@
 "class": "CXiSkeletonActor",
 "method": "OcclusionClip",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OcclusionClip"
+"symbol": "CXiSkeletonActor::OcclusionClip",
+"partial_regs": {
+"store rewritten": 4
+}
 },
 "0x100cd490": {
 "class": "CXiSkeletonActor",
@@ -3404,7 +3993,11 @@
 "class": "CXiSkeletonActor",
 "method": "SetAttack",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::SetAttack"
+"symbol": "CXiSkeletonActor::SetAttack",
+"partial_regs": {
+"store left: the variable's address is taken": 2,
+"lvalue use left": 2
+}
 },
 "0x100cee40": {
 "class": "CXiSkeletonActor",
@@ -3428,7 +4021,12 @@
 "class": "CXiSkeletonActor",
 "method": "SetModel",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::SetModel"
+"symbol": "CXiSkeletonActor::SetModel",
+"partial_regs": {
+"store left: the variable's address is taken": 1,
+"store left: operand not a local or parameter": 2,
+"lvalue use left": 3
+}
 },
 "0x100cfc10": {
 "class": "CXiSkeletonActor",
@@ -3452,7 +4050,10 @@
 "class": "CXiSkeletonActor",
 "method": "OnDrawName",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::OnDrawName"
+"symbol": "CXiSkeletonActor::OnDrawName",
+"partial_regs": {
+"lvalue use left": 1
+}
 },
 "0x100d06f0": {
 "class": "CXiSkeletonActor",
@@ -3500,7 +4101,10 @@
 "class": "CXiSkeletonActor",
 "method": "LoadSkeletonSync",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::LoadSkeletonSync"
+"symbol": "CXiSkeletonActor::LoadSkeletonSync",
+"partial_regs": {
+"lvalue use left": 1
+}
 },
 "0x100d4330": {
 "class": "CXiSkeletonActor",
@@ -3530,7 +4134,10 @@
 "class": "CXiSkeletonActor",
 "method": "IsDirectionLock_Set",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::IsDirectionLock_Set"
+"symbol": "CXiSkeletonActor::IsDirectionLock_Set",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x100d62c0": {
 "class": "CXiSkeletonActor",
@@ -3677,7 +4284,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_1011E980",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x1011ede0": {
 "class": null,
@@ -3691,7 +4301,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Cell_DrawStretchedWrapped",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand type float is not an integer type": 1
+}
 },
 "0x1011f300": {
 "class": null,
@@ -3717,20 +4330,29 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Cursor_Init",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x10124640": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10124640",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"read left: operand not a local or parameter": 3
+}
 },
 "0x10124700": {
 "class": "Obj_104E1D4C",
 "method": "Cursor_SetPosition",
 "why": "callers pass the object in dword_104E1D4C as this (9 of 11 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified",
-"symbol": "Obj_104E1D4C::Cursor_SetPosition"
+"symbol": "Obj_104E1D4C::Cursor_SetPosition",
+"partial_regs": {
+"read left: operand not a local or parameter": 2
+}
 },
 "0x10124eb0": {
 "class": "Obj_104E1D4C",
@@ -3750,7 +4372,12 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10125360",
-"unit": "unit_100D7420"
+"unit": "unit_100D7420",
+"partial_regs": {
+"store rewritten": 4,
+"read left: operand not a local or parameter": 2,
+"lvalue use left": 1
+}
 },
 "0x101604b0": {
 "class": null,
@@ -3771,7 +4398,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10162010",
-"unit": "unit_1012AC80"
+"unit": "unit_1012AC80",
+"partial_regs": {
+"read rewritten": 3
+}
 },
 "0x101620b0": {
 "class": null,
@@ -3885,14 +4515,20 @@
 "method": null,
 "why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
 "symbol": "Gfx_DrawQuadOutline",
-"unit": "CTsZoneMap"
+"unit": "CTsZoneMap",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10177c50": {
 "class": null,
 "method": null,
 "why": "unit: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB",
 "symbol": "Gfx_DrawLine3D",
-"unit": "CTsZoneMap"
+"unit": "CTsZoneMap",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10177cd0": {
 "class": null,
@@ -3912,13 +4548,6 @@
 "method": "InitZBiasPresets",
 "why": "IDB name",
 "symbol": "CTsZoneMap::InitZBiasPresets"
-},
-"0x10178250": {
-"class": null,
-"method": null,
-"why": "unit: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB",
-"symbol": "fn_10178250",
-"unit": "CTsZoneMap"
 },
 "0x10178b00": {
 "class": null,
@@ -3953,7 +4582,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "Zone_RenderEnvironment",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x1017c9c0": {
 "class": null,
@@ -3967,13 +4599,25 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "fn_1017DE20",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store left: the variable's address is taken": 20,
+"store left: operand not a local or parameter": 4,
+"lvalue use left": 43,
+"read left: operand type float is not an integer type": 8,
+"read left: operand not a local or parameter": 31,
+"read rewritten": 10
+}
 },
 "0x10182700": {
 "class": "CTsZoneMap",
 "method": "DrawProjectedTexture",
 "why": "IDB name",
-"symbol": "CTsZoneMap::DrawProjectedTexture"
+"symbol": "CTsZoneMap::DrawProjectedTexture",
+"partial_regs": {
+"read left: operand not a local or parameter": 2,
+"read left: operand type float is not an integer type": 7
+}
 },
 "0x10182f10": {
 "class": null,
@@ -3994,7 +4638,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "fn_10183760",
-"unit": "unit_10178790_ZoneMap"
+"unit": "unit_10178790_ZoneMap",
+"partial_regs": {
+"store rewritten": 3
+}
 },
 "0x10183da0": {
 "class": null,
@@ -4020,7 +4667,10 @@
 "class": "CTsZoneMap",
 "method": "DrawProjectedShadow",
 "why": "IDB name",
-"symbol": "CTsZoneMap::DrawProjectedShadow"
+"symbol": "CTsZoneMap::DrawProjectedShadow",
+"partial_regs": {
+"read left: operand not a local or parameter": 1
+}
 },
 "0x10185ca0": {
 "class": null,
@@ -4034,7 +4684,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
 "symbol": "Env_ComputeAmbient",
-"unit": "unit_10188CA0"
+"unit": "unit_10188CA0",
+"partial_regs": {
+"store rewritten": 5
+}
 },
 "0x10188fa0": {
 "class": null,
@@ -4062,12 +4715,28 @@
 "symbol": "Gfx_ProjectWorldToScreen",
 "unit": "unit_101C72E0"
 },
+"0x101d0b00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file",
+"symbol": "CopyrightText_Draw",
+"unit": "unit_101D0910",
+"partial_regs": {
+"store rewritten": 3,
+"read left: operand not a local or parameter": 2,
+"lvalue use left": 1
+}
+},
 "0x101eebd0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
 "symbol": "fn_101EEBD0",
-"unit": "unit_101D7020"
+"unit": "unit_101D7020",
+"partial_regs": {
+"store left: operand not a local or parameter": 4,
+"lvalue use left": 4
+}
 },
 "0x1021d4c0": {
 "class": "CXiMovie",
@@ -4094,7 +4763,11 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file",
 "symbol": "Ui_DrawKeyPrompt",
-"unit": "unit_10237880"
+"unit": "unit_10237880",
+"partial_regs": {
+"read left: operand not a local or parameter": 2,
+"read left: operand type float is not an integer type": 2
+}
 },
 "0x1024cf50": {
 "class": null,
@@ -4122,7 +4795,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
 "symbol": "StAvatarFini",
-"unit": "unit_1024D400"
+"unit": "unit_1024D400",
+"partial_regs": {
+"store rewritten": 1
+}
 },
 "0x10251a80": {
 "class": null,
@@ -4374,7 +5050,10 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file",
 "symbol": "sqgxMatrixUpdate",
-"unit": "unit_102822A0"
+"unit": "unit_102822A0",
+"partial_regs": {
+"store rewritten": 2
+}
 },
 "0x10284950": {
 "class": null,
@@ -4388,7 +5067,8 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file",
 "symbol": "sqgxVertexShaderSelect",
-"unit": "unit_10284900"
+"unit": "unit_10284900",
+"reloc_literals": 1
 },
 "0x10284b20": {
 "class": null,

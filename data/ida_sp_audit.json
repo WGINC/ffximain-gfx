@@ -1,1 +1,33 @@
-{}
+{
+ "0x100412B0": {
+  "name": "CMoD3mSpecularElem_vf18",
+  "fixes": [],
+  "unexplained": [
+   {
+    "at": "0x100419F4",
+    "depth": 28,
+    "ida": 32
+   },
+   {
+    "at": "0x100419F5",
+    "depth": 24,
+    "ida": 28
+   },
+   {
+    "at": "0x100419F6",
+    "depth": 20,
+    "ida": 24
+   },
+   {
+    "at": "0x100419F7",
+    "depth": 16,
+    "ida": 20
+   },
+   {
+    "at": "0x100419FA",
+    "depth": 0,
+    "ida": 4
+   }
+  ]
+ }
+}

@@ -27,18 +27,16 @@ BOOL CMoDisintegrateProgElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDisintegrateProgElem::vf008()
 {
-  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
-  return (*(int (__thiscall **)(void *))(*(_DWORD *)self + 84))(self);
+  return ((int (__thiscall *)(CMoDisintegrateProgElem *))(*(CMoTask_vtbl * *)((char *)this + 0x0))[1].vf10_CMoTask_vf010)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x10053150  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDisintegrateProgElem::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::MoProgElem_FreeBuffer40(self + 101);
-  orig::CMoElemFamily_SharedCleanup(self);
+  orig::MoProgElem_FreeBuffer40((int *)((unsigned __int8 *)((char *)this + 0x194)));
+  orig::CMoElemFamily_SharedCleanup((int *)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int *)this;
 }

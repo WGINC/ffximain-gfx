@@ -9,6 +9,74 @@ char ** __cdecl CMoLockLookAtDriveTask::GetRuntimeClass()
   return &CMoLockLookAtDriveTask_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x1005F540  (placed by IDB name)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 31
+char CMoLockLookAtDriveTask::vf8()
+{
+  char v2;
+  unsigned __int8 *pad_34;
+  int v4;
+  int v5;
+  __int16 v6; // fps
+  double v7;
+  int v8;
+  bool v9; // c0
+  char v10; // c2
+  bool v11; // c3
+  int v12;
+  int v13;
+  __int16 v14; // fps
+  double v15;
+  int v16;
+  bool v17; // c0
+  char v18; // c2
+  bool v19; // c3
+  double v20;
+  v2 = 0;
+  pad_34 = ((unsigned __int8 *)((char *)this + 0x34));
+  if ( orig::sub_1003B6D0(((unsigned __int8 *)((char *)this + 0x34))) != 0 )
+  {
+    v4 = orig::sub_1003B6D0(pad_34);
+    if ( !(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4) < 0.0) )
+    {
+      v8 = orig::sub_1003B6D0(pad_34);
+      v7 = this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 444))(v8);
+    }
+    else
+    {
+      v5 = orig::sub_1003B6D0(pad_34);
+      v7 = -(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5));
+    }
+    v9 = v7 < 1.0;
+    v10 = 0;
+    v11 = v7 == 1.0;
+    if ( ((__int16)(((v9 || __builtin_isunordered(v7, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v7, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v7, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      v2 = 1;
+    v12 = orig::sub_1003B6D0(pad_34);
+    if ( !(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8) < 0.0) )
+    {
+      v16 = orig::sub_1003B6D0(pad_34);
+      v15 = this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v16 + 444))(v16) + 8);
+    }
+    else
+    {
+      v13 = orig::sub_1003B6D0(pad_34);
+      v15 = -(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v13 + 444))(v13) + 8));
+    }
+    v17 = v15 < 1.0;
+    v18 = 0;
+    v19 = v15 == 1.0;
+    if ( ((__int16)(((v17 || __builtin_isunordered(v15, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v15, 1.0)) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v15, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      v2 = 1;
+  }
+  v20 = this->field_74 - *(float *)(g_pResourceMng + 3760);
+  this->field_74 = v20;
+  if ( !(v20 < 0.0) && v2 != 1 )
+    return 0;
+  (*(CMoTask_vtbl * *)((char *)this + 0x0))->vf6_CMoTask_ScalarDeletingDtor((CMoTask *)this, 1);
+  return 1;
+}
+
 // FUNCTION: FFXIMAIN 0x10062F80  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoLockLookAtDriveTask::vf011()
@@ -20,5 +88,6 @@ int CMoLockLookAtDriveTask::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoLockLookAtDriveTask::vf012(int a1)
 {
-  return orig::CMoActorColorDriveTask_ScalarDeletingDtor((int)this - 52, a1);
+  Vt_1032BA60 * self = reinterpret_cast<Vt_1032BA60 *>(this);  // byte-exact view for the rest
+  return orig::CMoActorColorDriveTask_ScalarDeletingDtor((int)(self - 13), a1);
 }

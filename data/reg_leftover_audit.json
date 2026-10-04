@@ -93,7 +93,7 @@
   "var": "v2",
   "register": "edx",
   "uses": [
-   "CYyModelBase_Destructor(C, v2);"
+   "CYyModelBase_Destructor((int *)C, v2);"
   ],
   "gate": "PASS",
   "class": "not proven",
@@ -153,7 +153,7 @@
   "var": "v2",
   "register": "edx",
   "uses": [
-   "CMoSkeletonElem_Destructor(C, v2);"
+   "CMoSkeletonElem_Destructor((int)C, v2);"
   ],
   "gate": "PASS",
   "class": "harmless"
@@ -290,12 +290,12 @@
   "var": "v2",
   "register": "ecx",
   "uses": [
-   "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);"
+   "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))(v2, 1);"
   ],
   "gate": "PASS",
   "class": "not proven",
   "why": [
-   "not a direct call argument: (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);"
+   "not a direct call argument: (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))(v2, 1);"
   ]
  },
  {
@@ -309,5 +309,177 @@
   ],
   "gate": "PASS",
   "class": "field-write"
+ },
+ {
+  "function": "0x10040220",
+  "name": "sub_10040220",
+  "var": "v13",
+  "register": "ecx",
+  "uses": [
+   "v25 = sub_1003FCF0(v13);"
+  ],
+  "gate": "FAIL",
+  "class": "not proven",
+  "why": [
+   "sub_1003FCF0 (0x1003FCF0) reads its entry ECX"
+  ]
+ },
+ {
+  "function": "0x10040670",
+  "name": "CMoDistModelElem_DrawMesh",
+  "var": "v23",
+  "register": "ecx",
+  "uses": [
+   "v24 = sub_1003FCF0(v23);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "sub_1003FCF0 (0x1003FCF0) reads its entry ECX"
+  ]
+ },
+ {
+  "function": "0x100496F0",
+  "name": "sub_100496F0",
+  "var": "v90",
+  "register": "ecx",
+  "uses": [
+   "v91 = 1.0 - v89 / ((double)sub_100493B0(v90) + *(float *)(this + 208));"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "sub_100493B0 (0x100493B0) reads its entry ECX"
+  ]
+ },
+ {
+  "function": "0x100496F0",
+  "name": "sub_100496F0",
+  "var": "v108",
+  "register": "ecx",
+  "uses": [
+   "v109 = 1.0 - v107 / ((double)sub_100493B0(v108) + *(float *)(this + 208));"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "sub_100493B0 (0x100493B0) reads its entry ECX"
+  ]
+ },
+ {
+  "function": "0x100496F0",
+  "name": "sub_100496F0",
+  "var": "v126",
+  "register": "ecx",
+  "uses": [
+   "v127 = 1.0 - v125 / ((double)sub_100493B0(v126) + *(float *)(this + 208));"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "sub_100493B0 (0x100493B0) reads its entry ECX"
+  ]
+ },
+ {
+  "function": "0x1004A980",
+  "name": "sub_1004A980",
+  "var": "v398",
+  "register": "ecx",
+  "uses": [
+   "v424 = COERCE_FLOAT(sub_1018BD90(v398));"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: v424 = COERCE_FLOAT(sub_1018BD90(v398));"
+  ]
+ },
+ {
+  "function": "0x1004A980",
+  "name": "sub_1004A980",
+  "var": "v399",
+  "register": "edx",
+  "uses": [
+   "LOBYTE(v399) = *(_BYTE *)(v7 + 4 * LODWORD(v424) + 11);",
+   "v421[0] = v399;"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: LOBYTE(v399) = *(_BYTE *)(v7 + 4 * LODWORD(v424) + 11);",
+   "not a direct call argument: v421[0] = v399;"
+  ]
+ },
+ {
+  "function": "0x1004A980",
+  "name": "sub_1004A980",
+  "var": "v411",
+  "register": "ecx",
+  "uses": [
+   "LOBYTE(v411) = *(_BYTE *)(v7 + 4 * LODWORD(v407) + 9);",
+   "v421[0] = v411;"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: LOBYTE(v411) = *(_BYTE *)(v7 + 4 * LODWORD(v407) + 9);",
+   "not a direct call argument: v421[0] = v411;"
+  ]
+ },
+ {
+  "function": "0x1004A980",
+  "name": "sub_1004A980",
+  "var": "v413",
+  "register": "edx",
+  "uses": [
+   "LOBYTE(v413) = *(_BYTE *)(v7 + 4 * LODWORD(v407) + 10);",
+   "v421[0] = v413;"
+  ],
+  "gate": null,
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: LOBYTE(v413) = *(_BYTE *)(v7 + 4 * LODWORD(v407) + 10);",
+   "not a direct call argument: v421[0] = v413;"
+  ]
+ },
+ {
+  "function": "0x100538E0",
+  "name": "sub_100538E0",
+  "var": "v4",
+  "register": "edx",
+  "uses": [
+   "CMoResource_ReleaseChain(this, v4);",
+   "CMoResource_ReleaseChain(this, v4);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x1006AA30",
+  "name": "sub_1006AA30",
+  "var": "v7",
+  "register": "edx",
+  "uses": [
+   "(*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v5 + 332))(v7, 0, *(this + 1), v6);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: (*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v5 + 332))(v7, 0, *(this + 1), v6);"
+  ]
+ },
+ {
+  "function": "0x1006AA30",
+  "name": "sub_1006AA30",
+  "var": "v10",
+  "register": "edx",
+  "uses": [
+   "(*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v8 + 332))(v10, 0, *(this + 2), v9);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: (*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v8 + 332))(v10, 0, *(this + 2), v9);"
+  ]
  }
 ]

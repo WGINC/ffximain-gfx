@@ -1,11 +1,11 @@
 """repair_compile.py -- for translation units that fail only on C-to-C++ pointer conversions,
 insert the explicit cast C applied implicitly (`cannot convert 'A' to 'B' in assignment /
-argument passing`), at the exact line/column the compiler reports, and retry (max 4 rounds).
+argument passing / initialization / return`; in a return only between two pointer types, which C converts without a cast), at the exact line/column the compiler reports, and retry (max 4 rounds).
 Usage: python3 repair_compile.py DIR            (raw units: DIR/fn_*.cpp)
        python3 repair_compile.py CLEANDIR --clean (clean tree: CLEANDIR/src/*.cpp)"""
 import os, re, subprocess, sys
 D = sys.argv[1]; CLEAN = '--clean' in sys.argv
-RX = re.compile(r"(?:fn_[0-9A-F]{8}|src/\w+)\.cpp:(\d+):(\d+): error: cannot convert '([^']+)'(?: \{aka '[^']+'\})? to '([^']+)'(?: \{aka '([^']+)'\})? in (assignment|argument passing|initialization)")
+RX = re.compile(r"(?:fn_[0-9A-F]{8}|src/\w+)\.cpp:(\d+):(\d+): error: cannot convert '([^']+)'(?: \{aka '[^']+'\})? to '([^']+)'(?: \{aka '([^']+)'\})? in (assignment|argument passing|initialization|return)")
 def span_end(line, start, stop_chars):
     depth = 0
     for i in range(start, len(line)):
@@ -50,6 +50,10 @@ for f in sorted(os.listdir(SRC)):
                 m_eq = re.search(r'(?<![=!<>+\-*/%&|^])=(?!=)', L)
                 start = m_eq.end() if m_eq and m_eq.start() < col + 1 else col
                 end = span_end(L, start, ';')
+            elif kind == 'return':
+                m_r = re.search(r'\breturn\b', L)
+                if not (m_r and '*' in a and '*' in bt): continue
+                start = m_r.end(); end = span_end(L, start, ';')
             else:
                 start = col; end = span_end(L, start, ',;')
             target = bt.replace(' ', '') if '*' in bt else bt

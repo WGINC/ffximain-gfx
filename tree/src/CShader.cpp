@@ -13,29 +13,27 @@ char ** __cdecl CShader::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int * CShader::ScalarDeletingDtor(char a2)
 {
-  unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest
-  orig::CShader_Destructor(self);
+  orig::CShader_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return (unsigned int *)this;
 }
 
 // FUNCTION: FFXIMAIN 0x100177A0  (placed by callers pass their own this (CShader))
-// GATE: PASS -- 100 trials, 100 returned normally, 161 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 146 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
 int CShader::CShader_Destructor()
 {
-  unsigned int * self = reinterpret_cast<unsigned int *>(this);  // byte-exact view for the rest
   int result;
   unsigned int v3;
-  result = this->field_8;
-  *self = (unsigned int)&CShader_vtbl;
+  result = (*(unsigned __int32 *)((char *)this + 0x8));
+  (*(void * *)((char *)this + 0x0)) = &CShader_vtbl;
   if ( result != 0 )
   {
     result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 8))(result);
-    this->field_8 = 0;
+    (*(unsigned __int32 *)((char *)this + 0x8)) = 0;
   }
-  v3 = this->field_10;
+  v3 = (*(unsigned __int32 *)((char *)this + 0x10));
   if ( v3 != 0 )
-    return g_pCDx->pDevice->DeleteVertexShader(v3);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v3);
   return result;
 }

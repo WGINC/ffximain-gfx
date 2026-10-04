@@ -115,17 +115,17 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
         v18 = v16 + (__int16)v38[2 * v15];
         v19 = (float *)&v40;
         v20 = (__int16)v38[2 * v15 + 1];
-        flt_10352CFC = (float)v27;
-        v21 = &flt_10352CFC;
-        flt_10352D08 = (float)v18;
-        flt_10352D14 = flt_10352CFC;
-        flt_10352D20 = flt_10352D08;
+        g_projTextQuad = (float)v27;
+        v21 = &g_projTextQuad;
+        g_projTextQuad_v1_x = (float)v18;
+        g_projTextQuad_v2_x = g_projTextQuad;
+        g_projTextQuad_v3_x = g_projTextQuad_v1_x;
         v34 = v20 / 2;
         v27 = v18;
-        flt_10352D00 = (float)(v20 / -2);
-        flt_10352D0C = flt_10352D00;
-        flt_10352D18 = (float)(v20 / 2);
-        flt_10352D24 = flt_10352D18;
+        g_projTextQuad_v0_y = (float)(v20 / -2);
+        g_projTextQuad_v1_y = g_projTextQuad_v0_y;
+        g_projTextQuad_v2_y = (float)(v20 / 2);
+        g_projTextQuad_v3_y = g_projTextQuad_v2_y;
         do
         {
           orig::Vec2_Mul(v36, v21, (float *)a4);
@@ -151,7 +151,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
           *v25 = v24;
           v25 += 7;
         }
-        g_pCDx->pDevice->SetVertexShader(324u);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
         orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v39, 28);
         if ( ++v15 >= v28 )
           break;

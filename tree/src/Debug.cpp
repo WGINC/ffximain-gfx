@@ -10,22 +10,22 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
   int v4;
   int v6;
   v1 = 0;
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-  g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 6u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
   v3 = 0;
   v6 = 0;
   v4 = 0;
@@ -39,9 +39,9 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
     v6 += 16;
   }
   while ( v1 < 18432 );
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-  return g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 1u);
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
@@ -87,7 +87,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
   {
     orig::Mat4_SetIdentity(v27);
     orig::Mat4_SetTranslation(v27, a1);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, v27);
+    orig::CDx_SetTransform(g_pCDx, 256, v27);
     orig::Gfx_ProjectWorldToClip(v24, v24);
     orig::Gfx_NdcToScreen(v24);
     v3 = strlen(a2);
@@ -143,20 +143,20 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
           v11 = (__int16)v30[2 * v9];
           v12 = (float *)&v29;
           v13 = (__int16)v30[2 * v9 + 1];
-          flt_1034F740 = (float)v20;
+          g_debugTextQuad_p0_x = (float)v20;
           v14 = v20 + v11;
-          flt_1034F74C = (float)v14;
-          flt_1034F758 = flt_1034F740;
+          g_debugTextQuad_p1_x = (float)v14;
+          g_debugTextQuad_p2_x = g_debugTextQuad_p0_x;
           v13 /= 2;
-          flt_1034F764 = flt_1034F74C;
+          g_debugTextQuad_p3_x = g_debugTextQuad_p1_x;
           v15 = v4 - v13;
           v16 = v4 + v13;
-          v17 = &flt_1034F740;
-          flt_1034F744 = (float)v15;
-          flt_1034F750 = flt_1034F744;
+          v17 = &g_debugTextQuad_p0_x;
+          g_debugTextQuad_p0_y = (float)v15;
+          g_debugTextQuad_p1_y = g_debugTextQuad_p0_y;
           v20 = v14;
-          flt_1034F75C = (float)v16;
-          flt_1034F768 = flt_1034F75C;
+          g_debugTextQuad_p2_y = (float)v16;
+          g_debugTextQuad_p3_y = g_debugTextQuad_p2_y;
           do
           {
             orig::Vec3_Scale((float *)v26, v17, 1.0);
@@ -172,7 +172,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
             v12 += 7;
           }
           while ( (int)v17 < (int)aErrorSSD );
-          g_pCDx->pDevice->SetVertexShader(324u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
           orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
           v4 = v22;
           v3 = v21;

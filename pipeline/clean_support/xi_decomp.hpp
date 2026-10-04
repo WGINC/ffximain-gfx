@@ -22,7 +22,17 @@ typedef float    _FLOAT;
 #define __int32 int
 #endif
 #define _mm_pause() __asm__ __volatile__("pause")
-#define XI_EA(t, ea) (*reinterpret_cast<t *>(static_cast<uintptr_t>(ea)))
+// XI_GAME(ea): an address in the analysed image of FFXiMain.dll (base 0x10000000). Built with XI_INGAME, it is
+// rebased to where the game's DLL is loaded: xi_rel (rt.c) is that load address minus 0x10000000, set by the
+// loader before any reconstructed function runs. Otherwise it is the address itself, as the gate runs the game
+// at its analysed base, and the code it compiles to is the same as a plain constant's.
+#ifdef XI_INGAME
+extern "C" uintptr_t xi_rel;
+#define XI_GAME(ea) (static_cast<uintptr_t>(ea) + xi_rel)
+#else
+#define XI_GAME(ea) (static_cast<uintptr_t>(ea))
+#endif
+#define XI_EA(t, ea) (*reinterpret_cast<t *>(XI_GAME(ea)))
 #define LAST_IND(x, part_type) (sizeof(x) / sizeof(part_type) - 1)
 #define LOW_IND(x, part_type) 0
 #define HIGH_IND(x, part_type) LAST_IND(x, part_type)

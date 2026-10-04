@@ -1,0 +1,2926 @@
+{
+ "0x1032C17C": [],
+ "0x1032C18C": [],
+ "0x1032D36C": [],
+ "0x1032D374": [],
+ "0x10345708": [],
+ "0x10345730": [],
+ "0x10350208": [],
+ "0x10352D2C": [],
+ "0x10354108": [],
+ "0x10354118": [],
+ "0x1035411C": [],
+ "0x10354120": [
+  {
+   "at": "0x1006C5E0",
+   "fn": "sub_1006C530",
+   "insn": "mov dword ptr [0x10354120], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [esp + 0xc]"
+   }
+  }
+ ],
+ "0x10354130": [],
+ "0x10354134": [],
+ "0x1035413C": [
+  {
+   "at": "0x1006C5E6",
+   "fn": "sub_1006C530",
+   "insn": "mov dword ptr [0x1035413c], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esp + 0x10]"
+   }
+  }
+ ],
+ "0x10354148": [],
+ "0x1035414C": [],
+ "0x10354150": [
+  {
+   "at": "0x1006C5FC",
+   "fn": "sub_1006C530",
+   "insn": "mov dword ptr [0x10354150], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [esp + 0xc]"
+   }
+  }
+ ],
+ "0x10354154": [
+  {
+   "at": "0x1006C602",
+   "fn": "sub_1006C530",
+   "insn": "mov dword ptr [0x10354154], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esp + 0x10]"
+   }
+  }
+ ],
+ "0x10354160": [],
+ "0x10354164": [],
+ "0x1035F598": [],
+ "0x1036E5F4": [],
+ "0x1036E634": [
+  {
+   "at": "0x101258FD",
+   "fn": "sub_10125360",
+   "insn": "mov dword ptr [0x1036e634], 0xbfc90e56",
+   "source": {
+    "kind": "const",
+    "value": "0xBFC90E56"
+   }
+  }
+ ],
+ "0x103CC408": [],
+ "0x10455C20": [
+  {
+   "at": "0x10001421",
+   "fn": "0x100013C0",
+   "insn": "mov dword ptr [0x10455c20], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10001BCA",
+   "fn": "0x10001BB0",
+   "insn": "mov dword ptr [0x10455c20], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10005660"
+   }
+  },
+  {
+   "at": "0x10001BE6",
+   "fn": "0x10001BB0",
+   "insn": "mov dword ptr [0x10455c20], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100057C7",
+   "fn": "0x10005720",
+   "insn": "mov dword ptr [0x10455c20], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x104568F8": [
+  {
+   "at": "0x100141E1",
+   "fn": "sub_100141C0",
+   "insn": "mov word ptr [0x104568f8], ax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ax, word ptr [eax + 8]"
+   }
+  }
+ ],
+ "0x1045691C": [
+  {
+   "at": "0x10010836",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1045691c], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10058D1C",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1045691c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1006006A",
+   "fn": "AfterimageTask_Destructor",
+   "insn": "mov dword ptr [0x1045691c], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  }
+ ],
+ "0x10456944": [
+  {
+   "at": "0x10010859",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x10456944], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010C68",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10456944], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100117E5",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456944], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x10456948": [
+  {
+   "at": "0x10011BD1",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456948], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011BE4",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456948], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x100DB140"
+   }
+  }
+ ],
+ "0x1045694C": [
+  {
+   "at": "0x10011DEE",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x1045694c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10013C04",
+   "fn": "App_StepGameState5Connect",
+   "insn": "mov dword ptr [0x1045694c], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x10456950": [
+  {
+   "at": "0x10011DFE",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456950], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011E6B",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456950], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x10456954": [
+  {
+   "at": "0x10011466",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456954], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10012DA4",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456954], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x10456954]"
+   }
+  },
+  {
+   "at": "0x10012DAD",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456954], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10012DE2",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456954], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x10456958": [
+  {
+   "at": "0x1001146C",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456958], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10012D89",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456958], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10012DC8",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456958], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x10456958]"
+   }
+  },
+  {
+   "at": "0x10012DE8",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456958], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1045695C": [
+  {
+   "at": "0x10011472",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1045695c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10012DDC",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x1045695c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10012DFF",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x1045695c], 2",
+   "source": {
+    "kind": "const",
+    "value": "0x2"
+   }
+  },
+  {
+   "at": "0x10012E0B",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x1045695c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x10456A80": [
+  {
+   "at": "0x10017948",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456a80], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456A98": [
+  {
+   "at": "0x100178C8",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456a98], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456AA4": [
+  {
+   "at": "0x10011F6C",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10456aa4], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x10017974",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456aa4], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456AC0": [
+  {
+   "at": "0x10017923",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456ac0], ecx",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x10456BE4": [
+  {
+   "at": "0x1001796E",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456be4], ecx",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x10456BF0": [
+  {
+   "at": "0x1001794D",
+   "fn": "Config_SetDefaults",
+   "insn": "mov dword ptr [0x10456bf0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456C0C": [
+  {
+   "at": "0x10010808",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x10456c0c], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010A13",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10456c0c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100113CB",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456c0c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10017BB0",
+    "class": "XiCapture"
+   }
+  },
+  {
+   "at": "0x100113FB",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456c0c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x10456D18": [
+  {
+   "at": "0x1001080D",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x10456d18], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010A29",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10456d18], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100113EE",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456d18], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10018430"
+   }
+  },
+  {
+   "at": "0x10011412",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10456d18], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x10456D1C": [
+  {
+   "at": "0x100108CD",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10456d1c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10013A17",
+   "fn": "0x100139E0",
+   "insn": "mov dword ptr [0x10456d1c], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10013A93",
+   "fn": "0x100139E0",
+   "insn": "mov dword ptr [0x10456d1c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x100186C0",
+    "class": "CXiOpening"
+   }
+  },
+  {
+   "at": "0x10013A9E",
+   "fn": "0x100139E0",
+   "insn": "mov dword ptr [0x10456d1c], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456D20": [
+  {
+   "at": "0x100186D8",
+   "fn": "CXiOpening_Constructor",
+   "insn": "mov dword ptr [0x10456d20], ebx",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456E48": [
+  {
+   "at": "0x10022600",
+   "fn": "CYyModelDt_PrepareRenderState",
+   "insn": "mov dword ptr [0x10456e48], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x10022896",
+   "fn": "CYyModelDt_PrepareRenderState",
+   "insn": "mov dword ptr [0x10456e48], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x100228B9",
+   "fn": "CYyModelDt_PrepareRenderState",
+   "insn": "mov dword ptr [0x10456e48], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [eax + 0x30]"
+   }
+  },
+  {
+   "at": "0x10022A03",
+   "fn": "CYyModelDt_PrepareRenderState",
+   "insn": "mov dword ptr [0x10456e48], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x104570f4]"
+   }
+  }
+ ],
+ "0x10456E54": [
+  {
+   "at": "0x1002589E",
+   "fn": "ProjTex_CaptureToTarget",
+   "insn": "mov dword ptr [0x10456e54], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esp + 0x88]"
+   }
+  }
+ ],
+ "0x10456E60": [
+  {
+   "at": "0x10025887",
+   "fn": "ProjTex_CaptureToTarget",
+   "insn": "mov dword ptr [0x10456e60], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esp + 0xc]"
+   }
+  }
+ ],
+ "0x10456E70": [
+  {
+   "at": "0x10025211",
+   "fn": "sub_10029A50",
+   "insn": "mov dword ptr [0x10456e70], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x10456d58]"
+   }
+  },
+  {
+   "at": "0x10025248",
+   "fn": "0x10025220",
+   "insn": "mov dword ptr [0x10456e70], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10456E74": [
+  {
+   "at": "0x1002622B",
+   "fn": "0x10026210",
+   "insn": "mov dword ptr [0x10456e74], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esp + 0xc]"
+   }
+  }
+ ],
+ "0x10456E78": [
+  {
+   "at": "0x10026231",
+   "fn": "0x10026210",
+   "insn": "mov dword ptr [0x10456e78], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esp + 0x10]"
+   }
+  }
+ ],
+ "0x10456E88": [
+  {
+   "at": "0x10025BF8",
+   "fn": "0x10025BF0",
+   "insn": "mov dword ptr [0x10456e88], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10026225",
+   "fn": "0x10026210",
+   "insn": "mov dword ptr [0x10456e88], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [esp + 8]"
+   }
+  }
+ ],
+ "0x104570F0": [
+  {
+   "at": "0x100CBED4",
+   "fn": "PerActor_FourBucketStaggeredUpdate",
+   "insn": "mov byte ptr [0x104570f0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100D6F40",
+   "fn": "0x100D6D30",
+   "insn": "mov byte ptr [0x104570f0], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x104570F4": [
+  {
+   "at": "0x100D6D86",
+   "fn": "0x100D6D30",
+   "insn": "mov dword ptr [0x104570f4], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esi + 0x868]"
+   }
+  }
+ ],
+ "0x104570F8": [],
+ "0x10457100": [],
+ "0x10457130": [
+  {
+   "at": "0x1002B846",
+   "fn": "CXiSkeletonActor_DrawModel",
+   "insn": "mov dword ptr [0x10457130], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10457140": [
+  {
+   "at": "0x1002B89D",
+   "fn": "CXiSkeletonActor_DrawModel",
+   "insn": "mov dword ptr [0x10457140], 0xbf800000",
+   "source": {
+    "kind": "const",
+    "value": "0xBF800000"
+   }
+  }
+ ],
+ "0x104571AC": [
+  {
+   "at": "0x1002B7ED",
+   "fn": "CXiSkeletonActor_DrawModel",
+   "insn": "mov dword ptr [0x104571ac], 0xbf800000",
+   "source": {
+    "kind": "const",
+    "value": "0xBF800000"
+   }
+  }
+ ],
+ "0x104571C0": [
+  {
+   "at": "0x1002B7F7",
+   "fn": "CXiSkeletonActor_DrawModel",
+   "insn": "mov dword ptr [0x104571c0], 0xbf800000",
+   "source": {
+    "kind": "const",
+    "value": "0xBF800000"
+   }
+  }
+ ],
+ "0x10457268": [
+  {
+   "at": "0x100D6ED9",
+   "fn": "0x100D6D30",
+   "insn": "mov dword ptr [0x10457268], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [eax]"
+   }
+  }
+ ],
+ "0x1045726C": [],
+ "0x10457388": [],
+ "0x1045745C": [
+  {
+   "at": "0x100D6DD2",
+   "fn": "0x100D6D30",
+   "insn": "mov dword ptr [0x1045745c], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esi + 0x858]"
+   }
+  }
+ ],
+ "0x104574B0": [
+  {
+   "at": "0x100D6EBE",
+   "fn": "0x100D6D30",
+   "insn": "mov dword ptr [0x104574b0], eax",
+   "source": {
+    "kind": "call",
+    "callee": "dword ptr [eax + 0x40c]"
+   }
+  }
+ ],
+ "0x104574B4": [
+  {
+   "at": "0x100D6F27",
+   "fn": "0x100D6D30",
+   "insn": "mov dword ptr [0x104574b4], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "or ecx, 0x808080"
+   }
+  }
+ ],
+ "0x10457528": [],
+ "0x10457538": [
+  {
+   "at": "0x100CCD02",
+   "fn": "PerActor_FourBucketStaggeredUpdate",
+   "insn": "mov byte ptr [0x10457538], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10457548": [
+  {
+   "at": "0x10029B34",
+   "fn": "sub_10029A50",
+   "insn": "mov dword ptr [0x10457548], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x10029B83",
+   "fn": "0x10029B60",
+   "insn": "mov dword ptr [0x10457548], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1045B618": [
+  {
+   "at": "0x1002DC62",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov word ptr [0x1045b618], cx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov cx, word ptr [eax]"
+   }
+  },
+  {
+   "at": "0x1002DC79",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov word ptr [0x1045b61a], ax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ax, word ptr [edx + 2]"
+   }
+  }
+ ],
+ "0x1045B61C": [
+  {
+   "at": "0x1002D391",
+   "fn": "0x1002D340",
+   "insn": "mov dword ptr [0x1045b61c], ebx",
+   "source": {
+    "kind": "expr",
+    "insn": "lea ebx, [ebx + ecx*4]"
+   }
+  },
+  {
+   "at": "0x1002DC97",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b61c], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "lea eax, [eax + edx*4]"
+   }
+  }
+ ],
+ "0x1045B620": [
+  {
+   "at": "0x1002D37E",
+   "fn": "0x1002D340",
+   "insn": "mov dword ptr [0x1045b620], ebx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ebx, dword ptr [ebp + 0x48]"
+   }
+  },
+  {
+   "at": "0x1002D509",
+   "fn": "0x1002D340",
+   "insn": "mov dword ptr [0x1045b620], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [ebp + 0x48]"
+   }
+  },
+  {
+   "at": "0x1002DC85",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b620], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [ebx + 0x48]"
+   }
+  }
+ ],
+ "0x1045B64C": [
+  {
+   "at": "0x1002DEEA",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b64c], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x1002E33B",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b64c], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x1002E35E",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b64c], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [eax + 0x30]"
+   }
+  },
+  {
+   "at": "0x1002E4A1",
+   "fn": "CYyModelDt_SkinAndDrawV2",
+   "insn": "mov dword ptr [0x1045b64c], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x104570f4]"
+   }
+  }
+ ],
+ "0x1045B774": [
+  {
+   "at": "0x100107D1",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1045b774], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010BDD",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x1045b774], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10010F14",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1045b774], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1045B810": [
+  {
+   "at": "0x10033784",
+   "fn": "sub_10033710",
+   "insn": "mov dword ptr [0x1045b810], 0x3f800000",
+   "source": {
+    "kind": "const",
+    "value": "0x3F800000"
+   }
+  }
+ ],
+ "0x1045B814": [
+  {
+   "at": "0x100CBF75",
+   "fn": "PerActor_FourBucketStaggeredUpdate",
+   "insn": "mov word ptr [0x1045b814], ax",
+   "source": {
+    "kind": "call",
+    "callee": "dword ptr [edx + 0x3e0]"
+   }
+  }
+ ],
+ "0x1045B81C": [
+  {
+   "at": "0x100336C1",
+   "fn": "0x100336B0",
+   "insn": "mov dword ptr [0x1045b81c], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x10456d58]"
+   }
+  },
+  {
+   "at": "0x100336F8",
+   "fn": "0x100336D0",
+   "insn": "mov dword ptr [0x1045b81c], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1045F064": [],
+ "0x10463950": [
+  {
+   "at": "0x100384BE",
+   "fn": "0x100384B0",
+   "insn": "mov byte ptr [edx + 0x10463950], 3",
+   "source": {
+    "kind": "const",
+    "value": "0x3"
+   }
+  },
+  {
+   "at": "0x100384C6",
+   "fn": "0x100384B0",
+   "insn": "mov byte ptr [edx + 0x10463950], al",
+   "source": {
+    "kind": "expr",
+    "insn": "mov al, byte ptr [esp + 0x10]"
+   }
+  },
+  {
+   "at": "0x100384E7",
+   "fn": "0x100384B0",
+   "insn": "mov dword ptr [edx + 0x10463950], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esp + 8]"
+   }
+  },
+  {
+   "at": "0x10038663",
+   "fn": "Font_DrawPass",
+   "insn": "mov byte ptr [edx + 0x10463950], 2",
+   "source": {
+    "kind": "const",
+    "value": "0x2"
+   }
+  }
+ ],
+ "0x1047B950": [
+  {
+   "at": "0x100384CD",
+   "fn": "0x100384B0",
+   "insn": "mov dword ptr [0x1047b950], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [0x1047b950]"
+   }
+  },
+  {
+   "at": "0x10038511",
+   "fn": "0x100384B0",
+   "insn": "mov dword ptr [0x1047b950], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "lea eax, [edx + ecx + 0xa]"
+   }
+  },
+  {
+   "at": "0x100386D3",
+   "fn": "Font_DrawPass",
+   "insn": "mov dword ptr [0x1047b950], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047B9D4": [
+  {
+   "at": "0x1003F11B",
+   "fn": "0x1003EFC0",
+   "insn": "mov dword ptr [0x1047b9d4], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x1003F394",
+   "fn": "CMoVuAnmElem_vf18",
+   "insn": "mov dword ptr [0x1047b9d4], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x100440A0"
+   }
+  }
+ ],
+ "0x1047BBCC": [
+  {
+   "at": "0x10046599",
+   "fn": "sub_10046550",
+   "insn": "mov dword ptr [0x1047bbcc], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100474DF",
+   "fn": "sub_100474D0",
+   "insn": "mov dword ptr [0x1047bbcc], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BBD0": [],
+ "0x1047BBD4": [],
+ "0x1047BC94": [
+  {
+   "at": "0x100555F7",
+   "fn": "0x100555D0",
+   "insn": "mov dword ptr [0x1047bc94], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x1006B3E5",
+   "fn": "sub_1006B3B0",
+   "insn": "mov dword ptr [0x1047bc94], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x1047BCBC": [
+  {
+   "at": "0x10057150",
+   "fn": "0x10057150",
+   "insn": "mov dword ptr [0x1047bcbc], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BCF8": [],
+ "0x1047BEFC": [
+  {
+   "at": "0x10057100",
+   "fn": "0x10057100",
+   "insn": "mov dword ptr [0x1047befc], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF04": [
+  {
+   "at": "0x100571A0",
+   "fn": "0x100571A0",
+   "insn": "mov dword ptr [0x1047bf04], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF18": [
+  {
+   "at": "0x100592C4",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov byte ptr [0x1047bf18], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x100605AF",
+   "fn": "0x10060590",
+   "insn": "mov byte ptr [0x1047bf18], al",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF20": [
+  {
+   "at": "0x10058E13",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf20], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10060462",
+   "fn": "0x10060450",
+   "insn": "mov dword ptr [0x1047bf20], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF24": [
+  {
+   "at": "0x1005920E",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf24], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x1005934B",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf24], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100605A5",
+   "fn": "0x10060590",
+   "insn": "mov dword ptr [0x1047bf24], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF28": [
+  {
+   "at": "0x10058F20",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf28], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100607B6",
+   "fn": "0x10060750",
+   "insn": "mov dword ptr [0x1047bf28], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF2C": [
+  {
+   "at": "0x10059019",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf2c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10060799",
+   "fn": "0x10060750",
+   "insn": "mov dword ptr [0x1047bf2c], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF30": [
+  {
+   "at": "0x10059112",
+   "fn": "CMoSchedularTask_Interpret",
+   "insn": "mov dword ptr [0x1047bf30], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x1006077C",
+   "fn": "0x10060750",
+   "insn": "mov dword ptr [0x1047bf30], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047BF34": [
+  {
+   "at": "0x1003F349",
+   "fn": "CMoVuAnmElem_vf18",
+   "insn": "mov dword ptr [0x1047bf34], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10063D3E",
+   "fn": "sub_10063C80",
+   "insn": "mov dword ptr [0x1047bf34], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  }
+ ],
+ "0x1047BFFC": [
+  {
+   "at": "0x100107E0",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1047bffc], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010E87",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047bffc], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10010EB4",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047bffc], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100114C7",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047bffc], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1047D12C": [
+  {
+   "at": "0x100536DC",
+   "fn": "CMoGeneratorClone_CreateInstance",
+   "insn": "mov byte ptr [0x1047d12c], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1005484F",
+   "fn": "0x10054840",
+   "insn": "mov byte ptr [0x1047d12c], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x10071304",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007134C",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071396",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100713C1",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100713E8",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007140F",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007143A",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071469",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071498",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100714C7",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071501",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071530",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071567",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071596",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100715C5",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100715F4",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071623",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071652",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071680",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100716AE",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100716EE",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071720",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071760",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007178F",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100717C5",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100717F1",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007181C",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10071847",
+   "fn": "0x10071270",
+   "insn": "mov byte ptr [0x1047d12c], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100729B4",
+   "fn": "0x10072990",
+   "insn": "mov byte ptr [0x1047d12c], al",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10073547",
+   "fn": "MeshResourceMng_ResolveTree",
+   "insn": "mov byte ptr [0x1047d12c], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x100738C4",
+   "fn": "0x10073750",
+   "insn": "mov byte ptr [0x1047d12c], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x1047D13D": [
+  {
+   "at": "0x10010D95",
+   "fn": "App_InitScene",
+   "insn": "mov byte ptr [0x1047d13d], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x10010DE5",
+   "fn": "App_InitScene",
+   "insn": "mov byte ptr [0x1047d13d], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x1007492E",
+   "fn": "0x10074920",
+   "insn": "mov byte ptr [0x1047d13d], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1007495E",
+   "fn": "0x10074920",
+   "insn": "mov byte ptr [0x1047d13d], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x1047D140": [
+  {
+   "at": "0x100107D6",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1047d140], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010B98",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x1047d140], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10010DDF",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d140], ebp",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebp"
+   }
+  },
+  {
+   "at": "0x10010E1E",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d140], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100114BB",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d140], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1047D15C": [
+  {
+   "at": "0x100754CD",
+   "fn": "sub_1006B3B0",
+   "insn": "mov dword ptr [esi + 0x1047d15c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x1047D688": [
+  {
+   "at": "0x100107FE",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1047d688], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100109CE",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x1047d688], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011330",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d688], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011377",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d688], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1047D68C": [
+  {
+   "at": "0x10010803",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1047d68c], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100109E5",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x1047d68c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011369",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d68c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011394",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1047d68c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1047D694": [
+  {
+   "at": "0x10012000",
+   "fn": "Frame_Render",
+   "insn": "mov byte ptr [0x1047d694], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100790F6",
+   "fn": "0x100790E0",
+   "insn": "mov byte ptr [0x1047d694], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10079107",
+   "fn": "0x100790E0",
+   "insn": "mov byte ptr [0x1047d694], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1007911D",
+   "fn": "0x100790E0",
+   "insn": "mov byte ptr [0x1047d694], al",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esp + 0xc]"
+   }
+  },
+  {
+   "at": "0x10245688",
+   "fn": "LobbyThread_Proc",
+   "insn": "mov byte ptr [0x1047d694], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1047D695": [
+  {
+   "at": "0x10079129",
+   "fn": "0x100790E0",
+   "insn": "mov byte ptr [0x1047d695], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10079165",
+   "fn": "0x100790E0",
+   "insn": "mov byte ptr [0x1047d695], 4",
+   "source": {
+    "kind": "const",
+    "value": "0x4"
+   }
+  }
+ ],
+ "0x10480AF0": [
+  {
+   "at": "0x100145DA",
+   "fn": "0x10014390",
+   "insn": "mov dword ptr [0x10480af0], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x1008A120",
+    "class": "CYyObject_VT_1032D69C"
+   }
+  },
+  {
+   "at": "0x100145E1",
+   "fn": "0x10014390",
+   "insn": "mov dword ptr [0x10480af0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10094947",
+   "fn": "0x10094190",
+   "insn": "mov dword ptr [ecx*4 + 0x10480af0], esi",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10099B33",
+   "fn": "0x10099AE0",
+   "insn": "mov dword ptr [edx*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x1009B5BA",
+   "fn": "0x1009B550",
+   "insn": "mov dword ptr [edx*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB197",
+   "fn": "0x100AB170",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB1FF",
+   "fn": "0x100AB1B0",
+   "insn": "mov dword ptr [esi*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB347",
+   "fn": "0x100AB320",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB3AF",
+   "fn": "0x100AB360",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB577",
+   "fn": "0x100AB550",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100AB5DB",
+   "fn": "0x100AB590",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100C3EB1",
+   "fn": "0x100C3E70",
+   "insn": "mov dword ptr [edi*4 + 0x10480af0], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100C3F0F",
+   "fn": "0x100C3EC0",
+   "insn": "mov dword ptr [esi*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x1023B431",
+   "fn": "0x1023B210",
+   "insn": "mov dword ptr [eax*4 + 0x10480af0], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10242E99",
+   "fn": "0x10242CB0",
+   "insn": "mov dword ptr [ebp*4 + 0x10480af0], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10487F58": [],
+ "0x10487F80": [
+  {
+   "at": "0x10011FF4",
+   "fn": "Frame_Render",
+   "insn": "mov byte ptr [0x10487f80], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100A8CCA",
+   "fn": "0x100A8CC0",
+   "insn": "mov byte ptr [0x10487f80], bl",
+   "source": {
+    "kind": "expr",
+    "insn": "mov bl, byte ptr [esp + 8]"
+   }
+  }
+ ],
+ "0x10487F81": [
+  {
+   "at": "0x10011FFA",
+   "fn": "Frame_Render",
+   "insn": "mov byte ptr [0x10487f81], bl",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x100A6076",
+   "fn": "0x100A6070",
+   "insn": "mov byte ptr [0x10487f81], al",
+   "source": {
+    "kind": "expr",
+    "insn": "mov al, byte ptr [esp + 4]"
+   }
+  }
+ ],
+ "0x104DFD98": [
+  {
+   "at": "0x100041E7",
+   "fn": "0x10004060",
+   "insn": "mov dword ptr [0x104dfd98], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100F9986",
+   "fn": "0x100F9940",
+   "insn": "mov dword ptr [0x104dfd98], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100F99DC",
+   "fn": "0x100F9940",
+   "insn": "mov dword ptr [0x104dfd98], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100F99F3",
+   "fn": "0x100F9940",
+   "insn": "mov dword ptr [0x104dfd98], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [edx]"
+   }
+  },
+  {
+   "at": "0x100F9B0D",
+   "fn": "0x100F9A30",
+   "insn": "mov dword ptr [0x104dfd98], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [edx]"
+   }
+  },
+  {
+   "at": "0x100F9DA2",
+   "fn": "0x100F9DA0",
+   "insn": "mov dword ptr [0x104dfd98], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100F9E96",
+   "fn": "0x100F9E10",
+   "insn": "mov dword ptr [0x104dfd98], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x100F9ED6",
+   "fn": "0x100F9EB0",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [eax + edx*4]"
+   }
+  },
+  {
+   "at": "0x100FA055",
+   "fn": "0x100FA050",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [esp + 8]"
+   }
+  },
+  {
+   "at": "0x100FA1A1",
+   "fn": "0x100FA180",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [esp + 0x11c]"
+   }
+  },
+  {
+   "at": "0x100FA1CE",
+   "fn": "0x100FA180",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [esp + 0x11c]"
+   }
+  },
+  {
+   "at": "0x100FA454",
+   "fn": "0x100FA180",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  },
+  {
+   "at": "0x100FA4AD",
+   "fn": "0x100FA4A0",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [esp + 0x10]"
+   }
+  },
+  {
+   "at": "0x100FB835",
+   "fn": "0x100FB830",
+   "insn": "mov dword ptr [0x104dfd98], esi",
+   "source": {
+    "kind": "expr",
+    "insn": "mov esi, dword ptr [esp + 8]"
+   }
+  },
+  {
+   "at": "0x100FC91C",
+   "fn": "0x100FC910",
+   "insn": "mov dword ptr [0x104dfd98], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [eax]"
+   }
+  }
+ ],
+ "0x104E1BF4": [
+  {
+   "at": "0x100107E5",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x104e1bf4], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010A49",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x104e1bf4], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011066",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x104e1bf4], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x1011C870"
+   }
+  },
+  {
+   "at": "0x1001109D",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x104e1bf4], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x104E1D44": [
+  {
+   "at": "0x10010951",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x104e1d44], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100112AA",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x104e1d44], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10311BBB"
+   }
+  },
+  {
+   "at": "0x100112B1",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x104e1d44], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1057815C": [
+  {
+   "at": "0x100107EF",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x1057815c], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010A89",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x1057815c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x100110F3",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1057815c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10127190"
+   }
+  },
+  {
+   "at": "0x10011120",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x1057815c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x10578160": [
+  {
+   "at": "0x100107F4",
+   "fn": "App_Constructor",
+   "insn": "mov dword ptr [0x10578160], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10010AA9",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10578160], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011113",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10578160], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10127EE0"
+   }
+  },
+  {
+   "at": "0x1001113D",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10578160], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x105781F8": [
+  {
+   "at": "0x10165135",
+   "fn": "0x10165070",
+   "insn": "mov dword ptr [0x105781f8], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x1013A1E0"
+   }
+  },
+  {
+   "at": "0x1016513C",
+   "fn": "0x10165070",
+   "insn": "mov dword ptr [0x105781f8], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10166839",
+   "fn": "0x10166810",
+   "insn": "mov dword ptr [0x105781f8], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x1057847C": [
+  {
+   "at": "0x1016515A",
+   "fn": "0x10165070",
+   "insn": "mov dword ptr [0x1057847c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10150AB0"
+   }
+  },
+  {
+   "at": "0x10165161",
+   "fn": "0x10165070",
+   "insn": "mov dword ptr [0x1057847c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10166865",
+   "fn": "0x10166810",
+   "insn": "mov dword ptr [0x1057847c], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x10621A10": [
+  {
+   "at": "0x1017477C",
+   "fn": "0x10174770",
+   "insn": "mov dword ptr [0x10621a10], eax",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x101747C3",
+   "fn": "0x10174790",
+   "insn": "mov dword ptr [0x10621a10], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [0x10621a10]"
+   }
+  },
+  {
+   "at": "0x101747DE",
+   "fn": "0x10174790",
+   "insn": "mov dword ptr [0x10621a10], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [0x10621a10]"
+   }
+  }
+ ],
+ "0x10631F14": [
+  {
+   "at": "0x1017B5E0",
+   "fn": "sub_1017B510",
+   "insn": "mov dword ptr [0x10631f14], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x106390B0": [],
+ "0x106390B4": [],
+ "0x106390C8": [
+  {
+   "at": "0x10185532",
+   "fn": "CTsZoneMap_DrawProjectedShadow",
+   "insn": "mov dword ptr [esp + 0x18], 0x106390c8",
+   "source": {
+    "kind": "const",
+    "value": "0x106390C8"
+   }
+  }
+ ],
+ "0x106390CC": [
+  {
+   "at": "0x1018552A",
+   "fn": "CTsZoneMap_DrawProjectedShadow",
+   "insn": "mov dword ptr [esp + 0x14], 0x106390cc",
+   "source": {
+    "kind": "const",
+    "value": "0x106390CC"
+   }
+  },
+  {
+   "at": "0x10186424",
+   "fn": "sub_10185CA0",
+   "insn": "mov dword ptr [esp + 0x50], 0x106390cc",
+   "source": {
+    "kind": "const",
+    "value": "0x106390CC"
+   }
+  }
+ ],
+ "0x1065C4C8": [
+  {
+   "at": "0x1017B5DA",
+   "fn": "sub_1017B510",
+   "insn": "mov dword ptr [0x1065c4c8], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1065CA48": [
+  {
+   "at": "0x100604E9",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca48], eax",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [esi + 0x50]"
+   }
+  },
+  {
+   "at": "0x10060563",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca48], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10311C2C"
+   }
+  }
+ ],
+ "0x1065CA4C": [
+  {
+   "at": "0x100604D7",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca4c], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [esi + 0x40]"
+   }
+  },
+  {
+   "at": "0x1006052E",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca4c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10311C2C"
+   }
+  }
+ ],
+ "0x1065CA50": [
+  {
+   "at": "0x100604F1",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca50], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov ecx, dword ptr [esi + 0x58]"
+   }
+  }
+ ],
+ "0x1065CA54": [
+  {
+   "at": "0x100604E0",
+   "fn": "CMoTask_VT_1032B890_vf8",
+   "insn": "mov dword ptr [0x1065ca54], edx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov edx, dword ptr [esi + 0x48]"
+   }
+  }
+ ],
+ "0x1065CB0C": [
+  {
+   "at": "0x1018C4AE",
+   "fn": "0x1018C2B0",
+   "insn": "mov dword ptr [0x1065cb0c], ecx",
+   "source": {
+    "kind": "expr",
+    "insn": "mov eax, dword ptr [0x1065cb1c]"
+   }
+  }
+ ],
+ "0x1065CB14": [],
+ "0x1065CB18": [],
+ "0x1066279C": [
+  {
+   "at": "0x101AB0F9",
+   "fn": "0x101AB0D0",
+   "insn": "mov dword ptr [0x1066279c], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x101A2E00"
+   }
+  },
+  {
+   "at": "0x101AB100",
+   "fn": "0x101AB0D0",
+   "insn": "mov dword ptr [0x1066279c], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x101AB541",
+   "fn": "0x101AB520",
+   "insn": "mov dword ptr [0x1066279c], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  }
+ ],
+ "0x106627EC": [
+  {
+   "at": "0x101AB095",
+   "fn": "0x101AB080",
+   "insn": "mov dword ptr [0x106627ec], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x101AB810"
+   }
+  },
+  {
+   "at": "0x101AB09B",
+   "fn": "0x101AB080",
+   "insn": "mov dword ptr [0x106627ec], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x101AB0C2",
+   "fn": "0x101AB0B0",
+   "insn": "mov dword ptr [0x106627ec], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10662DA8": [
+  {
+   "at": "0x101B9187",
+   "fn": "0x101B8E70",
+   "insn": "mov dword ptr [0x10662da8], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x101AE140"
+   }
+  },
+  {
+   "at": "0x101B9194",
+   "fn": "0x101B8E70",
+   "insn": "mov dword ptr [0x10662da8], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x101B9396",
+   "fn": "0x101B92B0",
+   "insn": "mov dword ptr [0x10662da8], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x10663178": [
+  {
+   "at": "0x101D0ADE",
+   "fn": "0x101D0AB0",
+   "insn": "mov word ptr [0x10663178], 2",
+   "source": {
+    "kind": "const",
+    "value": "0x2"
+   }
+  },
+  {
+   "at": "0x101D0D04",
+   "fn": "0x101D0C70",
+   "insn": "mov word ptr [0x10663178], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x101D0D3F",
+   "fn": "0x101D0C70",
+   "insn": "mov word ptr [0x10663178], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x101D0D55",
+   "fn": "0x101D0C70",
+   "insn": "mov word ptr [0x10663178], 3",
+   "source": {
+    "kind": "const",
+    "value": "0x3"
+   }
+  },
+  {
+   "at": "0x101D0D87",
+   "fn": "0x101D0C70",
+   "insn": "mov word ptr [0x10663178], 4",
+   "source": {
+    "kind": "const",
+    "value": "0x4"
+   }
+  },
+  {
+   "at": "0x101D0E71",
+   "fn": "0x101D0C70",
+   "insn": "mov word ptr [0x10663178], ax",
+   "source": {
+    "kind": "call",
+    "callee": "0x10123A70"
+   }
+  }
+ ],
+ "0x10663888": [
+  {
+   "at": "0x101D11EB",
+   "fn": "0x101D11C0",
+   "insn": "mov dword ptr [0x10663888], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x101F86C0"
+   }
+  },
+  {
+   "at": "0x101D11F2",
+   "fn": "0x101D11C0",
+   "insn": "mov dword ptr [0x10663888], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x101D201E",
+   "fn": "0x101D1E90",
+   "insn": "mov dword ptr [0x10663888], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  }
+ ],
+ "0x10669014": [
+  {
+   "at": "0x10011DCC",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10669014], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  },
+  {
+   "at": "0x10011DF6",
+   "fn": "Frame_Render",
+   "insn": "mov dword ptr [0x10669014], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10013CF3",
+   "fn": "App_StepGameState5Connect",
+   "insn": "mov dword ptr [0x10669014], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  },
+  {
+   "at": "0x10013D28",
+   "fn": "App_StepGameState5Connect",
+   "insn": "mov dword ptr [0x10669014], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x10669420": [
+  {
+   "at": "0x102515FA",
+   "fn": "Dancer_WorldEnd",
+   "insn": "mov byte ptr [0x10669420], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  }
+ ],
+ "0x10669424": [
+  {
+   "at": "0x10010BF8",
+   "fn": "App_Destructor",
+   "insn": "mov dword ptr [0x10669424], edi",
+   "source": {
+    "kind": "unknown",
+    "reg": "edi"
+   }
+  },
+  {
+   "at": "0x10011459",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10669424], eax",
+   "source": {
+    "kind": "call",
+    "callee": "0x102532E0"
+   }
+  },
+  {
+   "at": "0x10011460",
+   "fn": "App_InitScene",
+   "insn": "mov dword ptr [0x10669424], ebx",
+   "source": {
+    "kind": "unknown",
+    "reg": "ebx"
+   }
+  }
+ ],
+ "0x1099D21B": [
+  {
+   "at": "0x1028166C",
+   "fn": "sqgxTextureCreateFromImage",
+   "insn": "mov byte ptr [eax*4 + 0x1099d21b], al",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x109A2720": [
+  {
+   "at": "0x10283250",
+   "fn": "0x10283250",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x102832E8",
+   "fn": "0x10283280",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1028331F",
+   "fn": "0x10283300",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1028336F",
+   "fn": "0x10283330",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x1028338F",
+   "fn": "0x10283380",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x102833AF",
+   "fn": "0x102833A0",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x102833DD",
+   "fn": "0x102833C0",
+   "insn": "mov dword ptr [0x109a2720], 1",
+   "source": {
+    "kind": "const",
+    "value": "0x1"
+   }
+  },
+  {
+   "at": "0x102836B6",
+   "fn": "sqgxColorUpdate",
+   "insn": "mov dword ptr [0x109a2720], 0",
+   "source": {
+    "kind": "const",
+    "value": "0x0"
+   }
+  }
+ ],
+ "0x109B2640": [
+  {
+   "at": "0x102F4B46",
+   "fn": "?Initialize@CD3DXText@@IAEJPAUIDirect3DDevice8@@@Z",
+   "insn": "mov dword ptr [0x109b2640], esi",
+   "source": {
+    "kind": "unknown",
+    "reg": "esi"
+   }
+  }
+ ]
+}

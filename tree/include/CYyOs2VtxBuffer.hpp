@@ -13,15 +13,15 @@ public:
     uint8_t _pad_4[0x30];
     uint32_t field_34;  // +0x34
     uint32_t field_38;  // +0x38
-    int32_t createStep;  // +0x3C state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an
+    uint32_t createStep;  // +0x3C state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an
     uint32_t field_40;  // +0x40
     uint32_t field_44;  // +0x44
     uint32_t field_48;  // +0x48
     uint32_t field_4C;  // +0x4C
     uint32_t field_50;  // +0x50
     uint32_t field_54;  // +0x54
-    int32_t indexCount;  // +0x58 loop bound over the 16-bit index array in CreateBuffersStep
-    int32_t pIndices;  // +0x5C 16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit
+    uint32_t indexCount;  // +0x58 loop bound over the 16-bit index array in CreateBuffersStep
+    uint32_t pIndices;  // +0x5C 16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit
     uint32_t field_60;  // +0x60
     uint32_t field_64;  // +0x64
     uint8_t field_68;  // +0x68

@@ -9,17 +9,17 @@ XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
   unsigned __int16 ViewportWidth;
   int v4;
   unsigned __int16 ViewportHeight;
-  *self_ = &off_1032A844;
-  Texture = (_DWORD *)dword_1045B818;
-  if ( dword_1045B818 != 0
+  *self_ = &Vtbl_1032A844;
+  Texture = (_DWORD *)Fn10033710_targetTex;
+  if ( Fn10033710_targetTex != 0
     || (ViewportHeight = orig::Camera_GetViewportHeight(),
         ViewportWidth = orig::Camera_GetViewportWidth(),
-        Texture = orig::CDx_CreateTexture(&g_pCDx->vftable, ViewportWidth, ViewportHeight, &dword_1045B81C, 1, 0),
-        dword_1045B818 = (int)Texture,
+        Texture = orig::CDx_CreateTexture(g_pCDx, ViewportWidth, ViewportHeight, &dword_1045B81C, 1, 0),
+        Fn10033710_targetTex = (int)Texture,
         Texture != nullptr) )
   {
     (*(void (__stdcall **)(_DWORD *))(*Texture + 4))(Texture);
-    Texture = (_DWORD *)dword_1045B818;
+    Texture = (_DWORD *)Fn10033710_targetTex;
   }
   *(self_ + 2) = Texture;
   v4 = dword_1045B81C;
@@ -58,25 +58,25 @@ XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
     else
     {
       orig::CDx_PushRenderTarget(g_pCDx, *(_DWORD *)(self_ + 8), *(_DWORD *)(self_ + 12), 0);
-      orig::CDx_EndClearBegin(&g_pCDx->vftable, 0, 0, 1, 0, 0, 0);
+      orig::CDx_EndClearBegin(g_pCDx, 0, 0, 1, 0, 0, 0);
       *(_BYTE *)(self_ + 4) = 1;
     }
-    g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, -2130706433u);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG2);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, -2130706433u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SHADEMODE, 1u);
     orig::D3DXMatrixPerspectiveFovLH_static((int)v5, 0.19634955, 1.0, 0.1, 65535.0);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 3, v5);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 2, g_lightViewMatrix);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, g_offscreenWorldMatrix);
+    orig::CDx_SetTransform(g_pCDx, 3, v5);
+    orig::CDx_SetTransform(g_pCDx, 2, g_lightViewMatrix);
+    orig::CDx_SetTransform(g_pCDx, 256, g_offscreenWorldMatrix);
     orig::nullsub_1();
     orig::nullsub_1();
     return 1;
@@ -97,43 +97,43 @@ XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
   IDirect3DBaseTexture8 *v5;
   if ( g_actorShadowMode != 1 )
     return 0;
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
   if ( a2 <= 0 || a2 > 2 )
   {
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG1, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 5u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG1, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 6u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG1, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 3u);
   }
   else
   {
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, 0x12u);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_ADD);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG1, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TEXTURE);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 0x12u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 7u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG1, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG1, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 2u);
   }
-  g_pCDx->pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, g_texturefactor_B808);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, g_texturefactor_B808);
   if ( g_shadowCasterDistance < 4.0 )
   {
     if ( *(self_ + 2) == 0 )
       return 0;
-    orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 3, g_matrix_7468);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, g_matrix_7270);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 2, &g_matrix_7228);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+    orig::CDx_SetTexture(g_pCDx, 0, 0);
+    orig::CDx_SetTransform(g_pCDx, 3, g_matrix_7468);
+    orig::CDx_SetTransform(g_pCDx, 256, g_matrix_7270);
+    orig::CDx_SetTransform(g_pCDx, 2, &g_matrix_7228);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SHADEMODE, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
   }
   if ( g_offscreenPrevTex0 != 0 )
   {
@@ -141,11 +141,11 @@ XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
       v4 = *(IDirect3DBaseTexture8 **)(g_offscreenPrevTex0 + 64);
     else
       v4 = *(IDirect3DBaseTexture8 **)(g_offscreenPrevTex0 + 68);
-    g_pCDx->pDevice->SetTexture(0, v4);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v4);
   }
   else
   {
-    g_pCDx->pDevice->SetTexture(0, nullptr);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
   }
   if ( g_offscreenPrevTex1 != 0 )
   {
@@ -153,12 +153,12 @@ XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
       v5 = *(IDirect3DBaseTexture8 **)(g_offscreenPrevTex1 + 64);
     else
       v5 = *(IDirect3DBaseTexture8 **)(g_offscreenPrevTex1 + 68);
-    g_pCDx->pDevice->SetTexture(1u, v5);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, v5);
     return 1;
   }
   else
   {
-    g_pCDx->pDevice->SetTexture(1u, nullptr);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, nullptr);
     return 1;
   }
 }

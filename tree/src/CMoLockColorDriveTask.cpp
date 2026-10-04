@@ -9,6 +9,20 @@ char ** __cdecl CMoLockColorDriveTask::GetRuntimeClass()
   return &CMoLockColorDriveTask_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x1005F3C0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+char CMoLockColorDriveTask::vf8()
+{
+  double v1;
+  v1 = this->field_74 - *(float *)(g_pResourceMng + 3760);
+  this->field_74 = v1;
+  if ( !(v1 < 0.0) )
+    return 0;
+  this->field_78 = 0;
+  (*(CMoTask_vtbl * *)((char *)this + 0x0))->vf6_CMoTask_ScalarDeletingDtor((CMoTask *)this, 1);
+  return 1;
+}
+
 // FUNCTION: FFXIMAIN 0x100630F0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoLockColorDriveTask::vf011()
@@ -20,5 +34,6 @@ int CMoLockColorDriveTask::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoLockColorDriveTask::vf012(int a1)
 {
-  return (int)orig::CMoLockLookAtDriveTask_ScalarDeletingDtor((_DWORD *)this - 13, a1);
+  Vt_1032BA18 * self = reinterpret_cast<Vt_1032BA18 *>(this);  // byte-exact view for the rest
+  return (int)orig::CMoLockLookAtDriveTask_ScalarDeletingDtor((_DWORD *)self - 13, a1);
 }

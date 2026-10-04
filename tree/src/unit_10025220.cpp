@@ -3,30 +3,30 @@
 
 // FUNCTION: FFXIMAIN 0x10025260  (unit unit_10025220: no unit evidence of its own; in the gap between 0x100251A0 (CYyModelDt) and 0x100252D0 (CYyModelDt_VT_1032A430) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 191 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
-XI_API _DWORD * __thiscall fn_10025260(_DWORD *self_)
+XI_API Vt_1032A460_vtbl ** __thiscall fn_10025260(Vt_1032A460_vtbl **self_)
 {
-  _DWORD *Texture;
+  Vt_1032A460_vtbl *Texture;
   unsigned __int16 ViewportWidth;
-  int v4;
+  Vt_1032A460_vtbl *v4;
   unsigned __int16 ViewportHeight;
-  *self_ = &off_1032A460;
-  Texture = (_DWORD *)dword_10456E6C;
-  if ( dword_10456E6C != 0
+  *self_ = &Vtbl_1032A460;
+  Texture = (Vt_1032A460_vtbl *)Fn10025260_targetTex;
+  if ( Fn10025260_targetTex != 0
     || (ViewportHeight = orig::Camera_GetViewportHeight(),
         ViewportWidth = orig::Camera_GetViewportWidth(),
-        Texture = orig::CDx_CreateTexture(&g_pCDx->vftable, ViewportWidth, ViewportHeight, &dword_10456E70, 1, 0),
-        dword_10456E6C = (int)Texture,
+        Texture = (Vt_1032A460_vtbl *)orig::CDx_CreateTexture(g_pCDx, ViewportWidth, ViewportHeight, &dword_10456E70, 1, 0),
+        Fn10025260_targetTex = (int)Texture,
         Texture != nullptr) )
   {
-    (*(void (__stdcall **)(_DWORD *))(*Texture + 4))(Texture);
-    Texture = (_DWORD *)dword_10456E6C;
+    (*((void (__stdcall **)(Vt_1032A460_vtbl *))Texture->vf0_CYyModelDt_VT_1032A430_ScalarDeletingDtor_2 + 1))(Texture);
+    Texture = (Vt_1032A460_vtbl *)Fn10025260_targetTex;
   }
   *(self_ + 1) = Texture;
-  v4 = dword_10456E70;
+  v4 = (Vt_1032A460_vtbl *)dword_10456E70;
   if ( dword_10456E70 != 0 )
   {
     (*(void (__stdcall **)(_DWORD))(*(_DWORD *)dword_10456E70 + 4))(dword_10456E70);
-    v4 = dword_10456E70;
+    v4 = (Vt_1032A460_vtbl *)dword_10456E70;
   }
   *(self_ + 2) = v4;
   g_projTexTarget = 0;

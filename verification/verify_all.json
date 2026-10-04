@@ -98,6 +98,36 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:evidence_names.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:gfx_device_users.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:reloc_literals.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ui_functions.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:idb_members.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:local_types.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:reg_leftover_audit.json": {
   "ok": true,
   "differing": [],
@@ -117,9 +147,39 @@
   "result": "self-test: 0 of 1 misses reach the output (the rest are in functions normal use rejects)"
  },
  "export-sp": {
-  "ok": true,
-  "ida_wrong": [],
-  "unexplained": []
+  "ok": false,
+  "ida_wrong": [
+   "0x100412B0"
+  ],
+  "unexplained": [
+   [
+    {
+     "at": "0x100419F4",
+     "depth": 28,
+     "ida": 32
+    },
+    {
+     "at": "0x100419F5",
+     "depth": 24,
+     "ida": 28
+    },
+    {
+     "at": "0x100419F6",
+     "depth": 20,
+     "ida": 24
+    },
+    {
+     "at": "0x100419F7",
+     "depth": 16,
+     "ida": 20
+    },
+    {
+     "at": "0x100419FA",
+     "depth": 0,
+     "ida": 4
+    }
+   ]
+  ]
  },
  "hx_patches": {
   "ok": true,
@@ -140,56 +200,28 @@
  "accepted:device_via_CDx_this": {
   "ok": null,
   "status": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-0...",
-  "com_calls": 151,
+  "com_calls": 153,
   "balances": [
    "0x1000955A",
    "0x100095CF",
    "0x1000A705"
   ]
  },
+ "tree-source": {
+  "ok": true,
+  "export_commit": "30cfb26",
+  "sha1": "d8fc5e34d52441338c770b47028134dc7ce2eac8",
+  "same_as_committed_export": true
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 189 files; failed: none"
+   "built build/gfx_recon.dll from 217 files; failed: none"
   ]
  },
  "tree-gate": {
-  "ok": true,
-  "functions": 714,
-  "gates": {
-   "fuzz": {
-    "PASS": 712,
-    "UNRESOLVED": 2
-   },
-   "town": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "town2": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "combat": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "zonetoinn": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   }
-  },
-  "not_passing": {},
-  "live": [
-   "town",
-   "town2",
-   "combat",
-   "zonetoinn"
-  ],
-  "note": "from the full run (fuzz + four live dumps) of the same commit; tree-regen from the quick run after the gcc-quote fix"
+  "ok": null,
+  "skipped": "--quick"
  }
 }

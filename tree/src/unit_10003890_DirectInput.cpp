@@ -17,14 +17,14 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
   _DWORD (&v10)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0xD8);
   _BYTE (&v11)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x118);
 
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
   orig::fn_10027990((Iostream_init *)self_v);
   orig::fn_10027990((Iostream_init *)v10);
   orig::fn_10027990((Iostream_init *)v11);
@@ -40,24 +40,24 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
       orig::Mat4_SetIdentity(self_v);
       orig::Mat4_PostRotateY(self_v, *(float *)(v2 + *(self_ + 4) + 12));
       orig::Mat4_SetTranslation(self_v, (_DWORD *)(v2 + *(self_ + 4)));
-      orig::CDx_SetTransform(&g_pCDx->vftable, 256, self_v);
-      g_pCDx->pDevice->SetVertexShader(66u);
-      orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&unk_1034F6C0, 16);
-      v4 = dword_10480AF0[*(_DWORD *)(*(self_ + 3) + v3)];
+      orig::CDx_SetTransform(g_pCDx, 256, self_v);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+      orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&g_debugAxisLineVerts, 16);
+      v4 = ActerBuffPtr[*(_DWORD *)(*(self_ + 3) + v3)];
       if ( v4 != 0 && (*(_DWORD *)(v4 + 288) & 0x200) != 0 )
       {
         v5 = *(_DWORD *)(v4 + 160);
         if ( v5 != 0 )
         {
-          dword_1034F72C = (*(unsigned __int8 (__thiscall **)(_DWORD))(*(_DWORD *)v5 + 408))(*(_DWORD *)(v4 + 160)) != 0
-                         ? -2147418113
-                         : -2130706433;
+          g_debugLineVerts_v0_color = (*(unsigned __int8 (__thiscall **)(_DWORD))(*(_DWORD *)v5 + 408))(*(_DWORD *)(v4 + 160)) != 0
+                                    ? -2147418113
+                                    : -2130706433;
           v6 = (_DWORD *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5);
           orig::Vec4_Copy(v8, v6);
-          orig::Vec3_Sub(flt_1034F730, v8, (float *)(v2 + *(self_ + 4)));
+          orig::Vec3_Sub(g_debugLineVerts_v1, v8, (float *)(v2 + *(self_ + 4)));
           orig::Mat4_SetTranslation(v10, (_DWORD *)(v2 + *(self_ + 4)));
-          orig::CDx_SetTransform(&g_pCDx->vftable, 256, v10);
-          orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)&unk_1034F720, 16);
+          orig::CDx_SetTransform(g_pCDx, 256, v10);
+          orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)&g_debugLineVerts, 16);
           v3 = v7;
         }
       }
@@ -67,9 +67,9 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
     v7 = v3;
   }
   while ( v3 < 18432 );
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v11);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 1u);
+  orig::CDx_SetTransform(g_pCDx, 256, v11);
   orig::nullsub_1();
   orig::nullsub_1();
   orig::nullsub_1();
@@ -106,7 +106,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
       if ( (*(int (__stdcall **)(_DWORD, void *))(*(_DWORD *)*v2 + 44))(*v2, &c_dfDIMouse_ref) >= 0 )
       {
         if ( g_cfgHardwareMouse != 0 )
-          orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
+          orig::CDx_ShowCursor(g_pCDx, 1u);
         g_mouseAcquired = 1;
         v3 = *v2;
         if ( g_cfgHardwareMouse != 0 )

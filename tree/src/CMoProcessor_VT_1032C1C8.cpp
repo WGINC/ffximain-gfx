@@ -125,8 +125,7 @@ float * CMoProcessor_VT_1032C1C8::vf033(float *a1, float *a2, int a3, float *a4,
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 CMoProcessor * CMoProcessor_VT_1032C1C8::vf035(float *a2, float *a3, int a4, int a5, int a6, float a7, float a8)
 {
-  float * self = reinterpret_cast<float *>(this);  // byte-exact view for the rest
-  return orig::CMoProcessor_CalcScreenBoundsAndVisible(self, a2, a3, a4, a5, a6, a7, a8);
+  return orig::CMoProcessor_CalcScreenBoundsAndVisible((float *)this, a2, a3, a4, a5, a6, a7, a8);
 }
 
 // FUNCTION: FFXIMAIN 0x10070E60  (placed by tree manifest; does not use this)

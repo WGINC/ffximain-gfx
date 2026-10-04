@@ -13,16 +13,15 @@ char ** __cdecl CYyModelBase::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CYyModelBase::ScalarDeletingDtor(char a1)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v2;
-  orig::CYyModelBase_Destructor(self, v2);
+  orig::CYyModelBase_Destructor((int *)this, v2);
   if ( (a1 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return (int *)this;
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 61 returned normally, 879 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61, town PASS 100, town2 PASS 86, combat PASS 95, zonetoinn PASS 94
+// GATE: PASS -- 100 trials, 61 returned normally, 876 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61, town PASS 100, town2 PASS 86, combat PASS 95, zonetoinn PASS 94
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -57,9 +56,9 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
       v7 = *v6;
     else
       v7 = 0;
-    this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, off_10351514, v7);
+    this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, v7);
   }
-  g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, g_ambientColor);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, g_ambientColor);
   v8 = 0;
   v9 = &g_lightTable_Start;
   do
@@ -67,17 +66,17 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
     if ( *(_DWORD *)v9 != 0 )
     {
       orig::CDx_SetLight(g_pCDx, v8, v9);
-      g_pCDx->pDevice->LightEnable(v8, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v8, 1u);
     }
     else
     {
-      g_pCDx->pDevice->LightEnable(v8, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v8, 0);
     }
     v9 += 26;
     ++v8;
   }
   while ( (int)v9 < (int)flt_10457388 );
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
   PartList = orig::CYyModelBase_GetPartList((char *)self);
   v11 = *(int **)PartList;
   v25 = PartList;
@@ -194,6 +193,6 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
     v18 = (char *)(*(_DWORD *)v18 + 4);
   }
   for ( k = 0; k < 4; ++k )
-    result = g_pCDx->pDevice->LightEnable(k, 0);
+    result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), k, 0);
   return result;
 }

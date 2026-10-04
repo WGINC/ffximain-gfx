@@ -47,7 +47,7 @@ _DWORD * CMoProcessor::InitRotationMatrices()
 }
 
 // FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 198 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 54, town2 PASS 54, combat PASS 54, zonetoinn PASS 54
+// GATE: PASS -- 100 trials, 99 returned normally, 198 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 51, town2 PASS 51, combat PASS 51, zonetoinn PASS 51
 int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -56,14 +56,106 @@ int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
   int result;
   CMoProcessor *v8;
   int v9;
-  ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-  v6 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-  g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  v6 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
   (*(void (__thiscall **)(void *, float *, int))(*(_DWORD *)self + 92))(self, v6, a4);
   result = (*(int (__thiscall **)(void *, int, int, float *))(*(_DWORD *)self + 36))(self, a2, a3, v6);
   v8 = g_pProcessor;
-  v9 = g_pProcessor->ScratchMatrixStackTop - 1;
-  g_pProcessor->ScratchMatrixStackTop = v9;
-  v8->ScratchMatrixFreeList[v9] = v6;
+  v9 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v9;
+  ((float * *)((char *)v8 + 0xA10))[v9] = v6;
+  return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1006E970  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 53, town2 PASS 53, combat PASS 54, zonetoinn PASS 53
+CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5)
+{
+  CMoProcessor *result;
+  float *v6;
+  int ScratchMatrixStackTop;
+  double v8;
+  float *v9;
+  int i;
+  double v12;
+  double v13;
+  double v14;
+  double v15;
+  double v16;
+  double v17;
+  __int16 v18; // fps
+  bool v19; // c0
+  char v20; // c2
+  bool v21; // c3
+  bool v22; // c0
+  char v23; // c2
+  bool v24; // c3
+  int v25;
+  float v26;
+  float v27;
+  float v28;
+  float v29;
+  float v30;
+  float v31;
+  float v32;
+  result = (CMoProcessor *)g_pResourceMng;
+  if ( g_pResourceMng != 0 )
+  {
+    v6 = (float *)(g_pResourceMng + 2832);
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v27 = 10000.0;
+    v8 = -10000.0;
+    v9 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    qmemcpy(v9, a5, 0x40u);
+    v26 = 10000.0;
+    v28 = -10000.0;
+    if ( a4 > 0 )
+    {
+      for ( i = a4; i != 0; --i )
+      {
+        v12 = v9[8] * a2[2] + a2[1] * v9[4] + *v9 * *a2 + v9[12];
+        v13 = *a2 * v9[1] + v9[9] * a2[2] + a2[1] * v9[5] + v9[13];
+        v14 = v9[10] * a2[2] + a2[1] * v9[6] + v9[2] * *a2 + v9[14];
+        v31 = v12 * *v6 + v14 * v6[8] + v13 * v6[4] + v6[12];
+        v29 = v12 * v6[1] + v14 * v6[9] + v13 * v6[5] + v6[13];
+        v15 = v14 * v6[11] + v13 * v6[7] + v12 * v6[3] + v6[15];
+        if ( v15 < 0.0 )
+          v15 = -v15;
+        if ( v15 == 0.0 )
+          v15 = 1.0;
+        v16 = 1.0 / v15;
+        v32 = (v31 * v16 + 1.0) * *(float *)(g_pResourceMng + 3520);
+        v17 = (1.0 - v16 * v29) * *(float *)(g_pResourceMng + 3524);
+        if ( v32 < (double)v26 )
+          v26 = v32;
+        v19 = v32 < (double)v28;
+        v20 = 0;
+        v21 = v32 == v28;
+        if ( ((__int16)(((v19 || __builtin_isunordered(v32, (double)v28)) ? 0x100 : 0) | ((__builtin_isunordered(v32, (double)v28)) ? 0x400 : 0) | ((v21 || __builtin_isunordered(v32, (double)v28)) ? 0x4000 : 0)) & 0x4100) == 0 )
+          v28 = v32;
+        if ( v17 < v27 )
+          v27 = v17;
+        v22 = v17 < v8;
+        v23 = 0;
+        v24 = v17 == v8;
+        if ( ((__int16)(((v22 || __builtin_isunordered(v17, v8)) ? 0x100 : 0) | ((__builtin_isunordered(v17, v8)) ? 0x400 : 0) | ((v24 || __builtin_isunordered(v17, v8)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        {
+          v30 = v17;
+          v8 = v30;
+        }
+        a2 = (float *)((char *)a2 + a3);
+      }
+    }
+    *a1 = v26;
+    a1[1] = v27;
+    a1[3] = v8;
+    a1[2] = v28;
+    result = g_pProcessor;
+    v25 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v25;
+    ((float * *)((char *)result + 0xA10))[v25] = v9;
+  }
   return result;
 }

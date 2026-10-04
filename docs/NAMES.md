@@ -631,6 +631,143 @@ This round named the graphics functions that were still `sub_XXXX`: 154 in `tree
 | `0x102A2530` | `sqsnSceneLayerDrawPlanarShadows` | medium | yes | Draws planar projected shadows for a layer's casters: multiply blend with (1 - light color), Z bias +4, no Z write/test, stencil EQUAL+INCR to avoid double darkening, each caster drawn with shader flag bit31 (planar shadow matrix). |
 | `0x1031077E` | `Thunk_FnTable694` | medium |  | Calls the function pointer at offset 0x694 of the table pointed to by dword_10456A2C. |
 
+## 4 Oct 2026: the export's unnamed globals
+
+Every global the 867-function export references under a placeholder (`dword_`, `flt_`, `unk_`, `byte_`, `off_`,
+`word_`, `stru_`): 663. Each has a name or a stated reason for not having one (`data/global_names.json`); the
+names are in `data/names_pending_idb.json` (`"kind": "global"`) until the next IDA run applies them.
+
+### Evidence
+
+`pipeline/global_dossier.py` collects, for each global, from the binary and the export only:
+- every reference in the whole image (the relocation chain, each resolved to its instruction through
+  `data/func_extents.json`, or to the data address holding it) and what the instruction does with it: read,
+  write, float read/write, address taken, compare, call through, at which width;
+- the section and the initial bytes (as an integer, a float, a string, or the target of a pointer);
+- the export's pseudocode lines that mention it.
+
+Read in address order (neighbours are often one object). The helpers in `pipeline/global_naming/` show the
+context (`ctx.py`), what is left (`todo.py`), and apply the three rules below.
+
+### Rules (applied mechanically, each a fact of the code)
+
+- **Vertex arrays** (`addarr.py`): several "globals" are the fields of one vertex array a function fills and
+  passes to `DrawPrimitiveUP`. The vertex format comes from the function's `SetVertexShader`/`Gfx_CalcFVFStride`
+  value (0x44 = XYZRHW|DIFFUSE, 20 bytes; 0x144 = +TEX1, 28; 0x142 = XYZ|DIFFUSE|TEX1, 24), so each global is
+  named `<array>_v<k>_<field>`. Where the layout is not established, nothing is named.
+- **State blocks** (`stateblocks.py`): the handle and tables passed to `StateBlock_ApplyTSS`,
+  `StateBlock_ApplyRSTSS` and `sub_1006AF00` (which records `SetRenderState` only) are named
+  `<Function>_stateBlock` / `_renderStates` / `_textureStageStates`, as the IDB already names `Sky_DrawDome_*`.
+  The roles are those calls' code: device slots 52/50/63/53/54 (Begin/SetRenderState/SetTextureStageState/
+  End/ApplyStateBlock), tables of pairs or triples ending 0x7FFFFFFF, the handle -1 until recorded.
+- **Scope** (`rules2.py`): a byte whose every use is `(g & bit) == 0` then `g |= bit` in one function is that
+  function's MSVC static-init guards (`<Function>_staticGuards`); a global every reference to which, in the
+  whole image, is in one function is that function's static (`<Function>_static_XXXX`). These names state the
+  scope only, not a meaning.
+
+### Confidence
+
+- **high (283):** a string or exact bytes say what it is (the 3 D3D8 interface IDs equal `d3d8.h` in all 16
+  bytes; "DXT1".."DXT5"; the Shift-JIS messages, translated in the evidence), a declared role (the `pUp` of
+  `D3DXMatrixLookAtRH`, the argument of `SetMaterial`, register c15..c18 of `SetVertexShaderConstant`), one of
+  the rules above, or a fact already established in `docs/RENDERER.md` (the frame-step ring);
+- **medium (239):** what it is follows from its uses, but the wording is an inference (`g_fadeQuadVerts` for
+  the quad `CDx_DrawFadeQuad` fills, `g_screenFadeLevel` for the level centred on 0x80);
+- **low:** not named. 141 globals are unnamed, each with its reason in `data/global_names.json`: mostly
+  singletons used by hundreds of functions outside the export (one is read 1,052 times), app and configuration
+  flags whose readers are not exported, and 7 tables of Microsoft's D3DX, which is not game code.
+
+### Checks
+
+- No new name equals an existing function, global, parameter or local name, or a C++ keyword (globals are
+  macros in the tree).
+- The clean tree regenerated with the names builds the same `gfx_recon.dll`, byte for byte, as without them:
+  names do not change code. 377 of the 522 names appear in it (the others are used only by functions the tree
+  does not hold); no placeholder of a named global is left.
+
+## 4 Oct 2026: the PS2 executable (SCUS_972.66) against the 141 still unnamed
+
+The owner supplied the PS2 executable. It is not stripped: 8,424 data objects have names and sizes, and its
+relocations give every function's data references exactly (`pipeline/ps2_refs.py`, `runs/ps2_refs.json`):
+
+- The executable is linked, so the instructions hold final addresses:
+  - a LO16's target is its HI16 partner's upper half plus its own lower half;
+  - a GPREL16's target is `_gp` plus its immediate.
+- Dancer.bin's code bytes are not in the file. For those functions only the relocation's symbol is known, with
+  no offset.
+
+A PC global can only be matched through a function that exists on both sides. Pairs found:
+
+| Source of the pair | Pairs |
+|---|---|
+| The IDB's `PS2 counterpart` comments | 59 |
+| The same class and method name | 2 |
+| A string literal used by exactly one function on each side | 22 |
+| Propagation through the call graph (a paired function's only unpaired callee on each side) | 2 |
+| **Total** | **84** |
+
+Pairing by string or call graph adds little: of the 157 strings both binaries share, 22 pin a pair. The PC
+functions have diverged from PS2 (other calls, inlining, extra checks), so callee sets rarely line up.
+
+Only 8 of the 84 pairs touch one of the 141 unnamed globals. Reading those 8 side by side gives one match:
+
+| Address | Was | Name | Confidence | Evidence |
+|---|---|---|---|---|
+| `0x10487F80` | `byte_10487F80` | `XiControlActor_isFirstPersonView` | high | PS2 `NameCalc__7XiActorFPfPiRfRUi` calls vtable+0x184 and returns 0 when it is true and `is_first_person_view__14XiControlActor` is nonzero. PC 0x100830C0, the same function (the same near/far fade follows), calls vtable+0x304 and returns 0 when it is true and this byte is nonzero. `CXiSkeletonActor_OnMove` repeats the pair twice (0x100C7CCE/0x100C7CD8, 0x100C7D70/0x100C7D78), as PS2 `OnMove__15XiSkeletonActorFv` references the same static. |
+
+The other 7 do not decide anything:
+- **PS2 code that is not the PC code.** `OnTrgButtons` and `isL3`: PS2 tests `g_pTkMouse` and `pad`, while the
+  PC function is a different handler.
+- **The PC global has no PS2 counterpart in the pair.** `0x109A2720` is cleared by 8 sqgx functions, but
+  PS2 `sqgxColorUpdate`'s Dancer code is not in the file.
+- **The PS2 side references nothing that corresponds.** `OnDrawName`; `loadTexture` (PS2 references only
+  `dmaGif`).
+
+The 140 others stay unnamed. The large shared objects among them (`0x104DFD98` with 1,071 references,
+`0x10480AF0` with 931) are used mostly by functions that have no PS2 pair.
+
+## 4 Oct 2026: the easy ones of the remaining 140 (30 named)
+
+Sources, each definitive on its own terms:
+- **The settings table (5).** The settings loader 0x100179E0 walks the table at 0x103507D8: 31 entries
+  `{type, &global, id}`. It formats each id with `"%04d"` and reads that registry value with
+  `RegQueryValueExA` straight into the global. `g_cfg0000`, `g_cfg0011`, `g_cfg0017`, `g_cfg0022`, `g_cfg0023`
+  name the registry value each one holds. What each value means is not in the binary.
+- **D3DX 8.1's own symbols (4).** `pipeline/d3dx_data.py` reads the relocations of every byte-matched D3DX
+  function in `d3dx8.lib` (the owner's DirectX 8.1 SDK): each masked field names its target, and the game's
+  copy holds that target's address at the same offset (726 D3DX data addresses in `data/d3dx/d3dx81_data.json`).
+  The four here:
+  - `g_D3DXFormatUnknown`
+  - `g_pD3DXFormatInfo`
+  - `g_pD3DXFormatInfoLim`
+  - `CD3DXText_s_pList`
+- **A vertex layout (13).** The third quad of sub_1006C530 is drawn with FVF 0x104 (XYZRHW|TEX1, a 24-byte
+  stride by the SDK's definition). Every write lands on a field of that layout: `Fn1006C530_quadVerts3_vN_{x,y,u,v}`.
+- **Constructors (5).** `pipeline/global_sources.py` follows each store back to its value (`data/global_sources.json`).
+  - A constructor's result has the class whose vtable that constructor stores at [this]: `g_pXiCapture` and
+    `g_pXiOpening`.
+  - Three hold objects whose vtables have no runtime-class descriptor, so the class has no name. Their names
+    say only that: `g_pObj_Vtbl10329F8C`, `g_pObj_Vtbl1033CE34`, `g_pObj_Vtbl10333D18`.
+- **The PS2 executable (3).** The owner's DWARF parser (`ps2_dwarf/dwarf1.py`) gives every PS2 global with its
+  type and source file. Function pairs now also come from the PS2 vtable-slot mapping in `data/dm_names.json`
+  and from class and method names across all PC names (108 pairs).
+  - `XiControlActor_isAutoRunning` (0x10487F81): PC 0x100A6070 is `IsAutoRunning__14XiControlActorFc` step
+    for step, including the 16-byte `auto_run_vec` copy and the call with 65 on the message window.
+  - `XiControlActor_userControlTarget` (0x10487F58): the only global of `AmIUserControlTarget` on both sides,
+    used the same way by `SetTarget`.
+  - `ActerBuffPtr` (0x10480AF0, PS2's spelling, 931 references): the actor pointer table. PS2 `EventIdle` and
+    PC 0x100BCD10 index it by the event's actor and clear the same flag bit in that actor.
+
+Corrections:
+- `g_pChatLog` (0x10578158) is PS2's `g_pMsgWinData` (`CTkMsgWinData *`, the message window). It is renamed
+  `g_pTkMsgWinData`.
+- The evidence of the `Fn1006C530_quadVerts2_*` names said "colour = a2 at +16". The code writes a2 to +8,
+  the z of each vertex. The names were right and the evidence text was wrong.
+
+The 110 left need more than one decisive fact each. Most belong to the large shared objects (0x104DFD98
+with 1,071 references, 0x104E1D44 with 259, 0x1057847C with 161), whose users are mostly outside the export
+and have no PS2 pair.
+
 ## 2 Oct 2026: globals and callees
 
 This round named the placeholders left in `tree/`: 24 `sub_` callees and 283 data symbols (`dword_`, `byte_`, `flt_`, `unk_`, `off_`, `word_`). 193 were named (86 high, 107 medium confidence); 13 `sub_` and 105 data placeholders remain because the code does not say enough about them.

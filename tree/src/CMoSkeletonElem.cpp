@@ -13,10 +13,9 @@ char ** __cdecl CMoSkeletonElem::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoSkeletonElem::ScalarDeletingDtor(char a1)
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   int v2;
-  orig::CMoSkeletonElem_Destructor(self, v2);
+  orig::CMoSkeletonElem_Destructor((int)this, v2);
   if ( (a1 & 1) != 0 )
-    orig::SharedDeleteHelper(self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int)this;
 }

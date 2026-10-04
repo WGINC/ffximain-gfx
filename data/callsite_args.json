@@ -1194,6 +1194,21 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1000A6A0": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000A6B1": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000A6C4": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x1000A705": {
 "args": 2,
 "cc": "stdcall",
@@ -1458,6 +1473,601 @@
 "args": 3,
 "cc": "stdcall",
 "src": "typed"
+},
+"0x1000AF0B": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000AF1A": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000AF2A": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000AFA6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000AFC1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000AFDC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000AFF6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B010": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B02C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B046": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B060": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B083": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B092": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0A4": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0B3": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0C3": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0D4": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0E5": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B0F6": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B107": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B119": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B12B": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B139": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B14C": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B15B": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B16B": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B17E": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B18D": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B19C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B1C1": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B1D1": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B1EE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B209": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B224": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B23E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B258": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B274": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B28E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B2A8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B2CB": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B2DA": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B2EC": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B2FB": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B30B": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B31C": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B32D": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B33E": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B34F": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B361": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B373": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B381": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B394": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B3A3": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B3B3": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B3C6": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B3D5": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B3E4": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B4AE": {
+"args": 8,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B4B3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B508": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B5C7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B5D7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B5E7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B5F9": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B609": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B619": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B628": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B637": {
+"args": 3,
+"cc": "cdecl",
+"src": "cast"
+},
+"0x1000B649": {
+"args": 3,
+"cc": "cdecl",
+"src": "cast"
+},
+"0x1000B658": {
+"args": 3,
+"cc": "cdecl",
+"src": "cast"
+},
+"0x1000B667": {
+"args": 3,
+"cc": "cdecl",
+"src": "cast"
+},
+"0x1000B678": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B689": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B69A": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6AA": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6BB": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6CC": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6DC": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6ED": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B6FF": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B711": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B71F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B730": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B743": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B752": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B762": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B775": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B784": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B793": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B7A3": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B88B": {
+"args": 5,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B89B": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B8C9": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1000B907": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B924": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B93D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B957": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B973": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B98D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B9A7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B9C3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000B9E6": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000B9F5": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA07": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA16": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA26": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA37": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA48": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA59": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA6A": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA7C": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA8E": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BA9C": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BAAF": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1000BABE": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BACE": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BAE1": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BAF0": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1000BAFF": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
 },
 "0x1000BCBC": {
 "args": 0,
@@ -10584,6 +11194,371 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x1003BE61": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003BE6A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003BE77": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003BED5": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BEE1": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003BEF0": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BF06": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BF43": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BF4F": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003BF5E": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BF74": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BFB5": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BFC1": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003BFD0": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003BFE6": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C029": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C035": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C044": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C05A": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C071": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C089": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C0EC": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C107": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C11D": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C153": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C175": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C19C": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C1C8": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C205": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C219": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1003C22E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C26D": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C282": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1003C297": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C2D7": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C2F7": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C340": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C353": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C3AA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C3B6": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C3CD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C3D9": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C3E2": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C416": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C422": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C444": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C44C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C458": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C463": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C47A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C49F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C4AB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C4B8": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C4C0": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C4CC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C4D4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C4E9": {
+"args": 5,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C4F4": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C50B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C513": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C523": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C52A": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C53C": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C555": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C569": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C589": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C590": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003C5A4": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003C5C4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C5D6": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C5DB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003C5E6": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003C5FD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x1003CB8D": {
 "args": 1,
 "cc": "fastcall",
@@ -10602,6 +11577,126 @@
 "0x1003D020": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x1003D297": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D2F9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D379": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D386": {
+"args": 4,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D399": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D3AC": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D3CE": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D3D8": {
+"args": 4,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D3EB": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D3FE": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D418": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D42A": {
+"args": 4,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003D43D": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D45F": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D481": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D48E": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1003D4B2": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D4D0": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D4E6": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003D501": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D542": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D573": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D58D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003D5AA": {
+"args": 1,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x1003D963": {
@@ -10824,6 +11919,181 @@
 "cc": "stdcall",
 "src": "cast"
 },
+"0x1003E605": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003E613": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003E616": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003E94E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003E955": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003E96C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003E98B": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003E9CA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003E9D4": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003E9E6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EA07": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EA11": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003EA23": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EA44": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003EA5F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003EA77": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003EA8F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003EAA7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003EAD1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EADB": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003EAED": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EB53": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EC0B": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003EC36": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EC53": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EC6B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003ED55": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003ED8C": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EDAC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EDB6": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003EDCD": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EDE7": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EE07": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003EE11": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003EE23": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x1003EF92": {
 "args": 0,
 "cc": "thiscall",
@@ -10837,6 +12107,91 @@
 "0x1003EFB0": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x1003F174": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1003F1B7": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F1BE": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003F1C5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F2CD": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003F2EB": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F30F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F31A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F326": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1003F334": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F383": {
+"args": 2,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003F399": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F3A4": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1003F3BA": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1003F3C8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F3DE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1003F3F8": {
+"args": 5,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x1003F463": {
@@ -10974,6 +12329,426 @@
 "cc": "stdcall",
 "src": "typed"
 },
+"0x10040228": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004024B": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10040275": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040298": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100402B9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100402C3": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100402D5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100402FE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040308": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004031A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040330": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040338": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004036C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040376": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10040388": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100403A5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100403AF": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100403C1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100403EC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040417": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004042C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004044C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040455": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040485": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004048F": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100404A1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100404BF": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100404D7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100404EF": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040508": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040521": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040529": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040572": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004057C": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004058E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100405B5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100405BD": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100405E6": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100405FF": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040677": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004069F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100406B7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100406CF": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100406E8": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10040712": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040748": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040752": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10040764": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004078D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040797": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100407A9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100407BF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100407C7": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100407ED": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100407F7": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10040809": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040832": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004083C": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004084E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004087E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100408A9": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100408C3": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100408D7": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040902": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004092E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040935": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004094E": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004099B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100409A5": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100409B7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100409CE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A07": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A32": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A43": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A52": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A71": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A79": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040A96": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040AB0": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040ADF": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040B12": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10040B24": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040B31": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040B39": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x10040C4C": {
 "args": 0,
 "cc": "thiscall",
@@ -11059,6 +12834,86 @@
 "cc": "stdcall",
 "src": "cast"
 },
+"0x10040EAB": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10040EB3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040EBC": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10040ECD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040EEC": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040EF8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040F28": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10040F30": {
+"args": 4,
+"cc": "other",
+"src": "typed"
+},
+"0x10040F3B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040F46": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040F55": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040F5E": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10040F64": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10040F77": {
+"args": 2,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10040F80": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10040F86": {
+"args": 4,
+"cc": "other",
+"src": "typed"
+},
 "0x10041023": {
 "args": 0,
 "cc": "thiscall",
@@ -11071,6 +12926,341 @@
 },
 "0x10041100": {
 "args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100412D6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100412F5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004132C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041349": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100413AF": {
+"args": 4,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100413D4": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100413E4": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10041405": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041435": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041453": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041481": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004148B": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100414A2": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100414C4": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100414CC": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100414D5": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100414EF": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041506": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004150E": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004155E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041568": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004157F": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041597": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100415BA": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100415D4": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100415E6": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041600": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041623": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004162D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10041644": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004165C": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004167F": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041687": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041690": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100416AA": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100416D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041709": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041729": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041749": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041769": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041787": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100417CE": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100417D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100417E3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004181A": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041831": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041839": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041887": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041891": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100418A3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100418D0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100418D8": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100418F1": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004190B": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041925": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041945": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041965": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041980": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100419A9": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100419D1": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041B0A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041B28": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041B57": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041B6F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041B98": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10041BED": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10041C0A": {
+"args": 5,
 "cc": "cdecl",
 "src": "typed"
 },
@@ -11172,6 +13362,126 @@
 "0x10041FF0": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x10042076": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10042115": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10042152": {
+"args": 7,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10042161": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004218F": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100421C8": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100421F1": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004220F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004225D": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10042286": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10042290": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100422AE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100422B8": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100422CF": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100422DB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10042321": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004233C": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x10042345": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10042434": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10042445": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10042459": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004248E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10042498": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100424AA": {
+"args": 1,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10042693": {
@@ -11439,6 +13749,66 @@
 "cc": "stdcall",
 "src": "cast"
 },
+"0x100431D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043203": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043218": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004324D": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043267": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043288": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043292": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100432A4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100432C0": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100432C8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100432E1": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100432FA": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
 "0x10043347": {
 "args": 0,
 "cc": "stdcall",
@@ -11669,6 +14039,21 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x10043B2A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043B8A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043B9A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x10043C93": {
 "args": 0,
 "cc": "thiscall",
@@ -11677,6 +14062,21 @@
 "0x10043CA0": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x10043D2A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043D8A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043D9A": {
+"args": 2,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10043DB3": {
@@ -11697,6 +14097,91 @@
 "0x10043E30": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x10043E5D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043E87": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10043E99": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10043EAB": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10043ED1": {
+"args": 6,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043F45": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10043F77": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043F8B": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10043F9B": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043FB6": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043FD8": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10043FFD": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100441D6": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100441EB": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10044205": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044221": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044244": {
+"args": 2,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10044277": {
@@ -11883,6 +14368,571 @@
 "args": 0,
 "cc": "thiscall",
 "src": "typed"
+},
+"0x10044B40": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044B92": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10044BA6": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10044BC1": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10044BDE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044BE6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044BF2": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x10044FC3": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044FE6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10044FF1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045044": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100450B8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100450CC": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004520D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045218": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045227": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10045229": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10045239": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004523E": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004526E": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100452BA": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100452C5": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100452CD": {
+"args": 2,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100452E0": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100452F1": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100452FF": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045339": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045344": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045352": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004535E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004537C": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004538E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100453A0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100453AD": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100453B1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100453D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100453E9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100453FB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004541A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004542B": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045448": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045459": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004546B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004548A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004549B": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004550D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10045528": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045567": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004556B": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10045586": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004558F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100455B8": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100455CC": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100455E0": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100455F4": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045659": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045664": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045674": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004568E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100456AA": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100456AE": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100456BC": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100456DD": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004574A": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10045759": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004575F": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004576D": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004577E": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004578F": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004579D": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100457AE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045965": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100459B2": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100459D5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10045A0C": {
+"args": 7,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046091": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046100": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004610B": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004612E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004615C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046168": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004617A": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004617F": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100461EB": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004627E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004628F": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004630C": {
+"args": 5,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10046315": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046324": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10046346": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046353": {
+"args": 4,
+"cc": "other",
+"src": "typed"
+},
+"0x100464E7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046504": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046521": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046566": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100465AE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100465D6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100465EF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046617": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046640": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004664A": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10046663": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046670": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004667B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100466FB": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004670D": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004672D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10046737": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004674E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004676B": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10046783": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1004679E": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100467B1": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
 },
 "0x10046836": {
 "args": 1,
@@ -12334,6 +15384,56 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x10047323": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10047335": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10047355": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004735F": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10047371": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10047396": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100473AE": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100473CE": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100474EF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10047508": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x1004759E": {
 "args": 1,
 "cc": "thiscall",
@@ -12492,6 +15592,5531 @@
 "0x10047FF0": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x100497B5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100497D7": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100497F8": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10049830": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10049833": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10049851": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100498B2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100498D7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004992D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049951": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049976": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049999": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100499B3": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100499D3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100499DA": {
+"args": 4,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10049A4D": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049A5E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049A7B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049AFC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049B24": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049BD0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049BD7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049BF6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C1B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C36": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C3D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C5C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C81": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049C9C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049CA3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049CC2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049CE7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049D02": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049D26": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049D4D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049D5E": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10049DBB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049DDF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049E06": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049E17": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10049E74": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049E90": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049EAD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049ED8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049EF4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049F11": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049F3C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049F58": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049F75": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049FA0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049FBC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10049FD9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A004": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A020": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A03D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A068": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A084": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A0A1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A0B8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A0C7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A0E0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A134": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A150": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A16D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004A1EB": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004A1F3": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A211": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A238": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A247": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A260": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A2B4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A2D0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A2ED": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004A36B": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004A373": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A391": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A3B8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A3C7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A3E0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A434": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A450": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A46D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004A4EB": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004A4F3": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A511": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A550": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A605": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A623": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A654": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004A6D5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A6E2": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004A79E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004A8AE": {
+"args": 7,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004A928": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004A93E": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004A960": {
+"args": 9,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA3C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA57": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA68": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA7A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA8C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AA9B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AAB6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AAC7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AAD9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AAF6": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004AB0D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AC8B": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004ACA2": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004AD1B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AD3D": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004ADC8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AE31": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AF09": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004AF97": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004AFBA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004AFD2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B00F": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004B033": {
+"args": 4,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004B056": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004B185": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004B21F": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004B2AE": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B2B4": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B2B8": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B2E2": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B480": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B4AD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B4D3": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B4FC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B51C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B5FA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B61A": {
+"args": 1,
+"cc": "other",
+"src": "cast"
+},
+"0x1004B633": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B69A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B6A9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B6BD": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B6DE": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B6DF": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B6E0": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B727": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B72D": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B73D": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B73F": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B747": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B74A": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B74D": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B750": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B75D": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B762": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B765": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004B76E": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004B7C1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B80F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B84C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B85D": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B89E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B8EC": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B900": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B940": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B951": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B99B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004B9B9": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BA0E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BA1C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BA66": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BA74": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BAA9": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BAD1": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BAF9": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BB43": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BB6C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BBB6": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BBDF": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BC29": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BC52": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BC7A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BCC7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BD14": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BD61": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BDAE": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BDCF": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BDF0": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004BE11": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BE5E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BEAB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BEF8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BF5C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BF73": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BFA7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BFBE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004BFF5": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004C02E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C03A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C072": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004C0AB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C0B7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C0DE": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004C0E4": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004C129": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C14B": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004C17B": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004C22A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C299": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C30B": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004C312": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C322": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C36C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C388": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C398": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C3E3": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C3FF": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C40C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C453": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C46C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C4C0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C502": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C518": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C56E": {
+"args": 6,
+"cc": "other",
+"src": "typed"
+},
+"0x1004C588": {
+"args": 3,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004C5FE": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C60D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C624": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C65A": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C698": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C6A8": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C6BF": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C6E1": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C6FD": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C734": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C743": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004C746": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004C760": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C78B": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004C7C6": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C7E8": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C82B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C84D": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C88C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C8A9": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C8C6": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004C913": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C937": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C97E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C990": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004C9BF": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004CA01": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CA16": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CA4D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004CA7C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CB09": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CB96": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CC25": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CCB4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CD43": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CD87": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CDF6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CE66": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CEC9": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004CF1D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004CF56": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CF66": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004CF8D": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004CFE1": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004D01A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D02A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D051": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004D0A5": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004D0E2": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D109": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004D15D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004D19A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D1C1": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004D215": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004D24E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D25E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D2B3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D2D4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D336": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D357": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D3BA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D3DB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D428": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D443": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D44A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D459": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D460": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D47D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D484": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D48E": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D499": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4A2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4B1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4B8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4C2": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D4CD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4D6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4E5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4EC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4F8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D4FF": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D50A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D513": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D51F": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D52A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D533": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D542": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D549": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D553": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D55E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D567": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D576": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D57D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D587": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D592": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D59B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5AA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5B1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5BB": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D5C6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5CF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5DE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5E5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D5F1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D607": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D636": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D643": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004D64D": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D65D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D666": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D671": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D681": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004D68C": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004D697": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D6A0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D6A9": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004D6BF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D6E0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D6F9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D708": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D71A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D72C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D73E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D74D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D759": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D764": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D771": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D77E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D78C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D79B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7A9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7B7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7C6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7D4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7E3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D7FE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D80A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D818": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D824": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D832": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D84D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D85C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D877": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D886": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D8A1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D8B0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D8D6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D8E5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D8F7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D909": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D91B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D92E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D939": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D946": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D95C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D96A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D977": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D98E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D99C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D9A9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D9BC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D9CE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D9DD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004D9EF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA01": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA13": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA21": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA2F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA3F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA4A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA57": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA6D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA7B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA88": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DA9F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DAAD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DABA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DACD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DAD9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DAE7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DAF5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB04": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB12": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB21": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB2F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB43": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB4A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB54": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB6A": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DB6C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB7D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB88": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DB9A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DBAB": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004DBBC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DBC1": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DBD3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DBE1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DBF3": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004DC00": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004DC05": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DC18": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DC24": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DC35": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DC48": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DC61": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DC8E": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DCA6": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DCB5": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DCCD": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DCDC": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DCFE": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DD13": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DD28": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DD3B": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DDA8": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DDBE": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004DDCB": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004DDD0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DDE3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DDEF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DE00": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DE05": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DE1B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DE34": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DE64": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DE6B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DE84": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DEA6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DEAD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DEC6": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DEE8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DEEF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF08": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DF2A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF31": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF45": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DF4A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF51": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF56": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DF61": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF68": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF6D": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DF78": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF7F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DF84": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004DF93": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004DFA6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E670": {
+"args": 7,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004E6C7": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004E6DD": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004E6FF": {
+"args": 9,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E7CD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E804": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E818": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E847": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E853": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E85C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E87C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E884": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E88C": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E940": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004E99B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E9A6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E9DC": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004E9E7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EA1E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EA29": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EAE8": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004EAF8": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004EB2E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EB67": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EB76": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EB88": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004EBB7": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EBD1": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EBDD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EBF9": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EC3A": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004EC4F": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004EC64": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004ECD6": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004ED5E": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE31": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE40": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE74": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE7C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE86": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EE99": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004EEA7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EF09": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004EF24": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EF6C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EF91": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EF9C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004EFB0": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004EFD3": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F000": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004F01D": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F032": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F058": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F110": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004F185": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F20D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F297": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F32F": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004F398": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F3A2": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004F415": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F426": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004F42D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1004F445": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F460": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F487": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F496": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F4B1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F4E8": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004F501": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004F5C0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F5DB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F602": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F611": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F62C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F663": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004F67C": {
+"args": 2,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004F772": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F783": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x1004F78F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F7AC": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F7D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F7EF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F800": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F865": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F874": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F87F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F88F": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004F89E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F8B6": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F8D7": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1004F913": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F946": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F956": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F95E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F96A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F983": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F997": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F9AB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F9B4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004F9C7": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1004FA7D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FA93": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FAF3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB0B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB21": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB30": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB37": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB3E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB4A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB69": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB74": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB83": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB8C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FB9E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBA7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBB9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBC2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBD2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBDB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBED": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FBF6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FC03": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FC13": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FC44": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FCB5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FEE8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FF10": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1004FF69": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1004FFA1": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005003D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050045": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050064": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050071": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005007A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050081": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005009B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100500B3": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100500E2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100500ED": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100500FD": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005010C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050128": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100501C1": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100501CF": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100501F5": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005020F": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050216": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005022C": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050242": {
+"args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005027A": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10050297": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100502B7": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100502D7": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100502E6": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100502F5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050374": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10050394": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100503B4": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10050457": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050460": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504AA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504B3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504C7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504D0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504DB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504E4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504EC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100504FF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050508": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050513": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005051C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050527": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005053A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050543": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005054E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050557": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050562": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050576": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005057F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005058A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050593": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005059E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505B2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505BB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505C6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505CF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505DA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505ED": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100505F6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050601": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005060A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050615": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050629": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050632": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005063D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050646": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050651": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050665": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005066E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050679": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050682": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005068D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005069D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506A6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506B1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506BA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506C5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506D5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506DE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506E9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506F2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100506FD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005070D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050716": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050721": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005072A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050732": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050746": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005074F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005075A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050763": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005076B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005077F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050788": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050793": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005079C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507A3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507B7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507C0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507CB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507D4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507DB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507EC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100507F5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050800": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050809": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050812": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005081B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005082B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050834": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005083F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050848": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050851": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005085A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005086A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050873": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005087E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050887": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508A9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508B2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508BD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508C6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508D1": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100508DC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508E5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508F5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100508FE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050909": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050912": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050925": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005092E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050939": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050942": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050955": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005095E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050969": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050972": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050980": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050989": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050999": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509A2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509AD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509B6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509C1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509D1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509DA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509E5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509EE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100509F9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A06": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A0F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A1A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A23": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A2E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A3B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A44": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A4F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A58": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A63": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A6A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A72": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A7B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A8B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A94": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050A9F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AA8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AAF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050ABA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AC3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050ACC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050ADC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AE5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AF0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050AF9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B00": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B0B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B14": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B1D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B2D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B36": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B41": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B4A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B55": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B5E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B76": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B7F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B8A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B93": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050B9E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BA7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BCC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BD5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BE0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BE9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050BF4": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10050C01": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C12": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C32": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C41": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C4B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C54": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C65": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C78": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C88": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C91": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050C9C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CA3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CAB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CB4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CBF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CC8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CD8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CE1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CEC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050CF5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050D09": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050D14": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050D6C": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050DB2": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050DCE": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050DF0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E03": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E0A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E14": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E1E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E2C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E3D": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050E51": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E5A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E6C": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050E7E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E8E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050E9D": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050EAF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050EC9": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050EDB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050EEC": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050EFE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050F10": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050F29": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050F31": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050F4D": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050F5F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050F70": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050F82": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050F9E": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050FAC": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050FC1": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050FCF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050FE3": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10050FF1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10050FFF": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005100D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005101C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051024": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051032": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051041": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051053": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051064": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051076": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051088": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005109F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100510BB": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100510CD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100510DE": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100510F0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051102": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051114": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051123": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051131": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051142": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005114F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051156": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10051163": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051171": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051180": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005118E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005119F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100511A4": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100511AD": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100511B5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100511C1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100511D5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100511E6": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100511F6": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051208": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005120C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051219": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051220": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005122B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051232": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005123B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051248": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005124F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051258": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051265": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005126E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051275": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051280": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051287": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051290": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005129D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512A4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512AD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512D0": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100512E2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512E9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512F2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100512F9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051304": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005130B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051314": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051321": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051328": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051331": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005133E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051347": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005134E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051359": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051360": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051369": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051389": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005139E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100513BF": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100513C8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100513D1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100513DA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005140A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051413": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051421": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005142F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051449": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051450": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051488": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100514F2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051506": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005150F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005151F": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051530": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005153B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005154F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051563": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100515A1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100515B0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100515B8": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100515C5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100515D2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100515DD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005164E": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051663": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051678": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051773": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051780": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005178E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100517F8": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051806": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051814": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051823": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005183B": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051852": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051859": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051864": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005186E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518A3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518AA": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518B5": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518BC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518C7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518CE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518D9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100518E0": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051925": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005194F": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051966": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005197D": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051994": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100519C1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100519CD": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100519D8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100519F6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A14": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A2A": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A45": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A55": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A6D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A84": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051A91": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051AA8": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051AB3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051ABE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051ACE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051AE6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051B03": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051B10": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051B20": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051B53": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051BD7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051BF8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051C03": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051C10": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051C1F": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051C36": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051C48": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051C9E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051CAA": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051CB8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051CC5": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051CD3": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051CE0": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051CFB": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051D2C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051D3C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051D43": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051D74": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051D7D": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10051DBB": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051DC6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051DD1": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051DDC": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051DE7": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051DF2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E02": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051E14": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E20": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E2C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E38": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E51": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E5E": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051E6B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E79": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051E86": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051E94": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051EA8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051EBD": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051ECC": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051EE3": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051EF0": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051F07": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051F3E": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051F49": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051F5B": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051F6A": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051F7D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051F8A": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10051F9D": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FA4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FAD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FB8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FC1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FCE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10051FFB": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005200D": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005201F": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005205A": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052065": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005206E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052077": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005208C": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100520EE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052117": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005212F": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10052134": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1005213C": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052143": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005214C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005215B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052164": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052171": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005219E": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100521B0": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100521C2": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100521CD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100521D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100521ED": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100521FB": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005220D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005221B": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052227": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052239": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005226D": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005227C": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052294": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005229F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100522A8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100522B1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100522BF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100522D0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100522E5": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005230B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052334": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052343": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052356": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005236A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052386": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052395": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005239C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100523E7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100523F0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052415": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052420": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005242B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10052441": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005244C": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x10052453": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005245C": {
+"args": 3,
+"cc": "other",
+"src": "typed"
+},
+"0x10052465": {
+"args": 0,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10052C09": {
@@ -12699,6 +21324,46 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x100538FD": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10053910": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005393F": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005398D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005399B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100539A3": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100539C2": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100539D0": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
 "0x10053E11": {
 "args": 2,
 "cc": "cdecl",
@@ -12854,6 +21519,76 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x10054D99": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054DB8": {
+"args": 7,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10054DC4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054DCF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054E19": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10054E56": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10054E7E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054EC6": {
+"args": 4,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10054EDE": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054EFE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054F1B": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054F25": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054F8D": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10054FB1": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x100552C3": {
 "args": 0,
 "cc": "thiscall",
@@ -12879,6 +21614,81 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x100565D3": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100565DE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10056607": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005665D": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10056683": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10056705": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10056718": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100567BB": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100567D9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100567E3": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100567F5": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10056811": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1005682E": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100568C0": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100568DC": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
 "0x10057253": {
 "args": 0,
 "cc": "thiscall",
@@ -12887,6 +21697,31 @@
 "0x10057260": {
 "args": 1,
 "cc": "cdecl",
+"src": "typed"
+},
+"0x10057E24": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x10057E34": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10057EE9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10057F2D": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10057F58": {
+"args": 1,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10057FF0": {
@@ -18954,6 +27789,506 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1005EA14": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EA47": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EA81": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005EA8B": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005EAE2": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x1005EB04": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB18": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB1F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB56": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB78": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB81": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005EB8C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB98": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EB9F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EBD2": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EBD9": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EBE7": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EBEE": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EBFE": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC05": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC11": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC18": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC24": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC2B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC3F": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1005EC6A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005EC75": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005ECA7": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005ECD8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005ECE8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005ED00": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005ED10": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F3E6": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F54C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F55B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F564": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F57E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F587": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F596": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F59F": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F5BD": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F5C6": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F5E1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F5EA": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F5FA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F603": {
+"args": 0,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F64F": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F834": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F920": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F935": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F943": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F948": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005F956": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1005F970": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FBC0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FBE4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FC13": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FC23": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005FCF3": {
+"args": 2,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1005FDD2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FE1B": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1005FFF4": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006011A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060128": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006012F": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060146": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060172": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060179": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100602C2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006037A": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100604FF": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006060C": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006061E": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10060630": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006063E": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006065A": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10060695": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100606A1": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100606AD": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100606EA": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100606F8": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060706": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10060714": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060722": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10060730": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100608A2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060A14": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060E52": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060FF2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10060FFB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10061132": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100619F2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10061B72": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10061CF2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10061E92": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10062082": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10062202": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100623A2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10062542": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100626F2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x10062F53": {
 "args": 1,
 "cc": "thiscall",
@@ -19114,6 +28449,91 @@
 "cc": "cdecl",
 "src": "typed"
 },
+"0x10063C98": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063D18": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x10063D22": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063D3B": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063D64": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063D9A": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063DDF": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063DF1": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063EF6": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063F04": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063F07": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063F10": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063F1F": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063F22": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10063F23": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063F5B": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10063F90": {
+"args": 3,
+"cc": "cdecl",
+"src": "typed"
+},
 "0x10069DB3": {
 "args": 0,
 "cc": "thiscall",
@@ -19123,6 +28543,141 @@
 "args": 1,
 "cc": "cdecl",
 "src": "typed"
+},
+"0x1006A027": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1006A04E": {
+"args": 6,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AA5E": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AA70": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1006AA80": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AA9E": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006AACC": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AADE": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1006AAEE": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AB02": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006ADD9": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AE55": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AE75": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AEA6": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AEC9": {
+"args": 0,
+"cc": "other",
+"src": "cast"
+},
+"0x1006AED1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006AEFA": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AF1C": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AF3C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AF5E": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AF66": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006AF84": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AFAC": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AFD0": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AFF3": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006AFFB": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B018": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
 },
 "0x1006B073": {
 "args": 0,
@@ -19229,6 +28784,76 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1006B3C0": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B3C6": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1006B3E2": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1006B3F9": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1006B410": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1006B427": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1006B430": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006B441": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B447": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x1006B463": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x1006B491": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B49C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B4AF": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006B4CF": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
 "0x1006C14F": {
 "args": 0,
 "cc": "thiscall",
@@ -19288,6 +28913,66 @@
 "args": 0,
 "cc": "cdecl",
 "src": "typed"
+},
+"0x1006C37C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C39C": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C3B8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C3D8": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C401": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C416": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C429": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C43E": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C4CE": {
+"args": 9,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006C4D7": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1006C4F0": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006C508": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
 },
 "0x1006C6A9": {
 "args": 0,
@@ -19399,6 +29084,31 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1006C8CD": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006C8FD": {
+"args": 6,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006C907": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006C91C": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1006C969": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
 "0x1006C9C3": {
 "args": 0,
 "cc": "thiscall",
@@ -19488,6 +29198,11 @@
 "args": 3,
 "cc": "thiscall",
 "src": "cast"
+},
+"0x1006E9C1": {
+"args": 1,
+"cc": "fastcall",
+"src": "typed"
 },
 "0x1006FA38": {
 "args": 4,
@@ -19879,6 +29594,21 @@
 "cc": "stdcall",
 "src": "cast"
 },
+"0x100754A2": {
+"args": 1,
+"cc": "thiscall",
+"src": "cast"
+},
+"0x100754B4": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100754CA": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
 "0x100755E1": {
 "args": 1,
 "cc": "stdcall",
@@ -19901,6 +29631,546 @@
 },
 "0x1007567E": {
 "args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075743": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075753": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1007576F": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075795": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100757B4": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100757BE": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x100757D5": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075815": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10075820": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075854": {
+"args": 0,
+"cc": "fastcall",
+"src": "typed"
+},
+"0x100758AC": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100758C6": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100758DC": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100758F4": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075902": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x1007591D": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075933": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075989": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100759A8": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075A07": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075A33": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075A51": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075A5B": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10075A72": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075A88": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075A96": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10075AA1": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075B10": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10075B32": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075B46": {
+"args": 5,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075B5C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075B74": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075B8C": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075BA4": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075BB2": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075BD4": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075C01": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075C22": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075CAA": {
+"args": 7,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075CC9": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075CE9": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075CF3": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10075D0A": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075D24": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075D2E": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075D69": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075D7A": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10075D8E": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075E7A": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075E8E": {
+"args": 3,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075EA7": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075EB8": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10075ED9": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075EE8": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075EF4": {
+"args": 1,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075F1B": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075F25": {
+"args": 1,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x10075F37": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075F46": {
+"args": 2,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10075F52": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10075F67": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10075F6B": {
+"args": 3,
+"cc": "cdecl",
+"src": "cast"
+},
+"0x1007613C": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x10076155": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007616F": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076189": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100761A3": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100761BD": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100761D7": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100761F1": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007620B": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076225": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007623F": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076257": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007626F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076287": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007629F": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100762B7": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100762D2": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100762EA": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076302": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007631B": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076338": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100763DA": {
+"args": 3,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100763E5": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100763FF": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076419": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076433": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007644D": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076467": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007647D": {
+"args": 2,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076499": {
+"args": 4,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100764B0": {
+"args": 3,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007652C": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10076537": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100765C4": {
+"args": 0,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x100765D2": {
+"args": 1,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x100765E9": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076601": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007661A": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076633": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007664C": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076664": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x1007667D": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x10076696": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100766B0": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100766CA": {
+"args": 4,
+"cc": "stdcall",
+"src": "cast"
+},
+"0x100766DE": {
+"args": 5,
 "cc": "thiscall",
 "src": "typed"
 },
@@ -20032,6 +30302,11 @@
 "0x10082F4F": {
 "args": 0,
 "cc": "fastcall",
+"src": "typed"
+},
+"0x10084F62": {
+"args": 1,
+"cc": "thiscall",
 "src": "typed"
 },
 "0x10086221": {
@@ -28794,6 +39069,11 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1017BD77": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
 "0x1017BDBC": {
 "args": 1,
 "cc": "fastcall",
@@ -28802,6 +39082,16 @@
 "0x1017BDC5": {
 "args": 1,
 "cc": "thiscall",
+"src": "typed"
+},
+"0x1017BDD1": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1017BDD8": {
+"args": 1,
+"cc": "stdcall",
 "src": "typed"
 },
 "0x1017BE04": {
@@ -29364,6 +39654,11 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1017D4DF": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
 "0x1017D4F6": {
 "args": 1,
 "cc": "thiscall",
@@ -29457,6 +39752,16 @@
 "0x1017D6C8": {
 "args": 1,
 "cc": "thiscall",
+"src": "typed"
+},
+"0x1017D6D1": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1017D6D5": {
+"args": 1,
+"cc": "stdcall",
 "src": "typed"
 },
 "0x1017D702": {
@@ -30024,16 +40329,6 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1017EC75": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EC80": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017EC92": {
 "args": 3,
 "cc": "stdcall",
@@ -30049,109 +40344,9 @@
 "cc": "stdcall",
 "src": "cast"
 },
-"0x1017ECF1": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED11": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED1E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED37": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED40": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED59": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED62": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED85": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017ED8E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EDD9": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EDE0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EDE9": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EE13": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EE1D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017EE30": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017EE3E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EE43": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EE48": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EE8F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EECA": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EEF4": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017EF35": {
@@ -30174,134 +40369,14 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1017EF90": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EF9E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EFBE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EFCB": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EFE4": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017EFED": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F006": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F00F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F032": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F03B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F086": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F08D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F096": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F0C0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F0CA": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F0DD": {
 "args": 0,
 "cc": "fastcall",
 "src": "typed"
 },
-"0x1017F100": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F10A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F127": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017F13F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F146": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F150": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F15F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F1FA": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F237": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F26B": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017F2B6": {
@@ -30324,94 +40399,9 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1017F311": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F31F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F33F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F34C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F365": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F36E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F387": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F390": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F3B3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F3BC": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F407": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F40E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F417": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F441": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F44B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F45E": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017F481": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F48B": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017F4A8": {
@@ -30419,69 +40409,9 @@
 "cc": "fastcall",
 "src": "typed"
 },
-"0x1017F4C0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F4C7": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F4D1": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F4EE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F4F8": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F50B": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017F51D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F522": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F527": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F532": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F613": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F65A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F698": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017F6ED": {
@@ -30504,94 +40434,9 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1017F748": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F756": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F776": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F783": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F79C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F7A5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F7BE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F7C7": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F7EA": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F7F3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F83E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F845": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F84E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F878": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F882": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F895": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017F8B8": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F8C2": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017F8DF": {
@@ -30599,99 +40444,14 @@
 "cc": "fastcall",
 "src": "typed"
 },
-"0x1017F8F7": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F8FE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F908": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F925": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F92F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F942": {
 "args": 0,
 "cc": "fastcall",
 "src": "typed"
 },
-"0x1017F954": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F959": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F95E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F977": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F981": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017F994": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x1017F9A6": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F9AB": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F9B0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017F9BB": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FAE2": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FB33": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FB7B": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1017FBDA": {
@@ -30710,86 +40470,6 @@
 "src": "typed"
 },
 "0x1017FC00": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC35": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC43": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC63": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC70": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC89": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FC92": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FCAB": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FCB4": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FCD7": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FCE0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FD2B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FD32": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FD3B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FD55": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FD86": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FDA6": {
 "args": 1,
 "cc": "stdcall",
 "src": "typed"
@@ -30814,119 +40494,14 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1017FE40": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1017FED3": {
 "args": 5,
 "cc": "stdcall",
 "src": "cast"
 },
-"0x1017FEF6": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF16": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF23": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF3C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF45": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF5E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF67": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF8A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FF93": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FFDE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FFE5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1017FFEE": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180018": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180022": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180035": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180041": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180046": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018004D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180094": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101800CF": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101800F9": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x1018013A": {
@@ -30949,134 +40524,14 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x10180195": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101801A3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101801C3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101801D0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101801E9": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101801F2": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018020B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180214": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180237": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180240": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018028B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180292": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018029B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101802C5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101802CF": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x101802E2": {
 "args": 0,
 "cc": "fastcall",
 "src": "typed"
 },
-"0x10180305": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018030F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x1018032C": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180344": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018034B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180355": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180364": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101803FF": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018043C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180470": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x101804BB": {
@@ -31099,94 +40554,9 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x10180516": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180524": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180544": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180551": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018056A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180573": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018058C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180595": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101805B8": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101805C1": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018060C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180613": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018061C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180646": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180650": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180663": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180686": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180690": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x101806AD": {
@@ -31194,69 +40564,9 @@
 "cc": "fastcall",
 "src": "typed"
 },
-"0x101806C5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101806CC": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101806D6": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101806F3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101806FD": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180710": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180722": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180727": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018072C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180737": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180818": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018085F": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018089D": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x101808F2": {
@@ -31279,94 +40589,9 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x1018094D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018095B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x1018097B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180988": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809A1": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809AA": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809C3": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809CC": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809EF": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101809F8": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180A43": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180A4A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180A53": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180A7D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180A87": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180A9A": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180ABD": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180AC7": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x10180AE4": {
@@ -31374,99 +40599,14 @@
 "cc": "fastcall",
 "src": "typed"
 },
-"0x10180AFC": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B03": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B0D": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B2A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B34": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180B47": {
 "args": 0,
 "cc": "fastcall",
 "src": "typed"
 },
-"0x10180B59": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B5E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B63": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B7C": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180B86": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10180B99": {
 "args": 0,
 "cc": "fastcall",
-"src": "typed"
-},
-"0x10180BAB": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180BB0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180BB5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180BC0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180CE7": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180D38": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180D80": {
-"args": 1,
-"cc": "stdcall",
 "src": "typed"
 },
 "0x10180DDF": {
@@ -31485,86 +40625,6 @@
 "src": "typed"
 },
 "0x10180E05": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E3A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E48": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E68": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E75": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E8E": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180E97": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180EB0": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180EB9": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180EDC": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180EE5": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180F30": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180F37": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180F40": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180F5A": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180F8B": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x10180FAB": {
 "args": 1,
 "cc": "stdcall",
 "src": "typed"
@@ -31589,11 +40649,6 @@
 "cc": "stdcall",
 "src": "typed"
 },
-"0x10181045": {
-"args": 1,
-"cc": "stdcall",
-"src": "typed"
-},
 "0x10181058": {
 "args": 1,
 "cc": "stdcall",
@@ -31606,11 +40661,6 @@
 },
 "0x1018108E": {
 "args": 4,
-"cc": "stdcall",
-"src": "typed"
-},
-"0x101810A4": {
-"args": 1,
 "cc": "stdcall",
 "src": "typed"
 },
@@ -33356,6 +42406,31 @@
 },
 "0x101C8ED6": {
 "args": 0,
+"cc": "cdecl",
+"src": "typed"
+},
+"0x101D0B23": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x101D0B5A": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x101D0B77": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x101D0BEA": {
+"args": 0,
+"cc": "thiscall",
+"src": "typed"
+},
+"0x101D0C2A": {
+"args": 7,
 "cc": "cdecl",
 "src": "typed"
 },

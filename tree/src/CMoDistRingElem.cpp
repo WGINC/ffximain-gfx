@@ -10,14 +10,13 @@ char ** __cdecl CMoDistRingElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 67 returned normally, 1011 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 67, town2 PASS 67, combat PASS 67, zonetoinn PASS 67
+// GATE: PASS -- 100 trials, 78 returned normally, 1173 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78, town PASS 78, town2 PASS 78, combat PASS 78, zonetoinn PASS 78
 void CMoDistRingElem::AllocRingGeometry()
 {
-  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
   float *v2;
   int v3;
   int v4;
-  char *v5;
+  unsigned __int8 *v5;
   int v6;
   int v7;
   int v8;
@@ -51,10 +50,10 @@ void CMoDistRingElem::AllocRingGeometry()
   int a2;
   int a2a;
   _BYTE v38[16];
-  a2 = 2 * this->field_1B4 + 2;
-  v35 = a2 * this->field_1B5;
+  a2 = 2 * (char)this->field_1B4 + 2;
+  v35 = a2 * (char)this->field_1B5;
   v2 = (float *)orig::Allocator_Generic(36 * v35);
-  v3 = this->field_1B5;
+  v3 = (char)this->field_1B5;
   v4 = 0;
   a3 = (int)v2;
   if ( v3 > 0 )
@@ -63,15 +62,15 @@ void CMoDistRingElem::AllocRingGeometry()
     v26 = (unsigned __int8)g_scratchValue;
     v28 = BYTE1(g_scratchValue);
     v33 = HIBYTE(g_scratchValue);
-    v5 = self + 421;
+    v5 = &this->field_1A5;
     do
     {
       v6 = *(_DWORD *)(v5 - 1);
       v5 += 4;
       v38[4 * v4 + 2] = (v30 * (unsigned int)(unsigned __int8)v6) >> 7;
-      v38[4 * v4 + 1] = (v28 * (unsigned int)(unsigned __int8)*(v5 - 4)) >> 7;
-      v38[4 * v4] = (v26 * (unsigned int)(unsigned __int8)*(v5 - 3)) >> 7;
-      v38[4 * v4++ + 3] = (v33 * (unsigned int)(unsigned __int8)*(v5 - 2)) >> 7;
+      v38[4 * v4 + 1] = (v28 * (unsigned int)*(v5 - 4)) >> 7;
+      v38[4 * v4] = (v26 * (unsigned int)*(v5 - 3)) >> 7;
+      v38[4 * v4++ + 3] = (v33 * (unsigned int)*(v5 - 2)) >> 7;
     }
     while ( v4 < v3 );
   }
@@ -79,16 +78,16 @@ void CMoDistRingElem::AllocRingGeometry()
   v8 = 0;
   v31 = v3 - 1;
   v29 = 0;
-  v34 = 0x1.921fb00000000p+2 / (double)this->field_1B4;
+  v34 = 0x1.921fb00000000p+2 / (double)(char)this->field_1B4;
   if ( v3 - 1 > 0 )
   {
-    v9 = (float *)(self + 408);
+    v9 = (float *)&this->field_198;
     do
     {
       v10 = 0.0;
       v11 = 0;
       v27 = v2;
-      if ( this->field_1B4 > 0 )
+      if ( (char)this->field_1B4 > 0 )
       {
         v12 = *(_DWORD *)&v38[4 * v8];
         v13 = *(_DWORD *)&v38[4 * v8 + 4];
@@ -110,7 +109,7 @@ void CMoDistRingElem::AllocRingGeometry()
           *(v2 - 8) = v17;
           v10 = v10 + v34;
         }
-        while ( v11 < this->field_1B4 );
+        while ( v11 < (char)this->field_1B4 );
         v8 = v29;
       }
       qmemcpy(v2, v27, 0x24u);
@@ -124,9 +123,9 @@ void CMoDistRingElem::AllocRingGeometry()
     while ( v8 < v31 );
     v7 = v31;
   }
-  orig::RegisterWithProcessor((int)self);
+  orig::RegisterWithProcessor((int)this);
   v19 = (char *)a3;
-  if ( orig::CMoDistMorphElem_ValidateMorphData(a3, v35, (int)(self + 160), 0) != 0 )
+  if ( orig::CMoDistMorphElem_ValidateMorphData(a3, v35, (int)&this->field_A0, 0) != 0 )
   {
     if ( (CMoDistRingElem_AllocRingGeometry_staticGuard & 1) == 0 )
     {
@@ -171,7 +170,7 @@ BOOL CMoDistRingElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDistRingElem::set_field_1B6(int a2)
 {
-  this->field_1B6 = a2;
+  (*(unsigned __int32 *)((char *)this + 0x1B6)) = a2;
   return a2;
 }
 

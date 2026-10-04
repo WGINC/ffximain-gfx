@@ -18,10 +18,10 @@ void * CXiOpening::Constructor(char *Source)
   dword_10456D20 = 0;
   this->field_108 = 0;
   this->field_110 = 0;
-  if ( g_pCDx->_pad_10[2309] != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
   {
-    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], (_DWORD *)self + 69, (_DWORD *)self + 70, (_DWORD *)self + 71);
-    orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], 1065353216, 1065353216, 1065353216);
+    orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), (_DWORD *)self + 69, (_DWORD *)self + 70, (_DWORD *)self + 71);
+    orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), 1065353216, 1065353216, 1065353216);
   }
   orig::_strncpy((char *)self + 4, Source, 0x103u);
   v3 = orig::Allocator_Generic(0x14u);
@@ -53,28 +53,27 @@ void * CXiOpening::Constructor(char *Source)
 }
 
 // FUNCTION: FFXIMAIN 0x100187D0  (placed by callers pass their own this (CXiOpening))
-// GATE: PASS -- 100 trials, 100 returned normally, 145 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 157 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
 CDx * CXiOpening::CXiOpening_Destructor()
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   void (__thiscall ***v2)(_DWORD, int);
   void (__thiscall ***v3)(_DWORD, int);
   CDx *result;
-  v2 = (void (__thiscall ***)(_DWORD, int))at<int32_t>(this, 0x120);
-  *self = (int)&CXiOpening_vtbl;
+  v2 = (void (__thiscall ***)(_DWORD, int))this->field_120;
+  (*(void * *)((char *)this + 0x0)) = &CXiOpening_vtbl;
   if ( v2 != nullptr )
   {
     (**v2)(v2, 1);
-    at<int32_t>(this, 0x120) = 0;
+    this->field_120 = 0;
   }
-  v3 = (void (__thiscall ***)(_DWORD, int))at<int32_t>(this, 0x124);
+  v3 = (void (__thiscall ***)(_DWORD, int))this->field_124;
   if ( v3 != nullptr )
   {
     (**v3)(v3, 1);
-    at<int32_t>(this, 0x124) = 0;
+    this->field_124 = 0;
   }
   result = g_pCDx;
-  if ( g_pCDx->_pad_10[2309] != 0 )
-    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], this->savedGammaR, this->savedGammaG, this->savedGammaB);
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
+    return (CDx *)orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), this->savedGammaR, this->savedGammaG, this->savedGammaB);
   return result;
 }

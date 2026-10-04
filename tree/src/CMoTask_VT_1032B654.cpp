@@ -6,11 +6,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoTask_VT_1032B654::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CMoTask_VT_1032B654_Destructor(self);
+  orig::CMoTask_VT_1032B654_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10054460  (placed by tree manifest)
@@ -24,5 +23,6 @@ int CMoTask_VT_1032B654::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoTask_VT_1032B654::vf012(int a1)
 {
-  return (int)orig::CMoGeneratorClone_VT_1032B69C_ScalarDeletingDtor((char *)this - 48, a1);
+  Vt_1032B680 * self = reinterpret_cast<Vt_1032B680 *>(this);  // byte-exact view for the rest
+  return (int)orig::CMoGeneratorClone_VT_1032B69C_ScalarDeletingDtor((char *)self - 48, a1);
 }

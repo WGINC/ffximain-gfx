@@ -7,5 +7,16 @@
    "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);",
    "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))((_DWORD *)this, 1);"
   ]
+ ],
+ "variants": [
+  {
+   "text_sha1": "f6f7c31befb3c101c3e52be124db940f62177eca",
+   "replace": [
+    [
+     "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))(v2, 1);",
+     "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))((_DWORD *)this, 1);"
+    ]
+   ]
+  }
  ]
 }

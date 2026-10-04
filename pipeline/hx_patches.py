@@ -4,7 +4,8 @@ Some functions decompile wrongly in ways no translator rule can repair (pushed a
 for stack variables, a wrong pointer). A patch is data/hx_patches/0xADDR.json:
 
   {"why": "...", "evidence": "...", "text_sha1": "<sha1 of the export text it was written against>",
-   "replace": [["exact text in the export", "corrected text"], ...]}
+   "replace": [["exact text in the export", "corrected text"], ...],
+   "variants": [{"text_sha1": ..., "replace": [...]}, ...]}        (optional: the same defect in other exports)
 
 It is applied only while the export's text still has that sha1, so a re-export (for example after
 the IDB was fixed) is never silently overridden: the patch is reported as stale instead.
@@ -150,14 +151,22 @@ def free_self(rec):
     return rec
 
 
+def variant(p, text):
+    """the patch's replacements written against this exact export text (by sha1), or None. A patch holds one
+    variant per export text it applies to (the top level and "variants"): the same defect, located in each"""
+    h = sha1(text)
+    return next((v for v in [p] + p.get('variants', []) if v.get('text_sha1') == h), None)
+
+
 def patch_text(rec):
     p = load().get(rec['ea'])
     if not p: return rec
-    if sha1(rec['text']) != p['text_sha1']:
+    v = variant(p, rec['text'])
+    if v is None:
         print('hx_patches: 0x%08X stale (export text changed), not applied' % rec['ea'], file=sys.stderr)
         return rec
     text = rec['text']
-    for old, new in p['replace']:
+    for old, new in v['replace']:
         if text.count(old) != 1:
             print('hx_patches: 0x%08X snippet not found exactly once, not applied' % rec['ea'], file=sys.stderr)
             return rec

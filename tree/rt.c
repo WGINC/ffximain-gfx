@@ -2,6 +2,12 @@
  * GCC/clang may emit calls to these even under -ffreestanding. */
 #include <stddef.h>
 
+#ifdef XI_INGAME
+/* the game DLL's load address minus its analysed base (xi_decomp.hpp XI_GAME); set by the loader */
+#include <stdint.h>
+uintptr_t xi_rel;
+#endif
+
 void *memcpy(void *d, const void *s, size_t n)
 {
     unsigned char *dp = d;

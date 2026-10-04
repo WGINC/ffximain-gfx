@@ -94,13 +94,13 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
     orig::M4fTranspose(v31, &v11);
     orig::M4fTransform(v29, v31, v27);
     v28[0] = v11;
-    *(float *)&v23 = -(flt_103890E4 * v29[0]);
+    *(float *)&v23 = -(c_flt_0_1 * v29[0]);
     v28[3] = v14;
     v28[11] = v22;
-    v24 = flt_103890E4 * v29[1];
+    v24 = c_flt_0_1 * v29[1];
     v28[7] = v18;
     v28[15] = v26;
-    v25 = flt_103890E4 * v29[2];
+    v25 = c_flt_0_1 * v29[2];
     v12 = -v12;
     v13 = -v13;
     *(float *)&v15 = -*(float *)&v15;
@@ -134,7 +134,7 @@ XI_API void __cdecl StAvatar_SetViewFromDancerCamera(int a1)
       v28[14],
       v26);
     ViewMatrixPtr = orig::Camera_GetViewMatrixPtr();
-    orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
+    orig::CDx_SetTransform(g_pCDx, 2, ViewMatrixPtr);
   }
   orig::nullsub_1();
 }
@@ -155,7 +155,7 @@ XI_API int __cdecl fn_102501C0(_BYTE *arg0)
   if ( result >= 2 )
   {
     if ( g_stateBlock_914C != 0 )
-      g_pCDx->pDevice->ApplyStateBlock(g_stateBlock_914C);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->ApplyStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_stateBlock_914C);
     ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->Clear)(
       g_pDancerDevice,
       0,
@@ -202,14 +202,14 @@ XI_API int __cdecl StAvatarFini(int *a1)
     orig::MoTask_KillAllGlobalSlots(0.0);
     orig::MoTask_KillGlobalSlot1(1.0);
     v1 = *a1;
-    LOBYTE(v1) = *a1 & 0xFE;
+    v1 = (int)(((uint32_t)(v1) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*a1 & 0xFE) << 0));
     *a1 = v1;
   }
   if ( g_stateBlock_914C != 0 )
-    g_pCDx->pDevice->DeleteStateBlock(g_stateBlock_914C);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_stateBlock_914C);
   g_stateBlock_914C = 0;
   if ( g_stateBlock_9150 != 0 )
-    g_pCDx->pDevice->DeleteStateBlock(g_stateBlock_9150);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_stateBlock_9150);
   g_stateBlock_9150 = 0;
   return 0;
 }

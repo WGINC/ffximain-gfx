@@ -103,19 +103,19 @@ void Obj_104E1D4C::Cursor_Draw()
       {
         orig::CDx_SetCursorShape(g_pCDx, this->shapeIndex, 0);
         if ( g_pCDx != nullptr )
-          orig::CDx_ShowCursor(&g_pCDx->vftable, 1u);
+          orig::CDx_ShowCursor(g_pCDx, 1u);
       }
     }
     else
     {
       if ( g_pCDx != nullptr )
-        orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
+        orig::CDx_ShowCursor(g_pCDx, 0);
       orig::fn_10027990((Iostream_init *)self_v);
       orig::Mat4_SetIdentity(self_v);
       orig::Mat4_PostRotateZ(self_v, *(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
       v4 = this->shapeIndex;
       v5[3] = 0.0;
-      v5[0] = (float)word_1036E4FA[32 * v4];
+      v5[0] = (float)c_cursorDefs_b12[32 * v4];
       v5[1] = v5[0];
       v5[2] = v5[0];
       orig::Mat4_PostScale(self_v, v5);
@@ -140,7 +140,7 @@ void Obj_104E1D4C::Cursor_Draw()
           SLODWORD(self_v[13]),
           SLODWORD(self_v[14]),
           SLODWORD(self_v[15]),
-          dword_1036E4E8[16 * this->shapeIndex],
+          c_cursorDefs[16 * this->shapeIndex],
           0);
       orig::nullsub_1();
     }

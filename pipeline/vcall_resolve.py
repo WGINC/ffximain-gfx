@@ -43,6 +43,24 @@ def succs(im, ins, a, i, labels):
     return C.successors(im, ins, a, i, labels)
 
 
+def written_exact(i):
+    """registers the instruction writes (32-bit names), as the Intel manual defines each instruction: imul with
+    two or three operands writes its first operand only; one-operand mul/imul/div/idiv write eax and edx; cdq
+    writes edx; the string instructions write their count and pointer registers (and eax for lods)"""
+    m = i.mnemonic; ops = i.operands
+    base = m.split()[-1] if m.startswith('rep') else m
+    string = base[:4] in ('movs', 'cmps', 'stos', 'scas', 'lods') and base[4:] in ('b', 'w', 'd', '') \
+        and not any(o.type == X86_OP_REG and i.reg_name(o.reg).startswith('xmm') for o in ops)   # not SSE movsd/cmpsd
+    if not string: base = ''
+    if base.startswith('movs') or base.startswith('cmps'): return {'ecx', 'esi', 'edi'} if m.startswith('rep') else {'esi', 'edi'}
+    if base.startswith('stos') or base.startswith('scas'): return {'ecx', 'edi'} if m.startswith('rep') else {'edi'}
+    if base.startswith('lods'): return {'ecx', 'esi', 'eax'} if m.startswith('rep') else {'esi', 'eax'}
+    if m == 'cdq': return {'edx'}
+    if m in ('mul', 'imul', 'div', 'idiv') and len(ops) == 1: return {'eax', 'edx'}
+    if m == 'imul': return {r32(i.reg_name(ops[0].reg))}
+    return written(i)
+
+
 def written(i):
     """registers the instruction writes (32-bit names), conservatively"""
     m = i.mnemonic; out = set()
@@ -58,9 +76,10 @@ def written(i):
     return out
 
 
-def this_flow(im, ins, ea, vts):
+def this_flow(im, ins, ea, vts, written=None):
     """per instruction, the state before it: (regs holding the entry ECX, regs holding its vtable pointer,
     exact vtable stored into it on every path, or None)"""
+    written = written or globals()['written']
     start = (frozenset({'ecx'}), frozenset(), None)
     state = {ea: start}; work = [ea]; labels = S.labels_of(ins)
     def meet(x, y): return (x[0] & y[0], x[1] & y[1], x[2] if x[2] == y[2] else None)

@@ -18,11 +18,11 @@
   "vtable": "0x1032DB40"
  },
  "_stats": {
-  "in no vtable": 589,
-  "in several vtables": 2,
+  "in no vtable": 824,
+  "in several vtables": 5,
   "its vtable is referred to between its start and the slot": 1,
   "named (string in the binary)": 0,
   "named (vtable slot)": 3,
-  "sub_ functions": 595
+  "sub_ functions": 833
  }
 }

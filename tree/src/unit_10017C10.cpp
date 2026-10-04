@@ -28,8 +28,8 @@ XI_API int __thiscall fn_10017C60(int *self_, int a2, int a3, int a4)
   v9[2] = *(self_ + 4);
   v9[1] = 0;
   v9[3] = v6;
-  if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD **))(**(_DWORD **)&g_pCDx->_pad_10[388] + 60))(
-         *(_DWORD *)&g_pCDx->_pad_10[388],
+  if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD **))(**(_DWORD **)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)) + 60))(
+         *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)),
          0,
          &v8) >= 0 )
     orig::sub_10017C20((int)self_, v8, v10, (int)v9);

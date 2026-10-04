@@ -6,10 +6,9 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CYyModelDt_VT_1032A72C::ScalarDeletingDtor(char a1)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   int v2;
-  orig::CYyModelDtBase_Destructor(self, v2);
+  orig::CYyModelDtBase_Destructor(this, v2);
   if ( (a1 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return(_DWORD*)(&(*(CYyModelDt_vtbl * *)((char *)this + 0x0)));
 }

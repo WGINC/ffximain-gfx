@@ -10,10 +10,7 @@ public:
     int * Destructor(char a2);  // 0x100531B0
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x134];
-    uint32_t field_138;  // +0x138
-    uint8_t _pad_13C[0x58];
+    uint8_t _pad_4[0x190];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoNullProgElem) == 0x194, "CMoNullProgElem: sizeof");
-static_assert(XI_OFFSETOF(CMoNullProgElem, field_138) == 0x138, "CMoNullProgElem: layout");

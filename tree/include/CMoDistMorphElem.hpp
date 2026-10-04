@@ -22,10 +22,12 @@ public:
     int16_t field_36;  // +0x36
     uint8_t _pad_38[0x2];
     uint16_t field_3A;  // +0x3A
-    uint8_t _pad_3C[0xC8];
-    int32_t pProcessor;  // +0x104 used as the CMoProcessor in UpdateMorphBlend
-    uint8_t _pad_108[0xB4];
-    int32_t morphHandle;  // +0x1BC computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val
+    uint8_t _pad_3C[0x64];
+    uint8_t field_A0;  // +0xA0
+    uint8_t _pad_A1[0x107];
+    uint8_t field_1A8;  // +0x1A8
+    uint8_t _pad_1A9[0x13];
+    uint32_t morphHandle;  // +0x1BC computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val
     uint32_t field_1C0;  // +0x1C0
 };
 #pragma pack(pop)
@@ -34,6 +36,7 @@ static_assert(XI_OFFSETOF(CMoDistMorphElem, field_32) == 0x32, "CMoDistMorphElem
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_34) == 0x34, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_36) == 0x36, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_3A) == 0x3A, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, pProcessor) == 0x104, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, field_A0) == 0xA0, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, field_1A8) == 0x1A8, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, morphHandle) == 0x1BC, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_1C0) == 0x1C0, "CMoDistMorphElem: layout");

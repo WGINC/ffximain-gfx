@@ -33,12 +33,16 @@ from __future__ import annotations
 
 import argparse
 import json
-import array, random
+import array, os, random
 import struct
 import sys
 from dataclasses import dataclass, field
 
 import pefile
+try:
+    import numpy as _np      # optional: only speeds up Fuzzer.reset
+except ImportError:
+    _np = None
 from unicorn import (Uc, UcError, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE, UC_HOOK_MEM_WRITE,
                      UC_HOOK_MEM_INVALID, UC_PROT_ALL)
 from unicorn.x86_const import (UC_X86_REG_EAX, UC_X86_REG_EBP, UC_X86_REG_EBX, UC_X86_REG_ECX,
@@ -75,6 +79,31 @@ class RunResult:
     changes: dict = field(default_factory=dict)   # addr -> final byte (outside the stack)
     stop_eip: int = 0
     calls: list = field(default_factory=list)       # stubbed callees, in call order
+
+
+_F2S = struct.Struct('<f'); _I32 = struct.Struct('<I')
+_F2I = lambda x: _I32.unpack(_F2S.pack(x))[0]          # a float's single-precision bits, as struct does it
+_PE_LAYOUTS = {}
+
+
+def _pe_layout(path):
+    """(base, mapped size, mapped image, imports, exports) of a PE file, parsed once per process: the same
+    file (path, size and modification time) always gives the same bytes, so the parse is reused"""
+    st = os.stat(path); key = (os.path.abspath(path), st.st_size, st.st_mtime_ns)
+    if key not in _PE_LAYOUTS:
+        pe = pefile.PE(path)
+        base = pe.OPTIONAL_HEADER.ImageBase
+        img = pe.get_memory_mapped_image(ImageBase=base)
+        size = align_up(max(pe.OPTIONAL_HEADER.SizeOfImage, len(img)))
+        imports = []
+        for d in getattr(pe, "DIRECTORY_ENTRY_IMPORT", []):
+            for i in d.imports:
+                nm = (i.name or f"ord{i.ordinal}".encode()).decode("latin-1")
+                imports.append((i.address, f"{d.dll.decode('latin-1')}!{nm}"))
+        exports = [(e.name.decode(), base + e.address)
+                   for e in getattr(getattr(pe, "DIRECTORY_ENTRY_EXPORT", None), "symbols", []) or [] if e.name]
+        _PE_LAYOUTS[key] = (base, size, bytes(img), imports, exports)
+    return _PE_LAYOUTS[key]
 
 
 class Machine:
@@ -125,17 +154,9 @@ class Machine:
 
     # -- loading -------------------------------------------------------------
     def _map_pe(self, path, trap_imports):
-        pe = pefile.PE(path)
-        base = pe.OPTIONAL_HEADER.ImageBase
-        img = pe.get_memory_mapped_image(ImageBase=base)
-        size = align_up(max(pe.OPTIONAL_HEADER.SizeOfImage, len(img)))
+        base, size, img, imports, export_list = _pe_layout(path)
         self.uc.mem_map(base, size, UC_PROT_ALL)
         self.uc.mem_write(base, img)
-        imports = []
-        for d in getattr(pe, "DIRECTORY_ENTRY_IMPORT", []):
-            for i in d.imports:
-                nm = (i.name or f"ord{i.ordinal}".encode()).decode("latin-1")
-                imports.append((i.address, f"{d.dll.decode('latin-1')}!{nm}"))
         if imports and not trap_imports:
             names = ", ".join(n for _, n in imports[:8])
             raise SystemExit(f"{path} imports functions ({names}...). Build it with -nostdlib and "
@@ -144,11 +165,7 @@ class Machine:
             t = TRAP_BASE + 16 * len(self.trap_names)
             self.trap_names[t] = name
             self.uc.mem_write(slot, struct.pack("<I", t))
-        exports = {}
-        for e in getattr(getattr(pe, "DIRECTORY_ENTRY_EXPORT", None), "symbols", []) or []:
-            if e.name:
-                exports[e.name.decode()] = base + e.address
-        return exports
+        return dict(export_list)
 
     # -- hooks ---------------------------------------------------------------
     def _on_write(self, uc, access, addr, size, value, _):
@@ -263,26 +280,42 @@ class Fuzzer:
         # every dword of the pointee pool is drawn from a mix -- zero (64/256), small integer 1..15 (51/256),
         # pool pointer (64/256), or random -- so loaded indices, flags and second-level pointers are all
         # realistic, not just the first dereference
-        for off in range(len(pool)):
-            k = sel[off]
-            if k < 64: pool[off] = 0
-            elif k < 115: pool[off] = aux[off] % 15 + 1
-            elif k < 179: pool[off] = POOL + ((aux[off] % (0x10000 - 64)) & ~3)
-        pool = pool.tobytes()
+        m = 0x10000 - 64
+        if _np is not None:     # the same rule, element-wise in numpy (identical bytes; about 50x faster)
+            k, a, p = (_np.frombuffer(sel, _np.uint8), _np.frombuffer(aux.tobytes(), '<u4'), _np.frombuffer(pool.tobytes(), '<u4'))
+            pool = _np.where(k < 64, _np.uint32(0), _np.where(k < 115, a % 15 + 1, _np.where(
+                k < 179, _np.uint32(POOL) + ((a % m) & _np.uint32(0xFFFFFFFC)), p))).astype('<u4').tobytes()
+        else:
+            pool = array.array('I', [0 if k < 64 else a % 15 + 1 if k < 115 else POOL + ((a % m) & ~3) if k < 179 else p
+                                     for k, a, p in zip(sel, aux, pool)]).tobytes()
         for i in range(0, POOL_SIZE, len(pool)):
             self.m.uc.mem_write(POOL + i, pool)
 
     def dword(self):
-        k = self.rng.random()
-        if k < 0.25:
-            return 0
-        if k < 0.45:
-            return self.rng.randrange(1, 64)
-        if k < 0.65:
-            return struct.unpack("<I", struct.pack("<f", self.rng.uniform(-1000.0, 1000.0)))[0]
-        if k < 0.9:
-            return POOL + (self.rng.randrange(0, POOL_SIZE - 0x1000) & ~3)
-        return self.rng.getrandbits(32)
+        return self.dwords(1)[0]
+
+    def dwords(self, n):
+        """n draws of the value mix: zero 25%, 1..63 20%, a float in [-1000, 1000) 20%, a pool pointer 25%, any
+        dword 10%. The random calls are randrange and uniform written out as CPython 3.11 defines them
+        (randrange(a, b) = a + _randbelow(b - a), _randbelow by rejection on getrandbits(bit_length);
+        uniform(a, b) = a + (b - a) * random()), so the stream and every value are those of one dword() call
+        after another; only the Python call overhead is gone."""
+        rnd = self.rng.random; bits = self.rng.getrandbits; f2i = _F2I
+        span = POOL_SIZE - 0x1000; kspan = span.bit_length(); out = []
+        for _ in range(n):
+            k = rnd()
+            if k < 0.25: out.append(0)
+            elif k < 0.45:
+                r = bits(6)
+                while r >= 63: r = bits(6)
+                out.append(1 + r)
+            elif k < 0.65: out.append(f2i(-1000.0 + 2000.0 * rnd()))
+            elif k < 0.9:
+                r = bits(kspan)
+                while r >= span: r = bits(kspan)
+                out.append(POOL + (r & ~3))
+            else: out.append(bits(32))
+        return out
 
     def buffer(self, size: int, vptr: int | None = None) -> int:
         size = max(4, align_up(size, 4))
@@ -291,9 +324,9 @@ class Fuzzer:
         if self.cursor >= POOL:
             raise RuntimeError("sandbox exhausted; lower this_size/ptr sizes")
         head = min(size, 0x1000)
-        data = b"".join(struct.pack("<I", self.dword()) for _ in range(head // 4))
+        data = array.array('I', self.dwords(head // 4)).tobytes()
         if size > head:  # large buffers: tile a second realistic 4 KB block (fast, same mix)
-            block = b"".join(struct.pack("<I", self.dword()) for _ in range(0x400))
+            block = array.array('I', self.dwords(0x400)).tobytes()
             reps = (size - head + len(block) - 1) // len(block)
             data += (block * reps)[:size - head]
         if vptr is not None:

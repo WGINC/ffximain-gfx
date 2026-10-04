@@ -9,15 +9,15 @@ XI_API int __thiscall Gfx_DrawSpriteAlphaTested(void *self_, int a1, int a2, int
   result = *((_DWORD *)self_ + 130);
   if ( result != 0 )
   {
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 16u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 16u);
     orig::CYyIcon_DrawSubRect(*((void **)self_ + 130), a1, a2, a3, a4, a5, a6, a7, a8, a9);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-    return g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
   }
   return result;
 }

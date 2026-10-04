@@ -84,11 +84,11 @@ def orig_wrapper(name, ea, ftype):
     names = ['a%d' % i for i in range(len(ps))]
     fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + (['...'] if variadic else [])))
     if variadic:
-        body = 'return reinterpret_cast<%s>(0x%08Xu)(%s);' % (fp, ea, ', '.join(names + ['rest...']))
+        body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['rest...']))
         if ret == 'void': body = body.replace('return ', '')
         return ('template <class... R> XI_ORIG %s %s(%s) { %s }' % (
             ret, name, ', '.join(['%s %s' % (p, n) for p, n in zip(ps, names)] + ['R... rest']), body))
-    body = 'return reinterpret_cast<%s>(0x%08Xu)(%s);' % (fp, ea, ', '.join(names))
+    body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names))
     if ret == 'void': body = body.replace('return ', '')
     return ('XI_ORIG %s %s(%s) { %s }' % (ret, name, ', '.join('%s %s' % (p, n) for p, n in zip(ps, names)), body))
 
@@ -96,6 +96,29 @@ def orig_wrapper(name, ea, ftype):
 def strip_noise(body):
     body = re.sub(r'\s*//\s*(e?[abcd]x|e?[sd]i|e?bp|e?sp|[abcd][lh]|st\d?|\[esp[^\n]*|\[ebp[^\n]*)\s*$', '', body, flags=re.M)
     return body
+
+_RL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'reloc_literals.json')
+RELOC_LIT = {int(k, 16): {int(v, 16) for v in vs} for k, vs in json.load(open(_RL)).items() if not k.startswith('_')} \
+    if os.path.exists(_RL) else {}
+
+
+def reloc_literals(ea, body):
+    """an integer literal whose value the function's own code holds only as relocated immediates (an address,
+    data/reloc_literals.json) -> XI_GAME(0x...u), cast back to the literal's own type (int, or unsigned int
+    with a u suffix), so the verified build compiles the same constant and the in-game build rebases it"""
+    vals = RELOC_LIT.get(ea)
+    if not vals: return body, 0
+    n = [0]
+    def sub(m):
+        lit, suf = m.group(1), m.group(2) or ''
+        if len(lit) > 1 and lit[0] == '0' and lit[1] not in 'xX': return m.group(0)       # octal: not an address
+        v = int(lit, 0)
+        if v not in vals: return m.group(0)
+        n[0] += 1
+        return '(%s)XI_GAME(0x%08Xu)' % ('unsigned int' if suf else 'int', v)
+    body = re.sub(r'(?<![\w.])(0[xX][0-9A-Fa-f]+|\d+)([uU])?(?![\w.])', sub, body)
+    return body, n[0]
+
 
 def name_d3d_values(body):
     def rs(m):
@@ -384,6 +407,22 @@ def main(exp, gate, manf, incdir, outdir):
                 cls = None                          # free helpers stay free (placed by unit below)
         place[ea] = (cls, ident(meth) if meth else None, why)
 
+    # accesses to members of IDB structs the tree replaces -> the offsets they access (idb_access.py)
+    import idb_access
+    replaced = idb_access.replaced_set({c for c, _, _ in place.values() if c})
+    idb_stats = collections.Counter()
+    all_globals = {nm for r in R.values() for nm, o in (r.get('objs') or {}).items() if not o.get('func')}
+    for ea in place:
+        r = R[ea]; head, sep, body = r['text'].partition('\n{')
+        # the repairs that read a vtable call through `obj->vftable + N` run first, while that text is still
+        # there (both are idempotent; body_rules applies them again later)
+        body = hx2cpp.float_args_in_casts(hx2cpp.vmethod_this(body))
+        this_name = r['args'][0][0] if r.get('args') else None
+        this_forms = bool(place[ea][0]) and not nothis.get(ea)
+        body, n, nl = idb_access.rewrite(r, sep + body, replaced, this_name, this_forms, WIDTH, all_globals)
+        r['text'] = head + body; idb_stats['rewritten'] += n; idb_stats['left'] += nl
+    print('IDB struct accesses: %d chains on %d replaced structs rewritten to offsets, %d left' % (
+        idb_stats['rewritten'], len(replaced), idb_stats['left']))
     # sizes the IDB's own named structs establish (larger than a descriptor-only record)
     size_conflicts = {}
     for c, d in _named.items():
@@ -453,7 +492,7 @@ def main(exp, gate, manf, incdir, outdir):
             an = nm0 if re.match(r'^[A-Za-z_]\w*$', nm0) else 'fn_%08X' % ea
             if an in _seen: continue
             _seen.add(an); f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (an, ea))
-        f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(orig_addr::name)\n')
+        f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(XI_GAME(orig_addr::name))\n')
     gnames, gcanon, gvariant = {}, {}, {}
     with open(os.path.join(outdir, 'include', 'gfx_globals.hpp'), 'w') as f:
         f.write('// gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.\n#pragma once\n#include "gfx_common.hpp"\n')
@@ -523,6 +562,7 @@ def main(exp, gate, manf, incdir, outdir):
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
         # LOBYTE(x), HIWORD(x), ... on integer locals and parameters: the exact C (partial_regs.py)
         body, preg = partial_regs.rewrite(body, partial_regs.var_types(ps, body))
+        body, nrel = reloc_literals(ea, body)
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
         if cls and nothis.get(ea):
             mp = ', '.join(ps)
@@ -563,6 +603,7 @@ def main(exp, gate, manf, incdir, outdir):
                            'symbol': '%s::%s' % (cls, meth) if cls else fname}
         if not cls and UNITS.get(hex(ea)): report[hex(ea)]['unit'] = UNITS[hex(ea)]['unit']
         if preg: report[hex(ea)]['partial_regs'] = preg
+        if nrel: report[hex(ea)]['reloc_literals'] = nrel
 
     # headers
     for cls, L in layouts.items():
@@ -626,13 +667,13 @@ def main(exp, gate, manf, incdir, outdir):
         for cls in sorted(layouts): f.write('#include "%s.hpp"\n' % cls)
     json.dump(report, open(os.path.join(outdir, 'placement.json'), 'w'), indent=0)
     json.dump(size_conflicts, open(os.path.join(outdir, 'size_conflicts.json'), 'w'), indent=0)
-    t = open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'gfx_types_game.h')).read()
+    t = hx2cpp.types_header()
     blocks = re.split(r'\n(?=/\* \d+ \*/\n)', t); keep = []
     for b in blocks:
         m = re.search(r'^struct (\w+)\s*\n\{', b, re.M)
-        if m and m.group(1) in layouts: continue
+        if m and (m.group(1) in layouts or m.group(1) in replaced): continue
         keep.append(b)
-    fwd = ''.join('class %s;\n' % c for c in sorted(layouts))
+    fwd = ''.join('class %s;\n' % c for c in sorted(layouts)) + ''.join('struct %s;\n' % c for c in sorted(replaced - set(layouts)))
     with open(os.path.join(outdir, 'include', 'gfx_types.hpp'), 'w') as f:
         f.write('// gfx_types.hpp -- game types from the IDB that this tree does not define itself.\n#pragma once\n'
                 + fwd + '\n'.join(keep).replace('#pragma once', '').replace('struct CDx *', 'CDx *') + '\n')

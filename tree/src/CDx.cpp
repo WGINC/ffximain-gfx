@@ -9,76 +9,11 @@ _UNKNOWN ** __cdecl CDx::GetRuntimeClass()
   return &CDx_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10008F90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-CDx * CDx::Constructor(IDirect3D8 *pD3D, IDirect3DDevice8 *pDevice)
-{
-  unsigned __int8 *v4;
-  int i;
-  this->vftable = (void **)&CYyObject_vtbl_ambiguous0;
-  orig::CAcc2_Constructor(&this->acc2);
-  v4 = &this->field_1AC;
-  for ( i = 3; i != 0; --i )
-  {
-    orig::CAcc_Constructor(v4);
-    v4 += 16;
-  }
-  orig::CAcc_Constructor(&this->acc);
-  orig::GammaRamp_Constructor((int)&this->gammaRamp);
-  this->pD3D = pD3D;
-  this->pDevice = pDevice;
-  this->renderTargetDepth = 0;
-  this->field_908 = 0;
-  this->field_909 = 0;
-  this->field_90A = 0;
-  *(_WORD *)&this->field_90C = 0;
-  *(_WORD *)&this->field_90E = 0;
-  this->field_910 = 0;
-  this->field_911 = 0;
-  this->field_912 = 0;
-  this->field_913 = 0;
-  this->field_914 = 0;
-  this->field_915 = 0;
-  this->field_916 = 0;
-  *(_DWORD *)&this->field_918 = 0;
-  *(_DWORD *)&this->field_91C = 0;
-  this->field_920 = 0;
-  this->field_921 = 0;
-  this->field_92C = 0;
-  this->field_92D = 0;
-  this->field_92E = 0;
-  this->field_92F = 0;
-  this->field_930 = 0;
-  this->field_931 = 0;
-  *(_DWORD *)&this->field_934 = 0;
-  *(_DWORD *)&this->field_938 = 0;
-  *(_DWORD *)&this->field_1EC = 0;
-  *(_DWORD *)&this->field_1F0 = 0;
-  *(_DWORD *)&at<uint8_t>(this, 0x810) = 0;
-  *(_DWORD *)&this->field_814 = 0;
-  *(_DWORD *)&this->field_818 = 0;
-  *(_DWORD *)&this->field_81C = 0;
-  *(_DWORD *)&this->field_820 = 0;
-  *(_DWORD *)&this->field_824 = 0;
-  this->stereoTargetsReady = 0;
-  *(_DWORD *)&this->stereoOddLineTexture = 0;
-  *(_DWORD *)&this->field_9FC = 0;
-  this->vftable = (void **)&CDx_vtbl;
-  *(_DWORD *)&this->field_174 = 1124073472;
-  *(_DWORD *)&this->field_178 = 1124073472;
-  *(_DWORD *)&this->field_17C = 1124073472;
-  *(_DWORD *)&this->field_180 = 1124073472;
-  *(_DWORD *)&this->field_184 = 1124073472;
-  *(_DWORD *)&this->field_188 = 1124073472;
-  *(_DWORD *)&this->field_18C = -2139062144;
-  return this;
-}
-
 // FUNCTION: FFXIMAIN 0x10009100  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void * CDx::ScalarDeletingDtor(char a2)
 {
-  orig::CDx_Destructor((int)this);
+  orig::CDx_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
   return this;
@@ -114,7 +49,7 @@ char CDx::Initialize()
   int &v25 = *reinterpret_cast<int *>(xi_frame + 0x6E0);
 
   v2 = &this->field_834;
-  this->pDevice->GetDeviceCaps(&this->field_834);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->GetDeviceCaps((*(IDirect3DDevice8 * *)((char *)this + 0xC)), &this->field_834);
   *(_DWORD *)&this->field_924 = 8;
   *(_DWORD *)&this->field_928 = 1;
   if ( (*((_DWORD *)v2 + 7) & 0x10000) != 0 )
@@ -162,7 +97,7 @@ char CDx::Initialize()
   if ( (v2[60] & 0x20) != 0 )
     this->field_931 = 1;
   *(_DWORD *)&this->field_934 = *((_DWORD *)v2 + 22);
-  pDevice = this->pDevice;
+  pDevice = (*(IDirect3DDevice8 * *)((char *)this + 0xC));
   *(_DWORD *)&this->field_938 = *((_DWORD *)v2 + 23);
   pDevice->GetDisplayMode(v21);
   v5 = v22;
@@ -181,34 +116,34 @@ char CDx::Initialize()
     default:
       break;
   }
-  this->pD3D->GetAdapterDisplayMode(0, v19);
-  this->field_910 = this->pD3D->lpVtbl->CheckDeviceFormat(
-                          this->pD3D,
-                          0,
-                          D3DDEVTYPE_HAL,
-                          v20,
-                          0,
-                          D3DRTYPE_TEXTURE,
-                          D3DFMT_DXT1) >= 0;
-  this->field_911 = this->pD3D->lpVtbl->CheckDeviceFormat(
-                          this->pD3D,
-                          0,
-                          D3DDEVTYPE_HAL,
-                          v20,
-                          0,
-                          D3DRTYPE_TEXTURE,
-                          D3DFMT_DXT3) >= 0;
-  this->field_912 = this->pD3D->lpVtbl->CheckDeviceFormat(
-                          this->pD3D,
-                          0,
-                          D3DDEVTYPE_HAL,
-                          v20,
-                          0,
-                          D3DRTYPE_TEXTURE,
-                          D3DFMT_P8) >= 0;
-  if ( this->pD3D->CheckDeviceMultiSampleType(0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_2_SAMPLES) >= 0 )
+  (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->GetAdapterDisplayMode((*(IDirect3D8 * *)((char *)this + 0x8)), 0, v19);
+  this->field_910 = (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->CheckDeviceFormat(
+                              (*(IDirect3D8 * *)((char *)this + 0x8)),
+                              0,
+                              D3DDEVTYPE_HAL,
+                              v20,
+                              0,
+                              D3DRTYPE_TEXTURE,
+                              D3DFMT_DXT1) >= 0;
+  this->field_911 = (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->CheckDeviceFormat(
+                              (*(IDirect3D8 * *)((char *)this + 0x8)),
+                              0,
+                              D3DDEVTYPE_HAL,
+                              v20,
+                              0,
+                              D3DRTYPE_TEXTURE,
+                              D3DFMT_DXT3) >= 0;
+  this->field_912 = (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->CheckDeviceFormat(
+                              (*(IDirect3D8 * *)((char *)this + 0x8)),
+                              0,
+                              D3DDEVTYPE_HAL,
+                              v20,
+                              0,
+                              D3DRTYPE_TEXTURE,
+                              D3DFMT_P8) >= 0;
+  if ( (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->CheckDeviceMultiSampleType((*(IDirect3D8 * *)((char *)this + 0x8)), 0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_2_SAMPLES) >= 0 )
     *(_DWORD *)&this->field_91C = 2;
-  if ( this->pD3D->CheckDeviceMultiSampleType(0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_4_SAMPLES) >= 0 )
+  if ( (*(IDirect3D8 * *)((char *)this + 0x8))->lpVtbl->CheckDeviceMultiSampleType((*(IDirect3D8 * *)((char *)this + 0x8)), 0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_4_SAMPLES) >= 0 )
     *(_DWORD *)&this->field_91C = 4;
   if ( (*((_DWORD *)v2 + 9) & 0x100) != 0 )
     this->field_92D = 1;
@@ -216,14 +151,14 @@ char CDx::Initialize()
     this->field_92E = 1;
   if ( (*((_DWORD *)v2 + 9) & 0x10000) != 0 )
     this->field_92F = 1;
-  pD3D = this->pD3D;
+  pD3D = (*(IDirect3D8 * *)((char *)this + 0x8));
   this->field_920 = 0;
   pD3D->GetAdapterIdentifier(0, 2u, v24);
   if ( v25 == 4098 )
     this->field_920 = 1;
   *(_DWORD *)&this->field_A00 = -1;
   v7 = 0;
-  if ( GetCurrentDirectoryA(0x104u, byte_10456568) == 0 )
+  if ( GetCurrentDirectoryA(0x104u, g_currentDirectory) == 0 )
   {
     v13 = aMousenorAni;
     v18 = &this->field_A04;
@@ -232,7 +167,7 @@ char CDx::Initialize()
       v14 = 0;
       do
       {
-        v15 = byte_10456568[v14];
+        v15 = g_currentDirectory[v14];
         FileName[v14++] = v15;
       }
       while ( v15 != 0 );
@@ -241,21 +176,21 @@ char CDx::Initialize()
       *(_DWORD *)v18 = LoadCursorA(nullptr, (LPCSTR)0x7F00);
       v18 += 4;
     }
-    while ( (int)v13 < (int)&flt_1034FDF0 );
+    while ( (int)v13 < (int)&g_fadeQuadVerts );
 LABEL_68:
     *(_DWORD *)&this->field_A4C = 0;
     goto LABEL_69;
   }
-  v8 = orig::_strrchr(byte_10456568, 92);
-  if ( v8 != nullptr || (v8 = orig::_strrchr(byte_10456568, 47), v7 = 1, v8 != nullptr) )
+  v8 = orig::_strrchr(g_currentDirectory, 92);
+  if ( v8 != nullptr || (v8 = orig::_strrchr(g_currentDirectory, 47), v7 = 1, v8 != nullptr) )
   {
     if ( v8[1] != 0 )
     {
       v9 = &v8[strlen(v8) + 1];
       if ( v7 != 0 )
-        *(_WORD *)(v9 - 1) = *(_WORD *)word_1034FFB8;
+        *(_WORD *)(v9 - 1) = *(_WORD *)c_strSlash;
       else
-        *(_WORD *)(v9 - 1) = word_1034F8E0;
+        *(_WORD *)(v9 - 1) = c_strBackslash;
     }
     v10 = aMousenorAni;
     v17 = &this->field_A04;
@@ -264,7 +199,7 @@ LABEL_68:
       v11 = 0;
       do
       {
-        v12 = byte_10456568[v11];
+        v12 = g_currentDirectory[v11];
         FileName[v11++] = v12;
       }
       while ( v12 != 0 );
@@ -273,7 +208,7 @@ LABEL_68:
       *(_DWORD *)v17 = LoadCursorFromFileA(FileName);
       v17 += 4;
     }
-    while ( (int)v10 < (int)&flt_1034FDF0 );
+    while ( (int)v10 < (int)&g_fadeQuadVerts );
     goto LABEL_68;
   }
 LABEL_69:
@@ -402,11 +337,11 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
       default:
         break;
     }
-    CursorA = *(HCURSOR *)&this->_pad_10[4 * HwCursorSlot + 2548];
+    CursorA = *(HCURSOR *)&((unsigned __int8 *)((char *)this + 0x1F4))[4 * HwCursorSlot + 2064];
     if ( CursorA == nullptr )
     {
       CursorA = LoadCursorA(nullptr, (LPCSTR)0x7F00);
-      *(_DWORD *)&this->_pad_10[4 * HwCursorSlot + 2548] = CursorA;
+      *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x1F4))[4 * HwCursorSlot + 2064] = CursorA;
     }
     return SetCursor(CursorA);
   }
@@ -417,7 +352,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
 // GATE: PASS -- 100 trials, 100 returned normally, 1996 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::SetDefaultRenderState()
 {
-  unsigned __int8 *v2;
+  unsigned int *v2;
   IDirect3DDevice8 *pDevice;
   char v5;
   char v6;
@@ -425,86 +360,86 @@ int CDx::SetDefaultRenderState()
   v5 = orig::sub_10009870((int)this, 3, &this->field_1F0);
   if ( v5 != 0 )
   {
-    this->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_CLIPPING, TRUE);
-    this->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-    this->pDevice->SetRenderState(D3DRS_AMBIENT, 0);
-    if ( g_pCDx->_pad_10[2333] != 0 )
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CLIPPING, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LIGHTING, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_AMBIENT, 0);
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
     {
-      this->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-      this->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGVERTEXMODE, 0);
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGTABLEMODE, 3u);
     }
     else
     {
-      if ( g_pCDx->_pad_10[2334] == 0 )
+      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) == 0 )
         goto LABEL_5;
-      this->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-      this->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
-      if ( g_pCDx->_pad_10[2335] != 0 )
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGTABLEMODE, 0);
+      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) != 0 )
       {
-        this->pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+        (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 1u);
         goto LABEL_5;
       }
     }
-    this->pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 0);
 LABEL_5:
-    this->pDevice->SetRenderState(D3DRS_COLORVERTEX, TRUE);
-    this->pDevice->SetRenderState(D3DRS_LOCALVIEWER, FALSE);
-    this->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
-    this->pDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 1u);
-    this->pDevice->SetRenderState(D3DRS_SPECULARMATERIALSOURCE, 2u);
-    this->pDevice->SetRenderState(D3DRS_AMBIENTMATERIALSOURCE, 1u);
-    this->pDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 0);
-    this->pDevice->SetRenderState(D3DRS_VERTEXBLEND, 0);
-    this->pDevice->SetRenderState(D3DRS_CLIPPLANEENABLE, 0);
-    this->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    this->pDevice->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_COLORVERTEX, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LOCALVIEWER, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DIFFUSEMATERIALSOURCE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SPECULARMATERIALSOURCE, 2u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_AMBIENTMATERIALSOURCE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_EMISSIVEMATERIALSOURCE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_VERTEXBLEND, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CLIPPLANEENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CULLMODE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SPECULARENABLE, 0);
   }
-  orig::sub_100098E0(&this->vftable, 3, v2, v5);
+  orig::sub_100098E0(this, 3, v2, v5);
   v6 = orig::sub_10009870((int)this, 2, &this->field_1EC);
   if ( v6 != 0 )
   {
-    this->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    this->pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-    this->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-    this->pDevice->SetRenderState(D3DRS_LINEPATTERN, (unsigned int)&unk_10456670);
-    this->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    this->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    this->pDevice->SetRenderState(D3DRS_LASTPIXEL, TRUE);
-    this->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-    this->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-    this->pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-    this->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
-    this->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-    pDevice = this->pDevice;
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FILLMODE, 3u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SHADEMODE, 2u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LINEPATTERN, (unsigned int)&g_linePattern);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LASTPIXEL, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SRCBLEND, 2u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DESTBLEND, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZFUNC, 4u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHAREF, 96u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHAFUNC, 8u);
+    pDevice = (*(IDirect3DDevice8 * *)((char *)this + 0xC));
     if ( *(_DWORD *)&this->field_830 == 32 )
       pDevice->SetRenderState(D3DRS_DITHERENABLE, FALSE);
     else
       pDevice->SetRenderState(D3DRS_DITHERENABLE, TRUE);
-    this->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_EDGEANTIALIAS, FALSE);
-    this->pDevice->SetRenderState(D3DRS_ZBIAS, 0);
-    this->pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_WRAP0, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP1, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP2, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP3, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP4, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP5, 0);
-    this->pDevice->SetRenderState(D3DRS_WRAP6, 0);
-    this->pDevice->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_NONE);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_EDGEANTIALIAS, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZBIAS, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_STENCILENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP0, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP1, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP2, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP3, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP4, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP5, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP6, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_MIPFILTER, 0);
   }
-  orig::sub_100098E0(&this->vftable, 2, &this->field_1EC, v6);
-  return this->pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+  orig::sub_100098E0(this, 2, &this->field_1EC, v6);
+  return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_BLENDOP, 1u);
 }
 
 // FUNCTION: FFXIMAIN 0x10009DC0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CDx::SetViewport(const void *a2)
 {
-  qmemcpy(&this->_pad_10[24 * this->renderTargetDepth + 136], a2, 0x18u);
-  return this->pDevice->SetViewport((void *)a2);
+  qmemcpy(&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 136], a2, 0x18u);
+  return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetViewport((*(IDirect3DDevice8 * *)((char *)this + 0xC)), (void *)a2);
 }
 
 // FUNCTION: FFXIMAIN 0x10009E00  (placed by IDB name)
@@ -600,6 +535,90 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
   return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)a3, 28);
 }
 
+// FUNCTION: FFXIMAIN 0x1000A5A0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
+{
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  double v7;
+  int v8;
+  int v9;
+  int v10;
+  double v11;
+  double v12;
+  double v13;
+  int v14;
+  float v16;
+  int v17;
+  float v18;
+  int v19;
+  int v20;
+  int v21;
+  int v22;
+  int v23;
+  float v24;
+  float v25;
+  int v26;
+  int v27;
+  int v28;
+  int v29;
+  int v30;
+  int v31;
+  float v32;
+  int v33;
+  int v34;
+  int v35;
+  int v36;
+  int v37;
+  float v38;
+  float v39;
+  int v40;
+  int v41;
+  int v42;
+  int v43;
+  int v44;
+  v7 = (double)*(int *)a3;
+  v8 = *(_DWORD *)a4;
+  v21 = a2;
+  v22 = v8;
+  v23 = *(_DWORD *)(a4 + 8);
+  v9 = *(_DWORD *)(a4 + 4);
+  v28 = a2;
+  v29 = v9;
+  v10 = *(_DWORD *)(a4 + 8);
+  v35 = a2;
+  *(float *)&v17 = v7 - 0.5;
+  v11 = (double)*(int *)(a3 + 4);
+  v42 = a2;
+  v43 = *(_DWORD *)(a4 + 4);
+  v19 = 0;
+  v20 = 1065353216;
+  v26 = 0;
+  v27 = 1065353216;
+  v30 = v10;
+  v33 = 0;
+  v18 = v11 - 0.5;
+  v12 = (double)*(int *)(a3 + 8);
+  v34 = 1065353216;
+  v40 = 0;
+  v41 = 1065353216;
+  v16 = v12 - 0.5;
+  v24 = v16;
+  v25 = v18;
+  v31 = v17;
+  v13 = (double)*(int *)(a3 + 12);
+  v36 = *(_DWORD *)a4;
+  v37 = *(_DWORD *)(a4 + 12);
+  v44 = v37;
+  v14 = at<uint32_t>(this, 0xC);
+  v38 = v16;
+  v32 = v13 - 0.5;
+  v39 = v32;
+  (*(void (__stdcall **)(int, _DWORD, int))(*(_DWORD *)v14 + 244))(v14, 0, a1);
+  (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
+  return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)&v17, 28);
+}
+
 // FUNCTION: FFXIMAIN 0x1000A6E0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 99 returned normally, 223 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town UNRESOLVED 0, town2 UNRESOLVED 0, combat UNRESOLVED 0, zonetoinn UNRESOLVED 0
 _DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6)
@@ -685,46 +704,46 @@ int CDx::DrawFadeQuad(int a1, int a2)
   {
     if ( (a2 & 0xFF000000) == 0x80000000 )
       v4 = ((unsigned __int8)a2 * (((unsigned int)a2 >> 7) & 0x1FE0000)) & 0xFF000000;
-    pDevice = this->pDevice;
+    pDevice = (*(IDirect3DDevice8 * *)((char *)this + 0xC));
     v6.lpVtbl = pDevice->lpVtbl;
     if ( (v4 & 0xFF000000) <= 0x80000000 )
     {
       v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 6u);
-      this->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DESTBLEND, 5u);
       v4 &= 0xFF000000;
     }
     else
     {
       v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 5u);
-      this->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DESTBLEND, 2u);
     }
-    dword_1034FE00 = v4;
-    dword_1034FE14 = v4;
-    dword_1034FE28 = v4;
-    dword_1034FE3C = v4;
-    flt_1034FDF0 = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
-    flt_1034FE18 = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
-    flt_1034FE04 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
-    flt_1034FE2C = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
-    flt_1034FDF4 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
-    flt_1034FE08 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
-    flt_1034FE1C = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
-    flt_1034FE30 = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
-    this->pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    this->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    this->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-    this->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    this->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    this->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-    this->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-    this->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    this->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    this->pDevice->SetVertexShader(68u);
-    orig::CDx_DrawPrimitiveUP(this, 5, 2, (int)&flt_1034FDF0, 20);
+    g_fadeQuadVerts_v0_color = v4;
+    g_fadeQuadVerts_v1_color = v4;
+    g_fadeQuadVerts_v2_color = v4;
+    g_fadeQuadVerts_v3_color = v4;
+    g_fadeQuadVerts = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
+    g_fadeQuadVerts_v2_x = (float)*(unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this);
+    g_fadeQuadVerts_v1_x = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
+    g_fadeQuadVerts_v3_x = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 2);
+    g_fadeQuadVerts_v0_y = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
+    g_fadeQuadVerts_v1_y = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 1);
+    g_fadeQuadVerts_v2_y = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
+    g_fadeQuadVerts_v3_y = (float)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)this) + 3);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZWRITEENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LIGHTING, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_COLOROP, 2u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_COLORARG1, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ALPHAOP, 2u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ALPHAARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 68u);
+    orig::CDx_DrawPrimitiveUP(this, 5, 2, (int)&g_fadeQuadVerts, 20);
   }
   return orig::CDx_SetDefaultRenderState(this);
 }
@@ -734,22 +753,22 @@ int CDx::DrawFadeQuad(int a1, int a2)
 int CDx::Post_DepthBlurComposite(int a1, int a2)
 {
   orig::CDx_SetDefaultRenderState(this);
-  this->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-  this->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
-  this->pDevice->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-  this->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-  this->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
-  this->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  this->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  this->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-  this->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-  this->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-  this->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-  this->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZWRITEENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SHADEMODE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_TEXCOORDINDEX, 0);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ADDRESSU, 3u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ADDRESSV, 3u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_COLOROP, 2u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_ALPHAOP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 1u, D3DTSS_COLOROP, 1u);
   orig::CDx_DrawScreenQuadAtDepth(this, a1, a2);
-  this->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-  this->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-  return this->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SHADEMODE, 2u);
+  return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
@@ -762,43 +781,43 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
   double v5;
   double v6;
   double v7;
-  result = byte_10456560;
-  if ( (byte_10456560 & 1) == 0 )
+  result = CDx_DrawStereoOddFrameOverlay_staticGuard;
+  if ( (CDx_DrawStereoOddFrameOverlay_staticGuard & 1) == 0 )
   {
-    byte_10456560 |= 1u;
+    CDx_DrawStereoOddFrameOverlay_staticGuard |= 1u;
     result = a1;
-    flt_10456678 = (float)*(int *)a1;
+    CDx_DrawStereoOddFrameOverlay_quadVerts = (float)*(int *)a1;
     v4 = (double)*(int *)(a1 + 4);
-    dword_10456680 = 0;
-    dword_10456684 = 1065353216;
-    dword_10456688 = -2139062144;
-    dword_1045668C = 0;
-    flt_1045667C = v4;
-    dword_10456690 = 0;
-    flt_10456694 = (float)*(int *)(a1 + 8);
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_z = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_rhw = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_color = -2139062144;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_u = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_y = v4;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v0_v = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_x = (float)*(int *)(a1 + 8);
     v5 = (double)*(int *)(a1 + 4);
-    dword_1045669C = 0;
-    dword_104566A0 = 1065353216;
-    dword_104566A4 = -2139062144;
-    dword_104566A8 = 1065353216;
-    flt_10456698 = v5;
-    dword_104566AC = 0;
-    flt_104566B0 = (float)*(int *)a1;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_z = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_rhw = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_color = -2139062144;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_u = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_y = v5;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v1_v = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_x = (float)*(int *)a1;
     v6 = (double)*(int *)(a1 + 12);
-    dword_104566B8 = 0;
-    dword_104566BC = 1065353216;
-    dword_104566C0 = -2139062144;
-    dword_104566C4 = 0;
-    flt_104566B4 = v6;
-    dword_104566C8 = 1065353216;
-    flt_104566CC = (float)*(int *)(a1 + 8);
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_z = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_rhw = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_color = -2139062144;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_u = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_y = v6;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v2_v = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_x = (float)*(int *)(a1 + 8);
     v7 = (double)*(int *)(a1 + 12);
-    dword_104566D4 = 0;
-    dword_104566D8 = 1065353216;
-    dword_104566DC = -2139062144;
-    dword_104566E0 = 1065353216;
-    flt_104566D0 = v7;
-    dword_104566E4 = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_z = 0;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_rhw = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_color = -2139062144;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_u = 1065353216;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_y = v7;
+    CDx_DrawStereoOddFrameOverlay_quadVerts_v3_v = 1065353216;
   }
   if ( g_pEnv != nullptr )
   {
@@ -812,7 +831,7 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
       (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
       (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 0);
       (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 0);
-      orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)&flt_10456678, 28);
+      orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)&CDx_DrawStereoOddFrameOverlay_quadVerts, 28);
       (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 1);
       return (*(char (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 1);
     }
@@ -893,9 +912,9 @@ int CDx::SetLight(int a2, float *a3)
   }
   qmemcpy(v5, a3, sizeof(v5));
   if ( orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)this, v5) == 1 )
-    return this->pDevice->SetLight(a2, v5);
+    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, v5);
   else
-    return this->pDevice->SetLight(a2, a3);
+    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
@@ -1203,7 +1222,7 @@ int CDx::CreateRampTexture1x16(int a1)
                (IDirect3DTexture8 **)a1);
     if ( result < 0 )
     {
-      LOBYTE(result) = 0;
+      result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
       return result;
     }
     (*(void (__stdcall **)(_DWORD, _DWORD, char *, _DWORD, _DWORD))(**(_DWORD **)a1 + 64))(*(_DWORD *)a1, 0, v7, 0, 0);
@@ -1213,16 +1232,16 @@ int CDx::CreateRampTexture1x16(int a1)
     {
       if ( v5 == 1 )
       {
-        BYTE2(a1) = 72;
+        a1 = (int)(((uint32_t)(a1) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(72) << 16));
 LABEL_9:
         v4 = 0;
-        BYTE1(a1) = 0;
+        a1 = (int)(((uint32_t)(a1) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(0) << 8));
       }
       v6 = (_BYTE *)(v8 + v5 * *(_DWORD *)v7);
       ++v5;
-      v6[1] = BYTE1(a1);
+      v6[1] = (_BYTE)((uint32_t)(a1) >> 8);
       *v6 = v4;
-      v6[2] = BYTE2(a1);
+      v6[2] = (_BYTE)((uint32_t)(a1) >> 16);
       v6[3] = 0x80;
       if ( v5 >= 16 )
       {
@@ -1230,11 +1249,11 @@ LABEL_9:
         goto LABEL_12;
       }
     }
-    BYTE2(a1) = 0;
+    a1 = (int)(((uint32_t)(a1) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(0) << 16));
     goto LABEL_9;
   }
 LABEL_12:
-  LOBYTE(result) = 1;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
   return result;
 }
 
@@ -1252,7 +1271,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
     return 1;
   v3 = a2;
   v4 = 0;
-  while ( orig::fn_102D2FB9(this->pDevice, 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, 1, v3) >= 0 )
+  while ( orig::fn_102D2FB9((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, 1, v3) >= 0 )
   {
     (*v3)->lpVtbl->LockRect(*v3, 0, (D3DLOCKED_RECT *)v10, nullptr, 0);
     for ( i = 0; i < 2; ++i )
@@ -1305,7 +1324,7 @@ char CDx::GetStereoSecondEyeTarget(int a1, int a2)
   v4 = 0;
   if ( this->stereoTargetsReady != 0 && orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
-    g_pCDx->pDevice->GetRenderTarget(&v11);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetRenderTarget((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &v11);
     (*(void (__stdcall **)(_DWORD, _DWORD, IDirect3DSurface8 **))(*this->sceneTargetA + 60))(
       at<uint32_t>(this, 0x194),
       0,
@@ -1486,7 +1505,7 @@ void CDx::ApplyStereoEyeProjection()
     v4 = -*(float *)&g_stereoEyeOffset;
   }
   orig::Mat4_PreMultiply(v3, (float *)&this->cachedProjection);
-  this->pDevice->SetTransform(D3DTS_PROJECTION, v3);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DTS_PROJECTION, v3);
   orig::nullsub_1();
 }
 

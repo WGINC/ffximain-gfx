@@ -12,9 +12,8 @@ XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, c
   v4 = *(_WORD *)(a4 + 12) - *(_WORD *)(a4 + 4);
   v5 = *(_WORD *)(a4 + 8) - *(_WORD *)a4;
   v8 = nullptr;
-  Texture = orig::CDx_CreateTexture(&g_pCDx->vftable, v5, v4, nullptr, 0, 1);
-  if ( (Texture != nullptr
-     || (Texture = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x200u, 0x200u, nullptr, 0, 1)) != nullptr)
+  Texture = orig::CDx_CreateTexture(g_pCDx, v5, v4, nullptr, 0, 1);
+  if ( (Texture != nullptr || (Texture = orig::CDx_CreateTexture(g_pCDx, 0x200u, 0x200u, nullptr, 0, 1)) != nullptr)
     && (*(int (__stdcall **)(_DWORD *, _DWORD, struct IDirect3DSurface8 **))(*Texture + 60))(Texture, 0, &v8) >= 0
     && orig::fn_102D4515(v8, nullptr, (const struct tagRECT *)a4, a1, nullptr, a2, 3, 0) >= 0
     && orig::Gfx_ProbeDeviceCaps((int)v8, a3, (int *)a4) != 0 )
@@ -233,7 +232,7 @@ LABEL_25:
 XI_API unsigned __int8 __cdecl Gfx_IsGammaSupported(void)
 {
   if ( g_pCDx != nullptr )
-    return g_pCDx->_pad_10[2309];
+    return (*(unsigned __int8 *)((char *)g_pCDx + 0x915));
   else
     return 0;
 }
@@ -245,7 +244,7 @@ XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
   CDx *result;
   result = g_pCDx;
   if ( g_pCDx != nullptr )
-    return (CDx *)orig::GammaRamp_SetRGB(&g_pCDx->_pad_10[484], a1, a2, a3);
+    return (CDx *)orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), a1, a2, a3);
   return result;
 }
 
@@ -262,7 +261,7 @@ XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v2, &v4, &v3);
+    orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), &v2, &v4, &v3);
     v2 = a1;
     return orig::Gfx_SetGammaRGB(a1, v4, v3);
   }
@@ -282,7 +281,7 @@ XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v4, &v2, &v3);
+    orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), &v4, &v2, &v3);
     v2 = a1;
     return orig::Gfx_SetGammaRGB(v4, a1, v3);
   }
@@ -302,7 +301,7 @@ XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
   result = g_pCDx;
   if ( g_pCDx != nullptr )
   {
-    orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], &v4, &v3, &v2);
+    orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), &v4, &v3, &v2);
     v2 = a1;
     return orig::Gfx_SetGammaRGB(v4, v3, a1);
   }
@@ -316,7 +315,7 @@ XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
   int result;
   result = (int)g_pCDx;
   if ( g_pCDx != nullptr )
-    return orig::GammaRamp_GetRGB(&g_pCDx->_pad_10[484], (_DWORD *)a1, (_DWORD *)a2, (_DWORD *)a3);
+    return orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), (_DWORD *)a1, (_DWORD *)a2, (_DWORD *)a3);
   return result;
 }
 
@@ -499,7 +498,7 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
   int *v15;
   if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD *))(**(self_ + 1) + 32))(*(self_ + 1), 0, v13) < 0 )
     return 0;
-  for ( i = (int *)*(&off_1034F698 + a8); ; i = v15 + 2 )
+  for ( i = (int *)*(&g_deviceFormatPairsByDepth + a8); ; i = v15 + 2 )
   {
     v10 = *i;
     v11 = i[1];

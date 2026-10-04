@@ -315,7 +315,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
   orig::XiZone_GetFog(g_pXiZone, &v85, (float *)&v87, (float *)&v86, v36, v41);
   v42 = (void *)orig::sub_10157CF0(g_pTargetMng);
   if ( v42 == nullptr )
-    v42 = (void *)orig::sub_10081600((int)dword_10487F58);
+    v42 = (void *)orig::sub_10081600((int)XiControlActor_userControlTarget);
   if ( v42 == self_ || (*((_DWORD *)self_ + 34) & 0x200) != 0 )
   {
     v44 = *((_DWORD *)self_ + 528);
@@ -408,17 +408,17 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       }
     }
     v43 = *((_DWORD *)self_ + 528);
-    LOBYTE(v43) = v43 | 4;
+    v43 = (int)(((uint32_t)(v43) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v43 | 4) << 0));
   }
   else
   {
     v43 = *((_DWORD *)self_ + 528);
-    LOBYTE(v43) = v43 & 0xFB;
+    v43 = (int)(((uint32_t)(v43) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v43 & 0xFB) << 0));
   }
   *((_DWORD *)self_ + 528) = v43;
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, v85);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, v86);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, v87);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, v85);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, v86);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, v87);
   result = *orig::sub_10039410((_DWORD *)self_ + 452, &v84);
   if ( result != 0 )
   {

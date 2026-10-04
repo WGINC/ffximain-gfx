@@ -52,7 +52,7 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
         v11 = *(IDirect3DBaseTexture8 **)(v10 + 64);
       else
         v11 = *(IDirect3DBaseTexture8 **)(v10 + 68);
-      g_pCDx->pDevice->SetTexture(0, v11);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v11);
     }
     return 1;
   }
@@ -60,9 +60,9 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
   {
     v7 = *(IDirect3DBaseTexture8 **)(v5 + 64);
     if ( v7 != nullptr )
-      g_pCDx->pDevice->SetTexture(0, v7);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v7);
     else
-      g_pCDx->pDevice->SetTexture(0, *(IDirect3DBaseTexture8 **)(v5 + 68));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *(IDirect3DBaseTexture8 **)(v5 + 68));
     return 1;
   }
 }
@@ -117,7 +117,7 @@ char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(int a2, _DWORD *a3, _DWORD *a4)
         v11 = *(IDirect3DBaseTexture8 **)(v10 + 64);
       else
         v11 = *(IDirect3DBaseTexture8 **)(v10 + 68);
-      g_pCDx->pDevice->SetTexture(0, v11);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v11);
     }
     return 1;
   }
@@ -125,9 +125,9 @@ char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(int a2, _DWORD *a3, _DWORD *a4)
   {
     v7 = *(IDirect3DBaseTexture8 **)(v5 + 64);
     if ( v7 != nullptr )
-      g_pCDx->pDevice->SetTexture(0, v7);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v7);
     else
-      g_pCDx->pDevice->SetTexture(0, *(IDirect3DBaseTexture8 **)(v5 + 68));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *(IDirect3DBaseTexture8 **)(v5 + 68));
     return 1;
   }
 }

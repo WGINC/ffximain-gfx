@@ -6,9 +6,42 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoTask_VT_10329C70::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CMoTask_VT_10329C70_Destructor(self);
+  orig::CMoTask_VT_10329C70_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+}
+
+// FUNCTION: FFXIMAIN 0x1006B480  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+char CMoTask_VT_10329C70::vf8()
+{
+  unsigned int v1;
+  v1 = at<uint32_t>(this, 0x34);
+  if ( v1 != 0 )
+  {
+    if ( v1 == 1 )
+    {
+      orig::sub_10069EE0((float *)g_pResourceMng);
+      orig::sub_100441C0((_DWORD *)g_pMoCamera);
+      orig::sub_1006A180(g_pResourceMng, 0, 0, 0, 0);
+      return 0;
+    }
+  }
+  else
+  {
+    ++at<uint32_t>(this, 0x34);
+  }
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1006B4C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+_DWORD * __stdcall CMoTask_VT_10329C70::vf1(_DWORD *a1)
+{
+  _DWORD *result;
+  result = a1;
+  if ( *a1 == 6 )
+    return (_DWORD *)orig::nullsub_43(g_pResourceMng);
+  return result;
 }

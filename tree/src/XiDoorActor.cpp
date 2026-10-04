@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x100AC390  (unit XiDoorActor: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4)
+XI_API char __thiscall fn_100AC390(XiDoorActor *self_, int a2, int a3, int a4)
 {
   _DWORD *v4;
   char *ViewMatrixPtr;
@@ -12,7 +12,7 @@ XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4)
   _BYTE (&v8)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x40);
   _BYTE (&v9)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x80);
 
-  v4 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self_ + 444))(self_);
+  v4 = (_DWORD *)((int (__thiscall *)(XiDoorActor *))(*(CMoTask_vtbl * *)((char *)self_ + 0x0))[10].vf1_CApp_vf001)(self_);
   orig::Vec4_Copy((_DWORD *)a2, v4);
   orig::fn_10027990((Iostream_init *)v9);
   orig::fn_10027990((Iostream_init *)v8);
@@ -22,13 +22,13 @@ XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4)
   orig::Mat4_SetIdentity(v7);
   orig::Mat4_SetTranslation(v7, (_DWORD *)a2);
   ViewMatrixPtr = orig::Camera_GetViewMatrixPtr();
-  orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v7);
+  orig::CDx_SetTransform(g_pCDx, 2, ViewMatrixPtr);
+  orig::CDx_SetTransform(g_pCDx, 256, v7);
   orig::Vec4_Set(a2, 0.0, 0, 0, 1065353216);
   orig::Gfx_ProjectWorldToClip((float *)a2, (_DWORD *)a2);
   orig::Gfx_NdcToScreen((float *)a2);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 2, v8);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);
+  orig::CDx_SetTransform(g_pCDx, 2, v8);
+  orig::CDx_SetTransform(g_pCDx, 256, v9);
   if ( !(*(float *)(a2 + 12) < 0.0) )
   {
     orig::nullsub_1();

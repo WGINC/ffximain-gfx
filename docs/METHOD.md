@@ -168,6 +168,11 @@ Run in IDA 9.4 (File > Script file), it:
 
 Each step runs even if an earlier one failed; the log has the traceback.
 
+The D3D8 interface declarations come from MinGW-w64's `d3d8.h` (`gen_d3d8_decls.py`, `xi_d3d8.hpp`). On 4 Oct
+2026 they were checked against Microsoft's own DirectX 8.1 SDK headers (the 16 Oct 2001 release the game's
+D3DX code matches). All 250 methods of the 12 interfaces agree in order, return type and parameter types; only
+parameter names differ, and `WINBOOL` stands for `BOOL`. The SDK is not in the repo.
+
 ## 7. Coverage
 
 Every function that touches a Direct3D device holder is in the set; not every graphics function is.

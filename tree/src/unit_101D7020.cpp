@@ -19,8 +19,8 @@ XI_API char __thiscall fn_101EEBD0(int self_)
   __int16 v13;
   struct tm *v14;
   unsigned __int8 *v15;
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
   v2 = *(_DWORD *)(self_ + 144);
   if ( v2 != 0 )
   {
@@ -97,8 +97,8 @@ XI_API char __thiscall fn_101EEBD0(int self_)
       }
     }
   }
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
   v6 = *(_WORD *)(self_ + 166) == 0;
   if ( *(_WORD *)(self_ + 166) == 0 )
   {
@@ -160,11 +160,11 @@ XI_API char __thiscall fn_101EEBD0(int self_)
   v14 = *(struct tm **)(self_ + 180);
   if ( v14 == (struct tm *)-1 )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)dword_105781F8, nullptr, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, nullptr, 2);
   }
   else if ( v14 != nullptr )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)dword_105781F8, v14, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, v14, 2);
   }
   v15 = *(unsigned __int8 **)(self_ + 184);
   if ( v15 == (unsigned __int8 *)-1 )

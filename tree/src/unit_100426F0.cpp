@@ -84,32 +84,32 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
   char (&v77)[60] = *reinterpret_cast<char (*)[60]>(xi_frame + 0xA4);
 
   v73 = self_;
-  if ( (byte_1047BB40 & 1) == 0 )
+  if ( (CMoDist_vf18_staticGuards & 1) == 0 )
   {
-    dword_1047BB04 = 0;
-    byte_1047BB40 |= 1u;
-    dword_1047BB08 = 0;
-    dword_1047BB0C = 0;
-    dword_1047BB10 = -1082130432;
-    dword_1047BB14 = 0;
-    dword_1047BB18 = 0;
-    dword_1047BB1C = 0;
-    dword_1047BB20 = -1082130432;
-    dword_1047BB24 = 0;
-    dword_1047BB28 = 1065353216;
-    dword_1047BB2C = 0;
-    dword_1047BB30 = 0;
-    dword_1047BB34 = 0;
-    dword_1047BB38 = 1065353216;
-    dword_1047BB3C = 0;
+    CMoDist_vf18_static_BB04 = 0;
+    CMoDist_vf18_staticGuards |= 1u;
+    CMoDist_vf18_static_BB08 = 0;
+    CMoDist_vf18_static_BB0C = 0;
+    CMoDist_vf18_static_BB10 = -1082130432;
+    CMoDist_vf18_static_BB14 = 0;
+    CMoDist_vf18_static_BB18 = 0;
+    CMoDist_vf18_static_BB1C = 0;
+    CMoDist_vf18_static_BB20 = -1082130432;
+    CMoDist_vf18_static_BB24 = 0;
+    CMoDist_vf18_static_BB28 = 1065353216;
+    CMoDist_vf18_static_BB2C = 0;
+    CMoDist_vf18_static_BB30 = 0;
+    CMoDist_vf18_static_BB34 = 0;
+    CMoDist_vf18_static_BB38 = 1065353216;
+    CMoDist_vf18_static_BB3C = 0;
     orig::_atexit(XI_CODE(nullsub_136));
   }
   v62 = *(_DWORD *)(g_pResourceMng + 3524);
   v59 = *(_DWORD *)(g_pResourceMng + 3520);
   orig::RegisterWithProcessor((int)self_);
-  vftable = (void (__thiscall **)(CMoProcessor *, int *, char *, int, float *, int, int, int))g_pProcessor->vftable;
+  vftable = (void (__thiscall **)(CMoProcessor *, int *, char *, int, float *, int, int, int))(*(void * *)((char *)g_pProcessor + 0x0));
   v74 = self_ + 40;
-  vftable[32](g_pProcessor, &dword_1047BB04, v77, 5, self_ + 40, g_pResourceMng + 2832, v59, v62);
+  vftable[32](g_pProcessor, &CMoDist_vf18_static_BB04, v77, 5, self_ + 40, g_pResourceMng + 2832, v59, v62);
   v63 = (float)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
   v3 = (double)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 3);
   v4 = &v77[4];
@@ -127,8 +127,8 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     *(float *)&v76[v5] = v6 * *((float *)v4 - 3);
   }
   while ( v5 < 5 );
-  result =(_DWORD*)(&g_pCDx->vftable);
-  v10 = *(_DWORD *)&g_pCDx->_pad_10[388];
+  result =(_DWORD*)(&(*(void * *)((char *)g_pCDx + 0x0)));
+  v10 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
   if ( v10 != 0 )
   {
     v11 = v68;
@@ -228,13 +228,13 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
       v10);
-    if ( (byte_1047BB40 & 2) == 0 )
+    if ( (CMoDist_vf18_staticGuards & 2) == 0 )
     {
-      byte_1047BB40 |= 2u;
-      orig::fn_1006AD90((exception *)dword_1047BB50);
+      CMoDist_vf18_staticGuards |= 2u;
+      orig::fn_1006AD90((exception *)CMoDist_vf18_stateBlock);
       orig::_atexit(XI_CODE(unknown_libname_47));
     }
-    orig::StateBlock_ApplyRSTSS(dword_1047BB50, (int)dword_103530D0, (int)dword_10353028);
+    orig::StateBlock_ApplyRSTSS(CMoDist_vf18_stateBlock, (int)CMoDist_vf18_renderStates, (int)CMoDist_vf18_textureStageStates);
     orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
     (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
       *(_DWORD *)(g_pResourceMng + 3772),
@@ -278,9 +278,9 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     *((float *)v49 + 34) = v72[0] * 0x1.0101020000000p-8;
     *((float *)v49 + 35) = v69[0] * 0x1.0101020000000p-8;
     orig::DynVB_Unlock();
-    ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-    v56 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-    g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v56 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
     orig::RegisterWithProcessor((int)self_);
     v57 = v73;
     qmemcpy(v56, v74, 0x40u);
@@ -291,17 +291,20 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
       *(_DWORD *)(g_pMoAccumTarget + 4));
-    if ( (byte_1047BB40 & 4) == 0 )
+    if ( (CMoDist_vf18_staticGuards & 4) == 0 )
     {
-      byte_1047BB40 |= 4u;
-      orig::fn_1006AD90((exception *)dword_1047BB44);
+      CMoDist_vf18_staticGuards |= 4u;
+      orig::fn_1006AD90((exception *)CMoDist_vf18_stateBlock2);
       orig::_atexit(XI_CODE(unknown_libname_46));
     }
-    orig::StateBlock_ApplyRSTSS(dword_1047BB44, (int)dword_10353178, (int)dword_10353108);
+    orig::StateBlock_ApplyRSTSS(
+      CMoDist_vf18_stateBlock2,
+      (int)CMoDist_vf18_renderStates2,
+      (int)CMoDist_vf18_textureStageStates2);
     orig::sub_10043F40((int *)g_pDynVB_FVF142, 0, 4, 6, 0, -1);
-    result =(_DWORD*)(&g_pProcessor->vftable);
-    v58 = g_pProcessor->ScratchMatrixStackTop - 1;
-    g_pProcessor->ScratchMatrixStackTop = v58;
+    result =(_DWORD*)(&(*(void * *)((char *)g_pProcessor + 0x0)));
+    v58 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v58;
     result[v58 + 644] = v56;
   }
   return result;

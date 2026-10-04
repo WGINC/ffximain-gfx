@@ -13,11 +13,10 @@ char ** __cdecl CMoDX::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 {
-  _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
-  orig::CMoDX_Destructor(self);
+  orig::CMoDX_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return(_BYTE*)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
@@ -30,7 +29,7 @@ _DWORD * CMoDX::CreateAndInitSystem()
   int *v3;
   int v4;
   _DWORD *v5;
-  _DWORD *v6;
+  CMoOcclusionMng_vtbl **v6;
   void *v8;
   v8 = self;
   v1 = orig::Mem_AllocDefault(7884);
@@ -61,7 +60,7 @@ _DWORD * CMoDX::CreateAndInitSystem()
     g_pDxStatusMng = 0;
   orig::Gfx_InitCubeMapTextures();
   orig::sub_100555D0();
-  v6 = orig::Mem_AllocDefault(28);
+  v6 = (CMoOcclusionMng_vtbl **)orig::Mem_AllocDefault(28);
   if ( v6 != nullptr )
   {
     g_pOcclusionMng = (int)orig::CMoOcclusionMng_Constructor(v6);

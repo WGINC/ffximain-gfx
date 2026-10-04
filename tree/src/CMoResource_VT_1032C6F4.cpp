@@ -13,9 +13,8 @@ void CMoResource_VT_1032C6F4::vf009()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int ** CMoResource_VT_1032C6F4::ScalarDeletingDtor(char a2)
 {
-  unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::CMoResource_Destructor(self);
+  orig::CMoResource_Destructor((unsigned int **)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (unsigned int **)this;
 }

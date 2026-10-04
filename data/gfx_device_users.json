@@ -1,0 +1,7 @@
+{
+ "_doc": "device_users.py -- functions outside the exported graphics set that use the Direct3D device, from the code.",
+ "_stats": {
+  "functions": 0
+ },
+ "functions": {}
+}

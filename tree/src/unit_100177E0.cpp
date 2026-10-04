@@ -10,11 +10,11 @@ XI_API int __thiscall fn_10017810(void *self_, int a1)
   int v4;
   int result;
   char *v6;
-  pDevice = g_pCDx->pDevice;
+  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
   v6 = (char *)self_ + 16;
   lpVtbl = pDevice->lpVtbl;
   v4 = (*(int (__stdcall **)(_DWORD))(**((_DWORD **)self_ + 2) + 12))(*((_DWORD *)self_ + 2));
   result = lpVtbl->CreateVertexShader(pDevice, (void *)a1, (void *)v4, v6, 0);
-  LOBYTE(result) = result >= 0;
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(result >= 0) << 0));
   return result;
 }

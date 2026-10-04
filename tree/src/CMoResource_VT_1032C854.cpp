@@ -6,24 +6,23 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoResource_VT_1032C854::vf004(int a2)
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   unsigned int v2;
-  int v3;
+  unsigned int v3;
   unsigned int v4;
-  int v5;
+  unsigned int v5;
   unsigned int v6;
-  v2 = (unsigned int)(this->field_3C - self - 48) >> 1;
-  this->field_36 = (unsigned int)(this->field_36 - self - 48) >> 1;
+  v2 = (this->field_3C - (unsigned int)this - 48) >> 1;
+  this->field_36 = (this->field_36 - (unsigned int)this - 48) >> 1;
   v3 = this->field_42;
   this->field_3C = v2;
-  v4 = (unsigned int)(this->field_48 - self - 48) >> 1;
-  this->field_42 = (unsigned int)(v3 - self - 48) >> 1;
+  v4 = (this->field_48 - (unsigned int)this - 48) >> 1;
+  this->field_42 = (v3 - (unsigned int)this - 48) >> 1;
   v5 = this->field_4E;
   this->field_48 = v4;
-  v6 = (unsigned int)(this->field_54 - self - 48) >> 1;
-  this->field_4E = (unsigned int)(v5 - self - 48) >> 1;
+  v6 = (this->field_54 - (unsigned int)this - 48) >> 1;
+  this->field_4E = (v5 - (unsigned int)this - 48) >> 1;
   this->field_54 = v6;
-  **(_DWORD **)(self + 20) = a2;
+  *(_DWORD *)(*(unsigned __int32 *)((char *)this + 0x14)) = a2;
   return a2;
 }
 
@@ -31,9 +30,8 @@ int CMoResource_VT_1032C854::vf004(int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int ** CMoResource_VT_1032C854::ScalarDeletingDtor(char a2)
 {
-  unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::CMoResource_Destructor(self);
+  orig::CMoResource_Destructor((unsigned int **)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (unsigned int **)this;
 }

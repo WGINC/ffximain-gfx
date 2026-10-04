@@ -44,12 +44,11 @@ Premises (not shown from the code; every result depending on them says so in "pr
   P6  a data object in the image starts at an address the program refers to (an operand or a stored
       pointer) and ends before the next such address: an indexed access [table + i*s] stays in the table
       the address `table` falls in. (Without it any indexed read of a global table can be any pointer.)
-  P7  closed world: code outside the DLL (the callers of its exports and entry point, the callers of a
-      callback it hands to an import or an unknown callee, and the code behind an unknown call target) passes,
-      returns and writes only external memory ('EXT'), never the DLL's own objects.
-  P8  an indirect call through [reg + k] whose target the analysis cannot bound reaches a function stored at
-      offset k of a table that starts at a referenced data address (a vtable slot k); any other unbounded
-      call reaches a function whose address the program takes.
+  (No closed-world premise: code outside the DLL -- the callers of its exports and entry point, of callbacks
+  it hands out, and the code behind an unknown call target -- may read and write every object the DLL has
+  exposed to it: anything passed to an import or an unknown callee, returned to an outside caller, or stored
+  in external memory, and everything reachable from those. An unknown call target reaches every
+  address-taken function.)
   P3  a called function preserves a register it saves on entry and restores (MSVC prologue/epilogue)
       and imports preserve EBX/ESI/EDI/EBP (Windows x86 calling convention).
 
@@ -69,7 +68,8 @@ r32 = C.r32
 E = frozenset()
 UNK = (('U',), None)
 U1 = frozenset([UNK])
-EXTV = frozenset([(('EXT',), None)])        # memory owned by code outside the DLL (P7)
+EXTV = frozenset([(('EXT',), None)])        # memory owned by code outside the DLL
+EXPV = frozenset([(('EXT',), None), (('EXP',), None)])   # what outside code can hand back: its own or exposed memory
 ALLOC_API = {'HeapAlloc', 'GlobalAlloc', 'VirtualAlloc', 'HeapReAlloc', 'CoTaskMemAlloc', 'CoTaskMemRealloc', 'LocalAlloc'}
 NARGS = 16
 
@@ -211,6 +211,9 @@ class PT:
         self.clob = self.clobbers()
         self.taken = self.address_taken(); self.taken_external = False
         self.refs = self.data_refs(); self.dkeys = []; self._sr = {}; self._slots = {}
+        self.HUB_IN, self.HUB_EXIT = {}, {}
+        self.HUB_CLOB = set().union(*(self.clob.get(g, set(GPR)) for g in self.taken)) if self.taken else set()
+        self.exposed = set(); self.exposed_new = False; self.EXPV = EXPV; self.ext_funcs = set(); self.unk_callers = set()
         BASE_OF[0] = self.base_of
         entry = [base + pe.OPTIONAL_HEADER.AddressOfEntryPoint] + [base + s.address for s in getattr(getattr(pe, 'DIRECTORY_ENTRY_EXPORT', None), 'symbols', [])]
         for f in entry:
@@ -228,16 +231,26 @@ class PT:
             return self.const(int.from_bytes(self.im.img[o:o + 4], 'little'))
         return E
 
-    def read(self, obj, off, f):
+    def read(self, obj, off, f, raw=False):
         if obj == ('U',): return U1
         if obj[0] == 'X': return frozenset([(('XV', obj[1]), 0)]) if off == 0 else frozenset([(('XM',), None)])
         if obj[0] == 'XV':
             return frozenset([(('XC', obj[1]), off // 4)]) if off is not None and off % 4 == 0 else U1
         if obj[0] in ('C', 'XC'): return E
-        self.readers[obj].add(f); self.any_readers.add(f)
+        if f is not None: self.readers[obj].add(f); self.any_readers.add(f)
         cells = self.M.get(obj, {})
-        if obj == ('EXT',):                                # external memory holds external pointers (P7)
-            return norm((frozenset().union(*cells.values()) if cells else E) | EXTV | self.ANYW)
+        hubv = E
+        if obj[0] == 'F' and obj[1] != 'HUB' and obj[1] in self.taken and ('F', 'HUB') in self.M:
+            hc = self.M[('F', 'HUB')]                      # what unknown calls pass (the hub)
+            hubv = frozenset().union(*hc.values()) if off is None else hc.get(off, E) | hc.get(None, E)
+        if obj in self.exposed and not raw:              # outside code's writes through ('EXP',)
+            ev = self.M.get(('EXP',), {}).get(None, E)
+            if f is not None: self.readers[('EXP',)].add(f)
+            return norm(self.read(obj, off, f, raw=True) | ev)
+        if obj == ('EXP',):
+            return norm((frozenset().union(*cells.values()) if cells else E) | EXPV | self.ANYW)
+        if obj == ('EXT',):                                # external memory: external or exposed values
+            return norm((frozenset().union(*cells.values()) if cells else E) | self.EXPV | self.ANYW)
         if obj[0] == 'DA':                                 # a data object at an unknown offset (P6)
             self.readers[('D',)].add(f)
             a = obj[1]; b = self.next_ref(a); dc = self.M.get(('D',), {})
@@ -254,7 +267,7 @@ class PT:
         else:
             v = cells.get(off, E) | cells.get(None, E)
             if obj == ('D',): v = v | self.static(off)
-        return norm(v | self.ANYW)
+        return norm(v | hubv | self.ANYW)
 
     def write(self, obj, off, val, f, at):
         val = norm(val)
@@ -265,7 +278,8 @@ class PT:
                 self.ANYW = self.ANYW | val; self.dirty |= self.any_readers
             return
         if obj[0] in ('C', 'XC', 'XV', 'X'): return
-        if obj[0] == 'DA': off = None
+        if obj[0] in ('DA', 'EXP'): off = None
+        if obj in (('EXT',), ('EXP',)) or obj in self.exposed: self.expose(val)
         cell = self.M[obj]; old = cell.get(off, E)
         if not val <= old:
             if obj == ('D',) and off not in cell and off is not None: bisect.insort(self.dkeys, off)
@@ -371,30 +385,47 @@ class PT:
         return self._sv[f]
 
     def external(self, f):
-        """f can be called by code outside the DLL: every register and argument is external memory (P7)"""
+        """f can be called by code outside the DLL: every register and argument may be external memory or any
+        object the DLL has exposed (escape tracking)"""
+        self.ext_funcs.add(f)
         ch = False
         for r in GPR:
-            if not EXTV <= self.IN[f].get(r, E): self.IN[f][r] = self.IN[f].get(r, E) | EXTV; ch = True
-        for k in range(NARGS): self.write(('F', f), 4 + 4 * k, EXTV, f, None)
+            if not self.EXPV <= self.IN[f].get(r, E): self.IN[f][r] = self.IN[f].get(r, E) | self.EXPV; ch = True
+        for k in range(NARGS): self.write(('F', f), 4 + 4 * k, self.EXPV, f, None)
         if ch: self.dirty.add(f)
 
-    def slot_cands(self, k):
-        """P8: the functions stored at offset k of a table that starts at a referenced data address"""
-        if k not in self._slots:
-            c = set()
-            for r in self.refs:
-                o = r + k - self.im.base
-                if 0 <= o <= len(self.im.img) - 4:
-                    v = int.from_bytes(self.im.img[o:o + 4], 'little')
-                    if v in self.fns and v in self.taken: c.add(v)
-            self._slots[k] = frozenset(c)
-        return self._slots[k]
+    def objkey(self, o, off):
+        """the object a target belongs to, for exposure: a datum is its data object (P6)"""
+        if o == ('D',): return ('DA', self.base_of(off)) if off is not None else None
+        if o[0] in ('C', 'XC', 'XV', 'X', 'XM', 'U', 'EXT', 'API', 'EXP'): return None
+        return o
+
+    def expose(self, vals):
+        """objects that code outside the DLL can now reach"""
+        for o, off in vals:
+            k = self.objkey(o, off)
+            if k is not None and k not in self.exposed: self.exposed.add(k); self.exposed_new = True
+
+    def settle_exposure(self):
+        """close the exposed set over what exposed objects hold, then let outside code act: it may write
+        external or exposed values into every exposed object, pass them to every externally callable
+        function, and return them from every unknown call (applied between rounds; the fixpoint repeats
+        until nothing changes)"""
+        for f in self.ext_funcs: self.expose(self.EXIT[f].get('eax', E))
+        while self.exposed_new:
+            self.exposed_new = False
+            for k in list(self.exposed): self.expose(self.read(k, None, None))
+        # ('EXP',) stands for every exposed object: it holds what any of them holds, and what is written through
+        # it is in each of them (read() adds its cell to every exposed object)
+        for k in list(self.exposed): self.write(('EXP',), None, self.read(k, None, None, raw=True), None, None)
 
     # one function
     def run(self, f):
         irs, succ, dep, _ = self.fns[f]
         fr = ('F', f)
-        st = {f: ({r: self.IN[f].get(r, E) for r in GPR}, {})}
+        hub = self.HUB_IN if f in self.taken else {}
+        st = {f: ({r: self.IN[f].get(r, E) | hub.get(r, E) for r in GPR}, {})}
+        if f in self.taken: self.readers[('F', 'HUB')].add(f)
         work = [f]; escaped = False
         while work:
             a = work.pop(); regs, frame = st[a]; regs = dict(regs); frame = dict(frame); x = irs[a]
@@ -511,6 +542,8 @@ class PT:
                     if not v <= ex.get(r, E):
                         ex[r] = ex.get(r, E) | v
                         for c in self.callers[f]: self.dirty.add(c)
+                        if f in self.taken and r in self.clob.get(f, ()) and not v <= self.HUB_EXIT.get(r, E):
+                            self.HUB_EXIT[r] = self.HUB_EXIT.get(r, E) | v; self.dirty |= self.unk_callers
                 nxt = []
             if nxt is None:
                 self.unfollowed.add(f); nxt = []
@@ -571,17 +604,17 @@ class PT:
         if unknown:
             # an unknown target: a function at that slot of some table (P8) or address-taken, or code outside
             # the DLL (P7: it returns and writes external memory)
-            self.unk_calls[a] = f
-            cand = self.slot_cands(tgt[1][2]) if tgt[0] == 'M' and tgt[1][0] and not tgt[1][1] else self.taken
-            for g in cand:
-                self.callers[g].add(f)
-                for r in GPR:
-                    v = regs.get(r, E)
-                    if not v <= self.IN[g].get(r, E): self.IN[g][r] = self.IN[g].get(r, E) | v; self.dirty.add(g)
-                for k in range(NARGS): self.write(('F', g), 4 + 4 * k, args[k], f, None)
-                for r in self.clob.get(g, set(GPR)):
-                    res[r] = res.get(r, E) | self.EXIT[g].get(r, E); changed.add(r)
-            res['eax'] = res['eax'] | EXTV; res['edx'] = res['edx'] | EXTV
+            self.unk_calls[a] = f; self.unk_callers.add(f)
+            # one shared hub instead of an edge to each address-taken function: what any unknown call passes,
+            # every one of them receives; what any of them returns, every unknown call gets back
+            for r in GPR:
+                v = regs.get(r, E)
+                if not v <= self.HUB_IN.get(r, E):
+                    self.HUB_IN[r] = self.HUB_IN.get(r, E) | v; self.dirty |= self.taken
+            for k in range(NARGS): self.write(('F', 'HUB'), 4 + 4 * k, args[k], f, None)
+            for r in self.HUB_CLOB:
+                res[r] = res.get(r, E) | self.HUB_EXIT.get(r, E); changed.add(r)
+            res['eax'] = res['eax'] | self.EXPV; res['edx'] = res['edx'] | self.EXPV
             self.havoc_args(f, a, args, regs, deep=True)
         for r in changed: regs[r] = res.get(r, E)
         if base is not None and not tail:
@@ -597,11 +630,12 @@ class PT:
     def havoc_args(self, f, a, args, regs, deep):
         """an import or unknown callee: UNK (unknown callee) or API data (import) through every pointer it is
         given, one level; a function whose address it is given becomes externally callable"""
-        v = EXTV if deep else frozenset([(('API',), None)])
+        v = self.EXPV if deep else frozenset([(('API',), None)])
         given = set().union(*args) | regs.get('ecx', E) | regs.get('edx', E)
+        self.expose(given)
         for o, off in given:
             if o == ('C',) and off in self.fns: self.external(off); continue
-            if o[0] in ('C', 'XC', 'XV', 'X', 'U', 'EXT'): continue
+            if o[0] in ('C', 'XC', 'XV', 'X', 'U', 'EXT', 'EXP'): continue
             self.write(*lose(o, off), v, f, a)
             for o2, off2 in self.read(*lose(o, off), f) if deep else ():
                 if o2 == ('C',) and off2 in self.fns: self.external(off2)
@@ -611,9 +645,10 @@ class PT:
         while self.dirty and n < max_rounds:
             batch = sorted(self.dirty); self.dirty = set()
             for f in batch: self.run(f)
+            self.settle_exposure()
             n += 1
-            log('round %d: %d functions run, %d dirty, %d UNK stores, %d unknown calls, ANYW %d, %.0fs' % (
-                n, len(batch), len(self.dirty), len(self.unk_stores), len(self.unk_calls), len(self.ANYW), time.time() - t0))
+            log('round %d: %d functions run, %d dirty, %d UNK stores, %d unknown calls, ANYW %d, exposed %d, %.0fs' % (
+                n, len(batch), len(self.dirty), len(self.unk_stores), len(self.unk_calls), len(self.ANYW), len(self.exposed), time.time() - t0))
         return n
 
 

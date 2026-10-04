@@ -8,7 +8,8 @@
 #   facts      per-function facts read from the DLL: x87 constants, return kinds, consumed x87 results
 #   translate  Hex-Rays export -> one C++ unit per function (runs/RUN/raw), build, cast repairs
 #   cases      gate cases for every translated function
-#   gate       equivalence gate, original vs reconstruction (work queue, $JOBS workers, default one per core)
+#   gate       equivalence gate, original vs reconstruction (work queue, $JOBS workers, default one per core;
+#              verdicts of provably identical runs reused from runs/gate_cache, pipeline/gate_cache.py)
 #   clean      class-shaped tree from the passing functions -> runs/RUN/tree
 #   cleangate  gate the clean tree exactly as built; annotate each function with its result
 #   residue    RESIDUE.md: every graphics function not in the verified tree, with the reason
@@ -26,7 +27,7 @@ same_export() {
   echo "run.sh: $EXP is not the export runs/$RUN/raw was translated from ($(cut -d' ' -f1 "$W/raw/export.sha1")); pass that one" >&2; exit 1
 }
 gate2() {  # gate2 DLL CASES OUTPREFIX: a work queue of small chunks, $JOBS workers (default: one per core)
-  python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" > "$3.log" 2>&1
+  python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" --cache > "$3.log" 2>&1
 }
 case "$1" in
   test)          # the translator rules and the stack solver: fixed expectations, then the solver's self-test
@@ -54,7 +55,7 @@ case "$1" in
                  python3 "$P/repair_compile.py" "$W/raw" | tail -1; "$P/build_raw.sh" "$W/raw" | tail -1 ;;&
   cases|all)     same_export; python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"
                  python3 -c "import json,os;c=[x for x in json.load(open('$W/cases_all.json')) if os.path.exists('$W/raw/obj/fn_%s.o'%x['original'][2:])];json.dump(c,open('$W/cases.json','w'));print(len(c),'gateable')" ;;&
-  gate|all)      gate2 "$W/raw/gfx_raw.dll" "$W/cases.json" "$W/gate_raw" ;;&
+  gate|all)      gate2 "$W/raw/fndll" "$W/cases.json" "$W/gate_raw" ;;&      # one DLL per function (build_raw.sh)
   clean|all)     same_export; "$P/regen_clean.sh" "$EXP" "$GIN" "$W/tree" | tee "$W/tree.log"
                  grep -q 'failed: none$' "$W/tree.log" || { echo "run.sh: the clean tree does not build (runs/$RUN/tree/build/err)" >&2; exit 1; } ;;&
   cleangate|all) python3 "$P/map_clean_cases.py" "$W/tree/build/gfx_recon.dll" "$W/tree/placement.json" "$W/cases.json" "$W/cases_clean_all.json" | tail -1
@@ -65,7 +66,7 @@ case "$1" in
                  # LIVE="name=live.json ..." (live_state.py, one per verified dump): the raw translation (rawlive) or
                  # the clean tree as built (cleanlive) gated on each dump's real state, then combined with the fuzz
                  # gate (combine_gates.py: a FAIL anywhere is a FAIL) into gate_combined / gate_clean_combined
-                 same_export; K=${1%live}; D=raw/gfx_raw.dll; CS=cases.json; B=gate_raw
+                 same_export; K=${1%live}; D=raw/fndll; CS=cases.json; B=gate_raw
                  [ "$K" = clean ] && { D=tree/build/gfx_recon.dll; CS=cases_clean.json; B=gate_clean; }
                  L=()
                  for x in ${LIVE:?set LIVE=\"name=live.json ...\"}; do

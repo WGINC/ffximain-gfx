@@ -47,7 +47,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('run'); ap.add_argument('select', nargs='+')
     ap.add_argument('--jobs', type=int, default=os.cpu_count()); ap.add_argument('--trials', type=int, default=100)
-    ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=4)
+    ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=1)
     ap.add_argument('--dll', help='DLL to gate (default RUN/raw/gfx_raw.dll)')
     ap.add_argument('--cases', help='cases file (default RUN/cases.json)')
     ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
@@ -59,24 +59,63 @@ def main():
     cases = [c for c in json.load(open(casesf)) if norm(c['original']) in want]
     print('%d selected, %d gateable' % (len(want), len(cases)))
     dll = os.environ['FFXI_DLL']; base = os.path.join(run, a.out)
-    # small chunks handed out as workers free up: a few slow cases cannot strand the rest behind them
+    # one case per chunk, slowest first (times from earlier runs, runs/gate_times.json; a case never timed is
+    # taken to be slow), handed to whichever worker is free: the run ends close to total time / workers
+    # instead of waiting on a slow case that happened to come last. Order changes nothing a case sees.
+    tkey = 'live:' + os.path.basename(os.environ['FFXI_LIVE']) if os.environ.get('FFXI_LIVE') else 'fuzz'
+    tpath = os.path.join(ROOT, 'runs', 'gate_times.json')
+    try: times = json.load(open(tpath))
+    except (OSError, ValueError): times = {}
+    known = times.get(tkey, {})
+    cases.sort(key=lambda c: -known.get(norm(c['original']), 1e9))
     chunks = [cases[i:i + a.chunk] for i in range(0, len(cases), a.chunk)]
     for f in os.listdir(run):
         if f.startswith(os.path.basename(base) + '_') and f.endswith(('.json', '.jsonl', '.log')): os.remove(os.path.join(run, f))
-    running, k, res = [], 0, []
-    while k < len(chunks) or running:
-        while k < len(chunks) and len(running) < a.jobs:
-            cf, rf = '%s_c%d.json' % (base, k), '%s_%d.jsonl' % (base, k)
-            json.dump(chunks[k], open(cf, 'w'))
-            running.append((subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, a.dll or os.path.join(run, 'raw', 'gfx_raw.dll'),
-                                              cf, rf, '--trials', str(a.trials), '--seed', '11'] + (['--cache'] if a.cache else []),
-                                             stdout=open('%s_%d.log' % (base, k), 'w'), stderr=subprocess.STDOUT), rf))
-            k += 1
-        time.sleep(0.5)
-        for p_, rf in list(running):
-            if p_.poll() is not None:
-                running.remove((p_, rf))
-                if os.path.exists(rf): res += [json.loads(l) for l in open(rf)]
+    # long-lived workers (diffemu_gfx.py --serve), each handed the next chunk as soon as it finishes one:
+    # the start-up (imports, PE parses, opening the dump) is paid once per worker, not once per chunk
+    import selectors
+    cmd = [sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, a.dll or os.path.join(run, 'raw', 'gfx_raw.dll'),
+           '-', '-', '--trials', str(a.trials), '--seed', '11', '--serve'] + (['--cache'] if a.cache else [])
+    sel = selectors.DefaultSelector(); workers = []
+    for _ in range(min(a.jobs, len(chunks)) or 0):
+        w = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
+        sel.register(w.stdout, selectors.EVENT_READ, w); workers.append(w)
+    k, res, busy = 0, [], {}
+    def feed(w):
+        global_k = feed.k
+        if global_k >= len(chunks): return False
+        cf, rf = '%s_c%d.json' % (base, global_k), '%s_%d.jsonl' % (base, global_k)
+        json.dump(chunks[global_k], open(cf, 'w'))
+        w.stdin.write('%s %s\n' % (cf, rf)); w.stdin.flush(); busy[w] = rf; feed.k += 1
+        return True
+    feed.k = 0
+    for w in workers: feed(w)
+    while busy:
+        for key, _ in sel.select():
+            w = key.data; line = w.stdout.readline()
+            if not line:                                   # the worker died: its chunk has no results
+                sel.unregister(w.stdout); rf = busy.pop(w, None)
+                if rf: print('worker exited during %s' % rf)
+                continue
+            if not line.startswith('done '): continue
+            rf = busy.pop(w)
+            if os.path.exists(rf): res += [json.loads(l) for l in open(rf)]
+            if not feed(w): w.stdin.close()
+    for w in workers:
+        try: w.stdin.close()
+        except Exception: pass
+        w.wait()
+    for i in range(len(chunks)):
+        tf = '%s_%d.jsonl.times' % (base, i)
+        if os.path.exists(tf):
+            for l in open(tf):
+                o_, t_ = l.split(); known[norm(o_)] = float(t_)
+    times[tkey] = known
+    try:
+        json.dump(times, open(tpath + '.tmp', 'w'), indent=0, sort_keys=True); os.replace(tpath + '.tmp', tpath)
+    except OSError: pass
+    if feed.k < len(chunks) or len(res) < len(cases):
+        print('INCOMPLETE: %d of %d cases have results' % (len(res), len(cases)))
     with open(base + '.jsonl', 'w') as f:
         for r in res: f.write(json.dumps(r) + '\n')
     ref = reference()

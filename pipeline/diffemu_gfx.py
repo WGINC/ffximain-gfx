@@ -12,7 +12,7 @@ Additions, all applied identically to the original and the reconstruction:
     case "struct_globals": {"0xADDR": {"size": "0x478", "com": {"8": "IDirect3DDevice8"}}}
     puts a fuzzed struct there whose listed fields are fake objects (the D3D holder, CDx).
 """
-import bisect, json, os, random, struct, sys
+import bisect, json, os, random, struct, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 # Live mode (FFXI_LIVE=live.json from live_state.py): inputs come from a memory dump of the running game.
@@ -60,6 +60,31 @@ def _bound(v, sh, mk, lo, hi):
     f = (v >> sh) & mk
     return (v & ~(mk << sh) & 0xFFFFFFFF) | (((lo + f % (hi - lo + 1)) & mk) << sh)
 
+_EXEC_RANGES, _LIVE = {}, []
+
+
+def _exec_ranges(path):
+    """the executable sections of a PE file as address ranges, read once per process (per file version)"""
+    st = os.stat(path); key = (os.path.abspath(path), st.st_size, st.st_mtime_ns)
+    if key not in _EXEC_RANGES:
+        pe = pefile.PE(path, fast_load=True); r = []
+        for sec in pe.sections:
+            if sec.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
+                a = pe.OPTIONAL_HEADER.ImageBase + sec.VirtualAddress
+                r.append((a, a + max(sec.Misc_VirtualSize, sec.SizeOfRawData)))
+        _EXEC_RANGES[key] = r
+    return list(_EXEC_RANGES[key])
+
+
+def _live_state():
+    """the dump, opened once per process: LiveState only reads it (its one cache, the pops of foreign code it
+    has decoded, is a function of the dump's bytes), so every case of the process shares it"""
+    if not _LIVE:
+        import live_state
+        _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
+    return _LIVE[0]
+
+
 class GfxMachine(G.Machine):
     def __init__(self, game_dll, recon_dll, stubs=None, overlays=()):
         super().__init__(game_dll, recon_dll, stubs, overlays)
@@ -94,18 +119,12 @@ class GfxMachine(G.Machine):
         code = [(COM_TRAP, COM_TRAP + 0x100000), (FP_TRAMP, FP_TRAMP + 0x10),
                 (G.TRAP_BASE, G.TRAP_BASE + 0x10000), (G.RET_SENTINEL, G.RET_SENTINEL + G.PAGE)]
         for path in (game_dll, recon_dll):
-            if not path: continue
-            pe = pefile.PE(path, fast_load=True)
-            for sec in pe.sections:
-                if sec.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
-                    a = pe.OPTIONAL_HEADER.ImageBase + sec.VirtualAddress
-                    code.append((a, a + max(sec.Misc_VirtualSize, sec.SizeOfRawData)))
+            if path: code += _exec_ranges(path)
         self.foreign = []
         if LIVE_CFG:
             # live mode: the dump's other modules are not data (they are called through real objects'
             # vtables); execution there is trapped and answered like a stub (_on_foreign)
-            import live_state
-            self.live = live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map'])
+            self.live = _live_state()
             clash = [(G.TRAP_BASE, G.RET_SENTINEL + G.PAGE), (COM_BASE, ALLOC_BASE + ALLOC_SIZE),
                      (G.STACK_TOP - G.STACK_SIZE, G.STACK_TOP), (0x10000000, 0x11000000), (0x60000000, 0x61000000)]
             for fb, fs, fn in self.live.foreign:
@@ -1013,25 +1032,51 @@ def main():
     ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--only', default=None)
     ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
+    ap.add_argument('--serve', action='store_true',
+                    help='CASES and OUT are ignored; read "CASES OUT" pairs from stdin, one per line, and answer '
+                         '"done OUT" for each (one process for many chunks: gate_some.py)')
     o = ap.parse_args()
-    cases = json.load(open(o.cases))
+    if not o.serve:
+        gate_file(o, o.cases, o.out); return
+    # each case runs on an emulator of its own (batches(size=1)) and nothing a case sees depends on the
+    # cases run before it in the process (checked: one process for many cases gives the same bytes as one
+    # process per case), so a worker only saves the start-up: imports, PE parses, the dump
+    for line in sys.stdin:
+        if not line.strip(): continue
+        cf, of = line.split()
+        with open(of + '.log', 'w') as log:
+            so = sys.stdout; sys.stdout = log
+            try: gate_file(o, cf, of)
+            except Exception as e: print('worker error: %r' % e)
+            finally: sys.stdout = so
+        print('done', of, flush=True)
+
+
+_GC_STATE = {}
+
+
+def gate_file(o, cases_path, out_path):
+    """gate every case of one cases file into out_path (resuming: cases already in out_path are skipped)"""
+    cases = json.load(open(cases_path))
     if o.only: cases = [c for c in cases if c['original'].lower() in o.only.lower().split(',')]
     done = set()
-    if os.path.exists(o.out):
-        done = {json.loads(l)['candidate'] for l in open(o.out)}
+    if os.path.exists(out_path):
+        done = {json.loads(l)['candidate'] for l in open(out_path)}
     cases = [c for c in cases if c['candidate'] not in done]
-    f = open(o.out, 'a'); k = 0
+    f = open(out_path, 'a'); k = 0
     # gate_cache: a verdict is reused only when the run would be the same run (see gate_cache.py)
     use_cache = o.cache
     if use_cache:
         import gate_cache as GC
-        base = GC.base_key(o.game, os.environ.get('FFXI_LIVE')); images = {}; hits = 0
-        site_pops_init()
+        if not _GC_STATE:
+            _GC_STATE.update(base=GC.base_key(o.game, os.environ.get('FFXI_LIVE')), images={}); site_pops_init()
+        base, images = _GC_STATE['base'], _GC_STATE['images']; hits = 0
     for chunk, stubs in batches(cases):
         # RECON may be a directory of per-function DLLs (build_raw.sh: fndll/fn_<address>.dll)
         recon = os.path.join(o.recon, 'fn_%08X.dll' % int(chunk[0]['original'], 16)) if os.path.isdir(o.recon) else o.recon
         if use_cache:
-            img = images.get(recon) or images.setdefault(recon, GC.Image(recon))
+            st = os.stat(recon); ik = (recon, st.st_size, st.st_mtime_ns)     # a worker outlives files: key by version
+            img = images.get(ik) or images.setdefault(ik, GC.Image(recon))
             c = chunk[0]; key = GC.case_key(base, c, o.trials, o.seed)
             r = GC.lookup(key, img, _CALLSITES) if len(chunk) == 1 else None
             if r is not None:
@@ -1039,6 +1084,7 @@ def main():
                 print('%d/%d (cached)' % (k, len(cases)), flush=True); continue
         m = GfxMachine(o.game, recon, stubs, [])
         tr = GC.Tracker(m) if use_cache else None
+        t0 = time.time()
         for c in chunk:
             try:
                 r = run_case(m, c, o.trials, o.seed)
@@ -1048,8 +1094,11 @@ def main():
             if tr is not None and len(chunk) == 1 and r.get('verdict') != 'ERROR':
                 GC.store(key, tr.deps(img, _CALLSITES), r)
             f.write(json.dumps(r) + '\n'); f.flush()
+        with open(out_path + '.times', 'a') as tf:
+            tf.write('%s %.3f\n' % (chunk[0]['original'], (time.time() - t0) / len(chunk)))
         k += len(chunk)
         print('%d/%d' % (k, len(cases)), flush=True)
+    f.close()
 
 if __name__ == '__main__':
     main()

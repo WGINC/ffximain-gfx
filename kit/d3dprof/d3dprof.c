@@ -20,10 +20,14 @@
    through and counted in other_thread_calls (the header says nothing about D3D8 thread use here, so it
    is measured, not assumed).
 
-   Build: i686-w64-mingw32-gcc -O2 -shared -o d3dprof.dll d3dprof.c -Wl,--kill-at  (kit/d3dprof/build.sh) */
+   Build (32-bit, like the game):
+     MSVC:  cmake -B build -A Win32 && cmake --build build --config Release   (CMakeLists.txt)
+            or, in an x86 Developer Command Prompt:  cl /O2 /LD d3dprof.c
+     MinGW: build.sh */
 #include <windows.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 
 #define ANALYSED_BASE 0x10000000u
 #define ANALYSED_TIMESTAMP 0x6A995428u
@@ -163,6 +167,21 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
 
 /* one thunk per slot: EAX = slot (EAX is not preserved across a stdcall method anyway), then the common
    path, which leaves the stack exactly as the caller made it and jumps to the original method */
+#ifdef _MSC_VER
+/* MSVC (x86 only: inline assembly and naked functions do not exist for x64, and the game is 32-bit) */
+static __declspec(naked) void d3dprof_common(void) {
+  __asm {
+    mov ecx, esp
+    push ecx
+    push eax
+    call d3dprof_record
+    add esp, 8
+    jmp eax
+  }
+}
+#define T(k) static __declspec(naked) void d3dprof_t##k(void) { __asm mov eax, k __asm jmp d3dprof_common }
+#else
+/* GCC / MinGW */
 __asm__(
   ".intel_syntax noprefix\n"
   "d3dprof_common:\n"
@@ -175,6 +194,7 @@ __asm__(
   ".att_syntax\n");
 #define T(k) __asm__(".intel_syntax noprefix\n.globl _d3dprof_t" #k "\n_d3dprof_t" #k ":\n  mov eax, " #k "\n  jmp d3dprof_common\n.att_syntax\n"); \
              extern void d3dprof_t##k(void);
+#endif
 #define T10(d) T(d##0) T(d##1) T(d##2) T(d##3) T(d##4) T(d##5) T(d##6) T(d##7) T(d##8) T(d##9)
 T(0) T(1) T(2) T(3) T(4) T(5) T(6) T(7) T(8) T(9)
 T10(1) T10(2) T10(3) T10(4) T10(5) T10(6) T10(7) T10(8)

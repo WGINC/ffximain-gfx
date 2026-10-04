@@ -5,7 +5,17 @@ Tools that run inside the game process. Each one checks first that FFXiMain.dll 
 
 ## d3dprof: a per-frame profile of the Direct3D 8 calls
 
-`d3dprof/d3dprof.dll` (build: `d3dprof/build.sh`; MinGW, 32-bit like the game) records every call on the
+Build it 32-bit, like the game:
+- Visual Studio: `cmake -B build -A Win32` then `cmake --build build --config Release`
+  (`build\Release\d3dprof.dll`). The static runtime is used, so no redistributable is needed.
+- MinGW: `build.sh`.
+
+The thunks are x86 inline assembly in both forms (MSVC naked functions, GCC top-level asm). Checks:
+- the MinGW build is run in Unicorn by `test_thunks.py`;
+- the MSVC form is compiled with clang in MSVC mode (`--target=i686-pc-windows-msvc -fasm-blocks`), and
+  the thunks come out as the same instructions.
+
+`d3dprof/d3dprof.dll` records every call on the
 device. It finds the device through `[[g_pCDx]+0xC]` (0x1045666C in the analysed image, rebased to where the
 game's DLL is loaded) and gives that one object a copy of its vtable that counts each call. The driver's
 own vtable and the game's code are not written.

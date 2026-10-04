@@ -5033,5 +5033,19 @@
   "confidence": "high",
   "evidence": "PS2 counterpart (SCUS_972.66): ActerBuffPtr (PS2's spelling), the actor pointer table (xiatelnet.cpp and 30 other units). PS2 EventIdle__7XiEventFv and PC 0x100BCD10 (the same function: a 16-entry minimum search, two byte flags, then the table) both read table[this->actorIndex] and clear the same flag bit in that actor (PS2 bit 1 of byte +246, PC bit 17 of dword +0x124). IDA's int[16] is its guess: the PC code indexes it by actor index (931 references)",
   "kind": "global"
+ },
+ "0x1045F064": {
+  "old": "unk_1045F064",
+  "name": "g_poseScratch_bone1",
+  "confidence": "high",
+  "evidence": "DancingMad (FINDINGS.md 18.15, ffxi_symbols_ida.py): g_poseScratch at 0x1045F030 is the per-bone pose scratch, 52 bytes per bone (quaternion +0, translation +0x10, scale +0x1C); 0x1045F064 = 0x1045F030 + 52 is bone 1's record. CXiSkeletonActor_PoseCompose takes its address twice",
+  "kind": "global"
+ },
+ "0x10455C20": {
+  "old": "dword_10455C20",
+  "name": "g_pAppInputState",
+  "confidence": "medium",
+  "evidence": "DancingMad (FINDINGS.md 10, DirectInput table): sub_10001BB0 allocates this 0xDC4-byte object; sub_100058F0 calls DirectInput8Create(hinst, 0x800, IID_IDirectInput8, this+132) and the keyboard, mouse and force-feedback joystick are installed into it; +0xDB4/+0xDBC are the rumble accumulator and its dirty flag (DirectInput_ApplyRumble). DancingMad calls it a generic app-settings singleton; what else it holds is open, hence medium",
+  "kind": "global"
  }
 }

@@ -3318,6 +3318,18 @@
    "name": "ActerBuffPtr",
    "confidence": "high",
    "evidence": "PS2 counterpart (SCUS_972.66): ActerBuffPtr (PS2's spelling), the actor pointer table (xiatelnet.cpp and 30 other units). PS2 EventIdle__7XiEventFv and PC 0x100BCD10 (the same function: a 16-entry minimum search, two byte flags, then the table) both read table[this->actorIndex] and clear the same flag bit in that actor (PS2 bit 1 of byte +246, PC bit 17 of dword +0x124). IDA's int[16] is its guess: the PC code indexes it by actor index (931 references)"
+  },
+  "0x1045F064": {
+   "old": "unk_1045F064",
+   "name": "g_poseScratch_bone1",
+   "confidence": "high",
+   "evidence": "DancingMad (FINDINGS.md 18.15, ffxi_symbols_ida.py): g_poseScratch at 0x1045F030 is the per-bone pose scratch, 52 bytes per bone (quaternion +0, translation +0x10, scale +0x1C); 0x1045F064 = 0x1045F030 + 52 is bone 1's record. CXiSkeletonActor_PoseCompose takes its address twice"
+  },
+  "0x10455C20": {
+   "old": "dword_10455C20",
+   "name": "g_pAppInputState",
+   "confidence": "medium",
+   "evidence": "DancingMad (FINDINGS.md 10, DirectInput table): sub_10001BB0 allocates this 0xDC4-byte object; sub_100058F0 calls DirectInput8Create(hinst, 0x800, IID_IDirectInput8, this+132) and the keyboard, mouse and force-feedback joystick are installed into it; +0xDB4/+0xDBC are the rumble accumulator and its dirty flag (DirectInput_ApplyRumble). DancingMad calls it a generic app-settings singleton; what else it holds is open, hence medium"
   }
  },
  "unnamed": {
@@ -3344,10 +3356,6 @@
   "0x10352D2C": {
    "old": "flt_10352D2C",
    "why": "low: only used as the end address of the 12-byte point array g_projTextQuad (0x10352CFC + 48); its own use is not in the export"
-  },
-  "0x10455C20": {
-   "old": "dword_10455C20",
-   "why": "low: an object pointer used 45 times (fields +3508 accumulated, +3516 flag; passed to sub_10008830/sub_10005A40/sub_100088F0 in Frame_Render) written by 0x100013C0, 0x10001BB0 and 0x10005720, which are outside the export; what object it is is not established"
   },
   "0x1045691C": {
    "old": "dword_1045691C",
@@ -3520,10 +3528,6 @@
   "0x1045B814": {
    "old": "word_1045B814",
    "why": "low: a 16-bit value from a virtual call (+992) compared by 0x10033DA0; not established"
-  },
-  "0x1045F064": {
-   "old": "unk_1045F064",
-   "why": "low: a buffer CXiSkeletonActor_PoseCompose walks; not established"
   },
   "0x10463950": {
    "old": "dword_10463950",

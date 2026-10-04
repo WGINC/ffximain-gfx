@@ -225,6 +225,18 @@ static void *const THUNKS[NSLOTS] = {P(0), P(1), P(2), P(3), P(4), P(5), P(6), P
   P10(1), P10(2), P10(3), P10(4), P10(5), P10(6), P10(7), P10(8),
   P(90), P(91), P(92), P(93), P(94), P(95), P(96)};
 
+#ifdef XIKIT
+/* built into the in-game kit (kit/xikit): no thread of its own; the kit finds the device and calls this. The
+   device's current vtable (the kit's copy) becomes what every thunk calls on to, so the two chain. */
+void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv) {
+  snprintf(g_out, sizeof g_out, "%s", csv);
+  g_rel = rel; g_lo = lo; g_hi = hi;
+  QueryPerformanceFrequency(&g_qpf); forget_state();
+  g_orig = (void **)*dev;
+  for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
+  *(void ***)dev = g_vt;
+}
+#else
 static void log_line(const char *msg) {
   FILE *f = fopen(g_out, "a");
   if (f) { fprintf(f, "# %s\n", msg); fclose(f); }
@@ -263,3 +275,4 @@ BOOL WINAPI DllMain(HINSTANCE h, DWORD why, LPVOID r) {
   if (why == DLL_PROCESS_ATTACH) { DisableThreadLibraryCalls(h); CloseHandle(CreateThread(NULL, 0, start, h, 0, NULL)); }
   return TRUE;
 }
+#endif

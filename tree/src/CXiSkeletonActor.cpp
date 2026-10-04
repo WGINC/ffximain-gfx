@@ -329,7 +329,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         if ( v7 > 1 )
         {
           v11 = 64;
-          v12 = (float *)&unk_1045F064;
+          v12 = (float *)&g_poseScratch_bone1;
           do
           {
             if ( g_boneTouched[v8] == 0 )
@@ -372,7 +372,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
       if ( v7 > 1 )
       {
         v16 = 64;
-        v17 = (float *)&unk_1045F064;
+        v17 = (float *)&g_poseScratch_bone1;
         v21 = v7 - 1;
         do
         {

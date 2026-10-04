@@ -726,7 +726,7 @@ The other 7 do not decide anything:
 The 140 others stay unnamed. The large shared objects among them (`0x104DFD98` with 1,071 references,
 `0x10480AF0` with 931) are used mostly by functions that have no PS2 pair.
 
-## 4 Oct 2026: the easy ones of the remaining 140 (30 named)
+## 4 Oct 2026: the easy ones of the remaining 140 (32 named)
 
 Sources, each definitive on its own terms:
 - **The settings table (5).** The settings loader 0x100179E0 walks the table at 0x103507D8: 31 entries
@@ -764,7 +764,15 @@ Corrections:
 - The evidence of the `Fn1006C530_quadVerts2_*` names said "colour = a2 at +16". The code writes a2 to +8,
   the z of each vertex. The names were right and the evidence text was wrong.
 
-The 110 left need more than one decisive fact each. Most belong to the large shared objects (0x104DFD98
+- **DancingMad (2).** The owner's DancingMad repository (`FINDINGS.md`, `ffxi_symbols_ida.py`):
+  - `g_poseScratch_bone1` (0x1045F064, high): DancingMad's `g_poseScratch` at 0x1045F030 is the per-bone pose
+    scratch, 52 bytes per bone, so 0x1045F064 is bone 1's record. `CXiSkeletonActor_PoseCompose` takes its
+    address twice.
+  - `g_pAppInputState` (0x10455C20, medium): the 0xDC4-byte object that holds the DirectInput8 interface
+    (`this+132`) and the keyboard, mouse and force-feedback joystick, with the rumble accumulator at +0xDB4.
+    What else it holds is open, hence medium.
+
+The 108 left need more than one decisive fact each. Most belong to the large shared objects (0x104DFD98
 with 1,071 references, 0x104E1D44 with 259, 0x1057847C with 161), whose users are mostly outside the export
 and have no PS2 pair.
 

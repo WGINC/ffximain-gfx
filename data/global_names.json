@@ -1,0 +1,3703 @@
+{
+ "_about": "global naming round of 4 Oct 2026 (docs/NAMES.md): every unnamed global the export references, from pipeline/global_dossier.py; named ones are also in names_pending_idb.json",
+ "named": {
+  "0x1032A460": {
+   "old": "stru_1032A460",
+   "name": "Vtbl_1032A460",
+   "confidence": "high",
+   "evidence": "a vtable: sub_10025260 and 0x100252F0 store its address as *this; slot 0 is CYyModelDt_VT_1032A430_ScalarDeletingDtor_2; its class has no name yet"
+  },
+  "0x1032A844": {
+   "old": "off_1032A844",
+   "name": "Vtbl_1032A844",
+   "confidence": "high",
+   "evidence": "a vtable: sub_10033710 and 0x100337C0 store its address as *this; its class has no name yet"
+  },
+  "0x1032B804": {
+   "old": "dword_1032B804",
+   "name": "c_motionCodes_btl",
+   "confidence": "high",
+   "evidence": ".rdata int[4] holding the four-character codes 'btl ','1tl ','2tl ','3tl '; CMoSchedularTask_Interpret indexes it by a variant number"
+  },
+  "0x1032B814": {
+   "old": "dword_1032B814",
+   "name": "c_motionCodes_idl",
+   "confidence": "high",
+   "evidence": ".rdata int[4] holding 'idl ','1dl ','2dl ','3dl '; indexed by CMoSchedularTask_Interpret"
+  },
+  "0x1032B824": {
+   "old": "dword_1032B824",
+   "name": "c_motionCodes_run",
+   "confidence": "high",
+   "evidence": ".rdata int[4] holding 'run ','1un ','2un ','3un '; indexed by CMoSchedularTask_Interpret"
+  },
+  "0x1032B834": {
+   "old": "dword_1032B834",
+   "name": "c_motionCodes_wlk",
+   "confidence": "high",
+   "evidence": ".rdata int[4] holding 'wlk ','1lk ','2lk ','3lk '; indexed by CMoSchedularTask_Interpret"
+  },
+  "0x103428EC": {
+   "old": "unk_103428EC",
+   "name": "IID_IDirect3DVolumeTexture8",
+   "confidence": "high",
+   "evidence": "16 bytes equal to IID_IDirect3DVolumeTexture8 in d3d8.h (4B8AAAFA-140F-42BA-9131-597EAFAA2EAD); passed as the riid of GetContainer in D3DX's CD3DXLockVolume::Lock"
+  },
+  "0x1034290C": {
+   "old": "unk_1034290C",
+   "name": "IID_IDirect3DTexture8",
+   "confidence": "high",
+   "evidence": "16 bytes equal to IID_IDirect3DTexture8 in d3d8.h (E4CDD575-2866-4F01-B12E-7EECE1EC9358); riid of GetContainer in CD3DXLockSurface::Lock"
+  },
+  "0x1034291C": {
+   "old": "unk_1034291C",
+   "name": "IID_IDirect3DBaseTexture8",
+   "confidence": "high",
+   "evidence": "16 bytes equal to IID_IDirect3DBaseTexture8 in d3d8.h (B4211CFA-51B9-4A9F-AB78-DB99B2BB678E); riid of GetContainer in CD3DXLockSurface::Lock"
+  },
+  "0x1034F2B8": {
+   "old": "word_1034F2B8",
+   "name": "c_strSpace",
+   "confidence": "high",
+   "evidence": "the bytes are the string \" \" (0x20 0x00); passed as the text to Font_QueueText and pushed by 31 call sites"
+  },
+  "0x1034F698": {
+   "old": "off_1034F698",
+   "name": "g_deviceFormatPairsByDepth",
+   "confidence": "medium",
+   "evidence": "2 pointers to lists of (back buffer, depth) D3DFORMAT pairs: 0x1034F650 = X8R8G8B8/D24S8, A8R8G8B8/D24S8, ...; 0x1034F670 = X1R5G5B5/D16, A1R5G5B5/D16, R5G6B5/D16, ...; Gfx_TryCreateDeviceForMode indexes it by its argument a8"
+  },
+  "0x1034F6C0": {
+   "old": "unk_1034F6C0",
+   "name": "g_debugAxisLineVerts",
+   "confidence": "medium",
+   "evidence": "vertex data for CDx_DrawPrimitiveUP(LINELIST, 3 lines, stride 16) after SetVertexShader(0x42 = XYZ|DIFFUSE) in sub_10003890, which first sets the world transform from an object's position and Y rotation: 3 lines drawn at an object"
+  },
+  "0x1034F720": {
+   "old": "unk_1034F720",
+   "name": "g_debugLineVerts",
+   "confidence": "medium",
+   "evidence": "vertex data for CDx_DrawPrimitiveUP(LINELIST, 1 line, stride 16) in sub_10003890; vertex 0 at +0, its colour at 0x1034F72C, vertex 1 at 0x1034F730"
+  },
+  "0x1034F72C": {
+   "old": "dword_1034F72C",
+   "name": "g_debugLineVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "offset 12 of the first 16-byte XYZ|DIFFUSE vertex of g_debugLineVerts (0x1034F720); sub_10003890 writes it from a virtual call's result"
+  },
+  "0x1034F730": {
+   "old": "flt_1034F730",
+   "name": "g_debugLineVerts_v1",
+   "confidence": "medium",
+   "evidence": "second vertex of g_debugLineVerts (0x1034F720 + 16); sub_10003890 writes its position with Vec3_Sub"
+  },
+  "0x1034F740": {
+   "old": "flt_1034F740",
+   "name": "g_debugTextQuad_p0_x",
+   "confidence": "medium",
+   "evidence": "Debug_DrawWorldText writes four corners of a box as 12-byte points from 0x1034F740 (x, y at +0/+4) and passes the array on: corner 0 x"
+  },
+  "0x1034F744": {
+   "old": "flt_1034F744",
+   "name": "g_debugTextQuad_p0_y",
+   "confidence": "medium",
+   "evidence": "corner 0 y of the 12-byte point array at 0x1034F740 (Debug_DrawWorldText)"
+  },
+  "0x1034F74C": {
+   "old": "flt_1034F74C",
+   "name": "g_debugTextQuad_p1_x",
+   "confidence": "medium",
+   "evidence": "corner 1 x (0x1034F740 + 12), Debug_DrawWorldText"
+  },
+  "0x1034F750": {
+   "old": "flt_1034F750",
+   "name": "g_debugTextQuad_p1_y",
+   "confidence": "medium",
+   "evidence": "corner 1 y, Debug_DrawWorldText"
+  },
+  "0x1034F758": {
+   "old": "flt_1034F758",
+   "name": "g_debugTextQuad_p2_x",
+   "confidence": "medium",
+   "evidence": "corner 2 x (0x1034F740 + 24), Debug_DrawWorldText"
+  },
+  "0x1034F75C": {
+   "old": "flt_1034F75C",
+   "name": "g_debugTextQuad_p2_y",
+   "confidence": "medium",
+   "evidence": "corner 2 y, Debug_DrawWorldText"
+  },
+  "0x1034F764": {
+   "old": "flt_1034F764",
+   "name": "g_debugTextQuad_p3_x",
+   "confidence": "medium",
+   "evidence": "corner 3 x (0x1034F740 + 36), Debug_DrawWorldText"
+  },
+  "0x1034F768": {
+   "old": "flt_1034F768",
+   "name": "g_debugTextQuad_p3_y",
+   "confidence": "medium",
+   "evidence": "corner 3 y, Debug_DrawWorldText"
+  },
+  "0x1034FDF0": {
+   "old": "flt_1034FDF0",
+   "name": "g_fadeQuadVerts",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +0 = x)"
+  },
+  "0x1034FDF4": {
+   "old": "flt_1034FDF4",
+   "name": "g_fadeQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +4 = y)"
+  },
+  "0x1034FE00": {
+   "old": "dword_1034FE00",
+   "name": "g_fadeQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +16 = color)"
+  },
+  "0x1034FE04": {
+   "old": "flt_1034FE04",
+   "name": "g_fadeQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +0 = x)"
+  },
+  "0x1034FE08": {
+   "old": "flt_1034FE08",
+   "name": "g_fadeQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +4 = y)"
+  },
+  "0x1034FE14": {
+   "old": "dword_1034FE14",
+   "name": "g_fadeQuadVerts_v1_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +16 = color)"
+  },
+  "0x1034FE18": {
+   "old": "flt_1034FE18",
+   "name": "g_fadeQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +0 = x)"
+  },
+  "0x1034FE1C": {
+   "old": "flt_1034FE1C",
+   "name": "g_fadeQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +4 = y)"
+  },
+  "0x1034FE28": {
+   "old": "dword_1034FE28",
+   "name": "g_fadeQuadVerts_v2_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +16 = color)"
+  },
+  "0x1034FE2C": {
+   "old": "flt_1034FE2C",
+   "name": "g_fadeQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +0 = x)"
+  },
+  "0x1034FE30": {
+   "old": "flt_1034FE30",
+   "name": "g_fadeQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +4 = y)"
+  },
+  "0x1034FE3C": {
+   "old": "dword_1034FE3C",
+   "name": "g_fadeQuadVerts_v3_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawFadeQuad fills 4 vertices of 20 bytes from 0x1034FDF0 (x, y from the current render-target rectangle, colour at +16) and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +16 = color)"
+  },
+  "0x1034FE40": {
+   "old": "flt_1034FE40",
+   "name": "g_tintQuadVerts",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +0 = x)"
+  },
+  "0x1034FE44": {
+   "old": "flt_1034FE44",
+   "name": "g_tintQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +4 = y)"
+  },
+  "0x1034FE50": {
+   "old": "unk_1034FE50",
+   "name": "g_tintQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +16 = color)"
+  },
+  "0x1034FE54": {
+   "old": "flt_1034FE54",
+   "name": "g_tintQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +0 = x)"
+  },
+  "0x1034FE58": {
+   "old": "flt_1034FE58",
+   "name": "g_tintQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +4 = y)"
+  },
+  "0x1034FE68": {
+   "old": "flt_1034FE68",
+   "name": "g_tintQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +0 = x)"
+  },
+  "0x1034FE6C": {
+   "old": "flt_1034FE6C",
+   "name": "g_tintQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +4 = y)"
+  },
+  "0x1034FE7C": {
+   "old": "flt_1034FE7C",
+   "name": "g_tintQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +0 = x)"
+  },
+  "0x1034FE80": {
+   "old": "flt_1034FE80",
+   "name": "g_tintQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1000AEA0 (a CDx method) fills 4 vertices of 20 bytes from 0x1034FE40 with the render-target rectangle and one colour built from its floats at +380..+388 with alpha 0x80, and draws them with SetVertexShader(0x44 = XYZRHW|DIFFUSE), DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +4 = y)"
+  },
+  "0x1034F8E0": {
+   "old": "word_1034F8E0",
+   "name": "c_strBackslash",
+   "confidence": "high",
+   "evidence": "the bytes are the string \"\\\\\" (0x5C 0x00); CDx_Initialize and two others copy it as a WORD to end a directory path"
+  },
+  "0x1034FE90": {
+   "old": "flt_1034FE90",
+   "name": "g_invertQuadVerts",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 0, +0 = x)"
+  },
+  "0x1034FE94": {
+   "old": "flt_1034FE94",
+   "name": "g_invertQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 0, +4 = y)"
+  },
+  "0x1034FEA0": {
+   "old": "dword_1034FEA0",
+   "name": "g_invertQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 0, +16 = color)"
+  },
+  "0x1034FEA4": {
+   "old": "flt_1034FEA4",
+   "name": "g_invertQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 1, +0 = x)"
+  },
+  "0x1034FEA8": {
+   "old": "flt_1034FEA8",
+   "name": "g_invertQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 1, +4 = y)"
+  },
+  "0x1034FEB8": {
+   "old": "flt_1034FEB8",
+   "name": "g_invertQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 2, +0 = x)"
+  },
+  "0x1034FEBC": {
+   "old": "flt_1034FEBC",
+   "name": "g_invertQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 2, +4 = y)"
+  },
+  "0x1034FECC": {
+   "old": "flt_1034FECC",
+   "name": "g_invertQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 3, +0 = x)"
+  },
+  "0x1034FED0": {
+   "old": "flt_1034FED0",
+   "name": "g_invertQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B1B0 (a CDx method) sets every vertex colour to 0xFFFFFFFF, SRCBLEND=INVDESTCOLOR, DESTBLEND=ZERO, fills 4 vertices of 20 bytes from 0x1034FE90 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20): a quad that inverts the screen (vertex 3, +4 = y)"
+  },
+  "0x1034FEE0": {
+   "old": "flt_1034FEE0",
+   "name": "g_texturedQuadVerts",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +0 = x)"
+  },
+  "0x1034FEE4": {
+   "old": "flt_1034FEE4",
+   "name": "g_texturedQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +4 = y)"
+  },
+  "0x1034FEF0": {
+   "old": "dword_1034FEF0",
+   "name": "g_texturedQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +16 = color)"
+  },
+  "0x1034FEFC": {
+   "old": "flt_1034FEFC",
+   "name": "g_texturedQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +0 = x)"
+  },
+  "0x1034FF00": {
+   "old": "dword_1034FF00",
+   "name": "g_texturedQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +4 = y)"
+  },
+  "0x1034FF10": {
+   "old": "flt_1034FF10",
+   "name": "g_texturedQuadVerts_v1_u",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +20 = u)"
+  },
+  "0x1034FF18": {
+   "old": "dword_1034FF18",
+   "name": "g_texturedQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +0 = x)"
+  },
+  "0x1034FF1C": {
+   "old": "flt_1034FF1C",
+   "name": "g_texturedQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +4 = y)"
+  },
+  "0x1034FF30": {
+   "old": "flt_1034FF30",
+   "name": "g_texturedQuadVerts_v2_v",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +24 = v)"
+  },
+  "0x1034FF34": {
+   "old": "flt_1034FF34",
+   "name": "g_texturedQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +0 = x)"
+  },
+  "0x1034FF38": {
+   "old": "flt_1034FF38",
+   "name": "g_texturedQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +4 = y)"
+  },
+  "0x1034FF48": {
+   "old": "flt_1034FF48",
+   "name": "g_texturedQuadVerts_v3_u",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +20 = u)"
+  },
+  "0x1034FF4C": {
+   "old": "flt_1034FF4C",
+   "name": "g_texturedQuadVerts_v3_v",
+   "confidence": "medium",
+   "evidence": "sub_1000B460 (a CDx method) fills 4 vertices of 28 bytes from 0x1034FEE0 (position from the render-target rectangle minus 0.5, colour 0x808080 with alpha from its argument, texture coordinates at +20/+24) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +24 = v)"
+  },
+  "0x1034FF50": {
+   "old": "flt_1034FF50",
+   "name": "g_colorBlendQuadVerts",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +0 = x)"
+  },
+  "0x1034FF54": {
+   "old": "flt_1034FF54",
+   "name": "g_colorBlendQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +4 = y)"
+  },
+  "0x1034FF60": {
+   "old": "dword_1034FF60",
+   "name": "g_colorBlendQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 0, +16 = color)"
+  },
+  "0x1034FF64": {
+   "old": "flt_1034FF64",
+   "name": "g_colorBlendQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +0 = x)"
+  },
+  "0x1034FF68": {
+   "old": "flt_1034FF68",
+   "name": "g_colorBlendQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 1, +4 = y)"
+  },
+  "0x1034FF78": {
+   "old": "flt_1034FF78",
+   "name": "g_colorBlendQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +0 = x)"
+  },
+  "0x1034FF7C": {
+   "old": "flt_1034FF7C",
+   "name": "g_colorBlendQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 2, +4 = y)"
+  },
+  "0x1034FF8C": {
+   "old": "flt_1034FF8C",
+   "name": "g_colorBlendQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +0 = x)"
+  },
+  "0x1034FF90": {
+   "old": "flt_1034FF90",
+   "name": "g_colorBlendQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1000B7C0 sets SRCBLEND=SRCCOLOR, DESTBLEND=INVSRCCOLOR, a colour from pow(0.3765, 1/x)*255 in every vertex, fills 4 vertices of 20 bytes from 0x1034FF50 with the render-target rectangle and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 20) (vertex 3, +4 = y)"
+  },
+  "0x103501AC": {
+   "old": "flt_103501AC",
+   "name": "g_flashQuadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 0, +4 = y)"
+  },
+  "0x103501B8": {
+   "old": "unk_103501B8",
+   "name": "g_flashQuadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 0, +16 = color)"
+  },
+  "0x103501BC": {
+   "old": "flt_103501BC",
+   "name": "g_flashQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 1, +0 = x)"
+  },
+  "0x103501C0": {
+   "old": "flt_103501C0",
+   "name": "g_flashQuadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 1, +4 = y)"
+  },
+  "0x103501D0": {
+   "old": "flt_103501D0",
+   "name": "g_flashQuadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 2, +0 = x)"
+  },
+  "0x103501D4": {
+   "old": "flt_103501D4",
+   "name": "g_flashQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 2, +4 = y)"
+  },
+  "0x103501E4": {
+   "old": "flt_103501E4",
+   "name": "g_flashQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 3, +0 = x)"
+  },
+  "0x103501E8": {
+   "old": "flt_103501E8",
+   "name": "g_flashQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "Post_FlashAndZoomFeedback fills 4 vertices of 20 bytes from 0x103501A8 with the render-target rectangle and a colour from its object (+0x324) at +16 of each, then draws a full-screen quad (vertex 3, +4 = y)"
+  },
+  "0x10350748": {
+   "old": "flt_10350748",
+   "name": "g_rampGraphVerts",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 0, +0 = x)"
+  },
+  "0x1035074C": {
+   "old": "flt_1035074C",
+   "name": "g_rampGraphVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 0, +4 = y)"
+  },
+  "0x10350758": {
+   "old": "dword_10350758",
+   "name": "g_rampGraphVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 0, +16 = color)"
+  },
+  "0x1035075C": {
+   "old": "flt_1035075C",
+   "name": "g_rampGraphVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 1, +0 = x)"
+  },
+  "0x10350760": {
+   "old": "flt_10350760",
+   "name": "g_rampGraphVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 1, +4 = y)"
+  },
+  "0x1035076C": {
+   "old": "dword_1035076C",
+   "name": "g_rampGraphVerts_v1_color",
+   "confidence": "medium",
+   "evidence": "sub_10017310 draws 255 line segments, x = i*2.5, y = 480 - sample/65535*480 from a table of 256 unsigned 16-bit samples (the size and range of one channel of a D3D gamma ramp), each from the 2 vertices of 20 bytes at 0x10350748 (SetVertexShader 0x44 = XYZRHW|DIFFUSE, colour = its second argument) (vertex 1, +16 = color)"
+  },
+  "0x1034FFB8": {
+   "old": "word_1034FFB8",
+   "name": "c_strSlash",
+   "confidence": "high",
+   "evidence": "the bytes are the string \"/\" (0x2F 0x00); CDx_Initialize copies it as a WORD to end a path, 7 other functions push it"
+  },
+  "0x10350174": {
+   "old": "dword_10350174",
+   "name": "g_screenFadeLevel",
+   "confidence": "medium",
+   "evidence": "a level centred on 0x80 (initial 0x80): below 0x80 Frame_Render adds (level - 0x80) to the RGB bytes of its overlay colour (+800..+802), above 0x80 it adds (level - 128) to the colour at +804..+806, saturating at 255; App_Constructor, 0x10015340 and 0x10015350 write it"
+  },
+  "0x103501A4": {
+   "old": "dword_103501A4",
+   "name": "g_frameCounterLastSecond",
+   "confidence": "medium",
+   "evidence": "Frame_Render compares SystemTime.wSecond with its low word, takes the difference when the second changed, and stores the new second (initial 0xFFFFFFFF)"
+  },
+  "0x1035055C": {
+   "old": "unk_1035055C",
+   "name": "c_strR",
+   "confidence": "high",
+   "evidence": "the bytes are the string \"R\" (0x52 0x00); App_WinMain passes it to App_SetGlobal_104569E8"
+  },
+  "0x1035055E": {
+   "old": "unk_1035055E",
+   "name": "c_strD",
+   "confidence": "high",
+   "evidence": "the bytes are the string \"D\" (0x44 0x00); App_WinMain passes it to App_SetGlobal_104569E8"
+  },
+  "0x1047B9E8": {
+   "old": "dword_1047B9E8",
+   "name": "CMoDistMorphElem_ApplyMorph_stateBlock",
+   "confidence": "high",
+   "evidence": "CMoDistMorphElem_ApplyMorph passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352258": {
+   "old": "dword_10352258",
+   "name": "CMoDistMorphElem_ApplyMorph_textureStageStates",
+   "confidence": "high",
+   "evidence": "CMoDistMorphElem_ApplyMorph passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA1C": {
+   "old": "dword_1047BA1C",
+   "name": "CMoElemFamily_SharedEarlyExit_stateBlock",
+   "confidence": "high",
+   "evidence": "CMoElemFamily_SharedEarlyExit passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103528CC": {
+   "old": "dword_103528CC",
+   "name": "CMoElemFamily_SharedEarlyExit_textureStageStates",
+   "confidence": "high",
+   "evidence": "CMoElemFamily_SharedEarlyExit passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BB50": {
+   "old": "dword_1047BB50",
+   "name": "CMoDist_vf18_stateBlock",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103530D0": {
+   "old": "dword_103530D0",
+   "name": "CMoDist_vf18_renderStates",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10353028": {
+   "old": "dword_10353028",
+   "name": "CMoDist_vf18_textureStageStates",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BB44": {
+   "old": "dword_1047BB44",
+   "name": "CMoDist_vf18_stateBlock2",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353178": {
+   "old": "dword_10353178",
+   "name": "CMoDist_vf18_renderStates2",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10353108": {
+   "old": "dword_10353108",
+   "name": "CMoDist_vf18_textureStageStates2",
+   "confidence": "high",
+   "evidence": "CMoDist_vf18 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BB5C": {
+   "old": "dword_1047BB5C",
+   "name": "CMoDistMorphElem_ValidateMorphData_stateBlock",
+   "confidence": "high",
+   "evidence": "CMoDistMorphElem_ValidateMorphData passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x1035322C": {
+   "old": "dword_1035322C",
+   "name": "CMoDistMorphElem_ValidateMorphData_renderStates",
+   "confidence": "high",
+   "evidence": "CMoDistMorphElem_ValidateMorphData passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103531C0": {
+   "old": "dword_103531C0",
+   "name": "CMoDistMorphElem_ValidateMorphData_textureStageStates",
+   "confidence": "high",
+   "evidence": "CMoDistMorphElem_ValidateMorphData passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BBB8": {
+   "old": "dword_1047BBB8",
+   "name": "Fn100467E0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100467E0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353598": {
+   "old": "dword_10353598",
+   "name": "Fn100467E0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_100467E0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047CAE0": {
+   "old": "dword_1047CAE0",
+   "name": "Fn1006C530_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103541E0": {
+   "old": "dword_103541E0",
+   "name": "Fn1006C530_renderStates",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10354168": {
+   "old": "dword_10354168",
+   "name": "Fn1006C530_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047CAD0": {
+   "old": "dword_1047CAD0",
+   "name": "Fn1006C530_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10354264": {
+   "old": "dword_10354264",
+   "name": "Fn1006C530_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10354228": {
+   "old": "dword_10354228",
+   "name": "Fn1006C530_textureStageStates2",
+   "confidence": "high",
+   "evidence": "sub_1006C530 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9B8": {
+   "old": "dword_1047B9B8",
+   "name": "Fn1003E9A0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10351EC8": {
+   "old": "dword_10351EC8",
+   "name": "Fn1003E9A0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9C8": {
+   "old": "dword_1047B9C8",
+   "name": "Fn1003E9A0_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10351FA0": {
+   "old": "dword_10351FA0",
+   "name": "Fn1003E9A0_textureStageStates2",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9D8": {
+   "old": "dword_1047B9D8",
+   "name": "Fn1003E9A0_stateBlock3",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352084": {
+   "old": "dword_10352084",
+   "name": "Fn1003E9A0_textureStageStates3",
+   "confidence": "high",
+   "evidence": "sub_1003E9A0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9AC": {
+   "old": "dword_1047B9AC",
+   "name": "Fn1003EBF0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_1003EBF0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352180": {
+   "old": "dword_10352180",
+   "name": "Fn1003EBF0_renderStates",
+   "confidence": "high",
+   "evidence": "sub_1003EBF0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103520A8": {
+   "old": "dword_103520A8",
+   "name": "Fn1003EBF0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_1003EBF0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9A0": {
+   "old": "dword_1047B9A0",
+   "name": "Fn1003EBF0_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_1003EBF0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103521D0": {
+   "old": "dword_103521D0",
+   "name": "Fn1003EBF0_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_1003EBF0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x1047BA5C": {
+   "old": "dword_1047BA5C",
+   "name": "Fn10040220_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103523D0": {
+   "old": "dword_103523D0",
+   "name": "Fn10040220_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA68": {
+   "old": "dword_1047BA68",
+   "name": "Fn10040220_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103524A8": {
+   "old": "dword_103524A8",
+   "name": "Fn10040220_textureStageStates2",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA50": {
+   "old": "dword_1047BA50",
+   "name": "Fn10040220_stateBlock3",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352590": {
+   "old": "dword_10352590",
+   "name": "Fn10040220_textureStageStates3",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047B9F4": {
+   "old": "dword_1047B9F4",
+   "name": "Fn10040220_stateBlock4",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352648": {
+   "old": "dword_10352648",
+   "name": "Fn10040220_textureStageStates4",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BAA8": {
+   "old": "dword_1047BAA8",
+   "name": "Fn10040220_stateBlock5",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352348": {
+   "old": "dword_10352348",
+   "name": "Fn10040220_textureStageStates5",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA00": {
+   "old": "dword_1047BA00",
+   "name": "Fn10040220_stateBlock6",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103523B4": {
+   "old": "dword_103523B4",
+   "name": "Fn10040220_textureStageStates6",
+   "confidence": "high",
+   "evidence": "sub_10040220 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA74": {
+   "old": "dword_1047BA74",
+   "name": "CMoDistModelElem_DrawMesh_stateBlock",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103526B8": {
+   "old": "dword_103526B8",
+   "name": "CMoDistModelElem_DrawMesh_textureStageStates",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA8C": {
+   "old": "dword_1047BA8C",
+   "name": "CMoDistModelElem_DrawMesh_stateBlock2",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352724": {
+   "old": "dword_10352724",
+   "name": "CMoDistModelElem_DrawMesh_textureStageStates2",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA80": {
+   "old": "dword_1047BA80",
+   "name": "CMoDistModelElem_DrawMesh_stateBlock3",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352740": {
+   "old": "dword_10352740",
+   "name": "CMoDistModelElem_DrawMesh_textureStageStates3",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA0C": {
+   "old": "dword_1047BA0C",
+   "name": "CMoDistModelElem_DrawMesh_stateBlock4",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352848": {
+   "old": "dword_10352848",
+   "name": "CMoDistModelElem_DrawMesh_textureStageStates4",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA98": {
+   "old": "dword_1047BA98",
+   "name": "CMoDistModelElem_DrawMesh_stateBlock5",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352860": {
+   "old": "dword_10352860",
+   "name": "CMoDistModelElem_DrawMesh_textureStageStates5",
+   "confidence": "high",
+   "evidence": "CMoDistModelElem_DrawMesh passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA38": {
+   "old": "dword_1047BA38",
+   "name": "Fn100412B0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352C78": {
+   "old": "dword_10352C78",
+   "name": "Fn100412B0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA44": {
+   "old": "dword_1047BA44",
+   "name": "Fn100412B0_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352B24": {
+   "old": "dword_10352B24",
+   "name": "Fn100412B0_renderStates",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103529C8": {
+   "old": "dword_103529C8",
+   "name": "Fn100412B0_textureStageStates2",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BA2C": {
+   "old": "dword_1047BA2C",
+   "name": "Fn100412B0_stateBlock3",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352C60": {
+   "old": "dword_10352C60",
+   "name": "Fn100412B0_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10352B40": {
+   "old": "dword_10352B40",
+   "name": "Fn100412B0_textureStageStates3",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BAB4": {
+   "old": "dword_1047BAB4",
+   "name": "Fn100412B0_stateBlock4",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103529B0": {
+   "old": "dword_103529B0",
+   "name": "Fn100412B0_renderStates3",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103528F0": {
+   "old": "dword_103528F0",
+   "name": "Fn100412B0_textureStageStates4",
+   "confidence": "high",
+   "evidence": "sub_100412B0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BAD0": {
+   "old": "dword_1047BAD0",
+   "name": "Fn100421A0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100421A0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352F00": {
+   "old": "dword_10352F00",
+   "name": "Fn100421A0_renderStates",
+   "confidence": "high",
+   "evidence": "sub_100421A0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10352E30": {
+   "old": "dword_10352E30",
+   "name": "Fn100421A0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_100421A0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BAC4": {
+   "old": "dword_1047BAC4",
+   "name": "Fn100421A0_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_100421A0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10352FB0": {
+   "old": "dword_10352FB0",
+   "name": "Fn100421A0_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_100421A0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x1047BBE8": {
+   "old": "dword_1047BBE8",
+   "name": "Fn10046550_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103534A0": {
+   "old": "dword_103534A0",
+   "name": "Fn10046550_renderStates",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10353448": {
+   "old": "dword_10353448",
+   "name": "Fn10046550_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BC00": {
+   "old": "dword_1047BC00",
+   "name": "Fn10046550_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353558": {
+   "old": "dword_10353558",
+   "name": "Fn10046550_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103534E8": {
+   "old": "dword_103534E8",
+   "name": "Fn10046550_textureStageStates2",
+   "confidence": "high",
+   "evidence": "sub_10046550 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047BC1C": {
+   "old": "dword_1047BC1C",
+   "name": "Fn100472F0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100472F0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353668": {
+   "old": "dword_10353668",
+   "name": "Fn100472F0_renderStates",
+   "confidence": "high",
+   "evidence": "sub_100472F0 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x1047BCAC": {
+   "old": "dword_1047BCAC",
+   "name": "CXi471011C8_VT_1032B478_RebuildBlendWeights_stateBlock",
+   "confidence": "high",
+   "evidence": "CXi471011C8_VT_1032B478_RebuildBlendWeights passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353810": {
+   "old": "dword_10353810",
+   "name": "CXi471011C8_VT_1032B478_RebuildBlendWeights_textureStageStates",
+   "confidence": "high",
+   "evidence": "CXi471011C8_VT_1032B478_RebuildBlendWeights passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047D174": {
+   "old": "dword_1047D174",
+   "name": "Fn10075700_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_10075700 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x103547A4": {
+   "old": "dword_103547A4",
+   "name": "Fn10075700_renderStates",
+   "confidence": "high",
+   "evidence": "sub_10075700 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x10354708": {
+   "old": "dword_10354708",
+   "name": "Fn10075700_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_10075700 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047D210": {
+   "old": "dword_1047D210",
+   "name": "Fn100759C0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100759C0 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10354874": {
+   "old": "dword_10354874",
+   "name": "Fn100759C0_renderStates",
+   "confidence": "high",
+   "evidence": "sub_100759C0 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103547D8": {
+   "old": "dword_103547D8",
+   "name": "Fn100759C0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_100759C0 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047D1F0": {
+   "old": "dword_1047D1F0",
+   "name": "Fn10075C40_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_10075C40 passes it to StateBlock_ApplyRSTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10354944": {
+   "old": "dword_10354944",
+   "name": "Fn10075C40_renderStates",
+   "confidence": "high",
+   "evidence": "sub_10075C40 passes it to StateBlock_ApplyRSTSS as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x103548A8": {
+   "old": "dword_103548A8",
+   "name": "Fn10075C40_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_10075C40 passes it to StateBlock_ApplyRSTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x1047D204": {
+   "old": "dword_1047D204",
+   "name": "Fn10075C40_stateBlock2",
+   "confidence": "high",
+   "evidence": "sub_10075C40 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10354BB0": {
+   "old": "dword_10354BB0",
+   "name": "Fn10075C40_renderStates2",
+   "confidence": "high",
+   "evidence": "sub_10075C40 passes it to StateBlock_ApplyRS (0x1006AF00, which records SetRenderState only) as the render-state table ((state, value) pairs ending 0x7FFFFFFF, set with SetRenderState while recording)"
+  },
+  "0x1047BB68": {
+   "old": "unk_1047BB68",
+   "name": "Fn100431B0_stateBlock",
+   "confidence": "high",
+   "evidence": "sub_100431B0 passes it to StateBlock_ApplyTSS as the state-block handle (a DWORD holding -1 until the block is recorded, then the ApplyStateBlock token)"
+  },
+  "0x10353260": {
+   "old": "unk_10353260",
+   "name": "Fn100431B0_textureStageStates",
+   "confidence": "high",
+   "evidence": "sub_100431B0 passes it to StateBlock_ApplyTSS as the texture-stage table ((stage, type, value) triples ending 0x7FFFFFFF, set with SetTextureStageState while recording)"
+  },
+  "0x10352CFC": {
+   "old": "flt_10352CFC",
+   "name": "g_projTextQuad",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 0, +0 = x)"
+  },
+  "0x10352D00": {
+   "old": "flt_10352D00",
+   "name": "g_projTextQuad_v0_y",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 0, +4 = y)"
+  },
+  "0x10352D08": {
+   "old": "flt_10352D08",
+   "name": "g_projTextQuad_v1_x",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 1, +0 = x)"
+  },
+  "0x10352D0C": {
+   "old": "flt_10352D0C",
+   "name": "g_projTextQuad_v1_y",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 1, +4 = y)"
+  },
+  "0x10352D14": {
+   "old": "flt_10352D14",
+   "name": "g_projTextQuad_v2_x",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 2, +0 = x)"
+  },
+  "0x10352D18": {
+   "old": "flt_10352D18",
+   "name": "g_projTextQuad_v2_y",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 2, +4 = y)"
+  },
+  "0x10352D20": {
+   "old": "flt_10352D20",
+   "name": "g_projTextQuad_v3_x",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 3, +0 = x)"
+  },
+  "0x10352D24": {
+   "old": "flt_10352D24",
+   "name": "g_projTextQuad_v3_y",
+   "confidence": "medium",
+   "evidence": "Font_DrawProjectedText3D writes four corners of a box as 12-byte points from 0x10352CFC (x at +0, y at +4) and walks the array up to 0x10352D2C (vertex 3, +4 = y)"
+  },
+  "0x10352F50": {
+   "old": "flt_10352F50",
+   "name": "Fn100421A0_quadVerts",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 0, +0 = x)"
+  },
+  "0x10352F54": {
+   "old": "dword_10352F54",
+   "name": "Fn100421A0_quadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 0, +4 = y)"
+  },
+  "0x10352F60": {
+   "old": "flt_10352F60",
+   "name": "Fn100421A0_quadVerts_v0_u",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 0, +16 = u)"
+  },
+  "0x10352F68": {
+   "old": "flt_10352F68",
+   "name": "Fn100421A0_quadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 1, +0 = x)"
+  },
+  "0x10352F6C": {
+   "old": "dword_10352F6C",
+   "name": "Fn100421A0_quadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 1, +4 = y)"
+  },
+  "0x10352F78": {
+   "old": "flt_10352F78",
+   "name": "Fn100421A0_quadVerts_v1_u",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 1, +16 = u)"
+  },
+  "0x10352F80": {
+   "old": "flt_10352F80",
+   "name": "Fn100421A0_quadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 2, +0 = x)"
+  },
+  "0x10352F84": {
+   "old": "dword_10352F84",
+   "name": "Fn100421A0_quadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 2, +4 = y)"
+  },
+  "0x10352F90": {
+   "old": "flt_10352F90",
+   "name": "Fn100421A0_quadVerts_v2_u",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 2, +16 = u)"
+  },
+  "0x10352F98": {
+   "old": "dword_10352F98",
+   "name": "Fn100421A0_quadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 3, +0 = x)"
+  },
+  "0x10352F9C": {
+   "old": "dword_10352F9C",
+   "name": "Fn100421A0_quadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 3, +4 = y)"
+  },
+  "0x10352FA8": {
+   "old": "flt_10352FA8",
+   "name": "Fn100421A0_quadVerts_v3_u",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 fills 4 vertices from 0x10352F50 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x142 = XYZ|DIFFUSE|TEX1) = 24): a row of quads 0.15 wide, u = n/256, width 0.0664 (vertex 3, +16 = u)"
+  },
+  "0x10354068": {
+   "old": "flt_10354068",
+   "name": "Fn1006C530_quadVerts",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +0 = x)"
+  },
+  "0x1035406C": {
+   "old": "flt_1035406C",
+   "name": "Fn1006C530_quadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +4 = y)"
+  },
+  "0x1035407C": {
+   "old": "flt_1035407C",
+   "name": "Fn1006C530_quadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +0 = x)"
+  },
+  "0x10354080": {
+   "old": "flt_10354080",
+   "name": "Fn1006C530_quadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +4 = y)"
+  },
+  "0x10354090": {
+   "old": "flt_10354090",
+   "name": "Fn1006C530_quadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +0 = x)"
+  },
+  "0x10354094": {
+   "old": "flt_10354094",
+   "name": "Fn1006C530_quadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +4 = y)"
+  },
+  "0x103540A4": {
+   "old": "flt_103540A4",
+   "name": "Fn1006C530_quadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +0 = x)"
+  },
+  "0x103540A8": {
+   "old": "flt_103540A8",
+   "name": "Fn1006C530_quadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x10354068 with a rectangle from its first argument and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +4 = y)"
+  },
+  "0x103540B8": {
+   "old": "flt_103540B8",
+   "name": "Fn1006C530_quadVerts2",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +0 = x)"
+  },
+  "0x103540BC": {
+   "old": "flt_103540BC",
+   "name": "Fn1006C530_quadVerts2_v0_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +4 = y)"
+  },
+  "0x103540C0": {
+   "old": "dword_103540C0",
+   "name": "Fn1006C530_quadVerts2_v0_z",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +8 = z)"
+  },
+  "0x103540CC": {
+   "old": "flt_103540CC",
+   "name": "Fn1006C530_quadVerts2_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +0 = x)"
+  },
+  "0x103540D0": {
+   "old": "flt_103540D0",
+   "name": "Fn1006C530_quadVerts2_v1_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +4 = y)"
+  },
+  "0x103540D4": {
+   "old": "dword_103540D4",
+   "name": "Fn1006C530_quadVerts2_v1_z",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +8 = z)"
+  },
+  "0x103540E0": {
+   "old": "flt_103540E0",
+   "name": "Fn1006C530_quadVerts2_v2_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +0 = x)"
+  },
+  "0x103540E4": {
+   "old": "flt_103540E4",
+   "name": "Fn1006C530_quadVerts2_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +4 = y)"
+  },
+  "0x103540E8": {
+   "old": "dword_103540E8",
+   "name": "Fn1006C530_quadVerts2_v2_z",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +8 = z)"
+  },
+  "0x103540F4": {
+   "old": "flt_103540F4",
+   "name": "Fn1006C530_quadVerts2_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +0 = x)"
+  },
+  "0x103540F8": {
+   "old": "flt_103540F8",
+   "name": "Fn1006C530_quadVerts2_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +4 = y)"
+  },
+  "0x103540FC": {
+   "old": "dword_103540FC",
+   "name": "Fn1006C530_quadVerts2_v3_z",
+   "confidence": "medium",
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +8 = z)"
+  },
+  "0x103511CC": {
+   "old": "dword_103511CC",
+   "name": "c_dxtFourCCs",
+   "confidence": "high",
+   "evidence": "int[5] holding the FOURCC values 'DXT1'..'DXT5' (bytes \"1TXD\"..\"5TXD\", the D3DFMT_DXT1..DXT5 values); TexObj_InitFromHeader compares a header's format with each"
+  },
+  "0x103511E0": {
+   "old": "dword_103511E0",
+   "name": "c_dxtFourCCs2",
+   "confidence": "high",
+   "evidence": "a second int[5] holding 'DXT1'..'DXT5', directly after c_dxtFourCCs; TexObj_InitFromHeader compares against it in another loop"
+  },
+  "0x10351514": {
+   "old": "off_10351514",
+   "name": "c_texNameCubemapSpec",
+   "confidence": "high",
+   "evidence": "pointer to the string \"cubemap spec    \" (a 16-byte texture name); CYyModelBase_DrawLit passes it to CYyTexMng_FindByNameInResource"
+  },
+  "0x10351518": {
+   "old": "stru_10351518",
+   "name": "c_defaultModelMaterial",
+   "confidence": "high",
+   "evidence": "68 bytes (the size of D3DMATERIAL8): diffuse 0.5,0.5,0.5,0.5, ambient 0.5,0.5,0.5,0.5, specular 0, emissive 0, power 10.0; its only reference copies it into g_modelMaterial (CXiSkeletonActor_DrawModel)"
+  },
+  "0x10352218": {
+   "old": "byte_10352218",
+   "name": "Fn1003F130_cornerIndices",
+   "confidence": "medium",
+   "evidence": "byte table 00 01 02 05 05 00 ...; sub_1003F130 reads it six times in a loop, each value selecting a 24-byte record whose words +16/+20/+24 it copies"
+  },
+  "0x10352217": {
+   "old": "byte_10352217",
+   "name": "Fn1003F130_cornerIndices_m1",
+   "confidence": "medium",
+   "evidence": "the byte before Fn1003F130_cornerIndices (0x10352218): sub_1003F130 reads the table at [i] after incrementing i, which Hex-Rays prints as this address"
+  },
+  "0x10352219": {
+   "old": "byte_10352219",
+   "name": "Fn1003F130_cornerIndices_p1",
+   "confidence": "medium",
+   "evidence": "the byte after Fn1003F130_cornerIndices (0x10352218): sub_1003F130 reads it as the table at [i+1]"
+  },
+  "0x10353444": {
+   "old": "flt_10353444",
+   "name": "c_flt_0_03",
+   "confidence": "high",
+   "evidence": "float 0.03 (0x3CF5C28F); read once (sub_10046070), never written or addressed in the image"
+  },
+  "0x10353718": {
+   "old": "unk_10353718",
+   "name": "g_vec4_m1_m1_m1_1",
+   "confidence": "medium",
+   "evidence": "four floats -1, -1, -1, 1 at start; its address is passed to sub_1004A870 and sub_1004E630 (which could write through it, so not called constant)"
+  },
+  "0x10353914": {
+   "old": "byte_10353914",
+   "name": "c_msgCounterSchedulerNotFound",
+   "confidence": "high",
+   "evidence": "the Shift-JIS string \"カウンタースケジューラが見つかりませんでした。[%s:%s]\" (counter scheduler was not found); CMoSchedularTask_Interpret passes it to the debug print stub nullsub_12"
+  },
+  "0x1035394C": {
+   "old": "byte_1035394C",
+   "name": "c_msgAfterimageAllocFailed",
+   "confidence": "high",
+   "evidence": "the Shift-JIS string \"残像用メモリの確保に失敗しました。\" (failed to allocate memory for the afterimage); CMoSchedularTask_Interpret passes it to nullsub_12"
+  },
+  "0x103546B8": {
+   "old": "unk_103546B8",
+   "name": "Gfx_InitCubeMapTextures_quadVerts",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets the right and bottom coordinates of the 4 vertices from 0x103546B8 to the face size and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) on each cube face (vertex 0, +0 = x)"
+  },
+  "0x103546CC": {
+   "old": "flt_103546CC",
+   "name": "Gfx_InitCubeMapTextures_quadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets the right and bottom coordinates of the 4 vertices from 0x103546B8 to the face size and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) on each cube face (vertex 1, +0 = x)"
+  },
+  "0x103546E4": {
+   "old": "flt_103546E4",
+   "name": "Gfx_InitCubeMapTextures_quadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets the right and bottom coordinates of the 4 vertices from 0x103546B8 to the face size and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) on each cube face (vertex 2, +4 = y)"
+  },
+  "0x103546F4": {
+   "old": "flt_103546F4",
+   "name": "Gfx_InitCubeMapTextures_quadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets the right and bottom coordinates of the 4 vertices from 0x103546B8 to the face size and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) on each cube face (vertex 3, +0 = x)"
+  },
+  "0x103546F8": {
+   "old": "flt_103546F8",
+   "name": "Gfx_InitCubeMapTextures_quadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets the right and bottom coordinates of the 4 vertices from 0x103546B8 to the face size and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) on each cube face (vertex 3, +4 = y)"
+  },
+  "0x10354970": {
+   "old": "unk_10354970",
+   "name": "Fn10075C40_quadVerts",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 sets coordinates of the 4 vertices from 0x10354970 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1) = 28) (vertex 0, +0 = x)"
+  },
+  "0x1035498C": {
+   "old": "flt_1035498C",
+   "name": "Fn10075C40_quadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 sets coordinates of the 4 vertices from 0x10354970 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1) = 28) (vertex 1, +0 = x)"
+  },
+  "0x103549AC": {
+   "old": "flt_103549AC",
+   "name": "Fn10075C40_quadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 sets coordinates of the 4 vertices from 0x10354970 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1) = 28) (vertex 2, +4 = y)"
+  },
+  "0x103549C4": {
+   "old": "flt_103549C4",
+   "name": "Fn10075C40_quadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 sets coordinates of the 4 vertices from 0x10354970 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1) = 28) (vertex 3, +0 = x)"
+  },
+  "0x103549C8": {
+   "old": "flt_103549C8",
+   "name": "Fn10075C40_quadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 sets coordinates of the 4 vertices from 0x10354970 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1) = 28) (vertex 3, +4 = y)"
+  },
+  "0x103549F0": {
+   "old": "unk_103549F0",
+   "name": "Fn10075C40_faceQuadVerts",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 0, +0 = x)"
+  },
+  "0x10354A0C": {
+   "old": "flt_10354A0C",
+   "name": "Fn10075C40_faceQuadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 1, +0 = x)"
+  },
+  "0x10354A2C": {
+   "old": "dword_10354A2C",
+   "name": "Fn10075C40_faceQuadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 2, +4 = y)"
+  },
+  "0x10354A44": {
+   "old": "flt_10354A44",
+   "name": "Fn10075C40_faceQuadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 3, +0 = x)"
+  },
+  "0x10354A48": {
+   "old": "dword_10354A48",
+   "name": "Fn10075C40_faceQuadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 3, +4 = y)"
+  },
+  "0x10354A60": {
+   "old": "flt_10354A60",
+   "name": "Fn10075C40_faceQuadVerts_v4_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 4, +0 = x)"
+  },
+  "0x10354A7C": {
+   "old": "dword_10354A7C",
+   "name": "Fn10075C40_faceQuadVerts_v5_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 5, +0 = x)"
+  },
+  "0x10354A98": {
+   "old": "flt_10354A98",
+   "name": "Fn10075C40_faceQuadVerts_v6_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 6, +0 = x)"
+  },
+  "0x10354A9C": {
+   "old": "dword_10354A9C",
+   "name": "Fn10075C40_faceQuadVerts_v6_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 6, +4 = y)"
+  },
+  "0x10354AB4": {
+   "old": "dword_10354AB4",
+   "name": "Fn10075C40_faceQuadVerts_v7_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 7, +0 = x)"
+  },
+  "0x10354AB8": {
+   "old": "dword_10354AB8",
+   "name": "Fn10075C40_faceQuadVerts_v7_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 7, +4 = y)"
+  },
+  "0x10354AD4": {
+   "old": "flt_10354AD4",
+   "name": "Fn10075C40_faceQuadVerts_v8_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 8, +4 = y)"
+  },
+  "0x10354AEC": {
+   "old": "dword_10354AEC",
+   "name": "Fn10075C40_faceQuadVerts_v9_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 9, +0 = x)"
+  },
+  "0x10354AF0": {
+   "old": "flt_10354AF0",
+   "name": "Fn10075C40_faceQuadVerts_v9_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 9, +4 = y)"
+  },
+  "0x10354B0C": {
+   "old": "dword_10354B0C",
+   "name": "Fn10075C40_faceQuadVerts_v10_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 10, +4 = y)"
+  },
+  "0x10354B24": {
+   "old": "dword_10354B24",
+   "name": "Fn10075C40_faceQuadVerts_v11_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 11, +0 = x)"
+  },
+  "0x10354B28": {
+   "old": "dword_10354B28",
+   "name": "Fn10075C40_faceQuadVerts_v11_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 11, +4 = y)"
+  },
+  "0x10354B5C": {
+   "old": "dword_10354B5C",
+   "name": "Fn10075C40_faceQuadVerts_v13_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 13, +0 = x)"
+  },
+  "0x10354B7C": {
+   "old": "flt_10354B7C",
+   "name": "Fn10075C40_faceQuadVerts_v14_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 14, +4 = y)"
+  },
+  "0x10354B94": {
+   "old": "dword_10354B94",
+   "name": "Fn10075C40_faceQuadVerts_v15_x",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 15, +0 = x)"
+  },
+  "0x10354B98": {
+   "old": "flt_10354B98",
+   "name": "Fn10075C40_faceQuadVerts_v15_y",
+   "confidence": "medium",
+   "evidence": "sub_10075C40 draws 4 quads from 0x103549F0, quad i at +112*i (4 vertices of 28 bytes, Gfx_CalcFVFStride(0x144 = XYZRHW|DIFFUSE|TEX1)), one per cube face in c_cubeSideFaces; vertex numbers count across the quads (vertex 15, +4 = y)"
+  },
+  "0x103582E0": {
+   "old": "flt_103582E0",
+   "name": "g_worldTextQuad",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 0, +0 = x)"
+  },
+  "0x103582E4": {
+   "old": "dword_103582E4",
+   "name": "g_worldTextQuad_v0_y",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 0, +4 = y)"
+  },
+  "0x103582EC": {
+   "old": "flt_103582EC",
+   "name": "g_worldTextQuad_v1_x",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 1, +0 = x)"
+  },
+  "0x103582F0": {
+   "old": "dword_103582F0",
+   "name": "g_worldTextQuad_v1_y",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 1, +4 = y)"
+  },
+  "0x103582F8": {
+   "old": "flt_103582F8",
+   "name": "g_worldTextQuad_v2_x",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 2, +0 = x)"
+  },
+  "0x103582FC": {
+   "old": "flt_103582FC",
+   "name": "g_worldTextQuad_v2_y",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 2, +4 = y)"
+  },
+  "0x10358304": {
+   "old": "flt_10358304",
+   "name": "g_worldTextQuad_v3_x",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 3, +0 = x)"
+  },
+  "0x10358308": {
+   "old": "flt_10358308",
+   "name": "g_worldTextQuad_v3_y",
+   "confidence": "medium",
+   "evidence": "Actor_DrawWorldText and sub_10086900 write four corners of a box as 12-byte points from 0x103582E0 (x at +0, y at +4) and pass the array on, like Debug_DrawWorldText's g_debugTextQuad (vertex 3, +4 = y)"
+  },
+  "0x103546A0": {
+   "old": "dword_103546A0",
+   "name": "c_cubeFaceOrder",
+   "confidence": "medium",
+   "evidence": "int[6] = 0,1,2,3,4,5 (D3DCUBEMAP_FACE_POSITIVE_X .. NEGATIVE_Z); Gfx_InitCubeMapTextures passes element i to the cube texture's slot 15 (GetCubeMapSurface) for each face"
+  },
+  "0x103549E0": {
+   "old": "dword_103549E0",
+   "name": "c_cubeSideFaces",
+   "confidence": "medium",
+   "evidence": "int[4] = 1,0,3,2 (D3DCUBEMAP_FACE_NEGATIVE_X, POSITIVE_X, NEGATIVE_Y, POSITIVE_Y); sub_10075C40 passes element i to the cube texture's slot 15 (GetCubeMapSurface) before drawing quad i of Fn10075C40_faceQuadVerts"
+  },
+  "0x1035D694": {
+   "old": "dword_1035D694",
+   "name": "c_skelActorInit_848",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x848 (4 bytes); initial value 0x41A00000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D698": {
+   "old": "dword_1035D698",
+   "name": "c_skelActorInit_84C",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x84C (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D69C": {
+   "old": "dword_1035D69C",
+   "name": "c_skelActorInit_850",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x850 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6A4": {
+   "old": "dword_1035D6A4",
+   "name": "c_skelActorInit_82C",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x82C (a Vec3_Copy of 3 floats); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6B0": {
+   "old": "dword_1035D6B0",
+   "name": "c_skelActorInit_61C",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x61C (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6B4": {
+   "old": "dword_1035D6B4",
+   "name": "c_skelActorInit_620",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x620 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6B8": {
+   "old": "dword_1035D6B8",
+   "name": "c_skelActorInit_624",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x624 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6BC": {
+   "old": "dword_1035D6BC",
+   "name": "c_skelActorInit_628",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x628 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6C0": {
+   "old": "dword_1035D6C0",
+   "name": "c_skelActorInit_5FC",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x5FC (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6C4": {
+   "old": "dword_1035D6C4",
+   "name": "c_skelActorInit_600",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x600 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6C8": {
+   "old": "dword_1035D6C8",
+   "name": "c_skelActorInit_604",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x604 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6CC": {
+   "old": "dword_1035D6CC",
+   "name": "c_skelActorInit_608",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x608 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6D0": {
+   "old": "dword_1035D6D0",
+   "name": "c_skelActorInit_9D8",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x9D8 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6D4": {
+   "old": "dword_1035D6D4",
+   "name": "c_skelActorInit_9DC",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x9DC (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6D8": {
+   "old": "dword_1035D6D8",
+   "name": "c_skelActorInit_9E0",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x9E0 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6DC": {
+   "old": "dword_1035D6DC",
+   "name": "c_skelActorInit_9E4",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x9E4 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6E0": {
+   "old": "dword_1035D6E0",
+   "name": "c_skelActorInit_60C",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x60C (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6E4": {
+   "old": "dword_1035D6E4",
+   "name": "c_skelActorInit_610",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x610 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6E8": {
+   "old": "dword_1035D6E8",
+   "name": "c_skelActorInit_614",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x614 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6EC": {
+   "old": "dword_1035D6EC",
+   "name": "c_skelActorInit_618",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x618 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6F0": {
+   "old": "dword_1035D6F0",
+   "name": "c_skelActorInit_62C",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x62C (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6F4": {
+   "old": "dword_1035D6F4",
+   "name": "c_skelActorInit_630",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x630 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6F8": {
+   "old": "dword_1035D6F8",
+   "name": "c_skelActorInit_634",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x634 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D6FC": {
+   "old": "dword_1035D6FC",
+   "name": "c_skelActorInit_638",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x638 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D700": {
+   "old": "dword_1035D700",
+   "name": "c_skelActorInit_7B4",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x7B4 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D704": {
+   "old": "dword_1035D704",
+   "name": "c_skelActorInit_7B8",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x7B8 (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D708": {
+   "old": "dword_1035D708",
+   "name": "c_skelActorInit_7BC",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x7BC (4 bytes); initial value 0x00000000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D70C": {
+   "old": "dword_1035D70C",
+   "name": "c_skelActorInit_7C0",
+   "confidence": "high",
+   "evidence": "read only by CXiSkeletonActor_Init, which copies it into the new actor at +0x7C0 (4 bytes); initial value 0x3F800000; never written or addressed elsewhere in the image"
+  },
+  "0x1035D710": {
+   "old": "dword_1035D710",
+   "name": "c_skelActorOnMove_init0",
+   "confidence": "medium",
+   "evidence": "read only by CXiSkeletonActor_OnMove into a local (initial 0); with 0x1035D714/718/71C it is the 4 floats 0,0,0,1, never written or addressed elsewhere"
+  },
+  "0x1035D714": {
+   "old": "dword_1035D714",
+   "name": "c_skelActorOnMove_init1",
+   "confidence": "medium",
+   "evidence": "second of the 4 floats 0,0,0,1 at 0x1035D710 that CXiSkeletonActor_OnMove reads into locals"
+  },
+  "0x1035D718": {
+   "old": "dword_1035D718",
+   "name": "c_skelActorOnMove_init2",
+   "confidence": "medium",
+   "evidence": "third of the 4 floats 0,0,0,1 at 0x1035D710 that CXiSkeletonActor_OnMove reads into locals"
+  },
+  "0x1035D71C": {
+   "old": "dword_1035D71C",
+   "name": "c_skelActorOnMove_init3",
+   "confidence": "medium",
+   "evidence": "fourth (1.0) of the 4 floats 0,0,0,1 at 0x1035D710 that CXiSkeletonActor_OnMove reads into locals"
+  },
+  "0x1035F378": {
+   "old": "off_1035F378",
+   "name": "c_raceSkeletonTables",
+   "confidence": "medium",
+   "evidence": "pointer table (0x1035D878, 0x1035D878, 0x1035DA28, ... 0x1B0 bytes apart, each starting with a resource id such as 0x1BA8); CXiSkeletonActor_LoadSkeletonSync indexes it by the variable it prints as \"race:%d\" in c_msgBadGrpNumber"
+  },
+  "0x1035F410": {
+   "old": "word_1035F410",
+   "name": "c_resourceIdByModelByte",
+   "confidence": "medium",
+   "evidence": "__int16[58] of resource ids (0x1BA0, 0x1BA0, 0x2808, 0x3470, ...); CXiSkeletonActor_LoadSkeletonSync indexes it by the actor's ModelByteEF and passes the id to sub_100730E0 / sub_100731B0 (resource lookups)"
+  },
+  "0x1035FA30": {
+   "old": "byte_1035FA30",
+   "name": "c_msgActorGraphicsLoadFailed",
+   "confidence": "high",
+   "evidence": "Shift-JIS \"アクターのグラフィックリソースを読み込めませんでした。リソマネでUpdateすることをお勧めします。\" (the actor's graphics resource could not be read; updating with the resource manager is recommended); CXiSkeletonActor_LoadSkeletonSync passes it to nullsub_12"
+  },
+  "0x1035FA94": {
+   "old": "byte_1035FA94",
+   "name": "c_msgBadRaceChairActor",
+   "confidence": "high",
+   "evidence": "Shift-JIS \"種族番号がおかしいです。(椅子アクターセットアップ中です)\" (the race number is wrong, while setting up a chair actor); CXiSkeletonActor_LoadSkeletonSync"
+  },
+  "0x1035FAD0": {
+   "old": "byte_1035FAD0",
+   "name": "c_msgBadRaceFishingRodActor",
+   "confidence": "high",
+   "evidence": "Shift-JIS \"種族番号がおかしいです。(釣り竿アクターセットアップ中です)\" (the race number is wrong, while setting up a fishing-rod actor); CXiSkeletonActor_LoadSkeletonSync"
+  },
+  "0x1035FB0C": {
+   "old": "byte_1035FB0C",
+   "name": "c_msgBadGrpNumber",
+   "confidence": "high",
+   "evidence": "Shift-JIS \"ＧＲＰ番号がおかしいです。:%x(cate:%d race:%d)\" (the GRP number is wrong); CXiSkeletonActor_LoadSkeletonSync, 3 calls"
+  },
+  "0x1035FB3C": {
+   "old": "byte_1035FB3C",
+   "name": "c_msgBadRaceNumber",
+   "confidence": "high",
+   "evidence": "Shift-JIS \"種族番号がおかしいです。\" (the race number is wrong); CXiSkeletonActor_LoadSkeletonSync"
+  },
+  "0x1036E4E8": {
+   "old": "dword_1036E4E8",
+   "name": "c_cursorDefs",
+   "confidence": "medium",
+   "evidence": "table of 64-byte records (Cursor_Draw reads dword [16*i]): colour 0x80808080 at +0, 8-byte names such as \"anc     \" and \"anc_m2  \" at +0x20/+0x28"
+  },
+  "0x1036E4FA": {
+   "old": "word_1036E4FA",
+   "name": "c_cursorDefs_b12",
+   "confidence": "medium",
+   "evidence": "the word at +0x12 of each 64-byte c_cursorDefs record (Cursor_Draw reads word [32*i] and converts it to float as a coordinate)"
+  },
+  "0x10456678": {
+   "old": "flt_10456678",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +0 = x)"
+  },
+  "0x1045667C": {
+   "old": "flt_1045667C",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +4 = y)"
+  },
+  "0x10456680": {
+   "old": "dword_10456680",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_z",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +8 = z)"
+  },
+  "0x10456684": {
+   "old": "dword_10456684",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_rhw",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +12 = rhw)"
+  },
+  "0x10456688": {
+   "old": "dword_10456688",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +16 = color)"
+  },
+  "0x1045668C": {
+   "old": "dword_1045668C",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_u",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +20 = u)"
+  },
+  "0x10456690": {
+   "old": "dword_10456690",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v0_v",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 0, +24 = v)"
+  },
+  "0x10456694": {
+   "old": "flt_10456694",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +0 = x)"
+  },
+  "0x10456698": {
+   "old": "flt_10456698",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +4 = y)"
+  },
+  "0x1045669C": {
+   "old": "dword_1045669C",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_z",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +8 = z)"
+  },
+  "0x104566A0": {
+   "old": "dword_104566A0",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_rhw",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +12 = rhw)"
+  },
+  "0x104566A4": {
+   "old": "dword_104566A4",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +16 = color)"
+  },
+  "0x104566A8": {
+   "old": "dword_104566A8",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_u",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +20 = u)"
+  },
+  "0x104566AC": {
+   "old": "dword_104566AC",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v1_v",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 1, +24 = v)"
+  },
+  "0x104566B0": {
+   "old": "flt_104566B0",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +0 = x)"
+  },
+  "0x104566B4": {
+   "old": "flt_104566B4",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +4 = y)"
+  },
+  "0x104566B8": {
+   "old": "dword_104566B8",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_z",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +8 = z)"
+  },
+  "0x104566BC": {
+   "old": "dword_104566BC",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_rhw",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +12 = rhw)"
+  },
+  "0x104566C0": {
+   "old": "dword_104566C0",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +16 = color)"
+  },
+  "0x104566C4": {
+   "old": "dword_104566C4",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_u",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +20 = u)"
+  },
+  "0x104566C8": {
+   "old": "dword_104566C8",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v2_v",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 2, +24 = v)"
+  },
+  "0x104566CC": {
+   "old": "flt_104566CC",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_x",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +0 = x)"
+  },
+  "0x104566D0": {
+   "old": "flt_104566D0",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_y",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +4 = y)"
+  },
+  "0x104566D4": {
+   "old": "dword_104566D4",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_z",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +8 = z)"
+  },
+  "0x104566D8": {
+   "old": "dword_104566D8",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_rhw",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +12 = rhw)"
+  },
+  "0x104566DC": {
+   "old": "dword_104566DC",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_color",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +16 = color)"
+  },
+  "0x104566E0": {
+   "old": "dword_104566E0",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_u",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +20 = u)"
+  },
+  "0x104566E4": {
+   "old": "dword_104566E4",
+   "name": "CDx_DrawStereoOddFrameOverlay_quadVerts_v3_v",
+   "confidence": "medium",
+   "evidence": "CDx_DrawStereoOddFrameOverlay fills 4 vertices from 0x10456678 (x, y from its rectangle, z 0, rhw 1.0, colour 0x80808080, u/v 0 or 1) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride 28) (vertex 3, +24 = v)"
+  },
+  "0x10376AC0": {
+   "old": "byte_10376AC0",
+   "name": "c_byteSubstTable",
+   "confidence": "medium",
+   "evidence": "256-byte table; sub_1016FCD0 reads table[b ^ 0xF0] for a byte b of its input (a byte substitution)"
+  },
+  "0x10376FF8": {
+   "old": "off_10376FF8",
+   "name": "c_vsSourceLines19",
+   "confidence": "high",
+   "evidence": "array of string pointers whose first is \"vs.1.1\" (vertex shader assembly); sub_10178250 passes it to sub_10177090 with the line count 19"
+  },
+  "0x10377048": {
+   "old": "off_10377048",
+   "name": "c_vsSourceLines33",
+   "confidence": "high",
+   "evidence": "string pointer array starting \"vs.1.1\"; sub_10178250 passes it to sub_10177090 with the line count 33"
+  },
+  "0x103770D0": {
+   "old": "off_103770D0",
+   "name": "c_vsSourceLines37",
+   "confidence": "high",
+   "evidence": "string pointer array starting \"vs.1.1\"; sub_10178250 passes it to sub_10177090 with the line count 37"
+  },
+  "0x10377168": {
+   "old": "off_10377168",
+   "name": "c_vsSourceLines41",
+   "confidence": "high",
+   "evidence": "string pointer array starting \"vs.1.1\"; sub_10178250 passes it to sub_10177090 with the line count 41"
+  },
+  "0x10377210": {
+   "old": "off_10377210",
+   "name": "c_vsSourceLines45",
+   "confidence": "high",
+   "evidence": "string pointer array starting \"vs.1.1\"; sub_10178250 passes it to sub_10177090 with the line count 45"
+  },
+  "0x103772C4": {
+   "old": "off_103772C4",
+   "name": "c_psSourceLines9",
+   "confidence": "high",
+   "evidence": "string pointer array starting \"ps.1.1\" (pixel shader assembly); sub_10178250 passes it to sub_10177090 with the line count 9"
+  },
+  "0x10377338": {
+   "old": "dword_10377338",
+   "name": "CTsZoneMap_DrawProjectedTexture_m30",
+   "confidence": "medium",
+   "evidence": "initial 0.5; CTsZoneMap_DrawProjectedTexture copies it into element 12 (row 3, column 0) of the 4x4 texture matrix it builds in locals v60..v75"
+  },
+  "0x1037733C": {
+   "old": "dword_1037733C",
+   "name": "CTsZoneMap_DrawProjectedTexture_m31",
+   "confidence": "medium",
+   "evidence": "initial 0; copied into element 13 of that 4x4 matrix"
+  },
+  "0x10377340": {
+   "old": "dword_10377340",
+   "name": "CTsZoneMap_DrawProjectedTexture_m32",
+   "confidence": "medium",
+   "evidence": "initial 0.5; copied into element 14 of that 4x4 matrix"
+  },
+  "0x10377344": {
+   "old": "flt_10377344",
+   "name": "CTsZoneMap_DrawProjectedTexture_m00",
+   "confidence": "medium",
+   "evidence": "initial 1.0, set to 1.0 or to 1/a5 by CTsZoneMap_DrawProjectedTexture and copied into element 0 of its 4x4 texture matrix"
+  },
+  "0x10377348": {
+   "old": "dword_10377348",
+   "name": "CTsZoneMap_DrawProjectedTexture_m11",
+   "confidence": "medium",
+   "evidence": "initial 1.0; copied into element 5 of that 4x4 matrix"
+  },
+  "0x1037734C": {
+   "old": "flt_1037734C",
+   "name": "CTsZoneMap_DrawProjectedTexture_m22",
+   "confidence": "medium",
+   "evidence": "initial 1.0, set to 1.0 or 1/a5; copied into element 10 of that 4x4 matrix"
+  },
+  "0x103773C0": {
+   "old": "flt_103773C0",
+   "name": "c_projectedShadowBiasX",
+   "confidence": "high",
+   "evidence": "0.5; read only by CTsZoneMap_DrawProjectedShadow, which adds it into element 12 of a 4x4 matrix; never written or addressed elsewhere"
+  },
+  "0x103773C4": {
+   "old": "flt_103773C4",
+   "name": "c_projectedShadowBiasY",
+   "confidence": "high",
+   "evidence": "0.0; added into element 13 of that matrix by CTsZoneMap_DrawProjectedShadow; never written or addressed elsewhere"
+  },
+  "0x103773C8": {
+   "old": "flt_103773C8",
+   "name": "c_projectedShadowBiasZ",
+   "confidence": "high",
+   "evidence": "0.5; added into element 14 of that matrix by CTsZoneMap_DrawProjectedShadow; never written or addressed elsewhere"
+  },
+  "0x103773CC": {
+   "old": "dword_103773CC",
+   "name": "Fn10185CA0_m30",
+   "confidence": "medium",
+   "evidence": "initial 0.5; sub_10185CA0 copies it into element 12 of the 4x4 matrix in its locals v80..v95 (the same pattern as CTsZoneMap_DrawProjectedTexture_m30)"
+  },
+  "0x103773D0": {
+   "old": "dword_103773D0",
+   "name": "Fn10185CA0_m31",
+   "confidence": "medium",
+   "evidence": "initial 0; element 13 of sub_10185CA0's 4x4 matrix"
+  },
+  "0x103773D4": {
+   "old": "dword_103773D4",
+   "name": "Fn10185CA0_m32",
+   "confidence": "medium",
+   "evidence": "initial 0.5; element 14 of sub_10185CA0's 4x4 matrix"
+  },
+  "0x103773D8": {
+   "old": "flt_103773D8",
+   "name": "Fn10185CA0_m00",
+   "confidence": "medium",
+   "evidence": "initial 1.0, set to 1.0 or to 1/a4; element 0 of sub_10185CA0's 4x4 matrix"
+  },
+  "0x103773DC": {
+   "old": "dword_103773DC",
+   "name": "Fn10185CA0_m11",
+   "confidence": "medium",
+   "evidence": "initial 1.0; element 5 of sub_10185CA0's 4x4 matrix"
+  },
+  "0x103773E0": {
+   "old": "flt_103773E0",
+   "name": "Fn10185CA0_m22",
+   "confidence": "medium",
+   "evidence": "initial 1.0, set to 1.0 or 1/a4; element 10 of sub_10185CA0's 4x4 matrix"
+  },
+  "0x103890E4": {
+   "old": "flt_103890E4",
+   "name": "c_flt_0_1",
+   "confidence": "high",
+   "evidence": "float 0.1 (0x3DCCCCCD); read 8 times (0x1024FF50, StAvatar_SetViewFromDancerCamera), never written or addressed"
+  },
+  "0x10455AF8": {
+   "old": "dword_10455AF8",
+   "name": "g_pDebugOverlay",
+   "confidence": "medium",
+   "evidence": "App_InitScene allocates 0x20 bytes and constructs it with sub_100035F0; Frame_Render passes it to sub_10003650 (DebugOverlay_Draw in DancingMad's names) each frame; App_Destructor destroys it"
+  },
+  "0x10456560": {
+   "old": "byte_10456560",
+   "name": "CDx_DrawStereoOddFrameOverlay_staticGuard",
+   "confidence": "high",
+   "evidence": "bit 0 tested and set on first entry (if ((g & 1) == 0) g |= 1): the MSVC guard for a function-local static, in CDx_DrawStereoOddFrameOverlay"
+  },
+  "0x10456568": {
+   "old": "byte_10456568",
+   "name": "g_currentDirectory",
+   "confidence": "high",
+   "evidence": "CDx_Initialize passes it to GetCurrentDirectoryA(0x104, buf) and searches it with strrchr for '\\\\' and '/'"
+  },
+  "0x10456670": {
+   "old": "unk_10456670",
+   "name": "g_linePattern",
+   "confidence": "medium",
+   "evidence": "CDx_SetDefaultRenderState passes its address as the value of D3DRS_LINEPATTERN"
+  },
+  "0x104569B4": {
+   "old": "dword_104569B4",
+   "name": "g_sceneStateStorage_30",
+   "confidence": "high",
+   "evidence": "+0x30 of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x104569BC": {
+   "old": "dword_104569BC",
+   "name": "g_sceneStateStorage_38",
+   "confidence": "high",
+   "evidence": "+0x38 of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x104569C0": {
+   "old": "dword_104569C0",
+   "name": "g_sceneStateStorage_3C",
+   "confidence": "high",
+   "evidence": "+0x3C of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x104569D0": {
+   "old": "dword_104569D0",
+   "name": "g_sceneStateStorage_4C",
+   "confidence": "high",
+   "evidence": "+0x4C of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x104569EC": {
+   "old": "byte_104569EC",
+   "name": "g_sceneStateStorage_68",
+   "confidence": "high",
+   "evidence": "+0x68 of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x104569F4": {
+   "old": "dword_104569F4",
+   "name": "g_sceneStateStorage_70",
+   "confidence": "high",
+   "evidence": "+0x70 of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x10456A00": {
+   "old": "unk_10456A00",
+   "name": "g_sceneStateStorage_7C",
+   "confidence": "high",
+   "evidence": "+0x7C of g_sceneStateStorage (0x10456984), whose address App_WinMain stores in g_pSceneState"
+  },
+  "0x10456984": {
+   "old": "dword_10456984",
+   "name": "g_sceneStateStorage",
+   "confidence": "high",
+   "evidence": "App_WinMain and 0x10015760 store its address in g_pSceneState: the storage of the object g_pSceneState points to"
+  },
+  "0x10456A2C": {
+   "old": "dword_10456A2C",
+   "name": "g_pHostFuncTable",
+   "confidence": "medium",
+   "evidence": "a pointer to a table of function pointers: 141 thunks from 0x1030FED0 each do mov eax,[0x10456A2C]; jmp [eax+N] (N = 0x1F8, 0x1FC, ...); App_WinMain copies it from g_sceneStateStorage_30"
+  },
+  "0x10456904": {
+   "old": "dword_10456904",
+   "name": "g_modelsDrawnThisFrame",
+   "confidence": "medium",
+   "evidence": "Frame_Render sets it to 0; CXiSkeletonActor_DrawModel increments it"
+  },
+  "0x10456960": {
+   "old": "flt_10456960",
+   "name": "g_frameStepFps",
+   "confidence": "high",
+   "evidence": "Frame_Render sets it to 60 / [this+0x28], the frame step in 60 Hz ticks (docs/RENDERER.md, section 3a), and divides 60 by it"
+  },
+  "0x10456964": {
+   "old": "dword_10456964",
+   "name": "g_frameStepRing",
+   "confidence": "high",
+   "evidence": "the ring of the last 4 frames' measured tick counts that Frame_Render averages (* 0.25) into the frame step (docs/RENDERER.md, section 3a)"
+  },
+  "0x10456974": {
+   "old": "dword_10456974",
+   "name": "g_frameStepRingIndex",
+   "confidence": "high",
+   "evidence": "Frame_Render advances it as (i + 1) & 3 and stores the frame's tick count at g_frameStepRing[i]"
+  },
+  "0x10456914": {
+   "old": "dword_10456914",
+   "name": "g_afterimageHalfTex",
+   "confidence": "medium",
+   "evidence": "CMoSchedularTask_Interpret creates it with CDx_CreateTexture(half the viewport width, half the viewport height) next to the g_afterimageTex setup; AfterimageTask_Destructor releases it"
+  },
+  "0x1045693C": {
+   "old": "dword_1045693C",
+   "name": "g_halfScreenTex",
+   "confidence": "medium",
+   "evidence": "App_InitScene creates it with CDx_CreateTexture(half of the app's +24 width, half of its +26 height); App_Destructor releases it"
+  },
+  "0x10456790": {
+   "old": "dword_10456790",
+   "name": "g_appMeshRes_39551",
+   "confidence": "high",
+   "evidence": "App_InitScene sets it to the resource sub_10072FD0(g_pMeshResourceMng, ..., 39551) returns and add-refs it; App_Destructor releases it"
+  },
+  "0x104568E8": {
+   "old": "dword_104568E8",
+   "name": "g_appMeshRes_39560",
+   "confidence": "high",
+   "evidence": "App_InitScene sets it to the resource sub_10072FD0(g_pMeshResourceMng, ..., 39560) returns; App_Destructor releases it"
+  },
+  "0x104568A0": {
+   "old": "dword_104568A0",
+   "name": "g_appMeshResA",
+   "confidence": "medium",
+   "evidence": "App_InitScene sets it to a resource from sub_100731B0(g_pMeshResourceMng, ...) (id from a variable) and add-refs it; App_Destructor releases it"
+  },
+  "0x10456794": {
+   "old": "dword_10456794",
+   "name": "g_appMeshResB",
+   "confidence": "medium",
+   "evidence": "App_InitScene sets it to a second resource from sub_100731B0(g_pMeshResourceMng, ...) and add-refs it; App_Destructor releases it"
+  },
+  "0x104568F0": {
+   "old": "dword_104568F0",
+   "name": "g_appMeshResC",
+   "confidence": "medium",
+   "evidence": "App_InitScene sets it to a third resource from sub_100731B0(g_pMeshResourceMng, ...); App_Destructor releases it"
+  },
+  "0x104568EC": {
+   "old": "dword_104568EC",
+   "name": "g_frameMeshRes",
+   "confidence": "medium",
+   "evidence": "Frame_Render sets it to a resource from sub_100731B0(g_pMeshResourceMng, ...) and add-refs it; App_Destructor releases it"
+  },
+  "0x104568A8": {
+   "old": "dword_104568A8",
+   "name": "g_frameWorldMatrix",
+   "confidence": "medium",
+   "evidence": "Frame_Render passes its address to CDx_SetTransform(D3DTS_WORLD = 256); App_Constructor and 0x10010340/0x10010360 take its address"
+  },
+  "0x10456E44": {
+   "old": "dword_10456E44",
+   "name": "CYyModelDt_PrepareRenderState_passToken",
+   "confidence": "medium",
+   "evidence": "CYyModelDt_PrepareRenderState zeroes it, passes its address to Model_BeginOffscreenPass, and compares a later value with it"
+  },
+  "0x1045B648": {
+   "old": "dword_1045B648",
+   "name": "CYyModelDt_SkinAndDrawV2_passToken",
+   "confidence": "medium",
+   "evidence": "CYyModelDt_SkinAndDrawV2 zeroes it and passes its address to EnvMap_BeginPass, ProjTex_BeginPass and Model_BeginOffscreenPass (6 calls), and compares a later value with it"
+  },
+  "0x10456E6C": {
+   "old": "dword_10456E6C",
+   "name": "Fn10025260_targetTex",
+   "confidence": "medium",
+   "evidence": "sub_10025260 (which stores Vtbl_1032A460 as *this) creates it with CDx_CreateTexture(viewport width, viewport height) when it is 0; 0x10025220 releases it"
+  },
+  "0x1045B818": {
+   "old": "dword_1045B818",
+   "name": "Fn10033710_targetTex",
+   "confidence": "medium",
+   "evidence": "sub_10033710 (which stores Vtbl_1032A844 as *this) creates it with CDx_CreateTexture(viewport width, viewport height) when it is 0; 0x100336D0 releases it"
+  },
+  "0x10457550": {
+   "old": "dword_10457550",
+   "name": "g_boneWeightMatrixTableCur",
+   "confidence": "medium",
+   "evidence": "CYyModelDt_SkinAndDrawV2 sets it to g_boneWeightMatrixTable; 0x1002F1D0 (24 reads) and 0x100303B0 (8 reads) read it"
+  },
+  "0x1047B954": {
+   "old": "dword_1047B954",
+   "name": "g_sceneCaptureTint",
+   "confidence": "medium",
+   "evidence": "Post_CaptureSceneToTarget writes it into the colour of all 4 vertices of its full quad (v4[4], [11], [18], [25] of 28-byte vertices, FVF 0x144) and blends unless its alpha byte is 0x80; 0x10038A70 sets it"
+  },
+  "0x1047BAF0": {
+   "old": "dword_1047BAF0",
+   "name": "Fn100421A0_texRef",
+   "confidence": "medium",
+   "evidence": "sub_100421A0 passes its address to TexRef_SetTexture(ref, 1)"
+  },
+  "0x1047BC28": {
+   "old": "dword_1047BC28",
+   "name": "Fn100467E0_material",
+   "confidence": "high",
+   "evidence": "its address is passed to IDirect3DDevice8::SetMaterial (a D3DMATERIAL8) by sub_100467E0; 0x10046380 writes it"
+  },
+  "0x1047BC7C": {
+   "old": "dword_1047BC7C",
+   "name": "Fn10054D70_lookAtUp",
+   "confidence": "high",
+   "evidence": "sub_10054D70 sets it and the next two floats to 0, 0, -1 and passes its address as pUp, the 4th argument of D3DXMatrixLookAtRH"
+  },
+  "0x1047BC80": {
+   "old": "dword_1047BC80",
+   "name": "Fn10054D70_lookAtUp_y",
+   "confidence": "high",
+   "evidence": "the y of Fn10054D70_lookAtUp (set to 0 by sub_10054D70)"
+  },
+  "0x1047BC84": {
+   "old": "dword_1047BC84",
+   "name": "Fn10054D70_lookAtUp_z",
+   "confidence": "high",
+   "evidence": "the z of Fn10054D70_lookAtUp (set to -1.0 by sub_10054D70)"
+  },
+  "0x1047BBE0": {
+   "old": "dword_1047BBE0",
+   "name": "g_zoneFogOut1",
+   "confidence": "medium",
+   "evidence": "its address is the 2nd argument of XiZone_GetFog(g_pXiZone, ...) in sub_100464D0 and sub_100467E0 (the first output); which fog value it receives is not established"
+  },
+  "0x1047BBDC": {
+   "old": "dword_1047BBDC",
+   "name": "g_zoneFogOut2",
+   "confidence": "medium",
+   "evidence": "its address is the 3rd argument of XiZone_GetFog (the second output); which fog value is not established"
+  },
+  "0x1047BBF8": {
+   "old": "dword_1047BBF8",
+   "name": "g_zoneFogOut3",
+   "confidence": "medium",
+   "evidence": "its address is the 4th argument of XiZone_GetFog (the third output); which fog value is not established"
+  },
+  "0x1047B9C4": {
+   "old": "byte_1047B9C4",
+   "name": "Fn1003E9A0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_1003E9A0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047B9C5": {
+   "old": "byte_1047B9C5",
+   "name": "Fn1003EBF0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_1003EBF0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047B9E4": {
+   "old": "byte_1047B9E4",
+   "name": "CMoDistMorphElem_ApplyMorph_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CMoDistMorphElem_ApplyMorph: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BA18": {
+   "old": "byte_1047BA18",
+   "name": "Fn100412B0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100412B0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BA28": {
+   "old": "byte_1047BA28",
+   "name": "CMoDistModelElem_DrawMesh_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CMoDistModelElem_DrawMesh: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BA29": {
+   "old": "byte_1047BA29",
+   "name": "Fn10040220_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10040220: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BAA4": {
+   "old": "byte_1047BAA4",
+   "name": "CMoElemFamily_SharedEarlyExit_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CMoElemFamily_SharedEarlyExit: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BB00": {
+   "old": "byte_1047BB00",
+   "name": "Fn100421A0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100421A0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BB04": {
+   "old": "dword_1047BB04",
+   "name": "CMoDist_vf18_static_BB04",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB08": {
+   "old": "dword_1047BB08",
+   "name": "CMoDist_vf18_static_BB08",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB0C": {
+   "old": "dword_1047BB0C",
+   "name": "CMoDist_vf18_static_BB0C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB10": {
+   "old": "dword_1047BB10",
+   "name": "CMoDist_vf18_static_BB10",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB14": {
+   "old": "dword_1047BB14",
+   "name": "CMoDist_vf18_static_BB14",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB18": {
+   "old": "dword_1047BB18",
+   "name": "CMoDist_vf18_static_BB18",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB1C": {
+   "old": "dword_1047BB1C",
+   "name": "CMoDist_vf18_static_BB1C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB20": {
+   "old": "dword_1047BB20",
+   "name": "CMoDist_vf18_static_BB20",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB24": {
+   "old": "dword_1047BB24",
+   "name": "CMoDist_vf18_static_BB24",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB28": {
+   "old": "dword_1047BB28",
+   "name": "CMoDist_vf18_static_BB28",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB2C": {
+   "old": "dword_1047BB2C",
+   "name": "CMoDist_vf18_static_BB2C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB30": {
+   "old": "dword_1047BB30",
+   "name": "CMoDist_vf18_static_BB30",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB34": {
+   "old": "dword_1047BB34",
+   "name": "CMoDist_vf18_static_BB34",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB38": {
+   "old": "dword_1047BB38",
+   "name": "CMoDist_vf18_static_BB38",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB3C": {
+   "old": "dword_1047BB3C",
+   "name": "CMoDist_vf18_static_BB3C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CMoDist_vf18, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BB40": {
+   "old": "byte_1047BB40",
+   "name": "CMoDist_vf18_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CMoDist_vf18: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BB41": {
+   "old": "byte_1047BB41",
+   "name": "CMoDistMorphElem_ValidateMorphData_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CMoDistMorphElem_ValidateMorphData: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BB74": {
+   "old": "byte_1047BB74",
+   "name": "Fn100431B0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100431B0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BBC4": {
+   "old": "byte_1047BBC4",
+   "name": "Fn100472F0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100472F0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BBE4": {
+   "old": "byte_1047BBE4",
+   "name": "Fn100467E0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100467E0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BBF4": {
+   "old": "byte_1047BBF4",
+   "name": "Fn10045920_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10045920: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BBFC": {
+   "old": "byte_1047BBFC",
+   "name": "Fn10046550_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10046550: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BC10": {
+   "old": "dword_1047BC10",
+   "name": "Fn10045920_static_BC10",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sub_10045920, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BC14": {
+   "old": "dword_1047BC14",
+   "name": "Fn10045920_static_BC14",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10045920, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BC18": {
+   "old": "dword_1047BC18",
+   "name": "Fn10045920_static_BC18",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10045920, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BC78": {
+   "old": "byte_1047BC78",
+   "name": "Fn10054D70_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10054D70: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BCA8": {
+   "old": "byte_1047BCA8",
+   "name": "CXi471011C8_VT_1032B478_RebuildBlendWeights_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in CXi471011C8_VT_1032B478_RebuildBlendWeights: the MSVC init guards of that function's local statics"
+  },
+  "0x1047BCC4": {
+   "old": "dword_1047BCC4",
+   "name": "CMoSchedularTask_Interpret_static_BCC4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (3) is in CMoSchedularTask_Interpret, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BCE4": {
+   "old": "dword_1047BCE4",
+   "name": "CMoSchedularTask_Interpret_static_BCE4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in CMoSchedularTask_Interpret, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BCE8": {
+   "old": "dword_1047BCE8",
+   "name": "CMoSchedularTask_Interpret_static_BCE8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in CMoSchedularTask_Interpret, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BCEC": {
+   "old": "dword_1047BCEC",
+   "name": "CMoSchedularTask_Interpret_static_BCEC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in CMoSchedularTask_Interpret, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BCF0": {
+   "old": "dword_1047BCF0",
+   "name": "CMoSchedularTask_Interpret_static_BCF0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in CMoSchedularTask_Interpret, so it is that function's static; its meaning is not named"
+  },
+  "0x1047BEF8": {
+   "old": "dword_1047BEF8",
+   "name": "Fn10057E10_static_BEF8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10057E10, so it is that function's static; its meaning is not named"
+  },
+  "0x1047C000": {
+   "old": "dword_1047C000",
+   "name": "Fn1006B3B0_static_C000",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sub_1006B3B0, so it is that function's static; its meaning is not named"
+  },
+  "0x1047C008": {
+   "old": "dword_1047C008",
+   "name": "Fn1006B3B0_static_C008",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sub_1006B3B0, so it is that function's static; its meaning is not named"
+  },
+  "0x1047CADC": {
+   "old": "byte_1047CADC",
+   "name": "Fn1006C530_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_1006C530: the MSVC init guards of that function's local statics"
+  },
+  "0x1047D148": {
+   "old": "byte_1047D148",
+   "name": "Fn10075C40_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10075C40: the MSVC init guards of that function's local statics"
+  },
+  "0x1047D154": {
+   "old": "byte_1047D154",
+   "name": "Fn100759C0_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_100759C0: the MSVC init guards of that function's local statics"
+  },
+  "0x1047D180": {
+   "old": "flt_1047D180",
+   "name": "Fn10076030_static_D180",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D184": {
+   "old": "flt_1047D184",
+   "name": "Fn10076030_static_D184",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D188": {
+   "old": "dword_1047D188",
+   "name": "Fn10076030_static_D188",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D18C": {
+   "old": "dword_1047D18C",
+   "name": "Fn10076030_static_D18C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D190": {
+   "old": "dword_1047D190",
+   "name": "Fn10076030_static_D190",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D194": {
+   "old": "dword_1047D194",
+   "name": "Fn10076030_static_D194",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D198": {
+   "old": "dword_1047D198",
+   "name": "Fn10076030_static_D198",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D19C": {
+   "old": "flt_1047D19C",
+   "name": "Fn10076030_static_D19C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1A0": {
+   "old": "flt_1047D1A0",
+   "name": "Fn10076030_static_D1A0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1A4": {
+   "old": "dword_1047D1A4",
+   "name": "Fn10076030_static_D1A4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1A8": {
+   "old": "dword_1047D1A8",
+   "name": "Fn10076030_static_D1A8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1AC": {
+   "old": "dword_1047D1AC",
+   "name": "Fn10076030_static_D1AC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1B0": {
+   "old": "dword_1047D1B0",
+   "name": "Fn10076030_static_D1B0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1B4": {
+   "old": "dword_1047D1B4",
+   "name": "Fn10076030_static_D1B4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1B8": {
+   "old": "flt_1047D1B8",
+   "name": "Fn10076030_static_D1B8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1BC": {
+   "old": "flt_1047D1BC",
+   "name": "Fn10076030_static_D1BC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1C0": {
+   "old": "dword_1047D1C0",
+   "name": "Fn10076030_static_D1C0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1C4": {
+   "old": "dword_1047D1C4",
+   "name": "Fn10076030_static_D1C4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1C8": {
+   "old": "dword_1047D1C8",
+   "name": "Fn10076030_static_D1C8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1CC": {
+   "old": "dword_1047D1CC",
+   "name": "Fn10076030_static_D1CC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1D0": {
+   "old": "dword_1047D1D0",
+   "name": "Fn10076030_static_D1D0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1D4": {
+   "old": "flt_1047D1D4",
+   "name": "Fn10076030_static_D1D4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1D8": {
+   "old": "flt_1047D1D8",
+   "name": "Fn10076030_static_D1D8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1DC": {
+   "old": "dword_1047D1DC",
+   "name": "Fn10076030_static_D1DC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1E0": {
+   "old": "dword_1047D1E0",
+   "name": "Fn10076030_static_D1E0",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1E4": {
+   "old": "dword_1047D1E4",
+   "name": "Fn10076030_static_D1E4",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1E8": {
+   "old": "dword_1047D1E8",
+   "name": "Fn10076030_static_D1E8",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1EC": {
+   "old": "dword_1047D1EC",
+   "name": "Fn10076030_static_D1EC",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sub_10076030, so it is that function's static; its meaning is not named"
+  },
+  "0x1047D1FC": {
+   "old": "byte_1047D1FC",
+   "name": "Fn10075700_staticGuards",
+   "confidence": "high",
+   "evidence": "every use is (g & bit) == 0 followed by g |= bit, all in sub_10075700: the MSVC init guards of that function's local statics"
+  },
+  "0x1048A310": {
+   "old": "dword_1048A310",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A310",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A314": {
+   "old": "dword_1048A314",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A314",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A31C": {
+   "old": "dword_1048A31C",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A31C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A320": {
+   "old": "dword_1048A320",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A320",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A32C": {
+   "old": "dword_1048A32C",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A32C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A330": {
+   "old": "dword_1048A330",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A330",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A334": {
+   "old": "dword_1048A334",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A334",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A33C": {
+   "old": "dword_1048A33C",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A33C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A340": {
+   "old": "dword_1048A340",
+   "name": "PerActor_FourBucketStaggeredUpdate_static_A340",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in PerActor_FourBucketStaggeredUpdate, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A344": {
+   "old": "dword_1048A344",
+   "name": "CXiSkeletonActor_OnMove_static_A344",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CXiSkeletonActor_OnMove, so it is that function's static; its meaning is not named"
+  },
+  "0x1048A37C": {
+   "old": "dword_1048A37C",
+   "name": "CXiSkeletonActor_OnMove_static_A37C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in CXiSkeletonActor_OnMove, so it is that function's static; its meaning is not named"
+  },
+  "0x1062191C": {
+   "old": "stru_1062191C",
+   "name": "Fn10162010_static_191C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (7) is in sub_10162010, so it is that function's static; its meaning is not named"
+  },
+  "0x10621C08": {
+   "old": "flt_10621C08",
+   "name": "Fn1017C9C0_static_1C08",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (3) is in sub_1017C9C0, so it is that function's static; its meaning is not named"
+  },
+  "0x1063907C": {
+   "old": "flt_1063907C",
+   "name": "Fn1017DE20_static_907C",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (6) is in sub_1017DE20, so it is that function's static; its meaning is not named"
+  },
+  "0x10639080": {
+   "old": "flt_10639080",
+   "name": "Fn1017DE20_static_9080",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (4) is in sub_1017DE20, so it is that function's static; its meaning is not named"
+  },
+  "0x10639084": {
+   "old": "flt_10639084",
+   "name": "Fn1017DE20_static_9084",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sub_1017DE20, so it is that function's static; its meaning is not named"
+  },
+  "0x1099D218": {
+   "old": "byte_1099D218",
+   "name": "sqgxTextureCreateFromImage_static_D218",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (2) is in sqgxTextureCreateFromImage, so it is that function's static; its meaning is not named"
+  },
+  "0x1099D219": {
+   "old": "byte_1099D219",
+   "name": "sqgxTextureCreateFromImage_static_D219",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sqgxTextureCreateFromImage, so it is that function's static; its meaning is not named"
+  },
+  "0x1099D21A": {
+   "old": "byte_1099D21A",
+   "name": "sqgxTextureCreateFromImage_static_D21A",
+   "confidence": "high",
+   "evidence": "scope only: every reference in the whole image (1) is in sqgxTextureCreateFromImage, so it is that function's static; its meaning is not named"
+  },
+  "0x10639048": {
+   "old": "dword_10639048",
+   "name": "g_zoneVsC15_x",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c15.x (float 0 of the block)"
+  },
+  "0x1063904C": {
+   "old": "dword_1063904C",
+   "name": "g_zoneVsC15_y",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c15.y (float 1 of the block)"
+  },
+  "0x10639050": {
+   "old": "dword_10639050",
+   "name": "g_zoneVsC15_z",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c15.z (float 2 of the block)"
+  },
+  "0x10639054": {
+   "old": "dword_10639054",
+   "name": "g_zoneVsC15_w",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c15.w (float 3 of the block)"
+  },
+  "0x10639058": {
+   "old": "dword_10639058",
+   "name": "g_zoneVsC16_x",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c16.x (float 4 of the block)"
+  },
+  "0x1063905C": {
+   "old": "dword_1063905C",
+   "name": "g_zoneVsC16_y",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c16.y (float 5 of the block)"
+  },
+  "0x10639060": {
+   "old": "dword_10639060",
+   "name": "g_zoneVsC16_z",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c16.z (float 6 of the block)"
+  },
+  "0x10639064": {
+   "old": "dword_10639064",
+   "name": "g_zoneVsC16_w",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c16.w (float 7 of the block)"
+  },
+  "0x10639068": {
+   "old": "dword_10639068",
+   "name": "g_zoneVsC17_x",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c17.x (float 8 of the block)"
+  },
+  "0x1063906C": {
+   "old": "dword_1063906C",
+   "name": "g_zoneVsC17_y",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c17.y (float 9 of the block)"
+  },
+  "0x10639070": {
+   "old": "dword_10639070",
+   "name": "g_zoneVsC17_z",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c17.z (float 10 of the block)"
+  },
+  "0x10639074": {
+   "old": "dword_10639074",
+   "name": "g_zoneVsC17_w",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c17.w (float 11 of the block)"
+  },
+  "0x10639078": {
+   "old": "flt_10639078",
+   "name": "g_zoneVsC18_x",
+   "confidence": "high",
+   "evidence": "sub_1017C9C0 and sub_1017DE20 upload the 16 floats from 0x10639048 with SetVertexShaderConstant(15, &g, 4): this is register c18.x (float 12 of the block)"
+  },
+  "0x1047D14C": {
+   "old": "dword_1047D14C",
+   "name": "g_cubeMapCount",
+   "confidence": "medium",
+   "evidence": "Gfx_InitCubeMapTextures sets it to 3 and loops over that many cube textures (sizes 32<<i); sub_10075C40 loops up to it too"
+  },
+  "0x1047D168": {
+   "old": "dword_1047D168",
+   "name": "g_cubeMapTextures",
+   "confidence": "medium",
+   "evidence": "int[3]: Gfx_InitCubeMapTextures stores each created cube texture in [i] and releases it through slot 2 (Release); sub_10075C40 and sub_1006B3B0 read it"
+  },
+  "0x1048A34C": {
+   "old": "dword_1048A34C",
+   "name": "g_actorSerialCounter",
+   "confidence": "medium",
+   "evidence": "CXiSkeletonActor_Init stores it into the new actor at +0x9EC and post-increments it; 0x100D14C0/0x100D16C0/0x100D1970 and others read it"
+  }
+ },
+ "unnamed": {
+  "0x1032C17C": {
+   "old": "unk_1032C17C",
+   "why": "low: 16 zero bytes whose address sub_1006C8B0 passes to a virtual call (+36) with length 16; the call is not identified"
+  },
+  "0x1032C18C": {
+   "old": "unk_1032C18C",
+   "why": "low: as 0x1032C17C, the next 16 bytes"
+  },
+  "0x1032D36C": {
+   "old": "off_1032D36C",
+   "why": "low: a pointer table entry that Actor_DrawWorldText reads one byte of at a variable offset; what the bytes mean is not established"
+  },
+  "0x1032D374": {
+   "old": "off_1032D374",
+   "why": "low: as 0x1032D36C"
+  },
+  "0x10345708": {
+   "old": "unk_10345708",
+   "why": "D3DX library (D3DXFindClosestDeviceFormat format table), not game code"
+  },
+  "0x10345730": {
+   "old": "unk_10345730",
+   "why": "D3DX library (D3DXFindClosestDeviceFormat format table), not game code"
+  },
+  "0x10350208": {
+   "old": "dword_10350208",
+   "why": "low: only used as the end address of the g_flashQuadVerts colour loop; its own use is not in the export"
+  },
+  "0x10352D2C": {
+   "old": "flt_10352D2C",
+   "why": "low: only used as the end address of the 12-byte point array g_projTextQuad (0x10352CFC + 48); its own use is not in the export"
+  },
+  "0x103CC408": {
+   "old": "off_103CC408",
+   "why": "D3DX library (end pointer of the D3DXFindClosestDeviceFormat format table), not game code"
+  },
+  "0x10455C20": {
+   "old": "dword_10455C20",
+   "why": "low: an object pointer used 45 times (fields +3508 accumulated, +3516 flag; passed to sub_10008830/sub_10005A40/sub_100088F0 in Frame_Render) written by 0x100013C0, 0x10001BB0 and 0x10005720, which are outside the export; what object it is is not established"
+  },
+  "0x1045691C": {
+   "old": "dword_1045691C",
+   "why": "low: the 4th argument of CDx_CreateTexture for g_afterimageHalfTex (zeroed by CDx_CreateTexture); what it receives is not established"
+  },
+  "0x10456944": {
+   "old": "dword_10456944",
+   "why": "low: the 4th argument of CDx_CreateTexture for g_halfScreenTex; what it receives is not established"
+  },
+  "0x10456948": {
+   "old": "dword_10456948",
+   "why": "low: Frame_Render sets 12 or 21 and compares with 12; its meaning is not established"
+  },
+  "0x10456950": {
+   "old": "dword_10456950",
+   "why": "low: a Frame_Render flag set to 1 and tested with g_pAppSettings+88"
+  },
+  "0x10456954": {
+   "old": "dword_10456954",
+   "why": "low: a Frame_Render counter compared with 45, reset by App_InitScene"
+  },
+  "0x10456958": {
+   "old": "dword_10456958",
+   "why": "low: a Frame_Render counter compared with 2, reset by App_InitScene"
+  },
+  "0x1045695C": {
+   "old": "dword_1045695C",
+   "why": "low: a Frame_Render state 0/1/2, reset by App_InitScene"
+  },
+  "0x104568F8": {
+   "old": "word_104568F8",
+   "why": "low: set to g_pAppSettings[+8] + 1 by sub_100141C0"
+  },
+  "0x1045694C": {
+   "old": "dword_1045694C",
+   "why": "low: a value LobbyThread_Start receives, set 0 and 1 by App_StepGameState5Connect; its meaning is not established"
+  },
+  "0x10456A80": {
+   "old": "dword_10456A80",
+   "why": "low: a Config_SetDefaults value tested ==1 by Gfx_D3DBootstrap; meaning not established"
+  },
+  "0x10456A98": {
+   "old": "dword_10456A98",
+   "why": "low: a Config_SetDefaults value read by App_Constructor, CXiSkeletonActor_DrawModel, sub_1017B510; meaning not established"
+  },
+  "0x10456AA4": {
+   "old": "dword_10456AA4",
+   "why": "low: a Config_SetDefaults value used by avatar/camera functions; meaning not established"
+  },
+  "0x10456AC0": {
+   "old": "dword_10456AC0",
+   "why": "low: a Config_SetDefaults value tested 0/2 by sub_1016FCD0; meaning not established"
+  },
+  "0x10456BE4": {
+   "old": "dword_10456BE4",
+   "why": "low: a Config_SetDefaults value tested by Frame_Render; meaning not established"
+  },
+  "0x10456C0C": {
+   "old": "dword_10456C0C",
+   "why": "low: an object App_InitScene creates (constructor misnamed exception::exception in the IDB) and App_Destructor destroys; class not established"
+  },
+  "0x10456D18": {
+   "old": "dword_10456D18",
+   "why": "low: an object App_InitScene creates (+408 copied to the scene state, +388 written to a stream); class not established"
+  },
+  "0x10456D1C": {
+   "old": "dword_10456D1C",
+   "why": "low: an object pointer used by 0x100139E0 and Frame_Render; not established"
+  },
+  "0x10456D20": {
+   "old": "dword_10456D20",
+   "why": "low: a counter reset by CXiOpening_Constructor, incremented by 0x10018850; not established"
+  },
+  "0x10456E48": {
+   "old": "dword_10456E48",
+   "why": "low: the texture CYyModelDt_PrepareRenderState selects (from dword_1045745C+48 or dword_104570F4); its role is not established"
+  },
+  "0x1045B64C": {
+   "old": "dword_1045B64C",
+   "why": "low: the texture CYyModelDt_SkinAndDrawV2 selects (as 0x10456E48); its role is not established"
+  },
+  "0x10456E54": {
+   "old": "dword_10456E54",
+   "why": "low: ProjTex_CaptureToTarget stores its argument a4 here; no reader in the export"
+  },
+  "0x10456E60": {
+   "old": "dword_10456E60",
+   "why": "low: ProjTex_CaptureToTarget stores its argument a3 here; no reader in the export"
+  },
+  "0x10456E70": {
+   "old": "dword_10456E70",
+   "why": "low: zeroed by CDx_CreateTexture as the 4th argument for Fn10025260_targetTex, later set to g_translucentTarget and released through slot 1; its role is not established"
+  },
+  "0x1045B81C": {
+   "old": "dword_1045B81C",
+   "why": "low: zeroed by CDx_CreateTexture as the 4th argument for Fn10033710_targetTex, released through slot 1; its role is not established"
+  },
+  "0x10456E74": {
+   "old": "dword_10456E74",
+   "why": "low: EnvMap_BeginPass copies it into element 12 of a matrix; 0x10026210 writes it; meaning not established"
+  },
+  "0x10456E78": {
+   "old": "dword_10456E78",
+   "why": "low: EnvMap_BeginPass copies it into element 13 of a matrix; 0x10026210 writes it; meaning not established"
+  },
+  "0x10456E88": {
+   "old": "dword_10456E88",
+   "why": "low: an object whose +48 texture reference EnvMap_EndPass clears; not established"
+  },
+  "0x104570F0": {
+   "old": "byte_104570F0",
+   "why": "low: a byte PerActor_FourBucketStaggeredUpdate and 0x100D6D30 set to 0; no reader in the export"
+  },
+  "0x104570F4": {
+   "old": "dword_104570F4",
+   "why": "low: an object with textures at +64/+68 used by the model draw; not established"
+  },
+  "0x104570F8": {
+   "old": "dword_104570F8",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to sub_10026210; written by 0x100D6D30; not established"
+  },
+  "0x10457100": {
+   "old": "dword_10457100",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to sub_10026210; written by 0x100D6D30; not established"
+  },
+  "0x10457130": {
+   "old": "dword_10457130",
+   "why": "low: CXiSkeletonActor_DrawModel sets it to 0; no reader in the export"
+  },
+  "0x10457140": {
+   "old": "dword_10457140",
+   "why": "low: CXiSkeletonActor_DrawModel sets it to -1.0f; no reader in the export"
+  },
+  "0x104571AC": {
+   "old": "dword_104571AC",
+   "why": "low: CXiSkeletonActor_DrawModel sets it to -1.0f; no reader in the export"
+  },
+  "0x104571C0": {
+   "old": "dword_104571C0",
+   "why": "low: CXiSkeletonActor_DrawModel sets it to -1.0f; no reader in the export"
+  },
+  "0x10457268": {
+   "old": "dword_10457268",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to sub_10026210; not established"
+  },
+  "0x1045726C": {
+   "old": "dword_1045726C",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to ProjTex_CaptureToTarget; not established"
+  },
+  "0x10457388": {
+   "old": "flt_10457388",
+   "why": "low: only the end address of a loop in CYyModelBase_DrawLit; its own use is not in the export"
+  },
+  "0x1045745C": {
+   "old": "dword_1045745C",
+   "why": "low: a pointer to a pointer to an object whose +48 the model draw reads; not established"
+  },
+  "0x104574B0": {
+   "old": "dword_104574B0",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to sub_10026210; not established"
+  },
+  "0x104574B4": {
+   "old": "dword_104574B4",
+   "why": "low: an argument CXiSkeletonActor_DrawModel passes to ProjTex_CaptureToTarget; not established"
+  },
+  "0x10457528": {
+   "old": "flt_10457528",
+   "why": "low: a float[4] whose address CXiSkeletonActor_DrawModel passes to sub_10026F50; not established"
+  },
+  "0x10457538": {
+   "old": "byte_10457538",
+   "why": "low: a byte PerActor_FourBucketStaggeredUpdate sets to 0; no reader in the export"
+  },
+  "0x10457548": {
+   "old": "dword_10457548",
+   "why": "low: a flag sub_10029A50 sets to 1 and tests; not established"
+  },
+  "0x1045B618": {
+   "old": "dword_1045B618",
+   "why": "low: two 16-bit counts loaded by CYyModelDt_SkinAndDrawV2 from its object; not established"
+  },
+  "0x1045B61C": {
+   "old": "dword_1045B61C",
+   "why": "low: a pointer computed from 0x1045B620 by the skinning code; not established"
+  },
+  "0x1045B620": {
+   "old": "dword_1045B620",
+   "why": "low: a pointer the skinning code loads from its object (+72); not established"
+  },
+  "0x1045B774": {
+   "old": "dword_1045B774",
+   "why": "low: used by App_Constructor/App_Destructor/App_InitScene and 0x1002F1D0; not established"
+  },
+  "0x1045B810": {
+   "old": "dword_1045B810",
+   "why": "low: a float set to 1.0 or a computed value, read *-12 by 0x10033DA0; not established"
+  },
+  "0x1045B814": {
+   "old": "word_1045B814",
+   "why": "low: a 16-bit value from a virtual call (+992) compared by 0x10033DA0; not established"
+  },
+  "0x1045F064": {
+   "old": "unk_1045F064",
+   "why": "low: a buffer CXiSkeletonActor_PoseCompose walks; not established"
+  },
+  "0x10463950": {
+   "old": "dword_10463950",
+   "why": "low: a byte array Font_DrawPass indexes by dword_1047B950 and marks 2; not established"
+  },
+  "0x1047B950": {
+   "old": "dword_1047B950",
+   "why": "low: an index into 0x10463950 used by Font_DrawPass; not established"
+  },
+  "0x1047B9D4": {
+   "old": "dword_1047B9D4",
+   "why": "low: 3 references (0x1003EFC0, sub_1003F130); what it holds is not established from the export"
+  },
+  "0x1047BBCC": {
+   "old": "flt_1047BBCC",
+   "why": "low: 5 references (sub_10046550, sub_100474D0); what it holds is not established from the export"
+  },
+  "0x1047BBD0": {
+   "old": "flt_1047BBD0",
+   "why": "low: 5 references (sub_10046550, sub_100474D0); what it holds is not established from the export"
+  },
+  "0x1047BBD4": {
+   "old": "flt_1047BBD4",
+   "why": "low: 5 references (sub_10046550, sub_100474D0); what it holds is not established from the export"
+  },
+  "0x1047BC94": {
+   "old": "dword_1047BC94",
+   "why": "low: 8 references (0x10055620, sub_1006B3B0, 0x1001BC80, 0x100555B0); what it holds is not established from the export"
+  },
+  "0x1047BCBC": {
+   "old": "dword_1047BCBC",
+   "why": "low: 23 references (CMoSchedularTask_Interpret, 0x10057150, 0x10057170); what it holds is not established from the export"
+  },
+  "0x1047BCF8": {
+   "old": "dword_1047BCF8",
+   "why": "low: 20 references (CMoSchedularTask_Interpret, 0x100570B0, 0x100570D0); what it holds is not established from the export"
+  },
+  "0x1047BEFC": {
+   "old": "dword_1047BEFC",
+   "why": "low: 25 references (CMoSchedularTask_Interpret, 0x10057100, 0x10057120); what it holds is not established from the export"
+  },
+  "0x1047BF04": {
+   "old": "dword_1047BF04",
+   "why": "low: 38 references (CMoSchedularTask_Interpret, 0x100571A0, 0x100571C0); what it holds is not established from the export"
+  },
+  "0x1047BF18": {
+   "old": "byte_1047BF18",
+   "why": "low: 4 references (CMoSchedularTask_Interpret, 0x10060590, 0x10189980); what it holds is not established from the export"
+  },
+  "0x1047BF20": {
+   "old": "dword_1047BF20",
+   "why": "low: 4 references (CMoSchedularTask_Interpret, 0x10060450); what it holds is not established from the export"
+  },
+  "0x1047BF24": {
+   "old": "dword_1047BF24",
+   "why": "low: 6 references (CMoSchedularTask_Interpret, 0x10060590); what it holds is not established from the export"
+  },
+  "0x1047BF28": {
+   "old": "dword_1047BF28",
+   "why": "low: 4 references (CMoSchedularTask_Interpret, 0x10060750); what it holds is not established from the export"
+  },
+  "0x1047BF2C": {
+   "old": "dword_1047BF2C",
+   "why": "low: 4 references (CMoSchedularTask_Interpret, 0x10060750); what it holds is not established from the export"
+  },
+  "0x1047BF30": {
+   "old": "dword_1047BF30",
+   "why": "low: 4 references (CMoSchedularTask_Interpret, 0x10060750); what it holds is not established from the export"
+  },
+  "0x1047BF34": {
+   "old": "dword_1047BF34",
+   "why": "low: 3 references (sub_10063C80, sub_1003F130); what it holds is not established from the export"
+  },
+  "0x1047BFFC": {
+   "old": "dword_1047BFFC",
+   "why": "low: 4 references (App_InitScene, App_Constructor); what it holds is not established from the export"
+  },
+  "0x1047D12C": {
+   "old": "byte_1047D12C",
+   "why": "low: 34 references (0x10071270, 0x10072990, CMoGeneratorClone_CreateInstance, 0x10054840); what it holds is not established from the export"
+  },
+  "0x1047D13D": {
+   "old": "byte_1047D13D",
+   "why": "low: 5 references (App_InitScene, 0x10074920, 0x10074740); what it holds is not established from the export"
+  },
+  "0x1047D140": {
+   "old": "dword_1047D140",
+   "why": "low: 34 references (App_InitScene, 0x10074AD0, App_Destructor, 0x10056F70); what it holds is not established from the export"
+  },
+  "0x1047D15C": {
+   "old": "dword_1047D15C",
+   "why": "low: 4 references (sub_1006B3B0, Gfx_InitCubeMapTextures, sub_10075C40); what it holds is not established from the export"
+  },
+  "0x1047D688": {
+   "old": "dword_1047D688",
+   "why": "low: 5 references (App_Destructor, App_InitScene, App_Constructor); what it holds is not established from the export"
+  },
+  "0x1047D68C": {
+   "old": "dword_1047D68C",
+   "why": "low: 5 references (App_Destructor, App_InitScene, App_Constructor); what it holds is not established from the export"
+  },
+  "0x1047D694": {
+   "old": "byte_1047D694",
+   "why": "low: 7 references (0x100790E0, Frame_Render, CXiSkeletonActor_OnDrawName, LobbyThread_Proc); what it holds is not established from the export"
+  },
+  "0x1047D695": {
+   "old": "byte_1047D695",
+   "why": "low: 3 references (0x100790E0, CXiSkeletonActor_OnDrawName); what it holds is not established from the export"
+  },
+  "0x10480AF0": {
+   "old": "dword_10480AF0",
+   "why": "low: 931 references (0x1009B550, 0x10099AE0, 0x100B1150, 0x1009AFE0); what it holds is not established from the export"
+  },
+  "0x10487F58": {
+   "old": "dword_10487F58",
+   "why": "low: 15 references (0x10082B40, 0x100AA870, 0x1001EE60, 0x10020BA0); what it holds is not established from the export"
+  },
+  "0x10487F80": {
+   "old": "byte_10487F80",
+   "why": "low: 22 references (CXiSkeletonActor_OnMove, 0x100A5EF0, 0x100A6240, 0x100A8CC0); what it holds is not established from the export"
+  },
+  "0x10487F81": {
+   "old": "byte_10487F81",
+   "why": "low: 21 references (0x100A6240, sub_10125360, Frame_Render, 0x1001EE60); what it holds is not established from the export"
+  },
+  "0x104DFD98": {
+   "old": "dword_104DFD98",
+   "why": "low: 1071 references (0x10094190, 0x1021CCD0, 0x100ECB30, 0x100ECF80); what it holds is not established from the export"
+  },
+  "0x104E1BF4": {
+   "old": "dword_104E1BF4",
+   "why": "low: 5 references (App_Destructor, App_InitScene, App_Constructor); what it holds is not established from the export"
+  },
+  "0x104E1D44": {
+   "old": "dword_104E1D44",
+   "why": "low: 259 references (0x10005A40, 0x10123700, 0x10120D70, 0x10121000); what it holds is not established from the export"
+  },
+  "0x1057815C": {
+   "old": "dword_1057815C",
+   "why": "low: 16 references (App_Destructor, App_InitScene, 0x100800A0, 0x10080140); what it holds is not established from the export"
+  },
+  "0x10578160": {
+   "old": "dword_10578160",
+   "why": "low: 8 references (App_Destructor, App_InitScene, App_Constructor, 0x10128060); what it holds is not established from the export"
+  },
+  "0x105781F8": {
+   "old": "dword_105781F8",
+   "why": "low: 228 references (0x10212760, 0x100872C0, 0x101427A0, 0x1014F350); what it holds is not established from the export"
+  },
+  "0x1057847C": {
+   "old": "dword_1057847C",
+   "why": "low: 161 references (0x1014F350, 0x101A5690, 0x101186A0, 0x1012EC10); what it holds is not established from the export"
+  },
+  "0x10621A10": {
+   "old": "dword_10621A10",
+   "why": "low: 13 references (0x10174790, 0x10173990, 0x10174770, Dbg_DrawOrientedBoxes); what it holds is not established from the export"
+  },
+  "0x10631F14": {
+   "old": "dword_10631F14",
+   "why": "low: 2 references (0x1017B310, sub_1017B510); what it holds is not established from the export"
+  },
+  "0x106390B0": {
+   "old": "unk_106390B0",
+   "why": "low: 2 references (CTsZoneMap_DrawProjectedShadow, sub_10185CA0); what it holds is not established from the export"
+  },
+  "0x106390B4": {
+   "old": "unk_106390B4",
+   "why": "low: 2 references (CTsZoneMap_DrawProjectedShadow, sub_10185CA0); what it holds is not established from the export"
+  },
+  "0x106390C8": {
+   "old": "unk_106390C8",
+   "why": "low: 2 references (CTsZoneMap_DrawProjectedShadow, sub_10185CA0); what it holds is not established from the export"
+  },
+  "0x106390CC": {
+   "old": "unk_106390CC",
+   "why": "low: 2 references (CTsZoneMap_DrawProjectedShadow, sub_10185CA0); what it holds is not established from the export"
+  },
+  "0x1065C4C8": {
+   "old": "dword_1065C4C8",
+   "why": "low: 2 references (0x1017B310, sub_1017B510); what it holds is not established from the export"
+  },
+  "0x1065CA48": {
+   "old": "dword_1065CA48",
+   "why": "low: 3 references (sub_100604B0, 0x10189980); what it holds is not established from the export"
+  },
+  "0x1065CA4C": {
+   "old": "dword_1065CA4C",
+   "why": "low: 3 references (sub_100604B0, 0x10189980); what it holds is not established from the export"
+  },
+  "0x1065CA50": {
+   "old": "dword_1065CA50",
+   "why": "low: 3 references (sub_100604B0, 0x10189980); what it holds is not established from the export"
+  },
+  "0x1065CA54": {
+   "old": "dword_1065CA54",
+   "why": "low: 3 references (sub_100604B0, 0x10189980); what it holds is not established from the export"
+  },
+  "0x1065CB0C": {
+   "old": "dword_1065CB0C",
+   "why": "low: 3 references (sub_10057E10, 0x1018C2B0); what it holds is not established from the export"
+  },
+  "0x1065CB14": {
+   "old": "flt_1065CB14",
+   "why": "low: 22 references (sub_1004A980, 0x1018C2B0, sub_100496F0, 0x1004E310); what it holds is not established from the export"
+  },
+  "0x1065CB18": {
+   "old": "dword_1065CB18",
+   "why": "low: 10 references (0x1018C2B0, 0x1004E300, CMoSchedularTask_Interpret, 0x10187600); what it holds is not established from the export"
+  },
+  "0x1066279C": {
+   "old": "dword_1066279C",
+   "why": "low: 8 references (0x101AB0D0, 0x101AB520, Frame_Render); what it holds is not established from the export"
+  },
+  "0x106627EC": {
+   "old": "dword_106627EC",
+   "why": "low: 7 references (Frame_Render, 0x101AB080, 0x101AB0B0); what it holds is not established from the export"
+  },
+  "0x10662DA8": {
+   "old": "dword_10662DA8",
+   "why": "low: 5 references (0x101B8E70, 0x101B92B0, Frame_Render); what it holds is not established from the export"
+  },
+  "0x10663178": {
+   "old": "word_10663178",
+   "why": "low: 8 references (0x101D0C70, 0x101D0AB0, sub_101D0B00); what it holds is not established from the export"
+  },
+  "0x10663888": {
+   "old": "dword_10663888",
+   "why": "low: 85 references (0x100B9490, 0x100B9600, 0x101FBB30, 0x101FC070); what it holds is not established from the export"
+  },
+  "0x10669014": {
+   "old": "dword_10669014",
+   "why": "low: 5 references (Frame_Render, App_StepGameState5Connect, 0x1023E5F0); what it holds is not established from the export"
+  },
+  "0x10669420": {
+   "old": "byte_10669420",
+   "why": "low: 3 references (Frame_Render, Dancer_WorldEnd); what it holds is not established from the export"
+  },
+  "0x10669424": {
+   "old": "dword_10669424",
+   "why": "low: 10 references (App_Destructor, App_InitScene, 0x102532A0, 0x102532C0); what it holds is not established from the export"
+  },
+  "0x1099D21B": {
+   "old": "byte_1099D21B",
+   "why": "low: 2 references (sqgxTextureCreateFromImage, 0x10281A70); what it holds is not established from the export"
+  },
+  "0x109A2720": {
+   "old": "dword_109A2720",
+   "why": "low: 8 references (0x10283250, 0x10283280, 0x10283300, 0x10283330); what it holds is not established from the export"
+  },
+  "0x109B2640": {
+   "old": "dword_109B2640",
+   "why": "low: 5 references (0x102F47F3, ?Initialize@CD3DXText@@IAEJPAUIDirect3DDevice8@@@Z, ?Create@CD3DXText@@SAJPAUIDirect3DDevice8@@PAPAV1@@Z); what it holds is not established from the export"
+  },
+  "0x10354108": {
+   "old": "unk_10354108",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +0 = b0)"
+  },
+  "0x10354118": {
+   "old": "flt_10354118",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +16 = b10)"
+  },
+  "0x1035411C": {
+   "old": "flt_1035411C",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +20 = b14)"
+  },
+  "0x10354120": {
+   "old": "dword_10354120",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +24 = b18)"
+  },
+  "0x10354130": {
+   "old": "flt_10354130",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +40 = b28)"
+  },
+  "0x10354134": {
+   "old": "flt_10354134",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +44 = b2C)"
+  },
+  "0x1035413C": {
+   "old": "dword_1035413C",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +52 = b34)"
+  },
+  "0x10354148": {
+   "old": "flt_10354148",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +64 = b40)"
+  },
+  "0x1035414C": {
+   "old": "flt_1035414C",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +68 = b44)"
+  },
+  "0x10354150": {
+   "old": "dword_10354150",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +72 = b48)"
+  },
+  "0x10354154": {
+   "old": "dword_10354154",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +76 = b4C)"
+  },
+  "0x10354160": {
+   "old": "flt_10354160",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +88 = b58)"
+  },
+  "0x10354164": {
+   "old": "flt_10354164",
+   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +92 = b5C)"
+  },
+  "0x1035F598": {
+   "old": "word_1035F598",
+   "why": "low: __int16[10]; CXiSkeletonActor_LoadSkeletonSync adds an entry to a base id before a resource lookup; what selects the entry is not established"
+  },
+  "0x1036E5F4": {
+   "old": "flt_1036E5F4",
+   "why": "low: sub_10125360 sets it to atan2(...) - 1.57075 or -(field) - 1.57075 and wraps it by 6.283: an angle in radians; what it is the angle of is not established"
+  },
+  "0x1036E634": {
+   "old": "flt_1036E634",
+   "why": "low: sub_10125360 sets it to atan2(...) - 1.57075 (or -1.57075) and wraps it by 6.283: a second angle in radians; its meaning is not established"
+  },
+  "0x10456BF0": {
+   "old": "dword_10456BF0",
+   "why": "low: Config_SetDefaults writes it; sub_10178250 builds the vs.1.1/ps.1.1 zone shaders only if it is non-zero and two CDx capability bytes are 1"
+  }
+ }
+}

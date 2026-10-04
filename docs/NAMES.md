@@ -631,6 +631,60 @@ This round named the graphics functions that were still `sub_XXXX`: 154 in `tree
 | `0x102A2530` | `sqsnSceneLayerDrawPlanarShadows` | medium | yes | Draws planar projected shadows for a layer's casters: multiply blend with (1 - light color), Z bias +4, no Z write/test, stencil EQUAL+INCR to avoid double darkening, each caster drawn with shader flag bit31 (planar shadow matrix). |
 | `0x1031077E` | `Thunk_FnTable694` | medium |  | Calls the function pointer at offset 0x694 of the table pointed to by dword_10456A2C. |
 
+## 4 Oct 2026: the export's unnamed globals
+
+Every global the 867-function export references under a placeholder (`dword_`, `flt_`, `unk_`, `byte_`, `off_`,
+`word_`, `stru_`): 663. Each has a name or a stated reason for not having one (`data/global_names.json`); the
+names are in `data/names_pending_idb.json` (`"kind": "global"`) until the next IDA run applies them.
+
+### Evidence
+
+`pipeline/global_dossier.py` collects, for each global, from the binary and the export only:
+- every reference in the whole image (the relocation chain, each resolved to its instruction through
+  `data/func_extents.json`, or to the data address holding it) and what the instruction does with it: read,
+  write, float read/write, address taken, compare, call through, at which width;
+- the section and the initial bytes (as an integer, a float, a string, or the target of a pointer);
+- the export's pseudocode lines that mention it.
+
+Read in address order (neighbours are often one object). The helpers in `pipeline/global_naming/` show the
+context (`ctx.py`), what is left (`todo.py`), and apply the three rules below.
+
+### Rules (applied mechanically, each a fact of the code)
+
+- **Vertex arrays** (`addarr.py`): several "globals" are the fields of one vertex array a function fills and
+  passes to `DrawPrimitiveUP`. The vertex format comes from the function's `SetVertexShader`/`Gfx_CalcFVFStride`
+  value (0x44 = XYZRHW|DIFFUSE, 20 bytes; 0x144 = +TEX1, 28; 0x142 = XYZ|DIFFUSE|TEX1, 24), so each global is
+  named `<array>_v<k>_<field>`. Where the layout is not established, nothing is named.
+- **State blocks** (`stateblocks.py`): the handle and tables passed to `StateBlock_ApplyTSS`,
+  `StateBlock_ApplyRSTSS` and `sub_1006AF00` (which records `SetRenderState` only) are named
+  `<Function>_stateBlock` / `_renderStates` / `_textureStageStates`, as the IDB already names `Sky_DrawDome_*`.
+  The roles are those calls' code: device slots 52/50/63/53/54 (Begin/SetRenderState/SetTextureStageState/
+  End/ApplyStateBlock), tables of pairs or triples ending 0x7FFFFFFF, the handle -1 until recorded.
+- **Scope** (`rules2.py`): a byte whose every use is `(g & bit) == 0` then `g |= bit` in one function is that
+  function's MSVC static-init guards (`<Function>_staticGuards`); a global every reference to which, in the
+  whole image, is in one function is that function's static (`<Function>_static_XXXX`). These names state the
+  scope only, not a meaning.
+
+### Confidence
+
+- **high (283):** a string or exact bytes say what it is (the 3 D3D8 interface IDs equal `d3d8.h` in all 16
+  bytes; "DXT1".."DXT5"; the Shift-JIS messages, translated in the evidence), a declared role (the `pUp` of
+  `D3DXMatrixLookAtRH`, the argument of `SetMaterial`, register c15..c18 of `SetVertexShaderConstant`), one of
+  the rules above, or a fact already established in `docs/RENDERER.md` (the frame-step ring);
+- **medium (239):** what it is follows from its uses, but the wording is an inference (`g_fadeQuadVerts` for
+  the quad `CDx_DrawFadeQuad` fills, `g_screenFadeLevel` for the level centred on 0x80);
+- **low:** not named. 141 globals are unnamed, each with its reason in `data/global_names.json`: mostly
+  singletons used by hundreds of functions outside the export (one is read 1,052 times), app and configuration
+  flags whose readers are not exported, and 7 tables of Microsoft's D3DX, which is not game code.
+
+### Checks
+
+- No new name equals an existing function, global, parameter or local name, or a C++ keyword (globals are
+  macros in the tree).
+- The clean tree regenerated with the names builds the same `gfx_recon.dll`, byte for byte, as without them:
+  names do not change code. 377 of the 522 names appear in it (the others are used only by functions the tree
+  does not hold); no placeholder of a named global is left.
+
 ## 2 Oct 2026: globals and callees
 
 This round named the placeholders left in `tree/`: 24 `sub_` callees and 283 data symbols (`dword_`, `byte_`, `flt_`, `unk_`, `off_`, `word_`). 193 were named (86 high, 107 medium confidence); 13 `sub_` and 105 data placeholders remain because the code does not say enough about them.

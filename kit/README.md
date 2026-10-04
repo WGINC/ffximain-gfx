@@ -20,8 +20,16 @@ Every 600 frames it rewrites `d3dprof_<pid>.csv` next to the DLL:
   return address as the analysed build's address, so it matches `data/render_map.json`. Calls from
   outside FFXiMain.dll are marked `other module`.
 
-It is a plain DLL: DllMain starts a thread and returns. Load it with whatever the client already uses to
-load DLLs. `test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
+It is a plain DLL injected into pol.exe, the way the owner's speedfix_hook is (System Informer "Inject
+DLL" or any injector). DllMain starts a thread. The thread waits, with no time limit, for FFXiMain.dll,
+then for the device. It works the same on x86 Windows and on Windows on ARM, where the game runs under
+x86 emulation.
+
+With speedfix_hook: speedfix_hook patches the slots of the driver's vtable, and d3dprof gives the device a
+copy of whichever vtable it finds. Either order chains: a call goes through both hooks. When speedfix
+caches or merges calls, d3dprof counts them on its side of speedfix:
+- injected after speedfix, d3dprof sits in front of it and counts what the game asks for;
+- injected before, it counts what reaches the driver. `test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
 method with the caller's stack unchanged, returns with the method's own pop, and is counted.
 
 What it does not measure: time spent inside each D3D call (that needs a return hook), and calls made on

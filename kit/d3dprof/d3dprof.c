@@ -1,6 +1,7 @@
 /* d3dprof.c -- a per-frame profile of the game's Direct3D 8 calls, taken inside the running game.
 
-   Loaded into the game process (by whatever loader the owner uses; DllMain only starts a thread), it:
+   Injected into pol.exe (System Informer "Inject DLL" or any injector, as speedfix_hook is; DllMain only
+   starts a thread), it:
      1. checks that FFXiMain.dll is the analysed build (PE TimeDateStamp 0x6A995428, data/binary.json) and
         does nothing otherwise;
      2. waits for the device: [[g_pCDx]+0xC], g_pCDx at 0x1045666C in the analysed image (CDx.pDevice, the
@@ -193,9 +194,9 @@ static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH]; GetModuleFileNameA((HMODULE)self, path, MAX_PATH);
   char *slash = strrchr(path, '\\'); if (slash) slash[1] = 0;
   snprintf(g_out, sizeof g_out, "%sd3dprof_%lu.csv", path, (unsigned long)GetCurrentProcessId());
+  /* injected into pol.exe (any injector), possibly long before the game DLL loads: wait without a limit */
   HMODULE game = NULL;
-  for (int i = 0; i < 600 && !(game = GetModuleHandleA("FFXiMain.dll")); i++) Sleep(100);
-  if (!game) { log_line("FFXiMain.dll not loaded within 60 s: nothing done"); return 0; }
+  while (!(game = GetModuleHandleA("FFXiMain.dll"))) Sleep(100);
   IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)game + ((IMAGE_DOS_HEADER *)game)->e_lfanew);
   if (nt->FileHeader.TimeDateStamp != ANALYSED_TIMESTAMP) {
     log_line("FFXiMain.dll is not the analysed build (TimeDateStamp differs): nothing done"); return 0;

@@ -2,7 +2,6 @@
  "about": "SP points the first ida/ffxi_ida_fix.py run (2 Oct) set at calls whose pop the gate could not measure (fake COM objects: GetDesc modelled as GetPriority; a function with no gate case). The script removes them so IDA analyses those calls itself again. The D3DXMatrixMultiply points it set are overwritten with the measured 12.",
  "calls": [
   "0x1007531D",
-  "0x1000A705",
-  "0x1017C9F2"
+  "0x1000A705"
  ]
 }

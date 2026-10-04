@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import random
+import array, random
 import struct
 import sys
 from dataclasses import dataclass, field
@@ -257,19 +257,20 @@ class Fuzzer:
 
     def reset(self):
         self.cursor = SANDBOX
-        pool = bytearray(self.rng.getrandbits(8) for _ in range(0x10000))
-        # every dword of the pointee pool is drawn from a mix -- zero, small integer, pool
-        # pointer, or random -- so loaded indices, flags and second-level pointers are all
+        # drawn in bulk (randbytes): the per-byte draw was 90% of a case's time
+        pool = array.array('I', self.rng.randbytes(0x10000))
+        sel = self.rng.randbytes(len(pool)); aux = array.array('I', self.rng.randbytes(0x10000))
+        # every dword of the pointee pool is drawn from a mix -- zero (64/256), small integer 1..15 (51/256),
+        # pool pointer (64/256), or random -- so loaded indices, flags and second-level pointers are all
         # realistic, not just the first dereference
-        for off in range(0, len(pool), 4):
-            k = self.rng.random()
-            if k < 0.25: v = 0
-            elif k < 0.45: v = self.rng.randrange(1, 16)
-            elif k < 0.70: v = POOL + (self.rng.randrange(0, 0x10000 - 64) & ~3)
-            else: continue
-            struct.pack_into("<I", pool, off, v)
+        for off in range(len(pool)):
+            k = sel[off]
+            if k < 64: pool[off] = 0
+            elif k < 115: pool[off] = aux[off] % 15 + 1
+            elif k < 179: pool[off] = POOL + ((aux[off] % (0x10000 - 64)) & ~3)
+        pool = pool.tobytes()
         for i in range(0, POOL_SIZE, len(pool)):
-            self.m.uc.mem_write(POOL + i, bytes(pool))
+            self.m.uc.mem_write(POOL + i, pool)
 
     def dword(self):
         k = self.rng.random()

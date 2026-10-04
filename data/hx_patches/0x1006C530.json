@@ -1,0 +1,23 @@
+{
+ "why": "The four sums a1[0]+1 / a1[1]+1 are converted with `fild dword ptr [esp+8]` (0x1006C60F, 0x1006C62D, 0x1006C64C, 0x1006C65F), a signed 32-bit integer load, after `mov reg,[eax+k]; inc reg; mov [esp+8],reg`. Hex-Rays typed the sum _DWORD (unsigned), so a negative sum converted as a large positive value (the gate's first divergence, trial 2: 10 bytes at 0x10354118). The sum stays unsigned (it wraps as `inc` does) and is converted as int.",
+ "evidence": "Disassembly of 0x1006C5F2..0x1006C665: each of the four is `fild dword` (FILD m32int, Intel SDM: signed doubleword integer). runs/r5 gate: FAIL, memory differs at 0x10354118 (original 0x89, reconstruction 0xC9).",
+ "text_sha1": "eb9c0af554c9dfe56ddba8e695d27df7b1e8d53d",
+ "replace": [
+  [
+   "flt_10354118 = (double)(*(_DWORD *)a1 + 1)",
+   "flt_10354118 = (double)(int)(*(_DWORD *)a1 + 1)"
+  ],
+  [
+   "flt_1035411C = (double)(*(_DWORD *)(a1 + 4) + 1)",
+   "flt_1035411C = (double)(int)(*(_DWORD *)(a1 + 4) + 1)"
+  ],
+  [
+   "flt_10354134 = (double)(*(_DWORD *)(a1 + 4) + 1)",
+   "flt_10354134 = (double)(int)(*(_DWORD *)(a1 + 4) + 1)"
+  ],
+  [
+   "flt_10354148 = (double)(*(_DWORD *)a1 + 1)",
+   "flt_10354148 = (double)(int)(*(_DWORD *)a1 + 1)"
+  ]
+ ]
+}

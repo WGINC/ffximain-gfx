@@ -260,11 +260,12 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             if op.imm in starts: return 'noreturn'
         return 0, var.setdefault(i.address, len(var))   # unknown: p_i
 
-    state = {ea: (Lin(), None)}; work = [ea]
+    state = {ea: (Lin(), None)}; work = [ea]; every = {}
     while work:
         a = work.pop(); d, ebp = state[a]; eax = None; prev = []
         while a in ins:
             i = ins[a]; m = i.mnemonic; ops = i.operands; nd, nebp = d, ebp; nxt = [a + i.size]
+            every[a] = (d, ebp)
             r0 = reg(i, ops[0]) if ops else None
             if m == 'call':
                 p = pop_of(i, eax)
@@ -328,7 +329,7 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
     func_calls.debug = (var, eqs, src)
     if any(ALIGN in e.v for e in eqs): return {}, False, len(var)       # the padding would be pinned
     vals, ok = solve(eqs, len(var))
-    func_calls.state = (state, vals if ok else None)
+    func_calls.state = (state, vals if ok else None); func_calls.every = every
     if not ok: return {}, False, len(var)
     out = {}
     for addr, k in var.items():
@@ -352,6 +353,25 @@ def head_depths(im, ea, ext, purges, starts, nr=frozenset(), iat=None):
         for k, c in d.v.items():
             if k != ALIGN: x += c * vals[k]
         if x.denominator == 1: out[a] = int(x)
+    return out
+
+
+def insn_depths(im, ea, ext, purges, starts, nr=frozenset(), iat=None):
+    """{address: (depth, ebp depth or None)} before every instruction the walk reached, where exact (as
+    head_depths: every unknown pop on the way solved). The address ESP holds there is entry ESP - depth;
+    EBP, when it holds a copy of ESP, is entry ESP - its depth"""
+    calls, ok, _ = func_calls(im, ea, ext, purges, starts, nr=nr, iat=iat)
+    if not ok or not hasattr(func_calls, 'state'): return {}
+    state, vals = func_calls.state
+    if vals is None: return {}
+    def ev(d):
+        if d is None or ALIGN in d.v or any(k not in vals for k in d.v): return None
+        x = Fraction(d.c) + sum(c * vals[k] for k, c in d.v.items())
+        return int(x) if x.denominator == 1 else None
+    out = {}
+    for a, (d, ebp) in func_calls.every.items():
+        x = ev(d)
+        if x is not None: out[a] = (x, ev(ebp))
     return out
 
 

@@ -129,12 +129,56 @@ state 0x100884B3 handles. That state is not identified here.
 What follows:
 - **With the minimum at 1, the loop holds frames to 60 fps.** A pacer in front of Present (speedfix_hook's
   `frame_cap_fps`) cannot get more than 60 while that is so.
-- **A minimum of 0 would remove the wait** (`v < 0` never holds). What the rest of the frame then does is
-  not established here. The elapsed time is split into whole ticks (`this+0x38`) and a carried fraction
-  (`this+0x3C`), and the four-frame average at `this+0x28` is raised to at least `[this+0x30]`. Whether the
-  simulation advances on frames with no whole tick needs the consumers of `this+0x38` and `this+0x28`
-  read. That is the question for going past 60.
+- **A minimum of 0 removes the wait** (`v < 0` never holds). Section 3a has what the frame then does.
 - **What the dumps show:** the town dumps were taken at about 24 fps (41 ms per frame), below either limit.
+
+### 3a. How the frame turns elapsed time into the game's time step (0x10012BC6 to 0x10012CB0)
+
+After the wait, the frame keeps two values. Both come from the code; 0x10311C2C is MSVC's `_ftol`, which
+sets the x87 rounding to truncate before `fistp`.
+
+1. **Whole ticks, with the fraction carried:**
+   - computed as `x = 60 / timer.method9() + [this+0x3C]`, then `[this+0x38] = trunc(x)` and
+     `[this+0x3C] = x - trunc(x)`;
+   - over many frames these whole ticks add up to the real elapsed time;
+   - read through 0x10014D60 by 8 functions: 0x10088BD0, 0x10089850, 0x100B0910, 0x1012C410, 0x102095B0,
+     0x10222DF0, 0x10226540, 0x1022B290.
+2. **The frame step:**
+   - the measured `v` of the last 4 frames goes into a ring (0x10456964..0x10456973), and the ring is
+     averaged (`* 0.25`);
+   - `[this+0x2C]` ends as this frame's own `v`, capped at 20 (0x10012C7E to 0x10012C95). The value is kept
+     on the x87 stack from before the averaging;
+   - `[this+0x28] = min(max(trunc(average), [this+0x30]), 20)`, a whole number of ticks;
+   - 0x10014CF0, which the IDB names `Camera_GetFrameScale`, returns `max([this+0x28], 1.0)`;
+   - 112 functions call it. The exported ones use it as the time to advance: a countdown `x -= step`
+     (CXiSkeletonActor_OnMove, Actor_SelectNearestLights), an angle `angle += (int64)step`
+     (Post_DrawRotatingGhostLayers), `step * 0.03125` in movement (CXiSkeletonActor_OnMove);
+   - 0x10456960 is set to `60 / [this+0x28]`.
+
+What follows from the code:
+- **Below 60 fps, the frame step under-counts real time** whenever the average is not a whole number of
+  ticks, because it is truncated. The dumps show it:
+
+  | Dump | Ring (last 4 frames, ticks) | Average | Step (`[this+0x28]`) | Step / average |
+  |---|---|---|---|---|
+  | town | 2.46, 1.68, 1.80, 2.16 | 2.025 | 2.0 | 99% |
+  | town2 | 3.18, 2.70, 3.12, 2.82 | 2.955 | 2.0 | 68% |
+  | combat | 1.56, 1.56, 1.56, 1.74 | 1.605 | 1.0 | 62% |
+  | zonetoinn | 1.02, 1.08, 1.02, 1.02 | 1.035 | 1.0 | 97% |
+
+  In every dump the step is the truncated ring average, as the code says. In each of these states,
+  everything advanced by the step was running at that fraction of real time.
+  The whole-tick counter (1.) does not lose time.
+- **Above 60 fps (minimum 0):**
+  - the average falls below 1, its truncation is 0, so `[this+0x28]` becomes 0;
+  - `Camera_GetFrameScale` then returns 1.0 every frame, so the 112 users advance one full tick per frame.
+    At 120 fps, what they drive runs at twice real time;
+  - 0x10456960 becomes `60 / 0`.
+
+  Going past 60 therefore needs the step changed. Some users convert it to an integer (`(int64)step`) and
+  would stop advancing on a fractional step, so it cannot simply be made fractional. The options are
+  stepping in whole ticks only on frames where one has passed (the counter in 1. already does that), or
+  interpolating between ticks. Both change what those 112 functions see.
 
 ## 4. Coverage gaps that matter for the goals
 

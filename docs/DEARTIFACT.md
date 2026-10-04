@@ -130,3 +130,10 @@ What was established, from where, and what is still missing. Nothing below is us
 
 So the four calls and the first construct all wait on one thing: the whole-program analysis (phase 2), which
 gives the objects that reach a field or a dispatch site.
+
+### Phase 5 result (4 Oct)
+
+`pipeline/evidence_names.py` -> `data/evidence_names.json`, passed to the IDA pass. Of the 595 `sub_`
+functions the graphics code defines or calls, 3 get a name (vtable slot: `CMoDist_vf18`, `CMoLfdElem_vf11`,
+`CXiCollisionActor_vf8`). Not named: 589 are in no vtable, 2 are in several, and 1 sits in a vtable that is
+referred to before its slot. No string in the binary names any of them. Global names wait for phase 2.

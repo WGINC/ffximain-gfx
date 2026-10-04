@@ -51,7 +51,7 @@ def apply_names():
         if cur == v['name']: continue
         if cur != v['old'] or not ida_name.set_name(ea, v['name'], ida_name.SN_NOWARN | ida_name.SN_NOCHECK):
             skipped.append((k, cur, v['name'])); continue
-        add_note(ea, '[name %s 2026-10-02, %s confidence, from the code and the IDA listing] %s'
+        add_note(ea, v.get('note') or '[name %s 2026-10-02, %s confidence, from the code and the IDA listing] %s'
                  % (v['name'], v['confidence'], v['evidence']))
         done += 1
     log('names: %d applied, %d skipped' % (done, len(skipped)))

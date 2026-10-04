@@ -14,6 +14,11 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
         'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))],
         'classes': json.load(open(os.path.join(D, 'ida_classes.json')))['classes'],
         'pre_class_types': json.load(open(os.path.join(D, 'pre_class_types.json')))['types']}     # make_ida_types.py
+# names that state a fact (evidence_names.py), for functions with no other pending name
+for k, v in json.load(open(os.path.join(D, 'evidence_names.json'))).items():
+    if k.startswith('_') or k in data['names']: continue
+    data['names'][k] = {'old': 'sub_%X' % int(k, 16), 'name': v['name'], 'confidence': 'proven',
+                        'evidence': v['evidence'], 'note': '[name %s, evidence_names.py] %s' % (v['name'], v['evidence'])}
 # the D3D8 types pipeline/xi_d3d8.hpp defines: the types header the IDA pass writes leaves these to it
 _d3d = open(os.path.join(R, 'pipeline', 'xi_d3d8.hpp')).read()
 data['types_external'] = sorted(set(re.findall(r'\b(?:struct|union|enum)\s+(\w+)\s*(?::\s*[\w\s]+)?\{', _d3d))

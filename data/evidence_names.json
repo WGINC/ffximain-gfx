@@ -1,0 +1,28 @@
+{
+ "0x100426F0": {
+  "evidence": "slot 18 of vtable 0x1032B298 (CMoDist), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoDist_vf18",
+  "slot": 18,
+  "vtable": "0x1032B298"
+ },
+ "0x100548D0": {
+  "evidence": "slot 11 of vtable 0x1032B538 (CMoLfdElem), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoLfdElem_vf11",
+  "slot": 11,
+  "vtable": "0x1032B538"
+ },
+ "0x100A4ED0": {
+  "evidence": "slot 8 of vtable 0x1032DB40 (CXiCollisionActor), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CXiCollisionActor_vf8",
+  "slot": 8,
+  "vtable": "0x1032DB40"
+ },
+ "_stats": {
+  "in no vtable": 589,
+  "in several vtables": 2,
+  "its vtable is referred to between its start and the slot": 1,
+  "named (string in the binary)": 0,
+  "named (vtable slot)": 3,
+  "sub_ functions": 595
+ }
+}

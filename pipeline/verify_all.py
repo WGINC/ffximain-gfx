@@ -126,6 +126,7 @@ def main():
 
     # 7 the tree is what the committed export and verdicts generate
     t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s verification/gate_raw_combined.jsonl %s' % (EXP, t))
+    sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):
         c = filecmp.dircmp(os.path.join(ROOT, 'tree', sub), os.path.join(t, sub))

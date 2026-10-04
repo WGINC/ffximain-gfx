@@ -1,44 +1,11 @@
 {
- "0x10075280": {
-  "name": "Gfx_InitCubeMapTextures",
+ "0x1000A6E0": {
+  "name": "CDx_CreateTexture",
   "fixes": [
    {
-    "at": "0x1007531D",
+    "at": "0x1000A705",
     "change": 8,
     "why": "the call pops 8 (sp_solve)"
-   }
-  ],
-  "unexplained": []
- },
- "0x1017C9C0": {
-  "name": "sub_1017C9C0",
-  "fixes": [
-   {
-    "at": "0x1017C9F2",
-    "change": 12,
-    "why": "the call pops 12 (the callee's own ret N)"
-   }
-  ],
-  "unexplained": []
- },
- "0x1017DE20": {
-  "name": "sub_1017DE20",
-  "fixes": [
-   {
-    "at": "0x1017EB08",
-    "change": 4,
-    "why": "the block at 0x1017EB0A is reached only by jumps, at depth 500 (IDA carried 504 over from this jump)"
-   }
-  ],
-  "unexplained": []
- },
- "0x102D538A": {
-  "name": "sub_102D538A",
-  "fixes": [
-   {
-    "at": "0x102D538F",
-    "change": 0,
-    "why": "the call pops 0 (the callee's own ret N)"
    }
   ],
   "unexplained": []

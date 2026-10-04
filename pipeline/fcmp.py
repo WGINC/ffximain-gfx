@@ -12,6 +12,8 @@ take the branch on unordered too. `exact(x, op, y, taken, st0_is_x)` gives the C
 on the outcomes the code tests, NaN included, or None where the text cannot be matched to the code.
 
     python3 fcmp.py JCC_ADDR [...]     uses $FFXI_DLL: prints each jump's taken outcomes
+    python3 fcmp.py --export EXPORT.jsonl data/fcmp_exact.json     every exported float comparison (the IDA
+        script's `fcmps`: [jump, op, x, y]) with the outcomes its jump is taken on, read from the code
 """
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -103,7 +105,28 @@ def exact(x, op, y, taken_set):
     return f % (x, y)
 
 
-if __name__ == '__main__':
+def export_main(exp, out):
+    import sp_solve as S, json
+    im = S.Image(os.environ['FFXI_DLL'])
+    ext = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
+    res = {}; n = unread = 0
+    for l in open(exp):
+        r = json.loads(l)
+        if not r.get('fcmps') or ('0x%x' % r['ea']) not in ext: continue
+        ins = im.code(ext['0x%x' % r['ea']]); L = [ins[x] for x in sorted(ins)]; idx = {i.address: k for k, i in enumerate(L)}
+        rows = []
+        for ea, op, x, y in r['fcmps']:
+            t = taken(L, idx[ea]) if ea in idx else None
+            n += 1; unread += t is None
+            rows.append(['0x%08X' % ea, op, x, y, sorted(t[0]) if t else None])
+        res['0x%08X' % r['ea']] = rows
+    json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
+    print('%d float comparisons in %d functions; %d jumps not in the fcom/fnstsw form (left as printed)' % (n, len(res), unread))
+
+
+if __name__ == '__main__' and sys.argv[1:2] == ['--export']:
+    export_main(*sys.argv[2:4])
+elif __name__ == '__main__':
     import sp_solve as S, json
     im = S.Image(os.environ['FFXI_DLL'])
     ext = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))

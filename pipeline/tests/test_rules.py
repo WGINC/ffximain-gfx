@@ -14,6 +14,29 @@ from fractions import Fraction
 def body(*lines): return '{\n' + '\n'.join('  ' + l for l in lines) + '\n}'
 
 
+class NanExactBranches(unittest.TestCase):
+    def setUp(self):
+        import hx_patches
+        self.H = hx_patches; self.saved = hx_patches._FCMP
+
+    def tearDown(self): self.H._FCMP = self.saved
+
+    def rec(self, text, rows):
+        self.H._FCMP = {'0x10000000': rows}
+        return self.H.fcmp_exact({'ea': 0x10000000, 'text': text})['text']
+
+    def test_skip_on_less_only_runs_body_on_nan(self):
+        # sqgxColorUpdate 0x102834C3: test ah,5; jp -- the skip is taken on lt only
+        self.assertEqual(self.rec('  if ( x >= 0.001 )\n', [['0x1', '>=', 'x', '0.001', ['lt']]]), '  if ( !(x < 0.001) )\n')
+
+    def test_flag_assignment_left_alone(self):
+        self.assertEqual(self.rec('  v7 = x >= 0.5;\n', [['0x1', '>=', 'x', '0.5', ['lt']]]), '  v7 = x >= 0.5;\n')
+
+    def test_occurrences_must_match_the_jumps(self):
+        t = '  if ( x >= 1.0 )\n  while ( x >= 1.0 )\n'
+        self.assertEqual(self.rec(t, [['0x1', '>=', 'x', '1.0', ['lt']]]), t)
+
+
 class PtrTypes(unittest.TestCase):
     def test_returns_pointer_to_function_pointer(self):
         # 0x1003B8B0, called from CMoSchedularTask_Interpret: the return is a pointer in EAX

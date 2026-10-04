@@ -16,7 +16,7 @@ referenced (each record's `objs`) and as the function's own signature. For data 
 type (an array type also sets its size), wherever the object is referenced. Use it for a prototype that is wrong in the
 IDB and has not been fixed there yet (ida/ffxi_ida_fix.py pushes these to the IDB too).
 """
-import hashlib, json, os, re, sys
+import collections, hashlib, json, os, re, sys
 
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'hx_patches')
 _P = None
@@ -104,7 +104,38 @@ def fix_types(rec):
 
 
 def apply(rec):
-    return free_self(fix_types(patch_text(rec)))
+    return free_self(fix_types(fcmp_exact(patch_text(rec))))
+
+
+_FCMP = None
+FCMP_STATS = collections.Counter()
+
+
+def fcmp_exact(rec):
+    """a float comparison branch made NaN-exact. Hex-Rays prints `x >= y` where the code's jump is taken on
+    {gt, eq, unordered} (`test ah,5; jp`), which differs from the C operator on NaN. data/fcmp_exact.json
+    (fcmp.py --export) has, for each exported comparison, the outcomes its jump is taken on, read from the
+    code; fcmp.exact gives the C expression true on exactly those. A comparison text is rewritten only where
+    every jump printed as it agrees on one expression and the text occurs as a branch condition (`if (`,
+    `while (`) exactly as many times as there are jumps; anything else is left as printed and counted."""
+    global _FCMP
+    import fcmp
+    if _FCMP is None:
+        _FCMP = json.load(open(os.path.join(os.path.dirname(DIR), 'fcmp_exact.json')))     # required: run.sh facts
+    rows = _FCMP.get('0x%08X' % rec['ea'])
+    if not rows or 'text' not in rec: return rec
+    groups = collections.defaultdict(list)
+    for ea, op, x, y, t in rows:
+        if t is not None: groups[(x, op, y)].append(fcmp.exact(x, op, y, frozenset(t)))
+    text = rec['text']
+    for (x, op, y), outs in groups.items():
+        cond = '%s %s %s' % (x, op, y)
+        if len(set(outs)) != 1 or outs[0] is None: FCMP_STATS['ambiguous'] += 1; continue
+        if outs[0] == cond: FCMP_STATS['already exact'] += len(outs); continue
+        pat = re.compile(r'^(\s*(?:\}\s*)?(?:else\s+)?(?:if|while) \(.*?)(?<![\w.>])' + re.escape(cond) + r'(?![\w(\[])', re.M)
+        if len(pat.findall(text)) != len(outs): FCMP_STATS['text does not match the jumps'] += 1; continue
+        text = pat.sub(lambda m: m.group(1) + outs[0], text); FCMP_STATS['rewritten'] += len(outs)
+    return dict(rec, text=text) if text != rec['text'] else rec
 
 
 def free_self(rec):

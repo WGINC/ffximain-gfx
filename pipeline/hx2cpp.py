@@ -620,8 +620,16 @@ BAD2 = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|BUG\(\)|__halt|(?<![A-Z
                   r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except|\bretaddr\b')
 LIB_TEXT = re.compile(r'\b(CD3DX\w*|Iostream_init|type_info|std::\w+|exception)\b')
 
+def types_header():
+    """The IDB's types header as C++ accepts it: IDA names a method pointer's first parameter `this` (a C++
+    keyword); it becomes `self`, as in the function bodies. Parameter names do not change any type."""
+    t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'gfx_types_game.h')).read()
+    return re.sub(r'\bthis\b', 'self', t)
+
 def main(src, outdir):
     os.makedirs(outdir, exist_ok=True)
+    # a quoted #include searches the including file's directory first, so this copy is the one compiled
+    with open(os.path.join(outdir, 'gfx_types_game.h'), 'w') as f: f.write(types_header())
     meta = {}
     for line in open(src):
         rec = json.loads(line)

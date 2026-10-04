@@ -651,7 +651,7 @@ def main(exp, gate, manf, incdir, outdir):
         for cls in sorted(layouts): f.write('#include "%s.hpp"\n' % cls)
     json.dump(report, open(os.path.join(outdir, 'placement.json'), 'w'), indent=0)
     json.dump(size_conflicts, open(os.path.join(outdir, 'size_conflicts.json'), 'w'), indent=0)
-    t = open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'gfx_types_game.h')).read()
+    t = hx2cpp.types_header()
     blocks = re.split(r'\n(?=/\* \d+ \*/\n)', t); keep = []
     for b in blocks:
         m = re.search(r'^struct (\w+)\s*\n\{', b, re.M)

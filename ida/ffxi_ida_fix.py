@@ -122,6 +122,50 @@ def fnptr_decl(target, member):
     return '%s (%s *%s)(%s);' % (m.group(1), m.group(2), member, m.group(3))
 
 
+def vtbl_decl(cname, c):
+    return 'struct %s_vtbl { %s };' % (cname, ' '.join(
+        fnptr_decl(int(t, 16), 'vf%d_%s' % (k, re.sub(r'\W', '_', ida_name.get_name(int(t, 16)) or 'vf'))) for k, t in enumerate(c['slots'])))
+
+
+def extend_existing(cname, c, t):
+    """a class the IDB already declares: its vtable pointer (an untyped dword or void pointer at offset 0) typed as
+    a pointer to the vtable struct, and the proven fields added where no member of the IDB's type lies; no
+    existing member is changed otherwise"""
+    udt = ida_typeinf.udt_type_data_t()
+    if not t.get_udt_details(udt): return 'not a struct'
+    out = []
+    vt = ida_typeinf.tinfo_t()
+    if not vt.get_named_type(None, cname + '_vtbl'):
+        if idc.parse_decls(vtbl_decl(cname, c), idc.PT_SILENT):
+            idc.parse_decls('struct %s_vtbl { %s };' % (cname, ' '.join('void *vf%d;' % k for k in range(len(c['slots'])))), idc.PT_SILENT)
+            out.append('vtable members untyped')
+        vt.get_named_type(None, cname + '_vtbl')
+    m0 = [m for m in udt if m.offset == 0 and m.size == 32]
+    if m0 and not str(m0[0].type).endswith('_vtbl *') and (m0[0].type.is_ptr() or m0[0].type.get_size() == 4):
+        pv = ida_typeinf.tinfo_t(); pv.create_ptr(vt); m0[0].type = pv; out.append('vftable typed')
+    taken = [(m.offset // 8, (m.offset + m.size) // 8) for m in udt if not m.name.startswith('gap')]
+    added = 0
+    for off, size, ty in c['fields']:
+        off = int(off, 16)
+        if any(a < off + size and off < b for a, b in taken): continue
+        tif = ida_typeinf.tinfo_t()
+        if ida_typeinf.parse_decl(tif, None, '%s x;' % ty, ida_typeinf.PT_SIL) is None: continue
+        u = ida_typeinf.udm_t(); u.name = 'field_%X' % off; u.type = tif; u.offset = off * 8; u.size = size * 8
+        udt.push_back(u); taken.append((off, off + size)); added += 1
+    if added or 'vftable typed' in out:
+        keep = [m for m in udt if not m.name.startswith('gap')]
+        keep.sort(key=lambda m: m.offset)
+        nu = ida_typeinf.udt_type_data_t()
+        for m in keep: nu.push_back(m)
+        nu.total_size = udt.total_size; nu.pack = udt.pack
+        nt = ida_typeinf.tinfo_t()
+        if not nt.create_udt(nu, ida_typeinf.BTF_STRUCT) or nt.set_named_type(None, cname, ida_typeinf.NTF_REPLACE) != 0:
+            return 'not changed (the edited type was refused)'
+        idc.SetType(int(c['vtable'], 16), '%s_vtbl;' % cname)
+    out.append('%d fields added' % added)
+    return '; '.join(out)
+
+
 def apply_classes(report):
     """structs for classes whose methods' `this` the code proves to hold one vtable: a vtable struct (members typed
     as the slot functions' own prototypes), fields at every offset the methods access at one width, `this`
@@ -130,7 +174,10 @@ def apply_classes(report):
     for cname, c in sorted(DATA['classes'].items()):
         r = rep[cname] = {}
         old = ida_typeinf.tinfo_t()
-        if old.get_named_type(None, cname): r['struct'] = 'kept the IDB\'s own type'
+        if old.get_named_type(None, cname):
+            r['struct'] = 'kept the IDB\'s own type'
+            try: r['extended'] = extend_existing(cname, c, old)
+            except Exception: r['extended'] = 'failed: ' + traceback.format_exc().splitlines()[-1]
         else:
             seen, slots = set(), []
             for k, t in enumerate(c['slots']):

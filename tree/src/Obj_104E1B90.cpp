@@ -41,6 +41,6 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
   this->quad2_color = -2139062144;
   this->quad1_color = -2139062144;
   this->quad0_color = -2139062144;
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
-  return g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 5u);
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
 }

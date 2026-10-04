@@ -6,11 +6,11 @@
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 {
   _DWORD v4[16];
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-  g_pCDx->pDevice->SetTexture(0, nullptr);
-  g_pCDx->pDevice->SetVertexShader(66u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
   v4[0] = 1065353216;
   memset(&v4[1], 0, 16);
   v4[5] = 1065353216;
@@ -18,7 +18,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
   v4[10] = 1065353216;
   memset(&v4[11], 0, 16);
   v4[15] = 1065353216;
-  g_pCDx->pDevice->SetTransform((D3DTRANSFORMSTATETYPE)256, v4);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (D3DTRANSFORMSTATETYPE)256, v4);
   g_upVerts_1988 = *(_DWORD *)a1;
   g_upVerts_1988_v0_y = *(float *)(a1 + 4);
   g_upVerts_1988_v0_z = *(float *)(a1 + 8);
@@ -172,7 +172,7 @@ XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int
   {
     v10 = v9 - 8;
     v11 = (_BYTE *)(a3 + 8);
-    v12 = (unsigned __int8)byte_10376AC0[*(unsigned __int8 *)(a3 + 5) ^ 0xF0];
+    v12 = (unsigned __int8)c_byteSubstTable[*(unsigned __int8 *)(a3 + 5) ^ 0xF0];
     v13 = 0;
     if ( v10 > 0 )
     {
@@ -412,12 +412,12 @@ LABEL_18:
             v59 = v20[7];
             if ( v59 == 2 )
             {
-              if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-                     g_pCDx->pDevice,
+              if ( (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+                     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                      24 * v58,
-                     *(_DWORD *)&g_pCDx->_pad_10[2324],
+                     *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x924)),
                      0,
-                     *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                     *(D3DPOOL *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x928)),
                      (IDirect3DVertexBuffer8 **)(v43 + 44)) >= 0 )
               {
                 v20[16] += 24 * v43[2];
@@ -453,12 +453,12 @@ LABEL_18:
               for ( k = 0; (int)(k) < (int)(v20[25]); ++k )
               {
                 v64 = (IDirect3DVertexBuffer8 **)&v43[v63 + 12];
-                if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-                       g_pCDx->pDevice,
+                if ( (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+                       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                        12 * v43[2],
-                       *(_DWORD *)&g_pCDx->_pad_10[2324],
+                       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x924)),
                        0,
-                       *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                       *(D3DPOOL *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x928)),
                        v64) < 0
                   || (v20[16] += 12 * v43[2], (*v64)->lpVtbl->Lock(*v64, 0, 0, (void **)&v108, 0) < 0) )
                 {
@@ -484,12 +484,12 @@ LABEL_18:
                 }
                 v63 = k + 1;
               }
-              if ( g_pCDx->pDevice->lpVtbl->CreateIndexBuffer(
-                     g_pCDx->pDevice,
+              if ( (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateIndexBuffer(
+                     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                      2 * v43[4],
-                     *(_DWORD *)&g_pCDx->_pad_10[2324],
+                     *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x924)),
                      D3DFMT_INDEX16,
-                     *(D3DPOOL *)&g_pCDx->_pad_10[2328],
+                     *(D3DPOOL *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x928)),
                      (IDirect3DIndexBuffer8 **)(v43 + 46)) >= 0 )
               {
                 v20[16] += 2 * v43[4];
@@ -507,11 +507,11 @@ LABEL_18:
             else
             {
               v103 = (IDirect3DVertexBuffer8 **)(v43 + 10);
-              pDevice = g_pCDx->pDevice;
-              v102 = *(_DWORD *)&g_pCDx->_pad_10[2328];
+              pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+              v102 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x928));
               lpVtbl = pDevice->lpVtbl;
               v101 = v20[8];
-              v100 = *(_DWORD *)&g_pCDx->_pad_10[2324];
+              v100 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x924));
               v71 = v43[4];
               if ( v59 == 3 )
               {
@@ -556,11 +556,11 @@ LABEL_18:
                 v43[7] = v123;
                 if ( v123 != 0 )
                 {
-                  v114 = *(_DWORD *)&g_pCDx->_pad_10[2328];
-                  if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
-                         g_pCDx->pDevice,
+                  v114 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x928));
+                  if ( (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
+                         (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                          144 * v123,
-                         *(_DWORD *)&g_pCDx->_pad_10[2324],
+                         *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x924)),
                          0,
                          v114,
                          (IDirect3DVertexBuffer8 **)(v43 + 45)) >= 0 )
@@ -746,17 +746,17 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
   v3 = 0;
   if ( *(self_ + 4) != 0 )
   {
-    g_pCDx->pDevice->SetTexture(0, nullptr);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    g_pCDx->pDevice->SetVertexShader(324u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
     if ( (int)*(self_ + 4) > 0 )
     {
       v17 = 0;
@@ -943,17 +943,17 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
   g_upVerts_1AB8_v7_z = -1090519040;
   if ( dword_10621A10 != 0 )
   {
-    g_pCDx->pDevice->SetTexture(0, nullptr);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    result = g_pCDx->pDevice->SetVertexShader(66u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+    result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
     for ( i = (_DWORD *)g_dbgBoxList; i != nullptr; i = (_DWORD *)*i )
     {
       result = i[2];
@@ -1013,7 +1013,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
           g_upVerts_1AB8_v2_diffuse = -2139078656;
           g_upVerts_1AB8_v1_diffuse = -2139078656;
           g_upVerts_1AB8_v0_diffuse = -2139078656;
-          g_pCDx->pDevice->SetTransform((D3DTRANSFORMSTATETYPE)256, v18);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (D3DTRANSFORMSTATETYPE)256, v18);
           orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1A18, 16);
           orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1A68, 16);
           orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 4, (int)&g_upVerts_1AB8, 16);

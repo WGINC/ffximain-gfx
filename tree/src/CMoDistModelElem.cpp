@@ -2,6 +2,231 @@
 #include "gfx_all.hpp"
 #include "CMoDistModelElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x10040670  (placed by IDB name)
+// GATE: PASS -- 100 trials, 34 returned normally, 48 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34, town PASS 19, town2 PASS 19, combat PASS 19, zonetoinn PASS 36
+int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
+{
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
+  int result;
+  int v7;
+  int v8;
+  char *v9;
+  int ScratchMatrixStackTop;
+  float *v11;
+  CMoProcessor *v12;
+  int v13;
+  int v14;
+  int v15;
+  char *v16;
+  int *v17;
+  unsigned __int16 v18;
+  char v19;
+  int v20;
+  unsigned __int16 v21;
+  char *v22;
+  char *v23;
+  char *v24;
+  int v25;
+  int v26;
+  float v27;
+  int v28;
+  float v29;
+  float v30;
+  int v31;
+  result = (int)orig::sub_1003FCF0((char *)self);
+  if ( *(_DWORD *)(result + 4) == 0 )
+    return result;
+  if ( (this->field_32 & 1) != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      15,
+      1);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      25,
+      5);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      24,
+      96);
+  }
+  v7 = a3;
+  if ( *(_BYTE *)(a3 + 364) == 68 )
+  {
+    v31 = *(_DWORD *)a2;
+    if ( HIBYTE(*(_DWORD *)a2) >= 0x7Fu )
+      v31 = (int)(((uint32_t)(v31) & 0xFFFFFFu) | ((uint32_t)(uint8_t)(-1) << 24));
+    v8 = v31;
+  }
+  else
+  {
+    v8 = *(_DWORD *)a2;
+  }
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    60,
+    v8);
+  if ( this->field_34 == 0 && (_BYTE)a4 != 0 )
+  {
+    if ( (CMoDistModelElem_DrawMesh_staticGuards & 1) == 0 )
+    {
+      CMoDistModelElem_DrawMesh_staticGuards |= 1u;
+      orig::fn_1006AD90((exception *)CMoDistModelElem_DrawMesh_stateBlock);
+      orig::_atexit(XI_CODE(unknown_libname_37));
+    }
+    orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock, (int)CMoDistModelElem_DrawMesh_textureStageStates);
+    if ( *(_BYTE *)(a3 + 364) == 68 )
+    {
+      if ( (CMoDistModelElem_DrawMesh_staticGuards & 2) == 0 )
+      {
+        CMoDistModelElem_DrawMesh_staticGuards |= 2u;
+        orig::fn_1006AD90((exception *)CMoDistModelElem_DrawMesh_stateBlock2);
+        orig::_atexit(XI_CODE(unknown_libname_36));
+      }
+      orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock2, (int)CMoDistModelElem_DrawMesh_textureStageStates2);
+    }
+    v28 = this->field_36;
+    v9 = orig::sub_1003FCF0((char *)self);
+    return orig::sub_10043F40(*((int **)v9 + 1), 0, v28, 4, 0, -1);
+  }
+  if ( (CMoDistModelElem_DrawMesh_staticGuards & 4) == 0 )
+  {
+    CMoDistModelElem_DrawMesh_staticGuards |= 4u;
+    orig::fn_1006AD90((exception *)CMoDistModelElem_DrawMesh_stateBlock3);
+    orig::_atexit(XI_CODE(unknown_libname_35));
+  }
+  orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock3, (int)CMoDistModelElem_DrawMesh_textureStageStates3);
+  if ( *(_BYTE *)(a3 + 364) == 68 )
+  {
+    if ( (CMoDistModelElem_DrawMesh_staticGuards & 8) == 0 )
+    {
+      CMoDistModelElem_DrawMesh_staticGuards |= 8u;
+      orig::fn_1006AD90((exception *)CMoDistModelElem_DrawMesh_stateBlock4);
+      orig::_atexit(XI_CODE(unknown_libname_34));
+    }
+    orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock4, (int)CMoDistModelElem_DrawMesh_textureStageStates4);
+  }
+  if ( (*(_BYTE *)(a3 + 379) & 3) != 0 )
+  {
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v11 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    orig::MoProcessor_CallVSlot49(v11);
+    v11[8] = *(float *)(a3 + 288);
+    v11[9] = *(float *)(a3 + 292);
+    (*(void (__stdcall **)(_DWORD, int, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      1,
+      11,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      1,
+      24,
+      2);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 17, v11);
+    v12 = g_pProcessor;
+    v13 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v13;
+    ((float * *)((char *)v12 + 0xA10))[v13] = v11;
+  }
+  v14 = 0;
+  v15 = 0;
+  if ( this->field_34 != 0 )
+  {
+    v16 = orig::sub_1003FCE0((char *)self);
+    do
+    {
+      if ( (_BYTE)a4 != 0 )
+      {
+        v30 = *(float *)(a3 + 328);
+        v29 = *(float *)(a3 + 324);
+        v27 = *(float *)(a3 + 320);
+        v17 = (int *)orig::sub_1003FCF0((char *)self);
+        orig::sub_10075700(v17, 1, v27, v29, v30);
+      }
+      orig::sub_10043F40((int *)g_pDynVB_FVF152, v14, *(unsigned __int16 *)&v16[2 * v15], 4, 0, -1);
+      v18 = *(_WORD *)&v16[2 * v15++];
+      v14 += v18 + 2 * v18;
+    }
+    while ( (int)(v15) < (int)(this->field_34) );
+    v7 = a3;
+  }
+  if ( this->field_35 != 0 )
+  {
+    v19 = a4;
+    if ( (_BYTE)a4 != 0 )
+    {
+      if ( (CMoDistModelElem_DrawMesh_staticGuards & 0x10) == 0 )
+      {
+        CMoDistModelElem_DrawMesh_staticGuards |= 0x10u;
+        orig::fn_1006AD90((exception *)CMoDistModelElem_DrawMesh_stateBlock5);
+        orig::_atexit(XI_CODE(unknown_libname_33));
+      }
+      orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock5, (int)CMoDistModelElem_DrawMesh_textureStageStates5);
+      v19 = a4;
+    }
+    if ( a1 != 0 )
+    {
+      if ( v19 != 0 || !orig::sub_1003FCB0(self) )
+      {
+        orig::sub_10043F40((int *)g_pDynVB_FVF152, v14, this->field_36 - v14 / 3, 4, 0, -1);
+      }
+      else
+      {
+        v20 = this->field_36 - v14 / 3 - 1;
+        if ( v20 > 0 )
+          orig::sub_10043F40((int *)g_pDynVB_FVF152, v14 + 3, v20, 4, 0, -1);
+      }
+    }
+    else
+    {
+      if ( v19 == 0 )
+      {
+        if ( orig::sub_1003FCB0(self) )
+        {
+          v21 = *(_WORD *)&orig::sub_1003FCE0((char *)self)[2 * v15];
+          if ( v21 - 1 > 0 )
+          {
+            v25 = v21 - 1;
+            v22 = orig::sub_1003FCF0((char *)self);
+            orig::sub_10043F40(*((int **)v22 + 1), v14 + 3, v25, 4, 0, -1);
+          }
+          v7 = a3;
+          goto LABEL_49;
+        }
+        v7 = a3;
+      }
+      v26 = *(unsigned __int16 *)&orig::sub_1003FCE0((char *)self)[2 * v15];
+      v24 = orig::sub_1003FCF0(v23);
+      orig::sub_10043F40(*((int **)v24 + 1), v14, v26, 4, 0, -1);
+    }
+  }
+LABEL_49:
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    28,
+    1);
+  result = (*(int (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             1,
+             1,
+             1);
+  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v7 + 379)) << 0));
+  if ( (result & 3) != 0 )
+  {
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 17, ((float *)((char *)g_pProcessor + 0x810)));
+    return (*(int (__stdcall **)(_DWORD, int, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             1,
+             24,
+             0);
+  }
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x100431A0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoDistModelElem::GetRuntimeClass()
@@ -9,11 +234,70 @@ char ** __cdecl CMoDistModelElem::GetRuntimeClass()
   return &CMoDistModelElem_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x100431B0  (unit CMoDistModelElem: between 0x100431A0 (class model places it in CMoDistModelElem) and 0x10043310 (class model places it in CMoDistModelElem), both within 4 KB)
+// GATE: PASS -- 100 trials, 99 returned normally, 384 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+XI_API int __thiscall fn_100431B0(void *self_)
+{
+  int ScratchMatrixStackTop;
+  float *v3;
+  CMoProcessor *v4;
+  int v5;
+  if ( (*((_BYTE *)self_ + 379) & 3) != 0 )
+  {
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    orig::MoProcessor_CallVSlot49(v3);
+    v3[8] = *((float *)self_ + 72);
+    v3[9] = *((float *)self_ + 73);
+    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      0,
+      24,
+      2);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v3);
+    v4 = g_pProcessor;
+    v5 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v5;
+    ((float * *)((char *)v4 + 0xA10))[v5] = v3;
+  }
+  else
+  {
+    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      0,
+      11,
+      0);
+    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      0,
+      24,
+      0);
+  }
+  if ( (Fn100431B0_staticGuards & 1) == 0 )
+  {
+    Fn100431B0_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)&Fn100431B0_stateBlock);
+    orig::_atexit(XI_CODE(unknown_libname_49));
+  }
+  orig::StateBlock_ApplyTSS(&Fn100431B0_stateBlock, (int)&Fn100431B0_textureStageStates);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    60,
+    g_scratchValue);
+  orig::RegisterWithProcessor((int)self_);
+  orig::sub_10183490((float *)g_pZoneMap, (float *)self_ + 40, *((_DWORD *)self_ + 65));
+  return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           0,
+           24,
+           0);
+}
+
 // FUNCTION: FFXIMAIN 0x10043320  (placed by IDB name)
-// GATE: PASS -- 100 trials, 50 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 51
+// GATE: PASS -- 100 trials, 50 returned normally, 16 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 48
 void CMoDistModelElem::BuildDistortedMesh()
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   int *v2;
   int v3;
   _DWORD *v4;
@@ -36,38 +320,38 @@ void CMoDistModelElem::BuildDistortedMesh()
   int v21;
   int v23;
   int a1;
-  v2 = *(int **)(self + 252);
+  v2 = *(int **)&this->field_FC;
   if ( v2 != nullptr )
     v3 = *v2;
   else
     v3 = 0;
   if ( *(char *)(v3 + 222) >= 0 || orig::sub_10002D80() != 0.0 )
   {
-    v4 = *(_DWORD **)(self + 260);
+    v4 = *(_DWORD **)((unsigned __int8 *)((char *)this + 0x104));
     v21 = v4 != nullptr ? *v4 : 0;
     if ( this->field_179 == 0 )
     {
       v23 = 3 * *(unsigned __int16 *)(v21 + 54);
       orig::DynVB_Reserve(v23);
       v5 = orig::Mem_AllocObject(36 * v23, 4);
-      v6 = *(char ***)(self + 260);
+      v6 = *(char ***)((unsigned __int8 *)((char *)this + 0x104));
       if ( v6 != nullptr )
         v7 = *v6;
       else
         v7 = nullptr;
       qmemcpy(v5, orig::MoElem_GetVertexData(v7), 36 * v23);
-      ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-      v9 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-      g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+      ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+      v9 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
       orig::MoProcessor_CallVSlot49(v9);
-      v10 = this->field_194;
-      v9[13] = this->field_194;
+      v10 = *(float *)&(*(unsigned __int32 *)((char *)this + 0x194));
+      v9[13] = *(float *)&(*(unsigned __int32 *)((char *)this + 0x194));
       v9[12] = v10;
-      v11 = g_pProcessor->ScratchMatrixStackTop;
-      v12 = g_pProcessor->ScratchMatrixFreeList[v11];
-      g_pProcessor->ScratchMatrixStackTop = v11 + 1;
+      v11 = (*(int *)((char *)g_pProcessor + 0xA90));
+      v12 = ((float * *)((char *)g_pProcessor + 0xA10))[v11];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v11 + 1;
       orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v12);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
         g_pProcessor,
         v9,
         v9,
@@ -93,11 +377,11 @@ void CMoDistModelElem::BuildDistortedMesh()
         orig::Mem_FreeObject((int)v5);
         if ( a1 != 0 )
         {
-          v16 = *(void ***)(self + 260);
+          v16 = *(void ***)((unsigned __int8 *)((char *)this + 0x104));
           if ( v16 != nullptr )
-            orig::CMoDistModelElem_DrawMesh(*v16, a1, (int)&g_scratchValue, self, 0);
+            orig::CMoDistModelElem_DrawMesh(*v16, a1, (int)&g_scratchValue, (int)this, 0);
           else
-            orig::CMoDistModelElem_DrawMesh(nullptr, a1, (int)&g_scratchValue, self, 0);
+            orig::CMoDistModelElem_DrawMesh(nullptr, a1, (int)&g_scratchValue, (int)this, 0);
         }
       }
       else
@@ -105,13 +389,13 @@ void CMoDistModelElem::BuildDistortedMesh()
         orig::Mem_FreeObject((int)v5);
       }
       v17 = g_pProcessor;
-      v18 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v18;
-      v17->ScratchMatrixFreeList[v18] = v12;
+      v18 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v18;
+      ((float * *)((char *)v17 + 0xA10))[v18] = v12;
       v19 = g_pProcessor;
-      v20 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v20;
-      v19->ScratchMatrixFreeList[v20] = v9;
+      v20 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v20;
+      ((float * *)((char *)v19 + 0xA10))[v20] = v9;
     }
   }
 }
@@ -127,7 +411,7 @@ BOOL CMoDistModelElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDistModelElem::set_field_194(int a2)
 {
-  at<uint32_t>(this, 0x194) = a2;
+  (*(unsigned __int32 *)((char *)this + 0x194)) = a2;
   return a2;
 }
 
@@ -135,9 +419,8 @@ int CMoDistModelElem::set_field_194(int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDistModelElem::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CMoElemFamily_SharedCleanup(self);
+  orig::CMoElemFamily_SharedCleanup((int *)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int *)this;
 }

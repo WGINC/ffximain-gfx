@@ -20,12 +20,16 @@ public:
     uint8_t _pad_4[0x7C];
     uint32_t field_80;  // +0x80
     uint32_t field_84;  // +0x84
-    uint8_t _pad_88[0x10];
+    uint8_t _pad_88[0xC];
+    float field_94;  // +0x94
     float field_98;  // +0x98
-    uint8_t _pad_9C[0x28];
+    float field_9C;  // +0x9C
+    uint8_t _pad_A0[0x24];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXiActor) == 0xC4, "CXiActor: sizeof");
 static_assert(XI_OFFSETOF(CXiActor, field_80) == 0x80, "CXiActor: layout");
 static_assert(XI_OFFSETOF(CXiActor, field_84) == 0x84, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, field_94) == 0x94, "CXiActor: layout");
 static_assert(XI_OFFSETOF(CXiActor, field_98) == 0x98, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, field_9C) == 0x9C, "CXiActor: layout");

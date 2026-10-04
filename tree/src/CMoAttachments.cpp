@@ -34,9 +34,347 @@ int CMoAttachments::vf006()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::ReleaseSubObjectIfPresent(self);
+  orig::ReleaseSubObjectIfPresent(this);
   if ( (a2 & 1) != 0 )
-    orig::operator_delete(self);
-  return self;
+    orig::operator_delete(this);
+  return(_DWORD*)(&(*(CMoAttachments_vtbl * *)((char *)this + 0x0)));
+}
+
+// FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// GATE: PASS -- 100 trials, 92 returned normally, 66 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92, town PASS 91, town2 PASS 91, combat PASS 91, zonetoinn PASS 91
+XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
+{
+  int ScratchMatrixStackTop;
+  float *v6;
+  int v7;
+  float *v8;
+  float *v9;
+  int *v10;
+  int v11;
+  unsigned int v12;
+  int v13;
+  void *vftable;
+  int *v15;
+  int v16;
+  int *v17;
+  int v18;
+  _DWORD *v19;
+  int v20;
+  int v21;
+  void *v22;
+  int v23;
+  int v24;
+  int v25;
+  int v26;
+  int v27;
+  int v28;
+  int v29;
+  int v30;
+  int v31;
+  int v32;
+  int v33;
+  int v34;
+  int v35;
+  float *v36;
+  int v37;
+  int v38;
+  int v39;
+  float *v40;
+  _DWORD *v41;
+  void (__thiscall **v42)(CMoProcessor *, int *, _DWORD *, char *);
+  char *v43;
+  CMoProcessor *v44;
+  int v46;
+  CMoProcessor *v47;
+  int v48;
+  int *v49;
+  int *v50;
+  alignas(16) unsigned char xi_frame[0x448];  // address-taken locals at their original offsets
+  float &v51 = *reinterpret_cast<float *>(xi_frame + 0x0);
+  float &v52 = *reinterpret_cast<float *>(xi_frame + 0x0);
+  float &v53 = *reinterpret_cast<float *>(xi_frame + 0x14);
+  int &v54 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  float * &v55 = *reinterpret_cast<float * *>(xi_frame + 0x20);
+  int &v56 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v57 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v58 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  float (&v59)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x30);
+  float (&v60)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x3C);
+
+  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  v6 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  v54 = (int)v6;
+  v53 = 0.0;
+  v7 = (*(int *)((char *)g_pProcessor + 0xA90));
+  v8 = ((float * *)((char *)g_pProcessor + 0xA10))[v7];
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v7 + 1;
+  v55 = v8;
+  v9 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
+  v10 = (int *)orig::sub_1003B700((_DWORD *)self_);
+  if ( v9 == nullptr || (v11 = orig::sub_100845E0(v9)) == 0 )
+    v11 = (int)v10;
+  v12 = *(_DWORD *)(self_ + 4);
+  switch ( (v12 & 0xF) + 16 * (*(_BYTE *)(self_ + 6) & 1) )
+  {
+    case 1u:
+      if ( v9 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20((float *)&v56, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, 0);
+      v13 = *(_DWORD *)v9;
+      vftable = (*(void * *)((char *)g_pProcessor + 0x0));
+      v15 = (int *)v9;
+      goto LABEL_37;
+    case 2u:
+      if ( v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20((float *)&v56, (unsigned __int16)v12 >> 10, (float *)v10, (int *)v9, 0);
+      v16 = *v10;
+      v17 = v10;
+      goto LABEL_43;
+    case 3u:
+      goto LABEL_21;
+    case 4u:
+      goto LABEL_40;
+    case 5u:
+      goto LABEL_34;
+    case 6u:
+      goto LABEL_26;
+    case 7u:
+      if ( v9 == nullptr )
+        goto LABEL_63;
+      qmemcpy(a2, (const void *)(g_pResourceMng + 3088), 0x40u);
+      orig::sub_1003BA20(
+        (float *)&v56,
+        ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6),
+        v9,
+        v10,
+        0);
+      v26 = v57;
+      a2[12] = v56;
+      v27 = v58;
+      a2[13] = v26;
+      a2[14] = v27;
+      break;
+    case 8u:
+      if ( v10 == nullptr )
+        goto LABEL_63;
+      qmemcpy(a2, (const void *)(g_pResourceMng + 3088), 0x40u);
+      orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, (float *)v10, (int *)v9, 0);
+      v28 = v57;
+      a2[12] = v56;
+      v29 = v58;
+      a2[13] = v28;
+      a2[14] = v29;
+      break;
+    case 9u:
+      if ( v9 == nullptr )
+        goto LABEL_63;
+      v30 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
+      v31 = orig::sub_1003B6D0((_DWORD *)self_);
+      orig::sub_1003BD90((int)a2, v30, v31);
+      break;
+    case 0xAu:
+      if ( v10 == nullptr )
+        goto LABEL_63;
+      v32 = orig::sub_1003B700((_DWORD *)self_);
+      orig::sub_1003BD90((int)a2, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v32);
+      break;
+    case 0xBu:
+      if ( v9 == nullptr )
+        goto LABEL_56;
+      v33 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
+      v34 = orig::sub_1003B6D0((_DWORD *)self_);
+      orig::sub_1003BD90(v54, v33, v34);
+      v35 = ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6);
+      v49 = (int *)orig::sub_1003B700((_DWORD *)self_);
+      v36 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
+      orig::sub_1003BA20((float *)&v56, v35, v36, v49, 0);
+      v51 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
+        g_pProcessor,
+        a2,
+        LODWORD(v51));
+      v37 = v57;
+      v38 = v58;
+      a2[12] = v56;
+      a2[13] = v37;
+      a2[14] = v38;
+      break;
+    case 0xCu:
+      if ( v10 == nullptr )
+        goto LABEL_56;
+      v39 = orig::sub_1003B700((_DWORD *)self_);
+      orig::sub_1003BD90(v54, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v39);
+      v50 = (int *)orig::sub_1003B6D0((_DWORD *)self_);
+      v40 = (float *)orig::sub_1003B700((_DWORD *)self_);
+      orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, v40, v50, 0);
+      v19 = a2;
+      v52 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
+        g_pProcessor,
+        a2,
+        LODWORD(v52));
+      goto LABEL_38;
+    case 0xDu:
+      goto LABEL_6;
+    case 0xEu:
+      v41 = a2;
+      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      a2[12] = 0;
+      a2[13] = 0;
+      a2[14] = 0;
+      a2[15] = 1065353216;
+      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
+      v43 = orig::sub_10186E90((char *)g_pXiZone);
+      goto LABEL_62;
+    case 0xFu:
+      v41 = a2;
+      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      a2[12] = 0;
+      a2[13] = 0;
+      a2[14] = 0;
+      a2[15] = 1065353216;
+      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
+      v43 = orig::sub_10186EB0((char *)g_pXiZone);
+LABEL_62:
+      v42[20](g_pProcessor, &v56, v41, v43);
+      orig::MoProcessor_CallVSlot49(v41);
+      orig::sub_1006AD30(v41, &v56);
+      break;
+    case 0x10u:
+      if ( v9 == nullptr )
+        goto LABEL_56;
+      orig::sub_1003BA20(v59, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, (int *)v9, a3);
+      orig::sub_1003BA20(v60, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v9, (int *)v9, a4);
+      v53 = orig::sub_1003B980((float *)a2, v59, v60);
+      break;
+    case 0x11u:
+      if ( v10 != nullptr )
+      {
+        orig::sub_1003BA20(v59, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), (float *)v10, v10, a3);
+        orig::sub_1003BA20(v60, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, (float *)v10, v10, a4);
+        v53 = orig::sub_1003B980((float *)a2, v59, v60);
+      }
+      else
+      {
+LABEL_56:
+        orig::MoProcessor_CallVSlot49(a2);
+      }
+      break;
+    case 0x12u:
+      goto LABEL_10;
+    case 0x13u:
+      orig::MoProcessor_CallVSlot49(a2);
+      if ( v10 != nullptr )
+      {
+        orig::sub_1003BA20(v59, 2, (float *)v10, (int *)v9, 0);
+        *((float *)a2 + 12) = v59[0] + *((float *)a2 + 12);
+        *((float *)a2 + 13) = v59[1] + *((float *)a2 + 13) + 0x1.70a3d80000000p-3;
+        *((float *)a2 + 14) = v59[2] + *((float *)a2 + 14);
+      }
+      break;
+    case 0x14u:
+      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      break;
+    case 0x15u:
+      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      a2[15] = 1065353216;
+      a2[12] = 0;
+      a2[13] = 0;
+      a2[14] = 0;
+      break;
+    case 0x16u:
+      v10 = (int *)v11;
+LABEL_21:
+      if ( v9 == nullptr || v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20(v59, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, a3);
+      orig::sub_1003BA20(v60, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, (float *)v10, (int *)v9, a4);
+      goto LABEL_24;
+    case 0x17u:
+      v10 = (int *)v11;
+LABEL_40:
+      if ( v9 == nullptr || v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20((float *)&v56, (unsigned __int16)v12 >> 10, (float *)v10, (int *)v9, 0);
+      v16 = *(_DWORD *)v9;
+      v17 = (int *)v9;
+LABEL_43:
+      v22 = (*(void * *)((char *)g_pProcessor + 0x0));
+      v23 = (*(int (__thiscall **)(int *))(v16 + 448))(v17);
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))v22 + 25))(g_pProcessor, a2, *(_DWORD *)(v23 + 4));
+      v24 = v57;
+      v25 = v58;
+      a2[12] = v56;
+      a2[13] = v24;
+      a2[14] = v25;
+      break;
+    case 0x18u:
+      v10 = (int *)v11;
+LABEL_34:
+      if ( v9 == nullptr || v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20((float *)&v56, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, 0);
+      v13 = *v10;
+      vftable = (*(void * *)((char *)g_pProcessor + 0x0));
+      v15 = v10;
+LABEL_37:
+      v18 = (*(int (__thiscall **)(int *))(v13 + 448))(v15);
+      v19 = a2;
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))vftable + 25))(g_pProcessor, a2, *(_DWORD *)(v18 + 4));
+LABEL_38:
+      v20 = v57;
+      v21 = v58;
+      v19[12] = v56;
+      v19[13] = v20;
+      v19[14] = v21;
+      break;
+    case 0x19u:
+      v10 = (int *)v11;
+LABEL_26:
+      if ( v9 == nullptr || v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20(v59, (unsigned __int16)v12 >> 10, (float *)v10, (int *)v9, a4);
+      orig::sub_1003BA20(
+        v60,
+        ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6),
+        v9,
+        v10,
+        a3);
+LABEL_24:
+      v53 = orig::sub_1003B980((float *)a2, v59, v60);
+      break;
+    case 0x1Au:
+      v10 = (int *)v11;
+LABEL_6:
+      if ( v9 == nullptr && v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20(v60, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, a3);
+      orig::sub_1003BA20(v59, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, (float *)v10, (int *)v9, a4);
+      orig::sub_1003B980((float *)a2, v60, v59);
+      break;
+    case 0x1Bu:
+      v10 = (int *)v11;
+LABEL_10:
+      if ( v9 == nullptr && v10 == nullptr )
+        goto LABEL_63;
+      orig::sub_1003BA20(v60, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, a3);
+      orig::sub_1003BA20(v59, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, (float *)v10, (int *)v9, a4);
+      orig::sub_1003B980((float *)a2, v59, v60);
+      break;
+    default:
+LABEL_63:
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *))(*(void * *)((char *)g_pProcessor + 0x0)) + 49))(g_pProcessor, a2);
+      break;
+  }
+  v44 = g_pProcessor;
+  v46 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v46;
+  ((float * *)((char *)v44 + 0xA10))[v46] = v55;
+  v47 = g_pProcessor;
+  v48 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v48;
+  ((float * *)((char *)v47 + 0xA10))[v48] = (float *)v54;
+  return v53;
 }

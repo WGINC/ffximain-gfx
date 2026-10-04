@@ -68,13 +68,13 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
   orig::sub_10252C80(a1 + 144);
   if ( g_stateBlock_914C == 0 )
   {
-    g_pCDx->pDevice->CreateStateBlock(D3DSBT_ALL, &g_stateBlock_914C);
-    g_pCDx->pDevice->BeginStateBlock();
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DSBT_ALL, &g_stateBlock_914C);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->BeginStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)));
   }
   if ( orig::sub_10270B60() != 0 )
     return -1;
   if ( g_stateBlock_914C != 0 )
-    g_pCDx->pDevice->EndStateBlock(&g_stateBlock_914C);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->EndStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_stateBlock_914C);
   orig::sub_10271C60(1, 64);
   orig::sub_10271C80(0, 64);
   orig::sub_1024D130();

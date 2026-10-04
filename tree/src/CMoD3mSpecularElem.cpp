@@ -9,57 +9,6 @@ char ** __cdecl CMoD3mSpecularElem::GetRuntimeClass()
   return &CMoD3mSpecularElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10041020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-_DWORD * CMoD3mSpecularElem::Ctor()
-{
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  int v2;
-  _DWORD *result;
-  orig::CMoElem_Constructor((int)self);
-  v2 = this->field_198;
-  v2 = (int)(((uint32_t)(v2) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v2 & 0xF7) << 0));
-  *self = &CMoD3mSpecularElem_vtbl;
-  this->field_176 = 448;
-  this->field_1A8 = 0;
-  this->field_198 = v2;
-  if ( *(_DWORD *)(g_pResourceMng + 3684) <= 2u )
-  {
-    this->field_1B8 = 0;
-  }
-  else if ( (*(_DWORD *)(g_pResourceMng + 3564) & 0x400) != 0 )
-  {
-    this->field_1B8 = 3;
-  }
-  else
-  {
-    this->field_1B8 = 2;
-  }
-  switch ( this->field_1B8 )
-  {
-    case 0:
-      this->field_1BD = 1;
-      this->field_1BC = 0;
-      result = self;
-      break;
-    case 1:
-      this->field_1BC = 1;
-      this->field_1BD = 0;
-      result = self;
-      break;
-    case 2:
-    case 3:
-      this->field_1BD = 2;
-      this->field_1BC = 0;
-      goto LABEL_10;
-    default:
-LABEL_10:
-      result = self;
-      break;
-  }
-  return result;
-}
-
 // FUNCTION: FFXIMAIN 0x100410E0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoD3mSpecularElem::vf012(int a1)
@@ -71,9 +20,8 @@ BOOL CMoD3mSpecularElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CXi471011C8_VT_1032AD80_Dtor(self);
+  orig::CXi471011C8_VT_1032AD80_Dtor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
 }

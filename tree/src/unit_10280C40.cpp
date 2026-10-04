@@ -80,12 +80,12 @@ XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
   {
     for ( k = 0; k < 256; ++k )
     {
-      byte_1099D218[4 * k] = k;
-      byte_1099D219[4 * k] = k;
-      byte_1099D21A[4 * k] = k;
+      sqgxTextureCreateFromImage_static_D218[4 * k] = k;
+      sqgxTextureCreateFromImage_static_D219[4 * k] = k;
+      sqgxTextureCreateFromImage_static_D21A[4 * k] = k;
       byte_1099D21B[4 * k] = k;
     }
-    g_pDancerDevice->SetPaletteEntries(0, byte_1099D218);
+    g_pDancerDevice->SetPaletteEntries(0, sqgxTextureCreateFromImage_static_D218);
     g_pDancerDevice->SetCurrentTexturePalette(0);
     qmemcpy(v16, a2, g_sqgxTex_width[v2] * g_sqgxTex_height[v2]);
   }

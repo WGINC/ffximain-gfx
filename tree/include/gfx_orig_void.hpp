@@ -113,6 +113,7 @@ namespace orig_void {
 #include "CMoVuLineProgElem.hpp"
 #include "CShader.hpp"
 #include "CTsZoneMap.hpp"
+#include "CXi471011C8_VT_1032B478.hpp"
 #include "CXiActor.hpp"
 #include "CXiActorNameDraw.hpp"
 #include "CXiMovie.hpp"

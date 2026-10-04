@@ -79,7 +79,7 @@ XI_API float * __cdecl Gfx_ScreenDeltaToNdc(float *a1, float *a2)
   double v3;
   _DWORD v4[6];
   int v5;
-  g_pCDx->pDevice->GetViewport(v4);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetViewport((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v4);
   result = a2;
   v3 = *a2 / (double)(v4[2] >> 1);
   v5 = v4[3] >> 1;

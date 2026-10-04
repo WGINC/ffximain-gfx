@@ -6,11 +6,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 {
-  unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
-  orig::CMoResource_Destructor(self);
+  orig::CMoResource_Destructor((unsigned int **)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (unsigned int **)this;
 }
 
 // FUNCTION: FFXIMAIN 0x100745E0  (placed by tree manifest)
@@ -24,7 +23,8 @@ int CMoResource_VT_1032C588::vf011()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoResource_VT_1032C588::vf012(int a1)
 {
-  return (int)orig::CMoResource_VT_1032C588_ScalarDeletingDtor_10071C60((unsigned int **)this - 12, a1);
+  Vt_1032C5B4 * self = reinterpret_cast<Vt_1032C5B4 *>(this);  // byte-exact view for the rest
+  return (int)orig::CMoResource_VT_1032C588_ScalarDeletingDtor_10071C60((unsigned int **)self - 12, a1);
 }
 
 // FUNCTION: FFXIMAIN 0x10074610  (placed by tree manifest; does not use this)
@@ -38,6 +38,5 @@ void CMoResource_VT_1032C588::vf008()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CMoResource_VT_1032C588::vf009()
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
-  return orig::CMoResource_Destroy(self);
+  return orig::CMoResource_Destroy((int)this);
 }

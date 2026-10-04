@@ -8,7 +8,7 @@ XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
   IDirect3DVertexBuffer8 *v1;
   v1 = (IDirect3DVertexBuffer8 *)g_streamSourceVB[a1];
   if ( v1 != nullptr )
-    return g_pCDx->pDevice->SetStreamSource(a1, v1, g_streamSourceStride[a1]);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a1, v1, g_streamSourceStride[a1]);
   else
     return 0;
 }
@@ -18,7 +18,7 @@ XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 XI_API int __cdecl Gfx_ApplyCachedVertexShader(void)
 {
   if ( g_vertexShader_B6A0 != 0 )
-    return g_pCDx->pDevice->SetVertexShader(g_vertexShader_B6A0);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_vertexShader_B6A0);
   else
     return 0;
 }

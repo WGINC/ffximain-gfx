@@ -5,12 +5,12 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 {
-  g_pCDx->pDevice->SetTexture(0, nullptr);
-  g_pCDx->pDevice->SetVertexShader(*((_DWORD *)self_ + 58645));
-  g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-  g_pCDx->pDevice->SetStreamSource(0, (IDirect3DVertexBuffer8 *)g_boxPositionVB, 12u);
-  g_pCDx->pDevice->SetStreamSource(1u, (IDirect3DVertexBuffer8 *)g_boxStream1VB, 24u);
-  g_pCDx->pDevice->SetIndices((IDirect3DIndexBuffer8 *)g_boxIB, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *((_DWORD *)self_ + 58645));
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, (IDirect3DVertexBuffer8 *)g_boxPositionVB, 12u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, (IDirect3DVertexBuffer8 *)g_boxStream1VB, 24u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (IDirect3DIndexBuffer8 *)g_boxIB, 0);
   return orig::CDx_DrawIndexedPrimitive(g_pCDx, 4, 0, 24, 0, 12);
 }
 
@@ -18,44 +18,44 @@ XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 {
-  g_pCDx->pDevice->CreateVertexShader(&g_zoneVSDeclA, nullptr, self_ + 234580, 0);
-  return g_pCDx->pDevice->CreateVertexShader(&g_zoneVSDeclB, nullptr, self_ + 234584, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_zoneVSDeclA, nullptr, self_ + 234580, 0);
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_zoneVSDeclB, nullptr, self_ + 234584, 0);
 }
 
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 57 returned normally, 362 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57, town PASS 66, town2 PASS 66, combat PASS 66, zonetoinn PASS 66
-XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(_DWORD *self_, _DWORD *a2)
+XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a2)
 {
   IDirect3DDevice8 *pDevice;
   int result;
   _BYTE *v6;
   int v7;
   int *v8;
-  int v10;
-  *(self_ + 58446) = -1;
-  g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
-  *(self_ + 58438) = 0;
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-  if ( g_pCDx->_pad_10[2333] != 0 )
+  _DWORD *v10;
+  (*(unsigned int *)((char *)self_ + 0x39138)) = -1;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+  (*(unsigned int *)((char *)self_ + 0x39118)) = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 1u);
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
   {
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-    pDevice = g_pCDx->pDevice;
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 3u);
+    pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
 LABEL_3:
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
     goto LABEL_4;
   }
-  if ( g_pCDx->_pad_10[2334] != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) != 0 )
   {
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
-    pDevice = g_pCDx->pDevice;
-    if ( g_pCDx->_pad_10[2335] == 0 )
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 0);
+    pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) == 0 )
       goto LABEL_3;
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
   }
 LABEL_4:
-  v10 = 0;
+  v10 = nullptr;
   result = a2[16];
   if ( result > 0 )
   {
@@ -74,51 +74,51 @@ LABEL_4:
         }
         while ( (int)(v7) < (int)((unsigned __int8)*v6) );
       }
-      result = v10 + 1;
+      result = (int)v10 + 1;
       v6 += 428;
-      ++v10;
+      v10 = (_DWORD *)((char *)v10 + 1);
     }
-    while ( (int)(v10) < (int)(a2[16]) );
+    while ( (int)((int)v10) < (int)(a2[16]) );
   }
   return result;
 }
 
 // FUNCTION: FFXIMAIN 0x1017B510  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 82 returned normally, 10100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API int __thiscall Zone_RenderEnvironment(int self_)
+XI_API int __thiscall Zone_RenderEnvironment(CTsZoneMap *self_)
 {
   unsigned int *v2;
   IDirect3DDevice8 *pDevice;
   IDirect3DDevice8 *v4;
   struct IDirect3DDevice8Vtbl *lpVtbl;
-  int v6;
+  unsigned int v6;
   IDirect3DDevice8 *v7;
   struct IDirect3DDevice8Vtbl *v8;
-  int v9;
-  float v10;
-  float v11;
+  float v9;
+  unsigned int v10;
+  unsigned int v11;
   double v12;
-  int v13;
+  unsigned int v13;
   double v14;
   double v15;
   double v16;
   float v17;
   float v18;
   double v19;
-  float v20;
+  unsigned int v20;
   int Field50;
-  int *v22;
-  _DWORD *v23;
+  unsigned int v22;
+  unsigned __int8 *v23;
   int v24;
   int *v25;
   int v26;
-  int v27;
-  int v28;
+  signed int v27;
+  unsigned int v28;
   int *v29;
   int i;
-  int v31;
-  int v32;
-  int v33;
+  signed int v31;
+  signed int v32;
+  signed int v33;
   int *v34;
   bool v35; // zf
   alignas(16) unsigned char xi_frame[0x990];  // address-taken locals at their original offsets
@@ -127,293 +127,293 @@ XI_API int __thiscall Zone_RenderEnvironment(int self_)
   int &v39 = *reinterpret_cast<int *>(xi_frame + 0x484);
   int &v40 = *reinterpret_cast<int *>(xi_frame + 0x484);
   int &v41 = *reinterpret_cast<int *>(xi_frame + 0x484);
-  _DWORD * &v42 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x488);
+  unsigned __int8 * &v42 = *reinterpret_cast<unsigned __int8 * *>(xi_frame + 0x488);
   int &v43 = *reinterpret_cast<int *>(xi_frame + 0x48C);
   int * &v44 = *reinterpret_cast<int * *>(xi_frame + 0x490);
   int &v45 = *reinterpret_cast<int *>(xi_frame + 0x494);
   int &v46 = *reinterpret_cast<int *>(xi_frame + 0x498);
-  int &v47 = *reinterpret_cast<int *>(xi_frame + 0x4A4);
+  float &v47 = *reinterpret_cast<float *>(xi_frame + 0x4A4);
   float (&pM2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4A8);
   float (&pOut)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4E8);
   float (&v50)[26] = *reinterpret_cast<float (*)[26]>(xi_frame + 0x528);
 
-  g_pCDx->pDevice->SetTexture(0, nullptr);
-  g_pCDx->pDevice->SetTexture(1u, nullptr);
-  g_pCDx->pDevice->SetTexture(2u, nullptr);
-  g_pCDx->pDevice->SetTexture(3u, nullptr);
-  g_pCDx->pDevice->SetTexture(4u, nullptr);
-  g_pCDx->pDevice->SetTexture(5u, nullptr);
-  g_pCDx->pDevice->SetTexture(6u, nullptr);
-  g_pCDx->pDevice->SetTexture(7u, nullptr);
-  v2 = (unsigned int *)(self_ + 232852);
-  *(_DWORD *)(self_ + 232772) = 0;
-  *(_DWORD *)(self_ + 232776) = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 3u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 4u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 6u, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 7u, nullptr);
+  v2 = &(*(unsigned int *)((char *)self_ + 0x38D94));
+  (*(unsigned int *)((char *)self_ + 0x38D44)) = 0;
+  (*(unsigned int *)((char *)self_ + 0x38D48)) = 0;
   dword_1065C4C8 = 0;
   dword_10631F14 = 0;
   v38 = 0;
-  if ( *(_DWORD *)(self_ + 232852) != 0 )
+  if ( (*(unsigned int *)((char *)self_ + 0x38D94)) != 0 )
   {
 LABEL_4:
     if ( *v2 != -1 && v38 != 1 )
       goto LABEL_7;
     goto LABEL_6;
   }
-  g_pCDx->pDevice->CreateStateBlock(D3DSBT_ALL, (void *)(self_ + 232852));
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DSBT_ALL, &(*(unsigned int *)((char *)self_ + 0x38D94)));
   if ( *v2 != -1 )
   {
-    g_pCDx->pDevice->BeginStateBlock();
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->BeginStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)));
     v38 = 1;
     goto LABEL_4;
   }
 LABEL_6:
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZBIAS, g_zbiasZoneMesh);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_MINFILTER, D3DTEXF_POINT);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_MINFILTER, D3DTEXF_POINT);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_TEXCOORDINDEX, 1u);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_TEXCOORDINDEX, 2u);
-  g_pCDx->pDevice->SetTextureStageState(3u, D3DTSS_TEXCOORDINDEX, 3u);
-  g_pCDx->pDevice->SetTextureStageState(4u, D3DTSS_TEXCOORDINDEX, 4u);
-  g_pCDx->pDevice->SetTextureStageState(5u, D3DTSS_TEXCOORDINDEX, 5u);
-  g_pCDx->pDevice->SetTextureStageState(6u, D3DTSS_TEXCOORDINDEX, 6u);
-  g_pCDx->pDevice->SetTextureStageState(7u, D3DTSS_TEXCOORDINDEX, 7u);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAREF, 96u);
-  g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-  g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZBIAS, g_zbiasZoneMesh);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MINFILTER, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_MINFILTER, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_TEXCOORDINDEX, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_TEXCOORDINDEX, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 3u, D3DTSS_TEXCOORDINDEX, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 4u, D3DTSS_TEXCOORDINDEX, 4u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, D3DTSS_TEXCOORDINDEX, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 6u, D3DTSS_TEXCOORDINDEX, 6u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 7u, D3DTSS_TEXCOORDINDEX, 7u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 6u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SHADEMODE, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ADDRESSU, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ADDRESSV, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ADDRESSU, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ADDRESSV, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_COLOROP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ALPHAOP, 1u);
 LABEL_7:
   if ( *v2 != -1 )
   {
     if ( v38 == 1 )
-      g_pCDx->pDevice->EndStateBlock((void *)(self_ + 232852));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->EndStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &(*(unsigned int *)((char *)self_ + 0x38D94)));
     else
-      g_pCDx->pDevice->ApplyStateBlock(*v2);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->ApplyStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *v2);
   }
-  if ( *(_DWORD *)(self_ + 234652) != 1 )
+  if ( (*(unsigned int *)((char *)self_ + 0x3949C)) != 1 )
   {
-    if ( g_pCDx->_pad_10[2333] != 0 )
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
     {
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-      pDevice = g_pCDx->pDevice;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 3u);
+      pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
 LABEL_16:
       pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
       goto LABEL_17;
     }
-    if ( g_pCDx->_pad_10[2334] == 0 )
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) == 0 )
     {
 LABEL_17:
-      v4 = g_pCDx->pDevice;
+      v4 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
       lpVtbl = v4->lpVtbl;
       if ( dword_10456A98 != 0 )
       {
         lpVtbl->SetTextureStageState(v4, 0, D3DTSS_MIPFILTER, 2u);
-        g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
-        if ( *(_DWORD *)(self_ + 234652) == 1 )
-          g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MIPFILTER, 2u);
+        if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_MIPFILTER, 2u);
       }
       else
       {
         lpVtbl->SetTextureStageState(v4, 0, D3DTSS_MIPFILTER, 0);
-        g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_MIPFILTER, D3DTEXF_NONE);
-        if ( *(_DWORD *)(self_ + 234652) == 1 )
-          g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_MIPFILTER, D3DTEXF_NONE);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MIPFILTER, 0);
+        if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_MIPFILTER, 0);
       }
-      v6 = *(_DWORD *)(self_ + 234652);
-      *(_DWORD *)(self_ + 233748) = 0;
-      *(_DWORD *)(self_ + 233744) = 0;
-      *(_DWORD *)(self_ + 234660) = 1;
+      v6 = (*(unsigned int *)((char *)self_ + 0x3949C));
+      (*(unsigned int *)((char *)self_ + 0x39114)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x39110)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x394A4)) = 1;
       if ( v6 == 1 || v6 == 2 )
-        *(_DWORD *)(self_ + 234660) = 0;
-      *(_DWORD *)(self_ + 233752) = 0;
-      orig::sub_10177FA0((_DWORD *)self_);
-      g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234664), 1u);
-      g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234672), 1u);
-      g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234676), 1u);
-      g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234680), 1u);
-      g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234684), 1u);
-      v7 = g_pCDx->pDevice;
+        (*(unsigned int *)((char *)self_ + 0x394A4)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x39118)) = 0;
+      orig::sub_10177FA0(self_);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394A8)), 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B0)), 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B4)), 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B8)), 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394BC)), 1u);
+      v7 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
       v8 = v7->lpVtbl;
-      if ( *(_DWORD *)(self_ + 234660) != 0 )
-        v8->LightEnable(v7, *(_DWORD *)(self_ + 234668), 1u);
+      if ( (*(unsigned int *)((char *)self_ + 0x394A4)) != 0 )
+        v8->LightEnable(v7, (*(unsigned int *)((char *)self_ + 0x394AC)), 1u);
       else
         v8->LightEnable(v7, 5u, 0);
-      g_pCDx->pDevice->LightEnable(6u, 0);
-      g_pCDx->pDevice->LightEnable(7u, 0);
-      memset((void *)(self_ + 233856), 0, 0x68u);
-      memset((void *)(self_ + 234080), 0, 0x68u);
-      memset((void *)(self_ + 234304), 0, 0x68u);
-      if ( *(_DWORD *)(self_ + 234660) != 0 )
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 6u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 7u, 0);
+      memset(&(*(unsigned __int8 *)((char *)self_ + 0x39180)), 0, 0x68u);
+      memset(((unsigned __int8 *)((char *)self_ + 0x39260)), 0, 0x68u);
+      memset(((unsigned __int8 *)((char *)self_ + 0x39340)), 0, 0x68u);
+      if ( (*(unsigned int *)((char *)self_ + 0x394A4)) != 0 )
       {
-        memset((void *)(self_ + 233960), 0, 0x68u);
-        memset((void *)(self_ + 234184), 0, 0x68u);
-        memset((void *)(self_ + 234408), 0, 0x68u);
-        orig::XiZone_GetDirLights((int)g_pXiZone, (_DWORD *)(self_ + 233856), (_DWORD *)(self_ + 233960));
-        orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 233856));
-        orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234668), (float *)(self_ + 233960));
+        memset(&(*(unsigned __int8 *)((char *)self_ + 0x391E8)), 0, 0x68u);
+        memset(&(*(unsigned __int8 *)((char *)self_ + 0x392C8)), 0, 0x68u);
+        memset(&(*(unsigned __int8 *)((char *)self_ + 0x393A8)), 0, 0x68u);
+        orig::XiZone_GetDirLights((int)g_pXiZone, &(*(unsigned __int8 *)((char *)self_ + 0x39180)), &(*(unsigned __int8 *)((char *)self_ + 0x391E8)));
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x39180)));
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394AC)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x391E8)));
       }
       else
       {
-        orig::XiZone_GetDirLight(g_pXiZone, (_DWORD *)(self_ + 233856), 0, 0);
-        orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 233856));
+        orig::XiZone_GetDirLight(g_pXiZone, &(*(unsigned __int8 *)((char *)self_ + 0x39180)), 0, 0);
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x39180)));
       }
-      orig::XiZone_GetAmbient((char *)g_pXiZone, (_DWORD *)(self_ + 234064), 0, 0);
-      g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, *(_DWORD *)(self_ + 234064));
-      orig::XiZone_GetFog(g_pXiZone, (_DWORD *)(self_ + 234068), (float *)(self_ + 234072), (float *)(self_ + 234076), 0, 0);
-      if ( *(int *)(self_ + 234652) >= 1 )
+      orig::XiZone_GetAmbient((char *)g_pXiZone, &(*(unsigned int *)((char *)self_ + 0x39250)), 0, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, (*(unsigned int *)((char *)self_ + 0x39250)));
+      orig::XiZone_GetFog(g_pXiZone, &(*(unsigned int *)((char *)self_ + 0x39254)), (float *)&(*(unsigned int *)((char *)self_ + 0x39258)), (float *)&(*(unsigned int *)((char *)self_ + 0x3925C)), 0, 0);
+      if ( (int)(*(unsigned int *)((char *)self_ + 0x3949C)) >= 1 )
       {
-        v47 = *(_DWORD *)(self_ + 233928);
-        v9 = *(_DWORD *)(self_ + 233924);
-        *(_DWORD *)(self_ + 234816) = *(_DWORD *)(self_ + 233920);
-        *(_DWORD *)(self_ + 234688) = 0;
-        *(_DWORD *)(self_ + 234692) = 0;
-        *(_DWORD *)(self_ + 234820) = v9;
-        *(_DWORD *)(self_ + 234696) = 0;
-        *(_DWORD *)(self_ + 234700) = 0;
-        *(_DWORD *)(self_ + 234824) = v47;
-        qmemcpy(v50, (const void *)(self_ + 233856), sizeof(v50));
+        v47 = *(float *)&(*(unsigned int *)((char *)self_ + 0x391C8));
+        v9 = *(float *)&(*(unsigned int *)((char *)self_ + 0x391C4));
+        LODWORD((*(float *)((char *)self_ + 0x39540))) = (*(unsigned int *)((char *)self_ + 0x391C0));
+        (*(unsigned int *)((char *)self_ + 0x394C0)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x394C4)) = 0;
+        (*(float *)((char *)self_ + 0x39544)) = v9;
+        (*(unsigned int *)((char *)self_ + 0x394C8)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x394CC)) = 0;
+        (*(float *)((char *)self_ + 0x39548)) = v47;
+        qmemcpy(v50, &(*(unsigned __int8 *)((char *)self_ + 0x39180)), sizeof(v50));
         orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v50);
-        v10 = v50[2];
-        v11 = v50[3];
-        *(float *)(self_ + 234704) = v50[1];
-        *(float *)(self_ + 234708) = v10;
-        *(float *)(self_ + 234712) = v11;
-        *(_DWORD *)(self_ + 234716) = 0;
-        orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)(self_ + 234720));
-        v12 = *(float *)(self_ + 234072) - *(float *)(self_ + 234076);
-        v13 = *(_DWORD *)(self_ + 234072);
-        *(_DWORD *)(self_ + 234736) = 1056964608;
-        *(_DWORD *)(self_ + 234740) = 1056964608;
-        v14 = *(float *)(self_ + 234828) / v12;
-        *(_DWORD *)(self_ + 234744) = 1056964608;
-        *(_DWORD *)(self_ + 234748) = 1056964608;
-        *(_DWORD *)(self_ + 234756) = 0;
-        *(_DWORD *)(self_ + 234760) = v13;
-        *(_DWORD *)(self_ + 234764) = 0;
-        *(_DWORD *)(self_ + 234768) = 1065353216;
-        *(_DWORD *)(self_ + 234772) = 1065353216;
-        *(_DWORD *)(self_ + 234776) = 1065353216;
-        *(_DWORD *)(self_ + 234780) = 1065353216;
-        *(float *)(self_ + 234752) = v14;
-        g_pCDx->pDevice->SetVertexShaderConstant(5u, (void *)(self_ + 234688), 6u);
-        *(_DWORD *)(self_ + 234588) = 0;
-        *(_DWORD *)(self_ + 234592) = 0;
-        *(_DWORD *)(self_ + 234596) = 0;
-        *(_DWORD *)(self_ + 234600) = 0;
+        v10 = LODWORD(v50[2]);
+        v11 = LODWORD(v50[3]);
+        *(float *)&(*(unsigned int *)((char *)self_ + 0x394D0)) = v50[1];
+        (*(unsigned int *)((char *)self_ + 0x394D4)) = v10;
+        (*(unsigned int *)((char *)self_ + 0x394D8)) = v11;
+        (*(unsigned int *)((char *)self_ + 0x394DC)) = 0;
+        orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)((unsigned __int8 *)((char *)self_ + 0x394E0)));
+        v12 = *(float *)&(*(unsigned int *)((char *)self_ + 0x39258)) - *(float *)&(*(unsigned int *)((char *)self_ + 0x3925C));
+        v13 = (*(unsigned int *)((char *)self_ + 0x39258));
+        (*(unsigned int *)((char *)self_ + 0x394F0)) = 1056964608;
+        (*(unsigned int *)((char *)self_ + 0x394F4)) = 1056964608;
+        v14 = *(float *)&(*(unsigned int *)((char *)self_ + 0x3954C)) / v12;
+        (*(unsigned int *)((char *)self_ + 0x394F8)) = 1056964608;
+        (*(unsigned int *)((char *)self_ + 0x394FC)) = 1056964608;
+        (*(unsigned int *)((char *)self_ + 0x39504)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x39508)) = v13;
+        (*(unsigned int *)((char *)self_ + 0x3950C)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x39510)) = 1065353216;
+        (*(unsigned int *)((char *)self_ + 0x39514)) = 1065353216;
+        (*(unsigned int *)((char *)self_ + 0x39518)) = 1065353216;
+        (*(unsigned int *)((char *)self_ + 0x3951C)) = 1065353216;
+        (*(float *)((char *)self_ + 0x39500)) = v14;
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, &(*(unsigned int *)((char *)self_ + 0x394C0)), 6u);
+        (*(unsigned int *)((char *)self_ + 0x3945C)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x39460)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x39464)) = 0;
+        (*(unsigned int *)((char *)self_ + 0x39468)) = 0;
       }
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, *(_DWORD *)(self_ + 234068));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, *(_DWORD *)(self_ + 234076));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, *(_DWORD *)(self_ + 234072));
-      orig::CDx_GetTransformCached(g_pCDx, 2, (void *)(self_ + 232860));
-      qmemcpy((void *)(self_ + 232924), orig::Camera_GetMatrix154Ptr(), 0x40u);
-      orig::CDx_SetTransform(&g_pCDx->vftable, 3, (const void *)(self_ + 232924));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, (*(unsigned int *)((char *)self_ + 0x39254)));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, (*(unsigned int *)((char *)self_ + 0x3925C)));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, (*(unsigned int *)((char *)self_ + 0x39258)));
+      orig::CDx_GetTransformCached(g_pCDx, 2, &(*(unsigned __int8 *)((char *)self_ + 0x38D9C)));
+      qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38DDC)), orig::Camera_GetMatrix154Ptr(), 0x40u);
+      orig::CDx_SetTransform(g_pCDx, 3, &(*(unsigned __int8 *)((char *)self_ + 0x38DDC)));
       v15 = orig::sub_1018B8F0((int)g_pXiZone, 0);
-      *(float *)(self_ + 234528) = v15;
-      *(float *)(self_ + 234532) = v15 * v15;
-      *(float *)(self_ + 234536) = orig::sub_101892B0(g_pXiZone, 0);
+      *(float *)&(*(unsigned int *)((char *)self_ + 0x39420)) = v15;
+      (*(float *)((char *)self_ + 0x39424)) = v15 * v15;
+      (*(float *)((char *)self_ + 0x39428)) = orig::sub_101892B0(g_pXiZone, 0);
       v16 = 512.0 / *((float *)g_pCamera + 188);
-      v17 = *(float *)(self_ + 218548);
-      v37 = *(float *)(self_ + 234528);
-      *(float *)(self_ + 218544) = v16;
-      v18 = *(float *)(self_ + 218544);
-      *(float *)(self_ + 356) = v16 * 0.5;
-      orig::sub_10182490((float *)(self_ + 233052), v18, v17, *((float *)g_pCamera + 189), 0.2, v37);
-      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(self_ + 232860), (float *)(self_ + 233052));
-      qmemcpy((void *)(self_ + 233436), pOut, 64);
-      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(self_ + 232860), (float *)(self_ + 232924));
-      v19 = *(float *)(self_ + 360);
-      qmemcpy((void *)(self_ + 233308), pOut, 64);
+      v17 = *(float *)&(*(unsigned int *)((char *)self_ + 0x355B4));
+      v37 = *(float *)&(*(unsigned int *)((char *)self_ + 0x39420));
+      *(float *)&(*(unsigned int *)((char *)self_ + 0x355B0)) = v16;
+      v18 = *(float *)&(*(unsigned int *)((char *)self_ + 0x355B0));
+      *(float *)&(*(unsigned int *)((char *)self_ + 0x164)) = v16 * 0.5;
+      orig::sub_10182490((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)), v18, v17, *((float *)g_pCamera + 189), 0.2, v37);
+      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38D9C)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)));
+      qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38FDC)), pOut, 64);
+      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38D9C)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38DDC)));
+      v19 = (*(float *)((char *)self_ + 0x168));
+      qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38F5C)), pOut, 64);
       pM2[5] = -v19;
-      v20 = *(float *)(self_ + 356);
+      v20 = (*(unsigned int *)((char *)self_ + 0x164));
       memset(&pM2[1], 0, 16);
       memset(&pM2[6], 0, 16);
       pM2[10] = 1.0;
       memset(&pM2[11], 0, 16);
       pM2[15] = 1.0;
-      pM2[0] = v20;
-      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(self_ + 233308), pM2);
-      qmemcpy((void *)(self_ + 233372), pOut, 64);
-      g_pCDx->pDevice->SetMaterial((void *)(self_ + 233788));
+      LODWORD(pM2[0]) = v20;
+      orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38F5C)), pM2);
+      qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38F9C)), pOut, 64);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), ((unsigned __int8 *)((char *)self_ + 0x3913C)));
       Field50 = orig::Camera_GetField50();
-      orig::Vec3_Copy((_DWORD *)(self_ + 233712), (_DWORD *)(Field50 + 68));
-      v22 = *(int **)(self_ + 233772);
-      *(_DWORD *)(self_ + 233756) = 0;
-      *(_DWORD *)(self_ + 234572) = 0;
-      *(_DWORD *)(self_ + 234568) = 0;
-      *(_DWORD *)(self_ + 234540) = 0;
-      *(_DWORD *)(self_ + 234544) = 0;
-      *(_DWORD *)(self_ + 233780) = -1;
-      *(_DWORD *)(self_ + 232768) = 0;
-      v44 = v22;
-      v42 = (_DWORD *)(self_ + 152);
+      orig::Vec3_Copy(&(*(float *)((char *)self_ + 0x390F0)), (_DWORD *)(Field50 + 68));
+      v22 = (*(unsigned int *)((char *)self_ + 0x3912C));
+      (*(unsigned int *)((char *)self_ + 0x3911C)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x3944C)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x39448)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x3942C)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x39430)) = 0;
+      (*(unsigned int *)((char *)self_ + 0x39134)) = -1;
+      (*(unsigned int *)((char *)self_ + 0x38D40)) = 0;
+      v44 = (int *)v22;
+      v42 = &(*(unsigned __int8 *)((char *)self_ + 0x98));
       v45 = 2;
-      v23 = (_DWORD *)(self_ + 152);
+      v23 = &(*(unsigned __int8 *)((char *)self_ + 0x98));
       do
       {
-        *(_DWORD *)(self_ + 233784) = -1;
-        v46 = *(v23 - 14);
+        (*(unsigned int *)((char *)self_ + 0x39138)) = -1;
+        v46 = *((_DWORD *)v23 - 14);
         if ( v46 != 0 )
         {
-          *(_DWORD *)(self_ + 233728) = 0;
-          *(_DWORD *)(self_ + 233732) = 0;
-          *(_DWORD *)(self_ + 233736) = 0;
-          *(_DWORD *)(self_ + 233740) = 0;
-          *(_DWORD *)(self_ + 234588) = 0;
-          *(_DWORD *)(self_ + 234592) = 0;
-          *(_DWORD *)(self_ + 234596) = 0;
-          *(_DWORD *)(self_ + 234600) = 0;
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234672), 0);
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234676), 0);
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234680), 0);
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234684), 0);
-          g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-          *(_DWORD *)(self_ + 233760) = 0;
-          *(_DWORD *)(self_ + 233724) = 0;
-          g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
-          *(_DWORD *)(self_ + 233752) = 0;
-          *(_DWORD *)(self_ + 233744) = -1;
+          (*(unsigned int *)((char *)self_ + 0x39100)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39104)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39108)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x3910C)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x3945C)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39460)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39464)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39468)) = 0;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B0)), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B4)), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B8)), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394BC)), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 3u);
+          (*(unsigned int *)((char *)self_ + 0x39120)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x390FC)) = 0;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+          (*(unsigned int *)((char *)self_ + 0x39118)) = 0;
+          (*(unsigned int *)((char *)self_ + 0x39110)) = -1;
           v24 = 0;
-          v43 = v23[11];
-          if ( v46 == 3 && *(_DWORD *)(self_ + 344) != 0 )
+          v43 = *((_DWORD *)v23 + 11);
+          if ( v46 == 3 && (*(unsigned int *)((char *)self_ + 0x158)) != 0 )
           {
-            orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(self_ + 232988), (float *)(self_ + 232860));
-            qmemcpy((void *)(self_ + 233180), pOut, 64);
-            orig::D3DXMatrixMultiply_Dispatch(v50, (float *)(self_ + 233180), (float *)(self_ + 233052));
-            qmemcpy((void *)(self_ + 233180), v50, 64);
+            orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E1C)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38D9C)));
+            qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38EDC)), pOut, 64);
+            orig::D3DXMatrixMultiply_Dispatch(v50, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38EDC)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)));
+            qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38EDC)), v50, 64);
             v24 = 1;
             v23 = v42;
           }
-          if ( v44 != nullptr && *(v23 - 1) != 0 )
+          if ( v44 != nullptr && *((_DWORD *)v23 - 1) != 0 )
           {
             v25 = v44 + 1;
             v39 = 0;
-            *(_DWORD *)(self_ + 234572) |= 1u;
+            (*(unsigned int *)((char *)self_ + 0x3944C)) |= 1u;
             if ( *v44 > 0 )
             {
               do
@@ -423,22 +423,21 @@ LABEL_17:
                 {
                   if ( *(_BYTE *)(v26 + 15) != 0 )
                   {
-                    v27 = *(_DWORD *)(self_ + 232768);
+                    v27 = (*(unsigned int *)((char *)self_ + 0x38D40));
                     if ( v27 < 512 )
                     {
-                      *(_DWORD *)(self_ + 12 * v27 + 226624) = v26;
-                      *(_DWORD *)(self_ + 12 * *(_DWORD *)(self_ + 232768) + 226628) = v43;
-                      *(_DWORD *)(self_ + 12 * (*(_DWORD *)(self_ + 232768) + 18886)) = v24;
-                      ++*(_DWORD *)(self_ + 232768);
+                      *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * v27 + 8072] = v26;
+                      *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * (*(unsigned int *)((char *)self_ + 0x38D40)) + 8076] = v43;
+                      *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * (*(unsigned int *)((char *)self_ + 0x38D40))++ + 8080] = v24;
                     }
                   }
-                  else if ( *(_DWORD *)(self_ + 234652) == 2 )
+                  else if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 2 )
                   {
                     orig::sub_1017DE20((float *)self_, v43, v26, v24);
                   }
                   else
                   {
-                    orig::sub_1017C9C0((char *)self_, v43, v26, v24);
+                    orig::sub_1017C9C0(self_, v43, v26, v24);
                   }
                 }
                 ++v25;
@@ -448,13 +447,13 @@ LABEL_17:
             }
             v44 = nullptr;
           }
-          else if ( *v23 != 0 )
+          else if ( *(_DWORD *)v23 != 0 )
           {
-            v28 = *(_DWORD *)(self_ + 234572);
+            v28 = (*(unsigned int *)((char *)self_ + 0x3944C));
             v40 = 4;
-            v28 = (int)(((uint32_t)(v28) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v28 | 2) << 0));
-            *(_DWORD *)(self_ + 234572) = v28;
-            v29 = (int *)(*v23 + 104);
+            v28 = (unsigned int)(((uint32_t)(v28) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v28 | 2) << 0));
+            (*(unsigned int *)((char *)self_ + 0x3944C)) = v28;
+            v29 = (int *)(*(_DWORD *)v23 + 104);
             do
             {
               if ( *v29 != 0 )
@@ -467,37 +466,36 @@ LABEL_17:
           else
           {
             v41 = 0;
-            for ( i = *(v42 - 4); (int)(v41) < (int)(*(v42 - 5)); ++v41 )
+            for ( i = *((_DWORD *)v42 - 4); (int)(v41) < (int)(*((_DWORD *)v42 - 5)); ++v41 )
             {
               if ( *(_BYTE *)(i + 8) > 1u )
               {
                 if ( *(_BYTE *)(i + 15) != 0 )
                 {
-                  v31 = *(_DWORD *)(self_ + 232768);
+                  v31 = (*(unsigned int *)((char *)self_ + 0x38D40));
                   if ( v31 < 512 )
                   {
-                    *(_DWORD *)(self_ + 12 * v31 + 226624) = i;
-                    *(_DWORD *)(self_ + 12 * *(_DWORD *)(self_ + 232768) + 226628) = v43;
-                    *(_DWORD *)(self_ + 12 * (*(_DWORD *)(self_ + 232768) + 18886)) = v24;
-                    ++*(_DWORD *)(self_ + 232768);
+                    *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * v31 + 8072] = i;
+                    *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * (*(unsigned int *)((char *)self_ + 0x38D40)) + 8076] = v43;
+                    *(_DWORD *)&((unsigned __int8 *)((char *)self_ + 0x355B8))[12 * (*(unsigned int *)((char *)self_ + 0x38D40))++ + 8080] = v24;
                   }
                 }
-                else if ( *(_DWORD *)(self_ + 234652) == 2 )
+                else if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 2 )
                 {
                   orig::sub_1017DE20((float *)self_, v43, i, v24);
                 }
                 else
                 {
-                  orig::sub_1017C9C0((char *)self_, v43, i, v24);
+                  orig::sub_1017C9C0(self_, v43, i, v24);
                 }
               }
               i += 364;
             }
           }
           v32 = 0;
-          v33 = *(_DWORD *)(self_ + 232768);
-          v34 = (int *)(self_ + 226624);
-          if ( *(_DWORD *)(self_ + 234652) == 2 )
+          v33 = (*(unsigned int *)((char *)self_ + 0x38D40));
+          v34 = (int *)&(*(unsigned __int8 *)((char *)self_ + 0x37540));
+          if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 2 )
           {
             if ( v33 > 0 )
             {
@@ -507,72 +505,72 @@ LABEL_17:
                 ++v32;
                 v34 += 3;
               }
-              while ( (int)(v32) < (int)(*(_DWORD *)(self_ + 232768)) );
+              while ( v32 < (signed int)(*(unsigned int *)((char *)self_ + 0x38D40)) );
             }
           }
           else if ( v33 > 0 )
           {
             do
             {
-              orig::sub_1017C9C0((char *)self_, v34[1], *v34, v34[2]);
+              orig::sub_1017C9C0(self_, v34[1], *v34, v34[2]);
               ++v32;
               v34 += 3;
             }
-            while ( (int)(v32) < (int)(*(_DWORD *)(self_ + 232768)) );
+            while ( v32 < (signed int)(*(unsigned int *)((char *)self_ + 0x38D40)) );
           }
-          if ( *(_DWORD *)(self_ + 234652) == 1 )
-            g_pCDx->pDevice->SetPixelShader(0);
-          if ( *(_DWORD *)(self_ + 233748) != 0 )
+          if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0);
+          if ( (*(unsigned int *)((char *)self_ + 0x39114)) != 0 )
           {
-            g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-            g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-            g_pCDx->pDevice->SetRenderState(D3DRS_ZBIAS, g_zbiasZoneMesh);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZBIAS, g_zbiasZoneMesh);
           }
-          if ( v42[1] != 0 )
-            orig::ZoneMap_DrawMeshGroupsWithFog((_DWORD *)self_, v42 - 14);
+          if ( *((_DWORD *)v42 + 1) != 0 )
+            orig::ZoneMap_DrawMeshGroupsWithFog(self_, (_DWORD *)v42 - 14);
         }
-        v23 = v42 + 30;
+        v23 = v42 + 120;
         v35 = v45 == 1;
-        v42 += 30;
+        v42 += 120;
         --v45;
       }
       while ( !v35 );
-      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-      g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_NONE);
-      g_pCDx->pDevice->LightEnable(0, 0);
-      g_pCDx->pDevice->LightEnable(1u, 0);
-      g_pCDx->pDevice->LightEnable(2u, 0);
-      g_pCDx->pDevice->LightEnable(3u, 0);
-      g_pCDx->pDevice->LightEnable(4u, 0);
-      g_pCDx->pDevice->LightEnable(5u, 0);
-      g_pCDx->pDevice->LightEnable(6u, 0);
-      g_pCDx->pDevice->LightEnable(7u, 0);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-      g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
-      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-      if ( *(_DWORD *)(self_ + 234652) == 1 )
-        g_pCDx->pDevice->SetPixelShader(0);
-      g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_RESULTARG, 1u);
-      g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-      g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-      g_pCDx->pDevice->SetTextureStageState(3u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      return g_pCDx->pDevice->SetTextureStageState(3u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 8u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MIPFILTER, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 3u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 4u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 6u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 7u, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 8u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_RANGEFOGENABLE, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
+      if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_RESULTARG, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ALPHAOP, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_COLOROP, 1u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 3u, D3DTSS_ALPHAOP, 1u);
+      return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 3u, D3DTSS_COLOROP, 1u);
     }
   }
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
-  pDevice = g_pCDx->pDevice;
-  if ( g_pCDx->_pad_10[2335] != 0 )
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 0);
+  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) != 0 )
   {
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
     goto LABEL_17;
@@ -582,12 +580,12 @@ LABEL_17:
 
 // FUNCTION: FFXIMAIN 0x1017C9C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 85 returned normally, 3532 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 87, town2 PASS 87, combat PASS 89, zonetoinn PASS 87
-XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
+XI_API int __thiscall fn_1017C9C0(CTsZoneMap *self_, int a2, int a3, int a4)
 {
   double v6;
   double v7;
   double v8;
-  char v9;
+  int v9;
   double v10;
   double v11; // rt0
   double v12;
@@ -618,21 +616,21 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   bool v37; // c0
   char v38; // c2
   bool v39; // c3
-  int v40;
-  int v41;
+  unsigned int v40;
+  unsigned int v41;
   int v42;
   float *v43;
-  int v44;
+  unsigned int v44;
   int v45;
   float *v46;
-  int v47;
+  unsigned int v47;
   int v48;
   float *v49;
-  int v50;
+  unsigned int v50;
   int v51;
   float *v52;
   unsigned int v53;
-  int v54;
+  unsigned int v54;
   float *v55;
   float *v56;
   double v57;
@@ -643,44 +641,44 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   float *v62;
   double v63;
   int v64;
-  int v65;
+  unsigned int v65;
   unsigned int *v66;
-  int v67;
-  char *v68;
+  unsigned int v67;
+  unsigned __int8 *pad_48_39260;
   float v69;
   float v70;
   float v71;
   float v72;
   float v73;
-  float v74;
+  unsigned int v74;
   char *v75;
   double v76;
-  char *v77;
+  unsigned __int8 *v77;
   float v78;
   float v79;
   float v80;
   float v81;
-  float v82;
-  float v83;
+  unsigned int v82;
+  unsigned int v83;
   double v84;
   float *v85;
-  int v86;
+  unsigned int v86;
   bool v87; // zf
   IDirect3DDevice8 *pDevice;
   struct IDirect3DDevice8Vtbl *lpVtbl;
-  int v90;
+  unsigned int v90;
   IDirect3DDevice8 *v91;
   struct IDirect3DDevice8Vtbl *v92;
-  int v93;
-  int v94;
+  unsigned int v93;
+  unsigned int v94;
   int *v95;
   int v96;
-  int v97;
+  unsigned int v97;
   IDirect3DDevice8 *v98;
   struct IDirect3DDevice8Vtbl *v99;
   IDirect3DDevice8 *v100;
   int v101;
-  int v102;
+  unsigned int v102;
   IDirect3DDevice8 *v103;
   int v104;
   IDirect3DBaseTexture8 *v105;
@@ -713,68 +711,68 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
 
   if ( a4 != 0 )
   {
-    orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(a3 + 64), (float *)self_ + 58247);
-    v6 = *((float *)self_ + 58251) * *(float *)(a3 + 32);
-    v7 = *((float *)self_ + 58255) * *(float *)(a3 + 36);
+    orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)(a3 + 64), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E1C)));
+    v6 = *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E2C)) * *(float *)(a3 + 32);
+    v7 = *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E3C)) * *(float *)(a3 + 36);
     qmemcpy(pIn, pOut, sizeof(pIn));
-    v8 = v6 + v7 + *((float *)self_ + 58247) * *(float *)(a3 + 28) + *((float *)self_ + 58259);
-    v9 = *(_BYTE *)(a3 + 11);
-    v10 = *((float *)self_ + 58252) * *(float *)(a3 + 32)
-        + *((float *)self_ + 58248) * *(float *)(a3 + 28)
-        + *((float *)self_ + 58256) * *(float *)(a3 + 36)
-        + *((float *)self_ + 58260);
-    v122 = *((float *)self_ + 58253) * *(float *)(a3 + 32)
-         + *((float *)self_ + 58249) * *(float *)(a3 + 28)
-         + *((float *)self_ + 58257) * *(float *)(a3 + 36)
-         + *((float *)self_ + 58261);
+    v8 = v6 + v7 + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E1C)) * *(float *)(a3 + 28) + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E4C));
+    v9 = *(unsigned __int8 *)(a3 + 11);
+    v10 = *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E30)) * *(float *)(a3 + 32)
+        + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E20)) * *(float *)(a3 + 28)
+        + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E40)) * *(float *)(a3 + 36)
+        + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E50));
+    v122 = *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E34)) * *(float *)(a3 + 32)
+         + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E24)) * *(float *)(a3 + 28)
+         + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E44)) * *(float *)(a3 + 36)
+         + *(float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E54));
     v11 = v10;
-    v114 = v8 - *((float *)self_ + 58428);
-    v12 = v122 - *((float *)self_ + 58430);
-    v13 = v11 - *((float *)self_ + 58429);
+    v114 = v8 - (*(float *)((char *)self_ + 0x390F0));
+    v12 = v122 - (*(float *)((char *)self_ + 0x390F8));
+    v13 = v11 - (*(float *)((char *)self_ + 0x390F4));
     v14 = v12 * v12 + v13 * v13 + v114 * v114;
     v115 = v14;
-    if ( v9 != 0 )
+    if ( (_BYTE)v9 != 0 )
     {
-      v16 = *((float *)self_ + 58634) * *(float *)(a3 + 208);
+      v16 = (*(float *)((char *)self_ + 0x39428)) * *(float *)(a3 + 208);
       v17 = v14 < v16;
       v18 = 0;
       v19 = v14 == v16;
     }
     else
     {
-      v17 = v14 < *((float *)self_ + 58633);
+      v17 = v14 < (*(float *)((char *)self_ + 0x39424));
       v18 = 0;
-      v19 = v14 == *((float *)self_ + 58633);
+      v19 = v14 == (*(float *)((char *)self_ + 0x39424));
     }
-    result = (__int16)(((v17 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v17 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v17 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v17 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
-    result = orig::sub_10181BB0((float *)self_ + 58295, (float *)(a3 + 244));
+    result = orig::sub_10181BB0((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38EDC)), (float *)(a3 + 244));
   }
   else
   {
-    v21 = *(float *)(a3 + 32) - *((float *)self_ + 58429);
-    v22 = *(float *)(a3 + 36) - *((float *)self_ + 58430);
-    v23 = *(float *)(a3 + 28) - *((float *)self_ + 58428);
+    v21 = *(float *)(a3 + 32) - (*(float *)((char *)self_ + 0x390F4));
+    v22 = *(float *)(a3 + 36) - (*(float *)((char *)self_ + 0x390F8));
+    v23 = *(float *)(a3 + 28) - (*(float *)((char *)self_ + 0x390F0));
     v24 = v22 * v22 + v21 * v21 + v23 * v23;
     v115 = v24;
     if ( *(_BYTE *)(a3 + 11) != 0 )
     {
-      v26 = *((float *)self_ + 58634) * *(float *)(a3 + 208);
+      v26 = (*(float *)((char *)self_ + 0x39428)) * *(float *)(a3 + 208);
       v27 = v24 < v26;
       v28 = 0;
       v29 = v24 == v26;
     }
     else
     {
-      v27 = v24 < *((float *)self_ + 58633);
+      v27 = v24 < (*(float *)((char *)self_ + 0x39424));
       v28 = 0;
-      v29 = v24 == *((float *)self_ + 58633);
+      v29 = v24 == (*(float *)((char *)self_ + 0x39424));
     }
-    result = (__int16)(((v27 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v27 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *((float *)self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v27 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v27 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
-    result = orig::sub_10181BB0((float *)self_ + 58359, (float *)(a3 + 244));
+    result = orig::sub_10181BB0((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38FDC)), (float *)(a3 + 244));
   }
   if ( result != 0 )
     return result;
@@ -798,16 +796,16 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
   v116 = v35;
   if ( v35 == 0 )
     return result;
-  v40 = *((_DWORD *)self_ + 58432);
-  ++*((_DWORD *)self_ + 58642);
+  v40 = (*(unsigned int *)((char *)self_ + 0x39100));
+  ++(*(unsigned int *)((char *)self_ + 0x39448));
   v41 = *(_DWORD *)(a3 + 228);
   if ( v40 != v41 )
   {
-    *((_DWORD *)self_ + 58432) = v41;
+    (*(unsigned int *)((char *)self_ + 0x39100)) = v41;
     if ( v41 == 0 )
     {
-      g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58668), 0);
-      *((_DWORD *)self_ + 58647) = 0;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B0)), 0);
+      (*(unsigned int *)((char *)self_ + 0x3945C)) = 0;
       goto LABEL_26;
     }
     v42 = *(_DWORD *)(a2 + 76 * v41 - 72);
@@ -816,22 +814,22 @@ XI_API int __thiscall fn_1017C9C0(char *self_, int a2, int a3, int a4)
       v43 = (float *)(v42 + 8);
       if ( *(_DWORD *)(v42 + 8) != 0 && *(_BYTE *)v42 != 99 )
       {
-        *((_DWORD *)self_ + 58647) = v43;
-        g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58668), 1u);
-        orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58668), v43);
+        (*(unsigned int *)((char *)self_ + 0x3945C)) = (unsigned int)v43;
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B0)), 1u);
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394B0)), v43);
 LABEL_26:
         v30 = (_DWORD *)a3;
       }
     }
   }
   v44 = v30[58];
-  if ( *((_DWORD *)self_ + 58433) != v44 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39104)) != v44 )
   {
-    *((_DWORD *)self_ + 58433) = v44;
+    (*(unsigned int *)((char *)self_ + 0x39104)) = v44;
     if ( v44 == 0 )
     {
-      g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58669), 0);
-      *((_DWORD *)self_ + 58648) = 0;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B4)), 0);
+      (*(unsigned int *)((char *)self_ + 0x39460)) = 0;
       goto LABEL_34;
     }
     v45 = *(_DWORD *)(a2 + 76 * v44 - 72);
@@ -840,22 +838,22 @@ LABEL_26:
       v46 = (float *)(v45 + 8);
       if ( *(_DWORD *)(v45 + 8) != 0 && *(_BYTE *)v45 != 99 )
       {
-        *((_DWORD *)self_ + 58648) = v46;
-        g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58669), 1u);
-        orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58669), v46);
+        (*(unsigned int *)((char *)self_ + 0x39460)) = (unsigned int)v46;
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B4)), 1u);
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394B4)), v46);
 LABEL_34:
         v30 = (_DWORD *)a3;
       }
     }
   }
   v47 = v30[59];
-  if ( *((_DWORD *)self_ + 58434) != v47 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39108)) != v47 )
   {
-    *((_DWORD *)self_ + 58434) = v47;
+    (*(unsigned int *)((char *)self_ + 0x39108)) = v47;
     if ( v47 == 0 )
     {
-      g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58670), 0);
-      *((_DWORD *)self_ + 58649) = 0;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B8)), 0);
+      (*(unsigned int *)((char *)self_ + 0x39464)) = 0;
       goto LABEL_42;
     }
     v48 = *(_DWORD *)(a2 + 76 * v47 - 72);
@@ -864,18 +862,18 @@ LABEL_34:
       v49 = (float *)(v48 + 8);
       if ( *(_DWORD *)(v48 + 8) != 0 && *(_BYTE *)v48 != 99 )
       {
-        *((_DWORD *)self_ + 58649) = v49;
-        g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58670), 1u);
-        orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58670), v49);
+        (*(unsigned int *)((char *)self_ + 0x39464)) = (unsigned int)v49;
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394B8)), 1u);
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394B8)), v49);
 LABEL_42:
         v30 = (_DWORD *)a3;
       }
     }
   }
   v50 = v30[60];
-  if ( *((_DWORD *)self_ + 58435) != v50 )
+  if ( (*(unsigned int *)((char *)self_ + 0x3910C)) != v50 )
   {
-    *((_DWORD *)self_ + 58435) = v50;
+    (*(unsigned int *)((char *)self_ + 0x3910C)) = v50;
     if ( v50 != 0 )
     {
       v51 = *(_DWORD *)(a2 + 76 * v50 - 72);
@@ -884,55 +882,55 @@ LABEL_42:
         v52 = (float *)(v51 + 8);
         if ( *(_DWORD *)(v51 + 8) != 0 && *(_BYTE *)v51 != 99 )
         {
-          v53 = *((_DWORD *)self_ + 58671);
-          *((_DWORD *)self_ + 58650) = v52;
-          g_pCDx->pDevice->LightEnable(v53, 1u);
-          orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58671), v52);
+          v53 = (*(unsigned int *)((char *)self_ + 0x394BC));
+          (*(unsigned int *)((char *)self_ + 0x39468)) = (unsigned int)v52;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v53, 1u);
+          orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394BC)), v52);
         }
       }
     }
     else
     {
-      g_pCDx->pDevice->LightEnable(*((_DWORD *)self_ + 58671), 0);
-      *((_DWORD *)self_ + 58650) = 0;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x394BC)), 0);
+      (*(unsigned int *)((char *)self_ + 0x39468)) = 0;
     }
   }
   switch ( *(_DWORD *)(v35 + 28) )
   {
     case 0:
     case 1:
-      g_pCDx->pDevice->SetVertexShader(338u);
-      if ( *((_DWORD *)self_ + 58663) == 1 )
-        g_pCDx->pDevice->SetPixelShader(0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 338u);
+      if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0);
       v54 = 0;
       v112 = 0;
       break;
     case 2:
-      g_pCDx->pDevice->SetVertexShader(*((_DWORD *)self_ + 58645));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x39454)));
       v54 = 0;
       v112 = 0;
-      if ( *((_DWORD *)self_ + 58663) == 1 )
-        g_pCDx->pDevice->SetPixelShader(0);
+      if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0);
       break;
     case 3:
-      if ( *((_DWORD *)self_ + 58663) == 1 )
+      if ( (*(unsigned int *)((char *)self_ + 0x3949C)) == 1 )
       {
-        dword_10639048 = 0;
-        dword_10639058 = 0;
-        dword_10639068 = 0;
-        dword_1063904C = 0;
-        dword_1063905C = 0;
-        dword_1063906C = 0;
-        dword_10639050 = 0;
-        dword_10639060 = 0;
-        dword_10639070 = 0;
-        dword_10639054 = 0;
-        dword_10639064 = 0;
-        dword_10639074 = 0;
-        v55 = *((float **)self_ + 58647);
+        g_zoneVsC15_x = 0;
+        g_zoneVsC16_x = 0;
+        g_zoneVsC17_x = 0;
+        g_zoneVsC15_y = 0;
+        g_zoneVsC16_y = 0;
+        g_zoneVsC17_y = 0;
+        g_zoneVsC15_z = 0;
+        g_zoneVsC16_z = 0;
+        g_zoneVsC17_z = 0;
+        g_zoneVsC15_w = 0;
+        g_zoneVsC16_w = 0;
+        g_zoneVsC17_w = 0;
+        v55 = (float *)(*(unsigned int *)((char *)self_ + 0x3945C));
         v118 = 0;
         v113 = v125;
-        v56 = (float *)&dword_10639048;
+        v56 = (float *)&g_zoneVsC15_x;
         if ( v55 != nullptr )
         {
           v125[0] = *(float *)(a3 + 160) * v55[15]
@@ -950,15 +948,15 @@ LABEL_42:
           qmemcpy(v124, v55, sizeof(v124));
           orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
           v118 = 1;
-          v56 = (float *)&dword_1063904C;
-          *(float *)&dword_10639048 = *(float *)(*((_DWORD *)self_ + 58647) + 96) * v124[1];
+          v56 = (float *)&g_zoneVsC15_y;
+          *(float *)&g_zoneVsC15_x = *(float *)((*(unsigned int *)((char *)self_ + 0x3945C)) + 96) * v124[1];
           v113 = (float *)&v126;
-          *(float *)&dword_10639058 = *(float *)(*((_DWORD *)self_ + 58647) + 96) * v124[2];
-          *(float *)&dword_10639068 = *(float *)(*((_DWORD *)self_ + 58647) + 96) * v124[3];
-          v57 = *(float *)(*((_DWORD *)self_ + 58647) + 76);
-          flt_10639078 = v57 * v57;
+          *(float *)&g_zoneVsC16_x = *(float *)((*(unsigned int *)((char *)self_ + 0x3945C)) + 96) * v124[2];
+          *(float *)&g_zoneVsC17_x = *(float *)((*(unsigned int *)((char *)self_ + 0x3945C)) + 96) * v124[3];
+          v57 = *(float *)((*(unsigned int *)((char *)self_ + 0x3945C)) + 76);
+          g_zoneVsC18_x = v57 * v57;
         }
-        v58 = *((float **)self_ + 58648);
+        v58 = (float *)(*(unsigned int *)((char *)self_ + 0x39460));
         if ( v58 != nullptr )
         {
           *v113 = *(float *)(a3 + 160) * v58[15]
@@ -975,16 +973,16 @@ LABEL_42:
                   + *(float *)(a3 + 184);
           qmemcpy(v124, v58, sizeof(v124));
           orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
-          *v56 = *(float *)(*((_DWORD *)self_ + 58648) + 96) * v124[1];
+          *v56 = *(float *)((*(unsigned int *)((char *)self_ + 0x39460)) + 96) * v124[1];
           ++v118;
-          v56[4] = *(float *)(*((_DWORD *)self_ + 58648) + 96) * v124[2];
-          v56[8] = *(float *)(*((_DWORD *)self_ + 58648) + 96) * v124[3];
-          v59 = *(float *)(*((_DWORD *)self_ + 58648) + 76);
+          v56[4] = *(float *)((*(unsigned int *)((char *)self_ + 0x39460)) + 96) * v124[2];
+          v56[8] = *(float *)((*(unsigned int *)((char *)self_ + 0x39460)) + 96) * v124[3];
+          v59 = *(float *)((*(unsigned int *)((char *)self_ + 0x39460)) + 76);
           ++v56;
           v113 += 4;
           v56[11] = v59 * v59;
         }
-        v60 = *((float **)self_ + 58649);
+        v60 = (float *)(*(unsigned int *)((char *)self_ + 0x39464));
         if ( v60 != nullptr )
         {
           *v113 = *(float *)(a3 + 160) * v60[15]
@@ -1001,16 +999,16 @@ LABEL_42:
                   + *(float *)(a3 + 184);
           qmemcpy(v124, v60, sizeof(v124));
           orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
-          *v56 = *(float *)(*((_DWORD *)self_ + 58649) + 96) * v124[1];
+          *v56 = *(float *)((*(unsigned int *)((char *)self_ + 0x39464)) + 96) * v124[1];
           v113 += 4;
-          v56[4] = *(float *)(*((_DWORD *)self_ + 58649) + 96) * v124[2];
+          v56[4] = *(float *)((*(unsigned int *)((char *)self_ + 0x39464)) + 96) * v124[2];
           ++v56;
           ++v118;
-          v56[7] = *(float *)(*((_DWORD *)self_ + 58649) + 96) * v124[3];
-          v61 = *(float *)(*((_DWORD *)self_ + 58649) + 76);
+          v56[7] = *(float *)((*(unsigned int *)((char *)self_ + 0x39464)) + 96) * v124[3];
+          v61 = *(float *)((*(unsigned int *)((char *)self_ + 0x39464)) + 76);
           v56[11] = v61 * v61;
         }
-        v62 = *((float **)self_ + 58650);
+        v62 = (float *)(*(unsigned int *)((char *)self_ + 0x39468));
         if ( v62 != nullptr )
         {
           *v113 = *(float *)(a3 + 160) * v62[15]
@@ -1027,26 +1025,26 @@ LABEL_42:
                   + *(float *)(a3 + 184);
           qmemcpy(v124, v62, sizeof(v124));
           orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
-          *v56 = *(float *)(*((_DWORD *)self_ + 58650) + 96) * v124[1];
+          *v56 = *(float *)((*(unsigned int *)((char *)self_ + 0x39468)) + 96) * v124[1];
           ++v118;
-          v56[4] = *(float *)(*((_DWORD *)self_ + 58650) + 96) * v124[2];
-          v56[8] = *(float *)(*((_DWORD *)self_ + 58650) + 96) * v124[3];
-          v63 = *(float *)(*((_DWORD *)self_ + 58650) + 76);
+          v56[4] = *(float *)((*(unsigned int *)((char *)self_ + 0x39468)) + 96) * v124[2];
+          v56[8] = *(float *)((*(unsigned int *)((char *)self_ + 0x39468)) + 96) * v124[3];
+          v63 = *(float *)((*(unsigned int *)((char *)self_ + 0x39468)) + 76);
           v56[12] = v63 * v63;
         }
-        g_pCDx->pDevice->SetVertexShader(*((_DWORD *)self_ + v118 + 58656));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(&(*(unsigned int *)((char *)self_ + 0x39480)) + v118));
         if ( v118 != 0 )
         {
-          g_pCDx->pDevice->SetVertexShaderConstant(11u, v125, v118);
-          g_pCDx->pDevice->SetVertexShaderConstant(15u, &dword_10639048, 4u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 11u, v125, v118);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 15u, &g_zoneVsC15_x, 4u);
         }
-        g_pCDx->pDevice->SetPixelShader(*((_DWORD *)self_ + 58661));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (*(unsigned int *)((char *)self_ + 0x39494)));
         v35 = v116;
         v112 = 1;
         goto LABEL_68;
       }
-      g_pCDx->pDevice->SetVertexShader(338u);
-      g_pCDx->pDevice->SetPixelShader(0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 338u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetPixelShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0);
       v54 = 0;
       v112 = 0;
       break;
@@ -1055,113 +1053,113 @@ LABEL_68:
       v54 = v112;
       break;
   }
-  if ( *((_DWORD *)self_ + 58445) != v54 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39134)) != v54 )
   {
-    *((_DWORD *)self_ + 58445) = v54;
-    *((_DWORD *)self_ + 58446) = -1;
+    (*(unsigned int *)((char *)self_ + 0x39134)) = v54;
+    (*(unsigned int *)((char *)self_ + 0x39138)) = -1;
   }
   v64 = a3;
   v65 = *(_DWORD *)(a3 + 224);
-  if ( *((_DWORD *)self_ + 58446) != v65 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39138)) != v65 )
   {
-    *((_DWORD *)self_ + 58446) = v65;
+    (*(unsigned int *)((char *)self_ + 0x39138)) = v65;
     if ( v65 != 0 )
     {
-      v66 = (unsigned int *)(self_ + 234296);
-      orig::sub_10189120(v65, (_DWORD *)self_ + 58573, (float *)self_ + 58574, (float *)self_ + 58575, 0);
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, *((_DWORD *)self_ + 58573));
-      v67 = *((_DWORD *)self_ + 58446);
-      v68 = self_ + 234080;
+      v66 = (unsigned int *)&(*(unsigned __int8 *)((char *)self_ + 0x39338));
+      orig::sub_10189120(v65, &(*(unsigned __int8 *)((char *)self_ + 0x39334)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x39338)), (float *)&(*(unsigned int *)((char *)self_ + 0x3933C)), 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, *(_DWORD *)&(*(unsigned __int8 *)((char *)self_ + 0x39334)));
+      v67 = (*(unsigned int *)((char *)self_ + 0x39138));
+      pad_48_39260 = ((unsigned __int8 *)((char *)self_ + 0x39260));
       if ( v54 == 0 )
       {
-        if ( *((_DWORD *)self_ + 58665) != 0 )
+        if ( (*(unsigned int *)((char *)self_ + 0x394A4)) != 0 )
         {
-          orig::XiZone_GetDirLights(v67, (_DWORD *)self_ + 58520, (_DWORD *)self_ + 58546);
-          orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58666), (float *)self_ + 58520);
-          orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58667), (float *)self_ + 58546);
+          orig::XiZone_GetDirLights(v67, ((unsigned __int8 *)((char *)self_ + 0x39260)), &(*(unsigned __int8 *)((char *)self_ + 0x392C8)));
+          orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), (float *)((unsigned __int8 *)((char *)self_ + 0x39260)));
+          orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394AC)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x392C8)));
         }
         else
         {
-          orig::sub_10188CA0(v67, (_DWORD *)self_ + 58520, 0);
-          orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58666), (float *)self_ + 58520);
+          orig::sub_10188CA0(v67, ((unsigned __int8 *)((char *)self_ + 0x39260)), 0);
+          orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), (float *)((unsigned __int8 *)((char *)self_ + 0x39260)));
         }
-        qmemcpy(flt_10621C08, v68, sizeof(flt_10621C08));
-        orig::Env_ComputeAmbient(*((char **)self_ + 58446), (_DWORD *)self_ + 58572, 0);
-        g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, *((_DWORD *)self_ + 58572));
-        g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, *((_DWORD *)self_ + 58575));
-        g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, *v66);
+        qmemcpy(Fn1017C9C0_static_1C08, pad_48_39260, sizeof(Fn1017C9C0_static_1C08));
+        orig::Env_ComputeAmbient((char *)(*(unsigned int *)((char *)self_ + 0x39138)), &(*(unsigned __int8 *)((char *)self_ + 0x39330)), 0);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, *(_DWORD *)&(*(unsigned __int8 *)((char *)self_ + 0x39330)));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, (*(unsigned int *)((char *)self_ + 0x3933C)));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, *v66);
         v35 = v116;
         v64 = a3;
         goto LABEL_80;
       }
-      orig::sub_10188CA0(v67, (_DWORD *)self_ + 58520, 0);
-      qmemcpy(v124, v68, sizeof(v124));
+      orig::sub_10188CA0(v67, ((unsigned __int8 *)((char *)self_ + 0x39260)), 0);
+      qmemcpy(v124, pad_48_39260, sizeof(v124));
       orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
-      v69 = *((float *)self_ + 58537);
-      v70 = *((float *)self_ + 58538);
-      v120 = *((float *)self_ + 58536);
+      v69 = *(float *)&(*(unsigned int *)((char *)self_ + 0x392A4));
+      v70 = *(float *)&(*(unsigned int *)((char *)self_ + 0x392A8));
+      v120 = *(float *)&(*(unsigned int *)((char *)self_ + 0x392A0));
       v121 = v69;
       v71 = v120;
       v122 = v70;
       v72 = v121;
-      *((_DWORD *)self_ + 58679) = 0;
-      *((float *)self_ + 58704) = v71;
+      (*(unsigned int *)((char *)self_ + 0x394DC)) = 0;
+      (*(float *)((char *)self_ + 0x39540)) = v71;
       v73 = v122;
-      *((float *)self_ + 58705) = v72;
-      *((float *)self_ + 58676) = v124[1];
-      *((float *)self_ + 58706) = v73;
-      v74 = v124[3];
-      *((float *)self_ + 58677) = v124[2];
-      v75 = *((char **)self_ + 58446);
-      *((float *)self_ + 58678) = v74;
-      orig::Env_ComputeAmbientFloat4(v75, (float *)self_ + 58680);
-      v76 = *(float *)v66 - *((float *)self_ + 58575);
-      *((_DWORD *)self_ + 58690) = *v66;
-      *((float *)self_ + 58688) = *((float *)self_ + 58707) / v76;
-      g_pCDx->pDevice->SetVertexShaderConstant(5u, self_ + 234688, 5u);
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, *((_DWORD *)self_ + 58575));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, *v66);
+      (*(float *)((char *)self_ + 0x39544)) = v72;
+      *(float *)&(*(unsigned int *)((char *)self_ + 0x394D0)) = v124[1];
+      (*(float *)((char *)self_ + 0x39548)) = v73;
+      v74 = LODWORD(v124[3]);
+      *(float *)&(*(unsigned int *)((char *)self_ + 0x394D4)) = v124[2];
+      v75 = (char *)(*(unsigned int *)((char *)self_ + 0x39138));
+      (*(unsigned int *)((char *)self_ + 0x394D8)) = v74;
+      orig::Env_ComputeAmbientFloat4(v75, (float *)((unsigned __int8 *)((char *)self_ + 0x394E0)));
+      v76 = *(float *)v66 - *(float *)&(*(unsigned int *)((char *)self_ + 0x3933C));
+      (*(unsigned int *)((char *)self_ + 0x39508)) = *v66;
+      (*(float *)((char *)self_ + 0x39500)) = *(float *)&(*(unsigned int *)((char *)self_ + 0x3954C)) / v76;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, &(*(unsigned int *)((char *)self_ + 0x394C0)), 5u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, (*(unsigned int *)((char *)self_ + 0x3933C)));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, *v66);
     }
     else
     {
-      v77 = self_ + 233856;
+      v77 = &(*(unsigned __int8 *)((char *)self_ + 0x39180));
       if ( v54 != 0 )
       {
-        v78 = *((float *)self_ + 58481);
-        v79 = *((float *)self_ + 58482);
-        v120 = *((float *)self_ + 58480);
+        v78 = *(float *)&(*(unsigned int *)((char *)self_ + 0x391C4));
+        v79 = *(float *)&(*(unsigned int *)((char *)self_ + 0x391C8));
+        v120 = *(float *)&(*(unsigned int *)((char *)self_ + 0x391C0));
         v121 = v78;
         v122 = v79;
         v80 = v78;
-        *((float *)self_ + 58704) = v120;
+        (*(float *)((char *)self_ + 0x39540)) = v120;
         v81 = v122;
-        *((float *)self_ + 58705) = v80;
-        *((float *)self_ + 58706) = v81;
+        (*(float *)((char *)self_ + 0x39544)) = v80;
+        (*(float *)((char *)self_ + 0x39548)) = v81;
         qmemcpy(v124, v77, sizeof(v124));
         orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v124);
-        v82 = v124[2];
-        v83 = v124[3];
-        *((float *)self_ + 58676) = v124[1];
-        *((float *)self_ + 58677) = v82;
-        *((float *)self_ + 58678) = v83;
-        *((_DWORD *)self_ + 58679) = 0;
-        orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)self_ + 58680);
-        v84 = *((float *)self_ + 58518) - *((float *)self_ + 58519);
-        *((_DWORD *)self_ + 58690) = *((_DWORD *)self_ + 58518);
-        *((float *)self_ + 58688) = *((float *)self_ + 58707) / v84;
-        g_pCDx->pDevice->SetVertexShaderConstant(5u, self_ + 234688, 5u);
+        v82 = LODWORD(v124[2]);
+        v83 = LODWORD(v124[3]);
+        *(float *)&(*(unsigned int *)((char *)self_ + 0x394D0)) = v124[1];
+        (*(unsigned int *)((char *)self_ + 0x394D4)) = v82;
+        (*(unsigned int *)((char *)self_ + 0x394D8)) = v83;
+        (*(unsigned int *)((char *)self_ + 0x394DC)) = 0;
+        orig::Env_ComputeAmbientFloat4((char *)g_pXiZone, (float *)((unsigned __int8 *)((char *)self_ + 0x394E0)));
+        v84 = *(float *)&(*(unsigned int *)((char *)self_ + 0x39258)) - *(float *)&(*(unsigned int *)((char *)self_ + 0x3925C));
+        (*(unsigned int *)((char *)self_ + 0x39508)) = (*(unsigned int *)((char *)self_ + 0x39258));
+        (*(float *)((char *)self_ + 0x39500)) = *(float *)&(*(unsigned int *)((char *)self_ + 0x3954C)) / v84;
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 5u, &(*(unsigned int *)((char *)self_ + 0x394C0)), 5u);
       }
       else
       {
-        orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58666), (float *)self_ + 58464);
-        qmemcpy(flt_10621C08, v77, sizeof(flt_10621C08));
-        if ( *((_DWORD *)self_ + 58665) != 0 )
-          orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58667), (float *)self_ + 58490);
-        g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, *((_DWORD *)self_ + 58516));
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x39180)));
+        qmemcpy(Fn1017C9C0_static_1C08, v77, sizeof(Fn1017C9C0_static_1C08));
+        if ( (*(unsigned int *)((char *)self_ + 0x394A4)) != 0 )
+          orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394AC)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x391E8)));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, (*(unsigned int *)((char *)self_ + 0x39250)));
       }
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, *((_DWORD *)self_ + 58519));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, *((_DWORD *)self_ + 58518));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, *((_DWORD *)self_ + 58517));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, (*(unsigned int *)((char *)self_ + 0x3925C)));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, (*(unsigned int *)((char *)self_ + 0x39258)));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, (*(unsigned int *)((char *)self_ + 0x39254)));
     }
     v35 = v116;
     v64 = a3;
@@ -1171,38 +1169,38 @@ LABEL_68:
   {
 LABEL_80:
     if ( a4 != 0 )
-      orig::CDx_SetTransform(&g_pCDx->vftable, 256, pIn);
+      orig::CDx_SetTransform(g_pCDx, 256, pIn);
     else
-      orig::CDx_SetTransform(&g_pCDx->vftable, 256, (const void *)(v64 + 64));
+      orig::CDx_SetTransform(g_pCDx, 256, (const void *)(v64 + 64));
     goto LABEL_95;
   }
   if ( a4 != 0 )
   {
     orig::D3DXMatrixTranspose_Dispatch(v129, pIn);
     v85 = v129;
-    orig::D3DXMatrixMultiply_Dispatch(v124, pIn, (float *)self_ + 58327);
+    orig::D3DXMatrixMultiply_Dispatch(v124, pIn, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38F5C)));
   }
   else
   {
-    orig::D3DXMatrixMultiply_Dispatch(v124, (float *)(a3 + 64), (float *)self_ + 58327);
+    orig::D3DXMatrixMultiply_Dispatch(v124, (float *)(a3 + 64), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38F5C)));
     v85 = (float *)(a3 + 128);
   }
   qmemcpy(pOut, v124, sizeof(pOut));
   orig::D3DXMatrixTranspose_Dispatch(v130, pOut);
-  g_pCDx->pDevice->SetVertexShaderConstant(0, v130, 4u);
-  v120 = -(v85[4] * *((float *)self_ + 58705) + v85[8] * *((float *)self_ + 58706) + *((float *)self_ + 58704) * *v85);
-  v121 = -(v85[5] * *((float *)self_ + 58705) + v85[9] * *((float *)self_ + 58706) + v85[1] * *((float *)self_ + 58704));
-  v122 = -(v85[6] * *((float *)self_ + 58705) + v85[10] * *((float *)self_ + 58706) + v85[2] * *((float *)self_ + 58704));
-  g_pCDx->pDevice->SetVertexShaderConstant(4u, &v120, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v130, 4u);
+  v120 = -(v85[4] * (*(float *)((char *)self_ + 0x39544)) + v85[8] * (*(float *)((char *)self_ + 0x39548)) + (*(float *)((char *)self_ + 0x39540)) * *v85);
+  v121 = -(v85[5] * (*(float *)((char *)self_ + 0x39544)) + v85[9] * (*(float *)((char *)self_ + 0x39548)) + v85[1] * (*(float *)((char *)self_ + 0x39540)));
+  v122 = -(v85[6] * (*(float *)((char *)self_ + 0x39544)) + v85[10] * (*(float *)((char *)self_ + 0x39548)) + v85[2] * (*(float *)((char *)self_ + 0x39540)));
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShaderConstant((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 4u, &v120, 1u);
   v35 = v116;
   v64 = a3;
 LABEL_95:
   v86 = *(unsigned __int8 *)(v64 + 14);
-  if ( *((_DWORD *)self_ + 58438) != v86 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39118)) != v86 )
   {
-    *((_DWORD *)self_ + 58438) = v86;
+    (*(unsigned int *)((char *)self_ + 0x39118)) = v86;
     v87 = v86 == 0;
-    pDevice = g_pCDx->pDevice;
+    pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     lpVtbl = pDevice->lpVtbl;
     if ( v87 )
       lpVtbl->SetRenderState(pDevice, D3DRS_NORMALIZENORMALS, 0);
@@ -1210,22 +1208,22 @@ LABEL_95:
       lpVtbl->SetRenderState(pDevice, D3DRS_NORMALIZENORMALS, 1u);
   }
   v90 = *(__int16 *)(v64 + 212);
-  if ( *((_DWORD *)self_ + 58431) != v90 )
+  if ( (*(unsigned int *)((char *)self_ + 0x390FC)) != v90 )
   {
-    *((_DWORD *)self_ + 58431) = v90;
+    (*(unsigned int *)((char *)self_ + 0x390FC)) = v90;
     v87 = v90 == 0;
-    v91 = g_pCDx->pDevice;
+    v91 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     v92 = v91->lpVtbl;
     if ( v87 )
       v92->SetRenderState(v91, D3DRS_CULLMODE, 3u);
     else
       v92->SetRenderState(v91, D3DRS_CULLMODE, 2u);
-    *((_DWORD *)self_ + 58440) = 0;
+    (*(unsigned int *)((char *)self_ + 0x39120)) = 0;
   }
   v93 = *(__int16 *)(v64 + 214);
-  if ( *((_DWORD *)self_ + 58436) != v93 )
+  if ( (*(unsigned int *)((char *)self_ + 0x39110)) != v93 )
   {
-    *((_DWORD *)self_ + 58436) = v93;
+    (*(unsigned int *)((char *)self_ + 0x39110)) = v93;
     if ( v93 != 0 )
     {
       v94 = v93 - 1;
@@ -1233,20 +1231,20 @@ LABEL_95:
       {
         if ( v94 == 1 )
         {
-          g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 3u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 3u);
         }
         goto LABEL_112;
       }
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
     }
     else
     {
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
     }
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u);
   }
 LABEL_112:
   if ( *(_DWORD *)(v35 + 104) != 0 )
@@ -1274,41 +1272,41 @@ LABEL_159:
     while ( 1 )
     {
       if ( v112 == 0 )
-        orig::CDx_SetLight(g_pCDx, *((_DWORD *)self_ + 58666), flt_10621C08);
+        orig::CDx_SetLight(g_pCDx, (*(unsigned int *)((char *)self_ + 0x394A8)), Fn1017C9C0_static_1C08);
       v97 = *(__int16 *)(v96 + 32);
-      if ( v97 != *((_DWORD *)self_ + 58437) )
+      if ( v97 != (*(unsigned int *)((char *)self_ + 0x39114)) )
       {
-        *((_DWORD *)self_ + 58437) = v97;
-        v98 = g_pCDx->pDevice;
+        (*(unsigned int *)((char *)self_ + 0x39114)) = v97;
+        v98 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
         v99 = v98->lpVtbl;
         if ( *(_WORD *)(v96 + 32) != 0 )
         {
           v99->SetRenderState(v98, D3DRS_ALPHABLENDENABLE, 1u);
-          g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-          v100 = g_pCDx->pDevice;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
+          v100 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
           v101 = g_zbiasPresetAux;
         }
         else
         {
           v99->SetRenderState(v98, D3DRS_ALPHABLENDENABLE, 0);
-          g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-          v100 = g_pCDx->pDevice;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
+          v100 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
           v101 = g_zbiasZoneMesh;
         }
         v100->SetRenderState(D3DRS_ZBIAS, v101);
       }
       v102 = *(__int16 *)(v96 + 36);
-      if ( v102 != *((_DWORD *)self_ + 58440) )
+      if ( v102 != (*(unsigned int *)((char *)self_ + 0x39120)) )
       {
-        *((_DWORD *)self_ + 58440) = v102;
+        (*(unsigned int *)((char *)self_ + 0x39120)) = v102;
         if ( v102 != 0 )
         {
-          g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
         }
         else
         {
-          v103 = g_pCDx->pDevice;
-          if ( *((_DWORD *)self_ + 58431) != 0 )
+          v103 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+          if ( (*(unsigned int *)((char *)self_ + 0x390FC)) != 0 )
             v103->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
           else
             v103->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -1322,7 +1320,7 @@ LABEL_159:
           v105 = *(IDirect3DBaseTexture8 **)(v104 + 64);
           if ( v105 == nullptr )
             v105 = *(IDirect3DBaseTexture8 **)(v104 + 68);
-          g_pCDx->pDevice->SetTexture(0, v105);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v105);
           if ( *(_DWORD *)(v96 + 28) == 0 )
             goto LABEL_157;
           if ( *(_DWORD *)(v96 + 180) != 0 )
@@ -1334,24 +1332,24 @@ LABEL_159:
                 v107 = *(IDirect3DBaseTexture8 **)(v106 + 64);
               else
                 v107 = *(IDirect3DBaseTexture8 **)(v106 + 68);
-              g_pCDx->pDevice->SetTexture(1u, v107);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, v107);
             }
             else
             {
 LABEL_143:
-              g_pCDx->pDevice->SetTexture(1u, nullptr);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, nullptr);
             }
-            g_pCDx->pDevice->SetStreamSource(0, *(IDirect3DVertexBuffer8 **)(v96 + 180), 48u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *(IDirect3DVertexBuffer8 **)(v96 + 180), 48u);
             orig::CDx_DrawPrimitive(g_pCDx, 4, 0, *(_DWORD *)(v96 + 28));
 LABEL_156:
-            ++*((_DWORD *)self_ + 58636);
+            ++(*(unsigned int *)((char *)self_ + 0x39430));
 LABEL_157:
-            *((_DWORD *)self_ + 58635) += *(_DWORD *)(v96 + 24);
+            (*(unsigned int *)((char *)self_ + 0x3942C)) += *(_DWORD *)(v96 + 24);
           }
         }
         else
         {
-          g_pCDx->pDevice->SetTexture(0, nullptr);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
           if ( *(_DWORD *)(v96 + 40) != 0 )
           {
             if ( *(_DWORD *)(v96 + 28) == 0 )
@@ -1369,20 +1367,20 @@ LABEL_157:
             v108 = *(IDirect3DBaseTexture8 **)(v104 + 64);
           else
             v108 = *(IDirect3DBaseTexture8 **)(v104 + 68);
-          g_pCDx->pDevice->SetTexture(0, v108);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v108);
         }
         else
         {
-          g_pCDx->pDevice->SetTexture(0, nullptr);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
         }
         if ( *(_DWORD *)(v35 + 28) == 2 )
         {
           v109 = *(IDirect3DVertexBuffer8 **)(v96 + 4 * (__int64)(*(float *)(v35 + 108) * *(float *)(a3 + 348)) + 48);
           if ( v109 != nullptr )
           {
-            g_pCDx->pDevice->SetStreamSource(0, v109, 12u);
-            g_pCDx->pDevice->SetStreamSource(1u, *(IDirect3DVertexBuffer8 **)(v96 + 176), 24u);
-            g_pCDx->pDevice->SetIndices(*(IDirect3DIndexBuffer8 **)(v96 + 184), 0);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v109, 12u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, *(IDirect3DVertexBuffer8 **)(v96 + 176), 24u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v96 + 184), 0);
             orig::CDx_DrawIndexedPrimitive(g_pCDx, *(_DWORD *)(v35 + 44), 0, *(_DWORD *)(v96 + 8), 0, *(_DWORD *)(v96 + 24));
             goto LABEL_157;
           }
@@ -1392,7 +1390,7 @@ LABEL_157:
           v110 = *(IDirect3DVertexBuffer8 **)(v96 + 40);
           if ( v110 != nullptr )
           {
-            g_pCDx->pDevice->SetStreamSource(0, v110, *(_DWORD *)(v35 + 36));
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v110, *(_DWORD *)(v35 + 36));
             orig::CDx_DrawPrimitive(g_pCDx, *(_DWORD *)(v35 + 44), 0, *(_DWORD *)(v96 + 24));
             v95 = v123;
             goto LABEL_156;
@@ -1429,7 +1427,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   int result;
   double v20;
   double v21;
-  char v22;
+  int v22;
   double v23;
   double v24;
   __int16 v25; // fps
@@ -1851,11 +1849,11 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   {
     v20 = *(float *)(a3 + 32) - *(self_ + 58429);
     v21 = *(float *)(a3 + 36) - *(self_ + 58430);
-    v22 = *(_BYTE *)(a3 + 11);
+    v22 = *(unsigned __int8 *)(a3 + 11);
     v23 = *(float *)(a3 + 28) - *(self_ + 58428);
     v24 = v21 * v21 + v20 * v20 + v23 * v23;
     *(float *)&v393 = v24;
-    if ( v22 != 0 )
+    if ( (_BYTE)v22 != 0 )
     {
       v26 = *(self_ + 58634) * *(float *)(a3 + 208);
       v27 = v24 < v26;
@@ -1960,24 +1958,24 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   }
   if ( v392[7] <= 3u )
   {
-    g_pCDx->pDevice->SetVertexShader(v392[12]);
-    dword_10639048 = 0;
-    dword_10639058 = 0;
-    dword_10639068 = 0;
-    dword_1063904C = 0;
-    dword_1063905C = 0;
-    dword_1063906C = 0;
-    dword_10639050 = 0;
-    dword_10639060 = 0;
-    dword_10639070 = 0;
-    dword_10639054 = 0;
-    dword_10639064 = 0;
-    dword_10639074 = 0;
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v392[12]);
+    g_zoneVsC15_x = 0;
+    g_zoneVsC16_x = 0;
+    g_zoneVsC17_x = 0;
+    g_zoneVsC15_y = 0;
+    g_zoneVsC16_y = 0;
+    g_zoneVsC17_y = 0;
+    g_zoneVsC15_z = 0;
+    g_zoneVsC16_z = 0;
+    g_zoneVsC17_z = 0;
+    g_zoneVsC15_w = 0;
+    g_zoneVsC16_w = 0;
+    g_zoneVsC17_w = 0;
     v47 = *((float **)v4 + 58647);
     v48 = pOut;
     v394 = 0;
     v384 = COERCE_FLOAT(pOut);
-    v388 = COERCE_FLOAT(&dword_10639048);
+    v388 = COERCE_FLOAT(&g_zoneVsC15_x);
     if ( v47 != nullptr )
     {
       pOut[0] = *(float *)(v6 + 160) * v47[15]
@@ -1999,14 +1997,14 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v4 = v383;
       v394 = 1;
       v50 = *((_DWORD *)v383 + 58647);
-      v388 = COERCE_FLOAT(&dword_1063904C);
-      *(float *)&dword_10639048 = *(float *)(v50 + 96) * v395[1];
-      *(float *)&dword_10639058 = *(float *)(*((_DWORD *)v383 + 58647) + 96) * v395[2];
-      *(float *)&dword_10639068 = *(float *)(*((_DWORD *)v383 + 58647) + 96) * v395[3];
+      v388 = COERCE_FLOAT(&g_zoneVsC15_y);
+      *(float *)&g_zoneVsC15_x = *(float *)(v50 + 96) * v395[1];
+      *(float *)&g_zoneVsC16_x = *(float *)(*((_DWORD *)v383 + 58647) + 96) * v395[2];
+      *(float *)&g_zoneVsC17_x = *(float *)(*((_DWORD *)v383 + 58647) + 96) * v395[3];
       v51 = *((_DWORD *)v383 + 58647);
       v384 = COERCE_FLOAT(&pOut[4]);
       v48 = &pOut[4];
-      flt_10639078 = *(float *)(v51 + 76) * *(float *)(v51 + 76);
+      g_zoneVsC18_x = *(float *)(v51 + 76) * *(float *)(v51 + 76);
     }
     v52 = *((float **)v4 + 58648);
     if ( v52 != nullptr )
@@ -2117,7 +2115,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v397 = v4 + 58575;
       v396 = v4 + 58574;
       orig::sub_10189120(v71, (_DWORD *)v4 + 58573, v4 + 58574, v4 + 58575, 0);
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, *((_DWORD *)v4 + 58573));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, *((_DWORD *)v4 + 58573));
       orig::sub_10188CA0(*((_DWORD *)v4 + 58446), (_DWORD *)v4 + 58520, 0);
       qmemcpy(v395, v4 + 58520, sizeof(v395));
       orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)g_pCDx, v395);
@@ -2146,8 +2144,8 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v83 = *(_DWORD *)v397;
       v72[58690] = *v396;
       v72[58688] = v72[58707] / v82;
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, v83);
-      pDevice = g_pCDx->pDevice;
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, v83);
+      pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
       v85 = *(_DWORD *)v81;
     }
     else
@@ -2175,10 +2173,10 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       v93 = v90[58518] - v90[58519];
       v90[58690] = v90[58518];
       v90[58688] = v90[58707] / v93;
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, *((_DWORD *)v90 + 58517));
-      g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, *((_DWORD *)v90 + 58519));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, *((_DWORD *)v90 + 58517));
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, *((_DWORD *)v90 + 58519));
       v85 = *((_DWORD *)v90 + 58518);
-      pDevice = g_pCDx->pDevice;
+      pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     }
     pDevice->SetRenderState(D3DRS_FOGEND, v85);
     v6 = a3;
@@ -2211,16 +2209,16 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   {
     *((_DWORD *)v95 + 58438) = v98;
     if ( v98 != 0 )
-      g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 1u);
     else
-      g_pCDx->pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
   }
   v99 = *(__int16 *)(v94 + 212);
   if ( *((_DWORD *)v95 + 58431) != v99 )
   {
     *((_DWORD *)v95 + 58431) = v99;
     v100 = v99 == 0;
-    v101 = g_pCDx->pDevice;
+    v101 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     lpVtbl = v101->lpVtbl;
     if ( v100 )
       lpVtbl->SetRenderState(v101, D3DRS_CULLMODE, 3u);
@@ -2239,20 +2237,20 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
       {
         if ( v104 == 1 )
         {
-          g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 3u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 3u);
         }
         goto LABEL_82;
       }
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
     }
     else
     {
-      g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
     }
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u);
   }
 LABEL_82:
   v105 = v392;
@@ -2291,18 +2289,18 @@ LABEL_316:
       if ( v110 != *((_DWORD *)v95 + 58437) )
       {
         *((_DWORD *)v95 + 58437) = v110;
-        v111 = g_pCDx->pDevice;
+        v111 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
         v112 = v111->lpVtbl;
         if ( *((_WORD *)v109 + 16) != 0 )
         {
           v112->SetRenderState(v111, D3DRS_ALPHABLENDENABLE, 1u);
-          g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
           v113 = g_zbiasPresetAux;
         }
         else
         {
           v112->SetRenderState(v111, D3DRS_ALPHABLENDENABLE, 0);
-          g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
           v113 = g_zbiasZoneMesh;
         }
         orig::Gfx_SetZBias(v113);
@@ -2313,11 +2311,11 @@ LABEL_316:
         *((_DWORD *)v95 + 58440) = v114;
         if ( v114 != 0 )
         {
-          g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
         }
         else
         {
-          v115 = g_pCDx->pDevice;
+          v115 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
           if ( *((_DWORD *)v95 + 58431) != 0 )
             v115->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
           else
@@ -2330,11 +2328,11 @@ LABEL_316:
         v117 = *(_DWORD *)(v116 + 64) != 0
              ? *(IDirect3DBaseTexture8 **)(v116 + 64)
              : *(IDirect3DBaseTexture8 **)(v116 + 68);
-        g_pCDx->pDevice->SetTexture(0, v117);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v117);
       }
       else
       {
-        g_pCDx->pDevice->SetTexture(0, nullptr);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
       }
       if ( v392[7] == 2 )
         break;
@@ -2393,14 +2391,14 @@ LABEL_316:
                      * v352;
                 if ( v236 < 0.0 )
                   v236 = 0.0;
-                if ( !(v352 < (double)flt_10639078) )
+                if ( !(v352 < (double)g_zoneVsC18_x) )
                   v236 = 0.0;
                 v237 = v232 * v95[58677];
-                LODWORD(v381) = (__int64)((*(float *)&dword_10639048 * v236 + v232 * v95[58676] + v95[58680])
+                LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_x * v236 + v232 * v95[58676] + v95[58680])
                                         * (double)*(unsigned __int8 *)(v228 + 26));
-                v238 = (__int64)((*(float *)&dword_10639058 * v236 + v237 + v95[58681])
+                v238 = (__int64)((*(float *)&g_zoneVsC16_x * v236 + v237 + v95[58681])
                                * (double)*(unsigned __int8 *)(v228 + 25));
-                v239 = v236 * *(float *)&dword_10639068;
+                v239 = v236 * *(float *)&g_zoneVsC17_x;
                 v240 = v232 * v95[58678];
                 v382 = *(float *)&v238;
                 v369 = *(_DWORD *)(v228 + 24);
@@ -2476,24 +2474,24 @@ LABEL_316:
                 v381 = v259;
                 if ( v259 < 0.0 )
                   v381 = 0.0;
-                if ( !(v354 < (double)flt_10639078) )
+                if ( !(v354 < (double)g_zoneVsC18_x) )
                   v256 = 0.0;
-                if ( !(v385 < (double)flt_1063907C) )
+                if ( !(v385 < (double)Fn1017DE20_static_907C) )
                   v260 = 0.0;
                 else
                   v260 = v381;
-                LODWORD(v381) = (__int64)((*(float *)&dword_1063904C * v260
-                                         + v256 * *(float *)&dword_10639048
+                LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_y * v260
+                                         + v256 * *(float *)&g_zoneVsC15_x
                                          + v248 * v95[58676]
                                          + v95[58680])
                                         * (double)*(unsigned __int8 *)(v228 + 26));
-                v261 = (__int64)((*(float *)&dword_1063905C * v260
-                                + v256 * *(float *)&dword_10639058
+                v261 = (__int64)((*(float *)&g_zoneVsC16_y * v260
+                                + v256 * *(float *)&g_zoneVsC16_x
                                 + v248 * v95[58677]
                                 + v95[58681])
                                * (double)*(unsigned __int8 *)(v228 + 25));
-                v262 = v260 * *(float *)&dword_1063906C;
-                v263 = v256 * *(float *)&dword_10639068;
+                v262 = v260 * *(float *)&g_zoneVsC17_y;
+                v263 = v256 * *(float *)&g_zoneVsC17_x;
                 v382 = *(float *)&v261;
                 v372 = *(_DWORD *)(v228 + 24);
                 v264 = v248 * v95[58678];
@@ -2580,34 +2578,34 @@ LABEL_316:
                 v382 = v288;
                 if ( v288 < 0.0 )
                   v382 = 0.0;
-                if ( !(v356 < (double)flt_10639078) )
+                if ( !(v356 < (double)g_zoneVsC18_x) )
                   v284 = 0.0;
-                if ( !(v385 < (double)flt_1063907C) )
+                if ( !(v385 < (double)Fn1017DE20_static_907C) )
                   v289 = 0.0;
                 else
                   v289 = v381;
-                if ( !(v387 < (double)flt_10639080) )
+                if ( !(v387 < (double)Fn1017DE20_static_9080) )
                   v290 = 0.0;
                 else
                   v290 = v382;
-                LODWORD(v381) = (__int64)((*(float *)&dword_10639050 * v290
-                                         + v289 * *(float *)&dword_1063904C
-                                         + v284 * *(float *)&dword_10639048
+                LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_z * v290
+                                         + v289 * *(float *)&g_zoneVsC15_y
+                                         + v284 * *(float *)&g_zoneVsC15_x
                                          + v272 * v95[58676]
                                          + v95[58680])
                                         * (double)*(unsigned __int8 *)(v228 + 26));
-                LODWORD(v382) = (__int64)((*(float *)&dword_10639060 * v290
-                                         + v289 * *(float *)&dword_1063905C
-                                         + v284 * *(float *)&dword_10639058
+                LODWORD(v382) = (__int64)((*(float *)&g_zoneVsC16_z * v290
+                                         + v289 * *(float *)&g_zoneVsC16_y
+                                         + v284 * *(float *)&g_zoneVsC16_x
                                          + v272 * v95[58677]
                                          + v95[58681])
                                         * (double)*(unsigned __int8 *)(v228 + 25));
                 v375 = *(_DWORD *)(v228 + 24);
                 LODWORD(v399[16]) = (unsigned __int8)v375;
                 v399[17] = 0.0;
-                v291 = (__int64)((v290 * *(float *)&dword_10639070
-                                + v289 * *(float *)&dword_1063906C
-                                + v284 * *(float *)&dword_10639068
+                v291 = (__int64)((v290 * *(float *)&g_zoneVsC17_z
+                                + v289 * *(float *)&g_zoneVsC17_y
+                                + v284 * *(float *)&g_zoneVsC17_x
                                 + v272 * v95[58678]
                                 + v95[58682])
                                * (double)(unsigned __int8)v375);
@@ -2702,41 +2700,41 @@ LABEL_316:
                 v384 = v319;
                 if ( v319 < 0.0 )
                   v384 = 0.0;
-                if ( !(v358 < (double)flt_10639078) )
+                if ( !(v358 < (double)g_zoneVsC18_x) )
                   v314 = 0.0;
-                if ( !(v385 < (double)flt_1063907C) )
+                if ( !(v385 < (double)Fn1017DE20_static_907C) )
                   v320 = 0.0;
                 else
                   v320 = v381;
-                if ( !(v387 < (double)flt_10639080) )
+                if ( !(v387 < (double)Fn1017DE20_static_9080) )
                   v321 = 0.0;
                 else
                   v321 = v382;
-                if ( !(v388 < (double)flt_10639084) )
+                if ( !(v388 < (double)Fn1017DE20_static_9084) )
                   v322 = 0.0;
                 else
                   v322 = v384;
-                LODWORD(v381) = (__int64)((*(float *)&dword_10639054 * v322
-                                         + v321 * *(float *)&dword_10639050
-                                         + v320 * *(float *)&dword_1063904C
-                                         + v314 * *(float *)&dword_10639048
+                LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_w * v322
+                                         + v321 * *(float *)&g_zoneVsC15_z
+                                         + v320 * *(float *)&g_zoneVsC15_y
+                                         + v314 * *(float *)&g_zoneVsC15_x
                                          + v298 * v95[58676]
                                          + v95[58680])
                                         * (double)*(unsigned __int8 *)(v228 + 26));
-                LODWORD(v382) = (__int64)((*(float *)&dword_10639064 * v322
-                                         + v321 * *(float *)&dword_10639060
-                                         + v320 * *(float *)&dword_1063905C
-                                         + v314 * *(float *)&dword_10639058
+                LODWORD(v382) = (__int64)((*(float *)&g_zoneVsC16_w * v322
+                                         + v321 * *(float *)&g_zoneVsC16_z
+                                         + v320 * *(float *)&g_zoneVsC16_y
+                                         + v314 * *(float *)&g_zoneVsC16_x
                                          + v298 * v95[58677]
                                          + v95[58681])
                                         * (double)*(unsigned __int8 *)(v228 + 25));
                 v378 = *(_DWORD *)(v228 + 24);
                 LODWORD(v399[26]) = (unsigned __int8)v378;
                 v399[27] = 0.0;
-                v323 = (__int64)((v322 * *(float *)&dword_10639074
-                                + v321 * *(float *)&dword_10639070
-                                + v320 * *(float *)&dword_1063906C
-                                + v314 * *(float *)&dword_10639068
+                v323 = (__int64)((v322 * *(float *)&g_zoneVsC17_w
+                                + v321 * *(float *)&g_zoneVsC17_z
+                                + v320 * *(float *)&g_zoneVsC17_y
+                                + v314 * *(float *)&g_zoneVsC17_x
                                 + v298 * v95[58678]
                                 + v95[58682])
                                * (double)(unsigned __int8)v378);
@@ -2877,14 +2875,14 @@ LABEL_315:
                  * v343;
             if ( v126 < 0.0 )
               v126 = 0.0;
-            if ( !(v343 < (double)flt_10639078) )
+            if ( !(v343 < (double)g_zoneVsC18_x) )
               v126 = 0.0;
             v127 = v122 * v95[58677];
-            LODWORD(v381) = (__int64)((*(float *)&dword_10639048 * v126 + v122 * v95[58676] + v95[58680])
+            LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_x * v126 + v122 * v95[58676] + v95[58680])
                                     * (double)*(unsigned __int8 *)(v118 + 38));
-            v128 = (__int64)((*(float *)&dword_10639058 * v126 + v127 + v95[58681])
+            v128 = (__int64)((*(float *)&g_zoneVsC16_x * v126 + v127 + v95[58681])
                            * (double)*(unsigned __int8 *)(v118 + 37));
-            v129 = v126 * *(float *)&dword_10639068;
+            v129 = v126 * *(float *)&g_zoneVsC17_x;
             v130 = v122 * v95[58678];
             v382 = *(float *)&v128;
             v360 = *(_DWORD *)(v118 + 36);
@@ -2957,24 +2955,24 @@ LABEL_315:
             v381 = v149;
             if ( v149 < 0.0 )
               v381 = 0.0;
-            if ( !(v345 < (double)flt_10639078) )
+            if ( !(v345 < (double)g_zoneVsC18_x) )
               v146 = 0.0;
-            if ( !(v385 < (double)flt_1063907C) )
+            if ( !(v385 < (double)Fn1017DE20_static_907C) )
               v150 = 0.0;
             else
               v150 = v381;
-            LODWORD(v381) = (__int64)((*(float *)&dword_1063904C * v150
-                                     + v146 * *(float *)&dword_10639048
+            LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_y * v150
+                                     + v146 * *(float *)&g_zoneVsC15_x
                                      + v138 * v95[58676]
                                      + v95[58680])
                                     * (double)*(unsigned __int8 *)(v118 + 38));
-            v151 = (__int64)((*(float *)&dword_1063905C * v150
-                            + v146 * *(float *)&dword_10639058
+            v151 = (__int64)((*(float *)&g_zoneVsC16_y * v150
+                            + v146 * *(float *)&g_zoneVsC16_x
                             + v138 * v95[58677]
                             + v95[58681])
                            * (double)*(unsigned __int8 *)(v118 + 37));
-            v152 = v150 * *(float *)&dword_1063906C;
-            v153 = v146 * *(float *)&dword_10639068;
+            v152 = v150 * *(float *)&g_zoneVsC17_y;
+            v153 = v146 * *(float *)&g_zoneVsC17_x;
             v382 = *(float *)&v151;
             v362 = *(_DWORD *)(v118 + 36);
             v154 = v138 * v95[58678];
@@ -3056,34 +3054,34 @@ LABEL_315:
             v382 = v177;
             if ( v177 < 0.0 )
               v382 = 0.0;
-            if ( !(v347 < (double)flt_10639078) )
+            if ( !(v347 < (double)g_zoneVsC18_x) )
               v173 = 0.0;
-            if ( !(v385 < (double)flt_1063907C) )
+            if ( !(v385 < (double)Fn1017DE20_static_907C) )
               v178 = 0.0;
             else
               v178 = v381;
-            if ( !(v387 < (double)flt_10639080) )
+            if ( !(v387 < (double)Fn1017DE20_static_9080) )
               v179 = 0.0;
             else
               v179 = v382;
-            LODWORD(v381) = (__int64)((*(float *)&dword_10639050 * v179
-                                     + v178 * *(float *)&dword_1063904C
-                                     + v173 * *(float *)&dword_10639048
+            LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_z * v179
+                                     + v178 * *(float *)&g_zoneVsC15_y
+                                     + v173 * *(float *)&g_zoneVsC15_x
                                      + v162 * v95[58676]
                                      + v95[58680])
                                     * (double)*(unsigned __int8 *)(v118 + 38));
-            LODWORD(v382) = (__int64)((*(float *)&dword_10639060 * v179
-                                     + v178 * *(float *)&dword_1063905C
-                                     + v173 * *(float *)&dword_10639058
+            LODWORD(v382) = (__int64)((*(float *)&g_zoneVsC16_z * v179
+                                     + v178 * *(float *)&g_zoneVsC16_y
+                                     + v173 * *(float *)&g_zoneVsC16_x
                                      + v162 * v95[58677]
                                      + v95[58681])
                                     * (double)*(unsigned __int8 *)(v118 + 37));
             v364 = *(_DWORD *)(v118 + 36);
             LODWORD(v399[20]) = (unsigned __int8)v364;
             v399[21] = 0.0;
-            v180 = (__int64)((v179 * *(float *)&dword_10639070
-                            + v178 * *(float *)&dword_1063906C
-                            + v173 * *(float *)&dword_10639068
+            v180 = (__int64)((v179 * *(float *)&g_zoneVsC17_z
+                            + v178 * *(float *)&g_zoneVsC17_y
+                            + v173 * *(float *)&g_zoneVsC17_x
                             + v162 * v95[58678]
                             + v95[58682])
                            * (double)(unsigned __int8)v364);
@@ -3175,41 +3173,41 @@ LABEL_315:
             v384 = v208;
             if ( v208 < 0.0 )
               v384 = 0.0;
-            if ( !(v349 < (double)flt_10639078) )
+            if ( !(v349 < (double)g_zoneVsC18_x) )
               v203 = 0.0;
-            if ( !(v385 < (double)flt_1063907C) )
+            if ( !(v385 < (double)Fn1017DE20_static_907C) )
               v209 = 0.0;
             else
               v209 = v381;
-            if ( !(v387 < (double)flt_10639080) )
+            if ( !(v387 < (double)Fn1017DE20_static_9080) )
               v210 = 0.0;
             else
               v210 = v382;
-            if ( !(v388 < (double)flt_10639084) )
+            if ( !(v388 < (double)Fn1017DE20_static_9084) )
               v211 = 0.0;
             else
               v211 = v384;
-            LODWORD(v381) = (__int64)((*(float *)&dword_10639054 * v211
-                                     + v210 * *(float *)&dword_10639050
-                                     + v209 * *(float *)&dword_1063904C
-                                     + v203 * *(float *)&dword_10639048
+            LODWORD(v381) = (__int64)((*(float *)&g_zoneVsC15_w * v211
+                                     + v210 * *(float *)&g_zoneVsC15_z
+                                     + v209 * *(float *)&g_zoneVsC15_y
+                                     + v203 * *(float *)&g_zoneVsC15_x
                                      + v187 * v95[58676]
                                      + v95[58680])
                                     * (double)*(unsigned __int8 *)(v118 + 38));
-            LODWORD(v382) = (__int64)((*(float *)&dword_10639064 * v211
-                                     + v210 * *(float *)&dword_10639060
-                                     + v209 * *(float *)&dword_1063905C
-                                     + v203 * *(float *)&dword_10639058
+            LODWORD(v382) = (__int64)((*(float *)&g_zoneVsC16_w * v211
+                                     + v210 * *(float *)&g_zoneVsC16_z
+                                     + v209 * *(float *)&g_zoneVsC16_y
+                                     + v203 * *(float *)&g_zoneVsC16_x
                                      + v187 * v95[58677]
                                      + v95[58681])
                                     * (double)*(unsigned __int8 *)(v118 + 37));
             v367 = *(_DWORD *)(v118 + 36);
             LODWORD(v399[24]) = (unsigned __int8)v367;
             v399[25] = 0.0;
-            v212 = (__int64)((v211 * *(float *)&dword_10639074
-                            + v210 * *(float *)&dword_10639070
-                            + v209 * *(float *)&dword_1063906C
-                            + v203 * *(float *)&dword_10639068
+            v212 = (__int64)((v211 * *(float *)&g_zoneVsC17_w
+                            + v210 * *(float *)&g_zoneVsC17_z
+                            + v209 * *(float *)&g_zoneVsC17_y
+                            + v203 * *(float *)&g_zoneVsC17_x
                             + v187 * v95[58678]
                             + v95[58682])
                            * (double)(unsigned __int8)v367);
@@ -3291,8 +3289,8 @@ LABEL_315:
 LABEL_314:
     v338 = v383;
     (*(void (__stdcall **)(_DWORD))(**((_DWORD **)v383 + 11) + 48))(*((_DWORD *)v383 + 11));
-    g_pCDx->pDevice->SetIndices(*((IDirect3DIndexBuffer8 **)v338 + 46), 0);
-    g_pCDx->pDevice->SetStreamSource(0, *((IDirect3DVertexBuffer8 **)v338 + 11), v392[13]);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *((IDirect3DIndexBuffer8 **)v338 + 46), 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *((IDirect3DVertexBuffer8 **)v338 + 11), v392[13]);
     orig::CDx_DrawIndexedPrimitive(g_pCDx, v392[15], 0, *((_DWORD *)v338 + 2), 0, *((_DWORD *)v338 + 6));
     v339 = *((_DWORD *)v338 + 6);
     v109 = v383;
@@ -3307,8 +3305,8 @@ LABEL_314:
 XI_API int __stdcall Gfx_DrawWireBox(int a1)
 {
   double v1;
-  g_pCDx->pDevice->SetTexture(0, nullptr);
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
   g_upVerts_1D50 = *(_DWORD *)a1;
   g_upVerts_1D50_v0_y = *(float *)(a1 + 8);
   g_upVerts_1D50_v0_z = *(float *)(a1 + 20);
@@ -3418,11 +3416,11 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
   g_upVerts_1C90_v7_z = v1;
   g_upVerts_1C90_v7_u = 0;
   g_upVerts_1C90_v7_v = 0;
-  g_pCDx->pDevice->SetVertexShader(322u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 322u);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1D50, 24);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1E10, 24);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 4, (int)&g_upVerts_1C90, 24);
-  return g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
 }
 
 // FUNCTION: FFXIMAIN 0x10183490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
@@ -3452,12 +3450,12 @@ XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
     pOut[13] = pOut[13] + *(float *)(a3 + 228);
     pOut[14] = pOut[14] + *(float *)(a3 + 232);
     pOut[15] = pOut[15] + *(float *)(a3 + 236);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, pOut);
+    orig::CDx_SetTransform(g_pCDx, 256, pOut);
     if ( *((_BYTE *)self_ + 234904) == 0 )
       orig::Gfx_SetZBias(g_zbiasPreset_C4D0);
-    g_pCDx->pDevice->SetVertexShader(*(_DWORD *)(a3 + 32));
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    result = (float *)g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(a3 + 32));
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
+    result = (float *)(*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u);
     v5 = *(int **)(a3 + 96);
     if ( v5 != nullptr )
     {
@@ -3476,28 +3474,28 @@ XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
                 if ( v4 != 0 )
                 {
                   v4 = 0;
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
                 }
                 v7 = (int)*(v6 - 9);
                 if ( *(_DWORD *)(v7 + 64) != 0 )
                   v8 = *(IDirect3DBaseTexture8 **)(v7 + 64);
                 else
                   v8 = *(IDirect3DBaseTexture8 **)(v7 + 68);
-                g_pCDx->pDevice->SetTexture(0, v8);
+                (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v8);
               }
               else
               {
                 if ( v4 != 1 )
                 {
                   v4 = 1;
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CURRENT);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 2u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 1u);
                 }
-                g_pCDx->pDevice->SetTexture(0, nullptr);
+                (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
               }
-              g_pCDx->pDevice->SetStreamSource(0, *v6, *(_DWORD *)(a3 + 36));
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *v6, *(_DWORD *)(a3 + 36));
               orig::CDx_DrawPrimitive(g_pCDx, *(_DWORD *)(a3 + 44), 0, (int)*(v6 - 4));
               *((_DWORD *)self_ + 58194) += *(v6 - 4);
             }
@@ -3542,13 +3540,13 @@ XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int
     pOut[13] = pOut[13] + *(float *)(a3 + 228);
     pOut[14] = pOut[14] + *(float *)(a3 + 232);
     pOut[15] = pOut[15] + *(float *)(a3 + 236);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, pOut);
+    orig::CDx_SetTransform(g_pCDx, 256, pOut);
     v6 = -1;
     if ( *((_BYTE *)self_ + 234904) == 0 )
       orig::Gfx_SetZBias(g_zbiasPreset_C4D0);
-    g_pCDx->pDevice->SetVertexShader(*(_DWORD *)(a3 + 32));
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP)) << 0));
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(a3 + 32));
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
+    v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u)) << 0));
     v7 = *(int **)(a3 + 96);
     if ( v7 != nullptr )
     {
@@ -3570,60 +3568,60 @@ XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int
                 if ( v6 != 0 )
                 {
                   v6 = 0;
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 4u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
                   if ( a4 != 0 )
                   {
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_MODULATE4X);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG1, D3DTA_CURRENT);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 6u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG1, 1u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 3u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 3u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
                   }
                   else
                   {
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_MODULATE4X);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG1, D3DTA_CURRENT);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-                    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-                    g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 3u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 6u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG1, 1u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 0);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 5u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 3u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 6u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG1, 1u);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 0);
                   }
-                  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-                  g_pCDx->pDevice->SetTextureStageState(2u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_COLOROP, 1u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ALPHAOP, 1u);
                 }
                 v9 = (int)*(v8 - 9);
                 if ( *(_DWORD *)(v9 + 64) != 0 )
                   v11 = *(IDirect3DBaseTexture8 **)(v9 + 64);
                 else
                   v11 = *(IDirect3DBaseTexture8 **)(v9 + 68);
-                g_pCDx->pDevice->SetTexture(0, v11);
+                (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v11);
               }
               else
               {
                 if ( v6 != 1 )
                 {
                   v6 = 1;
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CURRENT);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-                  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-                  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-                  g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 1u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 3u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 1u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 3u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
                 }
-                g_pCDx->pDevice->SetTexture(0, nullptr);
+                (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
               }
               *((_DWORD *)self_ + 58194) += *(v8 - 4);
-              g_pCDx->pDevice->SetStreamSource(0, *v8, *(_DWORD *)(a3 + 36));
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, *v8, *(_DWORD *)(a3 + 36));
               orig::CDx_DrawPrimitive(g_pCDx, *(_DWORD *)(a3 + 44), 0, (int)*(v8 - 4));
             }
             v8 += 48;
@@ -3638,15 +3636,15 @@ XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int
       if ( v6 != 0 )
       {
 LABEL_26:
-        g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
-        g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-        g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-        g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
       }
-      g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE4X);
-      g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-      g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-      g_pCDx->pDevice->SetTextureStageState(1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 2u);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
       v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*((_BYTE *)self_ + 234904)) << 0));
       if ( (_BYTE)v5 == 0 )
         v5 = (int)(((uint32_t)(v5) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::Gfx_SetZBias(g_zbiasRestore)) << 0));
@@ -3734,13 +3732,13 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
           v17 = *(_DWORD *)(a2 + 76 * v16 - 72);
           if ( v17 != 0 )
           {
-            g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234672), 1u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234672), 1u);
             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234672), (float *)(v17 + 8));
           }
         }
         else
         {
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234672), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234672), 0);
         }
         v18 = *(_DWORD *)(a3 + 232);
         if ( v18 != 0 )
@@ -3748,13 +3746,13 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
           v19 = *(_DWORD *)(a2 + 76 * v18 - 72);
           if ( v19 != 0 )
           {
-            g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234676), 1u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234676), 1u);
             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234676), (float *)(v19 + 8));
           }
         }
         else
         {
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234676), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234676), 0);
         }
         v20 = *(_DWORD *)(a3 + 236);
         if ( v20 != 0 )
@@ -3762,13 +3760,13 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
           v21 = *(_DWORD *)(a2 + 76 * v20 - 72);
           if ( v21 != 0 )
           {
-            g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234680), 1u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234680), 1u);
             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234680), (float *)(v21 + 8));
           }
         }
         else
         {
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234680), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234680), 0);
         }
         v22 = *(_DWORD *)(a3 + 240);
         if ( v22 != 0 )
@@ -3776,16 +3774,16 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
           v23 = *(_DWORD *)(a2 + 76 * v22 - 72);
           if ( v23 != 0 )
           {
-            g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234684), 1u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234684), 1u);
             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234684), (float *)(v23 + 8));
           }
         }
         else
         {
-          g_pCDx->pDevice->LightEnable(*(_DWORD *)(self_ + 234684), 0);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(_DWORD *)(self_ + 234684), 0);
         }
         v38 = 0;
-        pDevice = g_pCDx->pDevice;
+        pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
         lpVtbl = pDevice->lpVtbl;
         if ( *(_WORD *)(a3 + 212) != 0 )
         {
@@ -3797,13 +3795,13 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
           lpVtbl->SetRenderState(pDevice, D3DRS_CULLMODE, 3u);
           v39 = 0;
         }
-        v26 = g_pCDx->pDevice;
+        v26 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
         v27 = v26->lpVtbl;
         if ( *(_WORD *)(a3 + 214) != 0 )
           v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, 1u);
         else
           v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, 0);
-        orig::CDx_SetTransform(&g_pCDx->vftable, 256, (const void *)(a3 + 64));
+        orig::CDx_SetTransform(g_pCDx, 256, (const void *)(a3 + 64));
         result = v37;
         v28 = (int *)v37[24];
         v44 = v28;
@@ -3839,8 +3837,8 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                         orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 234304));
                       }
                       orig::Env_ComputeAmbient(*(char **)(self_ + 80), (_DWORD *)(self_ + 234512), 0);
-                      g_pCDx->pDevice->lpVtbl->SetRenderState(
-                        g_pCDx->pDevice,
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                         D3DRS_AMBIENT,
                         *(_DWORD *)(self_ + 234512));
                       orig::sub_10189120(
@@ -3849,15 +3847,15 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                         (float *)(self_ + 234520),
                         (float *)(self_ + 234524),
                         0);
-                      g_pCDx->pDevice->lpVtbl->SetRenderState(
-                        g_pCDx->pDevice,
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                         D3DRS_FOGCOLOR,
                         *(_DWORD *)(self_ + 234516));
-                      g_pCDx->pDevice->lpVtbl->SetRenderState(
-                        g_pCDx->pDevice,
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                         D3DRS_FOGSTART,
                         *(_DWORD *)(self_ + 234076));
-                      g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, *(_DWORD *)(self_ + 234072));
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, *(_DWORD *)(self_ + 234072));
                       *(_DWORD *)(self_ + 233784) = *(_DWORD *)(self_ + 80);
                     }
                     else
@@ -3880,8 +3878,8 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 234080));
                           }
                           orig::Env_ComputeAmbient(*(char **)(self_ + 233784), (_DWORD *)(self_ + 234288), 0);
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_AMBIENT,
                             *(_DWORD *)(self_ + 234288));
                           orig::sub_10189120(
@@ -3890,16 +3888,16 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                             (float *)(self_ + 234296),
                             (float *)(self_ + 234300),
                             0);
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGCOLOR,
                             *(_DWORD *)(self_ + 234292));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGSTART,
                             *(_DWORD *)(self_ + 234300));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGEND,
                             *(_DWORD *)(self_ + 234296));
                           v30 = v41;
@@ -3910,20 +3908,20 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                           orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 233856));
                           if ( *(_DWORD *)(self_ + 234660) != 0 )
                             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234668), (float *)(self_ + 233960));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_AMBIENT,
                             *(_DWORD *)(self_ + 234064));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGCOLOR,
                             *(_DWORD *)(self_ + 234068));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGSTART,
                             *(_DWORD *)(self_ + 234076));
-                          g_pCDx->pDevice->lpVtbl->SetRenderState(
-                            g_pCDx->pDevice,
+                          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                             D3DRS_FOGEND,
                             *(_DWORD *)(self_ + 234072));
                         }
@@ -3936,14 +3934,14 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                         v34 = *(IDirect3DBaseTexture8 **)(v33 + 64);
                       else
                         v34 = *(IDirect3DBaseTexture8 **)(v33 + 68);
-                      g_pCDx->pDevice->SetTexture(0, v34);
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v34);
                     }
                     else
                     {
-                      g_pCDx->pDevice->SetTexture(0, nullptr);
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
                     }
-                    g_pCDx->pDevice->lpVtbl->SetRenderState(
-                      g_pCDx->pDevice,
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState(
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                       D3DRS_ALPHABLENDENABLE,
                       *((__int16 *)v30 + 14));
                     if ( *((__int16 *)v30 + 16) != v38 )
@@ -3951,20 +3949,20 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                       v38 = *((__int16 *)v30 + 16);
                       if ( *((_WORD *)v30 + 16) != 0 )
                       {
-                        g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
                       }
                       else
                       {
-                        v35 = g_pCDx->pDevice;
+                        v35 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
                         if ( v39 != 0 )
                           v35->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
                         else
                           v35->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
                       }
                     }
-                    g_pCDx->pDevice->SetVertexShader(v37[8]);
-                    g_pCDx->pDevice->lpVtbl->SetStreamSource(
-                      g_pCDx->pDevice,
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v37[8]);
+                    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource(
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
                       0,
                       (IDirect3DVertexBuffer8 *)v30[9],
                       v37[9]);
@@ -4009,19 +4007,19 @@ XI_API int __thiscall fn_10184C90(void *self_, int a1, int a2, int a3)
     v6 = *(IDirect3DBaseTexture8 **)(result + 64);
     if ( v6 == nullptr )
       v6 = *(IDirect3DBaseTexture8 **)(result + 68);
-    g_pCDx->pDevice->SetTexture(0, v6);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-    g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
-    g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    g_pCDx->pDevice->SetVertexShader(322u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v6);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 4u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 322u);
     if ( *((_BYTE *)self_ + 234904) != 0 )
     {
-      g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, v11);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, v11);
       orig::ZoneMap_SetOverlayProjection((float *)self_);
     }
     else
@@ -4057,14 +4055,14 @@ XI_API int __thiscall fn_10184C90(void *self_, int a1, int a2, int a3)
     v10[13] = v7;
     v10[14] = v8;
     orig::Mat44_Multiply(v9, (int)v9, v10);
-    orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);
+    orig::CDx_SetTransform(g_pCDx, 256, v9);
     orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)&g_overlayQuadVerts, 24);
-    g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
     if ( *((_BYTE *)self_ + 234904) != 0 )
-      return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, v11);
+      return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, v11);
     else
       return orig::Gfx_SetZBias(g_zbiasRestore);
   }
@@ -4195,41 +4193,41 @@ XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBa
   v114 = (float *)self_;
   if ( a4 == 0.0 )
   {
-    flt_103773E0 = 1.0;
-    flt_103773D8 = 1.0;
+    Fn10185CA0_m22 = 1.0;
+    Fn10185CA0_m00 = 1.0;
   }
   else
   {
-    flt_103773E0 = 1.0 / a4;
-    flt_103773D8 = flt_103773E0;
+    Fn10185CA0_m22 = 1.0 / a4;
+    Fn10185CA0_m00 = Fn10185CA0_m22;
   }
   v115 = -*a1;
-  pDevice = g_pCDx->pDevice;
+  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
   v116 = -a1[1];
   v7.lpVtbl = pDevice->lpVtbl;
   v117 = -a1[2];
   v7.lpVtbl->SetRenderState(pDevice, D3DRS_LIGHTING, 0);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-  g_pCDx->pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 4u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 3u);
   v109 = 0;
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
   if ( *((_BYTE *)v5 + 234904) != 0 )
   {
-    g_pCDx->pDevice->GetTransform(D3DTS_PROJECTION, &v119);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, &v119);
     orig::ZoneMap_SetOverlayProjection(v5);
   }
   else
   {
     orig::Gfx_SetZBias(g_zbiasOverlay);
   }
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-  g_pCDx->pDevice->SetTexture(0, a3);
-  g_pCDx->pDevice->SetVertexShader(322u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, a3);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 322u);
   v92 = v115;
   v8 = atan2(-*a2, a2[2]);
   v93 = v116;
@@ -4274,9 +4272,9 @@ XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBa
   v88 = v9;
   v90 = v80;
   orig::Mat44_Multiply(v118, (int)v118, &v80);
-  v80 = flt_103773D8;
-  v85 = *(float *)&dword_103773DC;
-  v90 = flt_103773E0;
+  v80 = Fn10185CA0_m00;
+  v85 = *(float *)&Fn10185CA0_m11;
+  v90 = Fn10185CA0_m22;
   v81 = 0.0;
   v82 = 0.0;
   v83 = 0;
@@ -4291,9 +4289,9 @@ XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBa
   v94 = 0.0;
   v95 = 1065353216;
   orig::Mat44_Multiply(v118, (int)v118, &v80);
-  v92 = *(float *)&dword_103773CC;
-  v93 = *(float *)&dword_103773D0;
-  v94 = *(float *)&dword_103773D4;
+  v92 = *(float *)&Fn10185CA0_m30;
+  v93 = *(float *)&Fn10185CA0_m31;
+  v94 = *(float *)&Fn10185CA0_m32;
   v80 = 1.0;
   v81 = 0.0;
   v82 = 0.0;
@@ -4393,15 +4391,15 @@ XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBa
                   {
                     v109 = v24[41] & 1;
                     if ( v26 != 0 )
-                      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 2u);
                     else
-                      g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+                      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 3u);
                   }
                   v27 = *((_WORD **)v25 + 2);
                   v28 = *(_DWORD *)v25;
                   v29 = (char *)&g_zoneProjVerts;
                   *(float *)&v100 = 0.0;
-                  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v24);
+                  orig::CDx_SetTransform(g_pCDx, 256, v24);
                   v30 = &v80;
                   v31 = (char *)v24 - (char *)&v80;
                   v99 = 4;
@@ -4611,14 +4609,14 @@ LABEL_67:
       ++v17;
     }
   }
-  g_pCDx->pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-  g_pCDx->pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
   if ( *((_BYTE *)v5 + 234904) != 0 )
-    return g_pCDx->pDevice->SetTransform(D3DTS_PROJECTION, &v119);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, &v119);
   else
     return orig::Gfx_SetZBias(g_zbiasRestore);
 }

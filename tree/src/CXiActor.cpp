@@ -13,24 +13,21 @@ double CXiActor::CXiSkeletonActor_GetMoveSpeed()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetMoveSpeed(float speed)
 {
-  CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
-  self->moveSpeed = speed;
+  this->field_98 = speed;
 }
 
 // FUNCTION: FFXIMAIN 0x10082090  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
 {
-  CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
-  return self->moveSpeedBase;
+  return this->field_94;
 }
 
 // FUNCTION: FFXIMAIN 0x100820A0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetMoveSpeedBase(float speed)
 {
-  CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
-  self->moveSpeedBase = speed;
+  this->field_94 = speed;
 }
 
 // FUNCTION: FFXIMAIN 0x100820B0  (placed by tree manifest)
@@ -44,8 +41,7 @@ double CXiActor::CXiSkeletonActor_GetWalkSpeed()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)
 {
-  CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
-  self->walkSpeed = speed;
+  this->field_9C = speed;
 }
 
 // FUNCTION: FFXIMAIN 0x100820D0  (placed by tree manifest; does not use this)

@@ -17,8 +17,9 @@ int * CMoTask_VT_1032AFA8::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoTask_VT_1032AFA8::ScalarDeletingDtor_2(int a1)
 {
-  orig::DynVB_Destructor(this);
+  Vt_1032AFD4 * self = reinterpret_cast<Vt_1032AFD4 *>(this);  // byte-exact view for the rest
+  orig::DynVB_Destructor(self);
   if ( (a1 & 1) != 0 )
-    orig::operator_delete(this);
-  return (int)this;
+    orig::operator_delete(self);
+  return (int)self;
 }

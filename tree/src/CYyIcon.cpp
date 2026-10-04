@@ -20,8 +20,8 @@ int CYyIcon::Draw(int a1, int a2, int a3, int a4)
   v5 = a4;
   if ( (_BYTE)a4 != 0 )
   {
-    g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    g_pCDx->pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, 1u);
   }
   result = this->pIconTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
@@ -29,7 +29,7 @@ int CYyIcon::Draw(int a1, int a2, int a3, int a4)
     v8 = *(IDirect3DBaseTexture8 **)(result + 64);
     if ( v8 == nullptr )
       v8 = *(IDirect3DBaseTexture8 **)(result + 68);
-    g_pCDx->pDevice->SetTexture(0, v8);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v8);
     this->quad0_color = a3;
     this->quad1_color = a3;
     this->quad2_color = a3;
@@ -49,11 +49,11 @@ int CYyIcon::Draw(int a1, int a2, int a3, int a4)
     v13 = (double)v10 + a4a;
     this->quad2_y = v13;
     this->quad3_y = v13;
-    g_pCDx->pDevice->SetVertexShader(324u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
     result = orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28);
   }
   if ( v5 != 0 )
-    return g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
   return result;
 }
 
@@ -82,7 +82,7 @@ int CYyIcon::DrawSubRect(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
     v12 = *(IDirect3DBaseTexture8 **)(result + 64);
     if ( v12 == nullptr )
       v12 = *(IDirect3DBaseTexture8 **)(result + 68);
-    g_pCDx->pDevice->SetTexture(0, v12);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v12);
     v13 = (double)a1;
     this->quad0_color = a9;
     this->quad1_color = a9;
@@ -115,7 +115,7 @@ int CYyIcon::DrawSubRect(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
     this->quad2_u = v21;
     this->quad3_v = (double)(a8 + a6) / (double)a5a;
     this->quad2_v = at<uint32_t>(this, 0x78);
-    g_pCDx->pDevice->SetVertexShader(324u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
     return orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28);
   }
   return result;

@@ -24,13 +24,13 @@ XI_API char __thiscall fn_100C4CE0(float *self_, float *a2, int a3, int a4)
   orig::Mat4_SetIdentity(v8);
   orig::Mat4_SetTranslation(v8, a2);
   ViewMatrixPtr = orig::Camera_GetViewMatrixPtr();
-  orig::CDx_SetTransform(&g_pCDx->vftable, 2, ViewMatrixPtr);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v8);
+  orig::CDx_SetTransform(g_pCDx, 2, ViewMatrixPtr);
+  orig::CDx_SetTransform(g_pCDx, 256, v8);
   orig::Vec4_Set((int)a2, 0.0, 0, 0, 1065353216);
   orig::Gfx_ProjectWorldToClip(a2, a2);
   orig::Gfx_NdcToScreen(a2);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 2, v9);
-  orig::CDx_SetTransform(&g_pCDx->vftable, 256, v10);
+  orig::CDx_SetTransform(g_pCDx, 2, v9);
+  orig::CDx_SetTransform(g_pCDx, 256, v10);
   if ( !(a2[3] < 0.0) )
   {
     orig::nullsub_1();

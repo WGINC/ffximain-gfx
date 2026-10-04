@@ -65,19 +65,19 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
   int &v60 = *reinterpret_cast<int *>(xi_frame + 0x28);
   int &v61 = *reinterpret_cast<int *>(xi_frame + 0x2C);
 
-  orig::CDx_BeginScene(&g_pCDx->vftable);
+  orig::CDx_BeginScene(g_pCDx);
   orig::nullsub_36();
   if ( *(_WORD *)(self_ + 4) == 0 )
   {
-    if ( g_pCDx->_pad_10[2309] != 0 )
-      orig::GammaRamp_ApplyIfChanged((int)&g_pCDx->_pad_10[484]);
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
+      orig::GammaRamp_ApplyIfChanged((int)((unsigned __int8 *)((char *)g_pCDx + 0x1F4)));
     *(_DWORD *)g_pSceneState = 112;
     dword_1047D140 = 0;
     g_pMeshResourceMng = 0;
     dword_1047BFFC = 0;
     g_pZoneMap = nullptr;
-    *(_WORD *)(self_ + 16) = *(_WORD *)&g_pCDx->_pad_10[332];
-    *(_WORD *)(self_ + 18) = *(_WORD *)&g_pCDx->_pad_10[336];
+    *(_WORD *)(self_ + 16) = *(_WORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x15C));
+    *(_WORD *)(self_ + 18) = *(_WORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x160));
     *(_WORD *)(self_ + 20) = g_cfgMenuResX;
     *(_WORD *)(self_ + 22) = g_cfgMenuResY;
     orig::sub_10016560(&i, &v55);
@@ -93,28 +93,25 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
     v53 = *(_WORD *)(self_ + 26);
     v52 = *(_WORD *)(self_ + 24);
     a4 = 0;
-    v44 = orig::CDx_CreateTexture(&g_pCDx->vftable, v52, v53, &a4, 1, 0);
+    v44 = orig::CDx_CreateTexture(g_pCDx, v52, v53, &a4, 1, 0);
     if ( v44 != nullptr )
     {
-      DepthSurfaceLikeMain = orig::CDx_CreateDepthSurfaceLikeMain(
-                               &g_pCDx->vftable,
-                               *(_WORD *)(self_ + 24),
-                               *(_WORD *)(self_ + 26));
+      DepthSurfaceLikeMain = orig::CDx_CreateDepthSurfaceLikeMain(g_pCDx, *(_WORD *)(self_ + 24), *(_WORD *)(self_ + 26));
       if ( DepthSurfaceLikeMain != 0 )
       {
-        *(_DWORD *)&g_pCDx->_pad_10[388] = v44;
-        *(_DWORD *)&g_pCDx->_pad_10[396] = a4;
-        *(_DWORD *)&g_pCDx->_pad_10[404] = DepthSurfaceLikeMain;
+        *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)) = v44;
+        *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x19C)) = a4;
+        *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)) = DepthSurfaceLikeMain;
         orig::CDx_PushRenderTarget(
           g_pCDx,
-          *(_DWORD *)&g_pCDx->_pad_10[388],
-          *(_DWORD *)&g_pCDx->_pad_10[396],
-          *(_DWORD *)&g_pCDx->_pad_10[404]);
-        orig::sub_1000A390(&g_pCDx->vftable, 3, *(_DWORD *)(self_ + 776), 1065353216, 0);
-        orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)),
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x19C)),
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
+        orig::sub_1000A390(g_pCDx, 3, *(_DWORD *)(self_ + 776), 1065353216, 0);
+        orig::CDx_SetTexture(g_pCDx, 0, 0);
         g_feedbackDepth[0] = 0;
         g_feedbackTexHalfRes[0] = (int)orig::CDx_CreateTexture(
-                                         &g_pCDx->vftable,
+                                         g_pCDx,
                                          *(_WORD *)(self_ + 24) >> 1,
                                          *(_WORD *)(self_ + 26) >> 1,
                                          g_feedbackDepth,
@@ -125,15 +122,15 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           || (v47 = *(_WORD *)(self_ + 22)) == 0
           || v46 == *(_WORD *)(self_ + 16) && v47 == *(_WORD *)(self_ + 18)
           || (a4 = 0,
-              *(_DWORD *)&g_pCDx->_pad_10[464] = orig::CDx_CreateTexture(&g_pCDx->vftable, v46, v47, &a4, 1, 0),
-              *(_DWORD *)&g_pCDx->_pad_10[468] = a4,
-              *(_DWORD *)&g_pCDx->_pad_10[472] = orig::CDx_CreateDepthSurfaceLikeMain(
-                                                   &g_pCDx->vftable,
+              *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0)) = orig::CDx_CreateTexture(g_pCDx, v46, v47, &a4, 1, 0),
+              *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E4)) = a4,
+              *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E8)) = orig::CDx_CreateDepthSurfaceLikeMain(
+                                                   g_pCDx,
                                                    *(_WORD *)(self_ + 20),
                                                    *(_WORD *)(self_ + 22)),
               v48 = g_pCDx,
-              *(_DWORD *)&g_pCDx->_pad_10[464] == 0)
-          || *(_DWORD *)&g_pCDx->_pad_10[472] == 0 )
+              *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0)) == 0)
+          || *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E8)) == 0 )
         {
           v49 = *(_WORD *)(self_ + 18);
           *(_WORD *)(self_ + 20) = *(_WORD *)(self_ + 16);
@@ -142,29 +139,23 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
         }
         orig::CDx_CreateStereoResources(v48, *(_WORD *)(self_ + 24), *(_WORD *)(self_ + 26));
         if ( g_pEnv[6] != 0
-          && (Texture = orig::CDx_CreateTexture(
-                          &g_pCDx->vftable,
-                          *(_WORD *)(self_ + 24),
-                          *(_WORD *)(self_ + 26),
-                          nullptr,
-                          1,
-                          0),
-              v51 = orig::CDx_CreateDepthSurfaceLikeMain(&g_pCDx->vftable, *(_WORD *)(self_ + 24), *(_WORD *)(self_ + 26)),
+          && (Texture = orig::CDx_CreateTexture(g_pCDx, *(_WORD *)(self_ + 24), *(_WORD *)(self_ + 26), nullptr, 1, 0),
+              v51 = orig::CDx_CreateDepthSurfaceLikeMain(g_pCDx, *(_WORD *)(self_ + 24), *(_WORD *)(self_ + 26)),
               Texture != nullptr)
           && v51 != 0 )
         {
-          *(_DWORD *)&g_pCDx->_pad_10[392] = Texture;
-          *(_DWORD *)&g_pCDx->_pad_10[408] = v51;
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)) = Texture;
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)) = v51;
           orig::CDx_PushRenderTarget(
             g_pCDx,
-            *(_DWORD *)&g_pCDx->_pad_10[392],
-            *(_DWORD *)&g_pCDx->_pad_10[400],
-            *(_DWORD *)&g_pCDx->_pad_10[408]);
-          orig::sub_1000A390(&g_pCDx->vftable, 3, *(_DWORD *)(self_ + 776), 1065353216, 0);
-          orig::CDx_SetTexture(&g_pCDx->vftable, 0, 0);
+            *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)),
+            *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A0)),
+            *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)));
+          orig::sub_1000A390(g_pCDx, 3, *(_DWORD *)(self_ + 776), 1065353216, 0);
+          orig::CDx_SetTexture(g_pCDx, 0, 0);
           dword_10456944 = 0;
-          dword_1045693C = (int)orig::CDx_CreateTexture(
-                                  &g_pCDx->vftable,
+          g_halfScreenTex = (int)orig::CDx_CreateTexture(
+                                  g_pCDx,
                                   *(_WORD *)(self_ + 24) >> 1,
                                   *(_WORD *)(self_ + 26) >> 1,
                                   &dword_10456944,
@@ -178,9 +169,9 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
         if ( g_depthBlurEnabled_Dead != 0 )
         {
           a4 = 0;
-          *(_DWORD *)&g_pCDx->_pad_10[432] = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &a4, 1, 0);
-          *(_DWORD *)&g_pCDx->_pad_10[436] = a4;
-          *(_DWORD *)&g_pCDx->_pad_10[440] = orig::CDx_CreateDepthSurfaceLikeMain(&g_pCDx->vftable, 0x100u, 0x100u);
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1C0)) = orig::CDx_CreateTexture(g_pCDx, 0x100u, 0x100u, &a4, 1, 0);
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1C4)) = a4;
+          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1C8)) = orig::CDx_CreateDepthSurfaceLikeMain(g_pCDx, 0x100u, 0x100u);
         }
         *(_BYTE *)(self_ + 814) = 0x80;
         *(_BYTE *)(self_ + 813) = 0x80;
@@ -221,7 +212,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           if ( v6 == nullptr )
           {
             dword_1047D140 = 0;
-            orig::CDx_EndScene(&g_pCDx->vftable);
+            orig::CDx_EndScene(g_pCDx);
             return 0;
           }
           *v6 = (int)&CYyObject_vtbl_ambiguous0;
@@ -241,7 +232,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           if ( v9 == nullptr )
           {
             g_pMeshResourceMng = 0;
-            orig::CDx_EndScene(&g_pCDx->vftable);
+            orig::CDx_EndScene(g_pCDx);
             return 0;
           }
           *v9 = &CMoResourceMng_vtbl;
@@ -253,7 +244,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           if ( v12 == nullptr )
           {
             dword_1047BFFC = 0;
-            orig::CDx_EndScene(&g_pCDx->vftable);
+            orig::CDx_EndScene(g_pCDx);
             return 0;
           }
           orig::CMoTask_Constructor(v12);
@@ -265,7 +256,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           if ( v13 == nullptr )
           {
             g_pTextureMng = nullptr;
-            orig::CDx_EndScene(&g_pCDx->vftable);
+            orig::CDx_EndScene(g_pCDx);
             return 0;
           }
           v14 = (type_info *)orig::sub_1003AA50(v13);
@@ -276,7 +267,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
             if ( v15 == nullptr )
             {
               g_pVbMng = 0;
-              orig::CDx_EndScene(&g_pCDx->vftable);
+              orig::CDx_EndScene(g_pCDx);
               return 0;
             }
             g_pVbMng = (int)orig::sub_1003B080(v15);
@@ -284,9 +275,9 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
             {
               dword_1045B774 = 0;
               v16 = orig::sub_1025B560(90);
-              dword_104568A0 = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v56, v16);
+              g_appMeshResA = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v56, v16);
               v17 = orig::sub_1025B560(91);
-              dword_10456794 = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v57, v17);
+              g_appMeshResB = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v57, v17);
               v18 = *(_DWORD *)(g_pSceneState + 8);
               if ( *(char *)(g_pSceneState + 24) < 0 && (v18 == 2 || v18 == 3) || v18 != 0 )
                 orig::nullsub_49(1);
@@ -294,27 +285,27 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                 orig::nullsub_49(0);
               v19 = orig::sub_1025B560(0);
               v20 = (int *)*orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v58, v19);
-              dword_104568F0 = (int)v20;
+              g_appMeshResC = (int)v20;
               if ( v20 != nullptr )
                 orig::CMoResource_AddRefChain(*v20);
-              if ( dword_104568A0 != 0 )
-                orig::CMoResource_AddRefChain(*(_DWORD *)dword_104568A0);
-              if ( dword_10456794 != 0 )
-                orig::CMoResource_AddRefChain(*(_DWORD *)dword_10456794);
+              if ( g_appMeshResA != 0 )
+                orig::CMoResource_AddRefChain(*(_DWORD *)g_appMeshResA);
+              if ( g_appMeshResB != 0 )
+                orig::CMoResource_AddRefChain(*(_DWORD *)g_appMeshResB);
               orig::sub_10160440((int)g_menuMng, v21, &v59, 0);
               v22 = (int *)*orig::sub_10072FD0((_DWORD *)g_pMeshResourceMng, &v60, 39551);
-              dword_10456790 = (int)v22;
+              g_appMeshRes_39551 = (int)v22;
               if ( v22 != nullptr )
                 orig::CMoResource_AddRefChain(*v22);
               v23 = (int *)*orig::sub_10072FD0((_DWORD *)g_pMeshResourceMng, &v61, 39560);
-              dword_104568E8 = (int)v23;
+              g_appMeshRes_39560 = (int)v23;
               if ( v23 != nullptr )
                 orig::CMoResource_AddRefChain(*v23);
               v24 = orig::Allocator_Generic(4u);
               if ( v24 == nullptr )
               {
                 dword_104E1BF4 = 0;
-                orig::CDx_EndScene(&g_pCDx->vftable);
+                orig::CDx_EndScene(g_pCDx);
                 return 0;
               }
               dword_104E1BF4 = orig::unknown_libname_88(v24);
@@ -325,7 +316,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                 if ( v25 == nullptr )
                 {
                   g_pChatLog = 0;
-                  orig::CDx_EndScene(&g_pCDx->vftable);
+                  orig::CDx_EndScene(g_pCDx);
                   return 0;
                 }
                 v26 = orig::sub_10127190(v25);
@@ -336,7 +327,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                   if ( v27 == nullptr )
                   {
                     dword_1057815C = 0;
-                    orig::CDx_EndScene(&g_pCDx->vftable);
+                    orig::CDx_EndScene(g_pCDx);
                     return 0;
                   }
                   dword_1057815C = (int)orig::sub_10127190(v27);
@@ -346,7 +337,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                     if ( v28 == nullptr )
                     {
                       dword_10578160 = 0;
-                      orig::CDx_EndScene(&g_pCDx->vftable);
+                      orig::CDx_EndScene(g_pCDx);
                       return 0;
                     }
                     v29 = orig::sub_10127EE0(v28);
@@ -359,7 +350,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                       if ( v30 == nullptr )
                       {
                         g_pZoneMap = nullptr;
-                        orig::CDx_EndScene(&g_pCDx->vftable);
+                        orig::CDx_EndScene(g_pCDx);
                         return 0;
                       }
                       v31 = (void *)orig::sub_10177D00((int)v30);
@@ -418,9 +409,9 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         orig::sub_1021BB90();
                         v34 = orig::Allocator_Generic(0x20u);
                         if ( v34 != nullptr )
-                          dword_10455AF8 = orig::sub_100035F0((int)v34);
+                          g_pDebugOverlay = orig::sub_100035F0((int)v34);
                         else
-                          dword_10455AF8 = 0;
+                          g_pDebugOverlay = 0;
                         orig::sub_102217A0();
                         orig::sub_1025E0B0();
                         orig::sub_1025E0C0();
@@ -430,7 +421,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         if ( v35 == nullptr )
                         {
                           dword_1047D688 = 0;
-                          orig::CDx_EndScene(&g_pCDx->vftable);
+                          orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
                         orig::CMoTask_Constructor(v35);
@@ -443,7 +434,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         if ( v36 == nullptr )
                         {
                           dword_1047D68C = 0;
-                          orig::CDx_EndScene(&g_pCDx->vftable);
+                          orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
                         orig::CMoTask_Constructor(v36);
@@ -454,7 +445,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         if ( v37 == nullptr )
                         {
                           dword_10456C0C = nullptr;
-                          orig::CDx_EndScene(&g_pCDx->vftable);
+                          orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
                         dword_10456C0C = orig::fn_10017BB0(v37);
@@ -499,10 +490,10 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
       }
     }
 LABEL_85:
-    orig::CDx_EndScene(&g_pCDx->vftable);
+    orig::CDx_EndScene(g_pCDx);
     return 0;
   }
 LABEL_101:
-  orig::CDx_EndScene(&g_pCDx->vftable);
+  orig::CDx_EndScene(g_pCDx);
   return 1;
 }

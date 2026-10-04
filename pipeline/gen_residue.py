@@ -58,7 +58,7 @@ for k, v in meta.items():
             rows['unplaced'].append((ea, nm, 'passes as decompiled; the clean stage has no export for it to gate', dmc(ea)))
 w = []
 w.append('# Graphics functions not in the verified tree (build 2026-09-03)\n')
-w.append('Every function in the 768-function graphics set that is not a gate-verified member of `tree/` is listed here, with why and what to do with it. Descriptions in the last column are DancingMad\'s.\n')
+w.append('Every function in the %d-function graphics set that is not a gate-verified member of `tree/` is listed here, with why and what to do with it. Descriptions in the last column are DancingMad\'s.\n' % len(R))
 w.append('| Group | Count | Route |\n|---|---|---|')
 w.append('| Microsoft D3DX 8.1 (statically linked) | %d | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |' % len(rows['library']))
 w.append('| Constructs C++ cannot express | %d | Stays original code (`orig::`). Listed below with the exact construct. |' % len(rows['construct']))

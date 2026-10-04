@@ -5,7 +5,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API IDirect3DDevice8 * __cdecl FontGlyphCache_GetDevice(void)
 {
-  return g_pCDx->pDevice;
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
 }
 
 // FUNCTION: FFXIMAIN 0x1025D760  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
@@ -15,7 +15,7 @@ XI_API int __cdecl FontGlyphCache_CreateTexture(unsigned int a1, unsigned int a2
   int v6;
   int v8;
   v8 = 0;
-  v6 = g_pCDx->pDevice->CreateTexture(a1, a2, a3, a4, a5, a6, (IDirect3DTexture8 **)&v8);
+  v6 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a1, a2, a3, a4, a5, a6, (IDirect3DTexture8 **)&v8);
   return v6 < 0 ? 0 : v8;
 }
 
@@ -26,6 +26,6 @@ XI_API int __cdecl FontGlyphCache_CreateVertexBuffer(unsigned int a1, unsigned i
   int v4;
   int v6;
   v6 = 0;
-  v4 = g_pCDx->pDevice->CreateVertexBuffer(a1, a2, a3, a4, (IDirect3DVertexBuffer8 **)&v6);
+  v4 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a1, a2, a3, a4, (IDirect3DVertexBuffer8 **)&v6);
   return v4 < 0 ? 0 : v6;
 }

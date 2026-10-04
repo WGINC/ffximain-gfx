@@ -2,11 +2,11 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1021E060  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
+// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API int __thiscall Movie_CreateFrameTextures(Vt_1033BE90 *self_, int a2)
 {
   int v2;
-  int v4;
+  unsigned int v4;
   IDirect3DTexture8 **v5;
   int v6;
   int result;
@@ -15,29 +15,29 @@ XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
   _DWORD v10[8];
   v2 = *(_DWORD *)(a2 + 68);
   v4 = *(_DWORD *)(v2 + 52);
-  *(_DWORD *)(self_ + 352) = v4;
-  v5 = (IDirect3DTexture8 **)(self_ + 372);
-  *(_DWORD *)(self_ + 356) = abs32(*(_DWORD *)(v2 + 56));
+  self_->field_160 = v4;
+  v5 = (IDirect3DTexture8 **)(self_ + 1);
+  self_->field_164 = abs32(*(_DWORD *)(v2 + 56));
   v6 = 0;
-  *(_DWORD *)(self_ + 360) = (3 * (v4 + 1)) & 0xFFFFFFFC;
+  self_->field_168 = (3 * (v4 + 1)) & 0xFFFFFFFC;
   while ( 1 )
   {
-    result = orig::fn_102D2FB9(g_pCDx->pDevice, 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
+    result = orig::fn_102D2FB9((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
     if ( result < 0 )
       break;
     ++v6;
     ++v5;
     if ( v6 >= 4 )
     {
-      result = (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD *))(**(_DWORD **)(self_ + 372) + 56))(
-                 *(_DWORD *)(self_ + 372),
+      result = (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD *))(**((_DWORD **)self_ + 93) + 56))(
+                 *((_DWORD *)self_ + 93),
                  0,
                  v10);
       if ( result >= 0 )
       {
         v8 = v10[0];
         v9 = v10[0] == 21;
-        *(_DWORD *)(self_ + 364) = v10[0];
+        self_->field_16C = v10[0];
         if ( v9 || v8 == 25 )
           return 0;
         else

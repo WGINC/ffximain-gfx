@@ -12,11 +12,19 @@ public:
     int DrawProjectedShadow(int a1, int a2);  // 0x10184FE0
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x178];
+    uint8_t _pad_4[0x174];
+    uint8_t field_178;  // +0x178
+    uint8_t _pad_179[0x3];
     float field_17C;  // +0x17C
-    uint8_t _pad_180[0x34264];
+    uint8_t _pad_180[0x14];
+    uint8_t field_194;  // +0x194
+    uint8_t _pad_195[0x3419B];
+    uint8_t field_34330;  // +0x34330
+    uint8_t _pad_34331[0xB3];
     uint32_t overlayTex;  // +0x343E4 CYyTex* of the multiplicative overlay quad
-    uint8_t _pad_343E8[0x4D14];
+    uint8_t _pad_343E8[0x40];
+    uint8_t field_34428;  // +0x34428
+    uint8_t _pad_34429[0x4CD3];
     int32_t cullCW;  // +0x390FC one-sided batches: nonzero -> D3DCULL_CW, else CCW
     uint8_t _pad_39100[0x20];
     int32_t curTwoSided;  // +0x39120 cached two-sided state of the last batch
@@ -40,12 +48,18 @@ public:
     uint32_t field_3954C;  // +0x3954C
     uint8_t _pad_39550[0x48];
     uint8_t overlayUseProjection;  // +0x39598 byte: overlay uses saved projection, else Z-bias
-    uint8_t _pad_39599[0x1B];
+    uint8_t _pad_39599[0x3];
+    uint8_t field_3959C;  // +0x3959C
+    uint8_t _pad_3959D[0x17];
 };
 #pragma pack(pop)
 static_assert(sizeof(CTsZoneMap) == 0x395B4, "CTsZoneMap: sizeof");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_178) == 0x178, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_17C) == 0x17C, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_194) == 0x194, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_34330) == 0x34330, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, overlayTex) == 0x343E4, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_34428) == 0x34428, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, cullCW) == 0x390FC, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, curTwoSided) == 0x39120, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleA) == 0x39454, "CTsZoneMap: layout");
@@ -62,3 +76,4 @@ static_assert(XI_OFFSETOF(CTsZoneMap, lightSlotDir1) == 0x394AC, "CTsZoneMap: la
 static_assert(XI_OFFSETOF(CTsZoneMap, lightSlotNamed) == 0x394B0, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_3954C) == 0x3954C, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, overlayUseProjection) == 0x39598, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, field_3959C) == 0x3959C, "CTsZoneMap: layout");

@@ -1506,19 +1506,13 @@ LABEL_212:
       g_afterimageDepth[0] = 0;
       v757 = (unsigned __int16)orig::Camera_GetViewportHeight() >> 1;
       ViewportWidth = orig::Camera_GetViewportWidth();
-      g_afterimageTex[0] = (int)orig::CDx_CreateTexture(
-                                  &g_pCDx->vftable,
-                                  ViewportWidth >> 1,
-                                  v757,
-                                  g_afterimageDepth,
-                                  1,
-                                  0);
+      g_afterimageTex[0] = (int)orig::CDx_CreateTexture(g_pCDx, ViewportWidth >> 1, v757, g_afterimageDepth, 1, 0);
       if ( g_pEnv[6] != 0 )
       {
         dword_1045691C = 0;
         v758 = (unsigned __int16)orig::Camera_GetViewportHeight() >> 1;
         v98 = orig::Camera_GetViewportWidth();
-        dword_10456914 = (int)orig::CDx_CreateTexture(&g_pCDx->vftable, v98 >> 1, v758, &dword_1045691C, 1, 0);
+        g_afterimageHalfTex = (int)orig::CDx_CreateTexture(g_pCDx, v98 >> 1, v758, &dword_1045691C, 1, 0);
       }
       if ( g_afterimageTex[0] != 0 )
       {
@@ -2169,7 +2163,7 @@ LABEL_700:
       else
       {
 LABEL_326:
-        orig::nullsub_12(byte_1035394C);
+        orig::nullsub_12(c_msgAfterimageAllocFailed);
         return 0;
       }
     case 0x2Eu:
@@ -2649,7 +2643,7 @@ LABEL_61:
             *(float *)&v841[1] = *(float *)(v442 + 4) - *(float *)(v443 + 4);
             v445 = (*(int (__thiscall **)(int))(v444 + 444))(v438);
             v842 = *(float *)(v445 + 8) - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v435 + 444))(v435) + 8);
-            v446 = ((double (__thiscall *)(CMoProcessor *, _DWORD **))*((_DWORD *)g_pProcessor->vftable + 37))(
+            v446 = ((double (__thiscall *)(CMoProcessor *, _DWORD **))*((_DWORD *)(*(void * *)((char *)g_pProcessor + 0x0)) + 37))(
                      g_pProcessor,
                      v841);
             if ( v446 < *(float *)&v838 )
@@ -2983,7 +2977,7 @@ LABEL_363:
         LOBYTE(v841[1]) = 0;
         v841[0] = (_DWORD *)v341;
         v344 = (*(int (__thiscall **)(_DWORD *, _DWORD **))(v343 + 204))(v337, v841);
-        orig::nullsub_12(byte_10353914, v344);
+        orig::nullsub_12(c_msgCounterSchedulerNotFound, v344);
         return 0;
       }
     case 0x5Du:
@@ -3598,7 +3592,7 @@ LABEL_427:
       v528 = (_DWORD *)orig::sub_10062770(self);
       if ( v528 == nullptr )
         return 0;
-      orig::sub_1005E770(v528, dword_1032B804[*(_DWORD *)(this->field_88 + 8)]);
+      orig::sub_1005E770(v528, c_motionCodes_btl[*(_DWORD *)(this->field_88 + 8)]);
       return 0;
     case 0x7Au:
       v585 = orig::sub_1005E040(120);
@@ -3660,10 +3654,10 @@ LABEL_427:
     case 0x82u:
       if ( byte_1047BF18 == 0 )
       {
-        dword_1047BCEC = orig::sub_10187000(g_pXiZone);
-        *(float *)&dword_1047BCE4 = orig::sub_10186FE0(g_pXiZone);
-        dword_1047BCF0 = orig::sub_10187010(g_pXiZone);
-        *(float *)&dword_1047BCE8 = orig::sub_10186FF0(g_pXiZone);
+        CMoSchedularTask_Interpret_static_BCEC = orig::sub_10187000(g_pXiZone);
+        *(float *)&CMoSchedularTask_Interpret_static_BCE4 = orig::sub_10186FE0(g_pXiZone);
+        CMoSchedularTask_Interpret_static_BCF0 = orig::sub_10187010(g_pXiZone);
+        *(float *)&CMoSchedularTask_Interpret_static_BCE8 = orig::sub_10186FF0(g_pXiZone);
       }
       v835[0] = nullptr;
       byte_1047BF18 = 1;
@@ -3713,11 +3707,11 @@ LABEL_427:
       g_resourcesDirty = 1;
       if ( v139 == nullptr )
         return 0;
-      v140 = dword_1047BCF0;
-      v141 = dword_1047BCEC;
+      v140 = CMoSchedularTask_Interpret_static_BCF0;
+      v141 = CMoSchedularTask_Interpret_static_BCEC;
       v836 = (_DWORD *)(__int64)((double)*(__int16 *)(this->field_88 + 6) * this->field_9C);
-      v838 = dword_1047BCE4;
-      v837 = *(float *)&dword_1047BCE8;
+      v838 = CMoSchedularTask_Interpret_static_BCE4;
+      v837 = *(float *)&CMoSchedularTask_Interpret_static_BCE8;
       orig::sub_10074790(v139, self);
       *v139 = &CMoTask_vtbl_ambiguous6;
       *((_BYTE *)v139 + 92) = 1;
@@ -3830,8 +3824,8 @@ LABEL_520:
         }
       }
       v470 = orig::sub_1005E620() * 127.0;
-      dword_1047BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00(v463, 64, (__int64)v470);
-      v835[0] = (int *)dword_1047BCC4[*(_DWORD *)(this->field_88 + 32)];
+      CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00(v463, 64, (__int64)v470);
+      v835[0] = (int *)CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)];
 LABEL_527:
       orig::sub_1005E610((int)v835[0]);
       v471 = orig::sub_1005E640(v463);
@@ -3853,14 +3847,14 @@ LABEL_527:
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
       }
-      orig::sub_10036B90(v473, (char *)dword_1047BCC4[*(_DWORD *)(this->field_88 + 32)]);
+      orig::sub_10036B90(v473, (char *)CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)]);
       return 0;
     case 0x8Cu:
       v529 = (_DWORD *)orig::sub_10062770(self);
       v530 = v529;
       if ( v529 == nullptr )
         return 0;
-      v531 = dword_1032B814[*(_DWORD *)(this->field_88 + 8)];
+      v531 = c_motionCodes_idl[*(_DWORD *)(this->field_88 + 8)];
       orig::sub_1005E740(v529, v531);
       v532 = (_DWORD *)orig::sub_1005E2E0(v530);
       v533 = v532;
@@ -4070,7 +4064,7 @@ LABEL_574:
       v535 = v534;
       if ( v534 == nullptr )
         return 0;
-      v536 = dword_1032B824[*(_DWORD *)(this->field_88 + 8)];
+      v536 = c_motionCodes_run[*(_DWORD *)(this->field_88 + 8)];
       orig::sub_1005E760(v534, v536);
       v537 = (_DWORD *)orig::sub_1005E2E0(v535);
       v538 = v537;
@@ -4083,7 +4077,7 @@ LABEL_574:
       v539 = (_DWORD *)orig::sub_10062770(self);
       if ( v539 == nullptr )
         return 0;
-      v540 = dword_1032B834[*(_DWORD *)(this->field_88 + 8)];
+      v540 = c_motionCodes_wlk[*(_DWORD *)(this->field_88 + 8)];
       orig::sub_1005E750(v539, v540);
       v541 = (_DWORD *)orig::sub_1005E2E0(v539);
       v542 = v541;

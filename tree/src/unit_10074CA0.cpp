@@ -45,15 +45,15 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(*(_DWORD *)(g_pResourceMng + 3528) + 144) + 32))(
     *(_DWORD *)(*(_DWORD *)(g_pResourceMng + 3528) + 144),
     v13);
-  dword_1047D14C = 3;
+  g_cubeMapCount = 3;
   v0 = 0;
   do
   {
     v1 = g_pCDx;
-    dword_1047D168[v0] = 0;
+    g_cubeMapTextures[v0] = 0;
     dword_1047D15C[v0] = 0;
-    result = orig::CDx_CreateDepthSurfaceLikeMain(&v1->vftable, 32 << v0, 32 << v0);
-    dword_1047D168[v0] = result;
+    result = orig::CDx_CreateDepthSurfaceLikeMain(v1, 32 << v0, 32 << v0);
+    g_cubeMapTextures[v0] = result;
     if ( result == 0 )
       break;
     v3 = **(_DWORD **)(g_pResourceMng + 3772);
@@ -69,44 +69,44 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
       4 * v0 + (int)XI_GAME(0x1047D15Cu));
     if ( dword_1047D15C[v0] == 0 )
     {
-      result = dword_1047D168[v0];
+      result = g_cubeMapTextures[v0];
       if ( result != 0 )
       {
-        result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 8))(dword_1047D168[v0]);
-        dword_1047D168[v0] = 0;
+        result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 8))(g_cubeMapTextures[v0]);
+        g_cubeMapTextures[v0] = 0;
       }
       return result;
     }
     for ( i = 0; i < 6; ++i )
     {
-      v5 = dword_103546A0[i];
+      v5 = c_cubeFaceOrder[i];
       if ( v5 != 5 )
       {
         v6 = dword_1047D15C[v0];
         v11 = 0;
         (*(void (__stdcall **)(int, int, _DWORD, int *))(*(_DWORD *)v6 + 60))(v6, v5, 0, &v11);
-        orig::sub_1006A070(g_pResourceMng, v11, 0, dword_1047D168[v0]);
+        orig::sub_1006A070(g_pResourceMng, v11, 0, g_cubeMapTextures[v0]);
         v7 = g_pResourceMng;
-        flt_103546F8 = (float)v12;
-        flt_103546F4 = flt_103546F8;
-        flt_103546E4 = flt_103546F8;
-        flt_103546CC = flt_103546F8;
+        Gfx_InitCubeMapTextures_quadVerts_v3_y = (float)v12;
+        Gfx_InitCubeMapTextures_quadVerts_v3_x = Gfx_InitCubeMapTextures_quadVerts_v3_y;
+        Gfx_InitCubeMapTextures_quadVerts_v2_y = Gfx_InitCubeMapTextures_quadVerts_v3_y;
+        Gfx_InitCubeMapTextures_quadVerts_v1_x = Gfx_InitCubeMapTextures_quadVerts_v3_y;
         (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
           *(_DWORD *)(g_pResourceMng + 3772),
           68);
         v8 = *(void **)(v7 + 3528);
         v9 = orig::Gfx_CalcFVFStride(0x44u);
-        orig::CDx_DrawPrimitiveUP(v8, 5, 2, (int)&unk_103546B8, v9);
+        orig::CDx_DrawPrimitiveUP(v8, 5, 2, (int)&Gfx_InitCubeMapTextures_quadVerts, v9);
         orig::sub_1006A0E0(g_pResourceMng, dword_1047D15C[v0], i);
         (*(void (__stdcall **)(int))(*(_DWORD *)v11 + 8))(v11);
       }
     }
-    result = dword_1047D14C;
+    result = g_cubeMapCount;
     ++v0;
     g_cubeMapTargetWidth = 0;
     g_cubeMapTargetHeight = 0;
   }
-  while ( v0 < dword_1047D14C );
+  while ( v0 < g_cubeMapCount );
   return result;
 }
 
@@ -144,8 +144,564 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
     *(_DWORD *)(g_pCubeMapTarget + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, v4, g_cubeMapTargetHeight, &v5);
     *(_DWORD *)(g_pCubeMapTarget + 8) = v5;
     *(_DWORD *)(g_pCubeMapTarget + 12) = orig::CDx_CreateDepthSurfaceLikeMain(
-                                           &g_pCDx->vftable,
+                                           g_pCDx,
                                            g_cubeMapTargetWidth,
                                            g_cubeMapTargetHeight);
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10075700  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 54 returned normally, 190 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 52, town2 PASS 53, combat PASS 52, zonetoinn PASS 53
+XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float a5)
+{
+  int v6;
+  int v7;
+  int v9;
+  int v10;
+  double v11;
+  float *v12;
+  int v13;
+  long double v14;
+  double v15;
+  double v16;
+  long double v17;
+  double v18;
+  float v19;
+  float v20;
+  int v21;
+  v6 = *self_;
+  if ( v6 == 0 )
+    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             0);
+  if ( a4 == 0.0 )
+  {
+    v7 = *(_DWORD *)(v6 + 64);
+    if ( v7 == 0 )
+      v7 = *(_DWORD *)(v6 + 68);
+    return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             v7);
+  }
+  else
+  {
+    orig::TexRef_EnsureRenderTarget(self_);
+    orig::sub_1006A060(
+      (void **)g_pResourceMng,
+      *(_DWORD *)(g_pCubeMapTarget + 4),
+      *(_DWORD *)(g_pCubeMapTarget + 8),
+      *(_DWORD *)(g_pCubeMapTarget + 12));
+    v9 = *self_;
+    if ( *(_DWORD *)(v9 + 64) != 0 )
+      v10 = *(_DWORD *)(v9 + 64);
+    else
+      v10 = *(_DWORD *)(v9 + 68);
+    (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      0,
+      v10);
+    if ( (Fn10075700_staticGuards & 1) == 0 )
+    {
+      Fn10075700_staticGuards |= 1u;
+      orig::fn_1006AD90((exception *)Fn10075700_stateBlock);
+      orig::_atexit(XI_CODE(unknown_libname_63));
+    }
+    orig::StateBlock_ApplyRSTSS(Fn10075700_stateBlock, (int)Fn10075700_renderStates, (int)Fn10075700_textureStageStates);
+    v11 = 1.0 / (double)(g_cubeMapTargetHeight - 1);
+    v19 = v11;
+    v20 = v11 * a5 * 0x1.921fb00000000p+2;
+    orig::DynVB_Reserve(2 * g_cubeMapTargetHeight + 2);
+    v12 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
+    v13 = 0;
+    v21 = 0;
+    if ( g_cubeMapTargetHeight + 1 > 0 )
+    {
+      v14 = a3;
+      v15 = 0.0;
+      do
+      {
+        v16 = (double)v21;
+        *v12 = 0.0;
+        v12[2] = 0.0;
+        v12[3] = 1.0;
+        v12[1] = v16;
+        v12 += 14;
+        v21 = ++v13;
+        v17 = sin(v14) * a4;
+        *(v12 - 9) = v17;
+        *(v12 - 8) = v15;
+        v18 = (double)g_cubeMapTargetWidth;
+        *(v12 - 5) = 0.0;
+        *(v12 - 4) = 1.0;
+        *(v12 - 7) = v18;
+        *(v12 - 6) = v16;
+        *(v12 - 2) = v17 + 1.0;
+        *(v12 - 1) = v15;
+        v14 = v14 + v20;
+        v15 = v15 + v19;
+      }
+      while ( v13 < g_cubeMapTargetHeight + 1 );
+    }
+    orig::DynVB_Unlock();
+    orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      27,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      15,
+      1);
+    orig::sub_1006A0E0(g_pResourceMng, 0, 0);
+    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             *(_DWORD *)(g_pCubeMapTarget + 4));
+  }
+}
+
+// FUNCTION: FFXIMAIN 0x10075960  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 97, town2 PASS 97, combat PASS 96, zonetoinn PASS 97
+XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
+{
+  int v2;
+  int v3;
+  v2 = *self_;
+  if ( *self_ == 0 )
+    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             0);
+  if ( *(_DWORD *)(v2 + 64) != 0 )
+    v3 = *(_DWORD *)(v2 + 64);
+  else
+    v3 = *(_DWORD *)(v2 + 68);
+  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           a2,
+           v3);
+}
+
+// FUNCTION: FFXIMAIN 0x100759C0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 357 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 94, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
+XI_API int __thiscall fn_100759C0(int *self_, int a2, int a3)
+{
+  int v4;
+  int v5;
+  float *v6;
+  double v7;
+  double v8;
+  double v9;
+  int v10;
+  int v12;
+  if ( a3 == -2139062144 )
+  {
+    v4 = *self_;
+    if ( *self_ == 0 )
+      return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+               *(_DWORD *)(g_pResourceMng + 3772),
+               a2,
+               0);
+    goto LABEL_13;
+  }
+  if ( *self_ == 0 )
+    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             0);
+  orig::TexRef_EnsureRenderTarget(self_);
+  v5 = *(_DWORD *)(g_pCubeMapTarget + 4);
+  if ( v5 == 0 || *(_DWORD *)(g_pCubeMapTarget + 12) == 0 )
+  {
+    v4 = *self_;
+LABEL_13:
+    v12 = *(_DWORD *)(v4 + 64);
+    if ( v12 == 0 )
+      v12 = *(_DWORD *)(v4 + 68);
+    return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             a2,
+             v12);
+  }
+  orig::sub_1006A060((void **)g_pResourceMng, v5, *(_DWORD *)(g_pCubeMapTarget + 8), *(_DWORD *)(g_pCubeMapTarget + 12));
+  if ( (Fn100759C0_staticGuards & 1) == 0 )
+  {
+    Fn100759C0_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)Fn100759C0_stateBlock);
+    orig::_atexit(XI_CODE(unknown_libname_64));
+  }
+  orig::StateBlock_ApplyRSTSS(Fn100759C0_stateBlock, (int)Fn100759C0_renderStates, (int)Fn100759C0_textureStageStates);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    60,
+    a3);
+  orig::DynVB_Reserve(4);
+  v6 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
+  *v6 = 0.0;
+  v6[1] = 0.0;
+  v6[2] = 0.0;
+  v6[3] = 1.0;
+  v6[5] = 0.0;
+  v6[6] = 0.0;
+  v7 = (double)g_cubeMapTargetWidth;
+  v6[8] = 0.0;
+  v6[9] = 0.0;
+  v6[10] = 1.0;
+  v6[12] = 1.0;
+  v6[7] = v7;
+  v6[13] = 0.0;
+  v6[14] = 0.0;
+  v8 = (double)g_cubeMapTargetHeight;
+  v6[16] = 0.0;
+  v6[17] = 1.0;
+  v6[19] = 0.0;
+  v6[20] = 1.0;
+  v6[15] = v8;
+  v6[21] = (float)g_cubeMapTargetWidth;
+  v9 = (double)g_cubeMapTargetHeight;
+  v6[23] = 0.0;
+  v6[24] = 1.0;
+  v6[26] = 1.0;
+  v6[27] = 1.0;
+  v6[22] = v9;
+  orig::DynVB_Unlock();
+  v10 = *(_DWORD *)(*self_ + 64);
+  if ( v10 == 0 )
+    v10 = *(_DWORD *)(*self_ + 68);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    v10);
+  orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    27,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    15,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    14,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    7,
+    1);
+  orig::sub_1006A0E0(g_pResourceMng, 0, 0);
+  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           a2,
+           *(_DWORD *)(g_pCubeMapTarget + 4));
+}
+
+// FUNCTION: FFXIMAIN 0x10076030  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 2700 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 95, town2 PASS 95, combat PASS 94, zonetoinn PASS 95
+XI_API int __thiscall fn_10076030(int *self_, float *a2, char arg4)
+{
+  double v3;
+  alignas(16) unsigned char xi_frame[0x5D4];  // address-taken locals at their original offsets
+  int (&a3)[6] = *reinterpret_cast<int (*)[6]>(xi_frame + 0x170);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x188);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x18C);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x190);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x194);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x198);
+  float &v11 = *reinterpret_cast<float *>(xi_frame + 0x19C);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x1A0);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x1A4);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x1A8);
+  float &v15 = *reinterpret_cast<float *>(xi_frame + 0x1AC);
+  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x1B0);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x1B8);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x1BC);
+  _BYTE (&v20)[20] = *reinterpret_cast<_BYTE (*)[20]>(xi_frame + 0x1C0);
+
+  Fn10076030_static_D1DC = 0;
+  Fn10076030_static_D1C0 = 0;
+  Fn10076030_static_D1A4 = 0;
+  Fn10076030_static_D188 = 0;
+  Fn10076030_static_D1E0 = 1065353216;
+  Fn10076030_static_D1C4 = 1065353216;
+  Fn10076030_static_D1A8 = 1065353216;
+  Fn10076030_static_D18C = 1065353216;
+  Fn10076030_static_D1E4 = -2139062144;
+  Fn10076030_static_D1C8 = -2139062144;
+  Fn10076030_static_D1AC = -2139062144;
+  Fn10076030_static_D190 = -2139062144;
+  Fn10076030_static_D1B8 = *a2;
+  Fn10076030_static_D180 = Fn10076030_static_D1B8;
+  Fn10076030_static_D1D4 = a2[2] + *a2;
+  Fn10076030_static_D19C = Fn10076030_static_D1D4;
+  Fn10076030_static_D1A0 = a2[1];
+  Fn10076030_static_D184 = Fn10076030_static_D1A0;
+  v3 = a2[1] + a2[3];
+  Fn10076030_static_D1CC = 0;
+  Fn10076030_static_D194 = 0;
+  Fn10076030_static_D1E8 = 1065353216;
+  Fn10076030_static_D1B0 = 1065353216;
+  Fn10076030_static_D1B4 = 0;
+  Fn10076030_static_D198 = 0;
+  Fn10076030_static_D1D8 = v3;
+  Fn10076030_static_D1BC = v3;
+  Fn10076030_static_D1EC = 1065353216;
+  Fn10076030_static_D1D0 = 1065353216;
+  if ( arg4 != 0 )
+    orig::TexRef_SetTexture(self_, 0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    24,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    11,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    4,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    5,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    7,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    52,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    15,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    27,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    22,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    137,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    28,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    48,
+    0);
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    324);
+  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 5, 2, (int)&Fn10076030_static_D180, 28);
+  v17 = 0;
+  v12 = 0;
+  v7 = 0;
+  a3[2] = 0;
+  v18 = 1065353216;
+  v13 = 1065353216;
+  v8 = 1065353216;
+  a3[3] = 1065353216;
+  v19 = -2130771968;
+  v14 = -2130771968;
+  v9 = -2130771968;
+  a3[4] = -2130771968;
+  v15 = *a2;
+  *(float *)a3 = v15;
+  *(float *)&v10 = a2[2] + *a2;
+  a3[5] = v10;
+  v6 = *((int *)a2 + 1);
+  a3[1] = v6;
+  v16 = a2[1] + a2[3];
+  v11 = v16;
+  qmemcpy(v20, a3, sizeof(v20));
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    68);
+  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 3, 4, (int)a3, 20);
+  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           7,
+           1);
+}
+
+// FUNCTION: FFXIMAIN 0x10076520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 1000 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
+{
+  float *v5;
+  double v7;
+  double v8;
+  double v9;
+  double v10;
+  double v11;
+  double v12;
+  double v13;
+  double v14;
+  orig::DynVB_Reserve(4);
+  v5 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
+  v5[24] = 1.0;
+  v5[17] = 1.0;
+  v5[10] = 1.0;
+  v5[3] = 1.0;
+  v5[23] = 0.0;
+  v5[25] = -2.3418052e-38;
+  v5[18] = -2.3418052e-38;
+  v5[11] = -2.3418052e-38;
+  v5[4] = -2.3418052e-38;
+  v5[16] = 0.0;
+  v5[9] = 0.0;
+  v5[2] = 0.0;
+  v7 = *a2;
+  v5[14] = *a2;
+  *v5 = v7;
+  v8 = a2[2] + *a2;
+  v5[21] = v8;
+  v5[7] = v8;
+  v9 = a2[1];
+  v5[8] = a2[1];
+  v5[1] = v9;
+  v10 = a2[3] + a2[1];
+  v5[22] = v10;
+  v5[15] = v10;
+  v11 = *a3;
+  v5[19] = *a3;
+  v5[5] = v11;
+  v12 = a3[2];
+  v5[26] = a3[2];
+  v5[12] = v12;
+  v13 = a3[1];
+  v5[13] = a3[1];
+  v5[6] = v13;
+  v14 = a3[3];
+  v5[27] = a3[3];
+  v5[20] = v14;
+  orig::DynVB_Unlock();
+  if ( a4 != 0 )
+    orig::TexRef_SetTexture(self_, 0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    24,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    11,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    4,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    5,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  return orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
 }

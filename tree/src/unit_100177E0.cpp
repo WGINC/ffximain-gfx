@@ -10,7 +10,7 @@ XI_API int __thiscall fn_10017810(void *self_, int a1)
   int v4;
   int result;
   char *v6;
-  pDevice = g_pCDx->pDevice;
+  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
   v6 = (char *)self_ + 16;
   lpVtbl = pDevice->lpVtbl;
   v4 = (*(int (__stdcall **)(_DWORD))(**((_DWORD **)self_ + 2) + 12))(*((_DWORD *)self_ + 2));

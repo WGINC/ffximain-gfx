@@ -2,40 +2,38 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102394A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 38 returned normally, 12 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 38, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
-XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
+// GATE: PASS -- 100 trials, 54 returned normally, 48 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
 {
   char *result;
   int v3;
-  char *v4;
+  unsigned int v4;
   int v5;
   int v6;
   double v7;
   float v8;
   int v9;
   __int64 v10;
-  result = *(self_ + 11);
+  result = (char *)self_->field_2C;
   if ( result != nullptr )
   {
     if ( result != (char *)1 )
     {
-      v4 = *(self_ + 10) + 1;
-      *(self_ + 10) = v4;
-      if ( (unsigned int)v4 >= 4 )
+      v4 = self_->field_28 + 1;
+      self_->field_28 = v4;
+      if ( v4 >= 4 )
       {
         v8 = 1.0;
       }
       else
       {
-        v10 = (unsigned int)v4;
-        v8 = (double)(unsigned int)v4 * 0.25;
+        v10 = v4;
+        v8 = (double)v4 * 0.25;
       }
-      v5 = 2 * (_DWORD)v4;
-      if ( 2 * (int)v4 > 8 )
+      v5 = 2 * v4;
+      if ( (int)(2 * v4) > 8 )
         v5 = 8;
-      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape(g_shapeMng, aMenuKeytops3)
-                     + 4 * (((unsigned int)*(self_ + 10) >> 2) % 5)
-                     + 660);
+      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape(g_shapeMng, aMenuKeytops3) + 4 * ((self_->field_28 >> 2) % 5) + 660);
       *(float *)&v10 = orig::MenuMng_GetOffsetX((float *)g_menuMng, 1) * 0.5;
       v7 = orig::MenuMng_GetOffsetY((float *)g_menuMng, 1) * 0.5;
       return (char *)orig::Shape_DrawScaled(
@@ -58,7 +56,7 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
   }
   else
   {
-    result = *(self_ + 13);
+    result = (char *)self_->field_34;
     if ( result != nullptr )
     {
       result = (char *)*orig::CMoResource_FindByTypeAndId(*(_DWORD **)result, &v10, 49, 0);
@@ -69,21 +67,20 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
         if ( v3 != 0 )
         {
           orig::MenuMng_GetUiScale(g_menuMng, (float *)&v9, &v8);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
           orig::Shape_DrawScaled(
             v3,
             0,
             0,
             v9,
             SLODWORD(v8),
-            (unsigned int)*(self_ + 9)
-          | (((unsigned int)*(self_ + 9) | (((unsigned int)*(self_ + 9) | ((_DWORD)*(self_ + 9) << 8)) << 8)) << 8),
+            self_->field_24 | ((self_->field_24 | ((self_->field_24 | (self_->field_24 << 8)) << 8)) << 8),
             0,
             0,
             0);
-          g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-          return (char *)g_pCDx->pDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
+          return (char *)(*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
         }
       }
     }

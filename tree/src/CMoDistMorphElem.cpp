@@ -137,22 +137,22 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
   }
   orig::DynVB_Unlock();
   orig::Mem_FreeObject((int)v8);
-  if ( (byte_1047B9E4 & 1) == 0 )
+  if ( (CMoDistMorphElem_ApplyMorph_staticGuards & 1) == 0 )
   {
-    byte_1047B9E4 |= 1u;
-    orig::fn_1006AD90((exception *)dword_1047B9E8);
+    CMoDistMorphElem_ApplyMorph_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)CMoDistMorphElem_ApplyMorph_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_25));
   }
-  orig::StateBlock_ApplyTSS(dword_1047B9E8, (int)dword_10352258);
+  orig::StateBlock_ApplyTSS(CMoDistMorphElem_ApplyMorph_stateBlock, (int)CMoDistMorphElem_ApplyMorph_textureStageStates);
   (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),
     60,
     *a3);
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
-    ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-    v28 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-    g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v28 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v28);
     v28[8] = *(float *)(a2 + 288);
     v28[9] = *(float *)(a2 + 292);
@@ -163,14 +163,14 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
       2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v28);
     v29 = g_pProcessor;
-    v30 = g_pProcessor->ScratchMatrixStackTop - 1;
-    g_pProcessor->ScratchMatrixStackTop = v30;
-    v29->ScratchMatrixFreeList[v30] = v28;
+    v30 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v30;
+    ((float * *)((char *)v29 + 0xA10))[v30] = v28;
   }
   result = orig::sub_10043F40((int *)g_pDynVB_FVF152, 0, *(unsigned __int16 *)(v7 + 58), 4, 0, -1);
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
-    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, g_pProcessor->RotationMatrix);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, ((float *)((char *)g_pProcessor + 0x810)));
     return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
              *(_DWORD *)(g_pResourceMng + 3772),
              0,
@@ -374,7 +374,7 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
   float v26;
   int v27;
   v4 = a2;
-  (*((void (__thiscall **)(void *, float *, int, int, int, int, float, float))g_pProcessor->vftable + 33))(g_pProcessor, 
+  (*((void (__thiscall **)(void *, float *, int, int, int, int, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 33))(g_pProcessor, 
     &v19,
     a1,
     a2,
@@ -406,7 +406,7 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
     }
     while ( v4 != 0 );
   }
-  v8 = *(_DWORD *)&g_pCDx->_pad_10[388];
+  v8 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
   if ( v8 == 0 )
     return 0;
   orig::DynVB_Reserve(4);
@@ -454,13 +454,13 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
     *(_DWORD *)(g_pResourceMng + 3772),
     0,
     v8);
-  if ( (byte_1047BB41 & 1) == 0 )
+  if ( (CMoDistMorphElem_ValidateMorphData_staticGuards & 1) == 0 )
   {
-    byte_1047BB41 |= 1u;
-    orig::fn_1006AD90((exception *)dword_1047BB5C);
+    CMoDistMorphElem_ValidateMorphData_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)CMoDistMorphElem_ValidateMorphData_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_48));
   }
-  orig::StateBlock_ApplyRSTSS(dword_1047BB5C, (int)dword_1035322C, (int)dword_103531C0);
+  orig::StateBlock_ApplyRSTSS(CMoDistMorphElem_ValidateMorphData_stateBlock, (int)CMoDistMorphElem_ValidateMorphData_renderStates, (int)CMoDistMorphElem_ValidateMorphData_textureStageStates);
   orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
   orig::sub_1006A0E0(g_pResourceMng, 0, 0);
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
@@ -486,14 +486,13 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
 char CMoDistMorphElem::UpdateMorphBlend()
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   CMoProcessor *v2;
   int vftable;
   int v4;
-  float *v5;
+  unsigned int *v5;
   int ScratchMatrixStackTop;
   float *v7;
   double v8;
@@ -503,31 +502,34 @@ char CMoDistMorphElem::UpdateMorphBlend()
   int v12;
   int v13;
   int v15;
-  v2 = (CMoProcessor *)this->pProcessor;
+  v2 = *(CMoProcessor **)((unsigned __int8 *)((char *)this + 0x104));
   if ( v2 != nullptr )
   {
-    vftable = (int)v2->vftable;
-    v15 = (int)v2->vftable;
+    vftable = (int)(*(void * *)((char *)v2 + 0x0));
+    v15 = (int)(*(void * *)((char *)v2 + 0x0));
     if ( this->morphHandle == 0 )
-      this->morphHandle = (int)orig::CMoDistMorphElem_ComputeMorphHandle(vftable, (int)(self + 101), (int)(self + 106));
-    orig::RegisterWithProcessor((int)self);
+      this->morphHandle = (unsigned int)orig::CMoDistMorphElem_ComputeMorphHandle(
+                                        vftable,
+                                        (int)((unsigned __int8 *)((char *)this + 0x194)),
+                                        (int)&this->field_1A8);
+    orig::RegisterWithProcessor((int)this);
     v4 = *(__int16 *)(vftable + 52);
-    v5 = (float *)(self + 112);
-    LOBYTE(v2) = orig::CMoDistMorphElem_ValidateMorphData(this->morphHandle, v4, (int)(self + 40), 0);
+    v5 = &this->field_1C0;
+    LOBYTE(v2) = orig::CMoDistMorphElem_ValidateMorphData(this->morphHandle, v4, (int)&this->field_A0, 0);
     if ( (_BYTE)v2 != 0 )
     {
-      ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-      v7 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-      g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+      ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+      v7 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
       orig::MoProcessor_CallVSlot49(v7);
-      v8 = *v5;
-      v7[13] = *v5;
+      v8 = *(float *)v5;
+      v7[13] = *(float *)v5;
       v7[12] = v8;
-      v9 = g_pProcessor->ScratchMatrixStackTop;
-      v10 = g_pProcessor->ScratchMatrixFreeList[v9];
-      g_pProcessor->ScratchMatrixStackTop = v9 + 1;
+      v9 = (*(int *)((char *)g_pProcessor + 0xA90));
+      v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
       orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v10);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
         g_pProcessor,
         v7,
         v7,
@@ -535,22 +537,22 @@ char CMoDistMorphElem::UpdateMorphBlend()
       orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v7);
       orig::CMoDistMorphElem_ApplyMorph(
         v15,
-        (int)self,
+        (int)this,
         &g_scratchValue,
-        (int)(self + 101),
-        (int)(self + 106),
+        (int)((unsigned __int8 *)((char *)this + 0x194)),
+        (int)&this->field_1A8,
         (_DWORD *)this->morphHandle,
         1);
       this->morphHandle = 0;
-      qmemcpy(self + 106, self + 101, 0x14u);
+      qmemcpy(&this->field_1A8, ((unsigned __int8 *)((char *)this + 0x194)), 0x14u);
       v11 = g_pProcessor;
-      v12 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v12;
-      v11->ScratchMatrixFreeList[v12] = v10;
+      v12 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v12;
+      ((float * *)((char *)v11 + 0xA10))[v12] = v10;
       v2 = g_pProcessor;
-      v13 = g_pProcessor->ScratchMatrixStackTop - 1;
-      g_pProcessor->ScratchMatrixStackTop = v13;
-      v2->ScratchMatrixFreeList[v13] = v7;
+      v13 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v13;
+      ((float * *)((char *)v2 + 0xA10))[v13] = v7;
     }
   }
   return (char)v2;
@@ -575,9 +577,8 @@ int CMoDistMorphElem::set_field_1C0(int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDistMorphElem::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CXi471011C8_VT_1032AC90_Dtor(self);
+  orig::CXi471011C8_VT_1032AC90_Dtor((int *)this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return (int *)this;
 }

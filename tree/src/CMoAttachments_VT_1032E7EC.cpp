@@ -6,6 +6,5 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoAttachments_VT_1032E7EC::vf001(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  return orig::CMoTask_VT_1032E808_ScalarDeletingDtor(self - 13, a2);
+  return orig::CMoTask_VT_1032E808_ScalarDeletingDtor((_DWORD *)this - 13, a2);
 }

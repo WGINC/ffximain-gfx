@@ -1,28 +1,226 @@
 {
- "0x100426F0": {
-  "evidence": "slot 18 of vtable 0x1032B298 (CMoDist), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
-  "name": "CMoDist_vf18",
-  "slot": 18,
-  "vtable": "0x1032B298"
- },
- "0x100548D0": {
-  "evidence": "slot 11 of vtable 0x1032B538 (CMoLfdElem), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
-  "name": "CMoLfdElem_vf11",
-  "slot": 11,
-  "vtable": "0x1032B538"
- },
- "0x100A4ED0": {
-  "evidence": "slot 8 of vtable 0x1032DB40 (CXiCollisionActor), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
-  "name": "CXiCollisionActor_vf8",
+ "0x1003D220": {
+  "evidence": "slot 8 of vtable 0x1032AB60 (CMoCameraTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoCameraTask_vf8",
   "slot": 8,
-  "vtable": "0x1032DB40"
+  "vtable": "0x1032AB60"
+ },
+ "0x1003EB30": {
+  "evidence": "slot 18 of vtable 0x1032B238 (CMoD3aElem), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoD3aElem_vf18",
+  "slot": 18,
+  "vtable": "0x1032B238"
+ },
+ "0x1003F130": {
+  "evidence": "slot 18 of vtable 0x1032AC10 (CMoVuAnmElem), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoVuAnmElem_vf18",
+  "slot": 18,
+  "vtable": "0x1032AC10"
+ },
+ "0x100412B0": {
+  "evidence": "slot 18 of vtable 0x1032AD20 (CMoD3mSpecularElem), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoD3mSpecularElem_vf18",
+  "slot": 18,
+  "vtable": "0x1032AD20"
+ },
+ "0x10041AF0": {
+  "evidence": "slot 18 of vtable 0x1032ADE8 (CMoElem_VT_1032ADE8), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoElem_VT_1032ADE8_vf18",
+  "slot": 18,
+  "vtable": "0x1032ADE8"
+ },
+ "0x10042020": {
+  "evidence": "slot 8 of vtable 0x1032AE64 (CMoOtTask_VT_1032AE64), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoOtTask_VT_1032AE64_vf8",
+  "slot": 8,
+  "vtable": "0x1032AE64"
+ },
+ "0x100421A0": {
+  "evidence": "slot 11 of vtable 0x1032AE64 (CMoOtTask_VT_1032AE64), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoOtTask_VT_1032AE64_vf11",
+  "slot": 11,
+  "vtable": "0x1032AE64"
+ },
+ "0x10043B00": {
+  "evidence": "slot 8 of vtable 0x1032AF60 (CMoTask_VT_1032AF60), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032AF60_vf8",
+  "slot": 8,
+  "vtable": "0x1032AF60"
+ },
+ "0x10043D00": {
+  "evidence": "slot 8 of vtable 0x1032AFA8 (CMoTask_VT_1032AFA8), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032AFA8_vf8",
+  "slot": 8,
+  "vtable": "0x1032AFA8"
+ },
+ "0x10057E10": {
+  "evidence": "slot 8 of vtable 0x1032B860 (CMoSchedularTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoSchedularTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032B860"
+ },
+ "0x1005E9C0": {
+  "evidence": "slot 8 of vtable 0x1032B9A4 (CMoPathDriveActorTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoPathDriveActorTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032B9A4"
+ },
+ "0x1005F3C0": {
+  "evidence": "slot 8 of vtable 0x1032B9EC (CMoLockColorDriveTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoLockColorDriveTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032B9EC"
+ },
+ "0x1005F540": {
+  "evidence": "slot 8 of vtable 0x1032BA34 (CMoLockLookAtDriveTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoLockLookAtDriveTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032BA34"
+ },
+ "0x1005F820": {
+  "evidence": "slot 8 of vtable 0x1032BA7C (CMoActorColorDriveTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoActorColorDriveTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032BA7C"
+ },
+ "0x1005FB30": {
+  "evidence": "slot 8 of vtable 0x1032BAC4 (CMoActorRotationDriveTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoActorRotationDriveTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032BAC4"
+ },
+ "0x100600F0": {
+  "evidence": "slot 8 of vtable 0x1032B95C (CMoTask_VT_1032B95C), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032B95C_vf8",
+  "slot": 8,
+  "vtable": "0x1032B95C"
+ },
+ "0x100602A0": {
+  "evidence": "slot 8 of vtable 0x1032BB0C (CMoTask_VT_1032BB0C), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BB0C_vf8",
+  "slot": 8,
+  "vtable": "0x1032BB0C"
+ },
+ "0x10060330": {
+  "evidence": "slot 8 of vtable 0x1032B8E8 (CMoTask_VT_1032B8E8), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032B8E8_vf8",
+  "slot": 8,
+  "vtable": "0x1032B8E8"
+ },
+ "0x100604B0": {
+  "evidence": "slot 8 of vtable 0x1032B890 (CMoTask_VT_1032B890), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032B890_vf8",
+  "slot": 8,
+  "vtable": "0x1032B890"
+ },
+ "0x100605E0": {
+  "evidence": "slot 8 of vtable 0x1032B8BC (CMoTask_VT_1032B8BC), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032B8BC_vf8",
+  "slot": 8,
+  "vtable": "0x1032B8BC"
+ },
+ "0x10060880": {
+  "evidence": "slot 8 of vtable 0x1032BB54 (CMoTask_VT_1032BB54), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BB54_vf8",
+  "slot": 8,
+  "vtable": "0x1032BB54"
+ },
+ "0x100609F0": {
+  "evidence": "slot 8 of vtable 0x1032BB80 (CMoTask_VT_1032BB80), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BB80_vf8",
+  "slot": 8,
+  "vtable": "0x1032BB80"
+ },
+ "0x10060E30": {
+  "evidence": "slot 8 of vtable 0x1032BC10 (CMoTask_VT_1032BC10), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BC10_vf8",
+  "slot": 8,
+  "vtable": "0x1032BC10"
+ },
+ "0x10060FD0": {
+  "evidence": "slot 8 of vtable 0x1032BC3C (CMoTask_VT_1032BC3C), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BC3C_vf8",
+  "slot": 8,
+  "vtable": "0x1032BC3C"
+ },
+ "0x100619D0": {
+  "evidence": "slot 8 of vtable 0x1032BE08 (CMoTask_VT_1032BE08), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BE08_vf8",
+  "slot": 8,
+  "vtable": "0x1032BE08"
+ },
+ "0x10061B50": {
+  "evidence": "slot 8 of vtable 0x1032BE50 (CMoTask_VT_1032BE50), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BE50_vf8",
+  "slot": 8,
+  "vtable": "0x1032BE50"
+ },
+ "0x10061CD0": {
+  "evidence": "slot 8 of vtable 0x1032BE98 (CMoTask_VT_1032BE98), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BE98_vf8",
+  "slot": 8,
+  "vtable": "0x1032BE98"
+ },
+ "0x10061E70": {
+  "evidence": "slot 8 of vtable 0x1032BEE0 (CMoTask_VT_1032BEE0), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BEE0_vf8",
+  "slot": 8,
+  "vtable": "0x1032BEE0"
+ },
+ "0x10062060": {
+  "evidence": "slot 8 of vtable 0x1032BF28 (CMoTask_VT_1032BF28), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BF28_vf8",
+  "slot": 8,
+  "vtable": "0x1032BF28"
+ },
+ "0x100621E0": {
+  "evidence": "slot 8 of vtable 0x1032BF70 (CMoTask_VT_1032BF70), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BF70_vf8",
+  "slot": 8,
+  "vtable": "0x1032BF70"
+ },
+ "0x10062380": {
+  "evidence": "slot 8 of vtable 0x1032BFB8 (CMoTask_VT_1032BFB8), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032BFB8_vf8",
+  "slot": 8,
+  "vtable": "0x1032BFB8"
+ },
+ "0x10062520": {
+  "evidence": "slot 8 of vtable 0x1032C000 (CMoTask_VT_1032C000), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032C000_vf8",
+  "slot": 8,
+  "vtable": "0x1032C000"
+ },
+ "0x100626D0": {
+  "evidence": "slot 8 of vtable 0x1032C048 (CMoTask_VT_1032C048), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_1032C048_vf8",
+  "slot": 8,
+  "vtable": "0x1032C048"
+ },
+ "0x1006B480": {
+  "evidence": "slot 8 of vtable 0x10329C70 (CMoTask_VT_10329C70), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_10329C70_vf8",
+  "slot": 8,
+  "vtable": "0x10329C70"
+ },
+ "0x1006B4C0": {
+  "evidence": "slot 1 of vtable 0x10329C70 (CMoTask_VT_10329C70), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "CMoTask_VT_10329C70_vf1",
+  "slot": 1,
+  "vtable": "0x10329C70"
+ },
+ "0x10084F40": {
+  "evidence": "slot 8 of vtable 0x1032D400 (XiActorTimerTask), the only vtable and slot holding it; nothing refers inside the vtable before that slot",
+  "name": "XiActorTimerTask_vf8",
+  "slot": 8,
+  "vtable": "0x1032D400"
  },
  "_stats": {
-  "in no vtable": 589,
-  "in several vtables": 2,
+  "in no vtable": 824,
+  "in several vtables": 5,
   "its vtable is referred to between its start and the slot": 1,
   "named (string in the binary)": 0,
-  "named (vtable slot)": 3,
-  "sub_ functions": 595
+  "named (vtable slot)": 36,
+  "sub_ functions": 866
  }
 }

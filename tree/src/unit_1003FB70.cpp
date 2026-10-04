@@ -11,9 +11,9 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
   int v5;
   if ( (*((_BYTE *)self_ + 379) & 3) != 0 )
   {
-    ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
-    v3 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
-    g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v3);
     v3[8] = *((float *)self_ + 72);
     v3[9] = *((float *)self_ + 73);
@@ -29,9 +29,9 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
       2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v3);
     v4 = g_pProcessor;
-    v5 = g_pProcessor->ScratchMatrixStackTop - 1;
-    g_pProcessor->ScratchMatrixStackTop = v5;
-    v4->ScratchMatrixFreeList[v5] = v3;
+    v5 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v5;
+    ((float * *)((char *)v4 + 0xA10))[v5] = v3;
   }
   else
   {
@@ -45,15 +45,15 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
       0,
       24,
       0);
-    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, g_pProcessor->RotationMatrix);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, ((float *)((char *)g_pProcessor + 0x810)));
   }
-  if ( (byte_1047BAA4 & 1) == 0 )
+  if ( (CMoElemFamily_SharedEarlyExit_staticGuards & 1) == 0 )
   {
-    byte_1047BAA4 |= 1u;
-    orig::fn_1006AD90((exception *)dword_1047BA1C);
+    CMoElemFamily_SharedEarlyExit_staticGuards |= 1u;
+    orig::fn_1006AD90((exception *)CMoElemFamily_SharedEarlyExit_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_38));
   }
-  orig::StateBlock_ApplyTSS(dword_1047BA1C, (int)dword_103528CC);
+  orig::StateBlock_ApplyTSS(CMoElemFamily_SharedEarlyExit_stateBlock, (int)CMoElemFamily_SharedEarlyExit_textureStageStates);
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),
     60,
@@ -80,7 +80,7 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
   }
   if ( (*((_BYTE *)self_ + 379) & 3) != 0 )
   {
-    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, g_pProcessor->RotationMatrix);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, ((float *)((char *)g_pProcessor + 0x810)));
     (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
       *(_DWORD *)(g_pResourceMng + 3772),
       0,

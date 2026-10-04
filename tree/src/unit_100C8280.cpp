@@ -416,9 +416,9 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
     v43 = (int)(((uint32_t)(v43) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v43 & 0xFB) << 0));
   }
   *((_DWORD *)self_ + 528) = v43;
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGCOLOR, v85);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGSTART, v86);
-  g_pCDx->pDevice->SetRenderState(D3DRS_FOGEND, v87);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, v85);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGSTART, v86);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, v87);
   result = *orig::sub_10039410((_DWORD *)self_ + 452, &v84);
   if ( result != 0 )
   {

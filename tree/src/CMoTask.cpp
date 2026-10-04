@@ -125,11 +125,10 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant12()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoTask::ScalarDeletingDtor(char a2)
 {
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CMoTask_Destructor(self);
+  orig::CMoTask_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)self);
-  return self;
+    orig::SharedDeleteHelper((int)this);
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10081710  (placed by IDB name; static (takes no this))

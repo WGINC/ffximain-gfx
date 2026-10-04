@@ -103,6 +103,26 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:gfx_device_users.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:reloc_literals.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ui_functions.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:idb_members.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:reg_leftover_audit.json": {
   "ok": true,
   "differing": [],
@@ -110,7 +130,7 @@
  },
  "agreement": {
   "ok": true,
-  "calls_with_two_or_more_sources": 364,
+  "calls_with_two_or_more_sources": 369,
   "conflicts": {}
  },
  "rule-tests": {
@@ -122,9 +142,41 @@
   "result": "self-test: 0 of 1 misses reach the output (the rest are in functions normal use rejects)"
  },
  "export-sp": {
-  "ok": true,
-  "ida_wrong": [],
-  "unexplained": []
+  "ok": false,
+  "ida_wrong": [
+   "0x100412B0",
+   "0x1006AF00",
+   "0x1006AF90"
+  ],
+  "unexplained": [
+   [
+    {
+     "at": "0x100419F4",
+     "depth": 28,
+     "ida": 32
+    },
+    {
+     "at": "0x100419F5",
+     "depth": 24,
+     "ida": 28
+    },
+    {
+     "at": "0x100419F6",
+     "depth": 20,
+     "ida": 24
+    },
+    {
+     "at": "0x100419F7",
+     "depth": 16,
+     "ida": 20
+    },
+    {
+     "at": "0x100419FA",
+     "depth": 0,
+     "ida": 4
+    }
+   ]
+  ]
  },
  "hx_patches": {
   "ok": true,
@@ -145,7 +197,7 @@
  "accepted:device_via_CDx_this": {
   "ok": null,
   "status": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-0...",
-  "com_calls": 151,
+  "com_calls": 153,
   "balances": [
    "0x1000955A",
    "0x100095CF",
@@ -154,15 +206,15 @@
  },
  "tree-source": {
   "ok": true,
-  "export_commit": "0f32b95",
-  "sha1": "6178e8203c1d28399c676a4b2965ca57f81553ff",
-  "same_as_committed_export": false
+  "export_commit": "b516a74",
+  "sha1": "0508a1d4ee966b84eab2852dadb990cb07e0f126",
+  "same_as_committed_export": true
  },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 189 files; failed: none"
+   "built build/gfx_recon.dll from 202 files; failed: none"
   ]
  },
  "tree-gate": {

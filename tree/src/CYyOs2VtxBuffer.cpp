@@ -6,21 +6,20 @@
 // GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  int v3;
+  unsigned int v3;
   _DWORD *v4;
   unsigned int v5;
   char result;
   int v7;
-  int v8;
+  unsigned int v8;
   v3 = this->indexCount;
   if ( v3 == 0 )
     return 1;
   switch ( this->createStep )
   {
-    case 0:
+    case 0u:
       v4 = orig::Mem_AllocObject(2 * v3, 4);
-      this->pIndices = (int)v4;
+      this->pIndices = (unsigned int)v4;
       if ( v4 == nullptr )
         goto LABEL_14;
       v5 = 0;
@@ -35,23 +34,30 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
       ++this->createStep;
       result = 0;
       break;
-    case 1:
-      v7 = g_pCDx->pDevice->lpVtbl->CreateIndexBuffer(
-             g_pCDx->pDevice,
+    case 1u:
+      v7 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateIndexBuffer(
+             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
              2 * v3,
              8u,
              D3DFMT_INDEX16,
              D3DPOOL_DEFAULT,
-             (IDirect3DIndexBuffer8 **)(self + 16));
+             (IDirect3DIndexBuffer8 **)&this->field_40);
       goto LABEL_11;
-    case 2:
+    case 2u:
       this->createStep = 3;
       return 0;
-    case 3:
+    case 3u:
       this->createStep = 4;
       return 0;
-    case 4:
-      v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 8 * v3 + 4, 0x208u, 0, D3DPOOL_DEFAULT, self + 19, 0);
+    case 4u:
+      v7 = orig::CYyVbMng_AcquireVertexBuffer(
+             (_DWORD *)g_pVbMng,
+             8 * v3 + 4,
+             0x208u,
+             0,
+             D3DPOOL_DEFAULT,
+             (int *)&this->field_4C,
+             0);
 LABEL_11:
       if ( v7 < 0 )
       {
@@ -61,22 +67,22 @@ LABEL_14:
           orig::Mem_FreeObject(this->pIndices);
           this->pIndices = 0;
         }
-        v8 = at<int32_t>(this, 0x40);
-        at<int32_t>(this, 0x60) = 0;
+        v8 = this->field_40;
+        this->field_60 = 0;
         if ( v8 != 0 )
         {
-          (*(void (__stdcall **)(int))(*(_DWORD *)v8 + 8))(v8);
-          at<int32_t>(this, 0x40) = 0;
+          (*(void (__stdcall **)(unsigned int))(*(_DWORD *)v8 + 8))(v8);
+          this->field_40 = 0;
         }
-        if ( at<int32_t>(this, 0x4C) != 0 )
+        if ( this->field_4C != 0 )
         {
-          orig::CYyVbMng_ReleaseVertexBuffer(self + 19);
-          at<int32_t>(this, 0x4C) = 0;
+          orig::CYyVbMng_ReleaseVertexBuffer(&this->field_4C);
+          this->field_4C = 0;
         }
-        at<int32_t>(this, 0x44) = 0;
-        at<int32_t>(this, 0x48) = 0;
-        at<int32_t>(this, 0x50) = 0;
-        at<int32_t>(this, 0x54) = 0;
+        this->field_44 = 0;
+        this->field_48 = 0;
+        this->field_50 = 0;
+        this->field_54 = 0;
         result = 0;
       }
       else
@@ -86,11 +92,11 @@ LABEL_12:
         result = 0;
       }
       break;
-    case 5:
+    case 5u:
       this->createStep = 6;
       result = 0;
       break;
-    case 6:
+    case 6u:
       this->createStep = 7;
       result = 0;
       break;
@@ -115,7 +121,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
   else
     v3 = nullptr;
   orig::sub_10071F50(v3);
-  at<uint32_t>(this, 0x5C) = 0;
+  this->pIndices = 0;
   this->field_60 = 0;
   this->field_40 = 0;
   this->field_44 = 0;
@@ -123,8 +129,8 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
   this->field_4C = 0;
   this->field_50 = 0;
   this->field_54 = 0;
-  at<uint32_t>(this, 0x58) = 0;
-  g_pCDx->pDevice->CreateVertexShader(&g_vsDecl_1628, nullptr, (void *)(self + 100), 0);
+  this->indexCount = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_vsDecl_1628, nullptr, (void *)(self + 100), 0);
   this->field_68 = 0;
   this->field_69 = 0;
   this->field_6A = 0;
@@ -136,33 +142,32 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 100 returned normally, 153 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 98 returned normally, 147 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
-  int v2;
-  int v3;
+  unsigned int v2;
+  unsigned int v3;
   unsigned int v4;
-  int v5;
-  int v6;
+  unsigned int v5;
+  unsigned int v6;
   int i;
-  v2 = at<uint32_t>(this, 0x5C);
-  at<uint32_t>(this, 0x0) = &CYyOs2VtxBuffer_vtbl;
+  v2 = this->pIndices;
+  (*(CMoTask_vtbl * *)((char *)this + 0x0)) = (CMoTask_vtbl *)&CYyOs2VtxBuffer_vtbl;
   if ( v2 != 0 )
   {
     orig::Mem_FreeObject(v2);
-    at<uint32_t>(this, 0x5C) = 0;
+    this->pIndices = 0;
   }
   v3 = this->field_40;
   this->field_60 = 0;
   if ( v3 != 0 )
   {
-    (*(void (__stdcall **)(int))(*(_DWORD *)v3 + 8))(v3);
+    (*(void (__stdcall **)(unsigned int))(*(_DWORD *)v3 + 8))(v3);
     this->field_40 = 0;
   }
   if ( this->field_4C != 0 )
   {
-    orig::CYyVbMng_ReleaseVertexBuffer((_DWORD *)(self + 76));
+    orig::CYyVbMng_ReleaseVertexBuffer(&this->field_4C);
     this->field_4C = 0;
   }
   v4 = this->field_64;
@@ -170,10 +175,10 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   this->field_48 = 0;
   this->field_50 = 0;
   this->field_54 = 0;
-  at<uint32_t>(this, 0x58) = 0;
+  this->indexCount = 0;
   if ( v4 != 0 )
   {
-    g_pCDx->pDevice->DeleteVertexShader(v4);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v4);
     this->field_64 = 0;
   }
   v5 = this->field_6A;
@@ -194,7 +199,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   this->field_76 = 0;
   for ( i = 0; i < 16; ++i )
   {
-    if ( g_os2VtxBufferSlots[i] == self )
+    if ( (CYyOs2VtxBuffer *)g_os2VtxBufferSlots[i] == this )
       break;
   }
   if ( i != 16 )
@@ -204,5 +209,5 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
     orig::Mem_FreeObject(this->field_7A);
     this->field_7A = 0;
   }
-  return orig::CMoTask_Destructor((_DWORD *)self);
+  return orig::CMoTask_Destructor(this);
 }

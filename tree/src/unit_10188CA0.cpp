@@ -59,7 +59,7 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
       }
       if ( g_windowMode != 0 && v20 < 0x1.99999a0000000p-1 && v21 < 0x1.99999a0000000p-1 && v6 < 0x1.99999a0000000p-1 )
       {
-        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v23, &v24, v25);
+        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), &v23, &v24, v25);
         v20 = v23 * v20;
         v21 = v24 * v21;
         v6 = v25[0] * v22;
@@ -138,7 +138,7 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
       v17 = AmbientColorPtr[1];
       if ( g_windowMode != 0 && v16 < 0x1.99999a0000000p-1 && v17 < 0x1.99999a0000000p-1 && v4 < 0x1.99999a0000000p-1 )
       {
-        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)&g_pCDx->_pad_10[484], &v19, &v20, v21);
+        orig::GammaRamp_GetChannelSamples((unsigned __int16 *)((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), &v19, &v20, v21);
         v16 = v19 * v16;
         v17 = v20 * v17;
         v4 = v21[0] * v18;

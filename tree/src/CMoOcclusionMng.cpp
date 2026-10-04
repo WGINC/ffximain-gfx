@@ -13,11 +13,10 @@ char ** __cdecl CMoOcclusionMng::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoOcclusionMng::ScalarDeletingDtor(char a2)
 {
-  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
-  orig::CMoOcclusionMng_Destructor(self);
+  orig::CMoOcclusionMng_Destructor(this);
   if ( (a2 & 1) != 0 )
-    orig::thunk_sub_10028AA0((int)self);
-  return self;
+    orig::thunk_sub_10028AA0((int)this);
+  return (int *)this;
 }
 
 // FUNCTION: FFXIMAIN 0x1006C220  (placed by callers pass the object in dword_1047C004 as this (1 of 1 call sites); 0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable))
@@ -28,7 +27,7 @@ _DWORD * CMoOcclusionMng::OcclusionMng_CreateTarget()
   int v3;
   int a4;
   a4 = 0;
-  result = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x10u, 0x10u, &a4, 1, 0);
+  result = orig::CDx_CreateTexture(g_pCDx, 0x10u, 0x10u, &a4, 1, 0);
   v3 = a4;
   this->field_C = result;
   this->field_10 = v3;

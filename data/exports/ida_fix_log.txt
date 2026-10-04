@@ -1,11 +1,27 @@
 ffxi_ida_fix: IDA 9.4, IDB C:\Users\wadeglover\Documents\FFXiMain_recon.i64
-names: 0 applied, 1 skipped
+names: 3 applied, 1 skipped
   skipped 0x10285890: IDB has 'sqPrint', wanted 'sqDebugPrintf'
 prototypes: 18 applied
 viewport global 0x104E1B70 typed D3DVIEWPORT8: True
 viewport global 0x10621904 typed D3DVIEWPORT8: True
 conventions: 0 of 0 retyped __thiscall
-classes: 0 structs created, 325 methods given a typed this (of 119 classes, 522 methods)
-SP: 3841 calls checked, 3841 already right, 0 unreadable (IDA has no SP there); 0 functions corrected
-export: 768 functions written to C:\Users\wadeglover\Documents\gfx_export.jsonl (8 marked skip)
-export: calls typed in the IDB 6901, cast by Hex-Rays 776; comparisons 889 integer, 557 float (0 could not be printed)
+classes: 0 structs created, 314 methods given a typed this (of 119 classes, 522 methods)
+SP 0x1006B3B0 sub_1006B3B0: 8 calls corrected
+SP: 3968 calls checked, 3960 already right, 0 unreadable (IDA has no SP there); 1 functions corrected
+call type 0x10044BC1 in sub_10044AE0: None args -> 2 (forced via set_op_tinfo(ptr))
+call type 0x1004132C in sub_100412B0: 4 args -> 3 (forced via set_op_tinfo(ptr))
+call type 0x100414C4 in sub_100412B0: 5 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x100414D5 in sub_100412B0: 5 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x100414EF in sub_100412B0: 2 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x1004167F in sub_100412B0: 5 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x10041690 in sub_100412B0: 5 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x100416AA in sub_100412B0: 3 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x100418F1 in sub_100412B0: 3 args -> 4 (forced via set_op_tinfo(ptr))
+call type 0x10054DB8 in sub_10054D70: 8 args -> 7 (forced via set_op_tinfo(ptr))
+call type 0x1006AF1C in sub_1006AF00: 3 args -> 1 (forced via set_op_tinfo(ptr))
+call type 0x1006AFAC in StateBlock_ApplyTSS: 3 args -> 1 (forced via set_op_tinfo(ptr))
+call type 0x100759F1 in sub_100759C0: None args -> None (not taken)
+call type 0x10075D24 in sub_10075C40: 2 args -> 3 (forced via set_op_tinfo(ptr))
+export: 867 functions written to C:\Users\wadeglover\Documents\gfx_export.jsonl (14 marked skip)
+export: calls typed in the IDB 8344, cast by Hex-Rays 1142; comparisons 974 integer, 829 float (0 could not be printed)
+types: 206 declarations written to C:\Users\wadeglover\Documents\gfx_types_game.h (35 D3D8 declarations left to xi_d3d8.hpp)

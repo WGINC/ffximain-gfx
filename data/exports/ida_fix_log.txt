@@ -5,7 +5,7 @@ prototypes: 18 applied
 viewport global 0x104E1B70 typed D3DVIEWPORT8: True
 viewport global 0x10621904 typed D3DVIEWPORT8: True
 conventions: 0 of 0 retyped __thiscall
-SP 0x1000A6E0 CDx_CreateTexture: 1 calls corrected
-SP: 3844 calls checked, 3843 already right, 0 unreadable (IDA has no SP there); 1 functions corrected
+classes: 0 structs created, 325 methods given a typed this (of 119 classes, 522 methods)
+SP: 3841 calls checked, 3841 already right, 0 unreadable (IDA has no SP there); 0 functions corrected
 export: 768 functions written to C:\Users\wadeglover\Documents\gfx_export.jsonl (8 marked skip)
-export: calls typed in the IDB 6649, cast by Hex-Rays 777; comparisons 889 integer, 556 float (0 could not be printed)
+export: calls typed in the IDB 6901, cast by Hex-Rays 776; comparisons 889 integer, 557 float (0 could not be printed)

@@ -3956,9 +3956,9 @@
 },
 "0x1002529D": {
 "func": "0x10025260",
-"hexrays_cast": 4,
 "sources": {
-"solved": 4
+"solved": 4,
+"typed": 4
 }
 },
 "0x100252B4": {

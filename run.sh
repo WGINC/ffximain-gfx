@@ -17,6 +17,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
 EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
+# the verdicts the tree is built from: the fuzz gate, or GATE_IN=FILE (combine_gates.py: fuzz and live gates)
+GIN=$(realpath -m "${GATE_IN:-$W/gate_raw.jsonl}"); CLN="$W/gate_clean.jsonl"; [ -n "${GATE_IN:-}" ] && CLN="$W/gate_clean_combined.jsonl"
 # every stage after translate must read the export the raw translation came from (runs/RUN/raw/export.sha1)
 same_export() {
   [ -f "$W/raw/export.sha1" ] || return 0
@@ -48,12 +50,25 @@ case "$1" in
   cases|all)     same_export; python3 "$P/gfx_cases.py" "$EXP" "$W/raw/meta.json" "$ROOT/data/protos_fixed.json" "$W/cases_all.json"
                  python3 -c "import json,os;c=[x for x in json.load(open('$W/cases_all.json')) if os.path.exists('$W/raw/obj/fn_%s.o'%x['original'][2:])];json.dump(c,open('$W/cases.json','w'));print(len(c),'gateable')" ;;&
   gate|all)      gate2 "$W/raw/gfx_raw.dll" "$W/cases.json" "$W/gate_raw" ;;&
-  clean|all)     same_export; "$P/regen_clean.sh" "$EXP" "$W/gate_raw.jsonl" "$W/tree" | tee "$W/tree.log"
+  clean|all)     same_export; "$P/regen_clean.sh" "$EXP" "$GIN" "$W/tree" | tee "$W/tree.log"
                  grep -q 'failed: none$' "$W/tree.log" || { echo "run.sh: the clean tree does not build (runs/$RUN/tree/build/err)" >&2; exit 1; } ;;&
   cleangate|all) python3 "$P/map_clean_cases.py" "$W/tree/build/gfx_recon.dll" "$W/tree/placement.json" "$W/cases.json" "$W/cases_clean_all.json" | tail -1
-                 python3 -c "import json;g={json.loads(l)['original'] for l in open('$W/gate_raw.jsonl') if json.loads(l)['verdict']=='PASS'};c=[x for x in json.load(open('$W/cases_clean_all.json')) if x['original'] in g];json.dump(c,open('$W/cases_clean.json','w'))"
+                 python3 -c "import json;g={json.loads(l)['original'] for l in open('$GIN') if json.loads(l)['verdict']=='PASS'};c=[x for x in json.load(open('$W/cases_clean_all.json')) if x['original'] in g];json.dump(c,open('$W/cases_clean.json','w'))"
                  gate2 "$W/tree/build/gfx_recon.dll" "$W/cases_clean.json" "$W/gate_clean"
                  python3 "$P/annotate_gate.py" "$W/tree" "$W/gate_clean.jsonl" ;;&
-  residue|all)   same_export; (cd "$W" && python3 "$P/gen_residue.py" "$EXP" "$W/raw/meta.json" "$W/gate_raw.jsonl" "$ROOT/verification/localize_fail.json" "$W/no_byte_returns.json" "$W/gate_clean.jsonl" "$W/RESIDUE.md") ;;
+  rawlive|cleanlive)
+                 # LIVE="name=live.json ..." (live_state.py, one per verified dump): the raw translation (rawlive) or
+                 # the clean tree as built (cleanlive) gated on each dump's real state, then combined with the fuzz
+                 # gate (combine_gates.py: a FAIL anywhere is a FAIL) into gate_combined / gate_clean_combined
+                 same_export; K=${1%live}; D=raw/gfx_raw.dll; CS=cases.json; B=gate_raw
+                 [ "$K" = clean ] && { D=tree/build/gfx_recon.dll; CS=cases_clean.json; B=gate_clean; }
+                 L=()
+                 for x in ${LIVE:?set LIVE=\"name=live.json ...\"}; do
+                   rm -f "$W/${B}_live_${x%%=*}.jsonl"
+                   FFXI_LIVE="${x#*=}" gate2 "$W/$D" "$W/$CS" "$W/${B}_live_${x%%=*}"; L+=("${x%%=*}=$W/${B}_live_${x%%=*}.jsonl")
+                 done
+                 python3 "$P/combine_gates.py" "$W/$B.jsonl" "$W/${B%_raw}_combined.jsonl" "${L[@]}"
+                 [ "$K" = clean ] && python3 "$P/annotate_gate.py" "$W/tree" "$W/gate_clean_combined.jsonl" ;;
+  residue|all)   same_export; (cd "$W" && python3 "$P/gen_residue.py" "$EXP" "$W/raw/meta.json" "$GIN" "$ROOT/verification/localize_fail.json" "$W/no_byte_returns.json" "$CLN" "$W/RESIDUE.md") ;;
   *) ;;
 esac

@@ -1,0 +1,23 @@
+{
+ "why": "Six float comparisons branch with `fcomp`/`fcompp; fnstsw ax; test ah, 5; jp` (0x100CFE52, 0x100CFE80, 0x100CFEB0, 0x100CFEC3, 0x100CFEDB, 0x100CFEF0). After FCOM, C0 (AH bit 0x01) is set for less, C3 for equal, and C0, C2 and C3 for unordered; `test ah, 5` keeps C0|C2, and PF is set for 0 (greater, equal) and for 5 (unordered), clear for 1 (less), so the jump is taken exactly when !(ST0 < src): including NaN. Hex-Rays wrote each as `ST0 >= src`, which is false for NaN, so with a NaN operand the reconstruction took the other branch. Each is written !(ST0 < src), with the operands in the original's order.",
+ "evidence": "Live gate on all four same-build dumps (runs/r5/liveall_*): FAIL in 1 of 100 trials, memory differs at a3: original stores 0xFFFBFFB9 at 0x100CFECF, reconstruction 0x7FFC01B9 (line `*(float *)(a3 + 4) = v37;`), a NaN in the input taking the other branch. Disassembly 0x100CFE48..0x100CFEFC; Intel SDM FCOM condition codes.",
+ "text_sha1": "705b5856a72513dd8879d36024d1214528d5b705",
+ "replace": [
+  [
+   "      if ( *(float *)a2 >= -99999.0 )\n",
+   "      if ( !(*(float *)a2 < -99999.0) )\n"
+  ],
+  [
+   "      if ( *(float *)(a2 + 4) >= -99999.0 )\n",
+   "      if ( !(*(float *)(a2 + 4) < -99999.0) )\n"
+  ],
+  [
+   "      if ( *(float *)a3 >= -99999.0 )\n      {\n        if ( *(v21 - 1) >= (double)*(float *)a3 )\n",
+   "      if ( !(*(float *)a3 < -99999.0) )\n      {\n        if ( !(*(v21 - 1) < (double)*(float *)a3) )\n"
+  ],
+  [
+   "      if ( *(float *)a3 >= -99999.0 )\n      {\n        if ( *v21 >= (double)*(float *)(a3 + 4) )\n",
+   "      if ( !(*(float *)a3 < -99999.0) )\n      {\n        if ( !(*v21 < (double)*(float *)(a3 + 4)) )\n"
+  ]
+ ]
+}

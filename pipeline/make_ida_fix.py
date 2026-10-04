@@ -33,6 +33,13 @@ for ck, v in json.load(open(os.path.join(D, 'vcalls.json'))).items():
         raise SystemExit('vtable-proven and other source disagree at %s: %s vs %s' % (ck, r['calls'][ck], v['pops']))
     r['calls'][ck] = v['pops']; r['why'].setdefault(ck, 'every possible callee (by vtable) pops it')
 data['sp_calls'] = sp_calls
+# an SP point an earlier run set wrongly is removed only where no exact value is known now (fix_sp sets those)
+known = {ck for r in sp_calls.values() for ck in r['calls']}
+data['revert'] = [c for c in data['revert'] if c not in known]
+# D3D8 method calls on a proven object (com_calls.py): the call type is the method's own, from the D3D8 header
+data['com_types'] = {k: {'func': v['func'], 'targets': [], 'pops': v['pops'],
+                         'decl': 'int __stdcall f(%s);' % ', '.join(['void *self'] + ['int a%d' % i for i in range(v['pops'] // 4 - 1)])}
+                     for k, v in json.load(open(os.path.join(D, 'com_calls.json'))).items() if v['func'] in want}
 # virtual calls proven by vtable (vcall_resolve.py) in the exported functions, with a known convention and an
 # EAX return: their call type can be forced exactly
 vc = json.load(open(os.path.join(D, 'vcalls.json')))
@@ -54,6 +61,6 @@ src = open(os.path.join(R, 'ida', 'ida_fix.template')).read().replace('__DATA__'
 os.makedirs(os.path.join(R, 'ida'), exist_ok=True)
 out = os.path.join(R, 'ida', 'ffxi_ida_fix.py')
 open(out, 'w', newline='\n').write(src)
-print('%s: %d names, %d prototypes, %d conventions, %d exact call effects in %d functions, %d vtable call types, %d to export, %d KB'
+print('%s: %d names, %d prototypes, %d conventions, %d exact call effects in %d functions, %d vtable call types, %d D3D call types, %d SP points to remove, %d to export, %d KB'
       % (out, len(data['names']), len(data['types']), len(data['conv_fix']), sum(len(r['calls']) for r in sp_calls.values()),
-         len(sp_calls), len(data['vcall_types']), len(data['export']), len(src) // 1024))
+         len(sp_calls), len(data['vcall_types']), len(data['com_types']), len(data['revert']), len(data['export']), len(src) // 1024))

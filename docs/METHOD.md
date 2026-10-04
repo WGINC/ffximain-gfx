@@ -102,6 +102,17 @@ graphics function. A call into another module gets its pop from the same sources
 sound walk of the callee's code in the dump (every reachable `ret` agreeing); otherwise the trial is
 UNRESOLVED.
 
+**Combined verdict.** `run.sh rawlive` and `cleanlive` (with `LIVE="name=live.json ..."`) gate the raw
+translation and the clean tree on each verified dump. `combine_gates.py` joins them with the fuzz gate: a
+FAIL in any gate is a FAIL; otherwise a function is PASS if any gate compared it and passed; with no
+comparable run anywhere the fuzz verdict stands. Each `// GATE:` line lists every gate's verdict and
+returning trials, so a PASS resting on few trials shows it. `GATE_IN=gate_combined.jsonl` builds the tree
+from the combined verdicts. Real state finds what random inputs rarely produce. The first full live gate
+found a NaN in an input: `CXiSkeletonActor_Slot244_Unknown` branched with `test ah, 5; jp` (taken for
+greater, equal and unordered), which Hex-Rays had written `a >= b` (false for NaN). It is patched; the
+idiom occurs at about 250 branches in 49 graphics functions, which the next IDA export is to cover
+(each float comparison exported with its instruction, as integer comparisons are).
+
 **Gate strength**: a mutation test on the 1 Oct clean tree (`verification/mutants_clean.json`) rejected 33
 of 40 random one-site mutants. 2 survivors were on paths the original reached in 3 of 100 trials; the other
 5 were not analysed site by site.

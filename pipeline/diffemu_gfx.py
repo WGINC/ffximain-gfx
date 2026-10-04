@@ -299,10 +299,11 @@ class GfxMachine(G.Machine):
         # the run stops as unresolved (no `ret N` read off foreign code, which would be a guess)
         site = site_pops(self, ret_addr) if IMAGE_LO <= ret_addr < IMAGE_HI else None
         if site is None:
+            last = getattr(self, 'last_site', None) if IMAGE_LO <= ret_addr < IMAGE_HI else None   # set by site_pops
             self.stop_reason = 'unresolved'
             self.stop_detail = 'call %s into %s: pop count unknown%s' % (
-                self.last_site or 'returning to 0x%08X' % ret_addr, self.live.module_of(addr),
-                (' (sources disagree: %s)' % self.site_conflicts[self.last_site]) if self.last_site in self.site_conflicts else '')
+                last or 'returning to 0x%08X' % ret_addr, self.live.module_of(addr),
+                (' (sources disagree: %s)' % self.site_conflicts[last]) if last in self.site_conflicts else '')
             uc.emu_stop(); return
         n = 4 * site[0]
         if os.environ.get('FFXI_LIVE_TRACE'):

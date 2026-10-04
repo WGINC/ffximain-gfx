@@ -236,11 +236,13 @@ def call_type_for(target, pops, thiscall=None):
 
 
 def call_type_jobs():
-    """(function, call, spec): measured call types (real_sp.py) and virtual calls proven by vtable
-    (vcall_resolve.py: every possible callee agrees on its pop and on its use of ECX)"""
+    """(function, call, spec): measured call types (real_sp.py), virtual calls proven by vtable
+    (vcall_resolve.py: every possible callee agrees on its pop and on its use of ECX), and D3D8 method calls on
+    a proven object (com_calls.py: the method's declaration from the D3D8 header)"""
     for fk, rec in DATA['real_sp'].items():
         for ck, v in sorted(rec.get('call_types', {}).items()): yield fk, ck, dict(v, ecx=None)
     for ck, v in sorted(DATA['vcall_types'].items()): yield v['func'], ck, v
+    for ck, v in sorted(DATA.get('com_types', {}).items()): yield v['func'], ck, v
 
 
 def force_call_types(report):
@@ -313,6 +315,9 @@ STATS = {}         # per-feature counts of the re-export, logged at the end (an 
 CMPS = {ida_hexrays.cot_slt: ('<', 1), ida_hexrays.cot_sle: ('<=', 1), ida_hexrays.cot_sgt: ('>', 1),
         ida_hexrays.cot_sge: ('>=', 1), ida_hexrays.cot_ult: ('<', 0), ida_hexrays.cot_ule: ('<=', 0),
         ida_hexrays.cot_ugt: ('>', 0), ida_hexrays.cot_uge: ('>=', 0)}
+FCMPS = {ida_hexrays.cot_slt: '<', ida_hexrays.cot_sle: '<=', ida_hexrays.cot_sgt: '>', ida_hexrays.cot_sge: '>=',
+         ida_hexrays.cot_ult: '<', ida_hexrays.cot_ule: '<=', ida_hexrays.cot_ugt: '>', ida_hexrays.cot_uge: '>=',
+         ida_hexrays.cot_eq: '==', ida_hexrays.cot_ne: '!='}
 
 
 def export_one(ea):
@@ -327,7 +332,7 @@ def export_one(ea):
     text = str(cf); rec['text'] = text
     m = BAD.search(text)
     if m: rec['skip'] = 'unsupported construct ' + m.group(0)
-    objs = {}; types = set(); calls = {}; cmps = []; cmp_err = [0]
+    objs = {}; types = set(); calls = {}; cmps = []; fcmps = []; cmp_err = [0]
 
     class V(ida_hexrays.ctree_visitor_t):
         def __init__(s): super().__init__(ida_hexrays.CV_FAST)
@@ -357,6 +362,14 @@ def export_one(ea):
                                  ida_lines.tag_remove(e.y.print1(None)), max(e.x.type.get_size(), e.y.type.get_size()),
                                  str(e.x.type), str(e.y.type)])
                 except Exception: cmp_err[0] += 1
+            if e.op in FCMPS and e.ea != idaapi.BADADDR and (e.x.type.is_floating() or e.y.type.is_floating()):
+                # a float comparison: which outcomes (less, equal, greater, unordered) take its branch is in the
+                # code at e.ea (fcom; fnstsw; test/and ah; jcc); Hex-Rays prints an ordered C operator, which
+                # can differ for NaN. The translator rewrites each from the code
+                try:
+                    fcmps.append([e.ea, FCMPS[e.op], ida_lines.tag_remove(e.x.print1(None)),
+                                  ida_lines.tag_remove(e.y.print1(None))])
+                except Exception: cmp_err[0] += 1
             if e.op == ida_hexrays.cot_obj:
                 oea = e.obj_ea; nm = ida_name.get_name(oea) or ('unk_%X' % oea)
                 fn = ida_funcs.get_func(oea); is_func = bool(fn) and fn.start_ea == oea
@@ -376,9 +389,9 @@ def export_one(ea):
     V().apply_to(cf.body, None)
     for lv in cf.get_lvars(): type_decl_closure(lv.type(), types)
     type_decl_closure(cf.type, types)
-    rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls; rec['cmps'] = cmps
+    rec['objs'] = objs; rec['types'] = sorted(types); rec['calls'] = calls; rec['cmps'] = cmps; rec['fcmps'] = fcmps
     for v in calls.values(): STATS['calls_' + v[2]] = STATS.get('calls_' + v[2], 0) + 1
-    STATS['cmps'] = STATS.get('cmps', 0) + len(cmps); STATS['cmp_errors'] = STATS.get('cmp_errors', 0) + cmp_err[0]
+    STATS['cmps'] = STATS.get('cmps', 0) + len(cmps); STATS['fcmps'] = STATS.get('fcmps', 0) + len(fcmps); STATS['cmp_errors'] = STATS.get('cmp_errors', 0) + cmp_err[0]
     # IDA's stack pointer wherever it changes (compared with the depth measured by running the original)
     pfn = ida_funcs.get_func(ea); spd = []; last = None
     for item in (idautils.FuncItems(ea) if pfn else ()):
@@ -406,10 +419,10 @@ def reexport(report):
             f.write(json.dumps(rec) + '\n')
     report['export'] = {'file': out, 'functions': len(eas), 'skip': skipped}
     log('export: %d functions written to %s (%d marked skip)' % (len(eas), out, skipped))
-    for k in ('calls_typed', 'calls_cast', 'cmps', 'cmp_errors'): STATS.setdefault(k, 0)
+    for k in ('calls_typed', 'calls_cast', 'cmps', 'fcmps', 'cmp_errors'): STATS.setdefault(k, 0)
     report['export']['stats'] = STATS
-    log('export: calls typed in the IDB %(calls_typed)d, cast by Hex-Rays %(calls_cast)d; comparisons %(cmps)d '
-        '(%(cmp_errors)d could not be printed)' % STATS)
+    log('export: calls typed in the IDB %(calls_typed)d, cast by Hex-Rays %(calls_cast)d; comparisons %(cmps)d integer, '
+        '%(fcmps)d float (%(cmp_errors)d could not be printed)' % STATS)
 
 
 def main():

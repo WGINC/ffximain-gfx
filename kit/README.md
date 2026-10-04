@@ -29,7 +29,9 @@ With speedfix_hook: speedfix_hook patches the slots of the driver's vtable, and 
 copy of whichever vtable it finds. Either order chains: a call goes through both hooks. When speedfix
 caches or merges calls, d3dprof counts them on its side of speedfix:
 - injected after speedfix, d3dprof sits in front of it and counts what the game asks for;
-- injected before, it counts what reaches the driver. `test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
+- injected before, it counts what reaches the driver.
+
+`test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
 method with the caller's stack unchanged, returns with the method's own pop, and is counted.
 
 What it does not measure: time spent inside each D3D call (that needs a return hook), and calls made on

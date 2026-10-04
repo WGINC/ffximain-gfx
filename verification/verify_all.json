@@ -166,41 +166,7 @@
   ]
  },
  "tree-gate": {
-  "ok": true,
-  "functions": 714,
-  "gates": {
-   "fuzz": {
-    "PASS": 712,
-    "UNRESOLVED": 2
-   },
-   "town": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "town2": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "combat": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   },
-   "zonetoinn": {
-    "PASS": 709,
-    "UNRESOLVED": 1,
-    "INCONCLUSIVE": 4
-   }
-  },
-  "not_passing": {},
-  "live": [
-   "town",
-   "town2",
-   "combat",
-   "zonetoinn"
-  ],
-  "note": "the committed tree as built, gated in full on 4 Oct (runs/p40b, the gate tooling of commit 46adde7); tree-regen and the other checks from the quick run of this commit"
+  "ok": null,
+  "skipped": "--quick"
  }
 }

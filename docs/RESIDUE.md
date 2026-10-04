@@ -5,9 +5,9 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | Group | Count | Route |
 |---|---|---|
 | Microsoft D3DX 8.1 (statically linked) | 48 | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |
-| Constructs C++ cannot express | 5 | Stays original code (`orig::`). Listed below with the exact construct. |
+| Constructs C++ cannot express | 6 | Stays original code (`orig::`). Listed below with the exact construct. |
 | Did not compile, or compiles with no gate case | 0 | Translator gaps; listed below. |
-| Gate FAIL (decompiled code is wrong) | 2 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
+| Gate FAIL (decompiled code is wrong) | 1 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
 | Gate INCONCLUSIVE (no comparable run) | 1 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
 | Gate UNRESOLVED (no definitive fact for a call) | 4 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
@@ -66,22 +66,22 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x102F4B2C` | ?Initialize@CD3DXText@@IAEJPAUIDirect3DDevice8@@@Z | `?Initialize@CD3DXText@@IAEJPAUIDirect3DDevice8@@@Z` | cd3dxtext.obj | 321 bytes, name+bytes |
 | `0x102F5180` | ?Create@CD3DXText@@SAJPAUIDirect3DDevice8@@PAPAV1@@Z | `?Create@CD3DXText@@SAJPAUIDirect3DDevice8@@PAPAV1@@Z` | cd3dxtext.obj | 117 bytes, name+bytes |
 
-## Constructs C++ cannot express (5)
+## Constructs C++ cannot express (6)
 
 | Address | Name | Construct | What it does |
 |---|---|---|---|
 | `0x1000A6E0` | CDx_CreateTexture | unsupported construct retaddr | Sole texture-creation wrapper; format passed as variable. 10 calling functions. |
-| `0x10057FB0` | CMoSchedularTask_Interpret | unsupported construct __asm | 23.6 KB scheduler opcode interpreter (jump table 0x1005DC1C), reached from CMoSchedularTask vtable slot 8 via ... |
-| `0x10125360` | sub_10125360 | unsupported construct __asm |  |
-| `0x1017C9C0` | sub_1017C9C0 | unsupported construct retaddr |  |
-| `0x10184C90` | sub_10184C90 | unsupported construct __asm |  |
+| `0x100548D0` | sub_100548D0 | construct: returns the x87 status word |  |
+| `0x10057FB0` | CMoSchedularTask_Interpret | unsupported construct __asm; callee types corrected in data/type_fixes.json (sub_10056BB0), re-export pending | 23.6 KB scheduler opcode interpreter (jump table 0x1005DC1C), reached from CMoSchedularTask vtable slot 8 via ... |
+| `0x10125360` | sub_10125360 | unsupported construct __asm; callee types corrected in data/type_fixes.json (sub_10234A00), re-export pending |  |
+| `0x1017C9C0` | sub_1017C9C0 | unsupported construct retaddr; IDA SP corrected in ida/ffxi_ida_fix.py (0x1017C9F2 +12), re-export pending |  |
+| `0x10184C90` | sub_10184C90 | unsupported construct __asm; callee types corrected in data/type_fixes.json (ZoneMap_SetOverlayProjection), re-export pending |  |
 
-## Gate FAIL (2)
+## Gate FAIL (1)
 
 | Address | Name | First difference | Reconstruction line at the divergence | What it does |
 |---|---|---|---|---|
-| `0x100548D0` | sub_100548D0 | EAX 0x00000005 vs 0x30703005 |  |  |
-| `0x1017DE20` | sub_1017DE20 | ended differently: original return  / reconstruction fault access 0x00000068 size 4 type 19 |  |  |
+| `0x1017DE20` | sub_1017DE20 | ended differently: original return  / reconstruction fault access 0x00000068 size 4 type 19; cause: IDA SP, corrected in ida/ffxi_ida_fix.py (0x1017EB08 +4), re-export pending |  |  |
 
 ## Gate INCONCLUSIVE (1)
 

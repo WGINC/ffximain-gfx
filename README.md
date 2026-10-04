@@ -26,9 +26,9 @@ This is private work: nothing here is published, and no game bytes are in the re
 |---|---|
 | **Verified in the clean tree, as built** (`tree/`, 189 files) | **708**, 0 failures |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
-| Constructs C++ cannot express | 5 |
+| Constructs C++ cannot express | 6 |
 | Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 4 |
-| Gate FAIL (first divergence recorded) | 2 |
+| Gate FAIL (first divergence recorded) | 1 |
 | Gate INCONCLUSIVE (the original never returns) | 1 |
 
 Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
@@ -36,13 +36,19 @@ memory dumps of the running game, verified as the analysed build (`verification/
 combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 708 PASS. Each function's `// GATE:` line lists
 every gate's verdict and returning trials.
 
-The 12 open functions, each with a named cause:
-- **FAIL (2):** `sub_1017DE20` (IDA's stack pointer is wrong in it, so one stack slot has two names);
-  `sub_100548D0` (returns the x87 status word in AX).
-- **Constructs (5):** `CDx_CreateTexture` and `sub_1017C9C0` (the same IDA stack-pointer cause, read as a
-  local on the return address); `CMoSchedularTask_Interpret`, `sub_10125360`, `sub_10184C90` (`__asm`).
-- **UNRESOLVED (4):** D3D calls through a field with several writers (0x10009F44, 0x1006C16F, 0x102811DC);
-  a game-class call whose class has no instance in the dumps (0x10047623).
+The 12 open functions, each with a named cause (`docs/RESIDUE.md`):
+- **Fixed in the IDA script, re-export pending (5):** the corrections are in `ida/ffxi_ida_fix.py`; the
+  next export should translate them.
+  - IDA's stack pointer: `sub_1017DE20` (FAIL; `jmp` 0x1017EB08) and `sub_1017C9C0` (call 0x1017C9F2).
+  - Callees the IDB types `float` that return nothing on the x87 stack, so Hex-Rays fell back to `__asm`:
+    `CMoSchedularTask_Interpret`, `sub_10125360`, `sub_10184C90`.
+- **`CDx_CreateTexture`:** the pop at 0x1000A705 is 8 by the function's own stack balance once the device
+  calls on `this->pDevice` count as proven. That rests on the IDB's `CDx` declaration, which this
+  project wrote, so it is not used as a fact.
+- **`sub_100548D0`:** returns the x87 status word, with its sticky exception flags. C++ cannot reproduce
+  this, so it stays original code (`data/constructs.json`, with the evidence).
+- **UNRESOLVED (4):** D3D calls through a field with several writers (0x10009F44, 0x1006C16F,
+  0x102811DC); a game-class call whose class has no instance in the dumps (0x10047623).
 - **INCONCLUSIVE (1):** `sub_10016320`, the global shutdown.
 
 ## Reproduce

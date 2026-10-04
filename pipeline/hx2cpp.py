@@ -606,6 +606,7 @@ PRELUDE = '''#include "xi_hexrays.hpp"
 '''
 # Microsoft's statically linked D3DX and C++ runtime are not game code: never reconstruct them
 LIBRARY = re.compile(r'^(CD3DX|D3DX|_D3DX|\?\?|\?.*@std@@|.*Iostream|.*type_info|std::)')
+CONSTRUCTS = {k: v for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'constructs.json'))).items() if not k.startswith('_')}
 D3DX81 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'd3dx', 'd3dx81_manifest.json')))
 BAD2 = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|BUG\(\)|__halt|(?<![A-Z])_UNKNOWN\b(?!\s*\*)|MEMORY\[|'
                   r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except|\bretaddr\b')
@@ -623,6 +624,8 @@ def main(src, outdir):
         # unnamed function there (sub_102D538A, which calls _D3DXFilterTexture) is library code too
         if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']) or 0x102D0000 <= ea < 0x10330000:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX 8.1: %s' % D3DX81.get('0x%x' % ea, {}).get('symbol', rec['name'])}; continue
+        if '0x%08X' % ea in CONSTRUCTS:          # established from the code (data/constructs.json)
+            meta['%08X' % ea] = {'status': 'skipped', 'why': 'construct: ' + CONSTRUCTS['0x%08X' % ea]['construct']}; continue
         if 'skip' in rec or 'text' in rec:
             m = BAD2.search(rec.get('text', ''))
             if m or 'text' not in rec:

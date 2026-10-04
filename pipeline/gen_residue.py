@@ -12,6 +12,8 @@ BR = {int(k, 16): v for k, v in json.load(open(brf)).items()} if os.path.exists(
 C = {int(json.loads(l)['original'], 16): json.loads(l) for l in open(cleanf)} if os.path.exists(cleanf) else {}
 DM = json.load(open(os.path.join(DATA, 'dm_names.json')))
 D3DX = json.load(open(os.path.join(DATA, 'd3dx', 'd3dx81_manifest.json')))
+SP_AUDIT = json.load(open(os.path.join(DATA, 'ida_sp_audit.json'))) if os.path.exists(os.path.join(DATA, 'ida_sp_audit.json')) else {}
+TYPE_FIXES = {k.upper().replace('0X', '0x'): v for k, v in json.load(open(os.path.join(DATA, 'type_fixes.json'))).items()}
 def dmc(ea):
     d = DM.get(hex(ea)); return (d[1][:110] + ('...' if len(d[1]) > 110 else '')) if d and d[1] else ''
 rows = collections.defaultdict(list)
@@ -21,7 +23,14 @@ for k, v in meta.items():
         d = D3DX.get(hex(ea), {})
         rows['library'].append((ea, nm, d.get('symbol', v['why']), d.get('object', ''), '%s bytes, %s' % (d.get('bytes_compared', '?'), d.get('how', '?'))))
     elif v['status'] in ('skipped', 'untranslatable'):
-        rows['construct'].append((ea, nm, v['why'], dmc(ea)))
+        why = v['why']
+        if '0x%08X' % ea in SP_AUDIT: why += '; IDA SP corrected in ida/ffxi_ida_fix.py (%s), re-export pending' % ', '.join(
+            '%s %+d' % (x['at'], x['change']) for x in SP_AUDIT['0x%08X' % ea]['fixes'])
+        norm = lambda t: re.sub(r'\s+', '', re.sub(r'\b\w+\s*(?=[,)])', '', t))       # parameter names dropped
+        fixed = sorted(n for n, o in r.get('objs', {}).items() if o.get('func') and '0x%08X' % o['ea'] in TYPE_FIXES
+                       and '__asm' in v['why'] and norm(o['type']) != norm(TYPE_FIXES['0x%08X' % o['ea']]['type']))
+        if fixed: why += '; callee types corrected in data/type_fixes.json (%s), re-export pending' % ', '.join(fixed)
+        rows['construct'].append((ea, nm, why, dmc(ea)))
     elif v['status'] == 'translated':
         if ea in C and C[ea]['verdict'] == 'PASS': continue
         g = G.get(ea)
@@ -33,7 +42,10 @@ for k, v in meta.items():
             continue
         elif g['verdict'] == 'FAIL':
             l = L.get(ea, {})
-            rows['fail'].append((ea, nm, g['first_mismatch']['why'][:110], (l.get('recon_line') or [None, ''])[1][:90], dmc(ea)))
+            why = g['first_mismatch']['why'][:110]
+            if '0x%08X' % ea in SP_AUDIT: why += '; cause: IDA SP, corrected in ida/ffxi_ida_fix.py (%s), re-export pending' % ', '.join(
+                '%s %+d' % (x['at'], x['change']) for x in SP_AUDIT['0x%08X' % ea]['fixes'])
+            rows['fail'].append((ea, nm, why, (l.get('recon_line') or [None, ''])[1][:90], dmc(ea)))
         elif g['verdict'] == 'INCONCLUSIVE':
             rows['inconclusive'].append((ea, nm, ', '.join('%s %d' % kv for kv in g['original_outcomes'].items()), dmc(ea)))
         elif g['verdict'] == 'UNRESOLVED':

@@ -83,5 +83,10 @@
   "type": "int __thiscall(float *this)",
   "why": "Ends with call [edx+0x94]; pop esi; add esp, 50h; ret: EAX is what that call returned; the x87 stack is left empty (fpret.py: none). Typed float in the IDB, which broke Hex-Rays x87 tracking in sub_10184C90 (__asm block).",
   "evidence": "disassembly of the function; data/fpret.json; data/ret_kinds.json"
+ },
+ "0x1001E470": {
+  "type": "int __cdecl()",
+  "why": "Returns EAX from its last call (call 0x10015100; pop ecx; ret) and leaves the x87 stack empty (fpret.py: none); the IDB typed it float(), which tells Hex-Rays its callers find a value in ST0.",
+  "evidence": "disassembly 0x1001E470..0x1001E4A4; data/fpret.json"
  }
 }

@@ -414,6 +414,9 @@ def main(exp, gate, manf, incdir, outdir):
     all_globals = {nm for r in R.values() for nm, o in (r.get('objs') or {}).items() if not o.get('func')}
     for ea in place:
         r = R[ea]; head, sep, body = r['text'].partition('\n{')
+        # the repairs that read a vtable call through `obj->vftable + N` run first, while that text is still
+        # there (both are idempotent; body_rules applies them again later)
+        body = hx2cpp.float_args_in_casts(hx2cpp.vmethod_this(body))
         this_name = r['args'][0][0] if r.get('args') else None
         this_forms = bool(place[ea][0]) and not nothis.get(ea)
         body, n, nl = idb_access.rewrite(r, sep + body, replaced, this_name, this_forms, WIDTH, all_globals)

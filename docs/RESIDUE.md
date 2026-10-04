@@ -6,11 +6,11 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 |---|---|---|
 | Microsoft D3DX 8.1 (statically linked) | 48 | Not game code. Byte-identical to `d3dx8.lib` from the DirectX 8.1 SDK; a standalone build links that library and includes `d3dx8.h`. In a hybrid build they keep running from the game image. |
 | Constructs C++ cannot express | 5 | Stays original code (`orig::`). Listed below with the exact construct. |
-| Did not compile, or compiles with no gate case | 1 | Translator gaps; listed below. |
+| Did not compile, or compiles with no gate case | 0 | Translator gaps; listed below. |
 | Gate FAIL (decompiled code is wrong) | 2 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
 | Gate INCONCLUSIVE (no comparable run) | 1 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
-| Gate UNRESOLVED (no definitive fact for a call) | 11 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
+| Gate UNRESOLVED (no definitive fact for a call) | 6 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
 | Passes as decompiled, fails in the clean tree | 0 | Clean-stage regression; listed below. |
 
 ## Microsoft D3DX 8.1 (48)
@@ -76,12 +76,6 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | `0x1017C9C0` | sub_1017C9C0 | unsupported construct retaddr |  |
 | `0x10184C90` | sub_10184C90 | unsupported construct __asm |  |
 
-## Did not compile / no gate case (1)
-
-| Address | Name | Reason | What it does |
-|---|---|---|---|
-| `0x10178250` | sub_10178250 | did not compile as C++: declaration of 'int (& self)[2]' shadows a parameter |  |
-
 ## Gate FAIL (2)
 
 | Address | Name | First difference | Reconstruction line at the divergence | What it does |
@@ -95,19 +89,14 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 |---|---|---|---|
 | `0x10016320` | sub_10016320 | fault 99, import 1 |  |
 
-## Gate UNRESOLVED (11)
+## Gate UNRESOLVED (6)
 
 | Address | Name | Call without a definitive fact | What it does |
 |---|---|---|---|
 | `0x10003890` | sub_10003890 | call 0x10003A50: pop count unknown (51 trials) |  |
-| `0x10009F20` | CDx_PushRenderTargetTexture | call 0x10009F44: pop count unknown (99 trials); import DSOUND.dll!ord11: argument count unknown (not in import_nargs.json, call site not solved) (1 trials) | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
-| `0x1003F440` | CMoDistMorphElem_ApplyMorph | call 0x1003F463: pop count unknown (31 trials); call 0x1003F78C: pop count unknown (28 trials) | The actual morph-apply function, called with the cached handle and both morph field addresses from CMoDistMorp... |
-| `0x10040C20` | CMoElemFamily_SharedEarlyExit | call 0x10040CDA: pop count unknown (81 trials); call 0x10040C77: pop count unknown (17 trials) | Shared no-op/early-exit path several CMoElem-family update functions tail-jump into when a flag indicates no w... |
-| `0x100467E0` | sub_100467E0 | call 0x1004684D: pop count unknown (100 trials) |  |
+| `0x10009F20` | CDx_PushRenderTargetTexture | call 0x10009F44: pop count unknown (99 trials); import DSOUND.dll!ord11: argument count unknown (not in import_nargs.json, call site not solved) (1 trial) | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
 | `0x10047590` | CMoSkeletonElem_UpdateBoneTransform | call 0x10047623: pop count unknown (100 trials) | Normalizes local rotation (Euler wraparound), calls Mat4x4_Multiply to combine with the parent's matrix (confi... |
 | `0x1006C140` | CMoOcclusionMng_Constructor | call 0x1006C16F: pop count unknown (100 trials) |  |
-| `0x1006C530` | sub_1006C530 | call 0x1006C708: pop count unknown (98 trials) | Draws the queried region into the 16x16 occlusion target: two CDx_DrawPrimitiveUP calls, state set directly on... |
-| `0x10075280` | Gfx_InitCubeMapTextures | call 0x100752A0: pop count unknown (100 trials) |  |
 | `0x100CB4E0` | Actor_SelectNearestLights | call 0x100CB8CB: pop count unknown (100 trials) |  |
 | `0x10280DE0` | sqgxSprite | call 0x102811DC: pop count unknown (83 trials) |  |
 

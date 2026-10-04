@@ -591,8 +591,8 @@ LABEL_102:
     orig::sub_1025E0E0();
     orig::sub_1025E0B0();
     orig::sub_1025E0F0();
-    if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && C != 0 )
-      orig::sub_101D5680((_WORD *)C);
+    if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && g_C_106631D4 != 0 )
+      orig::sub_101D5680((_WORD *)g_C_106631D4);
     if ( dword_10456D1C != 0 )
       orig::sub_10018850(dword_10456D1C);
   }

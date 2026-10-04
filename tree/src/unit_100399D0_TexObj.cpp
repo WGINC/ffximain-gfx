@@ -92,15 +92,7 @@ LABEL_33:
         v21 = v11;
         if ( orig::fn_102D2F40(g_pCDx->pDevice, (unsigned int *)&v23, &v20, &v21, 0, &i, 1) >= 0 )
         {
-          v9 = orig::fn_102D2FB9(
-                 g_pCDx->pDevice,
-                 v23,
-                 v20,
-                 v21,
-                 0,
-                 i,
-                 D3DPOOL_MANAGED,
-                 (IDirect3DTexture8 **)(self_ + 64));
+          v9 = orig::fn_102D2FB9(g_pCDx->pDevice, v23, v20, v21, 0, i, 1, (IDirect3DTexture8 **)(self_ + 64));
           goto LABEL_57;
         }
       }
@@ -118,15 +110,7 @@ LABEL_33:
         i = v13;
         if ( orig::fn_102D2F40(g_pCDx->pDevice, &v20, &v21, (unsigned int *)&i, 0, &v23, 1) >= 0 )
         {
-          v9 = orig::fn_102D2FB9(
-                 g_pCDx->pDevice,
-                 v20,
-                 v21,
-                 i,
-                 0,
-                 v23,
-                 D3DPOOL_MANAGED,
-                 (IDirect3DTexture8 **)(self_ + 64));
+          v9 = orig::fn_102D2FB9(g_pCDx->pDevice, v20, v21, i, 0, v23, 1, (IDirect3DTexture8 **)(self_ + 64));
           goto LABEL_57;
         }
       }
@@ -149,7 +133,7 @@ LABEL_26:
                *(unsigned __int8 *)(self_ + 42),
                0,
                D3DFMT_A1R5G5B5,
-               D3DPOOL_MANAGED,
+               1,
                (IDirect3DTexture8 **)(self_ + 64));
         break;
       }
@@ -161,23 +145,16 @@ LABEL_55:
              *(unsigned __int8 *)(self_ + 42),
              0,
              D3DFMT_A1R5G5B5,
-             D3DPOOL_MANAGED,
+             1,
              (IDirect3DCubeTexture8 **)(self_ + 68));
       break;
     case 24:
       v14 = *(unsigned __int8 *)(self_ + 42);
       v15 = g_pCDx->pDevice;
       if ( (*(_BYTE *)(self_ + 44) & 7) != 0 )
-        v9 = orig::fn_102D301F(
-               v15,
-               v5,
-               v14,
-               0,
-               D3DFMT_A8R8G8B8,
-               D3DPOOL_MANAGED,
-               (IDirect3DCubeTexture8 **)(self_ + 68));
+        v9 = orig::fn_102D301F(v15, v5, v14, 0, D3DFMT_A8R8G8B8, 1, (IDirect3DCubeTexture8 **)(self_ + 68));
       else
-        v9 = orig::fn_102D2FB9(v15, v5, v2, v14, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, (IDirect3DTexture8 **)(self_ + 64));
+        v9 = orig::fn_102D2FB9(v15, v5, v2, v14, 0, D3DFMT_A8R8G8B8, 1, (IDirect3DTexture8 **)(self_ + 64));
       break;
     case 32:
       if ( (*(_BYTE *)(self_ + 44) & 7) != 0 )
@@ -189,7 +166,7 @@ LABEL_30:
                *(unsigned __int8 *)(self_ + 42),
                0,
                D3DFMT_A8R8G8B8,
-               D3DPOOL_MANAGED,
+               1,
                (IDirect3DCubeTexture8 **)(self_ + 68));
         break;
       }
@@ -200,7 +177,7 @@ LABEL_30:
              *(unsigned __int8 *)(self_ + 42),
              0,
              D3DFMT_A8R8G8B8,
-             D3DPOOL_MANAGED,
+             1,
              (IDirect3DTexture8 **)(self_ + 64));
       break;
     default:
@@ -323,7 +300,7 @@ XI_API int __thiscall TexObj_Upload(void *self_)
              0,
              0,
              D3DFMT_A1R5G5B5,
-             D3DPOOL_MANAGED,
+             1,
              &v61);
 LABEL_10:
       if ( v5 < 0 )
@@ -337,7 +314,7 @@ LABEL_10:
              0,
              0,
              D3DFMT_R8G8B8,
-             D3DPOOL_MANAGED,
+             1,
              &v61);
       goto LABEL_10;
     case 32:
@@ -348,7 +325,7 @@ LABEL_10:
              0,
              0,
              D3DFMT_A8R8G8B8,
-             D3DPOOL_MANAGED,
+             1,
              &v61);
       goto LABEL_10;
     default:
@@ -429,11 +406,11 @@ LABEL_52:
               ++v28;
               v27 = *((unsigned __int16 *)self_ + 18);
             }
-            while ( v28 < (unsigned __int16)v27 );
+            while ( (int)(v28) < (int)((unsigned __int16)v27) );
           }
           ++v3;
         }
-        while ( v3 < *((unsigned __int16 *)self_ + 19) );
+        while ( (int)(v3) < (int)(*((unsigned __int16 *)self_ + 19)) );
       }
       break;
     case 24:
@@ -510,11 +487,11 @@ LABEL_40:
               ++v19;
               v18 = *((unsigned __int16 *)self_ + 18);
             }
-            while ( v19 < (unsigned __int16)v18 );
+            while ( (int)(v19) < (int)((unsigned __int16)v18) );
           }
           ++v3;
         }
-        while ( v3 < *((unsigned __int16 *)self_ + 19) );
+        while ( (int)(v3) < (int)(*((unsigned __int16 *)self_ + 19)) );
       }
       break;
     case 32:
@@ -596,11 +573,11 @@ LABEL_26:
                 ++v10;
                 v9 = *((unsigned __int16 *)self_ + 18);
               }
-              while ( v10 < (unsigned __int16)v9 );
+              while ( (int)(v10) < (int)((unsigned __int16)v9) );
             }
             ++v7;
           }
-          while ( v7 < *((unsigned __int16 *)self_ + 19) );
+          while ( (int)(v7) < (int)(*((unsigned __int16 *)self_ + 19)) );
         }
       }
       break;
@@ -716,12 +693,12 @@ LABEL_74:
     if ( v62 != (struct IDirect3DSurface8 *)24 && v62 != (struct IDirect3DSurface8 *)32 )
       goto LABEL_78;
 LABEL_77:
-    if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &v60) >= 0 )
+    if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A8R8G8B8, 1, &v60) >= 0 )
       goto LABEL_78;
     goto LABEL_67;
   }
 LABEL_66:
-  if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A1R5G5B5, D3DPOOL_MANAGED, &v60) >= 0 )
+  if ( orig::fn_102D2FB9(g_pCDx->pDevice, v39, v38, 0, 0, D3DFMT_A1R5G5B5, 1, &v60) >= 0 )
   {
 LABEL_78:
     v60->LockRect(0, (D3DLOCKED_RECT *)&v63, nullptr, 0);
@@ -744,11 +721,11 @@ LABEL_78:
               ++v49;
               ++v50;
             }
-            while ( v50 < (unsigned __int16)v48 );
+            while ( (int)(v50) < (int)((unsigned __int16)v48) );
           }
           ++v47;
         }
-        while ( v47 < *((unsigned __int16 *)self_ + 19) );
+        while ( (int)(v47) < (int)(*((unsigned __int16 *)self_ + 19)) );
       }
     }
     else if ( v40 == 32 )
@@ -770,11 +747,11 @@ LABEL_78:
               ++v45;
               ++v46;
             }
-            while ( v46 < (unsigned __int16)v44 );
+            while ( (int)(v46) < (int)((unsigned __int16)v44) );
           }
           ++v43;
         }
-        while ( v43 < *((unsigned __int16 *)self_ + 19) );
+        while ( (int)(v43) < (int)(*((unsigned __int16 *)self_ + 19)) );
       }
     }
     v60->UnlockRect(0);

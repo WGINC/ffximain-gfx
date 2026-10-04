@@ -83,7 +83,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;
-  if ( orig::ShapeMng_BindFontTexture(g_shapeMng, -1, nullptr, nullptr) != 0 )
+  if ( orig::ShapeMng_BindFontTexture(g_shapeMng, 0xFFFFFFFF, nullptr, nullptr) != 0 )
   {
     orig::Mat4_SetIdentity(v27);
     orig::Mat4_SetTranslation(v27, a1);

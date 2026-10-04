@@ -72,13 +72,13 @@ LABEL_4:
           ++v7;
           ++v8;
         }
-        while ( v7 < (unsigned __int8)*v6 );
+        while ( (int)(v7) < (int)((unsigned __int8)*v6) );
       }
       result = v10 + 1;
       v6 += 428;
       ++v10;
     }
-    while ( v10 < a2[16] );
+    while ( (int)(v10) < (int)(a2[16]) );
   }
   return result;
 }
@@ -467,7 +467,7 @@ LABEL_17:
           else
           {
             v41 = 0;
-            for ( i = *(v42 - 4); v41 < (int)*(v42 - 5); ++v41 )
+            for ( i = *(v42 - 4); (int)(v41) < (int)(*(v42 - 5)); ++v41 )
             {
               if ( *(_BYTE *)(i + 8) > 1u )
               {
@@ -507,7 +507,7 @@ LABEL_17:
                 ++v32;
                 v34 += 3;
               }
-              while ( v32 < *(int *)(self_ + 232768) );
+              while ( (int)(v32) < (int)(*(_DWORD *)(self_ + 232768)) );
             }
           }
           else if ( v33 > 0 )
@@ -518,7 +518,7 @@ LABEL_17:
               ++v32;
               v34 += 3;
             }
-            while ( v32 < *(int *)(self_ + 232768) );
+            while ( (int)(v32) < (int)(*(_DWORD *)(self_ + 232768)) );
           }
           if ( *(_DWORD *)(self_ + 234652) == 1 )
             g_pCDx->pDevice->SetPixelShader(0);
@@ -739,7 +739,7 @@ XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
     v5 = *(int **)(a3 + 96);
     if ( v5 != nullptr )
     {
-      for ( i = 0; i < *(int *)(a3 + 68); ++i )
+      for ( i = 0; (int)(i) < (int)(*(_DWORD *)(a3 + 68)); ++i )
       {
         v11 = 0;
         if ( *v5 > 0 )
@@ -912,7 +912,7 @@ XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int
         v7 += 9;
         ++v13;
       }
-      while ( v13 < *(int *)(a3 + 68) );
+      while ( (int)(v13) < (int)(*(_DWORD *)(a3 + 68)) );
       if ( v6 != 0 )
       {
 LABEL_26:
@@ -1259,7 +1259,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
               v43 = result;
               v44 = v28;
             }
-            while ( (int)result < v37[17] );
+            while ( (int)((int)result) < (int)(v37[17]) );
           }
         }
       }
@@ -1537,7 +1537,7 @@ XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBa
     v15 = v14 - 1;
     if ( (int)v14 - 1 >= 0 )
     {
-      if ( v15 > (int)v11[17] - 1 )
+      if ( v15 > v11[17] - 1 )
         v15 = v11[17] - 1;
     }
     else

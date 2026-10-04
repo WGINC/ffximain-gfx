@@ -20,17 +20,19 @@ This is private work: nothing here is published, and no game bytes are in the re
 
 ## Status (4 Oct 2026)
 
-768 graphics functions, each with a stated outcome:
+768 graphics functions, each with a stated outcome (`docs/RESIDUE.md`):
 
-| | Tree (3 Oct, promoted) | Latest run (`r5`, third IDA export) |
-|---|---|---|
-| **Verified in the clean tree, as built** | **700**, 0 failures | 706 PASS as decompiled; clean stage pending |
-| Microsoft D3DX 8.1 (statically linked) | 48 | 48 |
-| Constructs C++ cannot express | 5 | 5 |
-| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 11 | 6 |
-| Gate FAIL (first divergence recorded) | 2 | 2 |
-| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 1 | 1 |
-| Does not compile | 1 | 0 |
+| | Count |
+|---|---|
+| **Verified in the clean tree, as built** (`tree/`, 188 files) | **706**, 0 failures |
+| Microsoft D3DX 8.1 (statically linked) | 48 |
+| Constructs C++ cannot express | 5 |
+| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 6 |
+| Gate FAIL (first divergence recorded) | 2 |
+| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 1 |
+
+From the third IDA export (`data/exports/gfx_export.jsonl`); gates in `verification/` (fuzz inputs, 100 trials
+per function): raw 706 PASS, clean 706 PASS.
 
 The open items, each traced to a named cause:
 - **UNRESOLVED (6):** calls whose object's type is not yet proven:

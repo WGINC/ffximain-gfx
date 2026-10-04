@@ -22,7 +22,7 @@ XI_API int __thiscall Movie_CreateFrameTextures(int self_, int a2)
   *(_DWORD *)(self_ + 360) = (3 * (v4 + 1)) & 0xFFFFFFFC;
   while ( 1 )
   {
-    result = orig::fn_102D2FB9(g_pCDx->pDevice, 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, v5);
+    result = orig::fn_102D2FB9(g_pCDx->pDevice, 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
     if ( result < 0 )
       break;
     ++v6;

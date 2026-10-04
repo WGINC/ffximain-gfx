@@ -29,7 +29,7 @@ solver to be assumptions were removed, not tuned:
 | 1 Oct, evening (placement, names) | 633 | 633 / 43 / 33 / - | 47 | 9 |
 | 2 Oct, evening | 681 | 681 / 1 / 30 / - | 47 | 9 |
 | 3 Oct, definitive facts only (`def2`) | 700 | 700 / 2 / 1 / 11 | 48 | 5 |
-| 4 Oct, third IDA pass (`r5`) | (to promote) | 706 / 2 / 1 / 6 | 48 | 5 |
+| 4 Oct, third IDA pass (`r5`) | 706 | 706 / 2 / 1 / 6 | 48 | 5 |
 
 ## 30 Sep: IDA cross-check
 
@@ -195,7 +195,9 @@ fixed:
   - `sub_1006C530`: four `fild dword` conversions are signed and Hex-Rays had typed the sum `_DWORD`;
   - a `self` name collision in four functions.
 - **r5:** 706 PASS, 6 UNRESOLVED, 2 FAIL (`sub_1017DE20`, `sub_100548D0`), 1 INCONCLUSIVE
-  (`sub_10016320`).
+  (`sub_10016320`). The clean tree (188 files) passes all 706 as built and was promoted. Building it found
+  a global the IDB names `C` that a newly passing function also uses as a parameter; globals are macros in
+  the tree, so any global named like a parameter or local now gets a distinct name (`g_C_106631D4`).
 - **Repo reorganised:**
   - one export;
   - the IDA-side scripts in `ida/`;

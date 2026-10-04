@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CYyVbMng {
 public:
-    int AcquireVertexBuffer(int a2, unsigned int a3, unsigned int a4, D3DPOOL a5, int *a6, char a7);  // 0x1003B210
+    int AcquireVertexBuffer(int a2, int a3, int a4, int a5, int *a6, char a7);  // 0x1003B210
 
     void **vftable;  // +0x0
     uint32_t field_4;  // +0x4

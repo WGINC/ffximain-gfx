@@ -167,7 +167,7 @@ LABEL_24:
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 23 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 23 returned normally, 77 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl App_CreateRendererAndApp(void)
 {
   CDx *v0;

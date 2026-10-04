@@ -185,9 +185,9 @@ XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6
 
 // FUNCTION: FFXIMAIN 0x10177CD0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_10177CD0(float *a1, int a2, float a3)
+XI_API int __thiscall fn_10177CD0(void *self_, float *a2, int a3, float a4)
 {
-  return orig::Dbg_DrawWireMesh((int)g_pCDx->pDevice, a1, a2, a3);
+  return orig::Dbg_DrawWireMesh((int)g_pCDx->pDevice, a2, a3, a4);
 }
 
 // FUNCTION: FFXIMAIN 0x10178070  (placed by callers pass their own this (CTsZoneMap))
@@ -252,6 +252,81 @@ int CTsZoneMap::InitZBiasPresets()
     this->field_3954C = 1065353216;
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x10178250  (unit CTsZoneMap: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10178250(void * self_)
+{
+  int v2;
+  int v3;
+  int v4;
+  int v5;
+  alignas(16) unsigned char xi_frame[0x450];  // address-taken locals at their original offsets
+  char * (&v6)[2] = *reinterpret_cast<char * (*)[2]>(xi_frame + 0x4);
+  _DWORD (&v7)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0xC);
+  _DWORD (&v8)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0x14);
+  _DWORD (&v9)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0x1C);
+  _DWORD (&v10)[2] = *reinterpret_cast<_DWORD (*)[2]>(xi_frame + 0x24);
+  int (&self_v)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x2C);
+  int (&a1)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0x34);
+
+  a1[0] = 0x20000000;
+  a1[1] = 1073872896;
+  a1[2] = 1073872899;
+  a1[3] = 1074003973;
+  a1[4] = 1073807367;
+  a1[5] = 1073872911;
+  a1[6] = -1;
+  orig::fn_10177040((DNameNode *)self_v);
+  orig::fn_10177040((DNameNode *)v10);
+  orig::fn_10177040((DNameNode *)v9);
+  orig::fn_10177040((DNameNode *)v8);
+  orig::fn_10177040((DNameNode *)v7);
+  orig::fn_10177040((DNameNode *)v6);
+  *((_DWORD *)self_ + 58662) = 0;
+  *((_DWORD *)self_ + 58663) = 0;
+  if ( dword_10456BF0 != 0 && g_pCDx->_pad_10[2297] == 1 && g_pCDx->_pad_10[2298] == 1 )
+  {
+    *((_DWORD *)self_ + 58662) = 1;
+    *((_DWORD *)self_ + 58663) = 1;
+    orig::sub_10177090(self_v, (int)off_10376FF8, 19, g_pCDx->_pad_10[2320]);
+    orig::Gfx_AssembleVertexShader(self_v, (int)a1, (int)self_ + 234604);
+    orig::sub_10177090(v10, (int)off_10377048, 33, g_pCDx->_pad_10[2320]);
+    orig::Gfx_AssembleVertexShader(v10, (int)a1, (int)self_ + 234608);
+    orig::sub_10177090(v9, (int)off_103770D0, 37, g_pCDx->_pad_10[2320]);
+    orig::Gfx_AssembleVertexShader(v9, (int)a1, (int)self_ + 234612);
+    orig::sub_10177090(v8, (int)off_10377168, 41, g_pCDx->_pad_10[2320]);
+    orig::Gfx_AssembleVertexShader(v8, (int)a1, (int)self_ + 234616);
+    orig::sub_10177090(v7, (int)off_10377210, 45, g_pCDx->_pad_10[2320]);
+    orig::Gfx_AssembleVertexShader(v7, (int)a1, (int)self_ + 234620);
+    v2 = *((_DWORD *)self_ + 58652);
+    v3 = *((_DWORD *)self_ + 58653);
+    *((_DWORD *)self_ + 58656) = *((_DWORD *)self_ + 58651);
+    v4 = *((_DWORD *)self_ + 58654);
+    *((_DWORD *)self_ + 58657) = v2;
+    v5 = *((_DWORD *)self_ + 58655);
+    *((_DWORD *)self_ + 58658) = v3;
+    *((_DWORD *)self_ + 58659) = v4;
+    *((_DWORD *)self_ + 58660) = v5;
+    orig::sub_10177090(v6, (int)off_103772C4, 9, 0);
+    orig::sub_101772E0((const char **)v6, (int)self_ + 234644);
+    orig::fn_10177070((type_info *)v6);
+    orig::fn_10177070((type_info *)v7);
+    orig::fn_10177070((type_info *)v8);
+    orig::fn_10177070((type_info *)v9);
+    orig::fn_10177070((type_info *)v10);
+    orig::fn_10177070((type_info *)self_v);
+  }
+  else
+  {
+    orig::fn_10177070((type_info *)v6);
+    orig::fn_10177070((type_info *)v7);
+    orig::fn_10177070((type_info *)v8);
+    orig::fn_10177070((type_info *)v9);
+    orig::fn_10177070((type_info *)v10);
+    orig::fn_10177070((type_info *)self_v);
+  }
 }
 
 // FUNCTION: FFXIMAIN 0x10178B00  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
@@ -474,7 +549,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTextu
     v13 = v12 - 1;
     if ( (int)v12 - 1 >= 0 )
     {
-      if ( v13 > *(int *)(LODWORD(v9) + 68) - 1 )
+      if ( v13 > *(_DWORD *)(LODWORD(v9) + 68) - 1 )
         v13 = *(_DWORD *)(LODWORD(v9) + 68) - 1;
     }
     else
@@ -679,7 +754,7 @@ void CTsZoneMap::ModelActor_Draw(int a2, int a3)
   if ( v4 == nullptr )
     return;
   v25 = nullptr;
-  if ( C != 0 )
+  if ( g_C_106631D4 != 0 )
   {
     Light = (float *)orig::ZoneMap_FindLight(825253740);
     v25 = Light;

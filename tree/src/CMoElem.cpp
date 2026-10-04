@@ -176,6 +176,461 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   return orig::CMoTask_Destructor(self);
 }
 
+// FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
+// GATE: PASS -- 100 trials, 77 returned normally, 1488 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall fn_100467E0(void *self_, int a1)
+{
+  int **v2;
+  int ScratchMatrixStackTop;
+  float *v4;
+  char v5;
+  int v6;
+  int *v7;
+  bool v8;
+  int v9;
+  float *v10;
+  CMoProcessor *v11;
+  int v12;
+  int v13;
+  float *v14;
+  CMoProcessor *v15;
+  int v16;
+  int *v17;
+  int *v18;
+  int v19;
+  int *v20;
+  int v21;
+  double v22;
+  long double v23;
+  int *v24;
+  int v25;
+  int v26;
+  int *v27;
+  int v28;
+  int result;
+  alignas(16) unsigned char xi_frame[0x588];  // address-taken locals at their original offsets
+  float &v30 = *reinterpret_cast<float *>(xi_frame + 0xB4);
+  float &v31 = *reinterpret_cast<float *>(xi_frame + 0xB8);
+  float &v32 = *reinterpret_cast<float *>(xi_frame + 0xBC);
+  float &v33 = *reinterpret_cast<float *>(xi_frame + 0xC0);
+  char &v34 = *reinterpret_cast<char *>(xi_frame + 0xD7);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0xD8);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0xDC);
+  _BYTE (&v37)[24] = *reinterpret_cast<_BYTE (*)[24]>(xi_frame + 0x11C);
+  float (&v38)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x144);
+  int &v39 = *reinterpret_cast<int *>(xi_frame + 0x184);
+
+  v2 = (int **)self_;
+  v35 = (int)self_;
+  if ( (_WORD)a1 == 0xFFFF )
+    LOWORD(a1) = *((_WORD *)self_ + 182);
+  ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
+  v4 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
+  g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+  orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, g_pProcessor->RotationMatrix);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    27,
+    1);
+  v34 = 0;
+  switch ( (char)a1 )
+  {
+    case 0:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        2);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        1);
+      break;
+    case 3:
+    case 68:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        5);
+      goto LABEL_17;
+    case 65:
+    case 67:
+    case 98:
+      if ( (_BYTE)a1 == 98 )
+        HIBYTE(g_scratchValue) = BYTE1(a1);
+      goto LABEL_14;
+    case 66:
+LABEL_14:
+      orig::sub_10046550(v2, 1);
+      break;
+    case 70:
+    case 71:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        1);
+LABEL_17:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        6);
+      break;
+    case 72:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        5);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        2);
+      v34 = 1;
+      break;
+    case 73:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        5);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        2);
+      break;
+    case 100:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        5);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        6);
+      goto LABEL_9;
+    case 104:
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        19,
+        5);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        20,
+        2);
+LABEL_9:
+      v5 = -1;
+      if ( (((unsigned __int16)a1 >> 7) & 0xFFFFFFFE) <= 0xFF )
+        v5 = ((unsigned __int16)a1 >> 7) & 0xFE;
+      HIBYTE(g_scratchValue) = v5;
+      break;
+    default:
+      break;
+  }
+  orig::RegisterWithProcessor((int)v2);
+  orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v2 + 40);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    15,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    25,
+    5);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    24,
+    96);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    7,
+    1);
+  v6 = *(_DWORD *)(g_pResourceMng + 3772);
+  if ( ((unsigned int)v2[67] & 0x1000) != 0 )
+    (*(void (__stdcall **)(int, int, int))(*(_DWORD *)v6 + 200))(v6, 14, 1);
+  else
+    (*(void (__stdcall **)(int, int, _DWORD))(*(_DWORD *)v6 + 200))(v6, 14, 0);
+  if ( (*((_BYTE *)v2 + 270) & 1) != 0 )
+  {
+    qmemcpy(v4, (const void *)orig::sub_10045C50(v2), 0x40u);
+    v4[12] = 0.0;
+    v4[13] = 0.0;
+    v4[14] = 0.0;
+    v4[15] = 1.0;
+    v7 = v2[63];
+    v8 = false;
+    if ( v7 != nullptr && *v7 != 0 )
+      v8 = (*(_BYTE *)(*v7 + 223) & 2) != 0;
+    if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::sub_100473F0(v2) != 0 )
+    {
+      v9 = g_pProcessor->ScratchMatrixStackTop;
+      v10 = g_pProcessor->ScratchMatrixFreeList[v9];
+      g_pProcessor->ScratchMatrixStackTop = v9 + 1;
+      qmemcpy(v10, (const void *)orig::sub_100473F0((int **)v35), 0x40u);
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))g_pProcessor->vftable + 30))(
+        g_pProcessor,
+        v4,
+        v4,
+        1083624418);
+      orig::sub_10045800(v10);
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 8))(
+        g_pProcessor,
+        v4,
+        v4,
+        v10);
+      v11 = g_pProcessor;
+      v12 = g_pProcessor->ScratchMatrixStackTop - 1;
+      g_pProcessor->ScratchMatrixStackTop = v12;
+      v11->ScratchMatrixFreeList[v12] = v10;
+      v2 = (int **)v35;
+    }
+    if ( (((unsigned int)v2[67] >> 6) & 7) != 0 && (((unsigned int)v2[67] >> 6) & 7) <= 2 && ((_BYTE)v2[67] & 1) != 0 )
+    {
+      v13 = g_pProcessor->ScratchMatrixStackTop;
+      v14 = g_pProcessor->ScratchMatrixFreeList[v13];
+      g_pProcessor->ScratchMatrixStackTop = v13 + 1;
+      qmemcpy(v14, (const void *)(g_pResourceMng + 2896), 0x40u);
+      v14[12] = 0.0;
+      v14[13] = 0.0;
+      v14[14] = 0.0;
+      v14[15] = 1.0;
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))g_pProcessor->vftable + 9))(
+        g_pProcessor,
+        v4,
+        v14,
+        v4);
+      qmemcpy(v4, v14, 0x40u);
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))g_pProcessor->vftable + 30))(
+        g_pProcessor,
+        v4,
+        v4,
+        1078530008);
+      v15 = g_pProcessor;
+      v16 = g_pProcessor->ScratchMatrixStackTop - 1;
+      g_pProcessor->ScratchMatrixStackTop = v16;
+      v15->ScratchMatrixFreeList[v16] = v14;
+      v2 = (int **)v35;
+    }
+    v17 = v2[63];
+    if ( *((_DWORD *)g_pZoneMap + 58663) != 0 )
+    {
+      if ( v17 != nullptr && *v17 != 0 )
+        orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, *(_DWORD *)(*v17 + 196));
+      else
+        orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, 0);
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))g_pProcessor->vftable + 20))(
+        g_pProcessor,
+        v37,
+        v4,
+        v37);
+      orig::CDx_SetLight(*(CDx **)(g_pResourceMng + 3528), 0, (float *)&v36);
+      (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        0,
+        1);
+      (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        1,
+        0);
+    }
+    else
+    {
+      if ( v17 != nullptr && *v17 != 0 )
+      {
+        v18 = v2[63];
+        if ( v18 != nullptr )
+          v19 = *v18;
+        else
+          v19 = 0;
+        orig::sub_1018B960(g_pXiZone, &v36, v38, *(_DWORD *)(v19 + 196));
+      }
+      else
+      {
+        orig::XiZone_GetDirLights((int)g_pXiZone, &v36, v38);
+      }
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))g_pProcessor->vftable + 20))(
+        g_pProcessor,
+        v37,
+        v4,
+        v37);
+      (*((void (__thiscall **)(CMoProcessor *, int *, float *, int *))g_pProcessor->vftable + 20))(
+        g_pProcessor,
+        &v39,
+        v4,
+        &v39);
+      orig::CDx_SetLight(*(CDx **)(g_pResourceMng + 3528), 0, (float *)&v36);
+      (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        0,
+        1);
+      orig::CDx_SetLight(*(CDx **)(g_pResourceMng + 3528), 1, v38);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        1,
+        1);
+    }
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      2,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      3,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      4,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      5,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      6,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 184))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      7,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      29,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      137,
+      1);
+  }
+  else
+  {
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      137,
+      0);
+  }
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    22,
+    1);
+  v20 = *(int **)(g_pResourceMng + 3772);
+  v21 = *v20;
+  if ( *((_BYTE *)g_pZoneMap + 234904) != 0 )
+  {
+    (*(void (__stdcall **)(int *, int, float *))(v21 + 152))(v20, 3, v38);
+    qmemcpy((char *)g_pZoneMap + 234832, v38, 64);
+    v22 = *((float *)g_pZoneMap + 58725);
+    v33 = *((float *)g_pCamera + 184) + v22;
+    v32 = *((float *)g_pCamera + 183) + v22;
+    v31 = 1.0 / (*((float *)g_pCamera + 186) * *((float *)g_pCamera + 188));
+    v23 = atan2(192.0, *((float *)g_pCamera + 189));
+    v30 = v23 + v23;
+    orig::D3DXMatrixPerspectiveFovLH_static((int)&v36, v30, v31, v32, v33);
+    (*(void (__stdcall **)(_DWORD, int, int *))(**(_DWORD **)(g_pResourceMng + 3772) + 148))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      3,
+      &v36);
+  }
+  else
+  {
+    (*(void (__stdcall **)(int *, int, int))(v21 + 200))(v20, 47, g_zbiasPreset_C4D0);
+  }
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    23,
+    4);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    25,
+    8);
+  if ( ((unsigned int)v2[67] & 0x2000000) != 0 )
+  {
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      28,
+      0);
+    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      48,
+      0);
+  }
+  else
+  {
+    v24 = v2[63];
+    if ( v24 != nullptr && *v24 != 0 )
+      orig::XiZone_GetFog(
+        g_pXiZone,
+        &dword_1047BBE0,
+        (float *)&dword_1047BBDC,
+        (float *)&dword_1047BBF8,
+        0,
+        *(_DWORD *)(*v24 + 196));
+    else
+      orig::XiZone_GetFog(g_pXiZone, &dword_1047BBE0, (float *)&dword_1047BBDC, (float *)&dword_1047BBF8, 0, 0);
+    orig::sub_100464D0();
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      28,
+      1);
+    v25 = *(_DWORD *)(g_pResourceMng + 3528);
+    if ( *(_BYTE *)(v25 + 2349) != 0 )
+    {
+      (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        140,
+        0);
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        35,
+        3);
+      (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        48,
+        0);
+    }
+    else if ( *(_BYTE *)(v25 + 2350) != 0 )
+    {
+      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        140,
+        3);
+      (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        35,
+        0);
+      v26 = *(_DWORD *)(g_pResourceMng + 3772);
+      if ( *(_BYTE *)(*(_DWORD *)(g_pResourceMng + 3528) + 2351) != 0 )
+        (*(void (__stdcall **)(int, int, int))(*(_DWORD *)v26 + 200))(v26, 48, 1);
+      else
+        (*(void (__stdcall **)(int, int, _DWORD))(*(_DWORD *)v26 + 200))(v26, 48, 0);
+    }
+    if ( v34 != 0 )
+      (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+        *(_DWORD *)(g_pResourceMng + 3772),
+        34,
+        0);
+  }
+  if ( ((unsigned int)v2[67] & 0x2000000) == 0 || (*((_BYTE *)v2 + 270) & 1) != 0 )
+  {
+    v27 = v2[63];
+    if ( v27 != nullptr && *v27 != 0 )
+      orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, *(_DWORD *)(*v27 + 196));
+    else
+      orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, 0);
+    g_pCDx->pDevice->SetRenderState(D3DRS_AMBIENT, v35);
+    g_pCDx->pDevice->SetMaterial(&dword_1047BC28);
+  }
+  if ( (byte_1047BBE4 & 1) == 0 )
+  {
+    byte_1047BBE4 |= 1u;
+    orig::fn_1006AD90((exception *)dword_1047BBB8);
+    orig::_atexit(XI_CODE(unknown_libname_53));
+  }
+  orig::StateBlock_ApplyTSS(dword_1047BBB8, (int)dword_10353598);
+  result = (int)g_pProcessor;
+  v28 = g_pProcessor->ScratchMatrixStackTop - 1;
+  g_pProcessor->ScratchMatrixStackTop = v28;
+  *(_DWORD *)(result + 4 * v28 + 2576) = v4;
+  LOBYTE(result) = 0;
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x100472E0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoElem::vf018()

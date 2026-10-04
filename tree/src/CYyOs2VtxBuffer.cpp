@@ -51,7 +51,7 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
       this->createStep = 4;
       return 0;
     case 4:
-      v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 8 * v3 + 4, 520, 0, 0, self + 19, 0);
+      v7 = orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 8 * v3 + 4, 0x208u, 0, D3DPOOL_DEFAULT, self + 19, 0);
 LABEL_11:
       if ( v7 < 0 )
       {

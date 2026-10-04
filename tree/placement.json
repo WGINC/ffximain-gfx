@@ -1258,11 +1258,24 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoResource_VT_1032C6F4::vf009"
 },
+"0x1003f440": {
+"class": "CMoDistMorphElem",
+"method": "ApplyMorph",
+"why": "IDB name",
+"symbol": "CMoDistMorphElem::ApplyMorph"
+},
 "0x1003f8a0": {
 "class": "CMoDistMorphElem",
 "method": "ComputeMorphHandle",
 "why": "IDB name",
 "symbol": "CMoDistMorphElem::ComputeMorphHandle"
+},
+"0x10040c20": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file",
+"symbol": "CMoElemFamily_SharedEarlyExit",
+"unit": "unit_1003FB70"
 },
 "0x10041000": {
 "class": "CMoElem",
@@ -1500,6 +1513,13 @@
 "method": "CMoElemFamily_SharedCleanup",
 "why": "callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)",
 "symbol": "CMoElem::CMoElemFamily_SharedCleanup"
+},
+"0x100467e0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB",
+"symbol": "fn_100467E0",
+"unit": "CMoElem"
 },
 "0x100472e0": {
 "class": "CMoElem",
@@ -2247,6 +2267,13 @@
 "symbol": "Occlusion_QueryScreenRect",
 "unit": "unit_1006C210_Occlusion"
 },
+"0x1006c530": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "Occlusion_DrawQuery",
+"unit": "unit_1006C210_Occlusion"
+},
 "0x1006c9b0": {
 "class": null,
 "method": null,
@@ -2685,6 +2712,13 @@
 "method": "GetRuntimeClass",
 "why": "tree manifest; does not use this",
 "symbol": "CMoTaskMng::GetRuntimeClass"
+},
+"0x10075280": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "Gfx_InitCubeMapTextures",
+"unit": "unit_10074CA0"
 },
 "0x100755a0": {
 "class": null,
@@ -3845,6 +3879,13 @@
 "method": "InitZBiasPresets",
 "why": "IDB name",
 "symbol": "CTsZoneMap::InitZBiasPresets"
+},
+"0x10178250": {
+"class": null,
+"method": null,
+"why": "unit: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB",
+"symbol": "fn_10178250",
+"unit": "CTsZoneMap"
 },
 "0x10178b00": {
 "class": null,

@@ -1135,7 +1135,7 @@ int CDx::CreateRampTexture1x16(int a1)
                1u,
                0,
                D3DFMT_A8R8G8B8,
-               D3DPOOL_MANAGED,
+               1,
                (IDirect3DTexture8 **)a1);
     if ( result < 0 )
     {
@@ -1188,7 +1188,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
     return 1;
   v3 = a2;
   v4 = 0;
-  while ( orig::fn_102D2FB9(this->pDevice, 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, v3) >= 0 )
+  while ( orig::fn_102D2FB9(this->pDevice, 0x400u, 2u, 1u, 0, D3DFMT_A8R8G8B8, 1, v3) >= 0 )
   {
     (*v3)->lpVtbl->LockRect(*v3, 0, (D3DLOCKED_RECT *)v10, nullptr, 0);
     for ( i = 0; i < 2; ++i )

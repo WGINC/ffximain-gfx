@@ -90,7 +90,7 @@ public:
     int ActorGetResourceCount(int a2, int a3);  // 0x100CEC90
     void ReplaceAttack(int a1, int a2, int a3, int a4);  // 0x100CEDF0
     char SetAttack(int a2, int a3, int a4, char *Source);  // 0x100CEE00
-    char SetAction(int a2, _DWORD *a3, int a4);  // 0x100CEE40
+    char SetAction(int a2, _DWORD *a3, void *a4);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
     void vf172(int a2);  // 0x100CF200
     char SetModel(int a2);  // 0x100CF210
@@ -98,7 +98,7 @@ public:
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
     void OnDrawName();  // 0x100D0510
-    int GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
+    char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
     static char __stdcall ProjectToScreen(int a1, int a2, int a3);  // 0x100D0740
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0

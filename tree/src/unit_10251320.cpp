@@ -25,7 +25,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     orig::nullsub_12(aMemtotal0x08xB, v7);
     orig::nullsub_12(aWorkpool0x08xB, 0x200000, v3);
     orig::nullsub_12(aMainpool0x08xB, v5);
-    This = g_pD3DHolder->pD3D;
+    g_This_10669418 = g_pD3DHolder->pD3D;
     pDevice = g_pD3DHolder->pDevice;
     g_dancerMainMemSize = v5;
     g_pDancerDevice = pDevice;
@@ -51,7 +51,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
       orig::sqgxTextureAdd(xRight, yBottom, (IDirect3DTexture8 *)4, nullptr);
       orig::sqgxTextureAddZ(v9[3], v9[4], 3);
     }
-    This->GetAdapterIdentifier(0, 2u, &v9[5]);
+    g_This_10669418->GetAdapterIdentifier(0, 2u, &v9[5]);
     g_pSqgxContext[180] = v9[263] == 4098 || g_pCDx->_pad_10[2306] == 0;
     g_pSqgxContext[553] = 1;
     g_pSqgxContext[554] = 0;

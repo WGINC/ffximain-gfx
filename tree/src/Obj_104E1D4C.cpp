@@ -77,7 +77,7 @@ void Obj_104E1D4C::Cursor_Draw()
   int v4;
   alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
   float (&v5)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x14);
-  float (&v6)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
+  float (&self_v)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
 
   if ( this->field_4E != 0 )
   {
@@ -110,36 +110,36 @@ void Obj_104E1D4C::Cursor_Draw()
     {
       if ( g_pCDx != nullptr )
         orig::CDx_ShowCursor(&g_pCDx->vftable, 0);
-      orig::fn_10027990((Iostream_init *)v6);
-      orig::Mat4_SetIdentity(v6);
-      orig::Mat4_PostRotateZ(*(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
+      orig::fn_10027990((Iostream_init *)self_v);
+      orig::Mat4_SetIdentity(self_v);
+      orig::Mat4_PostRotateZ(self_v, *(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
       v4 = this->shapeIndex;
       v5[3] = 0.0;
       v5[0] = (float)word_1036E4FA[32 * v4];
       v5[1] = v5[0];
       v5[2] = v5[0];
-      orig::Mat4_PostScale(v5);
+      orig::Mat4_PostScale(self_v, v5);
       if ( v2 != nullptr )
         orig::Shape_DrawTransformed(
           v2,
           this->field_C,
           this->field_10,
-          v6[0],
-          SLODWORD(v6[1]),
-          SLODWORD(v6[2]),
-          SLODWORD(v6[3]),
-          SLODWORD(v6[4]),
-          SLODWORD(v6[5]),
-          SLODWORD(v6[6]),
-          SLODWORD(v6[7]),
-          SLODWORD(v6[8]),
-          SLODWORD(v6[9]),
-          SLODWORD(v6[10]),
-          SLODWORD(v6[11]),
-          SLODWORD(v6[12]),
-          SLODWORD(v6[13]),
-          SLODWORD(v6[14]),
-          SLODWORD(v6[15]),
+          self_v[0],
+          SLODWORD(self_v[1]),
+          SLODWORD(self_v[2]),
+          SLODWORD(self_v[3]),
+          SLODWORD(self_v[4]),
+          SLODWORD(self_v[5]),
+          SLODWORD(self_v[6]),
+          SLODWORD(self_v[7]),
+          SLODWORD(self_v[8]),
+          SLODWORD(self_v[9]),
+          SLODWORD(self_v[10]),
+          SLODWORD(self_v[11]),
+          SLODWORD(self_v[12]),
+          SLODWORD(self_v[13]),
+          SLODWORD(self_v[14]),
+          SLODWORD(self_v[15]),
           dword_1036E4E8[16 * this->shapeIndex],
           0);
       orig::nullsub_1();

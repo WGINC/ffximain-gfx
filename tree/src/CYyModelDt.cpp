@@ -33,7 +33,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
   bool v30;
   unsigned __int8 v31;
   _DWORD *v32;
-  _BYTE *v33;
+  void *self_v;
   int v34;
   int v35;
   int v36;
@@ -42,7 +42,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
   int v39;
   int v40;
   v6 = self;
-  v33 = self;
+  self_v = self;
   orig::CYyModelDt_SetVertexShader(0);
   g_pCDx->pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
   v7 = *(_DWORD *)(v6 + 54);
@@ -111,6 +111,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                   g_stripVertexCursor = 0;
                 }
                 v36 = (unsigned __int16)orig::CYyModelDt_ExpandTriStrip(
+                                          self_v,
                                           (unsigned __int16)v10,
                                           (unsigned __int16 *)(v7 + 4),
                                           v32);
@@ -151,7 +152,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                 {
                   v23 = (unsigned __int16)v10;
                   v24 = 3 * (unsigned __int16)v10;
-                  if ( (v33[52] & 1) != 0 )
+                  if ( (*((_BYTE *)self_v + 52) & 1) != 0 )
                   {
                     v24 = 6 * (unsigned __int16)v10;
                     a3b = 2 * v10;
@@ -198,7 +199,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                     }
                     g_lineVertexCursor = 0;
                   }
-                  v35 = (unsigned __int16)orig::CYyModelDt_ExpandTriList(v33, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
+                  v35 = (unsigned __int16)orig::CYyModelDt_ExpandTriList(self_v, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
                   while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7150 + 48))(g_vertexBuffer_7150) != 0 )
                     Sleep(0);
                   orig::CYyModelDt_SetVertexShader(274);
@@ -365,7 +366,7 @@ LABEL_80:
         LOWORD(v8) = *(_WORD *)v7;
         if ( *(_WORD *)v7 == 0xFFFF )
           return v8;
-        v6 = v33;
+        v6 = self_v;
       }
     }
   }

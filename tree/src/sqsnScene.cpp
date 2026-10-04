@@ -62,7 +62,7 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
         ++v4;
         v2 += 44;
       }
-      while ( v4 < *(int *)(a1 + 68) );
+      while ( (int)(v4) < (int)(*(_DWORD *)(a1 + 68)) );
     }
     if ( *(int *)(a1 + 68) > 0 )
     {
@@ -134,7 +134,7 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
         ++v11;
         v12 += 44;
       }
-      while ( v11 < *(int *)(a1 + 68) );
+      while ( (int)(v11) < (int)(*(_DWORD *)(a1 + 68)) );
     }
     orig::sqrdCamera_Apply(a1a);
     orig::sqgxMatrixCamera(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
@@ -177,7 +177,7 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
 LABEL_53:
         ++v15;
         v16 += 44;
-        if ( v15 >= *(int *)(a1 + 68) )
+        if ( (int)(v15) >= (int)(*(_DWORD *)(a1 + 68)) )
           goto LABEL_54;
       }
       v18 = *(void (**)(void))(v17 + 28);

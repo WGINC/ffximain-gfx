@@ -230,6 +230,18 @@ def rewrite_members(body, self_type, cls, layout_fields):
 
 PLACEHOLDER = re.compile(r'^(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}$')
 
+
+def declared_names(r):
+    """the names a record declares: its parameters, and the locals Hex-Rays declares at the top of the body
+    (the lines before the first blank line, each ending in its location comment: `; // eax`, `; // [esp+..]`)"""
+    head, _, body = r['text'].partition('\n{')
+    sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
+    params = sig[sig.find('(') + 1:sig.rfind(')')]
+    names = {m.group(1) for p in params.split(',') for m in [re.search(r'(\w+)\s*(\[[^\]]*\])*\s*$', p)] if m}
+    decls = body.lstrip('\n').split('\n\n', 1)[0]
+    names |= set(re.findall(r'^\s+[^;=()]*?[\s\*&](\w+)(?:\[[^\]]*\])*; // ', decls, re.M))
+    return names
+
 def canonicalise_names(R, pending):
     # A record exported before an IDB rename still prints the old name, so one address can carry
     # two names across records. Every referenced object gets one name: the reviewed name from
@@ -241,19 +253,19 @@ def canonicalise_names(R, pending):
             if not PLACEHOLDER.match(nm): seen[o['ea']][nm] += 1
     canon = {ea: c.most_common(1)[0][0] for ea, c in seen.items()}
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
+    local = {'self', 'this'} | set().union(*(declared_names(r) for r in R.values()))
     for r in R.values():
         for nm, o in list(r['objs'].items()):
-            if nm in ('self', 'this') and not o['func']:
-                # the IDB has a global named `self`; Hex-Rays writes it `::self`. As a macro it would
-                # replace every `self` in the tree, so it gets a distinct name.
+            if nm in local and not o['func']:
+                # a global is a macro in the tree, so one named like a parameter or local of any function
+                # (the IDB has globals named `self` and `C`; Hex-Rays writes them `::self`, `::C` where a
+                # parameter shadows them) would replace that identifier everywhere: it gets a distinct name
                 new = 'g_%s_%08X' % (nm, o['ea'])
                 head, _, body = r['text'].partition('\n{')
-                sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
-                params = sig[sig.find('(') + 1:sig.rfind(')')]
-                if re.search(r'\b(self|this)\b', params):       # a parameter shadows it: only `::self` is the global
-                    r['text'] = r['text'].replace('::' + nm, new)
+                if nm in declared_names(r):                     # shadowed here: only `::name` is the global
+                    r['text'] = re.sub(r'(?<![\w:])::%s\b' % re.escape(nm), new, r['text'])
                 else:
-                    r['text'] = head + '\n{' + re.sub(r'(?:::)?\b%s\b' % nm, new, body)
+                    r['text'] = head + '\n{' + re.sub(r'(?<![\w:])(?:::)?\b%s\b(?!::)' % re.escape(nm), new, body)
                 o['printed'] = [new]; r['objs'][new] = r['objs'].pop(nm)
                 continue
             new = canon.get(o['ea'])

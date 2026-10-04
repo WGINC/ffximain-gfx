@@ -122,6 +122,28 @@ class FreeSelf(unittest.TestCase):
         self.assertEqual(P.free_self(rec), rec)
 
 
+class GlobalNamedLikeALocal(unittest.TestCase):
+    """a global is a macro in the clean tree: one named like any function's parameter or local is renamed"""
+    def recs(self):
+        a = {'ea': 1, 'name': 'f', 'objs': {'C': {'ea': 0x106631D4, 'func': False}},
+             'text': 'int f(int a1)\n{\n  return C + Foo::C;\n}'}
+        b = {'ea': 2, 'name': 'g', 'objs': {'C': {'ea': 0x106631D4, 'func': False}},
+             'text': 'int g(_DWORD *C)\n{\n  int v2; // eax\n\n  v2 = ::C;\n  return *C + v2;\n}'}
+        return {1: a, 2: b}
+
+    def test_declared_names(self):
+        import hx2clean as C
+        r = self.recs()
+        self.assertEqual(C.declared_names(r[2]), {'C', 'v2'})
+        self.assertEqual(C.declared_names({'text': 'void *h()\n{\n  return &CDx_classdesc;\n}'}), set())
+
+    def test_renamed_where_global_shadowed_where_not(self):
+        import hx2clean as C
+        R = self.recs(); C.canonicalise_names(R, {})
+        self.assertEqual(R[1]['text'], 'int f(int a1)\n{\n  return g_C_106631D4 + Foo::C;\n}')
+        self.assertEqual(R[2]['text'], 'int g(_DWORD *C)\n{\n  int v2; // eax\n\n  v2 = g_C_106631D4;\n  return *C + v2;\n}')
+
+
 class Solver(unittest.TestCase):
     def test_determined(self):
         # p0 + p1 = 8 and p1 = 4  ->  p0 = 4, p1 = 4

@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 228 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, int a4, int a5)
+XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5)
 {
   __int16 v5; // fps
   bool v6; // c0
@@ -373,7 +373,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   unsigned int *v32;
   int i;
   alignas(16) unsigned char xi_frame[0x665];  // address-taken locals at their original offsets
-  int &v34 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  unsigned int &v34 = *reinterpret_cast<unsigned int *>(xi_frame + 0xC);
   int &ViewportWidth = *reinterpret_cast<int *>(xi_frame + 0x28);
   int &v36 = *reinterpret_cast<int *>(xi_frame + 0x2C);
   int &v37 = *reinterpret_cast<int *>(xi_frame + 0x30);

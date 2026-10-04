@@ -61,23 +61,24 @@ int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 char CXiSkeletonActorRes::ProcessLoadState()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  _DWORD *v2;
   _DWORD *LinkedActor;
-  int v4;
   int v5;
+  int v6;
   LinkedActor = (_DWORD *)orig::CXiSkeletonActorRes_GetLinkedActor((_DWORD *)self);
   if ( LinkedActor != nullptr )
   {
-    v4 = this->loadState;
-    if ( v4 != 0 )
+    v5 = this->loadState;
+    if ( v5 != 0 )
     {
-      v5 = v4 - 1;
-      if ( v5 == 0 )
+      v6 = v5 - 1;
+      if ( v6 == 0 )
       {
         (*(void (__cdecl **)(_DWORD *, int))(self + 56))(LinkedActor, self);
         ++this->loadState;
         return 0;
       }
-      if ( v5 == 1 && (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 484))(LinkedActor) == 1 )
+      if ( v6 == 1 && (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 484))(LinkedActor) == 1 )
       {
         (*(void (__thiscall **)(int, int))(*(_DWORD *)self + 24))(self, 1);
         return 1;
@@ -95,7 +96,7 @@ char CXiSkeletonActorRes::ProcessLoadState()
   else
   {
     if ( self != 0 )
-      (*(void (__thiscall **)(void *, int))(*(_DWORD *)self + 24))((void *)self, 1);
+      (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)self + 24))((_DWORD *)self, 1);
     return 1;
   }
 }

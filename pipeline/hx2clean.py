@@ -84,11 +84,11 @@ def orig_wrapper(name, ea, ftype):
     names = ['a%d' % i for i in range(len(ps))]
     fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + (['...'] if variadic else [])))
     if variadic:
-        body = 'return reinterpret_cast<%s>(0x%08Xu)(%s);' % (fp, ea, ', '.join(names + ['rest...']))
+        body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['rest...']))
         if ret == 'void': body = body.replace('return ', '')
         return ('template <class... R> XI_ORIG %s %s(%s) { %s }' % (
             ret, name, ', '.join(['%s %s' % (p, n) for p, n in zip(ps, names)] + ['R... rest']), body))
-    body = 'return reinterpret_cast<%s>(0x%08Xu)(%s);' % (fp, ea, ', '.join(names))
+    body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names))
     if ret == 'void': body = body.replace('return ', '')
     return ('XI_ORIG %s %s(%s) { %s }' % (ret, name, ', '.join('%s %s' % (p, n) for p, n in zip(ps, names)), body))
 
@@ -96,6 +96,29 @@ def orig_wrapper(name, ea, ftype):
 def strip_noise(body):
     body = re.sub(r'\s*//\s*(e?[abcd]x|e?[sd]i|e?bp|e?sp|[abcd][lh]|st\d?|\[esp[^\n]*|\[ebp[^\n]*)\s*$', '', body, flags=re.M)
     return body
+
+_RL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'reloc_literals.json')
+RELOC_LIT = {int(k, 16): {int(v, 16) for v in vs} for k, vs in json.load(open(_RL)).items() if not k.startswith('_')} \
+    if os.path.exists(_RL) else {}
+
+
+def reloc_literals(ea, body):
+    """an integer literal whose value the function's own code holds only as relocated immediates (an address,
+    data/reloc_literals.json) -> XI_GAME(0x...u), cast back to the literal's own type (int, or unsigned int
+    with a u suffix), so the verified build compiles the same constant and the in-game build rebases it"""
+    vals = RELOC_LIT.get(ea)
+    if not vals: return body, 0
+    n = [0]
+    def sub(m):
+        lit, suf = m.group(1), m.group(2) or ''
+        if len(lit) > 1 and lit[0] == '0' and lit[1] not in 'xX': return m.group(0)       # octal: not an address
+        v = int(lit, 0)
+        if v not in vals: return m.group(0)
+        n[0] += 1
+        return '(%s)XI_GAME(0x%08Xu)' % ('unsigned int' if suf else 'int', v)
+    body = re.sub(r'(?<![\w.])(0[xX][0-9A-Fa-f]+|\d+)([uU])?(?![\w.])', sub, body)
+    return body, n[0]
+
 
 def name_d3d_values(body):
     def rs(m):
@@ -453,7 +476,7 @@ def main(exp, gate, manf, incdir, outdir):
             an = nm0 if re.match(r'^[A-Za-z_]\w*$', nm0) else 'fn_%08X' % ea
             if an in _seen: continue
             _seen.add(an); f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (an, ea))
-        f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(orig_addr::name)\n')
+        f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(XI_GAME(orig_addr::name))\n')
     gnames, gcanon, gvariant = {}, {}, {}
     with open(os.path.join(outdir, 'include', 'gfx_globals.hpp'), 'w') as f:
         f.write('// gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.\n#pragma once\n#include "gfx_common.hpp"\n')
@@ -523,6 +546,7 @@ def main(exp, gate, manf, incdir, outdir):
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
         # LOBYTE(x), HIWORD(x), ... on integer locals and parameters: the exact C (partial_regs.py)
         body, preg = partial_regs.rewrite(body, partial_regs.var_types(ps, body))
+        body, nrel = reloc_literals(ea, body)
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
         if cls and nothis.get(ea):
             mp = ', '.join(ps)
@@ -563,6 +587,7 @@ def main(exp, gate, manf, incdir, outdir):
                            'symbol': '%s::%s' % (cls, meth) if cls else fname}
         if not cls and UNITS.get(hex(ea)): report[hex(ea)]['unit'] = UNITS[hex(ea)]['unit']
         if preg: report[hex(ea)]['partial_regs'] = preg
+        if nrel: report[hex(ea)]['reloc_literals'] = nrel
 
     # headers
     for cls, L in layouts.items():

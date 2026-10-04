@@ -109,7 +109,7 @@ XI_API int __cdecl sqgxVertexShaderSelect(void)
 LABEL_8:
     g_sqgxVertexShaderKeyA[2 * g_counter_109A2744] = v0;
     g_sqgxVertexShaderKeyB[2 * v5] = v1;
-    orig::sqgxVertexShaderCreate((_DWORD *)(4 * v5 + 272320784));
+    orig::sqgxVertexShaderCreate((_DWORD *)(4 * v5 + (int)XI_GAME(0x103B4910u)));
     return ++g_counter_109A2744;
   }
   else

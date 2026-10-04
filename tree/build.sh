@@ -7,8 +7,12 @@ FLAGS=(-O2 -mfpmath=387 -march=i686 -ffreestanding -fno-builtin -fno-asynchronou
        -fexcess-precision=standard -fno-exceptions -fno-rtti -std=c++17 -Iinclude
        -fno-strict-aliasing -fwrapv -fno-delete-null-pointer-checks -fpermissive -w
        "-DXI_API=__attribute__((dllexport))")
+# XI_INGAME=1 ./build.sh: the in-game build, every game address rebased through xi_rel (xi_decomp.hpp XI_GAME),
+# written to build/gfx_recon_ingame.dll; the default build is the one the gate verifies
+OUTDLL=build/gfx_recon.dll; CFL=()
+if [ -n "${XI_INGAME:-}" ]; then FLAGS+=(-DXI_INGAME); CFL=(-DXI_INGAME); OUTDLL=build/gfx_recon_ingame.dll; fi
 mkdir -p build/obj build/err
-$CC -O2 -ffreestanding -fno-builtin -c rt.c -o build/obj/rt.o
+$CC -O2 -ffreestanding -fno-builtin "${CFL[@]}" -c rt.c -o build/obj/rt.o
 ok=(); bad=()
 for f in src/*.cpp; do
   o=build/obj/$(basename "$f" .cpp).o
@@ -22,8 +26,8 @@ for o in build/obj/rt.o "${ok[@]}"; do
   i686-w64-mingw32-objcopy --set-section-alignment .text=8192 --set-section-alignment .rdata=4096 \
                            --set-section-alignment .data=4096 "$o"
 done
-$CXX -shared -nostdlib -o build/gfx_recon.dll build/obj/rt.o "${ok[@]}" -lgcc \
+$CXX -shared -nostdlib -o $OUTDLL build/obj/rt.o "${ok[@]}" -lgcc \
      -Wl,--image-base=0x60000000 -Wl,-e,_DllMainCRTStartup@12 -Wl,--disable-auto-image-base -Wl,--kill-at \
      -Wl,--section-start=.rdata=0x60800000 -Wl,--section-start=.data=0x60A00000 -Wl,--section-start=.bss=0x60B00000 \
      -Wl,--no-insert-timestamp
-echo "built build/gfx_recon.dll from ${#ok[@]} files; failed: ${bad[*]:-none}"
+echo "built $OUTDLL from ${#ok[@]} files; failed: ${bad[*]:-none}"

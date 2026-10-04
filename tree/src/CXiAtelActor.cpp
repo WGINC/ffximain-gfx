@@ -278,7 +278,7 @@ LABEL_50:
               v29 += 2;
               v31 += 7;
             }
-            while ( (int)v32 < 271942420 );
+            while ( (int)v32 < (int)XI_GAME(0x10358314u) );
             v55 = a4;
             if ( orig::ShapeMng_BindFontTexture(g_shapeMng, *((unsigned __int8 *)&v67[3] + v25), &v55, &a5) == 0 )
               goto LABEL_63;
@@ -565,7 +565,7 @@ LABEL_28:
               v20 += 2;
               v22 += 7;
             }
-            while ( (int)v26 < 271942420 );
+            while ( (int)v26 < (int)XI_GAME(0x10358314u) );
             v34 = *((unsigned __int8 *)&v49[3] + v19);
             v38 = -2139062144;
             ViewportWidth = -2139062144;

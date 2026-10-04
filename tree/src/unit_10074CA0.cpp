@@ -66,7 +66,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
       1,
       v13[0],
       0,
-      4 * v0 + 273142108);
+      4 * v0 + (int)XI_GAME(0x1047D15Cu));
     if ( dword_1047D15C[v0] == 0 )
     {
       result = dword_1047D168[v0];

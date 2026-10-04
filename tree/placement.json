@@ -1025,7 +1025,8 @@
 "class": "CXiSkeletonActor",
 "method": "PoseCompose",
 "why": "IDB name",
-"symbol": "CXiSkeletonActor::PoseCompose"
+"symbol": "CXiSkeletonActor::PoseCompose",
+"reloc_literals": 2
 },
 "0x100353c0": {
 "class": "CMoElem",
@@ -2856,7 +2857,8 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
 "symbol": "Gfx_InitCubeMapTextures",
-"unit": "unit_10074CA0"
+"unit": "unit_10074CA0",
+"reloc_literals": 1
 },
 "0x100755a0": {
 "class": null,
@@ -2981,7 +2983,8 @@
 "lvalue use left": 3,
 "read left: operand not a local or parameter": 3,
 "read rewritten": 1
-}
+},
+"reloc_literals": 1
 },
 "0x10086900": {
 "class": null,
@@ -2996,7 +2999,8 @@
 "lvalue use left": 4,
 "read rewritten": 2,
 "read left: operand not a local or parameter": 1
-}
+},
+"reloc_literals": 1
 },
 "0x100a27f0": {
 "class": "CMoTask_VT_1032D6D4",
@@ -4622,7 +4626,8 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file",
 "symbol": "sqgxVertexShaderSelect",
-"unit": "unit_10284900"
+"unit": "unit_10284900",
+"reloc_literals": 1
 },
 "0x10284b20": {
 "class": null,

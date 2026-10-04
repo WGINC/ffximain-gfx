@@ -359,7 +359,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         do
         {
           if ( *v14 != 0xFF )
-            orig::Vec3_MulInPlace((float *)(52 * (char)*(v14 - 2) + 273018956), (float *)(52 * (char)*v14 + 273018956));
+            orig::Vec3_MulInPlace((float *)(52 * (char)*(v14 - 2) + (int)XI_GAME(0x1045F04Cu)), (float *)(52 * (char)*v14 + (int)XI_GAME(0x1045F04Cu)));
           ++v14;
         }
         while ( (int)&v14[-2 - (_DWORD)a6] < 2 );

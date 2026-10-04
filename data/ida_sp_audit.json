@@ -1,1 +1,71 @@
-{}
+{
+ "0x100412B0": {
+  "name": "sub_100412B0",
+  "fixes": [
+   {
+    "at": "0x1004132C",
+    "change": 12,
+    "why": "the call pops 12 (com_calls)"
+   }
+  ],
+  "unexplained": [
+   {
+    "at": "0x100419F4",
+    "depth": 28,
+    "ida": 32
+   },
+   {
+    "at": "0x100419F5",
+    "depth": 24,
+    "ida": 28
+   },
+   {
+    "at": "0x100419F6",
+    "depth": 20,
+    "ida": 24
+   },
+   {
+    "at": "0x100419F7",
+    "depth": 16,
+    "ida": 20
+   },
+   {
+    "at": "0x100419FA",
+    "depth": 0,
+    "ida": 4
+   }
+  ]
+ },
+ "0x1006AF00": {
+  "name": "sub_1006AF00",
+  "fixes": [
+   {
+    "at": "0x1006AF1C",
+    "change": 4,
+    "why": "the call pops 4 (com_calls)"
+   },
+   {
+    "at": "0x1006AF5E",
+    "change": 8,
+    "why": "the call pops 8 (com_calls)"
+   }
+  ],
+  "unexplained": []
+ },
+ "0x1006AF90": {
+  "name": "StateBlock_ApplyTSS",
+  "fixes": [
+   {
+    "at": "0x1006AFAC",
+    "change": 4,
+    "why": "the call pops 4 (com_calls)"
+   },
+   {
+    "at": "0x1006AFF3",
+    "change": 8,
+    "why": "the call pops 8 (com_calls)"
+   }
+  ],
+  "unexplained": []
+ }
+}

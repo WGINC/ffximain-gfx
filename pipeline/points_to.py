@@ -175,7 +175,24 @@ def norm(v):
     return U1 if UNK in v else v
 
 
+_WIDENED = {}
+
+
+def join(a, b):
+    """widen(a | b), without building a | b when b adds nothing to a (then it is widen(a), memoised)"""
+    if b is a or b is E or b <= a: return widen(a)
+    return widen(a | b)
+
+
 def widen(v):
+    r = _WIDENED.get(v)
+    if r is None:
+        if len(_WIDENED) > 500000: _WIDENED.clear()
+        r = _WIDENED[v] = _widen(v)
+    return r
+
+
+def _widen(v):
     """at a join: an object reached at more than WIDEN offsets is reached at an unknown offset (a pointer stepped in
     a loop would otherwise take a new offset every pass); sound, as (obj, None) covers every offset"""
     if UNK in v: return U1
@@ -188,6 +205,8 @@ def widen(v):
 
 class PT:
     def __init__(self, im, path, ext, fns):
+        self.sent = {}                                     # (call site, callee, reg) -> value last passed
+        self._base = {}
         self.im = im; self.fns = fns; self.starts = set(fns)
         pe = __import__('pefile').PE(path, fast_load=True); pe.parse_data_directories()
         base = pe.OPTIONAL_HEADER.ImageBase
@@ -339,8 +358,11 @@ class PT:
         return sorted(refs)
 
     def base_of(self, x):
-        i = bisect.bisect_right(self.refs, x) - 1
-        return self.refs[i] if i >= 0 else x
+        r = self._base.get(x)
+        if r is None:
+            i = bisect.bisect_right(self.refs, x) - 1
+            r = self._base[x] = self.refs[i] if i >= 0 else x
+        return r
 
     def next_ref(self, a):
         i = bisect.bisect_right(self.refs, a)
@@ -552,8 +574,8 @@ class PT:
                 if n not in st: st[n] = (regs, frame); work.append(n)
                 else:
                     orr, ofr = st[n]
-                    nr = {r: widen(orr.get(r, E) | regs.get(r, E)) for r in set(orr) | set(regs)}
-                    nf = {o: widen(ofr[o] | frame[o]) for o in ofr if o in frame}
+                    nr = {r: join(orr.get(r, E), regs.get(r, E)) for r in set(orr) | set(regs)}
+                    nf = {o: join(ofr[o], frame[o]) for o in ofr if o in frame}
                     if nr != orr or nf != ofr: st[n] = (nr, nf); work.append(n)
         if escaped:
             pass
@@ -576,11 +598,16 @@ class PT:
         if tgt[0] == 'I' and tgt[1] not in self.fns: unknown = True
         args = [arg(k) for k in range(NARGS)]
         res = {r: E for r in ('eax', 'ecx', 'edx')}; changed = set(('eax', 'ecx', 'edx'))
+        sent = self.sent
         for g in callees:
             self.callers[g].add(f)
             for r in GPR:
                 v = regs.get(r, E)
+                # IN only grows, so a value this call site already passed (the same object) is still inside
+                # it: the subset test, the analysis' hottest line, is skipped for it
+                if sent.get((a, g, r)) is v: continue
                 if not v <= self.IN[g].get(r, E): self.IN[g][r] = self.IN[g].get(r, E) | v; self.dirty.add(g)
+                sent[(a, g, r)] = v
             for k in range(NARGS): self.write(('F', g), 4 + 4 * k, args[k], f, None)
             for r in self.clob.get(g, set(GPR)):
                 res[r] = res.get(r, E) | self.EXIT[g].get(r, E); changed.add(r)

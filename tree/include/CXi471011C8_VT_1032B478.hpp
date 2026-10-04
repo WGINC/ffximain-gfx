@@ -9,8 +9,8 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xF4];
-    uint32_t field_F8;  // +0xF8
-    uint8_t _pad_FC[0x98];
+    uint8_t field_F8;  // +0xF8
+    uint8_t _pad_F9[0x9B];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXi471011C8_VT_1032B478) == 0x194, "CXi471011C8_VT_1032B478: sizeof");

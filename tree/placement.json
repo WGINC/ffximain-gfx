@@ -1356,11 +1356,10 @@
 "unit": "unit_1003E6B0"
 },
 "0x1003eb30": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1003E6A0 (CMoD3aElem) and 0x1003EE60 (CMoD3aLightmapElem) -- an unnamed source file",
-"symbol": "fn_1003EB30",
-"unit": "unit_1003E6B0"
+"class": "CMoD3aElem",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoD3aElem::vf18"
 },
 "0x1003ee50": {
 "class": "CMoD3aElem",
@@ -1473,12 +1472,20 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoElem::CMoElemFamily_IsKind0"
 },
+"0x100412b0": {
+"class": "CMoD3mSpecularElem",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoD3mSpecularElem::vf18",
+"partial_regs": {
+"read left: operand type float is not an integer type": 3
+}
+},
 "0x10041af0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file",
-"symbol": "fn_10041AF0",
-"unit": "unit_10041A40"
+"class": "CMoElem_VT_1032ADE8",
+"method": "vf18",
+"why": "IDB name",
+"symbol": "CMoElem_VT_1032ADE8::vf18"
 },
 "0x10041c20": {
 "class": null,
@@ -1494,11 +1501,10 @@
 "symbol": "CMoElem_VT_1032ADE8::ScalarDeletingDtor"
 },
 "0x10042020": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10041FE0 (CMoElem_VT_1032ADE8) and 0x100421A0 (CMoOtTask) -- an unnamed source file",
-"symbol": "fn_10042020",
-"unit": "unit_10042000"
+"class": "CMoOtTask_VT_1032AE64",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoOtTask_VT_1032AE64::vf8"
 },
 "0x10042640": {
 "class": "CMoTask",
@@ -1549,10 +1555,11 @@
 "symbol": "CMoDist::GetRuntimeClass_variant0"
 },
 "0x100426f0": {
-"class": "CMoDist",
-"method": "vf18",
-"why": "IDB name",
-"symbol": "CMoDist::vf18"
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100426E0 (CMoDist) and 0x10042D00 (CMoDistMorphElem) -- an unnamed source file",
+"symbol": "fn_100426F0",
+"unit": "unit_100426F0"
 },
 "0x10042d00": {
 "class": "CMoDistMorphElem",
@@ -2333,56 +2340,49 @@
 }
 },
 "0x1005f3c0": {
-"class": null,
-"method": null,
-"why": "unit: between 0x1005F320 (stores CMoLockColorDriveTask vtable (ctor/dtor)) and 0x1005F3F0 (stores CMoLockColorDriveTask vtable (ctor/dtor)), both within 4 KB",
-"symbol": "fn_1005F3C0",
-"unit": "CMoLockColorDriveTask"
+"class": "CMoLockColorDriveTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoLockColorDriveTask::vf8"
 },
 "0x1005f540": {
-"class": null,
-"method": null,
-"why": "unit: between 0x1005F450 (stores CMoLockLookAtDriveTask vtable (ctor/dtor)) and 0x1005F660 (stores CMoLockLookAtDriveTask vtable (ctor/dtor)), both within 4 KB",
-"symbol": "fn_1005F540",
-"unit": "CMoLockLookAtDriveTask"
+"class": "CMoLockLookAtDriveTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoLockLookAtDriveTask::vf8"
 },
 "0x100602a0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_100602A0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BB0C",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BB0C::vf8"
 },
 "0x100605e0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_100605E0",
-"unit": "unit_1005FFD0_AfterimageTask",
+"class": "CMoTask_VT_1032B8BC",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032B8BC::vf8",
 "partial_regs": {
 "store rewritten": 4
 }
 },
 "0x10060880": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10060880",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BB54",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BB54::vf8"
 },
 "0x10060e30": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10060E30",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BC10",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BC10::vf8"
 },
 "0x10060fd0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10060FD0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BC3C",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BC3C::vf8"
 },
 "0x10061110": {
 "class": null,
@@ -2392,67 +2392,58 @@
 "unit": "unit_1005FFD0_AfterimageTask"
 },
 "0x100619d0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_100619D0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BE08",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE08::vf8"
 },
 "0x10061b50": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10061B50",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BE50",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE50::vf8"
 },
 "0x10061cd0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10061CD0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BE98",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BE98::vf8"
 },
 "0x10061e70": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10061E70",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BEE0",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BEE0::vf8"
 },
 "0x10062060": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10062060",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BF28",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BF28::vf8"
 },
 "0x100621e0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_100621E0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BF70",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BF70::vf8"
 },
 "0x10062380": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10062380",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032BFB8",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032BFB8::vf8"
 },
 "0x10062520": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_10062520",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032C000",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032C000::vf8"
 },
 "0x100626d0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file",
-"symbol": "fn_100626D0",
-"unit": "unit_1005FFD0_AfterimageTask"
+"class": "CMoTask_VT_1032C048",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_1032C048::vf8"
 },
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
@@ -2754,18 +2745,16 @@
 "unit": "unit_1006B3B0"
 },
 "0x1006b480": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file",
-"symbol": "fn_1006B480",
-"unit": "unit_1006B3B0"
+"class": "CMoTask_VT_10329C70",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoTask_VT_10329C70::vf8"
 },
 "0x1006b4c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file",
-"symbol": "fn_1006B4C0",
-"unit": "unit_1006B3B0"
+"class": "CMoTask_VT_10329C70",
+"method": "vf1",
+"why": "IDB name; static (takes no this)",
+"symbol": "CMoTask_VT_10329C70::vf1"
 },
 "0x1006c130": {
 "class": "CMoOcclusionMng",
@@ -3414,11 +3403,10 @@
 "symbol": "CMoTask::GetRuntimeClass_variant16"
 },
 "0x10084f40": {
-"class": null,
-"method": null,
-"why": "unit: between 0x10084E70 (stores XiActorTimerTask vtable (ctor/dtor)) and 0x10084F70 (stores XiActorTimerTask vtable (ctor/dtor)), both within 4 KB",
-"symbol": "fn_10084F40",
-"unit": "XiActorTimerTask"
+"class": "XiActorTimerTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "XiActorTimerTask::vf8"
 },
 "0x10086210": {
 "class": null,

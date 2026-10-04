@@ -130,6 +130,7 @@ XI_ORIG int sub_10015050(int a0) { return reinterpret_cast<int (__cdecl *)(int)>
 XI_ORIG void Camera_SetViewMatrix(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15) { reinterpret_cast<void (__cdecl *)(int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int)>(XI_GAME(0x100150D0u))(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15); }
 XI_ORIG void Camera_SetMatrix154(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15) { reinterpret_cast<void (__cdecl *)(int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int)>(XI_GAME(0x100151F0u))(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15); }
 XI_ORIG char * Camera_GetViewMatrixPtr() { return reinterpret_cast<char * (__cdecl *)()>(XI_GAME(0x10015220u))(); }
+XI_ORIG char * sub_10015230() { return reinterpret_cast<char * (__cdecl *)()>(XI_GAME(0x10015230u))(); }
 XI_ORIG char * sub_10015240() { return reinterpret_cast<char * (__cdecl *)()>(XI_GAME(0x10015240u))(); }
 XI_ORIG int Camera_GetField50() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10015250u))(); }
 XI_ORIG char * Camera_GetMatrix154Ptr() { return reinterpret_cast<char * (__cdecl *)()>(XI_GAME(0x10015270u))(); }
@@ -400,8 +401,13 @@ XI_ORIG void unknown_libname_34() { reinterpret_cast<void (__cdecl *)()>(XI_GAME
 XI_ORIG void unknown_libname_35() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10040B70u))(); }
 XI_ORIG void unknown_libname_36() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10040B80u))(); }
 XI_ORIG void unknown_libname_37() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10040B90u))(); }
+XI_ORIG void CMoElemFamily_SharedEarlyExit(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10040C20u))(a0); }
 XI_ORIG void unknown_libname_38() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10040E10u))(); }
 XI_ORIG char CXi471011C8_VT_1032AD80_Dtor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10041110u))(a0); }
+XI_ORIG void unknown_libname_39() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10041A00u))(); }
+XI_ORIG void unknown_libname_40() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10041A10u))(); }
+XI_ORIG void unknown_libname_41() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10041A20u))(); }
+XI_ORIG void unknown_libname_42() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10041A30u))(); }
 XI_ORIG void Font_DrawProjectedText3D(int a0, int a1, int a2, int a3, int a4) { reinterpret_cast<void (__cdecl *)(int, int, int, int, int)>(XI_GAME(0x10041C20u))(a0, a1, a2, a3, a4); }
 XI_ORIG void StaticDtor_StateBlock_1047BADC() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10041F30u))(); }
 XI_ORIG _DWORD * CMoOtTask_ScalarDeletingDtor(void * a0, char a1) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, char)>(XI_GAME(0x100425F0u))(a0, a1); }
@@ -848,7 +854,7 @@ XI_ORIG int Entity_GetIndexedPtr(void * a0) { return reinterpret_cast<int (__thi
 XI_ORIG bool Entity_IsModelIdB22toB31(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10098320u))(a0); }
 XI_ORIG char CMoTask_VT_1032D6D4_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100A2810u))(a0); }
 XI_ORIG _DWORD * CXiCollisionActor_Constructor(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x100A4C20u))(a0); }
-XI_ORIG int CXiCollisionActor_vf8(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100A4ED0u))(a0); }
+XI_ORIG int sub_100A4ED0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100A4ED0u))(a0); }
 XI_ORIG int sub_100A57C0(void * a0, void * a1) { return reinterpret_cast<int (__thiscall *)(void *, void *)>(XI_GAME(0x100A57C0u))(a0, a1); }
 XI_ORIG int sub_100A5E10(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(XI_GAME(0x100A5E10u))(a0); }
 XI_ORIG char sub_100A6070(char a0) { return reinterpret_cast<char (__stdcall *)(char)>(XI_GAME(0x100A6070u))(a0); }
@@ -1429,6 +1435,7 @@ constexpr uint32_t sub_10015050 = 0x10015050u;
 constexpr uint32_t Camera_SetViewMatrix = 0x100150D0u;
 constexpr uint32_t Camera_SetMatrix154 = 0x100151F0u;
 constexpr uint32_t Camera_GetViewMatrixPtr = 0x10015220u;
+constexpr uint32_t sub_10015230 = 0x10015230u;
 constexpr uint32_t sub_10015240 = 0x10015240u;
 constexpr uint32_t Camera_GetField50 = 0x10015250u;
 constexpr uint32_t Camera_GetMatrix154Ptr = 0x10015270u;
@@ -1699,8 +1706,13 @@ constexpr uint32_t unknown_libname_34 = 0x10040B60u;
 constexpr uint32_t unknown_libname_35 = 0x10040B70u;
 constexpr uint32_t unknown_libname_36 = 0x10040B80u;
 constexpr uint32_t unknown_libname_37 = 0x10040B90u;
+constexpr uint32_t CMoElemFamily_SharedEarlyExit = 0x10040C20u;
 constexpr uint32_t unknown_libname_38 = 0x10040E10u;
 constexpr uint32_t CXi471011C8_VT_1032AD80_Dtor = 0x10041110u;
+constexpr uint32_t unknown_libname_39 = 0x10041A00u;
+constexpr uint32_t unknown_libname_40 = 0x10041A10u;
+constexpr uint32_t unknown_libname_41 = 0x10041A20u;
+constexpr uint32_t unknown_libname_42 = 0x10041A30u;
 constexpr uint32_t Font_DrawProjectedText3D = 0x10041C20u;
 constexpr uint32_t StaticDtor_StateBlock_1047BADC = 0x10041F30u;
 constexpr uint32_t CMoOtTask_ScalarDeletingDtor = 0x100425F0u;
@@ -2147,7 +2159,7 @@ constexpr uint32_t Entity_GetIndexedPtr = 0x10097A40u;
 constexpr uint32_t Entity_IsModelIdB22toB31 = 0x10098320u;
 constexpr uint32_t CMoTask_VT_1032D6D4_Destructor = 0x100A2810u;
 constexpr uint32_t CXiCollisionActor_Constructor = 0x100A4C20u;
-constexpr uint32_t CXiCollisionActor_vf8 = 0x100A4ED0u;
+constexpr uint32_t sub_100A4ED0 = 0x100A4ED0u;
 constexpr uint32_t sub_100A57C0 = 0x100A57C0u;
 constexpr uint32_t sub_100A5E10 = 0x100A5E10u;
 constexpr uint32_t sub_100A6070 = 0x100A6070u;

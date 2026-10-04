@@ -9,17 +9,17 @@ char ** __cdecl CMoLockColorDriveTask::GetRuntimeClass()
   return &CMoLockColorDriveTask_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x1005F3C0  (unit CMoLockColorDriveTask: between 0x1005F320 (stores CMoLockColorDriveTask vtable (ctor/dtor)) and 0x1005F3F0 (stores CMoLockColorDriveTask vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
-XI_API char __thiscall fn_1005F3C0(float *self_)
+// FUNCTION: FFXIMAIN 0x1005F3C0  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+char CMoLockColorDriveTask::vf8()
 {
   double v1;
-  v1 = *(self_ + 29) - *(float *)(g_pResourceMng + 3760);
-  *(self_ + 29) = v1;
+  v1 = this->field_74 - *(float *)(g_pResourceMng + 3760);
+  this->field_74 = v1;
   if ( !(v1 < 0.0) )
     return 0;
-  *((_BYTE *)self_ + 120) = 0;
-  (*(void (__thiscall **)(float *, int))(*(_DWORD *)self_ + 24))(self_, 1);
+  this->field_78 = 0;
+  (*(CMoTask_vtbl * *)((char *)this + 0x0))->vf6_CMoTask_ScalarDeletingDtor((CMoTask *)this, 1);
   return 1;
 }
 

@@ -9,12 +9,12 @@ char ** __cdecl CMoLockLookAtDriveTask::GetRuntimeClass()
   return &CMoLockLookAtDriveTask_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x1005F540  (unit CMoLockLookAtDriveTask: between 0x1005F450 (stores CMoLockLookAtDriveTask vtable (ctor/dtor)) and 0x1005F660 (stores CMoLockLookAtDriveTask vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 24 returned normally, 14 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 24, town2 PASS 24, combat PASS 24, zonetoinn PASS 24
-XI_API char __thiscall fn_1005F540(float *self_)
+// FUNCTION: FFXIMAIN 0x1005F540  (placed by IDB name)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 31
+char CMoLockLookAtDriveTask::vf8()
 {
   char v2;
-  float *v3;
+  unsigned __int8 *pad_34;
   int v4;
   int v5;
   __int16 v6; // fps
@@ -33,35 +33,35 @@ XI_API char __thiscall fn_1005F540(float *self_)
   bool v19; // c3
   double v20;
   v2 = 0;
-  v3 = self_ + 13;
-  if ( orig::sub_1003B6D0((_DWORD *)self_ + 13) != 0 )
+  pad_34 = ((unsigned __int8 *)((char *)this + 0x34));
+  if ( orig::sub_1003B6D0(((unsigned __int8 *)((char *)this + 0x34))) != 0 )
   {
-    v4 = orig::sub_1003B6D0(v3);
-    if ( !(*(self_ + 30) - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4) < 0.0) )
+    v4 = orig::sub_1003B6D0(pad_34);
+    if ( !(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4) < 0.0) )
     {
-      v8 = orig::sub_1003B6D0(v3);
-      v7 = *(self_ + 30) - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 444))(v8);
+      v8 = orig::sub_1003B6D0(pad_34);
+      v7 = this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 444))(v8);
     }
     else
     {
-      v5 = orig::sub_1003B6D0(v3);
-      v7 = -(*(self_ + 30) - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5));
+      v5 = orig::sub_1003B6D0(pad_34);
+      v7 = -(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5));
     }
     v9 = v7 < 1.0;
     v10 = 0;
     v11 = v7 == 1.0;
     if ( ((__int16)(((v9 || __builtin_isunordered(v7, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v7, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v7, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
       v2 = 1;
-    v12 = orig::sub_1003B6D0(v3);
-    if ( !(*(self_ + 31) - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8) < 0.0) )
+    v12 = orig::sub_1003B6D0(pad_34);
+    if ( !(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8) < 0.0) )
     {
-      v16 = orig::sub_1003B6D0(v3);
-      v15 = *(self_ + 31) - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v16 + 444))(v16) + 8);
+      v16 = orig::sub_1003B6D0(pad_34);
+      v15 = this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v16 + 444))(v16) + 8);
     }
     else
     {
-      v13 = orig::sub_1003B6D0(v3);
-      v15 = -(*(self_ + 31) - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v13 + 444))(v13) + 8));
+      v13 = orig::sub_1003B6D0(pad_34);
+      v15 = -(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v13 + 444))(v13) + 8));
     }
     v17 = v15 < 1.0;
     v18 = 0;
@@ -69,11 +69,11 @@ XI_API char __thiscall fn_1005F540(float *self_)
     if ( ((__int16)(((v17 || __builtin_isunordered(v15, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v15, 1.0)) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v15, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
       v2 = 1;
   }
-  v20 = *(self_ + 29) - *(float *)(g_pResourceMng + 3760);
-  *(self_ + 29) = v20;
+  v20 = this->field_74 - *(float *)(g_pResourceMng + 3760);
+  this->field_74 = v20;
   if ( !(v20 < 0.0) && v2 != 1 )
     return 0;
-  (*(void (__thiscall **)(float *, int))(*(_DWORD *)self_ + 24))(self_, 1);
+  (*(CMoTask_vtbl * *)((char *)this + 0x0))->vf6_CMoTask_ScalarDeletingDtor((CMoTask *)this, 1);
   return 1;
 }
 

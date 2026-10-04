@@ -2857,7 +2857,7 @@ LABEL_303:
       orig::sub_1001E780(v163, a2);
       *(_DWORD *)(orig::Camera_GetField50() + 92) = 0;
       *(float *)&v838 = 280.0;
-      if ( byte_10487F80 == 0 )
+      if ( XiControlActor_isFirstPersonView == 0 )
         *(float *)&v838 = 350.0;
       orig::sub_10015290(v838);
       return 0;
@@ -3824,7 +3824,10 @@ LABEL_520:
         }
       }
       v470 = orig::sub_1005E620() * 127.0;
-      CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00(v463, 64, (__int64)v470);
+      CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00(
+                                                                                           v463,
+                                                                                           64,
+                                                                                           (__int64)v470);
       v835[0] = (int *)CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)];
 LABEL_527:
       orig::sub_1005E610((int)v835[0]);

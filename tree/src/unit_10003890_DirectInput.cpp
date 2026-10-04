@@ -50,8 +50,8 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
         if ( v5 != 0 )
         {
           g_debugLineVerts_v0_color = (*(unsigned __int8 (__thiscall **)(_DWORD))(*(_DWORD *)v5 + 408))(*(_DWORD *)(v4 + 160)) != 0
-                         ? -2147418113
-                         : -2130706433;
+                                    ? -2147418113
+                                    : -2130706433;
           v6 = (_DWORD *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5);
           orig::Vec4_Copy(v8, v6);
           orig::Vec3_Sub(g_debugLineVerts_v1, v8, (float *)(v2 + *(self_ + 4)));

@@ -3,10 +3,9 @@
 #include "CXi471011C8_VT_1032B478.hpp"
 
 // FUNCTION: FFXIMAIN 0x100565A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 78 returned normally, 63 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXi471011C8_VT_1032B478::RebuildBlendWeights()
 {
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   char result;
   int v3;
   float *v4;
@@ -58,7 +57,7 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
     v5 = 0;
     if ( at<int8_t>(this, 0x1B5) > 0 )
     {
-      v6 = (unsigned int *)(self + 420);
+      v6 = (unsigned int *)((char *)this + 420);
       v27 = &v32;
       do
       {
@@ -79,7 +78,7 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
       v36 = 0;
       v39 = 0;
       v9 = (int *)&v33;
-      v10 = (float *)(self + 408);
+      v10 = (float *)((char *)this + 408);
       v28 = v7;
       v11 = cos(0.0);
       do
@@ -147,11 +146,13 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
       orig::fn_1006AD90((exception *)CXi471011C8_VT_1032B478_RebuildBlendWeights_stateBlock);
       orig::_atexit(XI_CODE(unknown_libname_55));
     }
-    orig::StateBlock_ApplyTSS(CXi471011C8_VT_1032B478_RebuildBlendWeights_stateBlock, (int)CXi471011C8_VT_1032B478_RebuildBlendWeights_textureStageStates);
+    orig::StateBlock_ApplyTSS(
+      CXi471011C8_VT_1032B478_RebuildBlendWeights_stateBlock,
+      (int)CXi471011C8_VT_1032B478_RebuildBlendWeights_textureStageStates);
     result = (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
                *(_DWORD *)(g_pResourceMng + 3772),
                60,
-               this->field_F8);
+               *(_DWORD *)&this->field_F8);
     v26 = 0;
     if ( v7 > 0 )
     {

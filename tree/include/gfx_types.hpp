@@ -57,6 +57,7 @@ class CMoNullProgElem;
 class CMoOT;
 class CMoOcclusionMng;
 class CMoOtTask;
+class CMoOtTask_VT_1032AE64;
 class CMoPathDriveActorTask;
 class CMoPathObject;
 class CMoPointLightProgElem;
@@ -99,7 +100,21 @@ class CMoTask_VT_1032A904;
 class CMoTask_VT_1032AF60;
 class CMoTask_VT_1032AFA8;
 class CMoTask_VT_1032B654;
+class CMoTask_VT_1032B8BC;
 class CMoTask_VT_1032B95C;
+class CMoTask_VT_1032BB0C;
+class CMoTask_VT_1032BB54;
+class CMoTask_VT_1032BC10;
+class CMoTask_VT_1032BC3C;
+class CMoTask_VT_1032BE08;
+class CMoTask_VT_1032BE50;
+class CMoTask_VT_1032BE98;
+class CMoTask_VT_1032BEE0;
+class CMoTask_VT_1032BF28;
+class CMoTask_VT_1032BF70;
+class CMoTask_VT_1032BFB8;
+class CMoTask_VT_1032C000;
+class CMoTask_VT_1032C048;
 class CMoTask_VT_1032C490;
 class CMoTask_VT_1032C908;
 class CMoTask_VT_1032D6D4;
@@ -131,7 +146,12 @@ class Obj_104E1B90;
 class Obj_104E1BF8;
 class Obj_104E1D4C;
 class Obj_10621944;
+class XiActorTimerTask;
+struct CMoTask_VT_1032B890;
+struct CMoTask_VT_1032B914;
+struct CMoTask_VT_1032BB80;
 struct CXi471011C8_VT_1032AC90;
+struct CXi471011C8_VT_1032B3B8;
 struct CXiControlActor;
 struct XiDoorActor;
 // Game types exported from the IDB (IDA print_decls); D3D types come from xi_d3d8.hpp.
@@ -1063,6 +1083,86 @@ struct CYyOs2VtxBuffer_vtbl
   void *(__thiscall *vf6_CYyOs2VtxBuffer_ScalarDeletingDtor)(CYyOs2VtxBuffer *C, char);
   void *vf7_CMoTask_vf007;
   char (__thiscall *vf8_sub_1002C990)(CYyOs2VtxBuffer *self);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 669 */
+struct CMoTask_VT_1032B890_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *self, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *self);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int (__thiscall *vf6_sub_10060590)(int C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B890_vf8)(void *self);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 670 */
+struct CMoTask_VT_1032B8BC_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *self, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *self);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int *(__thiscall *vf6_sub_10060750)(int *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B8BC_vf8)(__int16 *self);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 671 */
+struct CMoTask_VT_1032B8E8_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *self, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *self);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int (__thiscall *vf6_sub_10060450)(int C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B8E8_vf8)(float *self);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 672 */
+struct CMoTask_VT_1032B914_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *self, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *self);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  _DWORD *(__thiscall *vf6_AfterimageTask_Destructor)(_DWORD *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_AfterimageTask_OnMove)(float *self);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 673 */
+struct CMoTask_VT_1032B95C_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *self, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *self);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  _DWORD *(__thiscall *vf6_CMoAttachments_VT_1032B940_ScalarDeletingDtor)(_DWORD *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B95C_vf8)(void *self);
   void *vf9_CMoTask_vf009;
   void (__stdcall *vf10_CMoTask_vf010)(int);
 };

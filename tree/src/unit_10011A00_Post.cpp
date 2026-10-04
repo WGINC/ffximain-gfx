@@ -279,7 +279,7 @@ LABEL_40:
             else
             {
               *((_DWORD *)g_pGameMode + 4) = 1;
-              byte_10487F80 = 0;
+              XiControlActor_isFirstPersonView = 0;
               byte_10487F81 = 0;
               byte_1047D694 = 0;
               orig::sub_10253670(0, 1);

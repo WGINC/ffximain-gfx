@@ -460,7 +460,10 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
     orig::fn_1006AD90((exception *)CMoDistMorphElem_ValidateMorphData_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_48));
   }
-  orig::StateBlock_ApplyRSTSS(CMoDistMorphElem_ValidateMorphData_stateBlock, (int)CMoDistMorphElem_ValidateMorphData_renderStates, (int)CMoDistMorphElem_ValidateMorphData_textureStageStates);
+  orig::StateBlock_ApplyRSTSS(
+    CMoDistMorphElem_ValidateMorphData_stateBlock,
+    (int)CMoDistMorphElem_ValidateMorphData_renderStates,
+    (int)CMoDistMorphElem_ValidateMorphData_textureStageStates);
   orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
   orig::sub_1006A0E0(g_pResourceMng, 0, 0);
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(

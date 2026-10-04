@@ -80,11 +80,9 @@ XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2);  // 
 XI_API int __thiscall fn_1003E500(unsigned __int8 *self_, __int16 *a2);  // 0x1003E500
 XI_API void __thiscall fn_1003E660(void *self_, int a1);  // 0x1003E660
 XI_API int __thiscall fn_1003E9A0(int self_);  // 0x1003E9A0
-XI_API int * __thiscall fn_1003EB30(int **self_);  // 0x1003EB30
 XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_);  // 0x10040C20
-XI_API void __thiscall fn_10041AF0(int **self_);  // 0x10041AF0
 XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int a5);  // 0x10041C20
-XI_API char __thiscall fn_10042020(int self_);  // 0x10042020
+XI_API _DWORD * __thiscall fn_100426F0(float *self_);  // 0x100426F0
 XI_API int __thiscall fn_100431B0(void *self_);  // 0x100431B0
 XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a4);  // 0x10043E50
 XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigned int a5, int a6);  // 0x10043F40
@@ -106,32 +104,14 @@ XI_API char __thiscall fn_100538E0(int self_, int *a2);  // 0x100538E0
 XI_API char __cdecl fn_10054D70(void);  // 0x10054D70
 XI_API float * __stdcall fn_10054F80(float *a1, int a2);  // 0x10054F80
 XI_API char ** __cdecl CMoRabRes_GetRuntimeClass(void);  // 0x10056260
-XI_API char __thiscall fn_1005F3C0(float *self_);  // 0x1005F3C0
-XI_API char __thiscall fn_1005F540(float *self_);  // 0x1005F540
-XI_API char __thiscall fn_100602A0(float *self_);  // 0x100602A0
-XI_API char __thiscall fn_100605E0(__int16 *self_);  // 0x100605E0
-XI_API char __thiscall fn_10060880(float *self_);  // 0x10060880
-XI_API char __thiscall fn_10060E30(float *self_);  // 0x10060E30
-XI_API char __thiscall fn_10060FD0(float *self_);  // 0x10060FD0
 XI_API char __thiscall fn_10061110(float *self_);  // 0x10061110
-XI_API char __thiscall fn_100619D0(float *self_);  // 0x100619D0
-XI_API char __thiscall fn_10061B50(float *self_);  // 0x10061B50
-XI_API char __thiscall fn_10061CD0(float *self_);  // 0x10061CD0
-XI_API char __thiscall fn_10061E70(float *self_);  // 0x10061E70
-XI_API char __thiscall fn_10062060(float *self_);  // 0x10062060
-XI_API char __thiscall fn_100621E0(float *self_);  // 0x100621E0
-XI_API char __thiscall fn_10062380(float *self_);  // 0x10062380
-XI_API char __thiscall fn_10062520(float *self_);  // 0x10062520
-XI_API char __thiscall fn_100626D0(float *self_);  // 0x100626D0
 XI_API int __thiscall fn_10063C80(__int16 *self_, void (__cdecl *a2)(int, float *, int), int a3);  // 0x10063C80
 XI_API unsigned int __stdcall fn_1006A020(unsigned int a1, int a2, int a3, int a4);  // 0x1006A020
 XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0);  // 0x1006AA30
 XI_API void __thiscall fn_1006ADC0(int *self_);  // 0x1006ADC0
-XI_API int __thiscall fn_1006AF00(_DWORD *a1, int *a4);  // 0x1006AF00
+XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2);  // 0x1006AF00
 XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1);  // 0x1006AF90
 XI_API int __cdecl fn_1006B3B0(void);  // 0x1006B3B0
-XI_API char __thiscall fn_1006B480(CMoTask_VT_10329C70 *self_);  // 0x1006B480
-XI_API _DWORD * __stdcall fn_1006B4C0(_DWORD *a1);  // 0x1006B4C0
 XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a3, int a4, int a5, int a6, int a7, int a8, char a9, int a10);  // 0x1006C280
 XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0, int a2, int a5, int a6, int a7, int a8, int _60, char a9, int a10);  // 0x1006C300
 XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);  // 0x1006C530
@@ -143,7 +123,6 @@ XI_API int __thiscall TexRef_SetTexture(int *self_, int a2);  // 0x10075960
 XI_API int __thiscall fn_100759C0(int *self_, int a2, int a3);  // 0x100759C0
 XI_API int __thiscall fn_10076030(int *self_, float *a2, char arg4);  // 0x10076030
 XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4);  // 0x10076520
-XI_API char __thiscall fn_10084F40(float *self_);  // 0x10084F40
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5);  // 0x10086210
 XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3);  // 0x10086900
 XI_API char __thiscall fn_100AC390(XiDoorActor *self_, int a2, int a3, int a4);  // 0x100AC390

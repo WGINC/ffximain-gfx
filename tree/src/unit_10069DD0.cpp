@@ -82,34 +82,34 @@ XI_API void __thiscall fn_1006ADC0(int *self_)
 
 // FUNCTION: FFXIMAIN 0x1006AF00  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 98, zonetoinn PASS 99
-XI_API int __thiscall fn_1006AF00(_DWORD *a1, int *a4)
+XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
 {
   int v4;
-  while ( *a1 == -1 )
+  while ( *self_ == -1 )
   {
-    (*(void (__stdcall **)(void *))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(void **)(g_pResourceMng + 3772));
-    if ( a4 != nullptr )
+    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(_DWORD *)(g_pResourceMng + 3772));
+    if ( a2 != nullptr )
     {
-      v4 = *a4;
+      v4 = *a2;
       do
       {
         (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
           *(_DWORD *)(g_pResourceMng + 3772),
           v4,
-          a4[1]);
-        v4 = a4[2];
-        a4 += 2;
+          a2[1]);
+        v4 = a2[2];
+        a2 += 2;
       }
       while ( v4 != 0x7FFFFFFF );
     }
-    (*(void (__cdecl **)(_DWORD, _DWORD *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
+    (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
       *(_DWORD *)(g_pResourceMng + 3772),
-      a1);
-    orig::sub_1006ADF0(a1);
+      self_);
+    orig::sub_1006ADF0(self_);
   }
   return (*(int (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 216))(
            *(_DWORD *)(g_pResourceMng + 3772),
-           *a1);
+           *self_);
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
@@ -119,7 +119,7 @@ XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
   int v4;
   while ( *(_DWORD *)self_ == -1 )
   {
-    (*(void (__stdcall **)(void *))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(void **)(g_pResourceMng + 3772));
+    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(_DWORD *)(g_pResourceMng + 3772));
     if ( a1 != 0 )
     {
       v4 = *(_DWORD *)(a1 + 4);
@@ -135,7 +135,7 @@ XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
       }
       while ( v4 != 0x7FFFFFFF );
     }
-    (*(void (__cdecl **)(_DWORD, void *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
+    (*(void (__stdcall **)(_DWORD, void *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
       *(_DWORD *)(g_pResourceMng + 3772),
       self_);
     orig::sub_1006ADF0(self_);

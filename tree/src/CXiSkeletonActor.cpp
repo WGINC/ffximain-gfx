@@ -1841,7 +1841,7 @@ int CXiSkeletonActor::OnMove()
   orig::Vec4_Copy(v293, v8);
   v9 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
   orig::Vec4_Copy(v296, v9);
-  HIBYTE(v280) = orig::CXiCollisionActor_vf8(self);
+  HIBYTE(v280) = orig::sub_100A4ED0(self);
   if ( HIBYTE(v280) == 0 )
   {
     orig::sub_100D1070((int)self);
@@ -2114,7 +2114,7 @@ LABEL_94:
             this->field_624 = this->field_624 - 0x1.921cac0000000p+2;
           if ( this->field_624 < -0x1.921cac0000000p+1 )
             this->field_624 = this->field_624 + 0x1.921cac0000000p+2;
-          if ( v25 != 0 && byte_10487F80 == 0 )
+          if ( v25 != 0 && XiControlActor_isFirstPersonView == 0 )
           {
             v144 = (float *)((char *)self + 68);
             orig::Vec4_Copy((_DWORD *)self + 17, (_DWORD *)self + 391);
@@ -2428,7 +2428,7 @@ LABEL_298:
                 *(float *)&v266 = -v295;
                 orig::sub_10085BF0(self, v266);
                 if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0
-                  && byte_10487F80 != 0
+                  && XiControlActor_isFirstPersonView != 0
                   || v282 )
                 {
                   at<uint8_t>(this, 0xB2) &= ~1u;
@@ -2452,10 +2452,10 @@ LABEL_298:
                 }
                 if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
                 {
-                  if ( byte_10487F80 == 0 )
+                  if ( XiControlActor_isFirstPersonView == 0 )
                     goto LABEL_308;
                 }
-                else if ( byte_10487F80 == 0
+                else if ( XiControlActor_isFirstPersonView == 0
                        || ((v251 = this->field_768, orig::ActorHandle_Resolve(g_targetActorHandle) != v251)
                         || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 844))(self) == 0
                         && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 856))(self) == 0)
@@ -4832,7 +4832,7 @@ void CXiSkeletonActor::OnDrawName()
   char (&Buffer)[256] = *reinterpret_cast<char (*)[256]>(xi_frame + 0x24);
 
   v2 = (unsigned __int16 *)at<int32_t>(this, 0x70);
-  if ( (byte_10487F80 == 0
+  if ( (XiControlActor_isFirstPersonView == 0
      || v2 == nullptr
      || (v3 = orig::ActorHandle_Resolve(g_targetActorHandle)) == 0
      || (unsigned __int16 *)orig::Entity_GetIndexedPtr(*(unsigned __int16 **)(v3 + 112)) != v2)

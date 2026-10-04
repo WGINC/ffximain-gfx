@@ -18,16 +18,16 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Status (4 Oct 2026, export b516a74)
+## Status (4 Oct 2026, export 30cfb26)
 
-867 graphics functions (the owner's IDA run of 4 Oct, with the 99 device users added), each with a stated
-outcome (`docs/RESIDUE.md`):
+867 graphics functions (the owner's IDA run of 4 Oct after `ida/ffxi_ida_fix.py`: 558 names applied, IDA's SP
+corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 202 files) | **776**, 0 failures |
+| **Verified in the clean tree, as built** (`tree/`, 217 files) | **777**, 0 failures |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
-| Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 12 |
+| Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
 | Did not compile (8), or compiles with no gate case (1) | 9 |
 | Gate FAIL | 13 |
 | Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 8 |
@@ -35,11 +35,12 @@ outcome (`docs/RESIDUE.md`):
 
 Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
 memory dumps of the running game, verified as the analysed build (`verification/live/`). Raw and clean,
-combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 776 PASS. Each function's `// GATE:` line lists
+combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 777 PASS. The new one is 0x100412B0
+(`CMoD3mSpecularElem_vf18`), which gates since the IDB's SP correction. Each function's `// GATE:` line lists
 every gate's verdict and returning trials. `pipeline/verify_all.py` re-derives every committed fact from the
-binary and re-gates the tree as committed (`verification/verify_all.json`); its one failing check,
-`export-sp`, is the IDB's stack depth in 3 functions (0x100412B0, 0x1006AF00, 0x1006AF90), corrected by the
-next run of `ida/ffxi_ida_fix.py`.
+binary and re-gates the tree as committed (`verification/verify_all.json`). Its one failing check, `export-sp`, is IDA's SP in
+the epilogue of 0x100412B0: the real depth (exact, and observed running the original) is 4 less than IDA's from
+0x100419F4. IDA's error is on a path that never ran and has an unsolved call, so no correction can be named.
 
 The open functions, each with a named cause (`docs/RESIDUE.md`):
 - **FAIL (13):** all among the newly exported device users, none a function that passed before. 10 have an
@@ -47,7 +48,7 @@ The open functions, each with a named cause (`docs/RESIDUE.md`):
   the value between `fcom` and `fnstsw` (`fcom; fst; fnstsw ax; test ah, 5; jp`). Which C value each compares
   is not in the export.
 - **UNRESOLVED (8):** calls with no definitive pop count (named per call site in `docs/RESIDUE.md`).
-- **Constructs (12) and compile failures (9):** listed with the construct or the compiler's message.
+- **Constructs (11) and compile failures (9):** listed with the construct or the compiler's message.
 
 One result rests on a declaration the owner accepted rather than a proof: `CDx+0xC` holds the device
 (`data/com_fields.json`, "accepted"); every call and stack balance that uses it carries the note.

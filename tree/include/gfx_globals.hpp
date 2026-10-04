@@ -143,17 +143,17 @@ typedef int c_motionCodes_run_t[4];
 #define c_motionCodes_run XI_EA(c_motionCodes_run_t, 0x1032B824u)
 typedef int c_motionCodes_wlk_t[4];
 #define c_motionCodes_wlk XI_EA(c_motionCodes_wlk_t, 0x1032B834u)
-typedef int (*CMoTask_vtbl_ambiguous6_t)();
+typedef CMoTask_VT_1032B890_vtbl CMoTask_vtbl_ambiguous6_t;
 #define CMoTask_vtbl_ambiguous6 XI_EA(CMoTask_vtbl_ambiguous6_t, 0x1032B890u)
-typedef int (*CMoTask_vtbl_ambiguous7_t)();
+typedef CMoTask_VT_1032B8BC_vtbl CMoTask_vtbl_ambiguous7_t;
 #define CMoTask_vtbl_ambiguous7 XI_EA(CMoTask_vtbl_ambiguous7_t, 0x1032B8BCu)
-typedef int (*CMoTask_vtbl_ambiguous8_t)();
+typedef CMoTask_VT_1032B8E8_vtbl CMoTask_vtbl_ambiguous8_t;
 #define CMoTask_vtbl_ambiguous8 XI_EA(CMoTask_vtbl_ambiguous8_t, 0x1032B8E8u)
-typedef int (*CMoTask_vtbl_ambiguous9_t)();
+typedef CMoTask_VT_1032B914_vtbl CMoTask_vtbl_ambiguous9_t;
 #define CMoTask_vtbl_ambiguous9 XI_EA(CMoTask_vtbl_ambiguous9_t, 0x1032B914u)
 typedef int (*CMoAttachments_vtbl_ambiguous5_t)();
 #define CMoAttachments_vtbl_ambiguous5 XI_EA(CMoAttachments_vtbl_ambiguous5_t, 0x1032B940u)
-typedef int (*CMoTask_vtbl_ambiguous10_t)();
+typedef CMoTask_VT_1032B95C_vtbl CMoTask_vtbl_ambiguous10_t;
 #define CMoTask_vtbl_ambiguous10 XI_EA(CMoTask_vtbl_ambiguous10_t, 0x1032B95Cu)
 typedef char * CMoSpline_classdesc_t;
 #define CMoSpline_classdesc XI_EA(CMoSpline_classdesc_t, 0x1032C074u)
@@ -365,6 +365,20 @@ typedef _DWORD CMoDistModelElem_DrawMesh_textureStageStates5_t[27];
 #define CMoDistModelElem_DrawMesh_textureStageStates5 XI_EA(CMoDistModelElem_DrawMesh_textureStageStates5_t, 0x10352860u)
 typedef _DWORD CMoElemFamily_SharedEarlyExit_textureStageStates_t[9];
 #define CMoElemFamily_SharedEarlyExit_textureStageStates XI_EA(CMoElemFamily_SharedEarlyExit_textureStageStates_t, 0x103528CCu)
+typedef _DWORD Fn100412B0_textureStageStates4_t[48];
+#define Fn100412B0_textureStageStates4 XI_EA(Fn100412B0_textureStageStates4_t, 0x103528F0u)
+typedef int Fn100412B0_renderStates3_t[6];
+#define Fn100412B0_renderStates3 XI_EA(Fn100412B0_renderStates3_t, 0x103529B0u)
+typedef _DWORD Fn100412B0_textureStageStates2_t[87];
+#define Fn100412B0_textureStageStates2 XI_EA(Fn100412B0_textureStageStates2_t, 0x103529C8u)
+typedef int Fn100412B0_renderStates_t[7];
+#define Fn100412B0_renderStates XI_EA(Fn100412B0_renderStates_t, 0x10352B24u)
+typedef _DWORD Fn100412B0_textureStageStates3_t[72];
+#define Fn100412B0_textureStageStates3 XI_EA(Fn100412B0_textureStageStates3_t, 0x10352B40u)
+typedef int Fn100412B0_renderStates2_t[6];
+#define Fn100412B0_renderStates2 XI_EA(Fn100412B0_renderStates2_t, 0x10352C60u)
+typedef _DWORD Fn100412B0_textureStageStates_t[27];
+#define Fn100412B0_textureStageStates XI_EA(Fn100412B0_textureStageStates_t, 0x10352C78u)
 typedef float g_projTextQuad_t;
 #define g_projTextQuad XI_EA(g_projTextQuad_t, 0x10352CFCu)
 typedef float g_projTextQuad_v0_y_t;
@@ -1253,10 +1267,18 @@ typedef _DWORD CMoDistMorphElem_ApplyMorph_stateBlock_t[3];
 #define CMoDistMorphElem_ApplyMorph_stateBlock XI_EA(CMoDistMorphElem_ApplyMorph_stateBlock_t, 0x1047B9E8u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock4_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock4 XI_EA(CMoDistModelElem_DrawMesh_stateBlock4_t, 0x1047BA0Cu)
+typedef char Fn100412B0_staticGuards_t;
+#define Fn100412B0_staticGuards XI_EA(Fn100412B0_staticGuards_t, 0x1047BA18u)
 typedef _DWORD CMoElemFamily_SharedEarlyExit_stateBlock_t[3];
 #define CMoElemFamily_SharedEarlyExit_stateBlock XI_EA(CMoElemFamily_SharedEarlyExit_stateBlock_t, 0x1047BA1Cu)
 typedef char CMoDistModelElem_DrawMesh_staticGuards_t;
 #define CMoDistModelElem_DrawMesh_staticGuards XI_EA(CMoDistModelElem_DrawMesh_staticGuards_t, 0x1047BA28u)
+typedef char Fn100412B0_stateBlock3_t[1];
+#define Fn100412B0_stateBlock3 XI_EA(Fn100412B0_stateBlock3_t, 0x1047BA2Cu)
+typedef char Fn100412B0_stateBlock_t[1];
+#define Fn100412B0_stateBlock XI_EA(Fn100412B0_stateBlock_t, 0x1047BA38u)
+typedef char Fn100412B0_stateBlock2_t[1];
+#define Fn100412B0_stateBlock2 XI_EA(Fn100412B0_stateBlock2_t, 0x1047BA44u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock XI_EA(CMoDistModelElem_DrawMesh_stateBlock_t, 0x1047BA74u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock3_t[3];
@@ -1267,6 +1289,8 @@ typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock5_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock5 XI_EA(CMoDistModelElem_DrawMesh_stateBlock5_t, 0x1047BA98u)
 typedef char CMoElemFamily_SharedEarlyExit_staticGuards_t;
 #define CMoElemFamily_SharedEarlyExit_staticGuards XI_EA(CMoElemFamily_SharedEarlyExit_staticGuards_t, 0x1047BAA4u)
+typedef char Fn100412B0_stateBlock4_t[1];
+#define Fn100412B0_stateBlock4 XI_EA(Fn100412B0_stateBlock4_t, 0x1047BAB4u)
 typedef char Font_DrawProjectedText3D_staticGuard_t;
 #define Font_DrawProjectedText3D_staticGuard XI_EA(Font_DrawProjectedText3D_staticGuard_t, 0x1047BAC0u)
 typedef _DWORD Font_DrawProjectedText3D_stateBlock_t[5];
@@ -1581,8 +1605,8 @@ typedef int dword_10480AF0_t[16];
 #define dword_10480AF0 XI_EA(dword_10480AF0_t, 0x10480AF0u)
 typedef _DWORD dword_10487F58_t[3];
 #define dword_10487F58 XI_EA(dword_10487F58_t, 0x10487F58u)
-typedef char byte_10487F80_t;
-#define byte_10487F80 XI_EA(byte_10487F80_t, 0x10487F80u)
+typedef char XiControlActor_isFirstPersonView_t;
+#define XiControlActor_isFirstPersonView XI_EA(XiControlActor_isFirstPersonView_t, 0x10487F80u)
 typedef char byte_10487F81_t;
 #define byte_10487F81 XI_EA(byte_10487F81_t, 0x10487F81u)
 typedef int g_nearestLight_t;

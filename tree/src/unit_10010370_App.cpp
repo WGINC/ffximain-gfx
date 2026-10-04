@@ -155,12 +155,12 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           orig::CDx_SetTexture(g_pCDx, 0, 0);
           dword_10456944 = 0;
           g_halfScreenTex = (int)orig::CDx_CreateTexture(
-                                  g_pCDx,
-                                  *(_WORD *)(self_ + 24) >> 1,
-                                  *(_WORD *)(self_ + 26) >> 1,
-                                  &dword_10456944,
-                                  1,
-                                  0);
+                                   g_pCDx,
+                                   *(_WORD *)(self_ + 24) >> 1,
+                                   *(_WORD *)(self_ + 26) >> 1,
+                                   &dword_10456944,
+                                   1,
+                                   0);
         }
         else
         {

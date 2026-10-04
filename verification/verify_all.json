@@ -123,6 +123,11 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:local_types.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:reg_leftover_audit.json": {
   "ok": true,
   "differing": [],
@@ -130,7 +135,7 @@
  },
  "agreement": {
   "ok": true,
-  "calls_with_two_or_more_sources": 369,
+  "calls_with_two_or_more_sources": 364,
   "conflicts": {}
  },
  "rule-tests": {
@@ -144,9 +149,7 @@
  "export-sp": {
   "ok": false,
   "ida_wrong": [
-   "0x100412B0",
-   "0x1006AF00",
-   "0x1006AF90"
+   "0x100412B0"
   ],
   "unexplained": [
    [
@@ -206,15 +209,15 @@
  },
  "tree-source": {
   "ok": true,
-  "export_commit": "b516a74",
-  "sha1": "0508a1d4ee966b84eab2852dadb990cb07e0f126",
+  "export_commit": "30cfb26",
+  "sha1": "d8fc5e34d52441338c770b47028134dc7ce2eac8",
   "same_as_committed_export": true
  },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 202 files; failed: none"
+   "built build/gfx_recon.dll from 217 files; failed: none"
   ]
  },
  "tree-gate": {

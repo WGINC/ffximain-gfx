@@ -69,37 +69,3 @@ XI_API int __cdecl fn_1006B3B0(void)
   }
   return result;
 }
-
-// FUNCTION: FFXIMAIN 0x1006B480  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API char __thiscall fn_1006B480(CMoTask_VT_10329C70 *self_)
-{
-  unsigned int v1;
-  v1 = (*(unsigned int *)((char *)self_ + 0x34));
-  if ( v1 != 0 )
-  {
-    if ( v1 == 1 )
-    {
-      orig::sub_10069EE0((float *)g_pResourceMng);
-      orig::sub_100441C0((_DWORD *)g_pMoCamera);
-      orig::sub_1006A180(g_pResourceMng, 0, 0, 0, 0);
-      return 0;
-    }
-  }
-  else
-  {
-    ++(*(unsigned int *)((char *)self_ + 0x34));
-  }
-  return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x1006B4C0  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API _DWORD * __stdcall fn_1006B4C0(_DWORD *a1)
-{
-  _DWORD *result;
-  result = a1;
-  if ( *a1 == 6 )
-    return (_DWORD *)orig::nullsub_43(g_pResourceMng);
-  return result;
-}

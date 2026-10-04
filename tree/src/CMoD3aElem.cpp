@@ -9,6 +9,18 @@ char ** __cdecl CMoD3aElem::GetRuntimeClass_variant0()
   return &CMoD3aElem_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x1003EB30  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+int * CMoD3aElem::vf18()
+{
+  int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
+  int *result;
+  result = this->field_104;
+  if ( result != nullptr )
+    return (int *)orig::sub_1003E910(*result, g_pResourceMng, (int)&g_scratchValue, (int)self);
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x1003EE50  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoD3aElem::GetRuntimeClass_variant1()

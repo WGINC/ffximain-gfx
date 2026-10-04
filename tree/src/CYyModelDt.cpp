@@ -698,7 +698,8 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
                 ++g_modelDrawCallCount;
               }
 LABEL_125:
-              if ( g_envMapEnabled != 0 && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
+              if ( g_envMapEnabled != 0
+                && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )
@@ -872,7 +873,8 @@ LABEL_125:
             }
             if ( !v29 )
             {
-              if ( g_envMapEnabled != 0 && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
+              if ( g_envMapEnabled != 0
+                && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
               {
                 orig::Gfx_ApplyCachedVertexShader();
                 if ( *(_BYTE *)(v10 + 104) != 0 )

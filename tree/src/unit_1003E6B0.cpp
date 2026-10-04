@@ -61,14 +61,3 @@ XI_API int __thiscall fn_1003E9A0(int self_)
   }
   return v2;
 }
-
-// FUNCTION: FFXIMAIN 0x1003EB30  (unit unit_1003E6B0: no unit evidence of its own; in the gap between 0x1003E6A0 (CMoD3aElem) and 0x1003EE60 (CMoD3aLightmapElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API int * __thiscall fn_1003EB30(int **self_)
-{
-  int *result;
-  result = *(self_ + 65);
-  if ( result != nullptr )
-    return (int *)orig::sub_1003E910(*result, g_pResourceMng, (int)&g_scratchValue, (int)self_);
-  return result;
-}

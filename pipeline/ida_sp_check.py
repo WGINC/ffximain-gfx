@@ -1,61 +1,71 @@
-"""ida_sp_check.py -- where does IDA's stack pointer for a function go wrong?
+"""ida_sp_check.py -- where IDA's stack pointer is wrong, and the one correction that explains it.
 
-IDA writes each stack operand as `[esp+DEPTH+var_X]`, DEPTH being its own stack-pointer value at that
-instruction. Hex-Rays names every stack slot from those values, so where IDA's depth differs from the
-real one (stack_depth.py) every name is off by the difference -- one variable's accesses split across
-two names, which compiles to different memory (CXiSkeletonActor_OnMove after 0x100C668D).
+Hex-Rays names every stack slot from IDA's SP; where IDA's SP is off, the names after that point are off by
+the same amount (one slot with two names, a local read at the return address: `retaddr`). The exact depth
+at each block head comes from sp_solve.head_depths (the caller's stack balance with every call effect from a
+definitive source; after `and esp, -N` counted from the aligned point, as IDA counts). IDA's SP comes from
+the export (`spd`: its change points; between them the SP holds). Walking the function in address order,
+each point where the two first part is explained by the instruction in front of it:
+  * a call whose pop is known (the callee's `ret N`, a dispatch thunk's default, sp_solve, vcall_resolve,
+    com_calls): IDA's change there is wrong;
+  * an unconditional `jmp`/`ret`: the block after it is reached only by jumps, and IDA carried the SP over
+    from the jump in address order instead of taking it from the jump sources.
+The correction is applied (shifting IDA's SP after it) and the walk goes on; any difference no such
+instruction explains is reported, not corrected.
 
-The listing has no addresses per line; it is in address order, so its instructions are aligned with
-the disassembly of the function's chunks one for one (mnemonics checked).
-
-    python3 ida_sp_check.py LISTING.asm ADDR [VTABLE]        uses $FFXI_DLL
-Prints each instruction where IDA's depth != the real depth (first of each run), and the correction
-for IDA (Alt+K at that address: the change in SP the instruction really makes).
+    python3 ida_sp_check.py EXPORT.jsonl OUT.json        uses $FFXI_DLL
+OUT.json: {"0xFUNC": {"fixes": [{"at", "change", "why"}], "unexplained": [...]}} for functions IDA has wrong.
+"change" is the SP change IDA should have at "at" (positive: the stack shrinks), as ida/ffxi_ida_fix.py sets it.
 """
-import os, re, sys
+import bisect, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import stack_depth
+import sp_solve as S
+from capstone.x86 import X86_OP_IMM
 
-INSN = re.compile(r'^\s{8,}([a-z][a-z0-9]*)\b(.*?)(?:\s*;.*)?$')
-
-
-def listing_insns(path, name):
-    out, inside = [], False
-    for line in open(path, encoding='latin-1'):
-        if re.match(r'^%s\s+proc near' % re.escape(name), line): inside = True; continue
-        if inside and re.match(r'^%s\s+endp' % re.escape(name), line): break
-        if not inside: continue
-        m = INSN.match(line)
-        if m and m.group(1) not in ('db', 'dd', 'dw', 'align', 'assume', 'public', 'var', 'arg'):
-            d = re.search(r'\[esp\+([0-9A-F]+)h\+', m.group(2))
-            out.append((m.group(1), int(d.group(1), 16) if d else None, m.group(2).strip()))
-    return out
+D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 
-def main(listing, ea, vt=None):
-    ea = int(ea, 16)
-    ins, depth, _ = stack_depth.depths(ea, int(vt, 16) if vt else None)
-    import json
-    name = None
-    for l in open(os.path.join(stack_depth.D, 'exports', 'gfx_export.jsonl')):
-        r = json.loads(l)
-        if r['ea'] == ea: name = r['name']; break
-    li = listing_insns(listing, name)
-    addrs = sorted(ins)
-    print('%s: %d instructions in the DLL, %d in the listing' % (name, len(addrs), len(li)))
-    prev_bad = False; n = 0
-    for a, (mn, idad, ops) in zip(addrs, li):
-        cm = ins[a].mnemonic
-        if cm.split()[0].rstrip('d') != mn.rstrip('d') and not (cm.startswith('j') and mn.startswith('j')) and cm != mn:
-            print('alignment lost at %08X: %s vs listing %s %s' % (a, cm, mn, ops)); return
-        if idad is None or a not in depth: continue
-        bad = idad != depth[a]
-        if bad and not prev_bad:
-            print('%08X  IDA depth 0x%X, real 0x%X (%+d)  %s %s' % (a, idad, depth[a], idad - depth[a], cm, ins[a].op_str)); n += 1
-        if not bad and prev_bad:
-            print('%08X  agrees again' % a)
-        prev_bad = bad
-    print(n, 'runs where IDA differs')
+def main(exp, out):
+    dll = os.environ['FFXI_DLL']; im = S.Image(dll)
+    ext = json.load(open(os.path.join(D, 'func_extents.json'))); purges = json.load(open(os.path.join(D, 'purges.json')))
+    known_srcs = [json.load(open(os.path.join(D, f))) for f in ('sp_solved.json', 'vcalls.json', 'com_calls.json')]
+    starts = {int(k, 16) for k in ext}; iat = S.imports(im, dll); nr = S.noreturn_funcs(im, ext, iat)
+
+    def pop(i):
+        o = i.operands[0]
+        if o.type == X86_OP_IMM: return purges.get('0x%08X' % o.imm), "the callee's own ret N"
+        for name, src in zip(('sp_solve', 'vcall_resolve', 'com_calls'), known_srcs):
+            if '0x%08X' % i.address in src: return src['0x%08X' % i.address]['pops'], name
+        return None, None
+
+    res = {}; checked = 0
+    for l in open(exp):
+        r = json.loads(l); f = r['ea']; e = ext.get('0x%x' % f)
+        if not e or not r.get('spd'): continue
+        pts = sorted((a, v) for a, v in r['spd']); keys = [a for a, _ in pts]
+        ida = lambda a: -pts[bisect.bisect_right(keys, a) - 1][1] if bisect.bisect_right(keys, a) else 0
+        hd = S.head_depths(im, f, e, purges, starts, nr, iat)
+        if not hd: continue
+        checked += 1
+        ins = im.code(e); order = sorted(ins); adj = 0; fixes = []; bad = []
+        for k, a in enumerate(order):
+            if a not in hd: continue
+            cur = ida(a) + adj
+            if cur == hd[a]: continue
+            p = ins[order[k - 1]] if k else None
+            if p is not None and (p.mnemonic == 'jmp' or p.mnemonic.startswith('ret')):
+                fixes.append({'at': '0x%08X' % p.address, 'change': (ida(p.address) - ida(a)) + (cur - hd[a]),
+                              'why': 'the block at 0x%08X is reached only by jumps, at depth %d (IDA carried %d over from this jump)' % (a, hd[a], cur)})
+            elif p is not None and p.mnemonic == 'call' and pop(p)[0] is not None:
+                n, src = pop(p)
+                fixes.append({'at': '0x%08X' % p.address, 'change': n, 'why': 'the call pops %d (%s)' % (n, src)})
+            else:
+                bad.append({'at': '0x%08X' % a, 'depth': hd[a], 'ida': cur}); continue
+            adj += hd[a] - cur
+        if fixes or bad: res['0x%08X' % f] = {'name': r['name'], 'fixes': fixes, 'unexplained': bad}
+    json.dump(res, open(out, 'w'), indent=1)
+    print('%d functions with exact depths checked; IDA wrong in %d: %d corrections, %d unexplained differences' % (
+        checked, len(res), sum(len(v['fixes']) for v in res.values()), sum(len(v['unexplained']) for v in res.values())))
 
 
 if __name__ == '__main__':

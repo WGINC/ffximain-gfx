@@ -32,6 +32,15 @@ for ck, v in json.load(open(os.path.join(D, 'vcalls.json'))).items():
     if ck in r['calls'] and r['calls'][ck] != v['pops']:
         raise SystemExit('vtable-proven and other source disagree at %s: %s vs %s' % (ck, r['calls'][ck], v['pops']))
     r['calls'][ck] = v['pops']; r['why'].setdefault(ck, 'every possible callee (by vtable) pops it')
+# IDA's SP checked against the exact depths (ida_sp_check.py): the one correction explaining each difference,
+# at a call (its known pop) or at the jump in front of a block that only jumps reach
+for fk, rec in json.load(open(os.path.join(D, 'ida_sp_audit.json'))).items():
+    if fk not in want: continue
+    r = sp_calls.setdefault(fk, {'calls': {}, 'why': {}})
+    for fx in rec['fixes']:
+        if fx['at'] in r['calls'] and r['calls'][fx['at']] != fx['change']:
+            raise SystemExit('ida_sp_audit and another source disagree at %s: %s vs %s' % (fx['at'], fx['change'], r['calls'][fx['at']]))
+        r['calls'][fx['at']] = fx['change']; r['why'].setdefault(fx['at'], fx['why'])
 data['sp_calls'] = sp_calls
 # an SP point an earlier run set wrongly is removed only where no exact value is known now (fix_sp sets those)
 known = {ck for r in sp_calls.values() for ck in r['calls']}

@@ -13333,6 +13333,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 8,
+"solved": 8,
 "typed": 8
 }
 },
@@ -13373,6 +13374,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13380,6 +13382,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13445,6 +13448,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13452,6 +13456,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13459,16 +13464,16 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
 "0x1017ECCE": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1017DE20",
 "hexrays_cast": 20,
-"sources": {}
+"sources": {
+"solved": 20
+}
 },
 "0x1017FE53": {
 "evidence": [
@@ -13492,12 +13497,11 @@
 "sources": {}
 },
 "0x1017FED3": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1017DE20",
 "hexrays_cast": 20,
-"sources": {}
+"sources": {
+"solved": 20
+}
 },
 "0x10181058": {
 "evidence": [
@@ -18633,8 +18637,8 @@
 "_export_has_call_sources": true,
 "_stats": {
 "conflict": 11,
-"definitive": 2453,
+"definitive": 2455,
 "hexrays cast differs": 2,
-"no source": 198
+"no source": 196
 }
 }

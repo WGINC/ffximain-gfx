@@ -84,7 +84,7 @@ With the IDB open in IDA 9.4 (save it first, or work on a copy), run **File > Sc
 | `sp_solve.py`, `vcall_resolve.py`, `com_calls.py`, `real_sp.py`, `purges.py` | The definitive pop sources (`METHOD.md` section 2) |
 | `callsite_audit.py` | Every indirect call: what each source says it pops, conflicts, and the calls none covers |
 | `dump_verify.py`, `live_state.py` | Is a dump the analysed build; the gate's live inputs from it |
-| `stack_depth.py`, `ida_sp_check.py` | Real stack depth per instruction, and where IDA's own SP differs |
+| `ida_sp_check.py`, `stack_depth.py` | Where IDA's SP differs from the exact depth, with the one correction for each; depth per instruction |
 | `unset_reads.py`, `loop_bounds.py` | Locals Hex-Rays reads but never assigns; why an original runs to the instruction limit |
 | `ida_listing.py`, `name_context.py` | Read an IDA `.asm` listing without IDA; the evidence for naming placeholders |
 | `gfx_coverage.py`, `libmatch.py` | The coverage audit; D3DX identification |

@@ -43,7 +43,8 @@ case "$1" in
                  python3 "$P/cdecl_args.py" "$FFXI_DLL" "$ROOT/data/cdecl_args.json"
                  python3 "$P/leaf_funcs.py" "$FFXI_DLL" "$ROOT/data/leaf_funcs.json"
                  python3 "$P/callsites.py" "$EXP" "$ROOT/data/callsite_args.json"
-                 python3 "$P/callsite_audit.py" "$EXP" "$ROOT/data/callsite_audit.json" ;;&
+                 python3 "$P/callsite_audit.py" "$EXP" "$ROOT/data/callsite_audit.json"
+                 python3 "$P/ida_sp_check.py" "$EXP" "$ROOT/data/ida_sp_audit.json" ;;&
   translate|all) rm -rf "$W/raw"; python3 "$P/hx2cpp.py" "$EXP" "$W/raw"; echo "$EXP $(sha1sum < "$EXP")" > "$W/raw/export.sha1"
                  "$P/build_raw.sh" "$W/raw" | tail -1
                  python3 "$P/repair_compile.py" "$W/raw" | tail -1; "$P/build_raw.sh" "$W/raw" | tail -1 ;;&

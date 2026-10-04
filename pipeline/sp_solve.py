@@ -28,6 +28,7 @@ VCALLS = {k: v['pops'] for k, v in (json.load(open(_vc)).items() if os.path.exis
 _cc = os.path.join(D, 'com_calls.json')
 COMCALLS = {k: v['pops'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ())}
 CHKSTK = {0x10312150}           # _chkstk: `mov eax, N; call _chkstk` reserves N bytes
+ALIGN = -1                      # the variable for the padding of `and esp, -N` (see func_calls)
 
 
 class Lin:
@@ -286,7 +287,12 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             elif r0 == 'esp' and m == 'lea' and ops[1].type == X86_OP_MEM and i.reg_name(ops[1].mem.base) == 'ebp' and not ops[1].mem.index:
                 if ebp is None: break
                 nd = ebp.add(-ops[1].mem.disp)
-            elif r0 == 'esp': break                 # `and esp, -16`, `mov esp, reg`: the depth is lost here
+            elif r0 == 'esp' and m == 'and' and ops[1].type == X86_OP_IMM and ALIGN not in d.v:
+                # `and esp, -16`: the real depth grows by a padding A >= 0 that differs between runs; it is a
+                # variable no equation may pin (a ret or join that does not cancel it refuses the function).
+                # Depths after it are exact relative to this point, which is how IDA counts them (A = 0)
+                nd = d.add(0, ALIGN, 1)
+            elif r0 == 'esp': break                 # `mov esp, reg`, a second alignment: the depth is lost here
             elif r0 == 'ebp' and m == 'mov' and reg(i, ops[1]) == 'esp': nebp = d
             elif r0 == 'ebp' and m not in ('cmp', 'test', 'push'): nebp = None
             if r0 == 'eax' and m == 'mov' and ops[1].type == X86_OP_IMM: eax = ops[1].imm
@@ -318,13 +324,33 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             if cont is None: break
             a, d, ebp = cont, nd, nebp
     func_calls.debug = (var, eqs, src)
+    if any(ALIGN in e.v for e in eqs): return {}, False, len(var)       # the padding would be pinned
     vals, ok = solve(eqs, len(var))
+    func_calls.state = (state, vals if ok else None)
     if not ok: return {}, False, len(var)
     out = {}
     for addr, k in var.items():
         x = vals.get(k)
         if x is not None and x.denominator == 1 and 0 <= x <= 0x100 and x % 4 == 0: out[addr] = int(x)
     return out, True, len(var)
+
+
+def head_depths(im, ea, ext, purges, starts, nr=frozenset(), iat=None):
+    """{address: depth} at every block head of the function (each jump target and fall-through after a
+    branch) whose depth is exact: every unknown pop on the way solved; after `and esp, -N` the depth is
+    counted from the aligned point as IDA counts it (the padding left out). {} for an inconsistent function"""
+    calls, ok, _ = func_calls(im, ea, ext, purges, starts, nr=nr, iat=iat)
+    if not ok or not hasattr(func_calls, 'state'): return {}
+    state, vals = func_calls.state
+    if vals is None: return {}
+    out = {}
+    for a, (d, _) in state.items():
+        x = Fraction(d.c)
+        if any(k != ALIGN and k not in vals for k in d.v): continue
+        for k, c in d.v.items():
+            if k != ALIGN: x += c * vals[k]
+        if x.denominator == 1: out[a] = int(x)
+    return out
 
 
 def known_pop(im, purges, a):

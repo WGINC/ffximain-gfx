@@ -26,7 +26,7 @@ the pipeline says so: the gate's verdict is UNRESOLVED and names the call site.
 | Fact | Source | Tool, output | Check |
 |---|---|---|---|
 | A direct callee's stack pop | its `ret N`; a D3DX CPU-dispatch thunk resolves to its default implementation's `ret N` | `purges.py`, `data/purges.json` | the code itself |
-| An indirect call's pop | the caller's own stack balance: equal depth wherever paths meet, zero at every `ret`, solved by exact elimination; a value only where the equations pin it. Switch tables are followed only where the code in front bounds the index (one- and two-level MSVC forms) | `sp_solve.py`, `data/sp_solved.json` (4337 calls) | `--selftest` hides the 20642 known `ret N` of direct calls and solves them back: 20641 right, and the one miss is in a function normal use rejects, so 0 wrong values reach the output |
+| An indirect call's pop | the caller's own stack balance: equal depth wherever paths meet, zero at every `ret`, solved by exact elimination; a value only where the equations pin it. After `and esp, -N` the depth carries the padding as a variable no equation may pin. Switch tables are followed only where the code in front bounds the index (one- and two-level MSVC forms) | `sp_solve.py`, `data/sp_solved.json` (4337 calls) | `--selftest` hides the 20642 known `ret N` of direct calls and solves them back: 20641 right, and the one miss is in a function normal use rejects, so 0 wrong values reach the output |
 | A virtual call's callee set | vtables (944; the game classes have no RTTI); an object running method F can only have a vtable holding F, or what F's direct callers pass | `vcall_resolve.py`, `data/vcalls.json` | 0 disagreements with the solver or with measured pops |
 | Whether a function reads its entry ECX | data flow with partial registers; `or ecx,-1` / `xor ecx,ecx` are writes; `push ecx` is undecided | `vcall_resolve.py`, `data/ecx_use.json` | agrees with 1151 of 1152 IDB `__thiscall` declarations; the 10 IDB `__stdcall` declarations it showed wrong are `__thiscall` in the IDB since 3 Oct (9 retyped, 1 already was) |
 | A D3D8 method call's pop | the D3D8 SDK header (`data/com_spec.json`), once the object's interface is proven: `data/com_fields.json` lists access paths with the proof, and its checkable parts (which instructions write the global or the offset, who refers to the function that fills it) are recomputed on every run | `com_calls.py`, `data/com_calls.json` (217 calls) | an entry whose check fails is dropped; all agree with the solver where both apply |
@@ -35,6 +35,12 @@ the pipeline says so: the gate's verdict is UNRESOLVED and names the call site.
 | EAX at `ret`: 0/1, or AL 0/1 | forward data flow | `ret_kinds.py` | |
 | x87: float returns, consumed results, exact constants | stack-depth analysis of the x87 stack | `fpret.py`, `fp_callsites.py`, `fpconst.py` | |
 | cdecl argument slots really read | the callee's code | `cdecl_args.py` | |
+
+`ida_sp_check.py` compares IDA's stack pointer (the export's `spd`) with the solver's exact depth at every
+block head and names the one correction that explains each difference: a call with a known pop, or the jump
+in front of a block that only jumps reach (IDA carries its SP over from the jump in address order). Over the
+768 exported functions IDA is wrong in 4, each explained by one correction (`data/ida_sp_audit.json`); the
+IDA script applies them.
 
 `callsite_audit.py` sets the sources side by side for every indirect call in the graphics code
 (`data/callsite_audit.json`): 2662 calls, 2453 settled, 198 with no source, 11 where two sources disagree

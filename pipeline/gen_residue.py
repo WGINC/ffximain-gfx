@@ -11,7 +11,7 @@ L = {int(k, 16): v for k, v in json.load(open(locf)).items()} if os.path.exists(
 BR = {int(k, 16): v for k, v in json.load(open(brf)).items()} if os.path.exists(brf) else {}
 C = {int(json.loads(l)['original'], 16): json.loads(l) for l in open(cleanf)} if os.path.exists(cleanf) else {}
 DM = json.load(open(os.path.join(DATA, 'dm_names.json')))
-D3DX = json.load(open(os.path.join(DATA, '..', 'd3dx', 'd3dx81_manifest.json')))
+D3DX = json.load(open(os.path.join(DATA, 'd3dx', 'd3dx81_manifest.json')))
 def dmc(ea):
     d = DM.get(hex(ea)); return (d[1][:110] + ('...' if len(d[1]) > 110 else '')) if d and d[1] else ''
 rows = collections.defaultdict(list)

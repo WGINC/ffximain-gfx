@@ -1,1 +1,0 @@
-{"float_ret": 159, "conv": 8, "skipped": [["0x102c28b0", ""], ["0x1031f726", "int __usercall@<eax>(int@<ecx>, int, double, int)"], ["0x1031f77a", "int __usercall@<eax>(int@<ecx>, int, double, double, int)"], ["0x102d31ef", "int __userpurge@<eax>(struct IDirect3DSurface8 **@<ebx>, int"]], "failed": []}

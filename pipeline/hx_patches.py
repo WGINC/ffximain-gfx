@@ -14,7 +14,7 @@ Type corrections, data/type_fixes.json: {"0xADDR": {"type": ..., "why": ..., "ev
 function the type is its prototype without a name; it replaces the IDB's wherever the function is
 referenced (each record's `objs`) and as the function's own signature. For data it is the object's
 type (an array type also sets its size), wherever the object is referenced. Use it for a prototype that is wrong in the
-IDB and has not been fixed there yet (pipeline/ida_apply_names.py pushes these to the IDB too).
+IDB and has not been fixed there yet (ida/ffxi_ida_fix.py pushes these to the IDB too).
 """
 import hashlib, json, os, re, sys
 

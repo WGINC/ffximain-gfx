@@ -208,7 +208,7 @@ def main(dmp, build_map, out, dll=None, cases=None):
     ls = LiveState(dmp, build_map)
     sizes = {}
     if build_map:
-        for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+        for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
             for o in json.loads(l)['objs'].values():
                 if not o['func'] and 0 < o.get('size', 0) < 1 << 20: sizes[o['ea']] = o['size']
     cs = json.load(open(cases)) if cases else []

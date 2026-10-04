@@ -1,4 +1,4 @@
-"""hx2cpp.py -- turn Hex-Rays pseudocode (exported by ida_gfx.py) into compilable C++ translation
+"""hx2cpp.py -- turn Hex-Rays pseudocode (exported by ida/ffxi_ida_fix.py or ida/ida_gfx.py) into compilable C++ translation
 units for the equivalence gate.
 
 Every referenced game object is replaced by an address-bound token:
@@ -606,7 +606,7 @@ PRELUDE = '''#include "xi_hexrays.hpp"
 '''
 # Microsoft's statically linked D3DX and C++ runtime are not game code: never reconstruct them
 LIBRARY = re.compile(r'^(CD3DX|D3DX|_D3DX|\?\?|\?.*@std@@|.*Iostream|.*type_info|std::)')
-D3DX81 = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'd3dx81_matches.json')))
+D3DX81 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'd3dx', 'd3dx81_manifest.json')))
 BAD2 = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|BUG\(\)|__halt|(?<![A-Z])_UNKNOWN\b(?!\s*\*)|MEMORY\[|'
                   r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except|\bretaddr\b')
 LIB_TEXT = re.compile(r'\b(CD3DX\w*|Iostream_init|type_info|std::\w+|exception)\b')

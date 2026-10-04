@@ -18,7 +18,7 @@ File > Script file... > ffxi_ida_fix.py. Steps:
      (rebuilt with the measured argument count when its own disagrees), verified by decompiling;
   5. re-export: every function of the current export is decompiled again, each with its call sites
      (Hex-Rays' argument count and calling convention per call) and IDA's stack pointer where it changes.
-Output, next to the IDB: gfx_export_ida_reexport.jsonl, ida_fix_report.json and ida_fix_log.txt. Each step
+Output, next to the IDB: gfx_export.jsonl, ida_fix_report.json and ida_fix_log.txt. Each step
 runs even if an earlier one failed; failures are logged with their traceback.
 """
 import json, os, re, sys, time, traceback
@@ -395,7 +395,7 @@ def export_one(ea):
 
 
 def reexport(report):
-    out = os.path.join(OUT_DIR, 'gfx_export_ida_reexport.jsonl'); eas = DATA['export']; skipped = 0
+    out = os.path.join(OUT_DIR, 'gfx_export.jsonl'); eas = DATA['export']; skipped = 0
     with open(out, 'w') as f:
         for i, ea in enumerate(eas):
             if ida_kernwin.user_cancelled(): log('export: cancelled at %d' % i); break

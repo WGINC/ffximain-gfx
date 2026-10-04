@@ -37,7 +37,7 @@ def main(listing, ea, vt=None):
     ins, depth, _ = stack_depth.depths(ea, int(vt, 16) if vt else None)
     import json
     name = None
-    for l in open(os.path.join(stack_depth.D, 'exports', 'gfx_export_current.jsonl')):
+    for l in open(os.path.join(stack_depth.D, 'exports', 'gfx_export.jsonl')):
         r = json.loads(l)
         if r['ea'] == ea: name = r['name']; break
     li = listing_insns(listing, name)

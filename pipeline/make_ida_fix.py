@@ -2,7 +2,7 @@
 
     python3 make_ida_fix.py
 Embeds data/names_pending_idb.json, data/type_fixes.json, data/real_sp.json and the function list of
-data/exports/gfx_export_current.jsonl into pipeline/ida_fix.template (not runnable itself).
+data/exports/gfx_export.jsonl into ida/ida_fix.template (not runnable itself).
 """
 import json, os
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
@@ -11,7 +11,7 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
         'types': json.load(open(os.path.join(D, 'type_fixes.json'), encoding='utf-8')),
         'real_sp': json.load(open(os.path.join(D, 'real_sp.json'))),
         'revert': json.load(open(os.path.join(D, 'ida_sp_revert.json')))['calls'],
-        'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl'))]}
+        'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))]}
 # every call whose stack effect is known exactly, per exported function: measured (real_sp) or solved (sp_solve)
 solved = json.load(open(os.path.join(D, 'sp_solved.json')))
 want = {'0x%08X' % e for e in data['export']}; sp_calls = {}
@@ -41,7 +41,7 @@ data['vcall_types'] = {k: {'func': v['func'], 'targets': v['targets'], 'pops': v
 # functions declared __stdcall (in the export) that use their entry ECX: retyped __thiscall in IDA
 ecx = json.load(open(os.path.join(D, 'ecx_use.json'))); purges = json.load(open(os.path.join(D, 'purges.json')))
 decl = {}
-for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
     r = json.loads(l)
     if r.get('cc'): decl['0x%08X' % r['ea']] = r['cc']
     for o in (r.get('objs') or {}).values():
@@ -50,7 +50,7 @@ data['conv_fix'] = {k: purges[k] for k, cc in decl.items() if cc == 'stdcall' an
 data['conv_why'] = {k: ecx[k] for k in data['conv_fix']}
 blob = json.dumps(data, separators=(',', ':'), ensure_ascii=True)
 assert "'''" not in blob
-src = open(os.path.join(R, 'pipeline', 'ida_fix.template')).read().replace('__DATA__', blob, 1)
+src = open(os.path.join(R, 'ida', 'ida_fix.template')).read().replace('__DATA__', blob, 1)
 os.makedirs(os.path.join(R, 'ida'), exist_ok=True)
 out = os.path.join(R, 'ida', 'ffxi_ida_fix.py')
 open(out, 'w', newline='\n').write(src)

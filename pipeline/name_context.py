@@ -64,4 +64,4 @@ if __name__ == '__main__':
         fields(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else os.path.join(ROOT, 'tree'))
     else:
         globals_(sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, 'tree'),
-                 sys.argv[3] if len(sys.argv) > 3 else os.path.join(ROOT, 'data', 'exports', 'gfx_export_current.jsonl'))
+                 sys.argv[3] if len(sys.argv) > 3 else os.path.join(ROOT, 'data', 'exports', 'gfx_export.jsonl'))

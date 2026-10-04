@@ -15,7 +15,7 @@
 # The game DLL is read from $FFXI_DLL and is never copied into the repo.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"; P="$ROOT/pipeline"
-EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export_current.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
+EXP=$(realpath "${2:-$ROOT/data/exports/gfx_export.jsonl}"); RUN=${3:-dev}; W="$ROOT/runs/$RUN"
 mkdir -p "$W"
 # every stage after translate must read the export the raw translation came from (runs/RUN/raw/export.sha1)
 same_export() {

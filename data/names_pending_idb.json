@@ -951,7 +951,7 @@
   "old": "dword_104E1D4C",
   "name": "g_pCursor",
   "confidence": "high",
-  "evidence": "cursor singleton (docs/NAMES-2026-10-01.md); passed to Cursor_GetHwCursorSlot"
+  "evidence": "cursor singleton (docs/NAMES.md, 1 Oct); passed to Cursor_GetHwCursorSlot"
  },
  "0x10578158": {
   "old": "dword_10578158",

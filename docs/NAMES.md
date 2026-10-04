@@ -685,6 +685,47 @@ context (`ctx.py`), what is left (`todo.py`), and apply the three rules below.
   names do not change code. 377 of the 522 names appear in it (the others are used only by functions the tree
   does not hold); no placeholder of a named global is left.
 
+## 4 Oct 2026: the PS2 executable (SCUS_972.66) against the 141 still unnamed
+
+The owner supplied the PS2 executable. It is not stripped: 8,424 data objects have names and sizes, and its
+relocations give every function's data references exactly (`pipeline/ps2_refs.py`, `runs/ps2_refs.json`):
+
+- The executable is linked, so the instructions hold final addresses:
+  - a LO16's target is its HI16 partner's upper half plus its own lower half;
+  - a GPREL16's target is `_gp` plus its immediate.
+- Dancer.bin's code bytes are not in the file. For those functions only the relocation's symbol is known, with
+  no offset.
+
+A PC global can only be matched through a function that exists on both sides. Pairs found:
+
+| Source of the pair | Pairs |
+|---|---|
+| The IDB's `PS2 counterpart` comments | 59 |
+| The same class and method name | 2 |
+| A string literal used by exactly one function on each side | 22 |
+| Propagation through the call graph (a paired function's only unpaired callee on each side) | 2 |
+| **Total** | **84** |
+
+Pairing by string or call graph adds little: of the 157 strings both binaries share, 22 pin a pair. The PC
+functions have diverged from PS2 (other calls, inlining, extra checks), so callee sets rarely line up.
+
+Only 8 of the 84 pairs touch one of the 141 unnamed globals. Reading those 8 side by side gives one match:
+
+| Address | Was | Name | Confidence | Evidence |
+|---|---|---|---|---|
+| `0x10487F80` | `byte_10487F80` | `XiControlActor_isFirstPersonView` | high | PS2 `NameCalc__7XiActorFPfPiRfRUi` calls vtable+0x184 and returns 0 when it is true and `is_first_person_view__14XiControlActor` is nonzero. PC 0x100830C0, the same function (the same near/far fade follows), calls vtable+0x304 and returns 0 when it is true and this byte is nonzero. `CXiSkeletonActor_OnMove` repeats the pair twice (0x100C7CCE/0x100C7CD8, 0x100C7D70/0x100C7D78), as PS2 `OnMove__15XiSkeletonActorFv` references the same static. |
+
+The other 7 do not decide anything:
+- **PS2 code that is not the PC code.** `OnTrgButtons` and `isL3`: PS2 tests `g_pTkMouse` and `pad`, while the
+  PC function is a different handler.
+- **The PC global has no PS2 counterpart in the pair.** `0x109A2720` is cleared by 8 sqgx functions, but
+  PS2 `sqgxColorUpdate`'s Dancer code is not in the file.
+- **The PS2 side references nothing that corresponds.** `OnDrawName`; `loadTexture` (PS2 references only
+  `dmaGif`).
+
+The 140 others stay unnamed. The large shared objects among them (`0x104DFD98` with 1,071 references,
+`0x10480AF0` with 931) are used mostly by functions that have no PS2 pair.
+
 ## 2 Oct 2026: globals and callees
 
 This round named the placeholders left in `tree/`: 24 `sub_` callees and 283 data symbols (`dword_`, `byte_`, `flt_`, `unk_`, `off_`, `word_`). 193 were named (86 high, 107 medium confidence); 13 `sub_` and 105 data placeholders remain because the code does not say enough about them.

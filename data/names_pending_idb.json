@@ -4816,5 +4816,12 @@
   "confidence": "medium",
   "evidence": "CXiSkeletonActor_Init stores it into the new actor at +0x9EC and post-increments it; 0x100D14C0/0x100D16C0/0x100D1970 and others read it",
   "kind": "global"
+ },
+ "0x10487F80": {
+  "old": "byte_10487F80",
+  "name": "XiControlActor_isFirstPersonView",
+  "confidence": "high",
+  "evidence": "PS2 counterpart (SCUS_972.66): XiControlActor::is_first_person_view (is_first_person_view__14XiControlActor, a 1-byte static). PS2 NameCalc__7XiActorFPfPiRfRUi calls vtable+0x184 on this and, when it returns true and this byte is nonzero, returns 0 (lb is_first_person_view; beqz). PC 0x100830C0 (the same function: the same near/far distance fade follows) calls vtable+0x304 and, when true and byte [0x10487F80] is nonzero, returns 0. PC CXiSkeletonActor_OnMove repeats the pair (vcall +0x304, then this byte) at 0x100C7CCE/0x100C7CD8 and 0x100C7D70/0x100C7D78, as PS2 OnMove__15XiSkeletonActorFv references is_first_person_view.",
+  "kind": "global"
  }
 }

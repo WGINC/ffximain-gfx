@@ -98,6 +98,7 @@ def this_flow(im, ins, ea, vts):
 
 
 ECX_PARTS = {'ecx', 'cx', 'cl', 'ch'}
+REG = 'ecx'             # the register ecx_inputs follows (edx_inputs.py sets 'edx')
 
 
 WRITE_ONLY = ('mov', 'movzx', 'movsx', 'lea', 'pop')
@@ -156,7 +157,7 @@ def ecx_inputs(im, code, starts):
             a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
             rd, wp, unk = ecx_effect(i)
             if any(not covered(p, w) for p in rd): read = True; FIRST_READ[f] = '0x%08X %s %s' % (a, i.mnemonic, i.op_str); break
-            whole = 'ecx' in w
+            whole = REG in w
             if not whole:
                 if unk: unknown = True
                 if i.mnemonic in ('call', 'jmp') and o:

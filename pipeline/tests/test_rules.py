@@ -144,6 +144,33 @@ class GlobalNamedLikeALocal(unittest.TestCase):
         self.assertEqual(R[2]['text'], 'int g(_DWORD *C)\n{\n  int v2; // eax\n\n  v2 = g_C_106631D4;\n  return *C + v2;\n}')
 
 
+class FloatCompares(unittest.TestCase):
+    """fcmp.py: the outcomes an x87 compare branch takes, from the flag arithmetic; the NaN-exact C condition"""
+    class I:
+        def __init__(s, m, o=''): s.mnemonic, s.op_str = m, o
+
+    def outcomes(self, *seq):
+        import fcmp as F
+        L = [self.I('fcomp', 'dword ptr [esi]'), self.I('fnstsw', 'ax')] + [self.I(*x) for x in seq]
+        return set(F.taken(L, len(L) - 1)[0])
+
+    def test_condition_codes(self):
+        self.assertEqual(self.outcomes(('test', 'ah, 5'), ('jp', '0x10')), {'gt', 'eq', 'un'})     # !(a < b)
+        self.assertEqual(self.outcomes(('test', 'ah, 5'), ('jnp', '0x10')), {'lt'})
+        self.assertEqual(self.outcomes(('and', 'eax, 0x4100'), ('jne', '0x10')), {'lt', 'eq', 'un'})
+        self.assertEqual(self.outcomes(('test', 'ah, 0x44'), ('jnp', '0x10')), {'eq'})
+        self.assertEqual(self.outcomes(('test', 'ah, 0x41'), ('jne', '0x10')), {'lt', 'eq', 'un'})
+        self.assertEqual(self.outcomes(('sahf',), ('jae', '0x10')), {'gt', 'eq'})
+
+    def test_exact_condition(self):
+        import fcmp as F
+        self.assertEqual(F.exact('x', '>=', 'y', frozenset({'gt', 'eq', 'un'})), '!(x < y)')
+        self.assertEqual(F.exact('x', '>=', 'y', frozenset({'lt'})), '!(x < y)')       # the not-taken side
+        self.assertEqual(F.exact('x', '<', 'y', frozenset({'lt'})), 'x < y')
+        self.assertEqual(F.exact('x', '==', 'y', frozenset({'eq'})), 'x == y')
+        self.assertIsNone(F.exact('x', '<', 'y', frozenset({'eq'})))                    # text does not match code
+
+
 class Solver(unittest.TestCase):
     def test_determined(self):
         # p0 + p1 = 8 and p1 = 4  ->  p0 = 4, p1 = 4

@@ -99,29 +99,42 @@ object CApp_RunMainLoop constructs). In code order:
 7. EndScene, Present (CDx_Present).
 8. Frame pacing (section 3), then Camera_ApplyViewProjection and GammaRamp_ApplyIfChanged.
 
-## 3. Frame pacing: the engine caps itself at 60 fps
+## 3. Frame pacing: the game's own limit is 30 fps (15 in some states)
 
-From the code (0x10012B05 to 0x10012BC6) and the timer object at `[this+0x1C]` (vtable 0x1032A118):
-
+**The wait loop.** From the code (0x10012B05 to 0x10012BC6) and the timer object at `[this+0x1C]`
+(vtable 0x1032A118):
 - Timer method 9 (0x10019550) returns `1000.0 / (timeGetTime() - [t+0xC] - [t+0x1C])`, with a 0 difference
   counted as 1. Method 12 (0x10019230) returns the float at `[t+8]`.
 - After Present, the frame computes `v = 60 / (method12() * method9())` and stores it at `this+0x28` and
   `this+0x2C`. With `[t+8] = 1.0`, `v` is the elapsed time in 1/60-second ticks.
 - While `v < (int)[this+0x30]` it calls `Sleep(1)` and `pause`, then measures again (0x10012B12 to 0x10012B64).
+- So `[this+0x30]` is the minimum number of 1/60 s ticks per frame. 2 is 30 fps, 1 is 60 fps.
 
-In all four dumps:
-- `[this+0x30] = 1` and `[t+8] = 1.0`;
+**Who sets the minimum.** The game sets it in one function, 0x1008A0E0, which stores its argument in
+`this+0x30` and in the global 0x1035B5E8, and prints the debug line `FPS制限[%d]` ("FPS limit"). It is
+called only with constants:
+- `2` at 0x1008A0D2 (in 0x1008A0D0), 0x10088A55 and 0x10088AC7 (in 0x100883E0), and 0x1009AAB9;
+- `4` at 0x100884B3 (in 0x100883E0).
+
+The global's initial value in the binary is 2. So the game's own code allows 30 fps, or 15 fps in the
+state 0x100884B3 handles. That state is not identified here.
+
+**In the four dumps:**
+- the global 0x1035B5E8 is 2, but `[this+0x30]` is 1. Something other than the game's setter wrote 1 into
+  `this+0x30` (an FPS unlock outside the game's code; which tool did it is not known here);
+- `[t+8] = 1.0`;
 - `[this+0x28]` is 2.0 in the two town dumps and 1.0 in combat and zonetoinn;
 - `[t+4]` holds `1000/elapsed`, the last measured rate: 24.39 in the town dump.
 
-So:
-- **60 fps is a hard ceiling.** With the minimum at 1, a frame waits until at least one 1/60 s tick has
-  passed. A pacer in front of Present (speedfix_hook's `frame_cap_fps`) cannot deliver more than 60 frames.
-- **Going past 60 changes game logic, not the renderer.** The frame's elapsed time is kept as whole ticks
-  plus a carried remainder (`this+0x38` integer, `this+0x3C` fraction), so the simulation advances in
-  whole ticks. Running above 60 would need presentation decoupled from ticks (interpolation).
-- **What the dumps show:** the town dumps were taken at about 24 fps (41 ms per frame), against a ceiling
-  of 60.
+What follows:
+- **With the minimum at 1, the loop holds frames to 60 fps.** A pacer in front of Present (speedfix_hook's
+  `frame_cap_fps`) cannot get more than 60 while that is so.
+- **A minimum of 0 would remove the wait** (`v < 0` never holds). What the rest of the frame then does is
+  not established here. The elapsed time is split into whole ticks (`this+0x38`) and a carried fraction
+  (`this+0x3C`), and the four-frame average at `this+0x28` is raised to at least `[this+0x30]`. Whether the
+  simulation advances on frames with no whole tick needs the consumers of `this+0x38` and `this+0x28`
+  read. That is the question for going past 60.
+- **What the dumps show:** the town dumps were taken at about 24 fps (41 ms per frame), below either limit.
 
 ## 4. Coverage gaps that matter for the goals
 
@@ -179,4 +192,5 @@ the call sites map to the functions in data/render_map.json and the reconstructe
   - A backend at the CDx/sqgx layer sees each draw with its purpose, which a D3D8-to-D3D11 wrapper like
     dgVoodoo cannot.
   - The fixed-function combiner states seen in section 1 are the shader permutations it has to cover.
-- **Above 60 fps** needs the tick loop (section 3) changed, not the renderer.
+- **Frame rate:** the game's own setter allows 30 (or 15); 60 needs `this+0x30 = 1`, as the dumps already
+  show. Above 60 depends on how the frame's tick consumers behave with no whole tick (section 3).

@@ -184,6 +184,26 @@ def ecx_inputs(im, code, starts):
     return res
 
 
+def vtables(code, img, base, starts):
+    """{vtable: [slot functions]}: every constant stored to [reg+N] whose first dword is a function; a vtable
+    runs while its dwords are functions, up to the next such constant"""
+    u32 = lambda a: struct.unpack_from('<I', img, a - base)[0]
+    vt_set = set()
+    for f, ins in code.items():
+        for a, i in ins.items():
+            o = i.operands
+            if i.mnemonic == 'mov' and len(o) == 2 and o[0].type == X86_OP_MEM and o[0].size == 4 and o[1].type == X86_OP_IMM:
+                v = o[1].imm
+                if base <= v < base + len(img) - 4 and u32(v) in starts: vt_set.add(v)
+    vts = sorted(vt_set); vt_slots = {}
+    for n, v in enumerate(vts):
+        lim = vts[n + 1] if n + 1 < len(vts) else base + len(img)
+        k = 0; sl = []
+        while v + 4 * k + 4 <= lim and u32(v + 4 * k) in starts: sl.append(u32(v + 4 * k)); k += 1
+        vt_slots[v] = sl
+    return vt_slots
+
+
 def main(out):
     im = S.Image(os.environ['FFXI_DLL']); base = im.base; img = im.img
     ext = json.load(open(os.path.join(D, 'func_extents.json')))
@@ -203,20 +223,7 @@ def main(out):
         for a in ins: insn_at[a] = f
     u32 = lambda a: struct.unpack_from('<I', img, a - base)[0]
 
-    # vtables: constants stored to [reg+N] whose first dword is a function
-    vt_set = set()
-    for f, ins in code.items():
-        for a, i in ins.items():
-            o = i.operands
-            if i.mnemonic == 'mov' and len(o) == 2 and o[0].type == X86_OP_MEM and o[0].size == 4 and o[1].type == X86_OP_IMM:
-                v = o[1].imm
-                if base <= v < base + len(img) - 4 and u32(v) in starts: vt_set.add(v)
-    vts = sorted(vt_set); vt_slots = {}
-    for n, v in enumerate(vts):
-        lim = vts[n + 1] if n + 1 < len(vts) else base + len(img)
-        k = 0; sl = []
-        while v + 4 * k + 4 <= lim and u32(v + 4 * k) in starts: sl.append(u32(v + 4 * k)); k += 1
-        vt_slots[v] = sl
+    vt_slots = vtables(code, img, base, starts); vts = sorted(vt_slots); vt_set = set(vt_slots)
     slot_bytes = {}                                         # address inside a vtable -> vtable
     for v, sl in vt_slots.items():
         for k in range(len(sl)):

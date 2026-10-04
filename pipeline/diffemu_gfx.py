@@ -885,6 +885,9 @@ def setup_trial(m, case, fz):
             if inst: this = inst[m.trial_no % len(inst)]
             elif src and src[0] == 'global': this = struct.unpack("<I", m.uc.mem_read(src[1], 4))[0] or None
             elif src and src[0] == 'static': this = src[1]
+            elif src and src[0] == 'vtable':               # an instance of a vtable holding the method, from the dump
+                objs = m.live_inst.get(src[1]) or []
+                this = objs[m.trial_no % len(objs)] if objs else None
         if this:
             patches += [(this + int(off, 0), struct.pack("<I", m.obj[iface])) for off, iface in case.get("this_com", {}).items()]
         else:

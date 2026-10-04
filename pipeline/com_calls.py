@@ -60,9 +60,10 @@ def successors(im, ins, a, i, labels=frozenset()):
     return [a + i.size]
 
 
-def flow(im, ins, ea):
-    """{address: {reg: path}} before each instruction; None if the function cannot be followed"""
-    state = {ea: {}}; work = [ea]; labels = S.labels_of(ins)
+def flow(im, ins, ea, entry=None):
+    """{address: {reg: path}} before each instruction; None if the function cannot be followed. `entry`: the
+    registers' paths at the function's entry (none known by default)"""
+    state = {ea: dict(entry or {})}; work = [ea]; labels = S.labels_of(ins)
     while work:
         a = work.pop(); i = ins[a]; st = dict(state[a]); ops = i.operands; m = i.mnemonic
         new = dict(st)

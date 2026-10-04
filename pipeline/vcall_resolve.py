@@ -27,6 +27,7 @@ import bisect, json, os, sys, struct, collections
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
+import com_calls as C
 
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 TOP = 'TOP'
@@ -35,14 +36,11 @@ R32 = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'e
 r32 = lambda r: R32.get(r, r)
 
 
-def succs(im, ins, a, i):
-    m = i.mnemonic; ops = i.operands
-    if m.startswith('ret') or m in ('int3', 'hlt', 'ud2'): return []
-    if m == 'jmp':
-        if ops[0].type == X86_OP_IMM: return [ops[0].imm] if ops[0].imm in ins else []
-        return None                                         # a switch or a tail jump through memory: see caller
-    if m.startswith(('j', 'loop')): return [a + i.size] + ([ops[0].imm] if ops[0].type == X86_OP_IMM else [])
-    return [a + i.size]
+def succs(im, ins, a, i, labels):
+    """the next addresses in the function: a switch through a table only where the code bounds its index
+    (com_calls.successors, sp_solve.switch_targets); None for any other indirect jump, which the callers
+    treat as code they cannot follow (no must-fact holds after a join it may reach)"""
+    return C.successors(im, ins, a, i, labels)
 
 
 def written(i):
@@ -64,7 +62,7 @@ def this_flow(im, ins, ea, vts):
     """per instruction, the state before it: (regs holding the entry ECX, regs holding its vtable pointer,
     exact vtable stored into it on every path, or None)"""
     start = (frozenset({'ecx'}), frozenset(), None)
-    state = {ea: start}; work = [ea]
+    state = {ea: start}; work = [ea]; labels = S.labels_of(ins)
     def meet(x, y): return (x[0] & y[0], x[1] & y[1], x[2] if x[2] == y[2] else None)
     while work:
         a = work.pop(); i = ins[a]; Sx, V, X = state[a]; m = i.mnemonic; ops = i.operands
@@ -87,8 +85,8 @@ def this_flow(im, ins, ea, vts):
                 and r32(i.reg_name(ops[0].mem.base)) in Sx and ops[0].mem.disp == 0 and not ops[0].mem.index:
             X2 = None
         if m == 'call': X2 = None                           # any callee may rewrite the vptr
-        nxt = succs(im, ins, a, i)
-        if nxt is None: nxt = []
+        nxt = succs(im, ins, a, i, labels)
+        if nxt is None: return {}                         # an indirect jump not bounded: nothing is known here
         new = (frozenset(S2), frozenset(V2), X2)
         for n in nxt:
             if n not in ins: continue
@@ -153,7 +151,7 @@ def ecx_inputs(im, code, starts):
     res, pend = {}, {}
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
-        wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False
+        wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
         while work:
             a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
             rd, wp, unk = ecx_effect(i)
@@ -166,7 +164,9 @@ def ecx_inputs(im, code, starts):
                         if o[0].imm in code and not (i.mnemonic == 'jmp' and o[0].imm in ins): callees.add(o[0].imm)
                     else: unknown = True                    # through a pointer: the callee may read it
             w2 = frozenset(w | wp)
-            for n in succs(im, ins, a, i) or []:
+            nx = succs(im, ins, a, i, labels)
+            if nx is None: unknown = True; nx = []          # an indirect jump not bounded: its targets are unseen
+            for n in nx:
                 if n not in ins: continue
                 if n not in wr: wr[n] = w2; work.append(n)
                 else:

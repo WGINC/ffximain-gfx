@@ -298,3 +298,43 @@ The names are the IDB's.
 - **In the reconstructed code it can be fixed at the source.** Set state once per run of quads instead of
   per quad. The next capture (d3dprof v2) records the caller of each CDx draw wrapper, so the 1,077 UP
   draws can be assigned to the functions that ask for them.
+
+## 8. Second capture (d3dprof v2, process 2788): who draws
+
+600 frames, without speedfix_hook. Of the 644 rows:
+- 617 call sites pass the slot check;
+- 24 draw requesters pass (each a direct call to a CDx draw wrapper ending at the recorded address);
+- 3 are TestCooperativeLevel from outside FFXiMain.
+
+**Frame:** average 26.2 ms (38 fps), minimum 18.2, maximum 44.3.
+
+**Per frame:** 14,492 calls, 1,839 draws, 445,652 primitives, 4,098 sets that repeat the current value.
+
+**Who asks for the draws** (the CDx wrappers' callers, per frame):
+
+| Requester | Draws | Primitives |
+|---|---|---|
+| sub_1017C9C0 (a CTsZoneMap method: the zone mesh) | 781.6 DrawPrimitive + 39.4 DrawIndexedPrimitive | 389,381 + 2,412 |
+| Font_DrawGlyphQuad | 543.2 DrawPrimitiveUP | 1,086 (2 per call: one quad per glyph) |
+| Cell_DrawQuadBlended | 181.2 DrawPrimitiveUP | 362 |
+| CYyModelDt_SkinAndDrawV2 (six sites) | 148 DrawIndexedPrimitive | 9,709 |
+| CTsZoneMap_DrawProjectedShadow | 68.8 DrawPrimitiveUP | 192 |
+| sub_10183760 | 9.7 DrawPrimitive | 40,261 |
+| 0x10043F40 (a device user, in the new export) | 16.5 DrawPrimitive | 2,146 |
+
+**The zone mesh function, sub_1017C9C0.**
+- It issues 4,150 calls per frame, 1,034 of them redundant. Around each of its 782 draws it sets the
+  stream source (0x1017DD95, 781.6), the texture (0x1017DCCB, 773.7, 476.5 redundant) and render states
+  (0x1017DB60 546.7; four sites at 273 each).
+- It is in the verified tree (tree/src/unit_10178790_ZoneMap.cpp, gate PASS on fuzz and all four dumps).
+  That makes it the first place to change. In a D3D8 performance patch: sort and merge its draws by
+  texture and state. In a D3D11 port: put the zone in a few large buffers and draw it with far fewer calls.
+
+**The glyph quads.** Font_DrawGlyphQuad draws one quad per glyph (543 per frame here) and sets the vertex
+shader before each, every time to the one already bound (543 of 543 redundant).
+
+**Calls from another thread.** d3dprof's `other_thread_calls` is cumulative since injection, not per
+window. Both captures show 3,220, so those calls were made once, early, and not during play.
+
+**Not measured:** time inside the calls. The 38 fps here against 46 fps in the first capture goes with
+18 times the primitives (445,652 against 23,977), but which calls cost the time needs timing, not counts.

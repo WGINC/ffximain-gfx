@@ -129,8 +129,10 @@ def vtbl_decl(cname, c):
 
 def extend_existing(cname, c, t):
     """a class the IDB already declares: its vtable pointer (an untyped dword or void pointer at offset 0) typed as
-    a pointer to the vtable struct, and the proven fields added where no member of the IDB's type lies; no
-    existing member is changed otherwise"""
+    a pointer to the vtable struct, and the proven fields placed where the IDB's type has no member or only a
+    byte-array placeholder (`_pad_*` / `gap*`; the placeholder keeps the bytes the field does not use, under its
+    own name, so no other member moves). Every other member is left as it is; a field inside one (a base-class
+    member, a typed array) is not added and is counted."""
     udt = ida_typeinf.udt_type_data_t()
     if not t.get_udt_details(udt): return 'not a struct'
     out = []
@@ -140,20 +142,35 @@ def extend_existing(cname, c, t):
             idc.parse_decls('struct %s_vtbl { %s };' % (cname, ' '.join('void *vf%d;' % k for k in range(len(c['slots'])))), idc.PT_SILENT)
             out.append('vtable members untyped')
         vt.get_named_type(None, cname + '_vtbl')
-    m0 = [m for m in udt if m.offset == 0 and m.size == 32]
+    mem = list(udt)                                # references into udt, which is not changed below
+    m0 = [m for m in mem if m.offset == 0 and m.size == 32]
     if m0 and not str(m0[0].type).endswith('_vtbl *') and (m0[0].type.is_ptr() or m0[0].type.get_size() == 4):
         pv = ida_typeinf.tinfo_t(); pv.create_ptr(vt); m0[0].type = pv; out.append('vftable typed')
-    taken = [(m.offset // 8, (m.offset + m.size) // 8) for m in udt if not m.name.startswith('gap')]
-    added = 0
+    elif not (m0 and str(m0[0].type).endswith('_vtbl *')): out.append('offset 0 is %s %s' % (str(mem[0].type) if mem else '-', mem[0].name if mem else '-'))
+    def pad(m):
+        return (m.name.startswith('_pad_') or m.name.startswith('gap')) and m.type.is_array() \
+            and m.type.get_array_element().get_size() == 1
+    free = [[m.offset // 8, (m.offset + m.size) // 8, m] for m in mem if pad(m)]
+    keep = [m for m in mem if not pad(m)]
+    taken = [(m.offset // 8, (m.offset + m.size) // 8) for m in keep]
+    added = inside = 0; placed = []
     for off, size, ty in c['fields']:
         off = int(off, 16)
-        if any(a < off + size and off < b for a, b in taken): continue
+        if any(a < off + size and off < b for a, b in taken): inside += 1; continue
         tif = ida_typeinf.tinfo_t()
         if ida_typeinf.parse_decl(tif, None, '%s x;' % ty, ida_typeinf.PT_SIL) is None: continue
         u = ida_typeinf.udm_t(); u.name = 'field_%X' % off; u.type = tif; u.offset = off * 8; u.size = size * 8
-        udt.push_back(u); taken.append((off, off + size)); added += 1
+        keep.append(u); taken.append((off, off + size)); placed.append((off, off + size)); added += 1
     if added or 'vftable typed' in out:
-        keep = [m for m in udt if not m.name.startswith('gap')]
+        for a, b, m in (x for x in free if x[2].name.startswith('_pad_')):   # what is left of each placeholder
+            cuts = sorted(x for x in placed if a <= x[0] < b)
+            pos = a
+            for x0, x1 in cuts + [(b, b)]:
+                if x0 > pos:
+                    p = ida_typeinf.udm_t(); p.name = m.name if pos == a else '%s_%X' % (m.name, pos)
+                    p.type = ida_typeinf.tinfo_t(); p.type.create_array(m.type.get_array_element(), x0 - pos)
+                    p.offset = pos * 8; p.size = (x0 - pos) * 8; keep.append(p)
+                pos = max(pos, x1)
         keep.sort(key=lambda m: m.offset)
         nu = ida_typeinf.udt_type_data_t()
         for m in keep: nu.push_back(m)
@@ -163,6 +180,7 @@ def extend_existing(cname, c, t):
             return 'not changed (the edited type was refused)'
         idc.SetType(int(c['vtable'], 16), '%s_vtbl;' % cname)
     out.append('%d fields added' % added)
+    if inside: out.append('%d inside an existing member' % inside)
     return '; '.join(out)
 
 

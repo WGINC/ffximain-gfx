@@ -113,6 +113,61 @@ def fix_conventions(report):
     log('conventions: %d of %d retyped __thiscall' % (done, len(DATA['conv_fix'])))
 
 
+# ------------------------------------------------------------------ 3b: class types (make_ida_types.py)
+def fnptr_decl(target, member):
+    """a vtable member typed as a pointer to the target's own IDB prototype, or `void *` where it cannot be"""
+    t = idc.get_type(target) or ''
+    m = re.match(r'^(.*?)\s*(__cdecl|__stdcall|__thiscall|__fastcall)\s*\((.*)\)\s*$', t)
+    if not m or '(' in m.group(1): return 'void *%s;' % member
+    return '%s (%s *%s)(%s);' % (m.group(1), m.group(2), member, m.group(3))
+
+
+def apply_classes(report):
+    """structs for classes whose methods' `this` the code proves to hold one vtable: a vtable struct (members typed
+    as the slot functions' own prototypes), fields at every offset the methods access at one width, `this`
+    typed on those methods. A type the IDB already has under the name is kept as it is."""
+    rep = report.setdefault('classes', {}); made = typed = 0
+    for cname, c in sorted(DATA['classes'].items()):
+        r = rep[cname] = {}
+        old = ida_typeinf.tinfo_t()
+        if old.get_named_type(None, cname): r['struct'] = 'kept the IDB\'s own type'
+        else:
+            seen, slots = set(), []
+            for k, t in enumerate(c['slots']):
+                nm = re.sub(r'\W', '_', ida_name.get_name(int(t, 16)) or 'vf')
+                nm = 'vf%d_%s' % (k, nm)
+                slots.append(fnptr_decl(int(t, 16), nm))
+            body, pos = ['struct %s_vtbl *vftable;' % cname], 4
+            for off, size, ty in c['fields']:
+                off = int(off, 16)
+                if off > pos: body.append('unsigned __int8 gap_%X[%d];' % (pos, off - pos))
+                body.append('%s field_%X;' % (ty, off)); pos = off + size
+            vt = 'struct %s_vtbl { %s };' % (cname, ' '.join(slots))
+            decl = 'struct %s_vtbl; %s struct %s { %s };' % (cname, vt, cname, ' '.join(body))
+            errs = idc.parse_decls(decl, idc.PT_SILENT)
+            if errs:
+                vt = 'struct %s_vtbl { %s };' % (cname, ' '.join('void *vf%d;' % k for k in range(len(c['slots']))))
+                errs = idc.parse_decls('struct %s_vtbl; %s struct %s { %s };' % (cname, vt, cname, ' '.join(body)), idc.PT_SILENT)
+                r['vtable_members'] = 'untyped (the slot prototypes did not parse)'
+            if errs: r['struct'] = 'not created (%d errors)' % errs; log('class %s: not created' % cname); continue
+            made += 1; r['struct'] = 'created: %d fields, %d slots' % (len(c['fields']), len(c['slots']))
+            idc.SetType(int(c['vtable'], 16), '%s_vtbl;' % cname)
+        ct = ida_typeinf.tinfo_t()
+        if not ct.get_named_type(None, cname): continue
+        pt = ida_typeinf.tinfo_t(); pt.create_ptr(ct); r['methods'] = {}
+        for m in c['methods']:
+            ea = int(m, 16); t = ida_typeinf.tinfo_t()
+            if not ida_nalt.get_tinfo(t, ea) or not t.is_func(): r['methods'][m] = 'no prototype'; continue
+            fd = ida_typeinf.func_type_data_t(); t.get_func_details(fd)
+            if cc_name(fd) != 'thiscall' or fd.size() == 0: r['methods'][m] = 'left: not __thiscall'; continue
+            fd[0].type = pt; nt = ida_typeinf.tinfo_t()
+            if nt.create_func(fd) and ida_typeinf.apply_tinfo(ea, nt, ida_typeinf.TINFO_DEFINITE):
+                typed += 1; r['methods'][m] = 'this: %s *' % cname; ida_hexrays.mark_cfunc_dirty(ea)
+            else: r['methods'][m] = 'not applied'
+    log('classes: %d structs created, %d methods given a typed this (of %d classes, %d methods)' % (
+        made, typed, len(DATA['classes']), sum(len(c['methods']) for c in DATA['classes'].values())))
+
+
 # ------------------------------------------------------------------ 4: stack pointer
 def change_at(call):
     nxt = call + idc.get_item_size(call)
@@ -431,7 +486,7 @@ def main():
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
-        for step in (apply_names, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: ida_auto.auto_wait(),
+        for step in (apply_names, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),
                      lambda: revert(report), lambda: fix_sp(report), lambda: force_call_types(report), lambda: reexport(report)):
             try: step()
             except Exception: log('STEP FAILED:\n' + traceback.format_exc())

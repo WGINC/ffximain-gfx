@@ -71,7 +71,20 @@ static DWORD g_thread;
 static char g_out[MAX_PATH];
 
 /* per (slot, site) totals over the report window */
-typedef struct { uint32_t site; uint16_t slot; uint16_t used; uint32_t calls, redundant; uint64_t prims; } Site;
+/* kind: 0 = a call site in FFXiMain (the analysed address of the return address), 1 = a caller outside
+   FFXiMain (the return address as it is), 2 = the caller of one of CDx's draw wrappers (the analysed
+   address the wrapper returns to; see WRAP) */
+enum { K_GAME, K_OTHER, K_WRAPPED };
+static const char *KIND[] = {"FFXiMain", "other module", "caller of CDx draw wrapper"};
+typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims; } Site;
+/* The draws of CDx_DrawPrimitive / CDx_DrawIndexedPrimitive / CDx_DrawPrimitiveUP (0x1000CB20, 0x1000CC00,
+   0x1000CD00) are made inside those wrappers. Who asked for the draw is the wrapper's caller. Its return
+   address is at a fixed offset from ESP at the method's entry: 4 + the exact stack depth at the call
+   instruction (pipeline/sp_solve.py insn_depths). */
+static const struct { uint32_t ret; uint32_t off; } WRAP[] = {
+  {0x1000CB74, 44}, {0x1000CBB2, 44}, {0x1000CBF3, 32},     /* CDx_DrawPrimitive: depths 40, 40, 28 */
+  {0x1000CC5E, 52}, {0x1000CCA6, 52}, {0x1000CCF1, 40},     /* CDx_DrawIndexedPrimitive: 48, 48, 36 */
+  {0x1000CD59, 48}, {0x1000CD9C, 48}, {0x1000CDE2, 36}};    /* CDx_DrawPrimitiveUP: 44, 44, 32 */
 static Site g_sites[MAXSITES];
 static uint32_t g_nsites, g_dropped_sites, g_other_thread;
 /* the value each state was last set to (0xFFFFFFFF never set; reset by ApplyStateBlock, see below) */
@@ -84,15 +97,15 @@ static uint64_t g_calls_window, g_draws_window, g_prims_window, g_redundant_wind
 static LARGE_INTEGER g_qpf, g_last_present;
 static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
 
-static Site *site_of(uint32_t site, int slot) {
-  uint32_t h = (site * 2654435761u ^ (uint32_t)slot * 40503u) & (MAXSITES - 1);
+static Site *site_of(uint32_t site, int slot, int kind) {
+  uint32_t h = (site * 2654435761u ^ (uint32_t)slot * 40503u ^ (uint32_t)kind * 97u) & (MAXSITES - 1);
   for (uint32_t n = 0; n < MAXSITES; n++, h = (h + 1) & (MAXSITES - 1)) {
     Site *s = &g_sites[h];
     if (!s->used) {
       if (g_nsites >= MAXSITES * 3 / 4) { g_dropped_sites++; return NULL; }
-      s->used = 1; s->site = site; s->slot = (uint16_t)slot; g_nsites++; return s;
+      s->used = 1; s->site = site; s->slot = (uint16_t)slot; s->kind = (uint8_t)kind; g_nsites++; return s;
     }
-    if (s->site == site && s->slot == slot) return s;
+    if (s->site == site && s->slot == slot && s->kind == kind) return s;
   }
   return NULL;
 }
@@ -106,7 +119,7 @@ static void report(void) {
   FILE *f = fopen(g_out, "w");
   if (!f) return;
   double n = g_frames ? (double)g_frames : 1.0;
-  fprintf(f, "# d3dprof: %u frames; frame ms avg %.3f min %.3f max %.3f; per frame: calls %.1f draws %.1f "
+  fprintf(f, "# d3dprof v2: %u frames; frame ms avg %.3f min %.3f max %.3f; per frame: calls %.1f draws %.1f "
              "primitives %.1f redundant_sets %.1f; other_thread_calls %u; sites %u (dropped %u)\n",
           g_frames, g_ms_sum / n, g_ms_min, g_ms_max, g_calls_window / n, g_draws_window / n, g_prims_window / n,
           g_redundant_window / n, g_other_thread, g_nsites, g_dropped_sites);
@@ -114,7 +127,7 @@ static void report(void) {
   for (uint32_t i = 0; i < MAXSITES; i++) {
     Site *s = &g_sites[i];
     if (!s->used) continue;
-    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f\n", NAMES[s->slot], s->site & ~1u, (s->site & 1) ? "other module" : "FFXiMain",
+    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f\n", NAMES[s->slot], s->site, KIND[s->kind],
             s->calls / n, s->redundant / n, s->prims / n);
   }
   fclose(f);
@@ -128,9 +141,9 @@ static void report(void) {
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
   if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_orig[slot]; }
-  /* a call site in the game's DLL as the analysed address; any other caller as it is, with bit 0 set (an x86
-     call returns to an address the call instruction ends at, so the bit is free only as a marker for the CSV) */
-  uint32_t ret = a[0] >= g_lo && a[0] < g_hi ? a[0] - g_rel : a[0] | 1u;
+  /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
+  int game = a[0] >= g_lo && a[0] < g_hi;
+  uint32_t ret = game ? a[0] - g_rel : a[0];
   int redundant = 0; uint32_t prims = 0;
   if (slot == 52) g_recording = 1;
   else if (slot == 53) g_recording = 0;
@@ -149,8 +162,15 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   case S_DPUP: prims = a[3]; break;             /* DrawPrimitiveUP(type, count, data, stride) */
   case S_DIPUP: prims = a[5]; break;            /* DrawIndexedPrimitiveUP(type, min, num, count, ...) */
   }
-  Site *s = site_of(ret, slot);
+  Site *s = site_of(ret, slot, game ? K_GAME : K_OTHER);
   if (s) { s->calls++; s->redundant += redundant; s->prims += prims; }
+  if (game && slot >= S_DP && slot <= S_DPUP)
+    for (unsigned w = 0; w < sizeof WRAP / sizeof WRAP[0]; w++)
+      if (WRAP[w].ret == ret) {
+        uint32_t c = a[WRAP[w].off / 4];
+        if (c >= g_lo && c < g_hi && (s = site_of(c - g_rel, slot, K_WRAPPED)) != NULL) { s->calls++; s->prims += prims; }
+        break;
+      }
   g_calls_window++; g_redundant_window += redundant; g_prims_window += prims;
   if (slot >= S_DP && slot <= S_DIPUP) g_draws_window++;
   if (slot == S_PRESENT) {

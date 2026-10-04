@@ -238,3 +238,63 @@ the call sites map to the functions in data/render_map.json and the reconstructe
   - The fixed-function combiner states seen in section 1 are the shader permutations it has to cover.
 - **Frame rate:** the game's own setter allows 30 (or 15); 60 needs `this+0x30 = 1`, as the dumps already
   show. Above 60 depends on how the frame's tick consumers behave with no whole tick (section 3).
+
+## 7. First in-game profile (owner's capture, d3dprof, process 1368)
+
+Source: one CSV of 600 frames, taken with speedfix_hook also installed (the injection order, and so which
+side of speedfix's caches d3dprof counted, is not recorded). The call sites were joined with the code by
+`kit/d3dprof/analyze.py`. A row counts only if the instruction ending at its return address calls through
+that method's own vtable slot, or calls a wrapper that tail-jumps through it. 523 of 526 rows pass. The
+other 3 are TestCooperativeLevel from outside FFXiMain (0x67CBxxxx, 7.5 calls per frame).
+
+That CSV came from the first d3dprof build. It cleared bit 0 of FFXiMain call sites with an odd return
+address and labelled them `other module` (fixed in v2). analyze.py restores them, and the slot check
+decides each one.
+
+**Frame:** average 21.7 ms (46 fps), minimum 16.25 ms, maximum 56.3 ms.
+
+**Per frame:**
+- 8,892 Direct3D calls;
+- 1,181 draws, 23,977 primitives:
+
+  | Method | Calls | Primitives | Primitives per call |
+  |---|---|---|---|
+  | DrawPrimitiveUP | 1,077 | 4,049 | about 3.8 |
+  | DrawIndexedPrimitive | 79 | 5,734 | about 73 |
+  | DrawPrimitive | 24.8 | 14,195 | about 572 |
+
+  So 91% of the draw calls carry 17% of the primitives.
+- Every draw went through the CDx wrappers' plain sites (0x1000CBED, 0x1000CCEB, 0x1000CDDC). The sqgx
+  display-list draws did not occur in this capture.
+- 3,558 sets repeated the value the state already had: 40% of all calls. By method:
+  - SetVertexShader: 1,094 of 1,118;
+  - SetRenderState: 1,526 of 2,966;
+  - SetTextureStageState: 492 of 2,328;
+  - SetTexture: 336 of 511.
+- 3,220 calls in the whole capture (5.4 per frame) came from a thread other than the rendering thread.
+  d3dprof counts them but does not record their methods.
+
+**Where the calls come from:** nine functions named Cell_*, Font_*, Gfx_SetAdditiveBlend and
+sub_1011E980 (0x1011BAE0..0x1011F9xx, plus Font_DrawPass and Font_DrawString) issue:
+- 5,084 of the 8,892 calls (57%);
+- 2,695 of the 3,558 redundant sets (76%).
+
+The largest single sources:
+
+| Function | Calls | Redundant | Notes |
+|---|---|---|---|
+| Cell_DrawQuadBlended | 2,548 | 1,684 | |
+| sub_1011E980 | 1,556 | 271 | |
+| Font_DrawGlyphQuad | 669 | 669 | all SetVertexShader with the shader already bound |
+| CYyModelDt_SkinAndDrawV2 | 453 | 360 | |
+| Model_EndOffscreenPassBindTextures | 342 | 124 | |
+
+The names are the IDB's.
+
+**What this shows for the goals:**
+- **The draw-call count is in tiny DrawPrimitiveUP batches** (about 4 triangles each), and the state
+  traffic around them comes mostly from the Cell/Font functions. Batching those (speedfix's
+  `batch_up_draws`) and dropping the repeated sets (its `state_cache`) address exactly this.
+- **In the reconstructed code it can be fixed at the source.** Set state once per run of quads instead of
+  per quad. The next capture (d3dprof v2) records the caller of each CDx draw wrapper, so the 1,077 UP
+  draws can be assigned to the functions that ask for them.

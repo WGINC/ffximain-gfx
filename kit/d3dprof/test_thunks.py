@@ -39,9 +39,10 @@ RET = GAME + 0x9736   # a "call site" in the game's DLL (as loaded at its analys
 u.mem_map(GAME, 0x10000); u.mem_write(RET, b'\xF4')
 
 
-def call(slot, args):
+def call(slot, args, ret=RET, above=()):
     sp = STACK - 0x100
-    frame = [RET, 0x55AA0000] + list(args)
+    u.mem_write(ret, b'\xF4')
+    frame = [ret, 0x55AA0000] + list(args) + list(above)
     u.mem_write(sp, struct.pack('<%dI' % len(frame), *frame))
     u.reg_write(UC_X86_REG_ESP, sp)
     seen = {}
@@ -51,7 +52,7 @@ def call(slot, args):
             seen['stack'] = struct.unpack('<%dI' % len(frame), uc.mem_read(esp, 4 * len(frame)))
             seen['esp'] = esp
     h = u.hook_add(UC_HOOK_CODE, at_orig)
-    u.emu_start(sym['_d3dprof_t%d' % slot], RET)
+    u.emu_start(sym['_d3dprof_t%d' % slot], ret)
     u.hook_del(h)
     assert seen.get('esp') == sp, 'the original method did not see the caller\'s stack pointer'
     assert list(seen['stack']) == frame, 'the stack changed on the way: %r' % (seen['stack'],)
@@ -65,5 +66,18 @@ red = struct.unpack('<Q', u.mem_read(sym['_g_redundant_window'], 8))[0]
 prims = struct.unpack('<Q', u.mem_read(sym['_g_prims_window'], 8))[0]
 draws = struct.unpack('<Q', u.mem_read(sym['_g_draws_window'], 8))[0]
 assert (calls, red, prims, draws) == (5, 1, 1, 1), (calls, red, prims, draws)
+# an odd return address in the game stays exact and counts as FFXiMain; a draw from CDx_DrawPrimitiveUP's
+# plain site (returns to 0x1000CDE2, wrapper's caller at [ESP+36]) also records the wrapper's caller
+call(50, [7, 1], ret=GAME + 0x9737)
+caller = GAME + 0x1235
+call(72, [4, 2, 0x1000, 20], ret=GAME + 0xCDE2, above=[0] * 3 + [caller])   # 2 params + this + ret = 4 dwords
+sites = {}
+for k in range(8192):
+    site, slot, used, kind, calls, red, prims = struct.unpack('<IHBBIIQ', u.mem_read(sym['_g_sites'] + 24 * k, 24))
+    if used: sites[(site, slot, kind)] = (calls, prims)
+assert sites.get((GAME + 0x9737, 50, 0)) == (1, 0), sites
+assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
+assert sites.get((caller, 72, 2)) == (1, 2), sites
+print('ok: odd return address kept exact; wrapper caller recorded')
 print('ok: 5 calls through the thunks reached the originals with the stack intact; 1 redundant SetRenderState, '
       '1 draw of 1 primitive counted')

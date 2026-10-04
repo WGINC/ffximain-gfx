@@ -19,6 +19,13 @@ OPAQUE = {'Iostream_init', 'exception', 'type_info', 'codecvt_base'}
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 
 SPOILS = re.compile(r'\s*__spoils<[^>]*>')
+def fnptr_return(ftype):
+    """a function returning a pointer to a function pointer, `R (cc1 *..*cc(args))(fargs)`: the return is a
+    pointer in EAX, so `void * cc(args)` (as pointer parameters are) -- same ABI"""
+    m = re.match(r'^[^()]*\(\s*(?:__\w+\s*)?\*+\s*(' + CC_RE + r')?\s*\(([^()]*)\)\s*\)\s*\([^()]*\)\s*$', ftype)
+    return 'void * %s(%s)' % (m.group(1) or '', m.group(m.lastindex)) if m else ftype
+
+
 def ptr_type(ftype):
     """'R __cc(args)' -> 'R (__cc *)(args)'; None if not representable.
     __spoils<..> (callee preserves a scratch register) is dropped: it lets Hex-Rays see a value survive
@@ -26,10 +33,7 @@ def ptr_type(ftype):
     ftype = SPOILS.sub('', ftype)
     ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     ftype = re.sub(r'\b__noreturn\b', '', ftype)
-    # a function returning a pointer to a function pointer, `R (cc1 *..*cc(args))(fargs)`: the return is a
-    # pointer in EAX, so `void *` (as pointer parameters are below) -- same ABI
-    m = re.match(r'^[^()]*\(\s*(?:__\w+\s*)?\*+\s*(' + CC_RE + r')?\s*\(([^()]*)\)\s*\)\s*\([^()]*\)\s*$', ftype)
-    if m: ftype = 'void * %s(%s)' % (m.group(1) or '', m.group(m.lastindex))
+    ftype = fnptr_return(ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'\s*\((.*)\)\s*$', ftype, re.S)
     if m:
         ret, cc, args = m.groups()

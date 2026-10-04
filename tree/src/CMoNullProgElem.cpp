@@ -3,21 +3,21 @@
 #include "CMoNullProgElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x10047560  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoNullProgElem::GetRuntimeClass()
 {
   return &CMoNullProgElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100531A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoNullProgElem::SetField138()
 {
   this->field_138 = 1065353216;
 }
 
 // FUNCTION: FFXIMAIN 0x100531B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoNullProgElem::Destructor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

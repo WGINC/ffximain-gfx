@@ -1,4 +1,4 @@
-"""hx2cpp.py -- turn Hex-Rays pseudocode (exported by ida_gfx.py) into compilable C++ translation
+"""hx2cpp.py -- turn Hex-Rays pseudocode (exported by ida/ffxi_ida_fix.py or ida/ida_gfx.py) into compilable C++ translation
 units for the equivalence gate.
 
 Every referenced game object is replaced by an address-bound token:
@@ -19,6 +19,13 @@ OPAQUE = {'Iostream_init', 'exception', 'type_info', 'codecvt_base'}
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 
 SPOILS = re.compile(r'\s*__spoils<[^>]*>')
+def fnptr_return(ftype):
+    """a function returning a pointer to a function pointer, `R (cc1 *..*cc(args))(fargs)`: the return is a
+    pointer in EAX, so `void * cc(args)` (as pointer parameters are) -- same ABI"""
+    m = re.match(r'^[^()]*\(\s*(?:__\w+\s*)?\*+\s*(' + CC_RE + r')?\s*\(([^()]*)\)\s*\)\s*\([^()]*\)\s*$', ftype)
+    return 'void * %s(%s)' % (m.group(1) or '', m.group(m.lastindex)) if m else ftype
+
+
 def ptr_type(ftype):
     """'R __cc(args)' -> 'R (__cc *)(args)'; None if not representable.
     __spoils<..> (callee preserves a scratch register) is dropped: it lets Hex-Rays see a value survive
@@ -26,6 +33,7 @@ def ptr_type(ftype):
     ftype = SPOILS.sub('', ftype)
     ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     ftype = re.sub(r'\b__noreturn\b', '', ftype)
+    ftype = fnptr_return(ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'\s*\((.*)\)\s*$', ftype, re.S)
     if m:
         ret, cc, args = m.groups()
@@ -606,7 +614,8 @@ PRELUDE = '''#include "xi_hexrays.hpp"
 '''
 # Microsoft's statically linked D3DX and C++ runtime are not game code: never reconstruct them
 LIBRARY = re.compile(r'^(CD3DX|D3DX|_D3DX|\?\?|\?.*@std@@|.*Iostream|.*type_info|std::)')
-D3DX81 = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'd3dx81_matches.json')))
+CONSTRUCTS = {k: v for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'constructs.json'))).items() if not k.startswith('_')}
+D3DX81 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'd3dx', 'd3dx81_manifest.json')))
 BAD2 = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|BUG\(\)|__halt|(?<![A-Z])_UNKNOWN\b(?!\s*\*)|MEMORY\[|'
                   r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except|\bretaddr\b')
 LIB_TEXT = re.compile(r'\b(CD3DX\w*|Iostream_init|type_info|std::\w+|exception)\b')
@@ -623,6 +632,8 @@ def main(src, outdir):
         # unnamed function there (sub_102D538A, which calls _D3DXFilterTexture) is library code too
         if ('0x%x' % ea) in D3DX81 or re.match(r'^_?(C?D3DX)', rec['name']) or 0x102D0000 <= ea < 0x10330000:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX 8.1: %s' % D3DX81.get('0x%x' % ea, {}).get('symbol', rec['name'])}; continue
+        if '0x%08X' % ea in CONSTRUCTS:          # established from the code (data/constructs.json)
+            meta['%08X' % ea] = {'status': 'skipped', 'why': 'construct: ' + CONSTRUCTS['0x%08X' % ea]['construct']}; continue
         if 'skip' in rec or 'text' in rec:
             m = BAD2.search(rec.get('text', ''))
             if m or 'text' not in rec:

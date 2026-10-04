@@ -27,6 +27,7 @@ import bisect, json, os, sys, struct, collections
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
+import com_calls as C
 
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 TOP = 'TOP'
@@ -35,14 +36,11 @@ R32 = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'e
 r32 = lambda r: R32.get(r, r)
 
 
-def succs(im, ins, a, i):
-    m = i.mnemonic; ops = i.operands
-    if m.startswith('ret') or m in ('int3', 'hlt', 'ud2'): return []
-    if m == 'jmp':
-        if ops[0].type == X86_OP_IMM: return [ops[0].imm] if ops[0].imm in ins else []
-        return None                                         # a switch or a tail jump through memory: see caller
-    if m.startswith(('j', 'loop')): return [a + i.size] + ([ops[0].imm] if ops[0].type == X86_OP_IMM else [])
-    return [a + i.size]
+def succs(im, ins, a, i, labels):
+    """the next addresses in the function: a switch through a table only where the code bounds its index
+    (com_calls.successors, sp_solve.switch_targets); None for any other indirect jump, which the callers
+    treat as code they cannot follow (no must-fact holds after a join it may reach)"""
+    return C.successors(im, ins, a, i, labels)
 
 
 def written(i):
@@ -64,7 +62,7 @@ def this_flow(im, ins, ea, vts):
     """per instruction, the state before it: (regs holding the entry ECX, regs holding its vtable pointer,
     exact vtable stored into it on every path, or None)"""
     start = (frozenset({'ecx'}), frozenset(), None)
-    state = {ea: start}; work = [ea]
+    state = {ea: start}; work = [ea]; labels = S.labels_of(ins)
     def meet(x, y): return (x[0] & y[0], x[1] & y[1], x[2] if x[2] == y[2] else None)
     while work:
         a = work.pop(); i = ins[a]; Sx, V, X = state[a]; m = i.mnemonic; ops = i.operands
@@ -87,8 +85,8 @@ def this_flow(im, ins, ea, vts):
                 and r32(i.reg_name(ops[0].mem.base)) in Sx and ops[0].mem.disp == 0 and not ops[0].mem.index:
             X2 = None
         if m == 'call': X2 = None                           # any callee may rewrite the vptr
-        nxt = succs(im, ins, a, i)
-        if nxt is None: nxt = []
+        nxt = succs(im, ins, a, i, labels)
+        if nxt is None: return {}                         # an indirect jump not bounded: nothing is known here
         new = (frozenset(S2), frozenset(V2), X2)
         for n in nxt:
             if n not in ins: continue
@@ -100,6 +98,7 @@ def this_flow(im, ins, ea, vts):
 
 
 ECX_PARTS = {'ecx', 'cx', 'cl', 'ch'}
+REG = 'ecx'             # the register ecx_inputs follows (edx_inputs.py sets 'edx')
 
 
 WRITE_ONLY = ('mov', 'movzx', 'movsx', 'lea', 'pop')
@@ -153,12 +152,12 @@ def ecx_inputs(im, code, starts):
     res, pend = {}, {}
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
-        wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False
+        wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
         while work:
             a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
             rd, wp, unk = ecx_effect(i)
             if any(not covered(p, w) for p in rd): read = True; FIRST_READ[f] = '0x%08X %s %s' % (a, i.mnemonic, i.op_str); break
-            whole = 'ecx' in w
+            whole = REG in w
             if not whole:
                 if unk: unknown = True
                 if i.mnemonic in ('call', 'jmp') and o:
@@ -166,7 +165,9 @@ def ecx_inputs(im, code, starts):
                         if o[0].imm in code and not (i.mnemonic == 'jmp' and o[0].imm in ins): callees.add(o[0].imm)
                     else: unknown = True                    # through a pointer: the callee may read it
             w2 = frozenset(w | wp)
-            for n in succs(im, ins, a, i) or []:
+            nx = succs(im, ins, a, i, labels)
+            if nx is None: unknown = True; nx = []          # an indirect jump not bounded: its targets are unseen
+            for n in nx:
                 if n not in ins: continue
                 if n not in wr: wr[n] = w2; work.append(n)
                 else:
@@ -184,7 +185,30 @@ def ecx_inputs(im, code, starts):
     return res
 
 
-def main(out):
+def vtables(code, img, base, starts):
+    """{vtable: [slot functions]}: every constant stored to [reg+N] whose first dword is a function; a vtable
+    runs while its dwords are functions, up to the next such constant"""
+    u32 = lambda a: struct.unpack_from('<I', img, a - base)[0]
+    vt_set = set()
+    for f, ins in code.items():
+        for a, i in ins.items():
+            o = i.operands
+            if i.mnemonic == 'mov' and len(o) == 2 and o[0].type == X86_OP_MEM and o[0].size == 4 and o[1].type == X86_OP_IMM:
+                v = o[1].imm
+                if base <= v < base + len(img) - 4 and u32(v) in starts: vt_set.add(v)
+    vts = sorted(vt_set); vt_slots = {}
+    for n, v in enumerate(vts):
+        lim = vts[n + 1] if n + 1 < len(vts) else base + len(img)
+        k = 0; sl = []
+        while v + 4 * k + 4 <= lim and u32(v + 4 * k) in starts: sl.append(u32(v + 4 * k)); k += 1
+        vt_slots[v] = sl
+    return vt_slots
+
+
+def analyse():
+    """the whole-image analysis: {'im', 'code', 'starts', 'purges', 'flows' (per function, the state before each
+    instruction: regs holding the entry ECX, regs holding its vtable, exact vtable stored), 'classes' (per
+    function, the vtables its `this` can have, or TOP), 'vt_slots', 'reason'}"""
     im = S.Image(os.environ['FFXI_DLL']); base = im.base; img = im.img
     ext = json.load(open(os.path.join(D, 'func_extents.json')))
     purges = json.load(open(os.path.join(D, 'purges.json')))
@@ -203,20 +227,7 @@ def main(out):
         for a in ins: insn_at[a] = f
     u32 = lambda a: struct.unpack_from('<I', img, a - base)[0]
 
-    # vtables: constants stored to [reg+N] whose first dword is a function
-    vt_set = set()
-    for f, ins in code.items():
-        for a, i in ins.items():
-            o = i.operands
-            if i.mnemonic == 'mov' and len(o) == 2 and o[0].type == X86_OP_MEM and o[0].size == 4 and o[1].type == X86_OP_IMM:
-                v = o[1].imm
-                if base <= v < base + len(img) - 4 and u32(v) in starts: vt_set.add(v)
-    vts = sorted(vt_set); vt_slots = {}
-    for n, v in enumerate(vts):
-        lim = vts[n + 1] if n + 1 < len(vts) else base + len(img)
-        k = 0; sl = []
-        while v + 4 * k + 4 <= lim and u32(v + 4 * k) in starts: sl.append(u32(v + 4 * k)); k += 1
-        vt_slots[v] = sl
+    vt_slots = vtables(code, img, base, starts); vts = sorted(vt_slots); vt_set = set(vt_slots)
     slot_bytes = {}                                         # address inside a vtable -> vtable
     for v, sl in vt_slots.items():
         for k in range(len(sl)):
@@ -283,6 +294,13 @@ def main(out):
                     classes[f] = TOP; reason[f] = 'called with an object other than the caller\'s this (from 0x%08X)' % g; changed = True; break
                 if not add <= cur: cur |= add; changed = True
 
+    return {'im': im, 'code': code, 'starts': starts, 'purges': purges, 'flows': flows, 'classes': classes,
+            'vt_slots': vt_slots, 'reason': reason}
+
+
+def main(out):
+    A = analyse()
+    im, code, starts, purges, flows, classes, vt_slots = (A[k] for k in ('im', 'code', 'starts', 'purges', 'flows', 'classes', 'vt_slots'))
     # resolve
     res = {}; why = collections.Counter()
     for f, ins in code.items():

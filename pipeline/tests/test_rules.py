@@ -14,6 +14,35 @@ from fractions import Fraction
 def body(*lines): return '{\n' + '\n'.join('  ' + l for l in lines) + '\n}'
 
 
+class NanExactBranches(unittest.TestCase):
+    def setUp(self):
+        import hx_patches
+        self.H = hx_patches; self.saved = hx_patches._FCMP
+
+    def tearDown(self): self.H._FCMP = self.saved
+
+    def rec(self, text, rows):
+        self.H._FCMP = {'0x10000000': rows}
+        return self.H.fcmp_exact({'ea': 0x10000000, 'text': text})['text']
+
+    def test_skip_on_less_only_runs_body_on_nan(self):
+        # sqgxColorUpdate 0x102834C3: test ah,5; jp -- the skip is taken on lt only
+        self.assertEqual(self.rec('  if ( x >= 0.001 )\n', [['0x1', '>=', 'x', '0.001', ['lt']]]), '  if ( !(x < 0.001) )\n')
+
+    def test_flag_assignment_left_alone(self):
+        self.assertEqual(self.rec('  v7 = x >= 0.5;\n', [['0x1', '>=', 'x', '0.5', ['lt']]]), '  v7 = x >= 0.5;\n')
+
+    def test_occurrences_must_match_the_jumps(self):
+        t = '  if ( x >= 1.0 )\n  while ( x >= 1.0 )\n'
+        self.assertEqual(self.rec(t, [['0x1', '>=', 'x', '1.0', ['lt']]]), t)
+
+
+class PtrTypes(unittest.TestCase):
+    def test_returns_pointer_to_function_pointer(self):
+        # 0x1003B8B0, called from CMoSchedularTask_Interpret: the return is a pointer in EAX
+        self.assertEqual(H.ptr_type('int (__thiscall ***__thiscall(_DWORD *this))(_DWORD)'), 'void * (__thiscall *)(void *)')
+
+
 class CtreeSigns(unittest.TestCase):
     def cmp(self, op, sgn, l, r, size, lt, rt): return [0, [op, sgn], l, r, size, lt, rt]
 
@@ -122,6 +151,55 @@ class FreeSelf(unittest.TestCase):
         self.assertEqual(P.free_self(rec), rec)
 
 
+class GlobalNamedLikeALocal(unittest.TestCase):
+    """a global is a macro in the clean tree: one named like any function's parameter or local is renamed"""
+    def recs(self):
+        a = {'ea': 1, 'name': 'f', 'objs': {'C': {'ea': 0x106631D4, 'func': False}},
+             'text': 'int f(int a1)\n{\n  return C + Foo::C;\n}'}
+        b = {'ea': 2, 'name': 'g', 'objs': {'C': {'ea': 0x106631D4, 'func': False}},
+             'text': 'int g(_DWORD *C)\n{\n  int v2; // eax\n\n  v2 = ::C;\n  return *C + v2;\n}'}
+        return {1: a, 2: b}
+
+    def test_declared_names(self):
+        import hx2clean as C
+        r = self.recs()
+        self.assertEqual(C.declared_names(r[2]), {'C', 'v2'})
+        self.assertEqual(C.declared_names({'text': 'void *h()\n{\n  return &CDx_classdesc;\n}'}), set())
+
+    def test_renamed_where_global_shadowed_where_not(self):
+        import hx2clean as C
+        R = self.recs(); C.canonicalise_names(R, {})
+        self.assertEqual(R[1]['text'], 'int f(int a1)\n{\n  return g_C_106631D4 + Foo::C;\n}')
+        self.assertEqual(R[2]['text'], 'int g(_DWORD *C)\n{\n  int v2; // eax\n\n  v2 = g_C_106631D4;\n  return *C + v2;\n}')
+
+
+class FloatCompares(unittest.TestCase):
+    """fcmp.py: the outcomes an x87 compare branch takes, from the flag arithmetic; the NaN-exact C condition"""
+    class I:
+        def __init__(s, m, o=''): s.mnemonic, s.op_str = m, o
+
+    def outcomes(self, *seq):
+        import fcmp as F
+        L = [self.I('fcomp', 'dword ptr [esi]'), self.I('fnstsw', 'ax')] + [self.I(*x) for x in seq]
+        return set(F.taken(L, len(L) - 1)[0])
+
+    def test_condition_codes(self):
+        self.assertEqual(self.outcomes(('test', 'ah, 5'), ('jp', '0x10')), {'gt', 'eq', 'un'})     # !(a < b)
+        self.assertEqual(self.outcomes(('test', 'ah, 5'), ('jnp', '0x10')), {'lt'})
+        self.assertEqual(self.outcomes(('and', 'eax, 0x4100'), ('jne', '0x10')), {'lt', 'eq', 'un'})
+        self.assertEqual(self.outcomes(('test', 'ah, 0x44'), ('jnp', '0x10')), {'eq'})
+        self.assertEqual(self.outcomes(('test', 'ah, 0x41'), ('jne', '0x10')), {'lt', 'eq', 'un'})
+        self.assertEqual(self.outcomes(('sahf',), ('jae', '0x10')), {'gt', 'eq'})
+
+    def test_exact_condition(self):
+        import fcmp as F
+        self.assertEqual(F.exact('x', '>=', 'y', frozenset({'gt', 'eq', 'un'})), '!(x < y)')
+        self.assertEqual(F.exact('x', '>=', 'y', frozenset({'lt'})), '!(x < y)')       # the not-taken side
+        self.assertEqual(F.exact('x', '<', 'y', frozenset({'lt'})), 'x < y')
+        self.assertEqual(F.exact('x', '==', 'y', frozenset({'eq'})), 'x == y')
+        self.assertIsNone(F.exact('x', '<', 'y', frozenset({'eq'})))                    # text does not match code
+
+
 class Solver(unittest.TestCase):
     def test_determined(self):
         # p0 + p1 = 8 and p1 = 4  ->  p0 = 4, p1 = 4
@@ -172,6 +250,60 @@ class EcxUse(unittest.TestCase):
         rd2, _, _ = self.eff('662B0F')                                    # sub cx, [edi]
         self.assertTrue(all(V.covered(p, frozenset(wr)) for p in rd2))   # reads only what was written
         self.assertFalse(V.covered('ecx', frozenset(wr)))                 # the upper half is still the input
+
+
+class PartialRegs(unittest.TestCase):
+    """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
+    are run over values that exercise every bit of every part"""
+    TYPES = ['char', 'unsigned __int8', '__int16', 'unsigned __int16', 'int', 'unsigned int', '_DWORD',
+             '__int64', 'unsigned __int64']
+    CASE = ('  { %(t)s x = (%(t)s)v, y = (%(t)s)v, y0 = (%(t)s)v; long long e = (long long)w;\n'
+            '    long long a = (long long)%(m)s(x); long long r; %(rd)s long long b = r;\n'
+            '    %(m)s(y0) = e; %(wr)s\n'
+            '    if (a != b || y0 != y) { printf("%(t)s %(m)s %%llx %%llx\\n", v, w); return 1; } }')
+
+    def test_rewrites_equal_the_macros(self):
+        import partial_regs as P, subprocess, tempfile, shutil
+        cases = []
+        for t in self.TYPES:
+            W = P.INT[P.norm(t)][0]
+            for mac, (u, idx, sg) in sorted(P.MACROS.items()):
+                k = idx(W)
+                if k < 0 or (k + 1) * u > W: continue
+                rd, st = P.rewrite('{\n  r = %s(x);\n}' % mac, {'x': t})
+                self.assertEqual(st, {'read rewritten': 1}, (t, mac))
+                wr, st = P.rewrite('{\n  %s(y) = e;\n}' % mac, {'y': t})
+                self.assertEqual(st, {'store rewritten': 1}, (t, mac))
+                cases.append(self.CASE % {'t': t, 'm': mac, 'rd': rd.strip('{}\n '), 'wr': wr.strip('{}\n ')})
+        src = ('#include <cstdint>\n#include <cstdio>\n#ifndef __int64\n#define __int64 long long\n#endif\n#include "xi_hexrays.hpp"\nint main() {\n'
+               '  const unsigned long long vals[] = {0, 1, 0x7F, 0x80, 0xFF, 0x100, 0x7FFF, 0x8000, 0xFFFF, 0x12345678,\n'
+               '    0x80000000ull, 0xFFFFFFFFull, 0x0123456789ABCDEFull, 0xFEDCBA9876543210ull, 0x8000000000000000ull, ~0ull};\n'
+               '  for (unsigned long long v : vals) for (unsigned long long w : vals) {\n' + '\n'.join(cases) +
+               '\n  }\n  return 0;\n}\n')
+        d = tempfile.mkdtemp()
+        try:
+            open(os.path.join(d, 't.cpp'), 'w').write(src)
+            inc = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+            c = subprocess.run(['g++', '-std=c++17', '-fno-strict-aliasing', '-I', inc, '-o', os.path.join(d, 't'),
+                                os.path.join(d, 't.cpp')], capture_output=True, text=True)
+            self.assertEqual(c.returncode, 0, c.stderr[-3000:])
+            r = subprocess.run([os.path.join(d, 't')], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stdout)
+        finally:
+            shutil.rmtree(d)
+        self.assertGreater(len(cases), 40)
+
+    def test_left_alone(self):
+        import partial_regs as P
+        T = {'f': 'float', 'p': 'int', 'q': 'int', 's': 'int', 'h': 'int'}
+        for src in ['{\n  r = LOBYTE(f);\n}', '{\n  r = LOBYTE(g);\n}', '{\n  BYTE1(p) &= ~4u;\n}',
+                    '{\n  r = HIDWORD(q);\n}', '{\n  g(&s);\n  LOBYTE(s) = 1;\n}', '{\n  LOBYTE(h) = h++;\n}',
+                    '{\n  g(&LOBYTE(p));\n}']:
+            self.assertEqual(P.rewrite(src, T)[0], src)
+
+    def test_bitwise_and_is_a_read(self):
+        import partial_regs as P
+        self.assertEqual(P.rewrite('{\n  r = a & BYTE1(p);\n}', {'p': 'int'})[0], '{\n  r = a & (_BYTE)((uint32_t)(p) >> 8);\n}')
 
 
 if __name__ == '__main__':

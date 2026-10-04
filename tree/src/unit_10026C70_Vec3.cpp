@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100276F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
 {
   alignas(16) unsigned char xi_frame[0x4C4];  // address-taken locals at their original offsets
@@ -26,7 +26,7 @@ XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100277E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
 {
   alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
@@ -45,7 +45,7 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10027870  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
 {
   float v2[16];
@@ -57,7 +57,7 @@ XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100278E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API float * __cdecl Gfx_NdcToScreen(float *a1)
 {
   unsigned __int8 *RenderTargetTop;
@@ -72,7 +72,7 @@ XI_API float * __cdecl Gfx_NdcToScreen(float *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10027930  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API float * __cdecl Gfx_ScreenDeltaToNdc(float *a1, float *a2)
 {
   float *result;

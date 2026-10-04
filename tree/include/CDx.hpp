@@ -24,6 +24,7 @@ public:
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
+    _DWORD * CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6);  // 0x1000A6E0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int DrawFadeQuad(int a1, int a2);  // 0x1000A820
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
@@ -48,8 +49,7 @@ public:
     IDirect3D8 * pD3D;  // +0x8
     IDirect3DDevice8 * pDevice;  // +0xC
     uint8_t _pad_10[0x80];
-    uint8_t defaultBackBuffer;  // +0x90 default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge
-    uint8_t _pad_91[0x3];
+    _DWORD * defaultBackBuffer;  // +0x90 default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge
     uint8_t defaultDepthSurface;  // +0x94 default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets
     uint8_t _pad_95[0xC3];
     uint8_t renderTargetDepth;  // +0x158 index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], C

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10041C20  (unit unit_10041A40: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int a5)
 {
   __int16 v5; // fps
@@ -60,7 +60,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   v7 = 0;
   v8 = v30 == 1.0;
   v33 = v30;
-  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && v30 >= 0.0 )
+  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v30 < 0.0) )
   {
     orig::Gfx_NdcToScreen(v29);
     orig::Vec2_AddScalar(v29, -0.5);

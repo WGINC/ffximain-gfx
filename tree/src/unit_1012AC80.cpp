@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x101604B0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1700 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1700 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_SetDefault2DStates(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -25,7 +25,7 @@ XI_API int __cdecl Gfx_SetDefault2DStates(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10160650  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -34,7 +34,7 @@ XI_API int __cdecl Gfx_DisableFogAndAlphaBlend(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10162010  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl fn_10162010(int a1, int a2)
 {
   DWORD v2;
@@ -65,14 +65,14 @@ XI_API int __cdecl fn_10162010(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x101620B0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_ApplyViewport1904(void)
 {
   return orig::CDx_SetViewport(g_pCDx, &g_viewport_1904);
 }
 
 // FUNCTION: FFXIMAIN 0x10163400  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1300 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2)
 {
   int v3;

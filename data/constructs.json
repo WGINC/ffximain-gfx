@@ -1,0 +1,8 @@
+{
+ "_doc": "Functions whose behaviour C++ cannot reproduce, established from the code (not from Hex-Rays' output): each stays original code (orig::). hx2cpp.py files them as constructs with this reason.",
+ "0x100548D0": {
+  "construct": "returns the x87 status word",
+  "why": "On the path through 0x10054A28 (fcomp; fnstsw ax; test ah, 5; jnp 0x10054D5E; ... ret) EAX is AX = the FPU status word, with EAX's upper half left from the call at 0x10054A13. The status word holds the sticky exception flags accumulated since the FPU was last cleared, anywhere in the program, and the stack-top field: caller history that C++ cannot read or reproduce.",
+  "evidence": "Disassembly 0x10054A13..0x10054D63. The function is reached only through slot 11 of vtable 0x1032B538 (CMoLfdElem; its only reference, 0x1032B564); whether any caller uses the value cannot be shown (calls through slot 0x2C on objects of unproven class read EAX), and the class model declares nothing for that slot. Gate: FAIL in fuzz and on all four dumps on that path only."
+ }
+}

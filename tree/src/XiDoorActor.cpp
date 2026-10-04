@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100AC390  (unit XiDoorActor: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4)
 {
   _DWORD *v4;
@@ -29,7 +29,7 @@ XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4)
   orig::Gfx_NdcToScreen((float *)a2);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v8);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v9);
-  if ( *(float *)(a2 + 12) >= 0.0 )
+  if ( !(*(float *)(a2 + 12) < 0.0) )
   {
     orig::nullsub_1();
     orig::nullsub_1();

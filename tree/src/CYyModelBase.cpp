@@ -3,14 +3,14 @@
 #include "CYyModelBase.hpp"
 
 // FUNCTION: FFXIMAIN 0x100298A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CYyModelBase::GetRuntimeClass()
 {
   return &CYyModelBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10029DB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CYyModelBase::ScalarDeletingDtor(char a1)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -22,7 +22,7 @@ int * CYyModelBase::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 57 returned normally, 895 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 61 returned normally, 879 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61, town PASS 100, town2 PASS 86, combat PASS 95, zonetoinn PASS 94
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -94,27 +94,41 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
         if ( v14 != 0 && v11[5] == 0 )
         {
           if ( v11[7] == 0
-            && orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 12 * v14 + 4, 520, 0, g_vertexBuffer_7540, v11 + 7, 0) < 0
+            && orig::CYyVbMng_AcquireVertexBuffer(
+                 (_DWORD *)g_pVbMng,
+                 12 * v14 + 4,
+                 0x208u,
+                 0,
+                 (D3DPOOL)g_vertexBuffer_7540,
+                 v11 + 7,
+                 0) < 0
             || v11[9] == 0
-            && orig::CYyVbMng_AcquireVertexBuffer((_DWORD *)g_pVbMng, 12 * v14 + 4, 520, 0, g_vertexBuffer_7540, v11 + 9, 0) < 0
+            && orig::CYyVbMng_AcquireVertexBuffer(
+                 (_DWORD *)g_pVbMng,
+                 12 * v14 + 4,
+                 0x208u,
+                 0,
+                 (D3DPOOL)g_vertexBuffer_7540,
+                 v11 + 9,
+                 0) < 0
             || ((v15 = *(int **)(v13 + 52)) == nullptr ? (v16 = 0) : (v16 = *v15),
                 (*(_BYTE *)(v16 + 52) & 1) != 0
              && (v11[11] == 0
               && orig::CYyVbMng_AcquireVertexBuffer(
                    (_DWORD *)g_pVbMng,
                    12 * v14 + 4,
-                   520,
+                   0x208u,
                    0,
-                   g_vertexBuffer_7540,
+                   (D3DPOOL)g_vertexBuffer_7540,
                    v11 + 11,
                    0) < 0
               || v11[13] == 0
               && orig::CYyVbMng_AcquireVertexBuffer(
                    (_DWORD *)g_pVbMng,
                    12 * v14 + 4,
-                   520,
+                   0x208u,
                    0,
-                   g_vertexBuffer_7540,
+                   (D3DPOOL)g_vertexBuffer_7540,
                    v11 + 13,
                    0) < 0)) )
           {

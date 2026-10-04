@@ -2,8 +2,8 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10010D20  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall App_InitScene(int self_, int a2)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API char __thiscall App_InitScene(int self_, int a4)
 {
   _DWORD *v3;
   _DWORD *v4;
@@ -92,8 +92,8 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
     orig::sub_10009D20((int)g_pCDx);
     v53 = *(_WORD *)(self_ + 26);
     v52 = *(_WORD *)(self_ + 24);
-    a2 = 0;
-    v44 = orig::CDx_CreateTexture(&g_pCDx->vftable, v52, v53, &a2, 1, 0);
+    a4 = 0;
+    v44 = orig::CDx_CreateTexture(&g_pCDx->vftable, v52, v53, &a4, 1, 0);
     if ( v44 != nullptr )
     {
       DepthSurfaceLikeMain = orig::CDx_CreateDepthSurfaceLikeMain(
@@ -103,7 +103,7 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
       if ( DepthSurfaceLikeMain != 0 )
       {
         *(_DWORD *)&g_pCDx->_pad_10[388] = v44;
-        *(_DWORD *)&g_pCDx->_pad_10[396] = a2;
+        *(_DWORD *)&g_pCDx->_pad_10[396] = a4;
         *(_DWORD *)&g_pCDx->_pad_10[404] = DepthSurfaceLikeMain;
         orig::CDx_PushRenderTarget(
           g_pCDx,
@@ -124,9 +124,9 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
         if ( v46 == 0
           || (v47 = *(_WORD *)(self_ + 22)) == 0
           || v46 == *(_WORD *)(self_ + 16) && v47 == *(_WORD *)(self_ + 18)
-          || (a2 = 0,
-              *(_DWORD *)&g_pCDx->_pad_10[464] = orig::CDx_CreateTexture(&g_pCDx->vftable, v46, v47, &a2, 1, 0),
-              *(_DWORD *)&g_pCDx->_pad_10[468] = a2,
+          || (a4 = 0,
+              *(_DWORD *)&g_pCDx->_pad_10[464] = orig::CDx_CreateTexture(&g_pCDx->vftable, v46, v47, &a4, 1, 0),
+              *(_DWORD *)&g_pCDx->_pad_10[468] = a4,
               *(_DWORD *)&g_pCDx->_pad_10[472] = orig::CDx_CreateDepthSurfaceLikeMain(
                                                    &g_pCDx->vftable,
                                                    *(_WORD *)(self_ + 20),
@@ -177,15 +177,15 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
         }
         if ( g_depthBlurEnabled_Dead != 0 )
         {
-          a2 = 0;
-          *(_DWORD *)&g_pCDx->_pad_10[432] = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &a2, 1, 0);
-          *(_DWORD *)&g_pCDx->_pad_10[436] = a2;
+          a4 = 0;
+          *(_DWORD *)&g_pCDx->_pad_10[432] = orig::CDx_CreateTexture(&g_pCDx->vftable, 0x100u, 0x100u, &a4, 1, 0);
+          *(_DWORD *)&g_pCDx->_pad_10[436] = a4;
           *(_DWORD *)&g_pCDx->_pad_10[440] = orig::CDx_CreateDepthSurfaceLikeMain(&g_pCDx->vftable, 0x100u, 0x100u);
         }
         *(_BYTE *)(self_ + 814) = 0x80;
         *(_BYTE *)(self_ + 813) = 0x80;
         *(_BYTE *)(self_ + 812) = 0x80;
-        a2 = -2139062144;
+        a4 = -2139062144;
         *(_DWORD *)(self_ + 820) = -2139062144;
         *(_DWORD *)(self_ + 796) = -2139062144;
         *(_DWORD *)(self_ + 804) = 0x80000000;
@@ -485,7 +485,7 @@ XI_API char __thiscall App_InitScene(int self_, int a2)
                           dword_1045695C = 0;
                           orig::CMoDX_CreateAndInitSystem(v41);
                           orig::App_SetSeqStep((_WORD *)self_, 0);
-                          *(_BYTE *)a2 = 1;
+                          *(_BYTE *)a4 = 1;
                           goto LABEL_101;
                         }
                       }

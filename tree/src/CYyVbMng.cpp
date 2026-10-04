@@ -3,8 +3,8 @@
 #include "CYyVbMng.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003B210  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-int CYyVbMng::AcquireVertexBuffer(int a2, unsigned int a3, unsigned int a4, D3DPOOL a5, int *a6, char a7)
+// GATE: PASS -- 100 trials, 100 returned normally, 109 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 100, zonetoinn PASS 99
+int CYyVbMng::AcquireVertexBuffer(int a2, int a3, int a4, int a5, int *a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   _DWORD *v7;
@@ -86,7 +86,7 @@ LABEL_26:
   pDevice = g_pCDx->pDevice;
   if ( pDevice == nullptr )
     return v23;
-  v23 = pDevice->CreateVertexBuffer(v9, a3, a4, a5, (IDirect3DVertexBuffer8 **)a6);
+  v23 = pDevice->CreateVertexBuffer(v9, a3, a4, (D3DPOOL)a5, (IDirect3DVertexBuffer8 **)a6);
   if ( v23 < 0 )
     return v23;
   v19 = orig::Mem_AllocDefault(32);

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1011AA40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_1011AA40(__int16 *self_)
 {
   DWORD v2;
@@ -22,14 +22,14 @@ XI_API int __thiscall fn_1011AA40(__int16 *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1011AAC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_ApplyViewport1B70(void)
 {
   return orig::CDx_SetViewport(g_pCDx, &g_viewport_1B70);
 }
 
 // FUNCTION: FFXIMAIN 0x1011BAE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 91 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 92 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall Font_BindGlyphTexture(int self_)
 {
   int v2;
@@ -67,7 +67,7 @@ XI_API char __thiscall Font_BindGlyphTexture(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1011BBD0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsigned int a4, float a5, float a6)
 {
   double v7;
@@ -135,7 +135,7 @@ XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsi
 }
 
 // FUNCTION: FFXIMAIN 0x1011BDC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_SetAdditiveBlend(void)
 {
   g_pCDx->pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -144,7 +144,7 @@ XI_API int __cdecl Gfx_SetAdditiveBlend(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1011C1F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 350 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 344 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
 {
   if ( a1 == 0 )
@@ -339,7 +339,7 @@ LABEL_43:
 }
 
 // FUNCTION: FFXIMAIN 0x1011C720  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92, town PASS 87, town2 PASS 87, combat PASS 87, zonetoinn PASS 87
 XI_API void __thiscall Font_LoadHighResTexture(int *self_)
 {
   int v2;
@@ -388,7 +388,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x1011E800  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 77 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 76 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 {
   int v4;
@@ -469,7 +469,7 @@ XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1011E980  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 462 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 443 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v8;
@@ -672,7 +672,7 @@ LABEL_35:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 75 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
 {
   int v22;
@@ -756,7 +756,7 @@ LABEL_15:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EF60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 467 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 468 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
 {
   int v12;
@@ -927,7 +927,7 @@ XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x1011F300  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 395 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 391 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, int a4, int a5)
 {
   char v6;
@@ -1277,7 +1277,7 @@ LABEL_77:
 }
 
 // FUNCTION: FFXIMAIN 0x10124440  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cursor_Init(int self_)
 {
   int v2; // kr00_4
@@ -1352,7 +1352,7 @@ XI_API int __thiscall Cursor_Init(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10124640  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_10124640(int *self_, int *a2, __int16 a3)
 {
   int result;
@@ -1384,7 +1384,7 @@ XI_API int __thiscall fn_10124640(int *self_, int *a2, __int16 a3)
 }
 
 // FUNCTION: FFXIMAIN 0x101252F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsigned __int8 a2)
 {
   unsigned __int8 result;
@@ -1410,4 +1410,647 @@ XI_API unsigned __int8 __thiscall Cursor_SetVisible(unsigned __int8 *self_, unsi
     *(self_ + 78) = a2;
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x10125360  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+XI_API char __thiscall fn_10125360(_BYTE *self_)
+{
+  int v2;
+  char v3;
+  _DWORD **v4;
+  int v5;
+  __int16 v6; // fps
+  double v7;
+  bool v8; // c0
+  char v9; // c2
+  bool v10; // c3
+  double v11;
+  __int16 v12; // fps
+  bool v13; // c0
+  char v14; // c2
+  bool v15; // c3
+  int v16;
+  int v17;
+  int v18;
+  int v19;
+  _DWORD *v20;
+  char v21;
+  void *v22;
+  void *v23;
+  double v24;
+  int v25;
+  __int16 v26; // fps
+  double v27;
+  unsigned __int8 v28; // c0
+  unsigned __int8 v29; // c2
+  double v30;
+  __int16 v31; // fps
+  double v32;
+  unsigned __int8 v33; // c0
+  unsigned __int8 v34; // c2
+  double v35;
+  bool v36; // c0
+  char v37; // c2
+  bool v38; // c3
+  unsigned __int8 v39; // c0
+  unsigned __int8 v40; // c2
+  bool v41; // c0
+  char v42; // c2
+  bool v43; // c3
+  char v44;
+  int v45;
+  int v46;
+  __int16 v47; // fps
+  double v48;
+  unsigned __int8 v49; // c0
+  unsigned __int8 v50; // c2
+  double v51;
+  bool v52; // c0
+  char v53; // c2
+  bool v54; // c3
+  __int16 v55; // fps
+  bool v56; // c0
+  char v57; // c2
+  bool v58; // c3
+  __int16 v59; // fps
+  bool v60; // c0
+  char v61; // c2
+  bool v62; // c3
+  __int16 v63; // fps
+  bool v64; // c0
+  char v65; // c2
+  bool v66; // c3
+  __int16 v67; // fps
+  bool v68; // c0
+  char v69; // c2
+  bool v70; // c3
+  __int16 v71; // fps
+  bool v72; // c0
+  char v73; // c2
+  bool v74; // c3
+  __int16 v75; // fps
+  bool v76; // c0
+  char v77; // c2
+  bool v78; // c3
+  __int16 v79; // fps
+  bool v80; // c0
+  char v81; // c2
+  bool v82; // c3
+  __int16 v83; // fps
+  bool v84; // c0
+  char v85; // c2
+  bool v86; // c3
+  unsigned int v87;
+  double v88;
+  _DWORD *v89;
+  int v90;
+  __int16 v91; // fps
+  double v92;
+  bool v93; // c0
+  char v94; // c2
+  bool v95; // c3
+  __int64 v96; // rax
+  int v97;
+  double v98;
+  int v99;
+  int v100;
+  __int16 v101;
+  int v102;
+  int v103;
+  double v104;
+  __int16 v105;
+  __int16 v106;
+  void *v107;
+  int v108;
+  bool v109; // zf
+  int v110;
+  int v111;
+  void *v112;
+  int v113;
+  alignas(16) unsigned char xi_frame[0x428];  // address-taken locals at their original offsets
+  bool &v115 = *reinterpret_cast<bool *>(xi_frame + 0xF);
+  void * &self_v = *reinterpret_cast<void * *>(xi_frame + 0x10);
+  _DWORD * &v117 = *reinterpret_cast<_DWORD * *>(xi_frame + 0x14);
+  int &FrameScale = *reinterpret_cast<int *>(xi_frame + 0x18);
+  int &v119 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+  int &v120 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v121 = *reinterpret_cast<int *>(xi_frame + 0x24);
+
+  if ( (unsigned __int8)orig::sub_101606F0(g_menuMng) != 0 || g_pMovie != 0 )
+  {
+    *(self_ + 77) = 0;
+    LOBYTE(v2) = orig::Cursor_SetVisible(self_, 0);
+  }
+  else
+  {
+    orig::sub_10125170(self_);
+    orig::sub_10125040((int)self_);
+    if ( orig::sub_1015DCE0(g_menuMng) )
+    {
+      v3 = *(self_ + 77);
+      if ( v3 == 3 || v3 == 6 )
+        orig::sub_101252C0(self_);
+    }
+    v4 = (_DWORD **)orig::sub_10160C90(g_menuMng);
+    self_v = v4;
+    v115 = false;
+    v117 = nullptr;
+    if ( v4 != nullptr )
+      v117 = v4[34];
+    if ( self_ != nullptr )
+    {
+      v5 = *((_DWORD *)self_ + 2);
+      v120 = *((_DWORD *)self_ + 1);
+      v121 = v5;
+    }
+    orig::sub_10157720((int)g_pTargetMng, v120, v121);
+    v7 = *((float *)self_ + 18);
+    v8 = v7 < 0.0;
+    v9 = 0;
+    v10 = v7 == 0.0;
+    if ( ((__int16)(((v8 || __builtin_isunordered(v7, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v7, 0.0)) ? 0x400 : 0) | ((v10 || __builtin_isunordered(v7, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+    {
+      v17 = *((_DWORD *)self_ + 2);
+      *((_DWORD *)self_ + 3) = *((_DWORD *)self_ + 1);
+      *((_DWORD *)self_ + 4) = v17;
+    }
+    else
+    {
+      FrameScale = (__int16)(__int64)orig::Camera_GetFrameScale();
+      v11 = *((float *)self_ + 18) - (double)FrameScale;
+      *((float *)self_ + 18) = v11;
+      v13 = v11 < 0.0;
+      v14 = 0;
+      v15 = v11 == 0.0;
+      if ( ((__int16)(((v13 || __builtin_isunordered(v11, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v11, 0.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v11, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+      {
+        *((_DWORD *)self_ + 18) = 0;
+      }
+      else
+      {
+        v16 = *((_DWORD *)self_ + 4);
+        *((_DWORD *)self_ + 3) += (int)(*((_DWORD *)self_ + 1) - *((_DWORD *)self_ + 3)) / 2;
+        *((_DWORD *)self_ + 4) = v16 + (int)(*((_DWORD *)self_ + 2) - v16) / 2;
+      }
+    }
+    v18 = *((_DWORD *)self_ + 5);
+    v19 = *((_DWORD *)self_ + 6);
+    if ( orig::sub_10123A70(62, 139, 1, -1) == 1
+      && (unsigned __int8)orig::unknown_libname_89() != 0
+      && self_v != nullptr
+      && orig::sub_10118C10((__int16 *)self_v, (_DWORD *)self_ + 1)
+      && !orig::sub_1015DCE0(g_menuMng) )
+    {
+      *(self_ + 84) = 1;
+    }
+    if ( orig::sub_10123A70(62, 139, 4, -1) == 0 )
+    {
+      *(self_ + 85) = 0;
+      *(self_ + 84) = 0;
+    }
+    switch ( *(self_ + 77) )
+    {
+      case 0:
+        if ( v18 == 0 && v19 == 0 )
+          goto LABEL_141;
+        goto LABEL_140;
+      case 1:
+      case 2:
+        orig::sub_101252C0(self_);
+        if ( *(self_ + 77) == 2 )
+        {
+          if ( orig::sub_10123A70(62, 139, 1, -1) == 1 )
+          {
+            v20 = v117;
+            if ( v117 != nullptr
+              && v117[3] < v117[4]
+              && !orig::sub_1015DCE0(g_menuMng)
+              && (v21 = orig::sub_102347D0(v117, *((_DWORD *)self_ + 1), *((_DWORD *)self_ + 2))) != 0 )
+            {
+              if ( v21 == 3 )
+              {
+                v22 = self_v;
+                *(self_ + 77) = 3;
+                v2 = v20[5];
+                *(_DWORD *)self_ = v22;
+                *((_DWORD *)self_ + 27) = v2;
+                *(self_ + 134) = 1;
+                return v2;
+              }
+              *(self_ + 134) = 1;
+            }
+            else
+            {
+              *((_DWORD *)self_ + 29) = 1103626240;
+              *(self_ + 134) = 0;
+            }
+          }
+          if ( orig::sub_10123A70(62, 139, 5, -1) == 1 )
+            *(self_ + 134) = 0;
+          if ( orig::sub_10123A70(62, 150, 1, -1) == 1 )
+          {
+            v23 = self_v;
+            if ( self_v != nullptr && v117 != nullptr && orig::sub_10118C10((__int16 *)self_v, (_DWORD *)self_ + 1) )
+            {
+              v24 = *((float *)self_ + 32);
+              *(self_ + 77) = 6;
+              *(_DWORD *)self_ = v23;
+              *(float *)&FrameScale = COERCE_FLOAT(abs32((__int64)v24));
+              *((float *)self_ + 31) = (double)FrameScale * 3.0;
+            }
+          }
+          goto LABEL_141;
+        }
+        if ( orig::sub_10123A70(62, 140, 5, -1) != 1
+          || g_pTargetMng != nullptr && orig::sub_101598A0((int)g_pTargetMng) != 0
+          || orig::ActorHandle_Resolve(g_targetActorHandle) == 0
+          || byte_10487F81 == 0 )
+        {
+          goto LABEL_141;
+        }
+        goto LABEL_51;
+      case 3:
+        if ( orig::sub_10123A70(62, 139, 4, -1) != 1 )
+          goto LABEL_140;
+        goto LABEL_141;
+      case 4:
+        v25 = 139;
+        if ( orig::sub_1025E050() )
+          v25 = 150;
+        if ( orig::sub_10123A70(62, v25, 4, -1) != 1 )
+          goto LABEL_140;
+        if ( orig::sub_1025E050() && *(self_ + 172) != 0 )
+        {
+          flt_1036E5F4 = -*((float *)self_ + 42) - 0x1.921cac0000000p+0;
+          v27 = flt_1036E5F4;
+          if ( (v28 | v29) != 0 )
+          {
+            v30 = v27 + 0x1.921cac0000000p+2;
+            goto LABEL_72;
+          }
+          goto LABEL_70;
+        }
+        if ( orig::sub_101260E0((float *)self_) != 0.0 || orig::sub_101260F0((float *)self_) != 0.0 )
+        {
+          *(float *)&FrameScale = orig::sub_10126100(self_);
+          flt_1036E5F4 = atan2(orig::sub_10125FE0(self_), *(float *)&FrameScale) - 0x1.921cac0000000p+0;
+          v32 = flt_1036E5F4;
+          if ( (v33 | v34) != 0 )
+          {
+            v35 = v32 + 0x1.921cac0000000p+2;
+          }
+          else
+          {
+            v36 = v32 < 0x1.921cac0000000p+1;
+            v37 = 0;
+            v38 = v32 == 0x1.921cac0000000p+1;
+            if ( ((__int16)(((v36 || __builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v38 || __builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) != 0 )
+              goto LABEL_68;
+            v35 = flt_1036E5F4 - 0x1.921cac0000000p+2;
+          }
+          flt_1036E5F4 = v35;
+        }
+LABEL_68:
+        v119 = (__int64)orig::sub_10125FE0(self_);
+        FrameScale = (__int64)orig::sub_10126100(self_);
+        flt_1036E5F4 = atan2((double)v119, (double)FrameScale) - 0x1.921cac0000000p+0;
+        v27 = flt_1036E5F4;
+        if ( (v39 | v40) != 0 )
+        {
+          v30 = v27 + 0x1.921cac0000000p+2;
+          goto LABEL_72;
+        }
+LABEL_70:
+        v41 = v27 < 0x1.921cac0000000p+1;
+        v42 = 0;
+        v43 = v27 == 0x1.921cac0000000p+1;
+        if ( ((__int16)(((v41 || __builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v43 || __builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        {
+          v30 = flt_1036E5F4 - 0x1.921cac0000000p+2;
+LABEL_72:
+          flt_1036E5F4 = v30;
+        }
+        if ( orig::sub_10123A70(62, 140, 1, -1) == 1 && orig::ActorHandle_Resolve(g_targetActorHandle) != 0 )
+        {
+          if ( byte_10487F81 != 0 )
+LABEL_51:
+            orig::sub_100A6070(0);
+          else
+            orig::sub_100A6070(1);
+        }
+        goto LABEL_141;
+      case 5:
+        v44 = orig::sub_10123A70(62, 140, 4, -1);
+        if ( !orig::sub_1025E050() )
+          goto LABEL_80;
+        if ( v44 == 0 )
+        {
+          v44 = orig::sub_10123A70(62, 139, 4, -1);
+LABEL_80:
+          if ( v44 == 0 )
+            goto LABEL_140;
+        }
+        v45 = *((_DWORD *)self_ + 2) - *((_DWORD *)self_ + 15);
+        v46 = *((_DWORD *)self_ + 1) - *((_DWORD *)self_ + 14);
+        v119 = v45;
+        FrameScale = v46;
+        flt_1036E634 = atan2((double)v45, (double)v46) - 0x1.921cac0000000p+0;
+        if ( v46 == 0 && v45 == 0 )
+        {
+          flt_1036E634 = -0x1.921cac0000000p+0;
+          *((_WORD *)self_ + 83) = 12;
+          goto LABEL_141;
+        }
+        v48 = flt_1036E634;
+        if ( (v49 | v50) != 0 )
+        {
+          v51 = v48 + 0x1.921cac0000000p+2;
+        }
+        else
+        {
+          v52 = v48 < 0x1.921cac0000000p+1;
+          v53 = 0;
+          v54 = v48 == 0x1.921cac0000000p+1;
+          if ( ((__int16)(((v52 || __builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v54 || __builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) != 0 )
+            goto LABEL_89;
+          v51 = flt_1036E634 - 0x1.921cac0000000p+2;
+        }
+        flt_1036E634 = v51;
+LABEL_89:
+        if ( !(flt_1036E634 < -0x1.5fd9160000000p+1) )
+        {
+          v56 = flt_1036E634 < -0x1.5fd9160000000p+1;
+          v57 = 0;
+          v58 = flt_1036E634 == -0x1.5fd9160000000p+1;
+          if ( ((__int16)(((v56 || __builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x400 : 0) | ((v58 || __builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.f6a3d80000000p+0) )
+          {
+            v60 = flt_1036E634 < -0x1.f6a3d80000000p+0;
+            v61 = 0;
+            v62 = flt_1036E634 == -0x1.f6a3d80000000p+0;
+            if ( ((__int16)(((v60 || __builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x400 : 0) | ((v62 || __builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.2d95800000000p+0) )
+            {
+              v64 = flt_1036E634 < -0x1.2d95800000000p+0;
+              v65 = 0;
+              v66 = flt_1036E634 == -0x1.2d95800000000p+0;
+              if ( ((__int16)(((v64 || __builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x400 : 0) | ((v66 || __builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.921cac0000000p-2) )
+              {
+                v68 = flt_1036E634 < -0x1.921cac0000000p-2;
+                v69 = 0;
+                v70 = flt_1036E634 == -0x1.921cac0000000p-2;
+                if ( ((__int16)(((v68 || __builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x400 : 0) | ((v70 || __builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.921cac0000000p-2) )
+                {
+                  v72 = flt_1036E634 < 0x1.921cac0000000p-2;
+                  v73 = 0;
+                  v74 = flt_1036E634 == 0x1.921cac0000000p-2;
+                  if ( ((__int16)(((v72 || __builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x400 : 0) | ((v74 || __builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.2d95800000000p+0) )
+                  {
+                    v76 = flt_1036E634 < 0x1.2d95800000000p+0;
+                    v77 = 0;
+                    v78 = flt_1036E634 == 0x1.2d95800000000p+0;
+                    if ( ((__int16)(((v76 || __builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x400 : 0) | ((v78 || __builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.f6a3d80000000p+0) )
+                    {
+                      v80 = flt_1036E634 < 0x1.f6a3d80000000p+0;
+                      v81 = 0;
+                      v82 = flt_1036E634 == 0x1.f6a3d80000000p+0;
+                      if ( ((__int16)(((v80 || __builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x400 : 0) | ((v82 || __builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.5fd9160000000p+1) )
+                      {
+                        v84 = flt_1036E634 < 0x1.5fd9160000000p+1;
+                        v85 = 0;
+                        v86 = flt_1036E634 == 0x1.5fd9160000000p+1;
+                        if ( ((__int16)(((v84 || __builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x400 : 0) | ((v86 || __builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x4000 : 0)) & 0x100) == 0 )
+                          *((_WORD *)self_ + 83) = 10;
+                      }
+                      else
+                      {
+                        *((_WORD *)self_ + 83) = 17;
+                      }
+                    }
+                    else
+                    {
+                      *((_WORD *)self_ + 83) = 16;
+                    }
+                  }
+                  else
+                  {
+                    *((_WORD *)self_ + 83) = 15;
+                  }
+                }
+                else
+                {
+                  *((_WORD *)self_ + 83) = 14;
+                }
+              }
+              else
+              {
+                *((_WORD *)self_ + 83) = 13;
+              }
+            }
+            else
+            {
+              *((_WORD *)self_ + 83) = 12;
+            }
+          }
+          else
+          {
+            *((_WORD *)self_ + 83) = 11;
+          }
+        }
+        else
+        {
+          *((_WORD *)self_ + 83) = 10;
+        }
+        goto LABEL_141;
+      case 6:
+        if ( *((float *)self_ + 31) <= 0.0 && (v87 = abs32((__int64)*((float *)self_ + 32)), FrameScale = v87, v87 != 0) )
+        {
+          v88 = (double)FrameScale;
+          ++*((_WORD *)self_ + 34);
+          v89 = *((_DWORD **)self_ + 16);
+          v90 = *((__int16 *)self_ + 34);
+          *((float *)self_ + 31) = v88 * 3.0;
+          if ( *(_DWORD *)(*v89 + 4 * v90) == 0 )
+            *((_WORD *)self_ + 34) = 0;
+          v92 = *((float *)self_ + 32);
+          v93 = v92 < 0.0;
+          v94 = 0;
+          v95 = v92 == 0.0;
+          if ( v87 == 8 )
+          {
+            if ( ((__int16)(((v93 || __builtin_isunordered(v92, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v92, 0.0)) ? 0x400 : 0) | ((v95 || __builtin_isunordered(v92, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+            {
+              if ( *((float *)self_ + 32) < 0.0 )
+                orig::sub_1015DD00((int)g_menuMng, 24);
+            }
+            else
+            {
+              orig::sub_1015DD00((int)g_menuMng, 25);
+            }
+          }
+          else if ( ((__int16)(((v93 || __builtin_isunordered(v92, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v92, 0.0)) ? 0x400 : 0) | ((v95 || __builtin_isunordered(v92, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+          {
+            if ( *((float *)self_ + 32) < 0.0 )
+              orig::sub_1015DD00((int)g_menuMng, 22);
+          }
+          else
+          {
+            orig::sub_1015DD00((int)g_menuMng, 23);
+          }
+        }
+        else
+        {
+          v96 = (__int64)orig::Camera_GetFrameScale();
+          v97 = *((_DWORD *)self_ + 12);
+          FrameScale = (__int16)v96;
+          v98 = (double)(__int16)v96;
+          v99 = 1;
+          v100 = *((_DWORD *)self_ + 2) - v97;
+          *((float *)self_ + 31) = *((float *)self_ + 31) - v98;
+          if ( v100 < 0 )
+            v99 = -1;
+          v101 = HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft);
+          *((_DWORD *)self_ + 32) = 0;
+          v102 = v101;
+          v103 = abs32(v100);
+          if ( v103 <= v102 / 4 )
+          {
+            if ( v103 <= v102 / 10 )
+            {
+              if ( v103 <= v102 / 20 )
+                goto LABEL_136;
+              FrameScale = 5 * v99;
+              v104 = (double)(5 * v99);
+            }
+            else
+            {
+              FrameScale = 3 * v99;
+              v104 = (double)(3 * v99);
+            }
+          }
+          else
+          {
+            FrameScale = 8 * v99;
+            v104 = (double)(8 * v99);
+          }
+          *((float *)self_ + 32) = v104;
+        }
+LABEL_136:
+        if ( *(_DWORD *)self_ != orig::sub_10160C90(g_menuMng)
+          || orig::sub_10123A70(62, 139, 1, -1) == 1
+          || orig::sub_10123A70(62, 140, 1, -1) == 1
+          || orig::sub_10123A70(62, 150, 1, -1) == 1 )
+        {
+LABEL_140:
+          orig::sub_101252C0(self_);
+        }
+LABEL_141:
+        if ( *(self_ + 77) == 2 && *(self_ + 78) != 0 )
+        {
+          v105 = *((_WORD *)self_ + 40);
+          v106 = *((_WORD *)self_ + 41);
+          *((_WORD *)self_ + 40) = 0;
+          *((_WORD *)self_ + 41) = -1;
+          if ( orig::sub_1015EDB0(g_menuMng) && !orig::sub_1015DCE0(g_menuMng) && self_v != nullptr )
+          {
+            if ( v117 != nullptr )
+              *((_BYTE *)v117 + 40) = orig::sub_102347D0(v117, v120, v121);
+            v107 = self_v;
+            LOWORD(v108) = orig::sub_10118CB0(self_v, (_DWORD *)self_ + 1, &v115);
+            *((_WORD *)self_ + 41) = v108;
+            if ( (__int16)v108 > 0 && (_WORD)v108 != v106 )
+              orig::sub_10118DB0(v107, v108, 0);
+            v109 = v105 == 0;
+            v110 = 1;
+            if ( v105 > 0 )
+            {
+              v110 = -1;
+              v109 = v105 == 0;
+            }
+            if ( !v109 )
+            {
+              do
+              {
+                v105 += v110;
+                if ( v110 <= 0 )
+                  orig::sub_10118260((int)v107, 22);
+                else
+                  orig::sub_10118260((int)v107, 23);
+              }
+              while ( v105 != 0 );
+            }
+          }
+          v111 = orig::sub_10126510(g_menuMng);
+          v112 = self_v;
+          FrameScale = v111;
+          if ( v111 != 0 )
+          {
+            do
+            {
+              v113 = orig::sub_1015EE20(&FrameScale);
+              if ( v113 != 0 && (void *)v113 != v112 )
+                orig::nullsub_48();
+            }
+            while ( *(float *)&FrameScale != 0.0 );
+          }
+        }
+        else
+        {
+          v112 = self_v;
+        }
+        if ( *(self_ + 77) == 3 && *(self_ + 78) != 0 )
+        {
+          if ( orig::sub_1015EDB0(g_menuMng) && *(void **)self_ == v112 && v117 != nullptr )
+          {
+            if ( orig::sub_10234A00(v117, *((_DWORD *)self_ + 27), *((_DWORD *)self_ + 2) - *((_DWORD *)self_ + 8)) != 0 )
+              orig::sub_10118260((int)v112, 27);
+          }
+          else
+          {
+            orig::sub_101252C0(self_);
+            *(_DWORD *)self_ = 0;
+          }
+        }
+        *(self_ + 76) = 0;
+        switch ( *(self_ + 77) )
+        {
+          case 0:
+            *(self_ + 76) = 0;
+            break;
+          case 1:
+            if ( !orig::sub_1015DCE0(g_menuMng) && *(self_ + 78) != 0 && orig::sub_10126270() )
+              *(self_ + 76) = 2;
+            break;
+          case 2:
+            if ( !orig::sub_1015DCE0(g_menuMng) && v115 )
+              *(self_ + 76) = 1;
+            break;
+          case 3:
+            if ( !orig::sub_1015DCE0(g_menuMng) )
+              *(self_ + 76) = 3;
+            break;
+          case 4:
+            *(self_ + 76) = 4;
+            break;
+          case 5:
+            *(self_ + 76) = 5;
+            break;
+          case 6:
+            if ( !orig::sub_1015DCE0(g_menuMng) )
+              *(self_ + 76) = 6;
+            break;
+          default:
+            break;
+        }
+        LOBYTE(v2) = g_cfgHardwareMouse;
+        if ( g_cfgHardwareMouse == 0 || (LOBYTE(v2) = *(self_ + 78), (_BYTE)v2 == 0) )
+        {
+          if ( g_pCDx != nullptr )
+            LOBYTE(v2) = (unsigned __int8)orig::sub_10009750(nullptr);
+        }
+        break;
+      default:
+        goto LABEL_141;
+    }
+  }
+  return v2;
 }

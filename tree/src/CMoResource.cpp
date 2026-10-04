@@ -3,14 +3,14 @@
 #include "CMoResource.hpp"
 
 // FUNCTION: FFXIMAIN 0x10036B70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant0()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10047FC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoResource::CMoCamera_SetLinkedObject(int a2)
 {
   *this->field_14 = a2;
@@ -18,42 +18,42 @@ int CMoResource::CMoCamera_SetLinkedObject(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047FD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoResource::vf005(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10056250  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant1()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10056290  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant2()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071D70  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant3()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoResource::vf008()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest

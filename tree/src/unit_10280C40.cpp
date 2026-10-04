@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10281510  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 80 returned normally, 262 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 75 returned normally, 257 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75, town PASS 76, town2 PASS 76, combat PASS 76, zonetoinn PASS 76
 XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 {
   int v2;
@@ -95,7 +95,7 @@ XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102816E0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 73 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 81 returned normally, 81 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81, town PASS 42, town2 PASS 42, combat PASS 42, zonetoinn PASS 42
 XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
 {
   int v3;

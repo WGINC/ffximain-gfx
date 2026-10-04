@@ -3,14 +3,14 @@
 #include "CXiSkeletonActorRes.hpp"
 
 // FUNCTION: FFXIMAIN 0x100C51B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CXiSkeletonActorRes::GetRuntimeClass()
 {
   return &CXiSkeletonActorRes_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100D7000  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -21,7 +21,7 @@ _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D7020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -35,7 +35,7 @@ _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D7050  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActorRes::Destructor()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -50,34 +50,35 @@ char CXiSkeletonActorRes::Destructor()
 }
 
 // FUNCTION: FFXIMAIN 0x100D7090  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 {
   return at<uint32_t>(this, 0x34);
 }
 
 // FUNCTION: FFXIMAIN 0x100D70A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 20 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 17 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActorRes::ProcessLoadState()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  _DWORD *v2;
   _DWORD *LinkedActor;
-  int v4;
   int v5;
+  int v6;
   LinkedActor = (_DWORD *)orig::CXiSkeletonActorRes_GetLinkedActor((_DWORD *)self);
   if ( LinkedActor != nullptr )
   {
-    v4 = this->loadState;
-    if ( v4 != 0 )
+    v5 = this->loadState;
+    if ( v5 != 0 )
     {
-      v5 = v4 - 1;
-      if ( v5 == 0 )
+      v6 = v5 - 1;
+      if ( v6 == 0 )
       {
         (*(void (__cdecl **)(_DWORD *, int))(self + 56))(LinkedActor, self);
         ++this->loadState;
         return 0;
       }
-      if ( v5 == 1 && (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 484))(LinkedActor) == 1 )
+      if ( v6 == 1 && (*(unsigned __int8 (__thiscall **)(_DWORD *))(*LinkedActor + 484))(LinkedActor) == 1 )
       {
         (*(void (__thiscall **)(int, int))(*(_DWORD *)self + 24))(self, 1);
         return 1;
@@ -95,7 +96,7 @@ char CXiSkeletonActorRes::ProcessLoadState()
   else
   {
     if ( self != 0 )
-      (*(void (__thiscall **)(void *, int))(*(_DWORD *)self + 24))((void *)self, 1);
+      (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)self + 24))((_DWORD *)self, 1);
     return 1;
   }
 }

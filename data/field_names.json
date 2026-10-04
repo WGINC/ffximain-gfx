@@ -4,7 +4,7 @@
    "name": "defaultBackBuffer",
    "confidence": "high",
    "summary": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge",
-   "evidence": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarget (docs/NAMES-2026-10-01.md)"
+   "evidence": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarget (docs/NAMES.md, 1 Oct)"
   },
   "0x94": {
    "name": "defaultDepthSurface",
@@ -76,7 +76,7 @@
    "name": "gammaRamp",
    "confidence": "high",
    "summary": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor",
-   "evidence": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor; requested/applied gamma and three 256-entry ramps (docs/NAMES-2026-10-01.md)"
+   "evidence": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor; requested/applied gamma and three 256-entry ramps (docs/NAMES.md, 1 Oct)"
   },
   "0x810": {
    "name": "stereoEye",
@@ -218,73 +218,73 @@
    "name": "overlayTex",
    "confidence": "medium",
    "summary": "CYyTex* of the multiplicative overlay quad",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: CYyTex* of the multiplicative overlay quad"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: CYyTex* of the multiplicative overlay quad"
   },
   "0x390FC": {
    "name": "cullCW",
    "confidence": "medium",
    "summary": "one-sided batches: nonzero -> D3DCULL_CW, else CCW",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: one-sided batches: nonzero -> D3DCULL_CW, else CCW"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: one-sided batches: nonzero -> D3DCULL_CW, else CCW"
   },
   "0x39120": {
    "name": "curTwoSided",
    "confidence": "medium",
    "summary": "cached two-sided state of the last batch",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: cached two-sided state of the last batch"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: cached two-sided state of the last batch"
   },
   "0x39454": {
    "name": "vsHandleA",
    "confidence": "medium",
    "summary": "vertex shader from g_zoneVSDeclA",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclA"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclA"
   },
   "0x39458": {
    "name": "vsHandleB",
    "confidence": "medium",
    "summary": "vertex shader from g_zoneVSDeclB",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclB"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclB"
   },
   "0x3946C": {
    "name": "vsHandles",
    "confidence": "medium",
    "summary": "5 more vertex shader handles",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: 5 more vertex shader handles"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: 5 more vertex shader handles"
   },
   "0x39494": {
    "name": "psHandle",
    "confidence": "medium",
    "summary": "pixel shader handle",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: pixel shader handle"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: pixel shader handle"
   },
   "0x394A4": {
    "name": "useTwoDirLights",
    "confidence": "medium",
    "summary": "nonzero: two zone-environment directional lights",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: nonzero: two zone-environment directional lights"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: nonzero: two zone-environment directional lights"
   },
   "0x394A8": {
    "name": "lightSlotDir0",
    "confidence": "medium",
    "summary": "D3D light index, directional light 0",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 0"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 0"
   },
   "0x394AC": {
    "name": "lightSlotDir1",
    "confidence": "medium",
    "summary": "D3D light index, directional light 1",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 1"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 1"
   },
   "0x394B0": {
    "name": "lightSlotNamed",
    "confidence": "medium",
    "summary": "D3D light index of zone-table light 'l_01'",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index of zone-table light 'l_01'"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index of zone-table light 'l_01'"
   },
   "0x39598": {
    "name": "overlayUseProjection",
    "confidence": "medium",
    "summary": "byte: overlay uses saved projection, else Z-bias",
-   "evidence": "parallel session (incoming/parallel/include/gfx_fields.hpp), checked against the uses in tree/src/CTsZoneMap.cpp: byte: overlay uses saved projection, else Z-bias"
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: byte: overlay uses saved projection, else Z-bias"
   }
  },
  "Obj_104E1D4C": {

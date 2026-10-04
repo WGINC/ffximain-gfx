@@ -14,7 +14,7 @@ D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 def names():
     n = {}
-    for line in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+    for line in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
         r = json.loads(line)
         n.setdefault(r['ea'], r['name'])
         for nm, o in r['objs'].items():

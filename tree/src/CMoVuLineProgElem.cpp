@@ -3,14 +3,14 @@
 #include "CMoVuLineProgElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x10052BF0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoVuLineProgElem::vf012(int a1)
 {
   return a1 == 9;
 }
 
 // FUNCTION: FFXIMAIN 0x10052C00  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoVuLineProgElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -22,14 +22,14 @@ int * CMoVuLineProgElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10064170  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoVuLineProgElem::GetRuntimeClass()
 {
   return &CMoVuLineProgElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10064180  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoVuLineProgElem::vf018()
 {
   ;

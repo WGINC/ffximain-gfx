@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102394A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 51 returned normally, 36 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 12 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 38, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
 XI_API char * __thiscall Ui_DrawKeyPrompt(char **self_)
 {
   char *result;

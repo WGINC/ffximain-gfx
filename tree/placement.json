@@ -96,6 +96,13 @@
 "symbol": "Gfx_CreateDevice",
 "unit": "unit_100014A0_Gfx"
 },
+"0x10003890": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "fn_10003890",
+"unit": "unit_10003890_DirectInput"
+},
 "0x10003b60": {
 "class": null,
 "method": null,
@@ -230,6 +237,12 @@
 "method": "DrawScreenQuadAtDepth",
 "why": "IDB name",
 "symbol": "CDx::DrawScreenQuadAtDepth"
+},
+"0x1000a6e0": {
+"class": "CDx",
+"method": "CreateTexture",
+"why": "IDB name",
+"symbol": "CDx::CreateTexture"
 },
 "0x1000a800": {
 "class": "CDx",
@@ -464,6 +477,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
 "symbol": "App_CreateRendererAndApp",
+"unit": "unit_10014350_Camera"
+},
+"0x10016320": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_10016320",
 "unit": "unit_10014350_Camera"
 },
 "0x10017230": {
@@ -1258,11 +1278,24 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoResource_VT_1032C6F4::vf009"
 },
+"0x1003f440": {
+"class": "CMoDistMorphElem",
+"method": "ApplyMorph",
+"why": "IDB name",
+"symbol": "CMoDistMorphElem::ApplyMorph"
+},
 "0x1003f8a0": {
 "class": "CMoDistMorphElem",
 "method": "ComputeMorphHandle",
 "why": "IDB name",
 "symbol": "CMoDistMorphElem::ComputeMorphHandle"
+},
+"0x10040c20": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file",
+"symbol": "CMoElemFamily_SharedEarlyExit",
+"unit": "unit_1003FB70"
 },
 "0x10041000": {
 "class": "CMoElem",
@@ -1500,6 +1533,13 @@
 "method": "CMoElemFamily_SharedCleanup",
 "why": "callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)",
 "symbol": "CMoElem::CMoElemFamily_SharedCleanup"
+},
+"0x100467e0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB",
+"symbol": "fn_100467E0",
+"unit": "CMoElem"
 },
 "0x100472e0": {
 "class": "CMoElem",
@@ -1976,6 +2016,12 @@
 "why": "tree manifest",
 "symbol": "CMoSchedularTask::ScalarDeletingDtor"
 },
+"0x10057fb0": {
+"class": "CMoSchedularTask",
+"method": "Interpret",
+"why": "IDB name",
+"symbol": "CMoSchedularTask::Interpret"
+},
 "0x10062f50": {
 "class": "CMoAttachments_VT_1032BCCC",
 "method": "vf001",
@@ -2245,6 +2291,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
 "symbol": "Occlusion_QueryScreenRect",
+"unit": "unit_1006C210_Occlusion"
+},
+"0x1006c530": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "Occlusion_DrawQuery",
 "unit": "unit_1006C210_Occlusion"
 },
 "0x1006c9b0": {
@@ -2685,6 +2738,13 @@
 "method": "GetRuntimeClass",
 "why": "tree manifest; does not use this",
 "symbol": "CMoTaskMng::GetRuntimeClass"
+},
+"0x10075280": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "Gfx_InitCubeMapTextures",
+"unit": "unit_10074CA0"
 },
 "0x100755a0": {
 "class": null,
@@ -3279,6 +3339,13 @@
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::OnMove"
 },
+"0x100cb4e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file",
+"symbol": "Actor_SelectNearestLights",
+"unit": "unit_100C8280"
+},
 "0x100cbd60": {
 "class": "CXiSkeletonActor",
 "method": "RunStaggeredUpdates",
@@ -3678,6 +3745,13 @@
 "symbol": "Cursor_SetVisible",
 "unit": "unit_100D7420"
 },
+"0x10125360": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10125360",
+"unit": "unit_100D7420"
+},
 "0x101604b0": {
 "class": null,
 "method": null,
@@ -3799,13 +3873,6 @@
 "symbol": "Gfx_SetZBias",
 "unit": "CTsZoneMap"
 },
-"0x10177420": {
-"class": null,
-"method": null,
-"why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
-"symbol": "ZoneMap_SetOverlayProjection",
-"unit": "CTsZoneMap"
-},
 "0x101779c0": {
 "class": null,
 "method": null,
@@ -3846,6 +3913,13 @@
 "why": "IDB name",
 "symbol": "CTsZoneMap::InitZBiasPresets"
 },
+"0x10178250": {
+"class": null,
+"method": null,
+"why": "unit: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB",
+"symbol": "fn_10178250",
+"unit": "CTsZoneMap"
+},
 "0x10178b00": {
 "class": null,
 "method": null,
@@ -3879,6 +3953,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "Zone_RenderEnvironment",
+"unit": "unit_10178790_ZoneMap"
+},
+"0x1017c9c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_1017C9C0",
+"unit": "unit_10178790_ZoneMap"
+},
+"0x1017de20": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_1017DE20",
 "unit": "unit_10178790_ZoneMap"
 },
 "0x10182700": {
@@ -3920,6 +4008,13 @@
 "method": "ModelActor_Draw",
 "why": "callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable)",
 "symbol": "CTsZoneMap::ModelActor_Draw"
+},
+"0x10184c90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10184C90",
+"unit": "unit_10178790_ZoneMap"
 },
 "0x10184fe0": {
 "class": "CTsZoneMap",

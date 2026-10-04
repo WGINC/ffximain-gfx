@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100C4CE0  (unit unit_100C4410: no unit evidence of its own; in the gap between 0x100C4400 (XiModelActor) and 0x100C5190 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall fn_100C4CE0(float *self_, float *a2, int a3, int a4)
 {
   _DWORD *v5;
@@ -31,7 +31,7 @@ XI_API char __thiscall fn_100C4CE0(float *self_, float *a2, int a3, int a4)
   orig::Gfx_NdcToScreen(a2);
   orig::CDx_SetTransform(&g_pCDx->vftable, 2, v9);
   orig::CDx_SetTransform(&g_pCDx->vftable, 256, v10);
-  if ( a2[3] >= 0.0 )
+  if ( !(a2[3] < 0.0) )
   {
     orig::nullsub_1();
     orig::nullsub_1();

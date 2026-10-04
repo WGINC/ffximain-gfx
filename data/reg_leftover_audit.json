@@ -1,0 +1,313 @@
+[
+ {
+  "function": "0x1000A820",
+  "name": "CDx_DrawFadeQuad",
+  "var": "v6",
+  "register": "edx",
+  "uses": [
+   "v6.lpVtbl = pDevice->lpVtbl;",
+   "v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 6u);",
+   "v6.lpVtbl->SetRenderState(pDevice, D3DRS_SRCBLEND, 5u);"
+  ],
+  "gate": "PASS",
+  "class": "field-write"
+ },
+ {
+  "function": "0x10010D20",
+  "name": "App_InitScene",
+  "var": "v5",
+  "register": "ecx",
+  "uses": [
+   "if ( sub_10153C10(v5) != 0 )"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "sub_10153C10 (0x10153C10) cannot be shown not to read its entry ECX"
+  ]
+ },
+ {
+  "function": "0x10010D20",
+  "name": "App_InitScene",
+  "var": "v21",
+  "register": "edx",
+  "uses": [
+   "sub_10160440((int)g_menuMng, v21, &v59, 0);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10010D20",
+  "name": "App_InitScene",
+  "var": "v41",
+  "register": "ecx",
+  "uses": [
+   "CMoDX_CreateAndInitSystem(v41);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "CMoDX_CreateAndInitSystem (0x1006B2B0) cannot be shown not to read its entry ECX"
+  ]
+ },
+ {
+  "function": "0x10013AD0",
+  "name": "App_StepGameState5Connect",
+  "var": "v10",
+  "register": "edx",
+  "uses": [
+   "Game_DestroyGlobalObjects(v11, v10);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "Game_DestroyGlobalObjects (0x10164B80) cannot be shown not to read its entry EDX"
+  ]
+ },
+ {
+  "function": "0x10013AD0",
+  "name": "App_StepGameState5Connect",
+  "var": "v11",
+  "register": "ecx",
+  "uses": [
+   "Game_DestroyGlobalObjects(v11, v10);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10029CB0",
+  "name": "CYyModelDt_ScalarDeletingDtor",
+  "var": "v2",
+  "register": "edx",
+  "uses": [
+   "CYyModelDtBase_Destructor(C, v2);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10029DB0",
+  "name": "CYyModelBase_ScalarDeletingDtor",
+  "var": "v2",
+  "register": "edx",
+  "uses": [
+   "CYyModelBase_Destructor(C, v2);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "CYyModelBase_Destructor (0x10029DD0) cannot be shown not to read its entry EDX"
+  ]
+ },
+ {
+  "function": "0x1002A0A0",
+  "name": "CYyModelDt_VT_1032A72C_ScalarDeletingDtor",
+  "var": "v2",
+  "register": "edx",
+  "uses": [
+   "CYyModelDtBase_Destructor(C, v2);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x1002B6E0",
+  "name": "CXiSkeletonActor_DrawModel",
+  "var": "v17",
+  "register": "ecx",
+  "uses": [
+   "v17.lpVtbl = v16->lpVtbl;",
+   "v17.lpVtbl->SetTextureStageState(v16, 0, D3DTSS_MIPFILTER, 2u);",
+   "v17.lpVtbl->SetTextureStageState(v16, 0, D3DTSS_MIPFILTER, 0);"
+  ],
+  "gate": "PASS",
+  "class": "field-write"
+ },
+ {
+  "function": "0x1003D010",
+  "name": "CMoCameraTask_ScalarDeletingDtor",
+  "var": "v2",
+  "register": "edx",
+  "uses": [
+   "CMoCameraTask_Destructor(C, v2);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10044970",
+  "name": "CMoElemFamily_SharedCleanup",
+  "var": "v7",
+  "register": "edx",
+  "uses": [
+   "CMoResource_ReleaseChain(v4, v7);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10047940",
+  "name": "CMoSkeletonElem_ScalarDeletingDtor",
+  "var": "v2",
+  "register": "edx",
+  "uses": [
+   "CMoSkeletonElem_Destructor(C, v2);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x10057FB0",
+  "name": "CMoSchedularTask_Interpret",
+  "var": "v224",
+  "register": "ecx",
+  "uses": [
+   "v835[0] = v224;"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: v835[0] = v224;"
+  ]
+ },
+ {
+  "function": "0x10057FB0",
+  "name": "CMoSchedularTask_Interpret",
+  "var": "v368",
+  "register": "ecx",
+  "uses": [
+   "v835[0] = v368;"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: v835[0] = v368;"
+  ]
+ },
+ {
+  "function": "0x10057FB0",
+  "name": "CMoSchedularTask_Interpret",
+  "var": "v409",
+  "register": "ecx",
+  "uses": [
+   "v835[0] = v409;"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: v835[0] = v409;"
+  ]
+ },
+ {
+  "function": "0x10057FB0",
+  "name": "CMoSchedularTask_Interpret",
+  "var": "v608",
+  "register": "edx",
+  "uses": [
+   "LOBYTE(v608) = (v611 & 0xF0) != 0;",
+   "v835[0] = v608;"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: LOBYTE(v608) = (v611 & 0xF0) != 0;",
+   "not a direct call argument: v835[0] = v608;"
+  ]
+ },
+ {
+  "function": "0x100C5C00",
+  "name": "CXiSkeletonActor_DestructorBody",
+  "var": "v1",
+  "register": "edx",
+  "uses": [
+   "CMoResource_ReleaseChain(*v3, v1);",
+   "CMoResource_ReleaseChain(*v5, v1);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100C5C00",
+  "name": "CXiSkeletonActor_DestructorBody",
+  "var": "v7",
+  "register": "edx",
+  "uses": [
+   "CMoResource_ReleaseChain(*v8, v7);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100D08E0",
+  "name": "CXiSkeletonActor_GetWidthScale",
+  "var": "v3",
+  "register": "edx",
+  "uses": [
+   "v4 = sub_10035250(v2 + 8, v3);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100D09B0",
+  "name": "CXiSkeletonActor_GetHeightScale",
+  "var": "v3",
+  "register": "edx",
+  "uses": [
+   "v4 = (float *)sub_10035250(v2 + 8, v3);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100D0A80",
+  "name": "CXiSkeletonActor_GetDepthScale",
+  "var": "v3",
+  "register": "edx",
+  "uses": [
+   "v4 = sub_10035250(v2 + 8, v3);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100D6370",
+  "name": "CXiSkeletonActor_KillAllGenerater",
+  "var": "v1",
+  "register": "edx",
+  "uses": [
+   "CMoResource_ReleaseChain(*v3, v1);",
+   "CMoResource_ReleaseChain(*v5, v1);"
+  ],
+  "gate": "PASS",
+  "class": "harmless"
+ },
+ {
+  "function": "0x100D70A0",
+  "name": "CXiSkeletonActorRes_ProcessLoadState",
+  "var": "v2",
+  "register": "ecx",
+  "uses": [
+   "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);"
+  ],
+  "gate": "PASS",
+  "class": "not proven",
+  "why": [
+   "not a direct call argument: (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this + 24))(v2, 1);"
+  ]
+ },
+ {
+  "function": "0x10185CA0",
+  "name": "sub_10185CA0",
+  "var": "v7",
+  "register": "ecx",
+  "uses": [
+   "v7.lpVtbl = pDevice->lpVtbl;",
+   "v7.lpVtbl->SetRenderState(pDevice, D3DRS_LIGHTING, 0);"
+  ],
+  "gate": "PASS",
+  "class": "field-write"
+ }
+]

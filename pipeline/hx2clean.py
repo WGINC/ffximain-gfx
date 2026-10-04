@@ -15,6 +15,7 @@ Per function:
   * calls into the game: `orig::Name(...)` (always-inline wrapper around the original address);
     globals keep their IDB names, bound to their addresses in gfx_globals.hpp.
   * decompiler noise (register / stack-slot comments) removed.
+  * partial-variable macros (LOBYTE, HIWORD, ...) on integer locals and parameters: exact C (partial_regs.py).
 
 Usage: python3 hx2clean.py export.jsonl gate.jsonl manifest.json tree_include_dir out_dir
 """
@@ -24,6 +25,7 @@ import collections
 from msvc_demangle import demangle
 import hx_patches
 import hx2cpp
+import partial_regs
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
@@ -60,9 +62,11 @@ def split_params(args):
 
 def orig_wrapper(name, ea, ftype):
     ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
+    ftype = hx2cpp.fnptr_return(ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ftype, re.S)
     if not m or re.search(r'__user|@<', ftype): return None
     ret, cc, args = m.groups(); cc = cc or '__cdecl'
+    if '(' in ret or ')' in ret: return None       # a return type not parsed: no wrapper rather than a wrong one
     if cc.strip() == '__cdecl' and hx2cpp.PURGES.get('0x%08X' % ea): cc = '__stdcall'   # pops (`ret N`): D3DX dispatch thunks
     ret = re.sub(r'\b__noreturn\b|' + CC_RE, '', ret).strip() or 'int'    # `void __cdecl __noreturn`
     TYPEWORDS = {'int', 'char', 'short', 'long', 'float', 'double', 'bool', 'void', 'unsigned', 'signed',
@@ -230,6 +234,18 @@ def rewrite_members(body, self_type, cls, layout_fields):
 
 PLACEHOLDER = re.compile(r'^(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}$')
 
+
+def declared_names(r):
+    """the names a record declares: its parameters, and the locals Hex-Rays declares at the top of the body
+    (the lines before the first blank line, each ending in its location comment: `; // eax`, `; // [esp+..]`)"""
+    head, _, body = r['text'].partition('\n{')
+    sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
+    params = sig[sig.find('(') + 1:sig.rfind(')')]
+    names = {m.group(1) for p in params.split(',') for m in [re.search(r'(\w+)\s*(\[[^\]]*\])*\s*$', p)] if m}
+    decls = body.lstrip('\n').split('\n\n', 1)[0]
+    names |= set(re.findall(r'^\s+[^;=()]*?[\s\*&](\w+)(?:\[[^\]]*\])*; // ', decls, re.M))
+    return names
+
 def canonicalise_names(R, pending):
     # A record exported before an IDB rename still prints the old name, so one address can carry
     # two names across records. Every referenced object gets one name: the reviewed name from
@@ -241,19 +257,19 @@ def canonicalise_names(R, pending):
             if not PLACEHOLDER.match(nm): seen[o['ea']][nm] += 1
     canon = {ea: c.most_common(1)[0][0] for ea, c in seen.items()}
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
+    local = {'self', 'this'} | set().union(*(declared_names(r) for r in R.values()))
     for r in R.values():
         for nm, o in list(r['objs'].items()):
-            if nm in ('self', 'this') and not o['func']:
-                # the IDB has a global named `self`; Hex-Rays writes it `::self`. As a macro it would
-                # replace every `self` in the tree, so it gets a distinct name.
+            if nm in local and not o['func']:
+                # a global is a macro in the tree, so one named like a parameter or local of any function
+                # (the IDB has globals named `self` and `C`; Hex-Rays writes them `::self`, `::C` where a
+                # parameter shadows them) would replace that identifier everywhere: it gets a distinct name
                 new = 'g_%s_%08X' % (nm, o['ea'])
                 head, _, body = r['text'].partition('\n{')
-                sig = ' '.join(l for l in head.splitlines() if not l.startswith('//'))
-                params = sig[sig.find('(') + 1:sig.rfind(')')]
-                if re.search(r'\b(self|this)\b', params):       # a parameter shadows it: only `::self` is the global
-                    r['text'] = r['text'].replace('::' + nm, new)
+                if nm in declared_names(r):                     # shadowed here: only `::name` is the global
+                    r['text'] = re.sub(r'(?<![\w:])::%s\b' % re.escape(nm), new, r['text'])
                 else:
-                    r['text'] = head + '\n{' + re.sub(r'(?:::)?\b%s\b' % nm, new, body)
+                    r['text'] = head + '\n{' + re.sub(r'(?<![\w:])(?:::)?\b%s\b(?!::)' % re.escape(nm), new, body)
                 o['printed'] = [new]; r['objs'][new] = r['objs'].pop(nm)
                 continue
             new = canon.get(o['ea'])
@@ -505,6 +521,8 @@ def main(exp, gate, manf, incdir, outdir):
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
         ret, body = hx2cpp.drop_float_return(ea, ret, body)
         ps = [re.sub(r'\s+', ' ', p).strip() for p in split_params(params)]
+        # LOBYTE(x), HIWORD(x), ... on integer locals and parameters: the exact C (partial_regs.py)
+        body, preg = partial_regs.rewrite(body, partial_regs.var_types(ps, body))
         note = '// FUNCTION: FFXIMAIN 0x%08X' % ea
         if cls and nothis.get(ea):
             mp = ', '.join(ps)
@@ -544,6 +562,7 @@ def main(exp, gate, manf, incdir, outdir):
         report[hex(ea)] = {'class': cls, 'method': meth, 'why': why,
                            'symbol': '%s::%s' % (cls, meth) if cls else fname}
         if not cls and UNITS.get(hex(ea)): report[hex(ea)]['unit'] = UNITS[hex(ea)]['unit']
+        if preg: report[hex(ea)]['partial_regs'] = preg
 
     # headers
     for cls, L in layouts.items():

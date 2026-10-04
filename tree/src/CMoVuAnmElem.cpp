@@ -3,21 +3,21 @@
 #include "CMoVuAnmElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003EF10  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoVuAnmElem::GetRuntimeClass()
 {
   return &CMoVuAnmElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EF80  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoVuAnmElem::vf012(int a1)
 {
   return a1 == 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EF90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoVuAnmElem::vf008()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -25,7 +25,7 @@ int CMoVuAnmElem::vf008()
 }
 
 // FUNCTION: FFXIMAIN 0x1003EFA0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void * CMoVuAnmElem::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

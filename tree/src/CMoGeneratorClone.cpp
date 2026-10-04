@@ -3,7 +3,7 @@
 #include "CMoGeneratorClone.hpp"
 
 // FUNCTION: FFXIMAIN 0x10047C30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -25,7 +25,7 @@ int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047CE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26, town PASS 68, town2 PASS 74, combat PASS 58, zonetoinn PASS 91
 _DWORD * CMoGeneratorClone::FixupClonedPointers()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -158,7 +158,7 @@ LABEL_49:
 }
 
 // FUNCTION: FFXIMAIN 0x100536C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
 int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -225,7 +225,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10053E00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoGeneratorClone::InitDefaultParams()
 {
   _DWORD *v2;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10017810  (unit unit_100177E0: no unit evidence of its own; in the gap between 0x100177A0 (CShader) and 0x10017BA0 (XiCapture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_10017810(void *self_, int a1)
 {
   IDirect3DDevice8 *pDevice;

@@ -3,7 +3,7 @@
 #include "CXiActorNameDraw.hpp"
 
 // FUNCTION: FFXIMAIN 0x100817F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int __cdecl CXiActorNameDraw::SetRenderState()
 {
   int result;

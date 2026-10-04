@@ -27,7 +27,10 @@ _vc = os.path.join(D, 'vcalls.json')
 VCALLS = {k: v['pops'] for k, v in (json.load(open(_vc)).items() if os.path.exists(_vc) else ()) if not k.startswith('_')}
 _cc = os.path.join(D, 'com_calls.json')
 COMCALLS = {k: v['pops'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ())}
+# COM calls settled by an accepted (unproven) declaration in com_fields.json: a balance using one says so
+ACCEPTED = {k: v['field'] for k, v in (json.load(open(_cc)).items() if os.path.exists(_cc) else ()) if 'accepted' in v}
 CHKSTK = {0x10312150}           # _chkstk: `mov eax, N; call _chkstk` reserves N bytes
+ALIGN = -1                      # the variable for the padding of `and esp, -N` (see func_calls)
 
 
 class Lin:
@@ -257,11 +260,12 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             if op.imm in starts: return 'noreturn'
         return 0, var.setdefault(i.address, len(var))   # unknown: p_i
 
-    state = {ea: (Lin(), None)}; work = [ea]
+    state = {ea: (Lin(), None)}; work = [ea]; every = {}
     while work:
         a = work.pop(); d, ebp = state[a]; eax = None; prev = []
         while a in ins:
             i = ins[a]; m = i.mnemonic; ops = i.operands; nd, nebp = d, ebp; nxt = [a + i.size]
+            every[a] = (d, ebp)
             r0 = reg(i, ops[0]) if ops else None
             if m == 'call':
                 p = pop_of(i, eax)
@@ -286,7 +290,12 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             elif r0 == 'esp' and m == 'lea' and ops[1].type == X86_OP_MEM and i.reg_name(ops[1].mem.base) == 'ebp' and not ops[1].mem.index:
                 if ebp is None: break
                 nd = ebp.add(-ops[1].mem.disp)
-            elif r0 == 'esp': break                 # `and esp, -16`, `mov esp, reg`: the depth is lost here
+            elif r0 == 'esp' and m == 'and' and ops[1].type == X86_OP_IMM and ALIGN not in d.v:
+                # `and esp, -16`: the real depth grows by a padding A >= 0 that differs between runs; it is a
+                # variable no equation may pin (a ret or join that does not cancel it refuses the function).
+                # Depths after it are exact relative to this point, which is how IDA counts them (A = 0)
+                nd = d.add(0, ALIGN, 1)
+            elif r0 == 'esp': break                 # `mov esp, reg`, a second alignment: the depth is lost here
             elif r0 == 'ebp' and m == 'mov' and reg(i, ops[1]) == 'esp': nebp = d
             elif r0 == 'ebp' and m not in ('cmp', 'test', 'push'): nebp = None
             if r0 == 'eax' and m == 'mov' and ops[1].type == X86_OP_IMM: eax = ops[1].imm
@@ -318,13 +327,52 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             if cont is None: break
             a, d, ebp = cont, nd, nebp
     func_calls.debug = (var, eqs, src)
+    if any(ALIGN in e.v for e in eqs): return {}, False, len(var)       # the padding would be pinned
     vals, ok = solve(eqs, len(var))
+    func_calls.state = (state, vals if ok else None); func_calls.every = every
     if not ok: return {}, False, len(var)
     out = {}
     for addr, k in var.items():
         x = vals.get(k)
         if x is not None and x.denominator == 1 and 0 <= x <= 0x100 and x % 4 == 0: out[addr] = int(x)
     return out, True, len(var)
+
+
+def head_depths(im, ea, ext, purges, starts, nr=frozenset(), iat=None):
+    """{address: depth} at every block head of the function (each jump target and fall-through after a
+    branch) whose depth is exact: every unknown pop on the way solved; after `and esp, -N` the depth is
+    counted from the aligned point as IDA counts it (the padding left out). {} for an inconsistent function"""
+    calls, ok, _ = func_calls(im, ea, ext, purges, starts, nr=nr, iat=iat)
+    if not ok or not hasattr(func_calls, 'state'): return {}
+    state, vals = func_calls.state
+    if vals is None: return {}
+    out = {}
+    for a, (d, _) in state.items():
+        x = Fraction(d.c)
+        if any(k != ALIGN and k not in vals for k in d.v): continue
+        for k, c in d.v.items():
+            if k != ALIGN: x += c * vals[k]
+        if x.denominator == 1: out[a] = int(x)
+    return out
+
+
+def insn_depths(im, ea, ext, purges, starts, nr=frozenset(), iat=None):
+    """{address: (depth, ebp depth or None)} before every instruction the walk reached, where exact (as
+    head_depths: every unknown pop on the way solved). The address ESP holds there is entry ESP - depth;
+    EBP, when it holds a copy of ESP, is entry ESP - its depth"""
+    calls, ok, _ = func_calls(im, ea, ext, purges, starts, nr=nr, iat=iat)
+    if not ok or not hasattr(func_calls, 'state'): return {}
+    state, vals = func_calls.state
+    if vals is None: return {}
+    def ev(d):
+        if d is None or ALIGN in d.v or any(k not in vals for k in d.v): return None
+        x = Fraction(d.c) + sum(c * vals[k] for k, c in d.v.items())
+        return int(x) if x.denominator == 1 else None
+    out = {}
+    for a, (d, ebp) in func_calls.every.items():
+        x = ev(d)
+        if x is not None: out[a] = (x, ev(ebp))
+    return out
 
 
 def known_pop(im, purges, a):
@@ -381,7 +429,10 @@ def main(out, *addrs):
         wrong = [a for a, p in chk.items() if a not in calls and known_pop(im, purges, a) not in (None, p)]
         if not ok2 or wrong: suspect.append('0x%08X' % ea); und += len(calls); tot += n; continue
         tot += n; und += n - len(calls)
-        for a, p in calls.items(): res['0x%08X' % a] = {'pops': p, 'func': '0x%08X' % ea}
+        acc = sorted({ACCEPTED[k] for k in ACCEPTED if any(x <= int(k, 16) < y for x, y in e)})
+        for a, p in calls.items():
+            res['0x%08X' % a] = {'pops': p, 'func': '0x%08X' % ea}
+            if acc: res['0x%08X' % a]['rests_on_accepted'] = acc
     res['_inconsistent'] = bad; res['_suspect'] = suspect; res['_undetermined'] = und
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
     print('%d unknown calls: %d solved, %d undetermined; %d functions inconsistent, %d failed their own check'

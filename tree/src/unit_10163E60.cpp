@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1016DDF0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 {
   _DWORD v4[16];
@@ -41,7 +41,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 20 returned normally, 325 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 23 returned normally, 212 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 26, town2 PASS 26, combat PASS 29, zonetoinn PASS 26
 XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
@@ -445,12 +445,12 @@ LABEL_18:
                     v106[5] = *(_DWORD *)(v61 - 32);
                     v106 += 6;
                   }
-                  while ( v60 < (int)v43[2] );
+                  while ( (int)(v60) < (int)(v43[2]) );
                 }
                 (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[44] + 48))(v43[44]);
               }
               v63 = 0;
-              for ( k = 0; k < (int)v20[25]; ++k )
+              for ( k = 0; (int)(k) < (int)(v20[25]); ++k )
               {
                 v64 = (IDirect3DVertexBuffer8 **)&v43[v63 + 12];
                 if ( g_pCDx->pDevice->lpVtbl->CreateVertexBuffer(
@@ -471,7 +471,7 @@ LABEL_18:
                   else
                     v65 = 0.0;
                   v66 = (float *)v43[3];
-                  for ( m = 0; m < (int)v43[2]; v108 += 3 )
+                  for ( m = 0; (int)(m) < (int)(v43[2]); v108 += 3 )
                   {
                     ++m;
                     v68 = v65 * v66[3] + *v66;
@@ -525,7 +525,7 @@ LABEL_18:
                             &v104,
                             0) < 0 )
                     ;
-                  for ( n = 0; n < (int)v43[4]; v104 += 36 )
+                  for ( n = 0; (int)(n) < (int)(v43[4]); v104 += 36 )
                   {
                     v73 = *(_WORD *)(v43[5] + 2 * n++);
                     qmemcpy(v104, (const void *)(v43[3] + 36 * v73), 0x24u);
@@ -678,7 +678,7 @@ LABEL_18:
                         v111 = 1 - v111;
                         v124 = v86;
                       }
-                      while ( v82 < (int)v43[4] );
+                      while ( (int)(v82) < (int)(v43[4]) );
                     }
                     (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v43[45] + 48))(v43[45]);
                   }
@@ -694,7 +694,7 @@ LABEL_18:
                           &v104,
                           0) < 0 )
                   ;
-                for ( ii = 0; ii < (int)v43[4]; v104 += 36 )
+                for ( ii = 0; (int)(ii) < (int)(v43[4]); v104 += 36 )
                 {
                   v97 = *(_WORD *)(v43[5] + 2 * ii++);
                   qmemcpy(v104, (const void *)(v43[3] + 36 * v97), 0x24u);
@@ -718,7 +718,7 @@ LABEL_18:
 }
 
 // FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 33 returned normally, 880 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 37 returned normally, 803 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 37, town PASS 37, town2 PASS 37, combat PASS 37, zonetoinn PASS 37
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 {
   int v3;
@@ -783,7 +783,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
         ++v3;
         v17 += 64;
       }
-      while ( v3 < *(self_ + 4) );
+      while ( (int)(v3) < (int)(*(self_ + 4)) );
     }
     v8 = 0;
     if ( (int)*(self_ + 2) > 0 )
@@ -812,7 +812,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
         ++v8;
         v18 += 64;
       }
-      while ( v8 < *(self_ + 2) );
+      while ( (int)(v8) < (int)(*(self_ + 2)) );
     }
     v13 = *a2 * 0x1.767dce0000000p-3;
     a3[2] = 981668463;
@@ -839,7 +839,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 136806 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 23 returned normally, 129544 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 28, town2 PASS 28, combat PASS 28, zonetoinn PASS 28
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;
@@ -1042,7 +1042,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
             v13 = v9[1];
             v14 = v9[2];
             v15 = 1065353216;
-            orig::Actor_DrawWorldText(&v12, v11, 1.0, -2139062272, -2139062144);
+            orig::Actor_DrawWorldText(&v12, v11, 1.0, 0x80808000, -2139062144);
           }
           result = j[4];
           ++v10;

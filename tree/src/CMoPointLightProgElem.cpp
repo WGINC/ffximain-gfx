@@ -3,21 +3,21 @@
 #include "CMoPointLightProgElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x100562E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
 {
   return &CMoPointLightProgElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10056360  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoPointLightProgElem::vf012(int a1)
 {
   return a1 == 11;
 }
 
 // FUNCTION: FFXIMAIN 0x10056370  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

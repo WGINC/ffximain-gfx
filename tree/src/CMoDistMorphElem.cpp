@@ -2,8 +2,186 @@
 #include "gfx_all.hpp"
 #include "CMoDistMorphElem.hpp"
 
+// FUNCTION: FFXIMAIN 0x1003F440  (placed by IDB name)
+// GATE: PASS -- 100 trials, 48 returned normally, 178 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 48, town PASS 47, town2 PASS 47, combat PASS 47, zonetoinn PASS 47
+int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, char a7)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  int v7;
+  _DWORD *v8;
+  int v9;
+  unsigned __int16 *v10;
+  unsigned __int16 *v11;
+  _DWORD *v12;
+  unsigned __int16 v14;
+  _DWORD *v15;
+  _DWORD *v16;
+  _DWORD *v17;
+  int v18;
+  unsigned __int16 v19;
+  _DWORD *v20;
+  unsigned __int16 v21;
+  unsigned int v22;
+  unsigned int v23;
+  unsigned int v24;
+  unsigned int v25;
+  int v26;
+  int ScratchMatrixStackTop;
+  float *v28;
+  CMoProcessor *v29;
+  int v30;
+  int result;
+  int v33;
+  _DWORD *v34;
+  int *Ca;
+  int v36;
+  v7 = self;
+  if ( at<int8_t>(this, 0x32) < 0 )
+  {
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      15,
+      1);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      25,
+      5);
+    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      24,
+      96);
+  }
+  if ( a7 == 0 )
+    orig::sub_10075700((int *)(v7 + 64), 0, *(float *)(a2 + 320), *(float *)(a2 + 324), *(float *)(a2 + 328));
+  v8 = C;
+  if ( C == nullptr )
+    v8 = orig::CMoDistMorphElem_ComputeMorphHandle(v7, a4, a5);
+  Ca = (int *)(*(unsigned __int16 *)(v7 + 60) + v7 + 48);
+  if ( *(_WORD *)(v7 + 60) >= *(_WORD *)(v7 + 62) )
+    v9 = *(unsigned __int16 *)(v7 + 62) + 0x10000;
+  else
+    v9 = *(unsigned __int16 *)(v7 + 62);
+  v34 = (_DWORD *)(v9 + v7 + 48);
+  v10 = (unsigned __int16 *)(*(unsigned __int16 *)(v7 + 56) + (*(char *)(v7 + 51) << 16) + v7 + 48);
+  v11 = &v10[3 * *(unsigned __int16 *)(v7 + 58)];
+  orig::DynVB_Reserve(3 * *(unsigned __int16 *)(v7 + 58));
+  v12 = orig::DynVB_Lock((void *)g_pDynVB_FVF152);
+  v36 = 0;
+  if ( a7 != 0 )
+  {
+    if ( 3 * *(unsigned __int16 *)(v7 + 58) != 0 )
+    {
+      do
+      {
+        ++v11;
+        v14 = *v10++;
+        v15 = &v8[9 * v14];
+        *v12 = *v15;
+        v12[1] = v15[1];
+        v12[2] = v15[2];
+        v16 = &v8[9 * *(v11 - 1) + 3];
+        v17 = v12 + 3;
+        v12 += 9;
+        *v17 = *v16;
+        v17[1] = v16[1];
+        v7 = self;
+        v17[2] = v16[2];
+        v18 = *Ca++;
+        *(v12 - 3) = v18;
+        *(v12 - 2) = v8[9 * *(v10 - 1) + 7];
+        *(v12 - 1) = v8[9 * *(v10 - 1) + 8];
+        ++v36;
+      }
+      while ( v36 < 3 * this->field_3A );
+    }
+  }
+  else if ( 3 * *(unsigned __int16 *)(v7 + 58) != 0 )
+  {
+    while ( 1 )
+    {
+      v19 = *v10;
+      v33 = (int)(v11 + 1);
+      ++v10;
+      v20 = &v8[9 * v19];
+      *v12 = *v20;
+      v12[1] = v20[1];
+      v12[2] = v20[2];
+      v21 = *v11;
+      v12[3] = v8[9 * *v11 + 3];
+      v12[4] = v8[9 * v21 + 4];
+      v12[5] = v8[9 * v21 + 5];
+      v22 = 2 * (unsigned __int8)*Ca;
+      v23 = ((unsigned int)*Ca >> 7) & 0x1FE;
+      v24 = ((unsigned int)*Ca >> 15) & 0x1FE;
+      v25 = ((unsigned int)*Ca >> 23) & 0x1FE;
+      if ( v22 > 0xFF )
+        v22 = 255;
+      if ( v23 > 0xFF )
+        v23 = 255;
+      if ( v24 > 0xFF )
+        v24 = 255;
+      if ( v25 > 0xFF )
+        v25 = 255;
+      ++Ca;
+      v12[6] = v22 | ((v23 | ((v24 | (v25 << 8)) << 8)) << 8);
+      v7 = self;
+      v12 += 9;
+      *(v12 - 2) = *v34;
+      v26 = v34[1];
+      v34 += 2;
+      *(v12 - 1) = v26;
+      if ( ++v36 >= 3 * this->field_3A )
+        break;
+      v11 = (unsigned __int16 *)v33;
+    }
+  }
+  orig::DynVB_Unlock();
+  orig::Mem_FreeObject((int)v8);
+  if ( (byte_1047B9E4 & 1) == 0 )
+  {
+    byte_1047B9E4 |= 1u;
+    orig::fn_1006AD90((exception *)dword_1047B9E8);
+    orig::_atexit(XI_CODE(unknown_libname_25));
+  }
+  orig::StateBlock_ApplyTSS(dword_1047B9E8, (int)dword_10352258);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    60,
+    *a3);
+  if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
+  {
+    ScratchMatrixStackTop = g_pProcessor->ScratchMatrixStackTop;
+    v28 = g_pProcessor->ScratchMatrixFreeList[ScratchMatrixStackTop];
+    g_pProcessor->ScratchMatrixStackTop = ScratchMatrixStackTop + 1;
+    orig::MoProcessor_CallVSlot49(v28);
+    v28[8] = *(float *)(a2 + 288);
+    v28[9] = *(float *)(a2 + 292);
+    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+      *(_DWORD *)(g_pResourceMng + 3772),
+      0,
+      24,
+      2);
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v28);
+    v29 = g_pProcessor;
+    v30 = g_pProcessor->ScratchMatrixStackTop - 1;
+    g_pProcessor->ScratchMatrixStackTop = v30;
+    v29->ScratchMatrixFreeList[v30] = v28;
+  }
+  result = orig::sub_10043F40((int *)g_pDynVB_FVF152, 0, *(unsigned __int16 *)(v7 + 58), 4, 0, -1);
+  if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
+  {
+    orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, g_pProcessor->RotationMatrix);
+    return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+             *(_DWORD *)(g_pResourceMng + 3772),
+             0,
+             24,
+             0);
+  }
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x1003F8A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 62, town PASS 61, town2 PASS 61, combat PASS 58, zonetoinn PASS 61
 _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -56,7 +234,7 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
     v7 = v7 + *(float *)(a2 + 4 * v9 - 4);
   }
   while ( v9 < v8 );
-  if ( v7 >= 0x1.0000000000000p-126 )
+  if ( !(v7 < 0x1.0000000000000p-126) )
   {
     if ( v7 == 0.0 )
       goto LABEL_13;
@@ -168,7 +346,7 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10042D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 24 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 30
 char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a4)
 {
   int v4;
@@ -301,14 +479,14 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10043580  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 {
   return &CMoDistMorphElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
 char CMoDistMorphElem::UpdateMorphBlend()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -379,14 +557,14 @@ char CMoDistMorphElem::UpdateMorphBlend()
 }
 
 // FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoDistMorphElem::vf012(int a1)
 {
   return a1 == 6;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDistMorphElem::set_field_1C0(int a2)
 {
   this->field_1C0 = a2;
@@ -394,7 +572,7 @@ int CMoDistMorphElem::set_field_1C0(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052E60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDistMorphElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

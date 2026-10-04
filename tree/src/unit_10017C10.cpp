@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10017C60  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 262 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 261 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
 XI_API int __thiscall fn_10017C60(int *self_, int a2, int a3, int a4)
 {
   unsigned __int16 ViewportHeight;

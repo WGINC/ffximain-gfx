@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1001DC70  (unit unit_1001DC30: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 67 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Tex_DrawNamedTexturePreview(void *self_, int a1, int a2)
 {
   int result;
@@ -29,7 +29,7 @@ XI_API int __thiscall Tex_DrawNamedTexturePreview(void *self_, int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1001DD00  (unit unit_1001DC30: no unit evidence of its own; in the gap between 0x1001DC20 (CMoResource_VT_1032C8AC) and 0x1001E050 (CMoResource_VT_1032C880) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Gfx_DrawScreenQuad256(int a1, int a2)
 {
   int a3[7];

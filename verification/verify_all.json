@@ -1,0 +1,195 @@
+{
+ "binary": {
+  "ok": true,
+  "sha256": "1b9b59aedc18a5b7dcbd531fff598c3b43a359eeb5dc2798763bc0ff8a21a3ad",
+  "expected": "1b9b59aedc18a5b7dcbd531fff598c3b43a359eeb5dc2798763bc0ff8a21a3ad"
+ },
+ "dumps": {
+  "ok": true,
+  "dumps": [
+   "ffxi_combat.dmp",
+   "ffxi_town.dmp",
+   "ffxi_town2.dmp",
+   "ffxi_zonetoinn.dmp"
+  ],
+  "not_the_build": []
+ },
+ "facts:purges.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ret_kinds.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:fp_consts.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:fp_callsites.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:fpret.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:vcalls.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ecx_use.json": {
+  "ok": true,
+  "n_differing": 0
+ },
+ "facts:com_calls.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:sp_solved.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:cdecl_args.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:leaf_funcs.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:callsite_args.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:callsite_audit.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ida_sp_audit.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:fcmp_exact.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:edx_use.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ida_classes.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:reg_leftover_audit.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "agreement": {
+  "ok": true,
+  "calls_with_two_or_more_sources": 364,
+  "conflicts": {}
+ },
+ "rule-tests": {
+  "ok": true,
+  "result": "OK"
+ },
+ "sp-selftest": {
+  "ok": true,
+  "result": "self-test: 0 of 1 misses reach the output (the rest are in functions normal use rejects)"
+ },
+ "export-sp": {
+  "ok": true,
+  "ida_wrong": [],
+  "unexplained": []
+ },
+ "hx_patches": {
+  "ok": true,
+  "patches": 6,
+  "stale": [],
+  "without_evidence": []
+ },
+ "type_fixes": {
+  "ok": true,
+  "without_evidence": []
+ },
+ "constructs": {
+  "ok": true,
+  "functions": [
+   "0x100548D0"
+  ]
+ },
+ "accepted:device_via_CDx_this": {
+  "ok": null,
+  "status": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-0...",
+  "com_calls": 151,
+  "balances": [
+   "0x1000955A",
+   "0x100095CF",
+   "0x1000A705"
+  ]
+ },
+ "tree-regen": {
+  "ok": true,
+  "differing": [],
+  "build": [
+   "built build/gfx_recon.dll from 189 files; failed: none"
+  ]
+ },
+ "tree-gate": {
+  "ok": true,
+  "functions": 714,
+  "gates": {
+   "fuzz": {
+    "PASS": 712,
+    "UNRESOLVED": 2
+   },
+   "town": {
+    "PASS": 709,
+    "UNRESOLVED": 1,
+    "INCONCLUSIVE": 4
+   },
+   "town2": {
+    "PASS": 709,
+    "UNRESOLVED": 1,
+    "INCONCLUSIVE": 4
+   },
+   "combat": {
+    "PASS": 709,
+    "UNRESOLVED": 1,
+    "INCONCLUSIVE": 4
+   },
+   "zonetoinn": {
+    "PASS": 709,
+    "UNRESOLVED": 1,
+    "INCONCLUSIVE": 4
+   }
+  },
+  "not_passing": {},
+  "live": [
+   "town",
+   "town2",
+   "combat",
+   "zonetoinn"
+  ],
+  "note": "from the full run (fuzz + four live dumps) of the same commit; tree-regen from the quick run after the gcc-quote fix"
+ }
+}

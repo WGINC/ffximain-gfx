@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10284B20  (unit sqgxContext: name sqgxContext_SelectShaderMode)
-// GATE: PASS -- 100 trials, 100 returned normally, 40 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 47 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int * __cdecl sqgxShader(int a1, int a2)
 {
   int v2;

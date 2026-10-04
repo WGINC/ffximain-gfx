@@ -3,7 +3,7 @@ the game, bound to its game address. Prototypes come from the SDK's own d3dx8*.h
 in a hybrid build, d3dx81::Name(...) calls the copy inside FFXiMain; in a standalone build define
 XI_D3DX_LINK_SDK and the same calls resolve to d3dx8.lib."""
 import json, re, glob, os
-D3DX = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'd3dx')
+D3DX = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'd3dx')
 # DX81_INCLUDE: the DirectX 8.1 SDK include directory (not part of this repo)
 man = json.load(open(os.path.join(D3DX, 'd3dx81_manifest.json')))
 hdr = ''.join(open(f, errors='replace').read() for f in glob.glob(os.path.join(os.environ['DX81_INCLUDE'], 'd3dx8*.h')))

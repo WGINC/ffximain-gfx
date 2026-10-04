@@ -16,7 +16,7 @@ is not traced.
     python3 com_calls.py data/com_calls.json        uses $FFXI_DLL
 Output: {"0xCALL": {"func", "path", "iface", "slot", "method", "pops", "field"}}
 """
-import json, os, sys, collections
+import json, os, re, sys, collections
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
@@ -60,9 +60,10 @@ def successors(im, ins, a, i, labels=frozenset()):
     return [a + i.size]
 
 
-def flow(im, ins, ea):
-    """{address: {reg: path}} before each instruction; None if the function cannot be followed"""
-    state = {ea: {}}; work = [ea]; labels = S.labels_of(ins)
+def flow(im, ins, ea, entry=None):
+    """{address: {reg: path}} before each instruction; None if the function cannot be followed. `entry`: the
+    registers' paths at the function's entry (none known by default)"""
+    state = {ea: dict(entry or {})}; work = [ea]; labels = S.labels_of(ins)
     while work:
         a = work.pop(); i = ins[a]; st = dict(state[a]); ops = i.operands; m = i.mnemonic
         new = dict(st)
@@ -148,12 +149,26 @@ def main(out):
         if name.startswith('_'): continue
         bad = check(fd, im, code)
         if bad: print('com_fields %s NOT used: %s' % (name, '; '.join(bad))); continue
+        if fd['path'][0] == 'this': continue                # an accepted declaration on a class's `this`: below
         proven[tuple(['G', int(fd['path'][0], 16)] + [int(x, 16) for x in fd['path'][1:]])] = (name, fd['iface'])
+    # ACCEPTED (not proven) entries: path ["this", off...] holds `iface` in every function whose `this` the IDB
+    # declares as the entry's class (`this_class`), or whose IDB name has the class prefix; such calls carry
+    # "accepted": the entry's status text, so every use shows the uncertainty
+    exp = os.environ.get('GFX_EXPORT', os.path.join(D, 'exports', 'gfx_export.jsonl'))
+    this_fields = {}
+    for name, fd in fields.items():
+        if name.startswith('_') or fd['path'][0] != 'this': continue
+        cls = fd['this_class']
+        for l in open(exp):
+            r = json.loads(l); ty = r.get('type', '')
+            if r['name'].startswith(cls + '_') or re.search(r'__thiscall[^(]*\(%s \*' % cls, ty):
+                this_fields.setdefault(r['ea'], {})[tuple(['this'] + [int(x, 16) for x in fd['path'][1:]])] = (name, fd['iface'], fd['status'])
     res = {}; stats = collections.Counter()
     for f, ins in code.items():
         calls = [a for a, i in ins.items() if i.mnemonic == 'call' and i.operands[0].type == X86_OP_MEM and i.operands[0].mem.base]
         if not calls or f not in ins: continue
-        st = flow(im, ins, f)
+        tf = this_fields.get(f, {})
+        st = flow(im, ins, f, {'ecx': ('this',)} if tf else None)
         if st is None: stats['function not followed (indirect jump)'] += len(calls); continue
         for a in calls:
             i = ins[a]; o = i.operands[0]
@@ -164,16 +179,17 @@ def main(out):
             # path is what was pushed last: the instruction before the call (after the vtable load) pushes it
             if not vt or vt[-1] != 0: stats['vtable not traced'] += 1; continue
             obj = vt[:-1]
-            if obj not in proven: stats['object not a proven field'] += 1; continue
+            if obj not in proven and obj not in tf: stats['object not a proven field'] += 1; continue
             prev = [x for x in sorted(ins) if x < a]
             pushes = [ins[x] for x in prev[-4:] if ins[x].mnemonic == 'push']
             if not pushes or pushes[-1].operands[0].type != X86_OP_REG or st[pushes[-1].address].get(r32(pushes[-1].reg_name(pushes[-1].operands[0].reg))) != obj:
                 stats['object not pushed as this'] += 1; continue
-            name, iface = proven[obj]; slot = o.mem.disp // 4
+            name, iface = proven[obj] if obj in proven else tf[obj][:2]; slot = o.mem.disp // 4
             if o.mem.disp % 4 or slot >= len(spec[iface]): stats['slot outside the interface'] += 1; continue
             meth = spec[iface][slot]
             res['0x%08X' % a] = {'func': '0x%08X' % f, 'path': '[' * (len(obj) - 1) + '0x%08X' % obj[1] + ''.join(']+0x%X' % x for x in obj[2:]) + ']',
                                  'iface': iface, 'slot': slot, 'method': meth['name'], 'pops': 4 * (1 + meth['nparams']), 'field': name}
+            if obj in tf: res['0x%08X' % a]['accepted'] = tf[obj][2]; stats['accepted declaration'] += 1; continue
             stats['proven'] += 1
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
     print('%d COM calls proven: %s' % (len(res), dict(stats)))

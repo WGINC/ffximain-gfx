@@ -463,6 +463,7 @@
 "0x100091C9": {
 "func": "0x100091B0",
 "sources": {
+"com": 8,
 "measured": 8,
 "typed": 8
 }
@@ -470,6 +471,7 @@
 "0x10009322": {
 "func": "0x100091B0",
 "sources": {
+"com": 8,
 "measured": 8,
 "typed": 8
 }
@@ -553,32 +555,32 @@
 "func": "0x100096B0",
 "hexrays_cast": 28,
 "sources": {
-"measured": 28,
-"solved": 28
+"com": 28,
+"measured": 28
 }
 },
 "0x10009716": {
 "func": "0x10009710",
 "hexrays_cast": 4,
 "sources": {
-"measured": 4,
-"solved": 4
+"com": 4,
+"measured": 4
 }
 },
 "0x10009736": {
 "func": "0x10009730",
 "hexrays_cast": 4,
 "sources": {
-"measured": 4,
-"solved": 4
+"com": 4,
+"measured": 4
 }
 },
 "0x10009746": {
 "func": "0x10009740",
 "hexrays_cast": 4,
 "sources": {
-"measured": 4,
-"solved": 4
+"com": 4,
+"measured": 4
 }
 },
 "0x10009839": {
@@ -598,6 +600,7 @@
 "0x10009949": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -605,6 +608,7 @@
 "0x10009959": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -612,6 +616,7 @@
 "0x1000996C": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -619,6 +624,7 @@
 "0x1000997F": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -626,6 +632,7 @@
 "0x10009992": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -633,6 +640,7 @@
 "0x100099B8": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -640,6 +648,7 @@
 "0x100099C8": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -647,6 +656,7 @@
 "0x100099D8": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -654,6 +664,7 @@
 "0x100099EB": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -661,6 +672,7 @@
 "0x100099FE": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -668,6 +680,7 @@
 "0x10009A11": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -675,6 +688,7 @@
 "0x10009A24": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -682,6 +696,7 @@
 "0x10009A37": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -689,6 +704,7 @@
 "0x10009A4A": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -696,6 +712,7 @@
 "0x10009A5D": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -703,6 +720,7 @@
 "0x10009A70": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -710,6 +728,7 @@
 "0x10009A83": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -717,6 +736,7 @@
 "0x10009A93": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -724,6 +744,7 @@
 "0x10009AA3": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -731,6 +752,7 @@
 "0x10009ADE": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -738,6 +760,7 @@
 "0x10009AEE": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -745,6 +768,7 @@
 "0x10009AFE": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -752,6 +776,7 @@
 "0x10009B11": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -759,6 +784,7 @@
 "0x10009B21": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -766,6 +792,7 @@
 "0x10009B31": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -773,6 +800,7 @@
 "0x10009B41": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -780,6 +808,7 @@
 "0x10009B51": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -787,6 +816,7 @@
 "0x10009B61": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -794,6 +824,7 @@
 "0x10009B71": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -801,6 +832,7 @@
 "0x10009B81": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -808,6 +840,7 @@
 "0x10009B91": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -815,6 +848,7 @@
 "0x10009BAC": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -822,30 +856,35 @@
 "0x10009BCF": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "typed": 12
 }
 },
 "0x10009BDF": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "typed": 12
 }
 },
 "0x10009C02": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "typed": 12
 }
 },
 "0x10009C14": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "typed": 12
 }
 },
 "0x10009C24": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -853,6 +892,7 @@
 "0x10009C34": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -860,6 +900,7 @@
 "0x10009C44": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -867,6 +908,7 @@
 "0x10009C54": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -874,6 +916,7 @@
 "0x10009C67": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -881,6 +924,7 @@
 "0x10009C7A": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -888,6 +932,7 @@
 "0x10009C8D": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -895,6 +940,7 @@
 "0x10009CA0": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -902,6 +948,7 @@
 "0x10009CB3": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -909,6 +956,7 @@
 "0x10009CC6": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -916,6 +964,7 @@
 "0x10009CD9": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -923,6 +972,7 @@
 "0x10009CEB": {
 "func": "0x10009920",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -930,8 +980,8 @@
 "0x10009D0D": {
 "func": "0x10009920",
 "sources": {
+"com": 12,
 "measured": 12,
-"solved": 12,
 "typed": 12
 }
 },
@@ -954,6 +1004,7 @@
 "0x10009F57": {
 "func": "0x10009F20",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -985,14 +1036,15 @@
 "func": "0x1000A1D0",
 "hexrays_cast": 12,
 "sources": {
-"measured": 12,
-"solved": 12
+"com": 12,
+"measured": 12
 }
 },
 "0x1000A4AF": {
 "func": "0x1000A3B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1000,51 +1052,50 @@
 "func": "0x1000A3B0",
 "hexrays_cast": 8,
 "sources": {
+"com": 8,
 "measured": 8
 }
 },
 "0x1000A705": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1000A6E0",
-"hexrays_cast": 0,
-"sources": {}
+"hexrays_cast": 8,
+"sources": {
+"solved": 8
+}
 },
 "0x1000A737": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1000A6E0",
 "hexrays_cast": 32,
-"sources": {}
+"sources": {
+"com": 32
+}
 },
 "0x1000A755": {
 "func": "0x1000A6E0",
 "hexrays_cast": 32,
 "sources": {
-"solved": 32
+"com": 32
 }
 },
 "0x1000A773": {
 "func": "0x1000A6E0",
 "hexrays_cast": 32,
 "sources": {
-"solved": 32
+"com": 32
 }
 },
 "0x1000A791": {
 "func": "0x1000A6E0",
 "hexrays_cast": 32,
 "sources": {
-"solved": 32
+"com": 32
 }
 },
 "0x1000A7B2": {
 "func": "0x1000A6E0",
 "hexrays_cast": 32,
 "sources": {
-"solved": 32
+"com": 32
 }
 },
 "0x1000A881": {
@@ -1176,6 +1227,7 @@
 "0x1000AAC2": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -1183,6 +1235,7 @@
 "0x1000AAD2": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -1190,6 +1243,7 @@
 "0x1000AAE4": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1197,6 +1251,7 @@
 "0x1000AAF6": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1204,6 +1259,7 @@
 "0x1000AB08": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1211,6 +1267,7 @@
 "0x1000AB1A": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1218,6 +1275,7 @@
 "0x1000AB2C": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1225,6 +1283,7 @@
 "0x1000AB3E": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1232,6 +1291,7 @@
 "0x1000AB50": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1239,6 +1299,7 @@
 "0x1000AB62": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1246,6 +1307,7 @@
 "0x1000AB74": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1253,6 +1315,7 @@
 "0x1000AB86": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 16,
 "measured": 16,
 "typed": 16
 }
@@ -1260,6 +1323,7 @@
 "0x1000ABA7": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -1267,6 +1331,7 @@
 "0x1000ABB7": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -1274,6 +1339,7 @@
 "0x1000ABC7": {
 "func": "0x1000AAB0",
 "sources": {
+"com": 12,
 "measured": 12,
 "typed": 12
 }
@@ -1282,6 +1348,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1289,6 +1356,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 8,
 "sources": {
+"com": 8,
 "measured": 8
 }
 },
@@ -1296,6 +1364,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1303,6 +1372,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1310,6 +1380,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1317,6 +1388,7 @@
 "func": "0x1000BB90",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1331,15 +1403,15 @@
 "0x1000BFFB": {
 "func": "0x1000BF30",
 "sources": {
-"solved": 12,
+"com": 12,
 "typed": 12
 }
 },
 "0x1000C015": {
 "func": "0x1000BF30",
 "sources": {
+"com": 12,
 "measured": 12,
-"solved": 12,
 "typed": 12
 }
 },
@@ -1354,6 +1426,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1361,6 +1434,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1368,6 +1442,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1375,6 +1450,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1382,6 +1458,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1389,6 +1466,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1396,6 +1474,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1403,6 +1482,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1410,6 +1490,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1417,6 +1498,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1424,6 +1506,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1431,6 +1514,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1438,6 +1522,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1445,6 +1530,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1452,6 +1538,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1459,6 +1546,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1466,6 +1554,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 8,
 "sources": {
+"com": 8,
 "measured": 8
 }
 },
@@ -1487,6 +1576,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1494,6 +1584,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1501,6 +1592,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1508,6 +1600,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1515,6 +1608,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1522,6 +1616,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1529,6 +1624,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1536,6 +1632,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1543,6 +1640,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1550,6 +1648,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1557,6 +1656,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1564,6 +1664,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1571,6 +1672,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1578,6 +1680,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1585,6 +1688,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1592,6 +1696,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1599,6 +1704,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1606,6 +1712,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1613,6 +1720,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1620,6 +1728,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1627,6 +1736,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1634,6 +1744,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1641,6 +1752,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1648,6 +1760,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1655,6 +1768,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1662,6 +1776,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1669,6 +1784,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1676,6 +1792,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1683,6 +1800,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1690,6 +1808,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1697,6 +1816,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1704,6 +1824,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1711,6 +1832,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1718,6 +1840,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1725,6 +1848,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1732,6 +1856,7 @@
 "func": "0x1000C0B0",
 "hexrays_cast": 12,
 "sources": {
+"com": 12,
 "measured": 12
 }
 },
@@ -1865,6 +1990,7 @@
 "func": "0x1000CB20",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1872,6 +1998,7 @@
 "func": "0x1000CB20",
 "hexrays_cast": 16,
 "sources": {
+"com": 16,
 "measured": 16
 }
 },
@@ -1879,14 +2006,15 @@
 "func": "0x1000CB20",
 "hexrays_cast": 16,
 "sources": {
-"measured": 16,
-"solved": 16
+"com": 16,
+"measured": 16
 }
 },
 "0x1000CC58": {
 "func": "0x1000CC00",
 "hexrays_cast": 24,
 "sources": {
+"com": 24,
 "measured": 24
 }
 },
@@ -1894,6 +2022,7 @@
 "func": "0x1000CC00",
 "hexrays_cast": 24,
 "sources": {
+"com": 24,
 "measured": 24
 }
 },
@@ -1901,14 +2030,15 @@
 "func": "0x1000CC00",
 "hexrays_cast": 24,
 "sources": {
-"measured": 24,
-"solved": 24
+"com": 24,
+"measured": 24
 }
 },
 "0x1000CD53": {
 "func": "0x1000CD00",
 "hexrays_cast": 20,
 "sources": {
+"com": 20,
 "measured": 20
 }
 },
@@ -1916,6 +2046,7 @@
 "func": "0x1000CD00",
 "hexrays_cast": 20,
 "sources": {
+"com": 20,
 "measured": 20
 }
 },
@@ -1923,15 +2054,15 @@
 "func": "0x1000CD00",
 "hexrays_cast": 20,
 "sources": {
-"measured": 20,
-"solved": 20
+"com": 20,
+"measured": 20
 }
 },
 "0x1000CF7A": {
 "func": "0x1000CF20",
 "sources": {
+"com": 12,
 "measured": 12,
-"solved": 12,
 "typed": 12
 }
 },
@@ -1939,8 +2070,8 @@
 "func": "0x1000CF90",
 "hexrays_cast": 12,
 "sources": {
-"measured": 12,
-"solved": 12
+"com": 12,
+"measured": 12
 }
 },
 "0x10012249": {
@@ -3825,9 +3956,9 @@
 },
 "0x1002529D": {
 "func": "0x10025260",
-"hexrays_cast": 4,
 "sources": {
-"solved": 4
+"solved": 4,
+"typed": 4
 }
 },
 "0x100252B4": {
@@ -7981,10 +8112,12 @@
 "sources": {}
 },
 "0x1005B592": {
+"evidence": [
+"ECX = object"
+],
 "func": "0x10057FB0",
-"sources": {
-"typed": 4
-}
+"hexrays_cast": 4,
+"sources": {}
 },
 "0x1005B5E8": {
 "evidence": [
@@ -8447,8 +8580,7 @@
 },
 "0x1007531D": {
 "func": "0x10075280",
-"hexrays_cast": 0,
-"hexrays_wrong": true,
+"hexrays_cast": 8,
 "sources": {
 "solved": 8
 }
@@ -11897,9 +12029,9 @@
 },
 "0x101774CF": {
 "func": "0x10177420",
-"hexrays_cast": 12,
 "sources": {
-"measured": 12
+"measured": 12,
+"typed": 12
 }
 },
 "0x10177A68": {
@@ -13333,6 +13465,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 8,
+"solved": 8,
 "typed": 8
 }
 },
@@ -13373,6 +13506,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13380,6 +13514,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13445,6 +13580,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13452,6 +13588,7 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
@@ -13459,16 +13596,16 @@
 "func": "0x1017DE20",
 "sources": {
 "measured": 12,
+"solved": 12,
 "typed": 12
 }
 },
 "0x1017ECCE": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1017DE20",
 "hexrays_cast": 20,
-"sources": {}
+"sources": {
+"solved": 20
+}
 },
 "0x1017FE53": {
 "evidence": [
@@ -13492,12 +13629,11 @@
 "sources": {}
 },
 "0x1017FED3": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x1017DE20",
 "hexrays_cast": 20,
-"sources": {}
+"sources": {
+"solved": 20
+}
 },
 "0x10181058": {
 "evidence": [
@@ -18633,8 +18769,8 @@
 "_export_has_call_sources": true,
 "_stats": {
 "conflict": 11,
-"definitive": 2453,
-"hexrays cast differs": 2,
-"no source": 198
+"definitive": 2456,
+"hexrays cast differs": 1,
+"no source": 195
 }
 }

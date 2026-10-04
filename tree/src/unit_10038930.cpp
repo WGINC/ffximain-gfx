@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 69 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
@@ -26,7 +26,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 815 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 830 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -107,7 +107,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 11248 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 13958 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;

@@ -35,7 +35,8 @@ for f in sorted(os.listdir(SRC)):
     if os.path.exists(os.path.join(OBJ, b + '.o')) or not os.path.exists(os.path.join(ERR, b + '.txt')): continue
     src = os.path.join(SRC, f)
     for rnd in range(4):
-        err = open(os.path.join(ERR, b + '.txt')).read()
+        # gcc quotes with \u2018\u2019 under a UTF-8 locale (Python sets LC_CTYPE=C.UTF-8 for its children), ' otherwise
+        err = open(os.path.join(ERR, b + '.txt'), encoding='utf-8', errors='replace').read().replace('\u2018', "'").replace('\u2019', "'")
         hits = RX.findall(err)
         if not hits or 'error' in RX.sub('', err).replace('In function', ''):
             # only repair units whose errors are all conversion errors

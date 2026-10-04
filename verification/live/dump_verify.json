@@ -1,0 +1,232 @@
+{
+ "dump": "ffxi_combat.dmp",
+ "module": "FFXiMain.dll",
+ "base": "0x13E90000",
+ "size": "0xC15000",
+ "timestamp": "0x6A995428",
+ "analysed_timestamp": "0x6A995428",
+ "relocations": {
+  "blocks": 893,
+  "chain_reaches_section_end": true,
+  "unhandled_entries": 0
+ },
+ "sections": {
+  ".text": {
+   "bytes": 3306990,
+   "same": 3306963,
+   "differing_ranges": 4,
+   "first_differences": [
+    "0x10080DC0+6",
+    "0x100DD6C0+10",
+    "0x100DF7C0+5",
+    "0x10127C00+6"
+   ],
+   "pages_missing": 0
+  },
+  "POL1": {
+   "bytes": 1989432,
+   "same": 1989432,
+   "differing_ranges": 0,
+   "first_differences": [],
+   "pages_missing": 0
+  }
+ },
+ "patched_entries": [
+  {
+   "at": "0x10080DC0",
+   "bytes": 6,
+   "jmp_to": "Hook.dll+0x35B50"
+  },
+  {
+   "at": "0x100DD6C0",
+   "bytes": 10,
+   "jmp_to": "Hook.dll+0x36420"
+  },
+  {
+   "at": "0x100DF7C0",
+   "bytes": 5,
+   "jmp_to": "Hook.dll+0x36480"
+  },
+  {
+   "at": "0x10127C00",
+   "bytes": 6,
+   "jmp_to": "memory of no module"
+  }
+ ],
+ "other_differences": [],
+ "result": "analysed build: every code byte matches except 4 function entries patched at run time (listed)"
+}
+{
+ "dump": "ffxi_town.dmp",
+ "module": "FFXiMain.dll",
+ "base": "0x13E90000",
+ "size": "0xC15000",
+ "timestamp": "0x6A995428",
+ "analysed_timestamp": "0x6A995428",
+ "relocations": {
+  "blocks": 893,
+  "chain_reaches_section_end": true,
+  "unhandled_entries": 0
+ },
+ "sections": {
+  ".text": {
+   "bytes": 3306990,
+   "same": 3306963,
+   "differing_ranges": 4,
+   "first_differences": [
+    "0x10080DC0+6",
+    "0x100DD6C0+10",
+    "0x100DF7C0+5",
+    "0x10127C00+6"
+   ],
+   "pages_missing": 0
+  },
+  "POL1": {
+   "bytes": 1989432,
+   "same": 1989432,
+   "differing_ranges": 0,
+   "first_differences": [],
+   "pages_missing": 0
+  }
+ },
+ "patched_entries": [
+  {
+   "at": "0x10080DC0",
+   "bytes": 6,
+   "jmp_to": "Hook.dll+0x35B50"
+  },
+  {
+   "at": "0x100DD6C0",
+   "bytes": 10,
+   "jmp_to": "Hook.dll+0x36420"
+  },
+  {
+   "at": "0x100DF7C0",
+   "bytes": 5,
+   "jmp_to": "Hook.dll+0x36480"
+  },
+  {
+   "at": "0x10127C00",
+   "bytes": 6,
+   "jmp_to": "memory of no module"
+  }
+ ],
+ "other_differences": [],
+ "result": "analysed build: every code byte matches except 4 function entries patched at run time (listed)"
+}
+{
+ "dump": "ffxi_town2.dmp",
+ "module": "FFXiMain.dll",
+ "base": "0x13E90000",
+ "size": "0xC15000",
+ "timestamp": "0x6A995428",
+ "analysed_timestamp": "0x6A995428",
+ "relocations": {
+  "blocks": 893,
+  "chain_reaches_section_end": true,
+  "unhandled_entries": 0
+ },
+ "sections": {
+  ".text": {
+   "bytes": 3306990,
+   "same": 3306963,
+   "differing_ranges": 4,
+   "first_differences": [
+    "0x10080DC0+6",
+    "0x100DD6C0+10",
+    "0x100DF7C0+5",
+    "0x10127C00+6"
+   ],
+   "pages_missing": 0
+  },
+  "POL1": {
+   "bytes": 1989432,
+   "same": 1989432,
+   "differing_ranges": 0,
+   "first_differences": [],
+   "pages_missing": 0
+  }
+ },
+ "patched_entries": [
+  {
+   "at": "0x10080DC0",
+   "bytes": 6,
+   "jmp_to": "Hook.dll+0x35B50"
+  },
+  {
+   "at": "0x100DD6C0",
+   "bytes": 10,
+   "jmp_to": "Hook.dll+0x36420"
+  },
+  {
+   "at": "0x100DF7C0",
+   "bytes": 5,
+   "jmp_to": "Hook.dll+0x36480"
+  },
+  {
+   "at": "0x10127C00",
+   "bytes": 6,
+   "jmp_to": "memory of no module"
+  }
+ ],
+ "other_differences": [],
+ "result": "analysed build: every code byte matches except 4 function entries patched at run time (listed)"
+}
+{
+ "dump": "ffxi_zonetoinn.dmp",
+ "module": "FFXiMain.dll",
+ "base": "0x13E90000",
+ "size": "0xC15000",
+ "timestamp": "0x6A995428",
+ "analysed_timestamp": "0x6A995428",
+ "relocations": {
+  "blocks": 893,
+  "chain_reaches_section_end": true,
+  "unhandled_entries": 0
+ },
+ "sections": {
+  ".text": {
+   "bytes": 3306990,
+   "same": 3306963,
+   "differing_ranges": 4,
+   "first_differences": [
+    "0x10080DC0+6",
+    "0x100DD6C0+10",
+    "0x100DF7C0+5",
+    "0x10127C00+6"
+   ],
+   "pages_missing": 0
+  },
+  "POL1": {
+   "bytes": 1989432,
+   "same": 1989432,
+   "differing_ranges": 0,
+   "first_differences": [],
+   "pages_missing": 0
+  }
+ },
+ "patched_entries": [
+  {
+   "at": "0x10080DC0",
+   "bytes": 6,
+   "jmp_to": "Hook.dll+0x35B50"
+  },
+  {
+   "at": "0x100DD6C0",
+   "bytes": 10,
+   "jmp_to": "Hook.dll+0x36420"
+  },
+  {
+   "at": "0x100DF7C0",
+   "bytes": 5,
+   "jmp_to": "Hook.dll+0x36480"
+  },
+  {
+   "at": "0x10127C00",
+   "bytes": 6,
+   "jmp_to": "memory of no module"
+  }
+ ],
+ "other_differences": [],
+ "result": "analysed build: every code byte matches except 4 function entries patched at run time (listed)"
+}

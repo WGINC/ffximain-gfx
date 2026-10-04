@@ -3,8 +3,8 @@
 #include "Obj_104E1BF8.hpp"
 
 // FUNCTION: FFXIMAIN 0x10120590  (placed by callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 61 D3D calls compared (diffemu_gfx, clean build)
-char Obj_104E1BF8::ShapeMng_BindFontTexture(unsigned int a2, _DWORD *a3, _DWORD *a4)
+// GATE: PASS -- 100 trials, 100 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v5;
@@ -21,13 +21,13 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(unsigned int a2, _DWORD *a3, _DWORD 
     if ( v5 == 0 )
       return 0;
   }
-  if ( (a2 & 0x80000000) == 0 )
+  if ( a2 >= 0 )
   {
     v8 = 1;
     v9 = self + 10;
     do
     {
-      if ( *v9 <= a2 )
+      if ( *v9 <= (unsigned int)a2 )
         break;
       --v8;
       --v9;
@@ -68,8 +68,8 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(unsigned int a2, _DWORD *a3, _DWORD 
 }
 
 // FUNCTION: FFXIMAIN 0x101207B0  (placed by callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
-char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(unsigned int a2, _DWORD *a3, _DWORD *a4)
+// GATE: PASS -- 100 trials, 100 returned normally, 69 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   int v5;
@@ -86,13 +86,13 @@ char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(unsigned int a2, _DWORD *a3, _DWOR
     if ( v5 == 0 )
       return 0;
   }
-  if ( (a2 & 0x80000000) == 0 )
+  if ( a2 >= 0 )
   {
     v8 = 1;
     v9 = self + 15;
     do
     {
-      if ( *v9 <= a2 )
+      if ( *v9 <= (unsigned int)a2 )
         break;
       --v8;
       --v9;

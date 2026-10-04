@@ -8,7 +8,8 @@ expressed in the analysed build:
     globals) when the map knows it;
   * data_writes(): the analysed build's .data, filled from the dump's corresponding globals;
   * instances(vptr): heap objects whose first dword is that class's vtable;
-  * this_source(func): how callers pass `this` (mov ecx, [global] / a static object), read from the code;
+  * this_sources(funcs): the object each method runs on, from the code: a global or static object loaded
+    into ECX, followed up through callers passing their own `this`, or an instance of a vtable holding it;
   * sandbox(): a 16 MB gap the dump does not use, for the gate's own fuzzed buffers.
 
     python3 live_state.py DUMP.dmp BUILD_MAP.json OUT.json [DLL [CASES]]   a dump of another build (build_map.py)
@@ -150,9 +151,11 @@ def data_writes(ls, sizes):
 
 
 def this_sources(dll, funcs):
-    """{func: ('global', addr) | ('static', addr)} from the instruction that sets ECX before each call. Where
-    callers differ, the most common source is taken: this chooses which real object a trial starts from (an
-    input), not a fact about the code"""
+    """{func: ('global', addr) | ('static', addr) | ('vtable', [vptrs])}: the object a method runs on, from the
+    instruction that sets ECX before each call, followed up through callers that pass their own `this`, and
+    ending, for a method reached only through vtables, at the vtables holding it. Where callers differ, the
+    most common source is taken: this chooses which real object a trial starts from (an input), not a fact
+    about the code"""
     import pefile
     from capstone import Cs, CS_ARCH_X86, CS_MODE_32
     from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
@@ -171,11 +174,42 @@ def this_sources(dll, funcs):
                     elif i.mnemonic == 'lea' and o.type == X86_OP_MEM and not o.mem.base and not o.mem.index: ecx = ('static', o.mem.disp)
                     else: ecx = None
                 elif i.mnemonic == 'call':
-                    if ops[0].type == X86_OP_IMM and ops[0].imm in want and ecx: votes[ops[0].imm][ecx] += 1
+                    if ops[0].type == X86_OP_IMM and ecx: votes[ops[0].imm][ecx] += 1
                     ecx = None
                 elif ops and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) in ('ecx', 'cx', 'cl', 'ch') and i.mnemonic not in ('cmp', 'test', 'push'):
                     ecx = None
-    return {f: c.most_common(1)[0][0] for f, c in votes.items()}
+    out = {f: c.most_common(1)[0][0] for f, c in votes.items()}
+    # a method whose callers pass their own `this` (ECX at the call still holds the caller's entry ECX, kept
+    # in a register): its object is the caller's, so it starts from the caller's source, followed up the chain
+    import sp_solve as S, com_calls as C
+    im = S.Image(dll); ext = json.load(open(os.path.join(D, 'func_extents.json')))
+    code = {int(f, 16): im.code(e) for f, e in ext.items()}
+    up = collections.defaultdict(collections.Counter)
+    for f, ins in code.items():
+        if f not in ins: continue
+        calls = [a for a, i in ins.items() if i.mnemonic == 'call' and i.operands[0].type == X86_OP_IMM]
+        if not calls: continue
+        st = C.flow(im, ins, f, {'ecx': ('this',)}) or {}
+        for a in calls:
+            if st.get(a, {}).get('ecx') == ('this',): up[ins[a].operands[0].imm][f] += 1
+    # where the chain reaches a method no caller passes `this` to (reached through vtables only), the object
+    # is an instance of a vtable holding it: ('vtable', [vptrs]); main() picks one the dump has instances of
+    import vcall_resolve as V
+    holders = collections.defaultdict(list)
+    for v, sl in V.vtables(code, im.img, im.base, set(code)).items():
+        for g in set(sl): holders[g].append(v)
+    def resolve(f, seen=()):
+        if f in out: return out[f]
+        if f in seen: return None
+        for caller, _ in up[f].most_common() if f in up else ():
+            r = resolve(caller, seen + (f,))
+            if r: return r
+        return ('vtable', sorted(holders[f])) if holders.get(f) else None
+    for f in want:
+        if f not in out:
+            r = resolve(f)
+            if r: out[f] = r
+    return {f: v for f, v in out.items() if f in want}
 
 
 def instances(ls, vptrs, limit=16):
@@ -208,12 +242,18 @@ def main(dmp, build_map, out, dll=None, cases=None):
     ls = LiveState(dmp, build_map)
     sizes = {}
     if build_map:
-        for l in open(os.path.join(D, 'exports', 'gfx_export_current.jsonl')):
+        for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
             for o in json.loads(l)['objs'].values():
                 if not o['func'] and 0 < o.get('size', 0) < 1 << 20: sizes[o['ea']] = o['size']
     cs = json.load(open(cases)) if cases else []
     th = this_sources(dll, [int(c['original'], 16) for c in cs if c.get('conv') == 'thiscall'])
-    inst = instances(ls, {int(c['vptr'], 16) for c in cs if c.get('vptr')})
+    inst = instances(ls, {int(c['vptr'], 16) for c in cs if c.get('vptr')} |
+                     {v for k, a in th.values() if k == 'vtable' for v in a})
+    for f, (k, a) in list(th.items()):                  # a vtable source: the first holder the dump has objects of
+        if k == 'vtable':
+            v = next((v for v in a if inst.get('0x%08X' % v)), None)
+            if v is None: del th[f]
+            else: th[f] = ('vtable', v)
     res = {'dump': os.path.abspath(dmp), 'build_map': os.path.abspath(build_map) if build_map else None, 'image_base': '0x%08X' % ls.base,
            'sandbox': '0x%08X' % ls.sandbox(), 'data_writes': data_writes(ls, sizes),
            'this_sources': {'0x%08X' % f: [k, '0x%08X' % a] for f, (k, a) in th.items()}, 'instances': inst}

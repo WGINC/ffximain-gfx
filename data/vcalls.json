@@ -10,6 +10,28 @@
 "0x10035AE0"
 ]
 },
+"0x10037590": {
+"ecx": true,
+"exact": false,
+"func": "0x10037400",
+"pops": 4,
+"ret": "eax",
+"slot": 6,
+"targets": [
+"0x10037760"
+]
+},
+"0x100376FC": {
+"ecx": true,
+"exact": false,
+"func": "0x10037400",
+"pops": 4,
+"ret": "eax",
+"slot": 6,
+"targets": [
+"0x10037760"
+]
+},
 "0x10038217": {
 "ecx": true,
 "exact": false,
@@ -201,6 +223,22 @@
 "0x10056400",
 "0x100565A0",
 "0x10064180"
+]
+},
+"0x10046566": {
+"ecx": null,
+"exact": false,
+"func": "0x10046550",
+"pops": 0,
+"ret": "eax",
+"slot": 20,
+"targets": [
+"0x1003EB60",
+"0x1003FC30",
+"0x10040E20",
+"0x10040FB0",
+"0x100474D0",
+"0x100564F0"
 ]
 },
 "0x10054286": {
@@ -1746,6 +1784,17 @@
 "slot": 6,
 "targets": [
 "0x100A9DB0"
+]
+},
+"0x100AAD24": {
+"ecx": true,
+"exact": false,
+"func": "0x100AAB70",
+"pops": 0,
+"ret": "eax",
+"slot": 89,
+"targets": [
+"0x100832E0"
 ]
 },
 "0x100AAF3C": {
@@ -4091,6 +4140,18 @@
 "0x100849A0"
 ]
 },
+"0x100D4B9C": {
+"ecx": null,
+"exact": false,
+"func": "0x100D4B90",
+"pops": 8,
+"ret": null,
+"slot": 114,
+"targets": [
+"0x10082120",
+"0x100D4800"
+]
+},
 "0x100D4BC8": {
 "ecx": true,
 "exact": false,
@@ -4235,6 +4296,39 @@
 ]
 },
 "0x100D669A": {
+"ecx": true,
+"exact": false,
+"func": "0x100D6670",
+"pops": 8,
+"ret": null,
+"slot": 114,
+"targets": [
+"0x100D4800"
+]
+},
+"0x100D66D6": {
+"ecx": true,
+"exact": false,
+"func": "0x100D6670",
+"pops": 8,
+"ret": null,
+"slot": 114,
+"targets": [
+"0x100D4800"
+]
+},
+"0x100D6704": {
+"ecx": true,
+"exact": false,
+"func": "0x100D6670",
+"pops": 8,
+"ret": null,
+"slot": 114,
+"targets": [
+"0x100D4800"
+]
+},
+"0x100D6724": {
 "ecx": true,
 "exact": false,
 "func": "0x100D6670",
@@ -4701,6 +4795,193 @@
 "slot": 28,
 "targets": [
 "0x101B40C0"
+]
+},
+"0x101B1768": {
+"ecx": false,
+"exact": false,
+"func": "0x101B1570",
+"pops": 4,
+"ret": "eax",
+"slot": 15,
+"targets": [
+"0x101B4340"
+]
+},
+"0x101B189F": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 26,
+"targets": [
+"0x101B3E20"
+]
+},
+"0x101B18A7": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 25,
+"targets": [
+"0x101B3D20"
+]
+},
+"0x101B1923": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 26,
+"targets": [
+"0x101B3E20"
+]
+},
+"0x101B192B": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 25,
+"targets": [
+"0x101B3D20"
+]
+},
+"0x101B197E": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 26,
+"targets": [
+"0x101B3E20"
+]
+},
+"0x101B1986": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 25,
+"targets": [
+"0x101B3D20"
+]
+},
+"0x101B19AC": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 4,
+"ret": "eax",
+"slot": 24,
+"targets": [
+"0x101B3870"
+]
+},
+"0x101B19C7": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 21,
+"targets": [
+"0x101B5CD0"
+]
+},
+"0x101B19D9": {
+"ecx": false,
+"exact": false,
+"func": "0x101B1800",
+"pops": 4,
+"ret": "eax",
+"slot": 15,
+"targets": [
+"0x101B4340"
+]
+},
+"0x101B1A87": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 8,
+"targets": [
+"0x101B3F00"
+]
+},
+"0x101B1ADB": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 21,
+"targets": [
+"0x101B5CD0"
+]
+},
+"0x101B1B2F": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 26,
+"targets": [
+"0x101B3E20"
+]
+},
+"0x101B1B37": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 25,
+"targets": [
+"0x101B3D20"
+]
+},
+"0x101B1B88": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 26,
+"targets": [
+"0x101B3E20"
+]
+},
+"0x101B1B90": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 0,
+"ret": "eax",
+"slot": 25,
+"targets": [
+"0x101B3D20"
+]
+},
+"0x101B1BA1": {
+"ecx": true,
+"exact": false,
+"func": "0x101B1800",
+"pops": 4,
+"ret": "eax",
+"slot": 24,
+"targets": [
+"0x101B3870"
 ]
 },
 "0x101B4070": {
@@ -5296,17 +5577,6 @@
 "targets": [
 "0x10221840",
 "0x10227A60"
-]
-},
-"0x102249B9": {
-"ecx": true,
-"exact": false,
-"func": "0x10224640",
-"pops": 8,
-"ret": "eax",
-"slot": 6,
-"targets": [
-"0x10224460"
 ]
 },
 "0x1022606A": {
@@ -6052,7 +6322,7 @@
 "_unsettled": {
 "candidates disagree or pop unknown": 21,
 "method reached by no vtable and no caller": 15,
-"this may be any object": 370
+"this may be any object": 401
 },
 "_vtables": 944
 }

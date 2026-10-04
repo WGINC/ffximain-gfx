@@ -1,10 +1,6 @@
 {
  "sp": {},
- "reverted": {
-  "0x1007531D": 0,
-  "0x1000A705": 0,
-  "0x1017C9F2": 0
- },
+ "reverted": {},
  "call_types": {
   "0x100033D5": {
    "function": "Gfx_TryCreateDeviceForMode",
@@ -22,7 +18,7 @@
   },
   "0x1000A1DD": {
    "function": "CDx_SetTexture",
-   "target": "HRESULT __stdcall IDirect3DDevice8_SetTexture(void *self, int a0, int a1);",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
@@ -99,7 +95,7 @@
   },
   "0x100091C9": {
    "function": "CDx_Initialize",
-   "target": "HRESULT __stdcall IDirect3DDevice8_GetDeviceCaps(void *self, int a0);",
+   "target": "int __stdcall f(void *self, int a0);",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
@@ -849,10 +845,9 @@
   "0x100D072B": {
    "function": "CXiSkeletonActor_GetArrowPos",
    "target": "0x100D0740",
-   "args_before": 4,
+   "args_before": 3,
    "args_wanted": 3,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 3
+   "result": "already right"
   },
   "0x100D45EC": {
    "function": "CXiSkeletonActor_GetElem",
@@ -899,10 +894,9 @@
   "0x100D70B7": {
    "function": "CXiSkeletonActorRes_ProcessLoadState",
    "target": "0x100D7000",
-   "args_before": 1,
+   "args_before": 2,
    "args_wanted": 2,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 2
+   "result": "already right"
   },
   "0x100D70E1": {
    "function": "CXiSkeletonActorRes_ProcessLoadState",
@@ -910,78 +904,2932 @@
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
+  },
+  "0x10009322": {
+   "function": "CDx_Initialize",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100096F1": {
+   "function": "CDx_EndClearBegin",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5);",
+   "args_before": 7,
+   "args_wanted": 7,
+   "result": "already right"
+  },
+  "0x10009716": {
+   "function": "CDx_TestCooperativeLevel",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009736": {
+   "function": "CDx_BeginScene",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009746": {
+   "function": "CDx_EndScene",
+   "target": "int __stdcall f(void *self);",
+   "args_before": 1,
+   "args_wanted": 1,
+   "result": "already right"
+  },
+  "0x10009949": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009959": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000996C": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000997F": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009992": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099B8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099C8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099D8": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099EB": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100099FE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A11": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A24": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A37": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A4A": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A5D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A70": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A83": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009A93": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AA3": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009ADE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AEE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009AFE": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B11": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B21": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B31": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B41": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B51": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B61": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B71": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B81": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009B91": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BAC": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BCF": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009BDF": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C02": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C14": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C24": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C34": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C44": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C54": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C67": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C7A": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009C8D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CA0": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CB3": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CC6": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CD9": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009CEB": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10009D0D": {
+   "function": "CDx_SetDefaultRenderState",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10009F57": {
+   "function": "CDx_PushRenderTargetTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000A4AF": {
+   "function": "CDx_DrawScreenQuadAtDepth",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000A4C0": {
+   "function": "CDx_DrawScreenQuadAtDepth",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000A737": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A755": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A773": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A791": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000A7B2": {
+   "function": "CDx_CreateTexture",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
+   "args_before": 8,
+   "args_wanted": 8,
+   "result": "already right"
+  },
+  "0x1000AAC2": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000AAD2": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000AAE4": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AAF6": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB08": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB1A": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB2C": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB3E": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB50": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB62": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB74": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000AB86": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000ABA7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000ABB7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000ABC7": {
+   "function": "Post_DepthBlurComposite",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BCD8": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BCE9": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000BCF9": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD09": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD2B": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BD3B": {
+   "function": "CDx_DrawStereoOddFrameOverlay",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000BFFB": {
+   "function": "CDx_SetLight",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C015": {
+   "function": "CDx_SetLight",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C11F": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C131": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C143": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C155": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C167": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C179": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C18B": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C19D": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1AF": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1C1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C1D1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C1E1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C1F1": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C201": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C211": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C224": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C31B": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1000C3DC": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C3EE": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C400": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C412": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C424": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C436": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C448": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C45A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C46C": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C47E": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C490": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4A2": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4B4": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C4C7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4D7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4E7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C4F7": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C507": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C517": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C542": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C554": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C566": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C578": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C58A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C59C": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5AE": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5C0": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5D2": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5E4": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C5F6": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C608": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C61A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000C62A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C63A": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C693": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000C6A3": {
+   "function": "CDx_CompositeSceneToBackBuffer",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000CB6E": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CBAC": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CBED": {
+   "function": "CDx_DrawPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1000CC58": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CCA0": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CCEB": {
+   "function": "CDx_DrawIndexedPrimitive",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4);",
+   "args_before": 6,
+   "args_wanted": 6,
+   "result": "already right"
+  },
+  "0x1000CD53": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CD96": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CDDC": {
+   "function": "CDx_DrawPrimitiveUP",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3);",
+   "args_before": 5,
+   "args_wanted": 5,
+   "result": "already right"
+  },
+  "0x1000CF7A": {
+   "function": "CDx_ApplyStereoEyeProjection",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000CF9F": {
+   "function": "CDx_RestoreProjection",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DAD5": {
+   "function": "Sky_DrawDome",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DAF0": {
+   "function": "Sky_DrawDome",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DB08": {
+   "function": "Sky_DrawDome",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DB20": {
+   "function": "Sky_DrawDome",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DB38": {
+   "function": "Sky_DrawDome",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DD48": {
+   "function": "Sky_DrawDomeViewCentered",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DD63": {
+   "function": "Sky_DrawDomeViewCentered",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DD7B": {
+   "function": "Sky_DrawDomeViewCentered",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DD93": {
+   "function": "Sky_DrawDomeViewCentered",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003DDAB": {
+   "function": "Sky_DrawDomeViewCentered",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003F463": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003F47B": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003F493": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003F78C": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1003F7ED": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x1003F879": {
+   "function": "CMoDistMorphElem_ApplyMorph",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10040C77": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10040C91": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10040CDA": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10040CF4": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10040D69": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10040E07": {
+   "function": "CMoElemFamily_SharedEarlyExit",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
+   "args_before": 4,
+   "args_wanted": 4,
+   "result": "already right"
+  },
+  "0x10042A69": {
+   "function": "sub_100426F0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10042AA1": {
+   "function": "sub_100426F0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10042B0C": {
+   "function": "sub_100426F0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10042C54": {
+   "function": "sub_100426F0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10042FCB": {
+   "function": "CMoDistMorphElem_ValidateMorphData",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10043045": {
+   "function": "CMoDistMorphElem_ValidateMorphData",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1004305C": {
+   "function": "CMoDistMorphElem_ValidateMorphData",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1004307F": {
+   "function": "CMoDistMorphElem_ValidateMorphData",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1004395F": {
+   "function": "CMoDistRingElem_AllocRingGeometry",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1004684D": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046898": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100468B7": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100468DD": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100468F9": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046911": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046961": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046979": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046998": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100469B0": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100469E1": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100469F9": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046A11": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046A29": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046A4E": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046A5D": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046C99": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046CB2": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046D6B": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046D9E": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046DB6": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046DCF": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046DE8": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E01": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E1A": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E33": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E4B": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E66": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E83": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046E9B": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046ECD": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046F62": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046F74": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046F8C": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046FA4": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046FCA": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10046FE2": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1004704B": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10047077": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1004708F": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100470A7": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100470C9": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100470E1": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10047109": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10047118": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10047139": {
+   "function": "sub_100467E0",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1006C1AB": {
+   "function": "CMoOcclusionMng_Constructor",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5);",
+   "args_before": 7,
+   "args_wanted": 7,
+   "result": "already right"
+  },
+  "0x1006C708": {
+   "function": "sub_1006C530",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1006C741": {
+   "function": "sub_1006C530",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1006C758": {
+   "function": "sub_1006C530",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x1006C7C8": {
+   "function": "sub_1006C530",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1006C83D": {
+   "function": "sub_1006C530",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
+  "0x100752A0": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100752B7": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100752CE": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100752E5": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x100752FD": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x10075388": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5);",
+   "args_before": 7,
+   "args_wanted": 7,
+   "result": "already right"
+  },
+  "0x10075400": {
+   "function": "Gfx_InitCubeMapTextures",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
   }
  },
- "conventions": {
-  "0x10022190": {
-   "name": "Actor_LookupPercentScaleA",
-   "was": "double __stdcall(int)",
-   "now": "double __thiscall(void *self, int)",
-   "result": "thiscall"
+ "conventions": {},
+ "classes": {
+  "CDx": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10008F80": "left: not __thiscall",
+    "0x10009100": "this: CDx *",
+    "0x10009120": "this: CDx *"
+   }
   },
-  "0x100221E0": {
-   "name": "Actor_LookupPercentScaleB",
-   "was": "double __stdcall(int)",
-   "now": "double __thiscall(void *self, int)",
-   "result": "thiscall"
+  "CMoAttachments": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1003B5A0": "this: CMoAttachments *"
+   }
   },
-  "0x100230D0": {
-   "name": "CYyModelDt_ExpandTriStrip",
-   "was": "__int16 __stdcall(unsigned int, unsigned __int16 *, _DWORD *)",
-   "now": "__int16 __thiscall(void *self, unsigned int, unsigned __int16 *, _DWORD *)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032AE94": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10042690": "this: CMoAttachments_VT_1032AE94 *"
+   }
   },
-  "0x10027A60": {
-   "name": "Mat4_PostScale",
-   "was": "int __stdcall(_DWORD *)",
-   "now": "int __thiscall(void *self, _DWORD *)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032AF44": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10043A50": "this: CMoAttachments_VT_1032AF44 *",
+    "0x10043A70": "this: CMoAttachments_VT_1032AF44 *",
+    "0x10043DB0": "this: CMoAttachments_VT_1032AF44 *"
+   }
   },
-  "0x10027B80": {
-   "name": "Mat4_PostRotateX",
-   "was": "int __stdcall(float)",
-   "now": "int __thiscall(void *self, float)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032B140": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10049290": "this: CMoAttachments_VT_1032B140 *",
+    "0x100492A0": "this: CMoAttachments_VT_1032B140 *",
+    "0x10054450": "this: CMoAttachments_VT_1032B140 *"
+   }
   },
-  "0x10027BD0": {
-   "name": "Mat4_PostRotateY",
-   "was": "int __stdcall(float)",
-   "now": "int __thiscall(void *self, float)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032B940": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100600B0": "this: CMoAttachments_VT_1032B940 *",
+    "0x100600D0": "this: CMoAttachments_VT_1032B940 *",
+    "0x100630E0": "this: CMoAttachments_VT_1032B940 *"
+   }
   },
-  "0x10027C20": {
-   "name": "Mat4_PostRotateZ",
-   "was": "int __stdcall(float)",
-   "now": "int __thiscall(void *self, float)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032BAF0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10060260": "this: CMoAttachments_VT_1032BAF0 *",
+    "0x10060280": "this: CMoAttachments_VT_1032BAF0 *",
+    "0x10062F60": "this: CMoAttachments_VT_1032BAF0 *"
+   }
   },
-  "0x10033DA0": {
-   "name": "sub_10033DA0",
-   "was": "char __thiscall(int self, float *a1)",
-   "result": "already thiscall"
+  "CMoAttachments_VT_1032BB38": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10060840": "this: CMoAttachments_VT_1032BB38 *",
+    "0x10060860": "this: CMoAttachments_VT_1032BB38 *",
+    "0x10063070": "this: CMoAttachments_VT_1032BB38 *"
+   }
   },
-  "0x10177CD0": {
-   "name": "sub_10177CD0",
-   "was": "int __stdcall(float *, int, float)",
-   "now": "int __thiscall(void *self, float *, int, float)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032BBAC": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x10060AC0": "this: CMoAttachments_VT_1032BBAC *",
+    "0x10060AF0": "this: CMoAttachments_VT_1032BBAC *",
+    "0x10062F70": "this: CMoAttachments_VT_1032BBAC *"
+   }
   },
-  "0x102E7317": {
-   "name": "?Open@CResource@D3DXCore@@QAEJPAUHINSTANCE__@@PBXHH@Z",
-   "was": "int __stdcall(HMODULE hModule, LPCSTR lpName, int, int)",
-   "now": "int __thiscall(void *self, HMODULE hModule, LPCSTR lpName, int, int)",
-   "result": "thiscall"
+  "CMoAttachments_VT_1032BBF4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10060C20": "this: CMoAttachments_VT_1032BBF4 *",
+    "0x10060C40": "this: CMoAttachments_VT_1032BBF4 *",
+    "0x10062FD0": "this: CMoAttachments_VT_1032BBF4 *"
+   }
+  },
+  "CMoAttachments_VT_1032BC68": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10060ED0": "this: CMoAttachments_VT_1032BC68 *",
+    "0x10060EF0": "this: CMoAttachments_VT_1032BC68 *",
+    "0x10063020": "this: CMoAttachments_VT_1032BC68 *"
+   }
+  },
+  "CMoAttachments_VT_1032BC84": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10063110": "this: CMoAttachments_VT_1032BC84 *"
+   }
+  },
+  "CMoAttachments_VT_1032BCCC": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10062F50": "this: CMoAttachments_VT_1032BCCC *"
+   }
+  },
+  "CMoAttachments_VT_1032BD14": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10062FB0": "this: CMoAttachments_VT_1032BD14 *"
+   }
+  },
+  "CMoAttachments_VT_1032BD5C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10063000": "this: CMoAttachments_VT_1032BD5C *"
+   }
+  },
+  "CMoAttachments_VT_1032BDA4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10063030": "this: CMoAttachments_VT_1032BDA4 *"
+   }
+  },
+  "CMoAttachments_VT_1032BDEC": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100618E0": "this: CMoAttachments_VT_1032BDEC *",
+    "0x10063080": "this: CMoAttachments_VT_1032BDEC *"
+   }
+  },
+  "CMoAttachments_VT_1032BE34": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10061A70": "this: CMoAttachments_VT_1032BE34 *",
+    "0x10061A90": "this: CMoAttachments_VT_1032BE34 *",
+    "0x100630C0": "this: CMoAttachments_VT_1032BE34 *"
+   }
+  },
+  "CMoAttachments_VT_1032BE7C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10061BF0": "this: CMoAttachments_VT_1032BE7C *",
+    "0x10061C10": "this: CMoAttachments_VT_1032BE7C *",
+    "0x100630D0": "this: CMoAttachments_VT_1032BE7C *"
+   }
+  },
+  "CMoAttachments_VT_1032BEC4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10061D70": "this: CMoAttachments_VT_1032BEC4 *",
+    "0x10061D90": "this: CMoAttachments_VT_1032BEC4 *",
+    "0x10063120": "this: CMoAttachments_VT_1032BEC4 *"
+   }
+  },
+  "CMoAttachments_VT_1032BF0C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10061F10": "this: CMoAttachments_VT_1032BF0C *",
+    "0x10061F30": "this: CMoAttachments_VT_1032BF0C *",
+    "0x10062FA0": "this: CMoAttachments_VT_1032BF0C *"
+   }
+  },
+  "CMoAttachments_VT_1032BF54": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10062100": "this: CMoAttachments_VT_1032BF54 *",
+    "0x10062120": "this: CMoAttachments_VT_1032BF54 *",
+    "0x10062FC0": "this: CMoAttachments_VT_1032BF54 *"
+   }
+  },
+  "CMoAttachments_VT_1032BFE4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10062420": "this: CMoAttachments_VT_1032BFE4 *",
+    "0x10062440": "this: CMoAttachments_VT_1032BFE4 *",
+    "0x10063040": "this: CMoAttachments_VT_1032BFE4 *"
+   }
+  },
+  "CMoAttachments_VT_1032C02C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100625C0": "this: CMoAttachments_VT_1032C02C *",
+    "0x100625E0": "this: CMoAttachments_VT_1032C02C *",
+    "0x10063090": "this: CMoAttachments_VT_1032C02C *"
+   }
+  },
+  "CMoAttachments_VT_1032C4E8": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100745D0": "this: CMoAttachments_VT_1032C4E8 *"
+   }
+  },
+  "CMoAttachments_VT_1032C628": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10074600": "this: CMoAttachments_VT_1032C628 *"
+   }
+  },
+  "CMoAttachments_VT_1032E7EC": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100A9D70": "this: CMoAttachments_VT_1032E7EC *",
+    "0x100A9D90": "this: CMoAttachments_VT_1032E7EC *",
+    "0x100AB060": "this: CMoAttachments_VT_1032E7EC *"
+   }
+  },
+  "CMoCamera": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1003C890": "left: not __thiscall",
+    "0x1003CB30": "this: CMoCamera *",
+    "0x100719F0": "left: not __thiscall"
+   }
+  },
+  "CMoCelestial": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1003D940": "left: not __thiscall",
+    "0x1003D960": "this: CMoCelestial *",
+    "0x1003D980": "this: CMoCelestial *"
+   }
+  },
+  "CMoD3aElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1003E6A0": "left: not __thiscall",
+    "0x10052CB0": "this: CMoD3aElem *"
+   }
+  },
+  "CMoD3aLightmapElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1003EE60": "left: not __thiscall",
+    "0x1003EE70": "left: not __thiscall",
+    "0x10052C50": "this: CMoD3aLightmapElem *",
+    "0x10052C60": "this: CMoD3aLightmapElem *",
+    "0x10052C70": "this: CMoD3aLightmapElem *"
+   }
+  },
+  "CMoD3mSpecularElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10041010": "left: not __thiscall",
+    "0x100410E0": "left: not __thiscall",
+    "0x100410F0": "this: CMoD3mSpecularElem *",
+    "0x10041110": "this: CMoD3mSpecularElem *",
+    "0x10041160": "this: CMoD3mSpecularElem *",
+    "0x100412B0": "left: not __thiscall"
+   }
+  },
+  "CMoDX": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10069D60": "left: not __thiscall",
+    "0x10069D70": "this: CMoDX *",
+    "0x10069DB0": "this: CMoDX *"
+   }
+  },
+  "CMoDisintegrateProgElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100426B0": "left: not __thiscall",
+    "0x100426C0": "left: not __thiscall",
+    "0x10053130": "left: not __thiscall",
+    "0x10053140": "this: CMoDisintegrateProgElem *",
+    "0x10053150": "this: CMoDisintegrateProgElem *"
+   }
+  },
+  "CMoDist": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100426E0": "left: not __thiscall",
+    "0x10052D60": "left: not __thiscall",
+    "0x10052D80": "this: CMoDist *"
+   }
+  },
+  "CMoDistModelElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100431A0": "left: not __thiscall",
+    "0x10043320": "this: CMoDistModelElem *",
+    "0x10052F40": "left: not __thiscall",
+    "0x10052F50": "this: CMoDistModelElem *",
+    "0x10052F60": "this: CMoDistModelElem *"
+   }
+  },
+  "CMoDistMorphElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10043580": "left: not __thiscall",
+    "0x10043590": "this: CMoDistMorphElem *",
+    "0x10052E40": "left: not __thiscall",
+    "0x10052E50": "this: CMoDistMorphElem *",
+    "0x10052E60": "this: CMoDistMorphElem *"
+   }
+  },
+  "CMoDistRingElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10043710": "left: not __thiscall",
+    "0x10043720": "this: CMoDistRingElem *",
+    "0x10052FF0": "left: not __thiscall",
+    "0x10053000": "this: CMoDistRingElem *"
+   }
+  },
+  "CMoDxStatusMng": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1006B040": "left: not __thiscall",
+    "0x1006B070": "this: CMoDxStatusMng *",
+    "0x1006B090": "this: CMoDxStatusMng *"
+   }
+  },
+  "CMoElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10044950": "this: CMoElem *"
+   }
+  },
+  "CMoElem_VT_1032ADE8": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x10041AF0": "left: not __thiscall",
+    "0x10041FE0": "this: CMoElem_VT_1032ADE8 *"
+   }
+  },
+  "CMoLfdElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10053050": "left: not __thiscall",
+    "0x100548B0": "left: not __thiscall",
+    "0x100548D0": "this: CMoLfdElem *"
+   }
+  },
+  "CMoNullProgElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10047560": "left: not __thiscall",
+    "0x100531A0": "this: CMoNullProgElem *",
+    "0x100531B0": "this: CMoNullProgElem *"
+   }
+  },
+  "CMoOT": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10055290": "left: not __thiscall",
+    "0x100552C0": "this: CMoOT *",
+    "0x100552E0": "this: CMoOT *",
+    "0x100552F0": "this: CMoOT *"
+   }
+  },
+  "CMoOcclusionMng": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1006C130": "left: not __thiscall",
+    "0x1006C1C0": "this: CMoOcclusionMng *",
+    "0x1006C1E0": "this: CMoOcclusionMng *"
+   }
+  },
+  "CMoOtTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10042650": "left: not __thiscall",
+    "0x10042660": "this: CMoOtTask *"
+   }
+  },
+  "CMoPathObject": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10055A50": "left: not __thiscall"
+   }
+  },
+  "CMoPointLightProgElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100562E0": "left: not __thiscall",
+    "0x10056360": "left: not __thiscall",
+    "0x10056370": "this: CMoPointLightProgElem *",
+    "0x10056390": "this: CMoPointLightProgElem *",
+    "0x100563E0": "this: CMoPointLightProgElem *",
+    "0x10056400": "this: CMoPointLightProgElem *"
+   }
+  },
+  "CMoProcessor_VT_1032C1C8": {
+   "struct": "kept the IDB's own type",
+   "extended": "10 fields added",
+   "methods": {
+    "0x10070210": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x100704E0": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070740": "left: not __thiscall",
+    "0x10070780": "left: not __thiscall",
+    "0x10070790": "left: not __thiscall",
+    "0x100707B0": "left: not __thiscall",
+    "0x100707C0": "left: not __thiscall",
+    "0x10070820": "left: not __thiscall",
+    "0x10070860": "left: not __thiscall",
+    "0x10070870": "left: not __thiscall",
+    "0x100708C0": "left: not __thiscall",
+    "0x100708F0": "left: not __thiscall",
+    "0x10070920": "left: not __thiscall",
+    "0x10070960": "left: not __thiscall",
+    "0x10070A00": "left: not __thiscall",
+    "0x10070AA0": "left: not __thiscall",
+    "0x10070AB0": "left: not __thiscall",
+    "0x10070AC0": "left: not __thiscall",
+    "0x10070AD0": "left: not __thiscall",
+    "0x10070AE0": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070B80": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070C20": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070C60": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070CA0": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070CE0": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070D80": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070DA0": "left: not __thiscall",
+    "0x10070E20": "left: not __thiscall",
+    "0x10070E40": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070E60": "left: not __thiscall",
+    "0x10070E70": "this: CMoProcessor_VT_1032C1C8 *",
+    "0x10070EE0": "this: CMoProcessor_VT_1032C1C8 *"
+   }
+  },
+  "CMoProcessor_VT_1032C298": {
+   "struct": "kept the IDB's own type",
+   "extended": "10 fields added",
+   "methods": {
+    "0x1006F0A0": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006F210": "left: not __thiscall",
+    "0x1006F4D0": "left: not __thiscall",
+    "0x1006F510": "left: not __thiscall",
+    "0x1006F560": "left: not __thiscall",
+    "0x1006F5B0": "left: not __thiscall",
+    "0x1006F5D0": "left: not __thiscall",
+    "0x1006F610": "left: not __thiscall",
+    "0x1006F670": "left: not __thiscall",
+    "0x1006F6B0": "left: not __thiscall",
+    "0x1006F730": "left: not __thiscall",
+    "0x1006F790": "left: not __thiscall",
+    "0x1006F7B0": "left: not __thiscall",
+    "0x1006F7D0": "left: not __thiscall",
+    "0x1006F800": "left: not __thiscall",
+    "0x1006F870": "left: not __thiscall",
+    "0x1006F8E0": "left: not __thiscall",
+    "0x1006F960": "left: not __thiscall",
+    "0x1006F9D0": "left: not __thiscall",
+    "0x1006FA30": "left: not __thiscall",
+    "0x1006FA40": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FAE0": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FB80": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FBC0": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FC00": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FC40": "this: CMoProcessor_VT_1032C298 *",
+    "0x1006FCE0": "left: not __thiscall",
+    "0x1006FDF0": "left: not __thiscall",
+    "0x1006FE70": "this: CMoProcessor_VT_1032C298 *",
+    "0x10070040": "left: not __thiscall",
+    "0x10070050": "this: CMoProcessor_VT_1032C298 *"
+   }
+  },
+  "CMoProcessor_VT_1032C368": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1006CFA0": "this: CMoProcessor_VT_1032C368 *",
+    "0x1006D0A0": "left: not __thiscall",
+    "0x1006D270": "left: not __thiscall",
+    "0x1006D300": "left: not __thiscall",
+    "0x1006D4D0": "left: not __thiscall",
+    "0x1006D520": "left: not __thiscall",
+    "0x1006D580": "left: not __thiscall",
+    "0x1006D630": "left: not __thiscall",
+    "0x1006D680": "left: not __thiscall",
+    "0x1006D6B0": "left: not __thiscall",
+    "0x1006D6E0": "left: not __thiscall",
+    "0x1006D720": "left: not __thiscall",
+    "0x1006D780": "left: not __thiscall",
+    "0x1006D9C0": "this: CMoProcessor_VT_1032C368 *",
+    "0x1006DCF0": "this: CMoProcessor_VT_1032C368 *",
+    "0x1006E020": "left: not __thiscall",
+    "0x1006E140": "left: not __thiscall",
+    "0x1006E260": "left: not __thiscall",
+    "0x1006E380": "this: CMoProcessor_VT_1032C368 *",
+    "0x1006E8F0": "left: not __thiscall"
+   }
+  },
+  "CMoResource": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10071DB0": "left: not __thiscall",
+    "0x10071DC0": "this: CMoResource *",
+    "0x10072990": "this: CMoResource *"
+   }
+  },
+  "CMoResourceMng": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10011970": "this: CMoResourceMng *",
+    "0x10072D00": "left: not __thiscall",
+    "0x10072E00": "this: CMoResourceMng *"
+   }
+  },
+  "CMoResource_VT_1032C55C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10063C50": "this: CMoResource_VT_1032C55C *",
+    "0x10071CB0": "this: CMoResource_VT_1032C55C *"
+   }
+  },
+  "CMoResource_VT_1032C588": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10071C90": "this: CMoResource_VT_1032C588 *",
+    "0x10074610": "left: not __thiscall",
+    "0x10074620": "this: CMoResource_VT_1032C588 *"
+   }
+  },
+  "CMoResource_VT_1032C5FC": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10054480": "left: not __thiscall",
+    "0x10054490": "left: not __thiscall",
+    "0x10071C40": "this: CMoResource_VT_1032C5FC *"
+   }
+  },
+  "CMoResource_VT_1032C670": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10071BF0": "this: CMoResource_VT_1032C670 *",
+    "0x10116FE0": "this: CMoResource_VT_1032C670 *",
+    "0x10117000": "this: CMoResource_VT_1032C670 *"
+   }
+  },
+  "CMoResource_VT_1032C69C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10071BD0": "this: CMoResource_VT_1032C69C *",
+    "0x10116FA0": "this: CMoResource_VT_1032C69C *",
+    "0x10116FC0": "this: CMoResource_VT_1032C69C *"
+   }
+  },
+  "CMoResource_VT_1032C6C8": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10071BB0": "this: CMoResource_VT_1032C6C8 *",
+    "0x1011DF80": "this: CMoResource_VT_1032C6C8 *",
+    "0x1011DFA0": "this: CMoResource_VT_1032C6C8 *"
+   }
+  },
+  "CMoResource_VT_1032C6F4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1003F420": "this: CMoResource_VT_1032C6F4 *",
+    "0x1003F430": "left: not __thiscall",
+    "0x10071B90": "this: CMoResource_VT_1032C6F4 *"
+   }
+  },
+  "CMoResource_VT_1032C720": {
+   "struct": "kept the IDB's own type",
+   "extended": "4 fields added",
+   "methods": {
+    "0x1003E6B0": "this: CMoResource_VT_1032C720 *",
+    "0x1003E8D0": "left: not __thiscall",
+    "0x1003E8E0": "this: CMoResource_VT_1032C720 *",
+    "0x10071B70": "this: CMoResource_VT_1032C720 *"
+   }
+  },
+  "CMoResource_VT_1032C74C": {
+   "struct": "kept the IDB's own type",
+   "extended": "3 fields added",
+   "methods": {
+    "0x1003FDA0": "this: CMoResource_VT_1032C74C *",
+    "0x1003FEE0": "this: CMoResource_VT_1032C74C *",
+    "0x100401C0": "this: CMoResource_VT_1032C74C *",
+    "0x10071B50": "this: CMoResource_VT_1032C74C *"
+   }
+  },
+  "CMoResource_VT_1032C7A4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10038920": "left: not __thiscall",
+    "0x10071B00": "this: CMoResource_VT_1032C7A4 *"
+   }
+  },
+  "CMoResource_VT_1032C7D0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100719C0": "left: not __thiscall",
+    "0x100719D0": "left: not __thiscall",
+    "0x10071AE0": "this: CMoResource_VT_1032C7D0 *"
+   }
+  },
+  "CMoResource_VT_1032C7FC": {
+   "struct": "kept the IDB's own type",
+   "extended": "4 fields added",
+   "methods": {
+    "0x10019730": "this: CMoResource_VT_1032C7FC *",
+    "0x10019A30": "this: CMoResource_VT_1032C7FC *",
+    "0x10019A40": "left: not __thiscall",
+    "0x10071A00": "left: not __thiscall",
+    "0x10071AC0": "this: CMoResource_VT_1032C7FC *"
+   }
+  },
+  "CMoResource_VT_1032C828": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x10034140": "this: CMoResource_VT_1032C828 *",
+    "0x10034170": "this: CMoResource_VT_1032C828 *",
+    "0x10034180": "left: not __thiscall",
+    "0x100719E0": "left: not __thiscall",
+    "0x10071AA0": "this: CMoResource_VT_1032C828 *"
+   }
+  },
+  "CMoResource_VT_1032C854": {
+   "struct": "kept the IDB's own type",
+   "extended": "2 fields added",
+   "methods": {
+    "0x10022470": "this: CMoResource_VT_1032C854 *",
+    "0x1002D7F0": "this: CMoResource_VT_1032C854 *",
+    "0x1002D860": "this: CMoResource_VT_1032C854 *",
+    "0x1002D880": "this: CMoResource_VT_1032C854 *",
+    "0x1002D8E0": "this: CMoResource_VT_1032C854 *",
+    "0x1002D8F0": "this: CMoResource_VT_1032C854 *",
+    "0x10071A80": "this: CMoResource_VT_1032C854 *"
+   }
+  },
+  "CMoResource_VT_1032C880": {
+   "struct": "kept the IDB's own type",
+   "extended": "4 fields added",
+   "methods": {
+    "0x1001DF60": "this: CMoResource_VT_1032C880 *",
+    "0x1001E000": "this: CMoResource_VT_1032C880 *",
+    "0x1001E050": "this: CMoResource_VT_1032C880 *",
+    "0x1001E060": "left: not __thiscall",
+    "0x1001E070": "this: CMoResource_VT_1032C880 *",
+    "0x10071A60": "this: CMoResource_VT_1032C880 *"
+   }
+  },
+  "CMoResource_VT_1032C8AC": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x1001D800": "left: not __thiscall",
+    "0x1001D8E0": "left: not __thiscall",
+    "0x1001DBD0": "this: CMoResource_VT_1032C8AC *",
+    "0x1001DC20": "this: CMoResource_VT_1032C8AC *",
+    "0x1001DC30": "this: CMoResource_VT_1032C8AC *",
+    "0x10071A40": "this: CMoResource_VT_1032C8AC *"
+   }
+  },
+  "CMoResource_VT_1032C934": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10073730": "this: CMoResource_VT_1032C934 *",
+    "0x10076770": "this: CMoResource_VT_1032C934 *"
+   }
+  },
+  "CMoResource_VT_10336698": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10176EA0": "this: CMoResource_VT_10336698 *",
+    "0x10176EC0": "this: CMoResource_VT_10336698 *",
+    "0x10176ED0": "this: CMoResource_VT_10336698 *"
+   }
+  },
+  "CMoResource_VT_103366C4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10176F80": "this: CMoResource_VT_103366C4 *",
+    "0x10176FA0": "this: CMoResource_VT_103366C4 *",
+    "0x10176FB0": "this: CMoResource_VT_103366C4 *"
+   }
+  },
+  "CMoResource_VT_103366F0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10177000": "this: CMoResource_VT_103366F0 *",
+    "0x10177020": "this: CMoResource_VT_103366F0 *",
+    "0x10177030": "this: CMoResource_VT_103366F0 *"
+   }
+  },
+  "CMoResource_VT_103367E8": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x101893D0": "this: CMoResource_VT_103367E8 *",
+    "0x101893F0": "left: not __thiscall"
+   }
+  },
+  "CMoSkeletonElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10047580": "left: not __thiscall",
+    "0x10047590": "this: CMoSkeletonElem *",
+    "0x10047830": "left: not __thiscall",
+    "0x10047900": "left: not __thiscall",
+    "0x10047940": "this: CMoSkeletonElem *"
+   }
+  },
+  "CMoSphRes": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100562A0": "left: not __thiscall",
+    "0x100562B0": "this: CMoSphRes *",
+    "0x100562C0": "left: not __thiscall",
+    "0x10071D00": "this: CMoSphRes *"
+   }
+  },
+  "CMoSpline": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10063450": "left: not __thiscall",
+    "0x10063480": "this: CMoSpline *"
+   }
+  },
+  "CMoTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10074770": "this: CMoTask *"
+   }
+  },
+  "CMoTaskMng": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10011950": "this: CMoTaskMng *",
+    "0x10074B50": "left: not __thiscall",
+    "0x10074B60": "this: CMoTaskMng *"
+   }
+  },
+  "CMoTask_VT_10329C70": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x100119A0": "this: CMoTask_VT_10329C70 *",
+    "0x1006B250": "this: CMoTask_VT_10329C70 *",
+    "0x1006B3B0": "left: not __thiscall",
+    "0x1006B480": "this: CMoTask_VT_10329C70 *",
+    "0x1006B4C0": "left: not __thiscall"
+   }
+  },
+  "CMoTask_VT_1032A904": {
+   "struct": "kept the IDB's own type",
+   "extended": "5 fields added",
+   "methods": {
+    "0x10035940": "this: CMoTask_VT_1032A904 *",
+    "0x10035AE0": "this: CMoTask_VT_1032A904 *",
+    "0x10035B00": "this: CMoTask_VT_1032A904 *"
+   }
+  },
+  "CMoTask_VT_1032B654": {
+   "struct": "kept the IDB's own type",
+   "extended": "2 fields added",
+   "methods": {
+    "0x10053350": "this: CMoTask_VT_1032B654 *",
+    "0x100541C0": "this: CMoTask_VT_1032B654 *",
+    "0x100541F0": "this: CMoTask_VT_1032B654 *",
+    "0x10054220": "this: CMoTask_VT_1032B654 *"
+   }
+  },
+  "CMoTask_VT_1032C490": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10070F60": "this: CMoTask_VT_1032C490 *"
+   }
+  },
+  "CMoTask_VT_1032C908": {
+   "struct": "kept the IDB's own type",
+   "extended": "6 fields added",
+   "methods": {
+    "0x100729E0": "this: CMoTask_VT_1032C908 *",
+    "0x10072A30": "this: CMoTask_VT_1032C908 *",
+    "0x10072A50": "this: CMoTask_VT_1032C908 *",
+    "0x10072A70": "this: CMoTask_VT_1032C908 *"
+   }
+  },
+  "CMoTask_VT_1032D6D4": {
+   "struct": "kept the IDB's own type",
+   "extended": "9 fields added",
+   "methods": {
+    "0x100A27F0": "this: CMoTask_VT_1032D6D4 *",
+    "0x100A2810": "this: CMoTask_VT_1032D6D4 *",
+    "0x100A2840": "this: CMoTask_VT_1032D6D4 *",
+    "0x100A2A20": "left: not __thiscall",
+    "0x100A2AA0": "left: not __thiscall",
+    "0x100A2B20": "left: not __thiscall"
+   }
+  },
+  "CMoVuAnmElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1003EF10": "left: not __thiscall",
+    "0x1003EF20": "this: CMoVuAnmElem *",
+    "0x1003EF80": "left: not __thiscall",
+    "0x1003EF90": "this: CMoVuAnmElem *",
+    "0x1003EFA0": "this: CMoVuAnmElem *",
+    "0x1003F130": "this: CMoVuAnmElem *"
+   }
+  },
+  "CMoVuDist": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100430C0": "left: not __thiscall",
+    "0x10052DD0": "left: not __thiscall",
+    "0x10052DE0": "this: CMoVuDist *",
+    "0x10052DF0": "this: CMoVuDist *"
+   }
+  },
+  "CMoVuLineProgElem": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10052BF0": "left: not __thiscall",
+    "0x10064170": "left: not __thiscall",
+    "0x10064180": "left: not __thiscall"
+   }
+  },
+  "CShader": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10017750": "left: not __thiscall",
+    "0x10017780": "this: CShader *",
+    "0x100177A0": "this: CShader *"
+   }
+  },
+  "CTsZoneMap": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x101773C0": "left: not __thiscall",
+    "0x10177F80": "this: CTsZoneMap *",
+    "0x10178070": "this: CTsZoneMap *",
+    "0x101781D0": "this: CTsZoneMap *",
+    "0x10178250": "this: CTsZoneMap *",
+    "0x10178790": "this: CTsZoneMap *",
+    "0x101787C0": "left: not __thiscall",
+    "0x10178B00": "this: CTsZoneMap *",
+    "0x10178B30": "left: not __thiscall",
+    "0x10178D40": "this: CTsZoneMap *",
+    "0x10178D90": "this: CTsZoneMap *",
+    "0x1017ADE0": "this: CTsZoneMap *",
+    "0x1017B510": "this: CTsZoneMap *",
+    "0x1017C8B0": "this: CTsZoneMap *",
+    "0x1017C9C0": "this: CTsZoneMap *",
+    "0x1017DE20": "this: CTsZoneMap *",
+    "0x10182490": "left: not __thiscall",
+    "0x10183370": "left: not __thiscall",
+    "0x10186E70": "this: CTsZoneMap *"
+   }
+  },
+  "CXiActorNameDraw": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100119E0": "this: CXiActorNameDraw *",
+    "0x10081760": "left: not __thiscall",
+    "0x100817F0": "left: not __thiscall"
+   }
+  },
+  "CXiOpening": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10018680": "left: not __thiscall",
+    "0x100186A0": "this: CXiOpening *",
+    "0x100187D0": "this: CXiOpening *"
+   }
+  },
+  "CXiSkeletonActor": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100C5190": "left: not __thiscall",
+    "0x100C5540": "this: CXiSkeletonActor *"
+   }
+  },
+  "CXiSkeletonActorRes": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100C51B0": "left: not __thiscall",
+    "0x100D7000": "this: CXiSkeletonActorRes *",
+    "0x100D7050": "this: CXiSkeletonActorRes *",
+    "0x100D7090": "this: CXiSkeletonActorRes *",
+    "0x100D70A0": "this: CXiSkeletonActorRes *"
+   }
+  },
+  "CYyModel": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x100298C0": "left: not __thiscall",
+    "0x1002B530": "this: CYyModel *"
+   }
+  },
+  "CYyModelBase": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x100298A0": "left: not __thiscall",
+    "0x10029DB0": "this: CYyModelBase *",
+    "0x10029DD0": "left: not __thiscall"
+   }
+  },
+  "CYyModelDt": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x10029CB0": "this: CYyModelDt *"
+   }
+  },
+  "CYyModelDt_VT_1032A430": {
+   "struct": "kept the IDB's own type",
+   "extended": "1 fields added",
+   "methods": {
+    "0x10025030": "this: CYyModelDt_VT_1032A430 *",
+    "0x10025060": "this: CYyModelDt_VT_1032A430 *",
+    "0x10025090": "left: not __thiscall",
+    "0x100250A0": "this: CYyModelDt_VT_1032A430 *",
+    "0x100250C0": "this: CYyModelDt_VT_1032A430 *",
+    "0x10025180": "this: CYyModelDt_VT_1032A430 *",
+    "0x100251A0": "this: CYyModelDt_VT_1032A430 *"
+   }
+  },
+  "CYyModelDt_VT_1032A72C": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1002A000": "this: CYyModelDt_VT_1032A72C *",
+    "0x1002A040": "this: CYyModelDt_VT_1032A72C *",
+    "0x1002A080": "this: CYyModelDt_VT_1032A72C *",
+    "0x1002A0A0": "this: CYyModelDt_VT_1032A72C *",
+    "0x10030B50": "this: CYyModelDt_VT_1032A72C *",
+    "0x10030B70": "this: CYyModelDt_VT_1032A72C *"
+   }
+  },
+  "CYyOs2VtxBuffer": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1002C960": "left: not __thiscall",
+    "0x1002C990": "this: CYyOs2VtxBuffer *",
+    "0x1002CB80": "this: CYyOs2VtxBuffer *",
+    "0x1002CCB0": "this: CYyOs2VtxBuffer *",
+    "0x1002CE20": "this: CYyOs2VtxBuffer *",
+    "0x1002D310": "this: CYyOs2VtxBuffer *",
+    "0x1002D340": "this: CYyOs2VtxBuffer *",
+    "0x1002D660": "this: CYyOs2VtxBuffer *",
+    "0x1002D700": "this: CYyOs2VtxBuffer *"
+   }
+  },
+  "CYyTex": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10039790": "left: not __thiscall",
+    "0x10039950": "this: CYyTex *",
+    "0x10039970": "this: CYyTex *"
+   }
+  },
+  "CYyTexBase": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x100155D0": "left: not __thiscall",
+    "0x10039770": "left: not __thiscall",
+    "0x100398B0": "this: CYyTexBase *"
+   }
+  },
+  "CYyTexMng": {
+   "struct": "kept the IDB's own type",
+   "extended": "vftable typed; 0 fields added",
+   "methods": {
+    "0x1003AA40": "left: not __thiscall",
+    "0x1003AA70": "this: CYyTexMng *",
+    "0x1003AA90": "this: CYyTexMng *"
+   }
+  },
+  "Vt_1032A460": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100252D0": "this: Vt_1032A460 *"
+   }
+  },
+  "Vt_1032AFD4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10043E20": "this: Vt_1032AFD4 *"
+   }
+  },
+  "Vt_1032B680": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x10053830": "this: Vt_1032B680 *",
+    "0x10054380": "this: Vt_1032B680 *",
+    "0x10054390": "this: Vt_1032B680 *",
+    "0x10054460": "this: Vt_1032B680 *",
+    "0x10054470": "this: Vt_1032B680 *"
+   }
+  },
+  "Vt_1032B988": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1005E970": "this: Vt_1032B988 *",
+    "0x1005E980": "this: Vt_1032B988 *",
+    "0x1005E9A0": "this: Vt_1032B988 *",
+    "0x10063130": "this: Vt_1032B988 *"
+   }
+  },
+  "Vt_1032B9D0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1005F370": "this: Vt_1032B9D0 *",
+    "0x1005F380": "this: Vt_1032B9D0 *",
+    "0x1005F3A0": "this: Vt_1032B9D0 *",
+    "0x100630A0": "this: Vt_1032B9D0 *",
+    "0x100630B0": "this: Vt_1032B9D0 *"
+   }
+  },
+  "Vt_1032BA18": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1005F4F0": "this: Vt_1032BA18 *",
+    "0x1005F500": "this: Vt_1032BA18 *",
+    "0x1005F520": "this: Vt_1032BA18 *",
+    "0x100630F0": "this: Vt_1032BA18 *",
+    "0x10063100": "this: Vt_1032BA18 *"
+   }
+  },
+  "Vt_1032BA60": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1005F7D0": "this: Vt_1032BA60 *",
+    "0x1005F7E0": "this: Vt_1032BA60 *",
+    "0x1005F800": "this: Vt_1032BA60 *",
+    "0x10062F80": "this: Vt_1032BA60 *",
+    "0x10062F90": "this: Vt_1032BA60 *"
+   }
+  },
+  "Vt_1032BAA8": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1005FAE0": "this: Vt_1032BAA8 *",
+    "0x1005FAF0": "this: Vt_1032BAA8 *",
+    "0x1005FB10": "this: Vt_1032BAA8 *",
+    "0x10062FE0": "this: Vt_1032BAA8 *",
+    "0x10062FF0": "this: Vt_1032BAA8 *"
+   }
+  },
+  "Vt_1032C5B4": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100745E0": "this: Vt_1032C5B4 *",
+    "0x100745F0": "this: Vt_1032C5B4 *"
+   }
+  },
+  "Vt_1033BE90": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x1021DF70": "this: Vt_1033BE90 *",
+    "0x1021DF90": "this: Vt_1033BE90 *",
+    "0x1021E000": "left: not __thiscall",
+    "0x1021E060": "this: Vt_1033BE90 *",
+    "0x1021E120": "this: Vt_1033BE90 *"
+   }
+  },
+  "Vt_1033C8F0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x102391A0": "this: Vt_1033C8F0 *",
+    "0x102391C0": "this: Vt_1033C8F0 *",
+    "0x102391D0": "this: Vt_1033C8F0 *",
+    "0x10239240": "left: not __thiscall",
+    "0x102394A0": "this: Vt_1033C8F0 *"
+   }
+  },
+  "Vt_10346468": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x102E776A": "left: not __thiscall",
+    "0x102E77EC": "left: not __thiscall",
+    "0x102E7812": "left: not __thiscall",
+    "0x102E7836": "left: not __thiscall",
+    "0x102E7845": "left: not __thiscall",
+    "0x102E7854": "left: not __thiscall",
+    "0x102E787A": "left: not __thiscall",
+    "0x102E78A0": "left: not __thiscall",
+    "0x102E78AF": "left: not __thiscall",
+    "0x102E78C1": "left: not __thiscall",
+    "0x102E7905": "left: not __thiscall"
+   }
+  },
+  "Vt_10346494": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x102E7978": "left: not __thiscall",
+    "0x102E79FA": "left: not __thiscall",
+    "0x102E7A2D": "left: not __thiscall",
+    "0x102E7A58": "left: not __thiscall",
+    "0x102E7A97": "left: not __thiscall",
+    "0x102E7AA2": "left: not __thiscall",
+    "0x102E7AE6": "left: not __thiscall",
+    "0x102E7AFE": "left: not __thiscall",
+    "0x102E7F3A": "left: not __thiscall",
+    "0x102E8011": "left: not __thiscall"
+   }
+  },
+  "Vt_103464BC": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x102E8451": "left: not __thiscall",
+    "0x102E8475": "left: not __thiscall",
+    "0x102E849B": "left: not __thiscall",
+    "0x102E84BF": "left: not __thiscall",
+    "0x102E86F9": "left: not __thiscall",
+    "0x102E87B1": "left: not __thiscall",
+    "0x102E8827": "left: not __thiscall",
+    "0x102E8851": "left: not __thiscall",
+    "0x102E88BF": "left: not __thiscall"
+   }
+  },
+  "Vt_103464E0": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x102E8B3A": "left: not __thiscall",
+    "0x102E8B81": "left: not __thiscall",
+    "0x102E8B8E": "left: not __thiscall",
+    "0x102E8BB4": "left: not __thiscall",
+    "0x102E8BD7": "left: not __thiscall",
+    "0x102E8C47": "left: not __thiscall",
+    "0x102E8CCB": "left: not __thiscall",
+    "0x102E8DA0": "left: not __thiscall",
+    "0x102E8E75": "left: not __thiscall",
+    "0x102E8F97": "left: not __thiscall",
+    "0x102EA076": "left: not __thiscall",
+    "0x102EA6D3": "left: not __thiscall",
+    "0x102EA6F6": "left: not __thiscall"
+   }
+  },
+  "XiDoorActor": {
+   "struct": "kept the IDB's own type",
+   "extended": "0 fields added",
+   "methods": {
+    "0x100AC340": "left: not __thiscall",
+    "0x100AC350": "this: XiDoorActor *",
+    "0x100AC380": "no prototype",
+    "0x100AC390": "this: XiDoorActor *",
+    "0x100AC4E0": "left: not __thiscall",
+    "0x100AC5A0": "this: XiDoorActor *",
+    "0x100AC9C0": "this: XiDoorActor *",
+    "0x100AC9D0": "this: XiDoorActor *",
+    "0x100AC9E0": "this: XiDoorActor *",
+    "0x100AC9F0": "left: not __thiscall",
+    "0x100ACA10": "this: XiDoorActor *",
+    "0x100ACA30": "this: XiDoorActor *",
+    "0x100ACAB0": "this: XiDoorActor *",
+    "0x100ACB50": "this: XiDoorActor *",
+    "0x100AD320": "this: XiDoorActor *"
+   }
   }
  },
  "export": {
-  "file": "C:\\Users\\wadeglover\\Documents\\gfx_export_ida_reexport.jsonl",
+  "file": "C:\\Users\\wadeglover\\Documents\\gfx_export.jsonl",
   "functions": 768,
-  "skip": 12,
+  "skip": 8,
   "stats": {
-   "calls_typed": 6923,
+   "sp_checked": 3841,
+   "sp_already_right": 3841,
+   "calls_typed": 6901,
    "cmps": 889,
+   "fcmps": 557,
    "cmp_errors": 0,
-   "calls_cast": 777
+   "calls_cast": 776
   }
  }
 }

@@ -1,167 +1,98 @@
 # FFXiMain.dll graphics reconstruction (build 2026-09-03)
 
-Gate-verified C++ for the graphics code of the FFXI PC client. It is produced from IDA Pro / Hex-Rays
-output (and, for functions IDA has not exported yet, from Ghidra). Each function is checked against the
-original in an emulator.
-Private work: nothing here is published, and no game bytes are in the repo.
+Gate-verified C++ for the graphics code of the FFXI PC client, produced from IDA Pro / Hex-Rays output.
+Every function is checked against the original in an emulator. Every fact the pipeline relies on comes
+from a definitive source, or the result says it is unknown (`CLAUDE.md`).
+This is private work: nothing here is published, and no game bytes are in the repo.
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `tree/` | The deliverable: clean, class-shaped C++ (`include/`, `src/`, `build.sh`). Each function carries its `// GATE:` result |
-| `d3dx/` | The statically linked DirectX 8.1 D3DX code: a manifest of byte-matched functions and a binding header (see *Coverage* for the manifest's limits) |
-| `verification/` | Gate results (raw and clean), cases, first-divergence localisation, mutation test |
-| `docs/` | Reports (`REPORT-2026-10-02.md` is current), `RESIDUE.md` (every function not in the verified tree, with the reason), `PLAN.md`, the name reports |
-| `pipeline/` | Translator (`hx2cpp.py`, `hx2clean.py`), gate (`diffemu_gfx.py`, `gate_some.py`), IDA side (`ida_gfx.py`, `ida_apply_names.py`), Ghidra side (`ghidra/GfxExport.java`), and the tools below |
-| `data/` | Inputs. The Hex-Rays export; facts read from the DLL (`fp_consts`, `ret_kinds`, `fp_callsites`, `fpret`, `purges`); names not yet in the IDB (`names_pending_idb.json`, `field_names.json`); hand corrections (`hx_patches/`, `type_fixes.json`, `ida_sp_fixes.json`); the gate's input model (`input_ranges.json`, `allocators.json`, `leaf_funcs.json`); the coverage list (`gfx_extension.json`); class vtables, prototypes, the D3D8 spec, DancingMad names |
-| `incoming/` | The parallel session's renamed/organised tree: reviewed, merged (`docs/REVIEW-parallel.md`), kept for provenance |
-| `runs/` | Scratch output of `run.sh` (ignored, like every `*.dll`) |
+| `tree/` | **The deliverable.** Clean, class-shaped C++ (`include/`, `src/`, `build.sh`); each function carries its `// GATE:` result. Generated; see `tree/README.md` |
+| `verification/` | Gate results for the tree: fuzz raw (`gate_raw_final`), fuzz and live combined (`gate_raw_combined`, `gate_clean_final`), the live gates per dump and the dumps' verification (`live/`), cases, first divergences, the mutation test |
+| `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `RESIDUE.md` (every graphics function not in the tree, with the reason; generated), `NAMES.md` (naming evidence) |
+| `pipeline/` | Everything that runs outside IDA: translator, gate, fact tools, tests (`pipeline/tests/`) |
+| `ida/` | What runs inside IDA: `ffxi_ida_fix.py` (generated, self-contained), its template, the graphics-set exporter `ida_gfx.py`, `ida_regflow.py` |
+| `data/` | Inputs and facts: the Hex-Rays export (`exports/`), facts read from the DLL, hand corrections (`hx_patches/`, `type_fixes.json`), the gate's input model, the class model, D3D8/D3DX data (`d3dx/`) |
+| `run.sh` | The pipeline, end to end |
+| `runs/` | Scratch output of `run.sh` (ignored) |
+
+## Status (4 Oct 2026)
+
+768 graphics functions, each with a stated outcome (`docs/RESIDUE.md`):
+
+| | Count |
+|---|---|
+| **Verified in the clean tree, as built** (`tree/`, 189 files) | **714**, 0 failures |
+| Microsoft D3DX 8.1 (statically linked) | 48 |
+| Constructs C++ cannot express | 2 |
+| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 4 |
+| Gate FAIL | 0 |
+| Gate INCONCLUSIVE | 0 |
+
+Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
+memory dumps of the running game, verified as the analysed build (`verification/live/`). Raw and clean,
+combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 714 PASS. Each function's `// GATE:` line lists
+every gate's verdict and returning trials. `pipeline/verify_all.py` re-derives every committed fact from the
+binary and re-gates the tree as committed (`verification/verify_all.json`).
+
+The 6 open functions, each with a named cause (`docs/RESIDUE.md`):
+- **UNRESOLVED (4):** D3D calls through a field with several writers (0x10009F44 in
+  `CDx_PushRenderTargetTexture`, 0x1006C16F, 0x102811DC); a game-class call whose class has no instance in
+  the dumps (0x10047623). They need the whole-program pointer analysis (`pipeline/points_to.py`, in progress).
+- **Constructs (2):** `sub_100548D0` returns the x87 status word with its sticky exception flags;
+  `ZoneMap_SetOverlayProjection` keeps an `__asm` block. Both stay original code (`data/constructs.json`).
+
+One result rests on a declaration the owner accepted rather than a proof: `CDx+0xC` holds the device
+(`data/com_fields.json`, "accepted"); every call and stack balance that uses it carries the note.
+
+De-artifacting (types and names from evidence, so the tree reads like source) is planned in
+`docs/DEARTIFACT.md`; `pipeline/artifact_count.py` measures it per round.
 
 ## Reproduce
 
     export FFXI_DLL=/path/to/FFXiMain_unpacked.dll   # never copied into the repo
-    ./run.sh all data/exports/gfx_export_current.jsonl myrun
+    ./run.sh all data/exports/gfx_export.jsonl myrun
 
-`run.sh` runs the whole pipeline under `runs/myrun/`:
-1. reads its facts from the DLL;
-2. translates the export and builds one unit per function;
+Under `runs/myrun/`, this:
+1. reads the facts from the DLL;
+2. translates the export into one unit per function and builds them;
 3. gates every function;
 4. generates the clean tree from the passing ones;
 5. gates that tree as built and annotates it;
 6. writes `RESIDUE.md`.
 
-Steps can be run one at a time: `./run.sh facts|translate|cases|gate|clean|cleangate|residue`.
+Steps run alone too: `./run.sh facts|translate|cases|gate|clean|cleangate|residue`. `./run.sh test` runs
+the rule tests and the stack solver's self-test. A full gate takes about 8 minutes on 4 cores.
+`pipeline/gate_some.py RUN fail|notpass|changed:DIR|0xADDR...` gates a subset.
 
-The gate runs as a work queue with one worker per core (`$JOBS`). A full gate takes about 8 minutes on 4 cores.
-To gate only part of it, use `pipeline/gate_some.py RUN fail|notpass|changed:DIR|0xADDR...`.
-
-**Requirements**
-- Python 3 with `unicorn`, `pefile` and `capstone`.
-- MinGW-w64 i686 (`i686-w64-mingw32-g++`).
+**Requirements:**
+- Python 3 with `unicorn`, `pefile`, `capstone` and `minidump` (for dumps);
+- MinGW-w64 i686 (`i686-w64-mingw32-g++`);
 - IDA Pro 9.x with Hex-Rays, for new exports.
-- Optionally Ghidra 12 with JDK 21 (see *Coverage*).
-- `gen_d3dx_bind.py` needs `DX81_INCLUDE` pointing at the DirectX 8.1 SDK headers.
 
-## Status (3 Oct 2026)
+## The IDA step
 
-768 graphics functions, every one with a stated outcome (`docs/RESIDUE.md`):
-
-| | Count |
-|---|---|
-| **Verified in the clean tree, as built** | **700**, 0 failures |
-| Microsoft D3DX 8.1 | 48 |
-| Constructs C++ cannot express | 5 |
-| Gate UNRESOLVED (a call with no definitive pop or argument count; the call site is named) | 11 |
-| Gate FAIL (first divergence recorded) | 2 |
-| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 1 |
-| Does not compile (`sub_10178250`: a declaration shadows a parameter) | 1 |
-
-Placement of the 700 tree functions (`tree/placement.json`): 513 class members, 187 free functions in the
-file of their source unit (`docs/PLACEMENT.md`).
-
-The gate now uses definitive facts only (`CLAUDE.md`; `docs/REPORT-2026-10-02.md` section 11): a call's pop
-count comes from the callee's `ret N`, the caller's solved stack balance, a vtable-proven callee, a
-measurement on real code, or a declared type, and with none of these the verdict is UNRESOLVED instead of
-a guess. Gates are recorded in `verification/`:
-- **Fuzz gate** (`gate_raw_final.jsonl`, translations of the IDA re-export): 700 PASS, 11 UNRESOLVED,
-  2 FAIL, 1 INCONCLUSIVE.
-- **Clean gate** (`gate_clean_final.jsonl`, the tree exactly as built): 700 PASS.
-- **Live gate** (`gate_live_latest.jsonl`, inputs from the 7 Sep memory dump, `FFXI_LIVE`): from the
-  earlier run (2 Oct), before the definitive-only rules; not re-run. That dump is of the 5 Aug build, mapped
-  to the analysed build partly by nearest match, so it is to be replaced by a dump of the analysed build.
-
-The two FAILs (`sub_1017DE20`, `sub_100548D0`) and the INCONCLUSIVE (`sub_10016320`) are described in
-section 11 of the report. `CXiSkeletonActor_OnMove` now passes.
-
-## Next step in IDA
-
-1. Save the IDB (or work on a copy).
-2. In IDA 9.4 with the FFXiMain_unpacked.dll IDB open: **File > Script file... > `ida/ffxi_ida_fix.py`**. The file
-   is self-contained (its data is embedded; `pipeline/make_ida_fix.py` rebuilds it), so it can be copied
-   anywhere. It runs unattended, with a progress box that can cancel, and:
-   - applies the pending names and prototype fixes (`names_pending_idb.json`, `type_fixes.json`);
-   - types the viewport globals 0x104E1B70 and 0x10621904 as `D3DVIEWPORT8`;
-   - retypes `__thiscall` the functions the IDB declares `__stdcall` that use their entry ECX (each with the
-     instruction that reads it, `data/ecx_use.json`), where the stack arguments already match `ret N`;
-   - removes the SP points the first run set wrongly (`data/ida_sp_revert.json`), then corrects IDA's SP at
-     each call whose effect is known exactly: measured from real code (`data/real_sp.json`), solved from the
-     caller's stack balance (`data/sp_solved.json`), or proven by vtable (`data/vcalls.json`); one
-     reanalysis per function, each point read back;
-   - forces the call type where Hex-Rays mis-assigns the pushed arguments: at calls measured running, and at
-     virtual calls whose every possible callee agrees on its pop and its use of ECX; checked by decompiling;
-   - re-decompiles all 768 functions, now also exporting, per call, whether its type is declared in the IDB
-     or made up by Hex-Rays, and per comparison, its signedness as Hex-Rays read it from the jump. The log
-     ends with the count of each, so an export that lost them shows it.
-3. It writes three files next to the IDB: `gfx_export_ida_reexport.jsonl`, `ida_fix_report.json` and
-   `ida_fix_log.txt`. Put the first two in `data/exports/`, then run
-   `./run.sh all data/exports/gfx_export_ida_reexport.jsonl RUN`. OnMove and DrawProjectedShadow should
-   pass, and their hand patches will be reported stale.
-
-Each step runs even if an earlier one failed; the log has the traceback.
-
-On 1 Oct the clean tree had 633 functions, with 43 FAILs and 3 that did not compile. The repairs since,
-to the translator, the gate model and the data, are described in `docs/REPORT-2026-10-02.md`.
-
-Names:
-- **1 Oct:** 545 functions were named from the code (`docs/NAMES-2026-10-01.md`).
-- **2 Oct:**
-  - 195 globals and callees were named (`docs/NAMES-2026-10-02.md`);
-  - 90 fields were named (`data/field_names.json`).
-- These names and the type corrections in `data/` are applied by the generator but are **not yet in the
-  IDB**: `ida/ffxi_ida_fix.py` applies them (see *Next step in IDA*).
-- Still unnamed in the tree: 198 distinct `sub_` names (functions and callees) and 233 `field_XXX` members.
-
-## Coverage: is every graphical system here?
-
-**Every function that touches a Direct3D device is in the set; not every graphics function is.** `pipeline/gfx_coverage.py` re-derives coverage from the DLL alone:
-
-- **Direct device users: all covered.** Every function that reads or writes a device holder
-  (`g_pD3DHolder`, `g_pCDx`, `g_pDancerDevice`, 0x10669418) is in the 768-function set.
-- **Missing: 267 game functions that reach the device only through other graphics code** (`data/gfx_extension.json`, by tier):
-  - **Tier 1 (43):** named graphics code, plus callers of D3DX resource code. This includes
-    effect-element destructors (`CMo*Elem`), `Font_DrawChar`, `Cell_/Shape_Draw*`, `TexObj_*`,
-    `CMoDX_*` matrix and texture helpers, `XiZone_GetAmbient`, the PS2-layer texture bakers
-    (`sqsdGeneric/Sampling/Aniso/Glow_BakeOntoShape`, `sqshDraw_Submit`), the D3DX shader assembler
-    caller and two texture loaders.
-  - **Tier 2 (62):** unnamed functions that call two or more graphics functions.
-  - **Tier 3 (162):** functions that call one graphics helper, mostly game logic.
-- **Route for the missing ones:**
-  - From IDA: `ida_gfx.select_extension('data/gfx_extension.json')`, then `export_step`.
-  - From Ghidra, when IDA is not at hand: `pipeline/ghidra/GfxExport.java` decompiles a list headlessly into the same JSONL format. It applies the IDB's names and commits the inferred signatures first.
-  - The translator adapts Ghidra's C (`xi_ghidra.hpp`; each callee's argument count comes from its real `ret N`).
-  - First run, on the 105 tier-1/2 functions:
-    - all 105 decompile and 71 compile;
-    - **26 pass the gate**, for example `Font_DrawChar`, `XiZone_GetAmbient`, the `CMoDX` matrix accessors, `sqshDraw_Submit` and the four `sqsd*_BakeOntoShape`;
-    - 34 fail and 11 are inconclusive.
-
-    These results are in `runs/` only. They join the tree when the pipeline accepts Ghidra input end to end; until then the IDA export is the route.
-- **The D3DX manifest overstates the statically linked library.** It lists 825 matched functions,
-  but 16 of them lie inside game code and are not linked library code. They are D3DX's inline math
-  helpers compiled into game objects from the SDK headers, and tiny constructors whose 13–46 bytes
-  happen to match. None of them are among the 47 D3DX functions counted above, all of which are
-  inside the library region and match on at least 38 bytes.
+With the IDB open in IDA 9.4 (save it first, or work on a copy), run **File > Script file... >
+`ida/ffxi_ida_fix.py`**. It runs unattended and writes `gfx_export.jsonl`, `ida_fix_report.json` and
+`ida_fix_log.txt` next to the IDB. Put them in `data/exports/`, then run the pipeline.
+`METHOD.md` section 6 lists what the script changes.
 
 ## Tools
 
 | Tool | Use |
 |---|---|
 | `gate_some.py` | Gate any subset on a work queue; prints each verdict that changed from `verification/` |
-| `localize.py` | First divergence of a FAIL, with the source line, and where a crashing reconstruction stopped |
+| `localize.py`, `watch.py` | First divergence of a FAIL with the source line; who wrote a memory range on each side |
 | `disasm.py` | Disassemble a function by address from the DLL (all chunks, with names) |
-| `ida_listing.py` | Read an IDA `.asm` listing without IDA: procedures, data and Shift-JIS strings, xrefs, address-to-name map |
-| `name_context.py` | The evidence for naming placeholders and `field_XXX` members |
-| `gfx_coverage.py` | The coverage audit above |
-| `same_code.py` | Are two builds the same code, function by function (renames and moves must be) |
-| `fpconst.py`, `ret_kinds.py`, `fp_callsites.py`, `fpret.py`, `purges.py`, `cdecl_args.py`, `leaf_funcs.py` | Facts from the DLL (`run.sh facts`) |
-| `real_sp.py` | The real stack depth at each instruction, observed by running the original (embedded in `ida/ffxi_ida_fix.py` by `make_ida_fix.py`) |
-| `sp_solve.py` | Each call's exact pop from the caller's own stack balance at every `ret` and join (`--selftest`: hides 20002 known `ret N` and solves them back) |
-| `vcall_resolve.py` | Vtables, virtual calls on `this` whose every possible callee is proven, and each function's use of its entry ECX |
-| `callsite_audit.py` | Every indirect call in the export: what each definitive source says it pops, conflicts, and the calls none covers |
-| `bg.sh` | Run a long job in the background and stop it by process group (never `pkill -f`) |
-| `tests/` | Fixed expectations for the translator rules, the solver and the ECX idioms (`./run.sh test`) |
-| `stack_depth.py`, `ida_sp_check.py` | The real stack depth at each instruction, and where IDA's own SP (read from its listing) differs: the cause of a stack variable with two names |
-| `unset_reads.py` | Locals Hex-Rays reads but never assigns (a lost return value, a misframed argument, an unmodelled condition code) |
-| `loop_bounds.py` | Why an original runs to the instruction limit: the loop and the fuzzed bound it compares against |
-
-See `docs/REPORT-2026-10-02.md`, `docs/PLAN.md`, `docs/RESIDUE.md`, `docs/PLACEMENT.md` and the name reports.
+| `sp_solve.py`, `vcall_resolve.py`, `com_calls.py`, `real_sp.py`, `purges.py` | The definitive pop sources (`METHOD.md` section 2) |
+| `callsite_audit.py` | Every indirect call: what each source says it pops, conflicts, and the calls none covers |
+| `dump_verify.py`, `live_state.py` | Is a dump the analysed build; the gate's live inputs from it |
+| `ida_sp_check.py`, `stack_depth.py` | Where IDA's SP differs from the exact depth, with the one correction for each; depth per instruction |
+| `unset_reads.py`, `loop_bounds.py` | Locals Hex-Rays reads but never assigns; why an original runs to the instruction limit |
+| `ida_listing.py`, `name_context.py` | Read an IDA `.asm` listing without IDA; the evidence for naming placeholders |
+| `gfx_coverage.py`, `libmatch.py` | The coverage audit; D3DX identification |
+| `same_code.py` | Are two builds the same code, function by function |
+| `make_ida_fix.py` | Rebuild `ida/ffxi_ida_fix.py` from the template and `data/` |
+| `bg.sh` | Run a long job in the background and stop it by process group |

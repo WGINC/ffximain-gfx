@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1006C280  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a3, float a4, float a5, int a6, int a7, int a8, char a9, int a10)
 {
   unsigned __int8 v11;
@@ -17,8 +17,119 @@ XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a
   return ScreenRectImpl;
 }
 
+// FUNCTION: FFXIMAIN 0x1006C530  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 99, zonetoinn PASS 98
+XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
+{
+  double v9;
+  double v10;
+  double v11;
+  double v12;
+  double v13;
+  double v14;
+  int v15;
+  void *v16;
+  int v17;
+  int v18;
+  void *v19;
+  int v20;
+  int v21;
+  void *v22;
+  int v23;
+  flt_10354068 = (float)*(int *)a1;
+  flt_1035406C = (float)*(int *)(a1 + 4);
+  flt_1035407C = (float)*(int *)(a1 + 8);
+  flt_10354080 = (float)*(int *)(a1 + 4);
+  flt_10354090 = (float)*(int *)a1;
+  flt_10354094 = (float)*(int *)(a1 + 12);
+  flt_103540A4 = (float)*(int *)(a1 + 8);
+  flt_103540A8 = (float)*(int *)(a1 + 12);
+  flt_103540B8 = (float)*(int *)a1;
+  v9 = (double)*(int *)(a1 + 4);
+  dword_103540C0 = a2;
+  flt_103540BC = v9;
+  flt_103540CC = (float)*(int *)(a1 + 8);
+  v10 = (double)*(int *)(a1 + 4);
+  dword_103540D4 = a2;
+  flt_103540D0 = v10;
+  flt_103540E0 = (float)*(int *)a1;
+  v11 = (double)*(int *)(a1 + 12);
+  dword_103540E8 = a2;
+  flt_103540E4 = v11;
+  flt_103540F4 = (float)*(int *)(a1 + 8);
+  v12 = (double)*(int *)(a1 + 12);
+  dword_103540FC = a2;
+  dword_10354120 = a3;
+  dword_1035413C = a4;
+  flt_103540F8 = v12;
+  v13 = 1.0 / *(float *)&a5;
+  dword_10354150 = a3;
+  dword_10354154 = a4;
+  flt_10354118 = (double)(int)(*(_DWORD *)a1 + 1) * v13;
+  v14 = 1.0 / *(float *)&a6;
+  flt_1035411C = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
+  flt_10354130 = (double)*(int *)(a1 + 8) * v13;
+  flt_10354134 = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
+  flt_10354148 = (double)(int)(*(_DWORD *)a1 + 1) * v13;
+  flt_1035414C = (double)*(int *)(a1 + 12) * v14;
+  flt_10354160 = (double)*(int *)(a1 + 8) * v13;
+  flt_10354164 = (double)*(int *)(a1 + 12) * v14;
+  if ( (byte_1047CADC & 1) == 0 )
+  {
+    byte_1047CADC |= 1u;
+    orig::fn_1006AD90((exception *)dword_1047CAE0);
+    orig::_atexit(XI_CODE(unknown_libname_60));
+  }
+  orig::StateBlock_ApplyRSTSS(dword_1047CAE0, (int)dword_103541E0, (int)dword_10354168);
+  orig::sub_10009EA0(*(void **)(g_pResourceMng + 3528), a7, a8, *(_DWORD *)&g_pCDx->_pad_10[404]);
+  v15 = g_pResourceMng;
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    68);
+  v16 = *(void **)(v15 + 3528);
+  v17 = orig::Gfx_CalcFVFStride(0x44u);
+  orig::CDx_DrawPrimitiveUP(v16, 5, 2, (int)&flt_10354068, v17);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    7,
+    1);
+  v18 = g_pResourceMng;
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    68);
+  v19 = *(void **)(v18 + 3528);
+  v20 = orig::Gfx_CalcFVFStride(0x44u);
+  orig::CDx_DrawPrimitiveUP(v19, 5, 2, (int)&flt_103540B8, v20);
+  orig::sub_1000A200(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
+  orig::sub_10009EE0(
+    *(void **)(g_pResourceMng + 3528),
+    *(_DWORD *)(g_pOcclusionMng + 12),
+    *(_DWORD *)(g_pOcclusionMng + 16),
+    *(_DWORD *)(g_pOcclusionMng + 20));
+  (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    a7);
+  orig::sub_1000A390(*(_DWORD ***)(g_pResourceMng + 3528), 1, 0, 1065353216, 0);
+  if ( (byte_1047CADC & 2) == 0 )
+  {
+    byte_1047CADC |= 2u;
+    orig::fn_1006AD90((exception *)dword_1047CAD0);
+    orig::_atexit(XI_CODE(unknown_libname_59));
+  }
+  orig::StateBlock_ApplyRSTSS(dword_1047CAD0, (int)dword_10354264, (int)dword_10354228);
+  v21 = g_pResourceMng;
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    260);
+  v22 = *(void **)(v21 + 3528);
+  v23 = orig::Gfx_CalcFVFStride(0x104u);
+  orig::CDx_DrawPrimitiveUP(v22, 5, 2, (int)&unk_10354108, v23);
+  return orig::sub_1000A230(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
+}
+
 // FUNCTION: FFXIMAIN 0x1006C9B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 {
   int result;

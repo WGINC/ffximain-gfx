@@ -50,6 +50,7 @@ def main():
     ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=4)
     ap.add_argument('--dll', help='DLL to gate (default RUN/raw/gfx_raw.dll)')
     ap.add_argument('--cases', help='cases file (default RUN/cases.json)')
+    ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
     a = ap.parse_args()
     run = os.path.join(ROOT, 'runs', a.run) if not os.path.isdir(a.run) else a.run
     CASES[0] = a.cases
@@ -68,7 +69,7 @@ def main():
             cf, rf = '%s_c%d.json' % (base, k), '%s_%d.jsonl' % (base, k)
             json.dump(chunks[k], open(cf, 'w'))
             running.append((subprocess.Popen([sys.executable, os.path.join(P, 'diffemu_gfx.py'), dll, a.dll or os.path.join(run, 'raw', 'gfx_raw.dll'),
-                                              cf, rf, '--trials', str(a.trials), '--seed', '11'],
+                                              cf, rf, '--trials', str(a.trials), '--seed', '11'] + (['--cache'] if a.cache else []),
                                              stdout=open('%s_%d.log' % (base, k), 'w'), stderr=subprocess.STDOUT), rf))
             k += 1
         time.sleep(0.5)

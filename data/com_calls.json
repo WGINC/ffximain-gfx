@@ -1,4 +1,1514 @@
 {
+"0x100091C9": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x100091B0",
+"iface": "IDirect3DDevice8",
+"method": "GetDeviceCaps",
+"path": "[0x0000000C]",
+"pops": 8,
+"slot": 7
+},
+"0x10009322": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x100091B0",
+"iface": "IDirect3DDevice8",
+"method": "GetDisplayMode",
+"path": "[0x0000000C]",
+"pops": 8,
+"slot": 8
+},
+"0x100096F1": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x100096B0",
+"iface": "IDirect3DDevice8",
+"method": "Clear",
+"path": "[0x0000000C]",
+"pops": 28,
+"slot": 36
+},
+"0x10009716": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009710",
+"iface": "IDirect3DDevice8",
+"method": "TestCooperativeLevel",
+"path": "[0x0000000C]",
+"pops": 4,
+"slot": 3
+},
+"0x10009736": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009730",
+"iface": "IDirect3DDevice8",
+"method": "BeginScene",
+"path": "[0x0000000C]",
+"pops": 4,
+"slot": 34
+},
+"0x10009746": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009740",
+"iface": "IDirect3DDevice8",
+"method": "EndScene",
+"path": "[0x0000000C]",
+"pops": 4,
+"slot": 35
+},
+"0x10009949": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009959": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000996C": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000997F": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009992": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x100099B8": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x100099C8": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x100099D8": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x100099EB": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x100099FE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A11": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A24": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A37": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A4A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A5D": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A70": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A83": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009A93": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009AA3": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009ADE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009AEE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009AFE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B11": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B21": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B31": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B41": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B51": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B61": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B71": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B81": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009B91": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009BAC": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009BCF": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009BDF": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C02": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C14": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C24": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C34": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C44": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C54": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C67": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C7A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009C8D": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009CA0": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009CB3": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009CC6": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009CD9": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009CEB": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x10009D0D": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009920",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x10009F57": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x10009F20",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderTarget",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 31
+},
+"0x1000A1DD": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A1D0",
+"iface": "IDirect3DDevice8",
+"method": "SetTexture",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 61
+},
+"0x1000A4AF": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A3B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTexture",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 61
+},
+"0x1000A4C0": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A3B0",
+"iface": "IDirect3DDevice8",
+"method": "SetVertexShader",
+"path": "[0x0000000C]",
+"pops": 8,
+"slot": 76
+},
+"0x1000A737": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A6E0",
+"iface": "IDirect3DDevice8",
+"method": "CreateTexture",
+"path": "[0x0000000C]",
+"pops": 32,
+"slot": 20
+},
+"0x1000A755": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A6E0",
+"iface": "IDirect3DDevice8",
+"method": "CreateTexture",
+"path": "[0x0000000C]",
+"pops": 32,
+"slot": 20
+},
+"0x1000A773": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A6E0",
+"iface": "IDirect3DDevice8",
+"method": "CreateTexture",
+"path": "[0x0000000C]",
+"pops": 32,
+"slot": 20
+},
+"0x1000A791": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A6E0",
+"iface": "IDirect3DDevice8",
+"method": "CreateTexture",
+"path": "[0x0000000C]",
+"pops": 32,
+"slot": 20
+},
+"0x1000A7B2": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000A6E0",
+"iface": "IDirect3DDevice8",
+"method": "CreateTexture",
+"path": "[0x0000000C]",
+"pops": 32,
+"slot": 20
+},
+"0x1000AAC2": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000AAD2": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000AAE4": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AAF6": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB08": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB1A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB2C": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB3E": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB50": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB62": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB74": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000AB86": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000ABA7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000ABB7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000ABC7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000AAB0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000BCD8": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetTexture",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 61
+},
+"0x1000BCE9": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetVertexShader",
+"path": "[0x0000000C]",
+"pops": 8,
+"slot": 76
+},
+"0x1000BCF9": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000BD09": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000BD2B": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000BD3B": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BB90",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000BFFB": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BF30",
+"iface": "IDirect3DDevice8",
+"method": "SetLight",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 44
+},
+"0x1000C015": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000BF30",
+"iface": "IDirect3DDevice8",
+"method": "SetLight",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 44
+},
+"0x1000C11F": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C131": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C143": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C155": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C167": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C179": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C18B": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C19D": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C1AF": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C1C1": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C1D1": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C1E1": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C1F1": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C201": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C211": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C224": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C31B": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetVertexShader",
+"path": "[0x0000000C]",
+"pops": 8,
+"slot": 76
+},
+"0x1000C3DC": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C3EE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C400": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C412": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C424": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C436": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C448": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C45A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C46C": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C47E": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C490": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C4A2": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C4B4": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C4C7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C4D7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C4E7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C4F7": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C507": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C517": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C542": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C554": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C566": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C578": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C58A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C59C": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C5AE": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C5C0": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C5D2": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C5E4": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C5F6": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C608": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C61A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetTextureStageState",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 63
+},
+"0x1000C62A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C63A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C693": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000C6A3": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000C0B0",
+"iface": "IDirect3DDevice8",
+"method": "SetRenderState",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 50
+},
+"0x1000CB6E": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CB20",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitive",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 70
+},
+"0x1000CBAC": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CB20",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitive",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 70
+},
+"0x1000CBED": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CB20",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitive",
+"path": "[0x0000000C]",
+"pops": 16,
+"slot": 70
+},
+"0x1000CC58": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CC00",
+"iface": "IDirect3DDevice8",
+"method": "DrawIndexedPrimitive",
+"path": "[0x0000000C]",
+"pops": 24,
+"slot": 71
+},
+"0x1000CCA0": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CC00",
+"iface": "IDirect3DDevice8",
+"method": "DrawIndexedPrimitive",
+"path": "[0x0000000C]",
+"pops": 24,
+"slot": 71
+},
+"0x1000CCEB": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CC00",
+"iface": "IDirect3DDevice8",
+"method": "DrawIndexedPrimitive",
+"path": "[0x0000000C]",
+"pops": 24,
+"slot": 71
+},
+"0x1000CD53": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CD00",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitiveUP",
+"path": "[0x0000000C]",
+"pops": 20,
+"slot": 72
+},
+"0x1000CD96": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CD00",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitiveUP",
+"path": "[0x0000000C]",
+"pops": 20,
+"slot": 72
+},
+"0x1000CDDC": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CD00",
+"iface": "IDirect3DDevice8",
+"method": "DrawPrimitiveUP",
+"path": "[0x0000000C]",
+"pops": 20,
+"slot": 72
+},
+"0x1000CF7A": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CF20",
+"iface": "IDirect3DDevice8",
+"method": "SetTransform",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 37
+},
+"0x1000CF9F": {
+"accepted": "ACCEPTED DECLARATION, NOT PROVEN (owner's decision 2026-10-04): CDx+0xC is the IDB's CDx.pDevice (IDirect3DDevice8*), declared in this project from the constructor 0x10008F90 storing its pDevice argument there. That no instruction overwrites +0xC of a CDx afterwards is not shown (192 instructions write some [reg+0xC]); the four verified dumps agree with it. Results resting on this entry are uncertain to that extent.",
+"field": "device_via_CDx_this",
+"func": "0x1000CF90",
+"iface": "IDirect3DDevice8",
+"method": "SetTransform",
+"path": "[0x0000000C]",
+"pops": 12,
+"slot": 37
+},
 "0x1003DAD5": {
 "field": "device_via_1047BFA8",
 "func": "0x1003D9A0",

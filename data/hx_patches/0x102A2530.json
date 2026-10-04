@@ -1,0 +1,11 @@
+{
+ "why": "0x102A253B fcomp [a1+0x38] with 1.0; fnstsw ax; test ah,5; jnp 0x102A271A (the skip). fcmp.py: the jump is taken on `lt` only, so the body runs on greater, equal and unordered: !(x < 1.0). Hex-Rays printed x >= 1.0, false for NaN.",
+ "evidence": "Disassembly of 0x102A2538..0x102A2546; pipeline/fcmp.py 0x102A2546 -> ['lt']. runs/r7 clean gate with the bulk-drawn pool: FAIL trial 55 on town2/combat/zonetoinn (original calls 0x1028F5F0, reconstruction does not); raw translation fails the same trial.",
+ "text_sha1": "6c905dd3ada99d2396586112f6c94a474ce5f1c0",
+ "replace": [
+  [
+   "if ( *(float *)(a1 + 56) >= 1.0 )",
+   "if ( !(*(float *)(a1 + 56) < 1.0) )"
+  ]
+ ]
+}

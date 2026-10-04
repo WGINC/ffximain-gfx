@@ -3,7 +3,7 @@
 The graphics set (ida_gfx.select) is: functions that reference a device global, plus name families,
 plus IDA types mentioning D3D. This re-derives, from the code alone, every function that
   device   reads or writes a Direct3D device holder (g_pD3DHolder, g_pCDx, g_pDancerDevice, 0x10669418)
-  d3dx     calls statically linked D3DX code (d3dx/d3dx81_manifest.json)
+  d3dx     calls statically linked D3DX code (data/d3dx/d3dx81_manifest.json)
   calls    calls a function of the graphics set
 and reports those outside the set, grouped by how they relate to it.
 
@@ -22,7 +22,7 @@ def main(dll, export, out):
     pe = pefile.PE(dll, fast_load=True)
     base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_mapped_image()
     ext = {int(k, 16): v for k, v in json.load(open(os.path.join(D, 'func_extents.json'))).items()}
-    d3dx = {int(k, 16) for k in json.load(open(os.path.join(D, '..', 'd3dx', 'd3dx81_manifest.json')))}
+    d3dx = {int(k, 16) for k in json.load(open(os.path.join(D, 'd3dx', 'd3dx81_manifest.json')))}
     gfx = {json.loads(l)['ea']: json.loads(l)['name'] for l in open(export)}
     md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
     rows = {}

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10033710  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 188 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 188 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 94, town2 PASS 94, combat PASS 95, zonetoinn PASS 95
 XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
 {
   _DWORD *Texture;
@@ -37,7 +37,7 @@ XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10033800  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
 {
   alignas(16) unsigned char xi_frame[0x528];  // address-taken locals at their original offsets
@@ -90,7 +90,7 @@ XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10033A70  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
 {
   IDirect3DBaseTexture8 *v4;

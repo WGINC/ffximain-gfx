@@ -14,6 +14,7 @@ XI_API int __cdecl Gfx_DestroyD3DHolder(void);  // 0x10003040
 XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char a5, char a6, int a7);  // 0x100031F0
 XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3, int a4, char a5, char a6, int a7, int a8);  // 0x100033C0
 XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, int a5, int a6, char a7, char a8, int a9);  // 0x100034B0
+XI_API void __thiscall fn_10003890(_DWORD *self_);  // 0x10003890
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_);  // 0x10003B60
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8);  // 0x10003D70
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_);  // 0x10007EF0
@@ -87,6 +88,7 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
 XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3);  // 0x10086900
 XI_API char __thiscall fn_100AC390(void *self_, int a2, int a3, int a4);  // 0x100AC390
 XI_API char __thiscall fn_100C4CE0(float *self_, float *a2, int a3, int a4);  // 0x100C4CE0
+XI_API int __thiscall Actor_SelectNearestLights(void *self_);  // 0x100CB4E0
 XI_API int __thiscall fn_1011AA40(__int16 *self_);  // 0x1011AA40
 XI_API int __cdecl Gfx_ApplyViewport1B70(void);  // 0x1011AAC0
 XI_API char __thiscall Font_BindGlyphTexture(int self_);  // 0x1011BAE0

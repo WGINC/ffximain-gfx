@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 793 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 793 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 48, town2 PASS 48, combat PASS 48, zonetoinn PASS 48
 XI_API int __thiscall Frame_Render(void *self_)
 {
   double v2;
@@ -824,7 +824,7 @@ LABEL_102:
 }
 
 // FUNCTION: FFXIMAIN 0x10012F40  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Post_Afterimage(void)
 {
   int result;
@@ -926,7 +926,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x100132B0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1425 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1425 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
 {
   int result;
@@ -1112,7 +1112,7 @@ LABEL_28:
 }
 
 // FUNCTION: FFXIMAIN 0x10013AD0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
 {
   __int16 v3;
@@ -1234,7 +1234,7 @@ LABEL_25:
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
@@ -1284,7 +1284,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
@@ -1333,7 +1333,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
@@ -1377,7 +1377,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();
@@ -1388,7 +1388,7 @@ XI_API bool __cdecl App_StepGameState9(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100141C0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall fn_100141C0(_WORD *self_)
 {
   if ( *(_DWORD *)(g_pAppSettings + 8) != 0 )

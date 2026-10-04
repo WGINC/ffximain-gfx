@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C588.hpp"
 
 // FUNCTION: FFXIMAIN 0x10071C90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 {
   unsigned int ** self = reinterpret_cast<unsigned int **>(this);  // byte-exact view for the rest
@@ -14,28 +14,28 @@ unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100745E0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoResource_VT_1032C588::vf011()
 {
   return (int)orig::CMoCamera_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x100745F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoResource_VT_1032C588::vf012(int a1)
 {
   return (int)orig::CMoResource_VT_1032C588_ScalarDeletingDtor_10071C60((unsigned int **)this - 12, a1);
 }
 
 // FUNCTION: FFXIMAIN 0x10074610  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoResource_VT_1032C588::vf008()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10074620  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CMoResource_VT_1032C588::vf009()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

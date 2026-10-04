@@ -3,7 +3,7 @@
 #include "CYyOs2VtxBuffer.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002CCB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -101,7 +101,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x1002D680  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -136,7 +136,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 99 returned normally, 154 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 154 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

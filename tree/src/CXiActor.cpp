@@ -3,14 +3,14 @@
 #include "CXiActor.hpp"
 
 // FUNCTION: FFXIMAIN 0x10082070  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiActor::CXiSkeletonActor_GetMoveSpeed()
 {
   return this->field_98;
 }
 
 // FUNCTION: FFXIMAIN 0x10082080  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetMoveSpeed(float speed)
 {
   CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
@@ -18,7 +18,7 @@ void CXiActor::CXiSkeletonActor_SetMoveSpeed(float speed)
 }
 
 // FUNCTION: FFXIMAIN 0x10082090  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
 {
   CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
@@ -26,7 +26,7 @@ float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
 }
 
 // FUNCTION: FFXIMAIN 0x100820A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetMoveSpeedBase(float speed)
 {
   CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
@@ -34,14 +34,14 @@ void CXiActor::CXiSkeletonActor_SetMoveSpeedBase(float speed)
 }
 
 // FUNCTION: FFXIMAIN 0x100820B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiActor::CXiSkeletonActor_GetWalkSpeed()
 {
   return this->field_98 * 0x1.5555560000000p-2;
 }
 
 // FUNCTION: FFXIMAIN 0x100820C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)
 {
   CXiSkeletonActor * self = reinterpret_cast<CXiSkeletonActor *>(this);  // byte-exact view for the rest
@@ -49,28 +49,28 @@ void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)
 }
 
 // FUNCTION: FFXIMAIN 0x100820D0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiActor::CXiSkeletonActor_GetEquip(int a1)
 {
   return 1952805748;
 }
 
 // FUNCTION: FFXIMAIN 0x100832D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_AddRef()
 {
   ++this->field_80;
 }
 
 // FUNCTION: FFXIMAIN 0x10083390  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_AddSchRef()
 {
   ++this->field_84;
 }
 
 // FUNCTION: FFXIMAIN 0x100833A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiActor::CXiSkeletonActor_SubSchRef()
 {
   --this->field_84;

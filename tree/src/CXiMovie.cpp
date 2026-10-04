@@ -3,7 +3,7 @@
 #include "CXiMovie.hpp"
 
 // FUNCTION: FFXIMAIN 0x10026AD0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 584 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 584 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -69,7 +69,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 20 returned normally, 61 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 20 returned normally, 61 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 20, town PASS 25, town2 PASS 25, combat PASS 30, zonetoinn PASS 25
 int __cdecl CXiMovie::DrawFrame()
 {
   int result;

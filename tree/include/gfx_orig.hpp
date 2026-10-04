@@ -230,12 +230,14 @@ XI_ORIG float * Vec3_AddInPlace(void * a0, void * a1) { return reinterpret_cast<
 XI_ORIG float * sub_10026F50(void * a0, void * a1) { return reinterpret_cast<float * (__cdecl *)(void *, void *)>(0x10026F50u)(a0, a1); }
 XI_ORIG float * Vec3_Add_10026FA0(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x10026FA0u)(a0, a1, a2); }
 XI_ORIG float * Vec2_Add(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x10026FD0u)(a0, a1, a2); }
+XI_ORIG float * sub_10027020(void * a0, float a1) { return reinterpret_cast<float * (__cdecl *)(void *, float)>(0x10027020u)(a0, a1); }
 XI_ORIG float * Vec2_AddScalar(void * a0, float a1) { return reinterpret_cast<float * (__cdecl *)(void *, float)>(0x10027050u)(a0, a1); }
 XI_ORIG float * fn_100270A0(void * a0, void * a1) { return reinterpret_cast<float * (__cdecl *)(void *, void *)>(0x100270A0u)(a0, a1); }
 XI_ORIG float * Vec3_Sub(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x10027120u)(a0, a1, a2); }
 XI_ORIG int fn_100272B0(int a0, float a1) { return reinterpret_cast<int (__cdecl *)(int, float)>(0x100272B0u)(a0, a1); }
 XI_ORIG float * Vec3_Scale(void * a0, void * a1, float a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, float)>(0x100272E0u)(a0, a1, a2); }
 XI_ORIG float * Vec3_MulInPlace(void * a0, void * a1) { return reinterpret_cast<float * (__cdecl *)(void *, void *)>(0x10027310u)(a0, a1); }
+XI_ORIG float * sub_10027340(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x10027340u)(a0, a1, a2); }
 XI_ORIG float * Vec2_Mul(void * a0, void * a1, void * a2) { return reinterpret_cast<float * (__cdecl *)(void *, void *, void *)>(0x100273D0u)(a0, a1, a2); }
 XI_ORIG void sub_100274B0(void * a0) { reinterpret_cast<void (__cdecl *)(void *)>(0x100274B0u)(a0); }
 XI_ORIG double sub_10027530(void * a0, void * a1) { return reinterpret_cast<double (__cdecl *)(void *, void *)>(0x10027530u)(a0, a1); }
@@ -555,6 +557,7 @@ XI_ORIG _DWORD * ActorHandle_Constructor(int a0) { return reinterpret_cast<_DWOR
 XI_ORIG void ActorHandle_Destructor(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(0x100814E0u)(a0); }
 XI_ORIG unsigned int sub_100814F0(int a0, int a1) { return reinterpret_cast<unsigned int (__thiscall *)(int, int)>(0x100814F0u)(a0, a1); }
 XI_ORIG int ActorHandle_Resolve(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10081550u)(a0); }
+XI_ORIG int sub_10081600(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(0x10081600u)(a0); }
 XI_ORIG int Actor_ResetDrawLists() { return reinterpret_cast<int (__cdecl *)()>(0x10081A50u)(); }
 XI_ORIG int Actor_UnlinkAllAttachLists(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10082B10u)(a0); }
 XI_ORIG char CXiActor_NameCalc(void * a0, void * a1, int a2, void * a3, int a4) { return reinterpret_cast<char (__thiscall *)(void *, void *, int, void *, int)>(0x100830C0u)(a0, a1, a2, a3, a4); }
@@ -713,6 +716,7 @@ XI_ORIG _DWORD * sub_10153FF0() { return reinterpret_cast<_DWORD * (__cdecl *)()
 XI_ORIG void sub_10154860(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(0x10154860u)(a0); }
 XI_ORIG char sub_10157660(int a0, int a1) { return reinterpret_cast<char (__thiscall *)(int, int)>(0x10157660u)(a0, a1); }
 XI_ORIG int sub_101579C0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x101579C0u)(a0); }
+XI_ORIG int sub_10157CF0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(0x10157CF0u)(a0); }
 XI_ORIG char Actor_SetSlotTableEntry(unsigned int a0, int a1) { return reinterpret_cast<char (__cdecl *)(unsigned int, int)>(0x10159400u)(a0, a1); }
 XI_ORIG int MenuMng_Init(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(0x1015D900u)(a0); }
 XI_ORIG void nullsub_49(int a0) { reinterpret_cast<void (__stdcall *)(int)>(0x1015DFC0u)(a0); }
@@ -1195,12 +1199,14 @@ constexpr uint32_t Vec3_AddInPlace = 0x10026F20u;
 constexpr uint32_t sub_10026F50 = 0x10026F50u;
 constexpr uint32_t Vec3_Add_10026FA0 = 0x10026FA0u;
 constexpr uint32_t Vec2_Add = 0x10026FD0u;
+constexpr uint32_t sub_10027020 = 0x10027020u;
 constexpr uint32_t Vec2_AddScalar = 0x10027050u;
 constexpr uint32_t fn_100270A0 = 0x100270A0u;
 constexpr uint32_t Vec3_Sub = 0x10027120u;
 constexpr uint32_t fn_100272B0 = 0x100272B0u;
 constexpr uint32_t Vec3_Scale = 0x100272E0u;
 constexpr uint32_t Vec3_MulInPlace = 0x10027310u;
+constexpr uint32_t sub_10027340 = 0x10027340u;
 constexpr uint32_t Vec2_Mul = 0x100273D0u;
 constexpr uint32_t sub_100274B0 = 0x100274B0u;
 constexpr uint32_t sub_10027530 = 0x10027530u;
@@ -1520,6 +1526,7 @@ constexpr uint32_t ActorHandle_Constructor = 0x100814A0u;
 constexpr uint32_t ActorHandle_Destructor = 0x100814E0u;
 constexpr uint32_t sub_100814F0 = 0x100814F0u;
 constexpr uint32_t ActorHandle_Resolve = 0x10081550u;
+constexpr uint32_t sub_10081600 = 0x10081600u;
 constexpr uint32_t Actor_ResetDrawLists = 0x10081A50u;
 constexpr uint32_t Actor_UnlinkAllAttachLists = 0x10082B10u;
 constexpr uint32_t CXiActor_NameCalc = 0x100830C0u;
@@ -1678,6 +1685,7 @@ constexpr uint32_t sub_10153FF0 = 0x10153FF0u;
 constexpr uint32_t sub_10154860 = 0x10154860u;
 constexpr uint32_t sub_10157660 = 0x10157660u;
 constexpr uint32_t sub_101579C0 = 0x101579C0u;
+constexpr uint32_t sub_10157CF0 = 0x10157CF0u;
 constexpr uint32_t Actor_SetSlotTableEntry = 0x10159400u;
 constexpr uint32_t MenuMng_Init = 0x1015D900u;
 constexpr uint32_t nullsub_49 = 0x1015DFC0u;

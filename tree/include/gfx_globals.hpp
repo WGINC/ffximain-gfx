@@ -189,6 +189,14 @@ typedef _UNKNOWN * off_1034F698_t;
 #define off_1034F698 XI_EA(off_1034F698_t, 0x1034F698u)
 typedef char aDeviceLost_t[1];
 #define aDeviceLost XI_EA(aDeviceLost_t, 0x1034F6A0u)
+typedef _BYTE unk_1034F6C0_t;
+#define unk_1034F6C0 XI_EA(unk_1034F6C0_t, 0x1034F6C0u)
+typedef _BYTE unk_1034F720_t;
+#define unk_1034F720 XI_EA(unk_1034F720_t, 0x1034F720u)
+typedef int dword_1034F72C_t;
+#define dword_1034F72C XI_EA(dword_1034F72C_t, 0x1034F72Cu)
+typedef float flt_1034F730_t[4];
+#define flt_1034F730 XI_EA(flt_1034F730_t, 0x1034F730u)
 typedef float flt_1034F740_t;
 #define flt_1034F740 XI_EA(flt_1034F740_t, 0x1034F740u)
 typedef float flt_1034F744_t;
@@ -1355,6 +1363,10 @@ typedef char byte_1047D694_t;
 #define byte_1047D694 XI_EA(byte_1047D694_t, 0x1047D694u)
 typedef char byte_1047D695_t;
 #define byte_1047D695 XI_EA(byte_1047D695_t, 0x1047D695u)
+typedef int dword_10480AF0_t[16];
+#define dword_10480AF0 XI_EA(dword_10480AF0_t, 0x10480AF0u)
+typedef _DWORD dword_10487F58_t[3];
+#define dword_10487F58 XI_EA(dword_10487F58_t, 0x10487F58u)
 typedef char byte_10487F80_t;
 #define byte_10487F80 XI_EA(byte_10487F80_t, 0x10487F80u)
 typedef char byte_10487F81_t;

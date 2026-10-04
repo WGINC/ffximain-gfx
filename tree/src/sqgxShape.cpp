@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028AA70  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
-// GATE: PASS -- 100 trials, 82 returned normally, 34 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 34 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 82, town2 PASS 82, combat PASS 82, zonetoinn PASS 82
 XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 {
   int *result;
@@ -41,7 +41,7 @@ XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1028AB50  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
-// GATE: PASS -- 100 trials, 39 returned normally, 12 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 39 returned normally, 12 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 39, town PASS 39, town2 PASS 39, combat PASS 39, zonetoinn PASS 39
 XI_API int __cdecl fn_1028AB50(void)
 {
   int result;
@@ -247,7 +247,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1028AFE0  (unit sqgxShape: name sqgxShape_1028AFE0)
-// GATE: PASS -- 100 trials, 87 returned normally, 164 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 87 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 87, town2 PASS 87, combat PASS 87, zonetoinn PASS 87
 XI_API int * __cdecl sqgxShapeBegin(void)
 {
   int *v0;

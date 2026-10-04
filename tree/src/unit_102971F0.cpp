@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 240 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 240 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 {
   int result;
@@ -49,7 +49,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10297EC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 632 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 632 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 {
   g_pSqgxContext[73] = a1;
@@ -72,7 +72,7 @@ XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102981E0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 23 returned normally, 246 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 23 returned normally, 246 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 23
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
   g_pSqgxContext[81] = 0;

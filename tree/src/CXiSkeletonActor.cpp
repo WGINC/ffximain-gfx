@@ -3,7 +3,7 @@
 #include "CXiSkeletonActor.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002B6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1727 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1727 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -242,7 +242,7 @@ LABEL_24:
 }
 
 // FUNCTION: FFXIMAIN 0x1002C360  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 74 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -272,7 +272,7 @@ void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100343C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 95, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
 _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
 {
   _BYTE *result;
@@ -394,7 +394,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
 }
 
 // FUNCTION: FFXIMAIN 0x10082F20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::GetEnglishName()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -407,7 +407,7 @@ char * CXiSkeletonActor::GetEnglishName()
 }
 
 // FUNCTION: FFXIMAIN 0x100832E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::SubRef()
 {
   int result;
@@ -418,7 +418,7 @@ int CXiSkeletonActor::SubRef()
 }
 
 // FUNCTION: FFXIMAIN 0x100A4740  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::GetPos()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -426,7 +426,7 @@ char * CXiSkeletonActor::GetPos()
 }
 
 // FUNCTION: FFXIMAIN 0x100A4750  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::GetDir()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -434,14 +434,14 @@ char * CXiSkeletonActor::GetDir()
 }
 
 // FUNCTION: FFXIMAIN 0x100A4760  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CXiSkeletonActor::IsMotionLock()
 {
   return (at<uint32_t>(this, 0x840) & 0x40) != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4770  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::IsMotionLock_Set(char a2)
 {
   int result;
@@ -451,35 +451,35 @@ int CXiSkeletonActor::IsMotionLock_Set(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4790  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::EnableFlag8AC()
 {
   this->field_8AC |= 1u;
 }
 
 // FUNCTION: FFXIMAIN 0x100A47A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::DisableFlag8AC()
 {
   this->field_8AC &= ~1u;
 }
 
 // FUNCTION: FFXIMAIN 0x100A47B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::IsFlag8ACSet()
 {
   return this->field_8AC & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x100A47C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetField79C()
 {
   return this->field_79C;
 }
 
 // FUNCTION: FFXIMAIN 0x100A47D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::SetField79C(char a2)
 {
   this->field_79C = a2;
@@ -487,7 +487,7 @@ char CXiSkeletonActor::SetField79C(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A47E0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 bool CXiSkeletonActor::IsReadComplete()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -495,7 +495,7 @@ bool CXiSkeletonActor::IsReadComplete()
 }
 
 // FUNCTION: FFXIMAIN 0x100A47F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::vf256(_DWORD *a2)
 {
   *a2 = this->field_864;
@@ -503,7 +503,7 @@ _DWORD * CXiSkeletonActor::vf256(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4800  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CXiSkeletonActor::SetField670(__int16 a2)
 {
   this->field_670 = a2;
@@ -511,91 +511,91 @@ __int16 CXiSkeletonActor::SetField670(__int16 a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4810  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CXiSkeletonActor::GetField670()
 {
   return this->field_670;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4820  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf257()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4830  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetColor(unsigned int color)
 {
   this->color = color;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4840  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 unsigned int CXiSkeletonActor::GetColor()
 {
   return this->color;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4850  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::vf017()
 {
   return at<uint8_t>(this, 0x663);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4860  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetMultiTexAlpha(int alpha)
 {
   this->multiTexAlpha = alpha;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4870  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetMultiTexAlpha()
 {
   return this->multiTexAlpha;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4880  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetSahdowAlpha(int alpha)
 {
   this->shadowAlpha = alpha;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4890  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetShadowAlpha()
 {
   return this->shadowAlpha;
 }
 
 // FUNCTION: FFXIMAIN 0x100A48A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::EnableEffect(unsigned int flagBit)
 {
   this->effectFlags |= flagBit;
 }
 
 // FUNCTION: FFXIMAIN 0x100A48C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::DisableEffect(unsigned int flagBit)
 {
   this->effectFlags &= ~flagBit;
 }
 
 // FUNCTION: FFXIMAIN 0x100A48E0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::DisableEffectAll()
 {
   this->effectFlags = 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A48F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::SetUVOffset(int a2, int a3)
 {
   this->uvOffsetU = a2;
@@ -604,49 +604,49 @@ int CXiSkeletonActor::SetUVOffset(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4910  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetDistAmount(float amount)
 {
   this->distAmount = amount;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4920  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetEmapColor(unsigned int color)
 {
   this->emapColor = color;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4930  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetEmapTexture(void *texture)
 {
   this->emapTexture = texture;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4940  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetSeparateValue(float value)
 {
   this->separateValue = value;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4950  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::SetEmapAlphaMode(int mode)
 {
   this->emapAlphaMode = mode;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4960  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::GetEmapAlphaMode()
 {
   return this->emapAlphaMode;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4970  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::vf258(_DWORD *a2)
 {
   *a2 = at<uint32_t>(this, 0x750);
@@ -654,14 +654,14 @@ _DWORD * CXiSkeletonActor::vf258(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4980  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::get_field_74C()
 {
   return this->emapColor;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4990  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::set_field_73C(int a2)
 {
   this->uvOffsetU = a2;
@@ -669,14 +669,14 @@ int CXiSkeletonActor::set_field_73C(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A49A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiSkeletonActor::get_field_73C()
 {
   return at<float>(this, 0x73C);
 }
 
 // FUNCTION: FFXIMAIN 0x100A49B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::set_field_740(int a2)
 {
   this->uvOffsetV = a2;
@@ -684,56 +684,56 @@ int CXiSkeletonActor::set_field_740(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A49C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiSkeletonActor::get_field_740()
 {
   return at<float>(this, 0x740);
 }
 
 // FUNCTION: FFXIMAIN 0x100A49D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::IsEnvmap()
 {
   return this->effectFlags & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x100A49E0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CXiSkeletonActor::IsDistortion()
 {
   return (this->effectFlags & 2) != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A49F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CXiSkeletonActor::IsMasking()
 {
   return (this->effectFlags & 4) != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A00  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CXiSkeletonActor::vf030()
 {
   return (this->effectFlags & 8) != 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A10  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::IsDirectionLock()
 {
   return at<uint32_t>(this, 0x838);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CXiSkeletonActor::IsConstrain()
 {
   return at<uint16_t>(this, 0x83C);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A30  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 bool CXiSkeletonActor::IsConstrain_Set(char a2, int a3)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -742,14 +742,14 @@ bool CXiSkeletonActor::IsConstrain_Set(char a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A50  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CXiSkeletonActor::IsConstrain2()
 {
   return this->constrain2;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::IsConstrain2_Get(int a2)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -757,7 +757,7 @@ char CXiSkeletonActor::IsConstrain2_Get(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A70  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 bool CXiSkeletonActor::IsConstrain2_Set(char a2, int a3)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -766,14 +766,14 @@ bool CXiSkeletonActor::IsConstrain2_Set(char a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4A90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf041()
 {
   return this->field_8A5;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AA0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf042(char a2)
 {
   this->field_8A5 = a2;
@@ -781,14 +781,14 @@ char CXiSkeletonActor::vf042(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf043()
 {
   return this->field_8A6;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf044(char a2)
 {
   this->field_8A6 = a2;
@@ -796,14 +796,14 @@ char CXiSkeletonActor::vf044(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AD0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf045()
 {
   return this->field_8A7;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf046(char a2)
 {
   this->field_8A7 = a2;
@@ -811,14 +811,14 @@ char CXiSkeletonActor::vf046(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4AF0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf047()
 {
   return this->field_8A8;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4B00  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::ActivateFlag9F8(char a2)
 {
   this->field_8A8 = a2;
@@ -826,14 +826,14 @@ char CXiSkeletonActor::ActivateFlag9F8(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4B10  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::ActivateFlagA04()
 {
   return this->field_8A9;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4B20  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::vf050(char a2)
 {
   this->field_8A9 = a2;
@@ -841,35 +841,35 @@ char CXiSkeletonActor::vf050(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100A4B30  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf099()
 {
   this->forceUpdateFlag = 1;
 }
 
 // FUNCTION: FFXIMAIN 0x100A4B40  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf100()
 {
   at<uint8_t>(this, 0xA04) = 1;
 }
 
 // FUNCTION: FFXIMAIN 0x100AB070  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CXiSkeletonActor::GetRuntimeClass_variant0()
 {
   return &CXiSkeletonActor_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100C5190  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CXiSkeletonActor::GetRuntimeClass_variant1()
 {
   return &CXiSkeletonActor_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100C52A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::Constructor_1Arg(int a2)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -914,7 +914,7 @@ int CXiSkeletonActor::Constructor_1Arg(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100C5540  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::ScalarDeletingDtor(char a1)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -925,7 +925,7 @@ int CXiSkeletonActor::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x100C5560  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::Constructor_2Arg(_DWORD *a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -969,7 +969,7 @@ int CXiSkeletonActor::Constructor_2Arg(_DWORD *a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100C56E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1017,7 +1017,7 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100C5880  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1055,7 +1055,7 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x100C59B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83, town PASS 84, town2 PASS 84, combat PASS 84, zonetoinn PASS 83
 int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1171,7 +1171,7 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100C5C00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::DestructorBody()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -1237,7 +1237,7 @@ char CXiSkeletonActor::DestructorBody()
 }
 
 // FUNCTION: FFXIMAIN 0x100C5D60  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::Init()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -1508,7 +1508,7 @@ int CXiSkeletonActor::Init()
 }
 
 // FUNCTION: FFXIMAIN 0x100C63D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 92, town2 PASS 92, combat PASS 92, zonetoinn PASS 92
 int CXiSkeletonActor::OnMove()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -2855,7 +2855,7 @@ LABEL_367:
 }
 
 // FUNCTION: FFXIMAIN 0x100CBD60  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::RunStaggeredUpdates()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -2872,7 +2872,7 @@ void CXiSkeletonActor::RunStaggeredUpdates()
 }
 
 // FUNCTION: FFXIMAIN 0x100CBDE0  (placed by callers pass their own this (CXiSkeletonActor))
-// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -3589,7 +3589,7 @@ LABEL_128:
 }
 
 // FUNCTION: FFXIMAIN 0x100CCF50  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::OcclusionClip()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3656,7 +3656,7 @@ LABEL_5:
 }
 
 // FUNCTION: FFXIMAIN 0x100CD490  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::SetMotion(int *a2, float a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -3685,7 +3685,7 @@ char * CXiSkeletonActor::SetMotion(int *a2, float a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100CE480  (placed by IDB name)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -3856,7 +3856,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x100CE9B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ActorFindResource(_DWORD *a2, int a3, int a4)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3960,7 +3960,7 @@ LABEL_21:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEB00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActor::ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4085,7 +4085,7 @@ LABEL_30:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEC90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4185,14 +4185,14 @@ int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100CEDF0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::ReplaceAttack(int a1, int a2, int a3, int a4)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -4203,7 +4203,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -4253,7 +4253,7 @@ char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100CF030  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActor::SetAttack_SchStatus(int a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -4267,7 +4267,7 @@ int CXiSkeletonActor::SetAttack_SchStatus(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100CF200  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf172(int a2)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4278,7 +4278,7 @@ void CXiSkeletonActor::vf172(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100CF210  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::SetModel(int a2)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -4561,7 +4561,7 @@ LABEL_93:
 }
 
 // FUNCTION: FFXIMAIN 0x100CFC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -4710,7 +4710,7 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
     v21 = v50;
     for ( i = 7; i != 0; --i )
     {
-      if ( *(float *)a2 >= -99999.0 )
+      if ( !(*(float *)a2 < -99999.0) )
       {
         v24 = *(v21 - 1);
         v25 = v24 < *(float *)a2;
@@ -4726,7 +4726,7 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
       {
         *(float *)a2 = *(v21 - 1);
       }
-      if ( *(float *)(a2 + 4) >= -99999.0 )
+      if ( !(*(float *)(a2 + 4) < -99999.0) )
       {
         v29 = *(float *)(a2 + 4);
         v31 = *v21;
@@ -4743,9 +4743,9 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
       {
         *(float *)(a2 + 4) = *v21;
       }
-      if ( *(float *)a3 >= -99999.0 )
+      if ( !(*(float *)a3 < -99999.0) )
       {
-        if ( *(v21 - 1) >= (double)*(float *)a3 )
+        if ( !(*(v21 - 1) < (double)*(float *)a3) )
           v36 = *(v21 - 1);
         else
           v36 = *(float *)a3;
@@ -4755,9 +4755,9 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
       {
         *(float *)a3 = *(v21 - 1);
       }
-      if ( *(float *)a3 >= -99999.0 )
+      if ( !(*(float *)a3 < -99999.0) )
       {
-        if ( *v21 >= (double)*(float *)(a3 + 4) )
+        if ( !(*v21 < (double)*(float *)(a3 + 4)) )
           v37 = *v21;
         else
           v37 = *(float *)(a3 + 4);
@@ -4790,7 +4790,7 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100D04B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::GetField878Ptr_Candidate()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4798,7 +4798,7 @@ char * CXiSkeletonActor::GetField878Ptr_Candidate()
 }
 
 // FUNCTION: FFXIMAIN 0x100D04C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetNamePos(int a2, float *a3, int a4)
 {
   float * self = reinterpret_cast<float *>(this);  // byte-exact view for the rest
@@ -4813,7 +4813,7 @@ char CXiSkeletonActor::GetNamePos(int a2, float *a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100D0510  (placed by IDB name)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 81, town2 PASS 81, combat PASS 80, zonetoinn PASS 80
 void CXiSkeletonActor::OnDrawName()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -4905,7 +4905,7 @@ LABEL_15:
 }
 
 // FUNCTION: FFXIMAIN 0x100D06F0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetArrowPos(int a2, int a3, int a4)
 {
   float * self = reinterpret_cast<float *>(this);  // byte-exact view for the rest
@@ -4919,7 +4919,7 @@ char CXiSkeletonActor::GetArrowPos(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100D0740  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
 {
   char *ViewMatrixPtr;
@@ -4960,7 +4960,7 @@ char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D08E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiSkeletonActor::GetWidthScale()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -4986,7 +4986,7 @@ double CXiSkeletonActor::GetWidthScale()
 }
 
 // FUNCTION: FFXIMAIN 0x100D09B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiSkeletonActor::GetHeightScale()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -5012,7 +5012,7 @@ double CXiSkeletonActor::GetHeightScale()
 }
 
 // FUNCTION: FFXIMAIN 0x100D0A80  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 double CXiSkeletonActor::GetDepthScale()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -5038,7 +5038,7 @@ double CXiSkeletonActor::GetDepthScale()
 }
 
 // FUNCTION: FFXIMAIN 0x100D12D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 bool CXiSkeletonActor::IsReadCompleteBody()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -5077,14 +5077,14 @@ bool CXiSkeletonActor::IsReadCompleteBody()
 }
 
 // FUNCTION: FFXIMAIN 0x100D2F40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char __cdecl CXiSkeletonActor::OnSkeletonLoaded(int a1, int a2)
 {
   return orig::CXiSkeletonActor_LoadSkeletonSync(a1, *(_DWORD *)(a2 + 68));
 }
 
 // FUNCTION: FFXIMAIN 0x100D2F60  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 93, town2 PASS 94, combat PASS 100, zonetoinn PASS 90
 char CXiSkeletonActor::LoadSkeletonSync(int arg0)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -5923,7 +5923,7 @@ LABEL_135:
 }
 
 // FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::LoadSkeletonResource(int a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -5964,7 +5964,7 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D4560  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetElem(unsigned int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -6078,7 +6078,7 @@ LABEL_19:
 }
 
 // FUNCTION: FFXIMAIN 0x100D4800  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetElemLocal(unsigned int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -6150,7 +6150,7 @@ char CXiSkeletonActor::GetElemLocal(unsigned int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D49B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::GetEidMatrix(int a2, _DWORD *a3)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -6158,7 +6158,7 @@ char CXiSkeletonActor::GetEidMatrix(int a2, _DWORD *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D5460  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActor::IsDirectionLock_Set(char a2)
 {
   int v2;
@@ -6178,7 +6178,7 @@ char CXiSkeletonActor::IsDirectionLock_Set(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D62C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 51 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 51 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 51, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char * CXiSkeletonActor::DrawResourceShadows()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -6223,7 +6223,7 @@ char * CXiSkeletonActor::DrawResourceShadows()
 }
 
 // FUNCTION: FFXIMAIN 0x100D6370  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::KillAllGenerater()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -6253,42 +6253,42 @@ void CXiSkeletonActor::KillAllGenerater()
 }
 
 // FUNCTION: FFXIMAIN 0x100D6F90  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf033()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100D6FA0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf034()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100D6FB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf035(int a1, int a2)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100D6FC0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf036(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100D6FD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CXiSkeletonActor::vf037()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100D7140  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CXiSkeletonActor::GetRuntimeClass_variant2()
 {
   return &CXiSkeletonActor_classdesc;

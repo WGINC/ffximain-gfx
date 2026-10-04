@@ -3,7 +3,7 @@
 #include "CYyVbMng.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003B210  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CYyVbMng::AcquireVertexBuffer(int a2, int a3, int a4, int a5, int *a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

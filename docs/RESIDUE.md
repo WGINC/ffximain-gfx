@@ -10,7 +10,7 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 | Gate FAIL (decompiled code is wrong) | 2 | Hex-Rays output differs from the original; the first divergence is given. Fix in IDA (types) and re-run, or keep `orig::`. |
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
 | Gate INCONCLUSIVE (no comparable run) | 1 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
-| Gate UNRESOLVED (no definitive fact for a call) | 6 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
+| Gate UNRESOLVED (no definitive fact for a call) | 4 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
 | Passes as decompiled, fails in the clean tree | 0 | Clean-stage regression; listed below. |
 
 ## Microsoft D3DX 8.1 (48)
@@ -89,14 +89,12 @@ Every function in the 768-function graphics set that is not a gate-verified memb
 |---|---|---|---|
 | `0x10016320` | sub_10016320 | fault 99, import 1 |  |
 
-## Gate UNRESOLVED (6)
+## Gate UNRESOLVED (4)
 
 | Address | Name | Call without a definitive fact | What it does |
 |---|---|---|---|
-| `0x10003890` | sub_10003890 | call 0x10003A50: pop count unknown (51 trials) |  |
 | `0x10009F20` | CDx_PushRenderTargetTexture | call 0x10009F44: pop count unknown (99 trials); import DSOUND.dll!ord11: argument count unknown (not in import_nargs.json, call site not solved) (1 trial) | Texture->GetSurfaceLevel(0), device->SetRenderTarget; increments stack depth CDx+0x158. |
 | `0x10047590` | CMoSkeletonElem_UpdateBoneTransform | call 0x10047623: pop count unknown (100 trials) | Normalizes local rotation (Euler wraparound), calls Mat4x4_Multiply to combine with the parent's matrix (confi... |
 | `0x1006C140` | CMoOcclusionMng_Constructor | call 0x1006C16F: pop count unknown (100 trials) |  |
-| `0x100CB4E0` | Actor_SelectNearestLights | call 0x100CB8CB: pop count unknown (100 trials) |  |
 | `0x10280DE0` | sqgxSprite | call 0x102811DC: pop count unknown (83 trials) |  |
 

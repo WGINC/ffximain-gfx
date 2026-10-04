@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1029B620  (unit sqgxDlist: asserts sqgxDlist.c)
-// GATE: PASS -- 100 trials, 7 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 7 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 7, town PASS 7, town2 PASS 7, combat PASS 7, zonetoinn PASS 7
 XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 {
   _DWORD *v0;
@@ -118,7 +118,7 @@ XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B9D0  (unit sqgxDlist: between 0x1029B620 (asserts sqgxDlist.c) and 0x1029BB60 (asserts sqgxDlist.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 541 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 541 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl sqgxDlistDraw(IDirect3DVertexBuffer8 **a1)
 {
   unsigned int v1;

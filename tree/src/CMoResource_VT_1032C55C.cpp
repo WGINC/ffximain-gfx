@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C55C.hpp"
 
 // FUNCTION: FFXIMAIN 0x10063C50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void CMoResource_VT_1032C55C::vf008()
 {
   this->field_34 = 0;

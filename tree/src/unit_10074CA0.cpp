@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 703 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 59 returned normally, 703 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59, town PASS 55, town2 PASS 55, combat PASS 55, zonetoinn PASS 55
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 {
   int v0;
@@ -112,7 +112,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 {
   int v2;

@@ -30,6 +30,7 @@ solver to be assumptions were removed, not tuned:
 | 2 Oct, evening | 681 | 681 / 1 / 30 / - | 47 | 9 |
 | 3 Oct, definitive facts only (`def2`) | 700 | 700 / 2 / 1 / 11 | 48 | 5 |
 | 4 Oct, third IDA pass (`r5`) | 706 | 706 / 2 / 1 / 6 | 48 | 5 |
+| 4 Oct, fuzz and live combined | 708 | 708 / 2 / 1 / 4 | 48 | 5 |
 
 ## 30 Sep: IDA cross-check
 
@@ -204,3 +205,13 @@ fixed:
   - D3DX data in `data/d3dx/`;
   - the dated reports merged into `METHOD.md`, `HISTORY.md` and `NAMES.md`;
   - the IDA exchange archive, the parallel session's bundle and superseded data removed (in git history).
+- **Live gates** on all four dumps, raw and clean (`verification/live/`):
+  - Raw: 704 PASS per dump. The clean tree: 704 PASS and 4 INCONCLUSIVE per dump, 0 FAIL.
+  - They found `CXiSkeletonActor_Slot244_Unknown` wrong for NaN inputs, after the fuzz gate had passed it.
+    The original's `test ah, 5; jp` is taken for unordered compares; Hex-Rays' `a >= b` is not. It was
+    patched, and `fcmp.py` now computes each such branch's outcomes from the code, for a rule over the
+    next export.
+  - Combined with the fuzz gate: 708 verified. `Actor_SelectNearestLights` and `sub_10003890` (3 returning
+    trials per dump; marked thin) pass only on real state.
+- **`vcall_resolve`** follows switch tables only where bounded. 180 functions earlier claimed never to read
+  ECX are now unknown.

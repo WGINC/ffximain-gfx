@@ -3,14 +3,14 @@
 #include "CMoDX.hpp"
 
 // FUNCTION: FFXIMAIN 0x10069D60  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoDX::GetRuntimeClass()
 {
   return &CMoDX_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10069DB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -21,7 +21,7 @@ _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
 _DWORD * CMoDX::CreateAndInitSystem()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

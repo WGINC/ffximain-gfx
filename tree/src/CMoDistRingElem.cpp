@@ -3,14 +3,14 @@
 #include "CMoDistRingElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x10043710  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoDistRingElem::GetRuntimeClass()
 {
   return &CMoDistRingElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 762 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 762 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
 void CMoDistRingElem::AllocRingGeometry()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -161,14 +161,14 @@ void CMoDistRingElem::AllocRingGeometry()
 }
 
 // FUNCTION: FFXIMAIN 0x10052FF0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoDistRingElem::vf012(int a1)
 {
   return a1 == 5;
 }
 
 // FUNCTION: FFXIMAIN 0x10053000  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDistRingElem::set_field_1B6(int a2)
 {
   this->field_1B6 = a2;
@@ -176,7 +176,7 @@ int CMoDistRingElem::set_field_1B6(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10053010  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDistRingElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

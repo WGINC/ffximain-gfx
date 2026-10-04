@@ -10,7 +10,7 @@ This is private work: nothing here is published, and no game bytes are in the re
 | Path | What |
 |---|---|
 | `tree/` | **The deliverable.** Clean, class-shaped C++ (`include/`, `src/`, `build.sh`); each function carries its `// GATE:` result. Generated; see `tree/README.md` |
-| `verification/` | Gate results for the tree: raw and clean (`gate_*_final.jsonl`), their cases, first divergences (`localize_fail.json`), the mutation test |
+| `verification/` | Gate results for the tree: fuzz raw (`gate_raw_final`), fuzz and live combined (`gate_raw_combined`, `gate_clean_final`), the live gates per dump and the dumps' verification (`live/`), cases, first divergences, the mutation test |
 | `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `RESIDUE.md` (every graphics function not in the tree, with the reason; generated), `NAMES.md` (naming evidence) |
 | `pipeline/` | Everything that runs outside IDA: translator, gate, fact tools, tests (`pipeline/tests/`) |
 | `ida/` | What runs inside IDA: `ffxi_ida_fix.py` (generated, self-contained), its template, the graphics-set exporter `ida_gfx.py`, `ida_regflow.py` |
@@ -24,24 +24,25 @@ This is private work: nothing here is published, and no game bytes are in the re
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 188 files) | **706**, 0 failures |
+| **Verified in the clean tree, as built** (`tree/`, 189 files) | **708**, 0 failures |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express | 5 |
-| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 6 |
+| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 4 |
 | Gate FAIL (first divergence recorded) | 2 |
-| Gate INCONCLUSIVE (the original never returns under fuzzed inputs) | 1 |
+| Gate INCONCLUSIVE (the original never returns) | 1 |
 
-From the third IDA export (`data/exports/gfx_export.jsonl`); gates in `verification/` (fuzz inputs, 100 trials
-per function): raw 706 PASS, clean 706 PASS.
+Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
+memory dumps of the running game, verified as the analysed build (`verification/live/`). Raw and clean,
+combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 708 PASS. Each function's `// GATE:` line lists
+every gate's verdict and returning trials.
 
-The open items, each traced to a named cause:
-- **UNRESOLVED (6):** calls whose object's type is not yet proven:
-  - three game-class virtual calls on ECX (0x10003A50, 0x10047623, 0x100CB8CB);
-  - three D3D calls through fields with several writers (0x10009F44, 0x1006C16F, 0x102811DC);
-  - one DSOUND import with no argument count.
-- **FAIL (2):**
-  - `sub_1017DE20`: one call's pop is unknown (0x1017FED3);
-  - `sub_100548D0`: returns the x87 status word in AX.
+The 12 open functions, each with a named cause:
+- **FAIL (2):** `sub_1017DE20` (IDA's stack pointer is wrong in it, so one stack slot has two names);
+  `sub_100548D0` (returns the x87 status word in AX).
+- **Constructs (5):** `CDx_CreateTexture` and `sub_1017C9C0` (the same IDA stack-pointer cause, read as a
+  local on the return address); `CMoSchedularTask_Interpret`, `sub_10125360`, `sub_10184C90` (`__asm`).
+- **UNRESOLVED (4):** D3D calls through a field with several writers (0x10009F44, 0x1006C16F, 0x102811DC);
+  a game-class call whose class has no instance in the dumps (0x10047623).
 - **INCONCLUSIVE (1):** `sub_10016320`, the global shutdown.
 
 ## Reproduce

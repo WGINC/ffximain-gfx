@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002F160  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 {
   IDirect3DVertexBuffer8 *v1;
@@ -14,7 +14,7 @@ XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002F1A0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_ApplyCachedVertexShader(void)
 {
   if ( g_vertexShader_B6A0 != 0 )

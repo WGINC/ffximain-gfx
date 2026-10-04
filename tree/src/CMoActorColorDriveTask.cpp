@@ -3,21 +3,21 @@
 #include "CMoActorColorDriveTask.hpp"
 
 // FUNCTION: FFXIMAIN 0x100569A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoActorColorDriveTask::GetRuntimeClass()
 {
   return &CMoActorColorDriveTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10062FE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoActorColorDriveTask::vf011()
 {
   return (int)orig::CMoActorRotationDriveTask_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x10062FF0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 tagRECT * CMoActorColorDriveTask::vf012(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

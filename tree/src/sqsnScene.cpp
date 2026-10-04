@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 58 returned normally, 222 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 222 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 62, town2 PASS 63, combat PASS 62, zonetoinn PASS 63
 XI_API void __cdecl sqsnSceneDraw(int a1)
 {
   int v2;

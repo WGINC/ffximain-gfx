@@ -3,7 +3,7 @@
 #include "CMoDistMorphElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003F440  (placed by IDB name)
-// GATE: PASS -- 100 trials, 38 returned normally, 137 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 137 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 38, town PASS 38, town2 PASS 38, combat PASS 38, zonetoinn PASS 38
 int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, char a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -181,7 +181,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
 }
 
 // FUNCTION: FFXIMAIN 0x1003F8A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68, town PASS 63, town2 PASS 63, combat PASS 60, zonetoinn PASS 63
 _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -346,7 +346,7 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10042D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 38, town2 PASS 38, combat PASS 38, zonetoinn PASS 38
 char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a4)
 {
   int v4;
@@ -479,14 +479,14 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10043580  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 {
   return &CMoDistMorphElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
 char CMoDistMorphElem::UpdateMorphBlend()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -557,14 +557,14 @@ char CMoDistMorphElem::UpdateMorphBlend()
 }
 
 // FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 BOOL CMoDistMorphElem::vf012(int a1)
 {
   return a1 == 6;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoDistMorphElem::set_field_1C0(int a2)
 {
   this->field_1C0 = a2;
@@ -572,7 +572,7 @@ int CMoDistMorphElem::set_field_1C0(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052E60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int * CMoDistMorphElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

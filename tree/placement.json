@@ -96,6 +96,13 @@
 "symbol": "Gfx_CreateDevice",
 "unit": "unit_100014A0_Gfx"
 },
+"0x10003890": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "fn_10003890",
+"unit": "unit_10003890_DirectInput"
+},
 "0x10003b60": {
 "class": null,
 "method": null,
@@ -3312,6 +3319,13 @@
 "method": "OnMove",
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::OnMove"
+},
+"0x100cb4e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file",
+"symbol": "Actor_SelectNearestLights",
+"unit": "unit_100C8280"
 },
 "0x100cbd60": {
 "class": "CXiSkeletonActor",

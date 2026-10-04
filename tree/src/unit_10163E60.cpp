@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1016DDF0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 {
   _DWORD v4[16];
@@ -41,7 +41,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 20 returned normally, 325 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 20 returned normally, 325 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 20, town PASS 27, town2 PASS 27, combat PASS 25, zonetoinn PASS 27
 XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
@@ -718,7 +718,7 @@ LABEL_18:
 }
 
 // FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 33 returned normally, 880 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 33 returned normally, 880 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 33, town PASS 33, town2 PASS 33, combat PASS 33, zonetoinn PASS 33
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 {
   int v3;
@@ -839,7 +839,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 136806 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 27 returned normally, 136806 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 33, town2 PASS 34, combat PASS 31, zonetoinn PASS 35
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;

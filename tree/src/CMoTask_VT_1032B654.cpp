@@ -3,7 +3,7 @@
 #include "CMoTask_VT_1032B654.hpp"
 
 // FUNCTION: FFXIMAIN 0x10053350  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoTask_VT_1032B654::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -14,14 +14,14 @@ _DWORD * CMoTask_VT_1032B654::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10054460  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoTask_VT_1032B654::vf011()
 {
   return (int)orig::CMoGeneratorClone_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x10054470  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CMoTask_VT_1032B654::vf012(int a1)
 {
   return (int)orig::CMoGeneratorClone_VT_1032B69C_ScalarDeletingDtor((char *)this - 48, a1);

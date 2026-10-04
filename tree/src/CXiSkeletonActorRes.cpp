@@ -3,14 +3,14 @@
 #include "CXiSkeletonActorRes.hpp"
 
 // FUNCTION: FFXIMAIN 0x100C51B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char ** __cdecl CXiSkeletonActorRes::GetRuntimeClass()
 {
   return &CXiSkeletonActorRes_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100D7000  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -21,7 +21,7 @@ _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D7020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -35,7 +35,7 @@ _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100D7050  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActorRes::Destructor()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -50,14 +50,14 @@ char CXiSkeletonActorRes::Destructor()
 }
 
 // FUNCTION: FFXIMAIN 0x100D7090  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 {
   return at<uint32_t>(this, 0x34);
 }
 
 // FUNCTION: FFXIMAIN 0x100D70A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 20 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 20 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CXiSkeletonActorRes::ProcessLoadState()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

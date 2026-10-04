@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x101791F0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 {
   g_pCDx->pDevice->SetTexture(0, nullptr);
@@ -15,7 +15,7 @@ XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101792A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 {
   g_pCDx->pDevice->CreateVertexShader(&g_zoneVSDeclA, nullptr, self_ + 234580, 0);
@@ -23,7 +23,7 @@ XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 57 returned normally, 380 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 57 returned normally, 380 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57, town PASS 56, town2 PASS 56, combat PASS 56, zonetoinn PASS 56
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(_DWORD *self_, _DWORD *a2)
 {
   IDirect3DDevice8 *pDevice;
@@ -84,7 +84,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1017B510  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 84 returned normally, 10102 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 84 returned normally, 10102 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Zone_RenderEnvironment(int self_)
 {
   unsigned int *v2;
@@ -581,7 +581,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x10182F10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Gfx_DrawWireBox(int a1)
 {
   double v1;
@@ -704,7 +704,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10183490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 84 returned normally, 2858 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 84 returned normally, 2858 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84, town PASS 88, town2 PASS 88, combat PASS 88, zonetoinn PASS 88
 XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
 {
   float *result;
@@ -795,7 +795,7 @@ XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10183760  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 73 returned normally, 3068 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 73 returned normally, 3068 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 73, town PASS 82, town2 PASS 82, combat PASS 82, zonetoinn PASS 82
 XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int a5)
 {
   int v5;
@@ -934,7 +934,7 @@ LABEL_26:
 }
 
 // FUNCTION: FFXIMAIN 0x10183DA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 {
   _DWORD *result;
@@ -1269,7 +1269,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10185CA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 67 returned normally, 1649 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 67 returned normally, 1649 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 71
 XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4)
 {
   float *v5;

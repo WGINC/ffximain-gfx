@@ -98,6 +98,11 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:evidence_names.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:reg_leftover_audit.json": {
   "ok": true,
   "differing": [],
@@ -147,6 +152,12 @@
    "0x1000A705"
   ]
  },
+ "tree-source": {
+  "ok": true,
+  "export_commit": "0f32b95",
+  "sha1": "6178e8203c1d28399c676a4b2965ca57f81553ff",
+  "same_as_committed_export": false
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
@@ -190,6 +201,6 @@
    "combat",
    "zonetoinn"
   ],
-  "note": "from the full run (fuzz + four live dumps) of the same commit; tree-regen from the quick run after the gcc-quote fix"
+  "note": "the committed tree as built, gated in full on 4 Oct (runs/p40b, the gate tooling of commit 46adde7); tree-regen and the other checks from the quick run of this commit"
  }
 }

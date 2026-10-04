@@ -63,6 +63,10 @@ def main():
     bad = [r['dump'] for r in recs if r['timestamp'] != r['analysed_timestamp']]
     report('dumps', not bad and bool(recs), dumps=[r['dump'] for r in recs], not_the_build=bad)
 
+    # the export the verified tree and its verdicts come from (tree/source.json): taken from the commit that
+    # holds it, checked by SHA-1 in step 7
+    src = load(os.path.join(ROOT, 'tree', 'source.json')); texp = os.path.join(tmp, 'tree_export.jsonl')
+    sh('git show %s:data/exports/gfx_export.jsonl > %s' % (src['export_commit'], texp))
     # 2 facts re-derived (each tool reads the committed inputs it depends on, so the chain is checked link by link)
     facts = [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
              ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
@@ -73,7 +77,7 @@ def main():
              ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
              ('edx_use.json', 'edx_inputs.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
              ('evidence_names.json', 'evidence_names.py {o}'),
-             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s verification/gate_raw_combined.jsonl {o}' % EXP)]
+             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, src['raw_gate']))]     # the verified raw translation's
     for f, cmd in facts:
         o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))
         if rc or not os.path.exists(o): report('facts:' + f, False, error=out.strip().splitlines()[-1:] or rc); continue
@@ -110,7 +114,8 @@ def main():
     for fn in sorted(os.listdir(os.path.join(D, 'hx_patches'))):
         p = load(os.path.join(D, 'hx_patches', fn)); ea = int(fn[:-5], 16); r = recs.get(ea)
         if not (p.get('why') and p.get('evidence')): noev.append(fn)
-        if r is None or hx_patches.sha1(r['text']) != p['text_sha1'] or any(r['text'].count(o) != 1 for o, _ in p['replace']): stale.append(fn)
+        v = hx_patches.variant(p, r['text']) if r is not None else None
+        if v is None or any(r['text'].count(o) != 1 for o, _ in v['replace']): stale.append(fn)
     report('hx_patches', not stale and not noev, patches=len(os.listdir(os.path.join(D, 'hx_patches'))), stale=stale, without_evidence=noev)
     tf = load(os.path.join(D, 'type_fixes.json')); items = tf.items() if isinstance(tf, dict) else enumerate(tf)
     noev = [k for k, v in items if not k.startswith('_') and isinstance(v, dict) and not (v.get('evidence') or v.get('why'))] if isinstance(tf, dict) else []
@@ -125,8 +130,12 @@ def main():
         sp = [k for k, v in load(os.path.join(D, 'sp_solved.json')).items() if isinstance(v, dict) and name in v.get('rests_on_accepted', [])]
         report('accepted:' + name, None, status=fd['status'][:60] + '...', com_calls=len(cc), balances=sp)
 
-    # 7 the tree is what the committed export and verdicts generate
-    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s verification/gate_raw_combined.jsonl %s' % (EXP, t))
+    # 7 the tree is what its recorded inputs generate (tree/source.json: the export, from the commit that holds
+    #   it and checked by SHA-1, and the raw verdicts)
+    got = hashlib.sha1(open(texp, 'rb').read()).hexdigest() if os.path.getsize(texp) else None
+    report('tree-source', got == src['export_sha1'], export_commit=src['export_commit'], sha1=got,
+           same_as_committed_export=got == hashlib.sha1(open(EXP, 'rb').read()).hexdigest())
+    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (texp, src['raw_gate'], t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):

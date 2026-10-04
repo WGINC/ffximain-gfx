@@ -1,0 +1,6 @@
+{
+ "_doc": "The inputs this tree was generated from (pipeline/regen_clean.sh). verify_all.py regenerates the tree from exactly these: the export is taken from the named commit and checked against its SHA-1.",
+ "export_sha1": "6178e8203c1d28399c676a4b2965ca57f81553ff",
+ "export_commit": "0f32b95",
+ "raw_gate": "verification/gate_raw_combined.jsonl"
+}

@@ -4,7 +4,7 @@
 Embeds data/names_pending_idb.json, data/type_fixes.json, data/real_sp.json and the function list of
 data/exports/gfx_export.jsonl into ida/ida_fix.template (not runnable itself).
 """
-import json, os
+import json, os, re
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 D = os.path.join(R, 'data')
 data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encoding='utf-8')),
@@ -14,6 +14,10 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
         'export': [json.loads(l)['ea'] for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))],
         'classes': json.load(open(os.path.join(D, 'ida_classes.json')))['classes'],
         'pre_class_types': json.load(open(os.path.join(D, 'pre_class_types.json')))['types']}     # make_ida_types.py
+# the D3D8 types pipeline/xi_d3d8.hpp defines: the types header the IDA pass writes leaves these to it
+_d3d = open(os.path.join(R, 'pipeline', 'xi_d3d8.hpp')).read()
+data['types_external'] = sorted(set(re.findall(r'\b(?:struct|union|enum)\s+(\w+)\s*(?::\s*[\w\s]+)?\{', _d3d))
+                                | set(re.findall(r'(?m)^\s*typedef\s+[^;{(]*?\b(\w+)\s*;', _d3d)))
 # every call whose stack effect is known exactly, per exported function: measured (real_sp) or solved (sp_solve)
 solved = json.load(open(os.path.join(D, 'sp_solved.json')))
 want = {'0x%08X' % e for e in data['export']}; sp_calls = {}

@@ -114,3 +114,19 @@ and are run as one fixpoint once the pieces exist.
 Anything without a definitive source: offsets accessed at several widths (unions the code does not
 disambiguate), pointers whose definitions disagree or are unknown (callbacks, data from files), functions
 with no naming evidence. These are listed per function in the residue, as the gate's UNRESOLVED calls are.
+
+## The 4 UNRESOLVED calls and the 2 constructs (examined 4 Oct)
+
+What was established, from where, and what is still missing. Nothing below is used by the pipeline yet.
+
+| Call / function | Object called through | Established | Missing |
+|---|---|---|---|
+| `0x10009F44` in CDx_PushRenderTargetTexture | its first argument, slot 0x3C | callers are 4 wrappers (`0x10009E20/60/A0/E0`) passing it through | what their callers pass: whole-program flow (phase 2) |
+| `0x1006C16F` in CMoOcclusionMng_Constructor | `[[g_pCDx]+0x194]`, slot 0x3C | in all four dumps the object is non-null and its vtable `0x6914A5E4` lies in D3D8.dll; slot 0x3C is `0x690E0110` there | a type for CDx+0x194: 60 instructions in the binary write some `[reg+0x194]`, so a writer proof needs points-to (phase 2). The dumps' D3D8.dll decodes as ARM64 (a hybrid DLL on Windows-on-ARM), so its `ret N` cannot be read from the dump (`live_state.purge` returns nothing there). |
+| `0x102811DC` in sqgxSprite | `[g_pSqgxContext+0x9FC]`, slot 0x2C | g_pSqgxContext is written at `0x10251B70`, `0x10251CE6`; +0x9FC by 6 instructions | it is NULL in all four dumps (no evidence there); the writers' values: phase 2 |
+| `0x10047623` in CMoSkeletonElem_UpdateBoneTransform | `[this+0x1D5]`, slot 198 (0x318) | in the whole binary +0x1D5 is written by 2 instructions in the CMoSkeletonElem constructor (`0x1004798C`: 0; `0x100479BE`: the result of `Mem_AllocFromArea` + `CXiSkeletonActor_Constructor_1Arg` (returns `this`), or 0 when allocation fails) and by 5 `lea` in `0x101C5xxx` (methods of the class with vtable `0x10337C8C` at +4, taking the address of a string at +0x1D5). The constructor stores vtable `0x10330F40`; its slot 198 is `0x100A4A10`, which pops 0 (`purges.json`). | that no later code changes the object's vtable (the constructor calls `CXiSkeletonActor_Init` after storing it, and calls happen on the object afterwards), and that the `0x101C5xxx` methods never run on a CMoSkeletonElem. No CMoSkeletonElem instance exists in any dump. |
+| `0x100548D0` (construct) | -- | returns the x87 status word on one path. It is slot 11 of CMoLfdElem's vtable, the same slot as CMoSkeletonElem_UpdateBoneTransform. In the other `*Elem` classes slot 11 is `0x10046070` or `0x100531A0` (which leaves EAX as it found it). | whether any caller reads EAX after a slot-11 call. That needs the set of call sites that can dispatch to that slot (phase 2). With it, the function is gated as `void` and stops being a construct. |
+| `0x10177420` ZoneMap_SetOverlayProjection (construct) | -- | in export 02c4c27f its pseudocode no longer has the `__asm` block (the return-type fix of 2 Oct took effect) | the r9 gate; the construct entry goes once it passes |
+
+So the four calls and the first construct all wait on one thing: the whole-program analysis (phase 2), which
+gives the objects that reach a field or a dispatch site.

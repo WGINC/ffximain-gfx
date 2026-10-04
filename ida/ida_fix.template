@@ -565,6 +565,31 @@ def reexport(report):
     report['export']['stats'] = STATS
     log('export: calls typed in the IDB %(calls_typed)d, cast by Hex-Rays %(calls_cast)d; comparisons %(cmps)d integer, '
         '%(fcmps)d float (%(cmp_errors)d could not be printed)' % STATS)
+    export_type_decls(report, out)
+
+
+def export_type_decls(report, export_file):
+    """gfx_types_game.h next to the export: IDA's own declarations (print_decls) of every type the exported
+    functions use, so the translation compiles against the IDB the functions came from. The D3D8 types are
+    left out: pipeline/xi_d3d8.hpp declares them (DATA['types_external'], its definitions)."""
+    names = set()
+    for l in open(export_file):
+        names.update(json.loads(l).get('types', []))
+    ext = set(DATA['types_external'])
+    ordl = sorted({o for o in (ida_typeinf.get_type_ordinal(ida_typeinf.get_idati(), n) for n in names) if o})
+    txt = idc.print_decls(','.join(str(o) for o in ordl), ida_typeinf.PDF_INCL_DEPS | ida_typeinf.PDF_DEF_FWD) or ''
+    blocks = re.split(r'(?m)^(?=/\* \d+ \*/$)', txt)
+    keep, dropped = [], []
+    for b in blocks:
+        m = (re.search(r'(?m)^(?:typedef\s+)?(?:struct|union|enum)\s+(?:__\w+(?:\(\d+\))?\s+)*(\w+)\s*(?::[^{\n]*)?\n?\{', b)
+             or re.search(r'(?m)^typedef\s[^;]*?\b(\w+)\s*;', b))
+        if m and m.group(1) in ext: dropped.append(m.group(1)); continue
+        keep.append(b)
+    out = os.path.join(OUT_DIR, 'gfx_types_game.h')
+    open(out, 'w').write("// Game types exported from the IDB (IDA print_decls); D3D types come from xi_d3d8.hpp.\n"
+                         "#pragma once\n" + ''.join(keep))
+    report['types_header'] = {'file': out, 'types_used': len(names), 'blocks': len(keep), 'left_to_xi_d3d8': sorted(set(dropped))}
+    log('types: %d declarations written to %s (%d D3D8 declarations left to xi_d3d8.hpp)' % (len(keep), out, len(set(dropped))))
 
 
 def main():

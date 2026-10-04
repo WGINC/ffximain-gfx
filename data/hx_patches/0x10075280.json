@@ -1,0 +1,15 @@
+{
+ "why": "The call at 0x1007531D (slot 8 of the object at [[g_pResourceMng+0xDC8]+0x90], with the object pushed last) pops 8 bytes: the callee cleans up its two stack arguments. Hex-Rays cast it __cdecl, so the reconstruction also cleaned them up itself and its stack ended 8 bytes off. IDA's SP after that call is 8 bytes off for the same reason (the SP point there was reverted on 2 Oct, when no source settled the call; the solver now does), so Hex-Rays names the read of the surface description's Format, [esp+18h] at real depth 56, as v13 -- 8 bytes from the description buffer v14 that GetDesc filled through `lea edx, [esp+18h]` at the same depth. Every other slot used after the call is only ever accessed after it, so this is the one cross-call slot.",
+ "evidence": "data/sp_solved.json: 0x1007531D pops 8, solved from 0x10075280's own stack balance (sp_solve.py, self-tested); the code after the call has no `add esp`. data/callsite_audit.json flags the Hex-Rays cast (0) as differing. Measured depths (data/real_sp.json): 64 at 0x1007531D, 56 after; 0x10075366 mov ebx, [esp+18h] at depth 56 is the Format pushed for CreateCubeTexture (0x10075388); the description pointer is esp+18h at depth 56 too.",
+ "text_sha1": "6188a8fe5bd28d5076c15401f3214c8ff45746fd",
+ "replace": [
+  [
+   "(*(void (__cdecl **)(_DWORD, _DWORD *))(**(_DWORD **)(*(_DWORD *)(g_pResourceMng + 3528) + 144) + 32))(",
+   "(*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(*(_DWORD *)(g_pResourceMng + 3528) + 144) + 32))("
+  ],
+  [
+   "      v13,\n",
+   "      v14[0],\n"
+  ]
+ ]
+}

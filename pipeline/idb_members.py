@@ -24,7 +24,8 @@ def parse(text):
             if not line or line.startswith(('//', '/*')): continue
             assert line.endswith(';'), (m.group(1), line)
             d = line[:-1].strip()
-            fp = re.match(r'^(.*\(\s*__\w+\s*\*\s*)(\w+)(\).*)$', d) or re.match(r'^(.*\(\s*\*\s*)(\w+)(\).*)$', d)
+            # the member's name is in the first `(__cc *name)` / `(*name)`: a parameter list can hold `(__int16 *self)` too
+            fp = re.match(r'^(.*?\(\s*__\w+\s*\*\s*)(\w+)(\).*)$', d) or re.match(r'^(.*?\(\s*\*\s*)(\w+)(\).*)$', d)
             if fp:
                 mem.append((fp.group(2), fp.group(1) + fp.group(3), [])); continue
             a = re.match(r'^(.*?)\b(\w+)((?:\[\d+\])*)$', d)

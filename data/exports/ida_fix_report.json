@@ -1,5 +1,17 @@
 {
  "sp": {
+  "0x100412B0": {
+   "name": "CMoD3mSpecularElem_vf18",
+   "fixes": [
+    {
+     "call": "0x1004132C",
+     "ida_change_was": 16,
+     "real_change": 12,
+     "now": 12
+    }
+   ],
+   "not_corrected": 0
+  },
   "0x1006B3B0": {
    "name": "sub_1006B3B0",
    "fixes": [
@@ -50,6 +62,42 @@
      "ida_change_was": 0,
      "real_change": 4,
      "now": 4
+    }
+   ],
+   "not_corrected": 0
+  },
+  "0x1006AF00": {
+   "name": "sub_1006AF00",
+   "fixes": [
+    {
+     "call": "0x1006AF1C",
+     "ida_change_was": 12,
+     "real_change": 4,
+     "now": 4
+    },
+    {
+     "call": "0x1006AF5E",
+     "ida_change_was": 0,
+     "real_change": 8,
+     "now": 8
+    }
+   ],
+   "not_corrected": 0
+  },
+  "0x1006AF90": {
+   "name": "StateBlock_ApplyTSS",
+   "fixes": [
+    {
+     "call": "0x1006AFAC",
+     "ida_change_was": 12,
+     "real_change": 4,
+     "now": 4
+    },
+    {
+     "call": "0x1006AFF3",
+     "ida_change_was": 0,
+     "real_change": 8,
+     "now": 8
     }
    ],
    "not_corrected": 0
@@ -380,14 +428,14 @@
    "result": "already right"
   },
   "0x1003D481": {
-   "function": "sub_1003D220",
+   "function": "CMoCameraTask_vf8",
    "target": "0x1003D010",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1003D5AA": {
-   "function": "sub_1003D220",
+   "function": "CMoCameraTask_vf8",
    "target": "0x1003D010",
    "args_before": 2,
    "args_wanted": 2,
@@ -408,14 +456,14 @@
    "result": "already right"
   },
   "0x10043B2A": {
-   "function": "sub_10043B00",
+   "function": "CMoTask_VT_1032AF60_vf8",
    "target": "0x10043A90",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10043D2A": {
-   "function": "sub_10043D00",
+   "function": "CMoTask_VT_1032AFA8_vf8",
    "target": "0x10043C90",
    "args_before": 2,
    "args_wanted": 2,
@@ -444,49 +492,49 @@
    "args_after": 2
   },
   "0x10057E24": {
-   "function": "sub_10057E10",
+   "function": "CMoSchedularTask_vf8",
    "target": "0x10057250",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005EC75": {
-   "function": "sub_1005E9C0",
+   "function": "CMoPathDriveActorTask_vf8",
    "target": "0x1005F2C0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005F3E6": {
-   "function": "sub_1005F3C0",
+   "function": "CMoLockColorDriveTask_vf8",
    "target": "0x1005F3F0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005F64F": {
-   "function": "sub_1005F540",
+   "function": "CMoLockLookAtDriveTask_vf8",
    "target": "0x1005F660",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005F834": {
-   "function": "sub_1005F820",
+   "function": "CMoActorColorDriveTask_vf8",
    "target": "0x1005F990",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005F970": {
-   "function": "sub_1005F820",
+   "function": "CMoActorColorDriveTask_vf8",
    "target": "0x1005F990",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1005FE1B": {
-   "function": "sub_1005FB30",
+   "function": "CMoActorRotationDriveTask_vf8",
    "target": "0x1005FE30",
    "args_before": 2,
    "args_wanted": 2,
@@ -500,56 +548,56 @@
    "result": "already right"
   },
   "0x10060146": {
-   "function": "sub_100600F0",
+   "function": "CMoTask_VT_1032B95C_vf8",
    "target": "0x10060190",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x100602C2": {
-   "function": "sub_100602A0",
+   "function": "CMoTask_VT_1032BB0C_vf8",
    "target": "0x100602D0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x1006037A": {
-   "function": "sub_10060330",
+   "function": "CMoTask_VT_1032B8E8_vf8",
    "target": "0x10060450",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x100604FF": {
-   "function": "sub_100604B0",
+   "function": "CMoTask_VT_1032B890_vf8",
    "target": "0x10060590",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x100608A2": {
-   "function": "sub_10060880",
+   "function": "CMoTask_VT_1032BB54_vf8",
    "target": "0x100608B0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10060A14": {
-   "function": "sub_100609F0",
+   "function": "CMoTask_VT_1032BB80_vf8",
    "target": "0x10060A50",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10060E52": {
-   "function": "sub_10060E30",
+   "function": "CMoTask_VT_1032BC10_vf8",
    "target": "0x10060E60",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10060FF2": {
-   "function": "sub_10060FD0",
+   "function": "CMoTask_VT_1032BC3C_vf8",
    "target": "0x10061010",
    "args_before": 2,
    "args_wanted": 2,
@@ -563,63 +611,63 @@
    "result": "already right"
   },
   "0x100619F2": {
-   "function": "sub_100619D0",
+   "function": "CMoTask_VT_1032BE08_vf8",
    "target": "0x10061A00",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10061B72": {
-   "function": "sub_10061B50",
+   "function": "CMoTask_VT_1032BE50_vf8",
    "target": "0x10061B80",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10061CF2": {
-   "function": "sub_10061CD0",
+   "function": "CMoTask_VT_1032BE98_vf8",
    "target": "0x10061D00",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10061E92": {
-   "function": "sub_10061E70",
+   "function": "CMoTask_VT_1032BEE0_vf8",
    "target": "0x10061EA0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10062082": {
-   "function": "sub_10062060",
+   "function": "CMoTask_VT_1032BF28_vf8",
    "target": "0x10062090",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10062202": {
-   "function": "sub_100621E0",
+   "function": "CMoTask_VT_1032BF70_vf8",
    "target": "0x10062210",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x100623A2": {
-   "function": "sub_10062380",
+   "function": "CMoTask_VT_1032BFB8_vf8",
    "target": "0x100623B0",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x10062542": {
-   "function": "sub_10062520",
+   "function": "CMoTask_VT_1032C000_vf8",
    "target": "0x10062550",
    "args_before": 2,
    "args_wanted": 2,
    "result": "already right"
   },
   "0x100626F2": {
-   "function": "sub_100626D0",
+   "function": "CMoTask_VT_1032C048_vf8",
    "target": "0x10062700",
    "args_before": 2,
    "args_wanted": 2,
@@ -633,7 +681,7 @@
    "result": "already right"
   },
   "0x10084F62": {
-   "function": "sub_10084F40",
+   "function": "XiActorTimerTask_vf8",
    "target": "0x10084F70",
    "args_before": 2,
    "args_wanted": 2,
@@ -1612,6 +1660,20 @@
    "args_wanted": 2,
    "result": "already right"
   },
+  "0x1000A6A0": {
+   "function": "CDx_DrawTexturedScreenQuad",
+   "target": "int __stdcall f(void *self, int a0, int a1);",
+   "args_before": 3,
+   "args_wanted": 3,
+   "result": "already right"
+  },
+  "0x1000A6B1": {
+   "function": "CDx_DrawTexturedScreenQuad",
+   "target": "int __stdcall f(void *self, int a0);",
+   "args_before": 2,
+   "args_wanted": 2,
+   "result": "already right"
+  },
   "0x1000A737": {
    "function": "CDx_CreateTexture",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2, int a3, int a4, int a5, int a6);",
@@ -2369,7 +2431,7 @@
    "result": "already right"
   },
   "0x1003F3BA": {
-   "function": "sub_1003F130",
+   "function": "CMoVuAnmElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
@@ -2509,22 +2571,21 @@
    "result": "already right"
   },
   "0x1004132C": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1);",
-   "args_before": 4,
+   "args_before": 3,
    "args_wanted": 3,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 3
+   "result": "already right"
   },
   "0x10041349": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x100414C4": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 5,
    "args_wanted": 4,
@@ -2532,7 +2593,7 @@
    "args_after": 4
   },
   "0x100414D5": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 5,
    "args_wanted": 4,
@@ -2540,7 +2601,7 @@
    "args_after": 4
   },
   "0x100414EF": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 2,
    "args_wanted": 4,
@@ -2548,49 +2609,49 @@
    "args_after": 4
   },
   "0x10041597": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x100415BA": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x100415D4": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x100415E6": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x10041600": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x1004165C": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x1004167F": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 5,
    "args_wanted": 4,
@@ -2598,7 +2659,7 @@
    "args_after": 4
   },
   "0x10041690": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 5,
    "args_wanted": 4,
@@ -2606,7 +2667,7 @@
    "args_after": 4
   },
   "0x100416AA": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 3,
    "args_wanted": 4,
@@ -2614,7 +2675,7 @@
    "args_after": 4
   },
   "0x100418F1": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 3,
    "args_wanted": 4,
@@ -2622,56 +2683,56 @@
    "args_after": 4
   },
   "0x1004190B": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x10041925": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1, int a2);",
    "args_before": 4,
    "args_wanted": 4,
    "result": "already right"
   },
   "0x10041980": {
-   "function": "sub_100412B0",
+   "function": "CMoD3mSpecularElem_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x10041BED": {
-   "function": "sub_10041AF0",
+   "function": "CMoElem_VT_1032ADE8_vf18",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x10042A69": {
-   "function": "CMoDist_vf18",
+   "function": "sub_100426F0",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x10042AA1": {
-   "function": "CMoDist_vf18",
+   "function": "sub_100426F0",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x10042B0C": {
-   "function": "CMoDist_vf18",
+   "function": "sub_100426F0",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
    "result": "already right"
   },
   "0x10042C54": {
-   "function": "CMoDist_vf18",
+   "function": "sub_100426F0",
    "target": "int __stdcall f(void *self, int a0, int a1);",
    "args_before": 3,
    "args_wanted": 3,
@@ -3220,10 +3281,9 @@
   "0x1006AF1C": {
    "function": "sub_1006AF00",
    "target": "int __stdcall f(void *self);",
-   "args_before": 3,
+   "args_before": 1,
    "args_wanted": 1,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 1
+   "result": "already right"
   },
   "0x1006AF3C": {
    "function": "sub_1006AF00",
@@ -3249,10 +3309,9 @@
   "0x1006AFAC": {
    "function": "StateBlock_ApplyTSS",
    "target": "int __stdcall f(void *self);",
-   "args_before": 3,
+   "args_before": 1,
    "args_wanted": 1,
-   "result": "forced via set_op_tinfo(ptr)",
-   "args_after": 1
+   "result": "already right"
   },
   "0x1006AFD0": {
    "function": "StateBlock_ApplyTSS",
@@ -3789,7 +3848,14 @@
    "result": "already right"
   }
  },
- "conventions": {},
+ "conventions": {
+  "0x10052A80": {
+   "name": "?Win95IsDebuggerPresent@@YGHXZ",
+   "was": "int __stdcall()",
+   "now": "int __thiscall(void *self)",
+   "result": "thiscall"
+  }
+ },
  "classes": {
   "CDx": {
    "struct": "kept the IDB's own type",
@@ -3798,6 +3864,20 @@
     "0x10008F80": "left: not __thiscall",
     "0x10009100": "this: CDx * (artifacts 0 -> 0)",
     "0x10009120": "this: CDx * (artifacts 0 -> 0)"
+   }
+  },
+  "CMoActorColorDriveTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 12 fields added",
+   "methods": {
+    "0x1005F820": "this: CMoActorColorDriveTask * (artifacts 14 -> 8)"
+   }
+  },
+  "CMoActorRotationDriveTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 9 fields added",
+   "methods": {
+    "0x1005FB30": "this: CMoActorRotationDriveTask * (artifacts 7 -> 3)"
    }
   },
   "CMoAttachments": {
@@ -4024,6 +4104,15 @@
     "0x100719F0": "left: not __thiscall"
    }
   },
+  "CMoCameraTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 5 fields added",
+   "methods": {
+    "0x1003D160": "this: CMoCameraTask * (artifacts 2 -> 2)",
+    "0x1003D220": "this: CMoCameraTask * (artifacts 42 -> 30)",
+    "0x1003D5F0": "this: CMoCameraTask * (artifacts 2 -> 0)"
+   }
+  },
   "CMoCelestial": {
    "struct": "kept the IDB's own type",
    "extended": "0 fields added",
@@ -4158,6 +4247,20 @@
     "0x100548D0": "this: CMoLfdElem * (artifacts 26 -> 26)"
    }
   },
+  "CMoLockColorDriveTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 2 fields added",
+   "methods": {
+    "0x1005F3C0": "this: CMoLockColorDriveTask * (artifacts 3 -> 0)"
+   }
+  },
+  "CMoLockLookAtDriveTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 3 fields added",
+   "methods": {
+    "0x1005F540": "this: CMoLockLookAtDriveTask * (artifacts 14 -> 12)"
+   }
+  },
   "CMoNullProgElem": {
    "struct": "kept the IDB's own type",
    "extended": "offset 0 is CMoElem base; 0 fields added; 1 inside an existing member",
@@ -4192,6 +4295,22 @@
    "methods": {
     "0x10042650": "left: not __thiscall",
     "0x10042660": "this: CMoOtTask * (artifacts 0 -> 0)"
+   }
+  },
+  "CMoOtTask_VT_1032AE64": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoOtTask base; 4 fields added",
+   "methods": {
+    "0x100421A0": "reverted: artifacts rose 9 -> 10 with this: CMoOtTask_VT_1032AE64 *"
+   }
+  },
+  "CMoPathDriveActorTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 15 fields added",
+   "methods": {
+    "0x10055AD0": "left: not __thiscall",
+    "0x1005E9C0": "this: CMoPathDriveActorTask * (artifacts 24 -> 7)",
+    "0x1005EEF0": "this: CMoPathDriveActorTask * (artifacts 17 -> 11)"
    }
   },
   "CMoPathObject": {
@@ -4533,6 +4652,15 @@
     "0x101893F0": "left: not __thiscall"
    }
   },
+  "CMoSchedularTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 3 fields added; 2 inside an existing member",
+   "methods": {
+    "0x10057D30": "this: CMoSchedularTask * (artifacts 2 -> 0)",
+    "0x10057D60": "this: CMoSchedularTask * (artifacts 5 -> 5)",
+    "0x10057E10": "left: not __thiscall"
+   }
+  },
   "CMoSkeletonElem": {
    "struct": "kept the IDB's own type",
    "extended": "offset 0 is CMoElem base; 0 fields added; 6 inside an existing member",
@@ -4598,6 +4726,20 @@
     "0x10035B00": "this: CMoTask_VT_1032A904 * (artifacts 0 -> 0)"
    }
   },
+  "CMoTask_VT_1032AF60": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 9 fields added",
+   "methods": {
+    "0x10043B00": "this: CMoTask_VT_1032AF60 * (artifacts 3 -> 1)"
+   }
+  },
+  "CMoTask_VT_1032AFA8": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 9 fields added",
+   "methods": {
+    "0x10043D00": "this: CMoTask_VT_1032AFA8 * (artifacts 3 -> 1)"
+   }
+  },
   "CMoTask_VT_1032B654": {
    "struct": "kept the IDB's own type",
    "extended": "offset 0 is CMoTask base; 1 fields added; 3 inside an existing member",
@@ -4606,6 +4748,143 @@
     "0x100541C0": "this: CMoTask_VT_1032B654 * (artifacts 4 -> 4)",
     "0x100541F0": "this: CMoTask_VT_1032B654 * (artifacts 0 -> 0)",
     "0x10054220": "this: CMoTask_VT_1032B654 * (artifacts 10 -> 10)"
+   }
+  },
+  "CMoTask_VT_1032B890": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 11 fields added",
+   "methods": {
+    "0x100604B0": "this: CMoTask_VT_1032B890 * (artifacts 9 -> 0)",
+    "0x10060590": "this: CMoTask_VT_1032B890 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032B8BC": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 5 fields added",
+   "methods": {
+    "0x100605E0": "this: CMoTask_VT_1032B8BC * (artifacts 15 -> 11)",
+    "0x10060750": "reverted: artifacts rose 0 -> 1 with this: CMoTask_VT_1032B8BC *"
+   }
+  },
+  "CMoTask_VT_1032B8E8": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 5 fields added",
+   "methods": {
+    "0x10060330": "reverted: artifacts rose 7 -> 12 with this: CMoTask_VT_1032B8E8 *",
+    "0x10060450": "this: CMoTask_VT_1032B8E8 * (artifacts 3 -> 1)"
+   }
+  },
+  "CMoTask_VT_1032B914": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 2 fields added",
+   "methods": {
+    "0x1005FFD0": "this: CMoTask_VT_1032B914 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032B95C": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 5 fields added",
+   "methods": {
+    "0x100600F0": "this: CMoTask_VT_1032B95C * (artifacts 5 -> 3)"
+   }
+  },
+  "CMoTask_VT_1032BB0C": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x100602A0": "this: CMoTask_VT_1032BB0C * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BB54": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10060880": "this: CMoTask_VT_1032BB54 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BB80": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 6 fields added",
+   "methods": {
+    "0x100609F0": "this: CMoTask_VT_1032BB80 * (artifacts 5 -> 0)",
+    "0x10060A50": "reverted: artifacts rose 0 -> 1 with this: CMoTask_VT_1032BB80 *"
+   }
+  },
+  "CMoTask_VT_1032BC10": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10060E30": "this: CMoTask_VT_1032BC10 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BC3C": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10060FD0": "this: CMoTask_VT_1032BC3C * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BE08": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x100619D0": "this: CMoTask_VT_1032BE08 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BE50": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10061B50": "this: CMoTask_VT_1032BE50 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BE98": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10061CD0": "this: CMoTask_VT_1032BE98 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BEE0": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10061E70": "this: CMoTask_VT_1032BEE0 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BF28": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10062060": "this: CMoTask_VT_1032BF28 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BF70": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x100621E0": "this: CMoTask_VT_1032BF70 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032BFB8": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10062380": "this: CMoTask_VT_1032BFB8 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032C000": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10062520": "this: CMoTask_VT_1032C000 * (artifacts 2 -> 0)"
+   }
+  },
+  "CMoTask_VT_1032C048": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x100626D0": "this: CMoTask_VT_1032C048 * (artifacts 2 -> 0)"
    }
   },
   "CMoTask_VT_1032C490": {
@@ -4700,6 +4979,26 @@
     "0x10182490": "left: not __thiscall",
     "0x10183370": "left: not __thiscall",
     "0x10186E70": "this: CTsZoneMap * (artifacts 0 -> 0)"
+   }
+  },
+  "CXi471011C8_VT_1032B3B8": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoElem base; 0 fields added; 3 inside an existing member",
+   "methods": {
+    "0x10040E70": "this: CXi471011C8_VT_1032B3B8 * (artifacts 5 -> 0)",
+    "0x10040FB0": "this: CXi471011C8_VT_1032B3B8 * (artifacts 1 -> 1)",
+    "0x10052EB0": "this: CXi471011C8_VT_1032B3B8 * (artifacts 0 -> 0)",
+    "0x10052EC0": "this: CXi471011C8_VT_1032B3B8 * (artifacts 0 -> 0)",
+    "0x10052ED0": "this: CXi471011C8_VT_1032B3B8 * (artifacts 0 -> 0)"
+   }
+  },
+  "CXi471011C8_VT_1032B478": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoElem base; 2 fields added",
+   "methods": {
+    "0x10052FA0": "left: not __thiscall",
+    "0x10052FB0": "this: CXi471011C8_VT_1032B478 * (artifacts 0 -> 0)",
+    "0x100565A0": "this: CXi471011C8_VT_1032B478 * (artifacts 16 -> 16)"
    }
   },
   "CXiActorNameDraw": {
@@ -5006,6 +5305,13 @@
     "0x102EA6F6": "left: not __thiscall"
    }
   },
+  "XiActorTimerTask": {
+   "struct": "kept the IDB's own type",
+   "extended": "offset 0 is CMoTask base; 1 fields added",
+   "methods": {
+    "0x10084F40": "this: XiActorTimerTask * (artifacts 2 -> 0)"
+   }
+  },
   "XiDoorActor": {
    "struct": "kept the IDB's own type",
    "extended": "offset 0 is CXiControlActor base; 0 fields added; 22 inside an existing member",
@@ -5033,19 +5339,19 @@
   "functions": 867,
   "skip": 14,
   "stats": {
-   "sp_checked": 3968,
+   "sp_checked": 3973,
    "sp_already_right": 3960,
-   "calls_typed": 8344,
+   "calls_typed": 8381,
    "cmps": 974,
    "fcmps": 829,
    "cmp_errors": 0,
-   "calls_cast": 1142
+   "calls_cast": 1111
   }
  },
  "types_header": {
   "file": "C:\\Users\\wadeglover\\Documents\\gfx_types_game.h",
-  "types_used": 236,
-  "blocks": 206,
+  "types_used": 264,
+  "blocks": 234,
   "left_to_xi_d3d8": [
    "D3DBACKBUFFER_TYPE",
    "D3DDEVTYPE",

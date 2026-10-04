@@ -469,7 +469,7 @@ null
 [
 "0x1003D476",
 "<=",
-"*(float *)(this + 120)",
+"*(float *)&this->field_78",
 "0.0",
 [
 "gt",
@@ -479,7 +479,7 @@ null
 [
 "0x1003D5A3",
 "<=",
-"*(float *)(this + 120)",
+"*(float *)&this->field_78",
 "0.0",
 [
 "gt",
@@ -3001,7 +3001,7 @@ null
 [
 "0x1005F57C",
 ">=",
-"*(this + 30) - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4)",
+"this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4)",
 "0.0",
 [
 "eq",
@@ -3026,7 +3026,7 @@ null
 [
 "0x1005F5DF",
 ">=",
-"*(this + 31) - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8)",
+"this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8)",
 "0.0",
 [
 "eq",
@@ -3062,7 +3062,7 @@ null
 [
 "0x1005F968",
 ">=",
-"*(this + 29)",
+"this->field_74",
 "0.0",
 [
 "eq",
@@ -3225,7 +3225,7 @@ null
 [
 "0x1005FE13",
 ">=",
-"*(this + 29)",
+"this->field_74",
 "0.0",
 [
 "eq",
@@ -6524,7 +6524,7 @@ null
 "0x10180082",
 ">=",
 "v352",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6555,7 +6555,7 @@ null
 "0x101803C8",
 ">=",
 "v354",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6564,7 +6564,7 @@ null
 "0x101803E1",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6608,7 +6608,7 @@ null
 "0x101807C4",
 ">=",
 "v356",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6617,7 +6617,7 @@ null
 "0x101807DD",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6628,7 +6628,7 @@ null
 "0x101807FA",
 ">=",
 "v387",
-"(double)flt_10639080",
+"(double)Fn1017DE20_static_9080",
 [
 "eq",
 "gt",
@@ -6683,7 +6683,7 @@ null
 "0x10180C76",
 ">=",
 "v358",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6692,7 +6692,7 @@ null
 "0x10180C8F",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6703,7 +6703,7 @@ null
 "0x10180CAC",
 ">=",
 "v387",
-"(double)flt_10639080",
+"(double)Fn1017DE20_static_9080",
 [
 "eq",
 "gt",
@@ -6714,7 +6714,7 @@ null
 "0x10180CC9",
 ">=",
 "v388",
-"(double)flt_10639084",
+"(double)Fn1017DE20_static_9084",
 [
 "eq",
 "gt",
@@ -6758,7 +6758,7 @@ null
 "0x1017EE7D",
 ">=",
 "v343",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6789,7 +6789,7 @@ null
 "0x1017F1C3",
 ">=",
 "v345",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6798,7 +6798,7 @@ null
 "0x1017F1DC",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6842,7 +6842,7 @@ null
 "0x1017F5BF",
 ">=",
 "v347",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6851,7 +6851,7 @@ null
 "0x1017F5D8",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6862,7 +6862,7 @@ null
 "0x1017F5F5",
 ">=",
 "v387",
-"(double)flt_10639080",
+"(double)Fn1017DE20_static_9080",
 [
 "eq",
 "gt",
@@ -6917,7 +6917,7 @@ null
 "0x1017FA71",
 ">=",
 "v349",
-"(double)flt_10639078",
+"(double)g_zoneVsC18_x",
 [
 "lt"
 ]
@@ -6926,7 +6926,7 @@ null
 "0x1017FA8A",
 ">=",
 "v385",
-"(double)flt_1063907C",
+"(double)Fn1017DE20_static_907C",
 [
 "eq",
 "gt",
@@ -6937,7 +6937,7 @@ null
 "0x1017FAA7",
 ">=",
 "v387",
-"(double)flt_10639080",
+"(double)Fn1017DE20_static_9080",
 [
 "eq",
 "gt",
@@ -6948,7 +6948,7 @@ null
 "0x1017FAC4",
 ">=",
 "v388",
-"(double)flt_10639084",
+"(double)Fn1017DE20_static_9084",
 [
 "eq",
 "gt",

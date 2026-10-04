@@ -132,14 +132,209 @@
 [
 "_pad_34",
 52,
-84,
+64,
 "unsigned __int8",
 [
-84
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"float",
+[]
+],
+[
+"field_78",
+120,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+124,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_7D",
+125,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_7E",
+126,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_7F",
+127,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_80",
+128,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_81",
+129,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_82",
+130,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_83",
+131,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_84",
+132,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_85",
+133,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_34_86",
+134,
+2,
+"unsigned __int8",
+[
+2
 ]
 ]
 ],
 "size": 136
+},
+"CMoActorRotationDriveTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"float",
+[]
+],
+[
+"field_78",
+120,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+124,
+4,
+"unsigned int",
+[]
+],
+[
+"field_80",
+128,
+4,
+"float",
+[]
+],
+[
+"field_84",
+132,
+4,
+"float",
+[]
+],
+[
+"field_88",
+136,
+4,
+"float",
+[]
+],
+[
+"_pad_34_8C",
+140,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_90",
+144,
+4,
+"float",
+[]
+],
+[
+"field_94",
+148,
+4,
+"float",
+[]
+],
+[
+"field_98",
+152,
+4,
+"float",
+[]
+],
+[
+"_pad_34_9C",
+156,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 160
 },
 "CMoAttachments": {
 "members": [
@@ -545,6 +740,71 @@
 ]
 ],
 "size": 28
+},
+"CMoCameraTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"unsigned int",
+[]
+],
+[
+"field_78",
+120,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7C",
+124,
+4,
+"float",
+[]
+],
+[
+"_pad_34_80",
+128,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_C0",
+192,
+4,
+"unsigned int",
+[]
+],
+[
+"field_C4",
+196,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 200
 },
 "CMoCelestial": {
 "members": [
@@ -1343,10 +1603,33 @@
 [
 "_pad_34",
 52,
-72,
+64,
 "unsigned __int8",
 [
-72
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"float",
+[]
+],
+[
+"field_78",
+120,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_34_79",
+121,
+3,
+"unsigned __int8",
+[
+3
 ]
 ]
 ],
@@ -1364,11 +1647,32 @@
 [
 "_pad_34",
 52,
-76,
+64,
 "unsigned __int8",
 [
-76
+64
 ]
+],
+[
+"field_74",
+116,
+4,
+"float",
+[]
+],
+[
+"field_78",
+120,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+124,
+4,
+"float",
+[]
 ]
 ],
 "size": 128
@@ -1582,10 +1886,142 @@
 [
 "_pad_34",
 52,
-124,
+64,
 "unsigned __int8",
 [
-124
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"unsigned int",
+[]
+],
+[
+"field_78",
+120,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+124,
+4,
+"float",
+[]
+],
+[
+"field_80",
+128,
+4,
+"float",
+[]
+],
+[
+"field_84",
+132,
+4,
+"float",
+[]
+],
+[
+"field_88",
+136,
+4,
+"float",
+[]
+],
+[
+"field_8C",
+140,
+4,
+"float",
+[]
+],
+[
+"_pad_34_90",
+144,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_94",
+148,
+4,
+"float",
+[]
+],
+[
+"_pad_34_98",
+152,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_A0",
+160,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_A1",
+161,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_A2",
+162,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_A3",
+163,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_A4",
+164,
+4,
+"unsigned int",
+[]
+],
+[
+"field_A8",
+168,
+4,
+"unsigned int",
+[]
+],
+[
+"field_AC",
+172,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_34_AD",
+173,
+3,
+"unsigned __int8",
+[
+3
 ]
 ]
 ],
@@ -3331,6 +3767,81 @@
 ],
 "size": 72
 },
+"CMoTask_VT_1032AF60": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+],
+[
+"field_78",
+56,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_80",
+64,
+4,
+"float",
+[]
+],
+[
+"field_84",
+68,
+4,
+"float",
+[]
+],
+[
+"field_88",
+72,
+4,
+"float",
+[]
+],
+[
+"field_8C",
+76,
+4,
+"float",
+[]
+],
+[
+"field_90",
+80,
+4,
+"float",
+[]
+],
+[
+"field_94",
+84,
+4,
+"float",
+[]
+]
+],
+"size": 88
+},
 "CMoTask_VT_1032AFA8": {
 "members": [
 [
@@ -3339,9 +3850,72 @@
 52,
 "CMoTask",
 []
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+],
+[
+"field_78",
+56,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_80",
+64,
+4,
+"float",
+[]
+],
+[
+"field_84",
+68,
+4,
+"float",
+[]
+],
+[
+"field_88",
+72,
+4,
+"float",
+[]
+],
+[
+"field_8C",
+76,
+4,
+"float",
+[]
+],
+[
+"field_90",
+80,
+4,
+"float",
+[]
+],
+[
+"field_94",
+84,
+4,
+"float",
+[]
 ]
 ],
-"size": 52
+"size": 88
 },
 "CMoTask_VT_1032B654": {
 "members": [
@@ -3383,6 +3957,496 @@
 ],
 "size": 59
 },
+"CMoTask_VT_1032B890": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"float",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_40",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+68,
+4,
+"float",
+[]
+],
+[
+"field_48",
+72,
+4,
+"unsigned int",
+[]
+],
+[
+"field_4C",
+76,
+4,
+"unsigned int",
+[]
+],
+[
+"field_50",
+80,
+4,
+"unsigned int",
+[]
+],
+[
+"field_54",
+84,
+4,
+"float",
+[]
+],
+[
+"field_58",
+88,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5C",
+92,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 93
+},
+"CMoTask_VT_1032B890_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_sub_10060590",
+24,
+4,
+"int (__thiscall *)(int C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_CMoTask_VT_1032B890_vf8",
+32,
+4,
+"char (__thiscall *)(void *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoTask_VT_1032B8BC": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"float",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+],
+[
+"field_3C",
+60,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_44",
+62,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48",
+66,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 70
+},
+"CMoTask_VT_1032B8BC_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_sub_10060750",
+24,
+4,
+"int *(__thiscall *)(int *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_CMoTask_VT_1032B8BC_vf8",
+32,
+4,
+"char (__thiscall *)(__int16 *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoTask_VT_1032B8E8_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_sub_10060450",
+24,
+4,
+"int (__thiscall *)(int C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_CMoTask_VT_1032B8E8_vf8",
+32,
+4,
+"char (__thiscall *)(float *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoTask_VT_1032B914": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"float",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+]
+],
+"size": 60
+},
+"CMoTask_VT_1032B914_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_AfterimageTask_Destructor",
+24,
+4,
+"_DWORD *(__thiscall *)(_DWORD *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_AfterimageTask_OnMove",
+32,
+4,
+"char (__thiscall *)(float *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
 "CMoTask_VT_1032B95C": {
 "members": [
 [
@@ -3391,9 +4455,427 @@
 52,
 "CMoTask",
 []
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+],
+[
+"field_78",
+56,
+4,
+"float",
+[]
+],
+[
+"field_7C",
+60,
+4,
+"float",
+[]
+],
+[
+"field_80",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_84",
+68,
+4,
+"unsigned int",
+[]
 ]
 ],
-"size": 52
+"size": 72
+},
+"CMoTask_VT_1032B95C_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoAttachments_VT_1032B940_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(_DWORD *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_CMoTask_VT_1032B95C_vf8",
+32,
+4,
+"char (__thiscall *)(void *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoTask_VT_1032BB0C": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BB54": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BB80": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"float",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"float",
+[]
+],
+[
+"field_40",
+64,
+4,
+"float",
+[]
+],
+[
+"field_44",
+68,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48",
+72,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 73
+},
+"CMoTask_VT_1032BC10": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BC3C": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BE08": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BE50": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BE98": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BEE0": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BF28": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BF70": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032BFB8": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032C000": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_1032C048": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_74",
+52,
+4,
+"float",
+[]
+]
+],
+"size": 56
 },
 "CMoTask_VT_1032C490": {
 "members": [
@@ -4882,6 +6364,60 @@
 ]
 ],
 "size": 404
+},
+"CXi471011C8_VT_1032B3B8": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_198",
+408,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 412
+},
+"CXi471011C8_VT_1032B478": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_1B4",
+404,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_1B5",
+405,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 406
 },
 "CXiActor": {
 "members": [
@@ -7810,6 +9346,43 @@
 ]
 ],
 "size": 68
+},
+"XiActorTimerTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_74",
+116,
+4,
+"float",
+[]
+],
+[
+"_pad_34_78",
+120,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 124
 },
 "XiDoorActor": {
 "members": [

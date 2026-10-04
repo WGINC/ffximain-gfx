@@ -428,11 +428,43 @@ struct CDx_vtbl
 
 /* 246 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoActorColorDriveTask.hpp, sizeof 0x88 from the binary's descriptor
 struct CMoActorColorDriveTask
 {
   CMoTask base;
-  unsigned __int8 _pad_34[84];
+  unsigned __int8 _pad_34[64];
+  float field_74;
+  float field_78;
+  unsigned __int8 field_7C;
+  unsigned __int8 field_7D;
+  unsigned __int8 field_7E;
+  unsigned __int8 field_7F;
+  unsigned __int8 field_80;
+  unsigned __int8 field_81;
+  unsigned __int8 field_82;
+  unsigned __int8 field_83;
+  unsigned __int8 field_84;
+  unsigned __int8 field_85;
+  unsigned __int8 _pad_34_86[2];
+};
+#pragma pack(pop)
+
+/* 247 */
+#pragma pack(push, 1)
+struct CMoActorRotationDriveTask
+{
+  CMoTask base;
+  unsigned __int8 _pad_34[64];
+  float field_74;
+  float field_78;
+  unsigned int field_7C;
+  float field_80;
+  float field_84;
+  float field_88;
+  unsigned __int8 _pad_34_8C[4];
+  float field_90;
+  float field_94;
+  float field_98;
+  unsigned __int8 _pad_34_9C[4];
 };
 #pragma pack(pop)
 
@@ -685,6 +717,21 @@ struct CMoAttachments_VT_1032E7EC
 };
 #pragma pack(pop)
 
+/* 278 */
+#pragma pack(push, 1)
+struct CMoCameraTask
+{
+  CMoTask base;
+  unsigned __int8 _pad_34[64];
+  unsigned int field_74;
+  unsigned int field_78;
+  float field_7C;
+  unsigned __int8 _pad_34_80[64];
+  unsigned int field_C0;
+  unsigned int field_C4;
+};
+#pragma pack(pop)
+
 /* 279 */
 #pragma pack(push, 1)
 struct CMoCelestial
@@ -930,21 +977,25 @@ struct CMoLfdElem
 
 /* 300 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoLockColorDriveTask.hpp, sizeof 0x7C from the binary's descriptor
 struct CMoLockColorDriveTask
 {
   CMoTask base;
-  unsigned __int8 _pad_34[72];
+  unsigned __int8 _pad_34[64];
+  float field_74;
+  unsigned __int8 field_78;
+  unsigned __int8 _pad_34_79[3];
 };
 #pragma pack(pop)
 
 /* 301 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoLockLookAtDriveTask.hpp, sizeof 0x80 from the binary's descriptor
 struct CMoLockLookAtDriveTask
 {
   CMoTask base;
-  unsigned __int8 _pad_34[76];
+  unsigned __int8 _pad_34[64];
+  float field_74;
+  float field_78;
+  float field_7C;
 };
 #pragma pack(pop)
 
@@ -1003,11 +1054,28 @@ struct CMoOcclusionMng_vtbl
 
 /* 306 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoPathDriveActorTask.hpp, sizeof 0xB0 from the binary's descriptor
 struct CMoPathDriveActorTask
 {
   CMoTask base;
-  unsigned __int8 _pad_34[124];
+  unsigned __int8 _pad_34[64];
+  unsigned int field_74;
+  float field_78;
+  float field_7C;
+  float field_80;
+  float field_84;
+  float field_88;
+  float field_8C;
+  unsigned __int8 _pad_34_90[4];
+  float field_94;
+  unsigned __int8 _pad_34_98[8];
+  unsigned __int8 field_A0;
+  unsigned __int8 field_A1;
+  unsigned __int8 field_A2;
+  unsigned __int8 field_A3;
+  unsigned int field_A4;
+  unsigned int field_A8;
+  unsigned __int8 field_AC;
+  unsigned __int8 _pad_34_AD[3];
 };
 #pragma pack(pop)
 
@@ -1422,12 +1490,37 @@ struct CMoTask_VT_1032A904
 };
 #pragma pack(pop)
 
+/* 346 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032AF60
+{
+  CMoTask base;
+  float field_74;
+  float field_78;
+  unsigned int field_7C;
+  float field_80;
+  float field_84;
+  float field_88;
+  float field_8C;
+  float field_90;
+  float field_94;
+};
+#pragma pack(pop)
+
 /* 347 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoTask_VT_1032AFA8.hpp, sizeof 0x34 from the binary's descriptor
 struct CMoTask_VT_1032AFA8
 {
   CMoTask base;
+  float field_74;
+  float field_78;
+  unsigned int field_7C;
+  float field_80;
+  float field_84;
+  float field_88;
+  float field_8C;
+  float field_90;
+  float field_94;
 };
 #pragma pack(pop)
 
@@ -1443,12 +1536,189 @@ struct CMoTask_VT_1032B654
 };
 #pragma pack(pop)
 
+/* 349 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032B890
+{
+  CMoTask base;
+  float field_34;
+  float field_38;
+  unsigned int field_3C;
+  unsigned int field_40;
+  float field_44;
+  unsigned int field_48;
+  unsigned int field_4C;
+  unsigned int field_50;
+  float field_54;
+  unsigned int field_58;
+  unsigned __int8 field_5C;
+};
+#pragma pack(pop)
+
+/* 350 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032B8BC
+{
+  CMoTask base;
+  float field_34;
+  float field_38;
+  unsigned __int16 field_3C;
+  unsigned int field_44;
+  unsigned int field_48;
+};
+#pragma pack(pop)
+
+/* 352 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032B914
+{
+  CMoTask base;
+  float field_34;
+  float field_38;
+};
+#pragma pack(pop)
+
 /* 353 */
 #pragma pack(push, 1)
-/// recon: tree/include/CMoTask_VT_1032B95C.hpp, sizeof 0x34 from the binary's descriptor
 struct CMoTask_VT_1032B95C
 {
   CMoTask base;
+  float field_74;
+  float field_78;
+  float field_7C;
+  unsigned int field_80;
+  unsigned int field_84;
+};
+#pragma pack(pop)
+
+/* 354 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BB0C
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 355 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BB54
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 356 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BB80
+{
+  CMoTask base;
+  float field_34;
+  float field_38;
+  float field_3C;
+  float field_40;
+  unsigned int field_44;
+  unsigned __int8 field_48;
+};
+#pragma pack(pop)
+
+/* 358 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BC10
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 359 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BC3C
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 365 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BE08
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 366 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BE50
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 367 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BE98
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 368 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BEE0
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 369 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BF28
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 370 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BF70
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 371 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032BFB8
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 372 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032C000
+{
+  CMoTask base;
+  float field_74;
+};
+#pragma pack(pop)
+
+/* 373 */
+#pragma pack(push, 1)
+struct CMoTask_VT_1032C048
+{
+  CMoTask base;
+  float field_74;
 };
 #pragma pack(pop)
 
@@ -1679,6 +1949,27 @@ struct CTsZoneMap
   float field_39548;
   unsigned int field_3954C;
   unsigned __int8 _pad_48_39550[100];
+};
+#pragma pack(pop)
+
+/* 385 */
+#pragma pack(push, 1)
+/// recon: tree/include/CXi471011C8_VT_1032B3B8.hpp, sizeof 0x19C from the binary's descriptor
+struct CXi471011C8_VT_1032B3B8
+{
+  CMoElem base;
+  unsigned __int8 _pad_194[4];
+  unsigned __int32 field_198;
+};
+#pragma pack(pop)
+
+/* 386 */
+#pragma pack(push, 1)
+struct CXi471011C8_VT_1032B478
+{
+  CMoElem base;
+  unsigned __int8 field_1B4;
+  unsigned __int8 field_1B5;
 };
 #pragma pack(pop)
 
@@ -1954,6 +2245,17 @@ struct CYyTexMng_vtbl
   void *vf5_CApp_vf005;
   _DWORD *(__thiscall *vf6_CYyTexMng_ScalarDeletingDtor)(CYyTexMng *C, char);
 };
+
+/* 459 */
+#pragma pack(push, 1)
+struct XiActorTimerTask
+{
+  CMoTask base;
+  unsigned __int8 _pad_34[64];
+  float field_74;
+  unsigned __int8 _pad_34_78[4];
+};
+#pragma pack(pop)
 
 /* 463 */
 #pragma pack(push, 1)
@@ -2353,6 +2655,86 @@ struct CYyOs2VtxBuffer_vtbl
   void *(__thiscall *vf6_CYyOs2VtxBuffer_ScalarDeletingDtor)(CYyOs2VtxBuffer *C, char);
   void *vf7_CMoTask_vf007;
   char (__thiscall *vf8_sub_1002C990)(CYyOs2VtxBuffer *this);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 669 */
+struct CMoTask_VT_1032B890_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *this, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *this);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int (__thiscall *vf6_sub_10060590)(int C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B890_vf8)(void *this);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 670 */
+struct CMoTask_VT_1032B8BC_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *this, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *this);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int *(__thiscall *vf6_sub_10060750)(int *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B8BC_vf8)(__int16 *this);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 671 */
+struct CMoTask_VT_1032B8E8_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *this, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *this);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  int (__thiscall *vf6_sub_10060450)(int C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B8E8_vf8)(float *this);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 672 */
+struct CMoTask_VT_1032B914_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *this, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *this);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  _DWORD *(__thiscall *vf6_AfterimageTask_Destructor)(_DWORD *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_AfterimageTask_OnMove)(float *this);
+  void *vf9_CMoTask_vf009;
+  void (__stdcall *vf10_CMoTask_vf010)(int);
+};
+
+/* 673 */
+struct CMoTask_VT_1032B95C_vtbl
+{
+  void *vf0_CMoTask_GetRuntimeClass_variant12;
+  void *vf1_CApp_vf001;
+  unsigned int (__thiscall *vf2_sub_1002C930)(_DWORD *this, char);
+  int (__thiscall *vf3_sub_1002C920)(_DWORD *this);
+  void *vf4_CApp_vf004;
+  void *vf5_CApp_vf005;
+  _DWORD *(__thiscall *vf6_CMoAttachments_VT_1032B940_ScalarDeletingDtor)(_DWORD *C, char);
+  void *vf7_CMoTask_vf007;
+  char (__thiscall *vf8_CMoTask_VT_1032B95C_vf8)(void *this);
   void *vf9_CMoTask_vf009;
   void (__stdcall *vf10_CMoTask_vf010)(int);
 };

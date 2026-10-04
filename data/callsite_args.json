@@ -11652,7 +11652,7 @@
 "0x1003D481": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1003D48E": {
 "args": 3,
@@ -11697,7 +11697,7 @@
 "0x1003D5AA": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1003D963": {
 "args": 0,
@@ -14042,7 +14042,7 @@
 "0x10043B2A": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10043B8A": {
 "args": 0,
@@ -14067,7 +14067,7 @@
 "0x10043D2A": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10043D8A": {
 "args": 0,
@@ -20946,7 +20946,7 @@
 },
 "0x100521CD": {
 "args": 0,
-"cc": "stdcall",
+"cc": "thiscall",
 "src": "typed"
 },
 "0x100521D8": {
@@ -27909,6 +27909,11 @@
 "cc": "thiscall",
 "src": "typed"
 },
+"0x1005EC3F": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
 "0x1005EC6A": {
 "args": 0,
 "cc": "thiscall",
@@ -27917,7 +27922,7 @@
 "0x1005EC75": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005ECA7": {
 "args": 2,
@@ -27947,7 +27952,7 @@
 "0x1005F3E6": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005F54C": {
 "args": 0,
@@ -28017,12 +28022,12 @@
 "0x1005F64F": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005F834": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005F920": {
 "args": 0,
@@ -28052,7 +28057,7 @@
 "0x1005F970": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005FBC0": {
 "args": 0,
@@ -28087,12 +28092,12 @@
 "0x1005FE1B": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1005FFF4": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1006011A": {
 "args": 0,
@@ -28112,7 +28117,7 @@
 "0x10060146": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060172": {
 "args": 0,
@@ -28127,7 +28132,7 @@
 "0x100602C2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x1006037A": {
 "args": 1,
@@ -28137,7 +28142,32 @@
 "0x100604FF": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
+},
+"0x1006060C": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006061E": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x10060630": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006063E": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
+},
+"0x1006065A": {
+"args": 1,
+"cc": "stdcall",
+"src": "typed"
 },
 "0x10060695": {
 "args": 1,
@@ -28162,7 +28192,7 @@
 "0x100606F8": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060706": {
 "args": 1,
@@ -28172,7 +28202,7 @@
 "0x10060714": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060722": {
 "args": 1,
@@ -28182,27 +28212,27 @@
 "0x10060730": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x100608A2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060A14": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060E52": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060FF2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10060FFB": {
 "args": 0,
@@ -28217,47 +28247,47 @@
 "0x100619F2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10061B72": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10061CF2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10061E92": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10062082": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10062202": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x100623A2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10062542": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x100626F2": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10062F53": {
 "args": 1,
@@ -28611,7 +28641,7 @@
 },
 "0x1006AF5E": {
 "args": 2,
-"cc": "cdecl",
+"cc": "stdcall",
 "src": "cast"
 },
 "0x1006AF66": {
@@ -28636,7 +28666,7 @@
 },
 "0x1006AFF3": {
 "args": 2,
-"cc": "cdecl",
+"cc": "stdcall",
 "src": "cast"
 },
 "0x1006AFFB": {
@@ -30277,7 +30307,7 @@
 "0x10084F62": {
 "args": 1,
 "cc": "thiscall",
-"src": "cast"
+"src": "typed"
 },
 "0x10086221": {
 "args": 0,

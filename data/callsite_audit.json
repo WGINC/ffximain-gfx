@@ -8014,8 +8014,8 @@
 },
 "0x1003D481": {
 "func": "0x1003D220",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -8033,8 +8033,8 @@
 },
 "0x1003D5AA": {
 "func": "0x1003D220",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -8782,15 +8782,15 @@
 },
 "0x10043B2A": {
 "func": "0x10043B00",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10043D2A": {
 "func": "0x10043D00",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -10819,15 +10819,15 @@
 },
 "0x1005EC75": {
 "func": "0x1005E9C0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x1005F3E6": {
 "func": "0x1005F3C0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -10881,15 +10881,15 @@
 },
 "0x1005F64F": {
 "func": "0x1005F540",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x1005F834": {
 "func": "0x1005F820",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -10909,36 +10909,36 @@
 },
 "0x1005F970": {
 "func": "0x1005F820",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x1005FE1B": {
 "func": "0x1005FB30",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x1005FFF4": {
 "func": "0x1005FFD0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10060146": {
 "func": "0x100600F0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x100602C2": {
 "func": "0x100602A0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -10951,57 +10951,57 @@
 },
 "0x100604FF": {
 "func": "0x100604B0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x100606F8": {
 "func": "0x100605E0",
-"hexrays_cast": 4,
 "sources": {
-"solved": 4
+"solved": 4,
+"typed": 4
 }
 },
 "0x10060714": {
 "func": "0x100605E0",
-"hexrays_cast": 4,
 "sources": {
-"solved": 4
+"solved": 4,
+"typed": 4
 }
 },
 "0x10060730": {
 "func": "0x100605E0",
-"hexrays_cast": 4,
 "sources": {
-"solved": 4
+"solved": 4,
+"typed": 4
 }
 },
 "0x100608A2": {
 "func": "0x10060880",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10060A14": {
 "func": "0x100609F0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10060E52": {
 "func": "0x10060E30",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10060FF2": {
 "func": "0x10060FD0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -11014,64 +11014,64 @@
 },
 "0x100619F2": {
 "func": "0x100619D0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10061B72": {
 "func": "0x10061B50",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10061CF2": {
 "func": "0x10061CD0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10061E92": {
 "func": "0x10061E70",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10062082": {
 "func": "0x10062060",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10062202": {
 "func": "0x100621E0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x100623A2": {
 "func": "0x10062380",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x10062542": {
 "func": "0x10062520",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
 "0x100626F2": {
 "func": "0x100626D0",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -11193,8 +11193,7 @@
 },
 "0x1006AF5E": {
 "func": "0x1006AF00",
-"hexrays_cast": 0,
-"hexrays_wrong": true,
+"hexrays_cast": 8,
 "sources": {
 "com": 8
 }
@@ -11222,8 +11221,7 @@
 },
 "0x1006AFF3": {
 "func": "0x1006AF90",
-"hexrays_cast": 0,
-"hexrays_wrong": true,
+"hexrays_cast": 8,
 "sources": {
 "com": 8
 }
@@ -12119,8 +12117,8 @@
 },
 "0x10084F62": {
 "func": "0x10084F40",
-"hexrays_cast": 4,
 "sources": {
+"typed": 4,
 "vtable": 4
 }
 },
@@ -22126,7 +22124,7 @@
 "_stats": {
 "conflict": 11,
 "definitive": 2786,
-"hexrays cast differs": 4,
+"hexrays cast differs": 2,
 "no source": 335
 }
 }

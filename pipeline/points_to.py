@@ -44,6 +44,12 @@ Premises (not shown from the code; every result depending on them says so in "pr
   P6  a data object in the image starts at an address the program refers to (an operand or a stored
       pointer) and ends before the next such address: an indexed access [table + i*s] stays in the table
       the address `table` falls in. (Without it any indexed read of a global table can be any pointer.)
+  P7  closed world: code outside the DLL (the callers of its exports and entry point, the callers of a
+      callback it hands to an import or an unknown callee, and the code behind an unknown call target) passes,
+      returns and writes only external memory ('EXT'), never the DLL's own objects.
+  P8  an indirect call through [reg + k] whose target the analysis cannot bound reaches a function stored at
+      offset k of a table that starts at a referenced data address (a vtable slot k); any other unbounded
+      call reaches a function whose address the program takes.
   P3  a called function preserves a register it saves on entry and restores (MSVC prologue/epilogue)
       and imports preserve EBX/ESI/EDI/EBP (Windows x86 calling convention).
 
@@ -63,6 +69,7 @@ r32 = C.r32
 E = frozenset()
 UNK = (('U',), None)
 U1 = frozenset([UNK])
+EXTV = frozenset([(('EXT',), None)])        # memory owned by code outside the DLL (P7)
 ALLOC_API = {'HeapAlloc', 'GlobalAlloc', 'VirtualAlloc', 'HeapReAlloc', 'CoTaskMemAlloc', 'CoTaskMemRealloc', 'LocalAlloc'}
 NARGS = 16
 
@@ -198,11 +205,12 @@ class PT:
         self.any_readers = set()
         self.dirty = set(fns)
         self.unk_stores = {}                               # insn -> function (stores through UNK)
+        self.NPW = {}                                      # obj -> offsets where a non-pointer value is stored
         self.unk_calls = {}                                # insn -> function (calls to an unknown callee)
         self.unfollowed = set()                            # functions with control flow this cannot follow
         self.clob = self.clobbers()
         self.taken = self.address_taken(); self.taken_external = False
-        self.refs = self.data_refs(); self.dkeys = []; self._sr = {}
+        self.refs = self.data_refs(); self.dkeys = []; self._sr = {}; self._slots = {}
         BASE_OF[0] = self.base_of
         entry = [base + pe.OPTIONAL_HEADER.AddressOfEntryPoint] + [base + s.address for s in getattr(getattr(pe, 'DIRECTORY_ENTRY_EXPORT', None), 'symbols', [])]
         for f in entry:
@@ -228,6 +236,8 @@ class PT:
         if obj[0] in ('C', 'XC'): return E
         self.readers[obj].add(f); self.any_readers.add(f)
         cells = self.M.get(obj, {})
+        if obj == ('EXT',):                                # external memory holds external pointers (P7)
+            return norm((frozenset().union(*cells.values()) if cells else E) | EXTV | self.ANYW)
         if obj[0] == 'DA':                                 # a data object at an unknown offset (P6)
             self.readers[('D',)].add(f)
             a = obj[1]; b = self.next_ref(a); dc = self.M.get(('D',), {})
@@ -361,12 +371,24 @@ class PT:
         return self._sv[f]
 
     def external(self, f):
-        """f can be called by code outside the analysis: every register and argument may be anything"""
+        """f can be called by code outside the DLL: every register and argument is external memory (P7)"""
         ch = False
         for r in GPR:
-            if UNK not in self.IN[f].get(r, E): self.IN[f][r] = self.IN[f].get(r, E) | U1; ch = True
-        for k in range(NARGS): self.write(('F', f), 4 + 4 * k, U1, f, None)
+            if not EXTV <= self.IN[f].get(r, E): self.IN[f][r] = self.IN[f].get(r, E) | EXTV; ch = True
+        for k in range(NARGS): self.write(('F', f), 4 + 4 * k, EXTV, f, None)
         if ch: self.dirty.add(f)
+
+    def slot_cands(self, k):
+        """P8: the functions stored at offset k of a table that starts at a referenced data address"""
+        if k not in self._slots:
+            c = set()
+            for r in self.refs:
+                o = r + k - self.im.base
+                if 0 <= o <= len(self.im.img) - 4:
+                    v = int.from_bytes(self.im.img[o:o + 4], 'little')
+                    if v in self.fns and v in self.taken: c.add(v)
+            self._slots[k] = frozenset(c)
+        return self._slots[k]
 
     # one function
     def run(self, f):
@@ -409,8 +431,11 @@ class PT:
                     else: v |= self.read(o, off, f)
                 return v
 
-            def store(mo, v, at):
+            def store(mo, v, at, null=False):
                 nonlocal escaped
+                if (not v and not null) or mo[3] != 4:       # a value that is not a pointer (or part of one) stored
+                    for o, off in addr(mo):
+                        if o[0] in ('H', 'D', 'DA', 'EXT', 'API'): self.NPW.setdefault(o, set()).add(off if mo[3] == 4 or off is None else off - off % 4)
                 if any(o[0] == 'F' and o[1] == f for o, _ in v): escaped = True
                 tg = addr(mo)
                 if len(tg) == 1:
@@ -435,7 +460,7 @@ class PT:
                 else: regs[x[1]] = frozenset(lose(o, off) for o, off in addr(x[2]))
             elif k == 'ADDI':
                 regs[x[1]] = frozenset((o, off + x[2]) if off is not None and o != ('U',) else (UNK if o == ('U',) else (o, None)) for o, off in regs.get(x[1], E))
-            elif k == 'ST': store(x[1], val(x[2]), a)
+            elif k == 'ST': store(x[1], val(x[2]), a, null=(x[2] == ('I', 0)))
             elif k == 'PUSH':
                 v = val(x[1])
                 if d is not None: store((None, None, 0, 4, False), E, a) if False else None
@@ -544,12 +569,19 @@ class PT:
                 res['eax'] = frozenset([(('API',), None)])
                 self.havoc_args(f, a, args, regs, deep=False)
         if unknown:
+            # an unknown target: a function at that slot of some table (P8) or address-taken, or code outside
+            # the DLL (P7: it returns and writes external memory)
             self.unk_calls[a] = f
-            if not self.taken_external:          # an unknown callee may be any address-taken function
-                self.taken_external = True
-                for g in self.taken: self.external(g)
-            for g in self.taken: self.callers[g].add(f)
-            res['eax'] = res['eax'] | U1; res['edx'] = res['edx'] | U1
+            cand = self.slot_cands(tgt[1][2]) if tgt[0] == 'M' and tgt[1][0] and not tgt[1][1] else self.taken
+            for g in cand:
+                self.callers[g].add(f)
+                for r in GPR:
+                    v = regs.get(r, E)
+                    if not v <= self.IN[g].get(r, E): self.IN[g][r] = self.IN[g].get(r, E) | v; self.dirty.add(g)
+                for k in range(NARGS): self.write(('F', g), 4 + 4 * k, args[k], f, None)
+                for r in self.clob.get(g, set(GPR)):
+                    res[r] = res.get(r, E) | self.EXIT[g].get(r, E); changed.add(r)
+            res['eax'] = res['eax'] | EXTV; res['edx'] = res['edx'] | EXTV
             self.havoc_args(f, a, args, regs, deep=True)
         for r in changed: regs[r] = res.get(r, E)
         if base is not None and not tail:
@@ -565,11 +597,11 @@ class PT:
     def havoc_args(self, f, a, args, regs, deep):
         """an import or unknown callee: UNK (unknown callee) or API data (import) through every pointer it is
         given, one level; a function whose address it is given becomes externally callable"""
-        v = U1 if deep else frozenset([(('API',), None)])
+        v = EXTV if deep else frozenset([(('API',), None)])
         given = set().union(*args) | regs.get('ecx', E) | regs.get('edx', E)
         for o, off in given:
             if o == ('C',) and off in self.fns: self.external(off); continue
-            if o[0] in ('C', 'XC', 'XV', 'X', 'U'): continue
+            if o[0] in ('C', 'XC', 'XV', 'X', 'U', 'EXT'): continue
             self.write(*lose(o, off), v, f, a)
             for o2, off2 in self.read(*lose(o, off), f) if deep else ():
                 if o2 == ('C',) and off2 in self.fns: self.external(off2)
@@ -598,7 +630,8 @@ def main(out, max_rounds):
            'unk_store_funcs': collections.Counter('0x%08X' % f for f in pt.unk_stores.values()).most_common(40),
            'unk_call_funcs': collections.Counter('0x%08X' % f for f in pt.unk_calls.values()).most_common(40)}
     json.dump(res, open(out, 'w'), indent=1)
-    pickle.dump(pt.M, open(os.path.join(R, 'points_to_M.pkl'), 'wb'))
+    pickle.dump({'M': dict(pt.M), 'NPW': pt.NPW, 'ANYW': pt.ANYW, 'IN': dict(pt.IN), 'refs': pt.refs},
+                open(os.path.join(R, 'points_to_M.pkl'), 'wb'))
 
 
 if __name__ == '__main__':

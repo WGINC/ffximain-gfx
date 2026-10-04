@@ -226,7 +226,7 @@ LABEL_40:
           }
           break;
         case 1:
-          if ( dword_10456BE4 == 0 || orig::sub_100139E0(self_) != 0 )
+          if ( g_cfg0022 == 0 || orig::sub_100139E0(self_) != 0 )
             *((_DWORD *)self_ + 17) = 2;
           break;
         case 2:
@@ -257,11 +257,11 @@ LABEL_40:
           if ( orig::fn_10015740() )
           {
             if ( dword_10456950 != 0 || *(_DWORD *)(g_pAppSettings + 88) != 0 )
-              dword_10456AA4 = 1;
-            if ( dword_10456D18 != 0 )
+              g_cfg0023 = 1;
+            if ( g_pObj_Vtbl10329F8C != 0 )
             {
-              orig::sub_100185A0((_DWORD *)(dword_10456D18 + 388), (FILE *)&Stream._file, 7u);
-              *(_DWORD *)(g_pSceneState + 28) = *(_DWORD *)(dword_10456D18 + 396);
+              orig::sub_100185A0((_DWORD *)(g_pObj_Vtbl10329F8C + 388), (FILE *)&Stream._file, 7u);
+              *(_DWORD *)(g_pSceneState + 28) = *(_DWORD *)(g_pObj_Vtbl10329F8C + 396);
             }
             *((_DWORD *)self_ + 17) = 5;
           }
@@ -280,7 +280,7 @@ LABEL_40:
             {
               *((_DWORD *)g_pGameMode + 4) = 1;
               XiControlActor_isFirstPersonView = 0;
-              byte_10487F81 = 0;
+              XiControlActor_isAutoRunning = 0;
               byte_1047D694 = 0;
               orig::sub_10253670(0, 1);
               v12 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
@@ -593,8 +593,8 @@ LABEL_102:
     orig::sub_1025E0F0();
     if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && g_C_106631D4 != 0 )
       orig::sub_101D5680((_WORD *)g_C_106631D4);
-    if ( dword_10456D1C != 0 )
-      orig::sub_10018850(dword_10456D1C);
+    if ( g_pXiOpening != 0 )
+      orig::sub_10018850(g_pXiOpening);
   }
   orig::sub_101248A0((float *)g_pCursor);
   v28 = g_pCDx;

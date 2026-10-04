@@ -133,21 +133,21 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
   Fn1006C530_quadVerts2_v3_x = (float)*(int *)(a1 + 8);
   v12 = (double)*(int *)(a1 + 12);
   Fn1006C530_quadVerts2_v3_z = a2;
-  dword_10354120 = a3;
-  dword_1035413C = a4;
+  Fn1006C530_quadVerts3_v1_x = a3;
+  Fn1006C530_quadVerts3_v2_y = a4;
   Fn1006C530_quadVerts2_v3_y = v12;
   v13 = 1.0 / *(float *)&a5;
-  dword_10354150 = a3;
-  dword_10354154 = a4;
-  flt_10354118 = (double)(int)(*(_DWORD *)a1 + 1) * v13;
+  Fn1006C530_quadVerts3_v3_x = a3;
+  Fn1006C530_quadVerts3_v3_y = a4;
+  Fn1006C530_quadVerts3_v0_u = (double)(int)(*(_DWORD *)a1 + 1) * v13;
   v14 = 1.0 / *(float *)&a6;
-  flt_1035411C = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
-  flt_10354130 = (double)*(int *)(a1 + 8) * v13;
-  flt_10354134 = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
-  flt_10354148 = (double)(int)(*(_DWORD *)a1 + 1) * v13;
-  flt_1035414C = (double)*(int *)(a1 + 12) * v14;
-  flt_10354160 = (double)*(int *)(a1 + 8) * v13;
-  flt_10354164 = (double)*(int *)(a1 + 12) * v14;
+  Fn1006C530_quadVerts3_v0_v = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
+  Fn1006C530_quadVerts3_v1_u = (double)*(int *)(a1 + 8) * v13;
+  Fn1006C530_quadVerts3_v1_v = (double)(int)(*(_DWORD *)(a1 + 4) + 1) * v14;
+  Fn1006C530_quadVerts3_v2_u = (double)(int)(*(_DWORD *)a1 + 1) * v13;
+  Fn1006C530_quadVerts3_v2_v = (double)*(int *)(a1 + 12) * v14;
+  Fn1006C530_quadVerts3_v3_u = (double)*(int *)(a1 + 8) * v13;
+  Fn1006C530_quadVerts3_v3_v = (double)*(int *)(a1 + 12) * v14;
   if ( (Fn1006C530_staticGuards & 1) == 0 )
   {
     Fn1006C530_staticGuards |= 1u;
@@ -198,7 +198,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
     260);
   v22 = *(void **)(v21 + 3528);
   v23 = orig::Gfx_CalcFVFStride(0x104u);
-  orig::CDx_DrawPrimitiveUP(v22, 5, 2, (int)&unk_10354108, v23);
+  orig::CDx_DrawPrimitiveUP(v22, 5, 2, (int)&Fn1006C530_quadVerts3, v23);
   return orig::sub_1000A230(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
 }
 

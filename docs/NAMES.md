@@ -726,6 +726,48 @@ The other 7 do not decide anything:
 The 140 others stay unnamed. The large shared objects among them (`0x104DFD98` with 1,071 references,
 `0x10480AF0` with 931) are used mostly by functions that have no PS2 pair.
 
+## 4 Oct 2026: the easy ones of the remaining 140 (30 named)
+
+Sources, each definitive on its own terms:
+- **The settings table (5).** The settings loader 0x100179E0 walks the table at 0x103507D8: 31 entries
+  `{type, &global, id}`. It formats each id with `"%04d"` and reads that registry value with
+  `RegQueryValueExA` straight into the global. `g_cfg0000`, `g_cfg0011`, `g_cfg0017`, `g_cfg0022`, `g_cfg0023`
+  name the registry value each one holds. What each value means is not in the binary.
+- **D3DX 8.1's own symbols (4).** `pipeline/d3dx_data.py` reads the relocations of every byte-matched D3DX
+  function in `d3dx8.lib` (the owner's DirectX 8.1 SDK): each masked field names its target, and the game's
+  copy holds that target's address at the same offset (726 D3DX data addresses in `data/d3dx/d3dx81_data.json`).
+  The four here:
+  - `g_D3DXFormatUnknown`
+  - `g_pD3DXFormatInfo`
+  - `g_pD3DXFormatInfoLim`
+  - `CD3DXText_s_pList`
+- **A vertex layout (13).** The third quad of sub_1006C530 is drawn with FVF 0x104 (XYZRHW|TEX1, a 24-byte
+  stride by the SDK's definition). Every write lands on a field of that layout: `Fn1006C530_quadVerts3_vN_{x,y,u,v}`.
+- **Constructors (5).** `pipeline/global_sources.py` follows each store back to its value (`data/global_sources.json`).
+  - A constructor's result has the class whose vtable that constructor stores at [this]: `g_pXiCapture` and
+    `g_pXiOpening`.
+  - Three hold objects whose vtables have no runtime-class descriptor, so the class has no name. Their names
+    say only that: `g_pObj_Vtbl10329F8C`, `g_pObj_Vtbl1033CE34`, `g_pObj_Vtbl10333D18`.
+- **The PS2 executable (3).** The owner's DWARF parser (`ps2_dwarf/dwarf1.py`) gives every PS2 global with its
+  type and source file. Function pairs now also come from the PS2 vtable-slot mapping in `data/dm_names.json`
+  and from class and method names across all PC names (108 pairs).
+  - `XiControlActor_isAutoRunning` (0x10487F81): PC 0x100A6070 is `IsAutoRunning__14XiControlActorFc` step
+    for step, including the 16-byte `auto_run_vec` copy and the call with 65 on the message window.
+  - `XiControlActor_userControlTarget` (0x10487F58): the only global of `AmIUserControlTarget` on both sides,
+    used the same way by `SetTarget`.
+  - `ActerBuffPtr` (0x10480AF0, PS2's spelling, 931 references): the actor pointer table. PS2 `EventIdle` and
+    PC 0x100BCD10 index it by the event's actor and clear the same flag bit in that actor.
+
+Corrections:
+- `g_pChatLog` (0x10578158) is PS2's `g_pMsgWinData` (`CTkMsgWinData *`, the message window). It is renamed
+  `g_pTkMsgWinData`.
+- The evidence of the `Fn1006C530_quadVerts2_*` names said "colour = a2 at +16". The code writes a2 to +8,
+  the z of each vertex. The names were right and the evidence text was wrong.
+
+The 110 left need more than one decisive fact each. Most belong to the large shared objects (0x104DFD98
+with 1,071 references, 0x104E1D44 with 259, 0x1057847C with 161), whose users are mostly outside the export
+and have no PS2 pair.
+
 ## 2 Oct 2026: globals and callees
 
 This round named the placeholders left in `tree/`: 24 `sub_` callees and 283 data symbols (`dword_`, `byte_`, `flt_`, `unk_`, `off_`, `word_`). 193 were named (86 high, 107 medium confidence); 13 `sub_` and 105 data placeholders remain because the code does not say enough about them.

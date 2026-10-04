@@ -1301,73 +1301,73 @@
    "old": "flt_103540B8",
    "name": "Fn1006C530_quadVerts2",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +0 = x)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +0 = x)"
   },
   "0x103540BC": {
    "old": "flt_103540BC",
    "name": "Fn1006C530_quadVerts2_v0_y",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +4 = y)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +4 = y)"
   },
   "0x103540C0": {
    "old": "dword_103540C0",
    "name": "Fn1006C530_quadVerts2_v0_z",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +8 = z)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 0, +8 = z)"
   },
   "0x103540CC": {
    "old": "flt_103540CC",
    "name": "Fn1006C530_quadVerts2_v1_x",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +0 = x)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +0 = x)"
   },
   "0x103540D0": {
    "old": "flt_103540D0",
    "name": "Fn1006C530_quadVerts2_v1_y",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +4 = y)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +4 = y)"
   },
   "0x103540D4": {
    "old": "dword_103540D4",
    "name": "Fn1006C530_quadVerts2_v1_z",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +8 = z)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 1, +8 = z)"
   },
   "0x103540E0": {
    "old": "flt_103540E0",
    "name": "Fn1006C530_quadVerts2_v2_x",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +0 = x)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +0 = x)"
   },
   "0x103540E4": {
    "old": "flt_103540E4",
    "name": "Fn1006C530_quadVerts2_v2_y",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +4 = y)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +4 = y)"
   },
   "0x103540E8": {
    "old": "dword_103540E8",
    "name": "Fn1006C530_quadVerts2_v2_z",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +8 = z)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 2, +8 = z)"
   },
   "0x103540F4": {
    "old": "flt_103540F4",
    "name": "Fn1006C530_quadVerts2_v3_x",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +0 = x)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +0 = x)"
   },
   "0x103540F8": {
    "old": "flt_103540F8",
    "name": "Fn1006C530_quadVerts2_v3_y",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +4 = y)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +4 = y)"
   },
   "0x103540FC": {
    "old": "dword_103540FC",
    "name": "Fn1006C530_quadVerts2_v3_z",
    "confidence": "medium",
-   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (colour = its argument a2 at +16 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +8 = z)"
+   "evidence": "sub_1006C530 fills 4 vertices from 0x103540B8 (z = its argument a2 at +8 of each) and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x44 = XYZRHW|DIFFUSE) = 20) (vertex 3, +8 = z)"
   },
   "0x103511CC": {
    "old": "dword_103511CC",
@@ -3138,6 +3138,186 @@
    "name": "XiControlActor_isFirstPersonView",
    "confidence": "high",
    "evidence": "PS2 counterpart (SCUS_972.66): XiControlActor::is_first_person_view (is_first_person_view__14XiControlActor, a 1-byte static). PS2 NameCalc__7XiActorFPfPiRfRUi calls vtable+0x184 on this and, when it returns true and this byte is nonzero, returns 0 (lb is_first_person_view; beqz). PC 0x100830C0 (the same function: the same near/far distance fade follows) calls vtable+0x304 and, when true and byte [0x10487F80] is nonzero, returns 0. PC CXiSkeletonActor_OnMove repeats the pair (vcall +0x304, then this byte) at 0x100C7CCE/0x100C7CD8 and 0x100C7D70/0x100C7D78, as PS2 OnMove__15XiSkeletonActorFv references is_first_person_view."
+  },
+  "0x10456A98": {
+   "old": "dword_10456A98",
+   "name": "g_cfg0000",
+   "confidence": "high",
+   "evidence": "the settings loader 0x100179E0 walks the table at 0x103507D8 ({type, &global, id} entries), formats each id with \"%04d\" (0x10350958) and reads that registry value with RegQueryValueExA (0x10018FC0) into the global: this one is registry value \"0000\" (table entry 0x103507D8); default set by Config_SetDefaults"
+  },
+  "0x10456AC0": {
+   "old": "dword_10456AC0",
+   "name": "g_cfg0011",
+   "confidence": "high",
+   "evidence": "the settings loader 0x100179E0 walks the table at 0x103507D8 ({type, &global, id} entries), formats each id with \"%04d\" (0x10350958) and reads that registry value with RegQueryValueExA (0x10018FC0) into the global: this one is registry value \"0011\" (table entry 0x10350844); default set by Config_SetDefaults"
+  },
+  "0x10456BF0": {
+   "old": "dword_10456BF0",
+   "name": "g_cfg0017",
+   "confidence": "high",
+   "evidence": "the settings loader 0x100179E0 walks the table at 0x103507D8 ({type, &global, id} entries), formats each id with \"%04d\" (0x10350958) and reads that registry value with RegQueryValueExA (0x10018FC0) into the global: this one is registry value \"0017\" (table entry 0x10350850); default set by Config_SetDefaults"
+  },
+  "0x10456BE4": {
+   "old": "dword_10456BE4",
+   "name": "g_cfg0022",
+   "confidence": "high",
+   "evidence": "the settings loader 0x100179E0 walks the table at 0x103507D8 ({type, &global, id} entries), formats each id with \"%04d\" (0x10350958) and reads that registry value with RegQueryValueExA (0x10018FC0) into the global: this one is registry value \"0022\" (table entry 0x10350898); default set by Config_SetDefaults"
+  },
+  "0x10456AA4": {
+   "old": "dword_10456AA4",
+   "name": "g_cfg0023",
+   "confidence": "high",
+   "evidence": "the settings loader 0x100179E0 walks the table at 0x103507D8 ({type, &global, id} entries), formats each id with \"%04d\" (0x10350958) and reads that registry value with RegQueryValueExA (0x10018FC0) into the global: this one is registry value \"0023\" (table entry 0x103508A4); default set by Config_SetDefaults"
+  },
+  "0x10345708": {
+   "old": "unk_10345708",
+   "name": "g_D3DXFormatUnknown",
+   "confidence": "high",
+   "evidence": "d3dx8.lib (DirectX 8.1 SDK, 16 Oct 2001), d3dx8tex.obj, _g_D3DXFormatUnknown: the D3DX function D3DXFindClosestDeviceFormat, byte-matched in the game, has a relocation to this symbol, and the game's copy holds this address at the same offset (pipeline/d3dx_data.py)"
+  },
+  "0x10345730": {
+   "old": "unk_10345730",
+   "name": "g_pD3DXFormatInfo",
+   "confidence": "high",
+   "evidence": "d3dx8.lib (DirectX 8.1 SDK, 16 Oct 2001), d3dx8tex.obj, _g_pD3DXFormatInfo: the D3DX function D3DXFindClosestDeviceFormat, byte-matched in the game, has a relocation to this symbol, and the game's copy holds this address at the same offset (pipeline/d3dx_data.py)"
+  },
+  "0x103CC408": {
+   "old": "off_103CC408",
+   "name": "g_pD3DXFormatInfoLim",
+   "confidence": "high",
+   "evidence": "d3dx8.lib (DirectX 8.1 SDK, 16 Oct 2001), d3dx8tex.obj, _g_pD3DXFormatInfoLim: the D3DX function D3DXFindClosestDeviceFormat, byte-matched in the game, has a relocation to this symbol, and the game's copy holds this address at the same offset (pipeline/d3dx_data.py)"
+  },
+  "0x109B2640": {
+   "old": "dword_109B2640",
+   "name": "CD3DXText_s_pList",
+   "confidence": "high",
+   "evidence": "d3dx8.lib (DirectX 8.1 SDK, 16 Oct 2001), cd3dxtext.obj, ?s_pList@CD3DXText@@1PAV1@A (CD3DXText::s_pList): the D3DX function CD3DXText::Create / CD3DXText::Initialize, byte-matched in the game, has a relocation to this symbol, and the game's copy holds this address at the same offset (pipeline/d3dx_data.py)"
+  },
+  "0x10354108": {
+   "old": "unk_10354108",
+   "name": "Fn1006C530_quadVerts3",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 0 +0 = x, the array start (passed to DrawPrimitiveUP); initial 0"
+  },
+  "0x10354118": {
+   "old": "flt_10354118",
+   "name": "Fn1006C530_quadVerts3_v0_u",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 0 +16 = u, = (a1[0]+1) / a5"
+  },
+  "0x1035411C": {
+   "old": "flt_1035411C",
+   "name": "Fn1006C530_quadVerts3_v0_v",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 0 +20 = v, = (a1[1]+1) / a6"
+  },
+  "0x10354120": {
+   "old": "dword_10354120",
+   "name": "Fn1006C530_quadVerts3_v1_x",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 1 +0 = x, = a3 (initial 15.0)"
+  },
+  "0x10354130": {
+   "old": "flt_10354130",
+   "name": "Fn1006C530_quadVerts3_v1_u",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 1 +16 = u, = a1[2] / a5 (initial 1.0)"
+  },
+  "0x10354134": {
+   "old": "flt_10354134",
+   "name": "Fn1006C530_quadVerts3_v1_v",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 1 +20 = v, = (a1[1]+1) / a6"
+  },
+  "0x1035413C": {
+   "old": "dword_1035413C",
+   "name": "Fn1006C530_quadVerts3_v2_y",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 2 +4 = y, = a4 (initial 15.0)"
+  },
+  "0x10354148": {
+   "old": "flt_10354148",
+   "name": "Fn1006C530_quadVerts3_v2_u",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 2 +16 = u, = (a1[0]+1) / a5"
+  },
+  "0x1035414C": {
+   "old": "flt_1035414C",
+   "name": "Fn1006C530_quadVerts3_v2_v",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 2 +20 = v, = a1[3] / a6 (initial 1.0)"
+  },
+  "0x10354150": {
+   "old": "dword_10354150",
+   "name": "Fn1006C530_quadVerts3_v3_x",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 3 +0 = x, = a3 (initial 15.0)"
+  },
+  "0x10354154": {
+   "old": "dword_10354154",
+   "name": "Fn1006C530_quadVerts3_v3_y",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 3 +4 = y, = a4 (initial 15.0)"
+  },
+  "0x10354160": {
+   "old": "flt_10354160",
+   "name": "Fn1006C530_quadVerts3_v3_u",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 3 +16 = u, = a1[2] / a5 (initial 1.0)"
+  },
+  "0x10354164": {
+   "old": "flt_10354164",
+   "name": "Fn1006C530_quadVerts3_v3_v",
+   "confidence": "high",
+   "evidence": "sub_1006C530 draws 4 vertices from 0x10354108 with DrawPrimitiveUP(TRIANGLESTRIP, 2, Gfx_CalcFVFStride(0x104 = XYZRHW|TEX1) = 24 bytes: x, y, z, rhw, u, v); this field is vertex 3 +20 = v, = a1[3] / a6 (initial 1.0)"
+  },
+  "0x10456C0C": {
+   "old": "dword_10456C0C",
+   "name": "g_pXiCapture",
+   "confidence": "high",
+   "evidence": "App_InitScene stores the result of 0x10017BB0, which stores the XiCapture vtable at [this] (pipeline/global_sources.py); App_Constructor sets it 0"
+  },
+  "0x10456D1C": {
+   "old": "dword_10456D1C",
+   "name": "g_pXiOpening",
+   "confidence": "high",
+   "evidence": "0x100139E0 stores the result of 0x100186C0, which stores the CXiOpening vtable at [this] (pipeline/global_sources.py); App_Destructor frees it"
+  },
+  "0x10456D18": {
+   "old": "dword_10456D18",
+   "name": "g_pObj_Vtbl10329F8C",
+   "confidence": "high",
+   "evidence": "App_InitScene stores the result of the constructor 0x10018430, which stores vtable 0x10329F8C at [this] (2 slots, no runtime-class descriptor, so the class has no name); App_Constructor sets it 0. The name says only that"
+  },
+  "0x10669424": {
+   "old": "dword_10669424",
+   "name": "g_pObj_Vtbl1033CE34",
+   "confidence": "high",
+   "evidence": "App_InitScene stores the result of the constructor 0x102532E0, which stores vtable 0x1033CE34 at [this] (no runtime-class descriptor); the name says only that"
+  },
+  "0x105781F8": {
+   "old": "dword_105781F8",
+   "name": "g_pObj_Vtbl10333D18",
+   "confidence": "high",
+   "evidence": "0x10165070 stores the result of the constructor 0x1013A1E0, which stores vtable 0x10333D18 at [this] (17 slots, no runtime-class descriptor); the name says only that"
+  },
+  "0x10487F81": {
+   "old": "byte_10487F81",
+   "name": "XiControlActor_isAutoRunning",
+   "confidence": "high",
+   "evidence": "PS2 counterpart (SCUS_972.66): XiControlActor::is_auto_running. PC 0x100A6070 is IsAutoRunning__14XiControlActorFc step for step: it stores its char argument here; when that is 0 it copies a 16-byte constant vector into 0x10487F64 (PS2: auto_run_vec, from fv$2272) and, if the handle at 0x10487F74 resolves (PS2: follow_actor != 0), calls a method on [0x10578158] with 65 (PS2: on g_pMsgWinData with 65), then clears the handle (PS2: follow_actor = 0)"
+  },
+  "0x10487F58": {
+   "old": "dword_10487F58",
+   "name": "XiControlActor_userControlTarget",
+   "confidence": "high",
+   "evidence": "PS2 counterpart (SCUS_972.66): XiControlActor::user_control_target. PC CXiControlActor_AmIUserControlTarget (vtable slot 192, PS2 slot 96, data/dm_names.json) resolves the actor handle here and compares it with this; PS2 AmIUserControlTarget__14XiControlActorFv references only user_control_target__14XiControlActor. CXiControlActor_SetTarget uses it as PS2 SetTarget does. On PC it is an actor handle (12 bytes), not a pointer"
+  },
+  "0x10480AF0": {
+   "old": "dword_10480AF0",
+   "name": "ActerBuffPtr",
+   "confidence": "high",
+   "evidence": "PS2 counterpart (SCUS_972.66): ActerBuffPtr (PS2's spelling), the actor pointer table (xiatelnet.cpp and 30 other units). PS2 EventIdle__7XiEventFv and PC 0x100BCD10 (the same function: a 16-entry minimum search, two byte flags, then the table) both read table[this->actorIndex] and clear the same flag bit in that actor (PS2 bit 1 of byte +246, PC bit 17 of dword +0x124). IDA's int[16] is its guess: the PC code indexes it by actor index (931 references)"
   }
  },
  "unnamed": {
@@ -3157,14 +3337,6 @@
    "old": "off_1032D374",
    "why": "low: as 0x1032D36C"
   },
-  "0x10345708": {
-   "old": "unk_10345708",
-   "why": "D3DX library (D3DXFindClosestDeviceFormat format table), not game code"
-  },
-  "0x10345730": {
-   "old": "unk_10345730",
-   "why": "D3DX library (D3DXFindClosestDeviceFormat format table), not game code"
-  },
   "0x10350208": {
    "old": "dword_10350208",
    "why": "low: only used as the end address of the g_flashQuadVerts colour loop; its own use is not in the export"
@@ -3172,10 +3344,6 @@
   "0x10352D2C": {
    "old": "flt_10352D2C",
    "why": "low: only used as the end address of the 12-byte point array g_projTextQuad (0x10352CFC + 48); its own use is not in the export"
-  },
-  "0x103CC408": {
-   "old": "off_103CC408",
-   "why": "D3DX library (end pointer of the D3DXFindClosestDeviceFormat format table), not game code"
   },
   "0x10455C20": {
    "old": "dword_10455C20",
@@ -3220,34 +3388,6 @@
   "0x10456A80": {
    "old": "dword_10456A80",
    "why": "low: a Config_SetDefaults value tested ==1 by Gfx_D3DBootstrap; meaning not established"
-  },
-  "0x10456A98": {
-   "old": "dword_10456A98",
-   "why": "low: a Config_SetDefaults value read by App_Constructor, CXiSkeletonActor_DrawModel, sub_1017B510; meaning not established"
-  },
-  "0x10456AA4": {
-   "old": "dword_10456AA4",
-   "why": "low: a Config_SetDefaults value used by avatar/camera functions; meaning not established"
-  },
-  "0x10456AC0": {
-   "old": "dword_10456AC0",
-   "why": "low: a Config_SetDefaults value tested 0/2 by sub_1016FCD0; meaning not established"
-  },
-  "0x10456BE4": {
-   "old": "dword_10456BE4",
-   "why": "low: a Config_SetDefaults value tested by Frame_Render; meaning not established"
-  },
-  "0x10456C0C": {
-   "old": "dword_10456C0C",
-   "why": "low: an object App_InitScene creates (constructor misnamed exception::exception in the IDB) and App_Destructor destroys; class not established"
-  },
-  "0x10456D18": {
-   "old": "dword_10456D18",
-   "why": "low: an object App_InitScene creates (+408 copied to the scene state, +388 written to a stream); class not established"
-  },
-  "0x10456D1C": {
-   "old": "dword_10456D1C",
-   "why": "low: an object pointer used by 0x100139E0 and Frame_Render; not established"
   },
   "0x10456D20": {
    "old": "dword_10456D20",
@@ -3493,18 +3633,6 @@
    "old": "byte_1047D695",
    "why": "low: 3 references (0x100790E0, CXiSkeletonActor_OnDrawName); what it holds is not established from the export"
   },
-  "0x10480AF0": {
-   "old": "dword_10480AF0",
-   "why": "low: 931 references (0x1009B550, 0x10099AE0, 0x100B1150, 0x1009AFE0); what it holds is not established from the export"
-  },
-  "0x10487F58": {
-   "old": "dword_10487F58",
-   "why": "low: 15 references (0x10082B40, 0x100AA870, 0x1001EE60, 0x10020BA0); what it holds is not established from the export"
-  },
-  "0x10487F81": {
-   "old": "byte_10487F81",
-   "why": "low: 21 references (0x100A6240, sub_10125360, Frame_Render, 0x1001EE60); what it holds is not established from the export"
-  },
   "0x104DFD98": {
    "old": "dword_104DFD98",
    "why": "low: 1071 references (0x10094190, 0x1021CCD0, 0x100ECB30, 0x100ECF80); what it holds is not established from the export"
@@ -3524,10 +3652,6 @@
   "0x10578160": {
    "old": "dword_10578160",
    "why": "low: 8 references (App_Destructor, App_InitScene, App_Constructor, 0x10128060); what it holds is not established from the export"
-  },
-  "0x105781F8": {
-   "old": "dword_105781F8",
-   "why": "low: 228 references (0x10212760, 0x100872C0, 0x101427A0, 0x1014F350); what it holds is not established from the export"
   },
   "0x1057847C": {
    "old": "dword_1057847C",
@@ -3617,10 +3741,6 @@
    "old": "byte_10669420",
    "why": "low: 3 references (Frame_Render, Dancer_WorldEnd); what it holds is not established from the export"
   },
-  "0x10669424": {
-   "old": "dword_10669424",
-   "why": "low: 10 references (App_Destructor, App_InitScene, 0x102532A0, 0x102532C0); what it holds is not established from the export"
-  },
   "0x1099D21B": {
    "old": "byte_1099D21B",
    "why": "low: 2 references (sqgxTextureCreateFromImage, 0x10281A70); what it holds is not established from the export"
@@ -3628,62 +3748,6 @@
   "0x109A2720": {
    "old": "dword_109A2720",
    "why": "low: 8 references (0x10283250, 0x10283280, 0x10283300, 0x10283330); what it holds is not established from the export"
-  },
-  "0x109B2640": {
-   "old": "dword_109B2640",
-   "why": "low: 5 references (0x102F47F3, ?Initialize@CD3DXText@@IAEJPAUIDirect3DDevice8@@@Z, ?Create@CD3DXText@@SAJPAUIDirect3DDevice8@@PAPAV1@@Z); what it holds is not established from the export"
-  },
-  "0x10354108": {
-   "old": "unk_10354108",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +0 = b0)"
-  },
-  "0x10354118": {
-   "old": "flt_10354118",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +16 = b10)"
-  },
-  "0x1035411C": {
-   "old": "flt_1035411C",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +20 = b14)"
-  },
-  "0x10354120": {
-   "old": "dword_10354120",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +24 = b18)"
-  },
-  "0x10354130": {
-   "old": "flt_10354130",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +40 = b28)"
-  },
-  "0x10354134": {
-   "old": "flt_10354134",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +44 = b2C)"
-  },
-  "0x1035413C": {
-   "old": "dword_1035413C",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +52 = b34)"
-  },
-  "0x10354148": {
-   "old": "flt_10354148",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +64 = b40)"
-  },
-  "0x1035414C": {
-   "old": "flt_1035414C",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +68 = b44)"
-  },
-  "0x10354150": {
-   "old": "dword_10354150",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +72 = b48)"
-  },
-  "0x10354154": {
-   "old": "dword_10354154",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +76 = b4C)"
-  },
-  "0x10354160": {
-   "old": "flt_10354160",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +88 = b58)"
-  },
-  "0x10354164": {
-   "old": "flt_10354164",
-   "why": "low: sub_1006C530 writes rectangle-derived floats and its arguments a3/a4 into the bytes from 0x10354108 and draws them with DrawPrimitiveUP(TRIANGLESTRIP, 2, stride from a vertex format not printed here); named by byte offset because the layout is not established (vertex 0, +92 = b5C)"
   },
   "0x1035F598": {
    "old": "word_1035F598",
@@ -3696,10 +3760,6 @@
   "0x1036E634": {
    "old": "flt_1036E634",
    "why": "low: sub_10125360 sets it to atan2(...) - 1.57075 (or -1.57075) and wraps it by 6.283: a second angle in radians; its meaning is not established"
-  },
-  "0x10456BF0": {
-   "old": "dword_10456BF0",
-   "why": "low: Config_SetDefaults writes it; sub_10178250 builds the vs.1.1/ps.1.1 zone shaders only if it is non-zero and two CDx capability bytes are 1"
   }
  }
 }

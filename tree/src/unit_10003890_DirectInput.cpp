@@ -43,7 +43,7 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
       orig::CDx_SetTransform(g_pCDx, 256, self_v);
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
       orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&g_debugAxisLineVerts, 16);
-      v4 = dword_10480AF0[*(_DWORD *)(*(self_ + 3) + v3)];
+      v4 = ActerBuffPtr[*(_DWORD *)(*(self_ + 3) + v3)];
       if ( v4 != 0 && (*(_DWORD *)(v4 + 288) & 0x200) != 0 )
       {
         v5 = *(_DWORD *)(v4 + 160);

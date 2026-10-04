@@ -231,7 +231,7 @@ LABEL_16:
 LABEL_17:
       v4 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
       lpVtbl = v4->lpVtbl;
-      if ( dword_10456A98 != 0 )
+      if ( g_cfg0000 != 0 )
       {
         lpVtbl->SetTextureStageState(v4, 0, D3DTSS_MIPFILTER, 2u);
         (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MIPFILTER, 2u);

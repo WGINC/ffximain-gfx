@@ -1665,7 +1665,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
         if ( orig::sub_10123A70(62, 140, 5, -1) != 1
           || g_pTargetMng != nullptr && orig::sub_101598A0((int)g_pTargetMng) != 0
           || orig::ActorHandle_Resolve(g_targetActorHandle) == 0
-          || byte_10487F81 == 0 )
+          || XiControlActor_isAutoRunning == 0 )
         {
           goto LABEL_141;
         }
@@ -1733,7 +1733,7 @@ LABEL_72:
         }
         if ( orig::sub_10123A70(62, 140, 1, -1) == 1 && orig::ActorHandle_Resolve(g_targetActorHandle) != 0 )
         {
-          if ( byte_10487F81 != 0 )
+          if ( XiControlActor_isAutoRunning != 0 )
 LABEL_51:
             orig::sub_100A6070(0);
           else

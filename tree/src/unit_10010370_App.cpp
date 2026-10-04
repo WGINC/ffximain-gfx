@@ -315,12 +315,12 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                 v25 = orig::Allocator_Generic(0x64058u);
                 if ( v25 == nullptr )
                 {
-                  g_pChatLog = 0;
+                  g_pTkMsgWinData = 0;
                   orig::CDx_EndScene(g_pCDx);
                   return 0;
                 }
                 v26 = orig::sub_10127190(v25);
-                g_pChatLog = (int)v26;
+                g_pTkMsgWinData = (int)v26;
                 if ( v26 != nullptr )
                 {
                   v27 = orig::Allocator_Generic(0x64058u);
@@ -444,33 +444,33 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         v37 = (exception *)orig::Mem_AllocDefault(24);
                         if ( v37 == nullptr )
                         {
-                          dword_10456C0C = nullptr;
+                          g_pXiCapture = nullptr;
                           orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
-                        dword_10456C0C = orig::fn_10017BB0(v37);
-                        if ( dword_10456C0C != nullptr )
+                        g_pXiCapture = orig::fn_10017BB0(v37);
+                        if ( g_pXiCapture != nullptr )
                         {
                           v38 = orig::Allocator_Generic(0x19Cu);
                           if ( v38 != nullptr )
                           {
                             v39 = orig::sub_10018430(v38);
-                            dword_10456D18 = (int)v39;
+                            g_pObj_Vtbl10329F8C = (int)v39;
                             if ( v39 != nullptr )
                             {
                               orig::sub_100185A0(v39 + 100, &Stream, 0x13u);
-                              *(_DWORD *)(g_pSceneState + 32) = *(_DWORD *)(dword_10456D18 + 408);
+                              *(_DWORD *)(g_pSceneState + 32) = *(_DWORD *)(g_pObj_Vtbl10329F8C + 408);
                             }
                           }
                           else
                           {
-                            dword_10456D18 = 0;
+                            g_pObj_Vtbl10329F8C = 0;
                           }
                           v40 = orig::Allocator_Generic(4u);
                           if ( v40 != nullptr )
-                            dword_10669424 = (int)orig::sub_102532E0(v40);
+                            g_pObj_Vtbl1033CE34 = (int)orig::sub_102532E0(v40);
                           else
-                            dword_10669424 = 0;
+                            g_pObj_Vtbl1033CE34 = 0;
                           dword_10456954 = 0;
                           dword_10456958 = 0;
                           dword_1045695C = 0;

@@ -315,7 +315,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
   orig::XiZone_GetFog(g_pXiZone, &v85, (float *)&v87, (float *)&v86, v36, v41);
   v42 = (void *)orig::sub_10157CF0(g_pTargetMng);
   if ( v42 == nullptr )
-    v42 = (void *)orig::sub_10081600((int)dword_10487F58);
+    v42 = (void *)orig::sub_10081600((int)XiControlActor_userControlTarget);
   if ( v42 == self_ || (*((_DWORD *)self_ + 34) & 0x200) != 0 )
   {
     v44 = *((_DWORD *)self_ + 528);

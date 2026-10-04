@@ -160,11 +160,11 @@ XI_API char __thiscall fn_101EEBD0(int self_)
   v14 = *(struct tm **)(self_ + 180);
   if ( v14 == (struct tm *)-1 )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)dword_105781F8, nullptr, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, nullptr, 2);
   }
   else if ( v14 != nullptr )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)dword_105781F8, v14, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, v14, 2);
   }
   v15 = *(unsigned __int8 **)(self_ + 184);
   if ( v15 == (unsigned __int8 *)-1 )

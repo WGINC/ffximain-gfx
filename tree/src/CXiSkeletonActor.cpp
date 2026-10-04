@@ -184,7 +184,7 @@ LABEL_24:
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SPECULARENABLE, 0);
     v16 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     v17.lpVtbl = v16->lpVtbl;
-    if ( dword_10456A98 != 0 )
+    if ( g_cfg0000 != 0 )
     {
       v17.lpVtbl->SetTextureStageState(v16, 0, D3DTSS_MIPFILTER, 2u);
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_MIPFILTER, 2u);
@@ -4198,7 +4198,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
   (*(void (__thiscall **)(void *, int, int, _DWORD))(*(_DWORD *)self + 664))(self, a2, a3, 0);
   BYTE2(a3) = 0;
   LOWORD(a3) = 20;
-  return orig::ChatLog_AddMessage(g_pChatLog, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
+  return orig::ChatLog_AddMessage(g_pTkMsgWinData, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)

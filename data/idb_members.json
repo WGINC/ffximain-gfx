@@ -1,0 +1,8592 @@
+{
+"CDx": {
+"members": [
+[
+"base",
+0,
+4,
+"CDx_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"pD3D",
+8,
+4,
+"IDirect3D8 *",
+[]
+],
+[
+"pDevice",
+12,
+4,
+"IDirect3DDevice8 *",
+[]
+],
+[
+"_pad_10",
+16,
+476,
+"unsigned __int8",
+[
+476
+]
+],
+[
+"field_1EC",
+492,
+4,
+"unsigned int",
+[]
+],
+[
+"field_1F0",
+496,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_10_1F4",
+500,
+2140,
+"unsigned __int8",
+[
+2140
+]
+]
+],
+"size": 2640
+},
+"CDx_vtbl": {
+"members": [
+[
+"vf0_CDx_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CDx_ScalarDeletingDtor",
+24,
+4,
+"void *(__thiscall *)(CDx *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoActorColorDriveTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+84,
+"unsigned __int8",
+[
+84
+]
+]
+],
+"size": 136
+},
+"CMoAttachments": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoAttachments_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+44,
+"unsigned __int8",
+[
+44
+]
+],
+[
+"field_30",
+48,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_34",
+52,
+12,
+"unsigned __int8",
+[
+12
+]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032AE94": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032AF44": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032B140": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032B940": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BAF0": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BB38": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BBAC": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+],
+[
+"field_44",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44_2",
+68,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 72
+},
+"CMoAttachments_VT_1032BBF4": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BC68": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BC84": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BCCC": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BD14": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BD5C": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BDA4": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BDEC": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BE34": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BE7C": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BEC4": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BF0C": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BF54": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032BFE4": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032C02C": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032C4E8": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032C628": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments_VT_1032B140",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_VT_1032E7EC": {
+"members": [
+[
+"base",
+0,
+64,
+"CMoAttachments",
+[]
+]
+],
+"size": 64
+},
+"CMoAttachments_vtbl": {
+"members": [
+[
+"vf0_CMoAttachments_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CMoAttachments_ScalarDeletingDtor",
+4,
+4,
+"_DWORD *(__thiscall *)(CMoAttachments *self, char)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CMoAttachments_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CMoAttachments_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoAttachments_vf006",
+24,
+4,
+"void *",
+[]
+]
+],
+"size": 28
+},
+"CMoCelestial": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoCelestial_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"CMoCelestial_vtbl": {
+"members": [
+[
+"vf0_CMoCelestial_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoCelestial_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoCelestial *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoD3aElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+]
+],
+"size": 404
+},
+"CMoD3aLightmapElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_194",
+404,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 408
+},
+"CMoD3mSpecularElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_198",
+408,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_194_199",
+409,
+3,
+"unsigned __int8",
+[
+3
+]
+],
+[
+"field_19C",
+412,
+4,
+"float",
+[]
+],
+[
+"field_1A0",
+416,
+4,
+"float",
+[]
+],
+[
+"field_1A4",
+420,
+4,
+"float",
+[]
+],
+[
+"field_1A8",
+424,
+4,
+"unsigned int",
+[]
+],
+[
+"field_1AC",
+428,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_194_1B0",
+432,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_1B8",
+440,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_194_1B9",
+441,
+3,
+"unsigned __int8",
+[
+3
+]
+],
+[
+"field_1BC",
+444,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_1BD",
+445,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_194_1BE",
+446,
+2,
+"unsigned __int8",
+[
+2
+]
+]
+],
+"size": 448
+},
+"CMoD3mSpecularElem_vtbl": {
+"members": [
+[
+"vf0_CMoD3mSpecularElem_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_sub_10047520",
+4,
+4,
+"int (__thiscall *)(void *self, _DWORD *)",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoD3mSpecularElem_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoD3mSpecularElem *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_sub_10045A40",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+],
+[
+"vf11_sub_10046070",
+44,
+4,
+"void *",
+[]
+],
+[
+"vf12_CMoD3mSpecularElem_vf012",
+48,
+4,
+"BOOL (__stdcall *)(int)",
+[]
+],
+[
+"vf13_CMoElem_vf013",
+52,
+4,
+"void (__stdcall *)(int)",
+[]
+],
+[
+"vf14_CMoElem_vf014",
+56,
+4,
+"void (__stdcall *)(int)",
+[]
+],
+[
+"vf15_CMoElem_vf015",
+60,
+4,
+"void *",
+[]
+],
+[
+"vf16_sub_10044AC0",
+64,
+4,
+"bool (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf17_sub_10041A40",
+68,
+4,
+"double (__thiscall *)(int self)",
+[]
+],
+[
+"vf18_sub_100412B0",
+72,
+4,
+"void *",
+[]
+],
+[
+"vf19_sub_10041160",
+76,
+4,
+"char (__thiscall *)(CMoD3mSpecularElem *self)",
+[]
+],
+[
+"vf20_CXi471011C8_VT_1032AD80_SubmitVertices",
+80,
+4,
+"int *(__thiscall *)(int **self)",
+[]
+],
+[
+"vf21_sub_10045AE0",
+84,
+4,
+"void *",
+[]
+],
+[
+"vf22_sub_10045BB0",
+88,
+4,
+"void *",
+[]
+]
+],
+"size": 92
+},
+"CMoDX": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoDX_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+3768,
+"unsigned __int8",
+[
+3768
+]
+],
+[
+"field_EBC",
+3772,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_EC0",
+3776,
+4108,
+"unsigned __int8",
+[
+4108
+]
+]
+],
+"size": 7884
+},
+"CMoDX_vtbl": {
+"members": [
+[
+"vf0_CMoDX_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoDX_ScalarDeletingDtor",
+24,
+4,
+"_BYTE *(__thiscall *)(CMoDX *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoDisintegrateProgElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+76,
+"unsigned __int8",
+[
+76
+]
+]
+],
+"size": 480
+},
+"CMoDist": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_194",
+404,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 408
+},
+"CMoDistModelElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_194",
+404,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 408
+},
+"CMoDistMorphElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CXi471011C8_VT_1032AC90",
+[]
+],
+[
+"_pad_194",
+404,
+40,
+"unsigned __int8",
+[
+40
+]
+],
+[
+"field_1BC",
+444,
+4,
+"unsigned int",
+[]
+],
+[
+"field_1C0",
+448,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 452
+},
+"CMoDistRingElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+32,
+"unsigned __int8",
+[
+32
+]
+],
+[
+"field_1B4",
+436,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_1B5",
+437,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_1B6",
+438,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 442
+},
+"CMoDxStatusMng": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoDxStatusMng_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_C",
+12,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 16
+},
+"CMoDxStatusMng_vtbl": {
+"members": [
+[
+"vf0_CMoDxStatusMng_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoDxStatusMng_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CMoDxStatusMng *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoElem": {
+"members": [
+[
+"base",
+0,
+84,
+"CMoOtTask",
+[]
+],
+[
+"_pad_54",
+84,
+172,
+"unsigned __int8",
+[
+172
+]
+],
+[
+"field_100",
+256,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_104",
+260,
+52,
+"unsigned __int8",
+[
+52
+]
+],
+[
+"field_138",
+312,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_13C",
+316,
+88,
+"unsigned __int8",
+[
+88
+]
+]
+],
+"size": 404
+},
+"CMoElem_VT_1032ADE8": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_194",
+404,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 408
+},
+"CMoLfdElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+12,
+"unsigned __int8",
+[
+12
+]
+]
+],
+"size": 416
+},
+"CMoLockColorDriveTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+72,
+"unsigned __int8",
+[
+72
+]
+]
+],
+"size": 124
+},
+"CMoLockLookAtDriveTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+76,
+"unsigned __int8",
+[
+76
+]
+]
+],
+"size": 128
+},
+"CMoNullProgElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+]
+],
+"size": 404
+},
+"CMoOT": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoOT_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_8",
+8,
+16,
+"unsigned __int8",
+[
+16
+]
+]
+],
+"size": 24
+},
+"CMoOT_vtbl": {
+"members": [
+[
+"vf0_CMoOT_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoOT_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CMoOT *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoOcclusionMng": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoOcclusionMng_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+20,
+"unsigned __int8",
+[
+20
+]
+],
+[
+"field_18",
+24,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 28
+},
+"CMoOcclusionMng_vtbl": {
+"members": [
+[
+"vf0_CMoOcclusionMng_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoOcclusionMng_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CMoOcclusionMng *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoOtTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+32,
+"unsigned __int8",
+[
+32
+]
+]
+],
+"size": 84
+},
+"CMoPathDriveActorTask": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"_pad_34",
+52,
+124,
+"unsigned __int8",
+[
+124
+]
+]
+],
+"size": 176
+},
+"CMoPointLightProgElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"field_194",
+404,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_194_198",
+408,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_19C",
+412,
+4,
+"float",
+[]
+],
+[
+"field_1A0",
+416,
+4,
+"float",
+[]
+],
+[
+"field_1A4",
+420,
+4,
+"float",
+[]
+],
+[
+"field_1A8",
+424,
+4,
+"float",
+[]
+],
+[
+"field_1AC",
+428,
+4,
+"unsigned int",
+[]
+],
+[
+"field_1B0",
+432,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_194_1B1",
+433,
+3,
+"unsigned __int8",
+[
+3
+]
+]
+],
+"size": 436
+},
+"CMoProcessor": {
+"members": [
+[
+"vftable",
+0,
+4,
+"void *",
+[]
+],
+[
+"ScratchMatrices",
+4,
+2048,
+"float",
+[
+512
+]
+],
+[
+"pad_0804",
+2052,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"RotationMatrix",
+2064,
+256,
+"float",
+[
+64
+]
+],
+[
+"pad_0910",
+2320,
+256,
+"unsigned __int8",
+[
+256
+]
+],
+[
+"ScratchMatrixFreeList",
+2576,
+128,
+"float *",
+[
+32
+]
+],
+[
+"ScratchMatrixStackTop",
+2704,
+4,
+"int",
+[]
+],
+[
+"pad_0A94",
+2708,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"TransposeScratch",
+2720,
+64,
+"float",
+[
+16
+]
+],
+[
+"TransposeScratchTemp",
+2784,
+64,
+"float",
+[
+16
+]
+],
+[
+"pad_0B20",
+2848,
+144,
+"unsigned __int8",
+[
+144
+]
+]
+],
+"size": 2992
+},
+"CMoProcessor_VT_1032C1C8": {
+"members": [
+[
+"base",
+0,
+16,
+"CMoProcessor_recon",
+[]
+],
+[
+"field_864",
+16,
+4,
+"float",
+[]
+],
+[
+"field_868",
+20,
+4,
+"float",
+[]
+],
+[
+"field_874",
+24,
+4,
+"float",
+[]
+],
+[
+"field_878",
+28,
+4,
+"float",
+[]
+],
+[
+"field_898",
+32,
+4,
+"float",
+[]
+],
+[
+"field_8B0",
+36,
+4,
+"float",
+[]
+],
+[
+"field_8B8",
+40,
+4,
+"float",
+[]
+],
+[
+"field_8D4",
+44,
+4,
+"float",
+[]
+],
+[
+"field_8E0",
+48,
+4,
+"float",
+[]
+],
+[
+"field_8E4",
+52,
+4,
+"float",
+[]
+],
+[
+"field_864_2",
+56,
+4,
+"float",
+[]
+],
+[
+"field_868_2",
+60,
+4,
+"float",
+[]
+],
+[
+"field_874_2",
+64,
+4,
+"float",
+[]
+],
+[
+"field_878_2",
+68,
+4,
+"float",
+[]
+],
+[
+"field_898_2",
+72,
+4,
+"float",
+[]
+],
+[
+"field_8B0_2",
+76,
+4,
+"float",
+[]
+],
+[
+"field_8B8_2",
+80,
+4,
+"float",
+[]
+],
+[
+"field_8D4_2",
+84,
+4,
+"float",
+[]
+],
+[
+"field_8E0_2",
+88,
+4,
+"float",
+[]
+],
+[
+"field_8E4_2",
+92,
+4,
+"float",
+[]
+],
+[
+"field_864_3",
+96,
+4,
+"float",
+[]
+],
+[
+"field_868_3",
+100,
+4,
+"float",
+[]
+],
+[
+"field_874_3",
+104,
+4,
+"float",
+[]
+],
+[
+"field_878_3",
+108,
+4,
+"float",
+[]
+],
+[
+"field_898_3",
+112,
+4,
+"float",
+[]
+],
+[
+"field_8B0_3",
+116,
+4,
+"float",
+[]
+],
+[
+"field_8B8_3",
+120,
+4,
+"float",
+[]
+],
+[
+"field_8D4_3",
+124,
+4,
+"float",
+[]
+],
+[
+"field_8E0_3",
+128,
+4,
+"float",
+[]
+],
+[
+"field_8E4_3",
+132,
+4,
+"float",
+[]
+]
+],
+"size": 136
+},
+"CMoProcessor_recon": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyObject",
+[]
+],
+[
+"_pad_4",
+4,
+12,
+"unsigned __int8",
+[
+12
+]
+]
+],
+"size": 16
+},
+"CMoResource": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoResource_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_8",
+8,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"field_14",
+20,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_18",
+24,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_1A",
+26,
+2,
+"unsigned __int16",
+[]
+],
+[
+"_pad_18_1C",
+28,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"field_28",
+40,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_18_2C",
+44,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 48
+},
+"CMoResourceMng": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoResourceMng_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+262148,
+"unsigned __int8",
+[
+262148
+]
+],
+[
+"field_40008",
+262152,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_4000C",
+262156,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 262160
+},
+"CMoResourceMng_vtbl": {
+"members": [
+[
+"vf0_CMoResourceMng_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6____G__basic_ios_DU__char_traits_D_std___std__UAEPAXI_Z_0_0",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoResourceMng *self, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoResource_VT_1032C55C": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"_pad_30",
+48,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 56
+},
+"CMoResource_VT_1032C588": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C5FC": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C670": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C69C": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C6C8": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C6F4": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C720": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_32",
+48,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_34",
+50,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_3C",
+51,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+55,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3C_2",
+59,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44_2",
+63,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44_3",
+67,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 71
+},
+"CMoResource_VT_1032C74C": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_32",
+48,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_34",
+50,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_36",
+51,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_36_2",
+53,
+2,
+"unsigned __int16",
+[]
+]
+],
+"size": 55
+},
+"CMoResource_VT_1032C7A4": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C7D0": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_1032C7FC": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_30",
+48,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_31",
+49,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_32",
+50,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_34",
+52,
+2,
+"unsigned __int16",
+[]
+]
+],
+"size": 54
+},
+"CMoResource_VT_1032C828": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_30",
+48,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 49
+},
+"CMoResource_VT_1032C854": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_30",
+48,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_31",
+49,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_32",
+50,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_30_33",
+51,
+1,
+"unsigned __int8",
+[
+1
+]
+],
+[
+"field_34",
+52,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_30_35",
+53,
+1,
+"unsigned __int8",
+[
+1
+]
+],
+[
+"field_36",
+54,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_30_3A",
+58,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_3C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_30_40",
+64,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_42",
+66,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_30_46",
+70,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_48",
+72,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_30_4C",
+76,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_4E",
+78,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_30_52",
+82,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_54",
+84,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5E",
+88,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7C",
+92,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7C_2",
+96,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7C_3",
+100,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 104
+},
+"CMoResource_VT_1032C880": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_34",
+48,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_36",
+50,
+2,
+"unsigned __int16",
+[]
+],
+[
+"field_48",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_4C",
+56,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48_2",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_4C_2",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48_3",
+68,
+4,
+"unsigned int",
+[]
+],
+[
+"field_4C_3",
+72,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 76
+},
+"CMoResource_VT_1032C8AC": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"field_30",
+48,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 49
+},
+"CMoResource_VT_1032C934": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_10336698": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_103366C4": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_103366F0": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_VT_103367E8": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource",
+[]
+]
+],
+"size": 48
+},
+"CMoResource_vtbl": {
+"members": [
+[
+"vf0_CMoResource_GetRuntimeClass_variant3",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CMoCamera_GetLinkedObject",
+4,
+4,
+"__int16 (__thiscall *)(_DWORD *self, _DWORD *)",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CMoCamera_SetLinkedObject",
+16,
+4,
+"int (__thiscall *)(_DWORD **self, int)",
+[]
+],
+[
+"vf5_CMoResource_vf005",
+20,
+4,
+"void (__stdcall *)(int)",
+[]
+],
+[
+"vf6_CMoResource_ScalarDeletingDtor",
+24,
+4,
+"unsigned int **(__thiscall *)(CMoResource *C, char)",
+[]
+],
+[
+"vf7_sub_10071E00",
+28,
+4,
+"unsigned int (__thiscall *)(int self, _DWORD *)",
+[]
+],
+[
+"vf8_CMoResource_vf008",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_CMoResource_Destroy",
+36,
+4,
+"__int16 (__thiscall *)(int self)",
+[]
+],
+[
+"vf10_CMoCamera_GetSharedInstance",
+40,
+4,
+"void *",
+[]
+]
+],
+"size": 44
+},
+"CMoSkeletonElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_1D4",
+468,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_1D5",
+469,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 473
+},
+"CMoSphRes": {
+"members": [
+[
+"base",
+0,
+48,
+"CMoResource_VT_103366C4",
+[]
+],
+[
+"_pad_30",
+48,
+32,
+"unsigned __int8",
+[
+32
+]
+]
+],
+"size": 80
+},
+"CMoSpline": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoSpline_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_C",
+12,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_10",
+16,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_14",
+20,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_18",
+24,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_1C",
+28,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_20",
+32,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_24",
+36,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 40
+},
+"CMoSpline_vtbl": {
+"members": [
+[
+"vf0_CMoSpline_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoSpline_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CMoSpline *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoTask": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoTask_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+4,
+"float",
+[]
+],
+[
+"field_8",
+8,
+4,
+"float",
+[]
+],
+[
+"field_C",
+12,
+4,
+"float",
+[]
+],
+[
+"_pad_10",
+16,
+36,
+"unsigned __int8",
+[
+36
+]
+]
+],
+"size": 52
+},
+"CMoTaskMng": {
+"members": [
+[
+"base",
+0,
+4,
+"CMoTaskMng_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+3404,
+"unsigned __int8",
+[
+3404
+]
+],
+[
+"field_D50",
+3408,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_D54",
+3412,
+16,
+"unsigned __int8",
+[
+16
+]
+]
+],
+"size": 3428
+},
+"CMoTaskMng_vtbl": {
+"members": [
+[
+"vf0_CMoTaskMng_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoTaskMng_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoTaskMng *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CMoTask_VT_10329C70": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 56
+},
+"CMoTask_VT_10329C70_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_sub_1006B4C0",
+4,
+4,
+"int (__stdcall *)(_DWORD *)",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoTask_VT_10329C70_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoTask_VT_10329C70 *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_sub_1006B480",
+32,
+4,
+"char (__thiscall *)(CMoTask_VT_10329C70 *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoTask_VT_1032A904": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"float",
+[]
+],
+[
+"field_40",
+64,
+4,
+"float",
+[]
+],
+[
+"field_44",
+68,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 72
+},
+"CMoTask_VT_1032AFA8": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+]
+],
+"size": 52
+},
+"CMoTask_VT_1032B654": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_38",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3C",
+56,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_3C_2",
+57,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_3C_3",
+58,
+1,
+"unsigned __int8",
+[]
+]
+],
+"size": 59
+},
+"CMoTask_VT_1032B95C": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+]
+],
+"size": 52
+},
+"CMoTask_VT_1032C490": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+]
+],
+"size": 52
+},
+"CMoTask_VT_1032C908": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38",
+56,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3C",
+60,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_3D",
+61,
+4,
+"unsigned int",
+[]
+],
+[
+"field_41",
+65,
+4,
+"unsigned int",
+[]
+],
+[
+"field_45",
+69,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 73
+},
+"CMoTask_VT_1032D6D4": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38",
+56,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48",
+68,
+4,
+"unsigned int",
+[]
+],
+[
+"field_58",
+72,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_60",
+73,
+4,
+"unsigned int",
+[]
+],
+[
+"field_64",
+77,
+4,
+"unsigned int",
+[]
+],
+[
+"field_6C",
+81,
+4,
+"unsigned int",
+[]
+],
+[
+"field_58_2",
+85,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_60_2",
+86,
+4,
+"unsigned int",
+[]
+],
+[
+"field_64_2",
+90,
+4,
+"unsigned int",
+[]
+],
+[
+"field_6C_2",
+94,
+4,
+"unsigned int",
+[]
+],
+[
+"field_64_3",
+98,
+4,
+"unsigned int",
+[]
+],
+[
+"field_6C_3",
+102,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 106
+},
+"CMoTask_vtbl": {
+"members": [
+[
+"vf0_CMoTask_GetRuntimeClass_variant12",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoTask_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CMoTask *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_CMoTask_vf008",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CMoVuAnmElem": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+68,
+"unsigned __int8",
+[
+68
+]
+],
+[
+"field_1D8",
+472,
+2,
+"unsigned __int16",
+[]
+],
+[
+"_pad_194_1DA",
+474,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_1DC",
+476,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_194_1DD",
+477,
+72,
+"unsigned __int8",
+[
+72
+]
+],
+[
+"field_225",
+549,
+4,
+"unsigned int",
+[]
+],
+[
+"field_229",
+553,
+4,
+"unsigned int",
+[]
+],
+[
+"field_22D",
+557,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 561
+},
+"CMoVuDist": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+],
+[
+"_pad_194",
+404,
+76,
+"unsigned __int8",
+[
+76
+]
+]
+],
+"size": 480
+},
+"CShader": {
+"members": [
+[
+"base",
+0,
+4,
+"CShader_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_8",
+8,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_C",
+12,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_10",
+16,
+4,
+"unsigned __int32",
+[]
+]
+],
+"size": 20
+},
+"CShader_vtbl": {
+"members": [
+[
+"vf0_CShader_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CShader_ScalarDeletingDtor",
+24,
+4,
+"unsigned int *(__thiscall *)(CShader *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CTsZoneMap": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+2,
+"unsigned __int16",
+[]
+],
+[
+"_pad_34_36",
+54,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_38",
+56,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_34_3C",
+60,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_40",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+68,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_48",
+72,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_4C",
+76,
+4,
+"unsigned int",
+[]
+],
+[
+"field_50",
+80,
+4,
+"unsigned int",
+[]
+],
+[
+"field_54",
+84,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_58",
+88,
+248,
+"unsigned __int8",
+[
+248
+]
+],
+[
+"field_150",
+336,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_154",
+340,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_158",
+344,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_15C",
+348,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_164",
+356,
+4,
+"unsigned int",
+[]
+],
+[
+"field_168",
+360,
+4,
+"float",
+[]
+],
+[
+"_pad_48_16C",
+364,
+16,
+"unsigned __int8",
+[
+16
+]
+],
+[
+"field_17C",
+380,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_180",
+384,
+218160,
+"unsigned __int8",
+[
+218160
+]
+],
+[
+"field_355B0",
+218544,
+4,
+"unsigned int",
+[]
+],
+[
+"field_355B4",
+218548,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_355B8",
+218552,
+14216,
+"unsigned __int8",
+[
+14216
+]
+],
+[
+"field_38D40",
+232768,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38D44",
+232772,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38D48",
+232776,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_38D4C",
+232780,
+72,
+"unsigned __int8",
+[
+72
+]
+],
+[
+"field_38D94",
+232852,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_38D98",
+232856,
+856,
+"unsigned __int8",
+[
+856
+]
+],
+[
+"field_390F0",
+233712,
+4,
+"float",
+[]
+],
+[
+"field_390F4",
+233716,
+4,
+"float",
+[]
+],
+[
+"field_390F8",
+233720,
+4,
+"float",
+[]
+],
+[
+"field_390FC",
+233724,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39100",
+233728,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39104",
+233732,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39108",
+233736,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3910C",
+233740,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39110",
+233744,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39114",
+233748,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39118",
+233752,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3911C",
+233756,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39120",
+233760,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39124",
+233764,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_3912C",
+233772,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39130",
+233776,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_39134",
+233780,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39138",
+233784,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_3913C",
+233788,
+132,
+"unsigned __int8",
+[
+132
+]
+],
+[
+"field_391C0",
+233920,
+4,
+"unsigned int",
+[]
+],
+[
+"field_391C4",
+233924,
+4,
+"unsigned int",
+[]
+],
+[
+"field_391C8",
+233928,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_391CC",
+233932,
+132,
+"unsigned __int8",
+[
+132
+]
+],
+[
+"field_39250",
+234064,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39254",
+234068,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39258",
+234072,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3925C",
+234076,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39260",
+234080,
+64,
+"unsigned __int8",
+[
+64
+]
+],
+[
+"field_392A0",
+234144,
+4,
+"unsigned int",
+[]
+],
+[
+"field_392A4",
+234148,
+4,
+"unsigned int",
+[]
+],
+[
+"field_392A8",
+234152,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_392AC",
+234156,
+144,
+"unsigned __int8",
+[
+144
+]
+],
+[
+"field_3933C",
+234300,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39340",
+234304,
+224,
+"unsigned __int8",
+[
+224
+]
+],
+[
+"field_39420",
+234528,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39424",
+234532,
+4,
+"float",
+[]
+],
+[
+"field_39428",
+234536,
+4,
+"float",
+[]
+],
+[
+"field_3942C",
+234540,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39430",
+234544,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39434",
+234548,
+20,
+"unsigned __int8",
+[
+20
+]
+],
+[
+"field_39448",
+234568,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3944C",
+234572,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39450",
+234576,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_39454",
+234580,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39458",
+234584,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3945C",
+234588,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39460",
+234592,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39464",
+234596,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39468",
+234600,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3946C",
+234604,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39470",
+234608,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39474",
+234612,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39478",
+234616,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3947C",
+234620,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39480",
+234624,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39484",
+234628,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39488",
+234632,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3948C",
+234636,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39490",
+234640,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39494",
+234644,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39498",
+234648,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3949C",
+234652,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394A0",
+234656,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394A4",
+234660,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394A8",
+234664,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394AC",
+234668,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394B0",
+234672,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394B4",
+234676,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394B8",
+234680,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394BC",
+234684,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394C0",
+234688,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394C4",
+234692,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394C8",
+234696,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394CC",
+234700,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394D0",
+234704,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394D4",
+234708,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394D8",
+234712,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394DC",
+234716,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_394E0",
+234720,
+16,
+"unsigned __int8",
+[
+16
+]
+],
+[
+"field_394F0",
+234736,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394F4",
+234740,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394F8",
+234744,
+4,
+"unsigned int",
+[]
+],
+[
+"field_394FC",
+234748,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39500",
+234752,
+4,
+"float",
+[]
+],
+[
+"field_39504",
+234756,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39508",
+234760,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3950C",
+234764,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39510",
+234768,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39514",
+234772,
+4,
+"unsigned int",
+[]
+],
+[
+"field_39518",
+234776,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3951C",
+234780,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39520",
+234784,
+32,
+"unsigned __int8",
+[
+32
+]
+],
+[
+"field_39540",
+234816,
+4,
+"float",
+[]
+],
+[
+"field_39544",
+234820,
+4,
+"float",
+[]
+],
+[
+"field_39548",
+234824,
+4,
+"float",
+[]
+],
+[
+"field_3954C",
+234828,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_48_39550",
+234832,
+100,
+"unsigned __int8",
+[
+100
+]
+]
+],
+"size": 234932
+},
+"CTsZoneMap_vtbl": {
+"members": [
+[
+"vf0_CTsZoneMap_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_sub_10178D40",
+4,
+4,
+"int (__thiscall *)(CTsZoneMap *self, int *)",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CTsZoneMap_ScalarDeletingDtor",
+24,
+4,
+"void *(__thiscall *)(CTsZoneMap *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_sub_10178B30",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CXi471011C8_VT_1032AC90": {
+"members": [
+[
+"base",
+0,
+404,
+"CMoElem",
+[]
+]
+],
+"size": 404
+},
+"CXiActor": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_38",
+56,
+4,
+"float",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_40",
+64,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_44",
+68,
+60,
+"unsigned __int8",
+[
+60
+]
+],
+[
+"field_80",
+128,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_84",
+132,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_88",
+136,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_8C",
+140,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_90",
+144,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_94",
+148,
+4,
+"float",
+[]
+],
+[
+"field_98",
+152,
+4,
+"float",
+[]
+],
+[
+"field_9C",
+156,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_A0",
+160,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_A4",
+164,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_A8",
+168,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_AC",
+172,
+6,
+"unsigned __int8",
+[
+6
+]
+],
+[
+"field_B2",
+178,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_B3",
+179,
+1,
+"unsigned __int8",
+[
+1
+]
+],
+[
+"field_B4",
+180,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_B8",
+184,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_BC",
+188,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_C0",
+192,
+4,
+"unsigned __int8",
+[
+4
+]
+]
+],
+"size": 196
+},
+"CXiControlActor": {
+"members": [
+[
+"base",
+0,
+196,
+"CXiActor",
+[]
+],
+[
+"_pad_C4",
+196,
+16,
+"unsigned __int8",
+[
+16
+]
+],
+[
+"field_D4",
+212,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_D8",
+216,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_DC",
+220,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_E0",
+224,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_E4",
+228,
+21,
+"unsigned __int8",
+[
+21
+]
+],
+[
+"field_F9",
+249,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_FA",
+250,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_FB",
+251,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_FC",
+252,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_100",
+256,
+3,
+"unsigned __int8",
+[
+3
+]
+],
+[
+"field_103",
+259,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_104",
+260,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_105",
+261,
+3,
+"unsigned __int8",
+[
+3
+]
+],
+[
+"field_108",
+264,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_10C",
+268,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_110",
+272,
+4,
+"unsigned __int32",
+[]
+],
+[
+"_pad_114",
+276,
+92,
+"unsigned __int8",
+[
+92
+]
+],
+[
+"field_170",
+368,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_174",
+372,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_178",
+376,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_17C",
+380,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_17D",
+381,
+1095,
+"unsigned __int8",
+[
+1095
+]
+]
+],
+"size": 1476
+},
+"CXiOpening": {
+"members": [
+[
+"base",
+0,
+4,
+"CXiOpening_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+272,
+"unsigned __int8",
+[
+272
+]
+],
+[
+"field_114",
+276,
+4,
+"unsigned int",
+[]
+],
+[
+"field_118",
+280,
+4,
+"unsigned int",
+[]
+],
+[
+"field_11C",
+284,
+4,
+"unsigned int",
+[]
+],
+[
+"field_120",
+288,
+4,
+"unsigned int",
+[]
+],
+[
+"field_124",
+292,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 296
+},
+"CXiOpening_vtbl": {
+"members": [
+[
+"vf0_CXiOpening_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CXiOpening_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CXiOpening *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CXiSkeletonActor": {
+"members": [
+[
+"gap01_000",
+0,
+136,
+"char",
+[
+136
+]
+],
+[
+"posHandle",
+136,
+4,
+"int",
+[]
+],
+[
+"gap02_08c",
+140,
+8,
+"char",
+[
+8
+]
+],
+[
+"moveSpeedBase",
+148,
+4,
+"float",
+[]
+],
+[
+"moveSpeed",
+152,
+4,
+"float",
+[]
+],
+[
+"walkSpeed",
+156,
+4,
+"float",
+[]
+],
+[
+"gap03_0a0",
+160,
+16,
+"char",
+[
+16
+]
+],
+[
+"hiddenFlagByte",
+176,
+1,
+"char",
+[]
+],
+[
+"gap04_0b1",
+177,
+1,
+"char",
+[]
+],
+[
+"hiddenFlagWord",
+178,
+2,
+"__int16",
+[]
+],
+[
+"gap05_0b4",
+180,
+1452,
+"char",
+[
+1452
+]
+],
+[
+"color",
+1632,
+4,
+"unsigned int",
+[]
+],
+[
+"gap06_664",
+1636,
+4,
+"char",
+[
+4
+]
+],
+[
+"multiTexAlpha",
+1640,
+4,
+"unsigned int",
+[]
+],
+[
+"shadowAlpha",
+1644,
+4,
+"unsigned int",
+[]
+],
+[
+"gap07_670",
+1648,
+192,
+"char",
+[
+192
+]
+],
+[
+"emapAlphaMode",
+1840,
+4,
+"int",
+[]
+],
+[
+"effectFlags",
+1844,
+4,
+"unsigned int",
+[]
+],
+[
+"gap08_738",
+1848,
+12,
+"char",
+[
+12
+]
+],
+[
+"distAmount",
+1860,
+4,
+"float",
+[]
+],
+[
+"separateValue",
+1864,
+4,
+"float",
+[]
+],
+[
+"emapColor",
+1868,
+4,
+"unsigned int",
+[]
+],
+[
+"emapTexture",
+1872,
+4,
+"void *",
+[]
+],
+[
+"gap09_754",
+1876,
+412,
+"char",
+[
+412
+]
+],
+[
+"boundUnk0",
+2288,
+16,
+"char",
+[
+16
+]
+],
+[
+"boundRadius",
+2304,
+4,
+"float",
+[]
+],
+[
+"boundUnk1",
+2308,
+12,
+"char",
+[
+12
+]
+],
+[
+"gap10_910",
+2320,
+220,
+"char",
+[
+220
+]
+],
+[
+"updateSerial",
+2540,
+4,
+"unsigned int",
+[]
+],
+[
+"bucketA",
+2544,
+4,
+"unsigned int",
+[]
+],
+[
+"visibleSampleCount",
+2548,
+4,
+"unsigned int",
+[]
+],
+[
+"forceUpdateFlag",
+2552,
+1,
+"char",
+[]
+],
+[
+"gap11_9f9",
+2553,
+3,
+"char",
+[
+3
+]
+],
+[
+"bucketB",
+2556,
+4,
+"unsigned int",
+[]
+],
+[
+"gap12_a00",
+2560,
+4,
+"char",
+[
+4
+]
+],
+[
+"drawBudgetGate",
+2564,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 2568
+},
+"CXiSkeletonActorRes": {
+"members": [
+[
+"CMoTask_base",
+0,
+52,
+"unsigned __int8",
+[
+52
+]
+],
+[
+"pLinkedActor",
+52,
+4,
+"void *",
+[]
+],
+[
+"pfnOnLoaded",
+56,
+4,
+"void *",
+[]
+],
+[
+"loadState",
+60,
+4,
+"int",
+[]
+],
+[
+"field_40",
+64,
+4,
+"int",
+[]
+],
+[
+"resourceId",
+68,
+4,
+"int",
+[]
+]
+],
+"size": 72
+},
+"CYyModel": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyModel_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+184,
+"unsigned __int8",
+[
+184
+]
+]
+],
+"size": 188
+},
+"CYyModelBase": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyModelBase_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_8",
+8,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_C",
+12,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_10",
+16,
+16,
+"unsigned __int8",
+[
+16
+]
+],
+[
+"field_20",
+32,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_4_24",
+36,
+164,
+"unsigned __int8",
+[
+164
+]
+]
+],
+"size": 200
+},
+"CYyModelBase_vtbl": {
+"members": [
+[
+"vf0_CYyModelBase_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyModelBase_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CYyModelBase *C, char a1)",
+[]
+]
+],
+"size": 28
+},
+"CYyModelDt": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyModelDt_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+56,
+"unsigned __int8",
+[
+56
+]
+]
+],
+"size": 60
+},
+"CYyModelDt_VT_1032A430": {
+"members": [
+[
+"base",
+0,
+60,
+"CYyModelDt",
+[]
+],
+[
+"field_40",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_40_2",
+64,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 68
+},
+"CYyModelDt_VT_1032A72C": {
+"members": [
+[
+"base",
+0,
+60,
+"CYyModelDt",
+[]
+]
+],
+"size": 60
+},
+"CYyModelDt_vtbl": {
+"members": [
+[
+"vf0_CYyModelDt_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyModelDt_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CYyModelDt *C, char a1)",
+[]
+],
+[
+"vf7___purecall",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8___purecall",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9___purecall",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10___purecall",
+40,
+4,
+"void *",
+[]
+],
+[
+"vf11___purecall",
+44,
+4,
+"void *",
+[]
+]
+],
+"size": 48
+},
+"CYyModel_vtbl": {
+"members": [
+[
+"vf0_CYyModel_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyModel_ScalarDeletingDtor",
+24,
+4,
+"int *(__thiscall *)(CYyModel *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CYyObject": {
+"members": [
+[
+"vftable",
+0,
+4,
+"void **",
+[]
+]
+],
+"size": 4
+},
+"CYyOs2VtxBuffer": {
+"members": [
+[
+"base",
+0,
+52,
+"CMoTask",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+],
+[
+"field_38",
+56,
+4,
+"unsigned int",
+[]
+],
+[
+"field_3C",
+60,
+4,
+"unsigned int",
+[]
+],
+[
+"field_40",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+68,
+4,
+"unsigned int",
+[]
+],
+[
+"field_48",
+72,
+4,
+"unsigned int",
+[]
+],
+[
+"field_4C",
+76,
+4,
+"unsigned int",
+[]
+],
+[
+"field_50",
+80,
+4,
+"unsigned int",
+[]
+],
+[
+"field_54",
+84,
+4,
+"unsigned int",
+[]
+],
+[
+"field_58",
+88,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5C",
+92,
+4,
+"unsigned int",
+[]
+],
+[
+"field_60",
+96,
+4,
+"unsigned int",
+[]
+],
+[
+"field_64",
+100,
+4,
+"unsigned int",
+[]
+],
+[
+"field_68",
+104,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_69",
+105,
+1,
+"unsigned __int8",
+[]
+],
+[
+"field_6A",
+106,
+4,
+"unsigned int",
+[]
+],
+[
+"field_6E",
+110,
+4,
+"unsigned int",
+[]
+],
+[
+"field_72",
+114,
+4,
+"unsigned int",
+[]
+],
+[
+"field_76",
+118,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7A",
+122,
+4,
+"unsigned int",
+[]
+],
+[
+"field_7E",
+126,
+4,
+"unsigned int",
+[]
+],
+[
+"field_82",
+130,
+4,
+"unsigned int",
+[]
+],
+[
+"field_86",
+134,
+4,
+"unsigned int",
+[]
+],
+[
+"field_8A",
+138,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_34_8E",
+142,
+16,
+"unsigned __int8",
+[
+16
+]
+]
+],
+"size": 158
+},
+"CYyOs2VtxBuffer_vtbl": {
+"members": [
+[
+"vf0_CYyOs2VtxBuffer_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyOs2VtxBuffer_ScalarDeletingDtor",
+24,
+4,
+"void *(__thiscall *)(CYyOs2VtxBuffer *C, char)",
+[]
+],
+[
+"vf7_CMoTask_vf007",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_sub_1002C990",
+32,
+4,
+"char (__thiscall *)(CYyOs2VtxBuffer *self)",
+[]
+],
+[
+"vf9_CMoTask_vf009",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_CMoTask_vf010",
+40,
+4,
+"void (__stdcall *)(int)",
+[]
+]
+],
+"size": 44
+},
+"CYyTex": {
+"members": [
+[
+"base",
+0,
+52,
+"CYyTexBase",
+[]
+],
+[
+"_pad_34",
+52,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"field_40",
+64,
+4,
+"unsigned int",
+[]
+],
+[
+"field_44",
+68,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 72
+},
+"CYyTexBase": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyTexBase_vtbl *",
+[]
+],
+[
+"_pad_4",
+4,
+48,
+"unsigned __int8",
+[
+48
+]
+]
+],
+"size": 52
+},
+"CYyTexBase_vtbl": {
+"members": [
+[
+"vf0_CYyTexBase_GetRuntimeClass_variant0",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyTexBase_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CYyTexBase *C, char)",
+[]
+]
+],
+"size": 28
+},
+"CYyTexMng": {
+"members": [
+[
+"base",
+0,
+4,
+"CYyTexMng_vtbl *",
+[]
+],
+[
+"field_4",
+4,
+2,
+"unsigned __int16",
+[]
+],
+[
+"_pad_6",
+6,
+2,
+"unsigned __int8",
+[
+2
+]
+],
+[
+"field_8",
+8,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_C",
+12,
+4,
+"unsigned __int32",
+[]
+],
+[
+"field_10",
+16,
+1,
+"unsigned __int8",
+[]
+],
+[
+"_pad_11",
+17,
+3,
+"unsigned __int8",
+[
+3
+]
+]
+],
+"size": 20
+},
+"CYyTexMng_vtbl": {
+"members": [
+[
+"vf0_CYyTexMng_GetRuntimeClass",
+0,
+4,
+"void *",
+[]
+],
+[
+"vf1_CApp_vf001",
+4,
+4,
+"void *",
+[]
+],
+[
+"vf2_sub_1002C930",
+8,
+4,
+"unsigned int (__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf3_sub_1002C920",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CApp_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CApp_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CYyTexMng_ScalarDeletingDtor",
+24,
+4,
+"_DWORD *(__thiscall *)(CYyTexMng *C, char)",
+[]
+]
+],
+"size": 28
+},
+"D3DHolder": {
+"members": [
+[
+"vftable",
+0,
+4,
+"void *",
+[]
+],
+[
+"pD3D",
+4,
+4,
+"IDirect3D8 *",
+[]
+],
+[
+"pDevice",
+8,
+4,
+"IDirect3DDevice8 *",
+[]
+],
+[
+"_rest",
+12,
+1132,
+"unsigned __int8",
+[
+1132
+]
+]
+],
+"size": 1144
+},
+"HBITMAP__": {
+"members": [
+[
+"unused",
+0,
+4,
+"int",
+[]
+]
+],
+"size": 4
+},
+"HICON__": {
+"members": [
+[
+"unused",
+0,
+4,
+"int",
+[]
+]
+],
+"size": 4
+},
+"HINSTANCE__": {
+"members": [
+[
+"unused",
+0,
+4,
+"int",
+[]
+]
+],
+"size": 4
+},
+"HKEY__": {
+"members": [
+[
+"unused",
+0,
+4,
+"int",
+[]
+]
+],
+"size": 4
+},
+"HWND__": {
+"members": [
+[
+"unused",
+0,
+4,
+"int",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032A460": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032A460_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032A460_vtbl": {
+"members": [
+[
+"vf0_CYyModelDt_VT_1032A430_ScalarDeletingDtor_2",
+0,
+4,
+"int (__thiscall *)(CYyModelDt_VT_1032A430 *self, int a1)",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032AFD4": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032AFD4_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032AFD4_vtbl": {
+"members": [
+[
+"vf0_CMoTask_VT_1032AFA8_ScalarDeletingDtor_2",
+0,
+4,
+"int (__thiscall *)(CMoTask_VT_1032AFA8 *self, int a1)",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032B680": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032B680_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032B680_vtbl": {
+"members": [
+[
+"vf0_CMoTask_VT_1032B654_vf011",
+0,
+4,
+"int (__thiscall *)(CMoTask_VT_1032B654 *self)",
+[]
+],
+[
+"vf1_CMoTask_VT_1032B654_vf012",
+4,
+4,
+"int (__thiscall *)(CMoTask_VT_1032B654 *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_10054380",
+16,
+4,
+"char (__thiscall *)(void *self)",
+[]
+],
+[
+"vf5_sub_10054390",
+20,
+4,
+"char (__thiscall *)(void *self)",
+[]
+],
+[
+"vf6_sub_10053830",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032B988": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032B988_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032B988_vtbl": {
+"members": [
+[
+"vf0_CMoTask_VT_1032B95C_vf011",
+0,
+4,
+"int (__thiscall *)(CMoTask_VT_1032B95C *self)",
+[]
+],
+[
+"vf1_CMoTask_VT_1032B95C_vf012",
+4,
+4,
+"int (__thiscall *)(CMoTask_VT_1032B95C *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_1005E980",
+16,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf5_sub_1005E9A0",
+20,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf6_sub_1005E970",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032B9D0": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032B9D0_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032B9D0_vtbl": {
+"members": [
+[
+"vf0_CMoPathDriveActorTask_vf011",
+0,
+4,
+"int (__thiscall *)(CMoPathDriveActorTask *self)",
+[]
+],
+[
+"vf1_CMoPathDriveActorTask_vf012",
+4,
+4,
+"int (__thiscall *)(CMoPathDriveActorTask *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_1005F380",
+16,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf5_sub_1005F3A0",
+20,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf6_sub_1005F370",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032BA18": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032BA18_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032BA18_vtbl": {
+"members": [
+[
+"vf0_CMoLockColorDriveTask_vf011",
+0,
+4,
+"int (__thiscall *)(CMoLockColorDriveTask *self)",
+[]
+],
+[
+"vf1_CMoLockColorDriveTask_vf012",
+4,
+4,
+"int (__thiscall *)(CMoLockColorDriveTask *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_1005F500",
+16,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf5_sub_1005F520",
+20,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf6_sub_1005F4F0",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032BA60": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032BA60_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032BA60_vtbl": {
+"members": [
+[
+"vf0_CMoLockLookAtDriveTask_vf011",
+0,
+4,
+"int (__thiscall *)(CMoLockLookAtDriveTask *self)",
+[]
+],
+[
+"vf1_CMoLockLookAtDriveTask_vf012",
+4,
+4,
+"int (__thiscall *)(CMoLockLookAtDriveTask *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_1005F7E0",
+16,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf5_sub_1005F800",
+20,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf6_sub_1005F7D0",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032BAA8": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032BAA8_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032BAA8_vtbl": {
+"members": [
+[
+"vf0_CMoActorColorDriveTask_vf011",
+0,
+4,
+"int (__thiscall *)(CMoActorColorDriveTask *self)",
+[]
+],
+[
+"vf1_CMoActorColorDriveTask_vf012",
+4,
+4,
+"tagRECT *(__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_sub_1005FAF0",
+16,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf5_sub_1005FB10",
+20,
+4,
+"bool (__thiscall *)(char *self)",
+[]
+],
+[
+"vf6_sub_1005FAE0",
+24,
+4,
+"char *(__thiscall *)(char *self)",
+[]
+]
+],
+"size": 28
+},
+"Vt_1032C5B4": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1032C5B4_vtbl *",
+[]
+]
+],
+"size": 4
+},
+"Vt_1032C5B4_vtbl": {
+"members": [
+[
+"vf0_CMoResource_VT_1032C588_vf011",
+0,
+4,
+"int (__thiscall *)(CMoResource_VT_1032C588 *self)",
+[]
+],
+[
+"vf1_CMoResource_VT_1032C588_vf012",
+4,
+4,
+"int (__thiscall *)(CMoResource_VT_1032C588 *self, int a1)",
+[]
+],
+[
+"vf2_sub_1003C720",
+8,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf3_sub_1003C730",
+12,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf4_CMoAttachments_vf004",
+16,
+4,
+"void *",
+[]
+],
+[
+"vf5_CMoAttachments_vf005",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_CMoAttachments_vf006",
+24,
+4,
+"void *",
+[]
+]
+],
+"size": 28
+},
+"Vt_1033BE90": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1033BE90_vtbl *",
+[]
+],
+[
+"gap_4",
+4,
+8,
+"unsigned __int8",
+[
+8
+]
+],
+[
+"field_C",
+12,
+4,
+"unsigned int",
+[]
+],
+[
+"field_10",
+16,
+4,
+"unsigned int",
+[]
+],
+[
+"gap_14",
+20,
+204,
+"unsigned __int8",
+[
+204
+]
+],
+[
+"field_E0",
+224,
+4,
+"unsigned int",
+[]
+],
+[
+"field_E4",
+228,
+4,
+"unsigned int",
+[]
+],
+[
+"gap_E8",
+232,
+120,
+"unsigned __int8",
+[
+120
+]
+],
+[
+"field_160",
+352,
+4,
+"unsigned int",
+[]
+],
+[
+"field_164",
+356,
+4,
+"unsigned int",
+[]
+],
+[
+"field_168",
+360,
+4,
+"unsigned int",
+[]
+],
+[
+"field_16C",
+364,
+4,
+"unsigned int",
+[]
+],
+[
+"field_170",
+368,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 372
+},
+"Vt_1033BE90_vtbl": {
+"members": [
+[
+"vf0_sub_10260B30",
+0,
+4,
+"int (__stdcall *)(int a1, int a2, int a3)",
+[]
+],
+[
+"vf1_sub_10265A80",
+4,
+4,
+"unsigned int (__stdcall *)(int)",
+[]
+],
+[
+"vf2_sub_10265AA0",
+8,
+4,
+"int (__stdcall *)(volatile LONG *)",
+[]
+],
+[
+"vf3_sub_1021DF70",
+12,
+4,
+"_DWORD *(__thiscall *)(_DWORD *self, char)",
+[]
+],
+[
+"vf4_sub_10261710",
+16,
+4,
+"int (__thiscall *)(unsigned int *self, unsigned int *)",
+[]
+],
+[
+"vf5_sub_10261AA0",
+20,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf6_sub_1025EAB0",
+24,
+4,
+"void *",
+[]
+],
+[
+"vf7_sub_1025EAC0",
+28,
+4,
+"int (__thiscall *)(int self, int)",
+[]
+],
+[
+"vf8_sub_1021DF10",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_sub_1025E460",
+36,
+4,
+"int (__fastcall *)(int, int, int, int)",
+[]
+],
+[
+"vf10_sub_1025E5E0",
+40,
+4,
+"int (__thiscall *)(HANDLE *self, int)",
+[]
+],
+[
+"vf11_sub_1025E610",
+44,
+4,
+"int (__thiscall *)(HANDLE *self)",
+[]
+],
+[
+"vf12_sub_1025E750",
+48,
+4,
+"int (__thiscall *)(HANDLE *self, int)",
+[]
+],
+[
+"vf13_nullsub_469",
+52,
+4,
+"void *",
+[]
+],
+[
+"vf14_sub_10260100",
+56,
+4,
+"DWORD (__thiscall *)(_DWORD *self, int)",
+[]
+],
+[
+"vf15_sub_10260130",
+60,
+4,
+"void (__thiscall *)(int *self, int)",
+[]
+],
+[
+"vf16_sub_1025FF00",
+64,
+4,
+"int (__thiscall *)(void *self)",
+[]
+],
+[
+"vf17_sub_1025FF10",
+68,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf18_nullsub_527",
+72,
+4,
+"void *",
+[]
+],
+[
+"vf19_nullsub_528",
+76,
+4,
+"void *",
+[]
+],
+[
+"vf20_nullsub_470",
+80,
+4,
+"void *",
+[]
+],
+[
+"vf21_sub_102607F0",
+84,
+4,
+"int (__thiscall *)(_DWORD *self, BOOL)",
+[]
+],
+[
+"vf22_sub_1025EDE0",
+88,
+4,
+"int (__thiscall *)(_DWORD *self, int, _QWORD *, _QWORD *)",
+[]
+],
+[
+"vf23_sub_10260390",
+92,
+4,
+"int (__thiscall *)(int self, int, _DWORD *, _QWORD *)",
+[]
+],
+[
+"vf24_sub_1025F3D0",
+96,
+4,
+"int (__thiscall *)(DWORD_PTR dwUser)",
+[]
+],
+[
+"vf25_sub_1025F530",
+100,
+4,
+"int (__thiscall *)(int self)",
+[]
+],
+[
+"vf26_sub_1025EC40",
+104,
+4,
+"int (__thiscall *)(void *self)",
+[]
+],
+[
+"vf27_sub_1025EE60",
+108,
+4,
+"BOOL (__thiscall *)(int self)",
+[]
+],
+[
+"vf28_sub_1025F2F0",
+112,
+4,
+"int (__thiscall *)(int self)",
+[]
+],
+[
+"vf29_sub_1025ED20",
+116,
+4,
+"void *",
+[]
+],
+[
+"vf30_sub_1025ED30",
+120,
+4,
+"int (__thiscall *)(int *self)",
+[]
+],
+[
+"vf31_sub_1025F590",
+124,
+4,
+"int (__thiscall *)(char *self)",
+[]
+],
+[
+"vf32_sub_1025F640",
+128,
+4,
+"int (__thiscall *)(char *self)",
+[]
+],
+[
+"vf33_sub_1025EC80",
+132,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf34_sub_1025ECC0",
+136,
+4,
+"int (__thiscall *)(int *self)",
+[]
+],
+[
+"vf35_sub_1025ED60",
+140,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf36_Movie_CreateFrameTextures",
+144,
+4,
+"int (__thiscall *)(int self, int)",
+[]
+],
+[
+"vf37_sub_1025ECE0",
+148,
+4,
+"int (__thiscall *)(_DWORD *self, int)",
+[]
+],
+[
+"vf38_sub_1025F000",
+152,
+4,
+"int (__thiscall *)(char *self, int *)",
+[]
+],
+[
+"vf39_sub_1025F190",
+156,
+4,
+"int (__thiscall *)(char *self, LPCRITICAL_SECTION)",
+[]
+],
+[
+"vf40_sub_1025EF70",
+160,
+4,
+"BOOL (__thiscall *)(int self)",
+[]
+],
+[
+"vf41_sub_1025EFA0",
+164,
+4,
+"int (__thiscall *)(int self)",
+[]
+],
+[
+"vf42_sub_1025EF20",
+168,
+4,
+"int (__thiscall *)(_DWORD *self, int)",
+[]
+],
+[
+"vf43_sub_1021E120",
+172,
+4,
+"int (__thiscall *)(_DWORD *self, _BYTE *)",
+[]
+],
+[
+"vf44_sub_1021E000",
+176,
+4,
+"int (__stdcall *)(int)",
+[]
+],
+[
+"vf45_sub_1025FF70",
+180,
+4,
+"unsigned int (__thiscall *)(int self, int, int)",
+[]
+],
+[
+"vf46_sub_102600C0",
+184,
+4,
+"void (__thiscall *)(int *self, int)",
+[]
+],
+[
+"vf47_sub_1025FE40",
+188,
+4,
+"int (__thiscall *)(_DWORD *self)",
+[]
+],
+[
+"vf48_sub_102601E0",
+192,
+4,
+"int (__thiscall *)(int *self, __int64, __int64)",
+[]
+]
+],
+"size": 196
+},
+"Vt_1033C8F0": {
+"members": [
+[
+"vftable",
+0,
+4,
+"struct Vt_1033C8F0_vtbl *",
+[]
+],
+[
+"gap_4",
+4,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_8",
+8,
+4,
+"unsigned int",
+[]
+],
+[
+"gap_C",
+12,
+12,
+"unsigned __int8",
+[
+12
+]
+],
+[
+"field_18",
+24,
+4,
+"unsigned int",
+[]
+],
+[
+"field_1C",
+28,
+4,
+"unsigned int",
+[]
+],
+[
+"field_20",
+32,
+4,
+"unsigned int",
+[]
+],
+[
+"field_24",
+36,
+4,
+"unsigned int",
+[]
+],
+[
+"field_28",
+40,
+4,
+"unsigned int",
+[]
+],
+[
+"field_2C",
+44,
+4,
+"unsigned int",
+[]
+],
+[
+"field_30",
+48,
+4,
+"unsigned int",
+[]
+],
+[
+"field_34",
+52,
+4,
+"unsigned int",
+[]
+]
+],
+"size": 56
+},
+"Vt_1033C8F0_vtbl": {
+"members": [
+[
+"vf0_sub_102391A0",
+0,
+4,
+"int (__thiscall *)(void *self, int a1)",
+[]
+],
+[
+"vf1_sub_102391D0",
+4,
+4,
+"int (__thiscall *)(int *self)",
+[]
+],
+[
+"vf2_YkZip_vf008",
+8,
+4,
+"void *",
+[]
+],
+[
+"vf3_YkZip_vf009",
+12,
+4,
+"void *",
+[]
+],
+[
+"vf4_Ui_DrawKeyPrompt",
+16,
+4,
+"char *(__thiscall *)(char **self)",
+[]
+],
+[
+"vf5_YkZip_vf011",
+20,
+4,
+"void *",
+[]
+],
+[
+"vf6_nullsub_321",
+24,
+4,
+"void *",
+[]
+],
+[
+"vf7_YkZip_vf013",
+28,
+4,
+"void *",
+[]
+],
+[
+"vf8_YkZip_vf014",
+32,
+4,
+"void *",
+[]
+],
+[
+"vf9_YkZip_vf015",
+36,
+4,
+"void *",
+[]
+],
+[
+"vf10_sub_10239240",
+40,
+4,
+"char (__fastcall *)(int, int, int)",
+[]
+],
+[
+"vf11_YkZip_vf017",
+44,
+4,
+"void *",
+[]
+],
+[
+"vf12_YkZip_vf018",
+48,
+4,
+"void *",
+[]
+],
+[
+"vf13_YkZip_vf019",
+52,
+4,
+"void *",
+[]
+],
+[
+"vf14_YkZip_vf020",
+56,
+4,
+"void *",
+[]
+],
+[
+"vf15_YkZip_vf021",
+60,
+4,
+"void *",
+[]
+],
+[
+"vf16_YkZip_vf022",
+64,
+4,
+"void *",
+[]
+]
+],
+"size": 68
+},
+"XiDoorActor": {
+"members": [
+[
+"base",
+0,
+1476,
+"CXiControlActor",
+[]
+],
+[
+"field_5C4",
+1476,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5C8",
+1480,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5CC",
+1484,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5D0",
+1488,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5D4",
+1492,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5D8",
+1496,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5DC",
+1500,
+4,
+"unsigned int",
+[]
+],
+[
+"field_5E0",
+1504,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_5C4_5E4",
+1508,
+132,
+"unsigned __int8",
+[
+132
+]
+],
+[
+"field_668",
+1640,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_5C4_66C",
+1644,
+516,
+"unsigned __int8",
+[
+516
+]
+],
+[
+"field_870",
+2160,
+4,
+"unsigned int",
+[]
+],
+[
+"field_874",
+2164,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_5C4_878",
+2168,
+4,
+"unsigned __int8",
+[
+4
+]
+],
+[
+"field_87C",
+2172,
+4,
+"unsigned int",
+[]
+],
+[
+"field_880",
+2176,
+4,
+"unsigned int",
+[]
+],
+[
+"_pad_5C4_884",
+2180,
+16,
+"unsigned __int8",
+[
+16
+]
+]
+],
+"size": 2196
+},
+"_D3DVIEWPORT9": {
+"members": [
+[
+"X",
+0,
+4,
+"DWORD",
+[]
+],
+[
+"Y",
+4,
+4,
+"DWORD",
+[]
+],
+[
+"Width",
+8,
+4,
+"DWORD",
+[]
+],
+[
+"Height",
+12,
+4,
+"DWORD",
+[]
+],
+[
+"MinZ",
+16,
+4,
+"float",
+[]
+],
+[
+"MaxZ",
+20,
+4,
+"float",
+[]
+]
+],
+"size": 24
+},
+"_LIST_ENTRY": {
+"members": [
+[
+"Flink",
+0,
+4,
+"struct _LIST_ENTRY *",
+[]
+],
+[
+"Blink",
+4,
+4,
+"struct _LIST_ENTRY *",
+[]
+]
+],
+"size": 8
+},
+"_RTL_CRITICAL_SECTION": {
+"members": [
+[
+"DebugInfo",
+0,
+4,
+"PRTL_CRITICAL_SECTION_DEBUG",
+[]
+],
+[
+"LockCount",
+4,
+4,
+"LONG",
+[]
+],
+[
+"RecursionCount",
+8,
+4,
+"LONG",
+[]
+],
+[
+"OwningThread",
+12,
+4,
+"HANDLE",
+[]
+],
+[
+"LockSemaphore",
+16,
+4,
+"HANDLE",
+[]
+],
+[
+"SpinCount",
+20,
+4,
+"ULONG_PTR",
+[]
+]
+],
+"size": 24
+},
+"_RTL_CRITICAL_SECTION_DEBUG": {
+"members": [
+[
+"Type",
+0,
+2,
+"WORD",
+[]
+],
+[
+"CreatorBackTraceIndex",
+2,
+2,
+"WORD",
+[]
+],
+[
+"CriticalSection",
+4,
+4,
+"struct _RTL_CRITICAL_SECTION *",
+[]
+],
+[
+"ProcessLocksList",
+8,
+8,
+"LIST_ENTRY",
+[]
+],
+[
+"EntryCount",
+16,
+4,
+"DWORD",
+[]
+],
+[
+"ContentionCount",
+20,
+4,
+"DWORD",
+[]
+],
+[
+"Flags",
+24,
+4,
+"DWORD",
+[]
+],
+[
+"CreatorBackTraceIndexHigh",
+28,
+2,
+"WORD",
+[]
+],
+[
+"SpareWORD",
+30,
+2,
+"WORD",
+[]
+]
+],
+"size": 32
+},
+"_SYSTEMTIME": {
+"members": [
+[
+"wYear",
+0,
+2,
+"WORD",
+[]
+],
+[
+"wMonth",
+2,
+2,
+"WORD",
+[]
+],
+[
+"wDayOfWeek",
+4,
+2,
+"WORD",
+[]
+],
+[
+"wDay",
+6,
+2,
+"WORD",
+[]
+],
+[
+"wHour",
+8,
+2,
+"WORD",
+[]
+],
+[
+"wMinute",
+10,
+2,
+"WORD",
+[]
+],
+[
+"wSecond",
+12,
+2,
+"WORD",
+[]
+],
+[
+"wMilliseconds",
+14,
+2,
+"WORD",
+[]
+]
+],
+"size": 16
+},
+"_iobuf": {
+"members": [
+[
+"_ptr",
+0,
+4,
+"char *",
+[]
+],
+[
+"_cnt",
+4,
+4,
+"int",
+[]
+],
+[
+"_base",
+8,
+4,
+"char *",
+[]
+],
+[
+"_flag",
+12,
+4,
+"int",
+[]
+],
+[
+"_file",
+16,
+4,
+"int",
+[]
+],
+[
+"_charbuf",
+20,
+4,
+"int",
+[]
+],
+[
+"_bufsiz",
+24,
+4,
+"int",
+[]
+],
+[
+"_tmpfname",
+28,
+4,
+"char *",
+[]
+]
+],
+"size": 32
+},
+"tagBITMAPINFO": {
+"members": [
+[
+"bmiHeader",
+0,
+40,
+"BITMAPINFOHEADER",
+[]
+],
+[
+"bmiColors",
+40,
+4,
+"RGBQUAD",
+[
+1
+]
+]
+],
+"size": 44
+},
+"tagBITMAPINFOHEADER": {
+"members": [
+[
+"biSize",
+0,
+4,
+"DWORD",
+[]
+],
+[
+"biWidth",
+4,
+4,
+"LONG",
+[]
+],
+[
+"biHeight",
+8,
+4,
+"LONG",
+[]
+],
+[
+"biPlanes",
+12,
+2,
+"WORD",
+[]
+],
+[
+"biBitCount",
+14,
+2,
+"WORD",
+[]
+],
+[
+"biCompression",
+16,
+4,
+"DWORD",
+[]
+],
+[
+"biSizeImage",
+20,
+4,
+"DWORD",
+[]
+],
+[
+"biXPelsPerMeter",
+24,
+4,
+"LONG",
+[]
+],
+[
+"biYPelsPerMeter",
+28,
+4,
+"LONG",
+[]
+],
+[
+"biClrUsed",
+32,
+4,
+"DWORD",
+[]
+],
+[
+"biClrImportant",
+36,
+4,
+"DWORD",
+[]
+]
+],
+"size": 40
+},
+"tagMSG": {
+"members": [
+[
+"hwnd",
+0,
+4,
+"HWND",
+[]
+],
+[
+"message",
+4,
+4,
+"UINT",
+[]
+],
+[
+"wParam",
+8,
+4,
+"WPARAM",
+[]
+],
+[
+"lParam",
+12,
+4,
+"LPARAM",
+[]
+],
+[
+"time",
+16,
+4,
+"DWORD",
+[]
+],
+[
+"pt",
+20,
+8,
+"POINT",
+[]
+]
+],
+"size": 28
+},
+"tagPALETTEENTRY": {
+"members": [
+[
+"peRed",
+0,
+1,
+"BYTE",
+[]
+],
+[
+"peGreen",
+1,
+1,
+"BYTE",
+[]
+],
+[
+"peBlue",
+2,
+1,
+"BYTE",
+[]
+],
+[
+"peFlags",
+3,
+1,
+"BYTE",
+[]
+]
+],
+"size": 4
+},
+"tagPOINT": {
+"members": [
+[
+"x",
+0,
+4,
+"LONG",
+[]
+],
+[
+"y",
+4,
+4,
+"LONG",
+[]
+]
+],
+"size": 8
+},
+"tagRECT": {
+"members": [
+[
+"left",
+0,
+4,
+"LONG",
+[]
+],
+[
+"top",
+4,
+4,
+"LONG",
+[]
+],
+[
+"right",
+8,
+4,
+"LONG",
+[]
+],
+[
+"bottom",
+12,
+4,
+"LONG",
+[]
+]
+],
+"size": 16
+},
+"tagRGBQUAD": {
+"members": [
+[
+"rgbBlue",
+0,
+1,
+"BYTE",
+[]
+],
+[
+"rgbGreen",
+1,
+1,
+"BYTE",
+[]
+],
+[
+"rgbRed",
+2,
+1,
+"BYTE",
+[]
+],
+[
+"rgbReserved",
+3,
+1,
+"BYTE",
+[]
+]
+],
+"size": 4
+},
+"tm": {
+"members": [
+[
+"tm_sec",
+0,
+4,
+"int",
+[]
+],
+[
+"tm_min",
+4,
+4,
+"int",
+[]
+],
+[
+"tm_hour",
+8,
+4,
+"int",
+[]
+],
+[
+"tm_mday",
+12,
+4,
+"int",
+[]
+],
+[
+"tm_mon",
+16,
+4,
+"int",
+[]
+],
+[
+"tm_year",
+20,
+4,
+"int",
+[]
+],
+[
+"tm_wday",
+24,
+4,
+"int",
+[]
+],
+[
+"tm_yday",
+28,
+4,
+"int",
+[]
+],
+[
+"tm_isdst",
+32,
+4,
+"int",
+[]
+]
+],
+"size": 36
+}
+}

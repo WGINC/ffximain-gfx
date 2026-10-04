@@ -407,6 +407,19 @@ def main(exp, gate, manf, incdir, outdir):
                 cls = None                          # free helpers stay free (placed by unit below)
         place[ea] = (cls, ident(meth) if meth else None, why)
 
+    # accesses to members of IDB structs the tree replaces -> the offsets they access (idb_access.py)
+    import idb_access
+    replaced = idb_access.replaced_set({c for c, _, _ in place.values() if c})
+    idb_stats = collections.Counter()
+    all_globals = {nm for r in R.values() for nm, o in (r.get('objs') or {}).items() if not o.get('func')}
+    for ea in place:
+        r = R[ea]; head, sep, body = r['text'].partition('\n{')
+        this_name = r['args'][0][0] if r.get('args') else None
+        this_forms = bool(place[ea][0]) and not nothis.get(ea)
+        body, n, nl = idb_access.rewrite(r, sep + body, replaced, this_name, this_forms, WIDTH, all_globals)
+        r['text'] = head + body; idb_stats['rewritten'] += n; idb_stats['left'] += nl
+    print('IDB struct accesses: %d chains on %d replaced structs rewritten to offsets, %d left' % (
+        idb_stats['rewritten'], len(replaced), idb_stats['left']))
     # sizes the IDB's own named structs establish (larger than a descriptor-only record)
     size_conflicts = {}
     for c, d in _named.items():
@@ -655,9 +668,9 @@ def main(exp, gate, manf, incdir, outdir):
     blocks = re.split(r'\n(?=/\* \d+ \*/\n)', t); keep = []
     for b in blocks:
         m = re.search(r'^struct (\w+)\s*\n\{', b, re.M)
-        if m and m.group(1) in layouts: continue
+        if m and (m.group(1) in layouts or m.group(1) in replaced): continue
         keep.append(b)
-    fwd = ''.join('class %s;\n' % c for c in sorted(layouts))
+    fwd = ''.join('class %s;\n' % c for c in sorted(layouts)) + ''.join('struct %s;\n' % c for c in sorted(replaced - set(layouts)))
     with open(os.path.join(outdir, 'include', 'gfx_types.hpp'), 'w') as f:
         f.write('// gfx_types.hpp -- game types from the IDB that this tree does not define itself.\n#pragma once\n'
                 + fwd + '\n'.join(keep).replace('#pragma once', '').replace('struct CDx *', 'CDx *') + '\n')

@@ -87,6 +87,12 @@ All three pass every check:
   frames, and the report has the host's Present calls as `other module`, 601 calls in 600 frames (a frame is
   Present to Present, so the first window holds one more Present than frames).
 
+Wine maps images the Windows loader refuses, so `test_xikit.py` also checks the Windows layout rules on both DLLs
+(sections contiguous, `SizeOfImage`, raw data in the file). The first build sent to the owner failed in the game
+with LoadLibrary error 193 (`ERROR_BAD_EXE_FORMAT`): the pinned section bases of `tree/build.sh` leave gaps
+between sections. `close_gaps.py` now extends each section's virtual size to the next one; only 6 header bytes
+change, every section's contents and address stay the same, so the code is the code the gate ran.
+
 Not tested here: the real game (a real device, the game's threads, speedfix_hook in the same process). The
 first run in the game is with `swap=0`, then `swap=1` with `only=` a few functions, with the log read after each.
 
@@ -97,5 +103,6 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/make_manifest.py`: `xikit_manifest.txt`, one line per function.
 - `kit/xikit/build.sh`: builds the in-game reconstruction DLL from `tree/`, the manifest, the kit and the
   default `xikit.ini` into `kit/xikit/dist/`. Not committed: the manifest holds bytes of the game's code.
+- `kit/xikit/close_gaps.py`: closes the layout gaps in the in-game DLL so Windows loads it (build.sh runs it).
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).

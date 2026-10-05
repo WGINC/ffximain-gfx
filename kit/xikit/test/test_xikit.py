@@ -8,6 +8,20 @@ import os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
 bad = 0
+# Wine maps images the Windows loader refuses, so check the Windows layout rules here: sections contiguous from
+# SizeOfHeaders (rounded to SectionAlignment), SizeOfImage the end of the last one, raw data aligned and in the file
+import pefile
+for f in ('xikit.dll', 'gfx_recon_ingame.dll'):
+    p = os.path.join(DIST, f); pe = pefile.PE(p); oh = pe.OPTIONAL_HEADER; al = oh.SectionAlignment
+    up = lambda n: (n + al - 1) // al * al; s = sorted(pe.sections, key=lambda x: x.VirtualAddress); n = os.path.getsize(p)
+    why = [] if s[0].VirtualAddress == up(oh.SizeOfHeaders) else ['first section does not follow the headers']
+    why += ['gap or overlap after %s' % a.Name.rstrip(b'\0').decode() for a, b in zip(s, s[1:])
+            if a.VirtualAddress + up(a.Misc_VirtualSize) != b.VirtualAddress]
+    why += [] if oh.SizeOfImage == s[-1].VirtualAddress + up(s[-1].Misc_VirtualSize) else ['SizeOfImage']
+    why += ['raw data of %s' % x.Name.rstrip(b'\0').decode() for x in s
+            if x.SizeOfRawData and (x.PointerToRawData % oh.FileAlignment or x.PointerToRawData + x.SizeOfRawData > n)]
+    print('%s: %s the Windows loader\'s layout rules%s' % ('ok' if not why else 'FAIL', f, '' if not why else ': ' + '; '.join(why)))
+    bad += bool(why)
 for mode in ('base', 'relocated', 'profile'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10025330  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1716 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1778 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD *a4)
 {
   _DWORD v6[16];
@@ -49,7 +49,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
 }
 
 // FUNCTION: FFXIMAIN 0x100255C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 71 returned normally, 880 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 71, town2 PASS 71, combat PASS 71, zonetoinn PASS 71
+// GATE: PASS -- 100 trials, 53 returned normally, 498 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
 XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 {
   int result;
@@ -122,7 +122,7 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10025870  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1314 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1278 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a3, int a4)
 {
   __int64 v6; // rcx
@@ -217,7 +217,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025C40  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2420 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2471 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
   float v4[16];
@@ -272,7 +272,7 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10025F70  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 1060 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 63, town2 PASS 63, combat PASS 63, zonetoinn PASS 63
+// GATE: PASS -- 100 trials, 41 returned normally, 671 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 41, town PASS 41, town2 PASS 41, combat PASS 41, zonetoinn PASS 41
 XI_API int __stdcall EnvMap_EndPass(int a1)
 {
   int result;

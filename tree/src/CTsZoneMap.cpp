@@ -3,7 +3,7 @@
 #include "CTsZoneMap.hpp"
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 267 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 255 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
   char *Text;
@@ -62,7 +62,7 @@ XI_API int __cdecl Gfx_SetupLineDrawState(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10177B40  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 40 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8, unsigned __int8 a4, char a5, char a6)
 {
   int v6;
@@ -238,7 +238,7 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(CTsZoneMap *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
-// GATE: PASS -- 100 trials, 58 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 55 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 71
 float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -332,6 +332,7 @@ float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTextu
   int &k = *reinterpret_cast<int *>(xi_frame + 0xBC);
   __int16 * &v93 = *reinterpret_cast<__int16 * *>(xi_frame + 0xC0);
   float (&v94)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC4);
+  bool xi_fpu_unord = false;
 
   if ( a5 == 0.0 )
   {
@@ -535,10 +536,10 @@ float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTextu
                       v40 = v69 * *(float *)(v91 + 12 * (v24[3] & 0x7FFF) + 8)
                           + v65 * *(float *)(v91 + 12 * (v24[3] & 0x7FFF) + 4)
                           + v61 * *(float *)(v91 + 12 * (v24[3] & 0x7FFF));
-                      v41 = v40 < 0.0;
+                      (xi_fpu_unord = __builtin_isunordered(v40, 0.0), v41 = v40 < 0.0);
                       v42 = 0;
                       v43 = v40 == 0.0;
-                      if ( ((__int16)(((v41 || __builtin_isunordered(v40, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v40, 0.0)) ? 0x400 : 0) | ((v43 || __builtin_isunordered(v40, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+                      if ( ((__int16)(((v41 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v43 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
                       {
                         v44 = (char *)(v26 + 6);
                         v45 = v60;
@@ -611,7 +612,7 @@ LABEL_41:
 }
 
 // FUNCTION: FFXIMAIN 0x101844C0  (placed by callers pass the object in g_pZoneMap as this (1 of 1 call sites); App_InitScene stores the result of new + 0x10177D00 (stores the CTsZoneMap vtable))
-// GATE: PASS -- 100 trials, 67 returned normally, 18605 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 72, town2 PASS 72, combat PASS 70, zonetoinn PASS 71
+// GATE: PASS -- 100 trials, 65 returned normally, 18903 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65, town PASS 77, town2 PASS 76, combat PASS 77, zonetoinn PASS 76
 void CTsZoneMap::ModelActor_Draw(int a2, int a3)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -832,7 +833,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x10184FE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 49
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 58
 int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -934,6 +935,7 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
   float &v99 = *reinterpret_cast<float *>(xi_frame + 0x138);
   float (&v100)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x13C);
   float &v101 = *reinterpret_cast<float *>(xi_frame + 0x17C);
+  bool xi_fpu_unord = false;
 
   v90 = (float *)self;
   if ( *(float *)&a2 == 0.0 )
@@ -1120,10 +1122,10 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                         v34 = v73 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF) + 8)
                             + v70 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF) + 4)
                             + v67 * *(float *)(v96 + 12 * (v20[3] & 0x7FFF));
-                        v35 = v34 < 0.0;
+                        (xi_fpu_unord = __builtin_isunordered(v34, 0.0), v35 = v34 < 0.0);
                         v36 = 0;
                         v37 = v34 == 0.0;
-                        if ( ((__int16)(((v35 || __builtin_isunordered(v34, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v34, 0.0)) ? 0x400 : 0) | ((v37 || __builtin_isunordered(v34, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+                        if ( ((__int16)(((v35 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v37 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
                         {
                           v38 = (float *)(v21 + 12 * (*v20 & 0x7FFF));
                           *((float *)v22 + 4) = v66 * *v38 + v72 * v38[2] + v69 * v38[1] + v75;

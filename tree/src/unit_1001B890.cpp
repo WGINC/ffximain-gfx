@@ -278,7 +278,7 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D3B0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1391 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1232 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
 {
   int result;
@@ -378,7 +378,7 @@ LABEL_11:
 }
 
 // FUNCTION: FFXIMAIN 0x1001D940  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 39 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 39, town PASS 39, town2 PASS 39, combat PASS 39, zonetoinn PASS 39
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 31
 XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
 {
   _DWORD *v4;

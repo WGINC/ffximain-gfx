@@ -3,7 +3,7 @@
 #include "CMoOtTask_VT_1032AE64.hpp"
 
 // FUNCTION: FFXIMAIN 0x10042020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 76, town2 PASS 76, combat PASS 76, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 68, town2 PASS 68, combat PASS 68, zonetoinn PASS 68
 char CMoOtTask_VT_1032AE64::vf8()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -30,11 +30,12 @@ char CMoOtTask_VT_1032AE64::vf8()
   int &v22 = *reinterpret_cast<int *>(xi_frame + 0x24);
   float &v23 = *reinterpret_cast<float *>(xi_frame + 0x28);
   int &v24 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  bool xi_fpu_unord = false;
 
   v2 = *(float *)(g_pResourceMng + 3760) + at<float>(this, 0xAC);
   v3 = at<uint32_t>(this, 0xB8);
   at<float>(this, 0xAC) = v2;
-  if ( v3 != 0 && (v5 = at<uint32_t>(this, 0xB4)) != 0 && (v6 = v2 < 150.0, v7 = 0, v8 = v2 == 150.0, ((__int16)(((v6 || __builtin_isunordered(v2, 150.0)) ? 0x100 : 0) | ((__builtin_isunordered(v2, 150.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v2, 150.0)) ? 0x4000 : 0)) & 0x100) != 0) )
+  if ( v3 != 0 && (v5 = at<uint32_t>(this, 0xB4)) != 0 && ((xi_fpu_unord = __builtin_isunordered(v2, 150.0), v6 = v2 < 150.0), v7 = 0, v8 = v2 == 150.0, ((__int16)(((v6 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v8 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0) )
   {
     (*(void (__thiscall **)(int, _DWORD, int *))(*(_DWORD *)v5 + 452))(v5, 0, &v22);
     v9 = v23 - 0x1.99999a0000000p-3;

@@ -10,7 +10,7 @@ char ** __cdecl CMoLockLookAtDriveTask::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x1005F540  (placed by IDB name)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 31
+// GATE: PASS -- 100 trials, 20 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 20, town PASS 20, town2 PASS 20, combat PASS 20, zonetoinn PASS 20
 char CMoLockLookAtDriveTask::vf8()
 {
   char v2;
@@ -32,6 +32,8 @@ char CMoLockLookAtDriveTask::vf8()
   char v18; // c2
   bool v19; // c3
   double v20;
+  bool xi_fpu_unord = false;
+
   v2 = 0;
   pad_34 = ((unsigned __int8 *)((char *)this + 0x34));
   if ( orig::sub_1003B6D0(((unsigned __int8 *)((char *)this + 0x34))) != 0 )
@@ -47,10 +49,10 @@ char CMoLockLookAtDriveTask::vf8()
       v5 = orig::sub_1003B6D0(pad_34);
       v7 = -(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5));
     }
-    v9 = v7 < 1.0;
+    (xi_fpu_unord = __builtin_isunordered(v7, 1.0), v9 = v7 < 1.0);
     v10 = 0;
     v11 = v7 == 1.0;
-    if ( ((__int16)(((v9 || __builtin_isunordered(v7, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v7, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v7, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v9 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v11 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       v2 = 1;
     v12 = orig::sub_1003B6D0(pad_34);
     if ( !(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8) < 0.0) )
@@ -63,10 +65,10 @@ char CMoLockLookAtDriveTask::vf8()
       v13 = orig::sub_1003B6D0(pad_34);
       v15 = -(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v13 + 444))(v13) + 8));
     }
-    v17 = v15 < 1.0;
+    (xi_fpu_unord = __builtin_isunordered(v15, 1.0), v17 = v15 < 1.0);
     v18 = 0;
     v19 = v15 == 1.0;
-    if ( ((__int16)(((v17 || __builtin_isunordered(v15, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v15, 1.0)) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v15, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v17 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v19 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       v2 = 1;
   }
   v20 = this->field_74 - *(float *)(g_pResourceMng + 3760);

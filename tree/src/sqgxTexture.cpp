@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10281830  (unit sqgxTexture: name sqgxTextureAdd)
-// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75, town PASS 41, town2 PASS 41, combat PASS 41, zonetoinn PASS 41
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79, town PASS 45, town2 PASS 45, combat PASS 45, zonetoinn PASS 45
 XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *a4)
 {
   IDirect3DTexture8 *v4;
@@ -85,7 +85,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
 }
 
 // FUNCTION: FFXIMAIN 0x102819D0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
-// GATE: PASS -- 100 trials, 46 returned normally, 46 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 46, town PASS 99, town2 PASS 99, combat PASS 100, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 49 returned normally, 49 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 49, town PASS 49, town2 PASS 49, combat PASS 49, zonetoinn PASS 49
 XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 {
   signed int i;
@@ -118,7 +118,7 @@ XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10281D60  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 82 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 79 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxTextureClut(int a1)
 {
   int result;
@@ -135,7 +135,7 @@ XI_API int __cdecl sqgxTextureClut(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281DB0  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 1090 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1134 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxTextureUpdate(void)
 {
   int result;
@@ -257,7 +257,7 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102820E0  (unit sqgxTexture: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 191 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 98, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 99 returned normally, 193 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 97, zonetoinn PASS 98
 XI_API int * __cdecl sqgxTextureDrawZ(IDirect3DSurface8 *a1)
 {
   IDirect3DSurface8 *v1;
@@ -293,7 +293,7 @@ XI_API int * __cdecl sqgxTextureDrawZ(IDirect3DSurface8 *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10282190  (unit sqgxTexture: name sqgxTextureDraw)
-// GATE: PASS -- 100 trials, 100 returned normally, 149 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 144 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int * __cdecl sqgxTextureDraw(int a1, char a2)
 {
   int v2;

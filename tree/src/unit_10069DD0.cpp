@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1006A020  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API unsigned int __stdcall fn_1006A020(unsigned int a1, int a2, int a3, int a4)
 {
   unsigned int v4;
@@ -20,7 +20,7 @@ XI_API unsigned int __stdcall fn_1006A020(unsigned int a1, int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x1006AA30  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 12 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 12, town PASS 12, town2 PASS 12, combat PASS 12, zonetoinn PASS 12
+// GATE: PASS -- 100 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 16, town PASS 16, town2 PASS 16, combat PASS 16, zonetoinn PASS 16
 XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
 {
   int v3;
@@ -60,7 +60,7 @@ XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
 }
 
 // FUNCTION: FFXIMAIN 0x1006ADC0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 96, town2 PASS 96, combat PASS 97, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 58 returned normally, 62 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
 XI_API void __thiscall fn_1006ADC0(int *self_)
 {
   int v2;
@@ -83,7 +83,7 @@ XI_API void __thiscall fn_1006ADC0(int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF00  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 98, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86, town PASS 83, town2 PASS 83, combat PASS 83, zonetoinn PASS 83
 XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
 {
   int v4;
@@ -115,7 +115,7 @@ XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 98 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 86 returned normally, 61466 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86, town PASS 83, town2 PASS 83, combat PASS 83, zonetoinn PASS 83
 XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
 {
   int v4;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100538E0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 33, town PASS 33, town2 PASS 33, combat PASS 33, zonetoinn PASS 33
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28, town PASS 28, town2 PASS 28, combat PASS 28, zonetoinn PASS 28
 XI_API char __thiscall fn_100538E0(int self_, int *a2)
 {
   char result;

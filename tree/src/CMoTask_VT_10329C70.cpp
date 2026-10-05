@@ -42,6 +42,9 @@ _DWORD * __stdcall CMoTask_VT_10329C70::vf1(_DWORD *a1)
   _DWORD *result;
   result = a1;
   if ( *a1 == 6 )
-    return (_DWORD *)orig::nullsub_43(g_pResourceMng);
+  {
+    orig::nullsub_43(g_pResourceMng);
+    return result;
+  }
   return result;
 }

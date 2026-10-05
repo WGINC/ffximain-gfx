@@ -3,7 +3,7 @@
 #include "CXiMovie.hpp"
 
 // FUNCTION: FFXIMAIN 0x10026AD0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 592 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 554 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -20,6 +20,8 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
   int v17;
   float v18;
   float a1a;
+  bool xi_fpu_unord = false;
+
   result = this->pMovieTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
   {
@@ -54,10 +56,10 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
     at<float>(this, 0x64) = v12;
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
     result = (int)(((uint32_t)(result) & 0xFFFFu) | ((uint32_t)(uint16_t)((unsigned int)orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28) >> 16) << 16));
-    v14 = *(float *)&a3 < 1.0;
+    (xi_fpu_unord = __builtin_isunordered(*(float *)&a3, 1.0), v14 = *(float *)&a3 < 1.0);
     v15 = 0;
     v16 = *(float *)&a3 == 1.0;
-    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v14 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&a3, 1.0)) ? 0x400 : 0) | ((v16 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x4000 : 0))) << 0));
+    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v14 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v16 || xi_fpu_unord) ? 0x4000 : 0))) << 0));
     if ( *(float *)&a3 != 1.0 )
     {
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
@@ -69,7 +71,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 27 returned normally, 70 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 32, town2 PASS 33, combat PASS 30, zonetoinn PASS 33
+// GATE: PASS -- 100 trials, 25 returned normally, 51 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 25, town PASS 32, town2 PASS 31, combat PASS 33, zonetoinn PASS 30
 int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float * scale)
 {
   int result;

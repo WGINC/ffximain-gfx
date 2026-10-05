@@ -3,7 +3,7 @@
 #include "CMoElem_VT_1032ADE8.hpp"
 
 // FUNCTION: FFXIMAIN 0x10041AF0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 82 returned normally, 23 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 77, town2 PASS 77, combat PASS 85, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 95 returned normally, 30 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 95, town2 PASS 95, combat PASS 82, zonetoinn PASS 95
 void CMoElem_VT_1032ADE8::vf18()
 {
   int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest

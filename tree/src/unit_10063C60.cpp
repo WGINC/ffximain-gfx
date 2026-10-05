@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10063C80  (unit unit_10063C60: no unit evidence of its own; in the gap between 0x10063C50 (CMoResource_VT_1032C55C) and 0x10064170 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 53 returned normally, 133 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 40 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 38, town2 PASS 38, combat PASS 38, zonetoinn PASS 38
 XI_API int __thiscall fn_10063C80(__int16 *self_, void (__cdecl *a2)(int, float *, int), int a3)
 {
   __int64 v4; // rax

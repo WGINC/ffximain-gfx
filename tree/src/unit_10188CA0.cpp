@@ -28,6 +28,8 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
   float &v24 = *reinterpret_cast<float *>(xi_frame + 0x18);
   float (&v25)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x1C);
   int v26;
+  bool xi_fpu_unord = false;
+
   v3 = (__int64)(((uint64_t)(v3) & 0xFFFFFFFF00000000ull) | ((uint64_t)(uint32_t)(*((_DWORD *)self_ - 7)) << 0));
   if ( (_DWORD)v3 == 1 )
   {
@@ -63,20 +65,20 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
         v20 = v23 * v20;
         v21 = v24 * v21;
         v6 = v25[0] * v22;
-        v9 = v20 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v20, 1.0), v9 = v20 < 1.0);
         v10 = 0;
         v11 = v20 == 1.0;
-        if ( ((__int16)(((v9 || __builtin_isunordered(v20, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 1.0)) ? 0x400 : 0) | ((v11 || __builtin_isunordered(v20, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v9 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v11 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v20 = 1.0;
-        v13 = v21 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v21, 1.0), v13 = v21 < 1.0);
         v14 = 0;
         v15 = v21 == 1.0;
-        if ( ((__int16)(((v13 || __builtin_isunordered(v21, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v21, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v21, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v13 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v15 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v21 = 1.0;
-        v16 = v6 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v6, 1.0), v16 = v6 < 1.0);
         v17 = 0;
         v18 = v6 == 1.0;
-        if ( ((__int16)(((v16 || __builtin_isunordered(v6, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 1.0)) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v6, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v16 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v18 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v6 = 1.0;
       }
       v26 = (int)(((uint32_t)(v26) & 0xFFFFu) | ((uint32_t)(uint16_t)((unsigned __int8)(__int64)(v20 * 128.0)) << 16));
@@ -118,6 +120,7 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
   float &v19 = *reinterpret_cast<float *>(xi_frame + 0x10);
   float &v20 = *reinterpret_cast<float *>(xi_frame + 0x14);
   float (&v21)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x18);
+  bool xi_fpu_unord = false;
 
   if ( *((_DWORD *)self_ - 7) == 1 )
   {
@@ -142,20 +145,20 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
         v16 = v19 * v16;
         v17 = v20 * v17;
         v4 = v21[0] * v18;
-        v6 = v16 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v16, 1.0), v6 = v16 < 1.0);
         v7 = 0;
         v8 = v16 == 1.0;
-        if ( ((__int16)(((v6 || __builtin_isunordered(v16, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v16, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v16, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v6 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v8 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v16 = 1.0;
-        v10 = v17 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v17, 1.0), v10 = v17 < 1.0);
         v11 = 0;
         v12 = v17 == 1.0;
-        if ( ((__int16)(((v10 || __builtin_isunordered(v17, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v17, 1.0)) ? 0x400 : 0) | ((v12 || __builtin_isunordered(v17, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v10 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v12 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v17 = 1.0;
-        v13 = v4 < 1.0;
+        (xi_fpu_unord = __builtin_isunordered(v4, 1.0), v13 = v4 < 1.0);
         v14 = 0;
         v15 = v4 == 1.0;
-        if ( ((__int16)(((v13 || __builtin_isunordered(v4, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v4, 1.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v4, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+        if ( ((__int16)(((v13 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v15 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
           v4 = 1.0;
       }
       a2[3] = 0.0;

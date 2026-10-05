@@ -1,0 +1,11 @@
+{
+ "why": "The original copies g_cubemapSpecName's 16 bytes from two places in the writable .data section, not from a constant: 0x1004427C `mov eax,[0x10353414]` -> 0x1004428D `mov [0x1047BB98],eax`; 0x10044281 `mov ecx,[0x10353418]` -> 0x10044297 `mov [0x1047BB9C],ecx`; 0x10044287 `mov edx,[0x10353408]` -> 0x100442A3 `mov [0x1047BB90],edx`; 0x10044292 `mov eax,[0x1035340C]` -> 0x100442A9 `mov [0x1047BB94],eax` (0x10353410 is skipped). Hex-Rays printed the image's initial bytes there as the literal \"cubemap spec    \". The reconstruction reads the same four dwords, in the original's order. Found by the gate once those globals were fuzzed (case_abs_reads.py): 100 of 100 trials differed at 0x1047BB90.",
+ "evidence": "Disassembly of 0x1004427C..0x100442A9; image bytes at 0x10353408 'cubemap ' and 0x10353414 'spec    '; .data is writable (section characteristics 0xC0000040).",
+ "text_sha1": "6490abe1b48899c34f23b33aaef8219f99d6a3d3",
+ "replace": [
+  [
+   "  qmemcpy(&g_cubemapSpecName, \"cubemap spec    \", 16);",
+   "  *((_DWORD *)&g_cubemapSpecName + 2) = *(_DWORD *)0x10353414;\n  *((_DWORD *)&g_cubemapSpecName + 3) = *(_DWORD *)0x10353418;\n  *((_DWORD *)&g_cubemapSpecName + 0) = *(_DWORD *)0x10353408;\n  *((_DWORD *)&g_cubemapSpecName + 1) = *(_DWORD *)0x1035340C;"
+  ]
+ ]
+}

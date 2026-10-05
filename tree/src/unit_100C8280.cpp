@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100CB4E0  (unit unit_100C8280: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 0 returned normally, 4 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz UNRESOLVED 0, town PASS 99, town2 PASS 99, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz UNRESOLVED 0, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 99
 XI_API int __thiscall Actor_SelectNearestLights(void *self_)
 {
   _BYTE *v1;
@@ -102,14 +102,15 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
   int &v95 = *reinterpret_cast<int *>(xi_frame + 0x50);
   float (&v96)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x54);
   float (&v97)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x64);
+  bool xi_fpu_unord = false;
 
   v1 = self_;
   v2 = orig::Camera_GetFrameScale() * 0x1.99999a0000000p-2;
   v82 = v2;
-  v4 = v2 < 1.0;
+  (xi_fpu_unord = __builtin_isunordered(v2, 1.0), v4 = v2 < 1.0);
   v5 = 0;
   v6 = v2 == 1.0;
-  if ( ((__int16)(((v4 || __builtin_isunordered(v2, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v2, 1.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v2, 1.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+  if ( ((__int16)(((v4 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v6 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
     v82 = 1.0;
   v7 = 0;
   v92 = 10000.0;
@@ -144,10 +145,10 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       orig::sub_10027340(v96, v97, v97);
       v11 = v96[2] + v96[1] + v96[0];
       v13 = sqrt(v11);
-      v14 = v13 < *((float *)v9 + 18);
+      (xi_fpu_unord = __builtin_isunordered(v13, *((float *)v9 + 18)), v14 = v13 < *((float *)v9 + 18));
       v15 = 0;
       v16 = v13 == *((float *)v9 + 18);
-      if ( ((__int16)(((v14 || __builtin_isunordered(v13, *((float *)v9 + 18))) ? 0x100 : 0) | ((__builtin_isunordered(v13, *((float *)v9 + 18))) ? 0x400 : 0) | ((v16 || __builtin_isunordered(v13, *((float *)v9 + 18))) ? 0x4000 : 0)) & 0x4100) != 0 )
+      if ( ((__int16)(((v14 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v16 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
       {
         v17 = v11 * *((float *)v9 + 22);
         if ( v17 <= 0x1.a36e2e0000000p-14 )
@@ -157,10 +158,10 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
         {
           if ( *(&v88 + i) == 0 )
             break;
-          v21 = v19 < *(&v92 + i);
+          (xi_fpu_unord = __builtin_isunordered(v19, *(&v92 + i)), v21 = v19 < *(&v92 + i));
           v22 = 0;
           v23 = v19 == *(&v92 + i);
-          if ( ((__int16)(((v21 || __builtin_isunordered(v19, *(&v92 + i))) ? 0x100 : 0) | ((__builtin_isunordered(v19, *(&v92 + i))) ? 0x400 : 0) | ((v23 || __builtin_isunordered(v19, *(&v92 + i))) ? 0x4000 : 0)) & 0x4100) == 0 )
+          if ( ((__int16)(((v21 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v23 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
             break;
         }
         if ( i != 4 )
@@ -327,10 +328,10 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
     if ( (*((_DWORD *)self_ + 528) & 0x6000000) != 0 || (*((_DWORD *)self_ + 34) & 0x200) != 0 )
     {
       v46 = *((float *)self_ + 529);
-      v47 = v46 < 20.0;
+      (xi_fpu_unord = __builtin_isunordered(v46, 20.0), v47 = v46 < 20.0);
       v48 = 0;
       v49 = v46 == 20.0;
-      if ( ((__int16)(((v47 || __builtin_isunordered(v46, 20.0)) ? 0x100 : 0) | ((__builtin_isunordered(v46, 20.0)) ? 0x400 : 0) | ((v49 || __builtin_isunordered(v46, 20.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+      if ( ((__int16)(((v47 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v49 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
         v50 = *((float *)self_ + 529);
       else
         v50 = 40.0 - *((float *)self_ + 529);
@@ -349,20 +350,20 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       v51 = v90;
       if ( v90 < 0.0 )
         v51 = 0.0;
-      v53 = *(float *)&v88 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(*(float *)&v88, 255.0), v53 = *(float *)&v88 < 255.0);
       v54 = 0;
       v55 = *(float *)&v88 == 255.0;
-      if ( ((__int16)(((v53 || __builtin_isunordered(*(float *)&v88, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v88, 255.0)) ? 0x400 : 0) | ((v55 || __builtin_isunordered(*(float *)&v88, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v53 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v55 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *(float *)&v88 = 255.0;
-      v57 = v89 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(v89, 255.0), v57 = v89 < 255.0);
       v58 = 0;
       v59 = v89 == 255.0;
-      if ( ((__int16)(((v57 || __builtin_isunordered(v89, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(v89, 255.0)) ? 0x400 : 0) | ((v59 || __builtin_isunordered(v89, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v57 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v59 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v89 = 255.0;
-      v60 = v51 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(v51, 255.0), v60 = v51 < 255.0);
       v61 = 0;
       v62 = v51 == 255.0;
-      if ( ((__int16)(((v60 || __builtin_isunordered(v51, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(v51, 255.0)) ? 0x400 : 0) | ((v62 || __builtin_isunordered(v51, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v60 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v62 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v51 = 255.0;
       g_ambientColor = (__int64)*(float *)&v88 | (((__int64)v89 | ((unsigned int)(__int64)v51 << 8)) << 8);
       *(float *)&v88 = (float)(unsigned __int8)v85;
@@ -375,20 +376,20 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
         v89 = 0.0;
       if ( v90 < 0.0 )
         v90 = 0.0;
-      v64 = *(float *)&v88 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(*(float *)&v88, 255.0), v64 = *(float *)&v88 < 255.0);
       v65 = 0;
       v66 = *(float *)&v88 == 255.0;
-      if ( ((__int16)(((v64 || __builtin_isunordered(*(float *)&v88, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v88, 255.0)) ? 0x400 : 0) | ((v66 || __builtin_isunordered(*(float *)&v88, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v64 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v66 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *(float *)&v88 = 255.0;
-      v68 = v89 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(v89, 255.0), v68 = v89 < 255.0);
       v69 = 0;
       v70 = v89 == 255.0;
-      if ( ((__int16)(((v68 || __builtin_isunordered(v89, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(v89, 255.0)) ? 0x400 : 0) | ((v70 || __builtin_isunordered(v89, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v68 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v70 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v89 = 255.0;
-      v72 = v90 < 255.0;
+      (xi_fpu_unord = __builtin_isunordered(v90, 255.0), v72 = v90 < 255.0);
       v73 = 0;
       v74 = v90 == 255.0;
-      if ( ((__int16)(((v72 || __builtin_isunordered(v90, 255.0)) ? 0x100 : 0) | ((__builtin_isunordered(v90, 255.0)) ? 0x400 : 0) | ((v74 || __builtin_isunordered(v90, 255.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v72 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v74 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v90 = 255.0;
       v85 = (__int64)*(float *)&v88 | (((__int64)v89 | ((unsigned int)(__int64)v90 << 8)) << 8);
       v75 = *((float *)self_ + 529) - orig::Camera_GetFrameScale();

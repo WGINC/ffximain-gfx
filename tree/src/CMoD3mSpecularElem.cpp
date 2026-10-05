@@ -27,7 +27,7 @@ _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100412B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 76 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 37, town2 PASS 37, combat PASS 37, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 75 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75, town PASS 27, town2 PASS 27, combat PASS 27, zonetoinn PASS 74
 void CMoD3mSpecularElem::vf18()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

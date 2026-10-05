@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 737 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55, town PASS 55, town2 PASS 55, combat PASS 55, zonetoinn PASS 55
+// GATE: PASS -- 100 trials, 68 returned normally, 536 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
 XI_API int __thiscall Frame_Render(void *self_)
 {
   double v2;
@@ -111,6 +111,7 @@ XI_API int __thiscall Frame_Render(void *self_)
   struct _SYSTEMTIME &SystemTime = *reinterpret_cast<struct _SYSTEMTIME *>(xi_frame + 0x260);
   _DWORD (&v106)[6] = *reinterpret_cast<_DWORD (*)[6]>(xi_frame + 0x270);
   char (&Buffer)[512] = *reinterpret_cast<char (*)[512]>(xi_frame + 0x288);
+  bool xi_fpu_unord = false;
 
   g_modelsDrawnThisFrame = 0;
   g_modelDrawCallCount = 0;
@@ -648,10 +649,10 @@ LABEL_102:
     *((float *)self_ + 11) = v38;
     *((float *)self_ + 10) = v38;
     v39 = (double)*((int *)self_ + 12);
-    v41 = v38 < v39;
+    (xi_fpu_unord = __builtin_isunordered(v38, v39), v41 = v38 < v39);
     v42 = 0;
     v43 = v38 == v39;
-    if ( ((__int16)(((v41 || __builtin_isunordered(v38, v39)) ? 0x100 : 0) | ((__builtin_isunordered(v38, v39)) ? 0x400 : 0) | ((v43 || __builtin_isunordered(v38, v39)) ? 0x4000 : 0)) & 0x100) == 0 )
+    if ( ((__int16)(((v41 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v43 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
       break;
     Sleep(1u);
     _mm_pause();
@@ -672,11 +673,11 @@ LABEL_102:
       *((float *)self_ + 10) = v48;
       Sleep(0);
       v50 = (double)*((int *)self_ + 12);
-      v51 = v50 < *((float *)self_ + 10);
+      (xi_fpu_unord = __builtin_isunordered(v50, *((float *)self_ + 10)), v51 = v50 < *((float *)self_ + 10));
       v52 = 0;
       v53 = v50 == *((float *)self_ + 10);
     }
-    while ( ((__int16)(((v51 || __builtin_isunordered(v50, *((float *)self_ + 10))) ? 0x100 : 0) | ((__builtin_isunordered(v50, *((float *)self_ + 10))) ? 0x400 : 0) | ((v53 || __builtin_isunordered(v50, *((float *)self_ + 10))) ? 0x4000 : 0)) & 0x4100) == 0 );
+    while ( ((__int16)(((v51 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v53 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 );
   }
   v54 = 60.0 / ((double (__thiscall *)(_DWORD))*(_DWORD *)(**((_DWORD **)self_ + 7) + 36))(*((_DWORD *)self_ + 7))
       + *((float *)self_ + 15);
@@ -705,15 +706,15 @@ LABEL_102:
   if ( v60 < v96 )
     *((float *)self_ + 10) = v96;
   v62 = *((float *)self_ + 10);
-  v63 = v62 < 20.0;
+  (xi_fpu_unord = __builtin_isunordered(v62, 20.0), v63 = v62 < 20.0);
   v64 = 0;
   v65 = v62 == 20.0;
-  if ( ((__int16)(((v63 || __builtin_isunordered(v62, 20.0)) ? 0x100 : 0) | ((__builtin_isunordered(v62, 20.0)) ? 0x400 : 0) | ((v65 || __builtin_isunordered(v62, 20.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v63 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v65 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
     *((_DWORD *)self_ + 10) = 1101004800;
-  v66 = v56 < 20.0;
+  (xi_fpu_unord = __builtin_isunordered(v56, 20.0), v66 = v56 < 20.0);
   v67 = 0;
   v68 = v56 == 20.0;
-  if ( ((__int16)(((v66 || __builtin_isunordered(v56, 20.0)) ? 0x100 : 0) | ((__builtin_isunordered(v56, 20.0)) ? 0x400 : 0) | ((v68 || __builtin_isunordered(v56, 20.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v66 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v68 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
     v56 = 20.0;
   *((float *)self_ + 11) = v56;
   g_frameStepFps = 60.0 / *((float *)self_ + 10);
@@ -726,10 +727,10 @@ LABEL_102:
   {
     v71 = ((double (__thiscall *)(int))*(_DWORD *)(*(_DWORD *)v70 + 40))(v70);
     *(float *)&v97 = v71;
-    v73 = v71 < 4000.0;
+    (xi_fpu_unord = __builtin_isunordered(v71, 4000.0), v73 = v71 < 4000.0);
     v74 = 0;
     v75 = v71 == 4000.0;
-    if ( ((__int16)(((v73 || __builtin_isunordered(v71, 4000.0)) ? 0x100 : 0) | ((__builtin_isunordered(v71, 4000.0)) ? 0x400 : 0) | ((v75 || __builtin_isunordered(v71, 4000.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v73 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v75 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       GetLocalTime(&SystemTime);
       if ( SystemTime.wSecond != (_WORD)g_frameCounterLastSecond )
@@ -747,18 +748,18 @@ LABEL_102:
         {
           if ( dword_1045695C == 1 )
           {
-            v83 = v78 < 1500.0;
+            (xi_fpu_unord = __builtin_isunordered(v78, 1500.0), v83 = v78 < 1500.0);
             v84 = 0;
             v85 = v78 == 1500.0;
-            if ( ((__int16)(((v83 || __builtin_isunordered(v78, 1500.0)) ? 0x100 : 0) | ((__builtin_isunordered(v78, 1500.0)) ? 0x400 : 0) | ((v85 || __builtin_isunordered(v78, 1500.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+            if ( ((__int16)(((v83 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v85 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
               dword_1045695C = 2;
           }
           else if ( dword_1045695C == 2 )
           {
-            v79 = v78 < 1500.0;
+            (xi_fpu_unord = __builtin_isunordered(v78, 1500.0), v79 = v78 < 1500.0);
             v80 = 0;
             v81 = v78 == 1500.0;
-            if ( ((__int16)(((v79 || __builtin_isunordered(v78, 1500.0)) ? 0x100 : 0) | ((__builtin_isunordered(v78, 1500.0)) ? 0x400 : 0) | ((v81 || __builtin_isunordered(v78, 1500.0)) ? 0x4000 : 0)) & 0x100) != 0 )
+            if ( ((__int16)(((v79 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v81 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 )
             {
               if ( dword_10456958++ > 2 )
               {
@@ -824,7 +825,7 @@ LABEL_102:
 }
 
 // FUNCTION: FFXIMAIN 0x10012F40  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2268 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Post_Afterimage(void)
 {
   int result;
@@ -836,13 +837,15 @@ XI_API int __cdecl Post_Afterimage(void)
   int v6;
   __int64 v7; // rax
   int v8;
+  bool xi_fpu_unord = false;
+
   result = g_afterimageTex[0];
   if ( g_afterimageTex[0] != 0 )
   {
-    v2 = g_afterimageStrength < 0.0;
+    (xi_fpu_unord = __builtin_isunordered(g_afterimageStrength, 0.0), v2 = g_afterimageStrength < 0.0);
     v3 = 0;
     v4 = g_afterimageStrength == 0.0;
-    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v2 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x400 : 0) | ((v4 || __builtin_isunordered(g_afterimageStrength, 0.0)) ? 0x4000 : 0))) << 0));
+    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v2 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v4 || xi_fpu_unord) ? 0x4000 : 0))) << 0));
     if ( !(g_afterimageStrength <= 0.0) )
     {
       if ( g_afterimageState == 1 )
@@ -926,7 +929,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x100132B0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1463 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3334 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
 {
   int result;
@@ -1112,7 +1115,7 @@ LABEL_28:
 }
 
 // FUNCTION: FFXIMAIN 0x10013AD0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 86 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 102 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
 {
   __int16 v3;
@@ -1234,7 +1237,7 @@ LABEL_25:
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
@@ -1284,7 +1287,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
@@ -1333,7 +1336,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
@@ -1377,7 +1380,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 76, town2 PASS 76, combat PASS 76, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70, town PASS 70, town2 PASS 70, combat PASS 70, zonetoinn PASS 70
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();

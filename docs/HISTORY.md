@@ -266,3 +266,29 @@ fixed:
 - **Checked and not defects** (from an outside audit): the three `CMoSchedularTask_Interpret` sites
   (`push ecx; mov ecx, esp` reserves a slot the constructor 0x1005E110 zeroes) and `App_InitScene` (ECX
   left over, overwritten before use).
+
+## 5 Oct 2026 (later): the in-game DLL gated on its own, and what it found
+
+- **The shipped DLL gated on fuzz** (`gfx_recon_ingame.dll`, `xi_rel = 0`) failed three functions the clean
+  build had passed under the earlier seeding; the clean build fails them too under the current harness:
+  - 0x1017DE20: the x87 status word was rebuilt where it is read, from the textually last compare; the two
+    branches compare different operands, so a NaN on the other branch was missed (`fpu_status_words` now records
+    `xi_fpu_unord` at each compare; 35 functions retranslated);
+  - 0x10057FB0 (`CMoSchedularTask_Interpret`): a virtual call typed `__thiscall(float)` - GCC pushed `this`
+    and left ECX stale (`thiscall_float_this`);
+  - 0x1006B4C0: `nullsub_43` is a bare `ret`, the original returns its argument (hx_patch;
+    `reg_kept_audit` now counts a `ret` as a read of EAX and finds no other site).
+- **Fuzz inputs**: one draw in eight is a constant the function compares against (`_cmp_consts`), and every
+  global read at a fixed address is fuzzed (`case_abs_reads.py`). Two more defects surfaced:
+  - 0x100CBDE0: a game function's `bool` return tested together with another condition; GCC assumes 0/1,
+    MSVC tests AL (`orig::` wrappers return `uint8_t`);
+  - 0x10044270: Hex-Rays printed a writable global's initial bytes as a literal (hx_patch).
+- **Result**: fuzz + 4 dumps, 775 PASS, 2 INCONCLUSIVE (0x1006B3B0, 0x10016320: the original never returns under
+  the new inputs), 0 FAIL; 620 functions fully covered (was 594). The in-game DLL: 773 PASS on fuzz, 0 FAIL.
+- **Kit**: flag 4 also marks a PASS on fewer than 10 compared trials; 620 functions swapped by default.
+- **Gate time**: the full gate (fuzz + 4 dumps) is 37 minutes from cold and 5 minutes with the cache when one
+  source file changed.
+- **Known, not fixed**: verify_all `export-sp` (IDA's SP in 0x100412B0, upstream of calls whose pop is not
+  known; the function is left out of the kit as untested); 44 virtual-call sites with unknown pop counts keep
+  30 functions partly untested (Frame_Render among them).
+

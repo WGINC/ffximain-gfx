@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1024CF50  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 61 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl fn_1024CF50(_DWORD *a1)
 {
   int v2;

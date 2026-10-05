@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10251A80  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 254 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 18 returned normally, 236 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 18, town PASS 12, town2 PASS 12, combat PASS 12, zonetoinn PASS 12
 XI_API char __thiscall Dancer_InitDevice(int *self_)
 {
   _DWORD *v2;

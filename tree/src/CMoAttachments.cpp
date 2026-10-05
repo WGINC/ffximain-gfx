@@ -41,7 +41,7 @@ _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 92 returned normally, 66 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92, town PASS 91, town2 PASS 91, combat PASS 91, zonetoinn PASS 91
+// GATE: PASS -- 100 trials, 85 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 84, town2 PASS 84, combat PASS 84, zonetoinn PASS 85
 XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;

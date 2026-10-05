@@ -45,6 +45,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   char &v41 = *reinterpret_cast<char *>(xi_frame + 0xD4);
   char &v42 = *reinterpret_cast<char *>(xi_frame + 0x134);
   char &v43 = *reinterpret_cast<char *>(xi_frame + 0x138);
+  bool xi_fpu_unord = false;
 
   orig::fn_10027990((Iostream_init *)v37);
   v29[0] = 0.0;
@@ -56,11 +57,11 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
   orig::Gfx_TransformWorldToView(v29, v29);
   v30 = v30 + 1.0;
   orig::Gfx_ProjectViewToClip(v29, v29);
-  v6 = v30 < 1.0;
+  (xi_fpu_unord = __builtin_isunordered(v30, 1.0), v6 = v30 < 1.0);
   v7 = 0;
   v8 = v30 == 1.0;
   v33 = v30;
-  if ( ((__int16)(((v6 || __builtin_isunordered(v30, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v30, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v30, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v30 < 0.0) )
+  if ( ((__int16)(((v6 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v8 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 && !(v30 < 0.0) )
   {
     orig::Gfx_NdcToScreen(v29);
     orig::Vec2_AddScalar(v29, -0.5);

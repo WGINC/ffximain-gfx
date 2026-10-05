@@ -25,7 +25,7 @@ int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047CE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 68, town2 PASS 74, combat PASS 58, zonetoinn PASS 91
+// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32, town PASS 58, town2 PASS 74, combat PASS 56, zonetoinn PASS 90
 _DWORD * CMoGeneratorClone::FixupClonedPointers()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -158,7 +158,7 @@ LABEL_49:
 }
 
 // FUNCTION: FFXIMAIN 0x100536C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44, town PASS 43, town2 PASS 43, combat PASS 43, zonetoinn PASS 43
 int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

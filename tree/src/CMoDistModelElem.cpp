@@ -3,7 +3,7 @@
 #include "CMoDistModelElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x10040670  (placed by IDB name)
-// GATE: PASS -- 100 trials, 34 returned normally, 48 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34, town PASS 19, town2 PASS 19, combat PASS 19, zonetoinn PASS 36
+// GATE: PASS -- 100 trials, 42 returned normally, 53 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 42, town PASS 25, town2 PASS 25, combat PASS 25, zonetoinn PASS 43
 int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -235,7 +235,7 @@ char ** __cdecl CMoDistModelElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x100431B0  (unit CMoDistModelElem: between 0x100431A0 (class model places it in CMoDistModelElem) and 0x10043310 (class model places it in CMoDistModelElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 99 returned normally, 384 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 100 returned normally, 388 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 96, combat PASS 98, zonetoinn PASS 96
 XI_API int __thiscall fn_100431B0(void *self_)
 {
   int ScratchMatrixStackTop;
@@ -295,7 +295,7 @@ XI_API int __thiscall fn_100431B0(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10043320  (placed by IDB name)
-// GATE: PASS -- 100 trials, 50 returned normally, 16 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50, town PASS 23, town2 PASS 23, combat PASS 23, zonetoinn PASS 48
+// GATE: PASS -- 100 trials, 58 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 26, town2 PASS 26, combat PASS 26, zonetoinn PASS 58
 void CMoDistModelElem::BuildDistortedMesh()
 {
   int *v2;

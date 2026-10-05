@@ -21,7 +21,7 @@ int * CYyModelBase::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 61 returned normally, 876 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61, town PASS 100, town2 PASS 86, combat PASS 95, zonetoinn PASS 94
+// GATE: PASS -- 100 trials, 53 returned normally, 844 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 100, town2 PASS 81, combat PASS 94, zonetoinn PASS 94
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

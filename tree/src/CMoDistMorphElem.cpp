@@ -3,7 +3,7 @@
 #include "CMoDistMorphElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003F440  (placed by IDB name)
-// GATE: PASS -- 100 trials, 48 returned normally, 178 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 48, town PASS 47, town2 PASS 47, combat PASS 47, zonetoinn PASS 47
+// GATE: PASS -- 100 trials, 61 returned normally, 180 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
 int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, char a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -181,7 +181,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
 }
 
 // FUNCTION: FFXIMAIN 0x1003F8A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 62, town PASS 61, town2 PASS 61, combat PASS 58, zonetoinn PASS 61
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 58, town2 PASS 58, combat PASS 59, zonetoinn PASS 58
 _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -346,7 +346,7 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10042D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 40 returned normally, 164 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 30, town2 PASS 30, combat PASS 30, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 39 returned normally, 156 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 39, town PASS 46, town2 PASS 54, combat PASS 50, zonetoinn PASS 55
 char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a4)
 {
   int v4;
@@ -489,7 +489,7 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 53 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 99, zonetoinn PASS 98
 char CMoDistMorphElem::UpdateMorphBlend()
 {
   CMoProcessor *v2;

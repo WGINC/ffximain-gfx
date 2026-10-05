@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10054D70  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 32 returned normally, 201 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32, town PASS 33, town2 PASS 33, combat PASS 32, zonetoinn PASS 32
+// GATE: PASS -- 100 trials, 25 returned normally, 225 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 25, town PASS 25, town2 PASS 26, combat PASS 26, zonetoinn PASS 27
 XI_API char __cdecl fn_10054D70(void)
 {
   int v0;

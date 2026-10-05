@@ -3,7 +3,7 @@
 #include "CApp.hpp"
 
 // FUNCTION: FFXIMAIN 0x10001520  (placed by IDB name)
-// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 74, town2 PASS 74, combat PASS 74, zonetoinn PASS 74
+// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75, town PASS 64, town2 PASS 64, combat PASS 64, zonetoinn PASS 64
 char CApp::RunMainLoop()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

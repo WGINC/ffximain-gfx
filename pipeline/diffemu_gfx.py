@@ -976,7 +976,7 @@ def run_case(m, case, trials, seed):
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
     fz = G.Fuzzer(m, seed)
-    statuses, first_fail, fails, com_calls, rounded, unresolved = {}, None, 0, 0, 0, {}
+    statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
     touched = [(int(g, 16), n) for g, n in case.get("fuzz_ranges", [])]
@@ -996,6 +996,7 @@ def run_case(m, case, trials, seed):
         a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
         ran = set(m.cov_run) if cov is not None else None
         if a.status == 'unresolved': unresolved[a.detail] = unresolved.get(a.detail, 0) + 1
+        if a.status == 'fault': faults[a.detail or '?'] = faults.get(a.detail or '?', 0) + 1     # where the original faulted
         if a.status in ('fault', 'limit', 'unresolved'):
             b = None            # not compared (below): the reconstruction need not run
         else:
@@ -1043,7 +1044,8 @@ def run_case(m, case, trials, seed):
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
-            "unresolved": unresolved, **({"coverage": coverage} if coverage is not None else {})}
+            "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
+            **({"coverage": coverage} if coverage is not None else {})}
 
 
 _COV_EXT = {}

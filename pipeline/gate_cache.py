@@ -54,6 +54,9 @@ def base_key(game_dll, live_cfg):
         p = os.path.join(D, f); h.update(f.encode()); h.update(_sha_file(p).encode() if os.path.exists(p) else b'-')
     h.update(('%s %s %s' % (unicorn.__version__, capstone.__version__, pefile.__version__)).encode())
     h.update(_sha_file(game_dll).encode())
+    # coverage mode records which original instructions ran (diffemu_gfx run_case): a result made without it
+    # has no coverage, so the mode is part of the key
+    h.update(b'coverage' if os.environ.get('FFXI_COVERAGE') else b'-')
     if live_cfg:
         h.update(_sha_file(live_cfg).encode()); cfg = json.load(open(live_cfg))
         for k in ('dump', 'build_map'):

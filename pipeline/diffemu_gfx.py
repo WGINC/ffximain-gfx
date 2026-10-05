@@ -155,6 +155,11 @@ class GfxMachine(G.Machine):
             from capstone import Cs, CS_ARCH_X86, CS_MODE_32
             self._md = Cs(CS_ARCH_X86, CS_MODE_32); self._md.detail = True
             self.demand_limit = 4096          # dump pages share the demand list with fuzzed ones
+        # synthetic (fuzzed) pages have their own budget in both modes: a trial that wanders through thousands
+        # of random pages is not comparable either way (it ended at the instruction limit after ~18 s of page
+        # mapping on the dumps: 0x1006E970 spent ~1000 s per dump gate this way); the dumps' own pages keep
+        # the larger demand_limit
+        self.synth_limit = 96; self.synth = 0
         # a thread information block at FS, as Windows lays it out: the SEH prologue of MSVC code reads and
         # writes fs:[0] (ExceptionList; here the end-of-chain marker) and restores it before it returns
         u.mem_map(TEB, G.PAGE, UC_PROT_ALL); u.mem_map(GDT, G.PAGE, UC_PROT_ALL)
@@ -296,7 +301,8 @@ class GfxMachine(G.Machine):
                     if p not in self.demand and not self.live_map(p): return False
                 return True
         if access not in (UC_MEM_READ_UNMAPPED, UC_MEM_WRITE_UNMAPPED) or addr < 0x10000 or \
-           len(getattr(self, 'demand', [])) >= getattr(self, 'demand_limit', 0):
+           len(getattr(self, 'demand', [])) >= getattr(self, 'demand_limit', 0) or \
+           getattr(self, 'synth', 0) >= getattr(self, 'synth_limit', 1 << 30):
             return super()._on_invalid(uc, access, addr, size, value, _)
         for page in {addr & ~(G.PAGE - 1), (addr + size - 1) & ~(G.PAGE - 1)}:
             if page in self.demand: continue
@@ -304,7 +310,7 @@ class GfxMachine(G.Machine):
                 uc.mem_map(page, G.PAGE, UC_PROT_ALL)
             except Exception:
                 return False
-            uc.mem_write(page, self._page_bytes(page)); self.demand.append(page)
+            uc.mem_write(page, self._page_bytes(page)); self.demand.append(page); self.synth += 1
         return True
 
     def _on_foreign(self, uc, addr, size, _):
@@ -416,7 +422,7 @@ class GfxMachine(G.Machine):
         self.uc.mem_write(addr, data)
 
     def reset_demand(self):
-        self.wild = 0
+        self.wild = 0; self.synth = 0
         for page in self.demand:
             try: self.uc.mem_unmap(page, G.PAGE)
             except Exception: pass
@@ -991,7 +997,14 @@ def run_case(m, case, trials, seed):
         m.cov_run = set(); cov = set()
         cov_hooks = [m.uc.hook_add(UC_HOOK_CODE, lambda uc, addr, size, _: m.cov_run.add(addr), begin=lo, end=hi - 1)
                      for lo, hi in _extent(orig)]
-    for t in range(trials):
+    # each trial's inputs come from (seed, trial number) alone, so a slice of the trials (gate_some splits slow
+    # functions into pieces: _trial_first, _trial_count) runs exactly the trials the whole run would. In live
+    # mode the trial number also picks the dump object used as `this` (it was a per-process counter, so a
+    # function's inputs depended on which cases the same worker had run before it).
+    first = case.get('_trial_first', 0); trials = case.get('_trial_count', trials)
+    for t in range(first, first + trials):
+        fz.rng = random.Random(seed * 1000003 + t)
+        if getattr(m, 'live', None): m.trial_no = t
         this, args, trial_seed = setup_trial(m, case, fz)
         a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
         ran = set(m.cov_run) if cov is not None else None
@@ -1042,7 +1055,7 @@ def run_case(m, case, trials, seed):
     ok_runs = statuses.get("return", 0)
     verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
-            "trials": trials, "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
+            "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
             "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
             **({"coverage": coverage} if coverage is not None else {})}

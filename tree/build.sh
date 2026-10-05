@@ -13,10 +13,16 @@ OUTDLL=build/gfx_recon.dll; CFL=()
 if [ -n "${XI_INGAME:-}" ]; then FLAGS+=(-DXI_INGAME); CFL=(-DXI_INGAME); OUTDLL=build/gfx_recon_ingame.dll; fi
 mkdir -p build/obj build/err
 $CC -O2 -ffreestanding -fno-builtin "${CFL[@]}" -c rt.c -o build/obj/rt.o
+# every file compiled in parallel (JOBS, default: all CPUs); the link order stays the sorted file order
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+rm -f build/obj/*.ok
+export CXX; export FLAGSQ="$(printf '%q ' "${FLAGS[@]}")"
+printf '%s\n' src/*.cpp | xargs -P "$JOBS" -I{} bash -c 'f={}; b=$(basename "$f" .cpp)
+  eval "$CXX $FLAGSQ -c \"$f\" -o build/obj/$b.o" 2> "build/err/$b.txt" && touch "build/obj/$b.ok"'
 ok=(); bad=()
 for f in src/*.cpp; do
-  o=build/obj/$(basename "$f" .cpp).o
-  if $CXX "${FLAGS[@]}" -c "$f" -o "$o" 2> "build/err/$(basename "$f" .cpp).txt"; then ok+=("$o"); else bad+=("$f"); fi
+  b=$(basename "$f" .cpp)
+  if [ -e "build/obj/$b.ok" ]; then ok+=("build/obj/$b.o"); else bad+=("$f"); fi
 done
 # a pinned layout, so a change to one source file moves no other file's code or data and the gate cache
 # (pipeline/gate_cache.py) can reuse every other function's verdict: each object's .text starts on its own

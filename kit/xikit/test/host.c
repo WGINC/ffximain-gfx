@@ -44,7 +44,7 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
 }
 
 int main(int argc, char **argv) {
-  int relocated = argc > 1 && !strcmp(argv[1], "relocated");
+  int relocated = argc > 1 && !strcmp(argv[1], "relocated"), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
   if (relocated && !VirtualAlloc((void *)0x10000000, 0x01000000, MEM_RESERVE, PAGE_NOACCESS)) printf("note: could not reserve 0x10000000\n");
@@ -80,7 +80,8 @@ int main(int argc, char **argv) {
   g_vtbl[15] = (void *)fake_present;
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
   *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
-  touch_ini(ini, "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\n"
+                         : "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
@@ -115,6 +116,24 @@ int main(int argc, char **argv) {
   FILE *q = fopen("xikit_quarantine.txt", "r"); int quar = 0;
   if (q) { while (fgets(line, sizeof line, q)) if (strstr(line, "0x100A4830")) quar = 1; fclose(q); }
   check(quar, "it is in xikit_quarantine.txt");
+  if (profile) {
+    /* d3dprof sits in front of the kit's copy: Present goes thunk -> kit_present -> the device's own method.
+       Its report is rewritten every 600 frames; the host's own Present calls come from outside FFXiMain.dll */
+    int before = presents; present(600);
+    check(presents == before + 600, "profile=1: Present still reaches the device's own method through both hooks");
+    snprintf(name, sizeof name, "d3dprof_%lu.csv", GetCurrentProcessId());
+    csv = fopen(name, "r"); int head = 0, row = 0;
+    if (csv) {
+      while (fgets(line, sizeof line, csv)) {
+        if (!strncmp(line, "# d3dprof v2: 600 frames", 24)) head = 1;
+        /* the first window: a frame is Present to Present, so 601 Present calls over 600 frames = 1.002 */
+        if (!strncmp(line, "Present,", 8) && strstr(line, ",other module,1.002,")) row = 1;
+      }
+      fclose(csv);
+    }
+    check(head, "profile=1: d3dprof wrote its report after 600 frames");
+    check(row, "profile=1: the report has Present (601 calls in 600 frames) from outside FFXiMain.dll");
+  }
   printf("%s\n", fails ? "FAILED" : "ALL OK");
   ExitProcess(fails ? 1 : 0);
 }

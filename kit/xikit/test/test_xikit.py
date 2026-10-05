@@ -1,13 +1,14 @@
 """test_xikit.py -- the kit end to end under Wine, with the real FFXiMain.dll ($FFXI_DLL) and the built dist/:
 host.exe (host.c) maps the game DLL without running it, fakes the device, loads xikit.dll and plays the render
-thread. Run twice: with the game DLL at its analysed base, and loaded elsewhere (0x10000000 occupied first).
+thread. Run three times: with the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), and
+at its base with profile=1 (d3dprof built in).
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
 import os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
 bad = 0
-for mode in ('base', 'relocated'):
+for mode in ('base', 'relocated', 'profile'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)

@@ -62,16 +62,18 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs twice:
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs three times:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
   not apply relocations for this load mode, so the host applies them as the game has them: the whole
   `.reloc` chain from the section's start (92,563 entries). The file's header directory points at only the
   last 87 blocks, which do not cover `.text`; the chain is the one `pipeline/dump_verify.py` checks against
-  every relocated dword in the live dumps.
+  every relocated dword in the live dumps;
+- **profile**: at the base, with `profile=1` from the start, so d3dprof is attached in front of the kit's
+  vtable copy.
 
-Both pass every check:
+All three pass every check:
 - the device is hooked through its own vtable copy; the original vtable is not written; Present still
   reaches the device's method;
 - `swap=1`: all 777 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
@@ -80,7 +82,10 @@ Both pass every check:
 - `swap=0` written to the ini: re-read, all original bytes back;
 - `swap=1` with an exclude: the excluded function keeps its original bytes;
 - an access violation inside the reconstruction (a null `this`) is passed on to the game's own handlers,
-  the function is restored at the next frame and written to `xikit_quarantine.txt`.
+  the function is restored at the next frame and written to `xikit_quarantine.txt`;
+- profile mode only: Present still reaches the device through both hooks; d3dprof writes its report at 600
+  frames, and the report has the host's Present calls as `other module`, 601 calls in 600 frames (a frame is
+  Present to Present, so the first window holds one more Present than frames).
 
 Not tested here: the real game (a real device, the game's threads, speedfix_hook in the same process). The
 first run in the game is with `swap=0`, then `swap=1` with `only=` a few functions, with the log read after each.

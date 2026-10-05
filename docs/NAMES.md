@@ -776,6 +776,32 @@ The 108 left need more than one decisive fact each. Most belong to the large sha
 with 1,071 references, 0x104E1D44 with 259, 0x1057847C with 161), whose users are mostly outside the export
 and have no PS2 pair.
 
+## 5 Oct 2026: checked leads from an outside repository (2 globals, 2 functions)
+
+An unsolicited whole-DLL rebuild ("ffximain") was sent to the owner. It was not trusted: its names, classes
+and prototypes were compared with this repo's facts, and only what our own evidence then established was
+taken. The evidence below is ours; none of it rests on that repository.
+
+- `g_pTkHelp` (0x105781F8, was `g_pObj_Vtbl10333D18`) and `g_pTkTitle` (0x1057847C, one of the 108). PS2
+  `TkInit` (0x25C980) and PC 0x10165070 create the same objects in the same order. PS2 allocates 696 bytes for
+  `g_pTkHelp`, then 836 for `g_pTkTitle`, then 36, then the 164-byte `CTkMouse`. PC allocates 0x3C4 for
+  0x105781F8, then 0x450 for 0x1057847C, then 0x24, then 0xB0. Both objects are 268 bytes larger on PC.
+  Each embeds the same sub-object at the PS2 offsets: PS2 `KaHelpMes` sits at +32 in help and +164 in title,
+  and PC calls constructor 0x10220FD0 on this+0x20 in 0x1013A1E0 and on this+0xA4 in 0x10150AB0.
+- `CTkMouse_OnMouseMove` (0x10124640). The PS2 `OnMouseMove__8CTkMouseFR8tagPOINTs` (0x295CA0) does the same
+  steps in the same order: it stores the wheel value; it shows the cursor if the menu does not hold the mouse
+  and the point moved (PS2 `SetDrawStatus(this, 1)`, PC `Cursor_SetVisible(this, 1)`); it adds the move to
+  `m_mousept` (+4/+8) and stores it in `m_diffpt` (+20/+24); it clamps to 0 and to the screen size minus 1.
+  Offsets are from the PS2 DWARF layout. Differences: PS2 doubles the move, PC also calls `CDx_ShowCursor`,
+  and PC fields from +68 on sit 4 bytes later.
+- `App_DestroyGlobalObjects` (0x10016320). It deletes every object in the scene-state table, `g_pApp` and
+  `g_pCDx`, then runs the shape and menu managers' teardown. Its only caller, 0x10015AB0, calls
+  `CoInitialize`, creates the app object, runs init and the main loop, and calls this on every path. It then
+  deletes the app object and calls `CoUninitialize`.
+
+Not taken: `pGlobalNowZone` for 0x104DFD98 (the PS2 debug strings that would tie it are stripped on PC), and
+every other name and prototype in that repository. 107 globals remain unnamed.
+
 ## 2 Oct 2026: globals and callees
 
 This round named the placeholders left in `tree/`: 24 `sub_` callees and 283 data symbols (`dword_`, `byte_`, `flt_`, `unk_`, `off_`, `word_`). 193 were named (86 high, 107 medium confidence); 13 `sub_` and 105 data placeholders remain because the code does not say enough about them.

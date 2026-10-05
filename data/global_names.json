@@ -3297,9 +3297,9 @@
   },
   "0x105781F8": {
    "old": "dword_105781F8",
-   "name": "g_pObj_Vtbl10333D18",
+   "name": "g_pTkHelp",
    "confidence": "high",
-   "evidence": "0x10165070 stores the result of the constructor 0x1013A1E0, which stores vtable 0x10333D18 at [this] (17 slots, no runtime-class descriptor); the name says only that"
+   "evidence": "PS2 counterpart (SCUS_972.66): TkInit (PS2 0x25C980) and PC 0x10165070 create the same objects in the same order: PS2 new 696 -> g_pTkHelp (0x54E920), new 836 -> g_pTkTitle (0x54E924), new 36, new 164 (CTkMouse); PC new 0x3C4 -> 0x105781F8, new 0x450 -> 0x1057847C, new 0x24, new 0xB0. Both objects are 268 bytes larger on PC, and each embeds the same sub-object at the PS2 offsets: PS2 KaHelpMes at +32 (help) and +164 (title), PC constructor 0x10220FD0 on this+0x20 in 0x1013A1E0 and on this+0xA4 in 0x10150AB0. Its vtable 0x10333D18 has no runtime-class descriptor (was g_pObj_Vtbl10333D18)"
   },
   "0x10487F81": {
    "old": "byte_10487F81",
@@ -3330,6 +3330,12 @@
    "name": "g_pAppInputState",
    "confidence": "medium",
    "evidence": "DancingMad (FINDINGS.md 10, DirectInput table): sub_10001BB0 allocates this 0xDC4-byte object; sub_100058F0 calls DirectInput8Create(hinst, 0x800, IID_IDirectInput8, this+132) and the keyboard, mouse and force-feedback joystick are installed into it; +0xDB4/+0xDBC are the rumble accumulator and its dirty flag (DirectInput_ApplyRumble). DancingMad calls it a generic app-settings singleton; what else it holds is open, hence medium"
+  },
+  "0x1057847C": {
+   "old": "dword_1057847C",
+   "name": "g_pTkTitle",
+   "confidence": "high",
+   "evidence": "PS2 counterpart (SCUS_972.66): TkInit (PS2 0x25C980) and PC 0x10165070 create the same objects in the same order: PS2 new 696 -> g_pTkHelp (0x54E920), new 836 -> g_pTkTitle (0x54E924), new 36, new 164 (CTkMouse); PC new 0x3C4 -> 0x105781F8, new 0x450 -> 0x1057847C, new 0x24, new 0xB0. Both objects are 268 bytes larger on PC, and each embeds the same sub-object at the PS2 offsets: PS2 KaHelpMes at +32 (help) and +164 (title), PC constructor 0x10220FD0 on this+0x20 in 0x1013A1E0 and on this+0xA4 in 0x10150AB0; constructor 0x10150AB0 stores vtable 0x10334F78"
   }
  },
  "unnamed": {
@@ -3656,10 +3662,6 @@
   "0x10578160": {
    "old": "dword_10578160",
    "why": "low: 8 references (App_Destructor, App_InitScene, App_Constructor, 0x10128060); what it holds is not established from the export"
-  },
-  "0x1057847C": {
-   "old": "dword_1057847C",
-   "why": "low: 161 references (0x1014F350, 0x101A5690, 0x101186A0, 0x1012EC10); what it holds is not established from the export"
   },
   "0x10621A10": {
    "old": "dword_10621A10",

@@ -13,6 +13,7 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 # so a loop over the table runs as in the game instead of to the instruction limit
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
+CDECL_LOW = CDECL_ARGS.pop('_at_least', {})
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
 THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
@@ -59,14 +60,15 @@ def arg_masks(ftype, cc):
         depth += (ch == '(') - (ch == ')'); cur += ch
     if cur.strip(): parts.append(cur)
     if cc == 'thiscall' and parts: parts = parts[1:]
-    out = []
-    for p in parts[:4]:
+    out = []                                   # one mask per stack slot: a double or __int64 takes two
+    for p in parts:
         p = p.strip()
         if '*' in p: out.append(0xFFFFFFFF)
+        elif re.search(r'^(double|__int64|_QWORD|unsigned __int64)\b', p): out += [0xFFFFFFFF, 0xFFFFFFFF]
         elif re.search(r'__int16|\bshort\b|_WORD', p): out.append(0xFFFF)
         elif re.search(r'__int8|\bchar\b|_BYTE|\bbool\b|_BOOL1', p): out.append(0xFF)
         else: out.append(0xFFFFFFFF)
-    return out
+    return out[:16]
 
 def conv_of(ftype):
     m = re.search(r'__(cdecl|stdcall|thiscall|fastcall)', ftype)
@@ -148,15 +150,21 @@ def main(exp, metaf, protof, out):
                     if cc == 'cdecl': cc = 'stdcall'
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
+                # a cdecl callee's arguments are the slots its code reads (cdecl_args.py): slots past them are stale
+                # stack (deferred cleanup), not arguments. Exact where every path could be followed; otherwise the
+                # slots read on the paths that could be (`_at_least`), so only slots proven to be arguments are
+                # compared. The IDB's count only where the code says nothing.
+                if cc == 'cdecl' and '0x%08X' % ea in CDECL_ARGS:
+                    nargs = CDECL_ARGS['0x%08X' % ea]
+                elif cc == 'cdecl' and '0x%08X' % ea in CDECL_LOW:
+                    nargs = CDECL_LOW['0x%08X' % ea]
                 if cc == 'cdecl' and ea in hx_patches.type_fixes():  # a corrected prototype (each with its evidence)
                     ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
                     nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
-                if cc == 'cdecl' and '0x%08X' % ea in CDECL_ARGS:     # slots past what the callee reads are stale
-                    nargs = min(nargs, CDECL_ARGS['0x%08X' % ea])      # stack (deferred cleanup), not arguments
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past
                     nargs = len([x for x in o['type'][o['type'].index('(') + 1:].split(',') if x.strip() and '...' not in x])
                     # them read whatever the caller's frame holds (saved registers etc.)
-                stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 4),
+                stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 16),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': arg_masks(o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
@@ -181,7 +189,7 @@ def main(exp, metaf, protof, out):
             p = protos.get(hex(sa))
             if not p or p[0] not in ('thiscall', 'stdcall', 'cdecl') or p[1] is None: continue
             pops = 0 if p[0] == 'cdecl' else p[1]
-            stubs['0x%08X' % sa] = {'returns': 'fuzz', 'pops': pops, 'args': min(p[1], 4),
+            stubs['0x%08X' % sa] = {'returns': 'fuzz', 'pops': pops, 'args': min(p[1], 16),
                                     'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': []}
             if RET_KINDS.get('0x%08X' % sa): stubs['0x%08X' % sa]['ret'] = RET_KINDS['0x%08X' % sa]
             if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):

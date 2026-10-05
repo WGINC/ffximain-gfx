@@ -59,7 +59,15 @@ typed pointers to the originals, so a reconstruction reads the same memory and c
 function it replaces. String literals map back to the game's own strings. Each repair of Hex-Rays output is a
 rule applied wherever its pattern occurs: exact float constants, the x87 status word Hex-Rays leaves
 unassigned, unconsumed float callees, `_DWORD` signedness, exact stack frames where Hex-Rays splits one
-array, in-place buffers, unordered compares.
+array or one struct a callee fills (an address-taken local followed directly by a local read before it is
+assigned: `read_past_byref`, added 5 Oct for 0x10042020, 0x1001D940 and 0x1028AB50), in-place buffers,
+unordered compares.
+
+Hex-Rays also assumes every call clobbers EAX, ECX and EDX and that a call's type is what the IDB says. Where
+the original keeps a value live across a call to a callee that leaves the register alone, or passes the
+object in ECX to a callee the IDB typed without it, the translation passes garbage. `reg_kept_audit.py`,
+`ecx_this_sites.py` and the ECX/EDX use facts find these sites; each defect found is corrected as data
+(below), and the 5 Oct ones are listed in `docs/HISTORY.md`.
 
 Where no rule can repair the output, the correction is data:
 - `data/hx_patches/0xADDR.json`: the exact snippet and its replacement, with the reason and the disassembly

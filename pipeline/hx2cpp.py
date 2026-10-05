@@ -174,6 +174,22 @@ def filled_past_array(body):
         return True
     return False
 
+def read_past_byref(body):
+    # An address-taken local -- scalar or array -- followed directly by a local whose first use is a read:
+    # the callee given the address fills a struct that runs on into it, and Hex-Rays named the struct's
+    # later fields as separate locals (0x10042020: `int v22` BYREF at +0x24 handed to a virtual method that
+    # fills a 12-byte vector, then `float v23` at +0x28 and `int v24` at +0x2C read without being assigned).
+    # GCC places such locals anywhere, so they read garbage.
+    ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
+    start = body.find('\n\n'); start = start if start > 0 else 0
+    for (o1, a), (o2, b) in zip(ds, ds[1:]):
+        if 'BYREF' not in a.group(0) or a.group(3): continue
+        el = _ELEM.get(a.group(2).strip())
+        if not el or o1 + (int(a.group(5)[1:-1]) if a.group(5) else 1) * el != o2: continue
+        m = re.search(r'(?<![\w.>])%s\b(\s*=(?!=))?' % re.escape(b.group(4)), body[start:])
+        if m and not m.group(1): return True
+    return False
+
 def negative_index(body):
     # `v72[v5 - 1]` with v5 from 0: an index below a stack array reaches the local before it (one array
     # split by Hex-Rays), which GCC places elsewhere
@@ -214,9 +230,10 @@ def exact_frame(body):
     # A third: an address-taken array followed directly by a local of its element type (`float v3[12];`
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
+    # A fourth: an address-taken local followed directly by a local read before it is assigned (read_past_byref).
     decls = list(BYREF_DECL.finditer(body))
     if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body) \
-            or filled_past_array(body):
+            or filled_past_array(body) or read_past_byref(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body

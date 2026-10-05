@@ -334,7 +334,7 @@ class GfxMachine(G.Machine):
         n = 4 * site[0]
         if os.environ.get('FFXI_LIVE_TRACE'):
             print('foreign %08X pops %d ret %08X esp %08X' % (addr, n, ret_addr, esp), file=sys.stderr)
-        args = struct.unpack('<%dI' % min(n // 4, 4), uc.mem_read(esp + 4, 4 * min(n // 4, 4))) if n else ()
+        args = struct.unpack('<%dI' % min(n // 4, MAX_STUB_ARGS), uc.mem_read(esp + 4, 4 * min(n // 4, MAX_STUB_ARGS))) if n else ()
         self.calls.append((addr, _stackref(uc.reg_read(UC_X86_REG_ECX)), tuple(_stackref(a) for a in args)))
         k = self.rng.random()
         v = 0 if k < 0.6 else 1 if k < 0.7 else self.rng.randrange(2, 64) if k < 0.85 else self.rng.getrandbits(32)
@@ -430,9 +430,10 @@ class GfxMachine(G.Machine):
         if spec.get('returns') != 'fuzz':
             return super()._on_stub(uc, addr, size, _)
         esp = uc.reg_read(UC_X86_REG_ESP)
-        ret_addr, *args = struct.unpack('<5I', uc.mem_read(esp, 20))
-        ecx = uc.reg_read(UC_X86_REG_ECX)
         nargs = spec.get('args', spec.get('pops', 0))
+        k = max(4, min(nargs, MAX_STUB_ARGS))           # the return address and the arguments logged
+        ret_addr, *args = struct.unpack('<%dI' % (k + 1), uc.mem_read(esp, 4 * (k + 1)))
+        ecx = uc.reg_read(UC_X86_REG_ECX)
         masks = spec.get('masks') or []
         logged = tuple(a & (masks[i] if i < len(masks) else 0xFFFFFFFF) for i, a in enumerate(args[:nargs]))
         logged = tuple(_stackref(a) for a in logged)
@@ -697,6 +698,9 @@ def site_pops(m, ret):
 
 
 _CALLSITES = {}
+# a stub logs at most this many stack arguments (16 dwords: more than any callee in the graphics set takes;
+# it was 4 before 5 Oct, which left the fifth argument of CXiMovie_DrawFrame uncompared)
+MAX_STUB_ARGS = 16
 
 
 def site_pops_init():

@@ -13,7 +13,8 @@ the crash-safety rules the owner's `speedfix_hook` already follows.
 | Selection | All verified functions, or a list (address or name); minus an exclude list, the quarantine file, and the functions `speedfix_hook` patches inside when it is loaded | all verified |
 | Live toggle | Changing the ini (re-read every 60 frames) or the hotkey (Ctrl+Alt+F9: all swaps off/on) patches or restores at the next frame boundary | on |
 | Call counts | A per-function stub counts how often each swapped function runs (`xikit_calls_<pid>.csv`): which reconstructed code the game actually used | on |
-| Crash capture | An exception whose address is in reconstructed code (or a stub) is logged with the function, registers and the top of the stack, and the function is added to `xikit_quarantine.txt`, so the next start leaves it out | always |
+| Crash capture | An exception whose address is in reconstructed code (or a stub) is logged with the function, registers and the top of the stack, and the function is added to `xikit_quarantine.txt`, so the next start leaves it out. An exception in game code (or another module) called from reconstructed code: the stack is searched for return addresses into reconstructions (each must follow a `call`), the chain is logged, and the innermost is quarantined as `suspected` | always |
+| Untested functions | Functions whose gate trials did not run every instruction of the original (manifest flag 4) are left out | on; `include_untested=1` swaps them too |
 | Profiler | d3dprof (per call site, per frame) in the same process, chained | off; `profile=1` |
 | Log | `xikit.log` next to the DLL: what was checked, swapped, refused and why | always |
 
@@ -31,6 +32,11 @@ The manifest also carries flags that leave a function out by default, each with 
   reconstruction has no `__try`, so on an exception it does not behave the same;
 - **speedfix site**: `speedfix_hook` patches inside it (0x1006C4D7, 0x100CC688, 0x100CD011, 0x1006CDDC). Only
   left out when speedfix_hook.dll is loaded in the process.
+- **untested** (flag 4): the compared trials of the fuzz and live gates together did not run every instruction
+  of the original (`verification/coverage_clean.json`, `pipeline/combine_coverage.py`). A PASS says nothing
+  about code no trial reached. The first in-game crash (5 Oct) was in such code: `Frame_Render` passed every
+  gate with 53 of its 1424 instructions run, and its two calls of `CXiTimer::GetFps` lost the timer in ECX
+  (pol.exe, c0000005 at FFXiMain.dll+0x19230). Left out unless `include_untested=1`.
 
 ## How a patch is written (the same rules as speedfix_hook, plus the classic hot-patch ones)
 
@@ -81,8 +87,13 @@ All three pass every check:
 - the call count of `SetColor` is in the report;
 - `swap=0` written to the ini: re-read, all original bytes back;
 - `swap=1` with an exclude: the excluded function keeps its original bytes;
+- the default leaves `Frame_Render` (flag 4) unswapped; `include_untested=1` swaps it;
 - an access violation inside the reconstruction (a null `this`) is passed on to the game's own handlers,
   the function is restored at the next frame and written to `xikit_quarantine.txt`;
+- an access violation in the game's own code called from a reconstruction (`CDx::PushRenderTargetRet1` on a
+  null CDx calls the reconstructed `CDx_PushRenderTarget`, which calls the original
+  `CDx_PushRenderTargetTexture`, which faults): the innermost reconstructed caller, `CDx_PushRenderTarget`, is
+  restored at the next frame and listed as `suspected`; its caller stays swapped;
 - profile mode only: Present still reaches the device through both hooks; d3dprof writes its report at 600
   frames, and the report has the host's Present calls as `other module`, 601 calls in 600 frames (a frame is
   Present to Present, so the first window holds one more Present than frames).

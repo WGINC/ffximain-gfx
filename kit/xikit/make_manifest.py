@@ -12,7 +12,8 @@ Flags, which leave a function out by default:
   2  speedfix: speedfix_hook patches an instruction inside it (its documented sites)
   4  untested: the gate's compared trials did not reach all of the original's instructions
      (verification/coverage_clean.json, pipeline/combine_coverage.py); a PASS says nothing about that code.
-     Every function is flagged when the coverage file is missing.
+     Every function is flagged when the coverage file is missing. Also set for a PASS on fewer than THIN (10)
+     compared trials (verification/gate_clean_final.jsonl: trials in which the original returned, over all gates).
 Each line: RVA FLAGS EXPORT EXPECTED RELOCS NAME
   RVA       entry - 0x10000000
   EXPECTED  20 bytes of the analysed image from entry-4 to entry+16, as hex
@@ -29,6 +30,7 @@ import sp_solve as S
 from dump_verify import reloc_blocks
 from capstone.x86 import X86_OP_IMM
 
+THIN = 10
 SPEEDFIX_SITES = [0x1006C4D7, 0x100CC688, 0x100CD011, 0x1006CDDC]   # speedfix_hook.cpp: kReadbackCall, kActorQueryCalls, cpu tier
 BASE = 0x10000000
 
@@ -63,6 +65,12 @@ def main(recon, out, report=None):
     lines, rep = [], {'listed': 0, 'refused': {}}
     cp = os.path.join(ROOT, 'verification', 'coverage_clean.json')
     coverage = json.load(open(cp)) if os.path.exists(cp) else {}
+    # the trials in which the original returned normally (the only ones compared), over every gate of the record
+    # the tree is annotated with; a PASS on fewer than THIN of them is thin evidence
+    gp = os.path.join(ROOT, 'verification', 'gate_clean_final.jsonl')
+    def n_returned(r):                  # summed over the gates (combine_gates.py: 'gates': {name: [verdict, n]})
+        return sum(n for v, n in r['gates'].values()) if r.get('gates') else r['original_outcomes'].get('return', 0)
+    returned = {'0x%08X' % int(r['original'], 16): n_returned(r) for r in map(json.loads, open(gp))} if os.path.exists(gp) else {}
     for key in sorted(passed):
         ea = int(key, 16); why = None
         c = cases.get(key)
@@ -88,6 +96,7 @@ def main(recon, out, report=None):
         if ea in speedfix: flags |= 2
         cv = coverage.get('0x%08X' % ea)
         if not cv or cv.get('uncovered') is None or cv['uncovered'] or cv.get('missing'): flags |= 4
+        if returned.get('0x%08X' % ea, 0) < THIN: flags |= 4             # thin evidence: too few compared trials
         name = place.get('0x%x' % ea, {}).get('symbol') or c['name'].split()[0]
         lines.append('%08X %d %s %s %s %s' % (ea - BASE, flags, c['candidate'], raw.hex().upper(),
                                               ','.join(map(str, rel)) or '-', name.replace(' ', '_')))

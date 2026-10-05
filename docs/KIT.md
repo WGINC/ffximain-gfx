@@ -36,7 +36,9 @@ The manifest also carries flags that leave a function out by default, each with 
   of the original (`verification/coverage_clean.json`, `pipeline/combine_coverage.py`). A PASS says nothing
   about code no trial reached. The first in-game crash (5 Oct) was in such code: `Frame_Render` passed every
   gate with 53 of its 1424 instructions run, and its two calls of `CXiTimer::GetFps` lost the timer in ECX
-  (pol.exe, c0000005 at FFXiMain.dll+0x19230). Left out unless `include_untested=1`.
+  (pol.exe, c0000005 at FFXiMain.dll+0x19230). Also set when the PASS rests on fewer than 10
+  trials in which the original returned, over all gates together (thin evidence: `sub_10016320` passed on one
+  trial per gate). Left out unless `include_untested=1`.
 
 ## How a patch is written (the same rules as speedfix_hook, plus the classic hot-patch ones)
 

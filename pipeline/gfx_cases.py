@@ -2,6 +2,7 @@
 Usage: python3 gfx_cases.py gfx_export3.jsonl raw/meta.json protos_fixed.json cases.json"""
 import json, os, re, sys
 import hx_patches  # noqa: E402  (prototype corrections, data/type_fixes.json)
+import case_abs_reads  # noqa: E402  (uses $FFXI_DLL)
 DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 # what each callee can really return (ret_kinds.py): stubs answer within that range
@@ -206,7 +207,7 @@ def main(exp, metaf, protof, out):
         if fuzz: c['fuzz_ranges'] = fuzz
         if glob: c['globals'] = glob
         c.update(COMMON)
-        cases.append(c)
+        cases.append(case_abs_reads.add(c))      # globals its own code reads at a fixed address, fuzzed too
     json.dump(cases, open(out, 'w'), indent=0)
     print(len(cases), 'cases')
 

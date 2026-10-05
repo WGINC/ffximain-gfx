@@ -15,10 +15,13 @@
 #define SETCOLOR 0x100A4830u          /* CXiSkeletonActor::SetColor: this+0x660 = arg */
 #define GETCOLOR 0x100A4840u          /* CXiSkeletonActor::GetColor: returns this+0x660 */
 #define GAMMA    0x10002BE0u          /* Gfx_IsGammaSupported: [g_pCDx] ? byte [g_pCDx+0x915] : 0 */
+#define PUSHRT1  0x1000A800u          /* CDx::PushRenderTargetRet1: calls the original CDx_PushRenderTarget, returns 1 */
+#define FRAME_RENDER 0x10011A00u      /* Frame_Render: manifest flag 4 (its compared gate trials ran 53 of 1424 instructions) */
 
 typedef void (__attribute__((thiscall)) *SetColorFn)(void *, uint32_t);
 typedef uint32_t (__attribute__((thiscall)) *GetColorFn)(void *);
 typedef uint8_t (*GammaFn)(void);
+typedef char (__attribute__((thiscall)) *PushRt1Fn)(void *, int, int, int);
 
 static int presents, fails;
 static HRESULT __stdcall fake_present(void *d, const RECT *a, const RECT *b, HWND w, const void *r) { (void)d; (void)a; (void)b; (void)w; (void)r; presents++; return 0; }
@@ -80,8 +83,11 @@ int main(int argc, char **argv) {
   g_vtbl[15] = (void *)fake_present;
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
   *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\n"
-                         : "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
+     coverage; the default (untested functions left out) is checked below */
+  uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\n"
+                         : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
@@ -103,7 +109,16 @@ int main(int argc, char **argv) {
   touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "swap=0 (ini re-read): the original bytes are back");
-  touch_ini(ini, "[xikit]\nswap=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  /* the default: a function the gate's compared trials did not fully cover (manifest flag 4) is left out.
+     Frame_Render's trials ran 53 of its 1424 instructions */
+  uint8_t *frame = (uint8_t *)(uintptr_t)(FRAME_RENDER + rel);
+  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  present(130);
+  check(frame[0] == 0xE9, "include_untested=1: Frame_Render (flag 4) is swapped");
+  touch_ini(ini, "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  present(130);
+  check(!memcmp(frame, orig_frame, 5), "the default (include_untested=0): Frame_Render, flag 4, has its original bytes");
+  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, Gfx_IsGammaSupported not");
   /* a crash inside reconstructed code: SetColor on a null this */
@@ -116,6 +131,20 @@ int main(int argc, char **argv) {
   FILE *q = fopen("xikit_quarantine.txt", "r"); int quar = 0;
   if (q) { while (fgets(line, sizeof line, q)) if (strstr(line, "0x100A4830")) quar = 1; fclose(q); }
   check(quar, "it is in xikit_quarantine.txt");
+  /* a fault in the game's own code, called from a reconstruction: CDx::PushRenderTargetRet1 on a null CDx calls
+     CDx_PushRenderTarget (0x10009E20, swapped too), whose reconstruction calls the original
+     CDx_PushRenderTargetTexture, which faults reading the null CDx. The kit finds the reconstructions' return
+     addresses on the stack and quarantines the innermost, CDx_PushRenderTarget, as suspected. */
+  uint8_t *prt = (uint8_t *)(uintptr_t)(PUSHRT1 + rel);
+  check(prt[0] == 0xE9, "CDx::PushRenderTargetRet1 is swapped");
+  if (!setjmp(jb)) { armed = 1; ((PushRt1Fn)prt)(NULL, 0, 0, 0); printf("FAIL: no exception\n"); fails++; }
+  else printf("ok: the access violation in the game's code it called was raised and passed on\n");
+  present(2);
+  uint8_t *pr = (uint8_t *)(uintptr_t)(0x10009E20u + rel);
+  check(pr[0] != 0xE9 && prt[0] == 0xE9, "the innermost reconstructed caller (CDx_PushRenderTarget) was restored at the next frame, its caller not");
+  q = fopen("xikit_quarantine.txt", "r"); quar = 0;
+  if (q) { while (fgets(line, sizeof line, q)) if (strstr(line, "0x10009E20") && strstr(line, "suspected")) quar = 1; fclose(q); }
+  check(quar, "it is in xikit_quarantine.txt as suspected");
   if (profile) {
     /* d3dprof sits in front of the kit's copy: Present goes thunk -> kit_present -> the device's own method.
        Its report is rewritten every 600 frames; the host's own Present calls come from outside FFXiMain.dll */

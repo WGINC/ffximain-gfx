@@ -1,6 +1,6 @@
 {
- "why": "Both halvings compile to `sub eax,ecx; cdq; sub eax,edx; sar eax,1; add eax,ecx` (0x10125460..0x10125467 and 0x10125472..0x10125479): cdq/sub/sar is MSVC's signed division by 2 of the 32-bit difference. Hex-Rays typed the fields _DWORD (unsigned), so the difference was divided unsigned (a logical shift) and a negative difference came out with its top bit set. The difference stays a wrapping 32-bit subtraction and is divided as int.",
- "evidence": "Disassembly of 0x1012545A..0x1012547B. runs/r7 gate: FAIL trial 51, memory differs at 0x30001C23 (original 0x30, reconstruction 0xB0); localize.py: first divergent write 0x1012547B [esi+0x10] = 0x309F7B00 vs 0xB09F7B00.",
+ "why": "Both halvings compile to `sub eax,ecx; cdq; sub eax,edx; sar eax,1; add eax,ecx` (0x10125460..0x10125467 and 0x10125472..0x10125479): cdq/sub/sar is MSVC's signed division by 2 of the 32-bit difference. Hex-Rays typed the fields _DWORD (unsigned), so the difference was divided unsigned (a logical shift) and a negative difference came out with its top bit set. The difference stays a wrapping 32-bit subtraction and is divided as int. Four angle wraps lost their comparison: Hex-Rays wrote `if ( (vA | vB) != 0 )` with vA `// c0` and vB `// c2` never assigned. Each original is `fcomp dword ptr [0x10329D28]` (-3.1415, the float -0x1.921cac0000000p+1), `fnstsw ax`, `test ah, 5`, `jp` past the `fadd [0x10329D2C]` (+6.283): the jump is taken when AH&5 has even parity (C0 = C2 = 0: not below; C0 = C2 = 1: unordered), so 6.283 is added exactly when the angle is below -3.1415, ordered. That is the C comparison `v < -0x1.921cac0000000p+1` (false for NaN). The first three compare ST0 as computed (`fst [g]` then `fcomp`), the fourth the stored float (`fld [0x1036E634]`); the patch compares the variable holding the value stored to the global, as the rest of the tree does for `fst`/`fcomp` pairs.",
+ "evidence": "Disassembly of 0x1012545A..0x1012547B. runs/r7 gate: FAIL trial 51, memory differs at 0x30001C23 (original 0x30, reconstruction 0xB0); localize.py: first divergent write 0x1012547B [esi+0x10] = 0x309F7B00 vs 0xB09F7B00. Disassembly of 0x10125707..0x10125738, 0x10125777..0x101257A2, 0x101257E9..0x10125814 and 0x10125915..0x10125934; constants read from the image: 0x10329D28 = -3.1415 (-0x1.921cac0000000p+1), 0x10329D2C = 6.283, 0x10329D30 = 3.1415; Intel SDM: FCOM sets C3,C2,C0 = 1,1,1 for unordered, C0 = 1 for ST0 < source; GCC -Wmaybe-uninitialized reports all eight flag variables.",
  "text_sha1": "947423c7938a33e80d041bbac77d98d02dfa4494",
  "replace": [
   [
@@ -10,6 +10,22 @@
   [
    "*((_DWORD *)this + 4) = v16 + (*((_DWORD *)this + 2) - v16) / 2;",
    "*((_DWORD *)this + 4) = v16 + (int)(*((_DWORD *)this + 2) - v16) / 2;"
+  ],
+  [
+   "          v27 = flt_1036E5F4;\n          if ( (v28 | v29) != 0 )",
+   "          v27 = flt_1036E5F4;\n          if ( v27 < -0x1.921cac0000000p+1 )"
+  ],
+  [
+   "          v32 = flt_1036E5F4;\n          if ( (v33 | v34) != 0 )",
+   "          v32 = flt_1036E5F4;\n          if ( v32 < -0x1.921cac0000000p+1 )"
+  ],
+  [
+   "        v27 = flt_1036E5F4;\n        if ( (v39 | v40) != 0 )",
+   "        v27 = flt_1036E5F4;\n        if ( v27 < -0x1.921cac0000000p+1 )"
+  ],
+  [
+   "        v48 = flt_1036E634;\n        if ( (v49 | v50) != 0 )",
+   "        v48 = flt_1036E634;\n        if ( v48 < -0x1.921cac0000000p+1 )"
   ]
  ]
 }

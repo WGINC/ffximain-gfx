@@ -10,6 +10,9 @@ A function is listed only if (docs/KIT.md):
 Flags, which leave a function out by default:
   1  SEH: the original installs an exception frame (reads fs:[0] in its first 64 bytes); the reconstruction has none
   2  speedfix: speedfix_hook patches an instruction inside it (its documented sites)
+  4  untested: the gate's compared trials did not reach all of the original's instructions
+     (verification/coverage_clean.json, pipeline/combine_coverage.py); a PASS says nothing about that code.
+     Every function is flagged when the coverage file is missing.
 Each line: RVA FLAGS EXPORT EXPECTED RELOCS NAME
   RVA       entry - 0x10000000
   EXPECTED  20 bytes of the analysed image from entry-4 to entry+16, as hex
@@ -58,6 +61,8 @@ def main(recon, out, report=None):
     owner = lambda a: (lambda j: fstart[j][2] if j >= 0 and a < fstart[j][1] else None)(bisect.bisect_right(fk, a) - 1)
     speedfix = {owner(a) for a in SPEEDFIX_SITES}
     lines, rep = [], {'listed': 0, 'refused': {}}
+    cp = os.path.join(ROOT, 'verification', 'coverage_clean.json')
+    coverage = json.load(open(cp)) if os.path.exists(cp) else {}
     for key in sorted(passed):
         ea = int(key, 16); why = None
         c = cases.get(key)
@@ -81,17 +86,20 @@ def main(recon, out, report=None):
         head = bytes(img[ea - BASE:ea - BASE + 64])
         if b'\x64\xA1\x00\x00\x00\x00' in head or b'\x64\xFF\x35\x00\x00\x00\x00' in head: flags |= 1
         if ea in speedfix: flags |= 2
+        cv = coverage.get('0x%08X' % ea)
+        if not cv or cv.get('uncovered') is None or cv['uncovered'] or cv.get('missing'): flags |= 4
         name = place.get('0x%x' % ea, {}).get('symbol') or c['name'].split()[0]
         lines.append('%08X %d %s %s %s %s' % (ea - BASE, flags, c['candidate'], raw.hex().upper(),
                                               ','.join(map(str, rel)) or '-', name.replace(' ', '_')))
     rd = open(recon, 'rb').read(); import zlib
     with open(out, 'w', newline='\n') as f:
-        f.write('# xikit manifest: RVA FLAGS EXPORT EXPECTED RELOCS NAME (kit/xikit/make_manifest.py; flags 1=SEH 2=speedfix site)\n')
+        f.write('# xikit manifest: RVA FLAGS EXPORT EXPECTED RELOCS NAME (kit/xikit/make_manifest.py; flags 1=SEH 2=speedfix site 4=untested)\n')
         f.write('# FFXiMain.dll TimeDateStamp 0x%08X\n' % pe.FILE_HEADER.TimeDateStamp)
         f.write('!game_timestamp %08X\n!recon_size %d\n!recon_crc32 %08X\n' % (pe.FILE_HEADER.TimeDateStamp, len(rd), zlib.crc32(rd) & 0xFFFFFFFF))
         f.write('\n'.join(lines) + '\n')
     rep['listed'] = len(lines)
-    rep['flags'] = {'seh': sum(1 for l in lines if int(l.split()[1]) & 1), 'speedfix': sum(1 for l in lines if int(l.split()[1]) & 2)}
+    rep['flags'] = {'seh': sum(1 for l in lines if int(l.split()[1]) & 1), 'speedfix': sum(1 for l in lines if int(l.split()[1]) & 2),
+                    'untested': sum(1 for l in lines if int(l.split()[1]) & 4)}
     if report: json.dump(rep, open(report, 'w'), indent=1)
     print('%d listed (%s); %d refused' % (len(lines), rep['flags'], len(rep['refused'])))
     for k, v in sorted(rep['refused'].items()): print('  refused %s: %s' % (k, v))

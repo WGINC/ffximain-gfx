@@ -28,7 +28,10 @@ the pipeline says so: the gate's verdict is UNRESOLVED and names the call site.
 | A direct callee's stack pop | its `ret N`; a D3DX CPU-dispatch thunk resolves to its default implementation's `ret N` | `purges.py`, `data/purges.json` | the code itself |
 | An indirect call's pop | the caller's own stack balance: equal depth wherever paths meet, zero at every `ret`, solved by exact elimination; a value only where the equations pin it. After `and esp, -N` the depth carries the padding as a variable no equation may pin. Switch tables are followed only where the code in front bounds the index (one- and two-level MSVC forms) | `sp_solve.py`, `data/sp_solved.json` (4337 calls) | `--selftest` hides the 20642 known `ret N` of direct calls and solves them back: 20641 right, and the one miss is in a function normal use rejects, so 0 wrong values reach the output |
 | A virtual call's callee set | vtables (944; the game classes have no RTTI); an object running method F can only have a vtable holding F, or what F's direct callers pass | `vcall_resolve.py`, `data/vcalls.json` | 0 disagreements with the solver or with measured pops |
-| Whether a function reads its entry ECX | data flow with partial registers; `or ecx,-1` / `xor ecx,ecx` are writes; `push ecx` is undecided | `vcall_resolve.py`, `data/ecx_use.json` | agrees with 1151 of 1152 IDB `__thiscall` declarations; the 10 IDB `__stdcall` declarations it showed wrong are `__thiscall` in the IDB since 3 Oct (9 retyped, 1 already was) |
+| Whether a function reads its entry ECX | data flow with partial registers; `or ecx,-1` / `xor ecx,ecx` are writes; `and ecx, 0xFF` reads only CL (the other bits become 0 whatever ECX held), and likewise for CH and CX; `push ecx` is undecided | `vcall_resolve.py`, `data/ecx_use.json` | agrees with 1151 of 1152 IDB `__thiscall` declarations; the 10 IDB `__stdcall` declarations it showed wrong are `__thiscall` in the IDB since 3 Oct (9 retyped, 1 already was) |
+| Whether a function reads its entry EDX | the same analysis for EDX (`edx_inputs.py`): `cdq`, one-operand `mul`/`imul` and calls write it, `or edx,-1` / `and edx,0` are writes, `and edx, 0xFF` reads only DL | `edx_inputs.py`, `data/edx_use.json` | before 5 Oct, `or edx,-1` and `mov dl,..; and edx,1` counted as reads: 5 `orig::` declarations looked wrong that were right |
+| Whether ECX holds the object at a virtual call | the caller's code, over its control flow: `call [R+4k]` where R was loaded from [O+0] and ECX holds O on every path to the call; `pushed` when O is also the first stack argument (COM) | `ecx_this_sites.py`, `data/ecx_this_sites.json` (7339 sites; ECX holds the object at 3811, 3701 of them not pushed) | each claim holds on every path; a join keeps a register's value only where all paths agree |
+| A register value the original keeps live across a call | the callee and everything it calls leave EAX/ECX/EDX untouched (no instruction writes any part; a jump table only where the code in front bounds the index), and the caller then reads the value or calls a function that reads it on entry | `reg_kept_audit.py`, `data/reg_kept_audit.json` | Hex-Rays assumes every call clobbers these registers; each `use` site needs the translation to pass the kept value |
 | A D3D8 method call's pop | the D3D8 SDK header (`data/com_spec.json`), once the object's interface is proven: `data/com_fields.json` lists access paths with the proof, and its checkable parts (which instructions write the global or the offset, who refers to the function that fills it) are recomputed on every run | `com_calls.py`, `data/com_calls.json` (217 calls) | an entry whose check fails is dropped; all agree with the solver where both apply |
 | A call's type as the IDB declares it | the IDB's typed prototypes (`src: typed` in the export); `cast` is never a fact | `callsites.py`, `data/callsite_args.json` | |
 | A pop measured on real code | the original running in the emulator, real code only (not a stub, not a fake COM object of uncertain interface) | `real_sp.py`, `data/real_sp.json` | |
@@ -98,6 +101,21 @@ Verdicts:
 
 A PASS covers the comparable trials. A trial stopped as UNRESOLVED is not compared, and the record lists
 it (`unresolved`), so a PASS with such a trial says so.
+
+**What a PASS covers.** A PASS says nothing about code no compared trial reached. With `FFXI_COVERAGE=1` the
+gate records, per function, which of the original's own instructions (its extent in `data/func_extents.json`)
+ran in the compared trials, and which of its calls; `combine_coverage.py` joins the fuzz and live gates
+(`verification/coverage_clean.json`). The 5 Oct crash showed why this matters: `Frame_Render` (0x10011A00)
+passed every gate, but the compared trials ran 53 of its 1424 instructions and never reached the two calls of
+`CXiTimer::GetFps` that the translation made without the timer in ECX. The in-game kit leaves a function out
+by default unless every instruction was covered (`docs/KIT.md`, flag 4).
+
+**ECX at calls.** A stub call's ECX is compared when ECX carries `this`: where the IDB declares the call
+`__thiscall`; where the original enters a virtual method with ECX = the object whose vtable it calls through,
+not also pushed (`data/ecx_this_sites.json`); or where the call is direct to a function `data/type_fixes.json`
+corrects to `__thiscall` (each entry names the instructions that read ECX). Elsewhere ECX is not compared,
+which is no claim either way. Before 5 Oct only the IDB's declarations counted, so a virtual call Hex-Rays
+typed as a cast without `this` (`callsite_args.json` `src: cast`) was never checked.
 
 **Live inputs** (`FFXI_LIVE`): `live_state.py` turns a memory dump of the running game into the gate's
 inputs, so fields the game always fills are not fuzzed. It uses a dump only when `dump_verify.py` has shown

@@ -148,6 +148,9 @@ def main(exp, metaf, protof, out):
                     if cc == 'cdecl': cc = 'stdcall'
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
+                if cc == 'cdecl' and ea in hx_patches.type_fixes():  # a corrected prototype (each with its evidence)
+                    ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
+                    nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
                 if cc == 'cdecl' and '0x%08X' % ea in CDECL_ARGS:     # slots past what the callee reads are stale
                     nargs = min(nargs, CDECL_ARGS['0x%08X' % ea])      # stack (deferred cleanup), not arguments
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past

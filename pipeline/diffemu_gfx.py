@@ -12,7 +12,7 @@ Additions, all applied identically to the original and the reconstruction:
     case "struct_globals": {"0xADDR": {"size": "0x478", "com": {"8": "IDirect3DDevice8"}}}
     puts a fuzzed struct there whose listed fields are fake objects (the D3D holder, CDx).
 """
-import bisect, json, os, random, struct, sys, time
+import bisect, json, os, random, re, struct, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 # Live mode (FFXI_LIVE=live.json from live_state.py): inputs come from a memory dump of the running game.
@@ -686,7 +686,13 @@ def site_pops(m, ret):
         return None
     pops = next(iter(srcs.values()))
     if pops % 4: return None
-    this = bool(typed) and typed['cc'] == 'thiscall'       # unknown: ECX is not compared (no claim either way)
+    # ECX carries `this` where the IDB declares __thiscall, where the original's own code enters the callee with
+    # ECX = the object whose vtable it calls through, not also pushed as an argument (data/ecx_this_sites.json),
+    # or where the call is direct to a function data/type_fixes.json corrects to __thiscall (each entry names the
+    # instructions that read or pass on ECX): the reconstruction must then pass that object in ECX too.
+    # Otherwise ECX is not compared (no claim either way)
+    direct = int(call.op_str, 16) if re.fullmatch(r'0x[0-9a-f]+', call.op_str) else None
+    this = (bool(typed) and typed['cc'] == 'thiscall') or k in _CALLSITES['ecx_this'] or direct in _CALLSITES['thiscall_fix']
     return pops // 4, this, (typed['args'] if typed else pops // 4)
 
 
@@ -698,6 +704,10 @@ def site_pops_init():
         d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
         ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
         _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
+        _CALLSITES['ecx_this'] = {k for k, v in ld('ecx_this_sites.json').items()
+                                  if not k.startswith('_') and v['ecx'] and not v['pushed']}
+        _CALLSITES['thiscall_fix'] = {int(k, 16) for k, v in ld('type_fixes.json').items()
+                                      if re.search(r'__thiscall\s*\(', v['type'])}
         _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
         _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
         _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
@@ -826,6 +836,7 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
     patches = []; rng = random.Random(ts * 7919 + 1); top = G.SANDBOX + 0x700000; tried = set()
     m.cur_args = args
     def run():
+        if getattr(m, 'cov_run', None) is not None: m.cov_run.clear()    # coverage: this run's instructions only
         m.rng = random.Random(ts); m.wild = 0; return m.call(orig, conv, this, args, limit)
     for _ in range(3 + repairs):
         before = len(m.demand); r = run()
@@ -968,9 +979,18 @@ def run_case(m, case, trials, seed):
     touched += [(int(g, 16), 4) for g in list(case.get("globals", {})) + list(case.get("com_globals", {})) + list(case.get("struct_globals", {}))]
     touched += [(int(e["addr"], 16), 4) for e in case.get("input_ranges", []) if e["where"] == "global"]
     saved = [(a, bytes(m.uc.mem_read(a, n))) for a, n in touched]
+    # FFXI_COVERAGE=1: which of the original's own instructions ran in the trials that were compared (the original
+    # returned and the reconstruction ran). A PASS says nothing about code no compared trial reached.
+    cov = cov_hooks = None
+    if os.environ.get('FFXI_COVERAGE'):
+        cov_ins, cov_calls = _own_insns(orig)
+        m.cov_run = set(); cov = set()
+        cov_hooks = [m.uc.hook_add(UC_HOOK_CODE, lambda uc, addr, size, _: m.cov_run.add(addr), begin=lo, end=hi - 1)
+                     for lo, hi in _extent(orig)]
     for t in range(trials):
         this, args, trial_seed = setup_trial(m, case, fz)
         a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
+        ran = set(m.cov_run) if cov is not None else None
         if a.status == 'unresolved': unresolved[a.detail] = unresolved.get(a.detail, 0) + 1
         if a.status in ('fault', 'limit', 'unresolved'):
             b = None            # not compared (below): the reconstruction need not run
@@ -999,18 +1019,56 @@ def run_case(m, case, trials, seed):
                                 # A reconstruction that crashes where the original returns stays a FAIL.
         else:
             why = G.compare(a, b, 'int' if ret == 'word' else ret)
+        if cov is not None and b is not None and a.status not in ('fault', 'limit', 'unresolved'):
+            cov |= ran
         if why:
             fails += 1
             if first_fail is None:
                 first_fail = {"trial": t, "this": hex(this) if this else None, "args": [hex(x) for x in args], "why": why}
     for a, b_ in saved: m.uc.mem_write(a, b_)
     m.ctx = m.uc.context_save()
+    coverage = None
+    if cov is not None:
+        for h in cov_hooks: m.uc.hook_del(h)
+        m.cov_run = None
+        coverage = {"insns": len(cov_ins), "covered": len(cov & cov_ins),
+                    "uncovered": ['0x%08X' % x for x in sorted(cov_ins - cov)],
+                    "calls": len(cov_calls), "calls_uncovered": ['0x%08X' % x for x in sorted(cov_calls - cov)]}
     ok_runs = statuses.get("return", 0)
     verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
-            "unresolved": unresolved}
+            "unresolved": unresolved, **({"coverage": coverage} if coverage is not None else {})}
+
+
+_COV_EXT = {}
+
+
+def _extent(f):
+    """the function's pieces [(lo, hi)] (data/func_extents.json)"""
+    if not _COV_EXT:
+        _COV_EXT.update({int(k, 16): v for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json'))).items()})
+    return [tuple(x) for x in _COV_EXT.get(f, [])]
+
+
+_OWN = {}
+
+
+def _own_insns(f):
+    """(instruction addresses, call instruction addresses) of the function's own pieces, decoded from the image"""
+    if f not in _OWN:
+        from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
+        import pefile
+        if '_imgb' not in _OWN:
+            p = pefile.PE(os.environ['FFXI_DLL']); _OWN['_imgb'] = (bytes(p.get_memory_mapped_image()), p.OPTIONAL_HEADER.ImageBase)
+        img, base = _OWN['_imgb']; ins, calls = set(), set()
+        for lo, hi in _extent(f):
+            for i in _Cs(_A, _M).disasm(img[lo - base:hi - base], lo):
+                ins.add(i.address)
+                if i.mnemonic == 'call': calls.add(i.address)
+        _OWN[f] = (ins, calls)
+    return _OWN[f]
 
 def _x87_round(st0, kind):
     """80-bit (mantissa, sign|exponent) -> the value rounded to float or double, as bytes"""

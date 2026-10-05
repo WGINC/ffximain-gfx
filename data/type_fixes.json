@@ -88,5 +88,25 @@
   "type": "int __cdecl()",
   "why": "Returns EAX from its last call (call 0x10015100; pop ecx; ret) and leaves the x87 stack empty (fpret.py: none); the IDB typed it float(), which tells Hex-Rays its callers find a value in ST0.",
   "evidence": "disassembly 0x1001E470..0x1001E4A4; data/fpret.json"
+ },
+ "0x101C4CE0": {
+  "type": "int __thiscall(void *self, int a1)",
+  "why": "Reads ECX at entry: `mov ecx,[ecx+4]; jmp 0x101C2D80` (a forwarder to a member of the object at this+4). The IDB types it int __stdcall(int), without the object; every caller loads it into ECX first (0x1001205C, 0x1023A9A7, 0x10243D66: `mov ecx,[0x10662DCC]`).",
+  "evidence": "disasm 0x101C4CE0..0x101C4CE3; data/ecx_use.json; data/protos_fixed.json 0x101C4CE0: thiscall, 1 stack argument (it pops 4: ret 4 in 0x101C4170, data/purges.json)."
+ },
+ "0x10014A20": {
+  "type": "bool __thiscall(void *self)",
+  "why": "Takes the object in ECX and passes it on: it calls 0x10014C90 with ECX unchanged, which keeps it (`mov esi, ecx`) and passes it in ECX to 0x10014CB0 and 0x10093B70. The IDB types it bool(), without the object; its one caller sets ECX first (0x10012154 `mov ecx, esi`).",
+  "evidence": "disasm 0x10014A20..0x10014A2A and 0x10014C90..0x10014CA8; data/ecx_use.json 0x10014C90: `mov esi, ecx`; data/protos_fixed.json 0x10014A20: thiscall, 0 stack arguments."
+ },
+ "0x10014C10": {
+  "type": "bool __thiscall(void *self)",
+  "why": "Takes the object in ECX: 0x10014C11 `mov esi, ecx`, passed on in ECX to 0x10014C60 (0x10014C3D), and ECX is still the entry value at the call to 0x1019C4F0. The IDB types it bool(), without the object; both callers set ECX first (0x100013CA and 0x100016A3: `mov ecx,[0x104568FC]`).",
+  "evidence": "disasm 0x10014C10..0x10014C54; data/ecx_use.json 0x10014C10: `mov esi, ecx`; data/protos_fixed.json 0x10014C10: thiscall, 0 stack arguments."
+ },
+ "0x1021D4C0": {
+  "type": "int __cdecl(int rcLeft, int rcTop, int rcRight, int rcBottom, float *scale)",
+  "why": "Takes a rectangle by value (4 ints) and a pointer to 4 floats on the stack. Its frame is 0x98 bytes (0x1021D4C6 `sub esp, 0x94`, 0x1021D4CE `push esi`), and it reads [esp+0x9C], [esp+0xA0], [esp+0xA4], [esp+0xA8] (the rectangle, read with fild and written back) and [esp+0xAC] (0x1021D535 `mov esi,[esp+0xAC]`, then [esi], [esi+4], [esi+8], [esi+0xC]): argument slots 1-5 once the two COM calls before them have popped their arguments (device +0xF4 SetTexture, texture +0x38 GetLevelDesc: stdcall by the D3D8 header). It pops nothing (ret, data/purges.json), and its one caller writes exactly those 5 dwords before the call. The IDB types it int __cdecl(), so Hex-Rays named the five slots as locals (v35..v43 at [ebp+4h]..[ebp+14h]) that the translation never set.",
+  "evidence": "disasm 0x1021D4C0..0x1021D58E; caller Frame_Render 0x10012A46..0x10012A7A: `lea edi,[esp+0x28]; push edi; sub esp,0x10; mov edi,esp; mov [edi],eax(0); mov [edi+4],ebx(0, 0x10011A10 xor ebx,ebx, the only write before the epilogue); mov [edi+8],ecx(0x280); mov [edi+0xC],edx(0x200)`; data/purges.json 0x1021D4C0: 0."
  }
 }

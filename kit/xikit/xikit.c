@@ -57,7 +57,7 @@ typedef struct {
 } Fn;
 
 typedef struct {
-  int swap, count_calls, profile, respect_speedfix, include_flagged, report_every, hotkey, log_each;
+  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -95,6 +95,9 @@ static const char DEFAULT_INI[] =
   "exclude=\r\n"
   "; 1: also swap functions flagged SEH or speedfix-site (see the manifest)\r\n"
   "include_flagged=0\r\n"
+  "; 1: also swap functions whose gate runs did not reach all of the original's code (flag 4 in the manifest).\r\n"
+  ";    Their PASS says nothing about the code no compared trial reached; only= / exclude= still apply\r\n"
+  "include_untested=0\r\n"
   "; 1: leave out the functions speedfix_hook patches inside, when speedfix_hook.dll is loaded\r\n"
   "respect_speedfix=1\r\n"
   "; 1: count the calls of every swapped function (xikit_calls_<pid>.csv)\r\n"
@@ -115,6 +118,7 @@ static void read_cfg(void) {
   c.profile = GetPrivateProfileIntA("xikit", "profile", 0, g_ini);
   c.respect_speedfix = GetPrivateProfileIntA("xikit", "respect_speedfix", 1, g_ini);
   c.include_flagged = GetPrivateProfileIntA("xikit", "include_flagged", 0, g_ini);
+  c.include_untested = GetPrivateProfileIntA("xikit", "include_untested", 0, g_ini);
   c.report_every = GetPrivateProfileIntA("xikit", "report_every", 600, g_ini);
   c.hotkey = GetPrivateProfileIntA("xikit", "hotkey", 1, g_ini);
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
@@ -153,6 +157,7 @@ static int wanted(const Fn *f) {
   if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
+  if ((f->flags & 4) && !g_cfg.include_untested) return 0;
   if (g_cfg.only[0] && !listed(g_cfg.only, f)) return 0;
   if (g_cfg.exclude[0] && listed(g_cfg.exclude, f)) return 0;
   return 1;
@@ -341,6 +346,66 @@ static int cmp_target(const void *a, const void *b) {
   return x < y ? -1 : x > y;
 }
 
+static Fn *fn_at(uint32_t a) {              /* the swapped function whose reconstruction holds address a */
+  Fn *f = NULL; int lo = 0, hi = g_nfn - 1;
+  if (a < g_recon_lo || a >= g_recon_hi) return NULL;
+  while (lo <= hi) { int m = (lo + hi) / 2; if ((uint32_t)(uintptr_t)g_by_target[m]->target <= a) { f = g_by_target[m]; lo = m + 1; } else hi = m - 1; }
+  return f;
+}
+
+static int after_call(uint32_t r) {          /* r follows a call instruction (rel32, or FF /2 through a register or memory) */
+  const uint8_t *p = (const uint8_t *)(uintptr_t)r;
+  if (IsBadReadPtr(p - 7, 7)) return 0;
+  if (p[-5] == 0xE8) return 1;
+  if (p[-2] == 0xFF && ((p[-1] >> 3) & 7) == 2 && (p[-1] >> 6) == 3) return 1;              /* call reg */
+  if (p[-2] == 0xFF && ((p[-1] >> 3) & 7) == 2 && (p[-1] >> 6) == 0 && (p[-1] & 7) != 4 && (p[-1] & 7) != 5) return 1;
+  if (p[-3] == 0xFF && ((p[-2] >> 3) & 7) == 2 && (p[-2] >> 6) == 1) return 1;              /* call [reg+d8] */
+  if (p[-6] == 0xFF && ((p[-5] >> 3) & 7) == 2 && ((p[-5] >> 6) == 2 || (p[-5] & 0xC7) == 5)) return 1;   /* [reg+d32], [abs] */
+  if (p[-4] == 0xFF && ((p[-3] >> 3) & 7) == 2 && (p[-3] >> 6) == 1 && (p[-3] & 7) == 4) return 1;     /* [sib+d8] */
+  if (p[-7] == 0xFF && ((p[-6] >> 3) & 7) == 2 && (p[-6] >> 6) == 2 && (p[-6] & 7) == 4) return 1;     /* [sib+d32] */
+  return 0;
+}
+
+/* an exception outside reconstructed code (in the game or another module). If a reconstruction called the code
+   that faulted, its return address is on this thread's stack: the innermost such caller is quarantined as
+   suspected (the original may have been given what the reconstruction passed it -- a wrong ECX crashed
+   CXiTimer::GetFps this way). Only faults, not the exceptions programs raise on purpose. */
+static LONG caller_fault(EXCEPTION_POINTERS *e) {
+  DWORD code = e->ExceptionRecord->ExceptionCode;
+  if (code != EXCEPTION_ACCESS_VIOLATION && code != EXCEPTION_ILLEGAL_INSTRUCTION && code != EXCEPTION_PRIV_INSTRUCTION
+      && code != EXCEPTION_INT_DIVIDE_BY_ZERO && code != EXCEPTION_STACK_OVERFLOW && code != EXCEPTION_ARRAY_BOUNDS_EXCEEDED)
+    return EXCEPTION_CONTINUE_SEARCH;
+  CONTEXT *c = e->ContextRecord;
+  uint32_t *sp = (uint32_t *)(uintptr_t)c->Esp, *top = sp;
+  MEMORY_BASIC_INFORMATION mb;                   /* the committed stack above ESP (no fs: access, which GCC treats as UB) */
+  if (VirtualQuery(sp, &mb, sizeof mb)) top = (uint32_t *)((uint8_t *)mb.BaseAddress + mb.RegionSize);
+  Fn *chain[4]; uint32_t at[4]; int n = 0;
+  for (uint32_t *q = sp; q < top && q < sp + 16384 && n < 4; q++) {
+    if (IsBadReadPtr(q, 4)) break;
+    Fn *f = fn_at(*q);
+    if (f && after_call(*q)) { chain[n] = f; at[n] = *q; n++; }
+  }
+  if (!n) return EXCEPTION_CONTINUE_SEARCH;
+  uint32_t eip = c->Eip; HMODULE mod = NULL; char mname[MAX_PATH] = "?";
+  if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)eip, &mod))
+    GetModuleFileNameA(mod, mname, sizeof mname);
+  const char *base = strrchr(mname, '\\'); base = base ? base + 1 : mname;
+  uint32_t game_ea = (eip >= g_game_lo && eip < g_game_hi) ? eip - g_rel : 0;
+  klog("EXCEPTION 0x%08lX at 0x%08lX in %s (analysed 0x%08X), called from reconstructed %s (original 0x%08X, return 0x%08X)%s%s%s%s: "
+       "eax=%08lX ebx=%08lX ecx=%08lX edx=%08lX esi=%08lX edi=%08lX ebp=%08lX esp=%08lX",
+       code, (unsigned long)eip, base, game_ea, chain[0]->name, chain[0]->rva + ANALYSED_BASE, at[0],
+       n > 1 ? " <- " : "", n > 1 ? chain[1]->name : "", n > 2 ? " <- " : "", n > 2 ? chain[2]->name : "",
+       c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp);
+  Fn *f = chain[0];
+  if (!f->quarantined) {
+    f->quarantined = 1; g_dirty = 1;
+    FILE *q = fopen(g_quar, "a");
+    if (q) { fprintf(q, "0x%08X %s suspected: exception 0x%08lX in %s (analysed 0x%08X) it called\n", f->rva + ANALYSED_BASE, f->name, code, base, game_ea); fclose(q); }
+    klog("quarantined %s (suspected: the fault is in code it called): restored at the next frame if the game survives, left out from the next start", f->name);
+  }
+  return EXCEPTION_CONTINUE_SEARCH;
+}
+
 static LONG CALLBACK on_exception(EXCEPTION_POINTERS *e) {
   DWORD code = e->ExceptionRecord->ExceptionCode;
   if (code == EXCEPTION_BREAKPOINT || code == EXCEPTION_SINGLE_STEP || code == 0xE06D7363u || code == 0x406D1388u
@@ -352,7 +417,7 @@ static LONG CALLBACK on_exception(EXCEPTION_POINTERS *e) {
     while (lo <= hi) { int m = (lo + hi) / 2; if ((uint32_t)(uintptr_t)g_by_target[m]->target <= eip) { f = g_by_target[m]; lo = m + 1; } else hi = m - 1; }
   } else if (g_stubs && eip >= (uint32_t)(uintptr_t)g_stubs && eip < (uint32_t)(uintptr_t)g_stubs + MAXFN * STUB_LEN) {
     f = &g_fn[(eip - (uint32_t)(uintptr_t)g_stubs) / STUB_LEN];
-  } else return EXCEPTION_CONTINUE_SEARCH;
+  } else return caller_fault(e);
   CONTEXT *c = e->ContextRecord; uint32_t *sp = (uint32_t *)(uintptr_t)c->Esp;
   klog("EXCEPTION 0x%08lX at 0x%08lX in reconstructed %s (original 0x%08X, +0x%lX into the reconstruction): "
        "eax=%08lX ebx=%08lX ecx=%08lX edx=%08lX esi=%08lX edi=%08lX ebp=%08lX esp=%08lX; [esp]=%08X %08X %08X %08X",

@@ -131,6 +131,22 @@ def covered(part, written_parts):
     return part in have and (part != 'ecx' or 'ecx' in written_parts)
 
 
+def masked_read(i, parts):
+    """`and r32, imm` whose immediate keeps only bits 0-7, 8-15 or 0-15: the result's other bits are 0 whatever
+    the register held (Intel SDM, AND), so the instruction reads only the part those bits are in and writes the
+    whole register. ({the part read}, or None when the instruction is not such an `and`.) parts: the register's
+    names in the order 32-bit, 16-bit, low byte, high byte"""
+    ops = i.operands
+    if i.mnemonic != 'and' or len(ops) != 2 or ops[0].type != X86_OP_REG or ops[1].type != X86_OP_IMM: return None
+    full, x, lo, hi = parts
+    if i.reg_name(ops[0].reg) != full: return None
+    v = ops[1].imm & 0xFFFFFFFF
+    if v & ~0xFF == 0: return {lo}
+    if v & ~0xFF00 == 0: return {hi}
+    if v & ~0xFFFF == 0: return {x}
+    return None
+
+
 def ecx_effect(i):
     """(parts of ECX the instruction reads, parts it writes, may-read-unknown)"""
     m = i.mnemonic; ops = i.operands; rd, wr, unk = set(), set(), False
@@ -145,6 +161,7 @@ def ecx_effect(i):
             and ((m == 'or' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == (1 << 8 * ops[0].size) - 1)
                  or (m == 'and' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == 0)):
         return rd, {i.reg_name(ops[0].reg)}, False                     # `or ecx, -1` / `and ecx, 0`: a constant
+    if masked_read(i, ('ecx', 'cx', 'cl', 'ch')) is not None: return masked_read(i, ('ecx', 'cx', 'cl', 'ch')), {'ecx'}, False
     if m == 'push' and ops and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'ecx':
         return rd, wr, True                                             # `push ecx` also reserves 4 stack bytes
     for n, o in enumerate(ops):

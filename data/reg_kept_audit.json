@@ -1,0 +1,245 @@
+{
+"sites": [
+{
+"function": "0x1000A820",
+"use": "0x1000A8EB",
+"register": "ecx",
+"instruction": "call 0x10009e00",
+"defined": "0x1000A8B6",
+"kept_across": "0x1000A8D0",
+"kind": "use"
+},
+{
+"function": "0x1000A820",
+"use": "0x1000A904",
+"register": "ecx",
+"instruction": "call 0x10009e00",
+"defined": "0x1000A8B6",
+"kept_across": "0x1000A8EB",
+"kind": "use"
+},
+{
+"function": "0x1000A820",
+"use": "0x1000A93A",
+"register": "ecx",
+"instruction": "call 0x10009e00",
+"defined": "0x1000A914",
+"kept_across": "0x1000A920",
+"kind": "use"
+},
+{
+"function": "0x1000A820",
+"use": "0x1000A954",
+"register": "ecx",
+"instruction": "call 0x10009e00",
+"defined": "0x1000A914",
+"kept_across": "0x1000A93A",
+"kind": "use"
+},
+{
+"function": "0x1000A820",
+"use": "0x1000A98A",
+"register": "ecx",
+"instruction": "call 0x10009e00",
+"defined": "0x1000A964",
+"kept_across": "0x1000A970",
+"kind": "use"
+},
+{
+"function": "0x1003D9A0",
+"use": "0x1003DA82",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1003DA64",
+"kept_across": "0x1003DA79",
+"kind": "overwritten"
+},
+{
+"function": "0x1003DB60",
+"use": "0x1003DCF6",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1003DCDB",
+"kept_across": "0x1003DCED",
+"kind": "overwritten"
+},
+{
+"function": "0x10040670",
+"use": "0x10040B31",
+"register": "ecx",
+"instruction": "call 0x1003fcf0",
+"defined": "0x10040B22",
+"kept_across": "0x10040B24",
+"kind": "use"
+},
+{
+"function": "0x1004A870",
+"use": "0x1004A932",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1004A916",
+"kept_across": "0x1004A928",
+"kind": "overwritten"
+},
+{
+"function": "0x1004A870",
+"use": "0x1004A948",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1004A916",
+"kept_across": "0x1004A93E",
+"kind": "overwritten"
+},
+{
+"function": "0x1004E630",
+"use": "0x1004E6D1",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1004E6B5",
+"kept_across": "0x1004E6C7",
+"kind": "overwritten"
+},
+{
+"function": "0x1004E630",
+"use": "0x1004E6E7",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1004E6B5",
+"kept_across": "0x1004E6DD",
+"kind": "overwritten"
+},
+{
+"function": "0x10057FB0",
+"use": "0x10058048",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1005803E",
+"kept_across": "0x10058043",
+"kind": "address-passed"
+},
+{
+"function": "0x10057FB0",
+"use": "0x10059A96",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x10059A8B",
+"kept_across": "0x10059A8D",
+"kind": "address-passed"
+},
+{
+"function": "0x10057FB0",
+"use": "0x10059D33",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x10059CFF",
+"kept_across": "0x10059D05",
+"kind": "address-passed"
+},
+{
+"function": "0x10057FB0",
+"use": "0x10059D89",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x10059D63",
+"kept_across": "0x10059D69",
+"kind": "address-passed"
+},
+{
+"function": "0x10057FB0",
+"use": "0x1005D303",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x1005D2F8",
+"kept_across": "0x1005D2FE",
+"kind": "overwritten"
+},
+{
+"function": "0x1006AA30",
+"use": "0x1006AA7F",
+"register": "edx",
+"instruction": "push edx",
+"defined": "0x1006AA64",
+"kept_across": "0x1006AA70",
+"kind": "use"
+},
+{
+"function": "0x1006AA30",
+"use": "0x1006AAED",
+"register": "edx",
+"instruction": "push edx",
+"defined": "0x1006AAD2",
+"kept_across": "0x1006AADE",
+"kind": "use"
+},
+{
+"function": "0x100C63D0",
+"use": "0x100C7CA9",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100C7C5C",
+"kept_across": "0x100C7C9D",
+"kind": "overwritten"
+},
+{
+"function": "0x100C63D0",
+"use": "0x100C7CA9",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100C7C96",
+"kept_across": "0x100C7C9D",
+"kind": "overwritten"
+},
+{
+"function": "0x100C63D0",
+"use": "0x100C7CBD",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100C7CAA",
+"kept_across": "0x100C7CB1",
+"kind": "overwritten"
+},
+{
+"function": "0x100CBDE0",
+"use": "0x100CC656",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100CC617",
+"kept_across": "0x100CC64C",
+"kind": "overwritten"
+},
+{
+"function": "0x100CBDE0",
+"use": "0x100CC66C",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100CC617",
+"kept_across": "0x100CC662",
+"kind": "overwritten"
+},
+{
+"function": "0x100CCF50",
+"use": "0x100CCFDD",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100CCFC5",
+"kept_across": "0x100CCFD3",
+"kind": "overwritten"
+},
+{
+"function": "0x100CCF50",
+"use": "0x100CCFF3",
+"register": "ecx",
+"instruction": "push ecx",
+"defined": "0x100CCFC5",
+"kept_across": "0x100CCFE9",
+"kind": "overwritten"
+}
+],
+"_summary": {
+"sites": 26,
+"functions_with_use": 3,
+"use": 8,
+"overwritten": 14,
+"address-passed": 4
+}
+}

@@ -1,0 +1,15 @@
+{
+ "why": "Both IDirect3DDevice8::SetStreamSource calls (device vtable +0x14C) pass the device as `this` from EDX, loaded before the call to Gfx_CalcFVFStride (0x1006A560) and still live after it: 0x1006AA64 `mov edx,[ebx+0xEBC]`, 0x1006AA6E `mov ebp,[edx]`, 0x1006AA70 `call 0x1006A560`, 0x1006AA7F `push edx`, 0x1006AA80 `call [ebp+0x14C]`; the same at 0x1006AAD2..0x1006AAEE (vtable in EDI). 0x1006A560 has no calls and writes no register EDX is part of, so EDX still holds the device. Hex-Rays treated EDX as lost across the call and passed the uninitialised locals v7 and v10 as `this`. The device is loaded once, as the original does, and used for both the vtable and `this`.",
+ "evidence": "Disassembly of 0x1006AA51..0x1006AA80 and 0x1006AABF..0x1006AAEE; 0x1006A560 (extent 0x1006A560..0x1006A5BE, 36 instructions): no call, no write to EDX/DX/DL/DH (vcall_resolve.written_exact). The device pointer is the one the preceding SetVertexShader call (+0x130) is made on, *(arg0 + 3772) = [ebx+0xEBC]. GCC -Wuninitialized reports v7 and v10 as read uninitialised.",
+ "text_sha1": "2b624a229d3499c339b51a47d1d307dd275294cb",
+ "replace": [
+  [
+   "      v5 = **(_DWORD **)(arg0 + 3772);",
+   "      v7 = *(_DWORD *)(arg0 + 3772);\n      v5 = *(_DWORD *)v7;"
+  ],
+  [
+   "    v8 = **(_DWORD **)(arg0 + 3772);",
+   "    v10 = *(_DWORD *)(arg0 + 3772);\n    v8 = *(_DWORD *)v10;"
+  ]
+ ]
+}

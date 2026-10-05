@@ -3,7 +3,8 @@
 A caller that hands a callee whatever EDX happens to hold (Hex-Rays: a never-assigned `// edx` variable passed
 as a __fastcall's second argument) is exact only if the callee never reads its entry EDX. Same fixpoint as
 vcall_resolve.ecx_inputs; the EDX-specific effects (Intel SDM): `cdq` and one-operand `mul`/`imul` write EDX,
-`div`/`idiv` read it, a call clobbers it, `push edx` may save it for later (unknown).
+`div`/`idiv` read it, a call clobbers it, `push edx` may save it for later (unknown), `or edx, -1` and `and edx, 0`
+write a constant, `and edx, 0xFF` reads only DL (vcall_resolve.masked_read).
 
     python3 edx_inputs.py data/edx_use.json        uses $FFXI_DLL
 Output: {"0xFUNC": true (reads it, with "first_read") | false (never) | null (cannot tell)}
@@ -33,6 +34,11 @@ def edx_effect(i):
     if m in ('xor', 'sub') and len(ops) == 2 and ops[0].type == X86_OP_REG and ops[1].type == X86_OP_REG \
             and ops[0].reg == ops[1].reg and i.reg_name(ops[0].reg) in PARTS:
         return rd, {i.reg_name(ops[0].reg)}, False
+    if len(ops) == 2 and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) in PARTS and ops[1].type == X86_OP_IMM \
+            and ((m == 'or' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == (1 << 8 * ops[0].size) - 1)
+                 or (m == 'and' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == 0)):
+        return rd, {i.reg_name(ops[0].reg)}, False                     # `or edx, -1` / `and edx, 0`: a constant
+    if V.masked_read(i, ('edx', 'dx', 'dl', 'dh')) is not None: return V.masked_read(i, ('edx', 'dx', 'dl', 'dh')), {'edx'}, False
     if m == 'push' and ops and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'edx': return rd, wr, True
     for n, o in enumerate(ops):
         if o.type == X86_OP_MEM:

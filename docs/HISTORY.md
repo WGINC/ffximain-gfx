@@ -234,3 +234,35 @@ fixed:
 - **De-artifacting started** (`docs/DEARTIFACT.md`): class types pushed to the IDB (`make_ida_types.py`,
   119 classes, 354 proven fields); `artifact_count.py`; the IDA script reverts a typed `this` that makes a
   function's pseudocode worse (measured). Exact gate cache (`gate_cache.py`).
+
+## 5 Oct 2026: the first in-game crash, and the Hex-Rays defects of its kind
+
+- **Crash:** pol.exe, c0000005 at FFXiMain.dll+0x19230 (`CXiTimer::GetFps`, `fld [ecx+8]`) as soon as the
+  kit swapped in `Frame_Render`. Its two calls of `GetFps` through the timer's vtable were typed by Hex-Rays as
+  a cast without `this`, so the reconstruction called them with whatever ECX held. The gate had passed it: its
+  compared trials ran 53 of the function's 1424 instructions.
+- **Coverage** (`FFXI_COVERAGE=1`, `combine_coverage.py`): which of the original's instructions the compared
+  trials ran. The kit leaves out by default every function not fully covered (manifest flag 4).
+- **ECX at calls:** `ecx_this_sites.py` (the original enters a virtual method with ECX = the object) and
+  ECX compared at direct calls to `type_fixes` `__thiscall` functions.
+- **The same class across the tree**, each fixed as data with its disassembly evidence:
+  - ECX lost at direct calls: `Frame_Render` -> 0x101C4CE0 (dereferences it) and 0x10014A20,
+    `CApp_RunMainLoop` -> 0x10014C10;
+  - a register the original keeps live across a call to a callee that leaves it alone
+    (`reg_kept_audit.py`): the D3D device in EDX in 0x1006AA30 (2 calls), `this` in ECX in `DrawMesh`
+    0x10040670;
+  - x87 compare flags never assigned (`(c0 | c2) != 0`): four angle wraps in 0x10125360;
+  - stack arguments the IDB's type leaves out, named as locals in the argument slots: `CXiMovie_DrawFrame`
+    (a rectangle and a float pointer), and `Frame_Render`'s call of it;
+  - a struct out-parameter Hex-Rays split into separate locals (`read_past_byref`): 0x10042020,
+    0x1001D940, 0x1028AB50.
+- **Fact tools corrected:** `ecx_use`/`edx_use` (`or r,-1`, byte-mask `and`), `ecx_this_sites` (control
+  flow, joins), `cdecl_args` (callee pops, control flow, the EBP slot formula, `_chkstk`; lower bounds
+  instead of dropping a function; 525 of the changed counts now agree with the IDB).
+- **Gate:** stubs compare up to 16 arguments (was 4), cdecl argument counts from the code's reads, masks per
+  stack slot. Fuzz: 774 PASS, 2 UNRESOLVED, 1 INCONCLUSIVE, unchanged.
+- **Kit:** `include_untested`, and a fault in game code called from a reconstruction quarantines the innermost
+  reconstructed caller as `suspected`.
+- **Checked and not defects** (from an outside audit): the three `CMoSchedularTask_Interpret` sites
+  (`push ecx; mov ecx, esp` reserves a slot the constructor 0x1005E110 zeroes) and `App_InitScene` (ECX
+  left over, overwritten before use).

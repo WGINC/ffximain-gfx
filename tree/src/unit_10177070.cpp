@@ -9,8 +9,10 @@ XI_API int __stdcall fn_101771B0(int a1, int a2)
   IDirect3DDevice8 *pDevice;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int v5;
-  int v7;
-  char Buffer[512];
+  alignas(16) unsigned char xi_frame[0x61C];  // address-taken locals at their original offsets
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  char (&Buffer)[512] = *reinterpret_cast<char (*)[512]>(xi_frame + 0x1C);
+
   v2 = orig::fn_102DA79B(aCTestVsh, 0, nullptr, (struct ID3DXBuffer **)&v7, nullptr);
   orig::fn_102DAA71(v2, Buffer, 0x200u);
   if ( v2 >= 0 )

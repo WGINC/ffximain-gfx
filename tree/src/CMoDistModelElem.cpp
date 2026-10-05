@@ -199,7 +199,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
         v7 = a3;
       }
       v26 = *(unsigned __int16 *)&orig::sub_1003FCE0((char *)self)[2 * v15];
-      v24 = orig::sub_1003FCF0(v23);
+      v24 = orig::sub_1003FCF0((char *)self);
       orig::sub_10043F40(*((int **)v24 + 1), v14, v26, 4, 0, -1);
     }
   }

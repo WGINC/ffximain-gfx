@@ -5978,10 +5978,11 @@ char CXiSkeletonActor::GetElem(unsigned int a2, int a3)
   int v13;
   int v14;
   double v15;
-  int v17;
-  int v18[4];
-  _DWORD v19[9];
-  _DWORD v20[9];
+  alignas(16) unsigned char xi_frame[0x478];  // address-taken locals at their original offsets
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x8);
+  int (&v18)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x20);
+  _DWORD (&v19)[9] = *reinterpret_cast<_DWORD (*)[9]>(xi_frame + 0x30);
+  _DWORD (&v20)[9] = *reinterpret_cast<_DWORD (*)[9]>(xi_frame + 0x54);
   float v21;
   v4 = self + 1656;
   orig::Vec4_Copy((_DWORD *)a3, (_DWORD *)(self + 1656));

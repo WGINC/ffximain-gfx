@@ -207,8 +207,10 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 {
   int result;
-  int v3;
-  _BYTE v4[32];
+  alignas(16) unsigned char xi_frame[0x438];  // address-taken locals at their original offsets
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  _BYTE (&v4)[32] = *reinterpret_cast<_BYTE (*)[32]>(xi_frame + 0x18);
+
   if ( *(_DWORD *)(g_pOcclusionMng + 12) == 0 )
     orig::OcclusionMng_CreateTarget((_DWORD *)g_pOcclusionMng);
   result = *(self_ + 1);

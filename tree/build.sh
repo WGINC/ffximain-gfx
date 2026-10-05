@@ -35,5 +35,5 @@ done
 $CXX -shared -nostdlib -o $OUTDLL build/obj/rt.o "${ok[@]}" -lgcc \
      -Wl,--image-base=0x60000000 -Wl,-e,_DllMainCRTStartup@12 -Wl,--disable-auto-image-base -Wl,--kill-at \
      -Wl,--section-start=.rdata=0x60800000 -Wl,--section-start=.data=0x60A00000 -Wl,--section-start=.bss=0x60B00000 \
-     -Wl,--no-insert-timestamp
+     -Wl,--no-insert-timestamp || { echo "link failed: $OUTDLL not built"; exit 1; }
 echo "built $OUTDLL from ${#ok[@]} files; failed: ${bad[*]:-none}"

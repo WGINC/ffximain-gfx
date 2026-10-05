@@ -11,9 +11,11 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
   int v5;
   int v6;
   double v7;
-  float v8;
-  int v9;
-  __int64 v10;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  float &v8 = *reinterpret_cast<float *>(xi_frame + 0x20);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  __int64 &v10 = *reinterpret_cast<__int64 *>(xi_frame + 0x28);
+
   result = (char *)self_->field_2C;
   if ( result != nullptr )
   {

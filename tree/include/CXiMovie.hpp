@@ -6,7 +6,7 @@
 class XI_API CXiMovie {
 public:
     int Draw(int a1, int a2, int a3, int a4, int a5);  // 0x10026AD0
-    static int __cdecl DrawFrame();  // 0x1021D4C0
+    static int __cdecl DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float * scale);  // 0x1021D4C0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x4];

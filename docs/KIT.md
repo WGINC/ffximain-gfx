@@ -57,10 +57,11 @@ The manifest also carries flags that leave a function out by default, each with 
 ## What the build gives (`kit/xikit/build.sh`, this commit's tree)
 
 - **Manifest**: 777 functions listed, none refused (each has its export, room for the jump, and no jump into
-  its first 5 bytes). Flags: 0 SEH, 3 speedfix sites.
+  its first 5 bytes). Flags: 0 SEH, 3 speedfix sites, 183 untested (left out by default).
 - **The in-game DLL is the verified code**: `gfx_recon_ingame.dll` (the tree built with `XI_INGAME`, every
-  game address `XI_GAME(ea) = ea + xi_rel`) was gated on fuzz with `xi_rel = 0`. Its verdicts are the clean
-  tree's fuzz verdicts, function for function: 774 PASS, and the same 3 that need the live dumps to pass
+  game address `XI_GAME(ea) = ea + xi_rel`) was gated on fuzz with `xi_rel = 0` (on the previous tree; this tree's in-game build has not been
+  re-gated separately; the clean tree it is built from is 777 PASS over the merged fuzz and live gates). That run's
+  verdicts were the clean tree's fuzz verdicts, function for function: 774 PASS, and the same 3 that need the live dumps to pass
   (0x1006B3B0 INCONCLUSIVE, 0x10003890 and 0x100CB4E0 UNRESOLVED, from pop counts not known).
 - **No game address is left unrebased**: a scan of the in-game DLL's code finds 4,118 rebased adds and no
   absolute game address used directly; its data sections hold no game pointers.

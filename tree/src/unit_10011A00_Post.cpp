@@ -289,7 +289,7 @@ LABEL_40:
                 if ( !orig::sub_101C4CD0((int *)g_pFileMng) )
                   orig::sub_101C4D10((int *)g_pFileMng);
                 v13 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
-                orig::sub_101C4CE0(v13);
+                orig::sub_101C4CE0((void *)g_pFileMng, v13);
               }
               orig::sub_10253670(1, 1);
               *((_DWORD *)self_ + 17) = 6;
@@ -336,7 +336,7 @@ LABEL_40:
         case 0xC:
           *((_DWORD *)g_pGameMode + 4) = 0;
           *(_DWORD *)g_pSceneState = 112;
-          if ( orig::sub_10014A20() )
+          if ( orig::sub_10014A20(self_) )
           {
             orig::sub_100361D0();
             orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
@@ -618,7 +618,7 @@ LABEL_102:
   *(float *)&SystemTime.wDayOfWeek = (double)a4 * 0x1.99999a0000000p-10;
   *(float *)&SystemTime.wHour = v32;
   *(float *)&SystemTime.wSecond = v31;
-  orig::CXiMovie_DrawFrame();
+  orig::CXiMovie_DrawFrame(0, 0, 640, 512, (float *)&SystemTime);
   orig::sub_101D0C70();
   orig::Font_QueueText(c_strSpace, 1134886912, 1111490560, 0);
   orig::Font_DrawPass();
@@ -639,7 +639,7 @@ LABEL_102:
   {
     a4 = *((int *)self_ + 7);
     v34 = (int *)a4;
-    v35 = ((double (*)(void))*(_DWORD *)(*(_DWORD *)a4 + 48))();
+    v35 = ((double (__thiscall *)(int *))*(_DWORD *)(*(_DWORD *)a4 + 48))(v34);
     v36 = *v34;
     *(float *)&a4 = v35;
     v37 = ((double (__thiscall *)(int *))*(_DWORD *)(v36 + 36))(v34);
@@ -662,7 +662,7 @@ LABEL_102:
     {
       a4 = *((int *)self_ + 7);
       v44 = (int *)a4;
-      v45 = ((double (*)(void))*(_DWORD *)(*(_DWORD *)a4 + 48))();
+      v45 = ((double (__thiscall *)(int *))*(_DWORD *)(*(_DWORD *)a4 + 48))(v44);
       v46 = *v44;
       *(float *)&a4 = v45;
       v47 = ((double (__thiscall *)(int *))*(_DWORD *)(v46 + 36))(v44);

@@ -4765,8 +4765,7 @@
 "symbol": "Ui_DrawKeyPrompt",
 "unit": "unit_10237880",
 "partial_regs": {
-"read left: operand not a local or parameter": 2,
-"read left: operand type float is not an integer type": 2
+"read left: operand not a local or parameter": 4
 }
 },
 "0x1024cf50": {

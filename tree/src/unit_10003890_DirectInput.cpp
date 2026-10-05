@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10003890  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 5 returned normally, 12624 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz UNRESOLVED 0, town PASS 5, town2 PASS 5, combat PASS 5, zonetoinn PASS 5
+// GATE: PASS -- 100 trials, 0 returned normally, 1067 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz UNRESOLVED 0, town PASS 5, town2 PASS 5, combat PASS 5, zonetoinn PASS 5
 XI_API void __thiscall fn_10003890(_DWORD *self_)
 {
   int v2;

@@ -39,7 +39,8 @@ XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
     for ( i = 0; (int)(i) < (int)(*(self_ + 3)); a2 = v3 )
     {
       (*(void (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(arg0 + 3772) + 304))(*(_DWORD *)(arg0 + 3772), *(self_ + 8));
-      v5 = **(_DWORD **)(arg0 + 3772);
+      v7 = *(_DWORD *)(arg0 + 3772);
+      v5 = *(_DWORD *)v7;
       v6 = orig::Gfx_CalcFVFStride(*(self_ + 8));
       (*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v5 + 332))(v7, 0, *(self_ + 1), v6);
       orig::CDx_DrawPrimitive(*(void **)(arg0 + 3528), 5, a2, *(__int16 *)(*(self_ + 6) + 2 * i) - 2);
@@ -49,7 +50,8 @@ XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
   if ( *(self_ + 2) != 0 )
   {
     (*(void (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(arg0 + 3772) + 304))(*(_DWORD *)(arg0 + 3772), *(self_ + 8));
-    v8 = **(_DWORD **)(arg0 + 3772);
+    v10 = *(_DWORD *)(arg0 + 3772);
+    v8 = *(_DWORD *)v10;
     v9 = orig::Gfx_CalcFVFStride(*(self_ + 8));
     (*(void (__stdcall **)(int, _DWORD, _DWORD, int))(v8 + 332))(v10, 0, *(self_ + 2), v9);
     orig::CDx_DrawPrimitive(*(void **)(arg0 + 3528), 4, 0, *(self_ + 5));

@@ -77,5 +77,5 @@ LABEL_17:
   }
 LABEL_23:
   this->field_1D = 0;
-  return orig::sub_10014C10();
+  return orig::sub_10014C10(g_pCamera);
 }

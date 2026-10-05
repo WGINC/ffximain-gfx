@@ -391,11 +391,13 @@ XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
   int v11;
   int v12;
   unsigned __int8 v13;
-  int v15;
-  char v16;
-  char v17;
-  char v18;
-  char v19;
+  alignas(16) unsigned char xi_frame[0x414];  // address-taken locals at their original offsets
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  char &v16 = *reinterpret_cast<char *>(xi_frame + 0x10);
+  char &v17 = *reinterpret_cast<char *>(xi_frame + 0x11);
+  char &v18 = *reinterpret_cast<char *>(xi_frame + 0x12);
+  char &v19 = *reinterpret_cast<char *>(xi_frame + 0x13);
+
   orig::Util_Copy16Bytes(&v15, a2);
   orig::CYyTexBase_SetName((_DWORD *)a1, &v15);
   if ( v15 == 1700951395 && v16 == 109 && v17 == 97 && v18 == 112 && v19 == 32 )

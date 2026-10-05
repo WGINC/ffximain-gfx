@@ -69,8 +69,8 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 18 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 18, town PASS 22, town2 PASS 23, combat PASS 25, zonetoinn PASS 23
-int __cdecl CXiMovie::DrawFrame()
+// GATE: PASS -- 100 trials, 27 returned normally, 70 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 32, town2 PASS 33, combat PASS 30, zonetoinn PASS 33
+int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float * scale)
 {
   int result;
   IDirect3DDevice8 *pDevice;
@@ -107,15 +107,6 @@ int __cdecl CXiMovie::DrawFrame()
   int v32;
   int v33;
   _BYTE v34[32];
-  int v35;
-  int v36;
-  int v37;
-  int v38;
-  int v39;
-  int v40;
-  int v41;
-  int v42;
-  float *v43;
   if ( g_pMovie != 0 )
   {
     orig::Movie_Update(g_pMovie);
@@ -130,23 +121,23 @@ int __cdecl CXiMovie::DrawFrame()
       result = (*(int (__stdcall **)(int, _DWORD, _BYTE *))(*(_DWORD *)v4 + 56))(v4, 0, v34);
       if ( result >= 0 )
       {
-        v36 = (__int64)(((double)v35 + *v43) * v43[1]);
-        v40 = (__int64)(((double)v39 + *v43) * v43[1]);
-        v42 = (__int64)(((double)v41 + v43[2]) * v43[3]);
-        v38 = (__int64)(((double)v37 + v43[2]) * v43[3]);
+        rcLeft = (__int64)(((double)rcLeft + *scale) * scale[1]);
+        rcRight = (__int64)(((double)rcRight + *scale) * scale[1]);
+        rcBottom = (__int64)(((double)rcBottom + scale[2]) * scale[3]);
+        rcTop = (__int64)(((double)rcTop + scale[2]) * scale[3]);
         v8 = 0.0;
         v9 = 1065353216;
-        *(float *)&a3 = (float)v36;
+        *(float *)&a3 = (float)rcLeft;
         v10 = -2139062144;
         v11 = 0;
         v12 = 1065353216;
         v15 = 0.0;
-        v7 = (float)v38;
+        v7 = (float)rcTop;
         v16 = 1065353216;
         v17 = -2139062144;
         v18 = 1065353216;
         v19 = 1065353216;
-        v5 = (float)v40;
+        v5 = (float)rcRight;
         v13 = v5;
         v22 = 0.0;
         v14 = v7;
@@ -156,7 +147,7 @@ int __cdecl CXiMovie::DrawFrame()
         v24 = -2139062144;
         v25 = 0;
         v26 = 0;
-        v21 = (float)v42;
+        v21 = (float)rcBottom;
         v28 = v21;
         v29 = 0;
         v30 = 1065353216;

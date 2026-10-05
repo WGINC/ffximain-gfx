@@ -67,8 +67,10 @@ XI_API int __cdecl fn_1028AB50(void)
   int v20;
   int v21;
   int v22;
-  int v23;
-  unsigned int v24;
+  alignas(16) unsigned char xi_frame[0x47C];  // address-taken locals at their original offsets
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  unsigned int &v24 = *reinterpret_cast<unsigned int *>(xi_frame + 0x78);
+
   v1 = g_pSqgxContext;
   v2 = g_pSqgxContext[614];
   if ( v2 != 0 )

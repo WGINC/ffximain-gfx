@@ -23,12 +23,14 @@ char CMoOtTask_VT_1032AE64::vf8()
   float *v15;
   CMoProcessor *v16;
   int v17;
-  int v19;
-  float v20;
-  float v21;
-  int v22;
-  float v23;
-  int v24;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x1C);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x20);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  float &v23 = *reinterpret_cast<float *>(xi_frame + 0x28);
+  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+
   v2 = *(float *)(g_pResourceMng + 3760) + at<float>(this, 0xAC);
   v3 = at<uint32_t>(this, 0xB8);
   at<float>(this, 0xAC) = v2;

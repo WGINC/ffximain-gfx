@@ -115,10 +115,10 @@ XI_ORIG char App_StepGameState8(void * a0) { return reinterpret_cast<char (__thi
 XI_ORIG bool App_StepGameState9() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014120u))(); }
 XI_ORIG char sub_10014170(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10014170u))(a0); }
 XI_ORIG char sub_100149B0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100149B0u))(a0); }
-XI_ORIG bool sub_10014A20() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014A20u))(); }
+XI_ORIG bool sub_10014A20(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10014A20u))(a0); }
 XI_ORIG char sub_10014A30(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x10014A30u))(a0); }
 XI_ORIG char sub_10014AD0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10014AD0u))(a0); }
-XI_ORIG bool sub_10014C10() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014C10u))(); }
+XI_ORIG bool sub_10014C10(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10014C10u))(a0); }
 XI_ORIG double Camera_GetFrameScale() { return reinterpret_cast<double (__cdecl *)()>(XI_GAME(0x10014CF0u))(); }
 XI_ORIG int GetFrameCounter() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10014D50u))(); }
 XI_ORIG double Camera_GetFloat2DC() { return reinterpret_cast<double (__cdecl *)()>(XI_GAME(0x10014D70u))(); }
@@ -1147,7 +1147,7 @@ XI_ORIG void sub_101C46A0(void * a0) { reinterpret_cast<void (__thiscall *)(void
 XI_ORIG int FileMng_ResolveOrExit(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x101C4AF0u))(a0, a1); }
 XI_ORIG char sub_101C4CC0(void * a0, int a1) { return reinterpret_cast<char (__thiscall *)(void *, int)>(XI_GAME(0x101C4CC0u))(a0, a1); }
 XI_ORIG bool sub_101C4CD0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x101C4CD0u))(a0); }
-XI_ORIG int sub_101C4CE0(int a0) { return reinterpret_cast<int (__stdcall *)(int)>(XI_GAME(0x101C4CE0u))(a0); }
+XI_ORIG int sub_101C4CE0(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x101C4CE0u))(a0, a1); }
 XI_ORIG int sub_101C4D10(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x101C4D10u))(a0); }
 XI_ORIG int sub_101C9B50(__int16 a0, __int16 a1, void * a2, int a3, int a4, float a5, float a6) { return reinterpret_cast<int (__cdecl *)(__int16, __int16, void *, int, int, float, float)>(XI_GAME(0x101C9B50u))(a0, a1, a2, a3, a4, a5, a6); }
 XI_ORIG int sub_101CC4F0() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x101CC4F0u))(); }
@@ -1158,7 +1158,7 @@ XI_ORIG _WORD * YkInit() { return reinterpret_cast<_WORD * (__cdecl *)()>(XI_GAM
 XI_ORIG void sub_101D5680(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101D5680u))(a0); }
 XI_ORIG void sub_101EE7B0(int a0, void * a1) { reinterpret_cast<void (__thiscall *)(int, void *)>(XI_GAME(0x101EE7B0u))(a0, a1); }
 XI_ORIG _WORD * sub_1021BB90() { return reinterpret_cast<_WORD * (__cdecl *)()>(XI_GAME(0x1021BB90u))(); }
-XI_ORIG int CXiMovie_DrawFrame() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1021D4C0u))(); }
+XI_ORIG int CXiMovie_DrawFrame(int a0, int a1, int a2, int a3, void * a4) { return reinterpret_cast<int (__cdecl *)(int, int, int, int, void *)>(XI_GAME(0x1021D4C0u))(a0, a1, a2, a3, a4); }
 XI_ORIG char Movie_Update(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x1021D980u))(a0); }
 XI_ORIG int Movie_GetCurrentTexture(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1021DDF0u))(a0); }
 XI_ORIG int sub_10220EF0(int a0, int a1, int a2, char a3) { return reinterpret_cast<int (__thiscall *)(int, int, int, char)>(XI_GAME(0x10220EF0u))(a0, a1, a2, a3); }

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1006B3B0  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 1 returned normally, 632 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, town PASS 1, town2 PASS 1, combat PASS 1, zonetoinn PASS 1
+// GATE: PASS -- 100 trials, 0 returned normally, 658 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, town PASS 1, town2 PASS 1, combat PASS 1, zonetoinn PASS 1
 XI_API int __cdecl fn_1006B3B0(void)
 {
   void *v0;

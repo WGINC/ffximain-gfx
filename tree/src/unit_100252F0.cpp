@@ -350,17 +350,19 @@ XI_API void __cdecl Dbg_DrawGroundGrid(void)
 {
   int v0;
   int v1;
-  int v2;
-  int v3;
-  _DWORD v4[3];
-  int a3[2];
-  float v6;
-  int v7;
-  float v8;
-  int v9;
-  float v10;
-  int v11;
-  _DWORD v12[16];
+  alignas(16) unsigned char xi_frame[0x480];  // address-taken locals at their original offsets
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  _DWORD (&v4)[3] = *reinterpret_cast<_DWORD (*)[3]>(xi_frame + 0x14);
+  int (&a3)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x20);
+  float &v6 = *reinterpret_cast<float *>(xi_frame + 0x28);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  float &v8 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  float &v10 = *reinterpret_cast<float *>(xi_frame + 0x38);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  _DWORD (&v12)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x40);
+
   orig::fn_10027990((Iostream_init *)v12);
   v4[0] = 1065353216;
   v4[1] = 1065353216;

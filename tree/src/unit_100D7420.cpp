@@ -1684,7 +1684,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
         {
           flt_1036E5F4 = -*((float *)self_ + 42) - 0x1.921cac0000000p+0;
           v27 = flt_1036E5F4;
-          if ( (v28 | v29) != 0 )
+          if ( v27 < -0x1.921cac0000000p+1 )
           {
             v30 = v27 + 0x1.921cac0000000p+2;
             goto LABEL_72;
@@ -1696,7 +1696,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
           *(float *)&FrameScale = orig::sub_10126100(self_);
           flt_1036E5F4 = atan2(orig::sub_10125FE0(self_), *(float *)&FrameScale) - 0x1.921cac0000000p+0;
           v32 = flt_1036E5F4;
-          if ( (v33 | v34) != 0 )
+          if ( v32 < -0x1.921cac0000000p+1 )
           {
             v35 = v32 + 0x1.921cac0000000p+2;
           }
@@ -1716,7 +1716,7 @@ LABEL_68:
         FrameScale = (__int64)orig::sub_10126100(self_);
         flt_1036E5F4 = atan2((double)v119, (double)FrameScale) - 0x1.921cac0000000p+0;
         v27 = flt_1036E5F4;
-        if ( (v39 | v40) != 0 )
+        if ( v27 < -0x1.921cac0000000p+1 )
         {
           v30 = v27 + 0x1.921cac0000000p+2;
           goto LABEL_72;
@@ -1763,7 +1763,7 @@ LABEL_80:
           goto LABEL_141;
         }
         v48 = flt_1036E634;
-        if ( (v49 | v50) != 0 )
+        if ( v48 < -0x1.921cac0000000p+1 )
         {
           v51 = v48 + 0x1.921cac0000000p+2;
         }

@@ -160,20 +160,20 @@ XI_API char __thiscall fn_101EEBD0(int self_)
   v14 = *(struct tm **)(self_ + 180);
   if ( v14 == (struct tm *)-1 )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, nullptr, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pTkHelp, nullptr, 2);
   }
   else if ( v14 != nullptr )
   {
-    LOBYTE(v14) = orig::sub_1013A320((void *)g_pObj_Vtbl10333D18, v14, 2);
+    LOBYTE(v14) = orig::sub_1013A320((void *)g_pTkHelp, v14, 2);
   }
   v15 = *(unsigned __int8 **)(self_ + 184);
   if ( v15 == (unsigned __int8 *)-1 )
   {
-    LOBYTE(v14) = orig::sub_10150CC0(dword_1057847C, nullptr, 2);
+    LOBYTE(v14) = orig::sub_10150CC0(g_pTkTitle, nullptr, 2);
   }
   else if ( v15 != nullptr )
   {
-    LOBYTE(v14) = orig::sub_10150CC0(dword_1057847C, v15, 2);
+    LOBYTE(v14) = orig::sub_10150CC0(g_pTkTitle, v15, 2);
   }
   return (char)v14;
 }

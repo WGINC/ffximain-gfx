@@ -1677,10 +1677,10 @@ typedef int dword_1057815C_t;
 #define dword_1057815C XI_EA(dword_1057815C_t, 0x1057815Cu)
 typedef int dword_10578160_t;
 #define dword_10578160 XI_EA(dword_10578160_t, 0x10578160u)
-typedef int g_pObj_Vtbl10333D18_t;
-#define g_pObj_Vtbl10333D18 XI_EA(g_pObj_Vtbl10333D18_t, 0x105781F8u)
-typedef void * dword_1057847C_t;
-#define dword_1057847C XI_EA(dword_1057847C_t, 0x1057847Cu)
+typedef int g_pTkHelp_t;
+#define g_pTkHelp XI_EA(g_pTkHelp_t, 0x105781F8u)
+typedef void * g_pTkTitle_t;
+#define g_pTkTitle XI_EA(g_pTkTitle_t, 0x1057847Cu)
 typedef void * g_pTargetMng_t;
 #define g_pTargetMng XI_EA(g_pTargetMng_t, 0x1057876Cu)
 typedef __int16 g_menuMng_t[14];

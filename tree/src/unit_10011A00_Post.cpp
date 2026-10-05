@@ -136,7 +136,7 @@ XI_API int __thiscall Frame_Render(void *self_)
   orig::CDx_SetDefaultRenderState(g_pCDx);
   orig::nullsub_36();
   orig::TexMgr_UploadPumpEntry(g_pTextureMng);
-  if ( dword_10455C20 != 0 && orig::sub_10008830((_DWORD *)dword_10455C20, 0) != 0 )
+  if ( g_pAppInputState != 0 && orig::sub_10008830((_DWORD *)g_pAppInputState, 0) != 0 )
     orig::sub_1019C5B0();
   if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
@@ -557,9 +557,9 @@ LABEL_102:
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_COLORWRITEENABLE, 15u);
   }
   orig::sub_101BCE30((int)ArgList);
-  orig::sub_10005A40(dword_10455C20);
+  orig::sub_10005A40(g_pAppInputState);
   orig::sub_10123E90();
-  orig::sub_100088F0((_DWORD *)dword_10455C20);
+  orig::sub_100088F0((_DWORD *)g_pAppInputState);
   if ( g_pTargetMng != nullptr )
     orig::sub_101579C0(g_pTargetMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )

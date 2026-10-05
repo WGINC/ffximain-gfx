@@ -46,3 +46,23 @@ method with the caller's stack unchanged, returns with the method's own pop, and
 
 What it does not measure: time spent inside each D3D call (that needs a return hook), and calls made on
 other threads (counted as `other_thread_calls`, not profiled).
+
+## xikit: run the reconstructed graphics code in the game
+
+`xikit.dll` swaps the game's functions for their reconstructions (`gfx_recon_ingame.dll`, the verified
+tree built with every game address rebased to where FFXiMain.dll is loaded), one at a time or all 777, and
+switches back at any frame. The design, the rules it writes patches by, and the test results are in
+`docs/KIT.md`.
+
+Build (MinGW, needs `$FFXI_DLL` for the manifest): `xikit/build.sh` writes `xikit/dist/`:
+`xikit.dll`, `gfx_recon_ingame.dll`, `xikit_manifest.txt`, `xikit.ini`. `xikit.dll` alone also builds with
+Visual Studio (`xikit/CMakeLists.txt`, `cmake -B build -A Win32`); the other three still come from build.sh.
+
+Use: put the four files in one folder and inject `xikit.dll` into pol.exe like d3dprof. It starts with
+`swap=0` (it hooks and logs, nothing more). Set `swap=1` in `xikit.ini` while the game runs; it is re-read
+every 60 frames. Ctrl+Alt+F9 switches all swaps off and on. `xikit.log` says what was swapped and refused,
+`xikit_calls_<pid>.csv` which swapped functions the game called. A function whose reconstruction raises an
+exception is put back and listed in `xikit_quarantine.txt`, and left out at the next start. `profile=1`
+runs d3dprof inside it.
+
+Test: `xikit/test/test_xikit.py` (Wine, the real FFXiMain.dll, at its base and relocated).

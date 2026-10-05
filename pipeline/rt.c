@@ -5,7 +5,7 @@
 #ifdef XI_INGAME
 /* the game DLL's load address minus its analysed base (xi_decomp.hpp XI_GAME); set by the loader */
 #include <stdint.h>
-uintptr_t xi_rel;
+__declspec(dllexport) uintptr_t xi_rel;   /* exported: the kit sets it after loading this DLL */
 #endif
 
 void *memcpy(void *d, const void *s, size_t n)

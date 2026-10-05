@@ -1,0 +1,15 @@
+{
+ "why": "The forwarder passes its caller's 3 stack arguments on to the target (data/type_fixes.json 0x1006CC50); the call forwards them explicitly instead of relying on a tail jump.",
+ "evidence": "disasm 0x1006CC50: mov eax,[ecx]; jmp [eax+0x2C]; data/type_fixes.json.",
+ "text_sha1": "3c4a8300a1c806a73c1a27a22cd1e7b6a0fc2cf6",
+ "replace": [
+  [
+   "int __thiscall CMoProcessor_VT_1032C1C8_vf010(void *this)",
+   "int __thiscall CMoProcessor_VT_1032C1C8_vf010(void *this, void *a1, void *a2, void *a3)"
+  ],
+  [
+   "  return (*(int (__thiscall **)(void *))(*(_DWORD *)this + 44))(this);",
+   "  return (*(int (__thiscall **)(void *, void *, void *, void *))(*(_DWORD *)this + 44))(this, a1, a2, a3);"
+  ]
+ ]
+}

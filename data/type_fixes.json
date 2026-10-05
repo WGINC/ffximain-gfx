@@ -108,5 +108,35 @@
   "type": "int __cdecl(int rcLeft, int rcTop, int rcRight, int rcBottom, float *scale)",
   "why": "Takes a rectangle by value (4 ints) and a pointer to 4 floats on the stack. Its frame is 0x98 bytes (0x1021D4C6 `sub esp, 0x94`, 0x1021D4CE `push esi`), and it reads [esp+0x9C], [esp+0xA0], [esp+0xA4], [esp+0xA8] (the rectangle, read with fild and written back) and [esp+0xAC] (0x1021D535 `mov esi,[esp+0xAC]`, then [esi], [esi+4], [esi+8], [esi+0xC]): argument slots 1-5 once the two COM calls before them have popped their arguments (device +0xF4 SetTexture, texture +0x38 GetLevelDesc: stdcall by the D3D8 header). It pops nothing (ret, data/purges.json), and its one caller writes exactly those 5 dwords before the call. The IDB types it int __cdecl(), so Hex-Rays named the five slots as locals (v35..v43 at [ebp+4h]..[ebp+14h]) that the translation never set.",
   "evidence": "disasm 0x1021D4C0..0x1021D58E; caller Frame_Render 0x10012A46..0x10012A7A: `lea edi,[esp+0x28]; push edi; sub esp,0x10; mov edi,esp; mov [edi],eax(0); mov [edi+4],ebx(0, 0x10011A10 xor ebx,ebx, the only write before the epilogue); mov [edi+8],ecx(0x280); mov [edi+0xC],edx(0x200)`; data/purges.json 0x1021D4C0: 0."
+ },
+ "0x1006CC40": {
+  "type": "int __thiscall(void *self, void *a1, void *a2, void *a3)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0x24]` jumps to slot 9 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so its callers' arguments were dropped from the reconstruction (which then relied on GCC emitting the call as a jump) and the gate passed none (on the live dumps the original then faulted on the empty slots: INCONCLUSIVE). Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve: the vtables holding it), whose slot 9 is 0x10070210, 0x1006F0A0, 0x1006D270; each pops 12 bytes (ret 12, data/purges.json), 3 arguments, every one dereferenced by at least one of them.",
+  "evidence": "disasm 0x1006CC40..+6; vtable slot 9 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x10070210, 0x1006F0A0, 0x1006D270; their prologues dereference each argument slot."
+ },
+ "0x1006CC50": {
+  "type": "int __thiscall(void *self, void *a1, void *a2, void *a3)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0x2C]` jumps to slot 11 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so its callers' arguments were dropped from the reconstruction (which then relied on GCC emitting the call as a jump) and the gate passed none (on the live dumps the original then faulted on the empty slots: INCONCLUSIVE). Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve: the vtables holding it), whose slot 11 is 0x100704E0, 0x1006F210, 0x1006D300; each pops 12 bytes (ret 12, data/purges.json), 3 arguments, every one dereferenced by at least one of them.",
+  "evidence": "disasm 0x1006CC50..+6; vtable slot 11 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x100704E0, 0x1006F210, 0x1006D300; their prologues dereference each argument slot."
+ },
+ "0x1006CC60": {
+  "type": "int __thiscall(void *self, float *a1)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0xA4]` jumps to slot 41 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so its callers' arguments were dropped from the reconstruction (which then relied on GCC emitting the call as a jump) and the gate passed none (on the live dumps the original then faulted on the empty slots: INCONCLUSIVE). Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve: the vtables holding it), whose slot 41 is 0x10070860, 0x1006F6B0, 0x1006D5D0; each pops 4 bytes (ret 4, data/purges.json; 0x10070860 is `jmp 0x1006D5D0`), 1 argument, every one dereferenced by at least one of them as floats (fld/fstp, CMoProcessor_Vec3Normalize).",
+  "evidence": "disasm 0x1006CC60..+6; vtable slot 41 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x10070860, 0x1006F6B0, 0x1006D5D0; their prologues dereference each argument slot."
+ },
+ "0x1006CC70": {
+  "type": "int __thiscall(void *self, float *a1, float *a2)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0x9C]` jumps to slot 39 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so its callers' arguments were dropped from the reconstruction (which then relied on GCC emitting the call as a jump) and the gate passed none (on the live dumps the original then faulted on the empty slots: INCONCLUSIVE). Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve: the vtables holding it), whose slot 39 is 0x10070870, 0x1006F730, 0x1006D630; each pops 8 bytes (ret 8, data/purges.json), 2 arguments, every one dereferenced by at least one of them as floats (fld/fstp, CMoProcessor_Vec3Normalize).",
+  "evidence": "disasm 0x1006CC70..+6; vtable slot 39 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x10070870, 0x1006F730, 0x1006D630; their prologues dereference each argument slot."
+ },
+ "0x1006CC80": {
+  "type": "int __thiscall(void *self, void *a1)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0xC0]` jumps to slot 48 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so the reconstruction dropped them (and relied on GCC emitting a tail jump) and the gate passed none. Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve), whose slot 48 is 0x1006D3E0, 0x1006F510; each pops 4 bytes (data/purges.json): 1 argument, its prologue dereferences the argument in each (0x1006D3E0 `mov eax,[esp+0x10]` after `sub esp,0xC`, then [eax+0xC]; 0x1006F510 movaps [ecx]).",
+  "evidence": "disasm 0x1006CC80..+6; vtable slot 48 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x1006D3E0, 0x1006F510."
+ },
+ "0x1006CC90": {
+  "type": "int __thiscall(void *self, void *a1, void *a2)",
+  "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0xBC]` jumps to slot 47 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so the reconstruction dropped them (and relied on GCC emitting a tail jump) and the gate passed none. Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve), whose slot 47 is 0x1006D460, 0x1006F560; each pops 8 bytes (data/purges.json): 2 arguments, both arguments are dereferenced (0x1006D460 copies [arg2] to [arg1]; 0x1006F560 movaps from [arg2]).",
+  "evidence": "disasm 0x1006CC90..+6; vtable slot 47 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x1006D460, 0x1006F560."
  }
 }

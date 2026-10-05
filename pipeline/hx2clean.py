@@ -69,6 +69,10 @@ def orig_wrapper(name, ea, ftype):
     if '(' in ret or ')' in ret: return None       # a return type not parsed: no wrapper rather than a wrong one
     if cc.strip() == '__cdecl' and hx2cpp.PURGES.get('0x%08X' % ea): cc = '__stdcall'   # pops (`ret N`): D3DX dispatch thunks
     ret = re.sub(r'\b__noreturn\b|' + CC_RE, '', ret).strip() or 'int'    # `void __cdecl __noreturn`
+    # MSVC code returns a bool in AL and its callers test AL against zero; GCC assumes a `bool` is exactly 0 or 1
+    # and may fold it into other logic (CXiSkeletonActor 0x100CBDE0: `ModelTest(...) || !v42` with AL = 2 went
+    # the other way). The game's bool is read as the raw byte.
+    if ret == 'bool': ret = 'uint8_t'
     TYPEWORDS = {'int', 'char', 'short', 'long', 'float', 'double', 'bool', 'void', 'unsigned', 'signed',
                  '__int8', '__int16', '__int32', '__int64'}
     ps = []

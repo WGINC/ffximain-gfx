@@ -61,7 +61,11 @@ rule applied wherever its pattern occurs: exact float constants, the x87 status 
 unassigned, unconsumed float callees, `_DWORD` signedness, exact stack frames where Hex-Rays splits one
 array or one struct a callee fills (an address-taken local followed directly by a local read before it is
 assigned: `read_past_byref`, added 5 Oct for 0x10042020, 0x1001D940 and 0x1028AB50), in-place buffers,
-unordered compares.
+unordered compares. Whether an x87 compare was unordered (a NaN) is recorded where the compare is made
+(`xi_fpu_unord`), not rebuilt where the status word is read: branches may compare different operands
+(0x1017DE20). A `__thiscall` pointer whose first parameter Hex-Rays typed `float` gets `_DWORD` and the float's
+bits, since `this` travels in ECX (GCC would push a float; 0x10057FB0). A game function's `bool` return is read
+as the raw AL byte (`uint8_t`): MSVC callers test AL against zero, GCC assumes 0 or 1 (0x100CBDE0).
 
 Hex-Rays also assumes every call clobbers EAX, ECX and EDX and that a call's type is what the IDB says. Where
 the original keeps a value live across a call to a callee that leaves the register alone, or passes the
@@ -93,7 +97,10 @@ their declared precision.
 - **Fake Direct3D 8 objects**: every method call is logged as interface, method, `this` and arguments, and
   compared. Getters fill their outputs; methods that return an interface write another fake object.
 - **Inputs**: fuzzed arguments and globals, with demand-paged data (a deterministic page per trial and
-  address, the same on both sides), `this` with its real class vtable, documented value ranges
+  address, the same on both sides); one draw in eight is a constant the function's own code compares against
+  (`_cmp_consts`: `cmp`/`test` immediates and the value past them, the values a `dec`/`sub` switch chain tests,
+  float constants it compares or loads), so branches on a transform type or a colour key are reached; every
+  global the function reads at a fixed address is fuzzed, sized or not (`case_abs_reads.py`); `this` with its real class vtable, documented value ranges
   (`data/input_ranges.json`), and the Win32 calls the game makes answered as Win32 documents them.
 - **Stack addresses** passed as arguments compare as "a stack address": a rebuilt frame lays out its locals
   differently.

@@ -172,6 +172,15 @@
 "kind": "use"
 },
 {
+"function": "0x1006B4C0",
+"use": "0x1006B4D4",
+"register": "eax",
+"instruction": "ret 4",
+"defined": "0x1006B4C0",
+"kept_across": "0x1006B4CF",
+"kind": "return"
+},
+{
 "function": "0x100C63D0",
 "use": "0x100C7CA9",
 "register": "ecx",
@@ -236,10 +245,11 @@
 }
 ],
 "_summary": {
-"sites": 26,
+"sites": 27,
 "functions_with_use": 3,
 "use": 8,
 "overwritten": 14,
-"address-passed": 4
+"address-passed": 4,
+"return": 1
 }
 }

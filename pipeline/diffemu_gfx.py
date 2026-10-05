@@ -446,6 +446,8 @@ class GfxMachine(G.Machine):
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' else 0, logged))
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
+        d = getattr(self, 'dict', ())
+        if d and self.rng.random() < 0.125: v = d[self.rng.randrange(len(d))]    # one of the function's constants
         if spec.get('ret') == 'alloc':         # an allocator: a fresh zeroed block, never NULL
             v = self.alloc(args[spec['size_arg']] if spec.get('size_arg') is not None else 0x1000)
         elif spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
@@ -927,6 +929,9 @@ def setup_trial(m, case, fz):
     fz.reset()
     for g, n in case.get("fuzz_ranges", []):
         b = bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n))
+        if fz.dict and n >= 1 and fz.rng.random() < 0.25:     # one of the function's constants, at an aligned offset
+            at = 4 * fz.rng.randrange((n + 3) // 4); v = struct.pack('<I', fz.dict[fz.rng.randrange(len(fz.dict))])
+            b = b[:at] + v[:n - at] + b[at + 4:]
         if not held(int(g, 16)): m.uc.mem_write(int(g, 16), b)
     for g, spec in case.get("globals", {}).items():
         v = fz.arg(spec) & 0xFFFFFFFF
@@ -982,6 +987,7 @@ def run_case(m, case, trials, seed):
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
     fz = G.Fuzzer(m, seed)
+    fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
@@ -1088,6 +1094,51 @@ def _own_insns(f):
                 if i.mnemonic == 'call': calls.add(i.address)
         _OWN[f] = (ins, calls)
     return _OWN[f]
+
+_CONSTS = {}
+
+
+def _cmp_consts(f):
+    """the values the function's own code compares its inputs against, for the fuzzer's dictionary (Fuzzer.dict):
+    the immediate of each `cmp`/`test` (and that value + 1, the other side of an ordered comparison); in a chain
+    of `dec r` / `sub r, N` / `add r, N` each followed by a conditional jump (only `mov`/`push`/`pop`/`lea`, which leave the flags, between; an MSVC switch lowered to
+    decrements), the value of r that makes the result zero; the dword of each `fcom`/`fcomp`/`fucom`/`fucomp`
+    operand at a fixed address in the image, and of each `fld dword` from one. Only the inputs a trial draws
+    change; both sides get the same ones, so this decides nothing, it only reaches branches a random value
+    almost never takes (a transform type of 2, 3 or 256, an alpha of 0x80, a '\\n')."""
+    if f in _CONSTS: return _CONSTS[f]
+    from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
+    from capstone.x86 import X86_OP_IMM as _I, X86_OP_MEM as _MEM, X86_OP_REG as _R
+    _own_insns(f)
+    img, base = _OWN['_imgb']; md = _Cs(_A, _M); md.detail = True
+    out = set()
+    for lo, hi in _extent(f):
+        ins = list(md.disasm(img[lo - base:hi - base], lo)); off = {}
+        for n, i in enumerate(ins):
+            m = i.mnemonic; o = i.operands
+            k = n + 1                                # the next instruction that reads or sets flags
+            while k < len(ins) and ins[k].mnemonic in ('mov', 'push', 'pop', 'lea'): k += 1
+            nxt = ins[k].mnemonic if k < len(ins) else ''
+            if m in ('cmp', 'test') and len(o) == 2 and o[1].type == _I:
+                v = o[1].imm & 0xFFFFFFFF
+                r = i.reg_name(o[0].reg) if o[0].type == _R else None
+                out.add((v + off.get(r, 0)) & 0xFFFFFFFF if m == 'cmp' else v)
+                if m == 'cmp': out.add((v + off.get(r, 0) + 1) & 0xFFFFFFFF)
+            elif m in ('fcom', 'fcomp', 'fucom', 'fucomp', 'fld') and o and o[0].type == _MEM and o[0].size == 4 \
+                    and not o[0].mem.base and not o[0].mem.index and base <= o[0].mem.disp < base + len(img) - 4:
+                out.add(struct.unpack_from('<I', img, o[0].mem.disp - base)[0])
+            if m in ('dec', 'sub', 'add') and o and o[0].type == _R and (m == 'dec' or (len(o) == 2 and o[1].type == _I)):
+                r = i.reg_name(o[0].reg)
+                d = 1 if m == 'dec' else (o[1].imm if m == 'sub' else -o[1].imm)
+                off[r] = (off.get(r, 0) + d) & 0xFFFFFFFF
+                if nxt.startswith('j') and nxt != 'jmp': out.add(off[r])
+                continue
+            if m.startswith('j') or m.startswith('ret'): continue
+            for r in list(off):                      # any other write to r ends its chain
+                if o and o[0].type == _R and i.reg_name(o[0].reg) == r and m not in ('cmp', 'test', 'push'): del off[r]
+    out.discard(0)
+    _CONSTS[f] = tuple(sorted(out)); return _CONSTS[f]
+
 
 def _x87_round(st0, kind):
     """80-bit (mantissa, sign|exponent) -> the value rounded to float or double, as bytes"""

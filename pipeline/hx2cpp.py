@@ -359,6 +359,7 @@ def body_rules(ea, body, exact_signs=False):
     body = fpu_status_words(body)
     body = negate_if_negative(body)
     body = float_args_in_casts(body)
+    body = thiscall_float_this(body)
     body = deleting_dtor_this(body)
     if not exact_signs: body = signed_dword_compares(body)
     body = vmethod_this(body)
@@ -403,32 +404,44 @@ def fpu_status_words(body):
     # word variable (// fps) unassigned, so `(fps & 0x100)` reads garbage. Each read of the status word
     # becomes the word fnstsw stores, built from the condition variables assigned most recently before it.
     # Hex-Rays writes them as c0 = a < b, c2 = 0, c3 = a == b; for an unordered pair (a NaN) x87 sets all
-    # three, so the word adds the unordered case, from the operands of the c0 comparison. The variables
-    # themselves keep Hex-Rays' meaning: its `(c0 | c2)` for a `test ah, 5; jp` parity test relies on it.
+    # three, so the word adds the unordered case. Whether the pair was unordered is recorded where the
+    # comparison is made (xi_fpu_unord, set with each c0 assignment from its operands), not rebuilt at the
+    # read: when branches compare different operands (`if (..) c0 = a < b; else c0 = a < c;`) the read must
+    # see the comparison the path took, and the operands may have changed by then (0x1017DE20 tested `a, c`
+    # on the `b` path, and missed the original's call when b was a NaN). The variables themselves keep
+    # Hex-Rays' meaning: its `(c0 | c2)` for a `test ah, 5; jp` parity test relies on it.
     decl = dict((v, k) for v, k in re.findall(r'\b(v\d+); // (fps|c0|c2|c3)\b', body))
     fps = {v for v, k in decl.items() if k == 'fps'}
     if not fps: return body
     cond = {v: k for v, k in decl.items() if k != 'fps'}
     tok = re.compile(r'\b(v\d+)\b(\s*=(?!=))?')
-    last, out, pos, unord = {}, [], 0, None
+    last, out, pos, unord = {}, [], 0, False
     start = body.find('\n\n')            # skip the declarations
-    for m in tok.finditer(body, start if start > 0 else 0):
+    start = start if start > 0 else 0
+    for m in tok.finditer(body, start):
+        if m.start() < pos: continue
         v, assign = m.group(1), m.group(2)
         if v in cond and assign:
             last[cond[v]] = v
             if cond[v] == 'c0':
-                ab = _split_top(_expr_at(body, m.end()), '<')
-                unord = '__builtin_isunordered(%s, %s)' % ab if ab else None
+                rhs = _expr_at(body, m.end()); ab = _split_top(rhs, '<')
+                un = '__builtin_isunordered(%s, %s)' % ab if ab else '0'
+                out.append(body[pos:m.start()])
+                out.append('(xi_fpu_unord = %s, %s%s)' % (un, body[m.start():m.end()], rhs))
+                pos = m.end() + len(rhs); unord = True
         elif v in fps and not assign and last:
             bit = {'c0': 0x100, 'c2': 0x400, 'c3': 0x4000}
             if unord:
-                bits = ' | '.join('((%s) ? 0x%X : 0)' % (' || '.join(([last[k]] if k in last and k != 'c2' else []) + [unord]), bit[k])
+                bits = ' | '.join('((%s) ? 0x%X : 0)' % (' || '.join(([last[k]] if k in last and k != 'c2' else []) + ['xi_fpu_unord']), bit[k])
                                   for k in ('c0', 'c2', 'c3'))
             else:
                 bits = ' | '.join('(%s ? 0x%X : 0)' % (last[k], bit[k]) for k in ('c0', 'c2', 'c3') if k in last)
             out.append(body[pos:m.start()]); out.append('(__int16)(%s)' % bits); pos = m.end()
     out.append(body[pos:])
-    return ''.join(out)
+    res = ''.join(out)
+    if unord:                            # declared with the function's other locals
+        res = res[:start] + '\n  bool xi_fpu_unord = false;' + res[start:]
+    return res
 
 def negate_if_negative(body):
     # `fcom [0.0]; fnstsw ax; test ah, 5; jp skip` followed by `fchs` (x < 0 ? -x : x, the game's inline
@@ -473,6 +486,40 @@ def float_args_in_casts(body):
         new = [('float' if p in ('_DWORD', 'int', 'unsigned int') and x.startswith('*(float *)') else p) for p, x in zip(ps, args)]
         if new != ps:
             out.append(body[pos:i]); out.append(', '.join(new)); pos = j - 1
+    out.append(body[pos:])
+    return ''.join(out)
+
+def _group_end(text, i):
+    # text[i] is '(': the index just past its matching ')', or -1
+    d = 0
+    for j in range(i, len(text)):
+        d += {'(': 1, ')': -1}.get(text[j], 0)
+        if d == 0: return j + 1
+    return -1
+
+def thiscall_float_this(body):
+    # A __thiscall's first parameter is `this`, passed in ECX, whatever Hex-Rays typed it. Typed `float` (an
+    # object pointer kept in a stack slot Hex-Rays also uses as a float), GCC pushes it instead and ECX keeps a
+    # stale value (CMoSchedularTask_Interpret, 0x1005CA6E `mov ecx, ebp; call [eax+0x178]` became a call with
+    # ECX = 2). In `(*(T (__thiscall **)(float, ...))(ptr))(x, ...)` the parameter is declared `_DWORD` and
+    # passed x's bits: COERCE_FLOAT(y) becomes y; any other float, xi_bitcast<uint32_t>((float)(x)).
+    out, pos = [], 0
+    for m in re.finditer(r'\(\*\([^()]*\(__thiscall \*\*\)\((float|double)(?=[,)])', body):
+        if m.start() < pos: continue
+        pl = m.end() - len(m.group(1)) - 1                    # '(' of the parameter list
+        pe = _group_end(body, pl)
+        if pe < 0 or body[pe:pe + 2] != ')(': continue
+        ee = _group_end(body, pe + 1)                          # the pointer expression
+        if ee < 0 or body[ee:ee + 2] != ')(': continue
+        ae = _group_end(body, ee + 1)
+        if ae < 0: continue
+        ps, args = _split_args(body[pl + 1:pe - 1]), _split_args(body[ee + 2:ae - 1])
+        if not args or len(ps) != len(args): continue
+        x = args[0]; inner = x[len('COERCE_FLOAT('):-1]
+        if x.startswith('COERCE_FLOAT(') and _expr_at(x, len('COERCE_FLOAT(')) == inner: arg0 = inner
+        else: arg0 = 'xi_bitcast<uint32_t>((float)(%s))' % x
+        out += [body[pos:pl + 1], ', '.join(['_DWORD'] + ps[1:]), body[pe - 1:ee + 2], ', '.join([arg0] + args[1:])]
+        pos = ae - 1
     out.append(body[pos:])
     return ''.join(out)
 

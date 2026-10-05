@@ -13,13 +13,16 @@ it bound (`cmp r, N` / `ja`, falling through, no jump landing between them) with
 Then, per gated function, over its control flow: a register's value is "kept" once it has survived a call to a
 callee that leaves it untouched. A kept value is listed where it is used: an instruction that reads it (capstone
 regs_access; `xor r, r` / `or r, -1` are not reads), or a direct call to a callee that reads that register on
-entry (data/ecx_use.json, data/edx_use.json). A callee whose use "cannot tell" is not counted as a reader.
+entry (data/ecx_use.json, data/edx_use.json), or the `ret` of a function whose prototype returns a value (EAX). A
+callee whose use "cannot tell" is not counted as a reader.
 
     FFXI_DLL=... python3 reg_kept_audit.py data/reg_kept_audit.json
 Output {"sites": [{"function", "use", "register", "instruction", "defined", "kept_across", "kind"}], "_summary"};
 kind (slot_kind): for `push REG`, "overwritten" (MSVC's stack-slot reservation, written before anything can read
 it: the kept value is not used) or "address-passed" (the slot's address goes to a callee first: not decided here);
-otherwise "use", the case a translation must reproduce."""
+"return" for a `ret` of a function declared to return a value (EAX is its result: Hex-Rays writes `return
+callee(...)` there, the callee's EAX, when the original returns the value it kept); otherwise "use", the case a
+translation must reproduce."""
 import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
@@ -80,6 +83,12 @@ def main(out):
     ext = json.load(open(os.path.join(D, 'func_extents.json')))
     ecxu = json.load(open(os.path.join(D, 'ecx_use.json'))); edxu = json.load(open(os.path.join(D, 'edx_use.json')))
     gated = {int(json.loads(l)['original'], 16) for l in open(os.path.join(V, 'gate_clean_final.jsonl'))}
+    # a function declared to return a value reads EAX at its `ret` (the IDB's prototype, as type-fixed)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import hx_patches
+    returns = set()
+    for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
+        r = hx_patches.fix_types(json.loads(l))
+        if r.get('ret', '').strip() not in ('void', ''): returns.add(r['ea'])
     code = {int(k, 16): im.code(v) for k, v in ext.items()}
     orders = {f: sorted(ins) for f, ins in code.items()}
 
@@ -146,13 +155,14 @@ def main(out):
             if len(o) == 2 and o[0].type == X86_OP_REG and ((i.mnemonic in ('xor', 'sub') and o[1].type == X86_OP_REG and o[0].reg == o[1].reg)
                                                            or (i.mnemonic == 'or' and o[1].type == X86_OP_IMM and o[1].imm & 0xFFFFFFFF == 0xFFFFFFFF)):
                 rd = set()
+            if i.mnemonic.startswith('ret') and f in returns: rd.add('eax')
             if i.mnemonic == 'call' and o and o[0].type == X86_OP_IMM:
                 c = '0x%08X' % o[0].imm
                 if ecxu.get(c): rd.add('ecx')
                 if edxu.get(c): rd.add('edx')
             for r, d, k in before[a]:
                 if k is not None and r in rd:
-                    kind = slot_kind(ins, order, a) if i.mnemonic == 'push' else 'use'
+                    kind = slot_kind(ins, order, a) if i.mnemonic == 'push' else 'return' if i.mnemonic.startswith('ret') else 'use'
                     sites.append({'function': '0x%08X' % f, 'use': '0x%08X' % a, 'register': r,
                                   'instruction': '%s %s' % (i.mnemonic, i.op_str), 'defined': d, 'kept_across': k, 'kind': kind})
     sites.sort(key=lambda s: (s['function'], s['use'], s['register'], s['defined'], s['kept_across']))

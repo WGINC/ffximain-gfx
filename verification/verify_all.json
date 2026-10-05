@@ -93,6 +93,16 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:ecx_this_sites.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:reg_kept_audit.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:ida_classes.json": {
   "ok": true,
   "differing": [],
@@ -183,7 +193,7 @@
  },
  "hx_patches": {
   "ok": true,
-  "patches": 6,
+  "patches": 17,
   "stale": [],
   "without_evidence": []
  },

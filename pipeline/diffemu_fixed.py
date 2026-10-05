@@ -272,6 +272,7 @@ class Fuzzer:
         self.m = m
         self.rng = random.Random(seed)
         self.cursor = SANDBOX
+        self.dict = ()          # values the function under test compares against (diffemu_gfx._cmp_consts); empty: none
 
     def reset(self):
         self.cursor = SANDBOX
@@ -303,7 +304,11 @@ class Fuzzer:
         after another; only the Python call overhead is gone."""
         rnd = self.rng.random; bits = self.rng.getrandbits; f2i = _F2I
         span = POOL_SIZE - 0x1000; kspan = span.bit_length(); out = []
+        d = self.dict
         for _ in range(n):
+            # with a dictionary, one draw in eight is one of the constants the function compares against (an extra
+            # random() per value; without one the stream is exactly as before)
+            if d and rnd() < 0.125: out.append(d[int(rnd() * len(d))]); continue
             k = rnd()
             if k < 0.25: out.append(0)
             elif k < 0.45:

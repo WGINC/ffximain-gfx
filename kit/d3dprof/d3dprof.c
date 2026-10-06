@@ -71,7 +71,7 @@ static int g_recording;               /* between BeginStateBlock and EndStateBlo
 static DWORD g_thread;
 static char g_out[MAX_PATH];
 int d3dprof_call_time;                 /* per-call time (below, d3dprof_return); xikit sets it from call_time= */
-static double g_ct_overhead_us;       /* two counter reads back to back, measured at attach */
+static double g_ct_overhead_us, g_ct_overhead_min_us;   /* two counter reads back to back, measured at attach: mean, least */
 
 /* per (slot, site) totals over the report window */
 /* kind: 0 = a call site in FFXiMain (the analysed address of the return address), 1 = a caller outside
@@ -89,7 +89,7 @@ static const struct { uint32_t ret; uint32_t off; } WRAP[] = {
   {0x1000CC5E, 52}, {0x1000CCA6, 52}, {0x1000CCF1, 40},     /* CDx_DrawIndexedPrimitive: 48, 48, 36 */
   {0x1000CD59, 48}, {0x1000CD9C, 48}, {0x1000CDE2, 36}};    /* CDx_DrawPrimitiveUP: 44, 44, 32 */
 static Site g_sites[MAXSITES];
-static uint32_t g_nsites, g_dropped_sites, g_other_thread;
+static uint32_t g_nsites, g_dropped_sites, g_other_thread, g_other_window, g_frame_abs;
 /* the value each state was last set to (0xFFFFFFFF never set; reset by ApplyStateBlock, see below) */
 static uint32_t g_rs[256], g_tss[8][32], g_vs, g_ib;
 static void *g_tex[8], *g_vb[16];
@@ -349,12 +349,13 @@ static void report(void) {
   if (!f) return;
   double n = g_frames ? (double)g_frames : 1.0;
   fprintf(f, "# d3dprof v2: %u frames; frame ms avg %.3f min %.3f max %.3f; per frame: calls %.1f draws %.1f "
-             "primitives %.1f redundant_sets %.1f; other_thread_calls %u; sites %u (dropped %u)\n",
+             "primitives %.1f redundant_sets %.1f; other_thread_calls %u in this window (%u since the start); sites %u (dropped %u)\n",
           g_frames, g_ms_sum / n, g_ms_min, g_ms_max, g_calls_window / n, g_draws_window / n, g_prims_window / n,
-          g_redundant_window / n, g_other_thread, g_nsites, g_dropped_sites);
+          g_redundant_window / n, g_other_window, g_other_thread, g_nsites, g_dropped_sites);
+  g_other_window = 0;
   if (d3dprof_call_time)
     fprintf(f, "# call time: QueryPerformanceCounter at %.0f Hz around each call on the render thread; timer overhead per "
-               "call (two counter reads, measured at start, not subtracted) %.3f us\n", (double)g_qpf.QuadPart, g_ct_overhead_us);
+               "call (two counter reads back to back, measured at start, not subtracted): mean %.3f us, least %.3f us\n", (double)g_qpf.QuadPart, g_ct_overhead_us, g_ct_overhead_min_us);
   fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame%s\n",
           d3dprof_call_time ? ",us_per_call,us_per_frame" : "");
   for (uint32_t i = 0; i < MAXSITES; i++) {
@@ -403,7 +404,7 @@ const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES
 
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
-  if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_next[slot]; }
+  if (GetCurrentThreadId() != g_thread) { g_other_thread++; g_other_window++; return g_next[slot]; }
   /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
   uint32_t ra = a[0];
   if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
@@ -445,6 +446,7 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     if (g_last_present.QuadPart) {
       double ms = (now.QuadPart - g_last_present.QuadPart) * 1000.0 / g_qpf.QuadPart;
       g_ms_sum += ms; if (ms > g_ms_max) g_ms_max = ms; if (ms < g_ms_min) g_ms_min = ms;
+      g_frame_abs++;
       if (++g_frames >= REPORT_EVERY) report();
     }
     g_last_present = now;
@@ -535,10 +537,10 @@ static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, 
   if (!g_res) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_resources_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
     g_res = fopen(path, "a");
-    if (g_res) fprintf(g_res, "# resources created through the device: frame,thread,method,call_site,result,object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
+    if (g_res) fprintf(g_res, "# resources created through the device: frame (since the start),thread,method (quoted),call_site,result,object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
   }
   if (g_res) {
-    fprintf(g_res, "%u,%s,%s,0x%08X,%08lX,%08X", g_frames, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra), (unsigned long)hr, obj);
+    fprintf(g_res, "%u,%s,\"%s\",0x%08X,%08lX,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra), (unsigned long)hr, obj);
     for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
     fputc('\n', g_res); fflush(g_res);
   }
@@ -592,13 +594,15 @@ static void resources_init(void) {
   snprintf(g_resdir, sizeof g_resdir, "%s", g_out); char *sl = strrchr(g_resdir, '\\'); if (sl) *sl = 0; else snprintf(g_resdir, sizeof g_resdir, ".");
   g_res_init = 1;
 }
-static void measure_overhead(void) {      /* two counter reads back to back: the least of 1000, in microseconds */
-  LONGLONG best = -1;
+static void measure_overhead(void) {      /* two counter reads back to back, 1000 times: the mean and the least, in us */
+  LONGLONG best = -1, sum = 0;
   for (int i = 0; i < 1000; i++) {
     LARGE_INTEGER x, y; QueryPerformanceCounter(&x); QueryPerformanceCounter(&y);
-    if (best < 0 || y.QuadPart - x.QuadPart < best) best = y.QuadPart - x.QuadPart;
+    LONGLONG d = y.QuadPart - x.QuadPart; sum += d;
+    if (best < 0 || d < best) best = d;
   }
-  g_ct_overhead_us = g_qpf.QuadPart ? best * 1e6 / (double)g_qpf.QuadPart : 0;
+  g_ct_overhead_us = g_qpf.QuadPart ? sum / 1000.0 * 1e6 / (double)g_qpf.QuadPart : 0;
+  g_ct_overhead_min_us = g_qpf.QuadPart ? best * 1e6 / (double)g_qpf.QuadPart : 0;
 }
 
 static void set_next(void) {

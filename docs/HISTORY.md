@@ -523,3 +523,28 @@ has been run in the game yet.
 - Tested offline: `kit/speedfix/test/test_speedfix.py` (Wine host with the real DLL and the kit: 20 checks; the gate
   on the query hook: PASS, 38 of 38 instructions). The kit now applies `respect_speedfix` to the mod too. Not run in
   the game.
+
+## 6 Oct (later): the owner's baseline capture (kit 0de35c4, no speedfix, swap=0, profile=1 call_time=1)
+- d3dprof's last 600-frame window (process 10016): 19.2 ms per frame; 13,701 Direct3D calls, 1,670 draws, 4,519
+  sets that repeat the current value. The timed calls add up to about 15.9 ms per frame, timer reads included. Frame
+  time varied between 18 and 46 ms over the session's windows (xikit_timing), so only a run ending in the same place
+  compares with this window.
+- Where the measured time is:
+  - EndScene: 4.4 ms (3 per frame, 1.46 ms each);
+  - SetRenderState: 3.9 ms, 3.6 ms of it at one site, 0x1011F962 in Cell_DrawQuadBlended (ALPHABLENDENABLE = 0 right
+    after each quad's DrawPrimitiveUP; 540 per frame at 6.7 us; 10 of them repeats). The other sites average about
+    0.1 us;
+  - DrawPrimitiveUP: 3.4 ms (1,031 per frame);
+  - DrawPrimitive: 2.7 ms.
+  Not known: whether that state change is expensive itself, or whether the layers below (dgVoodoo) do the queued
+  draw's work when blending changes. The trace cannot tell them apart. Either way the state cache cannot remove it
+  (it is not a repeat), and batching cannot merge across it.
+- SetVertexShader: 1,215 of 1,241 per frame repeat the bound shader (0.1 ms in all).
+- Other-thread calls: 3,220 since the start. In the resource log, 1,970 creations were on another thread
+  (CreateVertexBuffer, CreateTexture).
+- Fixed in d3dprof's reports (no change to what is measured):
+  - the resource log's method field held unquoted commas, which shifted the columns;
+  - its frame column was the frame within the window;
+  - `other_thread_calls` was a total since the start without saying so; it is now given per window and since the
+    start;
+  - the timer cost showed only the least of 1000 back-to-back read pairs, 0 at 24 MHz. It now shows the mean too.

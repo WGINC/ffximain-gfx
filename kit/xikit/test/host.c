@@ -402,8 +402,8 @@ int main(int argc, char **argv) {
       check(tex == g_faketex && vsh == 0x1234, "CreateTexture and CreateVertexShader through the hooked device still return the device's results");
       snprintf(name, sizeof name, "xikit_resources_%lu.csv", GetCurrentProcessId());
       FILE *rf = fopen(name, "r"); int t1 = 0, v1 = 0;
-      if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, "CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
-                                                       if (strstr(line, "CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
+      if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, ",\"CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
+                                                       if (strstr(line, ",\"CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
       check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created"); }
     /* timing (always) and the sampling profiler (sample=1): written every report_every (60) frames */
     snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());

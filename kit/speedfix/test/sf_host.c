@@ -40,6 +40,8 @@ static DWORD g_nvs = 0x101;                      /* shader handles: odd, as D3D8
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD us) {
   *h = g_nvs; g_nvs += 2; rec(75, *h, (uint32_t)(uintptr_t)fn, us, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletevs(void *d, DWORD h) { rec(78, h, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) { rec(28, 0, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, 0, 0); return 0; }
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
 static struct { void **vt; } g_dev = { g_vt };
@@ -66,6 +68,8 @@ static DWORD createvs(const DWORD *decl, const DWORD *fn) { DWORD h = 0; DEV(75,
 static void deletevs(DWORD h) { DEV(78, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, h); }
 static void dpup(DWORD t, UINT n, const void *data, UINT stride) { DEV(72, HRESULT (__stdcall *)(void *, DWORD, UINT, const void *, UINT))(&g_dev, t, n, data, stride); }
 static void frames(int k) { for (int i = 0; i < k; i++) { begin(); end(); present(); } }
+static void copyrects(void) { DEV(28, HRESULT (__stdcall *)(void *, void *, const void *, UINT, void *, const void *))(&g_dev, 0, 0, 0, 0, 0); }
+static void setview(float x) { float m[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, x,0,0,1}; DEV(37, HRESULT (__stdcall *)(void *, DWORD, const float *))(&g_dev, 2, m); }
 static int count(int slot, LONG from) { int c = 0; for (LONG i = from; i < g_n; i++) c += g_log[i].slot == slot; return c; }
 /* the device calls since `from`, as slot numbers, e.g. "50 72 72 35" */
 static const char *seq(LONG from) { static char b[512]; int o = 0; b[0] = 0;
@@ -91,6 +95,7 @@ int main(int argc, char **argv) {
   if (rel) { printf("FAIL: the test needs the game DLL at its analysed base\n"); return 2; }
   for (int k = 0; k < 97; k++) g_vt[k] = (void *)d_other;
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
+  g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
@@ -107,7 +112,7 @@ int main(int argc, char **argv) {
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
-  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\n");
+  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
   check(g_dev.vt != g_vt, "the kit hooked the device");
@@ -254,6 +259,23 @@ int main(int argc, char **argv) {
   check(g_cpu[9] == 1, "sse_skinning=1: the flag is 1, so 0x1002F1D0 takes the game's SSE loop");
   touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nsse_skinning=0\n"); frames(65);
   check(g_cpu[9] == 0, "sse_skinning=0 again: the game's own value (0) is back");
+  /* merge_scenes: inside a frame the game's EndScene and the BeginScene after it never reach the device; the scene
+     ends once, before Present; a CopyRects closes it first (then the next BeginScene goes through) */
+  touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nmerge_scenes=1\nstats_every=1\n"); frames(65);
+  { LONG m = g_n; begin(); end(); begin(); end(); begin(); end(); present();
+    check(count(34, m) == 1 && count(35, m) == 1 && last(35) && last(15) && last(35) < last(15),
+          "merge_scenes=1: three scenes in a frame reach the device as one BeginScene and one EndScene, before Present");
+    m = g_n; begin(); end(); copyrects(); begin(); end(); present();
+    check(count(34, m) == 2 && count(35, m) == 2 && !strcmp(seq(m), "34 35 28 34 35 15"),
+          "... a CopyRects between scenes ends the held scene first, and the next BeginScene goes through");
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nmerge_scenes=0\nstats_every=1\n"); frames(65);
+    m = g_n; begin(); end(); begin(); end(); present();
+    check(count(34, m) == 2 && count(35, m) == 2, "merge_scenes=0 again: every scene reaches the device"); }
+  /* motion_stats (on at this start): 30 frames with the same view, then 30 with the view changing each frame; the log
+     line each second splits them (test_speedfix.py reads it) */
+  for (int i = 0; i < 30; i++) { begin(); setview(0); end(); present(); }
+  for (int i = 0; i < 30; i++) { begin(); setview((float)i); end(); present(); }
+  Sleep(1100); frames(2);
   /* the tier the game chose, logged once it has chosen: a processor object of the x87 class (test_speedfix.py reads the log) */
   { static uint32_t proc[4]; proc[0] = (uint32_t)GAME(0x1032C368u); *(void **)GAME(0x1047CF7Cu) = proc; frames(3); }
 

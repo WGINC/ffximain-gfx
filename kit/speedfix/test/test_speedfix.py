@@ -23,11 +23,15 @@ for mode in ('minimal', 'full', 'lazy'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
     if mode == 'minimal':
-        ok = 'speedfix: 13 device methods hooked, 0 flush guards' in log
-        print('%s: minimal: 13 device methods hooked, no flush guards' % ('ok' if ok else 'FAIL')); bad += not ok
+        ok = 'speedfix: 13 device methods hooked, 3 flush guards' in log
+        print('%s: minimal: 13 device methods hooked, 3 flush guards (CopyRects, UpdateTexture, GetFrontBuffer: merge_scenes)' % ('ok' if ok else 'FAIL')); bad += not ok
+    import re
     if mode == 'full':
         ok = 'speedfix: cpu tier in use: x87' in log
         print('%s: full: the tier the game chose is logged (x87 class vtable)' % ('ok' if ok else 'FAIL')); bad += not ok
+        mv = re.findall(r'motion: camera moving: (\d+) frames', log); st = re.findall(r'motion: camera still : (\d+) frames', log)
+        ok = sum(map(int, mv)) >= 29 and sum(map(int, st)) >= 30 and 'merge_scenes: ' in log
+        print('%s: full: motion_stats splits still and moving frames (still %s, moving %s); merge_scenes counted its drops' % ('ok' if ok else 'FAIL', st, mv)); bad += not ok
     if mode == 'lazy':
         import re
         ab = re.search(r'speedfix: ab 1 \(lazy_state, bogus\): A \(off\) [0-9.]+ ms, B \(on\) [0-9.]+ ms', log)

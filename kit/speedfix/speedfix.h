@@ -25,6 +25,9 @@ struct SfConfig {
   int lazy_state;           // hold RS / TSS / texture changes until something reads the state (a draw); a change undone
                             // before then never reaches the device
   int vs_dedupe;            // CreateVertexShader of a declaration already made (no function): the same handle again
+  int merge_scenes;         // one BeginScene/EndScene pair a frame: the game's inner EndScene..BeginScene pairs dropped
+  int motion_stats;
+  int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
 };
 extern SfConfig sf_cfg;

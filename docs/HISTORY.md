@@ -722,3 +722,11 @@ than once); fixed.
   - Run 6156's samples show the x87 tier in use. Its methods took 0.6% of the render thread, so the tier itself is
     not a lever there.
   - Not taken: its camera still/moving split of frame statistics, which needs a SetTransform hook.
+- **speedfix additions after the Bedau runs:**
+  - `merge_scenes` (lever): one Begin/EndScene pair a frame. The profiled run had 7.7 scenes a frame and 4.6 ms in
+    EndScene.
+  - `motion_stats`: speedfix_hook's still/moving split of frame statistics.
+  - `stats_every`: seconds between the statistics lines.
+  - `ab_levers` groups separated by `;`, run one after another. Several levers can be measured in one session
+    without editing the ini between them.
+  - All Wine-tested (test_speedfix.py); none run in the game yet.

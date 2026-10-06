@@ -31,6 +31,9 @@ checked against the analysed build, and each change to the game's code checks th
 | `lazy_state` | 0 | Lever: hold SetRenderState / SetTextureStageState / SetTexture until a method that reads them; a change undone before then never reaches the device (below) |
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
+| `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
+| `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
+| `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
 
 ## The levers (measured, not yet decided)
@@ -78,6 +81,22 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     - how far the SSE loop's single-precision results differ from the x87 loop's (it is the game's own code for
       Intel CPUs);
     - what the emulator's CPUID vendor is.
+- **merge_scenes: frame time.** The profiles show several BeginScene/EndScene pairs a frame. The owner's Bedau run
+  made 7.7 a frame, its EndScene calls taking 4.6 ms a frame in all, about 0.6 ms each. Under dgVoodoo that may be
+  where queued work is submitted.
+  - What it does: the game's EndScene inside a frame is held, and the BeginScene after it is dropped, so the frame
+    is one scene. The held EndScene goes out before Present, Reset, CopyRects, UpdateTexture and GetFrontBuffer;
+    those three always pass through a flushing stub, so the minimal start has 3 stubs.
+  - Not known: whether the cost moves to Present instead of going away (the A/B answers that), and whether any
+    driver treats a render-target switch inside one long scene differently.
+- **motion_stats: where stutter comes from** (speedfix_hook's still/moving split).
+  - The camera counts as moving in a frame when that frame's first view transform differs from the previous
+    frame's.
+  - Per label, each statistics line gives:
+    - frame time: mean, p50, p95;
+    - per frame: draws (UP draws among them), CopyRects (each occlusion readback copies with one), textures bound
+      for the first time, and resource creations.
+  - It hooks the draws, SetTransform and the Create methods from the start. It is a measurement, not a lever.
 - **Already there, now measurable one at a time:** `batch_up_draws` (1,031 DrawPrimitiveUP a frame through the CDx
   wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
   the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
@@ -109,8 +128,10 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`. Several can be listed together (they go off
-and on together). Empty `ab_levers` and set it again for another run.
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`. Several can be
+listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
+its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
+and set it again for another run.
 
 ## What changed from speedfix_hook
 
@@ -136,7 +157,8 @@ and on together). Empty `ab_levers` and set it again for another run.
   Lists are merged whatever the state.
 - **Only the hooks it needs.** With batching, the extended cache and lazy_state off at the start (the defaults),
   speedfix hooks 13 device methods: the cached setters, Reset, Present, the scene and state-block methods, and
-  CreateVertexShader / DeleteVertexShader (vs_dedupe). Every other call goes
+  CreateVertexShader / DeleteVertexShader (vs_dedupe). CopyRects, UpdateTexture and GetFrontBuffer pass a flushing
+  stub, for merge_scenes. Every other call goes
   straight to the layer below. Each hooked method costs a pass through the kit's front layer and speedfix on every
   call, and d3dprof, which sits below them, cannot see that cost. Turning batching or the extended cache on while
   the game runs then takes effect at the next start.
@@ -168,7 +190,10 @@ and on together). Empty `ab_levers` and set it again for another run.
     0xFFFFFFFF, a shader with code made as asked, deletion only by the last holder;
   - the lever A/B: phases A then B, the summary, an unknown name left out;
   - sse_skinning: off leaves the game's SSE flag (0), on sets it to 1 (the CPU under Wine reports SSE), off again
-    puts the game's value back.
+    puts the game's value back;
+  - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
+    between scenes ends the held scene first, off again passes every scene;
+  - motion_stats: frames with a fixed view and frames with a changing view are counted apart.
 - **The gate:** the query hook.
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any

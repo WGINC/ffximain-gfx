@@ -100,6 +100,14 @@ static const char kDefaultIni[] =
   ";   (0x1000D400) sets its SSE flag only for an Intel or Transmeta vendor string, so other CPUs, and the x86\r\n"
   ";   emulation of Windows on ARM if it reports another vendor, skin with x87; live both ways\r\n"
   "sse_skinning=0\r\n"
+  "; one BeginScene/EndScene pair a frame: an EndScene is held, and dropped with the BeginScene after it, until Present,\r\n"
+  ";   Reset, CopyRects, UpdateTexture or GetFrontBuffer (the game ends and begins scenes several times a frame)\r\n"
+  "merge_scenes=0\r\n"
+  "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
+  ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
+  "motion_stats=0\r\n"
+  "; seconds between speedfix's statistics lines in xikit.log\r\n"
+  "stats_every=60\r\n"
   "; A/B of levers with no keys: ab_levers lists settings above (comma-separated); ab_after seconds after it is\r\n"
   ";   saved non-empty, phases of ab_phase seconds A B B A, ab_rounds times: A = those settings off (occlusion_stagger\r\n"
   ";   4, the game's), B = as set above. The first ab_settle frames of a phase are left out. Results in xikit.log\r\n"
@@ -118,6 +126,8 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
+  c.merge_scenes = rd("merge_scenes", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -135,9 +145,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.motion_stats);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -282,11 +292,12 @@ static const Lever kLevers[] = {
   {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
-  {"sse_skinning", &SfConfig::sse_skinning, 0},
+  {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
 static char g_ab_list[256];                 // ab_levers as read
+static char g_ab_cur[256]; static int g_ab_grp;   // the group running now (ab_levers groups split by ';' run in turn)
 static bool g_ab_use[NLEV]; static int g_ab_state;   // 0 idle, 1 waiting ab_after, 2 running, 3 done
 static DWORD g_ab_t0; static int g_ab_i, g_ab_nph, g_ab_seen, g_ab_n, g_ab_phase, g_ab_settle, g_ab_after, g_ab_run;
 static double g_ab_ft[AB_MAX], g_ab_mean[32], g_ab_med[32], g_ab_p95[32]; static int g_ab_cnt[32];
@@ -324,7 +335,7 @@ static void ab_finish(void) {
   if (!c[0] || !c[1]) { LOG("speedfix: ab %d: done, but a label has no frames: nothing to compare", g_ab_run); return; }
   double a = s[0] / c[0], b = s[1] / c[1], noise = hi[0] - lo[0] > hi[1] - lo[1] ? hi[0] - lo[0] : hi[1] - lo[1];
   LOG("speedfix: ab %d (%s): A (off) %.2f ms, B (on) %.2f ms: B - A %+.2f ms (%+.1f%%), medians %+.2f ms, p95 %+.2f ms; "
-      "phases of one label differ by up to %.2f ms%s", g_ab_run, g_ab_list, a, b, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0,
+      "phases of one label differ by up to %.2f ms%s", g_ab_run, g_ab_cur, a, b, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0,
       m[1] / c[1] - m[0] / c[0], p[1] / c[1] - p[0] / c[0], noise, c[0] < 2 || c[1] < 2 ? " (one phase of a label: no measure of the noise; use ab_rounds of 2 or more)"
       : fabs(b - a) <= noise ? " (the difference is within that)" : "");
 }
@@ -332,9 +343,14 @@ static void ab_read(void) {                 // ab_levers and its timings from th
   char list[256]; GetPrivateProfileStringA("speedfix", "ab_levers", "", list, sizeof list, g_ini);
   if (strcmp(list, g_ab_list)) {
     if (g_ab_state == 1 || g_ab_state == 2) { set_config(g_base); LOG("speedfix: ab: ab_levers changed: this run stopped, the settings as set"); }
-    g_ab_state = 0; strcpy(g_ab_list, list);
+    g_ab_state = 0; g_ab_grp = 0; strcpy(g_ab_list, list);
   }
   if (g_ab_state || !list[0]) return;
+  // the group g_ab_grp of the ';'-separated list
+  { char *g = list; for (int k = 0; k < g_ab_grp && g; k++) { g = strchr(g, ';'); if (g) g++; }
+    if (!g) { g_ab_state = 3; LOG("speedfix: ab: every group of ab_levers has run; empty it and set it again for another run"); return; }
+    char *e = strchr(g, ';'); if (e) *e = 0;
+    memmove(list, g, strlen(g) + 1); snprintf(g_ab_cur, sizeof g_ab_cur, "%s", list); }
   int n = 0; char bad[256] = "";
   for (int i = 0; i < NLEV; i++) g_ab_use[i] = false;
   for (char *t = strtok(list, ", \t"); t; t = strtok(NULL, ", \t")) {
@@ -345,8 +361,8 @@ static void ab_read(void) {                 // ab_levers and its timings from th
     g_ab_use[j] = true; n++;
   }
   if (bad[0]) LOG("speedfix: ab: left out:%s", bad);
-  if (!n) { LOG("speedfix: ab: no lever to compare; nothing runs"); g_ab_state = 3; return; }
-  g_ab_after = rd("ab_after", 60); g_ab_phase = rd("ab_phase", 30); g_ab_settle = rd("ab_settle", 60);
+  if (!n) { LOG("speedfix: ab: group %d (%s): no lever to compare; skipped", g_ab_grp + 1, g_ab_cur); g_ab_grp++; return; }
+  g_ab_after = g_ab_grp ? 5 : rd("ab_after", 60); g_ab_phase = rd("ab_phase", 30); g_ab_settle = rd("ab_settle", 60);
   int rounds = rd("ab_rounds", 4);
   if (g_ab_after < 0) g_ab_after = 0;
   if (g_ab_phase < 1) g_ab_phase = 1;
@@ -355,8 +371,8 @@ static void ab_read(void) {                 // ab_levers and its timings from th
   if (g_ab_settle < 0) g_ab_settle = 0;
   g_ab_nph = 2 * rounds; for (int i = 0; i < 32; i++) g_ab_cnt[i] = 0;
   g_ab_state = 1; g_ab_t0 = GetTickCount();
-  LOG("speedfix: ab: %s: starts in %d s: %d phases of %d s (A B B A ...), the first %d frames of each left out; stand still",
-      g_ab_list, g_ab_after, g_ab_nph, g_ab_phase, g_ab_settle);
+  LOG("speedfix: ab: group %d (%s): starts in %d s: %d phases of %d s (A B B A ...), the first %d frames of each left out; stand still",
+      g_ab_grp + 1, g_ab_cur, g_ab_after, g_ab_nph, g_ab_phase, g_ab_settle);
 }
 static void ab_control(void) {              // each frame, render thread
   LARGE_INTEGER now; QueryPerformanceCounter(&now);
@@ -371,7 +387,7 @@ static void ab_control(void) {              // each frame, render thread
   else if (g_ab_state == 2 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_phase * 1000) {
     ab_end_phase();
     if (g_ab_i + 1 < g_ab_nph) ab_set(g_ab_i + 1);
-    else { ab_finish(); g_ab_state = 3; LOG("speedfix: ab: empty ab_levers and set it again for another run"); }
+    else { ab_finish(); g_ab_grp++; g_ab_state = 0; }      // the next group, if any, at the next read (ab_read)
   }
 }
 
@@ -414,7 +430,7 @@ extern "C" void sf_frame(void) {
   ab_control();
   apply_code();
   sf_device_frame();
-  if (GetTickCount() - last_stats >= 60000) {
+  if (GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
     last_stats = GetTickCount();
     sf_device_stats();
     LONG rs = InterlockedExchange(&g_rb_skipped, 0), rr = InterlockedExchange(&g_rb_run, 0);

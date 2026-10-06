@@ -77,6 +77,8 @@ static int g_recording;                 // between BeginStateBlock and EndStateB
 static DWORD g_curVS = 1;               // the bound shader or FVF (1: unknown), tracked whatever the switches
 static DWORD g_fill, g_shade; static bool g_fillV, g_shadeV;   // FILLMODE (8), SHADEMODE (9), tracked always
 static int g_frame, g_last_scene_frame = -1;
+static bool g_motion;                   // motion_stats at the start (its hooks are installed then)
+static bool g_sceneHeld; static void *g_heldDev; static volatile LONG g_mergedEnds;   // merge_scenes
 volatile int sf_frame_no, sf_hooks_frame = -1;     // speedfix.h: the frame number, the last frame whose scene ran through these hooks
 
 static void forget_all(void) {
@@ -160,10 +162,14 @@ static bool other_state(int s) {
   }
   return false;
 }
+static void close_held(void);
+static void mot_count(int id);
 static void __cdecl stub_enter(int id, DWORD *sp) {      // sp[0] = return address, sp[1] = this, sp[2...] = arguments
   if (!render_thread()) { if (g_render_tid) foreign(); return; }
   flush();
   if (g_npl && id < NSLOT && !other_state(id)) apply_pending();
+  if (id == 28 || id == 29 || id == 30) close_held();     // CopyRects, UpdateTexture, GetFrontBuffer: outside a merged scene
+  if (g_motion) mot_count(id);
   switch (id) {
   case S_SetRenderTarget: g_vpV = false; break;            // SetRenderTarget resets the viewport
   case S_MultiplyTransform: if (sp[2] < 512) g_xfV[sp[2]] = false; break;
@@ -270,7 +276,18 @@ static void apply_pending(void) {
 }
 static inline void commit(void) { flush(); apply_pending(); }
 
+// merge_scenes: the EndScene the game makes inside a frame is held; the BeginScene after it is then dropped (the scene
+// is still open on the device), so the frame is one scene. A held EndScene goes out before Present and Reset, and
+// before the methods that read or copy whole surfaces (CopyRects, UpdateTexture, GetFrontBuffer: stub_enter), which
+// then run outside a scene as the game had them. Render thread only; hooks live only (the kit's A phases and F9 leave
+// the game's scenes as they are).
+static void close_held(void) {
+  if (!g_sceneHeld) return;
+  g_sceneHeld = false;
+  PREV(PFN_Dev, S_EndScene)(g_heldDev);
+}
 static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
+  close_held();
   flush(); drop_pending(); forget_all();
   HRESULT hr = PREV(PFN_Reset, S_Reset)(d, pp);
   forget_all(); g_curVS = 1; g_recording = 0;   // Reset returns the device to its default state
@@ -280,6 +297,7 @@ static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w
   if (!g_render_tid) { g_render_tid = GetCurrentThreadId(); H->log("speedfix: render thread %lu", (unsigned long)g_render_tid); }
   else if (!render_thread()) foreign();
   commit();
+  close_held();
   return PREV(PFN_Present, S_Present)(d, a, b, w, r);
 }
 // Scene boundaries. State set by something that calls the device below this layer cannot be seen here; forgetting
@@ -292,6 +310,11 @@ static HRESULT __stdcall h_BeginScene(void *d) {
   if (g_last_scene_frame >= 0 && g_frame - g_last_scene_frame > 1) { drop_pending(); forget_all(); g_forgot_gap++; }
   g_last_scene_frame = g_frame;
   sf_hooks_frame = g_frame;
+  if (g_sceneHeld) {                               // the scene the game ended is still open: this begin is dropped
+    g_sceneHeld = false;
+    if (sf_cfg.scene_reset) forget_all();
+    return D3D_OK;
+  }
   HRESULT hr = PREV(PFN_Dev, S_BeginScene)(d);
   if (sf_cfg.scene_reset) forget_all();
   return hr;
@@ -299,6 +322,11 @@ static HRESULT __stdcall h_BeginScene(void *d) {
 static HRESULT __stdcall h_EndScene(void *d) {
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_Dev, S_EndScene)(d); }
   commit();
+  if (sf_cfg.merge_scenes && sf_hooks_live() && !g_sceneHeld) {
+    g_sceneHeld = true; g_heldDev = d; g_mergedEnds++;
+    if (sf_cfg.scene_reset) forget_all();
+    return D3D_OK;
+  }
   HRESULT hr = PREV(PFN_Dev, S_EndScene)(d);
   if (sf_cfg.scene_reset) forget_all();
   return hr;
@@ -333,8 +361,10 @@ static HRESULT __stdcall h_SetRenderState(void *d, D3DRENDERSTATETYPE st, DWORD 
   if (!(g_upPrims && g_upRhw && tnl_only(st))) flush();      // a real change: what is pending goes out first
   return fwd_rs(st, v);
 }
+static void mot_texture(const void *t);
 static HRESULT __stdcall h_SetTexture(void *d, DWORD stage, IDirect3DBaseTexture8 *t) {
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetTexture)(d, stage, t); }
+  if (g_motion && t) mot_texture(t);
   if (stage < 8 && lazy_on()) {
     int k = PK_TEX + (int)stage;
     if (g_texV[stage] && g_tex[stage] == t) { if (g_isP[k]) unpend(k); else g_skip++; return D3D_OK; }
@@ -395,6 +425,7 @@ static int decl_tokens(const DWORD *d) {
 typedef HRESULT (__stdcall *PFN_CreateVS)(void *, const DWORD *, const DWORD *, DWORD *, DWORD);
 // creation sets no state: no flush, and a call from another thread leaves the shadow alone
 static HRESULT __stdcall h_CreateVS(void *d, const DWORD *decl, const DWORD *fn, DWORD *ph, DWORD usage) {
+  if (g_motion && render_thread()) mot_count(75);
   int n = sf_cfg.vs_dedupe && decl && !fn && ph ? decl_tokens(decl) : -1;
   if (n > 0) {
     EnterCriticalSection(&g_vsdLock);
@@ -441,8 +472,10 @@ static HRESULT __stdcall h_DeleteVS(void *d, DWORD h) {
 
 // the extended cache (ext_cache): the shadow is kept always on the render thread, a repeat is skipped only with
 // the switch on
+static void mot_view(const D3DMATRIX *m);
 static HRESULT __stdcall h_SetTransform(void *d, D3DTRANSFORMSTATETYPE st, const D3DMATRIX *m) {
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetTransform)(d, st, m); }
+  if (g_motion && st == D3DTS_VIEW && m) mot_view(m);
   if (!g_recording && (unsigned)st < 512 && m) {
     if (g_xfV[st] && !memcmp(&g_xf[st], m, sizeof *m) && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   }
@@ -533,6 +566,7 @@ static void expand(D3DPRIMITIVETYPE t, UINT n, const BYTE *src, UINT stride, BYT
 static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
   g_upIn++;
+  if (g_motion) mot_count(S_DPUP);
   if (g_live) commit();                            // held changes: the batch so far goes out under the state before them
   else g_npl = 0;
   g_ssV[0] = false;                                // DrawPrimitiveUP leaves stream 0 unset (D3D8)
@@ -592,9 +626,12 @@ extern "C" int sf_device_install(const XikitHost *host) {
   // state are hooked (the owner's first capture: some 20,000 calls a frame were otherwise passed through for nothing).
   // lazy_state needs every method that reads the state it holds (other_state: the rest)
   g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state ? 1 : 0;
+  g_motion = sf_cfg.motion_stats != 0;
   // 0-2 (QueryInterface, AddRef, Release) do not render. Every other method: its own hook, or a flushing stub
   for (int s = 3; s < NSLOT; s++) {
-    if (!(g_level == 2 || core_slot(s) || (g_level == 1 && !other_state(s)))) continue;
+    bool scene_slot = s == 28 || s == 29 || s == 30;                     // merge_scenes closes a held scene before them
+    bool motion_slot = g_motion && ((s >= 20 && s <= 28) || s == S_SetTransform || (s >= S_DP && s <= S_DIPUP));
+    if (!(g_level == 2 || core_slot(s) || scene_slot || motion_slot || (g_level == 1 && !other_state(s)))) continue;
     void *h = hook_for(s), *prev = NULL;
     if (h) {
       if (host->device_hook(kName[s], s, h, &prev) == XIKIT_OK) { g_prev[s] = prev; hooked++; }
@@ -638,6 +675,57 @@ extern "C" void sf_device_config_changed(const SfConfig *b) {
   if (!sf_cfg.batch_up && b->batch_up) flush();
 }
 
+// ---- motion_stats (speedfix_hook's still/moving split) ----------------------------------------------------------
+// The camera counts as moving in a frame when the first view transform of that frame differs from the previous
+// frame's first one (any element by more than 1e-4). Per frame: draws (DrawPrimitive, DrawIndexedPrimitive,
+// DrawPrimitiveUP, DrawIndexedPrimitiveUP), UP draws, CopyRects (the occlusion readback copies its target with one),
+// textures bound for the first time this session (a table of 32,768 pointers, cleared when three quarters full), and
+// resource creations (the Create methods and CreateVertexShader). Render thread; frames whose scene went through the
+// hooks only. Logged each minute with sf_device_stats.
+static LONG g_mfDraws, g_mfUp, g_mfCopy, g_mfNewTex, g_mfCreates; static bool g_mfViewTaken, g_mfMoving;
+static float g_prevView[16]; static bool g_prevViewV;
+struct MotionAcc { LONG n; double ms, draws, up, copies, newTex, creates; float samp[4096]; int ns; };
+static MotionAcc g_mot[2];
+static const void *g_texSeen[32768]; static int g_texSeenN; static LONG g_texSeenResets;
+static void mot_count(int id) {
+  if (id >= S_DP && id <= S_DIPUP) { g_mfDraws++; if (id == S_DPUP) g_mfUp++; }
+  else if (id == 28) g_mfCopy++;
+  else if ((id >= 20 && id <= 27) || id == 75) g_mfCreates++;
+}
+static void mot_view(const D3DMATRIX *m) {
+  if (g_mfViewTaken) return;
+  g_mfViewTaken = true;
+  const float *f = (const float *)m;
+  if (g_prevViewV) for (int i = 0; i < 16; i++) if (fabsf(f[i] - g_prevView[i]) > 1e-4f) { g_mfMoving = true; break; }
+  memcpy(g_prevView, f, sizeof g_prevView); g_prevViewV = true;
+}
+static void mot_texture(const void *t) {
+  unsigned h = (unsigned)(((uintptr_t)t >> 4) * 2654435761u) & 32767;
+  while (g_texSeen[h]) { if (g_texSeen[h] == t) return; h = (h + 1) & 32767; }
+  if (g_texSeenN >= 24576) { memset(g_texSeen, 0, sizeof g_texSeen); g_texSeenN = 0; g_texSeenResets++; mot_texture(t); return; }
+  g_texSeen[h] = t; g_texSeenN++; g_mfNewTex++;
+}
+static void mot_frame(double iv) {
+  MotionAcc &a = g_mot[g_mfMoving ? 1 : 0];
+  a.n++; a.ms += iv; a.draws += g_mfDraws; a.up += g_mfUp; a.copies += g_mfCopy; a.newTex += g_mfNewTex; a.creates += g_mfCreates;
+  if (a.ns < 4096) a.samp[a.ns++] = (float)iv;
+}
+static void mot_reset_frame(void) { g_mfDraws = g_mfUp = g_mfCopy = g_mfNewTex = g_mfCreates = 0; g_mfViewTaken = g_mfMoving = false; }
+static int cmp_f(const void *a, const void *b) { float x = *(const float *)a, y = *(const float *)b; return (x > y) - (x < y); }
+static void mot_log(void) {
+  static const char *const nm[2] = {"camera still ", "camera moving"};
+  for (int k = 0; k < 2; k++) {
+    MotionAcc &a = g_mot[k];
+    if (!a.n) { H->log("speedfix: motion: %s: no frames", nm[k]); continue; }
+    qsort(a.samp, a.ns, sizeof a.samp[0], cmp_f);
+    H->log("speedfix: motion: %s: %ld frames, mean %.1f ms, p50 %.1f, p95 %.1f | per frame: draws %.0f (UP %.0f), CopyRects %.1f, "
+           "first-time texture binds %.2f, creations %.2f", nm[k], a.n, a.ms / a.n, a.samp[a.ns / 2], a.samp[a.ns * 95 / 100],
+           a.draws / a.n, a.up / a.n, a.copies / a.n, a.newTex / a.n, a.creates / a.n);
+    memset(&a, 0, sizeof a);
+  }
+  if (g_texSeenResets) { H->log("speedfix: motion: the first-bind table was cleared %ld times (counts high in those frames)", g_texSeenResets); g_texSeenResets = 0; }
+}
+
 // ---- frame pacing (render thread, before Present) ---------------------------------------------------------------
 static LARGE_INTEGER g_qpf; static LONGLONG g_next; static HANDLE g_timer; static bool g_timerTried; static LONGLONG g_lastQpc;
 static LONG g_pcN, g_pcLate; static double g_pcSum, g_pcSum2, g_pcMax;
@@ -645,6 +733,7 @@ extern "C" void sf_device_frame(void) {
   // Held changes never outlive a frame: the kit may take the hooks off from the next one (F9, a trace, its A/B), and
   // the game would then set state past them. This runs below the hooks (g_prev), whether they are on or not.
   if (g_npl && render_thread()) commit();
+  bool live = sf_hooks_live();                     // (the frame that just ended went through the hooks; read before the number moves on)
   g_frame++; sf_frame_no = g_frame;
   if (!g_qpf.QuadPart) QueryPerformanceFrequency(&g_qpf);
   LARGE_INTEGER now; QueryPerformanceCounter(&now);
@@ -675,7 +764,9 @@ extern "C" void sf_device_frame(void) {
     double iv = (now.QuadPart - g_lastQpc) * 1000.0 / (double)g_qpf.QuadPart;
     g_pcN++; g_pcSum += iv; g_pcSum2 += iv * iv; if (iv > g_pcMax) g_pcMax = iv;
     if (fps > 0 && iv > 1500.0 / fps) g_pcLate++;
+    if (g_motion && live) mot_frame(iv);
   }
+  if (g_motion) mot_reset_frame();
   g_lastQpc = now.QuadPart;
 }
 
@@ -692,6 +783,9 @@ extern "C" void sf_device_stats(void) {
                  in, out, 100.0 * (in - out) / (double)in, cv, sf_cfg.batch_up ? "" : " [batching off]");
   if (fo) H->log("speedfix: %ld device calls from other threads (each made the shadow unknown)", fo);
   if (gap) H->log("speedfix: shadow forgotten %ld times after frames without the hooks (F9, a trace)", gap);
+  LONG me = InterlockedExchange(&g_mergedEnds, 0);
+  if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
+  if (g_motion) mot_log();
   if (g_pcN > 1) {
     double mean = g_pcSum / g_pcN, var = g_pcSum2 / g_pcN - mean * mean;
     H->log("speedfix: frames %ld, mean %.2f ms, sd %.2f, max %.1f%s", g_pcN, mean, var > 0 ? sqrt(var) : 0.0, g_pcMax,

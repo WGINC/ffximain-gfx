@@ -1242,7 +1242,7 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument('game'); ap.add_argument('recon'); ap.add_argument('cases'); ap.add_argument('out')
-    ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=11)     # the gate's (gate_some.py), so a direct run reproduces verification/
     ap.add_argument('--only', default=None)
     ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
     ap.add_argument('--serve', action='store_true',

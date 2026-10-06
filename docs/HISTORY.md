@@ -481,3 +481,9 @@ has been run in the game yet.
   start; the SDK zip carries its own `VERSION.txt`.
 - **Docs:** README (layout rows for `kit/` and `sdk/`, Wine and numpy, `tool_drift.py`), kit/README.md counts, SDK.md's
   register blind spot stated exactly (EDX analysis still counts every call as a write).
+- **The gate counts that "did not reproduce" (6 Oct, night) do reproduce.** The harness had not changed: the
+  check ran `diffemu_gfx.py` directly, whose `--seed` defaulted to 1, while every recorded gate runs with seed 11
+  (`gate_some.py`, `mutate_clean.py`). With seed 11 the current harness gives the recorded numbers exactly
+  (0x10001520 return 75 / import 25, 0x1000A820 1552 D3D calls compared, 0x100091B0 coverage 274); with seed 1 it
+  gives the numbers that were reported as drift (67 / 33, 1568). `diffemu_gfx.py` now defaults to seed 11, so
+  `fork.py gate` and any direct run use the gate's trials (`sdk/test_fork.py` passes).

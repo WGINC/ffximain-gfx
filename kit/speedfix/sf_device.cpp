@@ -103,10 +103,51 @@ static int g_upBytes, g_upPrims; static DWORD g_upStride; static bool g_upRhw;
 static DWORD g_maxPrims = 65535;
 typedef HRESULT (__stdcall *PFN_DPUP)(void *, D3DPRIMITIVETYPE, UINT, const void *, UINT);
 
+// ---- up_ring: a DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer -----------------
+// The vertices are written at the ring's cursor with D3DLOCK_NOOVERWRITE (the GPU may still read what is before it)
+// and the ring starts over with D3DLOCK_DISCARD when full (the DirectX 8 SDK's pattern for dynamic vertex buffers).
+// Stream 0 is left on the ring: D3D8 leaves stream 0 unset after a DrawPrimitiveUP, so the game sets it before any
+// draw that reads it. The ring is in the default pool, so it is released before Reset (else Reset fails) and made
+// again at the next use. Only on the render thread; the calls go through the device's front (the kit, d3dprof see them).
+static int g_level;                     // the hooks at this start: 0 core, 1 core and every method that reads state, 2 all
+enum { RING = 2 << 20 };
+static IDirect3DVertexBuffer8 *g_ring; static UINT g_ringPos; static bool g_ringFailed;
+static volatile LONG g_ringDraws, g_ringWraps;
+static int up_verts(D3DPRIMITIVETYPE t, UINT n) {
+  switch (t) {
+  case D3DPT_POINTLIST: return (int)n; case D3DPT_LINELIST: return (int)n * 2; case D3DPT_LINESTRIP: return (int)n + 1;
+  case D3DPT_TRIANGLELIST: return (int)n * 3; case D3DPT_TRIANGLESTRIP: case D3DPT_TRIANGLEFAN: return (int)n + 2;
+  default: return -1;
+  }
+}
+static void ring_release(void) { if (g_ring) { g_ring->Release(); g_ring = NULL; } g_ringPos = 0; }
+static HRESULT send_up(D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
+  int nv = up_verts(t, prims);
+  UINT bytes = nv > 0 ? (UINT)nv * stride : 0;
+  if (!sf_cfg.up_ring || g_level < 1 || !bytes || bytes > RING || !data || g_recording || g_ringFailed ||
+      !g_render_tid || GetCurrentThreadId() != g_render_tid)
+    return ((PFN_DPUP)g_prev[S_DPUP])(g_dev, t, prims, data, stride);
+  if (!g_ring && FAILED(g_dev->CreateVertexBuffer(RING, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &g_ring))) {
+    g_ring = NULL; g_ringFailed = true; H->log("speedfix: up_ring: no dynamic vertex buffer of %d bytes; DrawPrimitiveUP as before", RING);
+    return ((PFN_DPUP)g_prev[S_DPUP])(g_dev, t, prims, data, stride);
+  }
+  UINT start = (g_ringPos + stride - 1) / stride, off = start * stride;    // whole vertices of this stride
+  DWORD flags = D3DLOCK_NOOVERWRITE;
+  if (off + bytes > RING) { start = 0; off = 0; flags = D3DLOCK_DISCARD; g_ringWraps++; }
+  BYTE *p = NULL;
+  if (FAILED(g_ring->Lock(off, bytes, &p, flags)) || !p) return ((PFN_DPUP)g_prev[S_DPUP])(g_dev, t, prims, data, stride);
+  memcpy(p, data, bytes);
+  g_ring->Unlock();
+  g_ringPos = off + bytes;
+  g_dev->SetStreamSource(0, g_ring, stride);
+  g_ringDraws++;
+  return g_dev->DrawPrimitive(t, start, prims);
+}
+
 static void flush(void) {
   if (!g_upPrims) return;
   int prims = g_upPrims; g_upPrims = 0; g_upBytes = 0;          // cleared first: never sent twice
-  ((PFN_DPUP)g_prev[S_DPUP])(g_dev, D3DPT_TRIANGLELIST, (UINT)prims, g_up, g_upStride);
+  send_up(D3DPT_TRIANGLELIST, (UINT)prims, g_up, g_upStride);
   g_upOut++;
 }
 
@@ -121,7 +162,6 @@ static inline void foreign(void) { flush(); apply_pending(); forget_all(); g_rec
 enum { PK_TSS = 256, PK_TEX = 512, NPK = 520, PLIST = 1024 };
 static bool g_isP[NPK]; static DWORD g_pv[NPK]; static short g_pos[NPK];
 static short g_pl[PLIST]; static int g_npl, g_live;
-static int g_level;                     // the hooks at this start: 0 core, 1 core and every method that reads state, 2 all
 static volatile LONG g_held, g_sent, g_dropped;
 static inline bool lazy_on(void) { return sf_cfg.lazy_state && g_level >= 1 && !g_recording; }
 static void pend(int k, DWORD v) {
@@ -294,7 +334,7 @@ static void close_held(void) {
 }
 static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
   close_held();
-  flush(); drop_pending(); forget_all();
+  flush(); drop_pending(); forget_all(); ring_release();
   HRESULT hr = PREV(PFN_Reset, S_Reset)(d, pp);
   forget_all(); g_curVS = 1; g_recording = 0;   // Reset returns the device to its default state
   return hr;
@@ -609,7 +649,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   int outBytes = (int)prims * 3 * (int)stride;
   bool ok = sf_cfg.batch_up && !g_recording && data && stride && stride <= 256 && prims && prims <= maxP &&
             verts_for(t, prims) > 0 && outBytes <= maxB && (t == D3DPT_TRIANGLELIST || may_convert());
-  if (!ok) { flush(); g_upOut++; return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
+  if (!ok) { flush(); g_upOut++; return send_up(t, prims, data, stride); }
   if (g_upPrims && (stride != g_upStride || g_upBytes + outBytes > maxB || (DWORD)g_upPrims + prims > maxP)) flush();
   if (t != D3DPT_TRIANGLELIST) g_upConv++;
   expand(t, prims, (const BYTE *)data, stride, g_up + g_upBytes);  // the caller's data is only valid during the call
@@ -661,7 +701,7 @@ extern "C" int sf_device_install(const XikitHost *host) {
   // its setters; with both off at the start only the cached setters and the methods that change or bound their
   // state are hooked (the owner's first capture: some 20,000 calls a frame were otherwise passed through for nothing).
   // lazy_state needs every method that reads the state it holds (other_state: the rest)
-  g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state || sf_cfg.skip_shadow_pass ? 1 : 0;
+  g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state || sf_cfg.skip_shadow_pass || sf_cfg.up_ring ? 1 : 0;
   g_motion = sf_cfg.motion_stats != 0;
   // 0-2 (QueryInterface, AddRef, Release) do not render. Every other method: its own hook, or a flushing stub
   for (int s = 3; s < NSLOT; s++) {
@@ -690,7 +730,7 @@ extern "C" int sf_device_install(const XikitHost *host) {
 extern "C" int sf_device_level(void) { return g_level; }
 extern "C" int sf_device_allows(const char *key) {
   if (!strcmp(key, "batch_up_draws") || !strcmp(key, "extended_state_cache")) return g_level == 2;
-  if (!strcmp(key, "lazy_state") || !strcmp(key, "skip_shadow_pass")) return g_level >= 1;
+  if (!strcmp(key, "lazy_state") || !strcmp(key, "skip_shadow_pass") || !strcmp(key, "up_ring")) return g_level >= 1;
   return 1;
 }
 extern "C" void sf_device_config_changed(const SfConfig *b) {
@@ -699,10 +739,10 @@ extern "C" void sf_device_config_changed(const SfConfig *b) {
       H->log("speedfix: batch_up_draws / extended_state_cache take effect at the next start (they were off at this one, so their hooks are not in place)");
     sf_cfg.batch_up = 0; sf_cfg.ext_cache = 0;
   }
-  if (g_level < 1 && (sf_cfg.lazy_state || sf_cfg.skip_shadow_pass)) {
-    if ((sf_cfg.lazy_state && !b->lazy_state) || (sf_cfg.skip_shadow_pass && !b->skip_shadow_pass))
-      H->log("speedfix: lazy_state / skip_shadow_pass take effect at the next start (both were off at this one, so their hooks are not in place)");
-    sf_cfg.lazy_state = 0; sf_cfg.skip_shadow_pass = 0;
+  if (g_level < 1 && (sf_cfg.lazy_state || sf_cfg.skip_shadow_pass || sf_cfg.up_ring)) {
+    if ((sf_cfg.lazy_state && !b->lazy_state) || (sf_cfg.skip_shadow_pass && !b->skip_shadow_pass) || (sf_cfg.up_ring && !b->up_ring))
+      H->log("speedfix: lazy_state / skip_shadow_pass / up_ring take effect at the next start (all were off at this one, so their hooks are not in place)");
+    sf_cfg.lazy_state = 0; sf_cfg.skip_shadow_pass = 0; sf_cfg.up_ring = 0;
   }
   if (!sf_cfg.lazy_state && b->lazy_state) commit();     // nothing stays held
   if (!sf_cfg.state_cache && !sf_cfg.lazy_state && (b->state_cache || b->lazy_state)) {   // the shadow is no longer kept true
@@ -815,6 +855,8 @@ extern "C" void sf_device_stats(void) {
   LONG lh = InterlockedExchange(&g_held, 0), ls = InterlockedExchange(&g_sent, 0), ld = InterlockedExchange(&g_dropped, 0);
   LONG vm = InterlockedExchange(&g_vsdMade, 0), vsh = InterlockedExchange(&g_vsdShared, 0), vk = InterlockedExchange(&g_vsdKept, 0);
   if (lh + ld) H->log("speedfix: lazy_state: %ld changes held, %ld sent, %ld calls never sent (undone or replaced before a read)", lh, ls, ld);
+  LONG rd = InterlockedExchange(&g_ringDraws, 0), rw = InterlockedExchange(&g_ringWraps, 0);
+  if (rd) H->log("speedfix: up_ring: %ld DrawPrimitiveUP sent as DrawPrimitive from the ring, %ld wraps", rd, rw);
   LONG sk = InterlockedExchange(&g_shSkip, 0);
   if (sk) H->log("speedfix: skip_shadow_pass: %ld render-target switches, clears and draws of the shadow pass not sent", sk);
   if (vm + vsh + vk) H->log("speedfix: vs_dedupe: %ld vertex shaders made, %ld creations given an existing one, %ld deletions of a shared one kept it", vm, vsh, vk);

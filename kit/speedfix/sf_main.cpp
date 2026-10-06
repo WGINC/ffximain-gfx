@@ -112,6 +112,9 @@ static const char kDefaultIni[] =
   ";   owner's town capture) is not drawn; nothing was seen reading it, so watch that actor's shadow. Hooks as\r\n"
   ";   lazy_state does: takes effect at the next start when both were off at this one\r\n"
   "skip_shadow_pass=0\r\n"
+  "; DrawPrimitiveUP (text, UI quads, name plates; merged ones too) sent as DrawPrimitive from speedfix's own\r\n"
+  ";   dynamic vertex buffer. Hooks as lazy_state does\r\n"
+  "up_ring=0\r\n"
   "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
   ";     ab_levers=merge_scenes; skip_all_occlusion_readbacks; sse_skinning\r\n"
   ";   (comma: measured together; semicolon: one after another). ab_after seconds after it is saved, speedfix\r\n"
@@ -134,7 +137,7 @@ static SfConfig read_config(void) {
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   if (c.stats_every < 1) c.stats_every = 1;
-  c.skip_shadow_pass = rd("skip_shadow_pass", 0);
+  c.skip_shadow_pass = rd("skip_shadow_pass", 0); c.up_ring = rd("up_ring", 0);
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -152,9 +155,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d motion_stats=%d skip_shadow_pass=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d motion_stats=%d skip_shadow_pass=%d up_ring=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.motion_stats, c.skip_shadow_pass);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.motion_stats, c.skip_shadow_pass, c.up_ring);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -300,7 +303,7 @@ static const Lever kLevers[] = {
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
-  {"skip_shadow_pass", &SfConfig::skip_shadow_pass, 0},
+  {"skip_shadow_pass", &SfConfig::skip_shadow_pass, 0}, {"up_ring", &SfConfig::up_ring, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -430,7 +433,7 @@ extern "C" void sf_frame(void) {
       set_config(g_ab_state == 2 ? ab_config(ab_label(g_ab_i) == 'A') : g_base);
       // what this start's hooks cannot do stays off in B as well (sf_device_config_changed has logged it)
       if (!sf_device_allows("batch_up_draws")) g_base.batch_up = g_base.ext_cache = 0;
-      if (!sf_device_allows("lazy_state")) g_base.lazy_state = g_base.skip_shadow_pass = 0;
+      if (!sf_device_allows("lazy_state")) g_base.lazy_state = g_base.skip_shadow_pass = g_base.up_ring = 0;
       log_config(g_base, "changed");
       if (sf_cfg.cpu_tier && !before.cpu_tier) LOG("speedfix: cpu_tier is decided once per start");
     }

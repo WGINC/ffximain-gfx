@@ -52,6 +52,13 @@ static void *g_svt[16]; static struct { void **vt; } g_surf = { g_svt };
 static ULONG __stdcall s_release(void *s) { return 1; }
 static HRESULT __stdcall s_getdesc(void *s, uint32_t *desc) { memset(desc, 0, 32); desc[6] = 256; desc[7] = 256; return 0; }
 static HRESULT __stdcall t_getsurf(void *t, UINT lv, void **out) { *out = &g_surf; return 0; }
+/* up_ring's vertex buffer: CreateVertexBuffer (slot 23) gives one whose Lock (slot 11) hands out g_vbmem + offset */
+static uint8_t g_vbmem[2 << 20]; static DWORD g_vblock[2];
+static void *g_vbvt[16]; static struct { void **vt; } g_vb = { g_vbvt };
+static HRESULT __stdcall vb_lock(void *v, UINT off, UINT n, BYTE **p, DWORD fl) { *p = g_vbmem + off; g_vblock[0] = off; g_vblock[1] = fl; return 0; }
+static HRESULT __stdcall vb_unlock(void *v) { return 0; }
+static HRESULT __stdcall d_createvb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **out) { *out = &g_vb; rec(23, len, us, pool, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_setss(void *d, UINT n, void *vb, UINT stride) { rec(83, n, (uint32_t)(uintptr_t)vb, stride, 0, 0, 0); return 0; }
 static void *g_rtvt[16]; static struct { void **vt; } g_rttex = { g_rtvt };
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
@@ -85,8 +92,14 @@ static void setview(float x) { float m[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, x,0,0,1
 static int count(int slot, LONG from) { int c = 0; for (LONG i = from; i < g_n; i++) c += g_log[i].slot == slot; return c; }
 /* the device calls since `from`, as slot numbers, e.g. "50 72 72 35" */
 static const char *seq(LONG from) { static char b[512]; int o = 0; b[0] = 0;
-  for (LONG i = from; i < g_n && o < 500; i++) o += sprintf(b + o, o ? " %d" : "%d", g_log[i].slot); return b; }
+  for (LONG i = from; i < g_n && o < 500; i++) o += sprintf(b + o, o ? " %d" : "%d", g_log[i].slot);
+  return b; }
 static Call *last(int slot) { for (LONG i = g_n - 1; i >= 0; i--) if (g_log[i].slot == slot) return &g_log[i]; return NULL; }
+static int log_has(const char *what) {
+  FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
+  static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
+  return strstr(b, what) != NULL;
+}
 static void touch(const char *path, const char *body) { Sleep(30); FILE *f = fopen(path, "w"); fputs(body, f); fclose(f); }
 
 /* the stagger's call: ESI = the actor (0x100CC584 `mov edi, [esi+0x9F0]`) */
@@ -112,6 +125,9 @@ int main(int argc, char **argv) {
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   g_vt[3] = (void *)d_ok0; g_vt[31] = (void *)d_setrt; g_vt[40] = (void *)d_setvp; g_vt[70] = (void *)d_dp;
   for (int k = 0; k < 16; k++) g_svt[k] = g_rtvt[k] = (void *)d_other;
+  g_vt[23] = (void *)d_createvb; g_vt[83] = (void *)d_setss;
+  for (int k = 0; k < 16; k++) g_vbvt[k] = (void *)d_other;
+  g_vbvt[2] = (void *)s_release; g_vbvt[11] = (void *)vb_lock; g_vbvt[12] = (void *)vb_unlock;
   g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_getdesc; g_rtvt[15] = (void *)t_getsurf;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
@@ -131,6 +147,10 @@ int main(int argc, char **argv) {
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
   check(g_dev.vt != g_vt, "the kit hooked the device");
+  /* the kit puts its Present hook on the device, logs the environment, and only then puts the mods' device hooks in
+     front (xikit.c, start): wait for that, or the first calls miss speedfix */
+  for (int i = 0; i < 500 && !log_has("methods hooked by mods"); i++) Sleep(20);
+  check(log_has("methods hooked by mods"), "the kit put the mods' device hooks in front");
   frames(3);
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
@@ -202,6 +222,20 @@ int main(int argc, char **argv) {
       check(r == 1 && count(31, m) == 2 && count(70, m) == 1, "skip_shadow_pass=0 (while running): the pass switches the target there and back and draws");
       end(); present();
       *(int16_t *)GAME(0x1045B77Au) = 0; }
+    /* up_ring, switched on while running (the hooks lazy_state put in place): two DrawPrimitiveUP lists become
+       DrawPrimitive from one dynamic vertex buffer, the second after the first's vertices, the bytes copied */
+    { touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nup_ring=1\n"); frames(65);
+      float va[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, vb[12] = {21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
+      begin(); m = g_n; dpup(4, 1, va, 16); LONG m2 = g_n; dpup(4, 1, vb, 16);
+      Call *d2 = last(70);
+      check(count(23, m) == 1 && count(72, m) == 0 && count(70, m) == 2 && count(83, m) == 2 && d2 && d2->a[1] == 3 && d2->a[2] == 1
+            && g_vblock[0] == 48 && g_vblock[1] == 0x1000 && !memcmp(g_vbmem, va, 48) && !memcmp(g_vbmem + 48, vb, 48) && count(23, m2) == 0,
+            "up_ring: two lists of one triangle -> one buffer made, DrawPrimitive at vertex 0 and 3 (NOOVERWRITE), no DrawPrimitiveUP, the vertices copied");
+      end(); present();
+      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n"); frames(65);
+      begin(); m = g_n; dpup(4, 1, va, 16);
+      check(count(72, m) == 1 && count(70, m) == 0, "up_ring=0 (while running): DrawPrimitiveUP again");
+      end(); present(); }
     /* turned off while running: what is held goes out, and nothing more is held */
     begin(); setrs(7, 9);
     touch("speedfix.ini", "[speedfix]\nlazy_state=0\nvs_dedupe=1\n");

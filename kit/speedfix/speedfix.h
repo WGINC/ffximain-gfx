@@ -29,6 +29,7 @@ struct SfConfig {
   int motion_stats;
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
+  int up_ring;              // DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer
   int skip_shadow_pass;     // the render-target switches, Clear and draws of Model_BeginOffscreenPass's pass not sent
 };
 extern SfConfig sf_cfg;

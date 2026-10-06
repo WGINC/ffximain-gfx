@@ -900,3 +900,14 @@ That is 38 or 42 SetRenderTarget a frame.
   - Tested in the Wine host, driving the game's own two functions.
   - The owner checks it by eye: the actor's shadow with it on.
 - The other scene splits are what merge_scenes (the parallel session) already removes.
+
+## 6 Oct (evening): speedfix up_ring (task 19), and a race in the speedfix host test
+
+- `up_ring` (lever, off by default): DrawPrimitiveUP, merged or not, goes out as DrawPrimitive from speedfix's own
+  2 MB dynamic vertex buffer (NOOVERWRITE at the cursor, DISCARD on wrap; released before Reset). Wine-tested; its
+  gain on dgVoodoo is for the A/B to show.
+- test_speedfix.py's minimal run failed after the kit gained its environment log. xikit.c puts its Present hook on
+  the device, then logs the environment, and only then puts the mods' device hooks in front. The host began its
+  checks at the first vtable change, so under Wine the first calls missed speedfix. The host now waits for the kit's
+  "methods hooked by mods" line. In the game this window is the first frames after injection, which speedfix's gap
+  rule already treats as frames without its hooks.

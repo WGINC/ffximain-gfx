@@ -32,6 +32,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
+| `up_ring` | 0 | Lever: DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer (below) |
 | `skip_shadow_pass` | 0 | Lever: one actor's shadow-texture pass (Model_BeginOffscreenPass) not drawn; its state calls still sent (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
@@ -115,6 +116,15 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   All four callers call End only when Begin returned non-zero (tree/src/CYyModelDt.cpp). If the texture is read
   somewhere unseen, the visible sign would be that actor's shadow going stale or missing: look at your own
   character's shadow with it on. It hooks as lazy_state does (taking effect at the next start if both were off).
+- **up_ring: text, UI and name-plate quads.** In Port Jeuno's plaza, DrawPrimitiveUP was 10.3% of the render thread
+  (885 calls a frame; HISTORY.md, run 6156). batch_up_draws merges them, but a merged batch still goes out as
+  DrawPrimitiveUP, whose vertices the Direct3D 8 implementation (dgVoodoo on your machine) copies into a buffer of its
+  own. up_ring writes them into speedfix's own 2 MB dynamic vertex buffer: locked with D3DLOCK_NOOVERWRITE at its
+  cursor, and with D3DLOCK_DISCARD when it starts over (the DirectX 8 SDK's pattern for dynamic buffers). It then draws
+  with SetStreamSource and DrawPrimitive. Stream 0 is left on the ring, because D3D8 leaves stream 0 unset after a
+  DrawPrimitiveUP. The ring is released before Reset (a default-pool buffer must be), and only the render thread uses
+  it. Not known: whether dgVoodoo is faster this way. Its A/B says. It works with or without batching, and hooks as
+  lazy_state does.
 - **Not made into levers yet, and why:**
   - Pooling vertex and index buffers. The sessions made about 10,000 a session, mostly DYNAMIC | WRITEONLY vertex
     buffers in the default pool in a few sizes (6,000, 4,000, 8,000 and 2,000 bytes). Pooling them needs their
@@ -209,6 +219,8 @@ and set it again for another run.
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
   - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
+  - up_ring: two lists become one buffer made, DrawPrimitive at vertex 0 and then 3 (NOOVERWRITE), the vertices
+    copied, no DrawPrimitiveUP; off again, DrawPrimitiveUP;
   - skip_shadow_pass: the game's own Begin/End run against the fake device (shadow mode 1): no SetRenderTarget, Clear
     or draw reaches it, its state calls do; turned off while running, the pass switches targets and draws.
 - **The gate:** the query hook.

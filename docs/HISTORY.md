@@ -742,3 +742,6 @@ than once); fixed.
   - kit/d3dprof/merge_potential.py counts the draws merging would leave in a trace.
 - **Fixed:** trace_diff.py read the `#S` state lines as comments, because the `#` test came first. Its state
   differences were therefore always empty.
+- **The owner states the game always crashes without dgVoodoo** on their machine. Windows' own Direct3D 8 is
+  therefore not a path to compare there. Why it crashes is not known; xikit.log's module list would show what
+  loads up to the crash. Left to compare: dgVoodoo's own settings, such as its output API.

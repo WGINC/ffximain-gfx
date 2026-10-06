@@ -277,3 +277,8 @@ frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame;
 
 That is the first step of the renderer port (goal 2) done in place. The D3D11 backend then draws the same merged
 lists, and can skin on the GPU.
+
+**The Direct3D 8 path on the owner's machine.** The game crashes there without dgVoodoo (owner, 6 Oct), so every
+call goes through dgVoodoo's D3D8-to-D3D11 translation, as emulated x86 code. The only comparison left in place is
+between dgVoodoo's own settings (compare_paths.py). Leaving the translation behind takes a renderer that issues
+D3D11 itself: the D3D11 backend of goal 2. That backend is also the way to fewer and cheaper calls.

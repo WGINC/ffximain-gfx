@@ -131,6 +131,36 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
 
+## Where the time goes (`xikit_timing_<pid>.csv`, `sample=1`)
+
+- **Frame timing, always on.** Every `report_every` frames the kit appends one line to
+  `xikit_timing_<pid>.csv`:
+  - the frame time (Present to Present: average, median, 95th percentile, maximum);
+  - the time inside the device's Present;
+  - the kit's own time before it (its checks and swaps, and mods' frame callbacks);
+  - the number of functions swapped.
+- **The sampling profiler, `sample=1`.** Read at the start. Every `sample_ms` (default 1) a thread of the kit
+  suspends the render thread for an instant and records:
+  - its EIP;
+  - the return addresses into the game or the reconstruction on its stack. A return address is an address that
+    follows a call instruction; the readable parts of both images are checked first, so the scan never faults.
+
+  `xikit_samples_<pid>.csv` is rewritten every window. Then
+
+      python3 kit/d3dprof/samples.py xikit_samples_<pid>.csv
+
+  shows, as shares of the samples with their standard error:
+  - **self:** where the thread was (game function, reconstructed function, or module);
+  - **elsewhere:** time in Direct3D, the driver and Windows, by the game or reconstructed function that called
+    there, with the call sites;
+  - **inclusive:** time under each function. This is an upper estimate: a stale return address left in an
+    older frame is counted too.
+
+  Samples estimate time shares; they do not time each call. Per-call time for Direct3D methods is this
+  "elsewhere" view, statistically.
+- **Tested** (Wine, mode `profile`): timing lines written; samples written; samples taken while the thread ran
+  the reconstructed GetColor name it.
+
 ## Capturing real calls for the gate (`capture=`)
 
 The gate's trials ran 63% of the reconstruction's instructions; the hot paths far less (docs/GAPS.md). With

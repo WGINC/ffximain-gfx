@@ -99,9 +99,9 @@ the owner's decision. Until then the fixes are reimplemented.
 
 | Tool | What it answers | State |
 |---|---|---|
-| Present wait timer (xikit) | Time inside Present per frame, against frame time: is the GPU or the translation stack the limit? | To build (small) |
-| Per-call timing (d3dprof) | Time inside each Direct3D method, per call site: the actual cost per call under dgVoodoo | To build: a timestamp around each recorded call; its own overhead must be measured too |
-| Sampling profiler of the render thread (xikit) | Exclusive CPU time by function and by module (game, reconstruction, the D3D8 runtime or wrapper, driver, Sleep in the pacing loop) | To build: a thread that samples the render thread's EIP every millisecond and maps it to functions with func_extents and the reconstruction's exports |
+| Present wait timer (xikit) | Time inside Present per frame, against frame time: is the GPU or the translation stack the limit? | Built: xikit_timing_<pid>.csv |
+| Per-call timing (d3dprof) | Time inside each Direct3D method, per call site: the actual cost per call under dgVoodoo | Covered statistically by the sampler's "elsewhere" view (time in other modules by calling site); exact per-call timing not built |
+| Sampling profiler of the render thread (xikit) | Exclusive CPU time by function and by module (game, reconstruction, the D3D8 runtime or wrapper, driver, Sleep in the pacing loop) | Built: `sample=1`, kit/d3dprof/samples.py |
 | Fixed test scenes | Repeatable captures: a busy town, an empty zone, combat; each with speedfix off | Owner, in game |
 
 **Output:** a table of where the 46.5 ms of capture 11000 go. It also settles whether call count is the lever

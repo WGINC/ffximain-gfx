@@ -14,7 +14,7 @@ python3 "$H/close_gaps.py" "$OUT/gfx_recon_ingame.dll"        # Windows refuses 
 python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" | head -1
 python3 "$ROOT/sdk/gen_sdk.py"                                # sdk/include/xikit_game.hpp follows the manifest
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
-    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp
+    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
 python3 - "$H/xikit.c" "$OUT/xikit.ini" <<'PY'
 import re, sys
 s = open(sys.argv[1]).read()

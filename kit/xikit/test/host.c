@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\n"
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\n"
                  : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
                  : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
@@ -280,6 +280,23 @@ int main(int argc, char **argv) {
       fclose(csv);
     }
     check(head, "profile=1: d3dprof wrote its report after 600 frames");
+    /* the sampler should find the render thread in game or reconstructed code when it is there: GetColor (swapped)
+       called for about half a second, then a window of frames so the samples are written */
+    { DWORD t = GetTickCount(); volatile uint32_t sink = 0;
+      while (GetTickCount() - t < 500) for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor);
+      present(60); }
+    /* timing (always) and the sampling profiler (sample=1): written every report_every (60) frames */
+    snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());
+    FILE *tm = fopen(name, "r"); int trows = 0;
+    if (tm) { while (fgets(line, sizeof line, tm)) if (line[0] >= '0' && line[0] <= '9') trows++; fclose(tm); }
+    check(trows >= 5, "xikit_timing_<pid>.csv has a line per window (frame, Present and kit times)");
+    snprintf(name, sizeof name, "xikit_samples_%lu.csv", GetCurrentProcessId());
+    FILE *sm = fopen(name, "r"); int shead = 0, srows = 0;
+    if (sm) { while (fgets(line, sizeof line, sm)) { if (!strncmp(line, "# xikit samples:", 16)) shead = 1; if (!strncmp(line, "self,", 5)) srows++; } fclose(sm); }
+    check(shead && srows > 0, "sample=1: xikit_samples_<pid>.csv holds samples of the render thread");
+    sm = fopen(name, "r"); int ingame = 0;
+    if (sm) { while (fgets(line, sizeof line, sm)) if (!strncmp(line, "self,recon,", 11) && strstr(line, "GetColor")) ingame = 1; fclose(sm); }
+    check(ingame, "sample=1: samples taken while the thread ran the reconstructed GetColor name it");
     check(row, "profile=1: the report has Present (601 calls in 600 frames) from outside FFXiMain.dll");
   }
   if (profile) {

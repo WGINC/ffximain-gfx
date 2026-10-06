@@ -153,7 +153,10 @@ static const char DEFAULT_INI[] =
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
   "; record real calls for the gate (docs/KIT.md): manifest names, comma-separated; each writes an .xcap\r\n"
-  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n";
+  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n"
+  "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
+  ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
+  "sample=0\r\nsample_ms=1\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -600,11 +603,163 @@ static void trace_label(void) {
 }
 
 static int g_nmods; static void mods_frame(void *dev);     /* (mods: below) */
+static int after_call(uint32_t r);
+static Fn *fn_at_sym(uint32_t a, const char **sym);
+
+/* ------------------------------------------------------------------------------------------------ timing (sample=1)
+   Where the render thread's time goes, measured (docs/KIT.md):
+     * per frame: the time from one Present to the next, the time inside the device's Present, and the kit's own
+       time before it (its checks, swaps, mods' frame callbacks); xikit_timing_<pid>.csv, one line per window;
+     * a sampling profiler: every sample_ms the render thread is suspended for an instant and its EIP read, and its
+       stack scanned for return addresses into the game or the reconstruction (each one the address after a call
+       instruction). xikit_samples_<pid>.csv, rewritten every window: per address where the thread was (self),
+       per innermost game/reconstruction return address when it was in another module (Direct3D, the driver,
+       Windows: the call site that went there), and per return address anywhere on the stack (inclusive).
+   Samples are an estimate of time shares, not a measurement of each call. The stack scan finds return addresses
+   still on the stack; one left in a dead slot of an older frame is counted too (inclusive only). */
+#define SAMPN 65536
+typedef struct { uint32_t k[SAMPN]; uint32_t n[SAMPN]; } Hist;
+static Hist *g_h_self, *g_h_caller, *g_h_incl;
+static CRITICAL_SECTION g_samplock; static int g_sampling, g_sample_ms = 1; static volatile LONG g_samples, g_sample_miss;
+static LARGE_INTEGER g_qpf, g_t_prev; static double g_tm_frame[4096], g_tm_present[4096], g_tm_kit[4096]; static int g_tm_n;
+static void hist_add(Hist *h, uint32_t key) {
+  uint32_t i = (key * 2654435761u) & (SAMPN - 1);
+  for (int k = 0; k < SAMPN; k++, i = (i + 1) & (SAMPN - 1)) {
+    if (h->k[i] == key) { h->n[i]++; return; }
+    if (!h->k[i]) { h->k[i] = key; h->n[i] = 1; return; }
+  }
+}
+static int in_ours(uint32_t a) { return (a >= g_game_lo && a < g_game_hi) || (a >= g_recon_lo && a < g_recon_hi); }
+/* the readable parts of the two images, found once (VirtualQuery): the sampler checks a return address against
+   them instead of IsBadReadPtr, which works by raising an access violation that every vectored handler sees */
+static uint32_t g_rd_lo[64], g_rd_hi[64]; static int g_nrd;
+static void readable_ranges(uint32_t lo, uint32_t hi) {
+  for (uint32_t a = lo; a < hi && g_nrd < 64;) {
+    MEMORY_BASIC_INFORMATION mb;
+    if (!VirtualQuery((void *)(uintptr_t)a, &mb, sizeof mb)) break;
+    uint32_t e = (uint32_t)(uintptr_t)mb.BaseAddress + (uint32_t)mb.RegionSize;
+    if (mb.State == MEM_COMMIT && !(mb.Protect & (PAGE_GUARD | PAGE_NOACCESS)) && (mb.Protect & 0xEE)) { g_rd_lo[g_nrd] = a; g_rd_hi[g_nrd] = e < hi ? e : hi; g_nrd++; }
+    if (e <= a) break;
+    a = e;
+  }
+}
+static int readable7(uint32_t r) { for (int i = 0; i < g_nrd; i++) if (r - 7 >= g_rd_lo[i] && r <= g_rd_hi[i]) return 1; return 0; }
+static int after_call_quiet(uint32_t r) {             /* after_call, for addresses inside the two images, never faulting */
+  const uint8_t *p = (const uint8_t *)(uintptr_t)r;
+  if (!readable7(r)) return 0;
+  if (p[-5] == 0xE8) return 1;
+  if (p[-2] == 0xFF && ((p[-1] >> 3) & 7) == 2 && (p[-1] >> 6) == 3) return 1;
+  if (p[-2] == 0xFF && ((p[-1] >> 3) & 7) == 2 && (p[-1] >> 6) == 0 && (p[-1] & 7) != 4 && (p[-1] & 7) != 5) return 1;
+  if (p[-3] == 0xFF && ((p[-2] >> 3) & 7) == 2 && (p[-2] >> 6) == 1) return 1;
+  if (p[-6] == 0xFF && ((p[-5] >> 3) & 7) == 2 && ((p[-5] >> 6) == 2 || (p[-5] & 0xC7) == 5)) return 1;
+  if (p[-4] == 0xFF && ((p[-3] >> 3) & 7) == 2 && (p[-3] >> 6) == 1 && (p[-3] & 7) == 4) return 1;
+  if (p[-7] == 0xFF && ((p[-6] >> 3) & 7) == 2 && (p[-6] >> 6) == 2 && (p[-6] & 7) == 4) return 1;
+  return 0;
+}
+static DWORD WINAPI sampler(LPVOID unused) {
+  (void)unused;
+  HANDLE th = NULL; DWORD tid = 0;
+  timeBeginPeriod(1);
+  for (;;) {
+    Sleep(g_sample_ms);
+    if (!g_render_thread) continue;
+    if (tid != g_render_thread) { if (th) CloseHandle(th); tid = g_render_thread; th = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT, FALSE, tid); }
+    if (!th) continue;
+    static uint32_t ras[256]; int nra = 0; uint32_t eip = 0;
+    EnterCriticalSection(&g_susplock);
+    if (SuspendThread(th) != (DWORD)-1) {
+      CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
+      if (GetThreadContext(th, &c)) {
+        eip = c.Eip; MEMORY_BASIC_INFORMATION mb;
+        if (VirtualQuery((void *)(uintptr_t)c.Esp, &mb, sizeof mb) && mb.State == MEM_COMMIT) {
+          uint32_t *q = (uint32_t *)(uintptr_t)c.Esp, *top = (uint32_t *)((uint8_t *)mb.BaseAddress + mb.RegionSize);
+          for (int k = 0; q < top && k < 16384 && nra < 256; q++, k++)
+            if (in_ours(*q) && after_call_quiet(*q)) ras[nra++] = *q;
+        }
+      }
+      ResumeThread(th);
+    }
+    LeaveCriticalSection(&g_susplock);
+    if (!eip) { InterlockedIncrement(&g_sample_miss); continue; }
+    EnterCriticalSection(&g_samplock);
+    hist_add(g_h_self, eip);
+    if (!in_ours(eip) && nra) hist_add(g_h_caller, ras[0]);
+    for (int i = 0; i < nra; i++) {               /* each address once per sample (recursion, stale copies) */
+      int dup = 0; for (int j = 0; j < i; j++) if (ras[j] == ras[i]) { dup = 1; break; }
+      if (!dup) hist_add(g_h_incl, ras[i]);
+    }
+    g_samples++;
+    LeaveCriticalSection(&g_samplock);
+  }
+  return 0;
+}
+/* an address as the analysis reads it: game (analysed address), recon (symbol+offset), or module!offset */
+static void addr_name(uint32_t a, char *out, size_t n) {
+  if (a >= g_game_lo && a < g_game_hi) { snprintf(out, n, "game,0x%08X", a - g_rel); return; }
+  if (a >= g_recon_lo && a < g_recon_hi) {
+    const char *sym = "?"; Fn *f = fn_at_sym(a, &sym);
+    snprintf(out, n, "recon,0x%08X %s%s%s", a - g_recon_lo, sym, f ? " " : "", f ? f->name : ""); return;
+  }
+  HMODULE m = NULL; char mn[MAX_PATH] = "?";
+  if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)a, &m) && m) {
+    GetModuleFileNameA(m, mn, sizeof mn); const char *b = strrchr(mn, '\\');
+    snprintf(out, n, "module,%s+0x%lX", b ? b + 1 : mn, (unsigned long)(a - (uint32_t)(uintptr_t)m));
+  } else snprintf(out, n, "memory,0x%08X", a);
+}
+static int cmp_double(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
+static void report_timing(void) {
+  char path[MAX_PATH]; int n = g_tm_n; g_tm_n = 0;
+  if (n > 1) {
+    static double sorted[4096]; double sf = 0, sp = 0, sk = 0, mf = 0, mp = 0;
+    for (int i = 1; i < n; i++) { sorted[i - 1] = g_tm_frame[i]; sf += g_tm_frame[i]; if (g_tm_frame[i] > mf) mf = g_tm_frame[i]; }
+    for (int i = 0; i < n; i++) { sp += g_tm_present[i]; sk += g_tm_kit[i]; if (g_tm_present[i] > mp) mp = g_tm_present[i]; }
+    qsort(sorted, n - 1, sizeof sorted[0], cmp_double);
+    snprintf(path, sizeof path, "%s\\xikit_timing_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    int fresh = GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES;
+    FILE *f = fopen(path, "a");
+    if (f) {
+      if (fresh) fprintf(f, "frame,frames,frame_ms_avg,frame_ms_p50,frame_ms_p95,frame_ms_max,present_ms_avg,present_ms_max,kit_ms_avg,swapped\n");
+      int sw = 0; for (int i = 0; i < g_nfn; i++) sw += g_fn[i].patched && !g_fn[i].mod_target;
+      fprintf(f, "%u,%d,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%d\n", g_frame, n - 1, sf / (n - 1), sorted[(n - 1) / 2], sorted[(int)((n - 1) * 0.95)], mf,
+              sp / n, mp, sk / n, sw);
+      fclose(f);
+    }
+  }
+  if (!g_sampling) return;
+  snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  FILE *f = fopen(path, "w"); if (!f) return;
+  EnterCriticalSection(&g_samplock);
+  fprintf(f, "# xikit samples: %ld samples every %d ms of the render thread (%ld missed), over the last %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X\n"
+             "# kind,where,address[ symbol],samples: self = where the thread was; caller = the innermost game/reconstruction return address when it was elsewhere;"
+             " incl = a return address anywhere on the stack\n", (long)g_samples, g_sample_ms, (long)g_sample_miss, g_cfg.report_every, g_rel, g_recon_lo);
+  const char *kinds[3] = {"self", "caller", "incl"}; Hist *hs[3] = {g_h_self, g_h_caller, g_h_incl};
+  for (int t = 0; t < 3; t++)
+    for (int i = 0; i < SAMPN; i++) if (hs[t]->k[i]) { char nm[300]; addr_name(hs[t]->k[i], nm, sizeof nm); fprintf(f, "%s,%s,%u\n", kinds[t], nm, hs[t]->n[i]); }
+  for (int t = 0; t < 3; t++) memset(hs[t], 0, sizeof *hs[t]);
+  g_samples = 0; g_sample_miss = 0;
+  LeaveCriticalSection(&g_samplock);
+  fclose(f);
+}
+static void start_sampler(void) {
+  g_sampling = GetPrivateProfileIntA("xikit", "sample", 0, g_ini);
+  g_sample_ms = GetPrivateProfileIntA("xikit", "sample_ms", 1, g_ini); if (g_sample_ms < 1) g_sample_ms = 1;
+  QueryPerformanceFrequency(&g_qpf);
+  if (!g_sampling) return;
+  g_h_self = (Hist *)VirtualAlloc(NULL, 3 * sizeof(Hist), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  if (!g_h_self) { g_sampling = 0; klog("sample: could not reserve the tables"); return; }
+  g_h_caller = g_h_self + 1; g_h_incl = g_h_self + 2;
+  readable_ranges(g_game_lo, g_game_hi); readable_ranges(g_recon_lo, g_recon_hi);
+  HANDLE h = CreateThread(NULL, 0, sampler, NULL, 0, NULL);
+  if (h) { SetThreadPriority(h, THREAD_PRIORITY_TIME_CRITICAL); CloseHandle(h); }
+  klog("sample: the render thread every %d ms (xikit_samples_<pid>.csv every %d frames)", g_sample_ms, g_cfg.report_every);
+}
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
-  if (GetCurrentThreadId() == g_render_thread) {
+  LARGE_INTEGER t0, t1, t2; int mine = GetCurrentThreadId() == g_render_thread;
+  QueryPerformanceCounter(&t0);
+  if (mine) {
     g_frame++;
     if (g_cfg.hotkey) {
       int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F9) & 0x8000);
@@ -634,7 +789,18 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
     if (g_nmods) mods_frame(dev);
   }
-  return ((PresentFn)g_orig_vt[SLOT_PRESENT])(dev, a, b, w, r);
+  QueryPerformanceCounter(&t1);
+  HRESULT hr = ((PresentFn)g_orig_vt[SLOT_PRESENT])(dev, a, b, w, r);
+  if (mine && g_qpf.QuadPart) {
+    QueryPerformanceCounter(&t2); double ms = 1000.0 / (double)g_qpf.QuadPart;
+    if (g_tm_n < 4096) {
+      g_tm_frame[g_tm_n] = g_t_prev.QuadPart ? (double)(t0.QuadPart - g_t_prev.QuadPart) * ms : 0;
+      g_tm_present[g_tm_n] = (double)(t2.QuadPart - t1.QuadPart) * ms; g_tm_kit[g_tm_n] = (double)(t1.QuadPart - t0.QuadPart) * ms; g_tm_n++;
+    }
+    g_t_prev = t0;
+    if (g_frame % (uint32_t)g_cfg.report_every == 0) report_timing();
+  }
+  return hr;
 }
 
 /* ------------------------------------------------------------------------------------------------ crashes */
@@ -1080,6 +1246,7 @@ static DWORD WINAPI start(LPVOID self) {
   for (;;) { void **c = (void **)*cdx; if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break; Sleep(200); }
   load_mods(dev, rec);                        /* before the Present hook: nothing is written at any entry yet */
   setup_captures();                           /* (likewise: trampolines are built from the untouched entries) */
+  start_sampler();
   if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
   g_orig_vt = (void **)*dev;
   memcpy(g_vt, g_orig_vt, sizeof g_vt);
@@ -1113,7 +1280,7 @@ static DWORD WINAPI start(LPVOID self) {
 BOOL WINAPI DllMain(HINSTANCE h, DWORD why, LPVOID r) {
   (void)r;
   if (why == DLL_PROCESS_ATTACH) {
-    DisableThreadLibraryCalls(h); InitializeCriticalSection(&g_loglock); InitializeCriticalSection(&g_susplock);
+    DisableThreadLibraryCalls(h); InitializeCriticalSection(&g_loglock); InitializeCriticalSection(&g_susplock); InitializeCriticalSection(&g_samplock);
     HANDLE t = CreateThread(NULL, 0, start, h, 0, NULL); if (t) CloseHandle(t);
   }
   return TRUE;

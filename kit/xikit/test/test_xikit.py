@@ -40,6 +40,12 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
+    if mode == 'profile':
+        sm = [f for f in os.listdir(d) if f.startswith('xikit_samples_')]
+        if sm:
+            r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'samples.py'), os.path.join(d, sm[0])], capture_output=True, text=True)
+            ok = r.returncode == 0 and 'self: where the render thread was' in r.stdout
+            print('\n'.join(r.stdout.splitlines()[:8])); print('%s: samples.py reads the samples' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'capture':
         # the capture replayed through the gate: the original and the tree's reconstruction run from that call
         xc = [f for f in os.listdir(d) if f.endswith('.xcap')]

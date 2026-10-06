@@ -17,3 +17,4 @@ __pycache__/
 kit/xikit/build/
 kit/xikit/dist/
 sdk/dist/
+kit/d3d11probe/dist/

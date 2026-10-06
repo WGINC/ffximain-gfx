@@ -25,6 +25,9 @@ for mode in ('minimal', 'full', 'lazy'):
     if mode == 'minimal':
         ok = 'speedfix: 13 device methods hooked, 0 flush guards' in log
         print('%s: minimal: 13 device methods hooked, no flush guards' % ('ok' if ok else 'FAIL')); bad += not ok
+    if mode == 'full':
+        ok = 'speedfix: cpu tier in use: x87' in log
+        print('%s: full: the tier the game chose is logged (x87 class vtable)' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'lazy':
         import re
         ab = re.search(r'speedfix: ab 1 \(lazy_state, bogus\): A \(off\) [0-9.]+ ms, B \(on\) [0-9.]+ ms', log)

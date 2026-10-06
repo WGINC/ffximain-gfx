@@ -711,3 +711,14 @@ than once); fixed.
 - **Why the game skins with x87:** its CPU detection (0x1000D400) sets the SSE flag `[0x104566E8]+9`, the one that
   selects the SSE skinning loop, only for a "GenuineTMx86" vendor or one containing "Intel". speedfix lever
   `sse_skinning` (off by default; A/B-able) writes the CPU's own SSE bit there. Wine-tested; not run in the game.
+- **The owner's earlier speedfix_hook.cpp compared with kit/speedfix.**
+  - Already carried over: cpu_tier, texture_compression, the caches, occlusion_stagger, both occlusion skips, the
+    frame pacer (high-resolution timer plus spin), batching with the RHW rule, and the batch caps.
+  - Dropped on purpose earlier: the device-call census (d3dprof's profile replaces it) and the unsafe worker-thread
+    submit.
+  - Left out: `occlusion_async_readback`. The owner measured it slower on dgVoodoo/D3D11/Parallels.
+  - Taken now: its log of the math tier in use. g_pProcessor's vtable is checked against the three tier classes,
+    0x1032C298 SSE, 0x1032C1C8 3DNow! and 0x1032C368 x87.
+  - Run 6156's samples show the x87 tier in use. Its methods took 0.6% of the render thread, so the tier itself is
+    not a lever there.
+  - Not taken: its camera still/moving split of frame statistics, which needs a SetTransform hook.

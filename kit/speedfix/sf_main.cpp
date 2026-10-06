@@ -209,6 +209,7 @@ static void apply_texture(void) {
   else LOG("speedfix: texture_compression %u -> %d (textures loaded from now on)", before, want);
 }
 static void apply_sse_skinning(void);
+static void log_cpu_tier(void);
 static void apply_code(void) {                      // render thread, inside Present
   static const uint8_t kBucketCall[5] = {0xE8, 0xC1, 0x87, 0xF4, 0xFF};     // 0x100CC58A call 0x10014D50
   static const uint8_t kReadbackCall[5] = {0xE8, 0xD4, 0x03, 0x00, 0x00};   // 0x1006C4D7 call 0x1006C8B0
@@ -216,6 +217,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   if (!g_readback_done && sf_cfg.skip_all_occlusion_readbacks) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, "skip_all_occlusion_readbacks"); }
   apply_texture();
   apply_sse_skinning();
+  log_cpu_tier();
 }
 
 /* sse_skinning. The game's CPU object ([0x104566E8], made at start by 0x1000D380; detection 0x1000D400) has a byte at
@@ -237,6 +239,19 @@ static void apply_sse_skinning(void) {
   int want = sf_cfg.sse_skinning && have_sse && sf_hooks_live() ? 1 : saved;
   if (obj[9] != want) obj[9] = (uint8_t)want;
   if (sf_cfg.sse_skinning && !have_sse && !logged) { logged = true; LOG("speedfix: sse_skinning: the CPU reports no SSE; left as the game set it"); }
+}
+
+/* which math tier the game chose (speedfix_hook's LogCpuTierInUse): g_pProcessor's vtable is one of the three tier
+   classes CreateProcessorInstance (0x1006CB50) makes. Logged once, when the game has chosen. */
+static void log_cpu_tier(void) {
+  static bool done;
+  if (done) return;
+  uintptr_t proc = *(volatile uint32_t *)(uintptr_t)XI_GAME(0x1047CF7Cu);
+  if (!proc) return;
+  done = true;
+  uintptr_t vt = *(volatile uint32_t *)proc;
+  const char *t = vt == XI_GAME(0x1032C298u) ? "SSE" : vt == XI_GAME(0x1032C1C8u) ? "3DNow!" : vt == XI_GAME(0x1032C368u) ? "x87" : "unknown";
+  LOG("speedfix: cpu tier in use: %s (g_pProcessor's vtable %08lX)", t, (unsigned long)vt);
 }
 
 static void apply_cpu_tier(void) {

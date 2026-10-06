@@ -1,7 +1,8 @@
 """test_xikit.py -- the kit end to end under Wine, with the real FFXiMain.dll ($FFXI_DLL) and the built dist/:
 host.exe (host.c) maps the game DLL without running it, fakes the device, loads xikit.dll and plays the render
-thread. Run three times: with the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), and
-at its base with profile=1 (d3dprof built in).
+thread. Run four times: with the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), at its
+base with profile=1 (d3dprof built in), and with a mod (mod_test.cpp, built with sdk/build_mod.sh) at its base and
+loaded elsewhere.
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
 import os, shutil, subprocess, sys, tempfile
@@ -22,10 +23,17 @@ for f in ('xikit.dll', 'gfx_recon_ingame.dll'):
             if x.SizeOfRawData and (x.PointerToRawData % oh.FileAlignment or x.PointerToRawData + x.SizeOfRawData > n)]
     print('%s: %s the Windows loader\'s layout rules%s' % ('ok' if not why else 'FAIL', f, '' if not why else ': ' + '; '.join(why)))
     bad += bool(why)
-for mode in ('base', 'relocated', 'profile'):
+SDK = os.path.join(H, '..', '..', '..', 'sdk')
+MODDLL = os.path.join(tempfile.mkdtemp(prefix='xikit_mod_'), 'mod_test.dll')
+subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL, os.path.join(H, 'mod_test.cpp')], check=True)
+for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's example and template build (not run here:
+    subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
+                    os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
+    if mode.startswith('mod'): shutil.copy(MODDLL, d)
     env = dict(os.environ, WINEDEBUG='-all')
     r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())

@@ -47,7 +47,8 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
 }
 
 int main(int argc, char **argv) {
-  int relocated = argc > 1 && !strcmp(argv[1], "relocated"), profile = argc > 1 && !strcmp(argv[1], "profile");
+  int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel"));
+  int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
   if (relocated && !VirtualAlloc((void *)0x10000000, 0x01000000, MEM_RESERVE, PAGE_NOACCESS)) printf("note: could not reserve 0x10000000\n");
@@ -79,6 +80,7 @@ int main(int argc, char **argv) {
   check(!relocated || rel != 0, relocated ? "the game DLL was loaded away from its analysed base" : "the game DLL at its analysed base");
   uint8_t orig_set[5], orig_gam[5];
   memcpy(orig_set, (void *)(uintptr_t)(SETCOLOR + rel), 5); memcpy(orig_gam, (void *)(uintptr_t)(GAMMA + rel), 5);
+  uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)(0x100096B0u + rel), 9);     /* CDx::EndClearBegin (the mod run) */
   for (int k = 0; k < 97; k++) g_vtbl[k] = (void *)other_slot;
   g_vtbl[15] = (void *)fake_present;
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
@@ -87,6 +89,7 @@ int main(int argc, char **argv) {
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
   touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\n"
+                 : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
@@ -97,6 +100,49 @@ int main(int argc, char **argv) {
   check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
+  if (modrun) {
+    /* sdk/: mod_test.dll (mod_test.cpp) hooks CXiSkeletonActor::GetColor with "the game's value + 1", its previous
+       being a trampoline to the game's own code; SetColor is swapped to the reconstruction as usual */
+    char line[256];
+    HMODULE m = GetModuleHandleA("mod_test.dll");
+    check(m != NULL, "mods=mod_test.dll: the kit loaded the mod");
+    if (!m) { printf("FAILED\n"); ExitProcess(1); }
+    volatile long *frames = (volatile long *)GetProcAddress(m, "mod_frames"), *unk = (volatile long *)GetProcAddress(m, "mod_unknown_result"),
+                  *irel = (volatile long *)GetProcAddress(m, "mod_init_rel");
+    void **prev = (void **)GetProcAddress(m, "mod_prev");
+    check(*irel == (long)rel, "the mod's xi_rel was the game's load delta when its init ran");
+    uint8_t *get = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+    int32_t d; memcpy(&d, get + 1, 4); uintptr_t to = (uintptr_t)get + 5 + d;
+    IMAGE_NT_HEADERS *mnt = (IMAGE_NT_HEADERS *)((char *)m + ((IMAGE_DOS_HEADER *)m)->e_lfanew);
+    check(get[0] == 0xE9 && to >= (uintptr_t)m && to < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage, "GetColor's entry jumps into the mod (not the reconstruction)");
+    ((SetColorFn)set)(actor, 0x11223344u);
+    check(((GetColorFn)get)(actor) == 0x11223345u, "the hook ran: the game's GetColor value + 1");
+    check(*prev && ((GetColorFn)*prev)(actor) == 0x11223344u, "the hook's previous (a trampoline) runs the game's own GetColor");
+    check(*prev < (void *)m || *prev >= (void *)((char *)m + mnt->OptionalHeader.SizeOfImage), "previous is outside the mod (the kit's trampoline)");
+    check(*unk == -1, "hook() of a name not in the manifest returned XIKIT_E_UNKNOWN");
+    /* CDx::EndClearBegin's trampoline (T=9:5): 9 bytes copied, the rel32 call at +4 re-aimed, then jmp entry+9 */
+    uint8_t *ecb = (uint8_t *)(uintptr_t)(0x100096B0u + rel), *tr = *(uint8_t **)GetProcAddress(m, "mod_prev_ecb");
+    int ok = tr != NULL;
+    if (ok) {
+      int32_t dg, dt, dj; memcpy(&dt, tr + 5, 4); memcpy(&dj, tr + 10, 4);
+      memcpy(&dg, (uint8_t *)(uintptr_t)(0x100096B0u + rel + 5), 4);    /* (entry+5..8: after the kit's jmp, still the game's) */
+      ok = tr[4] == 0xE8 && (uintptr_t)tr + 9 + dt == (uintptr_t)ecb + 9 + dg && tr[9] == 0xE9 && (uintptr_t)tr + 14 + dj == (uintptr_t)ecb + 9
+           && !memcmp(tr, orig_ecb, 4) && ecb[0] == 0xE9;    /* the 4 bytes before the call as the game had them; the entry now the kit's jmp */
+    }
+    check(ok, "CDx::EndClearBegin's trampoline: its copied call reaches the game's own target, then it jumps back to entry+9");
+    check(*frames >= 2, "xikit_mod_frame ran each frame");
+    FILE *lg = fopen("xikit.log", "r"); int hooked = 0, refused = 0;
+    if (lg) { while (fgets(line, sizeof line, lg)) {
+                if (strstr(line, "mod mod_test.dll: hooked CXiSkeletonActor::GetColor") && strstr(line, "previous = the game's code (trampoline)")) hooked = 1;
+                if (strstr(line, "hook(No::SuchFunction): not a function of the manifest")) refused = 1; } fclose(lg); }
+    check(hooked && refused, "xikit.log has the hook and the refusal");
+    touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n");
+    present(130);
+    check(!memcmp(set, orig_set, 5), "swap=0: SetColor has its original bytes again");
+    check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u, "swap=0: the mod's hook stays");
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   ((SetColorFn)set)(actor, 0x11223344u);
   check(*(uint32_t *)(actor + 0x660) == 0x11223344u, "reconstructed SetColor wrote this+0x660");
   check(((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor) == 0x11223344u, "GetColor (swapped too) reads it back");

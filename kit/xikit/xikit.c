@@ -29,6 +29,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../../sdk/include/xikit_mod.h"
 
 #define ANALYSED_BASE 0x10000000u
 #define G_PCDX 0x1045666Cu             /* CDx*; the device is at +0xC (data/com_fields.json, accepted) */
@@ -47,7 +48,7 @@ int d3dprof_trace_write(const char *path, const char *note);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
-  int flags;                           /* 1 SEH, 2 speedfix site */
+  int flags;                           /* 1 SEH, 2 speedfix site, 4 untested, 8 register input (no mod hook) */
   char exp[160], name[96];
   uint8_t expect[20];                  /* analysed bytes, entry-4 .. entry+16 */
   int nrel; int8_t rel[8];             /* relocated dwords touching that window (offsets -3..19) */
@@ -58,6 +59,8 @@ typedef struct {
   int patched, refused, quarantined, wanted;
   int bs_susp, bs_test;                /* bisect: still a suspect / in the set being tested */
   volatile LONG calls; LONG calls_reported;
+  int tlen, nfix; int8_t tfix[4];      /* trampoline (manifest T=): whole instructions copied from the entry, rel32 to re-aim */
+  void *mod_target; int mod;           /* a mod's replacement (sdk/: xikit_mod.h), and which mod (index into g_mods + 1) */
 } Fn;
 
 typedef struct {
@@ -137,7 +140,10 @@ static const char DEFAULT_INI[] =
   "; 1: the trace also hashes what the game writes into vertex and index buffers (their Lock/Unlock are wrapped)\r\n"
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
-  "profile=0\r\n";
+  "profile=0\r\n"
+  "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
+  ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
+  "mods=\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -187,6 +193,7 @@ static int g_bis_on;
 static int g_bis_found[64], g_bis_nfound;           /* culprits found this session: kept on the original code */
 
 static int base_wanted(const Fn *f) {
+  if (f->mod_target) return 0;                      /* a mod's hook: wanted() below; never a bisect suspect */
   if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
@@ -198,6 +205,7 @@ static int base_wanted(const Fn *f) {
 }
 
 static int wanted(const Fn *f) {
+  if (f->mod_target) return !g_master_off && !f->refused && !f->quarantined;   /* swap=0 leaves mods on; F9 / a trace's off frames do not */
   int w = base_wanted(f);
   return g_bis_on ? (w && f->bs_test) : w;
 }
@@ -228,6 +236,12 @@ static int load_manifest(const char *path) {
     f->rva = rva;
     for (int i = 0; i < 20; i++) f->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
     if (strcmp(rels, "-")) for (char *p = rels; *p && f->nrel < 8;) { f->rel[f->nrel++] = (int8_t)strtol(p, &p, 10); if (*p == ',') p++; }
+    char *t = strstr(line, " T=");                  /* (a manifest from before the SDK has none: no trampolines) */
+    if (t && t[3] >= '0' && t[3] <= '9') {
+      char *q = t + 3; f->tlen = (int)strtol(q, &q, 10);
+      if (*q == ':') for (q++; *q >= '0' && *q <= '9' && f->nfix < 4;) { f->tfix[f->nfix++] = (int8_t)strtol(q, &q, 10); if (*q == ',') q++; }
+      if (f->tlen < JMP_LEN || f->tlen > 16) f->tlen = 0;
+    }
     g_nfn++;
   }
   fclose(m);
@@ -314,7 +328,7 @@ static void apply(void) {
     for (int t = 0; t < n; t++) if (eips[t] >= (uint32_t)(uintptr_t)f->site && eips[t] < (uint32_t)(uintptr_t)f->site + JMP_LEN) inside = 1;
     if (inside) { busy++; continue; }
     uint8_t jmp[JMP_LEN];
-    make_jmp(jmp, f->site, f->stub ? (void *)f->stub : f->target);
+    make_jmp(jmp, f->site, f->mod_target ? f->mod_target : f->stub ? (void *)f->stub : f->target);
     if (f->wanted) {
       int d = check_bytes(f);
       if (d != -1) {
@@ -548,6 +562,7 @@ static void trace_label(void) {
   if (on > g_tr_maxon) g_tr_maxon = on;
 }
 
+static int g_nmods; static void mods_frame(void *dev);     /* (mods: below) */
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
@@ -580,6 +595,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_dirty) apply();
     if (g_trace_attached) trace_label();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
+    if (g_nmods) mods_frame(dev);
   }
   return ((PresentFn)g_orig_vt[SLOT_PRESENT])(dev, a, b, w, r);
 }
@@ -689,6 +705,108 @@ static void read_quarantine(void) {
   if (n) klog("%d functions quarantined by xikit_quarantine.txt", n);
 }
 
+/* ------------------------------------------------------------------------------------------------ mods (sdk/, docs/SDK.md) */
+#define MAXMODS 16
+typedef struct { char name[64]; HMODULE h; xikit_mod_frame_fn frame; } Mod;
+static Mod g_mods[MAXMODS]; static int g_mod_cur = -1, g_mods_open;
+static uint8_t *g_tramps;                       /* MAXFN slots of 32 bytes: copied entry instructions + jmp back */
+static XikitHost g_host;
+
+static void __cdecl host_log(const char *fmt, ...) {
+  char buf[900]; va_list a; va_start(a, fmt); vsnprintf(buf, sizeof buf, fmt, a); va_end(a);
+  klog("mod %s: %s", g_mod_cur >= 0 ? g_mods[g_mod_cur].name : "?", buf);
+}
+
+static Fn *fn_named(const char *what) {
+  for (int i = 0; i < g_nfn; i++) {
+    Fn *f = &g_fn[i];
+    if (!strcmp(what, f->name) || !strcmp(what, f->exp)) return f;
+  }
+  if (what[0] == '0' && (what[1] == 'x' || what[1] == 'X')) {
+    uint32_t v = (uint32_t)strtoul(what, NULL, 16);
+    for (int i = 0; i < g_nfn; i++) if (v == g_fn[i].rva + ANALYSED_BASE || v == g_fn[i].rva) return &g_fn[i];
+  }
+  return NULL;
+}
+
+/* the game's own code of f, reached from outside: its first tlen bytes (whole instructions, manifest T=) copied
+   from the live entry, rel32 call/jmp re-aimed, then a jmp to entry + tlen. Built before the kit writes anything
+   at the entry (mods are initialised before the first frame); the live bytes are checked against the analysed
+   ones first (check_bytes: entry-4 .. entry+16, which covers tlen <= 16). */
+static void *build_tramp(Fn *f) {
+  if (!f->tlen || !g_tramps || f->patched) return NULL;
+  uint8_t *t = g_tramps + (f - g_fn) * 32;
+  memcpy(t, f->site, f->tlen);
+  for (int k = 0; k < f->nfix; k++) {
+    int32_t d; memcpy(&d, t + f->tfix[k], 4);
+    d += (int32_t)((uintptr_t)f->site - (uintptr_t)t);       /* same target, now from the copy */
+    memcpy(t + f->tfix[k], &d, 4);
+  }
+  make_jmp(t + f->tlen, t + f->tlen, f->site + f->tlen);
+  FlushInstructionCache(GetCurrentProcess(), t, 32);
+  return t;
+}
+
+static int __cdecl host_hook(const char *what, void *repl, void **prev) {
+  if (prev) *prev = NULL;
+  if (!g_mods_open) { host_log("hook(%s): only inside xikit_mod_init", what ? what : "?"); return XIKIT_E_LATE; }
+  Fn *f = what ? fn_named(what) : NULL;
+  if (!f || !repl) { host_log("hook(%s): not a function of the manifest", what ? what : "NULL"); return XIKIT_E_UNKNOWN; }
+  if (f->mod_target) { host_log("hook(%s): already hooked by %s", f->name, g_mods[f->mod - 1].name); return XIKIT_E_TAKEN; }
+  int d = check_bytes(f);
+  if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
+  if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix_hook patches it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
+  if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
+  void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
+  if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
+  if (!p) { host_log("hook(%s): no way to reach its previous code", f->name); return XIKIT_E_NOPREV; }
+  if (prev) *prev = p;
+  f->mod_target = repl; f->mod = g_mod_cur + 1; f->refused = 0; g_dirty = 1;
+  host_log("hooked %s (0x%08X)%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
+           via, (f->flags & 4) && p == f->target ? " [its gate coverage is incomplete]" : "");
+  return XIKIT_OK;
+}
+
+static void *__cdecl host_recon(const char *what) { Fn *f = what ? fn_named(what) : NULL; return f ? f->target : NULL; }
+
+/* mods= (read once, at the start): load each, give it xi_rel, call its init */
+static void load_mods(void *dev, HMODULE rec) {
+  char list[1024]; GetPrivateProfileStringA("xikit", "mods", "", list, sizeof list, g_ini);
+  if (!list[0]) return;
+  g_tramps = (uint8_t *)VirtualAlloc(NULL, MAXFN * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  g_host.version = XIKIT_API_VERSION; g_host.size = sizeof g_host;
+  g_host.game_base = g_game_lo; g_host.rel = (intptr_t)g_rel; g_host.device = dev; g_host.recon = rec; g_host.dir = g_dir;
+  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon;
+  for (char *p = list; *p && g_nmods < MAXMODS;) {
+    char nm[64]; int n = 0;
+    while (*p == ' ' || *p == ',' || *p == '\t') p++;
+    while (*p && *p != ',' && n < 63) nm[n++] = *p++;
+    while (n && (nm[n - 1] == ' ' || nm[n - 1] == '\t')) n--;
+    nm[n] = 0; if (!n) continue;
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\%s", g_dir, nm);
+    HMODULE h = LoadLibraryA(path);
+    if (!h) { klog("mod %s: could not load %s (error %lu)", nm, path, GetLastError()); continue; }
+    xikit_mod_init_fn init = (xikit_mod_init_fn)GetProcAddress(h, "xikit_mod_init");
+    if (!init) { klog("mod %s: exports no xikit_mod_init; not used", nm); continue; }
+    Mod *m = &g_mods[g_nmods]; snprintf(m->name, sizeof m->name, "%s", nm); m->h = h;
+    m->frame = (xikit_mod_frame_fn)GetProcAddress(h, "xikit_mod_frame");
+    uintptr_t *mr = (uintptr_t *)GetProcAddress(h, "xi_rel"); if (mr) *mr = g_rel;
+    HMODULE pin; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, path, &pin);
+    g_mod_cur = g_nmods++; g_mods_open = 1;
+    int r = init(&g_host);
+    g_mods_open = 0;
+    klog("mod %s: loaded at %p, init returned %d%s", nm, h, r, m->frame ? "; it draws each frame (xikit_mod_frame)" : "");
+    if (r != 0) m->frame = NULL;              /* (its hooks stay: they were checked and the mod asked for them) */
+    g_mod_cur = -1;
+  }
+  if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
+}
+
+static void mods_frame(void *dev) {
+  for (int i = 0; i < g_nmods; i++) if (g_mods[i].frame) { g_mod_cur = i; g_mods[i].frame(dev); }
+  g_mod_cur = -1;
+}
+
 /* ------------------------------------------------------------------------------------------------ start */
 static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
@@ -759,6 +877,7 @@ static DWORD WINAPI start(LPVOID self) {
   /* the device: [[g_pCDx]+0xC], once the game has made it */
   void ***cdx = (void ***)(uintptr_t)(G_PCDX + g_rel); void **dev = NULL;
   for (;;) { void **c = (void **)*cdx; if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break; Sleep(200); }
+  load_mods(dev, rec);                        /* before the Present hook: nothing is written at any entry yet */
   g_orig_vt = (void **)*dev;
   memcpy(g_vt, g_orig_vt, sizeof g_vt);
   g_vt[SLOT_PRESENT] = (void *)kit_present;

@@ -39,6 +39,10 @@ The manifest also carries flags that leave a function out by default, each with 
   (pol.exe, c0000005 at FFXiMain.dll+0x19230). Also set when the PASS rests on fewer than 10
   trials in which the original returned, over all gates together (thin evidence: `sub_10016320` passed on one
   trial per gate). Left out unless `include_untested=1`.
+- **register input** (flag 8): the original reads EDX at its entry, or ECX while the tree declares it neither
+  `__thiscall` nor `__fastcall` (`data/edx_use.json`, `data/ecx_use.json`). Swapping is unaffected; a mod may not
+  hook it (docs/SDK.md). One function: `Obj_104E1D4C::Cursor_Draw`.
+- **T=** (the trampoline column, for mods): see docs/SDK.md, "What `previous` is".
 
 ## How a patch is written (the same rules as speedfix_hook, plus the classic hot-patch ones)
 
@@ -72,7 +76,8 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs three times:
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs five times (the last two
+with a mod, `test/mod_test.cpp`, at the analysed base and relocated: docs/SDK.md, Limits); the first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -121,6 +126,11 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/close_gaps.py`: closes the layout gaps in the in-game DLL so Windows loads it (build.sh runs it).
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
+
+## Mods (`mods=`)
+
+`mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call
+the game's own version through a trampoline, and draw each frame. See docs/SDK.md.
 
 ## Comparing what the game draws with and without the swaps (`trace=1`)
 

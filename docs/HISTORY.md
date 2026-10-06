@@ -395,3 +395,13 @@ fixed:
 - **Trace**: up to 1500000 records (falls back to fewer if the address space has no room); `SetLight` keeps its 104
   bytes, so an animated light is checked as between its neighbours; `trace_diff.py` lists findings by how much more
   often they fire in swapped frames than in the control.
+- **SDK (mods)**: xikit loads mod DLLs (`mods=` in xikit.ini; `sdk/`, docs/SDK.md). A mod hooks any of the 774
+  manifest functions from `xikit_mod_init`; `XI_HOOK` checks at compile time that the replacement has the tree's
+  declared type (calling convention included: a static_assert, since the tree's headers need -fpermissive).
+  `previous` is a trampoline into the game's own code for 721 functions (manifest `T=`: whole instructions from the
+  entry, 5..16 bytes, rel32 re-aimed, refused where a branch or return is among them, the bytes pass the function's
+  end, or code jumps into them) and the reconstruction's export for 53. Manifest flag 8 (register input the
+  declaration lacks; `Obj_104E1D4C::Cursor_Draw`) refuses a hook. `sdk/gen_sdk.py` makes `xigame::` typed entry
+  pointers for all 777 reconstructed functions and `xihook::` flags. Wine: mod runs at base and relocated (hook,
+  trampoline to the game's code, a re-aimed call in a trampoline, refusal, frame callback, swap=0). The example's
+  drawing is compiled only; nothing has run in the game yet.

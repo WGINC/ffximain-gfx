@@ -283,3 +283,8 @@ lists, and can skin on the GPU.
 call goes through dgVoodoo's D3D8-to-D3D11 translation, as emulated x86 code. The only comparison left in place is
 between dgVoodoo's own settings (compare_paths.py). Leaving the translation behind takes a renderer that issues
 D3D11 itself: the D3D11 backend of goal 2. That backend is also the way to fewer and cheaper calls.
+
+**Concluded (6 Oct, owner's sessions 3 and 4):** Windows' own d3d8.dll crashes the game on this machine; dgVoodoo
+2.8.2 with D3D12 output stretches and flickers textures; dgVoodoo with D3D11 output is the one working path (D3D11 on
+Parallels' prl_umdd10.dll, all x86 code emulated). No further path comparison is open; compare_paths.py stays for
+comparing dgVoodoo settings if one is ever changed.

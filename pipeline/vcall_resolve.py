@@ -186,12 +186,24 @@ def ecx_inputs(im, code, starts):
     an indirect call or jump, or a callee that cannot tell, reached with ECX not wholly written)}; a fixpoint
     over direct calls and tail jumps"""
     res, pend = {}, {}
+    import reg_preserve                     # (imports this module: not at the top)
+    keeps = reg_preserve.preserved(im, code)
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
         wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
+        order = sorted(ins)
         while work:
             a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
             rd, wp, unk = ecx_effect(i)
+            if unk and i.mnemonic == 'push' and o and o[0].type == X86_OP_REG and r32(i.reg_name(o[0].reg)) == REG:
+                # `push REG`: MSVC's stack-slot reservation or an argument. Only the exact case is decided here:
+                # reg_preserve.slot_kind says "overwritten" when a 4-byte write to the slot comes straight after, before
+                # anything could read it, so REG is not read. Everything else (its "use" is only "not shown to be
+                # overwritten") stays undecided
+                if reg_preserve.slot_kind(ins, order, a) == 'overwritten': rd, wp, unk = set(), set(), False
+            # a direct call to a function that leaves the register untouched (reg_preserve.py) does not write it:
+            # the entry value is still there afterwards (0x10044010 reads its ECX after `call 0x10043de0`)
+            if i.mnemonic == 'call' and o and o[0].type == X86_OP_IMM and REG in keeps.get(o[0].imm, ()): wp = set()
             if any(not covered(p, w) for p in rd): read = True; FIRST_READ[f] = '0x%08X %s %s' % (a, i.mnemonic, i.op_str); break
             whole = REG in w
             if not whole:

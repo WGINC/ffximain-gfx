@@ -67,7 +67,10 @@ unordered compares. Whether an x87 compare was unordered (a NaN) is recorded whe
 bits, since `this` travels in ECX (GCC would push a float; 0x10057FB0). A game function's `bool` return is read
 as the raw AL byte (`uint8_t`): MSVC callers test AL against zero, GCC assumes 0 or 1 (0x100CBDE0).
 
-Hex-Rays also assumes every call clobbers EAX, ECX and EDX and that a call's type is what the IDB says. Where
+Hex-Rays also assumes every call clobbers EAX, ECX and EDX and that a call's type is what the IDB says. The
+fact tools say what the code says: `reg_preserve.py` finds which functions leave EAX/ECX/EDX untouched (a
+fixpoint over calls), and the ECX/EDX-use analyses and `reg_kept_audit.py` use it, so a function that reads its
+entry ECX after a call to such a function is seen (0x10044010, 6 Oct). `entry_regs.py` does the other registers. Where
 the original keeps a value live across a call to a callee that leaves the register alone, or passes the
 object in ECX to a callee the IDB typed without it, the translation passes garbage. `reg_kept_audit.py`,
 `ecx_this_sites.py` and the ECX/EDX use facts find these sites; each defect found is corrected as data

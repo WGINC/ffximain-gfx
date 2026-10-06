@@ -15,6 +15,11 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 CDECL_LOW = CDECL_ARGS.pop('_at_least', {})
+# callees whose own code reads their entry ECX (vcall_resolve.py, data/ecx_use.json: the value is an instruction that
+# reads it). Their stubs log ECX whatever the declared convention, so a reconstruction that calls one without passing
+# the object (the IDB types DynVB_Reserve __stdcall(int); it reads ECX) differs from the original at the call
+ECX_READ = {k for k, v in (json.load(open(os.path.join(DATADIR, 'ecx_use.json'))) if os.path.exists(os.path.join(DATADIR, 'ecx_use.json')) else {}).items()
+            if isinstance(v, str) and v.startswith('0x')}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
 THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
@@ -169,6 +174,7 @@ def main(exp, metaf, protof, out):
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': arg_masks(o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
+                if stubs['0x%08X' % ea]['conv'] != 'thiscall' and '0x%08X' % ea in ECX_READ: stubs['0x%08X' % ea]['ecx'] = 1
                 outs = com_outs(o['type'])
                 if outs: stubs['0x%08X' % ea]['com_out'] = outs
                 if ea in ALLOC:

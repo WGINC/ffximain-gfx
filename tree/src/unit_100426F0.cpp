@@ -174,7 +174,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       v32 = v72[j++ - 1];
       *(float *)((char *)&v70 + j * 4) = (v32 - v67) * v25;
     }
-    orig::DynVB_Reserve(4);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
     v33 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
     v34 = v76[2];
     v33[5] = *(float *)&v75[1];
@@ -215,7 +215,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     v33[22] = v48;
     v33[23] = 0.0;
     v33[24] = 1.0;
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
     (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
@@ -242,7 +242,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       0,
       0);
     orig::sub_1006A0E0(g_pResourceMng, 0, 0);
-    orig::DynVB_Reserve(6);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF142, 6);
     v49 = orig::DynVB_Lock((void *)g_pDynVB_FVF142);
     v50 = v49 + 9;
     for ( k = 5; k != 0; --k )
@@ -278,7 +278,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     }
     *((float *)v49 + 34) = v72[0] * 0x1.0101020000000p-8;
     *((float *)v49 + 35) = v69[0] * 0x1.0101020000000p-8;
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF142);
     ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
     v56 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
     (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;

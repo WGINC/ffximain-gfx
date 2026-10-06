@@ -1,0 +1,15 @@
+{
+ "why": "CMoDistModelElem_BuildDistortedMesh calls DynVB_Reserve (0x10044010) and DynVB_Unlock (0x100441A0) with the DynVB object in ECX: both read their entry ECX (0x1004401B `add edx, ecx`; 0x100441A8 `mov ecx,[eax+ecx+4]`, after a call to 0x10043DE0 that leaves ECX untouched, so the earlier analysis, which counted every call as a write, missed it). The IDB types them without `this`, so Hex-Rays dropped the object and the reconstruction called them with whatever ECX held (xikit.log 6 Oct: access violation at 0x1004401D, ecx=0x10, called from reconstructed 0x100759C0). data/type_fixes.json declares both __thiscall; this passes the object the original passes.",
+ "evidence": "Disassembly of each call site; the object is loaded just before it: 0x1004339D DynVB_Reserve <- 0x1004338F mov ecx,[0x1047BBB0] (g_pDynVB_FVF152); 0x100434DA DynVB_Unlock <- 0x100434D4 mov ecx,[0x1047BBB0] (g_pDynVB_FVF152). data/ecx_use.json: 0x10044010 and 0x100441A0 read their entry ECX.",
+ "text_sha1": "ef68a2d8f45b9dee2a448a78802b5595bc7a9fe5",
+ "replace": [
+  [
+   "      v23 = 3 * *(unsigned __int16 *)(v21 + 54);\n      DynVB_Reserve(v23);",
+   "      v23 = 3 * *(unsigned __int16 *)(v21 + 54);\n      DynVB_Reserve((void *)g_pDynVB_FVF152, v23);"
+  ],
+  [
+   "          qmemcpy(v15, v5, 36 * v23);\n        DynVB_Unlock();",
+   "          qmemcpy(v15, v5, 36 * v23);\n        DynVB_Unlock((void *)g_pDynVB_FVF152);"
+  ]
+ ]
+}

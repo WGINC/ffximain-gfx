@@ -292,3 +292,31 @@ fixed:
   known; the function is left out of the kit as untested); 44 virtual-call sites with unknown pop counts keep
   30 functions partly untested (Frame_Render among them).
 
+## 6 Oct 2026: the second in-game test, and the register the analysis lost
+
+- **What the test showed** (all 620 swapped): no crash at first, then the 3D scene a flat colour, the UI
+  "moshing", the screen fading between white and a blue pinstripe pattern; one run crashed at once in
+  `FFXiMain.dll+0x4401D` (analysed 0x1004401D), `ecx=0x10`, called from reconstructed `fn_100759C0`.
+- **Cause**: `DynVB_Reserve` (0x10044010) and `DynVB_Unlock` (0x100441A0) read their entry ECX (the DynVB object)
+  and the IDB types them without `this`; Hex-Rays dropped the object and the reconstruction called them with
+  whatever ECX held. Reserve then writes through that pointer (`mov [edx+0x10], ecx` ...): a wild write, which
+  would explain the flat colour and the corrupted UI too (not shown; it is the only defect of its kind found).
+- **Why the analysis missed it**: `ecx_use`/`edx_use` counted every call as a write of ECX/EDX. The function
+  reads its ECX only after `call 0x10043DE0`, which leaves ECX untouched. `reg_preserve.py` (the fixpoint of
+  "leaves EAX/ECX/EDX untouched", taken out of `reg_kept_audit.py`) is now used there, and `push ecx` is
+  decided exactly where the slot is overwritten first. Result: ECX has no "cannot tell" left; the only wrappers
+  that read an ECX they are not given are the two DynVB functions (fixed) and `CreateProcessorInstance`
+  (through a callee, known).
+- **Fix**: both functions `__thiscall` (`data/type_fixes.json`), the 8 reconstructed callers pass the object the
+  original passes (`data/hx_patches`, written from the disassembly: each loads ECX from a `g_pDynVB_*` global just
+  before the call). All 8 pass fuzz and the four dumps; with the old tree, 7 of them fail the new ECX comparison.
+- **Gate**: a stub whose callee reads its entry ECX (a direct read in `data/ecx_use.json`) compares ECX whatever its
+  declared convention (`__fastcall` callees now too: 20 more cases, all PASS). Without this the gate was blind to
+  a missing `this` on any callee typed without one.
+- **Checks added**: `entry_regs.py` (EAX/EBX/ESI/EDI/EBP read at entry: none of the 1,165 wrappers reads one but
+  with a prologue `push`, 13 undecided because of a switch table the analysis cannot bound), and verify_all
+  `wrapper-regs`: a wrapper typed without a register it reads fails the build.
+- **Kit**: bisect mode (`bisect=1`, Ctrl+Alt+F10/F11/F12), `docs/KIT.md`.
+- **Not known**: whether this was the cause of the flat colour and the pinstripe fades. The bisect finds the
+  function if it was not.
+

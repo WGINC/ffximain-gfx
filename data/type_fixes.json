@@ -138,5 +138,15 @@
   "type": "int __thiscall(void *self, void *a1, void *a2)",
   "why": "A forwarder: `mov eax,[ecx]; jmp [eax+0xBC]` jumps to slot 47 of the object's own vtable, so the target receives the caller's stack arguments and pops them. The IDB types it with no arguments, so the reconstruction dropped them (and relied on GCC emitting a tail jump) and the gate passed none. Its `this` can only have the vtables 0x1032C1C8, 0x1032C298, 0x1032C368 (vcall_resolve), whose slot 47 is 0x1006D460, 0x1006F560; each pops 8 bytes (data/purges.json): 2 arguments, both arguments are dereferenced (0x1006D460 copies [arg2] to [arg1]; 0x1006F560 movaps from [arg2]).",
   "evidence": "disasm 0x1006CC90..+6; vtable slot 47 of 0x1032C1C8, 0x1032C298, 0x1032C368; purges of 0x1006D460, 0x1006F560."
+ },
+ "0x10044010": {
+  "type": "int __thiscall(void *self, int a1)",
+  "why": "DynVB_Reserve: the IDB types it __stdcall(int), but it reads its entry ECX (the DynVB object: 0x1004401B `add edx, ecx`, after `call 0x10043DE0`, which leaves ECX untouched) and ret 4 pops the one stack argument. Every caller loads ECX from a g_pDynVB_* global just before the call.",
+  "evidence": "disasm 0x10044010..0x10044065; data/ecx_use.json 0x10044010 (reg_preserve.py: 0x10043DE0 leaves ECX untouched); callers 0x10075AA1 etc. `mov ecx,[0x1047BBA8]; push 4; call 0x10044010`."
+ },
+ "0x100441A0": {
+  "type": "int __thiscall(void *self)",
+  "why": "DynVB_Unlock: the IDB types it __cdecl(), but it reads its entry ECX (0x100441A8 `mov ecx,[eax+ecx+4]`, after a call that leaves ECX untouched). Every caller loads ECX from a g_pDynVB_* global just before the call.",
+  "evidence": "disasm 0x100441A0..; data/ecx_use.json 0x100441A0; callers `mov ecx,[0x1047BBA8]; call 0x100441A0`."
  }
 }

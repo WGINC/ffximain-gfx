@@ -212,7 +212,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
     v11 = 1.0 / (double)(g_cubeMapTargetHeight - 1);
     v19 = v11;
     v20 = v11 * a5 * 0x1.921fb00000000p+2;
-    orig::DynVB_Reserve(2 * g_cubeMapTargetHeight + 2);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 2 * g_cubeMapTargetHeight + 2);
     v12 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
     v13 = 0;
     v21 = 0;
@@ -244,7 +244,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
       }
       while ( v13 < g_cubeMapTargetHeight + 1 );
     }
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
     orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
     (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
       *(_DWORD *)(g_pResourceMng + 3772),
@@ -337,7 +337,7 @@ LABEL_13:
     *(_DWORD *)(g_pResourceMng + 3772),
     60,
     a3);
-  orig::DynVB_Reserve(4);
+  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
   v6 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
   *v6 = 0.0;
   v6[1] = 0.0;
@@ -366,7 +366,7 @@ LABEL_13:
   v6[26] = 1.0;
   v6[27] = 1.0;
   v6[22] = v9;
-  orig::DynVB_Unlock();
+  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   v10 = *(_DWORD *)(*self_ + 64);
   if ( v10 == 0 )
     v10 = *(_DWORD *)(*self_ + 68);
@@ -612,7 +612,7 @@ XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
   double v12;
   double v13;
   double v14;
-  orig::DynVB_Reserve(4);
+  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
   v5 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
   v5[24] = 1.0;
   v5[17] = 1.0;
@@ -650,7 +650,7 @@ XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
   v14 = a3[3];
   v5[27] = a3[3];
   v5[20] = v14;
-  orig::DynVB_Unlock();
+  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   if ( a4 != 0 )
     orig::TexRef_SetTexture(self_, 0);
   (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(

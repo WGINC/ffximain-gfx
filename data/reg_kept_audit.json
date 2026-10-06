@@ -1,6 +1,7 @@
 {
 "sites": [
 {
+"callee": "0x10009E00",
 "function": "0x1000A820",
 "use": "0x1000A8EB",
 "register": "ecx",
@@ -10,6 +11,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10009E00",
 "function": "0x1000A820",
 "use": "0x1000A904",
 "register": "ecx",
@@ -19,6 +21,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10009E00",
 "function": "0x1000A820",
 "use": "0x1000A93A",
 "register": "ecx",
@@ -28,6 +31,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10009E00",
 "function": "0x1000A820",
 "use": "0x1000A954",
 "register": "ecx",
@@ -37,6 +41,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10009E00",
 "function": "0x1000A820",
 "use": "0x1000A98A",
 "register": "ecx",
@@ -46,6 +51,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10014D70",
 "function": "0x1003D9A0",
 "use": "0x1003DA82",
 "register": "ecx",
@@ -55,6 +61,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10014D70",
 "function": "0x1003DB60",
 "use": "0x1003DCF6",
 "register": "ecx",
@@ -64,6 +71,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x1003FCE0",
 "function": "0x10040670",
 "use": "0x10040B31",
 "register": "ecx",
@@ -73,6 +81,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10015690",
 "function": "0x1004A870",
 "use": "0x1004A932",
 "register": "ecx",
@@ -82,6 +91,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015680",
 "function": "0x1004A870",
 "use": "0x1004A948",
 "register": "ecx",
@@ -91,6 +101,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015690",
 "function": "0x1004E630",
 "use": "0x1004E6D1",
 "register": "ecx",
@@ -100,6 +111,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015680",
 "function": "0x1004E630",
 "use": "0x1004E6E7",
 "register": "ecx",
@@ -109,6 +121,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x1018BC40",
 "function": "0x10057FB0",
 "use": "0x10058048",
 "register": "ecx",
@@ -118,6 +131,7 @@
 "kind": "address-passed"
 },
 {
+"callee": "0x1005E190",
 "function": "0x10057FB0",
 "use": "0x10059A96",
 "register": "ecx",
@@ -127,6 +141,7 @@
 "kind": "address-passed"
 },
 {
+"callee": "0x1005E1F0",
 "function": "0x10057FB0",
 "use": "0x10059D33",
 "register": "ecx",
@@ -136,6 +151,7 @@
 "kind": "address-passed"
 },
 {
+"callee": "0x1005E1F0",
 "function": "0x10057FB0",
 "use": "0x10059D89",
 "register": "ecx",
@@ -145,6 +161,7 @@
 "kind": "address-passed"
 },
 {
+"callee": "0x10060940",
 "function": "0x10057FB0",
 "use": "0x1005D303",
 "register": "ecx",
@@ -154,6 +171,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x1006A560",
 "function": "0x1006AA30",
 "use": "0x1006AA7F",
 "register": "edx",
@@ -163,6 +181,7 @@
 "kind": "use"
 },
 {
+"callee": "0x1006A560",
 "function": "0x1006AA30",
 "use": "0x1006AAED",
 "register": "edx",
@@ -172,6 +191,7 @@
 "kind": "use"
 },
 {
+"callee": "0x10069E90",
 "function": "0x1006B4C0",
 "use": "0x1006B4D4",
 "register": "eax",
@@ -181,6 +201,7 @@
 "kind": "return"
 },
 {
+"callee": "0x100279A0",
 "function": "0x100C63D0",
 "use": "0x100C7CA9",
 "register": "ecx",
@@ -190,6 +211,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x100279A0",
 "function": "0x100C63D0",
 "use": "0x100C7CA9",
 "register": "ecx",
@@ -199,6 +221,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10085000",
 "function": "0x100C63D0",
 "use": "0x100C7CBD",
 "register": "ecx",
@@ -208,6 +231,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015690",
 "function": "0x100CBDE0",
 "use": "0x100CC656",
 "register": "ecx",
@@ -217,6 +241,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015680",
 "function": "0x100CBDE0",
 "use": "0x100CC66C",
 "register": "ecx",
@@ -226,6 +251,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015690",
 "function": "0x100CCF50",
 "use": "0x100CCFDD",
 "register": "ecx",
@@ -235,6 +261,7 @@
 "kind": "overwritten"
 },
 {
+"callee": "0x10015680",
 "function": "0x100CCF50",
 "use": "0x100CCFF3",
 "register": "ecx",

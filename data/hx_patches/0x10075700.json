@@ -1,0 +1,15 @@
+{
+ "why": "sub_10075700 calls DynVB_Reserve (0x10044010) and DynVB_Unlock (0x100441A0) with the DynVB object in ECX: both read their entry ECX (0x1004401B `add edx, ecx`; 0x100441A8 `mov ecx,[eax+ecx+4]`, after a call to 0x10043DE0 that leaves ECX untouched, so the earlier analysis, which counted every call as a write, missed it). The IDB types them without `this`, so Hex-Rays dropped the object and the reconstruction called them with whatever ECX held (xikit.log 6 Oct: access violation at 0x1004401D, ecx=0x10, called from reconstructed 0x100759C0). data/type_fixes.json declares both __thiscall; this passes the object the original passes.",
+ "evidence": "Disassembly of each call site; the object is loaded just before it: 0x10075815 DynVB_Reserve <- 0x100757F2 mov ecx,[0x1047BBA8] (g_pDynVB_FVF144); 0x100758AC DynVB_Unlock <- 0x100758A6 mov ecx,[0x1047BBA8] (g_pDynVB_FVF144). data/ecx_use.json: 0x10044010 and 0x100441A0 read their entry ECX.",
+ "text_sha1": "17b0ff01b4ee060c3715f8a19a4cd35c4800d865",
+ "replace": [
+  [
+   "    v20 = v11 * a5 * 6.2831841;\n    DynVB_Reserve(2 * g_cubeMapTargetHeight + 2);",
+   "    v20 = v11 * a5 * 6.2831841;\n    DynVB_Reserve((void *)g_pDynVB_FVF144, 2 * g_cubeMapTargetHeight + 2);"
+  ],
+  [
+   "    }\n    DynVB_Unlock();",
+   "    }\n    DynVB_Unlock((void *)g_pDynVB_FVF144);"
+  ]
+ ]
+}

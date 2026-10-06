@@ -121,6 +121,34 @@ int main(int argc, char **argv) {
   touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, Gfx_IsGammaSupported not");
+  /* bisect: SetColor is the "culprit" (the screen is wrong while it is swapped); the host answers as a person would */
+  if (!profile) {          /* (its extra frames would shift the profiler's per-window counts) */
+  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
+    present(130);
+    ((SetColorFn)set)(actor, 1); ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); ((GammaFn)gam)();
+    present(2);
+    { void (__cdecl *answer)(int) = (void (__cdecl *)(int))GetProcAddress(GetModuleHandleA("xikit.dll"), "xikit_bisect_answer");
+      check(answer != NULL, "bisect: xikit_bisect_answer is exported");
+      answer(1);                                   /* the screen is wrong: start */
+      for (int step = 0; step < 12; step++) {
+        present(2);
+        int bad = set[0] == 0xE9;                  /* wrong exactly while SetColor is swapped */
+        FILE *lg = fopen("xikit.log", "r"); int done = 0;
+        if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "CULPRIT")) done = 1; fclose(lg); }
+        if (done) break;
+        answer(bad);
+      }
+      present(2);
+      FILE *lg = fopen("xikit.log", "r"); int cul = 0;
+      if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "CULPRIT: CXiSkeletonActor::SetColor")) cul = 1; fclose(lg); }
+      check(cul, "bisect: narrowed to CXiSkeletonActor::SetColor and logged it");
+      present(2);
+      check(set[0] != 0xE9 && !memcmp(set, orig_set, 5), "bisect: the culprit stays on the original code after it is found");
+      answer(2); present(2);
+      check(set[0] == 0xE9, "bisect: F12 (stop) swaps everything again, the culprit included"); }
+    touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+    present(130);
+  }
   /* a crash inside reconstructed code: SetColor on a null this */
   AddVectoredExceptionHandler(0, host_veh);
   volatile char room[1024]; landing_sp = ((uintptr_t)(room + 512)) & ~15u; (void)room;

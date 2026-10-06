@@ -121,3 +121,21 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/close_gaps.py`: closes the layout gaps in the in-game DLL so Windows loads it (build.sh runs it).
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
+
+## Finding which function breaks the picture (`bisect=1`)
+
+The gate compares each function in isolation; a function can pass it and still break the game's output (6 Oct:
+all 620 swapped, no crash, the 3D scene a flat colour). With `bisect=1`:
+
+1. Ctrl+Alt+F9 toggles every swap off and on: confirms the swaps cause it.
+2. With everything swapped and the screen wrong, Ctrl+Alt+F10 starts the bisect. The candidates are the swapped
+   functions that have run since they were swapped (the call counts), so a function that never ran is not tested.
+3. Each step swaps half of the suspects only (the rest run the game's own code). Screen still wrong: Ctrl+Alt+F10;
+   screen right: Ctrl+Alt+F11. About log2(candidates) steps (7-8 for 150 functions).
+4. The last suspect is swapped alone: wrong = `CULPRIT: <name>` in `xikit.log` and `xikit_bisect.txt`; right =
+   `NO SINGLE CULPRIT` (an interaction, or two functions).
+5. A culprit stays on the original code for the rest of the run, so the picture shows whether it was the only one;
+   if it is still wrong, Ctrl+Alt+F10 looks for the next. Ctrl+Alt+F12 ends it and swaps everything again.
+
+One culprit is assumed per round. `xikit_bisect.txt` keeps every step.
+

@@ -25,6 +25,7 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
@@ -53,11 +54,12 @@ typedef struct {
   uint8_t *stub;                       /* counting stub, or NULL */
   uint8_t saved[JMP_LEN];              /* live bytes the jmp replaced */
   int patched, refused, quarantined, wanted;
+  int bs_susp, bs_test;                /* bisect: still a suspect / in the set being tested */
   volatile LONG calls; LONG calls_reported;
 } Fn;
 
 typedef struct {
-  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each;
+  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -108,6 +110,10 @@ static const char DEFAULT_INI[] =
   "hotkey=1\r\n"
   "; 1: log every function patched and restored (otherwise only totals)\r\n"
   "log_each=0\r\n"
+  "; 1: bisect mode: with the screen broken press Ctrl+Alt+F10 (bad); the kit then swaps half of the functions that have\r\n"
+  ";    run, and you press F10 again if the screen is still broken or Ctrl+Alt+F11 if it looks right; it narrows to one\r\n"
+  ";    function and logs its name (xikit.log, xikit_bisect.txt). Ctrl+Alt+F12 ends it and swaps everything again (culprits found included)\r\n"
+  "bisect=0\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n";
 
@@ -122,6 +128,7 @@ static void read_cfg(void) {
   c.report_every = GetPrivateProfileIntA("xikit", "report_every", 600, g_ini);
   c.hotkey = GetPrivateProfileIntA("xikit", "hotkey", 1, g_ini);
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
+  c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
   GetPrivateProfileStringA("xikit", "only", "", c.only, sizeof c.only, g_ini);
   GetPrivateProfileStringA("xikit", "exclude", "", c.exclude, sizeof c.exclude, g_ini);
   if (c.report_every < 60) c.report_every = 60;
@@ -153,14 +160,23 @@ static int listed(const char *list, const Fn *f) {
   return 0;
 }
 
-static int wanted(const Fn *f) {
+static int g_bis_on;
+static int g_bis_found[64], g_bis_nfound;           /* culprits found this session: kept on the original code */
+
+static int base_wanted(const Fn *f) {
   if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
   if ((f->flags & 4) && !g_cfg.include_untested) return 0;
   if (g_cfg.only[0] && !listed(g_cfg.only, f)) return 0;
   if (g_cfg.exclude[0] && listed(g_cfg.exclude, f)) return 0;
+  for (int k = 0; k < g_bis_nfound; k++) if (&g_fn[g_bis_found[k]] == f) return 0;
   return 1;
+}
+
+static int wanted(const Fn *f) {
+  int w = base_wanted(f);
+  return g_bis_on ? (w && f->bs_test) : w;
 }
 
 /* ------------------------------------------------------------------------------------------------ manifest */
@@ -306,6 +322,89 @@ static void apply(void) {
   g_dirty = busy > 0;
 }
 
+
+/* ------------------------------------------------------------------------------------------------ bisect */
+/* The screen is wrong with everything swapped; which function is it? Candidates are the swapped functions that have
+   run (a function that never ran cannot have drawn anything). Each step swaps half of the suspects only; the user
+   says whether the screen is still wrong (F10: the culprit is in this half) or right (F11: it is in the other).
+   One culprit is assumed; the last suspect is swapped alone as a check. */
+static int g_bis_n, g_bis_step; static int g_bis_idx[MAXFN];     /* suspects: indices into g_fn */
+static int g_bis_phase;                                          /* 0 off, 1 testing a half, 2 testing the last suspect */
+
+static void bis_note(const char *fmt, ...) {
+  char buf[400]; va_list ap; va_start(ap, fmt); vsnprintf(buf, sizeof buf, fmt, ap); va_end(ap);
+  klog("bisect: %s", buf);
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_bisect.txt", g_dir);
+  FILE *f = fopen(path, "a"); if (f) { fprintf(f, "%s\n", buf); fclose(f); }
+}
+
+static void bis_list(const char *what, const int *idx, int n) {
+  char buf[360]; int len = 0; buf[0] = 0;
+  for (int i = 0; i < n && len < 300; i++) len += snprintf(buf + len, sizeof buf - len, "%s%s", i ? ", " : "", g_fn[idx[i]].name);
+  bis_note("%s (%d): %s%s", what, n, buf, len >= 300 ? " ..." : "");
+}
+
+static void bis_test(const int *idx, int n) {
+  for (int i = 0; i < g_nfn; i++) g_fn[i].bs_test = 0;
+  for (int i = 0; i < n; i++) g_fn[idx[i]].bs_test = 1;
+  g_dirty = 1;
+}
+
+static void bis_next(void) {                    /* choose the set to test from the suspects */
+  g_bis_step++;
+  if (g_bis_n == 1) {
+    g_bis_phase = 2; bis_test(g_bis_idx, 1);
+    bis_note("step %d: only %s swapped. Still wrong (F10) = it is the culprit; right (F11) = no single function does it", g_bis_step, g_fn[g_bis_idx[0]].name);
+    return;
+  }
+  int half = g_bis_n / 2; g_bis_phase = 1; bis_test(g_bis_idx, half);
+  bis_note("step %d: %d suspects; swapping %d of them (the rest run the original code). Screen still wrong: F10; right: F11", g_bis_step, g_bis_n, half);
+  if (g_bis_n <= 12) bis_list("suspects", g_bis_idx, g_bis_n);
+}
+
+static void bis_start(void) {
+  g_bis_n = 0; g_bis_step = 0;
+  for (int i = 0; i < g_nfn; i++) {
+    Fn *f = &g_fn[i]; f->bs_test = 0;
+    int w = base_wanted(f);
+    if (w && f->stub && f->calls == 0) w = 0;
+    if (w) g_bis_idx[g_bis_n++] = i;
+  }
+  if (g_bis_n == 0) { bis_note("no swapped function has run yet; nothing to bisect"); return; }
+  g_bis_on = 1; bis_note("started: %d functions have run since they were swapped", g_bis_n);
+  bis_next();
+}
+
+static void bis_stop(void) {
+  g_bis_on = 0; g_bis_phase = 0; g_dirty = 1;
+  bis_note("ended: all functions swapped again%s", g_bis_nfound ? ", the culprits found included" : "");
+  g_bis_nfound = 0;
+}
+
+static void bis_answer(int bad) {
+  if (!g_bis_on) { if (bad) bis_start(); return; }
+  if (g_bis_phase == 2) {
+    int i = g_bis_idx[0];
+    if (bad) {
+      bis_note("CULPRIT: %s (0x%08X, %s) - screen wrong with only this function swapped. It stays on the original code for the rest of this run (put it in exclude= to keep it so); if the screen is still wrong now, press F10 to look for another",
+               g_fn[i].name, g_fn[i].rva + ANALYSED_BASE, g_fn[i].exp);
+      if (g_bis_nfound < 64) g_bis_found[g_bis_nfound++] = i;
+      g_bis_on = 0; g_bis_phase = 0; g_dirty = 1;
+    } else {
+      bis_note("NO SINGLE CULPRIT: %s alone is fine, but a set containing it was not - an interaction, or two functions. Ending", g_fn[i].name);
+      bis_stop();
+    }
+    return;
+  }
+  int half = g_bis_n / 2;
+  if (bad) { g_bis_n = half; }                                   /* the culprit is in the half just tested */
+  else { memmove(g_bis_idx, g_bis_idx + half, (g_bis_n - half) * sizeof(int)); g_bis_n -= half; }
+  bis_next();
+}
+
+/* for the test host, which plays the render thread and cannot press keys */
+__declspec(dllexport) void xikit_bisect_answer(int bad) { if (bad == 2) bis_stop(); else bis_answer(bad); }
+
 /* ------------------------------------------------------------------------------------------------ reports */
 static void report_calls(void) {
   char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_calls_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
@@ -332,6 +431,15 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F9) & 0x8000);
       if (down && !g_hotkey_down) { g_master_off = !g_master_off; g_dirty = 1; klog("hotkey: swaps %s", g_master_off ? "off" : "on"); }
       g_hotkey_down = down;
+    }
+    if (g_cfg.bisect) {
+      static int k10, k11, k12;
+      int mod = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000);
+      int d10 = mod && (GetAsyncKeyState(VK_F10) & 0x8000), d11 = mod && (GetAsyncKeyState(VK_F11) & 0x8000), d12 = mod && (GetAsyncKeyState(VK_F12) & 0x8000);
+      if (d10 && !k10) bis_answer(1);
+      if (d11 && !k11) bis_answer(0);
+      if (d12 && !k12) bis_stop();
+      k10 = d10; k11 = d11; k12 = d12;
     }
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_dirty) apply();

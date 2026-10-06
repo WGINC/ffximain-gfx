@@ -78,7 +78,7 @@ def slot_kind(ins, order, a):
     return 'use'
 
 
-def main(out):
+def main(out, everyone=False):
     im = S.Image(os.environ['FFXI_DLL'])
     ext = json.load(open(os.path.join(D, 'func_extents.json')))
     ecxu = json.load(open(os.path.join(D, 'ecx_use.json'))); edxu = json.load(open(os.path.join(D, 'edx_use.json')))
@@ -126,8 +126,9 @@ def main(out):
             for c in callees: k &= keeps.get(c, set())
             if k != keeps[f]: keeps[f] = k; changed = True
 
+    callers = sorted(code) if everyone else sorted(gated)
     sites = []
-    for f in sorted(gated):
+    for f in callers:
         ins = code.get(f)
         if not ins: continue
         order = orders[f]
@@ -163,7 +164,7 @@ def main(out):
             for r, d, k in before[a]:
                 if k is not None and r in rd:
                     kind = slot_kind(ins, order, a) if i.mnemonic == 'push' else 'return' if i.mnemonic.startswith('ret') else 'use'
-                    sites.append({'function': '0x%08X' % f, 'use': '0x%08X' % a, 'register': r,
+                    sites.append({'callee': '0x%08X' % ins[int(k, 16)].operands[0].imm, 'function': '0x%08X' % f, 'use': '0x%08X' % a, 'register': r,
                                   'instruction': '%s %s' % (i.mnemonic, i.op_str), 'defined': d, 'kept_across': k, 'kind': kind})
     sites.sort(key=lambda s: (s['function'], s['use'], s['register'], s['defined'], s['kept_across']))
     summ = {'sites': len(sites), 'functions_with_use': len({s['function'] for s in sites if s['kind'] == 'use'})}
@@ -173,4 +174,4 @@ def main(out):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1], '--all-callers' in sys.argv)

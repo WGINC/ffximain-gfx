@@ -45,7 +45,7 @@
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
 void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
-extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
+extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -155,6 +155,9 @@ static const char DEFAULT_INI[] =
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n"
+  "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
+  ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
+  "call_time=0\r\n"
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
@@ -1623,7 +1626,9 @@ static DWORD WINAPI start(LPVOID self) {
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   if (g_cfg.profile || g_cfg.trace) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
+    if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);

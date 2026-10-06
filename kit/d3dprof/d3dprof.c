@@ -70,6 +70,8 @@ static int g_recording;               /* between BeginStateBlock and EndStateBlo
                                          into the block, not applied to the device (D3D8 documentation) */
 static DWORD g_thread;
 static char g_out[MAX_PATH];
+int d3dprof_call_time;                 /* per-call time (below, d3dprof_return); xikit sets it from call_time= */
+static double g_ct_overhead_us;       /* two counter reads back to back, measured at attach */
 
 /* per (slot, site) totals over the report window */
 /* kind: 0 = a call site in FFXiMain (the analysed address of the return address), 1 = a caller outside
@@ -77,7 +79,7 @@ static char g_out[MAX_PATH];
    address the wrapper returns to; see WRAP) */
 enum { K_GAME, K_OTHER, K_WRAPPED };
 static const char *KIND[] = {"FFXiMain", "other module", "caller of CDx draw wrapper"};
-typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims; } Site;
+typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims, ticks; uint32_t timed; } Site;
 /* The draws of CDx_DrawPrimitive / CDx_DrawIndexedPrimitive / CDx_DrawPrimitiveUP (0x1000CB20, 0x1000CC00,
    0x1000CD00) are made inside those wrappers. Who asked for the draw is the wrapper's caller. Its return
    address is at a fixed offset from ESP at the method's entry: 4 + the exact stack depth at the call
@@ -350,12 +352,21 @@ static void report(void) {
              "primitives %.1f redundant_sets %.1f; other_thread_calls %u; sites %u (dropped %u)\n",
           g_frames, g_ms_sum / n, g_ms_min, g_ms_max, g_calls_window / n, g_draws_window / n, g_prims_window / n,
           g_redundant_window / n, g_other_thread, g_nsites, g_dropped_sites);
-  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame\n");
+  if (d3dprof_call_time)
+    fprintf(f, "# call time: QueryPerformanceCounter at %.0f Hz around each call on the render thread; timer overhead per "
+               "call (two counter reads, measured at start, not subtracted) %.3f us\n", (double)g_qpf.QuadPart, g_ct_overhead_us);
+  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame%s\n",
+          d3dprof_call_time ? ",us_per_call,us_per_frame" : "");
   for (uint32_t i = 0; i < MAXSITES; i++) {
     Site *s = &g_sites[i];
     if (!s->used) continue;
-    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f\n", NAMES[s->slot], s->site, KIND[s->kind],
+    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", NAMES[s->slot], s->site, KIND[s->kind],
             s->calls / n, s->redundant / n, s->prims / n);
+    if (d3dprof_call_time) {
+      double us = g_qpf.QuadPart ? s->ticks * 1e6 / (double)g_qpf.QuadPart : 0;
+      if (s->timed) fprintf(f, ",%.3f,%.3f", us / s->timed, us / n); else fputs(",,", f);
+    }
+    fputc('\n', f);
   }
   fclose(f);
   memset(g_sites, 0, sizeof g_sites); g_nsites = g_dropped_sites = 0;
@@ -370,6 +381,24 @@ static void report(void) {
    so a call the mod's hook passes on, or makes itself, is recorded with the site of the call it is handling, not
    with an address inside the mod */
 uint32_t d3dprof_via_stk[64]; volatile uint32_t d3dprof_via_depth;
+
+/* Per-call time (d3dprof_call_time, xikit.ini call_time=1): on the render thread, the call's return address on the
+   caller's stack is replaced by d3dprof_ret_stub, the real one kept on a shadow stack with the counter read last
+   thing before the method runs; the stub reads the counter first thing after it returns, adds the difference to
+   the call's site and jumps to the real return address with EAX and EDX as the method left them. Nothing else of
+   the caller's stack changes, and the method's own `ret N` has already popped its arguments. The return path is
+   integer code only (the x87 stack is not touched). The site is looked up again at return (report() may have
+   started a new window in between). Calls deeper than 64 on the shadow stack are counted but not timed. */
+typedef struct { uint32_t ret, site; uint16_t slot; uint8_t kind; LARGE_INTEGER t0; } Pending_call;
+static Pending_call g_ct[64]; static uint32_t g_ct_depth, g_ct_untimed;
+extern void d3dprof_ret_stub(void);
+uint32_t __cdecl d3dprof_return(void) {
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  Pending_call *c = &g_ct[--g_ct_depth];
+  Site *s = site_of(c->site, c->slot, c->kind);
+  if (s) { s->ticks += (uint64_t)(now.QuadPart - c->t0.QuadPart); s->timed++; }
+  return c->ret;
+}
 const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES[slot] : NULL; }
 
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
@@ -420,6 +449,14 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     }
     g_last_present = now;
   }
+  if (d3dprof_call_time) {
+    if (g_ct_depth < 64) {
+      Pending_call *c = &g_ct[g_ct_depth++];
+      c->ret = a[0]; c->site = ret; c->slot = (uint16_t)slot; c->kind = (uint8_t)(game ? K_GAME : K_OTHER);
+      a[0] = (uint32_t)(uintptr_t)d3dprof_ret_stub;
+      QueryPerformanceCounter(&c->t0);
+    } else g_ct_untimed++;
+  }
   return g_next[slot];
 }
 
@@ -437,6 +474,17 @@ static __declspec(naked) void d3dprof_common(void) {
     jmp eax
   }
 }
+__declspec(naked) void d3dprof_ret_stub(void) {
+  __asm {
+    push eax
+    push edx
+    call d3dprof_return
+    mov ecx, eax
+    pop edx
+    pop eax
+    jmp ecx
+  }
+}
 #define T(k) static __declspec(naked) void d3dprof_t##k(void) { __asm mov eax, k __asm jmp d3dprof_common }
 #else
 /* GCC / MinGW */
@@ -449,6 +497,15 @@ __asm__(
   "  call _d3dprof_record\n"
   "  add esp, 8\n"
   "  jmp eax\n"
+  ".globl _d3dprof_ret_stub\n"
+  "_d3dprof_ret_stub:\n"
+  "  push eax\n"
+  "  push edx\n"
+  "  call _d3dprof_return\n"
+  "  mov ecx, eax\n"
+  "  pop edx\n"
+  "  pop eax\n"
+  "  jmp ecx\n"
   ".att_syntax\n");
 #define T(k) __asm__(".intel_syntax noprefix\n.globl _d3dprof_t" #k "\n_d3dprof_t" #k ":\n  mov eax, " #k "\n  jmp d3dprof_common\n.att_syntax\n"); \
              extern void d3dprof_t##k(void);
@@ -535,6 +592,15 @@ static void resources_init(void) {
   snprintf(g_resdir, sizeof g_resdir, "%s", g_out); char *sl = strrchr(g_resdir, '\\'); if (sl) *sl = 0; else snprintf(g_resdir, sizeof g_resdir, ".");
   g_res_init = 1;
 }
+static void measure_overhead(void) {      /* two counter reads back to back: the least of 1000, in microseconds */
+  LONGLONG best = -1;
+  for (int i = 0; i < 1000; i++) {
+    LARGE_INTEGER x, y; QueryPerformanceCounter(&x); QueryPerformanceCounter(&y);
+    if (best < 0 || y.QuadPart - x.QuadPart < best) best = y.QuadPart - x.QuadPart;
+  }
+  g_ct_overhead_us = g_qpf.QuadPart ? best * 1e6 / (double)g_qpf.QuadPart : 0;
+}
+
 static void set_next(void) {
   for (int k = 0; k < NSLOTS; k++) g_next[k] = g_orig[k];
   g_next[20] = (void *)w_tex; g_next[21] = (void *)w_vol; g_next[22] = (void *)w_cube; g_next[23] = (void *)w_vb; g_next[24] = (void *)w_ib;
@@ -547,7 +613,7 @@ static void set_next(void) {
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv) {
   snprintf(g_out, sizeof g_out, "%s", csv);
   g_rel = rel; g_lo = lo; g_hi = hi;
-  QueryPerformanceFrequency(&g_qpf); forget_state();
+  QueryPerformanceFrequency(&g_qpf); forget_state(); if (d3dprof_call_time) measure_overhead();
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;
@@ -578,7 +644,10 @@ static DWORD WINAPI start(LPVOID self) {
     if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break;
     Sleep(200);
   }
-  QueryPerformanceFrequency(&g_qpf); forget_state();
+  /* d3dprof.ini next to the DLL, [d3dprof] call_time=1: time each call (xikit sets it from its own ini) */
+  char ini[MAX_PATH]; snprintf(ini, sizeof ini, "%sd3dprof.ini", path);
+  d3dprof_call_time = GetPrivateProfileIntA("d3dprof", "call_time", 0, ini);
+  QueryPerformanceFrequency(&g_qpf); forget_state(); if (d3dprof_call_time) measure_overhead();
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;                             /* this object only; the driver's vtable is untouched */

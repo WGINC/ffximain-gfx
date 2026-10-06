@@ -502,3 +502,8 @@ has been run in the game yet.
   gate host: the mod's `xikit_mod_init` runs once before the trials (a case's new `setup` export in
   `diffemu_gfx.py`, its writes kept; a normal gate run is byte-identical, checked on 3 functions), `previous` is the
   game's own entry. `sdk/test_fork.py`: 12 checks, all ok (4 new).
+- **Per-call time** (GAPS.md 7 item 2, the part not built): `call_time=1` (xikit, with `profile=1`; standalone
+  d3dprof: `d3dprof.ini`) times each Direct3D call on the render thread through a return stub and a 64-deep shadow
+  stack; `us_per_call` and `us_per_frame` per call site, the counter's frequency and its read cost in the header.
+  Tested in Unicorn (`test_thunks.py`: return, pop, EAX/EDX, one interval recorded) and under Wine (`test_xikit.py`
+  profile run: 186 checks ok). Stale rows in GAPS.md and ROADMAP.md (timing, pictures "missing" / "to build") updated.

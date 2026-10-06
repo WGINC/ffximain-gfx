@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
                  : reloadrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
                  : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
                  : factrun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
@@ -371,16 +371,22 @@ int main(int argc, char **argv) {
     int before = presents; present(600);
     check(presents == before + 600, "profile=1: Present still reaches the device's own method through both hooks");
     snprintf(name, sizeof name, "d3dprof_%lu.csv", GetCurrentProcessId());
-    csv = fopen(name, "r"); int head = 0, row = 0;
+    csv = fopen(name, "r"); int head = 0, row = 0, ctime = 0, crow = 0;
     if (csv) {
       while (fgets(line, sizeof line, csv)) {
         if (!strncmp(line, "# d3dprof v2: 600 frames", 24)) head = 1;
+        if (!strncmp(line, "# call time: QueryPerformanceCounter", 36)) ctime++;
+        if (strstr(line, ",primitives_per_frame,us_per_call,us_per_frame")) ctime++;
+        /* call_time=1: the Present row carries the time per call and per frame (two numbers after the primitives) */
+        if (!strncmp(line, "Present,", 8)) { double a, b, c, d, e; char *p = strstr(line, ",other module,");
+          if (p && sscanf(p + 14, "%lf,%lf,%lf,%lf,%lf", &a, &b, &c, &d, &e) == 5 && d >= 0 && e >= 0) crow = 1; }
         /* the first window: a frame is Present to Present, so 601 Present calls over 600 frames = 1.002 */
         if (!strncmp(line, "Present,", 8) && strstr(line, ",other module,1.002,")) row = 1;
       }
       fclose(csv);
     }
     check(head, "profile=1: d3dprof wrote its report after 600 frames");
+    check(ctime == 2 && crow, "call_time=1: the report has the timer line, the two time columns, and Present's time per call and per frame");
     /* the sampler should find the render thread in game or reconstructed code when it is there: GetColor (swapped)
        called for about half a second, then a window of frames so the samples are written */
     { DWORD t = GetTickCount(); volatile uint32_t sink = 0;

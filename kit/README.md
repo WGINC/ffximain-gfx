@@ -44,8 +44,9 @@ caches or merges calls, d3dprof counts them on its side of speedfix:
 `test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
 method with the caller's stack unchanged, returns with the method's own pop, and is counted.
 
-What it does not measure: time spent inside each D3D call (that needs a return hook), and calls made on
-other threads (counted as `other_thread_calls`, not profiled).
+Time spent inside each D3D call: off by default; `call_time=1` (in xikit.ini with `profile=1`, or `[d3dprof]` in a
+`d3dprof.ini` next to the standalone DLL) adds `us_per_call` and `us_per_frame` per call site (docs/KIT.md, "Where the
+time goes"). Calls made on other threads are counted as `other_thread_calls`, not profiled.
 
 ## xikit: run the reconstructed graphics code in the game
 

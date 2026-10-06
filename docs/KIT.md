@@ -178,10 +178,20 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   - **inclusive:** time under each function. This is an upper estimate: a stale return address left in an
     older frame is counted too.
 
-  Samples estimate time shares; they do not time each call. Per-call time for Direct3D methods is this
-  "elsewhere" view, statistically.
+  Samples estimate time shares; they do not time each call.
+- **Time inside each Direct3D call, `call_time=1`** (with `profile=1`; read at the start). On the render thread,
+  d3dprof's thunk keeps the call's return address on a shadow stack and points it at a return stub, reading
+  `QueryPerformanceCounter` last thing before the method runs; the stub reads it first thing after the method
+  returns, adds the difference to the call site and jumps back to the caller with EAX and EDX as the method left
+  them (integer code only; the x87 stack is not touched). `d3dprof_<pid>.csv` then has `us_per_call` and
+  `us_per_frame` per (method, call site), and a header line with the counter's frequency and the cost of two counter
+  reads back to back (measured at the start, not subtracted). What is timed includes the layers behind d3dprof
+  (speedfix_hook, dgVoodoo, the driver). Calls nested deeper than 64 are counted, not timed; calls on other threads
+  are not profiled. Standalone d3dprof: `d3dprof.ini` next to it, `[d3dprof]` `call_time=1`.
 - **Tested** (Wine, mode `profile`): timing lines written; samples written; samples taken while the thread ran
-  the reconstructed GetColor name it.
+  the reconstructed GetColor name it; with `call_time=1`, the report's time columns and Present's times.
+  `test_thunks.py` (Unicorn): a timed call returns to its caller through the stub with the method's pop, EAX and EDX,
+  and records exactly one counter interval at its site.
 
 ## Capturing real calls for the gate (`capture=`)
 

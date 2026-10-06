@@ -75,7 +75,7 @@ caller = GAME + 0x1235
 call(72, [4, 2, 0x1000, 20], ret=GAME + 0xCDE2, above=[0] * 3 + [caller])   # 2 params + this + ret = 4 dwords
 sites = {}
 for k in range(8192):
-    site, slot, used, kind, calls, red, prims = struct.unpack('<IHBBIIQ', u.mem_read(sym['_g_sites'] + 24 * k, 24))
+    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI4x', u.mem_read(sym['_g_sites'] + 40 * k, 40))
     if used: sites[(site, slot, kind)] = (calls, prims)
 assert sites.get((GAME + 0x9737, 50, 0)) == (1, 0), sites
 assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
@@ -143,6 +143,33 @@ assert eax == 0 and popped == 4 + 4, (eax, popped)
 n2 = struct.unpack('<I', u.mem_read(sym['_g_ntrace'], 4))[0]
 r = struct.unpack('<BBHII6II', u.mem_read(TR + 40 * (n2 - 1), 40))
 assert r[2] == 97 and r[4] == LOCKSITE and r[5:9] == (0, 64, 1, 1) and r[11] == fnv(data), r
+# per-call time (call_time=1): the call returns through d3dprof_ret_stub, which reads the counter and goes back to
+# the caller; the method sees the caller's stack with only the return address replaced, and leaves EAX and EDX as
+# the caller gets them. The fake counter advances 100 per read, so one timed call is exactly 100 ticks
+u.mem_write(STUB + 0xF10, struct.pack('<I', 0))
+qpc = next(STUB + 0x100 * (imp.address & 0xFF) for e in pe.DIRECTORY_ENTRY_IMPORT for imp in e.imports if imp.name == b'QueryPerformanceCounter')
+u.mem_write(qpc, b'\x8B\x44\x24\x04\x8B\x0D' + struct.pack('<I', STUB + 0xF10) + b'\x83\xC1\x64\x89\x0D' + struct.pack('<I', STUB + 0xF10)
+            + b'\x89\x08\xC7\x40\x04\x00\x00\x00\x00\xC2\x04\x00')
+u.mem_write(VT + 0x800 + 16 * 3, b'\xB8\x03\x10\x00\x00\xBA\x34\x12\x00\x00\xC2\x04\x00')    # mov eax, 0x1003; mov edx, 0x1234; ret 4
+u.mem_write(sym['_d3dprof_call_time'], struct.pack('<I', 1))
+TRET = GAME + 0x7777; u.mem_write(TRET, b'\xF4')
+sp = STACK - 0x100; u.mem_write(sp, struct.pack('<3I', TRET, 0x55AA0000, 0xC0FFEE)); u.reg_write(UC_X86_REG_ESP, sp)
+seen = {}
+def at3(uc, addr, size, _):
+    if addr == VT + 0x800 + 16 * 3: seen['stack'] = struct.unpack('<3I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 12)); seen['esp'] = uc.reg_read(UC_X86_REG_ESP)
+h = u.hook_add(UC_HOOK_CODE, at3); u.emu_start(sym['_d3dprof_t3'], TRET); u.hook_del(h)
+from unicorn.x86_const import UC_X86_REG_EDX
+assert seen['esp'] == sp and seen['stack'] == (sym['_d3dprof_ret_stub'], 0x55AA0000, 0xC0FFEE), seen
+assert u.reg_read(UC_X86_REG_EIP) == TRET and u.reg_read(UC_X86_REG_ESP) == sp + 8, 'did not return to the caller with the method\'s pop'
+assert u.reg_read(UC_X86_REG_EAX) == 0x1003 and u.reg_read(UC_X86_REG_EDX) == 0x1234, 'EAX/EDX not as the method left them'
+assert struct.unpack('<I', u.mem_read(sym['_g_ct_depth'], 4))[0] == 0
+for k in range(8192):
+    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI4x', u.mem_read(sym['_g_sites'] + 40 * k, 40))
+    if used and site == TRET and slot == 3: break
+else: raise AssertionError('no site for the timed call')
+assert (calls, timed, ticks) == (1, 1, 100), (calls, timed, ticks)
+print('ok: call time: the call came back through the return stub to its caller with the method\'s pop, EAX and EDX; '
+      'one interval of the counter recorded at its site')
 print('ok: buffer trace: the bound VB got wrapped Lock/Unlock with the right pops; Unlock recorded its 64 bytes, '
       'hash, 1 inf/NaN-pattern dword and 1 float >= 2^20, at the Lock\'s call site')
 print('ok: call trace: records, frame marks, labels, matrix and vertex-data hashes, the state a draw ran with')

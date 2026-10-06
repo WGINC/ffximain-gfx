@@ -175,8 +175,8 @@ function whose prototype is definitive.
 |---|---|---|
 | Alternating trace (calls, arguments, small data, buffer hashes) | Did the Direct3D calls change beyond what the scene changes? | Built |
 | Profiler (per call site), call counts (per function) | How many calls, from where | Built |
-| Picture capture and comparison | Did the pixels change? Where? | **Missing.** Read back the frame (or a named render target) on the alternating frames and compare: the trace compares calls, not what they draw |
-| Timing: Present wait, per-call time, sampling profiler | Where the time went | **Missing** (ROADMAP.md P0) |
+| Picture capture and comparison | Did the pixels change? Where? | Built (`trace_pictures=K`, kit/d3dprof/pictures.py; section 7 item 3); not run in the game yet |
+| Timing: Present wait, per-call time, sampling profiler | Where the time went | Built (`xikit_timing_<pid>.csv`, `call_time=1`, `sample=1`; section 7 item 2); no in-game measurements yet |
 | Coverage in the game | Which swapped or hooked code actually ran this session | Call counts per function only; not per path inside a function |
 
 ## 6. Correctness blind spots that undermine "know"
@@ -194,7 +194,7 @@ function whose prototype is definitive.
 | # | Tool | Closes | Size / state |
 |---|---|---|---|
 | 1 | **In-game input recorder**: a process dump at a chosen function's entry, replayed by the gate | The unverified hot paths (2a), the 2 INCONCLUSIVE, predictions on real inputs (4) | Built: `capture=` and pipeline/xcap.py (the kit writes its own capture of the reachable pages, not a minidump) |
-| 2 | **Timing**: Present wait, per-call time, render-thread sampling profiler | Cost: where time goes, what a change saves (4, 5) | Built: Present wait timer, sampler; exact per-call timing not built |
+| 2 | **Timing**: Present wait, per-call time, render-thread sampling profiler | Cost: where time goes, what a change saves (4, 5) | Built: Present wait timer, sampler, exact per-call time of Direct3D methods (`call_time=1`, 6 Oct) |
 | 3 | **Picture capture and comparison** on the alternating trace's frames | "Nothing else changed" for pixels (5) | Built: `trace_pictures=`, pictures.py |
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
 | 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built (static catalogue: `shader_catalogue.py`, 6 Oct) |

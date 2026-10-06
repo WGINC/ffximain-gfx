@@ -138,20 +138,16 @@ compares the halves by call content (method, parameters, the hash of the data a 
 each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
 nearest below each call site. It says where the two differ, not which side is right.
 
-## Finding which function breaks the picture (`bisect=1`)
+## Finding which functions break the picture (`bisect=1`)
 
-The gate compares each function in isolation; a function can pass it and still break the game's output (6 Oct:
-all 620 swapped, no crash, the 3D scene a flat colour). With `bisect=1`:
+With `bisect=1`, and the screen wrong with everything swapped: Ctrl+Alt+F10, or create `xikit_bisect_bad.txt` next to
+`xikit.dll` (the keys do not reach every game window; the kit deletes the file once read). The candidates are the
+swapped functions that have run. The kit then swaps a part of them only and logs which (`xikit.log`,
+`xikit_bisect.txt`); answer each step with F10 / `xikit_bisect_bad.txt` (still wrong) or F11 /
+`xikit_bisect_good.txt` (right). F12 / `xikit_bisect_stop.txt` ends it and swaps everything again.
 
-1. Ctrl+Alt+F9 toggles every swap off and on: confirms the swaps cause it.
-2. With everything swapped and the screen wrong, Ctrl+Alt+F10 starts the bisect. The candidates are the swapped
-   functions that have run since they were swapped (the call counts), so a function that never ran is not tested.
-3. Each step swaps half of the suspects only (the rest run the game's own code). Screen still wrong: Ctrl+Alt+F10;
-   screen right: Ctrl+Alt+F11. About log2(candidates) steps (7-8 for 150 functions).
-4. The last suspect is swapped alone: wrong = `CULPRIT: <name>` in `xikit.log` and `xikit_bisect.txt`; right =
-   `NO SINGLE CULPRIT` (an interaction, or two functions).
-5. A culprit stays on the original code for the rest of the run, so the picture shows whether it was the only one;
-   if it is still wrong, Ctrl+Alt+F10 looks for the next. Ctrl+Alt+F12 ends it and swaps everything again.
-
-One culprit is assumed per round. `xikit_bisect.txt` keeps every step.
-
+No single culprit is assumed (on 6 Oct the picture broke with 7 functions swapped and was right with every group a
+one-culprit bisect tried). The search is delta debugging (Zeller's ddmin) while more than 8 suspects remain, then each
+suspect is left out in turn: at most 8 answers from there. It ends with `CULPRIT: <name>`, or `CULPRITS TOGETHER` and
+the list when several functions break the picture only together; the set it reports is minimal (with any one of them
+left out the screen is right). The culprits stay on the original code for the rest of the run.

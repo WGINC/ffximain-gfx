@@ -344,4 +344,13 @@ fixed:
   once they were back on. The traced device calls are the same in both halves, so the difference is in data the trace
   did not see. The trace now records vertex and index buffer contents at `Unlock`, by the function that locked them
   (`trace_buffers=1`), tested in `test_thunks.py` (Lock/Unlock pops, size from GetDesc, hash, call site).
+- **Rig runs (6 Oct, owner)**: swapping only the 87 functions that ran at load gave a right picture, the 149 that run
+  every frame a broken one. A bisect narrowed it to 7 `CDx` functions (GetRenderTargetTop, PushRenderTarget, SetTexture,
+  DrawTexturedScreenQuad, PushRenderTargetRet1, DrawFadeQuad, SetTransform): broken with all 7, right with every group
+  the bisect tried alone ({GetRenderTargetTop, PushRenderTarget, SetTexture}, {DrawTexturedScreenQuad,
+  PushRenderTargetRet1}, {DrawFadeQuad}, {SetTransform}). So two or more break it only together; the one-culprit
+  bisect could not find that. All 7 pass every gate with every instruction covered, also on the shipped in-game DLL and
+  with the x87 stack depth compared at every return; no branch enters their first 5 bytes. The bisect is now ddmin with
+  leave-one-out below 9 suspects (simulated over every 1-, 2- and 3-function culprit set of 7: each found exactly, at
+  most 7 answers; Wine test: a single culprit and a pair).
 

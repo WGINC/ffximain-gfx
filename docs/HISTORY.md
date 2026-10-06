@@ -927,3 +927,18 @@ That is 38 or 42 SetRenderTarget a frame.
   extended_state_cache already removes. Fewer zone draws therefore need the zone's geometry rebuilt into shared
   buffers, grouped by texture (17 textures). That is a load-time rebuild of the zone format (task 16), worth it for
   town scenes like 6080's (16.3 ms of zone draws). In the plaza (45 zone draws a frame) it does not pay.
+
+## 6 Oct (evening): the plaza trace measured for merging within a model (task 78)
+
+The owner sent sessions 1 to 3 ("mutil") and session 5 ("Gumba", processes 2264 and 11952) again. The parallel
+session had already recorded them (above). New here, from session 2's trace (process 5180, label 0, 9 frames):
+- merge_potential.py in place: DrawIndexedPrimitive 1,620 draws make 1,561 runs; with `--same-value`, 1,525. Merging
+  strips where they stand barely pays. Within a model, consecutive draws alternate between two pairs of vertex
+  buffers (SkinAndDrawV2 draws each strip a second time, from v10+80/+84, when field_34 bit 0 is set), and material
+  records sit between strips.
+- Reordering within a model: 326 models a frame, each identified by its index buffer (the SetIndices before its
+  draws). Their draws use 764 distinct combinations of state hash (textures, render and stage states, streams, index
+  buffer), light values and transforms. So drawing each model's strips grouped by those combinations, each group as one
+  indexed list built once, would leave at most 764 draws, close to the 771 that one shared skinning buffer gives. This
+  is an upper bound: reordering keeps the picture only for parts drawn without alpha blending, and the hash alone does
+  not say which parts blend. The fork has to keep blended parts in their order.

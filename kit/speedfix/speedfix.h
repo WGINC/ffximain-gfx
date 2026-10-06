@@ -28,6 +28,7 @@ struct SfConfig {
   int merge_scenes;         // one BeginScene/EndScene pair a frame: the game's inner EndScene..BeginScene pairs dropped
   int motion_stats;
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
+  int skin_merge;           // CYyModelDt::SkinAndDrawV2 forked (fork/): runs of a model's triangle-list records drawn as one
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
 };
 extern SfConfig sf_cfg;
@@ -38,6 +39,9 @@ int  sf_init(const XikitHost *host);
 void sf_frame(void);
 // sf_game.cpp
 int  sf_hook_query(const XikitHost *host);
+int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
+extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
+extern int sf_skinmerge_installed;
 // sf_device.cpp
 int  sf_device_install(const XikitHost *host);    // the device hooks; only from xikit_mod_init
 void sf_device_config_changed(const SfConfig *before);   // render thread: apply the cache switches safely

@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
-  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\n");
+  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
   check(g_dev.vt != g_vt, "the kit hooked the device");
@@ -126,6 +126,15 @@ int main(int argc, char **argv) {
   for (int i = 0; i < 500 && !log_has("methods hooked by mods"); i++) Sleep(20);
   check(log_has("methods hooked by mods"), "the kit put the mods' device hooks in front");
   frames(3);
+  {   /* skin_merge (the kit writes code hooks at a Present): on at the start (the full run), SkinAndDrawV2's entry
+         (0x1002DC10) goes to speedfix's fork; off (minimal, lazy), it is the game's code */
+    uint8_t *e = (uint8_t *)GAME(0x1002DC10u); HMODULE m = NULL;
+    void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
+    if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
+    int forked = m && m == GetModuleHandleA("speedfix.dll");
+    if (!minimal && !lazy) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
+  }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);

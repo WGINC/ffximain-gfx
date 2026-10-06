@@ -1,0 +1,736 @@
+// FORK OF: CYyModelDt::SkinAndDrawV2 0x1002DC10 (from tree/src/CYyModelDt.cpp)
+// Edit the body below; `fork.py diff` shows the edit, `fork.py gate` runs it against the game's code.
+// Hook it from the mod's xikit_mod_init with XI_FORK(host, CYyModelDt::SkinAndDrawV2).
+#include "gfx_all.hpp"
+#include "CYyModelDt.hpp"
+
+// ---- skin merge (docs/SKINMERGE.md): consecutive triangle-list records (0x54) draw one after another in the model's
+// index buffer (each starts where the last ended: v9 += 3 * v26), so a run of them with no other record between is
+// one DrawIndexedPrimitive of the summed count through the game's own CDx wrapper, per stream set. speedfix sets
+// xi_skinmerge_on in the game (the lever skin_merge); in the gate it is 0 and every record draws as the game draws it.
+#ifdef XI_SKINMERGE_GATE
+extern "C" { volatile int xi_skinmerge_on = 1; }     // the gate's run of the merged path (test_skinmerge.py)
+#else
+extern "C" { volatile int xi_skinmerge_on; }
+#endif
+enum { XM_MAX = 256 };
+// the held records go out: one draw per stream set for the whole run, or, for a run of one, the game's own calls
+static void xm_flush(CYyModelDt *self, int v10, unsigned first, unsigned prims, int *n)
+{
+  if ( *n == 0 )
+    return;
+  unsigned nv = *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618);
+  orig::Gfx_SetVertexShaderCached(*(_DWORD *)(v10 + 100));
+  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+  orig::CDx_DrawIndexedPrimitive(g_pCDx, 4, 0, nv, first, prims);
+  if ( (self->field_34 & 1) != 0 )
+  {
+    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+    orig::CDx_DrawIndexedPrimitive(g_pCDx, 4, 0, nv, first, prims);
+  }
+  *n = 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 58, town2 PASS 24, combat PASS 58, zonetoinn PASS 24
+__int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
+{
+  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
+  unsigned __int8 v8;
+  int v9;
+  int v10;
+  int v11;
+  unsigned int v12;
+  _BYTE *v13;
+  int v14;
+  int v15;
+  char v16;
+  float *v17;
+  __int64 v18; // rax
+  __int64 v19; // rax
+  __int64 v20; // rax
+  int v21;
+  IDirect3DBaseTexture8 *v22;
+  int v23;
+  int v24;
+  IDirect3DBaseTexture8 *v25;
+  int v26;
+  int v27;
+  bool v29;
+  unsigned __int8 v30;
+  int a4;
+  _WORD *v32;
+  int a1;
+  int a1a;
+  unsigned int v36;
+  float *v37;
+  int v38;
+  float v39[11];
+  unsigned xm_first = 0, xm_prims = 0;          // the held run: its first index, its triangles
+  int xm_n = 0;                                 // records held
+  orig::Gfx_SetVertexShaderCached(0);
+  g_boneWeightMatrixTableCur = g_boneWeightMatrixTable;
+  v8 = (*(unsigned __int8 *)((char *)g_pCDx + 0x921));
+  *a6 = 0;
+  v30 = v8;
+  *a7 = 0;
+  v32 = *(_WORD **)(self + 54);
+  dword_1045B618 = **(_DWORD **)(self + 66);
+  v9 = 0;
+  v29 = false;
+  v10 = at<uint32_t>(this, 0x5E);
+  dword_1045B620 = at<uint32_t>(this, 0x48);
+  a4 = 0;
+  dword_1045B61C = dword_1045B620 + 4 * **(unsigned __int16 **)(self + 66);
+  v11 = *(_DWORD *)(v10 + 64);
+  if ( v11 == 0 )
+    return v11;
+  v11 = *(_DWORD *)(v10 + 76);
+  if ( v11 == 0 )
+    return v11;
+  if ( g_skinningCapabilityFlag != 0 || *(_BYTE *)(a3 + 184) != 1 )
+  {
+    v11 = *(_DWORD *)(v10 + 68);
+    if ( v11 == 0 )
+      return v11;
+    v11 = *(_DWORD *)(v10 + 72);
+    if ( v11 == 0 )
+      return v11;
+    while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 68) + 44))(
+              *(_DWORD *)(v10 + 68),
+              0,
+              12 * *(_DWORD *)(v10 + 88),
+              v10 + 142,
+              0x2000) != 0 )
+      Sleep(0);
+    *(_DWORD *)(v10 + 146) = 0;
+    while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 72) + 44))(
+              *(_DWORD *)(v10 + 72),
+              0,
+              12 * *(_DWORD *)(v10 + 88),
+              v10 + 146,
+              0x2000) != 0 )
+      Sleep(0);
+    if ( (this->field_34 & 1) != 0 )
+    {
+      if ( *(_DWORD *)(v10 + 80) == 0 || *(_DWORD *)(v10 + 84) == 0 )
+      {
+        while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 68) + 48))(*(_DWORD *)(v10 + 68)) != 0 )
+          Sleep(0);
+        while ( 1 )
+        {
+          v11 = (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 72) + 48))(*(_DWORD *)(v10 + 72));
+          if ( v11 == 0 )
+            break;
+          Sleep(0);
+        }
+        return v11;
+      }
+      while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 80) + 44))(
+                *(_DWORD *)(v10 + 80),
+                0,
+                12 * *(_DWORD *)(v10 + 88),
+                v10 + 150,
+                0x2000) != 0 )
+        Sleep(0);
+      *(_DWORD *)(v10 + 154) = 0;
+      while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 84) + 44))(
+                *(_DWORD *)(v10 + 84),
+                0,
+                12 * *(_DWORD *)(v10 + 88),
+                v10 + 154,
+                0x2000) != 0 )
+        Sleep(0);
+    }
+    orig::Model_SkinVerticesCpu((char *)self);
+    *(_BYTE *)(a3 + 184) = 1;
+    while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 68) + 48))(*(_DWORD *)(v10 + 68)) != 0 )
+      Sleep(0);
+    while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 72) + 48))(*(_DWORD *)(v10 + 72)) != 0 )
+      Sleep(0);
+    if ( (this->field_34 & 1) != 0 )
+    {
+      while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 80) + 48))(*(_DWORD *)(v10 + 80)) != 0 )
+        Sleep(0);
+      while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 84) + 48))(*(_DWORD *)(v10 + 84)) != 0 )
+        Sleep(0);
+    }
+  }
+  a1 = 0;
+  v12 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
+      | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)
+      | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * (((unsigned int)c_ps2White >> 7) & 0xFFFE)) & 0xFF00;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, v12);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+  CYyModelDt_SkinAndDrawV2_passToken = 0;
+  dword_1045B64C = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 5u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 6u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 0);
+  switch ( this->field_33 )
+  {
+    case 2:
+      *(_BYTE *)(a3 + 169) = 1;
+      break;
+    case 3:
+      *(_BYTE *)(a3 + 169) = 1;
+      *(_BYTE *)(a3 + 170) = 1;
+      break;
+    case 4:
+      *(_BYTE *)(a3 + 169) = 1;
+      *(_BYTE *)(a3 + 170) = 1;
+      *(_BYTE *)(a3 + 171) = 1;
+      break;
+    case 5:
+      *(_BYTE *)(a3 + 169) = 1;
+      *(_BYTE *)(a3 + 170) = 1;
+      *(_BYTE *)(a3 + 171) = 1;
+      *(_BYTE *)(a3 + 176) = 1;
+      *(_BYTE *)(a3 + 172) = 1;
+      break;
+    case 6:
+      *(_BYTE *)(a3 + 169) = 1;
+      *(_BYTE *)(a3 + 170) = 1;
+      *(_BYTE *)(a3 + 171) = 1;
+      *(_BYTE *)(a3 + 176) = 1;
+      break;
+    case 0x12:
+      *(_BYTE *)(a3 + 173) = 1;
+      break;
+    case 0x22:
+      *(_BYTE *)(a3 + 175) = 1;
+      break;
+    case 0x32:
+      *(_BYTE *)(a3 + 174) = 1;
+      break;
+    default:
+      break;
+  }
+  v13 =(_BYTE*)(v32);
+  v11 = (int)(((uint32_t)(v11) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*v32) << 0));
+  while ( *v32 != 0xFFFF )
+  {
+    if ( xm_n != 0 && ((v11 & 0x8000) != 0 || (unsigned __int16)v11 != 0x54u) )
+      xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+    if ( (v11 & 0x8000) == 0 )
+    {
+      v26 = (unsigned __int16)v32[1];
+      if ( (unsigned __int16)v11 > 0x4353u )
+      {
+        if ( (unsigned __int16)v11 == 21587 )
+        {
+          if ( *(_BYTE *)(v10 + 104) != 0 )
+          {
+            if ( !v29 )
+            {
+              orig::Gfx_SetVertexShaderCached(*(_DWORD *)(v10 + 100));
+              orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+              orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+              orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+              orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+              orig::CDx_DrawIndexedPrimitive(
+                g_pCDx,
+                5,
+                0,
+                *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                v9,
+                v26);
+              ++g_modelDrawCallCount;
+              g_modelPrimitiveCount += v26;
+              if ( (this->field_34 & 1) != 0 )
+              {
+                orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                orig::CDx_DrawIndexedPrimitive(
+                  g_pCDx,
+                  5,
+                  0,
+                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                  v9,
+                  v26);
+                g_modelPrimitiveCount += v26;
+                ++g_modelDrawCallCount;
+              }
+LABEL_125:
+              if ( g_envMapEnabled != 0
+                && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    5,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      5,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                orig::EnvMap_EndPass(a1);
+              }
+              if ( g_projTexEnabled != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &CYyModelDt_SkinAndDrawV2_passToken, v12, g_projTexMatrix) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    5,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      5,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                orig::ProjTex_EndPass((void *)(a3 + 144), a1);
+              }
+              if ( orig::Model_BeginOffscreenPass(a3 + 72, &CYyModelDt_SkinAndDrawV2_passToken, v12) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  v9 = a4;
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    5,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      5,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                else
+                {
+                  v9 = a4;
+                }
+                orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
+              }
+              else
+              {
+                v9 = a4;
+              }
+            }
+          }
+          else if ( !v29 )
+          {
+            goto LABEL_125;
+          }
+          v27 = v26 + 2;
+          *a7 += v26 + 2;
+          v32 += 5 * v26 + 12;
+          goto LABEL_145;
+        }
+      }
+      else
+      {
+        switch ( (unsigned __int16)v11 )
+        {
+          case 0x4353u:
+            v32 += v26 + 6;
+            break;
+          case 0x43u:
+            v32 += 5 * v26 + 2;
+            break;
+          case 0x54u:
+            v38 = 3 * v26;
+            if ( *(_BYTE *)(v10 + 104) != 0 )
+            {
+              // held only when none of the record's other passes can draw: EnvMap_BeginPass and ProjTex_BeginPass run
+              // only when enabled; Model_BeginOffscreenPass (tree/src/unit_100310A0.cpp) returns non-zero only when
+              // g_actorShadowMode is 1, g_shadowCasterDistance < 4 and its pass object's [+8] is set. A record held
+              // must start where the run ends, and the run's count must fit one draw (speedfix logs MaxPrimitiveCount 65535 in the owner's runs)
+              if ( !v29 && xi_skinmerge_on && g_envMapEnabled == 0 && g_projTexEnabled == 0
+                && !(g_actorShadowMode == 1 && g_shadowCasterDistance < 4.0 && *(_DWORD *)(a3 + 72 + 8) != 0)
+                && (xm_n == 0 || (v9 == xm_first + 3 * xm_prims && xm_n < XM_MAX && xm_prims + v26 <= 65535u)) )
+              {
+                if ( xm_n == 0 )
+                  xm_first = v9;
+                xm_prims += v26;
+                xm_n++;
+                g_modelPrimitiveCount += v26;       // the counters as the game's draws keep them
+                ++g_modelDrawCallCount;
+                if ( (this->field_34 & 1) != 0 )
+                {
+                  g_modelPrimitiveCount += v26;
+                  ++g_modelDrawCallCount;
+                }
+                v32 += 15 * v26 + 2;
+                // Skips the pass block. EnvMap_BeginPass and ProjTex_BeginPass are not called with their globals 0;
+                // Model_BeginOffscreenPass (0x10033800) under this condition calls only 0x10027990 (mov eax,ecx / ret)
+                // and 0x100279A0 (ret), fails its first three tests and returns 0 (xor al,al / ret 8): no write outside
+                // its frame, so leaving its call out changes nothing (game code, disassembled).
+                goto xm_held_done;
+              }
+              if ( xm_n != 0 )
+                xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+              if ( !v29 )
+              {
+                orig::Gfx_SetVertexShaderCached(*(_DWORD *)(v10 + 100));
+                orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                orig::CDx_DrawIndexedPrimitive(
+                  g_pCDx,
+                  4,
+                  0,
+                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                  v9,
+                  v26);
+                g_modelPrimitiveCount += v26;
+                ++g_modelDrawCallCount;
+                if ( (this->field_34 & 1) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    4,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    v9,
+                    v26);
+                  g_modelPrimitiveCount += v26;
+                  ++g_modelDrawCallCount;
+                }
+              }
+              v32 += 15 * v26 + 2;
+            }
+            if ( !v29 )
+            {
+              if ( g_envMapEnabled != 0
+                && orig::EnvMap_BeginPass(&CYyModelDt_SkinAndDrawV2_passToken, v12, (float *)g_envMapTexMatrix) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    4,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      4,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                orig::EnvMap_EndPass(a1);
+              }
+              if ( g_projTexEnabled != 0
+                && orig::ProjTex_BeginPass((_DWORD *)(a3 + 144), &CYyModelDt_SkinAndDrawV2_passToken, v12, g_projTexMatrix) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    4,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      4,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                orig::ProjTex_EndPass((void *)(a3 + 144), a1);
+              }
+              if ( orig::Model_BeginOffscreenPass(a3 + 72, &CYyModelDt_SkinAndDrawV2_passToken, v12) != 0 )
+              {
+                orig::Gfx_ApplyCachedVertexShader();
+                if ( *(_BYTE *)(v10 + 104) != 0 )
+                {
+                  orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 68), 12);
+                  orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 72), 12);
+                  orig::Gfx_SetStreamSourceCached(2u, *(_DWORD *)(v10 + 76), 8);
+                  orig::Gfx_SetStreamSourceCached(3u, 0, 0);
+                  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
+                  v9 = a4;
+                  orig::CDx_DrawIndexedPrimitive(
+                    g_pCDx,
+                    4,
+                    0,
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                    a4,
+                    v26);
+                  ++g_modelDrawCallCount;
+                  if ( (this->field_34 & 1) != 0 )
+                  {
+                    orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
+                    orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
+                    orig::CDx_DrawIndexedPrimitive(
+                      g_pCDx,
+                      4,
+                      0,
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
+                      a4,
+                      v26);
+                    ++g_modelDrawCallCount;
+                  }
+                }
+                else
+                {
+                  v9 = a4;
+                }
+                orig::Model_EndOffscreenPassBindTextures((_DWORD *)(a3 + 72), a1);
+                v27 = 3 * v26;
+                *a6 += v38;
+                goto LABEL_145;
+              }
+xm_held_done:     // a held record: no pass can draw under the hold condition, so the game's pass block ends here
+              v9 = a4;
+            }
+            v27 = 3 * v26;
+            *a6 += v38;
+LABEL_145:
+            v9 += v27;
+            a4 = v9;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    else
+    {
+      v14 = (unsigned __int8)v11 >> 4;
+      if ( v14 == 0 )
+      {
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
+        if ( (*v13 & 1) == 0 )
+        {
+          v23 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, v13 + 2, self);
+          *v13 |= 1u;
+          *(_DWORD *)(v13 + 2) = v23;
+        }
+        v24 = *(_DWORD *)(v13 + 2);
+        if ( v24 != 0 && v24 != CYyModelDt_SkinAndDrawV2_passToken )
+        {
+          CYyModelDt_SkinAndDrawV2_passToken = *(_DWORD *)(v13 + 2);
+          if ( *(_DWORD *)(v24 + 64) != 0 )
+            v25 = *(IDirect3DBaseTexture8 **)(v24 + 64);
+          else
+            v25 = *(IDirect3DBaseTexture8 **)(v24 + 68);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v25);
+        }
+        v32 =(_WORD*)(v13 + 18);
+        goto LABEL_146;
+      }
+      if ( v14 == 1 )
+      {
+        qmemcpy(v39, v32 + 1, sizeof(v39));
+        v15 = (LODWORD(v39[3]) >> 8) & 0xF;
+        if ( *(_BYTE *)(v10 + 105) != 0 && LOWORD(v39[7]) != 0 )
+          v15 = 8;
+        a1a = 0;
+        v16 = *(_BYTE *)(v15 + a3 + 168);
+        v17 = &g_lightTable_Start;
+        v29 = v16 != 0;
+        v37 = &g_lightTable_Start;
+        do
+        {
+          if ( *(_DWORD *)v17 != 0 )
+          {
+            qmemcpy(&g_skinLight, v37, 0x68u);
+            g_skinLightDiffuseR = v39[4] * g_skinLightDiffuseR;
+            g_skinLightDiffuseG = v39[4] * g_skinLightDiffuseG;
+            g_skinLightDiffuseB = v39[4] * g_skinLightDiffuseB;
+            orig::CDx_SetLight(g_pCDx, a1a, &g_skinLight);
+            v17 = v37;
+          }
+          v17 += 26;
+          ++a1a;
+          v37 = v17;
+        }
+        while ( (int)v17 < (int)&g_lightTable_End );
+        v18 = (__int64)((double)(unsigned __int8)g_ambientColorR * v39[4]);
+        if ( (unsigned int)v18 > 0xFF )
+          v18 = (__int64)(((uint64_t)(v18) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFF00FFFFu) | ((uint32_t)(uint8_t)(v18) << 16));
+        v19 = (__int64)((double)(unsigned __int8)g_ambientColorG * v39[4]);
+        if ( (unsigned int)v19 > 0xFF )
+          v19 = (__int64)(((uint64_t)(v19) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFF00FFu) | ((uint32_t)(uint8_t)(v19) << 8));
+        v20 = (__int64)((double)g_ambientColor_as_u8 * v39[4]);
+        if ( (unsigned int)v20 > 0xFF )
+          v20 = (__int64)(((uint64_t)(v20) & 0xFFFFFFFFFFFFFF00ull) | ((uint64_t)(uint8_t)(-1) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(v20) << 0));
+        v36 = (unsigned int)(((uint32_t)(v36) & 0xFFFFFFu) | ((uint32_t)(uint8_t)(g_ambientColorA) << 24));
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, v36);
+        if ( HIWORD(v39[3]) != 0 && dword_1045745C != 0 && *(_DWORD *)dword_1045745C != 0 && v30 == 1 )
+        {
+          a1 = 2;
+          v12 = ((unsigned int)(__int64)(v39[9] * 0.5) << 24) | v12 & 0xFFFFFF;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, v12);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 18u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 2u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 7u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 2u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_TEXTURE1, g_texture1Matrix);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 65537u);
+          dword_1045B64C = 0;
+          if ( dword_1045745C == 0 )
+            goto LABEL_77;
+          if ( *(_DWORD *)dword_1045745C == 0 )
+            goto LABEL_77;
+          v21 = *(_DWORD *)(*(_DWORD *)dword_1045745C + 48);
+          if ( v21 == 0 )
+            goto LABEL_77;
+          dword_1045B64C = *(_DWORD *)(*(_DWORD *)dword_1045745C + 48);
+          if ( *(_DWORD *)(v21 + 64) != 0 )
+            v22 = *(IDirect3DBaseTexture8 **)(v21 + 64);
+          else
+            v22 = *(IDirect3DBaseTexture8 **)(v21 + 68);
+        }
+        else
+        {
+          if ( v39[10] == 0.0 || v30 != 1 )
+          {
+            a1 = 0;
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 5u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 3u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 6u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 3u);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 0);
+            v12 = (unsigned __int8)((unsigned int)(g_modelColor * LODWORD(v39[0])) >> 7)
+                | (HIWORD(g_modelColor) * ((LODWORD(v39[0]) >> 7) & 0x1FFFE00)) & 0xFF0000
+                | ((unsigned __int16)((unsigned int)g_modelColor >> 8) * ((LODWORD(v39[0]) >> 7) & 0xFFFE)) & 0xFF00
+                | 0x80000000;
+            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, v12);
+LABEL_77:
+            v9 = a4;
+            v32 += 23;
+            goto LABEL_146;
+          }
+          a1 = 1;
+          v12 = ((unsigned int)(__int64)(v39[9] * 0.5) << 24) | v12 & 0xFFFFFF;
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, v12);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 18u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLORARG2, 2u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 7u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 2u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_TEXTURE1, g_shadowTexMatrix);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
+          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 196609u);
+          dword_1045B64C = dword_104570F4;
+          if ( *(_DWORD *)(dword_104570F4 + 64) != 0 )
+            v22 = *(IDirect3DBaseTexture8 **)(dword_104570F4 + 64);
+          else
+            v22 = *(IDirect3DBaseTexture8 **)(dword_104570F4 + 68);
+        }
+        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, v22);
+        v9 = a4;
+        v32 += 23;
+      }
+    }
+LABEL_146:
+    v13 =(_BYTE*)(v32);
+    v11 = (int)(((uint32_t)(v11) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*v32) << 0));
+  }
+  xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+  return v11;
+}

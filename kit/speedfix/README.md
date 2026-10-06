@@ -32,6 +32,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
+| `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -81,6 +82,17 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     - how far the SSE loop's single-precision results differ from the x87 loop's (it is the game's own code for
       Intel CPUs);
     - what the emulator's CPUID vendor is.
+- **skin_merge: character draws.** In the plaza trace, 1,577 of a frame's 1,620 DrawIndexedPrimitive come from
+  SkinAndDrawV2, one per triangle-list record (two when the model draws twice). Consecutive list records draw
+  consecutive ranges of one index buffer, so a run of them is one range.
+  - What it does: SkinAndDrawV2 is replaced by speedfix's fork (fork/CYyModelDt__SkinAndDrawV2.fork.cpp). It holds a
+    list record and draws the run in one call, the way the game draws one record, when the next record ends the run.
+    It holds only when none of the record's envmap, projected-texture or offscreen passes can draw. The trace bound is
+    1,330 draws a frame instead of 1,577; records invisible in a trace can lower the saving further.
+  - The fork is installed only when skin_merge is 1 at the start; after that it switches live both ways. With it off,
+    the fork is the game's function (the gate, no declarations).
+  - Checked: test_skinmerge.py (the gate both ways, and the owner's captures with the merge on). Not known: the time it
+    saves, and the picture: an A/B (`ab_levers=skin_merge`) and a look at characters, with it on and off.
 - **merge_scenes: frame time.** The profiles show several BeginScene/EndScene pairs a frame. The owner's Bedau run
   made 7.7 a frame, its EndScene calls taking 4.6 ms a frame in all, about 0.6 ms each. Under dgVoodoo that may be
   where queued work is submitted.
@@ -129,7 +141,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
@@ -141,7 +153,7 @@ and set it again for another run.
   minute): the texture is read, and the pass's output is needed. Reverted.
 - **up_ring** sent DrawPrimitiveUP as DrawPrimitive from a ring buffer, leaving stream 0 bound to the ring. In run
   7388 it was slower (A 20.3 ms, B 25.6 ms) and the owner saw corrupted frames. Why the frames broke is not known.
-  One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F160) does not skip a stream it has
+  One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F130) does not skip a stream it has
   recorded. It records the buffer and stride, then Gfx_ApplyCachedStreamSource calls SetStreamSource for any non-NULL
   buffer (and does nothing for a NULL one; IDA listing). Reverted.
   - **A bug, reproduced afterwards** (the reverted code in the Wine host, with batching, lazy_state and up_ring on):
@@ -217,8 +229,13 @@ and set it again for another run.
     puts the game's value back;
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
-  - motion_stats: frames with a fixed view and frames with a changing view are counted apart.
+  - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
+  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code.
 - **The gate:** the query hook.
+
+`test/test_skinmerge.py` (FFXI_DLL; CAPTURES, a folder of the owner's SkinAndDrawV2 captures): the skin_merge fork,
+merge off against the game's function with no declarations, merge on with fork/skinmerge.declare.json, and merge on
+replayed from the captures (docs/SKINMERGE.md, Checks).
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any
 of this saves, and the A/B picture. The first run: `profile=1 call_time=1` with the defaults, then the alternating trace.

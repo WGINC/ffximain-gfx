@@ -732,7 +732,8 @@ than once); fixed.
   - All Wine-tested (test_speedfix.py); none run in the game yet.
 - **Who issues the draws in Bedau** (run 3736's profile, by the caller of each CDx draw wrapper):
   - DrawIndexedPrimitive, 1,586 a frame: all from CYyModelDt::SkinAndDrawV2. It walks a model's command list and
-    issues one triangle strip (type 5) per strip record, about 58 primitives each.
+    issues one triangle strip (type 5) per strip record, about 58 primitives each. [Corrected, 6 Oct night: the 5 is
+    the trace's argument count; the type is the next field, and 97% are type 4 lists, from `0x54` records.]
   - DrawPrimitiveUP, 885 a frame: Font_DrawGlyphQuad 386, Cell_DrawQuadBlended 209, Actor_DrawWorldText 200 (2
     triangles each).
   - DrawPrimitive, 359 a frame: CMoVuElem_Draw 270; the zone mesh 0x1017C9C0 45, at about 714 primitives each.
@@ -980,7 +981,7 @@ Testing:
 - up_ring: phase 1 (A, off) 20.28 ms mean, phase 2 (B, on) 25.55 ms. It left stream 0 bound to its ring on the
   assumption, with no source, that the game sets stream 0 before any draw that reads it. Which draw read the ring, if
   one did, is not known; the frames' corruption has not been traced to a cause.
-  - One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F160) records the buffer and stride
+  - One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F130) records the buffer and stride
     and then calls SetStreamSource for any non-NULL buffer (Gfx_ApplyCachedStreamSource; it does nothing for NULL),
     so the game does not skip a set because of its record.
 - Which of the two levers caused which artifact is not established; both were on in every frame shown.
@@ -1031,3 +1032,35 @@ Testing:
   - through dgVoodoo, DrawPrimitiveUP costs 157.5 ns and a DISCARD lock 2,849 ns (probe8, run 2);
   - dgVoodoo's NOOVERWRITE lock and a whole ring draw are now measured by probe8 too, for the next run.
   - A ring is reconsidered only if that measurement favours it, with its calls made below speedfix's hooks.
+
+## 6 Oct (night): skin_merge, the SkinAndDrawV2 merge, built and gated (task 78)
+
+- **No index capture.** The plaza's character draws are type 4 lists, not strips (the trace's 5 was its argument
+  count). Consecutive `0x54` records draw consecutive index ranges (`v9 += 3 * v26`). A run of them is one range of
+  the game's own index buffer: nothing to read back or rebuild. docs/SKINMERGE.md says why.
+- **The fork:** kit/speedfix/fork/CYyModelDt__SkinAndDrawV2.fork.cpp (fork.py new, then edited on the 0x54 branch).
+  It holds a list record when no pass of it can draw, and draws the run at the first record that is not a held list.
+- **Model_BeginOffscreenPass, from its code** (disassembled at 0x10033800 and 0x10033A4A): unless word 0x1045B77A is 1,
+  float 0x1045B80C < 4.0 (0x1032A3A0) and [this+8] != 0, it calls only `mov eax, ecx / ret` and `ret` helpers and
+  returns 0. So a held record skips the pass block.
+  - A first version called Begin before the held draws and needed "add" and "drop" declared for it. Skipping the block
+    leaves only a "drop", which is a narrower declaration.
+- **The gate:**
+  - merge off, no declarations: PASS;
+  - merge on (`--declare fork/skinmerge.declare.json`): PASS on fuzz, but no fuzzed trial reaches a held record.
+  - Replayed from the owner's captures with the stubbed Begin: capture 11952_2 FAILed. The stub answered non-zero,
+    and the original drew a pass that Begin's own code cannot allow on that memory.
+  - The same replays with Begin running as the game's code: 11952_1, 11952_2 (a merged draw seen), 11952_3 and 5180_2
+    PASS; 5180_1 and 5180_3 INCONCLUSIVE (command lists past the captured pages).
+  - All of this is kit/speedfix/test/test_skinmerge.py.
+- **What it can save** (the plaza trace, label 0, mean of 9 frames):
+  - 1,577 of the 1,620 DrawIndexedPrimitive are SkinAndDrawV2 list draws: 916 records, 656 drawn twice;
+  - the fork's rule leaves at most 1,330. Script: SkinAndDrawV2 draws found as a type-4 DIP right after a SetIndices
+    from 0x1002E71E; merged when only shader/stream/index calls are between them, with the same index buffer, minIndex
+    and numVerts and a following start index.
+- **speedfix:**
+  - `skin_merge=0`. When it is 1 at the start, XI_FORK installs the fork (sf_fork.cpp); after that it switches live
+    both ways, and it is an `ab_levers` name.
+  - test_speedfix.py checks the fork is installed when on and absent when off.
+- **Not known:** time saved, and the picture. Both need the game: `ab_levers=skin_merge`, and characters looked at with
+  it on and off.

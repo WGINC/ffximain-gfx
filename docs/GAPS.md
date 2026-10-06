@@ -199,7 +199,7 @@ function whose prototype is definitive.
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
 | 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built (static catalogue: `shader_catalogue.py`, 6 Oct) |
 | 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Built (Wine-tested; not run in the game) |
-| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`); not for a mod's from-scratch replacements |
+| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`) and for a mod's own replacements (`fork.py gate-hook`, 6 Oct) |
 | 8 | **Next exports**: tier 1 of the 267 callers (world draw path, menu path, asset loading) | What gets drawn and from what (2c) | IDA run, then the existing pipeline |
 | 9 | **De-artifacting** with observed virtual-call targets and field values | Reading the code without offsets (2d) | Long, incremental |
 | 10 | Task #64, the raw re-gate, the two open defects | Blind spots (6) | Small each |

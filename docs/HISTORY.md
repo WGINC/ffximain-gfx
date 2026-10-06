@@ -497,3 +497,8 @@ has been run in the game yet.
   source lines (D3DX writes `sub` as `add` with a negated source). `vshader.py` names a captured shader by its
   token hash. The other 6 CreateVertexShader sites: 4 fixed-function (no code), 2 in functions nothing calls or
   points to (one assembles `c:\test.vsh`). `tool_drift.py` regenerates the catalogue too.
+- **`fork.py gate-hook`** (GAPS.md 7 item 7, the part not built): a mod's own replacement hooked with `XI_HOOK`,
+  gated against the game's function from the mod's sources (compiled as `build_mod.sh` does), with a generated
+  gate host: the mod's `xikit_mod_init` runs once before the trials (a case's new `setup` export in
+  `diffemu_gfx.py`, its writes kept; a normal gate run is byte-identical, checked on 3 functions), `previous` is the
+  game's own entry. `sdk/test_fork.py`: 12 checks, all ok (4 new).

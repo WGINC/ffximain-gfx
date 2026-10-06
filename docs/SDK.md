@@ -217,6 +217,27 @@ Build it like any source of the mod: `build_mod.sh my_mod.dll my_mod.cpp mymod/C
 - **C library calls differ by place:** in the game, a fork's `memcpy` and similar calls are the mod's (msvcrt); in
   `gate` they are the tree's `rt.c`.
 
+### Gating a replacement that is not a fork (`fork.py gate-hook`)
+
+A replacement written from scratch and hooked with `XI_HOOK` is gated the same way, from the mod's own sources:
+
+```
+python3 fork.py gate-hook CDx::DrawFadeQuad my_mod.cpp [more.cpp ...] [--declare DIFFS.json] [--trials N] [--live LIVE.json]
+```
+
+- The mod's sources are compiled exactly as `build_mod.sh` compiles them, one object each, and linked with a
+  generated gate host (`gate_shim.cpp`) and the tree's `rt.c` for the C library.
+- Before the trials the gate runs the mod's `xikit_mod_init` once with that host (diffemu_gfx.py, a case's
+  `setup`: run once, its writes kept). The host records the replacement hooked for the gated function and hands
+  back `previous` as the game's own entry: the emulator runs the analysed image at its base, so the replacement's
+  call of `previous` runs the original for real (in the game it is a trampoline into the same code). Hooks of other
+  functions are accepted and not gated; device hooks are accepted and never called; `reconstruction()` answers NULL.
+- The gate then calls an entry exported under the gate case's symbol: one `jmp` to the replacement, so it starts
+  with the caller's registers and stack.
+- It does not link a mod that needs the C++ runtime, msvcrt or Windows imports beyond `rt.c`; the error says so.
+- `sdk/test_fork.py` covers: a replacement calling `previous`, PASS; one that does nothing, FAIL at the first
+  missing call; an extra write to `this+0x908`, FAIL; the same write declared, PASS.
+
 ## Reloading (`mod_reload=1`)
 
 With `mod_reload=1` in `xikit.ini` (read at the start), the kit loads each mod from a copy in `xikit_mods_loaded\`.

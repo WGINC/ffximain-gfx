@@ -1036,6 +1036,19 @@ def run_case(m, case, trials, seed):
     cand = m.exports[case["candidate"]]
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
+    # "setup": an export of the candidate DLL run once before the trials, its writes kept (fork.py gate-hook: the
+    # mod's xikit_mod_init with a gate host, which records the replacement the candidate's entry jumps to). It
+    # runs before any trial, so what it writes is the same state for every trial, and outside the original's runs
+    if case.get("setup") and case["setup"] not in getattr(m, "setup_done", set()):
+        if case["setup"] not in m.exports:
+            return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
+                    "verdict": "ERROR", "reason": "setup export %s not found" % case["setup"]}
+        r0 = m.call(m.exports[case["setup"]], "cdecl", None, [], 2_000_000)
+        if r0.status != "return":
+            return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
+                    "verdict": "ERROR", "reason": "setup %s did not return: %s %s" % (case["setup"], r0.status, r0.detail)}
+        for a, v in r0.changes.items(): m.uc.mem_write(a, bytes([v]))
+        m.setup_done = getattr(m, "setup_done", set()) | {case["setup"]}
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}

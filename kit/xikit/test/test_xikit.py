@@ -46,6 +46,12 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture'):
             r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'samples.py'), os.path.join(d, sm[0])], capture_output=True, text=True)
             ok = r.returncode == 0 and 'self: where the render thread was' in r.stdout
             print('\n'.join(r.stdout.splitlines()[:8])); print('%s: samples.py reads the samples' % ('ok' if ok else 'FAIL')); bad += not ok
+    if mode == 'profile':
+        pics = sorted(f for f in os.listdir(d) if f.endswith('.pic') and '_1_f' in f)
+        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'pictures.py')] + [os.path.join(d, f) for f in pics], capture_output=True, text=True)
+        print(r.stdout.strip(), r.stderr.strip()[-800:])
+        ok = len(pics) == 5 and "beyond what the control shows" in r.stdout and 'control  frame' in r.stdout and '(0.0000%)' in r.stdout
+        print('%s: trace_pictures=1 saved frames 6..10 and pictures.py finds the swapped band in the swapped frames only' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'capture':
         # the capture replayed through the gate: the original and the tree's reconstruction run from that call
         xc = [f for f in os.listdir(d) if f.endswith('.xcap')]

@@ -28,10 +28,29 @@ static HRESULT __stdcall fake_present(void *d, const RECT *a, const RECT *b, HWN
 static void __stdcall other_slot(void) { printf("FAIL: a device method other than Present was called\n"); ExitProcess(3); }
 static void *g_vtbl[97];
 static struct { void **vt; } g_dev = { g_vtbl };
+/* trace pictures (profile mode): a 64x32 X8R8G8B8 back buffer the host paints each frame, read back by the kit
+   through GetBackBuffer, CreateImageSurface, CopyRects and the surface's GetDesc/LockRect/UnlockRect */
+#define PW 64
+#define PH 32
+typedef struct { void **vt; uint32_t *pix; } FakeSurf;
+static uint32_t g_bbpix[PW * PH], g_imgpix[PW * PH]; static void *g_svt[11];
+static FakeSurf g_bb = { g_svt, g_bbpix }, g_img = { g_svt, g_imgpix };
+static ULONG __stdcall s_release(void *t) { (void)t; return 0; }
+static HRESULT __stdcall s_desc(void *t, uint32_t *d) { (void)t; memset(d, 0, 32); d[0] = 22; d[6] = PW; d[7] = PH; return 0; }
+static HRESULT __stdcall s_lock(void *t, int32_t *lr, const RECT *r, DWORD fl) { (void)r; (void)fl; lr[0] = PW * 4; lr[1] = (int32_t)(uintptr_t)((FakeSurf *)t)->pix; return 0; }
+static HRESULT __stdcall s_unlock(void *t) { (void)t; return 0; }
+static HRESULT __stdcall d_getbb(void *d, UINT i, UINT ty, void **pp) { (void)d; (void)i; (void)ty; *pp = &g_bb; return 0; }
+static HRESULT __stdcall d_createimg(void *d, UINT w, UINT h, UINT f, void **pp) { (void)d; (void)w; (void)h; (void)f; *pp = &g_img; return 0; }
+static HRESULT __stdcall d_copyrects(void *d, void *src, const RECT *r, UINT n, void *dst, const POINT *pt) { (void)d; (void)r; (void)n; (void)pt; memcpy(((FakeSurf *)dst)->pix, ((FakeSurf *)src)->pix, sizeof g_bbpix); return 0; }
+static uint8_t *g_paint_site;   /* GetColor's entry: the band it "draws" is bright while it is swapped */
 static uint8_t g_cdx[0x1000];
 
 static void check(int cond, const char *what) { printf("%s: %s\n", cond ? "ok" : "FAIL", what); if (!cond) fails++; }
-static void present(int n) { for (int i = 0; i < n; i++) ((HRESULT (__stdcall *)(void *, const RECT *, const RECT *, HWND, const void *))g_dev.vt[15])(&g_dev, 0, 0, 0, 0); }
+static void paint(void) {        /* the top band animates smoothly (a triangle wave); the bottom band is GetColor's */
+  int t = presents % 400; uint32_t a = (uint32_t)(t < 200 ? t : 400 - t), b = g_paint_site && g_paint_site[0] == 0xE9 ? 200 : 50;
+  for (int y = 0; y < PH; y++) for (int x = 0; x < PW; x++) g_bbpix[y * PW + x] = y < PH / 2 ? a * 0x010101u : (b << 16);
+}
+static void present(int n) { for (int i = 0; i < n; i++) { paint(); ((HRESULT (__stdcall *)(void *, const RECT *, const RECT *, HWND, const void *))g_dev.vt[15])(&g_dev, 0, 0, 0, 0); } }
 static void touch_ini(const char *ini, const char *body) {
   Sleep(20); FILE *f = fopen(ini, "w"); fputs(body, f); fclose(f);
 }
@@ -84,12 +103,16 @@ int main(int argc, char **argv) {
   uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)(0x100096B0u + rel), 9);     /* CDx::EndClearBegin (the mod run) */
   for (int k = 0; k < 97; k++) g_vtbl[k] = (void *)other_slot;
   g_vtbl[15] = (void *)fake_present;
+  g_vtbl[16] = (void *)d_getbb; g_vtbl[27] = (void *)d_createimg; g_vtbl[28] = (void *)d_copyrects;
+  for (int k = 0; k < 11; k++) g_svt[k] = (void *)other_slot;
+  g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_desc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
+  g_paint_site = (uint8_t *)(uintptr_t)(GETCOLOR + rel);   /* (SetColor is quarantined by the crash checks before the trace) */
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
   *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\n"
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
                  : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
                  : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");

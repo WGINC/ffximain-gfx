@@ -90,6 +90,7 @@ static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
 static int g_trace_attached, g_tr_state, g_tr_wait, g_tr_prev_off, g_tr_key, g_tr_n, g_tr_after, g_tr_every, g_tr_count, g_tr_state_started, g_tr_buffers, g_tr_alt;
 static DWORD g_tr_next;
+static int g_tr_pictures, g_tr_labels[32];       /* trace_pictures=K; the label each recorded frame got */
 #define TR_FRAMES 4
 #define TR_ALT_FRAMES 17           /* alternating trace: off, on, off, ... off: 8 swapped frames, each between two unswapped */
 
@@ -145,6 +146,9 @@ static const char DEFAULT_INI[] =
   ";    the file xikit_trace_now.txt next to xikit.dll starts one too, and with bisect=1 xikit_bisect_bad.txt / _good.txt /\r\n"
   ";    _stop.txt answer like F10 / F11 / F12\r\n"
   "trace_after=0\r\ntrace_every=120\r\ntrace_count=3\r\n"
+  "; K > 0: an alternating trace also saves the picture of frames 8-2K .. 8+2K (K swapped frames each with both\r\n"
+  ";    neighbours; about 8 MB a frame at 1920x1080); kit/d3dprof/pictures.py compares them\r\n"
+  "trace_pictures=0\r\n"
   "; 1: the trace also hashes what the game writes into vertex and index buffers (their Lock/Unlock are wrapped)\r\n"
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
@@ -598,8 +602,49 @@ static void trace_step(void) {
 static void trace_label(void) {
   if (g_tr_state != 5) return;
   int on = 0; for (int i = 0; i < g_nfn; i++) on += g_fn[i].patched && !g_fn[i].mod_target;
-  d3dprof_trace_relabel(g_dirty ? 2 : g_master_off ? 0 : 1);
+  int lab = g_dirty ? 2 : g_master_off ? 0 : 1, fr = 0; d3dprof_trace_frames(&fr);
+  d3dprof_trace_relabel(lab);
+  if (fr >= 0 && fr < 32) g_tr_labels[fr] = lab;
   if (on > g_tr_maxon) g_tr_maxon = on;
+}
+
+/* pictures of an alternating trace's frames (trace_pictures=K, docs/KIT.md): the back buffer of frames 8-2K .. 8+2K,
+   read at the start of Present (the frame is complete) into a system-memory surface (CopyRects, as the game reads
+   its own occlusion target), written as xikit_trace_<pid>_<n>_f<frame>_l<label>.pic. The device's own methods are
+   called through its original vtable, so the trace does not record them. kit/d3dprof/pictures.py compares each
+   swapped frame with its two neighbours, pixel by pixel. */
+static int g_pic_failed; static void *g_pic_img; static uint32_t g_pic_w, g_pic_h, g_pic_fmt;
+typedef HRESULT (__stdcall *GetBBFn)(void *, UINT, UINT, void **);
+typedef HRESULT (__stdcall *CreateImgFn)(void *, UINT, UINT, UINT, void **);
+typedef HRESULT (__stdcall *CopyRectsFn)(void *, void *, const RECT *, UINT, void *, const POINT *);
+typedef HRESULT (__stdcall *SurfDescFn)(void *, uint32_t *);
+typedef HRESULT (__stdcall *SurfLockFn)(void *, int32_t *, const RECT *, DWORD);
+typedef HRESULT (__stdcall *SurfFn)(void *);
+#define VT(o) (*(void ***)(o))
+static void pic_capture(void *dev, int frame, int label) {
+  void *bb = NULL; uint32_t d[8] = {0}; int32_t lr[2] = {0}; HRESULT hr;
+  if ((hr = ((GetBBFn)g_orig_vt[16])(dev, 0, 0, &bb)) < 0 || !bb) { if (!g_pic_failed++) klog("trace picture: GetBackBuffer failed (0x%08lX)", (unsigned long)hr); return; }
+  ((SurfDescFn)VT(bb)[8])(bb, d);                                 /* D3DSURFACE_DESC: Format, ..., Width [6], Height [7] */
+  if (!g_pic_img || g_pic_w != d[6] || g_pic_h != d[7] || g_pic_fmt != d[0]) {
+    if (g_pic_img) ((SurfFn)VT(g_pic_img)[2])(g_pic_img);
+    g_pic_img = NULL;
+    if ((hr = ((CreateImgFn)g_orig_vt[27])(dev, d[6], d[7], d[0], &g_pic_img)) < 0) { if (!g_pic_failed++) klog("trace picture: CreateImageSurface %ux%u format %u failed (0x%08lX)", d[6], d[7], d[0], (unsigned long)hr); g_pic_img = NULL; }
+    g_pic_w = d[6]; g_pic_h = d[7]; g_pic_fmt = d[0];
+  }
+  if (g_pic_img && (hr = ((CopyRectsFn)g_orig_vt[28])(dev, bb, NULL, 0, g_pic_img, NULL)) >= 0 &&
+      (hr = ((SurfLockFn)VT(g_pic_img)[9])(g_pic_img, lr, NULL, 0x10 /* D3DLOCK_READONLY */)) >= 0) {
+    int bpp = (d[0] == 21 || d[0] == 22) ? 4 : (d[0] >= 23 && d[0] <= 26) ? 2 : 0;   /* A8R8G8B8, X8R8G8B8; R5G6B5, X1R5G5B5, A1R5G5B5, A4R4G4B4 */
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_trace_%lu_%d_f%02d_l%d.pic", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n + 1, frame, label);
+    FILE *f = bpp ? fopen(path, "wb") : NULL;
+    if (f) {
+      uint32_t head[8] = { 0x43495058u /* "XPIC" */, 1, d[6], d[7], d[0], (uint32_t)bpp, (uint32_t)frame, (uint32_t)label };
+      fwrite(head, 4, 8, f);
+      for (uint32_t y = 0; y < d[7]; y++) fwrite((uint8_t *)(uintptr_t)lr[1] + (size_t)y * lr[0], 1, (size_t)d[6] * bpp, f);
+      fclose(f);
+    } else if (!bpp && !g_pic_failed++) klog("trace picture: back buffer format %u is not one pictures.py reads", d[0]);
+    ((SurfFn)VT(g_pic_img)[10])(g_pic_img);
+  } else if (!g_pic_failed++) klog("trace picture: CopyRects or LockRect failed (0x%08lX)", (unsigned long)hr);
+  ((SurfFn)VT(bb)[2])(bb);
 }
 
 static int g_nmods; static void mods_frame(void *dev);     /* (mods: below) */
@@ -761,6 +806,10 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
   QueryPerformanceCounter(&t0);
   if (mine) {
     g_frame++;
+    if (g_tr_state == 5 && g_tr_pictures > 0) {     /* the frame that just ended (before the trace moves on) */
+      int fr = 0; d3dprof_trace_frames(&fr); fr -= 1;
+      if (fr >= 0 && fr < 32 && fr >= TR_ALT_FRAMES / 2 - 2 * g_tr_pictures && fr <= TR_ALT_FRAMES / 2 + 2 * g_tr_pictures) pic_capture(dev, fr, g_tr_labels[fr]);
+    }
     if (g_cfg.hotkey) {
       int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F9) & 0x8000);
       if (down && !g_hotkey_down) { g_master_off = !g_master_off; g_dirty = 1; klog("hotkey: swaps %s", g_master_off ? "off" : "on"); }
@@ -1259,7 +1308,7 @@ static DWORD WINAPI start(LPVOID self) {
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);
-    g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); if (g_tr_every < 20) g_tr_every = 20;
+    g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); g_tr_pictures = GetPrivateProfileIntA("xikit", "trace_pictures", 0, g_ini); if (g_tr_every < 20) g_tr_every = 20;
     klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
   }
   /* watchdog: if the game ever makes a new device object, give that one the hook too (Reset keeps the object) */

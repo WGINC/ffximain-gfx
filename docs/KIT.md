@@ -131,6 +131,25 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
 
+### Pictures (`trace_pictures=K`)
+
+The trace compares calls, not what they draw. With `trace_pictures=K` an alternating trace also saves the finished
+picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbours, about 8 MB a frame at
+1920x1080, as `xikit_trace_<pid>_<n>_f<frame>_l<label>.pic`.
+- **How a picture is read.** The back buffer is read at the start of Present into a system-memory surface, with
+  CopyRects, the way the game reads its own occlusion target. The device's own methods are called through its
+  original vtable, so the trace does not record them.
+- **The comparison:**
+
+      python3 kit/d3dprof/pictures.py DIR_WITH_THE_PICS [--out prefix]
+
+  checks each swapped frame pixel by pixel against the range its two neighbours span (`--tol`, default 2), with
+  the same test on an unswapped frame as the control. It reports the share of pixels outside and where. With
+  `--out` it also writes a picture with those pixels in red.
+- **Tested** (Wine, mode `profile`): a host back buffer with one smoothly animated band and one band that
+  changes only while a function is swapped. Exactly the swapped band is found on both swapped frames, nothing in
+  the animated band, and nothing in the control.
+
 ## Where the time goes (`xikit_timing_<pid>.csv`, `sample=1`)
 
 - **Frame timing, always on.** Every `report_every` frames the kit appends one line to

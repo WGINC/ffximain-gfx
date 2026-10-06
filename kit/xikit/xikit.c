@@ -115,9 +115,11 @@ static const char DEFAULT_INI[] =
   "hotkey=1\r\n"
   "; 1: log every function patched and restored (otherwise only totals)\r\n"
   "log_each=0\r\n"
-  "; 1: bisect mode: with the screen broken press Ctrl+Alt+F10 (bad); the kit then swaps half of the functions that have\r\n"
-  ";    run, and you press F10 again if the screen is still broken or Ctrl+Alt+F11 if it looks right; it narrows to one\r\n"
-  ";    function and logs its name (xikit.log, xikit_bisect.txt). Ctrl+Alt+F12 ends it and swaps everything again (culprits found included)\r\n"
+  "; 1: bisect mode: with the screen broken press Ctrl+Alt+F10 or create xikit_bisect_bad.txt; the kit then swaps a part of\r\n"
+  ";    the functions that have run, and you answer F10 / xikit_bisect_bad.txt if the screen is still broken or F11 /\r\n"
+  ";    xikit_bisect_good.txt if it looks right. It narrows to the smallest set that breaks the screen (one function, or\r\n"
+  ";    several that only break it together) and logs it (xikit.log, xikit_bisect.txt). F12 / xikit_bisect_stop.txt ends it\r\n"
+  ";    and swaps everything again (culprits found included)\r\n"
   "bisect=0\r\n"
   "; 1: Ctrl+Alt+F8 records the game's Direct3D calls for 4 frames with every swap off, then 4 frames with the swaps on, and\r\n"
   ";    writes xikit_trace_<pid>.txt (kit/d3dprof/trace_diff.py compares the two by call site: which replaced function\r\n"
@@ -341,12 +343,19 @@ static void apply(void) {
 
 
 /* ------------------------------------------------------------------------------------------------ bisect */
-/* The screen is wrong with everything swapped; which function is it? Candidates are the swapped functions that have
-   run (a function that never ran cannot have drawn anything). Each step swaps half of the suspects only; the user
-   says whether the screen is still wrong (F10: the culprit is in this half) or right (F11: it is in the other).
-   One culprit is assumed; the last suspect is swapped alone as a check. */
-static int g_bis_n, g_bis_step; static int g_bis_idx[MAXFN];     /* suspects: indices into g_fn */
-static int g_bis_phase;                                          /* 0 off, 1 testing a half, 2 testing the last suspect */
+/* The screen is wrong with everything swapped; which functions make it so? Candidates are the swapped functions that
+   have run (a function that never ran cannot have drawn anything). No single culprit is assumed: on 6 Oct the picture
+   broke with 7 functions swapped and was right with each of the halves a bisect tried, so it took two of them
+   together. This is delta debugging (Zeller's ddmin): the suspects C (known to break the screen) are cut into n pieces;
+   each piece is swapped alone, then each complement (C without that piece); a set that breaks the screen becomes the
+   new C. When no piece and no complement breaks it, n doubles; when n has reached the size of C, C is minimal: taking
+   any one function out of it gives a right screen. From 8 suspects down, each is left out in turn instead (a set
+   that is still wrong without it drops it): at most 8 answers. The user answers each step: still wrong (F10 /
+   xikit_bisect_bad.txt) or right (F11 / xikit_bisect_good.txt). */
+static int g_bis_n, g_bis_step; static int g_bis_idx[MAXFN];     /* C: indices into g_fn */
+static int g_bis_phase;                                          /* 0 off, 1 pieces, 2 complements, 3 leave one out */
+static int g_bis_parts, g_bis_i;                                 /* n, and the piece being tested */
+static int g_bis_t[MAXFN], g_bis_tn;                             /* the set being tested */
 
 static void bis_note(const char *fmt, ...) {
   char buf[400]; va_list ap; va_start(ap, fmt); vsnprintf(buf, sizeof buf, fmt, ap); va_end(ap);
@@ -367,16 +376,47 @@ static void bis_test(const int *idx, int n) {
   g_dirty = 1;
 }
 
-static void bis_next(void) {                    /* choose the set to test from the suspects */
-  g_bis_step++;
-  if (g_bis_n == 1) {
-    g_bis_phase = 2; bis_test(g_bis_idx, 1);
-    bis_note("step %d: only %s swapped. Still wrong (F10) = it is the culprit; right (F11) = no single function does it", g_bis_step, g_fn[g_bis_idx[0]].name);
+static void bis_finish(void) {                 /* C is 1-minimal: report it, keep it on the original code */
+  if (g_bis_n == 1)
+    bis_note("CULPRIT: %s (0x%08X, %s) - the screen is wrong with it swapped and right without it. It stays on the original code for the rest of this run (put it in exclude= to keep it so)",
+             g_fn[g_bis_idx[0]].name, g_fn[g_bis_idx[0]].rva + ANALYSED_BASE, g_fn[g_bis_idx[0]].exp);
+  else {
+    bis_note("CULPRITS TOGETHER: these %d functions swapped together make the screen wrong; with any one of them left out it is right. They stay on the original code for the rest of this run", g_bis_n);
+    bis_list("culprits", g_bis_idx, g_bis_n);
+  }
+  for (int k = 0; k < g_bis_n && g_bis_nfound < 64; k++) g_bis_found[g_bis_nfound++] = g_bis_idx[k];
+  g_bis_on = 0; g_bis_phase = 0; g_dirty = 1;
+}
+
+static void bis_next(void) {                    /* set up the next set to test from C, n and the piece index */
+  for (;;) {
+    if (g_bis_n == 1) { bis_finish(); return; }
+    /* 8 suspects or fewer: each is left out in turn (at most 8 answers; ddmin would need about 20 for a pair of 7) */
+    if (g_bis_n <= 8 && g_bis_phase != 3) { g_bis_phase = 3; g_bis_i = 0; }
+    if (g_bis_phase == 3) { if (g_bis_i >= g_bis_n) { bis_finish(); return; } break; }
+    if (g_bis_parts > g_bis_n) g_bis_parts = g_bis_n;
+    if (g_bis_i >= g_bis_parts) {               /* every piece (or complement) tested and right */
+      if (g_bis_phase == 1 && g_bis_parts > 2) { g_bis_phase = 2; g_bis_i = 0; continue; }
+      if (g_bis_parts >= g_bis_n) { bis_finish(); return; }
+      g_bis_parts = g_bis_parts * 2 > g_bis_n ? g_bis_n : g_bis_parts * 2; g_bis_phase = 1; g_bis_i = 0; continue;
+    }
+    break;
+  }
+  g_bis_tn = 0;
+  if (g_bis_phase == 3) {
+    for (int k = 0; k < g_bis_n; k++) if (k != g_bis_i) g_bis_t[g_bis_tn++] = g_bis_idx[k];
+    g_bis_step++; bis_test(g_bis_t, g_bis_tn);
+    bis_note("step %d: %d suspects; swapping all of them but %s. Screen still wrong: F10 / xikit_bisect_bad.txt; right: F11 / xikit_bisect_good.txt",
+             g_bis_step, g_bis_n, g_fn[g_bis_idx[g_bis_i]].name);
     return;
   }
-  int half = g_bis_n / 2; g_bis_phase = 1; bis_test(g_bis_idx, half);
-  bis_note("step %d: %d suspects; swapping %d of them (the rest run the original code). Screen still wrong: F10; right: F11", g_bis_step, g_bis_n, half);
-  if (g_bis_n <= 12) bis_list("suspects", g_bis_idx, g_bis_n);
+  int lo = g_bis_i * g_bis_n / g_bis_parts, hi = (g_bis_i + 1) * g_bis_n / g_bis_parts;
+  for (int k = 0; k < g_bis_n; k++)
+    if ((k >= lo && k < hi) == (g_bis_phase == 1)) g_bis_t[g_bis_tn++] = g_bis_idx[k];
+  g_bis_step++; bis_test(g_bis_t, g_bis_tn);
+  bis_note("step %d: %d suspects in %d pieces; swapping %s %d (%d functions; the rest run the original code). Screen still wrong: F10 / xikit_bisect_bad.txt; right: F11 / xikit_bisect_good.txt",
+           g_bis_step, g_bis_n, g_bis_parts, g_bis_phase == 1 ? "piece" : "all but piece", g_bis_i + 1, g_bis_tn);
+  if (g_bis_tn <= 12) bis_list("swapped now", g_bis_t, g_bis_tn);
 }
 
 static void bis_start(void) {
@@ -389,6 +429,8 @@ static void bis_start(void) {
   }
   if (g_bis_n == 0) { bis_note("no swapped function has run yet; nothing to bisect"); return; }
   g_bis_on = 1; bis_note("started: %d functions have run since they were swapped", g_bis_n);
+  if (g_bis_n <= 12) bis_list("suspects", g_bis_idx, g_bis_n);
+  g_bis_parts = 2; g_bis_phase = 1; g_bis_i = 0;
   bis_next();
 }
 
@@ -400,22 +442,14 @@ static void bis_stop(void) {
 
 static void bis_answer(int bad) {
   if (!g_bis_on) { if (bad) bis_start(); return; }
-  if (g_bis_phase == 2) {
-    int i = g_bis_idx[0];
-    if (bad) {
-      bis_note("CULPRIT: %s (0x%08X, %s) - screen wrong with only this function swapped. It stays on the original code for the rest of this run (put it in exclude= to keep it so); if the screen is still wrong now, press F10 to look for another",
-               g_fn[i].name, g_fn[i].rva + ANALYSED_BASE, g_fn[i].exp);
-      if (g_bis_nfound < 64) g_bis_found[g_bis_nfound++] = i;
-      g_bis_on = 0; g_bis_phase = 0; g_dirty = 1;
-    } else {
-      bis_note("NO SINGLE CULPRIT: %s alone is fine, but a set containing it was not - an interaction, or two functions. Ending", g_fn[i].name);
-      bis_stop();
+  if (bad) {                                    /* the tested set breaks the screen: it becomes C */
+    memcpy(g_bis_idx, g_bis_t, g_bis_tn * sizeof(int));
+    int was = g_bis_phase; g_bis_n = g_bis_tn;
+    if (was != 3) {                             /* (leaving one out: the next suspect has moved into its place) */
+      g_bis_parts = was == 1 ? 2 : (g_bis_parts - 1 < 2 ? 2 : g_bis_parts - 1);
+      g_bis_phase = 1; g_bis_i = 0;
     }
-    return;
-  }
-  int half = g_bis_n / 2;
-  if (bad) { g_bis_n = half; }                                   /* the culprit is in the half just tested */
-  else { memmove(g_bis_idx, g_bis_idx + half, (g_bis_n - half) * sizeof(int)); g_bis_n -= half; }
+  } else g_bis_i++;
   bis_next();
 }
 

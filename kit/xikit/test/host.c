@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
     { void (__cdecl *answer)(int) = (void (__cdecl *)(int))GetProcAddress(GetModuleHandleA("xikit.dll"), "xikit_bisect_answer");
       check(answer != NULL, "bisect: xikit_bisect_answer is exported");
       answer(1);                                   /* the screen is wrong: start */
-      for (int step = 0; step < 12; step++) {
+      for (int step = 0; step < 40; step++) {
         present(2);
         int bad = set[0] == 0xE9;                  /* wrong exactly while SetColor is swapped */
         FILE *lg = fopen("xikit.log", "r"); int done = 0;
@@ -145,7 +145,27 @@ int main(int argc, char **argv) {
       present(2);
       check(set[0] != 0xE9 && !memcmp(set, orig_set, 5), "bisect: the culprit stays on the original code after it is found");
       answer(2); present(2);
-      check(set[0] == 0xE9, "bisect: F12 (stop) swaps everything again, the culprit included"); }
+      check(set[0] == 0xE9, "bisect: F12 (stop) swaps everything again, the culprit included");
+      /* two functions that break the screen only together (SetColor and GetColor swapped at once): no single culprit */
+      uint8_t *gc = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+      answer(1);
+      for (int step = 0; step < 60; step++) {
+        present(2);
+        int bad = set[0] == 0xE9 && gc[0] == 0xE9;
+        FILE *lg = fopen("xikit.log", "r"); int done = 0;
+        if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "CULPRITS TOGETHER")) done = 1; fclose(lg); }
+        if (done) break;
+        answer(bad);
+      }
+      present(2);
+      lg = fopen("xikit.log", "r"); int pair = 0, both = 0;
+      if (lg) { while (fgets(line, sizeof line, lg)) {
+                  if (strstr(line, "CULPRITS TOGETHER: these 2 functions")) pair = 1;
+                  if (strstr(line, "culprits (2):") && strstr(line, "CXiSkeletonActor::SetColor") && strstr(line, "CXiSkeletonActor::GetColor")) both = 1; }
+                fclose(lg); }
+      check(pair && both, "bisect: two functions that break the screen only together are found as that pair");
+      check(set[0] != 0xE9 && gc[0] != 0xE9, "bisect: both stay on the original code after they are found");
+      answer(2); present(2); }
     touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
     present(130);
   }

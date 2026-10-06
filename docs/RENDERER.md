@@ -73,7 +73,9 @@ A D3D11 backend, and per-draw profiling, need these few places, not 1,600.
   combiners), then filtering and addressing, TEXCOORDINDEX, TEXTURETRANSFORMFLAGS and RESULTARG.
   - A D3D11 port has to express these combiners in shaders.
 - **Vertex shaders and FVF codes**: CreateVertexShader is called at 7 sites, so programmable vertex
-  shaders exist alongside FVF draws.
+  shaders exist alongside FVF draws. Of the 7, one site makes all 5 programmable vertex shaders (0x10178250, the
+  zone map's; with 1 pixel shader), 4 make fixed-function shaders from a declaration only, and 2 are in functions
+  nothing reaches (docs/KIT.md, the static shader catalogue).
   - Values observed at SetVertexShader sites that decode as FVF codes (D3D8 SDK d3d8types.h; bit 0 clear):
     0x144, 0x142, 0x44, 0x42, 0x152, 0x2, 0x6.
   - In decoded form: XYZRHW|DIFFUSE|TEX1, XYZ|DIFFUSE|TEX1, XYZRHW|DIFFUSE, XYZ|DIFFUSE,

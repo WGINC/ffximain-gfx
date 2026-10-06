@@ -185,8 +185,9 @@ shows only its intended differences. And the patch has run for a full session wi
    - 1,633 call sites in the export use the device.
    - Every function that uses the device is in the export (data/gfx_device_users.json: 0 outside it). 90 of
      the 867 are not in the verified tree (docs/RESIDUE.md); until they are, they run as the game's code.
-2. **Resources.** The game creates textures, vertex and index buffers, state blocks and 7 vertex shaders
-   (CreateVertexShader sites) on the Direct3D 8 device and keeps them.
+2. **Resources.** The game creates textures, vertex and index buffers, state blocks and vertex shaders
+   (7 CreateVertexShader sites: 5 programmable shaders and 1 pixel shader from one function, 4 fixed-function, 2
+   unreachable; docs/KIT.md, the static shader catalogue) on the Direct3D 8 device and keeps them.
 3. **The fixed-function pipeline.**
    - 56 render states and 15 texture-stage state types are set somewhere.
    - FVF codes seen: XYZRHW|DIFFUSE|TEX1, XYZ|DIFFUSE|TEX1, XYZ|NORMAL|DIFFUSE|TEX1, XYZB1 and others.

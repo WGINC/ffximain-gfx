@@ -77,10 +77,23 @@ def load(path):
     return h, list(t[:nd]), list(t[nd:])
 
 
+def catalogue():
+    """{sha256 of the code tokens: catalogue entry} from data/shader_catalogue.json (shader_catalogue.py)"""
+    import json, os
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data', 'shader_catalogue.json')
+    return {s['sha256']: s for s in json.load(open(f))['shaders'] if 'sha256' in s} if os.path.exists(f) else {}
+
+
 def main():
+    import hashlib
+    cat = catalogue()
     for p in sys.argv[1:]:
         h, d, c = load(p)
         print('== handle %08X (%s): %d declaration tokens, %d code tokens' % (h, p, len(d), len(c)))
+        if c:
+            e = cat.get(hashlib.sha256(struct.pack('<%dI' % len(c), *c)).hexdigest())
+            print('  catalogue: ' + ('%s, source table %s (%d lines), built at %s' % (e['name'].split('_flag')[0], e['table'],
+                  e['lines'], e['built_at']) if e else 'not one of the shaders the game assembles from its own source text'))
         for l in decl(d): print('  ' + l)
         for l in code(c): print('    ' + l)
         if not c: print('    (no code: a fixed-function vertex shader from the declaration)')

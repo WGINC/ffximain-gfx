@@ -489,3 +489,11 @@ has been run in the game yet.
   (0x10001520 return 75 / import 25, 0x1000A820 1552 D3D calls compared, 0x100091B0 coverage 274); with seed 1 it
   gives the numbers that were reported as drift (67 / 33, 1568). `diffemu_gfx.py` now defaults to seed 11, so
   `fork.py gate` and any direct run use the gate's trials (`sdk/test_fork.py` passes).
+- **Static shader catalogue** (`kit/d3dprof/shader_catalogue.py`, `data/shader_catalogue.json`; GAPS.md 7 item 5,
+  the part not built): the 5 vertex shaders and 1 pixel shader 0x10178250 builds from source-line tables in `.data`,
+  their text as 0x10177090 joins it (both `[CDx+0x920]` variants; none of the six has an optional `#` line), and
+  the exact tokens from the game's own `D3DXAssembleShader` run in Unicorn (heap and critical sections answered;
+  d3d8.dll's validation of the result not run, it writes no tokens). Decoded by `vshader.py` the tokens are the
+  source lines (D3DX writes `sub` as `add` with a negated source). `vshader.py` names a captured shader by its
+  token hash. The other 6 CreateVertexShader sites: 4 fixed-function (no code), 2 in functions nothing calls or
+  points to (one assembles `c:\test.vsh`). `tool_drift.py` regenerates the catalogue too.

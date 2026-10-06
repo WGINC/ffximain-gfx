@@ -309,8 +309,26 @@ A vertex shader's declaration and code are saved exactly as the game passed them
 
 decodes them by the D3D8 SDK's token formats (d3d8types.h): which stream and register each input comes from, with
 its type, and the vs.1.x instructions. An opcode or register type outside that table is printed raw. This is the
-runtime catalogue: the shaders as created. Mapping each to its `vs.1.1` source text in the binary (a static
-catalogue) is not built.
+runtime catalogue: the shaders as created. Each is also named against the static catalogue (`catalogue: vs2, source
+table 0x103770D0 ...`, or "not one of the shaders the game assembles from its own source text").
+
+**The static catalogue** (`kit/d3dprof/shader_catalogue.py`, `data/shader_catalogue.json`): every shader the game
+assembles, from the binary. 0x10178250 builds 5 vertex shaders and 1 pixel shader from tables of source-line
+pointers in `.data` (19, 33, 37, 41 and 45 lines; the pixel shader 9). 0x10177090 joins the lines; a line starting
+with `#` is dropped when `[CDx+0x920]` is set and kept otherwise (none of the six has one, so both variants
+assemble the same). The tokens come from running the game's own `D3DXAssembleShader` (0x102DAA0D) in Unicorn
+with the game's flags, and are read back through the `ID3DXBuffer` methods. D3DX's check of the result by
+d3d8.dll's `ValidateVertexShader`/`ValidatePixelShader` is not run (no d3d8.dll here): it only sets the error flag
+and does not write the tokens. The vertex declaration is the one 0x10178250 writes on its stack: stream 0, v0
+FLOAT3, v3 FLOAT3, v5 D3DCOLOR, v7 FLOAT2, v15 FLOAT3. The committed JSON holds hashes, counts and addresses;
+the source text and tokens are written to `runs/shaders/` (game content, not committed). Decoded with
+`vshader.py`, the tokens match the source lines except notation: D3DX writes `sub a, b, c` as `add a, b, -c`,
+and a short swizzle repeats its last component (`.xy` is `.xyyy`).
+
+The 7 `CreateVertexShader` sites: 0x101772A7 (the 5 above); 4 with no code, fixed-function shaders from a
+declaration only (0x1002D6DC, 0x101792BE, 0x101792DF, 0x10284A58); 2 in functions nothing calls or points to
+(0x10017810; 0x101771B0, which assembles `c:\test.vsh`, a developer leftover). The one `CreatePixelShader` site
+(0x10177323) makes the pixel shader above.
 
 ## Finding which functions break the picture (`bisect=1`)
 

@@ -110,16 +110,18 @@ A change to such code is reasoned from offsets and arithmetic, which is where gu
 ### 2e. What the GPU is asked to do
 
 - **Shaders.** The vertex shader assembly text is in the binary (`vs.1.1` source near CTsZoneMap's strings,
-  file offset 0x376250). Seven CreateVertexShader sites exist. No catalogue maps each shader to its source,
-  declaration and users. A port and any shading change start there.
+  file offset 0x376250). Seven CreateVertexShader sites exist. The catalogue below now maps each shader to its
+  source, declaration and builder. A port and any shading change start there.
 - **State per draw.** RENDERER.md lists which states are set where. Nobody has recorded the full device state at
   each draw, so "what does this draw look like to the GPU" is reconstructed by reading code paths.
 - **Resources.** There is no catalogue of textures, buffers and render targets: format, size, who creates them,
   who reads them.
 
 **Closes it:**
-- a shader catalogue from the binary and the 7 creation sites (static, definitive). **Not built.** The runtime
-  half is: every vertex shader the game creates is saved as created and decoded (`vshader.py`, docs/KIT.md);
+- a shader catalogue from the binary and the 7 creation sites (static, definitive). **Built** (6 Oct,
+  `kit/d3dprof/shader_catalogue.py`, `data/shader_catalogue.json`, docs/KIT.md): 5 vertex shaders and 1 pixel shader,
+  assembled by the game's own D3DX in Unicorn; the other creation sites are fixed-function or unreachable. The
+  runtime half: every vertex shader the game creates is saved as created, decoded and named against it (`vshader.py`);
 - a per-draw state snapshot in the trace. **Built:** ` s=` per draw, `#S` per state, the known states only;
   `trace_diff.py` names the states a finding's draw differs in;
 - a resource log (creation calls with their parameters and the creating function). **Built:**
@@ -195,7 +197,7 @@ function whose prototype is definitive.
 | 2 | **Timing**: Present wait, per-call time, render-thread sampling profiler | Cost: where time goes, what a change saves (4, 5) | Built: Present wait timer, sampler; exact per-call timing not built |
 | 3 | **Picture capture and comparison** on the alternating trace's frames | "Nothing else changed" for pixels (5) | Built: `trace_pictures=`, pictures.py |
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
-| 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built, except the static shader-source catalogue (the shaders as created are saved and decoded) |
+| 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built (static catalogue: `shader_catalogue.py`, 6 Oct) |
 | 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Built (Wine-tested; not run in the game) |
 | 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`); not for a mod's from-scratch replacements |
 | 8 | **Next exports**: tier 1 of the 267 callers (world draw path, menu path, asset loading) | What gets drawn and from what (2c) | IDA run, then the existing pipeline |

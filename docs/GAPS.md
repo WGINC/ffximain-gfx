@@ -131,10 +131,10 @@ A change to such code is reasoned from offsets and arithmetic, which is where gu
 |---|---|---|
 | Replace a whole function | Any of the 774 manifest functions, from a mod, with its type checked at compile time | The 90 exported functions outside the tree; the 267 callers outside the export; every other game function |
 | Call the game's own code | 721 functions through a trampoline, all reconstructed ones through their game entry (`xigame::`), and the game functions the tree calls (`orig::`) | Typed access to game functions the tree does not call |
-| Edit a function slightly | Only by rewriting it whole in the mod | A **fork workflow:** compile a reconstructed function's own source, edited, into a mod, so a change is a diff against verified code, not a rewrite |
-| Change device-level behaviour (state filtering, batching, timing) | Each mod would have to hook the device itself | A device-interception API in the SDK (the kit already gives d3dprof a vtable copy) |
+| Edit a function slightly | **Built:** a fork (`sdk/fork.py`, `XI_FORK`): the function's gate-verified source, edited, compiled into the mod with the tree's flags; `fork.py diff` shows the edit, `fork.py gate` runs it against the game's code | Nothing for the 777 tree functions; the functions outside the tree have no source to fork |
+| Change device-level behaviour (state filtering, batching, timing) | **Built:** `XI_DEVICE_HOOK`, in front of the profiler and trace, typed from d3d8.h's order, the slot checked against the kit's table | Not run in the game yet |
 | Change data (textures, models, fonts) | No | The asset path (2c), then an override API |
-| Iterate quickly | A change means restarting the game | **Mod reload:** remove the hooks, unload, load the rebuilt DLL, hook again, without restarting |
+| Iterate quickly | **Built:** `mod_reload=1`: a rebuilt mod is loaded again while the game runs (its hooks off, `xikit_mod_unload`, the new build's init) | Not run in the game yet |
 
 **Hooking beyond the manifest** needs the same proof of a safe entry the manifest gives:
 - the entry bytes are known;
@@ -190,7 +190,7 @@ function whose prototype is definitive.
 | 3 | **Picture capture and comparison** on the alternating trace's frames | "Nothing else changed" for pixels (5) | Built: `trace_pictures=`, pictures.py |
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
 | 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built, except the static shader-source catalogue (the shaders as created are saved and decoded) |
-| 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Medium |
+| 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Built (Wine-tested; not run in the game) |
 | 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Medium |
 | 8 | **Next exports**: tier 1 of the 267 callers (world draw path, menu path, asset loading) | What gets drawn and from what (2c) | IDA run, then the existing pipeline |
 | 9 | **De-artifacting** with observed virtual-call targets and field values | Reading the code without offsets (2d) | Long, incremental |

@@ -10,7 +10,9 @@ functions of the manifest, whether a mod can hook them (xihook::CDx__DrawFadeQua
 The type is the tree's declaration (decltype), so it is checked by the compiler, not written out here. A function
 whose declaration does not compile in this form is left out and listed at the end of the header.
 
-    python3 sdk/gen_sdk.py            (writes sdk/include/xikit_game.hpp; uses MinGW to check it compiles)"""
+    python3 sdk/gen_sdk.py            (writes sdk/include/xikit_game.hpp; uses MinGW to check it compiles)
+
+Also sdk/fork_flags.txt: the tree's compile flags (tree/build.sh FLAGS), which a fork is compiled with."""
 import json, os, re, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(H, '..'); TI = os.path.join(ROOT, 'tree', 'include')
 OUT = os.path.join(H, 'include', 'xikit_game.hpp')
@@ -65,6 +67,10 @@ def main():
         if not names: sys.exit(r.stderr[-3000:])
         dropped += [x for x in ok if x[1] in names]; ok = [x for x in ok if x[1] not in names]
     print('%s: %d functions typed, %d hookable, %d left out' % (OUT, len(ok), sum(a in man for a, _ in ok), len(dropped)))
+    # the tree's compile flags, for forks (fork.py, build_mod.sh): what tree/build.sh's FLAGS holds, one per line
+    r = subprocess.run(['bash', '-c', 'eval "$(sed -n "/^FLAGS=(/,/)$/p" "$1")"; printf "%s\\n" "${FLAGS[@]}"', '_',
+                        os.path.join(ROOT, 'tree', 'build.sh')], capture_output=True, text=True, check=True)
+    open(os.path.join(H, 'fork_flags.txt'), 'w', newline='\n').write(r.stdout)
 
 
 if __name__ == '__main__':

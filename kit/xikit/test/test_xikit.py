@@ -1,8 +1,8 @@
 """test_xikit.py -- the kit end to end under Wine, with the real FFXiMain.dll ($FFXI_DLL) and the built dist/:
 host.exe (host.c) maps the game DLL without running it, fakes the device, loads xikit.dll and plays the render
-thread. Run four times: with the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), at its
-base with profile=1 (d3dprof built in), and with a mod (mod_test.cpp, built with sdk/build_mod.sh) at its base and
-loaded elsewhere.
+thread. Runs: the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), at its base with
+profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod.sh; function and device hooks) at its
+base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
 import json, os, shutil, subprocess, sys, tempfile
@@ -25,17 +25,27 @@ for f in ('xikit.dll', 'gfx_recon_ingame.dll'):
     bad += bool(why)
 SDK = os.path.join(H, '..', '..', '..', 'sdk')
 MODDLL = os.path.join(tempfile.mkdtemp(prefix='xikit_mod_'), 'mod_test.dll')
-subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL, os.path.join(H, 'mod_test.cpp')], check=True)
+# the mod forks SetColor: fork.py new writes the tree's source of it, unedited
+subprocess.run([sys.executable, os.path.join(SDK, 'fork.py'), 'new', 'CXiSkeletonActor::SetColor', os.path.dirname(MODDLL)], check=True)
+FORK = os.path.join(os.path.dirname(MODDLL), 'CXiSkeletonActor__SetColor.fork.cpp')
+subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL, os.path.join(H, 'mod_test.cpp'), FORK], check=True)
+MODDLL2 = os.path.join(os.path.dirname(MODDLL), 'mod_test2.dll')          # the "rebuilt" mod of the reload run
+subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL2, os.path.join(H, 'mod_test.cpp'), FORK, '--', '-DMOD_GEN=2'], check=True)
+r = subprocess.run([sys.executable, os.path.join(SDK, 'fork.py'), 'gate', FORK, '--trials', '20'], capture_output=True, text=True)
+print(r.stdout.strip(), r.stderr.strip()[-1500:])
+ok = r.returncode == 0 and ': PASS;' in r.stdout
+print('%s: fork.py gate: the unedited fork, compiled as the mod compiles it, PASSes against the game\'s SetColor' % ('ok' if ok else 'FAIL')); bad += not ok
 for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's example and template build (not run here:
     subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture', 'facts'):
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
-    if mode.startswith('mod'): shutil.copy(MODDLL, d)
+    if mode.startswith('mod') or mode == 'reload': shutil.copy(MODDLL, d)
+    if mode == 'reload': shutil.copy(MODDLL2, d)
     if mode == 'facts': shutil.copy(FACTS, d)
     env = dict(os.environ, WINEDEBUG='-all')
     r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)

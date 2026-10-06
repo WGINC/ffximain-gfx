@@ -45,6 +45,7 @@
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
 void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
+extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -62,6 +63,7 @@ typedef struct {
   int tlen, nfix; int8_t tfix[4];      /* trampoline (manifest T=): whole instructions copied from the entry, rel32 to re-aim */
   void *mod_target; int mod;           /* a mod's replacement (sdk/: xikit_mod.h), and which mod (index into g_mods + 1) */
   int mod_on_recon;                    /* the hook's previous is the reconstruction (no trampoline) */
+  void *tramp;                         /* the trampoline, once built (from the untouched entry; a reload reuses it) */
   void *cap_stub; volatile LONG cap_done;  /* capture= (an entry snapshot, below): the stub while captures remain */
   void *jmp_to;                        /* where the jmp the kit wrote at the entry goes (while patched) */
 } Fn;
@@ -156,6 +158,9 @@ static const char DEFAULT_INI[] =
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
+  "; 1: load each mod from a copy and load it again when its file changes (a rebuilt mod, while the game runs; also\r\n"
+  ";    on creating xikit_reload_now.txt); takes effect at the next start\r\n"
+  "mod_reload=0\r\n"
   "; record real calls for the gate (docs/KIT.md): manifest names, comma-separated; each writes an .xcap\r\n"
   "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
@@ -652,7 +657,7 @@ static void pic_capture(void *dev, int frame, int label) {
   ((SurfFn)VT(bb)[2])(bb);
 }
 
-static int g_nmods; static void mods_frame(void *dev);     /* (mods: below) */
+static int g_nmods; static void mods_frame(void *dev); static void mods_watch(void);     /* (mods: below) */
 static int after_call(uint32_t r);
 static Fn *fn_at_sym(uint32_t a, const char **sym);
 
@@ -839,6 +844,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     }
     if (g_trace_attached) trace_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
+    if (g_nmods) mods_watch();
     if (g_dirty) apply();
     if (g_trace_attached) trace_label();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
@@ -978,8 +984,12 @@ static void read_quarantine(void) {
 
 /* ------------------------------------------------------------------------------------------------ mods (sdk/, docs/SDK.md) */
 #define MAXMODS 16
-typedef struct { char name[64]; HMODULE h; xikit_mod_frame_fn frame; } Mod;
-static Mod g_mods[MAXMODS]; static int g_mod_cur = -1, g_mods_open;
+typedef struct {
+  char name[64], path[MAX_PATH];     /* as listed in mods=, and the file in the kit's folder */
+  HMODULE h; xikit_mod_frame_fn frame; xikit_mod_unload_fn unload;
+  FILETIME ft, seen; int gen, seen_change;   /* mod_reload: the file's time when loaded, the build count, a change seen (and its time) */
+} Mod;
+static Mod g_mods[MAXMODS]; static int g_mod_cur = -1, g_mods_open, g_mod_reload;
 static uint8_t *g_tramps;                       /* MAXFN slots of 32 bytes: copied entry instructions + jmp back */
 static XikitHost g_host;
 
@@ -1005,6 +1015,7 @@ static Fn *fn_named(const char *what) {
    at the entry (mods are initialised before the first frame); the live bytes are checked against the analysed
    ones first (check_bytes: entry-4 .. entry+16, which covers tlen <= 16). */
 static void *build_tramp(Fn *f) {
+  if (f->tramp) return f->tramp;
   if (!f->tlen || !g_tramps || f->patched) return NULL;
   uint8_t *t = g_tramps + (f - g_fn) * 32;
   memcpy(t, f->site, f->tlen);
@@ -1015,7 +1026,7 @@ static void *build_tramp(Fn *f) {
   }
   make_jmp(t + f->tlen, t + f->tlen, f->site + f->tlen);
   FlushInstructionCache(GetCurrentProcess(), t, 32);
-  return t;
+  return f->tramp = t;
 }
 
 static int __cdecl host_hook(const char *what, void *repl, void **prev) {
@@ -1024,7 +1035,7 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   Fn *f = what ? fn_named(what) : NULL;
   if (!f || !repl) { host_log("hook(%s): not a function of the manifest", what ? what : "NULL"); return XIKIT_E_UNKNOWN; }
   if (f->mod_target) { host_log("hook(%s): already hooked by %s", f->name, g_mods[f->mod - 1].name); return XIKIT_E_TAKEN; }
-  int d = check_bytes(f);
+  int d = f->patched ? -1 : check_bytes(f);       /* (patched: a reload; the bytes were checked before the kit wrote its jmp) */
   if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix_hook patches it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
   if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
@@ -1041,35 +1052,192 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
 
 static void *__cdecl host_recon(const char *what) { Fn *f = what ? fn_named(what) : NULL; return f ? f->target : NULL; }
 
+/* ---- device hooks (device_hook). The device object gets one more vtable copy, in front of the others (the
+   profiler's, the kit's): g_fvt. A method no mod hooks keeps the entry of the layer below (g_below), so it costs
+   nothing; a hooked one gets a front thunk (generated code, below) that calls kit_front, which picks the hook to run.
+   Each hook is an entry of g_dh: its replacement, and `next`, what its previous goes on to (the hook below it on the
+   same method, or g_below). The previous a mod gets is the entry's stub, `jmp [&next]`, so taking a hook out (a
+   reload) re-links the one above it without the mod's pointer changing. Hooks follow the master switch like the
+   function hooks: F9 and a trace's unswapped frames send every call straight to g_below. */
+#define MAXDH 256
+typedef struct { void *fn; void *volatile next; int slot, mod, below, live; } DevHook;
+static DevHook g_dh[MAXDH]; static int g_ndh, g_dh_top[NSLOTS];
+static void *g_fvt[NSLOTS], *g_below[NSLOTS];
+static uint8_t *g_dcode;                /* generated: MAXDH stubs of 8 bytes, NSLOTS thunks of 24, the return pad */
+#define DH_STUB(i) (g_dcode + 8 * (i))
+#define DH_THUNK(k) (g_dcode + 8 * MAXDH + 24 * (k))
+#define DH_PAD (g_dcode + 8 * MAXDH + 24 * NSLOTS)
+static int g_front_on;                  /* g_fvt is on the device */
+
+/* the front thunk's choice: the top hook of the method, or (switch off, or none) the layer below. On the render
+   thread the intercepted call's return address is kept on d3dprof's stack and the call made to return through the
+   pad, which takes it off again (the profiler names calls made inside the hook by it: d3dprof.c) */
+static void *__cdecl kit_front(int slot, uint32_t *a) {
+  int i = g_dh_top[slot];
+  if (i < 0 || g_master_off) return g_below[slot];
+  if (GetCurrentThreadId() == g_render_thread && d3dprof_via_depth < 64) {
+    d3dprof_via_stk[d3dprof_via_depth] = a[0]; d3dprof_via_depth++;
+    a[0] = (uint32_t)(uintptr_t)DH_PAD;
+  }
+  return g_dh[i].fn;
+}
+
+static int make_dcode(void) {
+  if (g_dcode) return 1;
+  g_dcode = (uint8_t *)VirtualAlloc(NULL, 8 * MAXDH + 24 * NSLOTS + 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  if (!g_dcode) return 0;
+  for (int i = 0; i < MAXDH; i++) {          /* jmp dword [&g_dh[i].next] */
+    uint8_t *c = DH_STUB(i); uint32_t at = (uint32_t)(uintptr_t)&g_dh[i].next;
+    c[0] = 0xFF; c[1] = 0x25; memcpy(c + 2, &at, 4); c[6] = c[7] = 0xCC;
+  }
+  for (int k = 0; k < NSLOTS; k++) {         /* mov eax, k; mov ecx, esp; push ecx; push eax; call kit_front; add esp, 8; jmp eax */
+    uint8_t *c = DH_THUNK(k); uint32_t v = (uint32_t)k;
+    c[0] = 0xB8; memcpy(c + 1, &v, 4); c[5] = 0x89; c[6] = 0xE1; c[7] = 0x51; c[8] = 0x50;
+    c[9] = 0xE8; int32_t d = (int32_t)((uintptr_t)kit_front - (uintptr_t)(c + 14)); memcpy(c + 10, &d, 4);
+    c[14] = 0x83; c[15] = 0xC4; c[16] = 0x08; c[17] = 0xFF; c[18] = 0xE0;
+    for (int j = 19; j < 24; j++) c[j] = 0xCC;
+  }
+  {                                          /* the pad: mov ecx, [depth]; dec ecx; mov [depth], ecx; push [stk + ecx*4]; ret */
+    uint8_t *c = DH_PAD; uint32_t dp = (uint32_t)(uintptr_t)&d3dprof_via_depth, sp = (uint32_t)(uintptr_t)d3dprof_via_stk;
+    c[0] = 0x8B; c[1] = 0x0D; memcpy(c + 2, &dp, 4); c[6] = 0x49; c[7] = 0x89; c[8] = 0x0D; memcpy(c + 9, &dp, 4);
+    c[13] = 0xFF; c[14] = 0x34; c[15] = 0x8D; memcpy(c + 16, &sp, 4); c[20] = 0xC3;
+  }
+  FlushInstructionCache(GetCurrentProcess(), g_dcode, 8 * MAXDH + 24 * NSLOTS + 32);
+  for (int k = 0; k < NSLOTS; k++) g_dh_top[k] = -1;
+  return 1;
+}
+
+static int __cdecl host_device_hook(const char *method, int slot, void *repl, void **prev) {
+  if (prev) *prev = NULL;
+  if (!g_mods_open) { host_log("device_hook(%s): only inside xikit_mod_init", method ? method : "?"); return XIKIT_E_LATE; }
+  const char *known = d3dprof_method(slot);
+  if (!method || !repl || !known || strcmp(known, method)) {
+    host_log("device_hook(%s, slot %d): not that IDirect3DDevice8 method in the kit's table (slot %d is %s)", method ? method : "NULL",
+             slot, slot, known ? known : "out of range");
+    return XIKIT_E_UNKNOWN;
+  }
+  if (!make_dcode() || g_ndh >= MAXDH) { host_log("device_hook(%s): no room for another device hook", method); return XIKIT_E_REFUSED; }
+  int i = g_ndh++; DevHook *e = &g_dh[i];
+  e->fn = repl; e->slot = slot; e->mod = g_mod_cur + 1; e->below = g_dh_top[slot]; e->live = 1;
+  e->next = e->below >= 0 ? g_dh[e->below].fn : g_below[slot];   /* (g_below is filled when the front goes on; set again then) */
+  g_dh_top[slot] = i;
+  if (g_front_on) g_fvt[slot] = DH_THUNK(slot);
+  if (prev) *prev = DH_STUB(i);
+  host_log("device hook %s (slot %d)%s", method, slot, e->below >= 0 ? "; another mod's hook of it runs after this one" : "");
+  return XIKIT_OK;
+}
+
+/* every hook of mod m out of its chain (a reload); the entries stay allocated: a thread may still be in a stub */
+static void dh_remove_mod(int m) {
+  for (int i = 0; i < g_ndh; i++) {
+    DevHook *e = &g_dh[i];
+    if (!e->live || e->mod != m) continue;
+    if (g_dh_top[e->slot] == i) g_dh_top[e->slot] = e->below;
+    else for (int u = 0; u < g_ndh; u++)
+      if (g_dh[u].live && g_dh[u].slot == e->slot && g_dh[u].below == i) { g_dh[u].below = e->below; g_dh[u].next = e->next; }
+    e->live = 0;
+  }
+}
+
+/* the front layer onto a device whose vtable is now `below` (at the start, and on a new device) */
+static void front_install(void **dev) {
+  void **below = (void **)*dev;
+  if (below == g_fvt) return;
+  memcpy(g_below, below, sizeof g_below);
+  for (int i = 0; i < g_ndh; i++) if (g_dh[i].live && g_dh[i].below < 0) g_dh[i].next = g_below[g_dh[i].slot];
+  for (int k = 0; k < NSLOTS; k++) g_fvt[k] = g_dh_top[k] >= 0 ? (void *)DH_THUNK(k) : g_below[k];
+  *(void ***)dev = g_fvt; g_front_on = 1;
+}
+
+/* ---- loading. With mod_reload=1 the kit loads a copy (xikit_mods_loaded\NAME.N.dll), so the build can write the
+   mod's file while the game runs. Every loaded build stays loaded (pinned): a thread may still be in it. */
+static HMODULE load_build(Mod *m, char *loaded, size_t n) {
+  WIN32_FILE_ATTRIBUTE_DATA d;
+  if (GetFileAttributesExA(m->path, GetFileExInfoStandard, &d)) m->ft = d.ftLastWriteTime;
+  snprintf(loaded, n, "%s", m->path);
+  if (g_mod_reload) {
+    char dir[MAX_PATH], stem[64]; snprintf(dir, sizeof dir, "%s\\xikit_mods_loaded", g_dir); CreateDirectoryA(dir, NULL);
+    snprintf(stem, sizeof stem, "%s", m->name); char *dot = strrchr(stem, '.'); if (dot) *dot = 0;
+    snprintf(loaded, n, "%s\\%s.%d.dll", dir, stem, m->gen);
+    if (!CopyFileA(m->path, loaded, FALSE)) { klog("mod %s: could not copy %s to %s (error %lu)", m->name, m->path, loaded, GetLastError()); return NULL; }
+  }
+  HMODULE h = LoadLibraryA(loaded);
+  if (!h) klog("mod %s: could not load %s (error %lu)", m->name, loaded, GetLastError());
+  return h;
+}
+
+static int start_mod(int i, HMODULE h, const char *loaded) {
+  Mod *m = &g_mods[i];
+  xikit_mod_init_fn init = (xikit_mod_init_fn)GetProcAddress(h, "xikit_mod_init");
+  if (!init) { klog("mod %s: %s exports no xikit_mod_init; not used", m->name, loaded); return 0; }
+  m->h = h; m->frame = (xikit_mod_frame_fn)GetProcAddress(h, "xikit_mod_frame"); m->unload = (xikit_mod_unload_fn)GetProcAddress(h, "xikit_mod_unload");
+  uintptr_t *mr = (uintptr_t *)GetProcAddress(h, "xi_rel"); if (mr) *mr = g_rel;
+  HMODULE pin; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, loaded, &pin);
+  g_mod_cur = i; g_mods_open = 1;
+  int r = init(&g_host);
+  g_mods_open = 0;
+  klog("mod %s: %s at %p, init returned %d%s", m->name, m->gen ? "reloaded" : "loaded", h, r, m->frame ? "; it draws each frame (xikit_mod_frame)" : "");
+  if (r != 0) m->frame = NULL;              /* (its hooks stay: they were checked and the mod asked for them) */
+  g_mod_cur = -1; g_dirty = 1;
+  return 1;
+}
+
 /* mods= (read once, at the start): load each, give it xi_rel, call its init */
 static void load_mods(void *dev, HMODULE rec) {
   char list[1024]; GetPrivateProfileStringA("xikit", "mods", "", list, sizeof list, g_ini);
   if (!list[0]) return;
+  g_mod_reload = GetPrivateProfileIntA("xikit", "mod_reload", 0, g_ini);
   if (!g_tramps) g_tramps = (uint8_t *)VirtualAlloc(NULL, MAXFN * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  make_dcode();
   g_host.version = XIKIT_API_VERSION; g_host.size = sizeof g_host;
   g_host.game_base = g_game_lo; g_host.rel = (intptr_t)g_rel; g_host.device = dev; g_host.recon = rec; g_host.dir = g_dir;
-  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon;
+  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon; g_host.device_hook = host_device_hook;
   for (char *p = list; *p && g_nmods < MAXMODS;) {
     char nm[64]; int n = 0;
     while (*p == ' ' || *p == ',' || *p == '\t') p++;
     while (*p && *p != ',' && n < 63) nm[n++] = *p++;
     while (n && (nm[n - 1] == ' ' || nm[n - 1] == '\t')) n--;
     nm[n] = 0; if (!n) continue;
-    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\%s", g_dir, nm);
-    HMODULE h = LoadLibraryA(path);
-    if (!h) { klog("mod %s: could not load %s (error %lu)", nm, path, GetLastError()); continue; }
-    xikit_mod_init_fn init = (xikit_mod_init_fn)GetProcAddress(h, "xikit_mod_init");
-    if (!init) { klog("mod %s: exports no xikit_mod_init; not used", nm); continue; }
-    Mod *m = &g_mods[g_nmods]; snprintf(m->name, sizeof m->name, "%s", nm); m->h = h;
-    m->frame = (xikit_mod_frame_fn)GetProcAddress(h, "xikit_mod_frame");
-    uintptr_t *mr = (uintptr_t *)GetProcAddress(h, "xi_rel"); if (mr) *mr = g_rel;
-    HMODULE pin; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, path, &pin);
-    g_mod_cur = g_nmods++; g_mods_open = 1;
-    int r = init(&g_host);
-    g_mods_open = 0;
-    klog("mod %s: loaded at %p, init returned %d%s", nm, h, r, m->frame ? "; it draws each frame (xikit_mod_frame)" : "");
-    if (r != 0) m->frame = NULL;              /* (its hooks stay: they were checked and the mod asked for them) */
-    g_mod_cur = -1;
+    Mod *m = &g_mods[g_nmods]; memset(m, 0, sizeof *m);
+    snprintf(m->name, sizeof m->name, "%s", nm); snprintf(m->path, sizeof m->path, "%s\\%s", g_dir, nm);
+    char loaded[MAX_PATH]; HMODULE h = load_build(m, loaded, sizeof loaded);
+    if (!h) continue;
+    int i = g_nmods++;
+    if (!start_mod(i, h, loaded)) { g_nmods--; continue; }
+  }
+  if (g_mod_reload) klog("mod_reload=1: a mod's file that changes is loaded again (also: create xikit_reload_now.txt)");
+}
+
+/* a reload, on the render thread inside Present (kit_present calls apply() right after, which re-aims the entries):
+   the new build is loaded first; if it cannot be, the old one stays as it was */
+static void reload_mod(int i) {
+  Mod *m = &g_mods[i]; m->gen++;
+  char loaded[MAX_PATH]; HMODULE h = load_build(m, loaded, sizeof loaded);
+  if (!h) { m->gen--; return; }
+  if (!GetProcAddress(h, "xikit_mod_init")) { klog("mod %s: the new build exports no xikit_mod_init; the old one stays", m->name); m->gen--; FreeLibrary(h); return; }
+  g_mod_cur = i;
+  if (m->unload) m->unload();
+  g_mod_cur = -1;
+  int nf = 0, nd = 0;
+  for (int k = 0; k < g_nfn; k++) if (g_fn[k].mod_target && g_fn[k].mod == i + 1) { g_fn[k].mod_target = NULL; g_fn[k].mod = 0; g_fn[k].mod_on_recon = 0; nf++; }
+  for (int k = 0; k < g_ndh; k++) nd += g_dh[k].live && g_dh[k].mod == i + 1;
+  dh_remove_mod(i + 1);
+  m->frame = NULL; m->unload = NULL;
+  klog("mod %s: build %d: %d function hooks and %d device hooks of the old build taken off", m->name, m->gen, nf, nd);
+  start_mod(i, h, loaded);
+}
+
+/* every 30 frames: a mod file newer than its loaded build, unchanged for one more check (the build has finished
+   writing it), is reloaded; xikit_reload_now.txt reloads them all */
+static void mods_watch(void) {
+  if (!g_mod_reload || g_frame % 30 || g_tr_state) return;     /* (not in the middle of a trace) */
+  char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_reload_now.txt", g_dir);
+  int all = DeleteFileA(p) != 0;
+  for (int i = 0; i < g_nmods; i++) {
+    Mod *m = &g_mods[i]; WIN32_FILE_ATTRIBUTE_DATA d;
+    int changed = GetFileAttributesExA(m->path, GetFileExInfoStandard, &d) && CompareFileTime(&d.ftLastWriteTime, &m->ft) != 0;
+    if (all || (changed && m->seen_change && CompareFileTime(&d.ftLastWriteTime, &m->seen) == 0)) { m->seen_change = 0; reload_mod(i); }
+    else { m->seen_change = changed; if (changed) m->seen = d.ftLastWriteTime; }
   }
 }
 
@@ -1441,7 +1609,7 @@ static DWORD WINAPI start(LPVOID self) {
   setup_captures();                           /* (likewise: trampolines are built from the untouched entries) */
   start_sampler();
   setup_facts();
-  if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
+  if (g_tramps && !g_mod_reload) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
   g_orig_vt = (void **)*dev;
   memcpy(g_vt, g_orig_vt, sizeof g_vt);
   g_vt[SLOT_PRESENT] = (void *)kit_present;
@@ -1456,16 +1624,22 @@ static DWORD WINAPI start(LPVOID self) {
     g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); g_tr_pictures = GetPrivateProfileIntA("xikit", "trace_pictures", 0, g_ini); if (g_tr_every < 20) g_tr_every = 20;
     klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
   }
+  if (g_nmods) {                              /* the mods' device hooks, in front of everything (device_hook) */
+    front_install(dev);
+    int n = 0; for (int k = 0; k < NSLOTS; k++) n += g_dh_top[k] >= 0;
+    klog("device hooks: %d methods hooked by mods", n);
+  }
   /* watchdog: if the game ever makes a new device object, give that one the hook too (Reset keeps the object) */
   for (void **last = dev;;) {
     Sleep(1000);
     void **c = (void **)*cdx; void **d = c ? (void **)c[CDX_DEVICE_OFF / 4] : NULL;
     if (!d || d == last) continue;
     void **vt = (void **)*d;
-    if (vt != g_vt) {
+    if (vt != g_vt && vt != (void **)g_fvt) {
       g_orig_vt = vt; memcpy(g_vt, vt, sizeof g_vt); g_vt[SLOT_PRESENT] = (void *)kit_present;
       *(void ***)d = g_vt;
-      klog("a new device %p: hooked (Present)%s", d, g_cfg.profile ? "; the profiler stays on the old one" : "");
+      if (g_front_on) front_install(d);
+      klog("a new device %p: hooked (Present%s)%s", d, g_front_on ? ", the mods' device hooks" : "", g_cfg.profile ? "; the profiler stays on the old one" : "");
     }
     last = d;
   }

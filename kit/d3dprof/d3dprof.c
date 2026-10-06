@@ -365,12 +365,21 @@ static void report(void) {
 
 /* called by the thunk with the method's slot and the caller's stack (a[0] = return address, a[1] = this,
    a[2...] = the method's parameters); returns the original method, which the thunk jumps to */
+/* xikit's device hooks for mods (xikit.c, device_hook) sit in front of these thunks. When one runs on the render
+   thread, the kit pushes the return address of the call it intercepted here (and pops it when that call returns),
+   so a call the mod's hook passes on, or makes itself, is recorded with the site of the call it is handling, not
+   with an address inside the mod */
+uint32_t d3dprof_via_stk[64]; volatile uint32_t d3dprof_via_depth;
+const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES[slot] : NULL; }
+
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
   if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_next[slot]; }
   /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
-  int game = a[0] >= g_lo && a[0] < g_hi;
-  uint32_t ret = game ? a[0] - g_rel : a[0];
+  uint32_t ra = a[0];
+  if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
+  int game = ra >= g_lo && ra < g_hi;
+  uint32_t ret = game ? ra - g_rel : ra;
   int redundant = 0; uint32_t prims = 0;
   trace_call(slot, a, ret);
   if (slot == S_PRESENT && g_trace_label >= 0) g_trace_frame++;

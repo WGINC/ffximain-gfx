@@ -233,6 +233,21 @@ earlier. Both still reach their methods, are measured popping 4 through vtable s
 `mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call
 the game's own version through a trampoline, and draw each frame. See docs/SDK.md.
 
+**Device hooks** (`device_hook`, docs/SDK.md) sit in a vtable copy of their own in front of the others on the device
+object: the game's call reaches a mod's hook first, then the profiler and trace (d3dprof), then the kit's Present hook,
+then Direct3D. So the profile and the trace record what the mods let through, which is what the device receives. A
+call that a hook passes on, or makes itself while handling a call, is recorded with the call site of the call it is
+handling (the kit keeps that return address while the hook runs, on the render thread). Device hooks follow the master
+switch like function hooks: F9 and a trace's unswapped frames send every call past them.
+
+**Reloading** (`mod_reload=1`, read at the start): the kit loads each mod from a copy,
+`xikit_mods_loaded\NAME.N.dll`, so a build can write the mod's file while the game runs. Every 30 frames it looks at
+the files; one that has changed, and not changed again since the last look, is loaded again: the new build is loaded
+first (if that fails the old one stays), the old build's `xikit_mod_unload` runs, its function and device hooks are
+taken off, and the new build's `xikit_mod_init` hooks again; the entries are re-aimed at that frame's `apply()`, with
+the other threads suspended. Creating `xikit_reload_now.txt` reloads every mod. No reload starts during a trace. Old
+builds stay loaded: a thread may still be inside one.
+
 ## Comparing what the game draws with and without the swaps (`trace=1`)
 
 Bisect needs your eyes. The trace needs only a still scene. With `trace=1` in `xikit.ini` (takes effect at the next
@@ -274,11 +289,11 @@ guessed. At most 4096 distinct states are kept per trace; the header line counts
 state (expected 0). `trace_diff.py` uses them: a STABLE finding on a draw names the states that differ between the
 swapped frame's draw and its neighbours' (`| states: rs:7 FFFF->1, ...`).
 
-### Every resource the game creates (`xikit_resources_<pid>.csv`, always on)
+### Every resource the game creates (`xikit_resources_<pid>.csv`, with `profile=1` or `trace=1`)
 
 The device's creation methods (CreateTexture, CreateVolumeTexture, CreateCubeTexture, CreateVertexBuffer,
 CreateIndexBuffer, CreateRenderTarget, CreateDepthStencilSurface, CreateImageSurface, CreateVertexShader) are
-wrapped from the start, on every thread: each call is appended to `xikit_resources_<pid>.csv` with the call site
+wrapped from the start when d3dprof is attached (`profile=1` or `trace=1`), on every thread: each call is appended to `xikit_resources_<pid>.csv` with the call site
 (analysed address, or the raw return address outside FFXiMain), the parameters named in the method column, the
 object it got and the HRESULT. The object pointers are the ones the trace's `tex:`, `vb:`, `ib=` and the
 `SetTexture`/`SetStreamSource` parameters show, so a state can be read back to who created what, with which format

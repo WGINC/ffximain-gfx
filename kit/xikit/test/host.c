@@ -72,7 +72,8 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
 }
 
 int main(int argc, char **argv) {
-  int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel"));
+  int reloadrun = argc > 1 && !strcmp(argv[1], "reload");
+  int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel") || reloadrun);
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
@@ -121,7 +122,8 @@ int main(int argc, char **argv) {
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
   touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
-                 : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
+                 : reloadrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
+                 : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
                  : factrun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
                  : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
@@ -178,8 +180,8 @@ int main(int argc, char **argv) {
     /* sdk/: mod_test.dll (mod_test.cpp) hooks CXiSkeletonActor::GetColor with "the game's value + 1", its previous
        being a trampoline to the game's own code; SetColor is swapped to the reconstruction as usual */
     char line[256];
-    HMODULE m = GetModuleHandleA("mod_test.dll");
-    check(m != NULL, "mods=mod_test.dll: the kit loaded the mod");
+    HMODULE m = GetModuleHandleA(reloadrun ? "mod_test.0.dll" : "mod_test.dll");
+    check(m != NULL, reloadrun ? "mods=mod_test.dll, mod_reload=1: the kit loaded a copy (xikit_mods_loaded\\mod_test.0.dll)" : "mods=mod_test.dll: the kit loaded the mod");
     if (!m) { printf("FAILED\n"); ExitProcess(1); }
     volatile long *frames = (volatile long *)GetProcAddress(m, "mod_frames"), *unk = (volatile long *)GetProcAddress(m, "mod_unknown_result"),
                   *irel = (volatile long *)GetProcAddress(m, "mod_init_rel");
@@ -210,10 +212,60 @@ int main(int argc, char **argv) {
                 if (strstr(line, "mod mod_test.dll: hooked CXiSkeletonActor::GetColor") && strstr(line, "previous = the game's code (trampoline)")) hooked = 1;
                 if (strstr(line, "hook(No::SuchFunction): not a function of the manifest")) refused = 1; } fclose(lg); }
     check(hooked && refused, "xikit.log has the hook and the refusal");
-    touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n");
+    /* device hooks: BeginScene passes on (the mod counts, the device's own method runs), TestCooperativeLevel
+       answers 7 by itself; a hook whose slot does not match its name is refused */
+    typedef HRESULT (__stdcall *Dev0Fn)(void *);
+    volatile long *begins = (volatile long *)GetProcAddress(m, "mod_begins");
+    long b0 = *begins; int bs0 = bs_calls, tc0 = tcl_calls;
+    HRESULT h1 = ((Dev0Fn)g_dev.vt[34])(&g_dev), h2 = ((Dev0Fn)g_dev.vt[3])(&g_dev);
+    check(*(volatile long *)GetProcAddress(m, "mod_dev_result") == 0, "device_hook of BeginScene and TestCooperativeLevel returned XIKIT_OK");
+    check(*begins == b0 + 1 && bs_calls == bs0 + 1 && h1 == 0, "the BeginScene device hook ran, and its previous reached the device's own BeginScene");
+    check(h2 == 7 && tcl_calls == tc0, "the TestCooperativeLevel device hook answered by itself (the device's method not called)");
+    check(*(volatile long *)GetProcAddress(m, "mod_bad_slot_result") == -1, "device_hook(\"BeginScene\", slot 35) refused: the slot is EndScene's");
+    { void *fc = *(void **)GetProcAddress(m, "mod_fork_code"); int32_t ds; memcpy(&ds, set + 1, 4);
+      check(*(volatile long *)GetProcAddress(m, "mod_fork_result") == 0 && fc && set[0] == 0xE9 && (uintptr_t)set + 5 + ds == (uintptr_t)fc,
+            "XI_FORK: SetColor's entry jumps to the mod's own SetColor (the fork)");
+      ((SetColorFn)set)(actor, 0x0BADF00Du);
+      check(*(uint32_t *)(actor + 0x660) == 0x0BADF00Du, "the fork ran: SetColor wrote this+0x660");
+      ((SetColorFn)set)(actor, 0x11223344u); }
+    if (reloadrun) {
+      /* mod_reload=1: a rebuilt mod (mod_test2.dll: GetColor adds 2) written over mod_test.dll is loaded again, as
+         xikit_mods_loaded\mod_test.1.dll: the old build's hooks off, its xikit_mod_unload called, the new ones on */
+      check(CopyFileA("mod_test2.dll", "mod_test.dll", FALSE), "the rebuilt mod written over mod_test.dll (the loaded copy does not lock it)");
+      present(100);
+      HMODULE m1 = GetModuleHandleA("mod_test.1.dll");
+      check(m1 != NULL, "the kit loaded the new build (mod_test.1.dll) within 100 frames");
+      if (!m1) { printf("FAILED\n"); ExitProcess(1); }
+      check(*(volatile long *)GetProcAddress(m, "mod_unloaded") == 1, "the old build's xikit_mod_unload ran");
+      memcpy(&d, get + 1, 4); to = (uintptr_t)get + 5 + d;
+      IMAGE_NT_HEADERS *n1 = (IMAGE_NT_HEADERS *)((char *)m1 + ((IMAGE_DOS_HEADER *)m1)->e_lfanew);
+      check(get[0] == 0xE9 && to >= (uintptr_t)m1 && to < (uintptr_t)m1 + n1->OptionalHeader.SizeOfImage, "GetColor's entry now jumps into the new build");
+      check(((GetColorFn)get)(actor) == 0x11223346u, "the new build's hook runs: the game's GetColor value + 2");
+      check(*(void **)GetProcAddress(m1, "mod_prev") == *prev, "the new build's previous is the same trampoline (built once, from the untouched entry)");
+      volatile long *b1 = (volatile long *)GetProcAddress(m1, "mod_begins"); long ob = *begins, nb = *b1; bs0 = bs_calls;
+      ((Dev0Fn)g_dev.vt[34])(&g_dev);
+      check(*b1 == nb + 2 && *begins == ob && bs_calls == bs0 + 1, "BeginScene now runs the new build's device hook only, then the device's own method");
+      FILE *t = fopen("xikit_reload_now.txt", "w"); if (t) fclose(t);
+      present(40);
+      check(GetModuleHandleA("mod_test.2.dll") != NULL && ((GetColorFn)get)(actor) == 0x11223346u, "xikit_reload_now.txt: loaded again (mod_test.2.dll), hooks on");
+      printf("%s\n", fails ? "FAILED" : "ALL OK");
+      ExitProcess(fails ? 1 : 0);
+    }
+    touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
     present(130);
-    check(!memcmp(set, orig_set, 5), "swap=0: SetColor has its original bytes again");
-    check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u, "swap=0: the mod's hook stays");
+    check(!memcmp(gam, orig_gam, 5), "swap=0: Gfx_IsGammaSupported has its original bytes again");
+    check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u && set[0] == 0xE9, "swap=0: the mod's hook and its fork stay");
+    /* the profiler sits behind the device hooks: the BeginScene above reached it through the mod's previous, and is
+       reported at the host's call site (the call the hook was handling), not at an address inside the mod */
+    present(600);
+    { char nm[64]; snprintf(nm, sizeof nm, "d3dprof_%lu.csv", GetCurrentProcessId()); FILE *pc = fopen(nm, "r");
+      HMODULE hx = GetModuleHandleA(NULL); IMAGE_NT_HEADERS *hn = (IMAGE_NT_HEADERS *)((char *)hx + ((IMAGE_DOS_HEADER *)hx)->e_lfanew);
+      int in_host = 0, in_mod = 0;
+      if (pc) { while (fgets(line, sizeof line, pc)) if (!strncmp(line, "BeginScene,0x", 13)) {
+                  uintptr_t a = (uintptr_t)strtoul(line + 11, NULL, 16);
+                  if (a >= (uintptr_t)hx && a < (uintptr_t)hx + hn->OptionalHeader.SizeOfImage) in_host = 1;
+                  if (a >= (uintptr_t)m && a < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage) in_mod = 1; } fclose(pc); }
+      check(in_host && !in_mod, "d3dprof reports the hooked BeginScene at the host's call site, none inside the mod"); }
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
   }

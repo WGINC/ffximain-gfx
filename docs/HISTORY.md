@@ -433,3 +433,19 @@ has been run in the game yet.
   only), named by trace_diff.py in a finding; every creation call in `xikit_resources_<pid>.csv`; every vertex
   shader saved as created and decoded by kit/d3dprof/vshader.py. Not built: the static catalogue mapping each
   shader to its `vs.1.1` source text in the binary.
+
+## 6 Oct (night, later): GAPS.md section 7, item 6: forks, device hooks, mod reload
+
+- **Forks** (`sdk/fork.py`, `XI_FORK`): `new` copies a function's block from the tree's source; `diff` shows the
+  edit; `gate` builds the in-game tree with the function replaced by the fork (compiled with the flags a mod build
+  uses: `sdk/fork_flags.txt`, generated from tree/build.sh) and gates it against the game's function. A fork's
+  source is the verified source, but its compiled code is not assumed to be the verified code (GCC's code for a
+  function depends on the rest of its file): the gate is what verifies it. Unedited `CDx::DrawFadeQuad`: PASS,
+  208 of 208 instructions; with `D3DRS_FOGENABLE` 0 changed to 1: FAIL at stubbed call #7, the changed argument.
+- **Device hooks** (`XI_DEVICE_HOOK`, kit API 2): a front vtable on the device; the profiler and trace sit behind
+  it and name a call a hook passes on by the call it is handling.
+- **Mod reload** (`mod_reload=1`): mods load from copies; a changed file is loaded again in the game; old builds
+  stay loaded.
+- Tested under Wine (test_xikit.py: the mod runs and a new reload run); not run in the game.
+- The resource log of the previous entry is written only when d3dprof is attached (`profile=1` or `trace=1`);
+  KIT.md said "always on" and is corrected.

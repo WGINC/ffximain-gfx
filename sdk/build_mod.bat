@@ -2,6 +2,7 @@
 rem build_mod.bat -- build a mod DLL on Windows with MinGW-w64 i686 g++ on PATH (MSYS2 "mingw32", or WinLibs i686).
 rem   build_mod.bat OUT.dll SOURCE.cpp [MORE.cpp ...]
 rem The same flags as build_mod.sh (docs/SDK.md). The compiler must be the 32-bit one: the game is 32-bit.
+rem A fork (NAME.fork.cpp) needs the tree's own flags: build a mod with forks with build_mod.sh (MSYS2's bash).
 setlocal
 set H=%~dp0
 set TREE=%H%tree_include

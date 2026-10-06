@@ -28,6 +28,69 @@ checked against the analysed build, and each change to the game's code checks th
 | `skip_all_occlusion_readbacks` | 0 | A/B: every occlusion query counts as visible without the GPU-to-CPU readback |
 | `texture_compression`, `texture_compression_value` | 1, 15 | The DXT threshold for textures loaded from now on |
 | `cpu_tier` | 1 | The SSE math tier on any CPU with SSE (only before the game has chosen its tier) |
+| `lazy_state` | 0 | Lever: hold SetRenderState / SetTextureStageState / SetTexture until a method that reads them; a change undone before then never reaches the device (below) |
+| `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
+| `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
+
+## The levers (measured, not yet decided)
+
+What the owner's two sessions (the profiles, resource logs and trace of runs 10016 and 6080; docs/HISTORY.md) show
+and what each lever does about it. Each is off by default; the lever A/B measures it in the game.
+
+- **lazy_state: frame time.** `Cell_DrawQuadBlended` (the UI and text quads) sets ALPHABLENDENABLE 1 before each quad
+  and 0 after it (0x1011F962): 540 calls a frame of the 0 alone, 3.6 ms a frame in the baseline (6.7 us each), and
+  the state cache cannot skip them because each one changes the value. Direct3D 8 reads that state when it draws, so
+  speedfix holds a change until something reads it: a draw, Clear, a Get, a state block, BeginScene, EndScene, Present
+  (every method except those that set or get other state or make resources). A change undone before then (the 0
+  after one quad and the 1 before the next) is never sent. With batching on as well, quads with the same texture
+  then merge. A held texture is AddRef'd until it is sent or undone. A held call returns D3D_OK to the game; a
+  failure when it is sent is not reported back (it leaves that state unknown to the cache). It needs every
+  state-reading method hooked (about 60 more than the defaults), so it takes effect at the next start when it was
+  off at this one; with batching or the extended cache on, every method is hooked anyway and it switches live.
+  Not known: how much the extra hooks cost on each call against what the skipped calls save. That is what its A/B
+  measures.
+- **vs_dedupe: loading and stutter.** The sessions made about 1,450 vertex shaders each (CreateVertexShader at about
+  269 us each, on the render thread), and d3dprof's shader catalogue found 3 distinct ones: declarations with no
+  shader code. A vertex shader with no code is the fixed-function pipeline fed by its declaration (DirectX 8 SDK,
+  CreateVertexShader), so one made from the same declaration and usage is the same shader. speedfix makes it once and
+  gives its handle out again; DeleteVertexShader deletes it when the last holder does. The declaration is walked by
+  its tokens (a constant's data may hold 0xFFFFFFFF). Live both ways. Not known: whether the game compares two
+  handles anywhere (no such use has been seen), and whether Reset destroys vertex shaders on the owner's driver (the
+  table is kept across Reset). Measure it by the creations it saves (`xikit.log`: `vs_dedupe:` each minute) and by
+  the spike log (`spike_ms=50` in xikit.ini), not by the frame-time A/B: it acts while loading.
+- **Already there, now measurable one at a time:** `batch_up_draws` (1,031 DrawPrimitiveUP a frame through the CDx
+  wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
+  the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
+  were rare in those scenes: 0.35 a frame).
+- **Not made into levers yet, and why:**
+  - Pooling vertex and index buffers. The sessions made about 10,000 a session, mostly DYNAMIC | WRITEONLY vertex
+    buffers in the default pool in a few sizes (6,000, 4,000, 8,000 and 2,000 bytes). Pooling them needs their
+    Release, which is a method of the buffer, not of the device. Most were made from a module the old resource log
+    could not name (offset 0x9D8E); `module_of` names it in the next capture.
+  - The zone mesh at its source (task 16) and the scene and render-target count (task 18) need the tree's code first.
+
+## The lever A/B (`ab_levers`)
+
+xikit's `ab=1` compares the game with and without everything the kit adds. To measure one lever, list it in
+`speedfix.ini`, keep xikit.ini's `ab=0`, and stand still:
+
+```
+[speedfix]
+lazy_state=1
+ab_levers=lazy_state
+```
+
+`ab_after` seconds after `ab_levers` is saved non-empty, phases of `ab_phase` seconds run in the order A B B A,
+`ab_rounds` times (4: 8 phases, 4 minutes). A is the listed settings off (`occlusion_stagger` 4, the game's); B is
+the settings as set. Everything else speedfix does stays as set in both. The first `ab_settle` frames of a phase are
+left out, and so are frames that did not go through speedfix's hooks (F9, a trace). Results go to `xikit.log`, in
+the log folder: a line per phase (frames, mean, median, p95, max) and a summary (`speedfix: ab <n> (<levers>)`:
+B - A, the medians and p95, and how much the phases of one label differ among themselves, which is the noise the
+difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
+is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
+`state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`. Several can be listed together (they go off
+and on together). Empty `ab_levers` and set it again for another run.
 
 ## What changed from speedfix_hook
 
@@ -51,8 +114,9 @@ checked against the analysed build, and each change to the game's code checks th
   from the device when not known). Under point or wireframe fill the converted list repeats shared vertices and edges.
   Under flat shading, which vertex colours each triangle depends on D3D8's numbering, which is not settled here.
   Lists are merged whatever the state.
-- **Only the hooks it needs.** With batching and the extended cache off at the start (the defaults), speedfix hooks 12
-  device methods: the cached setters, Reset, Present, the scene and state-block methods. Every other call goes
+- **Only the hooks it needs.** With batching, the extended cache and lazy_state off at the start (the defaults),
+  speedfix hooks 13 device methods: the cached setters, Reset, Present, the scene and state-block methods, and
+  CreateVertexShader / DeleteVertexShader (vs_dedupe). Every other call goes
   straight to the layer below. Each hooked method costs a pass through the kit's front layer and speedfix on every
   call, and d3dprof, which sits below them, cannot see that cost. Turning batching or the extended cache on while
   the game runs then takes effect at the next start.
@@ -69,14 +133,20 @@ checked against the analysed build, and each change to the game's code checks th
 ## Tested (offline) and not
 
 `test/test_speedfix.py`:
-- **Wine host** (`sf_host.c`, the real FFXiMain.dll, the kit, a recording fake device), in two runs: the defaults (12 methods hooked, batching left for the next start) and batching on from the start:
+- **Wine host** (`sf_host.c`, the real FFXiMain.dll, the kit, a recording fake device), in three runs: the defaults (13 methods hooked, batching left for the next start), batching on from the start, and lazy_state with vs_dedupe from the start:
   - the state, shader and scene rules, and the other-thread rule;
   - batching: held, sent in order before a state change, a strip as a list with its winding, no conversion under flat
     shading;
   - the stagger's arithmetic through the re-aimed call, and the game's own test in a frame without the hooks;
   - the readback skip;
   - the `cpu_tier` and `texture_compression` writes;
-  - the kit's `respect_speedfix`.
+  - the kit's `respect_speedfix`;
+  - lazy_state: a toggle between two draws never reaches the device, the last change goes out before EndScene,
+    GetRenderState and Clear get the held change first, a held texture's reference is taken and given back, with
+    batching two quads around an undone toggle become one draw, turned off while running nothing stays held;
+  - vs_dedupe: one shader for a repeated declaration, two for declarations that differ after constant data of
+    0xFFFFFFFF, a shader with code made as asked, deletion only by the last holder;
+  - the lever A/B: phases A then B, the summary, an unknown name left out.
 - **The gate:** the query hook.
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any

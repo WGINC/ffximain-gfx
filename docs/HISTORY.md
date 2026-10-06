@@ -585,3 +585,25 @@ has been run in the game yet.
   - the resource log names the module of a caller outside FFXiMain (`module+0xOFFSET`), as does d3dprof's profile;
   - the resource log times each creation call;
   - `spike_ms=50` writes every slow frame with its frame number, which matches the resource log's.
+
+## Levers for the owner to measure (speedfix)
+
+The owner asked for the levers from the analysis, made testable. From the two sessions' logs (runs 10016 and 6080)
+and the repo:
+- **Steady frame time:** `Cell_DrawQuadBlended` turns ALPHABLENDENABLE off after each quad and on before the next
+  (540 calls a frame of the off alone, 3.6 ms a frame in the baseline). The cache cannot skip a change. New lever
+  `lazy_state`: render-state, texture-stage-state and texture changes are held until a method that reads them, and a
+  change undone before then is never sent. With batching, quads around such a toggle merge. It hooks every
+  state-reading method, a cost not yet measured against the saving.
+- **Loading and stutter:** about 1,450 CreateVertexShader calls a session (269 us each) for 3 distinct declaration-only
+  shaders. New lever `vs_dedupe`: one shader per declaration and usage, its handle given out again, deleted with its
+  last holder.
+- **Vertex and index buffers:** about 10,000 created a session (parsed from the resource logs: mostly DYNAMIC |
+  WRITEONLY default-pool vertex buffers of 6,000, 4,000, 8,000 and 2,000 bytes; 6,500-6,800 of them from the unnamed
+  module at offset 0x9D8E, 1,260-1,630 from FFXiMain 0x10170A61 and 0x101703C7). Not a lever yet: pooling needs the
+  buffers' own Release, and the creating module is still to be named by the next capture.
+- **The lever A/B:** speedfix's `ab_levers=` runs ABBA phases with the listed settings off (A) and as set (B), the rest
+  of speedfix on in both, and logs per-phase frame times and B - A against the spread within a label.
+- The default hook set grows from 12 to 13 methods (CreateVertexShader, so vs_dedupe can switch live).
+- Tested offline (`test_speedfix.py`, three Wine runs plus the gate): every lazy_state, vs_dedupe and A/B check ok.
+  Not tested: the real game.

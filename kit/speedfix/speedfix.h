@@ -22,6 +22,9 @@ struct SfConfig {
   int skip_all_occlusion_readbacks;
   int texture_compression, texture_compression_value;
   int cpu_tier;
+  int lazy_state;           // hold RS / TSS / texture changes until something reads the state (a draw); a change undone
+                            // before then never reaches the device
+  int vs_dedupe;            // CreateVertexShader of a declaration already made (no function): the same handle again
 };
 extern SfConfig sf_cfg;
 
@@ -36,6 +39,8 @@ int  sf_device_install(const XikitHost *host);    // the device hooks; only from
 void sf_device_config_changed(const SfConfig *before);   // render thread: apply the cache switches safely
 void sf_device_frame(void);                       // render thread, before Present: pacing
 void sf_device_stats(void);                       // a minute's figures to the log
+// the lever A/B (sf_main.cpp): the switches the device layer's hooks at this start allow (0: needs a restart)
+int  sf_device_allows(const char *key);
 }
 // The kit takes mod hooks off for F9 and for a trace's unswapped frames (its frame callbacks still run). The
 // game-code changes in sf_game.cpp are not the kit's hooks, so they ask whether this frame's scene went through the

@@ -15,7 +15,7 @@ d = tempfile.mkdtemp(prefix='speedfix_')
 for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(KIT, f), d)
 shutil.copy(os.path.join(SF, 'dist', 'speedfix.dll'), d); shutil.copy(os.path.join(H, 'sf_host.exe'), d)
 shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll'))
-for mode in ('minimal', 'full'):
+for mode in ('minimal', 'full', 'lazy'):
     for f in ('xikit.log', 'speedfix.ini'):
         if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))
     r = subprocess.run(['wine', 'sf_host.exe', mode], cwd=d, capture_output=True, text=True, timeout=900, env=dict(os.environ, WINEDEBUG='-all'))
@@ -23,8 +23,13 @@ for mode in ('minimal', 'full'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
     if mode == 'minimal':
-        ok = 'speedfix: 12 device methods hooked, 0 flush guards' in log
-        print('%s: minimal: 12 device methods hooked, no flush guards' % ('ok' if ok else 'FAIL')); bad += not ok
+        ok = 'speedfix: 13 device methods hooked, 0 flush guards' in log
+        print('%s: minimal: 13 device methods hooked, no flush guards' % ('ok' if ok else 'FAIL')); bad += not ok
+    if mode == 'lazy':
+        import re
+        ab = re.search(r'speedfix: ab 1 \(lazy_state, bogus\): A \(off\) [0-9.]+ ms, B \(on\) [0-9.]+ ms', log)
+        ok = bool(ab) and 'phase 1 of 2: A (the levers off)' in log and 'phase 2 of 2: B' in log and 'bogus (not a lever)' in log
+        print('%s: lazy: the lever A/B ran A then B and compared them (an unknown name left out and logged)' % ('ok' if ok else 'FAIL')); bad += not ok
 print('-- xikit.log (speedfix lines) --'); print('\n'.join(l for l in log.splitlines() if 'speedfix' in l or 'mod ' in l)[-4000:])
 ok = 'speedfix.dll (the speedfix mod) is loaded' in log
 print('%s: the kit leaves the functions speedfix changes inside to the game\'s code (respect_speedfix)' % ('ok' if ok else 'FAIL')); bad += not ok

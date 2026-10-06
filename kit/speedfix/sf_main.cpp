@@ -50,6 +50,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "speedfix.h"
 
 // an analysed address (base 0x10000000) where the game is loaded now
@@ -85,7 +86,21 @@ static const char kDefaultIni[] =
   "; fewer textures CPU-encoded at load (1-15; textures loaded afterwards)\r\n"
   "texture_compression=1\r\ntexture_compression_value=15\r\n"
   "; the SSE math tier on any CPU with SSE (only before the game has chosen its tier)\r\n"
-  "cpu_tier=1\r\n";
+  "cpu_tier=1\r\n"
+  "; levers to measure (each off by default; README.md):\r\n"
+  "; hold render-state / texture-stage-state / texture changes until a draw reads them: a change undone before the\r\n"
+  ";   draw never reaches the device (the game's UI quads turn alpha blending off and on again for each quad). Hooks\r\n"
+  ";   every method that reads that state, so it takes effect at the next start when it was off at this one\r\n"
+  "lazy_state=0\r\n"
+  "; a vertex shader with the same declaration (and no shader code) is made once and its handle given out again\r\n"
+  ";   (loading: some 1,450 creations a session, 3 distinct shaders); the same at the next start or live\r\n"
+  "vs_dedupe=0\r\n"
+  "; A/B of levers with no keys: ab_levers lists settings above (comma-separated); ab_after seconds after it is\r\n"
+  ";   saved non-empty, phases of ab_phase seconds A B B A, ab_rounds times: A = those settings off (occlusion_stagger\r\n"
+  ";   4, the game's), B = as set above. The first ab_settle frames of a phase are left out. Results in xikit.log\r\n"
+  ";   (lines 'speedfix: ab'). Stand still while it runs; keep xikit.ini's ab=0. Empty it and set it again for\r\n"
+  ";   another run\r\n"
+  "ab_levers=\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n";
 
 static int rd(const char *k, int def) { return (int)GetPrivateProfileIntA("speedfix", k, def, g_ini); }
 static SfConfig read_config(void) {
@@ -97,6 +112,7 @@ static SfConfig read_config(void) {
   c.skip_actor_occlusion = rd("skip_actor_occlusion", 0); c.skip_all_occlusion_readbacks = rd("skip_all_occlusion_readbacks", 0);
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
+  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0);
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -114,9 +130,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -211,6 +227,110 @@ static void apply_cpu_tier(void) {
   LOG(prev == expect ? "speedfix: cpu_tier: the vendor test before the SSE check is removed" : "speedfix: cpu_tier: the bytes changed meanwhile; not changed");
 }
 
+// ---------------------------------------------------------------------------------------------- the lever A/B
+// xikit's ab=1 compares the game with and without everything the kit adds; this compares speedfix with and without
+// the settings in ab_levers, the rest of speedfix on in both. Same design: phases A B B A (a scene that drifts
+// steadily affects both labels alike), the first ab_settle frames of each left out, and frames whose scene did not go
+// through speedfix's hooks (F9, a trace) too. Frame time: from one frame callback (before Present) to the next.
+struct Lever { const char *key; int SfConfig::*field; int off; };
+static const Lever kLevers[] = {
+  {"state_cache", &SfConfig::state_cache, 0}, {"vertex_shader_cache", &SfConfig::vs_cache, 0},
+  {"extended_state_cache", &SfConfig::ext_cache, 0}, {"state_cache_reset_each_scene", &SfConfig::scene_reset, 0},
+  {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
+  {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
+  {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
+};
+enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
+static SfConfig g_base;                     // the settings as the ini has them (B)
+static char g_ab_list[256];                 // ab_levers as read
+static bool g_ab_use[NLEV]; static int g_ab_state;   // 0 idle, 1 waiting ab_after, 2 running, 3 done
+static DWORD g_ab_t0; static int g_ab_i, g_ab_nph, g_ab_seen, g_ab_n, g_ab_phase, g_ab_settle, g_ab_after, g_ab_run;
+static double g_ab_ft[AB_MAX], g_ab_mean[32], g_ab_med[32], g_ab_p95[32]; static int g_ab_cnt[32];
+static LARGE_INTEGER g_ab_qpf, g_ab_last; static int g_ab_lastFrame = -1;
+static char ab_label(int i) { return ((i + 1) / 2) % 2 ? 'B' : 'A'; }
+static SfConfig ab_config(bool a) {
+  SfConfig c = g_base;
+  if (a) for (int i = 0; i < NLEV; i++) if (g_ab_use[i]) c.*(kLevers[i].field) = kLevers[i].off;
+  return c;
+}
+static void set_config(const SfConfig &c) { SfConfig before = sf_cfg; sf_cfg = c; sf_device_config_changed(&before); }
+static int cmp_d(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
+static void ab_set(int i) {
+  g_ab_i = i; g_ab_t0 = GetTickCount(); g_ab_seen = 0; g_ab_n = 0;
+  set_config(ab_config(ab_label(i) == 'A'));
+  LOG("speedfix: ab: phase %d of %d: %c (%s)", i + 1, g_ab_nph, ab_label(i), ab_label(i) == 'A' ? "the levers off" : "the levers as set");
+}
+static void ab_end_phase(void) {
+  int i = g_ab_i, n = g_ab_n; double sum = 0;
+  for (int k = 0; k < n; k++) sum += g_ab_ft[k];
+  qsort(g_ab_ft, n, sizeof g_ab_ft[0], cmp_d);
+  g_ab_cnt[i] = n; g_ab_mean[i] = n ? sum / n : 0; g_ab_med[i] = n ? g_ab_ft[n / 2] : 0; g_ab_p95[i] = n ? g_ab_ft[(int)(n * 0.95)] : 0;
+  LOG("speedfix: ab: phase %d (%c): %d frames, mean %.2f ms, median %.2f ms, p95 %.2f ms, max %.1f ms", i + 1, ab_label(i), n,
+      g_ab_mean[i], g_ab_med[i], g_ab_p95[i], n ? g_ab_ft[n - 1] : 0.0);
+}
+static void ab_finish(void) {
+  set_config(g_base);
+  double s[2] = {0, 0}, m[2] = {0, 0}, p[2] = {0, 0}, lo[2] = {1e9, 1e9}, hi[2] = {0, 0}; int c[2] = {0, 0};
+  for (int i = 0; i < g_ab_nph; i++) {
+    if (!g_ab_cnt[i]) continue;
+    int b = ab_label(i) == 'B'; s[b] += g_ab_mean[i]; m[b] += g_ab_med[i]; p[b] += g_ab_p95[i]; c[b]++;
+    if (g_ab_mean[i] < lo[b]) lo[b] = g_ab_mean[i];
+    if (g_ab_mean[i] > hi[b]) hi[b] = g_ab_mean[i];
+  }
+  if (!c[0] || !c[1]) { LOG("speedfix: ab %d: done, but a label has no frames: nothing to compare", g_ab_run); return; }
+  double a = s[0] / c[0], b = s[1] / c[1], noise = hi[0] - lo[0] > hi[1] - lo[1] ? hi[0] - lo[0] : hi[1] - lo[1];
+  LOG("speedfix: ab %d (%s): A (off) %.2f ms, B (on) %.2f ms: B - A %+.2f ms (%+.1f%%), medians %+.2f ms, p95 %+.2f ms; "
+      "phases of one label differ by up to %.2f ms%s", g_ab_run, g_ab_list, a, b, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0,
+      m[1] / c[1] - m[0] / c[0], p[1] / c[1] - p[0] / c[0], noise, c[0] < 2 || c[1] < 2 ? " (one phase of a label: no measure of the noise; use ab_rounds of 2 or more)"
+      : fabs(b - a) <= noise ? " (the difference is within that)" : "");
+}
+static void ab_read(void) {                 // ab_levers and its timings from the ini (each re-read)
+  char list[256]; GetPrivateProfileStringA("speedfix", "ab_levers", "", list, sizeof list, g_ini);
+  if (strcmp(list, g_ab_list)) {
+    if (g_ab_state == 1 || g_ab_state == 2) { set_config(g_base); LOG("speedfix: ab: ab_levers changed: this run stopped, the settings as set"); }
+    g_ab_state = 0; strcpy(g_ab_list, list);
+  }
+  if (g_ab_state || !list[0]) return;
+  int n = 0; char bad[256] = "";
+  for (int i = 0; i < NLEV; i++) g_ab_use[i] = false;
+  for (char *t = strtok(list, ", \t"); t; t = strtok(NULL, ", \t")) {
+    int j = 0; while (j < NLEV && strcmp(kLevers[j].key, t)) j++;
+    if (j == NLEV) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (not a lever)", t); continue; }
+    if (!sf_device_allows(t)) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (off at this start: its hooks are not in place)", t); continue; }
+    if (g_base.*(kLevers[j].field) == kLevers[j].off) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (set to its off value: A and B would be the same)", t); continue; }
+    g_ab_use[j] = true; n++;
+  }
+  if (bad[0]) LOG("speedfix: ab: left out:%s", bad);
+  if (!n) { LOG("speedfix: ab: no lever to compare; nothing runs"); g_ab_state = 3; return; }
+  g_ab_after = rd("ab_after", 60); g_ab_phase = rd("ab_phase", 30); g_ab_settle = rd("ab_settle", 60);
+  int rounds = rd("ab_rounds", 4);
+  if (g_ab_after < 0) g_ab_after = 0;
+  if (g_ab_phase < 1) g_ab_phase = 1;
+  if (rounds < 1) rounds = 1;
+  if (rounds > 16) rounds = 16;
+  if (g_ab_settle < 0) g_ab_settle = 0;
+  g_ab_nph = 2 * rounds; for (int i = 0; i < 32; i++) g_ab_cnt[i] = 0;
+  g_ab_state = 1; g_ab_t0 = GetTickCount();
+  LOG("speedfix: ab: %s: starts in %d s: %d phases of %d s (A B B A ...), the first %d frames of each left out; stand still",
+      g_ab_list, g_ab_after, g_ab_nph, g_ab_phase, g_ab_settle);
+}
+static void ab_control(void) {              // each frame, render thread
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  if (!g_ab_qpf.QuadPart) QueryPerformanceFrequency(&g_ab_qpf);
+  // the frame that just ended: its time counts when its scene went through the hooks and no phase began meanwhile
+  if (g_ab_state == 2 && g_ab_last.QuadPart && g_ab_lastFrame == sf_frame_no && sf_hooks_live()) {
+    double ms = (now.QuadPart - g_ab_last.QuadPart) * 1000.0 / (double)g_ab_qpf.QuadPart;
+    if (g_ab_seen++ >= g_ab_settle && g_ab_n < AB_MAX) g_ab_ft[g_ab_n++] = ms;
+  }
+  g_ab_last = now; g_ab_lastFrame = sf_frame_no + 1;  // sf_device_frame numbers the next frame
+  if (g_ab_state == 1 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_after * 1000) { g_ab_run++; g_ab_state = 2; ab_set(0); }
+  else if (g_ab_state == 2 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_phase * 1000) {
+    ab_end_phase();
+    if (g_ab_i + 1 < g_ab_nph) ab_set(g_ab_i + 1);
+    else { ab_finish(); g_ab_state = 3; LOG("speedfix: ab: empty ab_levers and set it again for another run"); }
+  }
+}
+
 // ---------------------------------------------------------------------------------------------- the mod
 extern "C" int sf_init(const XikitHost *host) {
   g_host = host;
@@ -223,7 +343,7 @@ extern "C" int sf_init(const XikitHost *host) {
     FILE *f = fopen(g_ini, "wb");
     if (f) { fwrite(kDefaultIni, 1, sizeof kDefaultIni - 1, f); fclose(f); LOG("speedfix: %s written with the defaults", g_ini); }
   }
-  sf_cfg = read_config(); ini_time(&g_ini_time);
+  sf_cfg = g_base = read_config(); ini_time(&g_ini_time);
   log_config(sf_cfg, "start");
   if (sf_cfg.cpu_tier) apply_cpu_tier();
   if (sf_device_install(host) != 0) return 1;
@@ -237,12 +357,17 @@ extern "C" void sf_frame(void) {
     FILETIME t; ini_time(&t);
     if (CompareFileTime(&t, &g_ini_time)) {
       g_ini_time = t;
-      SfConfig before = sf_cfg; sf_cfg = read_config();
-      sf_device_config_changed(&before);
-      log_config(sf_cfg, "changed");
+      SfConfig before = g_base; g_base = read_config();
+      set_config(g_ab_state == 2 ? ab_config(ab_label(g_ab_i) == 'A') : g_base);
+      // what this start's hooks cannot do stays off in B as well (sf_device_config_changed has logged it)
+      if (!sf_device_allows("batch_up_draws")) g_base.batch_up = g_base.ext_cache = 0;
+      if (!sf_device_allows("lazy_state")) g_base.lazy_state = 0;
+      log_config(g_base, "changed");
       if (sf_cfg.cpu_tier && !before.cpu_tier) LOG("speedfix: cpu_tier is decided once per start");
     }
   }
+  if (n % 60 == 1) ab_read();
+  ab_control();
   apply_code();
   sf_device_frame();
   if (GetTickCount() - last_stats >= 60000) {

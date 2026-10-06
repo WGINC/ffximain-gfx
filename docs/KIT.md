@@ -223,6 +223,8 @@ session and one scene:
 - `ab=0` stops a run and switches everything back on. Setting it to 0 and back to 1 starts another run.
 - Stand still while it runs.
 - Not switched: what a mod did once at its start (speedfix's `cpu_tier` and `texture_compression`).
+- One speedfix setting against the rest of speedfix: speedfix's own `ab_levers` (kit/speedfix/README.md, "The lever
+  A/B"), with `ab=0` here.
 - Tested: Wine, mode `ab`: 4 phases of 1 s; the swapped entries follow the phases; the folder, the CSV and the
   summary are checked.
 

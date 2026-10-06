@@ -22,28 +22,5 @@ static int __thiscall sf_query(__int16 *q, float *rect, int a3, int a4, int a5, 
 }
 extern "C" int sf_hook_query(const XikitHost *host) { return XI_HOOK(host, Occlusion_QueryScreenRect, sf_query, prev_query); }
 
-// skip_shadow_pass (sf_device.cpp, head): the pass runs from Model_BeginOffscreenPass returning non-zero to the end of
-// Model_EndOffscreenPassBindTextures; its four callers (CYyModelDt_PrepareRenderState, CYyModelDt_SkinAndDrawV2, two
-// each) call End only when Begin returned non-zero (tree/src/CYyModelDt.cpp). Both run the game's code.
-static xikit::fn<decltype(&Model_BeginOffscreenPass)> prev_begin;
-static xikit::fn<decltype(&Model_EndOffscreenPassBindTextures)> prev_end;
-static char __thiscall sf_begin(int self_, int *a2, int a3) {
-  sf_shadow_tex = *(void **)(uintptr_t)(self_ + 8);
-  sf_shadow_skip = sf_cfg.skip_shadow_pass && sf_device_level() >= 1 && sf_hooks_live();
-  char r = prev_begin(self_, a2, a3);
-  if (!r) sf_shadow_skip = 0;
-  return r;
-}
-static char __thiscall sf_end(_DWORD *self_, int a2) {
-  char r = prev_end(self_, a2);
-  sf_shadow_skip = 0;
-  return r;
-}
-extern "C" int sf_hook_shadow(const XikitHost *host) {
-  int a = XI_HOOK(host, Model_BeginOffscreenPass, sf_begin, prev_begin);
-  if (a != XIKIT_OK) return a;
-  return XI_HOOK(host, Model_EndOffscreenPassBindTextures, sf_end, prev_end);
-}
-
 extern "C" __declspec(dllexport) int xikit_mod_init(const XikitHost *host) { return sf_init(host); }
 extern "C" __declspec(dllexport) void xikit_mod_frame(void *device) { (void)device; sf_frame(); }

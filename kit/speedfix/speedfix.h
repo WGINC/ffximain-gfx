@@ -29,8 +29,6 @@ struct SfConfig {
   int motion_stats;
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
-  int up_ring;              // DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer
-  int skip_shadow_pass;     // the render-target switches, Clear and draws of Model_BeginOffscreenPass's pass not sent
 };
 extern SfConfig sf_cfg;
 
@@ -40,7 +38,6 @@ int  sf_init(const XikitHost *host);
 void sf_frame(void);
 // sf_game.cpp
 int  sf_hook_query(const XikitHost *host);
-int  sf_hook_shadow(const XikitHost *host);
 // sf_device.cpp
 int  sf_device_install(const XikitHost *host);    // the device hooks; only from xikit_mod_init
 void sf_device_config_changed(const SfConfig *before);   // render thread: apply the cache switches safely
@@ -53,10 +50,4 @@ int  sf_device_allows(const char *key);
 // game-code changes in sf_game.cpp are not the kit's hooks, so they ask whether this frame's scene went through the
 // device hooks, and behave as the game's own code when it did not: an A/B then compares everything speedfix does.
 extern volatile int sf_frame_no, sf_hooks_frame;
-// skip_shadow_pass: set by sf_game.cpp's hooks between Model_BeginOffscreenPass and Model_EndOffscreenPassBindTextures
-extern "C" volatile int sf_shadow_skip;
-// the texture the pass draws into: Model_BeginOffscreenPass pushes [self+8] (tree/src/unit_100310A0.cpp;
-// CDx_PushRenderTargetTexture binds its level 0); the device layer counts SetTexture binds of it
-extern "C" void *volatile sf_shadow_tex;
-extern "C" int sf_device_level(void);
 static inline bool sf_hooks_live(void) { return sf_hooks_frame == sf_frame_no; }

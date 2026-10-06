@@ -20,6 +20,17 @@ static void put(const char *k, const char *fmt, ...) {
   va_start(a, fmt); printf("%-40s ", k); vprintf(fmt, a); putchar('\n'); va_end(a);
 }
 static double now_us(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart * 1e6 / g_qpf; }
+/* the clock's smallest observed step: in run 20261006_124338 probe8's times were all multiples of about 2.86 ms
+   while probe11's, in the same folder, were not; the cause is not known, so each run measures and logs it */
+static double timer_step_us(void) {
+  double best = 1e9;
+  for (int k = 0; k < 50; k++) {
+    LARGE_INTEGER a, b; QueryPerformanceCounter(&a);
+    do QueryPerformanceCounter(&b); while (b.QuadPart == a.QuadPart);
+    double d = (b.QuadPart - a.QuadPart) * 1e6 / g_qpf; if (d < best) best = d;
+  }
+  return best;
+}
 static int cmp_d(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
 static LRESULT CALLBACK wndproc(HWND h, UINT m, WPARAM w, LPARAM l) { return DefWindowProcA(h, m, w, l); }
 static void pump(void) { MSG m; while (PeekMessageA(&m, NULL, 0, 0, PM_REMOVE)) { TranslateMessage(&m); DispatchMessageA(&m); } }
@@ -46,7 +57,7 @@ static void up_draw(void) {
   IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLELIST, 2, q, sizeof(Vtx));
 }
 static void micro(const char *name, int kind) {
-  enum { K = 20000, FR = 7 }; double ns[FR];
+  enum { K = 200000, FR = 7 }; double ns[FR];
   for (int f = 0; f < FR; f++) {
     IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF202040, 1, 0); IDirect3DDevice8_BeginScene(d);
     double t0 = now_us();
@@ -103,9 +114,11 @@ static void frame_bench(const char *name, int merged) {
     double t2 = now_us(); pump();
     cpu[f] = (t1 - t0) / 1000.0; tot[f] = (t2 - t0) / 1000.0;
   }
+  double ms = 0, mt = 0; for (int k = 20; k < FR; k++) { ms += cpu[k]; mt += tot[k]; }   /* means: exact whatever the clock's step */
+  ms /= FR - 20; mt /= FR - 20;
   qsort(cpu + 20, FR - 20, sizeof cpu[0], cmp_d); qsort(tot + 20, FR - 20, sizeof tot[0], cmp_d);
   int n = FR - 20;
-  put(name, "submit %.2f ms (p95 %.2f), with Present %.2f ms (p95 %.2f); median of %d frames", cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n);
+  put(name, "submit %.2f ms (p95 %.2f), with Present %.2f ms (p95 %.2f); median of %d frames; means %.2f / %.2f ms", cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n, ms, mt);
 }
 
 int main(int argc, char **argv) {
@@ -114,6 +127,7 @@ int main(int argc, char **argv) {
   CreateDirectoryA(argv[2], NULL);
   char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\probe8_x86.csv", argv[2]);
   g_out = fopen(path, "a"); if (!g_out) { printf("cannot write %s\n", path); return 2; }
+  put("timer", "QueryPerformanceFrequency %.0f Hz; smallest step seen %.3f us (before Direct3D 8 is loaded)", g_qpf, timer_step_us());
   IDirect3D8 *d3d = Direct3DCreate8(D3D_SDK_VERSION);
   module_info();
   if (!d3d) { put("Direct3DCreate8", "failed"); return 1; }
@@ -145,6 +159,7 @@ int main(int argc, char **argv) {
   IDirect3DDevice8_SetRenderState(d, D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); IDirect3DDevice8_SetRenderState(d, D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
   IDirect3DDevice8_SetVertexShader(d, FVF); IDirect3DDevice8_SetStreamSource(d, 0, g_vb[0], sizeof(Vtx)); IDirect3DDevice8_SetIndices(d, g_ib, 0);
   IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)g_tex[0]);
+  put("timer", "smallest step seen %.3f us (with the device made)", timer_step_us());
   micro("call.SetRenderState", 0); micro("call.SetTexture", 1); micro("call.SetStreamSource", 2); micro("call.SetTransform (world)", 3);
   micro("call.SetLight", 4); micro("call.DrawIndexedPrimitive (2 triangles)", 5); micro("call.DrawPrimitiveUP (2 triangles)", 6);
   micro("call.VB Lock DISCARD + Unlock", 7); micro("call.SetTextureStageState", 8);

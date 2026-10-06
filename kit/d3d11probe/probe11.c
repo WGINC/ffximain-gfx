@@ -40,6 +40,17 @@ static void put(const char *k, const char *fmt, ...) {
 }
 static double g_qpf;
 static double now_us(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart * 1e6 / g_qpf; }
+/* the clock's smallest observed step: in run 20261006_124338 probe8's times were all multiples of about 2.86 ms
+   while probe11's, in the same folder, were not; the cause is not known, so each run measures and logs it */
+static double timer_step_us(void) {
+  double best = 1e9;
+  for (int k = 0; k < 50; k++) {
+    LARGE_INTEGER a, b; QueryPerformanceCounter(&a);
+    do QueryPerformanceCounter(&b); while (b.QuadPart == a.QuadPart);
+    double d = (b.QuadPart - a.QuadPart) * 1e6 / g_qpf; if (d < best) best = d;
+  }
+  return best;
+}
 static int cmp_d(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
 
 static void process_info(void) {
@@ -216,7 +227,7 @@ static void gpu_wait(void) {                 /* the frame's GPU work finished: a
 }
 /* one micro-benchmark: K calls of one kind inside a frame, 7 frames, the median ns per call */
 static void micro(const char *name, int kind) {
-  enum { K = 20000, FR = 7 }; double ns[FR]; UINT st = sizeof(Vtx), of = 0;
+  enum { K = 200000, FR = 7 }; double ns[FR]; UINT st = sizeof(Vtx), of = 0;
   for (int f = 0; f < FR; f++) {
     float c[4] = {0.1f, 0.1f, 0.2f, 1}; ID3D11DeviceContext_ClearRenderTargetView(g_ctx, g_rtv, c);
     double t0 = now_us();
@@ -269,10 +280,12 @@ static void frame_bench(const char *name, int merged) {
     double t2 = now_us(); pump();
     cpu[f] = (t1 - t0) / 1000.0; tot[f] = (t2 - t0) / 1000.0;
   }
+  double ms = 0, mt = 0; for (int k = 20; k < FR; k++) { ms += cpu[k]; mt += tot[k]; }   /* means: exact whatever the clock's step */
+  ms /= FR - 20; mt /= FR - 20;
   qsort(cpu + 20, FR - 20, sizeof cpu[0], cmp_d); qsort(tot + 20, FR - 20, sizeof tot[0], cmp_d);   /* the first 20 left out */
   int n = FR - 20;
   put(name, "submit %.2f ms (p95 %.2f), with Present and the GPU %.2f ms (p95 %.2f); median of %d frames",
-      cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n);
+      cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n, ms, mt);
 }
 
 /* ---- two processes ------------------------------------------------------------------------------------------- */
@@ -370,6 +383,7 @@ int main(int argc, char **argv) {
   snprintf(path, sizeof path, "%s\\probe11_%s%s.csv", argv[2], !strcmp(argv[1], "xproc") ? "xproc_" : "", ARCH);
   g_out = fopen(path, !strcmp(argv[1], "xproc") ? "w" : "a"); if (!g_out) { printf("cannot write %s\n", path); return 2; }
   process_info(); modules_info();
+  put("timer", "QueryPerformanceFrequency %.0f Hz; smallest step seen %.3f us", g_qpf, timer_step_us());
   if (!strcmp(argv[1], "xproc")) { if (argc < 4) { put("xproc", "no child given"); return 2; } xproc(argv[3]); return 0; }
   HWND hw = make_window("probe11 (" ARCH ")", 1280, 720); pump();
   if (!make_device(hw, 1280, 720)) return 1;

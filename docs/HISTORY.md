@@ -967,3 +967,31 @@ Testing:
   The x86 probes run end to end there (test_probe.py, 8 checks).
 - That also gives the D3D11 device of phase 1 an offline test bed, for behaviour, not speed.
 - Not testable here: the ARM64 run, any number for the owner's machine, and the cross-process verdicts.
+
+## 6 Oct (evening): the owner's run 7388 (kit e746fc6); skip_shadow_pass and up_ring reverted; phase 0's first run
+
+**Run 7388** (Port Jeuno's plaza, every lever on, the lever A/B on up_ring):
+- The owner's screenshots: corrupted frames in game and on the title and character screens. They show full-screen
+  smeared textures and large blocky shapes, and screens not cleared.
+- skip_shadow_pass: speedfix's counter showed the shadow pass's texture bound by SetTexture 259 times in the first
+  minute and 2,116 in the next. The texture is read; the claim that its output was unused was wrong. Skipping its
+  Clear and draws leaves stale contents in a texture the scene samples; whether that made the blocky shapes is not
+  established.
+- up_ring: phase 1 (A, off) 20.28 ms mean, phase 2 (B, on) 25.55 ms. It left stream 0 bound to its ring on the
+  assumption, with no source, that the game sets stream 0 before any draw that reads it. Which draw read the ring, if
+  one did, is not known; the frames' corruption has not been traced to a cause.
+  - One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F160) records the buffer and stride
+    and then calls SetStreamSource for any non-NULL buffer (Gfx_ApplyCachedStreamSource; it does nothing for NULL),
+    so the game does not skip a set because of its record.
+- Which of the two levers caused which artifact is not established; both were on in every frame shown.
+- The log ends at 13:00:55, during phase 3, with no summary line; why it stops there is not recorded.
+- Reverted at the owner's request: kit/speedfix's code is back to the parallel session's last commit (b70f4fb).
+  Kept: the host test's wait for the mods' device hooks (not a lever). The speedfix suite passes.
+
+**Phase 0, first run** (phase0_20261006_124338): the results are in docs/D3D11.md, phase 0.
+- D3D11 from x86 costs 1.15 to 1.66 times what it costs from ARM64 per call.
+- The plaza-shaped frame: 7.78 ms as 2,500 draws, 0.15 ms as 33.
+- A NOOVERWRITE Map costs 4.7 us, which explains up_ring's loss.
+- A child's swap chain presents into the parent's window in both directions. The shared texture was not seen.
+- probe8's Direct3D 8 times are all multiples of about 2.86 ms, so they are not usable. probe8 now logs its clock's
+  step and frame means, and runs each call 200,000 times.

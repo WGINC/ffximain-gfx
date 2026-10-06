@@ -32,8 +32,6 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
-| `up_ring` | 0 | Lever: DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer (below) |
-| `skip_shadow_pass` | 0 | Lever: the shadow-texture pass of Model_BeginOffscreenPass not drawn; its state calls still sent (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -101,38 +99,8 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   - It hooks the draws, SetTransform and the Create methods from the start. It is a measurement, not a lever.
 - **Already there, now measurable one at a time:** `batch_up_draws` (1,031 DrawPrimitiveUP a frame through the CDx
   wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
-  the last profile window of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
+  the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
   were rare in those scenes: 0.35 a frame).
-- **skip_shadow_pass: render-target switches and draws.** In run 6080's trace (17 frames; where it was taken is
-  not recorded), each frame had 18 pairs of SetRenderTarget to one off-screen target and back, with 28 draws into it.
-  - **Who issues them** (the game's code): Model_BeginOffscreenPass (0x10033800) and
-    Model_EndOffscreenPassBindTextures (0x10033A70). When `g_actorShadowMode` is 1 and `g_shadowCasterDistance` is
-    under 4, Begin pushes the texture at `[self+8]` as the render target, sets an unlit, single-colour state and the
-    light's view (`g_lightViewMatrix`). The caller draws the mesh again, and End restores the state and pops the
-    target. The mode is set in CXiSkeletonActor's per-actor update; which actors' meshes the pass draws is not traced
-    here.
-  - **The four callers** (CYyModelDt_PrepareRenderState and CYyModelDt_SkinAndDrawV2, two each) follow Begin with
-    `test al, al` / `jz` past their End call (IDA listing, the four `call Model_BeginOffscreenPass`). No other
-    reference to either function appears there.
-  - **Whether anything reads that texture is not known.** In the trace, SetTexture never bound any of the
-    render-target textures the resource log saw created, except the scene's own. That log began after the game
-    started, though, so it may not hold the shadow texture. speedfix now counts SetTexture binds of the exact
-    texture the pass draws into (Begin's `[self+8]`) and logs them each stats period: `the shadow pass's texture
-    ... was bound by SetTexture N times`. A read through CopyRects, UpdateTexture or LockRect of its surface would
-    not be counted.
-  - **What the lever does:** speedfix hooks the two functions (the game's code runs in both) and, between them, does
-    not send SetRenderTarget, Clear or the draws. Every state call still goes out, so the state after the pass is the
-    game's. If the texture is read somewhere, the visible sign would be a character's shadow going stale or missing.
-  - It hooks as lazy_state does, taking effect at the next start if both were off at this one.
-- **up_ring: text, UI and name-plate quads.** In Port Jeuno's plaza, DrawPrimitiveUP was 10.3% of the render thread
-  (885 calls a frame; HISTORY.md, run 6156). batch_up_draws merges them, but a merged batch still goes out as
-  DrawPrimitiveUP. How dgVoodoo handles DrawPrimitiveUP, compared with a draw from a vertex buffer, is not known
-  here. up_ring writes them into speedfix's own 2 MB dynamic vertex buffer: locked with D3DLOCK_NOOVERWRITE at its
-  cursor, and with D3DLOCK_DISCARD when it starts over (the DirectX 8 SDK's pattern for dynamic buffers). It then draws
-  with SetStreamSource and DrawPrimitive. Stream 0 is left on the ring, because D3D8 leaves stream 0 unset after a
-  DrawPrimitiveUP. The ring is released before Reset (a default-pool buffer must be), and only the render thread uses
-  it. Not known: whether dgVoodoo is faster this way. Its A/B says. It works with or without batching, and hooks as
-  lazy_state does.
 - **Not made into levers yet, and why:**
   - Pooling vertex and index buffers. The sessions made about 10,000 a session, mostly DYNAMIC | WRITEONLY vertex
     buffers in the default pool in a few sizes (6,000, 4,000, 8,000 and 2,000 bytes). Pooling them needs their
@@ -165,6 +133,17 @@ is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `exte
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
+
+## Tried and reverted
+
+- **skip_shadow_pass** did not send the render-target switches, Clear and draws of Model_BeginOffscreenPass's
+  shadow pass. In run 7388 its own counter showed the game binding that texture for drawing (259 and 2,116 times a
+  minute): the texture is read, and the pass's output is needed. Reverted.
+- **up_ring** sent DrawPrimitiveUP as DrawPrimitive from a ring buffer, leaving stream 0 bound to the ring. In run
+  7388 it was slower (A 20.3 ms, B 25.6 ms) and the owner saw corrupted frames. Why the frames broke is not known.
+  One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F160) does not skip a stream it has
+  recorded. It records the buffer and stride, then Gfx_ApplyCachedStreamSource calls SetStreamSource for any non-NULL
+  buffer (and does nothing for a NULL one; IDA listing). Reverted.
 
 ## What changed from speedfix_hook
 
@@ -226,11 +205,7 @@ and set it again for another run.
     puts the game's value back;
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
-  - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
-  - up_ring: two lists become one buffer made, DrawPrimitive at vertex 0 and then 3 (NOOVERWRITE), the vertices
-    copied, no DrawPrimitiveUP; off again, DrawPrimitiveUP;
-  - skip_shadow_pass: the game's own Begin/End run against the fake device (shadow mode 1): no SetRenderTarget, Clear
-    or draw reaches it, its state calls do; turned off while running, the pass switches targets and draws.
+  - motion_stats: frames with a fixed view and frames with a changing view are counted apart.
 - **The gate:** the query hook.
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any

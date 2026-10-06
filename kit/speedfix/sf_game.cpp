@@ -28,6 +28,7 @@ extern "C" int sf_hook_query(const XikitHost *host) { return XI_HOOK(host, Occlu
 static xikit::fn<decltype(&Model_BeginOffscreenPass)> prev_begin;
 static xikit::fn<decltype(&Model_EndOffscreenPassBindTextures)> prev_end;
 static char __thiscall sf_begin(int self_, int *a2, int a3) {
+  sf_shadow_tex = *(void **)(uintptr_t)(self_ + 8);
   sf_shadow_skip = sf_cfg.skip_shadow_pass && sf_device_level() >= 1 && sf_hooks_live();
   char r = prev_begin(self_, a2, a3);
   if (!r) sf_shadow_skip = 0;

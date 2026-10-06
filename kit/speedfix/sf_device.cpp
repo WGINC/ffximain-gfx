@@ -83,8 +83,8 @@ static DWORD g_fill, g_shade; static bool g_fillV, g_shadeV;   // FILLMODE (8), 
 static int g_frame, g_last_scene_frame = -1;
 static bool g_motion;                   // motion_stats at the start (its hooks are installed then)
 static bool g_sceneHeld; static void *g_heldDev; static volatile LONG g_mergedEnds;   // merge_scenes
-extern "C" { volatile int sf_shadow_skip; }
-static volatile LONG g_shSkip;
+extern "C" { volatile int sf_shadow_skip; void *volatile sf_shadow_tex; }
+static volatile LONG g_shSkip, g_shTexBinds;
 volatile int sf_frame_no, sf_hooks_frame = -1;     // speedfix.h: the frame number, the last frame whose scene ran through these hooks
 
 static void forget_all(void) {
@@ -410,6 +410,7 @@ static HRESULT __stdcall h_SetRenderState(void *d, D3DRENDERSTATETYPE st, DWORD 
 }
 static void mot_texture(const void *t);
 static HRESULT __stdcall h_SetTexture(void *d, DWORD stage, IDirect3DBaseTexture8 *t) {
+  if (t && (void *)t == sf_shadow_tex) g_shTexBinds++;     // the shadow pass's texture read by a draw (any thread)
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetTexture)(d, stage, t); }
   if (g_motion && t) mot_texture(t);
   if (stage < 8 && lazy_on()) {
@@ -857,8 +858,9 @@ extern "C" void sf_device_stats(void) {
   if (lh + ld) H->log("speedfix: lazy_state: %ld changes held, %ld sent, %ld calls never sent (undone or replaced before a read)", lh, ls, ld);
   LONG rd = InterlockedExchange(&g_ringDraws, 0), rw = InterlockedExchange(&g_ringWraps, 0);
   if (rd) H->log("speedfix: up_ring: %ld DrawPrimitiveUP sent as DrawPrimitive from the ring, %ld wraps", rd, rw);
-  LONG sk = InterlockedExchange(&g_shSkip, 0);
+  LONG sk = InterlockedExchange(&g_shSkip, 0), tb = InterlockedExchange(&g_shTexBinds, 0);
   if (sk) H->log("speedfix: skip_shadow_pass: %ld render-target switches, clears and draws of the shadow pass not sent", sk);
+  if (sf_shadow_tex) H->log("speedfix: the shadow pass's texture %p was bound by SetTexture %ld times (0: nothing seen drawing with it)", sf_shadow_tex, tb);
   if (vm + vsh + vk) H->log("speedfix: vs_dedupe: %ld vertex shaders made, %ld creations given an existing one, %ld deletions of a shared one kept it", vm, vsh, vk);
   if (f + s) H->log("speedfix: cached setters: %ld forwarded, %ld skipped (%.1f%%)", f, s, 100.0 * s / (double)(f + s));
   if (in) H->log("speedfix: DrawPrimitiveUP: %ld from the game, %ld sent (%.1f%% fewer), %ld strips/fans converted%s",

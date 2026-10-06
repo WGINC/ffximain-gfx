@@ -55,5 +55,8 @@ int  sf_device_allows(const char *key);
 extern volatile int sf_frame_no, sf_hooks_frame;
 // skip_shadow_pass: set by sf_game.cpp's hooks between Model_BeginOffscreenPass and Model_EndOffscreenPassBindTextures
 extern "C" volatile int sf_shadow_skip;
+// the texture the pass draws into: Model_BeginOffscreenPass pushes [self+8] (tree/src/unit_100310A0.cpp;
+// CDx_PushRenderTargetTexture binds its level 0); the device layer counts SetTexture binds of it
+extern "C" void *volatile sf_shadow_tex;
 extern "C" int sf_device_level(void);
 static inline bool sf_hooks_live(void) { return sf_hooks_frame == sf_frame_no; }

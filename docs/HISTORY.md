@@ -884,7 +884,7 @@ than once); fixed.
 
 ## 6 Oct (evening): the render-target switches (task 18) and speedfix's skip_shadow_pass
 
-From the run-6080 town trace (17 frames, kit e69ca62), each frame is three scenes:
+From run 6080's trace (taken about a minute before the session ended; where is not in its log, and the owner says the session ended at the combat-test spot) (17 frames, kit e69ca62), each frame is three scenes:
 - one that only sets a render target;
 - the world (about 3,860 draws, the zone mesh's DrawPrimitive almost all of them);
 - the last one, which holds 18 Push/Pop pairs of one off-screen target (surface 3E21D114, no depth) with 1 or 2 draws
@@ -892,9 +892,14 @@ From the run-6080 town trace (17 frames, kit e69ca62), each frame is three scene
 
 That is 38 or 42 SetRenderTarget a frame.
 - The pairs are Model_BeginOffscreenPass / Model_EndOffscreenPassBindTextures. When g_actorShadowMode is 1, the pass
-  draws each mesh of one actor (14 distinct meshes, 28 draws a frame) again into that target, from the light's view.
-- Across the 17 frames, SetTexture never bound any render-target texture but the scene's (3E02CB40, 3024 x 1898).
-  The only CopyRects were the occlusion readback's, from another surface. What reads the shadow target is not known.
+  draws meshes a second time into that target (14 distinct meshes, 28 draws a frame), from the light's view. The mode
+  is set in CXiSkeletonActor's per-actor update; which actors' meshes the pass draws is not traced here.
+- Across the 17 frames, SetTexture never bound any render-target texture the resource log saw created, except the
+  scene's (3E02CB40, 3024 x 1898). That log began after the game started, so the shadow texture may not be in it. The
+  only CopyRects were the occlusion readback's, from another surface. What reads the shadow target is not known.
+- Checked afterwards against the game's instructions (IDA listing): all four `call Model_BeginOffscreenPass` are
+  followed by `test al, al` / `jz` past the matching End call. speedfix now counts, in the game, SetTexture binds of
+  the exact texture the pass draws into (Begin's `[self+8]`).
 - speedfix lever `skip_shadow_pass` (off by default): it hooks the pair and, between them, sends no SetRenderTarget,
   Clear or draw; every state call is sent.
   - Tested in the Wine host, driving the game's own two functions.
@@ -918,10 +923,10 @@ That is 38 or 42 SetRenderTarget a frame.
   that sets the value its slot already holds does not break a run. The vertex streams stay in the state hash, so this
   measures merging within one model's own buffers, with no shared skinning buffer. Selftest ok.
 - The plaza trace it was written for (session 2, process 5180) was in the parallel session's container and is not
-  here. On the run-6080 town trace, character DrawIndexedPrimitive goes from 79 to 78 runs a frame with
+  here. On run 6080's trace, character DrawIndexedPrimitive goes from 79 to 78 runs a frame with
   --same-value. The plaza's figure is still to be measured; send the session-2 trace (or a new trace=1 run in the
   plaza).
-- The zone mesh in that town frame (sub_1017C9C0, the DrawPrimitive through CDx at 0x1000CBF3): 3,879 consecutive
+- The zone mesh in that frame (sub_1017C9C0, the DrawPrimitive through CDx at 0x1000CBF3): 3,879 consecutive
   pairs, none mergeable. Every pair is separated by its own vertex buffer (3,851 SetStreamSource over 371 buffers)
   and a SetTexture (3,479 changes over 17 textures). The SetLight between them always repeats its value, which
   extended_state_cache already removes. Fewer zone draws therefore need the zone's geometry rebuilt into shared

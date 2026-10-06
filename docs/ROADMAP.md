@@ -270,7 +270,7 @@ frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame;
 | Text and UI quads | 10.3% | DrawPrimitiveUP, 885 a frame of 2 triangles each: glyphs 386, Cell quads 209, name plates 200 |
 | Effects and zone | 3.2% | DrawPrimitive: CMoVuElem_Draw 270 a frame, the zone mesh 45 |
 
-**Draw reduction, characters first.**
+**Draw reduction, characters first.** The worked-out plan, with the facts it rests on: docs/SKINMERGE.md.
 1. Measure how many of SkinAndDrawV2's strips run under the same state with nothing between them
    (merge_potential.py on a Bedau trace).
 2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its fuzzed gate trials covered 62 of 1,596

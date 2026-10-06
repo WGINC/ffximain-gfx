@@ -72,6 +72,13 @@ static void micro(const char *name, int kind) {
       case 6: up_draw(); break;
       case 7: { BYTE *p; if (SUCCEEDED(IDirect3DVertexBuffer8_Lock(g_dyn, 0, 6 * sizeof(Vtx), &p, D3DLOCK_DISCARD))) IDirect3DVertexBuffer8_Unlock(g_dyn); } break;
       case 8: IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, (i & 1) ? D3DTOP_MODULATE : D3DTOP_SELECTARG1); break;
+      case 9: { BYTE *p; if (SUCCEEDED(IDirect3DVertexBuffer8_Lock(g_dyn, 0, 6 * sizeof(Vtx), &p, D3DLOCK_NOOVERWRITE))) IDirect3DVertexBuffer8_Unlock(g_dyn); } break;
+      case 10: {                                  /* a ring draw: what speedfix's up_ring did for each batch */
+        static UINT pos; UINT bytes = 6 * sizeof(Vtx); DWORD fl = D3DLOCK_NOOVERWRITE; BYTE *p;
+        if (pos + bytes > 4096 * sizeof(Vtx)) { pos = 0; fl = D3DLOCK_DISCARD; }
+        if (SUCCEEDED(IDirect3DVertexBuffer8_Lock(g_dyn, pos, bytes, &p, fl))) { memset(p, 0, bytes); IDirect3DVertexBuffer8_Unlock(g_dyn); }
+        IDirect3DDevice8_SetStreamSource(d, 0, g_dyn, sizeof(Vtx));
+        IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLELIST, pos / sizeof(Vtx), 2); pos += bytes; } break;
     }
     double t1 = now_us();
     IDirect3DDevice8_EndScene(d); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); pump();
@@ -164,6 +171,7 @@ int main(int argc, char **argv) {
   micro("call.SetRenderState", 0); micro("call.SetTexture", 1); micro("call.SetStreamSource", 2); micro("call.SetTransform (world)", 3);
   micro("call.SetLight", 4); micro("call.DrawIndexedPrimitive (2 triangles)", 5); micro("call.DrawPrimitiveUP (2 triangles)", 6);
   micro("call.VB Lock DISCARD + Unlock", 7); micro("call.SetTextureStageState", 8);
+  micro("call.VB Lock NOOVERWRITE + Unlock", 9); micro("call.ring draw (Lock NOOVERWRITE + SetStreamSource + DrawPrimitive)", 10);
   frame_bench("frame.plaza-like as D3D8 issues it (1600+900 draws)", 0);
   frame_bench("frame.plaza-like merged (33 draws)", 1);
   return 0;

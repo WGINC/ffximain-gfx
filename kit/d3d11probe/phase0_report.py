@@ -27,6 +27,7 @@ CALLS = [
     ('per-draw constants (D3D11: Map DISCARD; D3D8: SetTransform)', 'call.Map constant buffer (DISCARD)', 'call.SetTransform (world)'),
     ('small indexed draw', 'call.DrawIndexed (2 triangles)', 'call.DrawIndexedPrimitive (2 triangles)'),
     ('small dynamic draw (D3D11: ring; D3D8: DrawPrimitiveUP)', 'call.ring Map NOOVERWRITE + Draw', 'call.DrawPrimitiveUP (2 triangles)'),
+    ('ring draw (D3D11: Map NOOVERWRITE + Draw; D3D8: Lock NOOVERWRITE + SetStreamSource + DP)', 'call.ring Map NOOVERWRITE + Draw', 'call.ring draw (Lock NOOVERWRITE + SetStreamSource + DrawPrimitive)'),
 ]
 FRAMES = ['frame.plaza-like as D3D8 issues it (1600+900 draws)', 'frame.plaza-like merged (33 draws)']
 

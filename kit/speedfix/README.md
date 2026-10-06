@@ -144,6 +144,18 @@ and set it again for another run.
   One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F160) does not skip a stream it has
   recorded. It records the buffer and stride, then Gfx_ApplyCachedStreamSource calls SetStreamSource for any non-NULL
   buffer (and does nothing for a NULL one; IDA listing). Reverted.
+  - **A bug, reproduced afterwards** (the reverted code in the Wine host, with batching, lazy_state and up_ring on):
+    the ring issued its SetStreamSource and DrawPrimitive through the device's front, which runs speedfix's own hooks
+    again. The DrawPrimitive hook first sent the held state changes, so a batched UI quad reached the device after the
+    next texture change: `SetTexture(A) ... SetStreamSource(ring), SetTexture(B), DrawPrimitive`. The quad was drawn
+    with the wrong texture. Whether this is all of what the owner saw is not established.
+  - **What the measurements allow:**
+    - Through dgVoodoo, a DrawPrimitiveUP costs 157.5 ns and a vertex-buffer Lock with DISCARD 2,849 ns (probe8, run 2).
+    - A ring needs a lock for every batch it sends, so it cannot beat DrawPrimitiveUP unless dgVoodoo's NOOVERWRITE
+      lock is far cheaper than its DISCARD one. That is not measured yet: probe8 now measures it, and a whole ring
+      draw.
+    - A ring returns only if that measurement favours it, and with its calls made below speedfix's hooks
+      (`g_prev`).
 
 ## What changed from speedfix_hook
 

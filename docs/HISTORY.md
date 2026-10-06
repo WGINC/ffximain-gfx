@@ -1016,3 +1016,18 @@ Testing:
   - probe11's frame lines carried no means: its format string lacked the two numbers, and nothing checked it.
   - put() is now declared printf-like, so the compiler checks every format against its arguments.
   - phase0_report.py reports frame means where they exist.
+
+## 6 Oct (evening): the ring buffer looked at again
+
+- In the plaza trace (label 0, 9 frames) no DrawPrimitive or DrawIndexedPrimitive reads stream 0 after a
+  DrawPrimitiveUP without the game setting stream 0 first. So "a later draw read the ring from stream 0" has nothing
+  in these frames to support it.
+- A bug in the reverted up_ring, reproduced in the Wine host with the reverted code (batching, lazy_state and up_ring
+  on, as in run 7388):
+  - The ring sent its draw through the device's front, which re-entered speedfix's hooks.
+  - The DrawPrimitive hook sent the held state first, so the device saw SetTexture(A), SetStreamSource(ring),
+    SetTexture(B), DrawPrimitive. A UI quad was drawn with the next quad's texture.
+- Whether a ring can pay at all on this path:
+  - through dgVoodoo, DrawPrimitiveUP costs 157.5 ns and a DISCARD lock 2,849 ns (probe8, run 2);
+  - dgVoodoo's NOOVERWRITE lock and a whole ring draw are now measured by probe8 too, for the next run.
+  - A ring is reconsidered only if that measurement favours it, with its calls made below speedfix's hooks.

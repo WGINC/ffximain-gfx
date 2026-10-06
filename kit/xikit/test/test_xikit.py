@@ -59,6 +59,8 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture
     if mode == 'base':
         ok = re.search(r'cpu: CPUID vendor "\w+", brand ".*"; SSE 1', log) is not None and 'machine: ' in log
         print('%s: the environment is logged (CPUID vendor and features, machine and Windows build)' % ('ok' if ok else 'FAIL')); bad += not ok
+        ok = re.search(r'compatibility: kernel version \d+\.\d+ build \d+ \(KUSER_SHARED_DATA; the game is told \d+\.\d+\); __COMPAT_LAYER .*; registry layers for .*host\.exe: user .*, machine ', log) is not None
+        print('%s: the compatibility layers are logged (the kernel\'s own version, __COMPAT_LAYER, the registry)' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'profile':
         vs = [f for f in os.listdir(d) if f.startswith('xikit_vshader_')]
         r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'vshader.py')] + [os.path.join(d, f) for f in vs], capture_output=True, text=True)

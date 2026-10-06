@@ -253,7 +253,7 @@ trial, and orders the tools that close it.
 **The next step:** build P0 and take one baseline capture in a busy scene with speedfix off. Then P1, then the
 first P2 mod for text.
 
-## Measured in Bedau, 6 Oct: where a frame goes and what draws it
+## Measured in Bedau (the busy plaza of Port Jeuno), 6 Oct: where a frame goes and what draws it
 
 **Render-thread time** (the owner's M5 MacBook Pro, Windows on ARM in Parallels, dgVoodoo to D3D11; about 71 ms a
 frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame; text and UI quads about 7 ms.

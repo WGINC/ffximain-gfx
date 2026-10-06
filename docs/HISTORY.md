@@ -840,3 +840,9 @@ than once); fixed.
   in xikit_vtables_<pid>.csv (profile=1 or trace=1), ingested by pipeline/com_vtables.py. The gate uses a record only
   when a captured vtable's entries match it exactly. Whether these captures need it is not known: the
   reconstruction's Lock went unresolved only in trials where the game's side had stopped at Sleep.
+
+**The owner, 6 Oct:**
+- "Bedau", the name these records use for the measuring spot, is the busy plaza of Port Jeuno.
+- No exe in the PlayOnline folder is set to run in compatibility mode, yet the game is told Windows 5.1 and the
+  compatibility DLLs are loaded. Where the layer comes from is not known. The kit now logs the kernel's own version,
+  `__COMPAT_LAYER` and the registry layers for the exe.

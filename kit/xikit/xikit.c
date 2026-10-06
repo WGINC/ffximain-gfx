@@ -1728,6 +1728,28 @@ static void log_environment(void) {
     klog("machine: native %s (0x%X), this process %s; Windows %lu.%lu build %lu", machine_name(nm), nm, pm ? "emulated or WOW64" : "native",
          (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
   else klog("machine: IsWow64Process2 not available; Windows %lu.%lu build %lu", (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
+  /* compatibility layers: the kernel's own version (KUSER_SHARED_DATA at 0x7FFE0000: NtMajorVersion +0x26C,
+     NtMinorVersion +0x270, NtBuildNumber +0x260 from Windows 10 on; no shim changes it), the layers the process was
+     started with (__COMPAT_LAYER) and the layers the registry sets for this exe (AppCompatFlags\Layers) */
+  { volatile const uint8_t *kusd = (volatile const uint8_t *)(uintptr_t)0x7FFE0000u;
+    char exe[MAX_PATH] = "", layer[512] = "", hku[512] = "", hkl[512] = "";
+    GetModuleFileNameA(NULL, exe, sizeof exe);
+    if (!GetEnvironmentVariableA("__COMPAT_LAYER", layer, sizeof layer)) snprintf(layer, sizeof layer, "(not set)");
+    const char *key = "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
+    HKEY roots[2] = { HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE }; char *outs[2] = { hku, hkl };
+    for (int k = 0; k < 2; k++) {
+      HKEY h; DWORD n = 511, t = 0;
+      if (RegOpenKeyExA(roots[k], key, 0, KEY_QUERY_VALUE, &h) == ERROR_SUCCESS) {
+        if (RegQueryValueExA(h, exe, NULL, &t, (BYTE *)outs[k], &n) != ERROR_SUCCESS || t != REG_SZ) snprintf(outs[k], 512, "(none)");
+        else outs[k][n < 512 ? n : 511] = 0;
+        RegCloseKey(h);
+      } else snprintf(outs[k], 512, "(none)");
+    }
+    klog("compatibility: kernel version %lu.%lu build %lu (KUSER_SHARED_DATA; the game is told %lu.%lu); __COMPAT_LAYER %s; "
+         "registry layers for %s: user %s, machine %s",
+         (unsigned long)*(volatile const uint32_t *)(kusd + 0x26C), (unsigned long)*(volatile const uint32_t *)(kusd + 0x270),
+         (unsigned long)(*(volatile const uint32_t *)(kusd + 0x260) & 0xFFFF), (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion,
+         layer, exe, hku, hkl); }
   /* the graphics modules */
   HMODULE ver = LoadLibraryA("version.dll");
   typedef DWORD (WINAPI *GFVIS)(LPCSTR, LPDWORD); typedef BOOL (WINAPI *GFVI)(LPCSTR, DWORD, DWORD, LPVOID); typedef BOOL (WINAPI *VQV)(LPCVOID, LPCSTR, LPVOID *, PUINT);

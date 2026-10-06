@@ -200,6 +200,10 @@ Once the device exists the kit logs:
   its SSE code on only for an Intel or Transmeta vendor; speedfix's `sse_skinning` works around that.
 - **The machine:** the native machine (x86, x64 or ARM64; an x86 process on ARM64 Windows is emulated), and the
   Windows build.
+- **Compatibility layers:** the kernel's own version (KUSER_SHARED_DATA, which no shim changes) beside the version
+  the game is told, the `__COMPAT_LAYER` the process started with, and the layers the registry sets for this exe
+  (AppCompatFlags\Layers, user and machine). The owner's game is told Windows 5.1, with no compatibility mode set on
+  the PlayOnline exes; this line names where the layer comes from.
 - **Every graphics module loaded** (d3d8, d3d9, d3d10, d3d11, d3d12, dxgi, the D3DxOn12 layers, dgVoodoo, Parallels'
   prl_ drivers, vendor drivers), each with its path, file version and PE machine type: which Direct3D 8
   implementation the game's calls go through, and what lies under it.

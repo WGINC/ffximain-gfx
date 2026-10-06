@@ -240,7 +240,7 @@ Unlike dgVoodoo, it can be told what a draw is for (the CDx and sqgx wrapper lay
 | 1 | P0 measurement tools (Present wait, per-call timing, sampling profiler) | Goal 1; goal 2's baseline | To build |
 | 2 | Raise gate coverage of the hot flag-4 functions (SkinAndDrawV2, Cell_DrawQuadBlended, fn_1017C9C0, fn_100467E0, Actor_DrawWorldText, ...) | Goal 1 P2 | Fuzz aimed at their unrun branches, and new dumps from busy scenes. The four dumps are town, town2, combat and zonetoinn |
 | 3 | The 90 exported functions outside the verified tree (8 UNRESOLVED calls, 13 FAIL, 11 constructs, 9 compile), and the world draw path outside the export (docs/GAPS.md) | Goal 1 P3; goal 2; goal 3's asset and menu paths | Open |
-| 4 | Task #64: the register-preserving-callee blind spot in ecx_use/edx_use | The types mods and the gate rely on | Open |
+| 4 | Task #64: the register-preserving-callee blind spot in ecx_use/edx_use | The types mods and the gate rely on | Closed (7a925bd; checked 6 Oct: regenerated data identical) |
 | 5 | The SDK's first in-game run (the example mod) | Every mod | Owner, in game |
 | 6 | Picture comparison | Goal 2; checking visual changes | To build |
 | 7 | Task #65: whole-frame differential (blocked on calls into real D3D8 objects) | Confidence in the swapped set as a whole | Blocked; the alternating trace covers part of it in game |

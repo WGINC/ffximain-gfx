@@ -480,7 +480,9 @@ has been run in the game yet.
 - **Build stamp:** `kit/xikit/dist/VERSION.txt` (source commit, date, tree gate, file hashes), logged by xikit.dll at
   start; the SDK zip carries its own `VERSION.txt`.
 - **Docs:** README (layout rows for `kit/` and `sdk/`, Wine and numpy, `tool_drift.py`), kit/README.md counts, SDK.md's
-  register blind spot stated exactly (EDX analysis still counts every call as a write).
+  register note. A first edit there said the EDX analysis still counts every call as a write; that was wrong:
+  `edx_inputs.py` runs `ecx_inputs`' fixpoint, which follows `reg_preserve.py` for EDX too (7a925bd). Regenerated,
+  `data/edx_use.json` is identical to the committed file; task #64 is marked closed in SDK.md, GAPS.md and ROADMAP.md.
 - **The gate counts that "did not reproduce" (6 Oct, night) do reproduce.** The harness had not changed: the
   check ran `diffemu_gfx.py` directly, whose `--seed` defaulted to 1, while every recorded gate runs with seed 11
   (`gate_some.py`, `mutate_clean.py`). With seed 11 the current harness gives the recorded numbers exactly

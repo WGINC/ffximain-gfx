@@ -181,7 +181,7 @@ function whose prototype is definitive.
 
 | Blind spot | Effect | State |
 |---|---|---|
-| Task #64: callees that leave a register untouched (ecx_use/edx_use miss inputs passed through them) | A function could be typed without an input it has | Open |
+| Task #64: callees that leave a register untouched (ecx_use/edx_use miss inputs passed through them) | A function could be typed without an input it has | Closed in 7a925bd (both analyses follow `reg_preserve.py`); `data/edx_use.json` regenerated identical on 6 Oct. Left: the "cannot tell" functions (indirect calls, a pushed register) |
 | The committed raw-stage gate predates the 6 Oct translator changes (the clean tree was re-gated after them, the raw records were not) | The residue classification of non-tree functions rests on older translations | Re-run the raw gate |
 | `Gfx_DestroyD3DHolder` crashes when swapped (excluded) | Cause unknown | Open |
 | `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0) | Cause unknown | Open |

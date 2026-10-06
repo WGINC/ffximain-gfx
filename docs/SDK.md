@@ -250,14 +250,15 @@ The build can then write `my_mod.dll` while the game runs.
   code can be called (`orig::`, `xigame::`) but not replaced.
 - **How much the types are worth depends on the gate.** For the 154 functions with flag 4 (incomplete gate coverage)
   the declaration is backed by less evidence.
-- **The register-input data has a known blind spot (task #64).** Flag 8 marks a function whose game code reads a
-  register its declaration does not carry (data/edx_use.json, data/ecx_use.json). The kit refuses to hook it,
-  because the replacement could neither see the register nor pass it on. One manifest function has it:
-  `Obj_104E1D4C::Cursor_Draw` (EDX). For ECX the analysis follows callees that leave the register untouched
-  (`pipeline/reg_preserve.py`, since 6 Oct). For EDX it does not: `pipeline/edx_inputs.py` counts every call as a
-  write of EDX, so a function that reads EDX only after a call that leaves it untouched is recorded as never reading
-  it, and may be affected without being flagged. 5,746 further functions are "cannot tell" (`null` in
-  data/edx_use.json).
+- **The register-input data: what it covers.** Flag 8 marks a function whose game code reads a register its
+  declaration does not carry (data/edx_use.json, data/ecx_use.json). The kit refuses to hook it, because the
+  replacement could neither see the register nor pass it on. One manifest function has it:
+  `Obj_104E1D4C::Cursor_Draw` (EDX). Both analyses (`vcall_resolve.ecx_inputs`, run for EDX by `edx_inputs.py`)
+  treat a direct call to a callee that `pipeline/reg_preserve.py` proves leaves the register untouched as not writing
+  it (since 6 Oct, the DynVB fix; that was task #64), and pass a callee's read on to its callers. What they cannot
+  decide is left `null` ("cannot tell": a `push` of the register not shown to be overwritten, an indirect call, an
+  unbounded jump): 5,746 functions for EDX. `data/edx_use.json` regenerated on 6 Oct is identical to the committed
+  one.
 - **What is tested and what is not.** The Wine tests (`kit/xikit/test`, modes `mod` and `modrel`) cover:
   - loading a mod;
   - `xi_rel`;

@@ -947,3 +947,23 @@ session had already recorded them (above). New here, from session 2's trace (pro
   indexed list built once, would leave at most 764 draws, close to the 771 that one shared skinning buffer gives. This
   is an upper bound: reordering keeps the picture only for parts drawn without alpha blending, and the hash alone does
   not say which parts blend. The fork has to keep blended parts in their order.
+
+## 6 Oct (evening): phase 0 of the D3D11 renderer, built (kit/d3d11probe)
+
+The owner asked for what the D3D11 port needs, in the kit. Phase 0 (docs/D3D11.md) measures, on the owner's machine:
+- D3D11 per call and per plaza-shaped frame, from x86 (emulated) and from ARM64 (native): probe11 bench;
+- the same through Direct3D 8 via the PlayOnlineViewer folder's d3d8.dll (dgVoodoo): probe8 bench;
+- formats, threading, queries and the shader compiler: probe11 caps;
+- whether an ARM64 process can present into the x86 game's window or share a texture with it: probe11 xproc.
+
+Toolchain:
+- GitHub, and with it llvm-mingw, is outside this container's egress policy (403).
+- PyPI's `ziglang` (0.16.0, pinned) builds ARM64 Windows executables against mingw-w64's d3d11, dxgi and
+  d3dcompiler_47 import libraries.
+- The builds are reproducible and in kit/BUILD.lock.json.
+
+Testing:
+- Wine runs D3D11 and D3D8 here on Mesa's llvmpipe inside xvfb-run (`apt-get install xvfb libgl1-mesa-dri:i386`).
+  The x86 probes run end to end there (test_probe.py, 8 checks).
+- That also gives the D3D11 device of phase 1 an offline test bed, for behaviour, not speed.
+- Not testable here: the ARM64 run, any number for the owner's machine, and the cross-process verdicts.

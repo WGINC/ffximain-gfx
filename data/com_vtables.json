@@ -1,0 +1,109 @@
+{
+ "d3d8.dll+0x12a2c4": {
+  "entries": [
+   "d3d8.dll+0xb0d70",
+   "d3d8.dll+0xb0d10",
+   "d3d8.dll+0xb0e40",
+   "d3d8.dll+0xb0ec0",
+   "d3d8.dll+0xb0ef0",
+   "d3d8.dll+0xb0f20",
+   "d3d8.dll+0xb0f50",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0x19aa0",
+   "d3d8.dll+0xb0f80",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0xb0f90",
+   "d3d8.dll+0xb0fa0",
+   "d3d8.dll+0xb0fd0",
+   "d3d8.dll+0xb1100",
+   "d3d8.dll+0xb1140",
+   "d3d8.dll+0xb1170"
+  ],
+  "interface": "IDirect3DCubeTexture8",
+  "source": "an object the device's Create method returned (the D3D8 header's out-parameter interface) had this vtable, in the running game (xikit vt_note): xikit_vtables_11952.csv"
+ },
+ "d3d8.dll+0x12a4e4": {
+  "entries": [
+   "d3d8.dll+0xbdce0",
+   "d3d8.dll+0xbdc80",
+   "d3d8.dll+0xbddb0",
+   "d3d8.dll+0xbde30",
+   "d3d8.dll+0xbde70",
+   "d3d8.dll+0xbdf70",
+   "d3d8.dll+0xbe060",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0x19aa0",
+   "d3d8.dll+0xbe140",
+   "d3d8.dll+0xbe150",
+   "d3d8.dll+0xbe410",
+   "d3d8.dll+0xbe5e0"
+  ],
+  "interface": "IDirect3DIndexBuffer8",
+  "source": "an object the device's Create method returned (the D3D8 header's out-parameter interface) had this vtable, in the running game (xikit vt_note): xikit_vtables_11952.csv"
+ },
+ "d3d8.dll+0x12a528": {
+  "entries": [
+   "d3d8.dll+0xbe7a0",
+   "d3d8.dll+0xbe700",
+   "d3d8.dll+0xbe8a0",
+   "d3d8.dll+0xbea90",
+   "d3d8.dll+0xbeae0",
+   "d3d8.dll+0xbebd0",
+   "d3d8.dll+0xbecb0",
+   "d3d8.dll+0xbed80",
+   "d3d8.dll+0xbee40",
+   "d3d8.dll+0xbee70",
+   "d3d8.dll+0xbeea0"
+  ],
+  "interface": "IDirect3DSurface8",
+  "source": "an object the device's Create method returned (the D3D8 header's out-parameter interface) had this vtable, in the running game (xikit vt_note): xikit_vtables_11952.csv"
+ },
+ "d3d8.dll+0x12a5e4": {
+  "entries": [
+   "d3d8.dll+0xbffc0",
+   "d3d8.dll+0xb0d10",
+   "d3d8.dll+0xc0090",
+   "d3d8.dll+0xb0ec0",
+   "d3d8.dll+0xb0ef0",
+   "d3d8.dll+0xb0f20",
+   "d3d8.dll+0xb0f50",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0x19aa0",
+   "d3d8.dll+0xb0f80",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0xb0f90",
+   "d3d8.dll+0xb0fa0",
+   "d3d8.dll+0xc0110",
+   "d3d8.dll+0xc0230",
+   "d3d8.dll+0xc0270",
+   "d3d8.dll+0xc02a0"
+  ],
+  "interface": "IDirect3DTexture8",
+  "source": "an object the device's Create method returned (the D3D8 header's out-parameter interface) had this vtable, in the running game (xikit vt_note): xikit_vtables_11952.csv"
+ },
+ "d3d8.dll+0x12a654": {
+  "entries": [
+   "d3d8.dll+0xc0420",
+   "d3d8.dll+0xc03c0",
+   "d3d8.dll+0xc04f0",
+   "d3d8.dll+0xc0570",
+   "d3d8.dll+0xc05b0",
+   "d3d8.dll+0xc06b0",
+   "d3d8.dll+0xc07a0",
+   "d3d8.dll+0x1a0f0",
+   "d3d8.dll+0x1cf90",
+   "d3d8.dll+0x19aa0",
+   "d3d8.dll+0xc0880",
+   "d3d8.dll+0xc0890",
+   "d3d8.dll+0xc08c0",
+   "d3d8.dll+0xc08e0"
+  ],
+  "interface": "IDirect3DVertexBuffer8",
+  "source": "an object the device's Create method returned (the D3D8 header's out-parameter interface) had this vtable, in the running game (xikit vt_note): xikit_vtables_11952.csv"
+ }
+}

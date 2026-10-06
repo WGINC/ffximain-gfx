@@ -846,3 +846,38 @@ than once); fixed.
 - No exe in the PlayOnline folder is set to run in compatibility mode, yet the game is told Windows 5.1 and the
   compatibility DLLs are loaded. Where the layer comes from is not known. The kit now logs the kernel's own version,
   `__COMPAT_LAYER` and the registry layers for the exe.
+
+**Session 5 (6 Oct), Port Jeuno's plaza ("Bedau"), standing still, every speedfix lever on.**
+- Part 1 (process 2264): speedfix's lever A/B. Phases of 30 s, A B B A, 3 rounds, about 3,100 to 3,400 draws a
+  frame. A = the lever off, B = on, everything else on in both:
+
+  | Lever | A (off) | B (on) | B − A | Spread within a label |
+  |---|---|---|---|---|
+  | sse_skinning | 45.73 ms | 31.22 ms | −14.51 ms (−31.7%) | 5.96 ms |
+  | batch_up_draws + lazy_state | 39.02 ms | 30.86 ms | −8.16 ms (−20.9%) | 3.37 ms |
+  | skip_all_occlusion_readbacks | 31.80 ms | 30.49 ms | −1.31 ms | 3.98 ms (within it) |
+  | merge_scenes | 30.31 ms | 31.48 ms | +1.17 ms | 3.48 ms (within it) |
+  | skip_actor_occlusion | 29.48 ms | 29.81 ms | +0.33 ms | 4.37 ms (within it) |
+
+  Occlusion readbacks requested: 158 in the first minute (loading in), none later while standing still. The
+  readback LockRect at 22% in session 1's samples is not explained by this.
+  The math tier was x87 at this start.
+- Part 2 (process 11952): profile=1, sample=1, 3 captures, facts=1.
+  - The compatibility line: the kernel is Windows 10.0 build 26200; the game is told 5.1. __COMPAT_LAYER is
+    "HighDpiAware" and the registry has no layers for pol.exe. So the 5.1 does not come from a layer set on the
+    exe; where it comes from is not known.
+  - The math tier was SSE at this start (x87 at part 1's). Which tier a start gets is not under the kit's control
+    when the game chooses before the kit is injected.
+  - The profiler (after speedfix): 17,478 calls and 1,982 draws a frame; SetRenderState 4,745, SetStreamSource
+    3,071, SetTextureStageState 1,861, SetTransform 1,653, SetLight 1,140, DrawIndexedPrimitive 956.
+  - The sampler, last 600 frames (31.5 ms each): 70% of the render thread's samples were in memory of no module.
+    By the game call site under them: SkinAndDrawV2 27% (its DrawIndexedPrimitive wrapper call 0x1002E746
+    15.3%, 0x1002F130 5.2%, the buffer Lock 1.6%); CDx::Present from Frame_Render (with merge_scenes' EndScene)
+    11.6%; CTsZoneMap::DrawProjectedShadow's SetTransform calls 9.8%; fn 0x10021C10 (via 0x100279F0) 5.2%.
+  - xikit_vtables: the 5 dgVoodoo vtables (vertex and index buffer, texture, cube texture, surface) into
+    data/com_vtables.json. The vertex buffer's matches the session 2 capture's entries exactly. facts=1 added sites
+    to data/game_sp.json.
+  - The 3 captures, with capture_follow, replayed: all PASS (7, 8 and 8 trials compared; one trial stopped at
+    0x1002DDCE, the vertex buffer's Unlock on its retry path, with no fact for it). Coverage 840, 765 and 233 of
+    1,596. Together with session 2's capture 2: 937 of SkinAndDrawV2's 1,596 instructions have run in a compared
+    trial and agreed.

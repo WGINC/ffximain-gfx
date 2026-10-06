@@ -125,7 +125,7 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 ## Comparing what the game draws with and without the swaps (`trace=1`)
 
 Bisect needs your eyes. The trace needs only a still scene. With `trace=1` in `xikit.ini` (takes effect at the next
-start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. The kit restores every original, records the
+start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. Where keys do not reach the game window (this client), use the timer or a file instead: `trace_after=60` runs the trace 60 seconds after the start, then every `trace_every` seconds, `trace_count` times in all; creating `xikit_trace_now.txt` next to `xikit.dll` starts one (the kit deletes it). With `bisect=1`, the files `xikit_bisect_bad.txt`, `_good.txt` and `_stop.txt` answer like F10, F11, F12. The kit restores every original, records the
 Direct3D calls the render thread makes for 4 frames, swaps everything back in, records 4 more, and writes
 `xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). Per call: the method, the call site (analysed address), the
 method's first parameters, and a hash of what a pointer parameter points at where the method reads a structure through

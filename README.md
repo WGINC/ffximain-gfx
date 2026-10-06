@@ -18,14 +18,15 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Status (4 Oct 2026, export 30cfb26)
+## Status (6 Oct 2026, export 30cfb26)
 
 867 graphics functions (the owner's IDA run of 4 Oct after `ida/ffxi_ida_fix.py`: 558 names applied, IDA's SP
 corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 217 files) | **777**, 0 failures |
+| **Verified in the clean tree, as built** (`tree/`, 217 files) | **774** of the tree's 777: PASS on fuzz and all four dumps |
+| In the tree, not verified (`// NOT VERIFIED`) | 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs) |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
 | Did not compile (8), or compiles with no gate case (1) | 9 |
@@ -35,11 +36,12 @@ corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
 memory dumps of the running game, verified as the analysed build (`verification/live/`). Raw and clean,
-combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 777 PASS. The new one is 0x100412B0
-(`CMoD3mSpecularElem_vf18`), which gates since the IDB's SP correction. Each function's `// GATE:` line lists
+combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 774 PASS. Since 6 Oct the gate also compares the data
+the Direct3D methods read through pointers (vertex lists, matrices, lights...); that found 7 functions drawing from
+uninitialised stack data (fixed) and leaves `Post_DrawRotatingGhostLayers` failing on the sign of a zero. Each function's `// GATE:` line lists
 every gate's verdict and returning trials. `pipeline/verify_all.py` re-derives every committed fact from the
-binary and re-gates the tree as committed (`verification/verify_all.json`). Its one failing check, `export-sp`, is IDA's SP in
-the epilogue of 0x100412B0: the real depth (exact, and observed running the original) is 4 less than IDA's from
+binary and re-gates the tree as committed (`verification/verify_all.json`, 6 Oct). It fails on exactly two known
+checks: `tree-gate`, on the 3 functions above, and `export-sp`, IDA's SP in the epilogue of 0x100412B0: the real depth (exact, and observed running the original) is 4 less than IDA's from
 0x100419F4. IDA's error is on a path that never ran and has an unsolved call, so no correction can be named.
 
 The open functions, each with a named cause (`docs/RESIDUE.md`):

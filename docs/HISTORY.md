@@ -995,3 +995,24 @@ Testing:
 - A child's swap chain presents into the parent's window in both directions. The shared texture was not seen.
 - probe8's Direct3D 8 times are all multiples of about 2.86 ms, so they are not usable. probe8 now logs its clock's
   step and frame means, and runs each call 200,000 times.
+
+## 6 Oct (evening): phase 0, second run (phase0_20261006_131825)
+
+- probe8's clock: QueryPerformanceCounter steps 0.042 us there, before and after the D3D8 device is made. The
+  previous entry's "its clock stepped coarsely" was therefore wrong. Its times are still whole multiples of about
+  2.864 ms, so the D3D8 calls end on that grid; the cause is not known.
+- With 200,000 calls per measurement the grid is at most about 14 ns a call. Frame means are not affected:
+  - the plaza-shaped frame through dgVoodoo: 7.28 ms;
+  - through D3D11 (medians): x86 8.91 ms, ARM64 8.66 ms;
+  - the 33-draw version: 0.26 ms through dgVoodoo, 0.14 to 0.17 ms through D3D11.
+- The first run's per-call "1.15 to 1.66 times" is not comparable with this one. A small draw costs 219 ns at 20,000
+  draws a frame and 906 ns at 200,000, on both architectures, so per-call cost depends on the batch. The frame
+  figures are the comparable ones: x86/ARM64 1.13 (run 1) and 1.03 (run 2).
+- dgVoodoo's DrawPrimitiveUP: 157.5 ns a call. D3D11 NOOVERWRITE Map plus Draw: 2.8 to 4.7 us.
+- docs/D3D11.md, phase 0, now says what this means for the designs. Fewer draws pays on every path, through dgVoodoo
+  too, so per-call cost is not the case for the port. Asynchronous occlusion queries and GPU skinning are, and they
+  are not measured.
+- Fixed in the probes:
+  - probe11's frame lines carried no means: its format string lacked the two numbers, and nothing checked it.
+  - put() is now declared printf-like, so the compiler checks every format against its arguments.
+  - phase0_report.py reports frame means where they exist.

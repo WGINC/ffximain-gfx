@@ -32,6 +32,7 @@
 #endif
 
 static FILE *g_out; static const char *g_outdir = ".";
+static void put(const char *k, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 static void put(const char *k, const char *fmt, ...) {
   va_list a; va_start(a, fmt);
   fprintf(g_out, "%s,", k); vfprintf(g_out, fmt, a); fputc('\n', g_out); fflush(g_out);
@@ -284,7 +285,7 @@ static void frame_bench(const char *name, int merged) {
   ms /= FR - 20; mt /= FR - 20;
   qsort(cpu + 20, FR - 20, sizeof cpu[0], cmp_d); qsort(tot + 20, FR - 20, sizeof tot[0], cmp_d);   /* the first 20 left out */
   int n = FR - 20;
-  put(name, "submit %.2f ms (p95 %.2f), with Present and the GPU %.2f ms (p95 %.2f); median of %d frames",
+  put(name, "submit %.2f ms (p95 %.2f), with Present and the GPU %.2f ms (p95 %.2f); median of %d frames; means %.2f / %.2f ms",
       cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n, ms, mt);
 }
 

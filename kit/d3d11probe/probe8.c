@@ -15,6 +15,7 @@
 #include <stdarg.h>
 
 static FILE *g_out; static double g_qpf;
+static void put(const char *k, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 static void put(const char *k, const char *fmt, ...) {
   va_list a; va_start(a, fmt); fprintf(g_out, "%s,", k); vfprintf(g_out, fmt, a); fputc('\n', g_out); fflush(g_out); va_end(a);
   va_start(a, fmt); printf("%-40s ", k); vprintf(fmt, a); putchar('\n'); va_end(a);

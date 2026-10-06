@@ -46,12 +46,13 @@ def report(folder):
         r2 = '%12.2f' % (c / a) if a and c else '%12s' % '-'
         out.append('%-62s %s %s %s %s %s' % (label, f(a), f(b), f(c), r1, r2))
     out.append('')
-    out.append('%-55s %16s %16s %16s' % ('frame, ms (submit / with Present[+GPU])', 'D3D11 x86', 'D3D11 arm64', 'D3D8 x86'))
+    out.append('%-55s %16s %16s %16s' % ('frame, ms, means (submit / with Present[+GPU])', 'D3D11 x86', 'D3D11 arm64', 'D3D8 x86'))
     for k in FRAMES:
         cells = []
         for d in (x86, arm, d8):
             v = (d.get(k) or [''])[-1]
-            s, t = num(v, r'submit ([\d.]+)'), num(v, r'with Present[^\d]*([\d.]+)')
+            s, t = num(v, r'means ([\d.]+) /'), num(v, r'means [\d.]+ / ([\d.]+)')   # means: a median can sit on a step of the D3D8 layer's waits
+            if s is None: s, t = num(v, r'submit ([\d.]+)'), num(v, r'with Present[^\d]*([\d.]+)')
             cells.append('%16s' % ('%.2f / %.2f' % (s, t) if s is not None and t is not None else '-'))
         out.append('%-55s %s' % (k.replace('frame.', ''), ''.join(cells)))
     out.append('')

@@ -97,6 +97,71 @@ static uint64_t g_calls_window, g_draws_window, g_prims_window, g_redundant_wind
 static LARGE_INTEGER g_qpf, g_last_present;
 static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
 
+
+/* ------------------------------------------------------------------------------------------------ call trace
+   A record of every call the render thread makes through the device, for a few frames: slot, call site (as in the
+   profile), the method's first parameters, and a hash of what a pointer parameter points at where the method reads
+   a structure through it (transform 64 bytes, viewport 24, material 68, light 104, clip plane 16, shader constants,
+   and the vertex data of the two ...UP draws). The kit records frames with its swaps off, then on, in one session
+   (xikit.c: Ctrl+Alt+F8), and trace_diff.py compares the two by call site. Vertex buffers a draw uses are not
+   hashed: their contents are written through a locked pointer, not through a device call. */
+static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2, 1, 4, 3, 1, 2, 1, 7, 8, 6, 5, 5, 6, 5, 4, 5, 2, 1, 2, 1, 1, 0, 0, 6, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 2, 2, 3, 3, 1, 3, 2, 2, 1, 1, 3, 5, 4, 8, 5, 4, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 1};
+typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
+#define TRACE_MAX 600000
+static Rec *g_trace; static uint32_t g_ntrace, g_trace_dropped, g_trace_frame; static int g_trace_label = -1;
+
+static uint32_t fnv(const void *p, uint32_t n) {
+  uint32_t h = 2166136261u;
+  if (!p || n == 0 || n > 0x100000 || IsBadReadPtr(p, n)) return 0xDEAD0000u | (p ? 1u : 0u);
+  for (uint32_t i = 0; i < n; i++) h = (h ^ ((const uint8_t *)p)[i]) * 16777619u;
+  return h;
+}
+static uint32_t prim_verts(uint32_t type, uint32_t n) {     /* D3DPRIMITIVETYPE: POINTLIST 1 .. TRIANGLEFAN 6 */
+  switch (type) { case 1: return n; case 2: return 2 * n; case 3: return n + 1; case 4: return 3 * n; case 5: case 6: return n + 2; }
+  return 0;
+}
+
+void d3dprof_trace_start(int label) {
+  if (!g_trace) g_trace = (Rec *)VirtualAlloc(NULL, TRACE_MAX * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  if (!g_trace) return;
+  if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; }
+  g_trace_label = label; g_trace_frame = 0;
+}
+void d3dprof_trace_stop(void) { g_trace_label = -1; }
+void d3dprof_trace_frames(int *n_out) { if (n_out) *n_out = (int)g_trace_frame; }
+int d3dprof_trace_write(const char *path, const char *note) {
+  FILE *f = fopen(path, "w");
+  if (!f || !g_trace) return 0;
+  fprintf(f, "# d3d trace v1: %s\n# label frame slot method call_site nparams a2..a7 hash; call site = analysed address (0x10xxxxxx) or the raw return address\n"
+             "# %u records, %u dropped\n", note, g_ntrace, g_trace_dropped);
+  for (uint32_t i = 0; i < g_ntrace; i++) {
+    Rec *r = &g_trace[i];
+    fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot, NAMES[r->slot], r->site, r->np);
+    for (int k = 0; k < r->np && k < 6; k++) fprintf(f, " %08X", r->a[k]);
+    fprintf(f, " %08X\n", r->h);
+  }
+  fclose(f); return 1;
+}
+static void trace_call(int slot, uint32_t *a, uint32_t site) {
+  if (g_trace_label < 0 || !g_trace) return;
+  if (g_ntrace >= TRACE_MAX) { g_trace_dropped++; return; }
+  Rec *r = &g_trace[g_ntrace++];
+  r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = (uint16_t)slot; r->site = site; r->np = NPARAM[slot];
+  for (int k = 0; k < 6; k++) r->a[k] = k < r->np ? a[2 + k] : 0;
+  uint32_t h = 0;
+  switch (slot) {
+  case 37: case 39: h = fnv((void *)a[3], 64); break;                       /* SetTransform, MultiplyTransform */
+  case 40: h = fnv((void *)a[2], 24); break;                                /* SetViewport */
+  case 42: h = fnv((void *)a[2], 68); break;                                /* SetMaterial */
+  case 44: h = fnv((void *)a[3], 104); break;                               /* SetLight */
+  case 48: h = fnv((void *)a[3], 16); break;                                /* SetClipPlane */
+  case 79: case 91: h = fnv((void *)a[3], 16 * a[4]); break;                /* Set{Vertex,Pixel}ShaderConstant */
+  case 72: h = fnv((void *)a[4], prim_verts(a[2], a[3]) * a[5]); break;     /* DrawPrimitiveUP(type, count, data, stride) */
+  case 73: h = fnv((void *)a[8], (a[3] + a[4]) * a[9]); break;              /* DrawIndexedPrimitiveUP(type, min, num, count, idx, fmt, data, stride) */
+  }
+  r->h = h;
+}
+
 static Site *site_of(uint32_t site, int slot, int kind) {
   uint32_t h = (site * 2654435761u ^ (uint32_t)slot * 40503u ^ (uint32_t)kind * 97u) & (MAXSITES - 1);
   for (uint32_t n = 0; n < MAXSITES; n++, h = (h + 1) & (MAXSITES - 1)) {
@@ -145,6 +210,8 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   int game = a[0] >= g_lo && a[0] < g_hi;
   uint32_t ret = game ? a[0] - g_rel : a[0];
   int redundant = 0; uint32_t prims = 0;
+  trace_call(slot, a, ret);
+  if (slot == S_PRESENT && g_trace_label >= 0) g_trace_frame++;
   if (slot == 52) g_recording = 1;
   else if (slot == 53) g_recording = 0;
   if (!g_recording) switch (slot) {

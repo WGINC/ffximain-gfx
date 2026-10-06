@@ -42,6 +42,8 @@
 
 /* d3dprof.c, built in with XIKIT defined: d3dprof_attach gives the device its counting vtable copy */
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
+void d3dprof_trace_start(int label); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
+int d3dprof_trace_write(const char *path, const char *note);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -59,7 +61,7 @@ typedef struct {
 } Fn;
 
 typedef struct {
-  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect;
+  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -75,6 +77,8 @@ static void **g_orig_vt; static void *g_vt[NSLOTS];
 static DWORD g_render_thread;
 static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_speedfix_loaded;
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
+static int g_trace_attached, g_tr_state, g_tr_wait, g_tr_prev_off, g_tr_key, g_tr_done, g_tr_auto;
+#define TR_FRAMES 4
 
 /* ------------------------------------------------------------------------------------------------ log */
 static void klog(const char *fmt, ...) {
@@ -114,6 +118,10 @@ static const char DEFAULT_INI[] =
   ";    run, and you press F10 again if the screen is still broken or Ctrl+Alt+F11 if it looks right; it narrows to one\r\n"
   ";    function and logs its name (xikit.log, xikit_bisect.txt). Ctrl+Alt+F12 ends it and swaps everything again (culprits found included)\r\n"
   "bisect=0\r\n"
+  "; 1: Ctrl+Alt+F8 records the game's Direct3D calls for 4 frames with every swap off, then 4 frames with the swaps on, and\r\n"
+  ";    writes xikit_trace_<pid>.txt (kit/d3dprof/trace_diff.py compares the two by call site: which replaced function\r\n"
+  ";    makes the game draw differently). Stand still in a scene first; takes effect at the next start\r\n"
+  "trace=0\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n";
 
@@ -129,6 +137,7 @@ static void read_cfg(void) {
   c.hotkey = GetPrivateProfileIntA("xikit", "hotkey", 1, g_ini);
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
   c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
+  c.trace = GetPrivateProfileIntA("xikit", "trace", 0, g_ini);
   GetPrivateProfileStringA("xikit", "only", "", c.only, sizeof c.only, g_ini);
   GetPrivateProfileStringA("xikit", "exclude", "", c.exclude, sizeof c.exclude, g_ini);
   if (c.report_every < 60) c.report_every = 60;
@@ -421,6 +430,38 @@ static void report_calls(void) {
 }
 
 /* ------------------------------------------------------------------------------------------------ Present */
+/* A/B trace: Ctrl+Alt+F8. Swaps off (wait until the restores are written), 4 frames recorded, swaps on (wait), 4 frames
+   recorded, file written. The scene should not change in between: stand still. */
+static void trace_step(void) {
+  int n = 0;
+  int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F8) & 0x8000);
+  if (down && !g_tr_key && g_tr_state == 0) {
+    if (!g_cfg.swap) klog("trace: swap=0 in xikit.ini, so the two halves would be the same; set swap=1");
+    else { g_tr_prev_off = g_master_off; g_master_off = 1; g_dirty = 1; g_tr_state = 1; g_tr_wait = 0; klog("trace: swaps off, waiting for the restores"); }
+  }
+  g_tr_key = down;
+  if (g_tr_auto && g_frame >= 700 && !g_tr_done && g_tr_state == 0 && g_cfg.swap) {
+    g_tr_done = 1;      /* test hook: start without a key */
+    g_tr_prev_off = g_master_off; g_master_off = 1; g_dirty = 1; g_tr_state = 1; g_tr_wait = 0; klog("trace: swaps off, waiting for the restores");
+  }
+  switch (g_tr_state) {
+  case 1: if (++g_tr_wait >= 8 && !g_dirty) { d3dprof_trace_start(0); g_tr_state = 2; klog("trace: recording %d frames, swaps off", TR_FRAMES); } break;
+  case 2: d3dprof_trace_frames(&n);
+          if (n >= TR_FRAMES) { d3dprof_trace_stop(); g_master_off = 0; g_dirty = 1; g_tr_state = 3; g_tr_wait = 0; klog("trace: swaps on, waiting for the swaps"); }
+          break;
+  case 3: if (++g_tr_wait >= 8 && !g_dirty) { d3dprof_trace_start(1); g_tr_state = 4; klog("trace: recording %d frames, swaps on", TR_FRAMES); } break;
+  case 4: d3dprof_trace_frames(&n);
+          if (n >= TR_FRAMES) {
+            char p[MAX_PATH], note[200]; int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched;
+            d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0;
+            snprintf(p, sizeof p, "%s\\xikit_trace_%lu.txt", g_dir, (unsigned long)GetCurrentProcessId());
+            snprintf(note, sizeof note, "label 0 = swaps off, label 1 = swaps on (%d functions swapped); %d frames each; FFXiMain.dll at +0x%X", now, TR_FRAMES, g_rel);
+            klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
+          }
+          break;
+  }
+}
+
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
@@ -441,6 +482,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       if (d12 && !k12) bis_stop();
       k10 = d10; k11 = d11; k12 = d12;
     }
+    if (g_trace_attached) trace_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_dirty) apply();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
@@ -627,10 +669,11 @@ static DWORD WINAPI start(LPVOID self) {
   g_vt[SLOT_PRESENT] = (void *)kit_present;
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
-  if (g_cfg.profile) {
+  if (g_cfg.profile || g_cfg.trace) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
-    klog("profiler attached: %s", csv);
+    g_trace_attached = g_cfg.trace; g_tr_auto = g_cfg.trace == 2;      /* (like profile, read at the start only) */
+    klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
   }
   /* watchdog: if the game ever makes a new device object, give that one the hook too (Reset keeps the object) */
   for (void **last = dev;;) {

@@ -320,3 +320,15 @@ fixed:
 - **Not known**: whether this was the cause of the flat colour and the pinstripe fades. The bisect finds the
   function if it was not.
 
+## 6 Oct (later): whole-frame differential attempted; in-game A/B trace
+- **`pipeline/frame_diff.py`**: runs `Frame_Render` from the town dump with the original code only, then again with the
+  kit's swap set redirected to the reconstruction, nothing stubbed but other modules' calls. It cannot get through a
+  frame: at 0x10009F44 the original calls a method of a real D3D8 object (the interface of that object is not given
+  by any source: com_calls proves only the device) and the emulated answer writes no output, so the next
+  instruction faults (call 7 of the frame). The callee's own `ret N` cannot be read from the dump (the D3D8.dll code
+  pages hold no readable code). `--assume-pops` guesses unresolved pops from the pushes and is labelled exploratory;
+  it is not a verdict source. What would make the frame run: the interface of every D3D object the frame touches and
+  what each method writes through its out parameters.
+- **A/B trace** (`kit/d3dprof` trace, xikit `trace=1`, Ctrl+Alt+F8, `docs/KIT.md`): the real game's Direct3D calls with
+  and without the swaps, compared by call site (`trace_diff.py`). Tested under Wine and in the thunk test.
+

@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\n"
+  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=2\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
@@ -190,6 +190,15 @@ int main(int argc, char **argv) {
     }
     check(head, "profile=1: d3dprof wrote its report after 600 frames");
     check(row, "profile=1: the report has Present (601 calls in 600 frames) from outside FFXiMain.dll");
+  }
+  if (profile) {
+    /* trace=2 starts the A/B trace from frame 700: 4 frames with the swaps off, 4 on; the host's Present is the only call */
+    present(100);
+    snprintf(name, sizeof name, "xikit_trace_%lu.txt", GetCurrentProcessId());
+    FILE *tr = fopen(name, "r"); int hdr = 0, l0 = 0, l1 = 0;
+    if (tr) { while (fgets(line, sizeof line, tr)) { if (!strncmp(line, "# d3d trace v1", 14)) hdr = 1;
+                if (!strncmp(line, "0 3 15 Present", 14)) l0 = 1; if (!strncmp(line, "1 3 15 Present", 14)) l1 = 1; } fclose(tr); }
+    check(hdr && l0 && l1, "trace: xikit_trace_<pid>.txt has 4 frames recorded with the swaps off (label 0) and 4 with them on (label 1)");
   }
   printf("%s\n", fails ? "FAILED" : "ALL OK");
   ExitProcess(fails ? 1 : 0);

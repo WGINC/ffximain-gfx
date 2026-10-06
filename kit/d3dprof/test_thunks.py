@@ -22,7 +22,8 @@ u.mem_map(STUB, 0x10000); u.mem_map(STACK - 0x10000, 0x10000); u.mem_map(VT, 0x1
 # imports the record path uses: GetCurrentThreadId -> 7, QueryPerformanceCounter -> writes 0 (stdcall, 1 arg)
 for e in pe.DIRECTORY_ENTRY_IMPORT:
     for imp in e.imports:
-        code = {b'GetCurrentThreadId': b'\xB8\x07\x00\x00\x00\xC3',
+        code = {b'VirtualAlloc': b'\xB8\x00\x00\x00\x50\xC2\x10\x00', b'IsBadReadPtr': b'\x31\xC0\xC2\x08\x00',
+                b'GetCurrentThreadId': b'\xB8\x07\x00\x00\x00\xC3',
                 b'QueryPerformanceCounter': b'\x8B\x44\x24\x04\xC7\x00\x00\x00\x00\x00\xC7\x40\x04\x00\x00\x00\x00\xC2\x04\x00'}.get(imp.name)
         a = STUB + 0x100 * (imp.address & 0xFF)
         u.mem_write(a, code or b'\xF4'); u.mem_write(imp.address, struct.pack('<I', a))
@@ -78,6 +79,26 @@ for k in range(8192):
 assert sites.get((GAME + 0x9737, 50, 0)) == (1, 0), sites
 assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
 assert sites.get((caller, 72, 2)) == (1, 2), sites
+# the call trace: label 0 for one frame, a SetRenderState, a SetTransform (matrix hashed), a DrawPrimitiveUP (vertex data
+# hashed), then Present ends the frame; label 1 starts at frame 0 again and keeps the earlier records
+TR = 0x50000000; u.mem_map(TR, (600000 * 40 + 0x1FFF) & ~0xFFF)
+def ccall(name, *args):
+    sp = STACK - 0x400; u.mem_write(sp, struct.pack('<%dI' % (len(args) + 1), RET, *args)); u.reg_write(UC_X86_REG_ESP, sp)
+    u.mem_write(RET, b'\xF4'); u.emu_start(sym[name], RET)
+ccall('_d3dprof_trace_start', 0)
+MAT = 0x60000000; u.mem_map(MAT, 0x1000); u.mem_write(MAT, bytes(range(64)))
+call(50, [27, 1]); call(37, [2, MAT]); call(72, [4, 1, MAT, 12]); call(15, [0, 0, 0, 0])
+ccall('_d3dprof_trace_start', 1); call(50, [27, 0])
+ccall('_d3dprof_trace_stop'); call(50, [27, 5])
+n = struct.unpack('<I', u.mem_read(sym['_g_ntrace'], 4))[0]
+recs = [struct.unpack('<BBHII6II', u.mem_read(g + 0, 40)) for g in [TR + 40 * k for k in range(n)]]
+assert n == 5, n
+assert [(r[0], r[2], r[3], r[1]) for r in recs] == [(0, 50, 0, 2), (0, 37, 0, 2), (0, 72, 0, 4), (0, 15, 0, 4), (1, 50, 0, 2)], recs
+assert recs[0][5:7] == (27, 1) and recs[4][5:7] == (27, 0)
+fnv = lambda b: __import__('functools').reduce(lambda h, x: ((h ^ x) * 16777619) & 0xFFFFFFFF, b, 2166136261)
+assert recs[1][11] == fnv(bytes(range(64))), hex(recs[1][11])
+assert recs[2][11] == fnv(bytes(range(36))), hex(recs[2][11])     # type 4 (triangle list), count 1: 3 vertices of stride 12 = 36 bytes
+print('ok: call trace: records, frame marks, labels, matrix and vertex-data hashes')
 print('ok: odd return address kept exact; wrapper caller recorded')
 print('ok: 5 calls through the thunks reached the originals with the stack intact; 1 redundant SetRenderState, '
       '1 draw of 1 primitive counted')

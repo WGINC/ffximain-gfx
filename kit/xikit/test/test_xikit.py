@@ -32,5 +32,6 @@ for mode in ('base', 'relocated', 'profile'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
-    shutil.rmtree(d, ignore_errors=True)
+    if os.environ.get("KEEP"): print("kept", d)
+    else: shutil.rmtree(d, ignore_errors=True)
 sys.exit(1 if bad else 0)

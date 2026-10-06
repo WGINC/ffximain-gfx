@@ -340,4 +340,8 @@ fixed:
   (calls fall from 15,800 to 15,000 within the unswapped frames) and says nothing. Vertex-buffer and texture contents
   are not in the trace. `Gfx_DestroyD3DHolder` faults every run in xikit.dll's data area (g_vt region): left out of the
   shipped ini (`exclude=`), cause not found.
+- **The owner's report on trace 7428**: the picture was right while the swaps were off for the trace and wrong again
+  once they were back on. The traced device calls are the same in both halves, so the difference is in data the trace
+  did not see. The trace now records vertex and index buffer contents at `Unlock`, by the function that locked them
+  (`trace_buffers=1`), tested in `test_thunks.py` (Lock/Unlock pops, size from GetDesc, hash, call site).
 

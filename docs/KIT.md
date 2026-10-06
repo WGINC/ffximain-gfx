@@ -130,7 +130,7 @@ Direct3D calls the render thread makes for 4 frames, swaps everything back in, r
 `xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). Per call: the method, the call site (analysed address), the
 method's first parameters, and a hash of what a pointer parameter points at where the method reads a structure through
 it (transform, viewport, material, light, clip plane, shader constants, vertex data of the two `...UP` draws).
-Vertex buffers are not hashed (their contents are written through a locked pointer, not a device call).
+With `trace_buffers=1` (default) every vertex and index buffer the game binds during a trace gets its `Lock`/`Unlock` wrapped (a vtable copy for that object, as for the device): at `Unlock` the locked range is hashed and recorded with the call site of the `Lock`, so `trace_diff.py` lists buffer contents by the function that filled them (reconstruction addresses are named through the reconstruction's exports and the load address in the trace header). Texture contents are not traced.
 
     python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --manifest xikit_manifest.txt
 

@@ -105,6 +105,8 @@ static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
    and the vertex data of the two ...UP draws). The kit records frames with its swaps off, then on, in one session
    (xikit.c: Ctrl+Alt+F8), and trace_diff.py compares the two by call site. Vertex buffers a draw uses are not
    hashed: their contents are written through a locked pointer, not through a device call. */
+#define SLOT_VB_UNLOCK 97                /* buffer records (below): not device methods */
+#define SLOT_IB_UNLOCK 98
 static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2, 1, 4, 3, 1, 2, 1, 7, 8, 6, 5, 5, 6, 5, 4, 5, 2, 1, 2, 1, 1, 0, 0, 6, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 2, 2, 3, 3, 1, 3, 2, 2, 1, 1, 3, 5, 4, 8, 5, 4, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 1};
 typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
 #define TRACE_MAX 600000
@@ -112,7 +114,7 @@ static Rec *g_trace; static uint32_t g_ntrace, g_trace_dropped, g_trace_frame; s
 
 static uint32_t fnv(const void *p, uint32_t n) {
   uint32_t h = 2166136261u;
-  if (!p || n == 0 || n > 0x100000 || IsBadReadPtr(p, n)) return 0xDEAD0000u | (p ? 1u : 0u);
+  if (!p || n == 0 || n > 0x1000000 || IsBadReadPtr(p, n)) return 0xDEAD0000u | (p ? 1u : 0u);
   for (uint32_t i = 0; i < n; i++) h = (h ^ ((const uint8_t *)p)[i]) * 16777619u;
   return h;
 }
@@ -121,10 +123,12 @@ static uint32_t prim_verts(uint32_t type, uint32_t n) {     /* D3DPRIMITIVETYPE:
   return 0;
 }
 
+static void pend_clear(void);
 void d3dprof_trace_start(int label) {
   if (!g_trace) g_trace = (Rec *)VirtualAlloc(NULL, TRACE_MAX * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
   if (!g_trace) return;
   if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; }
+  pend_clear();
   g_trace_label = label; g_trace_frame = 0;
 }
 void d3dprof_trace_stop(void) { g_trace_label = -1; }
@@ -136,13 +140,105 @@ int d3dprof_trace_write(const char *path, const char *note) {
              "# %u records, %u dropped\n", note, g_ntrace, g_trace_dropped);
   for (uint32_t i = 0; i < g_ntrace; i++) {
     Rec *r = &g_trace[i];
-    fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot, NAMES[r->slot], r->site, r->np);
+    fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot,
+            r->slot < NSLOTS ? NAMES[r->slot] : r->slot == SLOT_VB_UNLOCK ? "VB_Unlock" : "IB_Unlock", r->site, r->np);
     for (int k = 0; k < r->np && k < 6; k++) fprintf(f, " %08X", r->a[k]);
     fprintf(f, " %08X\n", r->h);
   }
   fclose(f); return 1;
 }
+/* Vertex and index buffer contents. The game writes them through the pointer IDirect3DVertexBuffer8::Lock /
+   IDirect3DIndexBuffer8::Lock returns (slots 11 and 12 Unlock, 13 GetDesc in the D3D8 header for both), not
+   through the device, so the device trace cannot see them. While a trace is armed, every buffer the game binds
+   (SetStreamSource, SetIndices) gets a copy of its class's vtable with Lock and Unlock wrapped (that object only, as
+   for the device); at Unlock the locked range is hashed and recorded as VB_Unlock / IB_Unlock with the call site of
+   the Lock: the function that filled it. Also counted: dwords whose float exponent is all ones (inf/NaN, also what a
+   D3DCOLOR with alpha 0xFF looks like) and dwords that are floats of magnitude 2^20 or more. */
+#define NBUFCLS 16
+#define BUFVT 14
+typedef HRESULT (__stdcall *LockFn)(void *, UINT, UINT, BYTE **, DWORD);
+typedef HRESULT (__stdcall *UnlockFn)(void *);
+typedef HRESULT (__stdcall *DescFn)(void *, void *);
+static void **g_bc_orig[NBUFCLS]; static void *g_bc_copy[NBUFCLS][BUFVT]; static uint8_t g_bc_kind[NBUFCLS]; static int g_nbc;
+static int g_hookbufs;
+typedef struct { void *obj; uint8_t *p; uint32_t off, size, site; } Pending;
+#define NPEND 1024
+static Pending g_pend[NPEND];
+static int bc_of(void **vp) { for (int i = 0; i < g_nbc; i++) if (vp == (void **)g_bc_copy[i]) return i; return -1; }
+static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DWORD flags);
+static HRESULT __stdcall buf_unlock(void *self);
+static void hook_buf(void *obj, int kind) {
+  if (!obj || IsBadReadPtr(obj, 4)) return;
+  void **vp = *(void ***)obj;
+  if (bc_of(vp) >= 0 || IsBadReadPtr(vp, BUFVT * 4)) return;
+  int i = 0;
+  while (i < g_nbc && g_bc_orig[i] != vp) i++;
+  if (i == g_nbc) {
+    if (g_nbc >= NBUFCLS) return;
+    memcpy(g_bc_copy[i], vp, sizeof g_bc_copy[i]);
+    g_bc_copy[i][11] = (void *)buf_lock; g_bc_copy[i][12] = (void *)buf_unlock;
+    g_bc_orig[i] = vp; g_bc_kind[i] = (uint8_t)kind; g_nbc++;
+  }
+  *(void ***)obj = (void **)g_bc_copy[i];
+}
+void d3dprof_trace_hookbufs(int on) { g_hookbufs = on; }
+static void pend_clear(void) { for (int i = 0; i < NPEND; i++) g_pend[i].obj = NULL; }   /* (no CRT call: test_thunks.py runs this) */
+#ifdef _MSC_VER
+#include <intrin.h>
+#define RETADDR() ((uint32_t)(uintptr_t)_ReturnAddress())
+#else
+#define RETADDR() ((uint32_t)(uintptr_t)__builtin_return_address(0))
+#endif
+static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DWORD flags) {
+  uint32_t ra = RETADDR();
+  int i = bc_of(*(void ***)self);
+  if (i < 0) return E_FAIL;                         /* cannot happen: only objects given this vtable copy get here */
+  HRESULT hr = ((LockFn)g_bc_orig[i][11])(self, off, size, pp, flags);
+  if (g_trace_label >= 0 && hr >= 0 && pp && *pp && GetCurrentThreadId() == g_thread) {
+    if (size == 0) {                                /* the whole buffer from off: the size is in the description */
+      uint32_t d[8] = {0};
+      if (((DescFn)g_bc_orig[i][13])(self, d) >= 0 && d[4] > off) size = d[4] - off;
+    }
+    uint32_t h = ((uint32_t)(uintptr_t)self >> 4) & (NPEND - 1);
+    for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1))
+      if (!g_pend[h].obj || g_pend[h].obj == (void *)1 || g_pend[h].obj == self) {
+        g_pend[h].obj = self; g_pend[h].p = *pp; g_pend[h].off = off; g_pend[h].size = size;
+        g_pend[h].site = ra >= g_lo && ra < g_hi ? ra - g_rel : ra; break;
+      }
+  }
+  return hr;
+}
+static HRESULT __stdcall buf_unlock(void *self) {
+  int i = bc_of(*(void ***)self);
+  if (i < 0) return E_FAIL;
+  uint32_t h = ((uint32_t)(uintptr_t)self >> 4) & (NPEND - 1);
+  for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1)) {
+    if (!g_pend[h].obj) break;
+    if (g_pend[h].obj != self) continue;
+    Pending q = g_pend[h]; g_pend[h].obj = (void *)1;    /* a tombstone keeps later entries of the probe reachable */
+    if (g_trace_label >= 0 && g_trace && GetCurrentThreadId() == g_thread) {
+      if (g_ntrace >= TRACE_MAX) { g_trace_dropped++; break; }
+      uint32_t nonfinite = 0, huge = 0;
+      if (q.size <= 0x1000000 && !IsBadReadPtr(q.p, q.size))
+        for (uint32_t k = 0; k + 4 <= q.size; k += 4) {
+          uint32_t w = *(const uint32_t *)(q.p + k), e = (w >> 23) & 0xFF;
+          if (e == 0xFF) nonfinite++; else if (e >= 147) huge++;
+        }
+      Rec *r = &g_trace[g_ntrace++];
+      r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = g_bc_kind[i] ? SLOT_IB_UNLOCK : SLOT_VB_UNLOCK;
+      r->site = q.site; r->np = 4; r->a[0] = q.off; r->a[1] = q.size; r->a[2] = nonfinite; r->a[3] = huge; r->a[4] = r->a[5] = 0;
+      r->h = fnv(q.p, q.size);
+    }
+    break;
+  }
+  return ((UnlockFn)g_bc_orig[i][12])(self);
+}
+
 static void trace_call(int slot, uint32_t *a, uint32_t site) {
+  if (g_hookbufs && GetCurrentThreadId() == g_thread) {
+    if (slot == S_SSS) hook_buf((void *)a[3], 0);
+    else if (slot == S_SETIND) hook_buf((void *)a[2], 1);
+  }
   if (g_trace_label < 0 || !g_trace) return;
   if (g_ntrace >= TRACE_MAX) { g_trace_dropped++; return; }
   Rec *r = &g_trace[g_ntrace++];

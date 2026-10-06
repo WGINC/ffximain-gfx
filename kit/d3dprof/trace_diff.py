@@ -11,7 +11,8 @@ is left, per (method, call site, parameter values), is a count that changed when
 The call site is the analysed address (0x10xxxxxx) of the return address; --manifest names it with the swapped
 function that contains it (RVA of the function's entry <= site, nearest below), which is a naming aid and no
 proof the site is inside that function. Nothing here says which side is right: it says where the two differ."""
-import argparse, collections, re, sys
+import argparse, bisect, collections, json, os, re, sys
+H = os.path.dirname(os.path.abspath(__file__))
 
 
 # parameters that are addresses of the data the hash covers: a different run of the same call has a different address
@@ -23,16 +24,18 @@ PTR_ARG = {'SetTransform': (1,), 'MultiplyTransform': (1,), 'SetViewport': (0,),
 
 def parse(path, by_site=False):
     frames = collections.defaultdict(list)          # (label, frame) -> [token]
-    meta = []
+    meta = []; bufs = []
     for l in open(path):
         if l.startswith('#'): meta.append(l.rstrip()); continue
         p = l.split()
         if len(p) < 7: continue
         label, frame, slot, name, site, np_ = int(p[0]), int(p[1]), int(p[2]), p[3], int(p[4], 16), int(p[5])
         args = tuple(p[6:6 + min(np_, 6)]); h = p[6 + min(np_, 6)]
+        if name in ('VB_Unlock', 'IB_Unlock'):       # buffer contents: compared by the function that filled them (below)
+            bufs.append((label, frame, name, site, tuple(int(x, 16) for x in args), h)); continue
         args = tuple(a for i, a in enumerate(args) if i not in PTR_ARG.get(name, ()))
         frames[(label, frame)].append((name, site if by_site else 0, args, h))
-    return frames, meta
+    return frames, meta, bufs
 
 
 def names(manifest):
@@ -53,6 +56,78 @@ def owner(tab, site):
     return '%s+0x%X' % (best[1], site - best[0]) if best else ''
 
 
+class Owners:
+    """the function a call site is in: a site in the game's DLL by data/func_extents.json; a site in the reconstruction
+    (its load address is in the trace's header) by the nearest export at or below it in the reconstruction DLL, named
+    as the manifest names that export, so both halves name the same function the same way. The export rule is a
+    naming aid: code the compiler placed between exports would be named after the export before it."""
+    def __init__(self, meta, recon_dll, manifest, extents):
+        self.man = {}; self.exp_name = {}
+        for l in open(manifest):
+            if l[0] in '#!' or not l.strip(): continue
+            p = l.split(); a = 0x10000000 + int(p[0], 16)
+            self.man[a] = p[-1]; self.exp_name[p[2]] = (a, p[-1])
+        ex = json.load(open(extents))
+        self.pieces = sorted((lo, hi, int(k, 16)) for k, v in ex.items() for lo, hi in v)
+        self.starts = [x[0] for x in self.pieces]
+        m = next((re.search(r'reconstruction at 0x([0-9A-Fa-f]+)', x) for x in meta if 'reconstruction at' in x), None)
+        self.rbase = int(m.group(1), 16) if m else None
+        self.exports = []
+        if self.rbase and os.path.exists(recon_dll):
+            import pefile
+            pe = pefile.PE(recon_dll, fast_load=True); pe.parse_data_directories()
+            self.rsize = pe.OPTIONAL_HEADER.SizeOfImage
+            self.exports = sorted((e.address, (e.name or b'').decode()) for e in pe.DIRECTORY_ENTRY_EXPORT.symbols)
+            self.eaddr = [x[0] for x in self.exports]
+
+    def __call__(self, site):
+        if 0x10000000 <= site < 0x11000000:
+            i = bisect.bisect_right(self.starts, site) - 1
+            while i >= 0 and self.pieces[i][0] > site - 0x100000:
+                lo, hi, f = self.pieces[i]
+                if lo <= site < hi: return '%s 0x%08X' % (self.man.get(f, 'fn'), f)
+                i -= 1
+            return 'game 0x%08X' % site
+        if self.exports and self.rbase <= site < self.rbase + self.rsize:
+            i = bisect.bisect_right(self.eaddr, site - self.rbase) - 1
+            if i >= 0:
+                a, n = self.exp_name.get(self.exports[i][1], (None, self.exports[i][1]))
+                return '%s 0x%08X' % (n, a) if a else 'reconstruction %s' % n
+        return 'other 0x%08X' % site
+
+
+def buffer_report(bufs, owners, top):
+    """per filling function: unlocks, bytes, inf/NaN-pattern and huge-float dwords per frame, and how many of the
+    contents (hashes) the swapped half wrote were also written in the unswapped half; the unswapped frames compared
+    with each other give what overlap the scene itself allows"""
+    if not bufs: print('\nno buffer records (trace_buffers=0, or a kit before 6 Oct)'); return
+    g = collections.defaultdict(lambda: {0: collections.defaultdict(list), 1: collections.defaultdict(list)})
+    for label, frame, name, site, a, h in bufs:
+        g[(owners(site), name)][label][frame].append((a[1], a[2], a[3], h))
+    rows = []
+    for k, side in g.items():
+        def per(lbl, i):
+            fr = side[lbl]; n = max(len(fr), 1)
+            return sum(sum(x[i] for x in v) for v in fr.values()) / n
+        offh = [set(x[3] for x in v) for v in side[0].values()]; onh = set(x[3] for v in side[1].values() for x in v)
+        allo = set().union(*offh) if offh else set()
+        inner = (sum(len(a & b) / max(len(a | b), 1) for i, a in enumerate(offh) for b in offh[i + 1:]) /
+                 max(len(offh) * (len(offh) - 1) / 2, 1)) if len(offh) > 1 else None
+        cross = len(onh & allo) / max(len(onh), 1) if onh else None
+        unl = [len([x for v in side[l].values() for x in v]) / max(len(side[l]), 1) for l in (0, 1)]
+        stats = [(per(l, 0), per(l, 1), per(l, 2)) for l in (0, 1)]
+        score = abs(stats[0][1] - stats[1][1]) + abs(stats[0][2] - stats[1][2]) + abs(unl[0] - unl[1]) * 4
+        if inner is not None and cross is not None: score += max(0.0, inner - cross) * 1000
+        rows.append((score, k, unl, stats, inner, cross))
+    rows.sort(key=lambda r: -r[0])
+    print('\nbuffer contents by the function that locked them (per frame: unlocks, bytes, inf/NaN-pattern dwords, floats >= 2^20;'
+          ' "same" = share of the contents also written without swaps, against what the unswapped frames share among themselves):')
+    for score, (fn, name), unl, st, inner, cross in rows[:top]:
+        print('  %-9s %-52s off %5.1f x %8.0f B nan %6.0f big %6.0f | on %5.1f x %8.0f B nan %6.0f big %6.0f | same %s (scene %s)' % (
+            name, fn[:52], unl[0], st[0][0], st[0][1], st[0][2], unl[1], st[1][0], st[1][1], st[1][2],
+            '-' if cross is None else '%3.0f%%' % (100 * cross), '-' if inner is None else '%3.0f%%' % (100 * inner)))
+
+
 def multiset(tokens):
     return collections.Counter(tokens)
 
@@ -64,9 +139,11 @@ def delta(a, b):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('trace'); ap.add_argument('--manifest'); ap.add_argument('--by-site', action='store_true', help='keep the call site in the token (sites inside the reconstruction are addresses of the reconstruction, not of the game: a swapped run then differs at every swapped function)'); ap.add_argument('--top', type=int, default=40)
+    ap.add_argument('trace'); ap.add_argument('--manifest', default=os.path.join(H, '..', 'xikit', 'dist', 'xikit_manifest.txt'));
+    ap.add_argument('--recon', default=os.path.join(H, '..', 'xikit', 'dist', 'gfx_recon_ingame.dll'))
+    ap.add_argument('--extents', default=os.path.join(H, '..', '..', 'data', 'func_extents.json')); ap.add_argument('--by-site', action='store_true', help='keep the call site in the token (sites inside the reconstruction are addresses of the reconstruction, not of the game: a swapped run then differs at every swapped function)'); ap.add_argument('--top', type=int, default=40)
     o = ap.parse_args()
-    frames, meta = parse(o.trace, o.by_site); tab = names(o.manifest)
+    frames, meta, bufs = parse(o.trace, o.by_site); tab = names(o.manifest)
     for m in meta[:3]: print(m)
     A = sorted(f for l, f in frames if l == 0); B = sorted(f for l, f in frames if l == 1)
     print('frames: %d without swaps, %d with; calls per frame %s | %s' % (
@@ -97,6 +174,7 @@ def main():
         for args, h, lo, hi, got in toks[:3]:
             print('       args %s hash %s : off %d..%d, on %s' % (' '.join(args), h, lo, hi, got))
     if not changed: print('no call differs beyond what the scene itself changes: the swaps drew the same calls')
+    buffer_report(bufs, Owners(meta, o.recon, o.manifest, o.extents), o.top)
 
 
 if __name__ == '__main__':

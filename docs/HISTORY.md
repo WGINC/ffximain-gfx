@@ -706,3 +706,8 @@ the skinning buffers' Lock and Unlock are not device methods, which accounts for
 
 kit/d3dprof/samples.py: the inclusive view's standard error failed on shares above 100% (a function on a stack more
 than once); fixed.
+- **The owner's machine is an M5 MacBook Pro** (stated by the owner). So Windows on ARM runs in Parallels and the game
+  is x86-emulated.
+- **Why the game skins with x87:** its CPU detection (0x1000D400) sets the SSE flag `[0x104566E8]+9`, the one that
+  selects the SSE skinning loop, only for a "GenuineTMx86" vendor or one containing "Intel". speedfix lever
+  `sse_skinning` (off by default; A/B-able) writes the CPU's own SSE bit there. Wine-tested; not run in the game.

@@ -30,6 +30,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `cpu_tier` | 1 | The SSE math tier on any CPU with SSE (only before the game has chosen its tier) |
 | `lazy_state` | 0 | Lever: hold SetRenderState / SetTextureStageState / SetTexture until a method that reads them; a change undone before then never reaches the device (below) |
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
+| `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
 
 ## The levers (measured, not yet decided)
@@ -58,6 +59,25 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   handles anywhere (no such use has been seen), and whether Reset destroys vertex shaders on the owner's driver (the
   table is kept across Reset). Measure it by the creations it saves (`xikit.log`: `vs_dedupe:` each minute) and by
   the spike log (`spike_ms=50` in xikit.ini), not by the frame-time A/B: it acts while loading.
+- **sse_skinning: frame time on CPUs the game does not call Intel.** On the owner's M5 MacBook Pro (Windows on ARM in
+  Parallels, the game x86-emulated) the render thread spent 13.3% of its samples in the x87 skinning loop of
+  0x1002F1D0, and none in its SSE loop (docs/HISTORY.md, run 6156).
+  - How the game chooses: the loop is picked on every call by the SSE flag of the game's CPU object, `[0x104566E8]+9`,
+    read through 0x1000D680 (or `+0xC`, which nothing writes). Its detection (0x1000D400) sets that flag from
+    CPUID.1:EDX bit 25 only when the vendor is "GenuineTMx86" or contains "Intel" from its first "I"; an
+    "AuthenticAMD" CPU gets the 3DNow flag instead.
+  - What the lever does: it writes the CPU's own SSE bit there while it is on and the kit's hooks are live, and the
+    game's value back otherwise, on the render thread.
+  - Who reads the flag: only 0x1002F1D0 and 0x100311A0, the latter reached through a pointer, reading the flag
+    afresh on each call.
+  - Why switching mid-session is safe for the skinning: both loops read the same per-call inputs, the model fields
+    and the bone matrices 0x10457550 that SkinAndDrawV2 sets on every call, and write the vertex buffers it locks
+    every frame.
+  - Not established:
+    - whether 0x100311A0 leaves anything flag-dependent behind after a call;
+    - how far the SSE loop's single-precision results differ from the x87 loop's (it is the game's own code for
+      Intel CPUs);
+    - what the emulator's CPUID vendor is.
 - **Already there, now measurable one at a time:** `batch_up_draws` (1,031 DrawPrimitiveUP a frame through the CDx
   wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
   the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
@@ -89,7 +109,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`. Several can be listed together (they go off
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`. Several can be listed together (they go off
 and on together). Empty `ab_levers` and set it again for another run.
 
 ## What changed from speedfix_hook
@@ -146,7 +166,9 @@ and on together). Empty `ab_levers` and set it again for another run.
     batching two quads around an undone toggle become one draw, turned off while running nothing stays held;
   - vs_dedupe: one shader for a repeated declaration, two for declarations that differ after constant data of
     0xFFFFFFFF, a shader with code made as asked, deletion only by the last holder;
-  - the lever A/B: phases A then B, the summary, an unknown name left out.
+  - the lever A/B: phases A then B, the summary, an unknown name left out;
+  - sse_skinning: off leaves the game's SSE flag (0), on sets it to 1 (the CPU under Wine reports SSE), off again
+    puts the game's value back.
 - **The gate:** the query hook.
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any

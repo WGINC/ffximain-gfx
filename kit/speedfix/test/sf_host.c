@@ -77,6 +77,7 @@ static void touch(const char *path, const char *body) { Sleep(30); FILE *f = fop
 extern int call_with_esi(void *fn, void *esi);
 __asm__(".globl _call_with_esi\n_call_with_esi:\n  push %esi\n  mov 12(%esp), %esi\n  call *8(%esp)\n  pop %esi\n  ret\n");
 static void *call_target(uint32_t site) { uint8_t *p = (uint8_t *)GAME(site); return p[0] == 0xE8 ? p + 5 + *(int32_t *)(p + 1) : NULL; }
+static uint8_t g_cpu[0x24];        /* [0x104566E8]: the game's CPU object (0x1000D380); +9 its SSE flag (sse_skinning) */
 static uint8_t g_cam[0x40];        /* [0x104568FC] -> +0x34: the frame counter (GetFrameCounter, 0x10014D50) */
 
 static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
@@ -99,6 +100,7 @@ int main(int argc, char **argv) {
   DWORD old; VirtualProtect((void *)GAME(0x10000000u), 0x1000000, PAGE_EXECUTE_READWRITE, &old);
   *(void **)GAME(G_PCDX) = g_cdx;
   *(void **)GAME(0x104568FCu) = g_cam;
+  *(void **)GAME(0x104566E8u) = g_cpu;                /* +9 = 0: the game found no SSE (as on the owner's machine) */
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
   touch("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
   DeleteFileA("speedfix.ini");
@@ -245,6 +247,13 @@ int main(int argc, char **argv) {
   check(call_target(0x1006C4D7u) != (void *)GAME(0x1006C8B0u), "skip_all_occlusion_readbacks=1: the readback call goes to speedfix");
   { typedef int (__attribute__((thiscall)) *Rb)(void *, int); Rb rb = (Rb)call_target(0x1006C4D7u);
     begin(); check(rb((void *)0x1234, 0) == 256, "... and answers 256 (fully visible) without the game's readback"); end(); present(); }
+  /* sse_skinning: off (the default) leaves the game's SSE flag; on sets it (the CPU under Wine reports SSE); off again
+     puts the game's value back */
+  check(g_cpu[9] == 0, "sse_skinning=0: the game's SSE flag (CPU object +9) left at 0");
+  touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nsse_skinning=1\n"); frames(65);
+  check(g_cpu[9] == 1, "sse_skinning=1: the flag is 1, so 0x1002F1D0 takes the game's SSE loop");
+  touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nsse_skinning=0\n"); frames(65);
+  check(g_cpu[9] == 0, "sse_skinning=0 again: the game's own value (0) is back");
 
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;

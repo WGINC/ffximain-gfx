@@ -51,6 +51,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <cpuid.h>
 #include "speedfix.h"
 
 // an analysed address (base 0x10000000) where the game is loaded now
@@ -95,6 +96,10 @@ static const char kDefaultIni[] =
   "; a vertex shader with the same declaration (and no shader code) is made once and its handle given out again\r\n"
   ";   (loading: some 1,450 creations a session, 3 distinct shaders); the same at the next start or live\r\n"
   "vs_dedupe=0\r\n"
+  "; the game's SSE skinning loops (0x1002F1D0, 0x100311A0) on any CPU that reports SSE: the game's CPU detection\r\n"
+  ";   (0x1000D400) sets its SSE flag only for an Intel or Transmeta vendor string, so other CPUs, and the x86\r\n"
+  ";   emulation of Windows on ARM if it reports another vendor, skin with x87; live both ways\r\n"
+  "sse_skinning=0\r\n"
   "; A/B of levers with no keys: ab_levers lists settings above (comma-separated); ab_after seconds after it is\r\n"
   ";   saved non-empty, phases of ab_phase seconds A B B A, ab_rounds times: A = those settings off (occlusion_stagger\r\n"
   ";   4, the game's), B = as set above. The first ab_settle frames of a phase are left out. Results in xikit.log\r\n"
@@ -112,7 +117,7 @@ static SfConfig read_config(void) {
   c.skip_actor_occlusion = rd("skip_actor_occlusion", 0); c.skip_all_occlusion_readbacks = rd("skip_all_occlusion_readbacks", 0);
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
-  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0);
+  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -130,9 +135,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -203,12 +208,35 @@ static void apply_texture(void) {
   if (want < 0) LOG("speedfix: texture_compression off: the game's value %u back (textures loaded from now on)", g_tex_orig);
   else LOG("speedfix: texture_compression %u -> %d (textures loaded from now on)", before, want);
 }
+static void apply_sse_skinning(void);
 static void apply_code(void) {                      // render thread, inside Present
   static const uint8_t kBucketCall[5] = {0xE8, 0xC1, 0x87, 0xF4, 0xFF};     // 0x100CC58A call 0x10014D50
   static const uint8_t kReadbackCall[5] = {0xE8, 0xD4, 0x03, 0x00, 0x00};   // 0x1006C4D7 call 0x1006C8B0
   if (!g_bucket_done && sf_cfg.occlusion_stagger > 4) { g_bucket_done = true; reaim_call(0x100CC58Au, kBucketCall, (void *)sf_bucket_stub, "occlusion_stagger"); }
   if (!g_readback_done && sf_cfg.skip_all_occlusion_readbacks) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, "skip_all_occlusion_readbacks"); }
   apply_texture();
+  apply_sse_skinning();
+}
+
+/* sse_skinning. The game's CPU object ([0x104566E8], made at start by 0x1000D380; detection 0x1000D400) has a byte at
+   +9 that only its getter 0x1000D680 reads, called by two functions: the skinning dispatcher 0x1002F1D0 (SSE loop at
+   0x100300B0 when +9 or +0xC is set, else the x87 loop at 0x1002F200) and 0x100311A0. Detection sets +9 to CPUID.1:EDX
+   bit 25 (SSE) only for vendor class 1 (a "GenuineTMx86" vendor, or "Intel" from the vendor string's first 'I'). This
+   writes the CPU's own SSE bit there while the lever is on and the kit's hooks are live, and the game's value back
+   otherwise; on the render thread, where the skinning runs (the owner's samples), so never during a skinning call. */
+static void apply_sse_skinning(void) {
+  static int have_sse = -1, saved = -1; static bool logged;
+  volatile uint8_t **pp = (volatile uint8_t **)(uintptr_t)XI_GAME(0x104566E8u);
+  volatile uint8_t *obj = *pp;
+  if (!obj) return;
+  if (have_sse < 0) { unsigned a, b, c, d; have_sse = __get_cpuid(1, &a, &b, &c, &d) && (d >> 25 & 1); }
+  if (saved < 0) {
+    saved = obj[9];
+    LOG("speedfix: sse_skinning: the game's SSE flag is %d (the CPU reports SSE: %s)", saved, have_sse ? "yes" : "no");
+  }
+  int want = sf_cfg.sse_skinning && have_sse && sf_hooks_live() ? 1 : saved;
+  if (obj[9] != want) obj[9] = (uint8_t)want;
+  if (sf_cfg.sse_skinning && !have_sse && !logged) { logged = true; LOG("speedfix: sse_skinning: the CPU reports no SSE; left as the game set it"); }
 }
 
 static void apply_cpu_tier(void) {
@@ -239,6 +267,7 @@ static const Lever kLevers[] = {
   {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
+  {"sse_skinning", &SfConfig::sse_skinning, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)

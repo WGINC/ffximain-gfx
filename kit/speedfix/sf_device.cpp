@@ -25,6 +25,10 @@
 //     define completely: DirectX 8 SDK, CreateVertexShader) of a declaration already made returns that shader's handle
 //     again; DeleteVertexShader deletes it when the last of them is deleted. The owner's sessions: ~1,450 creations,
 //     3 distinct shaders (d3dprof's shader catalogue).
+//   * skip_shadow_pass: between the game's Model_BeginOffscreenPass and Model_EndOffscreenPassBindTextures (hooked in
+//     sf_game.cpp, which sets sf_shadow_skip), SetRenderTarget, Clear and the draws are not sent; every state call is.
+//     The device's target never changes, so the scene's state after the pass is the game's. What is lost is what the
+//     pass draws into its texture, which the owner's 17 traced frames (run 6080) never bound or copied (README).
 #include <windows.h>
 #include <d3d8.h>
 #include <stdio.h>
@@ -79,6 +83,8 @@ static DWORD g_fill, g_shade; static bool g_fillV, g_shadeV;   // FILLMODE (8), 
 static int g_frame, g_last_scene_frame = -1;
 static bool g_motion;                   // motion_stats at the start (its hooks are installed then)
 static bool g_sceneHeld; static void *g_heldDev; static volatile LONG g_mergedEnds;   // merge_scenes
+extern "C" { volatile int sf_shadow_skip; }
+static volatile LONG g_shSkip;
 volatile int sf_frame_no, sf_hooks_frame = -1;     // speedfix.h: the frame number, the last frame whose scene ran through these hooks
 
 static void forget_all(void) {
@@ -296,6 +302,7 @@ static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
 static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w, const RGNDATA *r) {
   if (!g_render_tid) { g_render_tid = GetCurrentThreadId(); H->log("speedfix: render thread %lu", (unsigned long)g_render_tid); }
   else if (!render_thread()) foreign();
+  if (render_thread()) sf_shadow_skip = 0;            // a pass never spans frames
   commit();
   close_held();
   return PREV(PFN_Present, S_Present)(d, a, b, w, r);
@@ -402,6 +409,32 @@ static HRESULT __stdcall h_SetVS(void *d, DWORD h) {
   HRESULT hr = PREV(PFN_D1, S_SetVS)(d, h);
   if (!g_recording) { if (SUCCEEDED(hr)) g_curVS = h; g_vs = h; g_vsV = SUCCEEDED(hr) && sf_cfg.vs_cache; }
   return hr;
+}
+
+// ---- skip_shadow_pass: these methods of the pass are not sent (the rest of their work as stub_enter's) ----------
+static inline bool shadow_skip(void) { return sf_shadow_skip && render_thread(); }
+typedef HRESULT (__stdcall *PFN_SetRT)(void *, void *, void *);
+typedef HRESULT (__stdcall *PFN_Clear)(void *, DWORD, const D3DRECT *, DWORD, D3DCOLOR, float, DWORD);
+typedef HRESULT (__stdcall *PFN_DIPUP)(void *, D3DPRIMITIVETYPE, UINT, UINT, UINT, const void *, D3DFORMAT, const void *, UINT);
+static HRESULT __stdcall h_SetRT(void *d, void *rt, void *z) {
+  if (shadow_skip()) { g_shSkip++; return D3D_OK; }
+  stub_enter(S_SetRenderTarget, NULL); return PREV(PFN_SetRT, S_SetRenderTarget)(d, rt, z);
+}
+static HRESULT __stdcall h_Clear(void *d, DWORD n, const D3DRECT *r, DWORD f, D3DCOLOR c, float z, DWORD st) {
+  if (shadow_skip()) { g_shSkip++; return D3D_OK; }
+  stub_enter(36, NULL); return PREV(PFN_Clear, 36)(d, n, r, f, c, z, st);
+}
+static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT a, UINT b) {
+  if (shadow_skip()) { g_shSkip++; return D3D_OK; }
+  stub_enter(S_DP, NULL); return PREV(PFN_DPr4, S_DP)(d, t, a, b);
+}
+static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT a, UINT b, UINT c, UINT e) {
+  if (shadow_skip()) { g_shSkip++; return D3D_OK; }
+  stub_enter(S_DIP, NULL); return PREV(PFN_DIP6, S_DIP)(d, t, a, b, c, e);
+}
+static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT mn, UINT nv, UINT pc, const void *ix, D3DFORMAT f, const void *v, UINT s) {
+  if (shadow_skip()) { g_shSkip++; g_ssV[0] = false; g_ibV = false; return D3D_OK; }
+  stub_enter(S_DIPUP, NULL); return PREV(PFN_DIPUP, S_DIPUP)(d, t, mn, nv, pc, ix, f, v, s);
 }
 
 // ---- vs_dedupe ---------------------------------------------------------------------------------------------------
@@ -565,6 +598,7 @@ static void expand(D3DPRIMITIVETYPE t, UINT n, const BYTE *src, UINT stride, BYT
 }
 static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
+  if (sf_shadow_skip) { g_shSkip++; g_ssV[0] = false; return D3D_OK; }
   g_upIn++;
   if (g_motion) mot_count(S_DPUP);
   if (g_live) commit();                            // held changes: the batch so far goes out under the state before them
@@ -605,6 +639,8 @@ static void *hook_for(int s) {
   case S_SetMaterial: return (void *)h_SetMaterial; case S_SetLight: return (void *)h_SetLight;
   case S_LightEnable: return (void *)h_LightEnable; case S_SetStream: return (void *)h_SetStream;
   case S_SetIndices: return (void *)h_SetIndices; case S_DPUP: return (void *)h_DPUP; case 75: return (void *)h_CreateVS;
+  case S_SetRenderTarget: return (void *)h_SetRT; case 36: return (void *)h_Clear; case S_DP: return (void *)h_DP;
+  case S_DIP: return (void *)h_DIP; case S_DIPUP: return (void *)h_DIPUP;
   }
   return NULL;
 }
@@ -625,7 +661,7 @@ extern "C" int sf_device_install(const XikitHost *host) {
   // its setters; with both off at the start only the cached setters and the methods that change or bound their
   // state are hooked (the owner's first capture: some 20,000 calls a frame were otherwise passed through for nothing).
   // lazy_state needs every method that reads the state it holds (other_state: the rest)
-  g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state ? 1 : 0;
+  g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state || sf_cfg.skip_shadow_pass ? 1 : 0;
   g_motion = sf_cfg.motion_stats != 0;
   // 0-2 (QueryInterface, AddRef, Release) do not render. Every other method: its own hook, or a flushing stub
   for (int s = 3; s < NSLOT; s++) {
@@ -651,9 +687,10 @@ extern "C" int sf_device_install(const XikitHost *host) {
 }
 
 // a cache turned on starts from an empty shadow: nothing recorded while it was off is trusted
+extern "C" int sf_device_level(void) { return g_level; }
 extern "C" int sf_device_allows(const char *key) {
   if (!strcmp(key, "batch_up_draws") || !strcmp(key, "extended_state_cache")) return g_level == 2;
-  if (!strcmp(key, "lazy_state")) return g_level >= 1;
+  if (!strcmp(key, "lazy_state") || !strcmp(key, "skip_shadow_pass")) return g_level >= 1;
   return 1;
 }
 extern "C" void sf_device_config_changed(const SfConfig *b) {
@@ -662,9 +699,10 @@ extern "C" void sf_device_config_changed(const SfConfig *b) {
       H->log("speedfix: batch_up_draws / extended_state_cache take effect at the next start (they were off at this one, so their hooks are not in place)");
     sf_cfg.batch_up = 0; sf_cfg.ext_cache = 0;
   }
-  if (g_level < 1 && sf_cfg.lazy_state) {
-    if (!b->lazy_state) H->log("speedfix: lazy_state takes effect at the next start (it was off at this one, so its hooks are not in place)");
-    sf_cfg.lazy_state = 0;
+  if (g_level < 1 && (sf_cfg.lazy_state || sf_cfg.skip_shadow_pass)) {
+    if ((sf_cfg.lazy_state && !b->lazy_state) || (sf_cfg.skip_shadow_pass && !b->skip_shadow_pass))
+      H->log("speedfix: lazy_state / skip_shadow_pass take effect at the next start (both were off at this one, so their hooks are not in place)");
+    sf_cfg.lazy_state = 0; sf_cfg.skip_shadow_pass = 0;
   }
   if (!sf_cfg.lazy_state && b->lazy_state) commit();     // nothing stays held
   if (!sf_cfg.state_cache && !sf_cfg.lazy_state && (b->state_cache || b->lazy_state)) {   // the shadow is no longer kept true
@@ -777,6 +815,8 @@ extern "C" void sf_device_stats(void) {
   LONG lh = InterlockedExchange(&g_held, 0), ls = InterlockedExchange(&g_sent, 0), ld = InterlockedExchange(&g_dropped, 0);
   LONG vm = InterlockedExchange(&g_vsdMade, 0), vsh = InterlockedExchange(&g_vsdShared, 0), vk = InterlockedExchange(&g_vsdKept, 0);
   if (lh + ld) H->log("speedfix: lazy_state: %ld changes held, %ld sent, %ld calls never sent (undone or replaced before a read)", lh, ls, ld);
+  LONG sk = InterlockedExchange(&g_shSkip, 0);
+  if (sk) H->log("speedfix: skip_shadow_pass: %ld render-target switches, clears and draws of the shadow pass not sent", sk);
   if (vm + vsh + vk) H->log("speedfix: vs_dedupe: %ld vertex shaders made, %ld creations given an existing one, %ld deletions of a shared one kept it", vm, vsh, vk);
   if (f + s) H->log("speedfix: cached setters: %ld forwarded, %ld skipped (%.1f%%)", f, s, 100.0 * s / (double)(f + s));
   if (in) H->log("speedfix: DrawPrimitiveUP: %ld from the game, %ld sent (%.1f%% fewer), %ld strips/fans converted%s",

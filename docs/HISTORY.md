@@ -881,3 +881,22 @@ than once); fixed.
     0x1002DDCE, the vertex buffer's Unlock on its retry path, with no fact for it). Coverage 840, 765 and 233 of
     1,596. Together with session 2's capture 2: 937 of SkinAndDrawV2's 1,596 instructions have run in a compared
     trial and agreed.
+
+## 6 Oct (evening): the render-target switches (task 18) and speedfix's skip_shadow_pass
+
+From the run-6080 town trace (17 frames, kit e69ca62), each frame is three scenes:
+- one that only sets a render target;
+- the world (about 3,860 draws, the zone mesh's DrawPrimitive almost all of them);
+- the last one, which holds 18 Push/Pop pairs of one off-screen target (surface 3E21D114, no depth) with 1 or 2 draws
+  each, then the UI.
+
+That is 38 or 42 SetRenderTarget a frame.
+- The pairs are Model_BeginOffscreenPass / Model_EndOffscreenPassBindTextures. When g_actorShadowMode is 1, the pass
+  draws each mesh of one actor (14 distinct meshes, 28 draws a frame) again into that target, from the light's view.
+- Across the 17 frames, SetTexture never bound any render-target texture but the scene's (3E02CB40, 3024 x 1898).
+  The only CopyRects were the occlusion readback's, from another surface. What reads the shadow target is not known.
+- speedfix lever `skip_shadow_pass` (off by default): it hooks the pair and, between them, sends no SetRenderTarget,
+  Clear or draw; every state call is sent.
+  - Tested in the Wine host, driving the game's own two functions.
+  - The owner checks it by eye: the actor's shadow with it on.
+- The other scene splits are what merge_scenes (the parallel session) already removes.

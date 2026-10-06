@@ -32,6 +32,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
+| `skip_shadow_pass` | 0 | Lever: one actor's shadow-texture pass (Model_BeginOffscreenPass) not drawn; its state calls still sent (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -101,6 +102,19 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
   the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
   were rare in those scenes: 0.35 a frame).
+- **skip_shadow_pass: render-target switches and draws.** In the town trace of run 6080 (17 frames), each frame
+  had 18 pairs of SetRenderTarget to one 256-wide target and back, with 28 draws into it. All come from
+  `Model_BeginOffscreenPass` (0x10033800) and `Model_EndOffscreenPassBindTextures` (0x10033A70). When
+  `g_actorShadowMode` is 1 and `g_shadowCasterDistance` is under 4 (one actor at a time, chosen in
+  CXiSkeletonActor's per-actor update), CYyModelDt draws each mesh of that actor a second time, into that target, from
+  the light's view (`g_lightViewMatrix`), unlit, in one constant colour. Across the 17 frames, nothing bound that
+  target's texture with SetTexture or copied from it; the only render-target texture ever bound was the scene's own.
+  So these frames show the pass's output unused. The code does not say what reads it, so this is not known to hold
+  everywhere. speedfix hooks the two functions (the game's code runs in both) and, between them, does not send
+  SetRenderTarget, Clear or the draws. Every state call still goes out, so the state after the pass is the game's.
+  All four callers call End only when Begin returned non-zero (tree/src/CYyModelDt.cpp). If the texture is read
+  somewhere unseen, the visible sign would be that actor's shadow going stale or missing: look at your own
+  character's shadow with it on. It hooks as lazy_state does (taking effect at the next start if both were off).
 - **Not made into levers yet, and why:**
   - Pooling vertex and index buffers. The sessions made about 10,000 a session, mostly DYNAMIC | WRITEONLY vertex
     buffers in the default pool in a few sizes (6,000, 4,000, 8,000 and 2,000 bytes). Pooling them needs their
@@ -194,7 +208,9 @@ and set it again for another run.
     puts the game's value back;
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
-  - motion_stats: frames with a fixed view and frames with a changing view are counted apart.
+  - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
+  - skip_shadow_pass: the game's own Begin/End run against the fake device (shadow mode 1): no SetRenderTarget, Clear
+    or draw reaches it, its state calls do; turned off while running, the pass switches targets and draws.
 - **The gate:** the query hook.
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any

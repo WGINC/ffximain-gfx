@@ -127,7 +127,7 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 Bisect needs your eyes. The trace needs only a still scene. With `trace=1` in `xikit.ini` (takes effect at the next
 start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. The kit restores every original, records the
 Direct3D calls the render thread makes for 4 frames, swaps everything back in, records 4 more, and writes
-`xikit_trace_<pid>.txt` (progress in `xikit.log`). Per call: the method, the call site (analysed address), the
+`xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). Per call: the method, the call site (analysed address), the
 method's first parameters, and a hash of what a pointer parameter points at where the method reads a structure through
 it (transform, viewport, material, light, clip plane, shader constants, vertex data of the two `...UP` draws).
 Vertex buffers are not hashed (their contents are written through a locked pointer, not a device call).
@@ -136,8 +136,7 @@ Vertex buffers are not hashed (their contents are written through a locked point
 
 compares the halves by (method, call site, parameters). The scene's own change (the 4 frames without swaps against
 each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
-nearest below each call site. `trace=2` starts the trace by itself from frame 700 (used by the test).
-It says where the two differ, not which side is right.
+nearest below each call site. It says where the two differ, not which side is right.
 
 ## Finding which function breaks the picture (`bisect=1`)
 

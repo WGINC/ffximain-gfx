@@ -111,6 +111,16 @@ static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2,
 typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
 #define TRACE_MAX 600000
 static Rec *g_trace; static uint32_t g_ntrace, g_trace_dropped, g_trace_frame; static int g_trace_label = -1;
+/* the bytes themselves for the small structures a call reads (a matrix, a vertex list up to 128 bytes), so a difference
+   can be read field by field: per record an offset into g_bytes and a length (0: none) */
+#define TRACE_BYTES (24u << 20)
+static uint8_t *g_bytes; static uint32_t g_nbytes, *g_boff; static uint8_t *g_blen;
+static void keep_bytes(uint32_t rec, const void *p, uint32_t n) {
+  g_blen[rec] = 0;
+  if (!p || n == 0 || n > 128 || g_nbytes + n > TRACE_BYTES || IsBadReadPtr(p, n)) return;
+  for (uint32_t k = 0; k < n; k++) g_bytes[g_nbytes + k] = ((const uint8_t *)p)[k];   /* (no CRT call: test_thunks.py) */
+  g_boff[rec] = g_nbytes; g_blen[rec] = (uint8_t)n; g_nbytes += n;
+}
 
 static uint32_t fnv(const void *p, uint32_t n) {
   uint32_t h = 2166136261u;
@@ -126,8 +136,12 @@ static uint32_t prim_verts(uint32_t type, uint32_t n) {     /* D3DPRIMITIVETYPE:
 static void pend_clear(void);
 void d3dprof_trace_start(int label) {
   if (!g_trace) g_trace = (Rec *)VirtualAlloc(NULL, TRACE_MAX * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-  if (!g_trace) return;
-  if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; }
+  if (!g_bytes) {
+    g_bytes = (uint8_t *)VirtualAlloc(NULL, TRACE_BYTES + TRACE_MAX * 5, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (g_bytes) { g_boff = (uint32_t *)(g_bytes + TRACE_BYTES); g_blen = (uint8_t *)(g_boff + TRACE_MAX); }
+  }
+  if (!g_trace || !g_bytes) return;
+  if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; g_nbytes = 0; }
   pend_clear();
   g_trace_label = label; g_trace_frame = 0;
 }
@@ -143,7 +157,9 @@ int d3dprof_trace_write(const char *path, const char *note) {
     fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot,
             r->slot < NSLOTS ? NAMES[r->slot] : r->slot == SLOT_VB_UNLOCK ? "VB_Unlock" : "IB_Unlock", r->site, r->np);
     for (int k = 0; k < r->np && k < 6; k++) fprintf(f, " %08X", r->a[k]);
-    fprintf(f, " %08X\n", r->h);
+    fprintf(f, " %08X", r->h);
+    if (g_blen && g_blen[i]) { fputs(" d=", f); for (uint32_t k = 0; k < g_blen[i]; k++) fprintf(f, "%02X", g_bytes[g_boff[i] + k]); }
+    fputc('\n', f);
   }
   fclose(f); return 1;
 }
@@ -227,7 +243,7 @@ static HRESULT __stdcall buf_unlock(void *self) {
       Rec *r = &g_trace[g_ntrace++];
       r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = g_bc_kind[i] ? SLOT_IB_UNLOCK : SLOT_VB_UNLOCK;
       r->site = q.site; r->np = 4; r->a[0] = q.off; r->a[1] = q.size; r->a[2] = nonfinite; r->a[3] = huge; r->a[4] = r->a[5] = 0;
-      r->h = fnv(q.p, q.size);
+      r->h = fnv(q.p, q.size); g_blen[g_ntrace - 1] = 0;
     }
     break;
   }
@@ -256,6 +272,11 @@ static void trace_call(int slot, uint32_t *a, uint32_t site) {
   case 73: h = fnv((void *)a[8], (a[3] + a[4]) * a[9]); break;              /* DrawIndexedPrimitiveUP(type, min, num, count, idx, fmt, data, stride) */
   }
   r->h = h;
+  switch (slot) {                                                           /* the bytes too, where small */
+  case 37: case 39: keep_bytes(g_ntrace - 1, (void *)a[3], 64); break;
+  case 72: keep_bytes(g_ntrace - 1, (void *)a[4], prim_verts(a[2], a[3]) * a[5]); break;
+  default: g_blen[g_ntrace - 1] = 0;
+  }
 }
 
 static Site *site_of(uint32_t site, int slot, int kind) {

@@ -22,19 +22,35 @@ PTR_ARG = {'SetTransform': (1,), 'MultiplyTransform': (1,), 'SetViewport': (0,),
            'DrawPrimitiveUP': (2,), 'DrawIndexedPrimitiveUP': (4,)}
 
 
+BYTES = {}                  # token -> the bytes the call read (traces from 6 Oct on: matrices, small vertex lists)
+
+
+def floats(hexdata, per_row):
+    import struct
+    b = bytes.fromhex(hexdata); n = len(b) // 4
+    v = struct.unpack('<%dI' % n, b[:4 * n])
+    def one(w):
+        f = struct.unpack('<f', struct.pack('<I', w))[0]
+        return '%08X' % w if (w >> 23) & 0xFF in (0, 0xFF) and w not in (0, 0x80000000) or abs(f) > 1e7 else ('%.5g' % f if w != 0x80000000 else '-0')
+    return [' '.join(one(w) for w in v[i:i + per_row]) for i in range(0, n, per_row)]
+
+
 def parse(path, by_site=False):
     frames = collections.defaultdict(list)          # (label, frame) -> [token]
     meta = []; bufs = []
     for l in open(path):
         if l.startswith('#'): meta.append(l.rstrip()); continue
-        p = l.split()
+        raw = l.split(); dat = next((x[2:] for x in raw if x.startswith('d=')), None)
+        p = [x for x in raw if not x.startswith('d=')]       # (the recorded bytes: kept per token in BYTES, shown below)
         if len(p) < 7: continue
         label, frame, slot, name, site, np_ = int(p[0]), int(p[1]), int(p[2]), p[3], int(p[4], 16), int(p[5])
         args = tuple(p[6:6 + min(np_, 6)]); h = p[6 + min(np_, 6)]
         if name in ('VB_Unlock', 'IB_Unlock'):       # buffer contents: compared by the function that filled them (below)
             bufs.append((label, frame, name, site, tuple(int(x, 16) for x in args), h)); continue
         args = tuple(a for i, a in enumerate(args) if i not in PTR_ARG.get(name, ()))
-        frames[(label, frame)].append((name, site if by_site else 0, args, h))
+        tok = (name, site if by_site else 0, args, h)
+        if dat: BYTES.setdefault(tok, dat)
+        frames[(label, frame)].append(tok)
     return frames, meta, bufs
 
 
@@ -174,6 +190,20 @@ def main():
         for args, h, lo, hi, got in toks[:3]:
             print('       args %s hash %s : off %d..%d, on %s' % (' '.join(args), h, lo, hi, got))
     if not changed: print('no call differs beyond what the scene itself changes: the swaps drew the same calls')
+    # the bytes of changed calls, where the trace has them: the calls only the unswapped frames make, then the swapped
+    shown = 0
+    for name in sorted({t[0] for t in changed}):
+        offs = [t for t, (lo, hi, got) in changed.items() if t[0] == name and t in BYTES and hi > 0 and max(got) == 0]
+        ons = [t for t, (lo, hi, got) in changed.items() if t[0] == name and t in BYTES and hi == 0 and min(got) > 0]
+        if not offs and not ons: continue
+        print('\n%s: the bytes of calls made only without swaps (off) and only with them (on); %s' % (
+            name, 'vertices of 28 bytes: x y z rhw colour u v' if name.endswith('UP') else '4x4 matrix rows'))
+        for tag, lst in (('off', offs[:2]), ('on', ons[:2])):
+            for tok in lst:
+                rows = floats(BYTES[tok], 4 if 'Transform' in name else 7)
+                print('  %-3s args %s' % (tag, ' '.join(tok[2])))
+                for r in rows: print('        ' + r)
+        shown += 1
     buffer_report(bufs, Owners(meta, o.recon, o.manifest, o.extents), o.top)
 
 

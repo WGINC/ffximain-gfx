@@ -18,11 +18,11 @@ pe = pefile.PE(DLL); base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_ma
 u = Uc(UC_ARCH_X86, UC_MODE_32)
 u.mem_map(base, (len(img) + 0xFFF) & ~0xFFF); u.mem_write(base, img)
 STUB, STACK, VT, GAME = 0x20000000, 0x30000000, 0x40000000, 0x10000000
-u.mem_map(STUB, 0x10000); u.mem_map(STACK - 0x10000, 0x10000); u.mem_map(VT, 0x1000)
-# imports the record path uses: GetCurrentThreadId -> 7, QueryPerformanceCounter -> writes 0 (stdcall, 1 arg)
+u.mem_map(STUB, 0x10000); u.mem_write(STUB + 0xF00, struct.pack('<I', 0x50000000)); u.mem_map(STACK - 0x10000, 0x10000); u.mem_map(VT, 0x1000)
+# imports the record path uses (VirtualAlloc: successive 32 MB blocks from 0x50000000): GetCurrentThreadId -> 7, QueryPerformanceCounter -> writes 0 (stdcall, 1 arg)
 for e in pe.DIRECTORY_ENTRY_IMPORT:
     for imp in e.imports:
-        code = {b'VirtualAlloc': b'\xB8\x00\x00\x00\x50\xC2\x10\x00', b'IsBadReadPtr': b'\x31\xC0\xC2\x08\x00',
+        code = {b'VirtualAlloc': b'\xA1' + struct.pack('<I', STUB + 0xF00) + b'\x81\x05' + struct.pack('<I', STUB + 0xF00) + b'\x00\x00\x00\x02\xC2\x10\x00', b'IsBadReadPtr': b'\x31\xC0\xC2\x08\x00',
                 b'GetCurrentThreadId': b'\xB8\x07\x00\x00\x00\xC3',
                 b'QueryPerformanceCounter': b'\x8B\x44\x24\x04\xC7\x00\x00\x00\x00\x00\xC7\x40\x04\x00\x00\x00\x00\xC2\x04\x00'}.get(imp.name)
         a = STUB + 0x100 * (imp.address & 0xFF)
@@ -81,7 +81,7 @@ assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
 assert sites.get((caller, 72, 2)) == (1, 2), sites
 # the call trace: label 0 for one frame, a SetRenderState, a SetTransform (matrix hashed), a DrawPrimitiveUP (vertex data
 # hashed), then Present ends the frame; label 1 starts at frame 0 again and keeps the earlier records
-TR = 0x50000000; u.mem_map(TR, (600000 * 40 + 0x1FFF) & ~0xFFF)
+TR = 0x50000000; u.mem_map(TR, 0x04000000)      # the trace (first block) and the recorded bytes (second)
 def ccall(name, *args):
     sp = STACK - 0x400; u.mem_write(sp, struct.pack('<%dI' % (len(args) + 1), RET, *args)); u.reg_write(UC_X86_REG_ESP, sp)
     u.mem_write(RET, b'\xF4'); u.emu_start(sym[name], RET)
@@ -98,6 +98,10 @@ assert recs[0][5:7] == (27, 1) and recs[4][5:7] == (27, 0)
 fnv = lambda b: __import__('functools').reduce(lambda h, x: ((h ^ x) * 16777619) & 0xFFFFFFFF, b, 2166136261)
 assert recs[1][11] == fnv(bytes(range(64))), hex(recs[1][11])
 assert recs[2][11] == fnv(bytes(range(36))), hex(recs[2][11])     # type 4 (triangle list), count 1: 3 vertices of stride 12 = 36 bytes
+boff = struct.unpack('<I', u.mem_read(sym['_g_boff'], 4))[0]; blen = struct.unpack('<I', u.mem_read(sym['_g_blen'], 4))[0]; gb = struct.unpack('<I', u.mem_read(sym['_g_bytes'], 4))[0]
+o1 = struct.unpack('<I', u.mem_read(boff + 4, 4))[0]; l1 = u.mem_read(blen + 1, 1)[0]
+assert l1 == 64 and bytes(u.mem_read(gb + o1, 64)) == bytes(range(64)), (l1, o1)
+assert u.mem_read(blen + 0, 1)[0] == 0                       # SetRenderState: no bytes
 
 # vertex buffer contents: with buffers hooked, SetStreamSource gives the bound VB a vtable copy whose Lock/Unlock are
 # wrapped; at Unlock the locked range is hashed and recorded (slot 97) with the Lock's call site

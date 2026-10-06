@@ -62,6 +62,8 @@ typedef struct {
   int tlen, nfix; int8_t tfix[4];      /* trampoline (manifest T=): whole instructions copied from the entry, rel32 to re-aim */
   void *mod_target; int mod;           /* a mod's replacement (sdk/: xikit_mod.h), and which mod (index into g_mods + 1) */
   int mod_on_recon;                    /* the hook's previous is the reconstruction (no trampoline) */
+  void *cap_stub; volatile LONG cap_done;  /* capture= (an entry snapshot, below): the stub while captures remain */
+  void *jmp_to;                        /* where the jmp the kit wrote at the entry goes (while patched) */
 } Fn;
 
 typedef struct {
@@ -79,6 +81,7 @@ static Cfg g_cfg;
 static char g_dir[MAX_PATH], g_ini[MAX_PATH], g_logpath[MAX_PATH], g_quar[MAX_PATH];
 static FILETIME g_ini_time;
 static CRITICAL_SECTION g_loglock;
+static CRITICAL_SECTION g_susplock;   /* one thread at a time suspends the others (apply, capture): two doing it at once could suspend each other */
 static uint32_t g_rel, g_game_lo, g_game_hi, g_recon_lo, g_recon_hi;
 static uint8_t *g_stubs;
 static void **g_orig_vt; static void *g_vt[NSLOTS];
@@ -148,7 +151,9 @@ static const char DEFAULT_INI[] =
   "profile=0\r\n"
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
-  "mods=\r\n";
+  "mods=\r\n"
+  "; record real calls for the gate (docs/KIT.md): manifest names, comma-separated; each writes an .xcap\r\n"
+  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -198,7 +203,7 @@ static int g_bis_on;
 static int g_bis_found[64], g_bis_nfound;           /* culprits found this session: kept on the original code */
 
 static int base_wanted(const Fn *f) {
-  if (f->mod_target) return 0;                      /* a mod's hook: wanted() below; never a bisect suspect */
+  if (f->mod_target || (f->cap_stub && !f->cap_done)) return 0;   /* a mod's hook or a capture: wanted() below; never a bisect suspect */
   if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
@@ -214,6 +219,7 @@ static int wanted(const Fn *f) {
      reconstruction's code, which a hook with a trampoline never runs; a hook whose previous is the reconstruction is
      refused at hook() if that function is quarantined, and turned off if it is quarantined later (f->mod_on_recon) */
   if (f->mod_target) return !g_master_off && !f->refused && !(f->quarantined && f->mod_on_recon);
+  if (f->cap_stub && !f->cap_done) return !f->refused;      /* a capture runs whatever the swaps say */
   int w = base_wanted(f);
   return g_bis_on ? (w && f->bs_test) : w;
 }
@@ -315,30 +321,43 @@ static int write5(uint8_t *at, const uint8_t *bytes) {
   return 1;
 }
 
-/* bring every function to its wanted state; called from Present on the render thread */
+/* where the entry of f should jump now, or NULL (the game's own bytes): a mod's hook, a capture stub, the counting
+   stub, or the reconstruction */
+static void *desired(const Fn *f) {
+  if (!wanted(f)) return NULL;
+  if (f->mod_target) return f->mod_target;
+  if (f->cap_stub && !f->cap_done) return f->cap_stub;
+  return f->stub ? (void *)f->stub : f->target;
+}
+
+/* bring every function to its wanted state; called from Present on the render thread. A patched entry is
+   compared with the jmp the kit wrote there (jmp_to) before it is restored or re-aimed */
 static void apply(void) {
-  static Th th[1024]; static uint32_t eips[1024];
+  static Th th[1024]; static uint32_t eips[1024]; static void *want[MAXFN];
   int todo = 0;
-  for (int i = 0; i < g_nfn; i++) { g_fn[i].wanted = wanted(&g_fn[i]); todo += g_fn[i].wanted != g_fn[i].patched; }
+  for (int i = 0; i < g_nfn; i++) {
+    Fn *f = &g_fn[i]; want[i] = desired(f); f->wanted = want[i] != NULL;
+    todo += (f->patched ? f->jmp_to : NULL) != want[i];
+  }
   if (!todo) { g_dirty = 0; return; }
+  EnterCriticalSection(&g_susplock);
   int n = suspend_others(th, 1024);
-  if (n < 0) { klog("could not list threads: nothing written this frame"); return; }
+  if (n < 0) { LeaveCriticalSection(&g_susplock); klog("could not list threads: nothing written this frame"); return; }
   for (int i = 0; i < n; i++) {
     CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
     eips[i] = GetThreadContext(th[i].h, &c) ? c.Eip : 0;
   }
-  int patched = 0, restored = 0, busy = 0, refused = 0;
+  int patched = 0, restored = 0, busy = 0, refused = 0, retargeted = 0;
   /* messages are kept until the threads run again: logging takes locks another thread may hold */
   static char msgs[64][200]; int nmsg = 0;
   for (int i = 0; i < g_nfn; i++) {
     Fn *f = &g_fn[i];
-    if (f->wanted == f->patched) continue;
+    if ((f->patched ? f->jmp_to : NULL) == want[i]) continue;
     int inside = 0;
     for (int t = 0; t < n; t++) if (eips[t] >= (uint32_t)(uintptr_t)f->site && eips[t] < (uint32_t)(uintptr_t)f->site + JMP_LEN) inside = 1;
     if (inside) { busy++; continue; }
-    uint8_t jmp[JMP_LEN];
-    make_jmp(jmp, f->site, f->mod_target ? f->mod_target : f->stub ? (void *)f->stub : f->target);
-    if (f->wanted) {
+    uint8_t jmp[JMP_LEN], cur[JMP_LEN];
+    if (!f->patched) {
       int d = check_bytes(f);
       if (d != -1) {
         f->refused = 1; refused++;
@@ -346,25 +365,33 @@ static void apply(void) {
                                 f->name, f->rva + ANALYSED_BASE, d);
         continue;
       }
+      make_jmp(jmp, f->site, want[i]);
       memcpy(f->saved, f->site, JMP_LEN);
-      if (write5(f->site, jmp)) { f->patched = 1; patched++;
+      if (write5(f->site, jmp)) { f->patched = 1; f->jmp_to = want[i]; patched++;
         if (g_cfg.log_each && nmsg < 64) snprintf(msgs[nmsg++], 200, "swapped %s (0x%08X)", f->name, f->rva + ANALYSED_BASE); }
-    } else {
-      if (memcmp(f->site, jmp, JMP_LEN)) {
-        f->refused = 1; f->patched = 0; refused++;
-        if (nmsg < 64) snprintf(msgs[nmsg++], 200, "not restored %s (0x%08X): its entry no longer holds the kit's jmp (another hook wrote there)",
-                                f->name, f->rva + ANALYSED_BASE);
-        continue;
-      }
-      if (write5(f->site, f->saved)) { f->patched = 0; restored++;
+      continue;
+    }
+    make_jmp(cur, f->site, f->jmp_to);
+    if (memcmp(f->site, cur, JMP_LEN)) {
+      f->refused = 1; f->patched = 0; f->jmp_to = NULL; refused++;
+      if (nmsg < 64) snprintf(msgs[nmsg++], 200, "not restored %s (0x%08X): its entry no longer holds the kit's jmp (another hook wrote there)",
+                              f->name, f->rva + ANALYSED_BASE);
+      continue;
+    }
+    if (!want[i]) {
+      if (write5(f->site, f->saved)) { f->patched = 0; f->jmp_to = NULL; restored++;
         if (g_cfg.log_each && nmsg < 64) snprintf(msgs[nmsg++], 200, "restored %s (0x%08X)", f->name, f->rva + ANALYSED_BASE); }
+    } else {
+      make_jmp(jmp, f->site, want[i]);
+      if (write5(f->site, jmp)) { f->jmp_to = want[i]; retargeted++; }
     }
   }
   resume_all(th, n);
+  LeaveCriticalSection(&g_susplock);
   for (int i = 0; i < nmsg; i++) klog("%s", msgs[i]);
-  int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched;
-  klog("frame %u: %d swapped, %d restored, %d refused, %d waiting (a thread was inside the entry); %d of %d now run reconstructed code",
-       g_frame, patched, restored, refused, busy, now, g_nfn);
+  int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched && !g_fn[i].mod_target && !(g_fn[i].cap_stub && !g_fn[i].cap_done);
+  klog("frame %u: %d swapped, %d restored, %d re-aimed, %d refused, %d waiting (a thread was inside the entry); %d of %d now run reconstructed code",
+       g_frame, patched, restored, retargeted, refused, busy, now, g_nfn);
   g_dirty = busy > 0;
 }
 
@@ -797,7 +824,7 @@ static void *__cdecl host_recon(const char *what) { Fn *f = what ? fn_named(what
 static void load_mods(void *dev, HMODULE rec) {
   char list[1024]; GetPrivateProfileStringA("xikit", "mods", "", list, sizeof list, g_ini);
   if (!list[0]) return;
-  g_tramps = (uint8_t *)VirtualAlloc(NULL, MAXFN * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  if (!g_tramps) g_tramps = (uint8_t *)VirtualAlloc(NULL, MAXFN * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
   g_host.version = XIKIT_API_VERSION; g_host.size = sizeof g_host;
   g_host.game_base = g_game_lo; g_host.rel = (intptr_t)g_rel; g_host.device = dev; g_host.recon = rec; g_host.dir = g_dir;
   g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon;
@@ -823,12 +850,159 @@ static void load_mods(void *dev, HMODULE rec) {
     if (r != 0) m->frame = NULL;              /* (its hooks stay: they were checked and the mod asked for them) */
     g_mod_cur = -1;
   }
-  if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
 }
 
 static void mods_frame(void *dev) {
   for (int i = 0; i < g_nmods; i++) if (g_mods[i].frame) { g_mod_cur = i; g_mods[i].frame(dev); }
   g_mod_cur = -1;
+}
+
+
+/* ------------------------------------------------------------------------------------------------ capture= (docs/KIT.md)
+   An entry snapshot: when the game calls a chosen manifest function, the kit records the registers at its entry and
+   the memory the call can reach, and writes them as xikit_capture_<pid>_<RVA>_<n>.xcap. pipeline/xcap.py turns a
+   capture into a gate case that runs the original and the reconstruction from exactly that call (the gate's live
+   mode), so code fuzzing and the four dumps never reach is compared on real inputs.
+
+   What is recorded, all while every other thread of the process is suspended (nothing here allocates or logs
+   until they run again):
+     * the stack from the entry ESP up (the arguments and the callers' frames), at most 256 KB;
+     * FFXiMain.dll's writable data, whole;
+     * every committed, readable page a pointer reaches: from the registers and the stack, then from each page
+       taken, breadth first, until capture_pages pages; the page after one is taken too when the pointer is in
+       its last quarter (an object crossing the boundary). FFXiMain's own image is not taken (the gate has it);
+       a page of another module's code is, with the three after it (the gate reads a foreign callee's code to
+       find what it pops).
+   Which pages a call needs is not known beforehand: what pointers reach is a preparation of the inputs, not a
+   fact a verdict rests on. Both sides run on the same memory; a page the capture lacks is filled as the gate
+   fills any unknown page. */
+#define MAXCAP 64
+typedef struct { Fn *f; int count; volatile LONG done; uint8_t *stub; } Cap;
+static Cap g_caps[MAXCAP]; static int g_ncap, g_cap_pages_max = 20000; static volatile LONG g_cap_busy;
+static DWORD g_cap_from;                       /* GetTickCount at which captures may start (capture_after) */
+static uint32_t *g_cp_addr; static uint8_t *g_cp_data; static uint32_t *g_cp_set; static uint32_t g_cp_setn, g_cp_n;
+static uint8_t *g_capstubs;
+
+static int cp_seen(uint32_t page) {               /* open addressing set of page numbers; 1 if it was there */
+  uint32_t k = page >> 12, h = (k * 2654435761u) & (g_cp_setn - 1);
+  for (;;) {
+    if (g_cp_set[h] == 0) { g_cp_set[h] = k + 1; return 0; }
+    if (g_cp_set[h] == k + 1) return 1;
+    h = (h + 1) & (g_cp_setn - 1);
+  }
+}
+static int cp_readable(uint32_t a, int *exec) {
+  static MEMORY_BASIC_INFORMATION mb; static uint32_t lo, hi;
+  if (!(a >= lo && a < hi)) {
+    if (!VirtualQuery((void *)(uintptr_t)a, &mb, sizeof mb)) { lo = hi = 0; return 0; }
+    lo = (uint32_t)(uintptr_t)mb.BaseAddress; hi = lo + (uint32_t)mb.RegionSize;
+  }
+  DWORD p = mb.Protect;
+  if (mb.State != MEM_COMMIT || (p & (PAGE_GUARD | PAGE_NOACCESS)) || !(p & 0xEE)) return 0;
+  *exec = (p & 0xF0) != 0;
+  return 1;
+}
+static void cp_take(uint32_t page) {               /* the page, if readable, not seen, and the budget allows */
+  int exec = 0;
+  if ((int)g_cp_n >= g_cap_pages_max || page < 0x10000) return;
+  if (page >= g_game_lo && page < g_game_hi && !(page >= ANALYSED_BASE + 0x34F000u + g_rel && page < ANALYSED_BASE + 0x9FB000u + g_rel)) return;
+  if (!cp_readable(page, &exec) || cp_seen(page)) return;
+  g_cp_addr[g_cp_n] = page; memcpy(g_cp_data + (size_t)g_cp_n * 4096, (void *)(uintptr_t)page, 4096); g_cp_n++;
+  if (exec) for (int k = 1; k <= 3; k++) cp_take(page + 4096u * k);
+}
+static void cp_ptr(uint32_t v) {
+  cp_take(v & ~0xFFFu);
+  if ((v & 0xFFF) >= 0xC00) cp_take((v & ~0xFFFu) + 0x1000);
+}
+
+/* the stub jumps here with idx and the block pushad/pushfd left: edi esi ebp esp(+4 = the entry ESP) ebx edx ecx eax eflags */
+static void __cdecl capture_c(int idx, uint32_t *r) {
+  Cap *c = &g_caps[idx];
+  if (c->done >= c->count || (int)(GetTickCount() - g_cap_from) < 0) return;
+  if (InterlockedCompareExchange(&g_cap_busy, 1, 0)) return;
+  if (c->done >= c->count) { g_cap_busy = 0; return; }
+  uint32_t esp = r[3] + 4, regs[9] = { r[7], r[6], r[5], r[4], esp, r[2], r[1], r[0], r[8] };   /* eax ecx edx ebx esp ebp esi edi eflags */
+  static Th th[1024];
+  EnterCriticalSection(&g_susplock);
+  int n = suspend_others(th, 1024);
+  g_cp_n = 0; memset(g_cp_set, 0, g_cp_setn * 4);
+  int exec;
+  for (uint32_t a = esp & ~0xFFFu, k = 0; k < 64 && cp_readable(a, &exec); a += 4096, k++) cp_take(a);
+  for (uint32_t a = ANALYSED_BASE + 0x34F000u + g_rel; a < ANALYSED_BASE + 0x9FB000u + g_rel; a += 4096) cp_take(a);
+  for (int k = 0; k < 8; k++) if (k != 4) cp_ptr(regs[k]);
+  for (uint32_t i = 0; i < g_cp_n; i++) {            /* breadth first: pages taken are scanned in the order taken */
+    const uint32_t *w = (const uint32_t *)(g_cp_data + (size_t)i * 4096);
+    for (int k = 0; k < 1024 && (int)g_cp_n < g_cap_pages_max; k++) if (w[k] >= 0x10000) cp_ptr(w[k]);
+  }
+  if (n > 0) resume_all(th, n);
+  LeaveCriticalSection(&g_susplock);
+  /* written with the threads running again */
+  char path[MAX_PATH]; LONG nth = InterlockedIncrement(&c->done);
+  snprintf(path, sizeof path, "%s\\xikit_capture_%lu_%05X_%ld.xcap", g_dir, (unsigned long)GetCurrentProcessId(), c->f->rva, (long)nth);
+  FILE *o = fopen(path, "wb"); uint32_t nmods = 0;
+  if (o) {
+    MODULEENTRY32 me; me.dwSize = sizeof me; HANDLE ms = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, 0);
+    struct { uint32_t base, size; char name[64]; } mods[256];
+    if (ms != INVALID_HANDLE_VALUE) {
+      for (BOOL ok = Module32First(ms, &me); ok && nmods < 256; ok = Module32Next(ms, &me)) {
+        mods[nmods].base = (uint32_t)(uintptr_t)me.modBaseAddr; mods[nmods].size = me.modBaseSize;
+        memset(mods[nmods].name, 0, 64); snprintf(mods[nmods].name, 64, "%s", me.szModule); nmods++;
+      }
+      CloseHandle(ms);
+    }
+    uint32_t head[16] = { 0x50414358u /* "XCAP" */, 1, c->f->rva + ANALYSED_BASE, g_game_lo, g_game_hi - g_game_lo,
+                          GetCurrentThreadId(), g_frame, nmods, g_cp_n, 0, 0, 0, 0, 0, 0, 0 };
+    fwrite(head, 4, 16, o); fwrite(regs, 4, 9, o); fwrite(mods, sizeof mods[0], nmods, o);
+    fwrite(g_cp_addr, 4, g_cp_n, o); fwrite(g_cp_data, 4096, g_cp_n, o); fclose(o);
+  }
+  if (c->done >= c->count) { c->f->cap_done = 1; g_dirty = 1; }
+  g_cap_busy = 0;
+  klog("capture %ld of %s (0x%08X) on thread %lu: %u pages, %u modules%s: %s", (long)nth, c->f->name, c->f->rva + ANALYSED_BASE,
+       GetCurrentThreadId(), g_cp_n, nmods, (int)g_cp_n >= g_cap_pages_max ? " (the page budget ran out: capture_pages)" : "",
+       o ? path : "could not write");
+}
+
+/* capture= (read once, at the start): a stub per function, entered from the game's entry; it continues into the
+   game's own code (a trampoline), or the reconstruction where the entry has none */
+static void setup_captures(void) {
+  char list[2048]; GetPrivateProfileStringA("xikit", "capture", "", list, sizeof list, g_ini);
+  if (!list[0]) return;
+  int count = GetPrivateProfileIntA("xikit", "capture_count", 1, g_ini), after = GetPrivateProfileIntA("xikit", "capture_after", 0, g_ini);
+  g_cap_pages_max = GetPrivateProfileIntA("xikit", "capture_pages", 20000, g_ini);
+  if (g_cap_pages_max < 2048) g_cap_pages_max = 2048;
+  g_cap_from = GetTickCount() + (DWORD)(after > 0 ? after : 0) * 1000;
+  for (g_cp_setn = 1; g_cp_setn < (uint32_t)g_cap_pages_max * 4; g_cp_setn <<= 1) {}
+  g_cp_addr = (uint32_t *)VirtualAlloc(NULL, (size_t)g_cap_pages_max * 4, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  g_cp_data = (uint8_t *)VirtualAlloc(NULL, (size_t)g_cap_pages_max * 4096, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  g_cp_set = (uint32_t *)VirtualAlloc(NULL, (size_t)g_cp_setn * 4, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  g_capstubs = (uint8_t *)VirtualAlloc(NULL, MAXCAP * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  if (!g_tramps) g_tramps = (uint8_t *)VirtualAlloc(NULL, MAXFN * 32, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  if (!g_cp_addr || !g_cp_data || !g_cp_set || !g_capstubs) { klog("capture: could not reserve %d pages; no captures", g_cap_pages_max); return; }
+  for (char *p = list; *p && g_ncap < MAXCAP;) {
+    char nm[128]; int n = 0;
+    while (*p == ' ' || *p == ',' || *p == '\t') p++;
+    while (*p && *p != ',' && n < 127) nm[n++] = *p++;
+    while (n && (nm[n - 1] == ' ' || nm[n - 1] == '\t')) n--;
+    nm[n] = 0; if (!n) continue;
+    Fn *f = fn_named(nm);
+    if (!f) { klog("capture %s: not a function of the manifest", nm); continue; }
+    if (f->mod_target) { klog("capture %s: a mod hooks it; not captured", nm); continue; }
+    int d = check_bytes(f);
+    if (d != -1) { klog("capture %s: the live entry differs from the analysed build at %+d", nm, d); continue; }
+    void *prev = build_tramp(f); if (!prev) prev = f->target;
+    if (!prev) { klog("capture %s: no way to continue into its code", nm); continue; }
+    Cap *c = &g_caps[g_ncap]; uint8_t *st = g_capstubs + 32 * g_ncap;
+    st[0] = 0x9C; st[1] = 0x60; st[2] = 0x54;                                   /* pushfd; pushad; push esp */
+    st[3] = 0x68; uint32_t idx = (uint32_t)g_ncap; memcpy(st + 4, &idx, 4);     /* push idx */
+    make_jmp(st + 8, st + 8, (void *)capture_c); st[8] = 0xE8;                  /* call capture_c */
+    st[13] = 0x83; st[14] = 0xC4; st[15] = 0x08;                                /* add esp, 8 */
+    st[16] = 0x61; st[17] = 0x9D;                                               /* popad; popfd */
+    make_jmp(st + 18, st + 18, prev);                                           /* jmp to its code */
+    c->f = f; c->count = count > 0 ? count : 1; c->stub = st; f->cap_stub = st; g_ncap++;
+    klog("capture %s (0x%08X): %d call(s), from %d s after the start, up to %d pages each; continues into %s", f->name,
+         f->rva + ANALYSED_BASE, c->count, after, g_cap_pages_max, prev == f->target ? "the reconstruction (no trampoline)" : "the game's code");
+  }
+  if (g_ncap) { g_dirty = 1; FlushInstructionCache(GetCurrentProcess(), g_capstubs, MAXCAP * 32); }
 }
 
 /* ------------------------------------------------------------------------------------------------ start */
@@ -905,6 +1079,8 @@ static DWORD WINAPI start(LPVOID self) {
   void ***cdx = (void ***)(uintptr_t)(G_PCDX + g_rel); void **dev = NULL;
   for (;;) { void **c = (void **)*cdx; if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break; Sleep(200); }
   load_mods(dev, rec);                        /* before the Present hook: nothing is written at any entry yet */
+  setup_captures();                           /* (likewise: trampolines are built from the untouched entries) */
+  if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
   g_orig_vt = (void **)*dev;
   memcpy(g_vt, g_orig_vt, sizeof g_vt);
   g_vt[SLOT_PRESENT] = (void *)kit_present;
@@ -937,7 +1113,7 @@ static DWORD WINAPI start(LPVOID self) {
 BOOL WINAPI DllMain(HINSTANCE h, DWORD why, LPVOID r) {
   (void)r;
   if (why == DLL_PROCESS_ATTACH) {
-    DisableThreadLibraryCalls(h); InitializeCriticalSection(&g_loglock);
+    DisableThreadLibraryCalls(h); InitializeCriticalSection(&g_loglock); InitializeCriticalSection(&g_susplock);
     HANDLE t = CreateThread(NULL, 0, start, h, 0, NULL); if (t) CloseHandle(t);
   }
   return TRUE;

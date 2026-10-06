@@ -105,8 +105,12 @@ def _live_state():
     """the dump, opened once per process: LiveState only reads it (its one cache, the pops of foreign code it
     has decoded, is a function of the dump's bytes), so every case of the process shares it"""
     if not _LIVE:
-        import live_state
-        _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
+        if LIVE_CFG['dump'].endswith('.xcap'):          # a call captured in the game (xikit capture=, xcap.py)
+            import xcap
+            _LIVE.append(xcap.CaptureState(LIVE_CFG['dump']))
+        else:
+            import live_state
+            _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
     return _LIVE[0]
 
 
@@ -977,7 +981,11 @@ def setup_trial(m, case, fz):
             m.uc.mem_write(buf + int(off, 0), struct.pack("<I", m.obj[iface]))
         m.uc.mem_write(int(g, 16), struct.pack("<I", buf))
     this = None
-    if conv == "thiscall":
+    rp = case.get("replay")                 # a captured call (xcap.py): its own `this` and arguments, nothing drawn
+    if rp:
+        this = int(rp["this"], 16) if rp.get("this") else None
+        if this: patches += [(this + int(off, 0), struct.pack("<I", m.obj[iface])) for off, iface in case.get("this_com", {}).items()]
+    elif conv == "thiscall":
         vptr = int(case["vptr"], 16) if case.get("vptr") else None
         if live:
             inst = m.live_inst.get(vptr) if vptr else None
@@ -994,12 +1002,12 @@ def setup_trial(m, case, fz):
             this = fz.buffer(int(str(case.get("this_size", "0x400")), 0), vptr)
             for off, iface in case.get("this_com", {}).items():
                 m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
-    args = [fz.arg(s) for s in case.get("args", [])]
+    args = [int(a, 16) for a in rp["args"]] if rp else [fz.arg(s) for s in case.get("args", [])]
     trial_seed = fz.rng.getrandbits(32)
     m.page_seed = trial_seed; m.reset_demand()
     for a, b in patches: m.live_write(a, b)
     if live: m.trial_no += 1
-    m.constrain(case.get("input_ranges", []), this, args)
+    m.constrain([] if rp else case.get("input_ranges", []), this, args)  # (a captured call's inputs are the game's own: not narrowed)
     m.ctx = m.uc.context_save()
     return this, args, trial_seed
 

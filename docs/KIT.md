@@ -131,6 +131,30 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
 
+## Capturing real calls for the gate (`capture=`)
+
+The gate's trials ran 63% of the reconstruction's instructions; the hot paths far less (docs/GAPS.md). With
+`capture=Name1,Name2` (manifest names or addresses), the kit records the next `capture_count` calls (default 1)
+of each, from `capture_after` seconds after the start (default 0):
+- **What a capture is.** At the entry, with every other thread suspended, it takes the registers, the stack
+  above the entry (up to 256 KB), FFXiMain.dll's writable data, and every page reachable by following pointers
+  from those, breadth first, up to `capture_pages` pages (default 20,000, 80 MB). It writes them as
+  `xikit_capture_<pid>_<RVA>_<n>.xcap`. Which pages a call needs is not known beforehand: what pointers reach is
+  a preparation of the inputs, and a page the capture lacks is filled as the gate fills any unknown page, on
+  both sides alike.
+- **The game is not changed.** The call then continues into the game's own code (a trampoline; the
+  reconstruction where the entry has none). After the last capture the entry is restored.
+- **On the analysis side:**
+
+      python3 pipeline/xcap.py xikit_capture_....xcap verification/cases_clean_final.json tree/build/gfx_recon.dll OUT_DIR
+
+  runs the original and the reconstruction from that exact call (its `this` and arguments, on its memory) in
+  the gate's live mode, with coverage, and prints the verdict and how many of the original's instructions ran.
+  Each capture is a gate case on the game's real state.
+- **Tested** (Wine, mode `capture`): GetColor and SetColor captured, the game's values returned, the entries
+  restored, and both captures replayed through the gate (PASS, every instruction run, SetColor's argument read
+  off the captured stack).
+
 ## Mods (`mods=`)
 
 `mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call

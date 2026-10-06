@@ -48,6 +48,7 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
 
 int main(int argc, char **argv) {
   int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel"));
+  int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -90,6 +91,7 @@ int main(int argc, char **argv) {
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
   touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\n"
                  : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
+                 : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
@@ -97,9 +99,32 @@ int main(int argc, char **argv) {
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
-  check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
+  if (!caprun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
+  if (caprun) {
+    /* capture=: the first call of the game's GetColor (swap=0: the game's code) is captured; the call still returns
+       the game's value; after capture_count calls the entry has its own bytes again. test_xikit.py replays the
+       .xcap through the gate (pipeline/xcap.py) */
+    char line[256];
+    uint8_t *get = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+    check(get[0] == 0xE9, "capture=: GetColor's entry jumps to the capture stub");
+    ((SetColorFn)(uintptr_t)(SETCOLOR + rel))(actor, 0x5566AABBu);           /* captured too: one argument */
+    check(*(uint32_t *)(actor + 0x660) == 0x5566AABBu, "the captured SetColor ran the game's code");
+    check(((GetColorFn)get)(actor) == 0x5566AABBu, "the captured call returned the game's value");
+    present(4);
+    check(get[0] != 0xE9, "after capture_count calls the entry has its own bytes again");
+    char name[96]; snprintf(name, sizeof name, "xikit_capture_%lu_A4840_1.xcap", GetCurrentProcessId());
+    FILE *x = fopen(name, "rb"); long size = 0; uint32_t head[16] = {0};
+    if (x) { fread(head, 4, 16, x); fseek(x, 0, SEEK_END); size = ftell(x); fclose(x); }
+    check(x && head[0] == 0x50414358u && head[2] == GETCOLOR && head[8] > 0 && size == 64 + 36 + 72L * head[7] + 4L * head[8] + 4096L * head[8],
+          "the .xcap holds the entry, the modules and the pages, sized as its header says");
+    FILE *lg = fopen("xikit.log", "r"); int logged = 0;
+    if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "capture 1 of CXiSkeletonActor::GetColor")) logged = 1; fclose(lg); }
+    check(logged, "xikit.log has the capture");
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   if (modrun) {
     /* sdk/: mod_test.dll (mod_test.cpp) hooks CXiSkeletonActor::GetColor with "the game's value + 1", its previous
        being a trampoline to the game's own code; SetColor is swapped to the reconstruction as usual */

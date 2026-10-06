@@ -29,7 +29,7 @@ subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL, os.path.join(H, 'mod_
 for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's example and template build (not run here:
     subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel'):
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
@@ -40,6 +40,20 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
+    if mode == 'capture':
+        # the capture replayed through the gate: the original and the tree's reconstruction run from that call
+        xc = [f for f in os.listdir(d) if f.endswith('.xcap')]
+        tree_dll = os.path.join(H, '..', '..', '..', 'tree', 'build', 'gfx_recon.dll')
+        cases = os.path.join(H, '..', '..', '..', 'verification', 'cases_clean_final.json')
+        if len(xc) != 2: print('FAIL: %d .xcap files written, not 2' % len(xc)); bad += 1
+        for x in sorted(xc):
+            r = subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'xcap.py'), os.path.join(d, x), cases,
+                                tree_dll, os.path.join(d, 'replay')], capture_output=True, text=True)
+            print(r.stdout.strip(), r.stderr.strip()[-1500:])
+            ok = r.returncode == 0 and ': PASS;' in r.stdout and "'return': 8" in r.stdout and 'this 0x' in r.stdout
+            if '_A4830_' in x: ok = ok and "args ['0x5566AABB']" in r.stdout          # SetColor's argument, read off the captured stack
+            print('%s: %s replays through the gate: PASS on all 8 trials, from the captured this and arguments' % ('ok' if ok else 'FAIL', x))
+            bad += not ok
     if os.environ.get("KEEP"): print("kept", d)
     else: shutil.rmtree(d, ignore_errors=True)
 sys.exit(1 if bad else 0)

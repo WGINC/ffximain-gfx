@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
   int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel") || reloadrun);
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
+  int abrun = argc > 1 && !strcmp(argv[1], "ab");
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -121,18 +122,49 @@ int main(int argc, char **argv) {
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
-                 : reloadrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
-                 : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
-                 : factrun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
-                 : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
-                         : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, abrun ? "[xikit]\nlog_folder=1\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nab=1\nab_after=0\nab_phase=1\nab_rounds=2\nab_settle=3\n"
+                 : profile ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
+                 : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
+                 : modrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
+                 : factrun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
+                 : caprun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
+                         : "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
+  if (abrun) {
+    /* ab=1 with log_folder=1: 4 phases of 1 s, A B B A; the swapped entries follow the phases; everything the kit writes
+       goes to one new folder under xikit_logs */
+    char seq[64] = ""; int ns = 0; int last = -1; DWORD t0 = GetTickCount();
+    while (GetTickCount() - t0 < 6500) {
+      present(1); Sleep(5);
+      int on = set[0] == 0xE9;
+      if (on != last && ns < 60) { seq[ns++] = on ? 'B' : 'A'; last = on; }
+    }
+    seq[ns] = 0;
+    check(!strncmp(seq, "BABAB", 5) || !strncmp(seq, "ABAB", 4), "ab: the swaps went off and on with the phases");
+    printf("note: entry states seen in order: %s (A B B A: off, on, on, off, then on again after the test)\n", seq);
+    check(GetFileAttributesA("xikit.log") == INVALID_FILE_ATTRIBUTES, "log_folder=1: no xikit.log next to xikit.dll");
+    WIN32_FIND_DATAA fd; HANDLE h = FindFirstFileA("xikit_logs\\*_*", &fd); char dir[MAX_PATH] = "";
+    if (h != INVALID_HANDLE_VALUE) { snprintf(dir, sizeof dir, "xikit_logs\\%s", fd.cFileName); FindClose(h); }
+    check(dir[0] != 0, "log_folder=1: a folder xikit_logs\\<date>_<time>_<pid> was made");
+    char p2[MAX_PATH], line[512]; int rows = 0, labels_ok = 1, summary = 0; const char *want = "ABBA";
+    snprintf(p2, sizeof p2, "%s\\xikit_ab_%lu_1.csv", dir, GetCurrentProcessId());
+    FILE *af = fopen(p2, "r");
+    if (af) { while (fgets(line, sizeof line, af)) {
+        int ph, n; char lab; double mean;
+        if (sscanf(line, "%d,%c,%d,%lf", &ph, &lab, &n, &mean) == 4) { if (ph < 1 || ph > 4 || lab != want[ph - 1] || n < 1 || mean <= 0) labels_ok = 0; rows++; }
+        if (!strncmp(line, "# A (off):", 10)) summary = 1; } fclose(af); }
+    check(rows == 4 && labels_ok && summary, "ab: xikit_ab_<pid>_1.csv in that folder has 4 phases A B B A with frames, and the summary");
+    snprintf(p2, sizeof p2, "%s\\xikit.log", dir); int done = 0; FILE *lf = fopen(p2, "r");
+    if (lf) { while (fgets(line, sizeof line, lf)) if (strstr(line, "ab: done. A (off)")) done = 1; fclose(lf); }
+    check(done, "ab: xikit.log (in that folder) has the comparison");
+    printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+    ExitProcess(fails ? 1 : 0);
+  }
   if (!caprun && !factrun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
@@ -251,7 +283,7 @@ int main(int argc, char **argv) {
       printf("%s\n", fails ? "FAILED" : "ALL OK");
       ExitProcess(fails ? 1 : 0);
     }
-    touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
     present(130);
     check(!memcmp(gam, orig_gam, 5), "swap=0: Gfx_IsGammaSupported has its original bytes again");
     check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u && set[0] == 0xE9, "swap=0: the mod's hook and its fork stay");
@@ -278,24 +310,24 @@ int main(int argc, char **argv) {
   csv = fopen(name, "r"); int seen = 0; char line[256];
   if (csv) { while (fgets(line, sizeof line, csv)) if (strstr(line, "0x100A4830,") && strstr(line, ",1,1,1")) seen = 1; fclose(csv); }
   check(seen, "the call count of SetColor is in the report (1 call)");
-  touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "swap=0 (ini re-read): the original bytes are back");
   /* the default: a function the gate's compared trials did not fully cover (manifest flag 4) is left out.
      Frame_Render's trials ran 53 of its 1424 instructions */
   uint8_t *frame = (uint8_t *)(uintptr_t)(FRAME_RENDER + rel);
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(frame[0] == 0xE9, "include_untested=1: Frame_Render (flag 4) is swapped");
-  touch_ini(ini, "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(frame, orig_frame, 5), "the default (include_untested=0): Frame_Render, flag 4, has its original bytes");
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, Gfx_IsGammaSupported not");
   /* bisect: SetColor is the "culprit" (the screen is wrong while it is swapped); the host answers as a person would */
   if (!profile) {          /* (its extra frames would shift the profiler's per-window counts) */
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
     present(130);
     ((SetColorFn)set)(actor, 1); ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); ((GammaFn)gam)();
     present(2);
@@ -338,7 +370,7 @@ int main(int argc, char **argv) {
       check(pair && both, "bisect: two functions that break the screen only together are found as that pair");
       check(set[0] != 0xE9 && gc[0] != 0xE9, "bisect: both stay on the original code after they are found");
       answer(2); present(2); }
-    touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
     present(130);
   }
   /* a crash inside reconstructed code: SetColor on a null this */

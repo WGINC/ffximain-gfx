@@ -568,3 +568,8 @@ has been run in the game yet.
 - Not measured: the cost of speedfix's own hooks (d3dprof sits below them). With batching off, speedfix had still
   hooked all 94 methods, putting some 20,000 calls a frame through two layers for nothing. It now hooks only the 12 it
   needs unless batching or the extended cache is on at the start.
+- **The kit, asked for by the owner (keys do not reach the game window):**
+  - `ab=1`, an A/B test with no keys: ABBA phases switching off everything the kit adds, with per-phase frame times and
+    a summary that sets B - A against the spread between phases of one label;
+  - `log_folder=1` (the default): a folder per start for every file the kit writes.
+  Wine test mode `ab`; 194 checks, all ok.

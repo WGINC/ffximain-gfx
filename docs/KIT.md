@@ -80,11 +80,11 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eight times: base,
-relocated and profile (below); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs nine times: base,
+relocated and profile (below); `ab` (the A/B test and the log folder); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
 relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
 needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); and `facts`
-(`facts=1`). The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 185 checks, all ok. The first three:
+(`facts=1`). The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -192,6 +192,33 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   the reconstructed GetColor name it; with `call_time=1`, the report's time columns and Present's times.
   `test_thunks.py` (Unicorn): a timed call returns to its caller through the stub with the method's pop, EAX and EDX,
   and records exactly one counter interval at its site.
+
+## Where the kit writes (`log_folder=1`)
+
+Every start gets a folder of its own, `xikit_logs\<date>_<time>_<pid>` next to `xikit.dll`, and everything the
+kit writes goes there: `xikit.log`, d3dprof's profile and resource log, the vertex shaders, timing, samples, call
+counts, traces and their pictures, captures, facts and A/B results. What the kit reads stays next to `xikit.dll`:
+`xikit.ini`, the quarantine, the manifest, the mods, and the trigger files (`xikit_trace_now.txt`, the bisect
+answers, `xikit_reload_now.txt`). `log_folder=0` writes next to `xikit.dll` as before. The setting is read at the start.
+
+## An A/B test with no keys (`ab=1`)
+
+`ab=1` measures what the kit adds, the swaps and every mod (speedfix included), against the game without it, in one
+session and one scene:
+- `ab_after` seconds after `ab=1` is read (60 by default; at the start, or within 60 frames of saving the ini),
+  phases of `ab_phase` seconds (30) run in the order A B B A, `ab_rounds` times (4: 8 phases, 4 minutes).
+- A = everything the kit adds is off, as with F9: no swaps and no mod hooks. B = on.
+- ABBA puts each label's phases around the same mean time, so a scene that drifts steadily affects both alike.
+- The first `ab_settle` frames of a phase (60) are left out, and so are frames while a trace runs.
+- Results go to `xikit_ab_<pid>_<n>.csv`: per phase, the frames used and the mean, median, p95 and maximum frame
+  time (Present to Present). The summary compares the two labels: B - A in ms and %, and how much the phases of one
+  label differ among themselves. A difference smaller than that spread is within the noise. `xikit.log` has the same
+  lines.
+- `ab=0` stops a run and switches everything back on. Setting it to 0 and back to 1 starts another run.
+- Stand still while it runs.
+- Not switched: what a mod did once at its start (speedfix's `cpu_tier` and `texture_compression`).
+- Tested: Wine, mode `ab`: 4 phases of 1 s; the swapped entries follow the phases; the folder, the CSV and the
+  summary are checked.
 
 ## Capturing real calls for the gate (`capture=`)
 

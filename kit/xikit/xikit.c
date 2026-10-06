@@ -29,6 +29,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "../../sdk/include/xikit_mod.h"
 
 #define ANALYSED_BASE 0x10000000u
@@ -70,6 +71,7 @@ typedef struct {
 
 typedef struct {
   int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
+  int ab, ab_after, ab_phase, ab_rounds, ab_settle;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -81,6 +83,7 @@ static Code g_code[MAXCODE]; static int g_ncode;
 static Fn *g_by_target[MAXFN];         /* sorted by reconstruction address, for the exception handler */
 static Cfg g_cfg;
 static char g_dir[MAX_PATH], g_ini[MAX_PATH], g_logpath[MAX_PATH], g_quar[MAX_PATH];
+static char g_out[MAX_PATH];           /* where everything the kit writes goes (log_folder=1: xikit_logs\\<start>_<pid>); its inputs stay in g_dir */
 static FILETIME g_ini_time;
 static CRITICAL_SECTION g_loglock;
 static CRITICAL_SECTION g_susplock;   /* one thread at a time suspends the others (apply, capture): two doing it at once could suspend each other */
@@ -171,7 +174,17 @@ static const char DEFAULT_INI[] =
   "sample=0\r\nsample_ms=1\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
   ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
-  "facts=0\r\n";
+  "facts=0\r\n"
+  "; 1: everything the kit writes (this log, profiles, traces, timing, samples, captures, A/B results) goes into a new\r\n"
+  ";    folder per start, xikit_logs\\<date>_<time>_<pid>; 0: next to xikit.dll as before. Read at the start\r\n"
+  "log_folder=1\r\n"
+  "; 1: an A/B test with no keys: ab_after seconds from now (or from the start), the kit switches everything it adds\r\n"
+  ";    off (A: no swaps, no mod hooks, as F9) and on (B) in phases of ab_phase seconds, A B B A for each of ab_rounds\r\n"
+  ";    rounds (ABBA cancels a steady drift in the scene). The first ab_settle frames of each phase are left out. Each\r\n"
+  ";    phase's frame times and a summary go to xikit_ab_<pid>.csv and xikit.log. Stand still while it runs. Setting\r\n"
+  ";    ab=0 stops it; set it to 0 and back to 1 to run another. Not affected: what a mod did once at its start\r\n"
+  ";    (speedfix's cpu_tier, texture_compression)\r\n"
+  "ab=0\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -186,6 +199,16 @@ static void read_cfg(void) {
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
   c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
   c.trace = GetPrivateProfileIntA("xikit", "trace", 0, g_ini);
+  c.ab = GetPrivateProfileIntA("xikit", "ab", 0, g_ini);
+  c.ab_after = GetPrivateProfileIntA("xikit", "ab_after", 60, g_ini);
+  c.ab_phase = GetPrivateProfileIntA("xikit", "ab_phase", 30, g_ini);
+  c.ab_rounds = GetPrivateProfileIntA("xikit", "ab_rounds", 4, g_ini);
+  c.ab_settle = GetPrivateProfileIntA("xikit", "ab_settle", 60, g_ini);
+  if (c.ab_after < 0) c.ab_after = 0;
+  if (c.ab_phase < 1) c.ab_phase = 1;
+  if (c.ab_rounds < 1) c.ab_rounds = 1;
+  if (c.ab_rounds > 16) c.ab_rounds = 16;
+  if (c.ab_settle < 0) c.ab_settle = 0;
   GetPrivateProfileStringA("xikit", "only", "", c.only, sizeof c.only, g_ini);
   GetPrivateProfileStringA("xikit", "exclude", "", c.exclude, sizeof c.exclude, g_ini);
   if (c.report_every < 60) c.report_every = 60;
@@ -434,7 +457,7 @@ static int g_bis_t[MAXFN], g_bis_tn;                             /* the set bein
 static void bis_note(const char *fmt, ...) {
   char buf[400]; va_list ap; va_start(ap, fmt); vsnprintf(buf, sizeof buf, fmt, ap); va_end(ap);
   klog("bisect: %s", buf);
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_bisect.txt", g_dir);
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_bisect.txt", g_out);
   FILE *f = fopen(path, "a"); if (f) { fprintf(f, "%s\n", buf); fclose(f); }
 }
 
@@ -532,7 +555,7 @@ __declspec(dllexport) void xikit_bisect_answer(int bad) { if (bad == 2) bis_stop
 
 /* ------------------------------------------------------------------------------------------------ reports */
 static void report_calls(void) {
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_calls_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_calls_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   fprintf(f, "# frame %u; calls of each swapped function since it was swapped, and in the last window\n", g_frame);
   fprintf(f, "address,name,swapped,calls_total,calls_window\n");
@@ -567,7 +590,7 @@ static void trace_finish(const char *mode) {
   if (g_tr_maxon > now) now = g_tr_maxon;      /* (alternating: the last frame is an unswapped one) */
   d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0; g_tr_maxon = 0;
   g_tr_n++; g_tr_state_started = 0;
-  snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n);
+  snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_out, (unsigned long)GetCurrentProcessId(), g_tr_n);
   if (!strcmp(mode, "alternating"))
     snprintf(note, sizeof note, "alternating: label 0 = swaps off, 1 = swaps on (%d functions swapped), 2 = mixed; %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_ALT_FRAMES, g_rel, g_recon_lo);
   else
@@ -647,7 +670,7 @@ static void pic_capture(void *dev, int frame, int label) {
   if (g_pic_img && (hr = ((CopyRectsFn)g_orig_vt[28])(dev, bb, NULL, 0, g_pic_img, NULL)) >= 0 &&
       (hr = ((SurfLockFn)VT(g_pic_img)[9])(g_pic_img, lr, NULL, 0x10 /* D3DLOCK_READONLY */)) >= 0) {
     int bpp = (d[0] == 21 || d[0] == 22) ? 4 : (d[0] >= 23 && d[0] <= 26) ? 2 : 0;   /* A8R8G8B8, X8R8G8B8; R5G6B5, X1R5G5B5, A1R5G5B5, A4R4G4B4 */
-    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_trace_%lu_%d_f%02d_l%d.pic", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n + 1, frame, label);
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_trace_%lu_%d_f%02d_l%d.pic", g_out, (unsigned long)GetCurrentProcessId(), g_tr_n + 1, frame, label);
     FILE *f = bpp ? fopen(path, "wb") : NULL;
     if (f) {
       uint32_t head[8] = { 0x43495058u /* "XPIC" */, 1, d[6], d[7], d[0], (uint32_t)bpp, (uint32_t)frame, (uint32_t)label };
@@ -773,7 +796,7 @@ static void report_timing(void) {
     for (int i = 1; i < n; i++) { sorted[i - 1] = g_tm_frame[i]; sf += g_tm_frame[i]; if (g_tm_frame[i] > mf) mf = g_tm_frame[i]; }
     for (int i = 0; i < n; i++) { sp += g_tm_present[i]; sk += g_tm_kit[i]; if (g_tm_present[i] > mp) mp = g_tm_present[i]; }
     qsort(sorted, n - 1, sizeof sorted[0], cmp_double);
-    snprintf(path, sizeof path, "%s\\xikit_timing_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    snprintf(path, sizeof path, "%s\\xikit_timing_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     int fresh = GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES;
     FILE *f = fopen(path, "a");
     if (f) {
@@ -785,7 +808,7 @@ static void report_timing(void) {
     }
   }
   if (!g_sampling) return;
-  snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   EnterCriticalSection(&g_samplock);
   fprintf(f, "# xikit samples: %ld samples every %d ms of the render thread (%ld missed), over the last %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X\n"
@@ -813,6 +836,88 @@ static void start_sampler(void) {
   klog("sample: the render thread every %d ms (xikit_samples_<pid>.csv every %d frames)", g_sample_ms, g_cfg.report_every);
 }
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
+
+/* ------------------------------------------------------------------------------------------------ ab=1 (docs/KIT.md)
+   An A/B test with no keys. ab_after seconds after it is switched on, phases of ab_phase seconds in the order
+   A B B A, ab_rounds times: A = everything the kit adds off (g_master_off, as F9: no swaps, no mod hooks), B = on.
+   ABBA puts each label's phases around the same mean time, so a scene that drifts steadily affects both alike. The
+   first ab_settle frames of a phase are left out (the switch itself, and what it takes to settle), and so are frames
+   while a trace runs. Per phase: frames used, mean, median, p95 and max frame time; at the end the two labels
+   compared, with how much the phases of one label differ among themselves (the noise the difference must beat). */
+#define AB_MAX 16384
+static int g_ab_state;                  /* 0 idle, 1 waiting ab_after, 2 running, 3 done (ab=0 resets) */
+static DWORD g_ab_t0; static int g_ab_i, g_ab_nph, g_ab_seen, g_ab_n, g_ab_after, g_ab_phase, g_ab_settle;
+static double g_ab_ft[AB_MAX], g_ab_mean[32], g_ab_med[32]; static int g_ab_cnt[32];
+static char g_ab_path[MAX_PATH];
+static char ab_label(int i) { return ((i + 1) / 2) % 2 ? 'B' : 'A'; }
+static void ab_set(int i) {
+  g_ab_i = i; g_ab_t0 = GetTickCount(); g_ab_seen = 0; g_ab_n = 0;
+  int off = ab_label(i) == 'A';
+  if (g_master_off != off) { g_master_off = off; g_dirty = 1; }
+  klog("ab: phase %d of %d: %c (%s)", i + 1, g_ab_nph, ab_label(i), off ? "everything the kit adds off" : "on");
+}
+static void ab_end_phase(void) {
+  int i = g_ab_i, n = g_ab_n; double sum = 0, mx = 0;
+  for (int k = 0; k < n; k++) { sum += g_ab_ft[k]; if (g_ab_ft[k] > mx) mx = g_ab_ft[k]; }
+  qsort(g_ab_ft, n, sizeof g_ab_ft[0], cmp_double);
+  g_ab_cnt[i] = n; g_ab_mean[i] = n ? sum / n : 0; g_ab_med[i] = n ? g_ab_ft[n / 2] : 0;
+  FILE *f = fopen(g_ab_path, "a");
+  if (f) { fprintf(f, "%d,%c,%d,%.3f,%.3f,%.3f,%.3f\n", i + 1, ab_label(i), n, g_ab_mean[i], g_ab_med[i], n ? g_ab_ft[(int)(n * 0.95)] : 0, mx); fclose(f); }
+  klog("ab: phase %d (%c): %d frames, mean %.2f ms, median %.2f ms", i + 1, ab_label(i), n, g_ab_mean[i], g_ab_med[i]);
+}
+static void ab_finish(int stopped) {
+  if (g_master_off) { g_master_off = 0; g_dirty = 1; }
+  if (stopped) { klog("ab: stopped before the end (ab=0); everything back on"); return; }
+  double s[2] = {0, 0}, m[2] = {0, 0}, lo[2] = {1e9, 1e9}, hi[2] = {0, 0}; int c[2] = {0, 0};
+  for (int i = 0; i < g_ab_nph; i++) {
+    if (!g_ab_cnt[i]) continue;
+    int b = ab_label(i) == 'B'; s[b] += g_ab_mean[i]; m[b] += g_ab_med[i]; c[b]++;
+    if (g_ab_mean[i] < lo[b]) lo[b] = g_ab_mean[i];
+    if (g_ab_mean[i] > hi[b]) hi[b] = g_ab_mean[i];
+  }
+  if (!c[0] || !c[1]) { klog("ab: done, but a label has no frames: nothing to compare"); return; }
+  double a = s[0] / c[0], b = s[1] / c[1], am = m[0] / c[0], bm = m[1] / c[1];
+  double noise = hi[0] - lo[0] > hi[1] - lo[1] ? hi[0] - lo[0] : hi[1] - lo[1];
+  FILE *f = fopen(g_ab_path, "a");
+  if (f) {
+    fprintf(f, "# A (off): mean of phase means %.3f ms, of medians %.3f; B (on): %.3f, %.3f; B - A: %+.3f ms (%+.1f%%), medians %+.3f ms\n",
+            a, am, b, bm, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0, bm - am);
+    fprintf(f, "# phases of one label differ among themselves by up to %.3f ms: a B - A smaller than that is within the noise\n", noise);
+    fclose(f);
+  }
+  klog("ab: done. A (off) %.2f ms, B (on) %.2f ms: B - A %+.2f ms (%+.1f%%), medians %+.2f ms; phases of one label differ by up to %.2f ms%s",
+       a, b, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0, bm - am, noise, fabs(b - a) <= noise ? " (the difference is within that)" : "");
+}
+static void ab_control(void) {          /* each frame on the render thread, before apply() */
+  if (!g_cfg.ab) { if (g_ab_state == 1 || g_ab_state == 2) ab_finish(1); g_ab_state = 0; return; }
+  if (g_ab_state == 0) {
+    g_ab_state = 1; g_ab_t0 = GetTickCount();
+    g_ab_after = g_cfg.ab_after; g_ab_phase = g_cfg.ab_phase; g_ab_settle = g_cfg.ab_settle; g_ab_nph = 2 * g_cfg.ab_rounds;
+    for (int i = 0; i < 32; i++) g_ab_cnt[i] = 0;
+    klog("ab: starts in %d s: %d phases of %d s (A B B A ...), the first %d frames of each left out; stand still", g_ab_after, g_ab_nph, g_ab_phase, g_ab_settle);
+  }
+  if (g_ab_state == 1 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_after * 1000) {
+    static int run; run++;
+    snprintf(g_ab_path, sizeof g_ab_path, "%s\\xikit_ab_%lu_%d.csv", g_out, (unsigned long)GetCurrentProcessId(), run);
+    FILE *f = fopen(g_ab_path, "w");
+    if (f) {
+      fprintf(f, "# A/B test %d: A = everything the kit adds off (no swaps, no mod hooks), B = on (swap=%d, mods as loaded); phases of %d s, "
+              "the first %d frames of each left out; frame time = Present to Present\nphase,label,frames,mean_ms,p50_ms,p95_ms,max_ms\n",
+              run, g_cfg.swap, g_ab_phase, g_ab_settle);
+      fclose(f);
+    }
+    g_ab_state = 2; ab_set(0);
+  }
+  if (g_ab_state == 2 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_phase * 1000) {
+    ab_end_phase();
+    if (g_ab_i + 1 < g_ab_nph) ab_set(g_ab_i + 1);
+    else { ab_finish(0); g_ab_state = 3; klog("ab: set ab=0 and back to 1 for another run; results in %s", g_ab_path); }
+  }
+}
+static void ab_frame(double ms) {       /* each frame's time, after Present */
+  if (g_ab_state != 2 || g_dirty || g_tr_state || ms <= 0) return;
+  if (g_ab_seen++ >= g_ab_settle && g_ab_n < AB_MAX) g_ab_ft[g_ab_n++] = ms;
+}
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
@@ -848,6 +953,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_trace_attached) trace_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_nmods) mods_watch();
+    ab_control();
     if (g_dirty) apply();
     if (g_trace_attached) trace_label();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
@@ -861,6 +967,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       g_tm_frame[g_tm_n] = g_t_prev.QuadPart ? (double)(t0.QuadPart - g_t_prev.QuadPart) * ms : 0;
       g_tm_present[g_tm_n] = (double)(t2.QuadPart - t1.QuadPart) * ms; g_tm_kit[g_tm_n] = (double)(t1.QuadPart - t0.QuadPart) * ms; g_tm_n++;
     }
+    if (g_t_prev.QuadPart) ab_frame((double)(t0.QuadPart - g_t_prev.QuadPart) * ms);
     g_t_prev = t0;
     if (g_frame % (uint32_t)g_cfg.report_every == 0) { report_timing(); report_facts(); }
   }
@@ -1336,7 +1443,7 @@ static void __cdecl capture_c(int idx, uint32_t *r) {
   LeaveCriticalSection(&g_susplock);
   /* written with the threads running again */
   char path[MAX_PATH]; LONG nth = InterlockedIncrement(&c->done);
-  snprintf(path, sizeof path, "%s\\xikit_capture_%lu_%05X_%ld.xcap", g_dir, (unsigned long)GetCurrentProcessId(), c->f->rva, (long)nth);
+  snprintf(path, sizeof path, "%s\\xikit_capture_%lu_%05X_%ld.xcap", g_out, (unsigned long)GetCurrentProcessId(), c->f->rva, (long)nth);
   FILE *o = fopen(path, "wb"); uint32_t nmods = 0;
   if (o) {
     MODULEENTRY32 me; me.dwSize = sizeof me; HANDLE ms = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, 0);
@@ -1525,7 +1632,7 @@ static int sites_pending(void) { for (int i = 0; i < g_nsites; i++) if (!g_sites
 static void where(uint32_t a, char *out, size_t n);
 static void report_facts(void) {
   if (!g_nsites) return;
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   fprintf(f, "# xikit facts: per call site (analysed), what the callee popped (ESP after the call minus ESP before it), how often, where it went;"
              " frame %u; FFXiMain.dll at +0x%X\nsite,pops,calls,target,vtable,slot,function\n", g_frame, g_rel);
@@ -1546,8 +1653,19 @@ static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
   GetModuleFileNameA((HMODULE)self, g_dir, MAX_PATH);
   char *slash = strrchr(g_dir, '\\'); if (slash) *slash = 0;
-  snprintf(g_logpath, sizeof g_logpath, "%s\\xikit.log", g_dir);
   snprintf(g_ini, sizeof g_ini, "%s\\xikit.ini", g_dir);
+  if (GetFileAttributesA(g_ini) == INVALID_FILE_ATTRIBUTES) {
+    FILE *f = fopen(g_ini, "wb"); if (f) { fwrite(DEFAULT_INI, 1, sizeof DEFAULT_INI - 1, f); fclose(f); }
+  }
+  snprintf(g_out, sizeof g_out, "%s", g_dir);
+  if (GetPrivateProfileIntA("xikit", "log_folder", 1, g_ini)) {   /* a folder of its own for this start's files */
+    char base[MAX_PATH], d[MAX_PATH]; SYSTEMTIME st; GetLocalTime(&st);
+    snprintf(base, sizeof base, "%s\\xikit_logs", g_dir); CreateDirectoryA(base, NULL);
+    snprintf(d, sizeof d, "%s\\%04u-%02u-%02u_%02u%02u%02u_%lu", base, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond,
+             (unsigned long)GetCurrentProcessId());
+    if (CreateDirectoryA(d, NULL) || GetLastError() == ERROR_ALREADY_EXISTS) snprintf(g_out, sizeof g_out, "%s", d);
+  }
+  snprintf(g_logpath, sizeof g_logpath, "%s\\xikit.log", g_out);
   snprintf(g_quar, sizeof g_quar, "%s\\xikit_quarantine.txt", g_dir);
   klog("xikit started in process %lu", (unsigned long)GetCurrentProcessId());
   {                                     /* the kit's build stamp (build.sh writes VERSION.txt): which source this is */
@@ -1556,9 +1674,7 @@ static DWORD WINAPI start(LPVOID self) {
     if (vf) { if (fgets(line, sizeof line, vf)) line[strcspn(line, "\r\n")] = 0; fclose(vf); }
     klog("kit build: %s", line[0] ? line : "no VERSION.txt next to xikit.dll");
   }
-  if (GetFileAttributesA(g_ini) == INVALID_FILE_ATTRIBUTES) {
-    FILE *f = fopen(g_ini, "wb"); if (f) { fwrite(DEFAULT_INI, 1, sizeof DEFAULT_INI - 1, f); fclose(f); }
-  }
+  if (strcmp(g_out, g_dir)) klog("this start's files go to %s (log_folder=1)", g_out);
   ini_changed(); read_cfg();
   snprintf(path, sizeof path, "%s\\xikit_manifest.txt", g_dir);
   if (!load_manifest(path)) return 0;
@@ -1631,7 +1747,7 @@ static DWORD WINAPI start(LPVOID self) {
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   if (g_cfg.profile || g_cfg.trace) {
-    char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
     if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");

@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
   *(void **)GAME(G_PCDX) = g_cdx;
   *(void **)GAME(0x104568FCu) = g_cam;
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
-  touch("xikit.ini", "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
+  touch("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
   DeleteFileA("speedfix.ini");
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */

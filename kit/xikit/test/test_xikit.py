@@ -40,7 +40,7 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts'):
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)

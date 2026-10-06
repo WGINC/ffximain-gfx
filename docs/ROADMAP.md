@@ -180,6 +180,9 @@ shows only its intended differences. And the patch has run for a full session wi
 
 ## 4. Goal 2: the D3D11 renderer
 
+The worked-out scheme, from what is measured now (the emulated x86 setup, the plaza profile, the scope of D3D8 the
+game uses, three designs and the measurement that chooses between them): docs/D3D11.md.
+
 **What it has to replace:**
 1. **Every device user.**
    - 1,633 call sites in the export use the device.

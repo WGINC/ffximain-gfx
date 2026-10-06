@@ -40,6 +40,10 @@ static void __stdcall d_other(void) { printf("FAIL: a device method the test doe
 static void *g_vt[97];
 static struct { void **vt; } g_dev = { g_vt };
 static uint8_t g_cdx[0x1000];
+/* a texture the game binds: with batching on speedfix asks its type (IDirect3DBaseTexture8::GetType, slot 10) to
+   guard its LockRect; this one answers D3DRTYPE_SURFACE (1), so no vtable of it is changed */
+static DWORD __stdcall t_gettype(void *t) { return 1; }
+static void *g_tvt[16]; static struct { void **vt; } g_tex1 = { g_tvt };
 
 #define DEV(slot, T) ((T)g_dev.vt[slot])
 static void present(void) { DEV(15, HRESULT (__stdcall *)(void *, void *, void *, void *, void *))(&g_dev, 0, 0, 0, 0); }
@@ -64,8 +68,9 @@ static uint8_t g_cam[0x40];        /* [0x104568FC] -> +0x34: the frame counter (
 
 static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
 
-int main(void) {
+int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
+  int minimal = argc > 1 && !strcmp(argv[1], "minimal");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -74,6 +79,8 @@ int main(void) {
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs;
+  for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
+  g_tvt[10] = (void *)t_gettype;
   g_rs[8] = 3; g_rs[9] = 2;                        /* the device's defaults: FILL_SOLID, SHADE_GOURAUD */
   *(void **)(g_cdx + 0xC) = &g_dev;
   DWORD old; VirtualProtect((void *)GAME(0x10000000u), 0x1000000, PAGE_EXECUTE_READWRITE, &old);
@@ -82,11 +89,25 @@ int main(void) {
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
   touch("xikit.ini", "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
   DeleteFileA("speedfix.ini");
+  /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
+     cached setters and the methods around their state hooked) */
+  if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
   check(g_dev.vt != g_vt, "the kit hooked the device");
   frames(3);
-  check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
+  if (minimal) {
+    check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
+    LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);
+    float v[12] = {0}; dpup(4, 1, v, 16); dpup(4, 1, v, 16); end(); present();
+    check(count(50, m) == 1 && count(61, m) == 1 && count(72, m) == 2, "minimal: the state cache works; DrawPrimitiveUP passes through");
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\n"); frames(65);
+    m = g_n; begin(); dpup(4, 1, v, 16); dpup(4, 1, v, 16);
+    check(count(72, m) == 2, "minimal: batch_up_draws=1 written while running is left for the next start (each draw still reaches the device)");
+    end(); present();
+    printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+    return fails ? 1 : 0;
+  }
 
   /* game-code changes made at the start or at the first frames */
   check(tier_before == 0x1974C084 && *(uint32_t *)GAME(0x1006CDDCu) == 0x9090C084, "cpu_tier: 74 19 at 1006CDDE became 90 90 (g_pProcessor was 0)");
@@ -99,7 +120,7 @@ int main(void) {
   /* state cache: a repeat is not forwarded; a change is; BeginScene forgets (state_cache_reset_each_scene=1) */
   LONG m = g_n; begin();
   setrs(7, 1); setrs(7, 1); setrs(7, 0); setrs(7, 0);
-  settss(0, 1, 4); settss(0, 1, 4); settex(0, (void *)0x1000); settex(0, (void *)0x1000); setvs(0x142); setvs(0x142);
+  settss(0, 1, 4); settss(0, 1, 4); settex(0, &g_tex1); settex(0, &g_tex1); setvs(0x142); setvs(0x142);
   check(count(50, m) == 2 && count(63, m) == 1 && count(61, m) == 1 && count(76, m) == 1,
         "state cache: SetRenderState x4 (two values) -> 2 reach the device; SetTextureStageState, SetTexture, SetVertexShader repeated -> 1 each");
   end(); present(); m = g_n; begin(); setrs(7, 0);
@@ -111,10 +132,11 @@ int main(void) {
   check(count(50, m) == 2, "a call from another thread is forwarded and the render thread's next repeat is too");
   end(); present();
 
-  /* batching: off by default; on through the ini (re-read within 60 frames) */
+  /* batching: switched off and on again through the ini (re-read within 60 frames) */
+  touch("speedfix.ini", "[speedfix]\nbatch_up_draws=0\n"); frames(65);
   float va[3 * 4] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, vb[3 * 4] = {21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
   m = g_n; begin(); dpup(4, 1, va, 16); dpup(4, 1, vb, 16); end(); present();
-  check(count(72, m) == 2, "batch_up_draws=0: each DrawPrimitiveUP reaches the device");
+  check(count(72, m) == 2, "batch_up_draws=0 (set while running): each DrawPrimitiveUP reaches the device");
   touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\n");
   frames(65);
   m = g_n; begin(); dpup(4, 1, va, 16); dpup(4, 1, vb, 16);

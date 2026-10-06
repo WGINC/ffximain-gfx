@@ -390,6 +390,16 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   return D3D_OK;
 }
 
+// with batch_up_draws and extended_state_cache both off at the start, only these are hooked
+static int g_full;
+static bool core_slot(int s) {
+  switch (s) {
+  case S_Reset: case S_Present: case S_BeginScene: case S_EndScene: case S_BeginSB: case S_EndSB: case S_ApplySB:
+  case S_SetRenderState: case S_SetTexture: case S_SetTSS: case S_SetVS: case S_DeleteVS: return true;
+  }
+  return false;
+}
+
 // ---- installation --------------------------------------------------------------------------------------------
 static void *hook_for(int s) {
   switch (s) {
@@ -416,8 +426,14 @@ extern "C" int sf_device_install(const XikitHost *host) {
     g_maxPrims = caps.MaxPrimitiveCount < 65535 ? caps.MaxPrimitiveCount : 65535;
   forget_all();
   int hooked = 0, stubs = 0;
+  // Every hooked method costs a pass through the kit's front layer and this one on each call, which d3dprof (behind
+  // them) cannot see. Batching needs every method (each flushes what is pending first) and the extended cache needs
+  // its setters; with both off at the start only the cached setters and the methods that change or bound their
+  // state are hooked (the owner's first capture: some 20,000 calls a frame were otherwise passed through for nothing)
+  g_full = sf_cfg.batch_up || sf_cfg.ext_cache;
   // 0-2 (QueryInterface, AddRef, Release) do not render. Every other method: its own hook, or a flushing stub
   for (int s = 3; s < NSLOT; s++) {
+    if (!g_full && !core_slot(s)) continue;
     void *h = hook_for(s), *prev = NULL;
     if (h) {
       if (host->device_hook(kName[s], s, h, &prev) == XIKIT_OK) { g_prev[s] = prev; hooked++; }
@@ -430,12 +446,18 @@ extern "C" int sf_device_install(const XikitHost *host) {
     }
   }
   FlushInstructionCache(GetCurrentProcess(), g_stubs, 32 * (NSLOT + 16));
-  host->log("speedfix: %d device methods hooked, %d flush guards; MaxPrimitiveCount %lu", hooked, stubs, (unsigned long)g_maxPrims);
+  host->log("speedfix: %d device methods hooked, %d flush guards; MaxPrimitiveCount %lu%s", hooked, stubs, (unsigned long)g_maxPrims,
+            g_full ? "" : " (batching and the extended cache were off at the start: turning either on takes effect at the next start)");
   return 0;
 }
 
 // a cache turned on starts from an empty shadow: nothing recorded while it was off is trusted
 extern "C" void sf_device_config_changed(const SfConfig *b) {
+  if (!g_full && (sf_cfg.batch_up || sf_cfg.ext_cache)) {
+    if (sf_cfg.batch_up != b->batch_up || sf_cfg.ext_cache != b->ext_cache)
+      H->log("speedfix: batch_up_draws / extended_state_cache take effect at the next start (they were off at this one, so their hooks are not in place)");
+    sf_cfg.batch_up = 0; sf_cfg.ext_cache = 0;
+  }
   if (sf_cfg.state_cache && !b->state_cache) { memset(g_rsV, 0, sizeof g_rsV); memset(g_tssV, 0, sizeof g_tssV); memset(g_texV, 0, sizeof g_texV); }
   if (sf_cfg.vs_cache && !b->vs_cache) g_vsV = false;
   if (!sf_cfg.batch_up && b->batch_up) flush();

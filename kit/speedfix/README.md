@@ -51,6 +51,11 @@ checked against the analysed build, and each change to the game's code checks th
   from the device when not known). Under point or wireframe fill the converted list repeats shared vertices and edges.
   Under flat shading, which vertex colours each triangle depends on D3D8's numbering, which is not settled here.
   Lists are merged whatever the state.
+- **Only the hooks it needs.** With batching and the extended cache off at the start (the defaults), speedfix hooks 12
+  device methods: the cached setters, Reset, Present, the scene and state-block methods. Every other call goes
+  straight to the layer below. Each hooked method costs a pass through the kit's front layer and speedfix on every
+  call, and d3dprof, which sits below them, cannot see that cost. Turning batching or the extended cache on while
+  the game runs then takes effect at the next start.
 - **Calls from another thread** are never cached or batched. They send what is pending and make the whole shadow
   unknown. **MultiplyTransform** makes that transform's shadow unknown; speedfix_hook's extended cache kept trusting
   it.
@@ -64,7 +69,7 @@ checked against the analysed build, and each change to the game's code checks th
 ## Tested (offline) and not
 
 `test/test_speedfix.py`:
-- **Wine host** (`sf_host.c`, the real FFXiMain.dll, the kit, a recording fake device):
+- **Wine host** (`sf_host.c`, the real FFXiMain.dll, the kit, a recording fake device), in two runs: the defaults (12 methods hooked, batching left for the next start) and batching on from the start:
   - the state, shader and scene rules, and the other-thread rule;
   - batching: held, sent in order before a state change, a strip as a list with its winding, no conversion under flat
     shading;

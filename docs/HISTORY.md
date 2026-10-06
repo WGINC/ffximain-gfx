@@ -548,3 +548,23 @@ has been run in the game yet.
   - `other_thread_calls` was a total since the start without saying so; it is now given per window and since the
     start;
   - the timer cost showed only the least of 1000 back-to-back read pairs, 0 at 24 MHz. It now shows the mean too.
+
+## 6 Oct (later): the owner's speedfix run (kit 0de35c4, speedfix defaults, process 6080)
+- Scene: combat test, a busy town, then the same combat test as the baseline. The last 600 frames do not match the
+  baseline's: 25,766 calls, 4,888 draws and 808,715 primitives per frame (baseline 13,701, 1,670, 204,100). The
+  difference is the zone mesh: sub_1017C9C0 asked for 3,851 DrawPrimitive per frame (baseline 557), 16.3 ms at 4.2 us
+  each. speedfix does not touch it, so frame time (40.2 ms against 19.2) does not compare.
+- Per call, compared: SetRenderState 0.87 -> 0.54 us on average (the repeats it removes were the cheap ones); the
+  Cell_DrawQuadBlended blend site 6.7 -> 6.9 us (not a repeat: unchanged, as expected); EndScene 1.46 -> 1.29 ms.
+  Repeated sets reaching the device: 4,519 -> 201 per frame. speedfix's log: 15-34% of the cached setters skipped
+  per minute, varying with the scene. cpu_tier was too late (the tier was already chosen at injection).
+- The alternating trace (17 frames, speedfix off/on each frame), with `trace_diff.py`:
+  - 44 COUNT findings: fewer repeated state calls in the speedfix frames;
+  - one OUTSIDE finding: SetLight of light 1 differs in Position, in every speedfix frame. Light 1 is directional
+    (type 3), and D3D8 ignores Position for directional lights; it holds leftover stack values
+    (`7184BA71 001AEAC0 0` off, `32 AB 1` on) that speedfix's code on the stack changes. Direction, colours and
+    attenuation are identical.
+  Nothing else differs.
+- Not measured: the cost of speedfix's own hooks (d3dprof sits below them). With batching off, speedfix had still
+  hooked all 94 methods, putting some 20,000 calls a frame through two layers for nothing. It now hooks only the 12 it
+  needs unless batching or the extended cache is on at the start.

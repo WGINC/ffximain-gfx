@@ -78,6 +78,7 @@ static double g_ct_overhead_us, g_ct_overhead_min_us;   /* two counter reads bac
    FFXiMain (the return address as it is), 2 = the caller of one of CDx's draw wrappers (the analysed
    address the wrapper returns to; see WRAP) */
 enum { K_GAME, K_OTHER, K_WRAPPED };
+static const char *module_of(uint32_t a, char *buf, size_t n);
 static const char *KIND[] = {"FFXiMain", "other module", "caller of CDx draw wrapper"};
 typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims, ticks; uint32_t timed; } Site;
 /* The draws of CDx_DrawPrimitive / CDx_DrawIndexedPrimitive / CDx_DrawPrimitiveUP (0x1000CB20, 0x1000CC00,
@@ -361,7 +362,9 @@ static void report(void) {
   for (uint32_t i = 0; i < MAXSITES; i++) {
     Site *s = &g_sites[i];
     if (!s->used) continue;
-    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", NAMES[s->slot], s->site, KIND[s->kind],
+    char mod[MAX_PATH]; const char *kind = KIND[s->kind];
+    if (s->kind == K_OTHER) kind = module_of(s->site, mod, sizeof mod);       /* (an other-module site is its raw address) */
+    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", NAMES[s->slot], s->site, kind,
             s->calls / n, s->redundant / n, s->prims / n);
     if (d3dprof_call_time) {
       double us = g_qpf.QuadPart ? s->ticks * 1e6 / (double)g_qpf.QuadPart : 0;
@@ -531,16 +534,30 @@ static void *const THUNKS[NSLOTS] = {P(0), P(1), P(2), P(3), P(4), P(5), P(6), P
    device's own method, so the counts and the trace see the call as before. */
 static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_PATH]; static int g_res_init;
 static uint32_t site_of_ra(uint32_t ra) { return ra >= g_lo && ra < g_hi ? ra - g_rel : ra; }
-static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, uint32_t obj, HRESULT hr) {
+/* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
+static const char *module_of(uint32_t a, char *buf, size_t n) {
+  HMODULE m = NULL; char path[MAX_PATH];
+  if (a >= g_lo && a < g_hi) { snprintf(buf, n, "FFXiMain"); return buf; }
+  if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)a, &m) && m &&
+      GetModuleFileNameA(m, path, sizeof path)) {
+    const char *b = strrchr(path, '\\'); snprintf(buf, n, "%s+0x%lX", b ? b + 1 : path, (unsigned long)(a - (uint32_t)(uintptr_t)m));
+  } else snprintf(buf, n, "no module");
+  return buf;
+}
+static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, uint32_t obj, HRESULT hr, LONGLONG t0) {
+  LARGE_INTEGER t1; QueryPerformanceCounter(&t1);
+  double us = g_qpf.QuadPart ? (double)(t1.QuadPart - t0) * 1e6 / (double)g_qpf.QuadPart : 0;   /* the creation call itself */
   if (!g_res_init) return;
   EnterCriticalSection(&g_reslock);
   if (!g_res) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_resources_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
     g_res = fopen(path, "a");
-    if (g_res) fprintf(g_res, "# resources created through the device: frame (since the start),thread,method (quoted),call_site,result,object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
+    if (g_res) fprintf(g_res, "# resources created through the device: frame (since the start),thread,method (quoted),call_site,module,result,us (the call),object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
   }
   if (g_res) {
-    fprintf(g_res, "%u,%s,\"%s\",0x%08X,%08lX,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra), (unsigned long)hr, obj);
+    char mod[MAX_PATH];
+    fprintf(g_res, "%u,%s,\"%s\",0x%08X,%s,%08lX,%.1f,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra),
+            module_of(ra, mod, sizeof mod), (unsigned long)hr, us, obj);
     for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
     fputc('\n', g_res); fflush(g_res);
   }
@@ -549,36 +566,45 @@ static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, 
 #define RA() ((uint32_t)(uintptr_t)__builtin_return_address(0))
 #define OBJ(pp) ((hr >= 0 && (pp)) ? (uint32_t)(uintptr_t)*(pp) : 0)
 static HRESULT __stdcall w_tex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[20])(d, w, h, lv, us, fmt, pool, pp);
-  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr); return hr; }
+  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_vol(void *d, UINT w, UINT h, UINT dp, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[21])(d, w, h, dp, lv, us, fmt, pool, pp);
-  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr); return hr; }
+  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_cube(void *d, UINT e, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[22])(d, e, lv, us, fmt, pool, pp);
-  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr); return hr; }
+  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_vb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[23])(d, len, us, fvf, pool, pp);
-  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_ib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[24])(d, len, us, fmt, pool, pp);
-  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_rt(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, BOOL lk, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, BOOL, void **))g_orig[25])(d, w, h, fmt, ms, lk, pp);
-  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr); return hr; }
+  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_ds(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, void **))g_orig[26])(d, w, h, fmt, ms, pp);
-  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_img(void *d, UINT w, UINT h, DWORD fmt, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, void **))g_orig[27])(d, w, h, fmt, pp);
-  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr); return hr; }
+  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); return hr; }
 static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWORD *handle, DWORD usage) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_orig[75])(d, decl, func, handle, usage);
   uint32_t h = (hr >= 0 && handle) ? *handle : 0, nd = 0, nf = 0;
   if (decl) while (nd < 512 && decl[nd] != 0xFFFFFFFFu) nd++;          /* D3DVSD_END() */
   if (func) while (nf < 65536 && func[nf] != 0x0000FFFFu) nf++;         /* the end token */
   uint32_t a[3] = {nd + (decl ? 1 : 0), nf + (func ? 1 : 0), usage};
-  res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr);
+  res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr, t0_.QuadPart);
   if (hr >= 0 && g_res_init) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vshader_%lu_%08X.bin", g_resdir, (unsigned long)GetCurrentProcessId(), h);
     FILE *f = fopen(path, "wb");

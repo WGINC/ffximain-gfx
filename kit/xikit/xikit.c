@@ -71,7 +71,7 @@ typedef struct {
 
 typedef struct {
   int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
-  int ab, ab_after, ab_phase, ab_rounds, ab_settle;
+  int ab, ab_after, ab_phase, ab_rounds, ab_settle, spike_ms;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -184,7 +184,10 @@ static const char DEFAULT_INI[] =
   ";    phase's frame times and a summary go to xikit_ab_<pid>.csv and xikit.log. Stand still while it runs. Setting\r\n"
   ";    ab=0 stops it; set it to 0 and back to 1 to run another. Not affected: what a mod did once at its start\r\n"
   ";    (speedfix's cpu_tier, texture_compression)\r\n"
-  "ab=0\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n";
+  "ab=0\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n"
+  "; every frame slower than this many ms (Present to Present) goes to xikit_spikes_<pid>.csv with its frame number (the\r\n"
+  ";    resource log's frame numbers match, with profile=1: what was created in a stutter); 0 = off\r\n"
+  "spike_ms=50\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -200,6 +203,7 @@ static void read_cfg(void) {
   c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
   c.trace = GetPrivateProfileIntA("xikit", "trace", 0, g_ini);
   c.ab = GetPrivateProfileIntA("xikit", "ab", 0, g_ini);
+  c.spike_ms = GetPrivateProfileIntA("xikit", "spike_ms", 50, g_ini);
   c.ab_after = GetPrivateProfileIntA("xikit", "ab_after", 60, g_ini);
   c.ab_phase = GetPrivateProfileIntA("xikit", "ab_phase", 30, g_ini);
   c.ab_rounds = GetPrivateProfileIntA("xikit", "ab_rounds", 4, g_ini);
@@ -967,7 +971,20 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       g_tm_frame[g_tm_n] = g_t_prev.QuadPart ? (double)(t0.QuadPart - g_t_prev.QuadPart) * ms : 0;
       g_tm_present[g_tm_n] = (double)(t2.QuadPart - t1.QuadPart) * ms; g_tm_kit[g_tm_n] = (double)(t1.QuadPart - t0.QuadPart) * ms; g_tm_n++;
     }
-    if (g_t_prev.QuadPart) ab_frame((double)(t0.QuadPart - g_t_prev.QuadPart) * ms);
+    if (g_t_prev.QuadPart) {
+      double fm = (double)(t0.QuadPart - g_t_prev.QuadPart) * ms;
+      ab_frame(fm);
+      if (g_cfg.spike_ms > 0 && fm > g_cfg.spike_ms) {           /* a stutter: which frame, how long, what the kit was doing */
+        char sp[MAX_PATH]; snprintf(sp, sizeof sp, "%s\\xikit_spikes_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
+        int fresh = GetFileAttributesA(sp) == INVALID_FILE_ATTRIBUTES;
+        FILE *f = fopen(sp, "a");
+        if (f) {
+          if (fresh) fprintf(f, "# frames slower than spike_ms; frame = the kit's frame number (d3dprof's resource log counts the same Presents)\nframe,ms,present_ms_before,swaps_off\n");
+          fprintf(f, "%u,%.1f,%.2f,%d\n", g_frame, fm, g_tm_n > 1 ? g_tm_present[g_tm_n - 2] : 0.0, g_master_off);
+          fclose(f);
+        }
+      }
+    }
     g_t_prev = t0;
     if (g_frame % (uint32_t)g_cfg.report_every == 0) { report_timing(); report_facts(); }
   }

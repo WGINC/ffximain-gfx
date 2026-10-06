@@ -573,3 +573,15 @@ has been run in the game yet.
     a summary that sets B - A against the spread between phases of one label;
   - `log_folder=1` (the default): a folder per start for every file the kit writes.
   Wine test mode `ab`; 194 checks, all ok.
+- **Loading and stutters, from the two captures' resource logs:**
+  - about 14,450 resource creations per session; 12,460 of them on the render thread, which waits on each;
+  - per-call times that were measured: CreateVertexShader 269 us, CreateTexture 148 us, CreateIndexBuffer 70 us;
+  - CreateVertexShader was called about 1,450 times per session for only 3 distinct shaders (declarations without
+    code; 471 and 397 handles saved, 3 distinct contents), so the same shaders are created again and again;
+  - most creations came from one call site outside FFXiMain (module offset 0x9D8E), which the old logs could not
+    name;
+  - frame spikes reached 1.3-1.5 s.
+  Kit changes so the next capture can tie stutters to their cause:
+  - the resource log names the module of a caller outside FFXiMain (`module+0xOFFSET`), as does d3dprof's profile;
+  - the resource log times each creation call;
+  - `spike_ms=50` writes every slow frame with its frame number, which matches the resource log's.

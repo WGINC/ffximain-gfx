@@ -201,6 +201,12 @@ counts, traces and their pictures, captures, facts and A/B results. What the kit
 `xikit.ini`, the quarantine, the manifest, the mods, and the trigger files (`xikit_trace_now.txt`, the bisect
 answers, `xikit_reload_now.txt`). `log_folder=0` writes next to `xikit.dll` as before. The setting is read at the start.
 
+## Stutters (`spike_ms=50`)
+
+Every frame slower than `spike_ms` (Present to Present; 0 = off) is written to `xikit_spikes_<pid>.csv` with its frame
+number. With `profile=1` the resource log (`xikit_resources_<pid>.csv`) has the same frame numbers, the time of each
+creation call and the module that asked for it, so a stutter can be matched with what was created in it.
+
 ## An A/B test with no keys (`ab=1`)
 
 `ab=1` measures what the kit adds, the swaps and every mod (speedfix included), against the game without it, in one

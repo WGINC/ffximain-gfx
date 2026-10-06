@@ -162,6 +162,10 @@ int main(int argc, char **argv) {
     snprintf(p2, sizeof p2, "%s\\xikit.log", dir); int done = 0; FILE *lf = fopen(p2, "r");
     if (lf) { while (fgets(line, sizeof line, lf)) if (strstr(line, "ab: done. A (off)")) done = 1; fclose(lf); }
     check(done, "ab: xikit.log (in that folder) has the comparison");
+    present(1); Sleep(150); present(1);                     /* a stutter: one frame of 150 ms */
+    snprintf(p2, sizeof p2, "%s\\xikit_spikes_%lu.csv", dir, GetCurrentProcessId()); int spike = 0; FILE *sf = fopen(p2, "r");
+    if (sf) { while (fgets(line, sizeof line, sf)) { unsigned fr; double ms; if (sscanf(line, "%u,%lf", &fr, &ms) == 2 && ms > 140) spike = 1; } fclose(sf); }
+    check(spike, "spike_ms=50: a 150 ms frame is in xikit_spikes_<pid>.csv with its frame number");
     printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
     ExitProcess(fails ? 1 : 0);
   }
@@ -410,10 +414,10 @@ int main(int argc, char **argv) {
         if (!strncmp(line, "# call time: QueryPerformanceCounter", 36)) ctime++;
         if (strstr(line, ",primitives_per_frame,us_per_call,us_per_frame")) ctime++;
         /* call_time=1: the Present row carries the time per call and per frame (two numbers after the primitives) */
-        if (!strncmp(line, "Present,", 8)) { double a, b, c, d, e; char *p = strstr(line, ",other module,");
-          if (p && sscanf(p + 14, "%lf,%lf,%lf,%lf,%lf", &a, &b, &c, &d, &e) == 5 && d >= 0 && e >= 0) crow = 1; }
+        if (!strncmp(line, "Present,", 8)) { double a, b, c, d, e; char *p = strstr(line, ",host.exe+0x"); if (p) p = strchr(p + 1, ',');   /* the caller: its module */
+          if (p && sscanf(p + 1, "%lf,%lf,%lf,%lf,%lf", &a, &b, &c, &d, &e) == 5 && d >= 0 && e >= 0) crow = 1; }
         /* the first window: a frame is Present to Present, so 601 Present calls over 600 frames = 1.002 */
-        if (!strncmp(line, "Present,", 8) && strstr(line, ",other module,1.002,")) row = 1;
+        if (!strncmp(line, "Present,", 8) && strstr(line, ",host.exe+0x") && strstr(line, ",1.002,")) row = 1;
       }
       fclose(csv);
     }

@@ -11,7 +11,7 @@ Every function in the 867-function graphics set that is not a gate-verified memb
 | Verified as decompiled, not in the clean tree | 0 | Clean-stage gap (no exported symbol to gate); the raw translation is verified. |
 | Gate INCONCLUSIVE (no comparable run) | 1 | The original never returned under fuzzed inputs; needs better input construction or a live memory overlay. |
 | Gate UNRESOLVED (no definitive fact for a call) | 8 | A call the original makes has no definitive pop or argument count (`CLAUDE.md`), so no verdict is given. The call site is named; settle it in IDA (type the callee or the call) or from a live run, then re-gate. |
-| Passes as decompiled, fails in the clean tree | 0 | Clean-stage regression; listed below. |
+| Passes as decompiled, fails in the clean tree | 3 | Clean-stage regression; listed below. |
 
 ## Microsoft D3DX 8.1 (48)
 
@@ -89,7 +89,7 @@ Every function in the 867-function graphics set that is not a gate-verified memb
 | `0x10008F90` | CDx_Constructor | did not compile as C++: expected primary-expression before ')' token | Builds all four of CDx's CAcc members: three as an array at +428/+444/+460 plus a fourth at +476 (matches CDx'... |
 | `0x1003EBF0` | sub_1003EBF0 | did not compile as C++: expected primary-expression before '__int128' |  |
 | `0x10041020` | CMoD3mSpecularElem_Ctor | did not compile as C++: expected unqualified-id before 'reinterpret_cast' |  |
-| `0x10046550` | sub_10046550 | did not compile as C++: 'NAN' was not declared in this scope |  |
+| `0x10046550` | sub_10046550 | did not compile as C++: too few arguments to function |  |
 | `0x100496F0` | sub_100496F0 | did not compile as C++: 'fmod' was not declared in this scope |  |
 | `0x10057E10` | CMoSchedularTask_vf8 | compiles; no gate case (calling convention fastcall) |  |
 | `0x1005E9C0` | CMoPathDriveActorTask_vf8 | did not compile as C++: 'CBaseCamera' was not declared in this scope |  |
@@ -132,4 +132,12 @@ Every function in the 867-function graphics set that is not a gate-verified memb
 | `0x10047590` | CMoSkeletonElem_UpdateBoneTransform | call 0x10047623: pop count unknown (100 trials) | Normalizes local rotation (Euler wraparound), calls Mat4x4_Multiply to combine with the parent's matrix (confi... |
 | `0x1006C8B0` | sub_1006C8B0 | call 0x1006C8CD: pop count unknown (100 trials) | GetSurfaceLevel(0) on the 16x16 target, CopyRects into a lockable surface, LockRect(READONLY); sums bit 7 of t... |
 | `0x10280DE0` | sqgxSprite | call 0x102811DC: pop count unknown (83 trials) |  |
+
+## Passes as decompiled, fails in the clean tree (3)
+
+| Address | Name | Clean verdict | What it does |
+|---|---|---|---|
+| `0x10016320` | sub_10016320 | INCONCLUSIVE |  |
+| `0x10038E10` | Post_DrawRotatingGhostLayers | FAIL |  |
+| `0x1006B3B0` | sub_1006B3B0 | INCONCLUSIVE |  |
 

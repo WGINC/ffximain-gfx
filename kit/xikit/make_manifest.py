@@ -56,7 +56,7 @@ def trampoline(ea, rs, img, targets):
     instruction that ends the function or branches relative other than rel32 call/jmp, bytes past the function's
     extent, or a jump from anywhere in the game's code into the copied bytes after the entry."""
     from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-    md = Cs(CS_ARCH_X86, CS_MODE_32)
+    md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True       # (operands below need the detail mode)
     n = 0; fix = []
     code = bytes(img[ea - BASE:ea - BASE + 32])
     for i in md.disasm(code, ea):
@@ -149,11 +149,22 @@ def main(recon, out, report=None):
         lines.append('%08X %d %s %s %s %s T=%s' % (ea - BASE, flags, c['candidate'], raw.hex().upper(),
                                                    ','.join(map(str, rel)) or '-', name.replace(' ', '_'), tr))
     rd = open(recon, 'rb').read(); import zlib
+    # the reconstruction DLL's code symbols (its COFF symbol table, the DLL this manifest is tied to by CRC): which
+    # function a fault inside it is in. A '.cold' part (code GCC moved out of line) belongs to its function.
+    rpe = pefile.PE(recon, fast_load=True); rbase = rpe.OPTIONAL_HEADER.ImageBase
+    nm = subprocess.run([os.environ.get('NM', 'i686-w64-mingw32-nm'), '-n', recon], capture_output=True, text=True, check=True).stdout
+    code = []
+    for l in nm.splitlines():
+        p = l.split()
+        if len(p) == 3 and p[1] in 'Tt' and not p[2].startswith('.'):
+            sym = p[2][1:] if p[2].startswith('_') else p[2]        # (the i686 C symbol underscore)
+            code.append('!code %X %s' % (int(p[0], 16) - rbase, sym[:-5] if sym.endswith('.cold') else sym))
     with open(out, 'w', newline='\n') as f:
         f.write('# xikit manifest: RVA FLAGS EXPORT EXPECTED RELOCS NAME T=TRAMPOLINE (kit/xikit/make_manifest.py; flags 1=SEH 2=speedfix site 4=untested 8=register input)\n')
         f.write('# FFXiMain.dll TimeDateStamp 0x%08X\n' % pe.FILE_HEADER.TimeDateStamp)
         f.write('!game_timestamp %08X\n!recon_size %d\n!recon_crc32 %08X\n' % (pe.FILE_HEADER.TimeDateStamp, len(rd), zlib.crc32(rd) & 0xFFFFFFFF))
         f.write('\n'.join(lines) + '\n')
+        f.write('\n'.join(code) + '\n')
     rep['listed'] = len(lines)
     rep['flags'] = {'seh': sum(1 for l in lines if int(l.split()[1]) & 1), 'speedfix': sum(1 for l in lines if int(l.split()[1]) & 2),
                     'untested': sum(1 for l in lines if int(l.split()[1]) & 4), 'register_input': sum(1 for l in lines if int(l.split()[1]) & 8)}

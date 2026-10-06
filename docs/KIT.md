@@ -62,9 +62,11 @@ The manifest also carries flags that leave a function out by default, each with 
 
 ## What the build gives (`kit/xikit/build.sh`, this commit's tree)
 
-- **Manifest**: 775 functions listed (every function PASS over the merged gates), none refused (each has its
-  export, room for the jump, and no jump into its first 5 bytes). Flags: 0 SEH, 3 speedfix sites, 155 untested
-  or thin evidence (left out by default); 620 are swapped in by default.
+- **Manifest**: 774 functions listed (every function PASS over the merged gates), none refused (each has its
+  export, room for the jump, and no jump into its first 5 bytes). Flags: 0 SEH, 3 speedfix sites, 154 untested
+  or thin evidence (left out by default), 1 register input (also untested); 620 are swapped in by default.
+  721 have a trampoline for mods (`T=`), and the reconstruction DLL's 792 code symbols are listed (`!code`) so a
+  fault inside it is attributed to the function it is in.
 - **The in-game DLL is the verified code**: `gfx_recon_ingame.dll` (the tree built with `XI_INGAME`, every
   game address `XI_GAME(ea) = ea + xi_rel`) is gated on fuzz itself with `xi_rel = 0`. Its verdicts are the clean
   tree's fuzz verdicts, function for function: 773 PASS, 0 FAIL, and 4 not compared on fuzz (0x10003890 and
@@ -91,7 +93,7 @@ with a mod, `test/mod_test.cpp`, at the analysed base and relocated: docs/SDK.md
 All three pass every check:
 - the device is hooked through its own vtable copy; the original vtable is not written; Present still
   reaches the device's method;
-- `swap=1`: all 777 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
+- `swap=1` (with `include_untested=1`): all 774 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
   `this+0x660`, `GetColor` reads it back, and `Gfx_IsGammaSupported` reads `g_pCDx` at the rebased address;
 - the call count of `SetColor` is in the report;
 - `swap=0` written to the ini: re-read, all original bytes back;

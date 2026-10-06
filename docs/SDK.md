@@ -77,7 +77,7 @@ A mod exports:
 |---|---|
 | `version`, `size` | `XIKIT_API_VERSION` (1). Fields are only ever added at the end. |
 | `game_base`, `rel` | Where `FFXiMain.dll` is loaded; `rel` is `game_base - 0x10000000` |
-| `device` | The game's `IDirect3DDevice8` |
+| `device` | The game's `IDirect3DDevice8` when the mod was loaded. If the game ever makes a new device, the kit hooks that one too: use the argument of `xikit_mod_frame`, which is always the current one |
 | `recon`, `dir` | The reconstruction DLL's handle; the kit's folder |
 | `log(fmt, ...)` | A line in `xikit.log`, prefixed with the mod's name |
 | `hook(name, replacement, &previous)` | What `XI_HOOK` calls. The name is as the manifest gives it (`CDx::DrawFadeQuad`), its export symbol, or `"0x1000A820"`. |
@@ -124,7 +124,11 @@ A mod exports:
   an A/B trace with a mod loaded compares the game with and without the mod. Frame callbacks always run.
 - **A hooked function is never a bisect suspect**, and the call counter does not count it.
 - **The bisect, profiler, trace and crash quarantine work as before.** A crash inside the reconstruction quarantines
-  that function as usual. If it was hooked, the hook goes off with it.
+  the function it is in (the kit knows each function's code from the DLL's symbol table, `!code` in the manifest).
+  - A hook whose previous is a trampoline is not affected: it never runs that reconstruction.
+  - A hook whose previous is the reconstruction goes off when that function is quarantined.
+  - `hook()` refuses such a hook if the function is already in `xikit_quarantine.txt`.
+- **A trace with `swap=0`** compares the game with and without the mods' hooks.
 
 ## Limits
 

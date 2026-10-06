@@ -61,6 +61,7 @@ typedef struct {
   volatile LONG calls; LONG calls_reported;
   int tlen, nfix; int8_t tfix[4];      /* trampoline (manifest T=): whole instructions copied from the entry, rel32 to re-aim */
   void *mod_target; int mod;           /* a mod's replacement (sdk/: xikit_mod.h), and which mod (index into g_mods + 1) */
+  int mod_on_recon;                    /* the hook's previous is the reconstruction (no trampoline) */
 } Fn;
 
 typedef struct {
@@ -69,6 +70,10 @@ typedef struct {
 } Cfg;
 
 static Fn g_fn[MAXFN]; static int g_nfn;
+/* the reconstruction DLL's code symbols (manifest !code RVA SYMBOL): which function a fault inside it is in */
+#define MAXCODE 4096
+typedef struct { uint32_t rva; int fn; char sym[160]; } Code;   /* (sym as long as Fn.exp: a cut name would match nothing) */
+static Code g_code[MAXCODE]; static int g_ncode;
 static Fn *g_by_target[MAXFN];         /* sorted by reconstruction address, for the exception handler */
 static Cfg g_cfg;
 static char g_dir[MAX_PATH], g_ini[MAX_PATH], g_logpath[MAX_PATH], g_quar[MAX_PATH];
@@ -205,7 +210,10 @@ static int base_wanted(const Fn *f) {
 }
 
 static int wanted(const Fn *f) {
-  if (f->mod_target) return !g_master_off && !f->refused && !f->quarantined;   /* swap=0 leaves mods on; F9 / a trace's off frames do not */
+  /* a mod's hook: swap=0 leaves it on, F9 and a trace's unswapped frames turn it off. The quarantine is about the
+     reconstruction's code, which a hook with a trampoline never runs; a hook whose previous is the reconstruction is
+     refused at hook() if that function is quarantined, and turned off if it is quarantined later (f->mod_on_recon) */
+  if (f->mod_target) return !g_master_off && !f->refused && !(f->quarantined && f->mod_on_recon);
   int w = base_wanted(f);
   return g_bis_on ? (w && f->bs_test) : w;
 }
@@ -225,6 +233,7 @@ static int load_manifest(const char *path) {
         else if (!strcmp(k, "recon_crc32")) g_recon_crc = v;
       }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
+      if (g_ncode < MAXCODE && sscanf(line + 1, "code %x %159s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
       continue;
     }
     if (g_nfn >= MAXFN) break;
@@ -482,7 +491,7 @@ static void report_calls(void) {
   fprintf(f, "address,name,swapped,calls_total,calls_window\n");
   for (int i = 0; i < g_nfn; i++) {
     Fn *x = &g_fn[i]; LONG c = x->calls;
-    if (!x->stub || (!x->patched && !c)) continue;
+    if (!x->stub || x->mod_target || (!x->patched && !c)) continue;      /* (a mod's hook bypasses the counting stub: not listed) */
     fprintf(f, "0x%08X,%s,%d,%ld,%ld\n", x->rva + ANALYSED_BASE, x->name, x->patched, (long)c, (long)(c - x->calls_reported));
     x->calls_reported = c;
   }
@@ -498,7 +507,8 @@ static void report_calls(void) {
    the timer (trace_after / trace_every / trace_count in xikit.ini: the keys do not reach every game window). */
 static void trace_begin(const char *why) {
   if (g_tr_state) return;
-  if (!g_cfg.swap) { klog("trace: swap=0 in xikit.ini, so the two halves would be the same; set swap=1"); return; }
+  int hooks = 0; for (int i = 0; i < g_nfn; i++) hooks += g_fn[i].mod_target != NULL;
+  if (!g_cfg.swap && !hooks) { klog("trace: swap=0 in xikit.ini and no mod hooks, so the two halves would be the same; set swap=1"); return; }
   if (g_tr_buffers) d3dprof_trace_hookbufs(1);     /* buffers bound from now on get Lock/Unlock wrapped (d3dprof.c) */
   g_tr_prev_off = g_master_off; g_master_off = 1; g_dirty = 1; g_tr_state = 1; g_tr_wait = 0;
   klog("trace %d (%s): swaps off, waiting for the restores", g_tr_n + 1, why);
@@ -506,7 +516,7 @@ static void trace_begin(const char *why) {
 
 static int g_tr_maxon;
 static void trace_finish(const char *mode) {
-  char p[MAX_PATH], note[260]; int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched;
+  char p[MAX_PATH], note[260]; int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched && !g_fn[i].mod_target;
   if (g_tr_maxon > now) now = g_tr_maxon;      /* (alternating: the last frame is an unswapped one) */
   d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0; g_tr_maxon = 0;
   g_tr_n++; g_tr_state_started = 0;
@@ -557,7 +567,7 @@ static void trace_step(void) {
    were left as they were; trace_diff.py leaves such a frame out). */
 static void trace_label(void) {
   if (g_tr_state != 5) return;
-  int on = 0; for (int i = 0; i < g_nfn; i++) on += g_fn[i].patched;
+  int on = 0; for (int i = 0; i < g_nfn; i++) on += g_fn[i].patched && !g_fn[i].mod_target;
   d3dprof_trace_relabel(g_dirty ? 2 : g_master_off ? 0 : 1);
   if (on > g_tr_maxon) g_tr_maxon = on;
 }
@@ -606,12 +616,26 @@ static int cmp_target(const void *a, const void *b) {
   return x < y ? -1 : x > y;
 }
 
-static Fn *fn_at(uint32_t a) {              /* the swapped function whose reconstruction holds address a */
-  Fn *f = NULL; int lo = 0, hi = g_nfn - 1;
+/* the manifest function whose reconstruction holds address a: the code symbol at or below a (the manifest's !code
+   list, sorted, from the DLL's own symbol table). NULL when a is not in the reconstruction, or is in code that is no
+   manifest function's (the runtime helpers, a function left out of the manifest): nothing is quarantined for it.
+   *sym (if given) receives the symbol's name. A manifest without !code lines (older) falls back to the nearest
+   reconstruction entry at or below a. */
+static Fn *fn_at_sym(uint32_t a, const char **sym) {
+  if (sym) *sym = "?";
   if (a < g_recon_lo || a >= g_recon_hi) return NULL;
+  if (g_ncode) {
+    uint32_t r = a - g_recon_lo; int lo = 0, hi = g_ncode - 1, k = -1;
+    while (lo <= hi) { int m = (lo + hi) / 2; if (g_code[m].rva <= r) { k = m; lo = m + 1; } else hi = m - 1; }
+    if (k < 0) return NULL;
+    if (sym) *sym = g_code[k].sym;
+    return g_code[k].fn >= 0 ? &g_fn[g_code[k].fn] : NULL;
+  }
+  Fn *f = NULL; int lo = 0, hi = g_nfn - 1;
   while (lo <= hi) { int m = (lo + hi) / 2; if ((uint32_t)(uintptr_t)g_by_target[m]->target <= a) { f = g_by_target[m]; lo = m + 1; } else hi = m - 1; }
   return f;
 }
+static Fn *fn_at(uint32_t a) { return fn_at_sym(a, NULL); }
 
 static int after_call(uint32_t r) {          /* r follows a call instruction (rel32, or FF /2 through a register or memory) */
   const uint8_t *p = (const uint8_t *)(uintptr_t)r;
@@ -672,18 +696,17 @@ static LONG CALLBACK on_exception(EXCEPTION_POINTERS *e) {
   if (code == EXCEPTION_BREAKPOINT || code == EXCEPTION_SINGLE_STEP || code == 0xE06D7363u || code == 0x406D1388u
       || code == DBG_PRINTEXCEPTION_C) return EXCEPTION_CONTINUE_SEARCH;
   uint32_t eip = e->ContextRecord->Eip;
-  Fn *f = NULL;
+  Fn *f = NULL; const char *sym = "?";
   if (eip >= g_recon_lo && eip < g_recon_hi) {
-    int lo = 0, hi = g_nfn - 1;
-    while (lo <= hi) { int m = (lo + hi) / 2; if ((uint32_t)(uintptr_t)g_by_target[m]->target <= eip) { f = g_by_target[m]; lo = m + 1; } else hi = m - 1; }
+    f = fn_at_sym(eip, &sym);
   } else if (g_stubs && eip >= (uint32_t)(uintptr_t)g_stubs && eip < (uint32_t)(uintptr_t)g_stubs + MAXFN * STUB_LEN) {
     f = &g_fn[(eip - (uint32_t)(uintptr_t)g_stubs) / STUB_LEN];
   } else return caller_fault(e);
   CONTEXT *c = e->ContextRecord; uint32_t *sp = (uint32_t *)(uintptr_t)c->Esp;
-  klog("EXCEPTION 0x%08lX at 0x%08lX in reconstructed %s (original 0x%08X, +0x%lX into the reconstruction): "
+  klog("EXCEPTION 0x%08lX at 0x%08lX in reconstructed %s (original 0x%08X, +0x%lX into the reconstruction; symbol %s): "
        "eax=%08lX ebx=%08lX ecx=%08lX edx=%08lX esi=%08lX edi=%08lX ebp=%08lX esp=%08lX; [esp]=%08X %08X %08X %08X",
        code, (unsigned long)eip, f ? f->name : "?", f ? f->rva + ANALYSED_BASE : 0,
-       f ? (unsigned long)(eip - (uint32_t)(uintptr_t)f->target) : 0ul, c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp,
+       f ? (unsigned long)(eip - (uint32_t)(uintptr_t)f->target) : 0ul, sym, c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp,
        IsBadReadPtr(sp, 16) ? 0 : sp[0], IsBadReadPtr(sp, 16) ? 0 : sp[1], IsBadReadPtr(sp, 16) ? 0 : sp[2], IsBadReadPtr(sp, 16) ? 0 : sp[3]);
   if (f && !f->quarantined) {
     f->quarantined = 1; g_dirty = 1;
@@ -760,8 +783,9 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
   if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
   if (!p) { host_log("hook(%s): no way to reach its previous code", f->name); return XIKIT_E_NOPREV; }
+  if (p == f->target && f->quarantined) { host_log("hook(%s): its previous would be the reconstruction, which is quarantined (xikit_quarantine.txt)", f->name); return XIKIT_E_REFUSED; }
   if (prev) *prev = p;
-  f->mod_target = repl; f->mod = g_mod_cur + 1; f->refused = 0; g_dirty = 1;
+  f->mod_target = repl; f->mod = g_mod_cur + 1; f->mod_on_recon = p == f->target; f->refused = 0; g_dirty = 1;
   host_log("hooked %s (0x%08X)%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
            via, (f->flags & 4) && p == f->target ? " [its gate coverage is incomplete]" : "");
   return XIKIT_OK;
@@ -857,6 +881,9 @@ static DWORD WINAPI start(LPVOID self) {
     if (!f->target) { missing++; f->refused = 1; }
     g_by_target[i] = f;
   }
+  for (int k = 0; k < g_ncode; k++)                 /* each code symbol to its manifest function, by export name */
+    for (int i = 0; i < g_nfn; i++) if (!strcmp(g_code[k].sym, g_fn[i].exp)) { g_code[k].fn = i; break; }
+  for (int k = 1; k < g_ncode; k++) if (g_code[k].rva < g_code[k - 1].rva) { klog("manifest: !code lines not in address order; faults attributed by the nearest entry instead"); g_ncode = 0; break; }
   qsort(g_by_target, g_nfn, sizeof g_by_target[0], cmp_target);
   if (g_cfg.count_calls) {
     g_stubs = (uint8_t *)VirtualAlloc(NULL, MAXFN * STUB_LEN, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);

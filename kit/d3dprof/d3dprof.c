@@ -153,8 +153,9 @@ void d3dprof_trace_stop(void) { g_trace_label = -1; }
 void d3dprof_trace_relabel(int label) { if (g_trace_label >= 0) g_trace_label = label; }
 void d3dprof_trace_frames(int *n_out) { if (n_out) *n_out = (int)g_trace_frame; }
 int d3dprof_trace_write(const char *path, const char *note) {
+  if (!g_trace) return 0;
   FILE *f = fopen(path, "w");
-  if (!f || !g_trace) return 0;
+  if (!f) return 0;
   fprintf(f, "# d3d trace v1: %s\n# label frame slot method call_site nparams a2..a7 hash; call site = analysed address (0x10xxxxxx) or the raw return address\n"
              "# %u records, %u dropped\n", note, g_ntrace, g_trace_dropped);
   for (uint32_t i = 0; i < g_ntrace; i++) {

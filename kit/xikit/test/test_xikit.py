@@ -5,7 +5,7 @@ profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod
 base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
-import json, os, shutil, subprocess, sys, tempfile
+import json, os, re, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
 bad = 0
@@ -56,6 +56,9 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture
         print('%s: xikit.log names the kit\'s build (VERSION.txt line 1)' % ('ok' if ok else 'FAIL')); bad += not ok
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
+    if mode == 'base':
+        ok = re.search(r'cpu: CPUID vendor "\w+", brand ".*"; SSE 1', log) is not None and 'machine: ' in log
+        print('%s: the environment is logged (CPUID vendor and features, machine and Windows build)' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'profile':
         vs = [f for f in os.listdir(d) if f.startswith('xikit_vshader_')]
         r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'vshader.py')] + [os.path.join(d, f) for f in vs], capture_output=True, text=True)

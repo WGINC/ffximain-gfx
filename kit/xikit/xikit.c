@@ -31,6 +31,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include "../../sdk/include/xikit_mod.h"
+#ifdef _MSC_VER
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#endif
 
 #define ANALYSED_BASE 0x10000000u
 #define G_PCDX 0x1045666Cu             /* CDx*; the device is at +0xC (data/com_fields.json, accepted) */
@@ -1666,6 +1671,76 @@ static void report_facts(void) {
 }
 
 /* ------------------------------------------------------------------------------------------------ start */
+/* ------------------------------------------------------------------------------------------------ environment
+   What the game runs on, logged once the device exists: the CPU as CPUID reports it (the game's own detection,
+   0x1000D400, chooses its SSE code by the vendor string), the machine and Windows build (an x86 process on ARM64
+   Windows is emulated), and every graphics module loaded, with its path, file version and PE machine type: which
+   Direct3D 8 implementation the calls go through (a d3d8.dll next to the game, such as dgVoodoo's, or Windows' own)
+   and what lies under it. */
+static void cpuid_regs(unsigned leaf, unsigned r[4]) {
+#ifdef _MSC_VER
+  int x[4]; __cpuid(x, (int)leaf); for (int i = 0; i < 4; i++) r[i] = (unsigned)x[i];
+#else
+  if (!__get_cpuid(leaf, &r[0], &r[1], &r[2], &r[3])) r[0] = r[1] = r[2] = r[3] = 0;
+#endif
+}
+static const char *machine_name(unsigned m) {
+  return m == 0x14c ? "x86" : m == 0x8664 ? "x64" : m == 0xAA64 ? "ARM64" : m == 0x1c4 ? "ARMNT" : m == 0xA641 ? "ARM64EC" : m == 0x3A64 ? "CHPE x86" : "other";
+}
+static void log_environment(void) {
+  unsigned r[4]; char vendor[13] = {0}, brand[49] = {0};
+  cpuid_regs(0, r); memcpy(vendor, &r[1], 4); memcpy(vendor + 4, &r[3], 4); memcpy(vendor + 8, &r[2], 4);
+  cpuid_regs(0x80000000u, r);
+  if (r[0] >= 0x80000004u) for (unsigned l = 0; l < 3; l++) { cpuid_regs(0x80000002u + l, r); memcpy(brand + 16 * l, r, 16); }
+  cpuid_regs(1, r);
+  klog("cpu: CPUID vendor \"%s\", brand \"%s\"; SSE %u SSE2 %u SSE3 %u SSSE3 %u SSE4.1 %u SSE4.2 %u AVX %u (the game's own detection turns its SSE code on only for an Intel or Transmeta vendor)",
+       vendor, brand, r[3] >> 25 & 1, r[3] >> 26 & 1, r[2] & 1, r[2] >> 9 & 1, r[2] >> 19 & 1, r[2] >> 20 & 1, r[2] >> 28 & 1);
+  typedef BOOL (WINAPI *IW2)(HANDLE, USHORT *, USHORT *);
+  IW2 iw2 = (IW2)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process2");
+  USHORT pm = 0, nm = 0;
+  typedef LONG (WINAPI *RGV)(OSVERSIONINFOW *);
+  RGV rgv = (RGV)(void *)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+  OSVERSIONINFOW ov; memset(&ov, 0, sizeof ov); ov.dwOSVersionInfoSize = sizeof ov;
+  if (rgv) rgv(&ov);
+  if (iw2 && iw2(GetCurrentProcess(), &pm, &nm))
+    klog("machine: native %s (0x%X), this process %s; Windows %lu.%lu build %lu", machine_name(nm), nm, pm ? "emulated or WOW64" : "native",
+         (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
+  else klog("machine: IsWow64Process2 not available; Windows %lu.%lu build %lu", (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
+  /* the graphics modules */
+  HMODULE ver = LoadLibraryA("version.dll");
+  typedef DWORD (WINAPI *GFVIS)(LPCSTR, LPDWORD); typedef BOOL (WINAPI *GFVI)(LPCSTR, DWORD, DWORD, LPVOID); typedef BOOL (WINAPI *VQV)(LPCVOID, LPCSTR, LPVOID *, PUINT);
+  GFVIS gfvis = ver ? (GFVIS)(void *)GetProcAddress(ver, "GetFileVersionInfoSizeA") : NULL;
+  GFVI gfvi = ver ? (GFVI)(void *)GetProcAddress(ver, "GetFileVersionInfoA") : NULL;
+  VQV vqv = ver ? (VQV)(void *)GetProcAddress(ver, "VerQueryValueA") : NULL;
+  static const char *const pat[] = {"d3d8", "d3d9", "d3d10", "d3d11", "d3d12", "dxgi", "dxcore", "d3dim", "ddraw", "dgvoodoo", "prl_", "opengl32", "vulkan", "atidxx", "nvd3d", "igd", "d3d8thk", "dxvk", "d3dcompiler", "d3dx"};
+  HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
+  if (snap == INVALID_HANDLE_VALUE) { klog("graphics modules: the module list could not be read (%lu)", GetLastError()); return; }
+  MODULEENTRY32 me; me.dwSize = sizeof me; int n = 0;
+  for (BOOL ok = Module32First(snap, &me); ok; ok = Module32Next(snap, &me)) {
+    char low[MAX_PATH]; size_t i = 0;
+    for (; me.szModule[i] && i < sizeof low - 1; i++) low[i] = (char)(me.szModule[i] >= 'A' && me.szModule[i] <= 'Z' ? me.szModule[i] + 32 : me.szModule[i]);
+    low[i] = 0;
+    int hit = 0; for (unsigned k = 0; k < sizeof pat / sizeof *pat; k++) if (strstr(low, pat[k])) hit = 1;
+    if (!hit) continue;
+    char fv[64] = "?";
+    if (gfvis && gfvi && vqv) {
+      DWORD h = 0, sz = gfvis(me.szExePath, &h);
+      void *buf = sz ? malloc(sz) : NULL; VS_FIXEDFILEINFO *fi = NULL; UINT fl = 0;
+      if (buf && gfvi(me.szExePath, 0, sz, buf) && vqv(buf, "\\", (LPVOID *)&fi, &fl) && fi && fl >= sizeof *fi)
+        snprintf(fv, sizeof fv, "%u.%u.%u.%u", (unsigned)(fi->dwFileVersionMS >> 16), (unsigned)(fi->dwFileVersionMS & 0xFFFF),
+                 (unsigned)(fi->dwFileVersionLS >> 16), (unsigned)(fi->dwFileVersionLS & 0xFFFF));
+      free(buf);
+    }
+    unsigned mach = 0;
+    IMAGE_DOS_HEADER *dh = (IMAGE_DOS_HEADER *)me.modBaseAddr;
+    if (dh && dh->e_magic == IMAGE_DOS_SIGNATURE) mach = ((IMAGE_NT_HEADERS *)(me.modBaseAddr + dh->e_lfanew))->FileHeader.Machine;
+    klog("graphics module: %s at %p, version %s, PE machine %s: %s", me.szModule, (void *)me.modBaseAddr, fv, machine_name(mach), me.szExePath);
+    n++;
+  }
+  CloseHandle(snap);
+  if (!n) klog("graphics modules: none of the known names loaded");
+}
+
 static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
   GetModuleFileNameA((HMODULE)self, g_dir, MAX_PATH);
@@ -1763,6 +1838,7 @@ static DWORD WINAPI start(LPVOID self) {
   g_vt[SLOT_PRESENT] = (void *)kit_present;
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
+  log_environment();
   if (g_cfg.profile || g_cfg.trace) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);

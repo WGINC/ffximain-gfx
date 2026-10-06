@@ -193,6 +193,32 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   `test_thunks.py` (Unicorn): a timed call returns to its caller through the stub with the method's pop, EAX and EDX,
   and records exactly one counter interval at its site.
 
+## What the game runs on (always, in xikit.log)
+
+Once the device exists the kit logs:
+- **The CPU as CPUID reports it:** the vendor string, the brand, and SSE through AVX. The game's own detection turns
+  its SSE code on only for an Intel or Transmeta vendor; speedfix's `sse_skinning` works around that.
+- **The machine:** the native machine (x86, x64 or ARM64; an x86 process on ARM64 Windows is emulated), and the
+  Windows build.
+- **Every graphics module loaded** (d3d8, d3d9, d3d10, d3d11, d3d12, dxgi, the D3DxOn12 layers, dgVoodoo, Parallels'
+  prl_ drivers, vendor drivers), each with its path, file version and PE machine type: which Direct3D 8
+  implementation the game's calls go through, and what lies under it.
+
+### Comparing Direct3D 8 paths (kit/d3dprof/compare_paths.py)
+
+The cost of each call depends on the path under the game: a d3dprof profile (`profile=1 call_time=1`) of one path
+and one of another, taken standing at the same spot, compare per method (`compare_paths.py A.csv B.csv --names A B`):
+frame time, time inside Direct3D calls, calls a frame and the time per call. Frame time decides. Surface and buffer
+locks are not device methods and are not in the per-call times (the readback's LockRect, the skinning buffers'
+Lock); the frame time includes them.
+
+### How many draws could be merged (kit/d3dprof/merge_potential.py)
+
+A trace (`trace=1`) read for runs of consecutive draws under the same state hash with nothing between them that
+changes what a draw sees (transforms, materials, lights, constants, a refilled buffer, another base index, scene
+boundaries). Per frame and label: the draws of each method and the runs they form, which is what merging in place
+would leave (an upper bound; `--selftest`).
+
 ## Where the kit writes (`log_folder=1`)
 
 Every start gets a folder of its own, `xikit_logs\<date>_<time>_<pid>` next to `xikit.dll`, and everything the

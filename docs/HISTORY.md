@@ -730,3 +730,15 @@ than once); fixed.
   - `ab_levers` groups separated by `;`, run one after another. Several levers can be measured in one session
     without editing the ini between them.
   - All Wine-tested (test_speedfix.py); none run in the game yet.
+- **Who issues the draws in Bedau** (run 3736's profile, by the caller of each CDx draw wrapper):
+  - DrawIndexedPrimitive, 1,586 a frame: all from CYyModelDt::SkinAndDrawV2. It walks a model's command list and
+    issues one triangle strip (type 5) per strip record, about 58 primitives each.
+  - DrawPrimitiveUP, 885 a frame: Font_DrawGlyphQuad 386, Cell_DrawQuadBlended 209, Actor_DrawWorldText 200 (2
+    triangles each).
+  - DrawPrimitive, 359 a frame: CMoVuElem_Draw 270; the zone mesh 0x1017C9C0 45, at about 714 primitives each.
+- **New tools:**
+  - the kit logs the CPU (CPUID), the machine and Windows build, and every graphics module with its version;
+  - kit/d3dprof/compare_paths.py compares two profiles per method;
+  - kit/d3dprof/merge_potential.py counts the draws merging would leave in a trace.
+- **Fixed:** trace_diff.py read the `#S` state lines as comments, because the `#` test came first. Its state
+  differences were therefore always empty.

@@ -252,3 +252,28 @@ trial, and orders the tools that close it.
 
 **The next step:** build P0 and take one baseline capture in a busy scene with speedfix off. Then P1, then the
 first P2 mod for text.
+
+## Measured in Bedau, 6 Oct: where a frame goes and what draws it
+
+**Render-thread time** (the owner's M5 MacBook Pro, Windows on ARM in Parallels, dgVoodoo to D3D11; about 71 ms a
+frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame; text and UI quads about 7 ms.
+
+| Work | Share | Where |
+|---|---|---|
+| Occlusion readback stall | 19.5% | LockRect at 0x1006C91C |
+| Character draws | 16% | every one of the 1,586 DrawIndexedPrimitive a frame comes from CYyModelDt::SkinAndDrawV2, one triangle strip of about 58 triangles each |
+| x87 skinning | 13.3% | |
+| Skinning buffer locks | 7.6% | |
+| Text and UI quads | 10.3% | DrawPrimitiveUP, 885 a frame of 2 triangles each: glyphs 386, Cell quads 209, name plates 200 |
+| Effects and zone | 3.2% | DrawPrimitive: CMoVuElem_Draw 270 a frame, the zone mesh 45 |
+
+**Draw reduction, characters first.**
+1. Measure how many of SkinAndDrawV2's strips run under the same state with nothing between them
+   (merge_potential.py on a Bedau trace).
+2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its gate trials covered 62 of 1,596
+   instructions.
+3. A fork that draws a run of strips as one indexed list (an index list built once per model), gated against the
+   game with the draw change declared.
+
+That is the first step of the renderer port (goal 2) done in place. The D3D11 backend then draws the same merged
+lists, and can skin on the GPU.

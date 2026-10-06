@@ -25,6 +25,7 @@ here regenerates it.
 | `reg_kept_audit.json` | EAX/ECX/EDX values the original keeps live across a call to a callee that leaves them untouched, and where it uses them | `reg_kept_audit.py` |
 | `com_calls.json` | D3D8 calls on a proven object, with the header's pop | `com_calls.py` |
 | `real_sp.json` | Stack depth measured running real code | `real_sp.py` |
+| `game_sp.json` | What a callee pops at call sites the gate could not settle, measured in the running game (xikit `facts=1`); recorded only where every observed call agreed (not re-derivable: an observation) | `fact_sites.py ingest` |
 | `callsite_args.json` | Each call's type as the IDB declares it (`typed`) or Hex-Rays made up (`cast`) | `callsites.py` |
 | `callsite_audit.json` | All sources side by side for every indirect call | `callsite_audit.py` |
 | `ret_kinds.json` | EAX at `ret`: 0/1, or AL 0/1 | `ret_kinds.py` |

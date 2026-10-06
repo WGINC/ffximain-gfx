@@ -160,7 +160,10 @@ static const char DEFAULT_INI[] =
   "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
   ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
-  "sample=0\r\nsample_ms=1\r\n";
+  "sample=0\r\nsample_ms=1\r\n"
+  "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
+  ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
+  "facts=0\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -328,6 +331,7 @@ static int write5(uint8_t *at, const uint8_t *bytes) {
   return 1;
 }
 
+static int g_nsites; static int sites_pending(void); static void apply_sites(const uint32_t *eips, int n, char msgs[][200], int *nmsg); static void report_facts(void);
 /* where the entry of f should jump now, or NULL (the game's own bytes): a mod's hook, a capture stub, the counting
    stub, or the reconstruction */
 static void *desired(const Fn *f) {
@@ -346,7 +350,7 @@ static void apply(void) {
     Fn *f = &g_fn[i]; want[i] = desired(f); f->wanted = want[i] != NULL;
     todo += (f->patched ? f->jmp_to : NULL) != want[i];
   }
-  if (!todo) { g_dirty = 0; return; }
+  if (!todo && !(g_nsites && sites_pending())) { g_dirty = 0; return; }
   EnterCriticalSection(&g_susplock);
   int n = suspend_others(th, 1024);
   if (n < 0) { LeaveCriticalSection(&g_susplock); klog("could not list threads: nothing written this frame"); return; }
@@ -393,13 +397,14 @@ static void apply(void) {
       if (write5(f->site, jmp)) { f->jmp_to = want[i]; retargeted++; }
     }
   }
+  if (g_nsites) apply_sites(eips, n, msgs, &nmsg);
   resume_all(th, n);
   LeaveCriticalSection(&g_susplock);
   for (int i = 0; i < nmsg; i++) klog("%s", msgs[i]);
   int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched && !g_fn[i].mod_target && !(g_fn[i].cap_stub && !g_fn[i].cap_done);
   klog("frame %u: %d swapped, %d restored, %d re-aimed, %d refused, %d waiting (a thread was inside the entry); %d of %d now run reconstructed code",
        g_frame, patched, restored, retargeted, refused, busy, now, g_nfn);
-  g_dirty = busy > 0;
+  g_dirty = busy > 0 || (g_nsites && sites_pending());
 }
 
 
@@ -751,6 +756,7 @@ static void addr_name(uint32_t a, char *out, size_t n) {
     snprintf(out, n, "module,%s+0x%lX", b ? b + 1 : mn, (unsigned long)(a - (uint32_t)(uintptr_t)m));
   } else snprintf(out, n, "memory,0x%08X", a);
 }
+static void where(uint32_t a, char *out, size_t n) { addr_name(a, out, n); for (char *c = out; *c; c++) if (*c == ',') *c = ':'; }   /* one CSV field */
 static int cmp_double(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
 static void report_timing(void) {
   char path[MAX_PATH]; int n = g_tm_n; g_tm_n = 0;
@@ -847,7 +853,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       g_tm_present[g_tm_n] = (double)(t2.QuadPart - t1.QuadPart) * ms; g_tm_kit[g_tm_n] = (double)(t1.QuadPart - t0.QuadPart) * ms; g_tm_n++;
     }
     g_t_prev = t0;
-    if (g_frame % (uint32_t)g_cfg.report_every == 0) report_timing();
+    if (g_frame % (uint32_t)g_cfg.report_every == 0) { report_timing(); report_facts(); }
   }
   return hr;
 }
@@ -1220,6 +1226,144 @@ static void setup_captures(void) {
   if (g_ncap) { g_dirty = 1; FlushInstructionCache(GetCurrentProcess(), g_capstubs, MAXCAP * 32); }
 }
 
+
+/* ------------------------------------------------------------------------------------------------ facts=1 (docs/KIT.md)
+   The call sites the gate cannot settle (pipeline/fact_sites.py: each with a patch region that ends at the call's
+   return address and that nothing jumps into), measured in the running game: the region runs from a copy that
+   records ESP just before the call and just after it returns (their difference is what the callee popped), and
+   where it went (the call's target, read as the call reads it; for `call [reg+disp]` also reg, the vtable, and
+   disp/4, the slot). xikit_facts_<pid>.csv every window; fact_sites.py ingest turns agreeing observations into
+   data/game_sp.json, a source the gate reads. */
+#define MAXSITE 256
+#define SITE_OBS 8
+typedef struct { uint32_t pops, target, vt, slot; volatile LONG n; } SiteObs;
+typedef struct {
+  uint32_t site, start, len, calloff, func; int fix, nrel; int8_t rel[4]; uint8_t expect[16];
+  uint8_t *at, *stub, saved[JMP_LEN]; int patched, refused;
+  SiteObs obs[SITE_OBS]; volatile LONG nobs, overflow;
+} Site;
+static Site g_sites[MAXSITE]; static int g_facts; static DWORD g_fact_tls = TLS_OUT_OF_INDEXES;
+static volatile LONG g_fact_lock;
+typedef struct { int depth; struct { int idx; uint32_t esp, target, vt, slot; } e[16]; } FactThread;
+static FactThread g_fact_pool[128]; static volatile LONG g_fact_npool;
+
+static int site_bytes_ok(Site *t) {
+  uint8_t live[16], care[16]; memcpy(live, t->at, t->len); memset(care, 1, sizeof care);
+  for (int i = 0; i < t->nrel; i++) { int p = t->rel[i]; uint32_t v; memcpy(&v, live + p, 4); v -= g_rel; memcpy(live + p, &v, 4); (void)care; }
+  return !memcmp(live, t->expect, t->len);
+}
+static FactThread *fact_thread(void) {
+  FactThread *ft = (FactThread *)TlsGetValue(g_fact_tls);
+  if (!ft) { LONG k = InterlockedIncrement(&g_fact_npool) - 1; if (k >= 128) return NULL; ft = &g_fact_pool[k]; TlsSetValue(g_fact_tls, ft); }
+  return ft;
+}
+/* the stubs call these with the site index and the pushad/pushfd block: edi esi ebp esp(+4 = ESP at the call) ebx edx ecx eax eflags */
+static void __cdecl fact_pre(int idx, uint32_t *r) {
+  Site *t = &g_sites[idx]; FactThread *ft = fact_thread();
+  if (!ft || ft->depth >= 16) return;
+  uint32_t reg[8] = { r[7], r[6], r[5], r[4], r[3] + 4, r[2], r[1], r[0] };   /* eax ecx edx ebx esp ebp esi edi */
+  const uint8_t *c = t->expect + t->calloff; uint32_t target = 0, vt = 0, slot = 0xFFFFFFFFu;
+  if (c[0] == 0xE8) { int32_t d; memcpy(&d, c + 1, 4); target = t->site + 5 + d + g_rel; }
+  else if (c[0] == 0xFF && ((c[1] >> 3) & 7) == 2) {
+    int mod = c[1] >> 6, rm = c[1] & 7; uint32_t ea = 0; const uint8_t *q = c + 2; int base = rm;
+    if (mod == 3) target = reg[rm];
+    else {
+      if (rm == 4) { uint8_t sib = *q++; int sc = sib >> 6, ix = (sib >> 3) & 7; base = sib & 7; if (ix != 4) ea += reg[ix] << sc; }
+      if (mod == 0 && base == 5) { int32_t d; memcpy(&d, q, 4); ea += (uint32_t)d + g_rel; base = -1; }   /* [disp32]: an absolute address, relocated */
+      else ea += reg[base];
+      if (mod == 1) { ea += (uint32_t)(int32_t)(int8_t)*q; slot = (uint32_t)(int32_t)(int8_t)*q; }
+      else if (mod == 2) { int32_t d; memcpy(&d, q, 4); ea += (uint32_t)d; slot = (uint32_t)d; }
+      else slot = 0;
+      if (base >= 0 && rm != 4) { vt = reg[base]; slot = slot / 4; } else slot = 0xFFFFFFFFu;
+      target = *(const uint32_t *)(uintptr_t)ea;                 /* the read the call itself makes next */
+    }
+  }
+  int d = ft->depth++; ft->e[d].idx = idx; ft->e[d].esp = r[3] + 4; ft->e[d].target = target; ft->e[d].vt = vt; ft->e[d].slot = slot;
+}
+static void __cdecl fact_post(int idx, uint32_t *r) {
+  FactThread *ft = fact_thread(); Site *t = &g_sites[idx];
+  if (!ft) return;
+  while (ft->depth > 0 && ft->e[ft->depth - 1].idx != idx) ft->depth--;      /* (a callee that never returned here) */
+  if (ft->depth <= 0) return;
+  int d = --ft->depth; uint32_t pops = r[3] + 4 - ft->e[d].esp;
+  while (InterlockedCompareExchange(&g_fact_lock, 1, 0)) {}
+  int k = 0;
+  for (; k < t->nobs; k++) { SiteObs *o = &t->obs[k]; if (o->pops == pops && o->target == ft->e[d].target && o->vt == ft->e[d].vt && o->slot == ft->e[d].slot) break; }
+  if (k == t->nobs) { if (k < SITE_OBS) { t->obs[k].pops = pops; t->obs[k].target = ft->e[d].target; t->obs[k].vt = ft->e[d].vt; t->obs[k].slot = ft->e[d].slot; t->obs[k].n = 0; t->nobs++; } else { t->overflow++; k = -1; } }
+  if (k >= 0) t->obs[k].n++;
+  g_fact_lock = 0;
+}
+static uint8_t *emit_hook(uint8_t *p, int idx, void *fn) {
+  p[0] = 0x9C; p[1] = 0x60; p[2] = 0x54; p[3] = 0x68; uint32_t v = (uint32_t)idx; memcpy(p + 4, &v, 4);
+  make_jmp(p + 8, p + 8, fn); p[8] = 0xE8; p[13] = 0x83; p[14] = 0xC4; p[15] = 0x08; p[16] = 0x61; p[17] = 0x9D;
+  return p + 18;
+}
+static void setup_facts(void) {
+  g_facts = GetPrivateProfileIntA("xikit", "facts", 0, g_ini);
+  if (!g_facts) return;
+  char path[MAX_PATH], line[256]; snprintf(path, sizeof path, "%s\\xikit_facts.txt", g_dir);
+  FILE *f = fopen(path, "r");
+  if (!f) { klog("facts=1: no xikit_facts.txt next to xikit.dll (pipeline/fact_sites.py sites)"); g_facts = 0; return; }
+  uint8_t *stubs = (uint8_t *)VirtualAlloc(NULL, MAXSITE * 96, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  g_fact_tls = TlsAlloc();
+  while (stubs && g_fact_tls != TLS_OUT_OF_INDEXES && fgets(line, sizeof line, f) && g_nsites < MAXSITE) {
+    if (line[0] == '#' || line[0] == '\n') continue;
+    Site *t = &g_sites[g_nsites]; char hex[64], rels[64];
+    if (sscanf(line, "%x %x %u %u %d %63s %63s %x", &t->site, &t->start, &t->len, &t->calloff, &t->fix, hex, rels, &t->func) != 8
+        || t->len < 5 || t->len > 16 || strlen(hex) != 2 * t->len) { klog("facts: bad line ignored: %.80s", line); continue; }
+    for (unsigned i = 0; i < t->len; i++) t->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
+    t->nrel = 0;
+    if (strcmp(rels, "-")) for (char *p = rels; *p && t->nrel < 4;) { t->rel[t->nrel++] = (int8_t)strtol(p, &p, 10); if (*p == ',') p++; }
+    t->at = (uint8_t *)(uintptr_t)(t->start + g_rel);
+    /* the stub: the instructions before the call (copied), the pre hook, the call (a direct one re-aimed), the post hook, back */
+    uint8_t *p = t->stub = stubs + 96 * g_nsites;
+    memcpy(p, t->at, t->calloff); p += t->calloff;
+    p = emit_hook(p, g_nsites, (void *)fact_pre);
+    unsigned clen = t->len - t->calloff; memcpy(p, t->at + t->calloff, clen);
+    if (t->fix >= 0) { int32_t d; memcpy(&d, t->at + t->fix, 4); d += (int32_t)((uintptr_t)t->at - (uintptr_t)(t->stub + (p - t->stub) - t->calloff)); memcpy(p + (t->fix - t->calloff), &d, 4); }
+    p += clen;
+    p = emit_hook(p, g_nsites, (void *)fact_post);
+    make_jmp(p, p, t->at + t->len);
+    g_nsites++;
+  }
+  fclose(f);
+  if (stubs) FlushInstructionCache(GetCurrentProcess(), stubs, MAXSITE * 96);
+  klog("facts=1: %d call sites to measure (xikit_facts_<pid>.csv every %d frames)", g_nsites, g_cfg.report_every);
+  g_dirty = 1;
+}
+/* inside apply's suspended section: each site patched once (it stays while the kit runs) */
+static void apply_sites(const uint32_t *eips, int n, char msgs[][200], int *nmsg) {
+  for (int i = 0; i < g_nsites; i++) {
+    Site *t = &g_sites[i];
+    if (t->patched || t->refused) continue;
+    int inside = 0;
+    for (int k = 0; k < n; k++) if (eips[k] >= (uint32_t)(uintptr_t)t->at && eips[k] < (uint32_t)(uintptr_t)t->at + t->len) inside = 1;
+    if (inside) continue;
+    if (!site_bytes_ok(t)) { t->refused = 1; if (*nmsg < 64) snprintf(msgs[(*nmsg)++], 200, "facts: site 0x%08X refused: its live bytes are not the analysed build's", t->site); continue; }
+    uint8_t jmp[JMP_LEN]; make_jmp(jmp, t->at, t->stub); memcpy(t->saved, t->at, JMP_LEN);
+    if (write5(t->at, jmp)) t->patched = 1;
+  }
+}
+static int sites_pending(void) { for (int i = 0; i < g_nsites; i++) if (!g_sites[i].patched && !g_sites[i].refused) return 1; return 0; }
+static void where(uint32_t a, char *out, size_t n);
+static void report_facts(void) {
+  if (!g_nsites) return;
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  FILE *f = fopen(path, "w"); if (!f) return;
+  fprintf(f, "# xikit facts: per call site (analysed), what the callee popped (ESP after the call minus ESP before it), how often, where it went;"
+             " frame %u; FFXiMain.dll at +0x%X\nsite,pops,calls,target,vtable,slot,function\n", g_frame, g_rel);
+  for (int i = 0; i < g_nsites; i++) {
+    Site *t = &g_sites[i]; char tw[300], vw[300];
+    for (int k = 0; k < t->nobs; k++) {
+      where(t->obs[k].target, tw, sizeof tw); if (t->obs[k].vt) where(t->obs[k].vt, vw, sizeof vw); else snprintf(vw, sizeof vw, "-");
+      fprintf(f, "0x%08X,%u,%ld,%s,%s,%ld,0x%08X\n", t->site, t->obs[k].pops, (long)t->obs[k].n, tw, vw, t->obs[k].slot == 0xFFFFFFFFu ? -1L : (long)t->obs[k].slot, t->func);
+    }
+    if (t->refused) fprintf(f, "# 0x%08X refused (bytes)\n", t->site);
+    if (t->overflow) fprintf(f, "# 0x%08X: %ld calls with an observation beyond the %d kept\n", t->site, (long)t->overflow, SITE_OBS);
+  }
+  fclose(f);
+}
+
 /* ------------------------------------------------------------------------------------------------ start */
 static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
@@ -1296,6 +1440,7 @@ static DWORD WINAPI start(LPVOID self) {
   load_mods(dev, rec);                        /* before the Present hook: nothing is written at any entry yet */
   setup_captures();                           /* (likewise: trampolines are built from the untouched entries) */
   start_sampler();
+  setup_facts();
   if (g_tramps) { DWORD old; VirtualProtect(g_tramps, MAXFN * 32, PAGE_EXECUTE_READ, &old); }
   g_orig_vt = (void **)*dev;
   memcpy(g_vt, g_orig_vt, sizeof g_vt);

@@ -5,7 +5,7 @@ base with profile=1 (d3dprof built in), and with a mod (mod_test.cpp, built with
 loaded elsewhere.
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
-import os, shutil, subprocess, sys, tempfile
+import json, os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
 bad = 0
@@ -29,11 +29,14 @@ subprocess.run([os.path.join(SDK, 'build_mod.sh'), MODDLL, os.path.join(H, 'mod_
 for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's example and template build (not run here:
     subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture'):
+FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
+subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture', 'facts'):
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
     if mode.startswith('mod'): shutil.copy(MODDLL, d)
+    if mode == 'facts': shutil.copy(FACTS, d)
     env = dict(os.environ, WINEDEBUG='-all')
     r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())
@@ -52,6 +55,14 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture'):
         print(r.stdout.strip(), r.stderr.strip()[-800:])
         ok = len(pics) == 5 and "beyond what the control shows" in r.stdout and 'control  frame' in r.stdout and '(0.0000%)' in r.stdout
         print('%s: trace_pictures=1 saved frames 6..10 and pictures.py finds the swapped band in the swapped frames only' % ('ok' if ok else 'FAIL')); bad += not ok
+    if mode == 'facts':
+        fc = [f for f in os.listdir(d) if f.startswith('xikit_facts_')]
+        out = os.path.join(d, 'game_sp.json')
+        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'ingest'] + [os.path.join(d, f) for f in fc] + ['--out', out], capture_output=True, text=True)
+        print(r.stdout.strip(), r.stderr.strip()[-800:])
+        g = json.load(open(out)) if os.path.exists(out) else {}
+        ok = g.get('0x10009716', {}).get('pops') == 4 and g.get('0x10009736', {}).get('pops') == 4
+        print('%s: fact_sites.py ingest records both sites with 4 bytes popped' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'capture':
         # the capture replayed through the gate: the original and the tree's reconstruction run from that call
         xc = [f for f in os.listdir(d) if f.endswith('.xcap')]

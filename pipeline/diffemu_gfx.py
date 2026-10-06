@@ -684,6 +684,8 @@ def site_pops(m, ret):
     """What the callee of the call returning to `ret` pops, from definitive sources only:
       data/sp_solved.json   solved from the caller's own stack balance (sp_solve.py, self-tested);
       data/real_sp.json     measured by running real game code (real_sp.py, trusted calls only);
+      data/game_sp.json     measured in the running game itself (xikit facts=1, fact_sites.py ingest: ESP after
+                            the call minus ESP before it, recorded only where every observed call agreed);
       data/vcalls.json      a virtual call on `this` whose every possible callee is proven (vcall_resolve.py);
       data/com_calls.json   a D3D8 method on an object proven to hold that interface (com_calls.py);
       data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
@@ -719,6 +721,7 @@ def site_pops(m, ret):
     srcs = {}
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
     if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
+    if k in _CALLSITES['game']: srcs['game'] = _CALLSITES['game'][k]
     if k in _CALLSITES['vtable']: srcs['vtable'] = _CALLSITES['vtable'][k]
     if k in _CALLSITES['com']: srcs['com'] = _CALLSITES['com'][k]
     if typed: srcs['typed'] = 0 if typed['cc'] == 'cdecl' else 4 * typed['args']
@@ -754,6 +757,7 @@ def site_pops_init():
                                       if re.search(r'__thiscall\s*\(', v['type'])}
         _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
         _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
+        _CALLSITES['game'] = {k: v['pops'] for k, v in ld('game_sp.json').items() if not k.startswith('_')}
         _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
         _CALLSITES['com'] = {k: v['pops'] for k, v in ld('com_calls.json').items()}
 _STARTS = []

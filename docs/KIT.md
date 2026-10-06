@@ -204,6 +204,30 @@ of each, from `capture_after` seconds after the start (default 0):
   restored, and both captures replayed through the gate (PASS, every instruction run, SetColor's argument read
   off the captured stack).
 
+## Measuring what the gate cannot settle (`facts=1`)
+
+8 exported functions are UNRESOLVED (the occlusion readback among them), and 2 more in the in-game DLL's fuzz
+gate. Each is blocked at a call whose pop count has no definitive source. `xikit_facts.txt`
+(`pipeline/fact_sites.py sites --from-gates`, built with the kit) lists the 54 such call sites in the committed
+gate records, each with a patch region that:
+- ends at the call's return address, so a thread inside the callee returns to the game's own bytes;
+- is the call plus the plain instructions just before it, at least 5 and at most 16 bytes;
+- holds no other call or branch;
+- is jumped into by nothing in the game.
+
+With `facts=1` the kit patches those regions to run from a copy that records ESP just before the call and just
+after it returns, plus where the call went: the target, and for `call [reg+disp]` the vtable and slot.
+`xikit_facts_<pid>.csv` is rewritten every window. Then
+
+    python3 pipeline/fact_sites.py ingest xikit_facts_<pid>.csv
+
+records each site's pop count in `data/game_sp.json`, only when every observed call agreed. The gate reads that
+file as one more definitive source (CLAUDE.md: the original running real game code); the site then needs a
+re-gate. A site never reached in a session stays unmeasured.
+
+**Tested** (Wine, mode `facts`): two CDx call sites, one a 3-byte `call [ecx+0xC]` whose region starts 2 bytes
+earlier. Both still reach their methods, are measured popping 4 through vtable slots 3 and 34, and are ingested.
+
 ## Mods (`mods=`)
 
 `mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call

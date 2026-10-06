@@ -42,7 +42,10 @@ static HRESULT __stdcall s_unlock(void *t) { (void)t; return 0; }
 static HRESULT __stdcall d_getbb(void *d, UINT i, UINT ty, void **pp) { (void)d; (void)i; (void)ty; *pp = &g_bb; return 0; }
 static HRESULT __stdcall d_createimg(void *d, UINT w, UINT h, UINT f, void **pp) { (void)d; (void)w; (void)h; (void)f; *pp = &g_img; return 0; }
 static HRESULT __stdcall d_copyrects(void *d, void *src, const RECT *r, UINT n, void *dst, const POINT *pt) { (void)d; (void)r; (void)n; (void)pt; memcpy(((FakeSurf *)dst)->pix, ((FakeSurf *)src)->pix, sizeof g_bbpix); return 0; }
-static uint8_t *g_paint_site;   /* GetColor's entry: the band it "draws" is bright while it is swapped */
+static uint8_t *g_paint_site;
+static int tcl_calls, bs_calls;     /* facts mode: the device methods CDx::TestCooperativeLevel and CDx::BeginScene call (slots 3, 34) */
+static HRESULT __stdcall d_tcl(void *d) { (void)d; tcl_calls++; return 0; }
+static HRESULT __stdcall d_beginscene(void *d) { (void)d; bs_calls++; return 0; }   /* GetColor's entry: the band it "draws" is bright while it is swapped */
 static uint8_t g_cdx[0x1000];
 
 static void check(int cond, const char *what) { printf("%s: %s\n", cond ? "ok" : "FAIL", what); if (!cond) fails++; }
@@ -68,6 +71,7 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
 int main(int argc, char **argv) {
   int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel"));
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
+  int factrun = argc > 1 && !strcmp(argv[1], "facts");
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -103,6 +107,7 @@ int main(int argc, char **argv) {
   uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)(0x100096B0u + rel), 9);     /* CDx::EndClearBegin (the mod run) */
   for (int k = 0; k < 97; k++) g_vtbl[k] = (void *)other_slot;
   g_vtbl[15] = (void *)fake_present;
+  g_vtbl[3] = (void *)d_tcl; g_vtbl[34] = (void *)d_beginscene;
   g_vtbl[16] = (void *)d_getbb; g_vtbl[27] = (void *)d_createimg; g_vtbl[28] = (void *)d_copyrects;
   for (int k = 0; k < 11; k++) g_svt[k] = (void *)other_slot;
   g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_desc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
@@ -114,6 +119,7 @@ int main(int argc, char **argv) {
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
   touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
                  : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\n"
+                 : factrun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
                  : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
@@ -122,9 +128,26 @@ int main(int argc, char **argv) {
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
-  if (!caprun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
+  if (!caprun && !factrun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
+  if (factrun) {
+    /* facts=1 with xikit_facts.txt listing the calls in CDx::TestCooperativeLevel (0x10009716, call [ecx+0xC], 3 bytes: the
+       region starts 2 bytes earlier) and CDx::BeginScene (0x10009736, call [ecx+0x88]): the game's own code (swap=0) runs them */
+    char line[256]; int k;
+    typedef BOOL (__attribute__((thiscall)) *CdxFn)(void *);
+    for (k = 0; k < 5; k++) { ((CdxFn)(uintptr_t)(0x10009710u + rel))(g_cdx); ((CdxFn)(uintptr_t)(0x10009730u + rel))(g_cdx); }
+    check(tcl_calls == 5 && bs_calls == 5, "facts=1: the patched call sites still reach the device's methods");
+    present(60);
+    char name[96]; snprintf(name, sizeof name, "xikit_facts_%lu.csv", GetCurrentProcessId());
+    FILE *fc = fopen(name, "r"); int a = 0, b = 0;
+    if (fc) { while (fgets(line, sizeof line, fc)) {
+                if (!strncmp(line, "0x10009716,4,5,", 15) && strstr(line, ",3,0x10009710")) a = 1;
+                if (!strncmp(line, "0x10009736,4,5,", 15) && strstr(line, ",34,0x10009730")) b = 1; } fclose(fc); }
+    check(a && b, "xikit_facts_<pid>.csv: both sites, 5 calls each, the callee popped 4, through vtable slots 3 and 34");
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   if (caprun) {
     /* capture=: the first call of the game's GetColor (swap=0: the game's code) is captured; the call still returns
        the game's value; after capture_count calls the entry has its own bytes again. test_xikit.py replays the

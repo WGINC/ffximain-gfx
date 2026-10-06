@@ -664,3 +664,45 @@ of d3dprof and Parallels.
   - Test: test_xikit.py, mod runs.
 - This build wrote neither an absolute frame number nor the creation time, so churn per frame and stutter causes
   cannot be read from this log. Later builds record both.
+
+## 6 Oct (later): the owner's Bedau run with the sampler and the A/B (kit b617642, speedfix defaults, profile=0)
+
+Process 6156. Bedau frame times are the same as the profiled run before it (64 to 72 ms), with the profiler off and
+speedfix on 13 methods, not 94. So the profiler and hook layers did not make those frames slow.
+
+**A/B (xikit_ab_6156_1.csv).** The game was closed during phase 6, so 5 of 8 phases are complete.
+- A (kit and speedfix off): 69.9, 70.9, 72.0 ms.
+- B (on): 68.1, 66.4 ms.
+- B − A ≈ −3.6 ms (about 5%). That exceeds the spread within each label, but rests on two B phases.
+
+**Sampler (the last 600 frames, about 71 ms each; 21,595 samples of the render thread).**
+- 62.5% of samples report EIP 0x00010002. That is no module's code, and every such sample has a game return address on
+  the stack. Read as: the thread was in code outside the 32-bit context (the D3D11 runtime, the Parallels display
+  driver prl_umdd10.dll, the kernel). That reading is not established.
+- Time inside calls the game made out of its own code, by the game function that made them (68.9% in all):
+
+  | Calls made by | Share of time | Decoded at the call site |
+  |---|---|---|
+  | The occlusion readback 0x1006C8B0 | 19.5% | IDirect3DSurface8::LockRect, vtable slot 9, D3DLOCK_READONLY, at 0x1006C91C |
+  | CDx::DrawIndexedPrimitive | 16.0% | |
+  | CDx::DrawPrimitiveUP | 10.3% | |
+  | CYyModelDt::SkinAndDrawV2 | 7.6% | IDirect3DVertexBuffer8::Lock (slot 11) with D3DLOCK_DISCARD (0x2000), and Unlock; on a failed lock the game calls Sleep(0) and retries |
+  | CDx::DrawPrimitive | 3.2% | |
+  | Cell_DrawQuadBlended | 1.95% | SetRenderState(ALPHABLENDENABLE, 0) at 0x1011F962 |
+
+- The game's own code: 31.1%.
+  - 13.3% in 0x1002F1D0's x87 skinning loop (0x1002F200..0x100300AF, which reads g_boneWeightMatrixTable).
+  - 0x1002F1D0 chooses between that loop and an SSE loop at 0x100300B0, whose helpers 0x100309B0 and 0x10030A40 are SSE
+    code. The choice follows two bytes, [[0x104566E8]+9] and [[0x104566E8]+0xC], of an object set at start
+    (0x10001339).
+  - All 2,865 samples in that function were in the x87 loop.
+  - What sets those two bytes is not traced here. Whether speedfix's cpu_tier changes them is not established:
+    cpu_tier writes the SSE flag 0x1047CF78, which feeds the processor object made by 0x1006CB50.
+- xikit.dll and speedfix.dll together: 26 samples (0.1%).
+
+**Why call_time timed only 38%.** call_time timed only device methods. The readback's LockRect (a surface method) and
+the skinning buffers' Lock and Unlock are not device methods, which accounts for most of the time call_time saw as
+"outside Direct3D" in the run before.
+
+kit/d3dprof/samples.py: the inclusive view's standard error failed on shares above 100% (a function on a stack more
+than once); fixed.

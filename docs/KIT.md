@@ -69,8 +69,10 @@ The manifest also carries flags that leave a function out by default, each with 
   fault inside it is attributed to the function it is in.
 - **The in-game DLL is the verified code**: `gfx_recon_ingame.dll` (the tree built with `XI_INGAME`, every
   game address `XI_GAME(ea) = ea + xi_rel`) is gated on fuzz itself with `xi_rel = 0`. Its verdicts are the clean
-  tree's fuzz verdicts, function for function: 773 PASS, 0 FAIL, and 4 not compared on fuzz (0x10003890 and
-  0x100CB4E0 UNRESOLVED, which pass on the dumps; 0x1006B3B0 and 0x10016320 INCONCLUSIVE everywhere, not listed).
+  tree's fuzz verdicts, function for function (re-run 6 Oct on the shipped DLL, `runs/ingame`): 772 PASS; 1 FAIL,
+  `Post_DrawRotatingGhostLayers` (0x10038E10), which fails in the tree too and is not in the manifest; and 4 not
+  compared on fuzz (0x10003890 and 0x100CB4E0 UNRESOLVED, which pass on the dumps; 0x1006B3B0 and 0x10016320
+  INCONCLUSIVE everywhere, not listed).
   This check found the 5 Oct translation defects the clean build had passed by chance (`docs/HISTORY.md`).
 - **No game address is left unrebased**: a scan of the in-game DLL's code finds 4,118 rebased adds and no
   absolute game address used directly; its data sections hold no game pointers.

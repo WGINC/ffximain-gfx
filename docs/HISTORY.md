@@ -410,3 +410,9 @@ fixed:
   11000 the heaviest caller is CYyModelDt::SkinAndDrawV2 (5,330 calls per frame, 72% redundant); every hot
   function there is hookable, most with flag 4. The next step is measuring where the time goes (P0).
 - **trace_diff.py** read the manifest's last column as the name; since the `T=` column it is column 6 (fixed).
+- **Gaps** (docs/GAPS.md): what blocks changing any part of the pipeline on knowledge. The gate's trials ran 63.3%
+  of the tree's instructions; the hot paths least (SkinAndDrawV2 62 of 1,596, Frame_Render 53 of 1,424, the zone
+  mesh 462 of 1,403). The occlusion readback is in the export but UNRESOLVED at one call (0x1006C8CD), not outside
+  it: ROADMAP.md and RENDERER.md said otherwise and are corrected; every device user is in the export. The
+  in-game DLL's own fuzz gate, re-run: 772 PASS, 1 FAIL (Post_DrawRotatingGhostLayers, not in the manifest), 4 not
+  compared. Ordered closers: in-game input recorder, timing, picture comparison, in-game fact recorder.

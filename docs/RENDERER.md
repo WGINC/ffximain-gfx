@@ -183,14 +183,10 @@ What follows from the code:
 
 ## 4. Coverage gaps that matter for the goals
 
-- **The CMoDX device users.** 99 functions outside the export use the device (data/gfx_device_users.json):
-  - 93 of them through the CMoDX object at 0x1047BFA8, whose +0xEBC is the device (proven,
-    com_fields.json);
-  - 26 hold proven D3D8 calls;
-  - 10 call CDx's draw wrappers.
-
-  They include the occlusion readback (0x1006C8B0) and the stream setup at 0x10043F40. The next IDA run
-  exports them (867 functions).
+- **The CMoDX device users.** Before the 4 Oct export, 99 functions outside it used the device (93 through the
+  CMoDX object at 0x1047BFA8, whose +0xEBC is the device, proven in com_fields.json). The 4 Oct export (867
+  functions) includes them; data/gfx_device_users.json now finds none outside it. Some are not in the verified
+  tree: the occlusion readback (0x1006C8B0) is UNRESOLVED at one call (docs/RESIDUE.md, docs/GAPS.md).
 - **The 3D world path.** The world update/draw functions called from the state machine (section 2) are
   outside the export.
 - **The x87 comparison artifacts.** The `__builtin_isunordered` chains in the tree (Frame_Render's pacing

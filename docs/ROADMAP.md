@@ -147,12 +147,15 @@ unchecked.
 
 0x1006C8B0 is a GPU-to-CPU wait on every query. The owner measured 4–5 ms for the first query in a frame and
 1.2 ms for each further one (RENDERER.md section 5).
-- **Not hookable yet:** it is outside the export, so neither the reconstruction nor a mod can replace it.
+- **Not hookable yet.** It is in the export, but the gate leaves it UNRESOLVED (docs/RESIDUE.md): its call at
+  0x1006C8CD (a Direct3D call on the occlusion target, GetSurfaceLevel by its description) has no definitive
+  pop count, so it is not in the tree or the manifest. Settling that one call (a proof of the object's
+  interface, or the pop observed in the running game, docs/GAPS.md) brings it in.
 - **Its three callers in the manifest** (Occlusion_QueryScreenRect, Occlusion_QueryScreenRectImpl,
   Occlusion_DrawQuery) can be hooked now. A mod can stagger or skip queries the way speedfix's `occlusion_stagger`
   and `skip_*` options do.
-- **The real fix** (results read a frame later, no wait) needs the next IDA export. Under D3D11 it is an
-  asynchronous query (goal 2).
+- **The real fix** (results read a frame later, no wait) needs that call settled and the function gated.
+  Under D3D11 it is an asynchronous query (goal 2).
 
 ### P4. Above 60 fps
 
@@ -167,7 +170,8 @@ and 112 functions see a full tick every frame.
 ### P5. Startup and load time
 
 speedfix's `cpu_tier` (the SSE math tier gate) and `texture_compression` (fewer textures CPU-encoded at load)
-are startup-time fixes outside the export. They stay in speedfix until those functions are reconstructed.
+are startup-time fixes. `cpu_tier`'s site 0x1006CDDC is inside a manifest function (flag 2, a speedfix site);
+where `texture_compression`'s registry value is read has not been located here. They stay in speedfix for now.
 
 ### Done means
 
@@ -179,8 +183,8 @@ shows only its intended differences. And the patch has run for a full session wi
 **What it has to replace:**
 1. **Every device user.**
    - 1,633 call sites in the export use the device.
-   - 99 functions outside the export use it too, 93 of them through CMoDX (data/gfx_device_users.json). The next
-     IDA export (867 functions) brings them in. Until then they can only be reached through the device itself.
+   - Every function that uses the device is in the export (data/gfx_device_users.json: 0 outside it). 90 of
+     the 867 are not in the verified tree (docs/RESIDUE.md); until they are, they run as the game's code.
 2. **Resources.** The game creates textures, vertex and index buffers, state blocks and 7 vertex shaders
    (CreateVertexShader sites) on the Direct3D 8 device and keeps them.
 3. **The fixed-function pipeline.**
@@ -235,12 +239,15 @@ Unlike dgVoodoo, it can be told what a draw is for (the CDx and sqgx wrapper lay
 |---|---|---|---|
 | 1 | P0 measurement tools (Present wait, per-call timing, sampling profiler) | Goal 1; goal 2's baseline | To build |
 | 2 | Raise gate coverage of the hot flag-4 functions (SkinAndDrawV2, Cell_DrawQuadBlended, fn_1017C9C0, fn_100467E0, Actor_DrawWorldText, ...) | Goal 1 P2 | Fuzz aimed at their unrun branches, and new dumps from busy scenes. The four dumps are town, town2, combat and zonetoinn |
-| 3 | The next IDA export (867 functions: CMoDX device users, occlusion readback, world draw path), regenerated and gated | Goal 1 P3; goal 2; goal 3's asset and menu paths | IDA run |
+| 3 | The 90 exported functions outside the verified tree (8 UNRESOLVED calls, 13 FAIL, 11 constructs, 9 compile), and the world draw path outside the export (docs/GAPS.md) | Goal 1 P3; goal 2; goal 3's asset and menu paths | Open |
 | 4 | Task #64: the register-preserving-callee blind spot in ecx_use/edx_use | The types mods and the gate rely on | Open |
 | 5 | The SDK's first in-game run (the example mod) | Every mod | Owner, in game |
 | 6 | Picture comparison | Goal 2; checking visual changes | To build |
 | 7 | Task #65: whole-frame differential (blocked on calls into real D3D8 objects) | Confidence in the swapped set as a whole | Blocked; the alternating trace covers part of it in game |
 | 8 | `Post_DrawRotatingGhostLayers` (gate FAIL, -0.0 vs +0.0) and `Gfx_DestroyD3DHolder` (crash when swapped) | Completeness | Open, causes unknown |
+
+docs/GAPS.md measures what stands between us and changing any part of the pipeline on knowledge rather than
+trial, and orders the tools that close it.
 
 **The next step:** build P0 and take one baseline capture in a busy scene with speedfix off. Then P1, then the
 first P2 mod for text.

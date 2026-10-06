@@ -125,16 +125,29 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 ## Comparing what the game draws with and without the swaps (`trace=1`)
 
 Bisect needs your eyes. The trace needs only a still scene. With `trace=1` in `xikit.ini` (takes effect at the next
-start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. Where keys do not reach the game window (this client), use the timer or a file instead: `trace_after=60` runs the trace 60 seconds after the start, then every `trace_every` seconds, `trace_count` times in all; creating `xikit_trace_now.txt` next to `xikit.dll` starts one (the kit deletes it). With `bisect=1`, the files `xikit_bisect_bad.txt`, `_good.txt` and `_stop.txt` answer like F10, F11, F12. The kit restores every original, records the
-Direct3D calls the render thread makes for 4 frames, swaps everything back in, records 4 more, and writes
-`xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). Per call: the method, the call site (analysed address), the
+start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. Where keys do not reach the game window (this client), use the timer or a file instead: `trace_after=60` runs the trace 60 seconds after the start, then every `trace_every` seconds, `trace_count` times in all; creating `xikit_trace_now.txt` next to `xikit.dll` starts one (the kit deletes it). With `bisect=1`, the files `xikit_bisect_bad.txt`, `_good.txt` and `_stop.txt` answer like F10, F11, F12. The kit restores every original, then records the
+Direct3D calls the render thread makes for 17 frames with the swaps flipped at every frame (off, on, off, ... off;
+`trace_alternate=1`, the default), and writes `xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). A frame where a
+thread was inside a function's entry, so not every swap could be flipped, is labelled 2 (mixed) and left out.
+`trace_alternate=0` gives the older trace: 4 frames all off, then 4 all on. Per call: the method, the call site (analysed address), the
 method's first parameters, and a hash of what a pointer parameter points at where the method reads a structure through
 it (transform, viewport, material, light, clip plane, shader constants, vertex data of the two `...UP` draws).
 With `trace_buffers=1` (default) every vertex and index buffer the game binds during a trace gets its `Lock`/`Unlock` wrapped (a vtable copy for that object, as for the device): at `Unlock` the locked range is hashed and recorded with the call site of the `Lock`, so `trace_diff.py` lists buffer contents by the function that filled them (reconstruction addresses are named through the reconstruction's exports and the load address in the trace header). Texture contents are not traced.
 
     python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --manifest xikit_manifest.txt
 
-compares the halves by call content (method, parameters, the hash of the data a pointer parameter covers; the pointer itself is left out, it differs between runs). It does not compare call sites by default: with the swaps on a call is made from inside the reconstruction, whose addresses are not the game's, so by-site (`--by-site`) shows every swapped function as different. The scene's own change (the 4 frames without swaps against
+For an alternating trace, each swapped frame is compared with the unswapped frames just before and after it. Calls are
+paired by method, the state they set (render state, stage and type, transform, light index, ...) and their order in
+the frame; a group is compared only where all three frames make the same number of calls. A call is reported as
+STABLE (both neighbours agree with each other and the swapped frame does not), OUTSIDE (a kept matrix or vertex
+float lies outside the range its two neighbours span, so it is not in between the frame before and the frame
+after) or COUNT (the neighbours make the same number of calls and the swapped frame another). The same test is run
+on unswapped frames against the unswapped frames two either side, as a control: a finding the control shows as
+often is the scene's own. Where the neighbours differ and only a hash was kept (a light), the call is counted as
+undecided. The function named with a finding is the swapped frame's call site through the reconstruction's exports,
+a naming aid.
+
+For a trace with `trace_alternate=0` it compares the halves by call content (method, parameters, the hash of the data a pointer parameter covers; the pointer itself is left out, it differs between runs). It does not compare call sites by default: with the swaps on a call is made from inside the reconstruction, whose addresses are not the game's, so by-site (`--by-site`) shows every swapped function as different. The scene's own change (the 4 frames without swaps against
 each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
 nearest below each call site. It says where the two differ, not which side is right.
 

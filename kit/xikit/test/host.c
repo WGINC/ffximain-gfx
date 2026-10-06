@@ -212,13 +212,18 @@ int main(int argc, char **argv) {
     check(row, "profile=1: the report has Present (601 calls in 600 frames) from outside FFXiMain.dll");
   }
   if (profile) {
-    /* trace_after=1 starts the A/B trace four seconds after the first frame: 4 frames with the swaps off, 4 on; the host's Present is the only call */
+    /* trace_after=4 starts the trace four seconds after the first frame; trace_alternate defaults to 1: 17 frames with the
+       swaps flipped at every Present (frame 0 off, 1 on, ..., 15 on, 16 off); the host's Present is the only call */
     Sleep(4500); present(100);
     snprintf(name, sizeof name, "xikit_trace_%lu_1.txt", GetCurrentProcessId());
-    FILE *tr = fopen(name, "r"); int hdr = 0, l0 = 0, l1 = 0;
-    if (tr) { while (fgets(line, sizeof line, tr)) { if (!strncmp(line, "# d3d trace v1", 14)) hdr = 1;
-                if (!strncmp(line, "0 3 15 Present", 14)) l0 = 1; if (!strncmp(line, "1 3 15 Present", 14)) l1 = 1; } fclose(tr); }
-    check(hdr && l0 && l1, "trace: xikit_trace_<pid>_1.txt has 4 frames recorded with the swaps off (label 0) and 4 with them on (label 1)");
+    FILE *tr = fopen(name, "r"); int hdr = 0, l0 = 0, l1 = 0, l15 = 0, l16 = 0, bad = 0;
+    if (tr) { while (fgets(line, sizeof line, tr)) { if (!strncmp(line, "# d3d trace v1: alternating", 27)) hdr = 1;
+                unsigned lab, fr; if (line[0] != '#' && sscanf(line, "%u %u 15", &lab, &fr) == 2 && lab != (fr & 1)) bad = 1;
+                if (!strncmp(line, "0 0 15 Present", 14)) l0 = 1;
+                if (!strncmp(line, "1 1 15 Present", 14)) l1 = 1;
+                if (!strncmp(line, "1 15 15 Present", 15)) l15 = 1;
+                if (!strncmp(line, "0 16 15 Present", 15)) l16 = 1; } fclose(tr); }
+    check(hdr && l0 && l1 && l15 && l16 && !bad, "trace: xikit_trace_<pid>_1.txt has 17 frames, the swaps off in the even ones (label 0) and on in the odd ones (label 1)");
     /* the file trigger: creating xikit_trace_now.txt starts another, and the kit deletes the file */
     FILE *tn = fopen("xikit_trace_now.txt", "w"); if (tn) fclose(tn);
     present(100);

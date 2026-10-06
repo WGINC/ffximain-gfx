@@ -376,3 +376,12 @@ fixed:
   differ. The owner's trace with the interim kit (5304): 8 call variants change with swaps on against 66 between
   unswapped frames; one world transform (from a matrix at another address) and one UI quad differ every frame.
 
+- **Traces 9176_1 and _2** (the final kit, one scene, 30 s after start): every call that differs with swaps on is the
+  scene's own: an 8-dot ring indicator a quarter-second further in its animation, one world matrix whose translation
+  moves (it also moves between swapped frames), light 1 (differs between every unswapped frame too), the fog end
+  (drifts in the unswapped frames too), and stack addresses of `GetTransform`/`SetLight` data. Skinned vertex buffers
+  cannot be compared this way (animated every frame).
+- **Alternating trace** (`trace_alternate=1`, default): 17 frames with the swaps flipped at every Present, labels set
+  after `apply()` (2 = a mixed frame, left out); `trace_diff.py` tests each swapped frame against its two unswapped
+  neighbours (STABLE / OUTSIDE / COUNT) with the same test on unswapped frames as a control. Same-frame replay is not
+  possible in game: a frame advances the game's own state.

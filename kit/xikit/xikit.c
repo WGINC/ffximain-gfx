@@ -42,7 +42,7 @@
 
 /* d3dprof.c, built in with XIKIT defined: d3dprof_attach gives the device its counting vtable copy */
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
-void d3dprof_trace_start(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
+void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
 
 typedef struct {
@@ -77,9 +77,10 @@ static void **g_orig_vt; static void *g_vt[NSLOTS];
 static DWORD g_render_thread;
 static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_speedfix_loaded;
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
-static int g_trace_attached, g_tr_state, g_tr_wait, g_tr_prev_off, g_tr_key, g_tr_n, g_tr_after, g_tr_every, g_tr_count, g_tr_state_started, g_tr_buffers;
+static int g_trace_attached, g_tr_state, g_tr_wait, g_tr_prev_off, g_tr_key, g_tr_n, g_tr_after, g_tr_every, g_tr_count, g_tr_state_started, g_tr_buffers, g_tr_alt;
 static DWORD g_tr_next;
 #define TR_FRAMES 4
+#define TR_ALT_FRAMES 17           /* alternating trace: off, on, off, ... off: 8 swapped frames, each between two unswapped */
 
 /* ------------------------------------------------------------------------------------------------ log */
 static void klog(const char *fmt, ...) {
@@ -121,10 +122,13 @@ static const char DEFAULT_INI[] =
   ";    several that only break it together) and logs it (xikit.log, xikit_bisect.txt). F12 / xikit_bisect_stop.txt ends it\r\n"
   ";    and swaps everything again (culprits found included)\r\n"
   "bisect=0\r\n"
-  "; 1: Ctrl+Alt+F8 records the game's Direct3D calls for 4 frames with every swap off, then 4 frames with the swaps on, and\r\n"
-  ";    writes xikit_trace_<pid>.txt (kit/d3dprof/trace_diff.py compares the two by call site: which replaced function\r\n"
-  ";    makes the game draw differently). Stand still in a scene first; takes effect at the next start\r\n"
+  "; 1: Ctrl+Alt+F8 records the game's Direct3D calls for 17 frames with the swaps flipped at every frame (off, on, off,\r\n"
+  ";    ... off) and writes xikit_trace_<pid>_<n>.txt (kit/d3dprof/trace_diff.py compares each swapped frame with the\r\n"
+  ";    unswapped frames either side of it: which replaced function makes the game draw differently). Stand still in a\r\n"
+  ";    scene first; takes effect at the next start\r\n"
   "trace=0\r\n"
+  "; 0: the older trace instead, 4 frames with every swap off, then 4 with the swaps on\r\n"
+  "trace_alternate=1\r\n"
   "; the keys do not reach every game window: with trace=1, trace_after=SECONDS runs the trace by itself that many seconds after\r\n"
   ";    the start (then every trace_every seconds, trace_count times in all; each writes xikit_trace_<pid>_<n>.txt). Creating\r\n"
   ";    the file xikit_trace_now.txt next to xikit.dll starts one too, and with bisect=1 xikit_bisect_bad.txt / _good.txt /\r\n"
@@ -472,7 +476,10 @@ static void report_calls(void) {
 }
 
 /* ------------------------------------------------------------------------------------------------ Present */
-/* A/B trace. Swaps off (wait until the restores are written), 4 frames recorded, swaps on (wait), 4 frames recorded, file
+/* A/B trace. trace_alternate=1 (the default): swaps off (wait until the restores are written), then 17 frames recorded
+   with the swaps flipped at every Present (off, on, off, ... off), so each swapped frame lies between two unswapped
+   ones a frame apart and what animates can be told from what the swaps change (trace_diff.py). trace_alternate=0:
+   swaps off (wait), 4 frames recorded, swaps on (wait), 4 frames recorded. Either way the file is then
    written. Started by Ctrl+Alt+F8, by creating the file xikit_trace_now.txt next to xikit.dll (the kit deletes it), or by
    the timer (trace_after / trace_every / trace_count in xikit.ini: the keys do not reach every game window). */
 static void trace_begin(const char *why) {
@@ -481,6 +488,20 @@ static void trace_begin(const char *why) {
   if (g_tr_buffers) d3dprof_trace_hookbufs(1);     /* buffers bound from now on get Lock/Unlock wrapped (d3dprof.c) */
   g_tr_prev_off = g_master_off; g_master_off = 1; g_dirty = 1; g_tr_state = 1; g_tr_wait = 0;
   klog("trace %d (%s): swaps off, waiting for the restores", g_tr_n + 1, why);
+}
+
+static int g_tr_maxon;
+static void trace_finish(const char *mode) {
+  char p[MAX_PATH], note[260]; int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched;
+  if (g_tr_maxon > now) now = g_tr_maxon;      /* (alternating: the last frame is an unswapped one) */
+  d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0; g_tr_maxon = 0;
+  g_tr_n++; g_tr_state_started = 0;
+  snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n);
+  if (!strcmp(mode, "alternating"))
+    snprintf(note, sizeof note, "alternating: label 0 = swaps off, 1 = swaps on (%d functions swapped), 2 = mixed; %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_ALT_FRAMES, g_rel, g_recon_lo);
+  else
+    snprintf(note, sizeof note, "label 0 = swaps off, label 1 = swaps on (%d functions swapped); %d frames each; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_FRAMES, g_rel, g_recon_lo);
+  klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
 }
 
 static void trace_step(void) {
@@ -498,22 +519,33 @@ static void trace_step(void) {
     if ((int)(now - g_tr_next) >= 0) { g_tr_state_started++; g_tr_next = now + (DWORD)g_tr_every * 1000; trace_begin("timer"); }
   }
   switch (g_tr_state) {
-  case 1: if (++g_tr_wait >= 8 && !g_dirty) { d3dprof_trace_start(0); g_tr_state = 2; klog("trace: recording %d frames, swaps off", TR_FRAMES); } break;
+  case 1: if (++g_tr_wait >= 8 && !g_dirty) {
+            d3dprof_trace_start(0);
+            if (g_tr_alt) { g_tr_state = 5; klog("trace: recording %d frames, the swaps alternating (off, on, off, ...)", TR_ALT_FRAMES); }
+            else { g_tr_state = 2; klog("trace: recording %d frames, swaps off", TR_FRAMES); }
+          } break;
+  case 5: d3dprof_trace_frames(&n);           /* (the frame that just ended was frame n-1; the label of frame n is set in trace_label) */
+          if (n >= TR_ALT_FRAMES) { trace_finish("alternating"); break; }
+          g_master_off = !g_master_off; g_dirty = 1;
+          break;
   case 2: d3dprof_trace_frames(&n);
           if (n >= TR_FRAMES) { d3dprof_trace_stop(); g_master_off = 0; g_dirty = 1; g_tr_state = 3; g_tr_wait = 0; klog("trace: swaps on, waiting for the swaps"); }
           break;
   case 3: if (++g_tr_wait >= 8 && !g_dirty) { d3dprof_trace_start(1); g_tr_state = 4; klog("trace: recording %d frames, swaps on", TR_FRAMES); } break;
   case 4: d3dprof_trace_frames(&n);
-          if (n >= TR_FRAMES) {
-            char p[MAX_PATH], note[200]; int now = 0; for (int i = 0; i < g_nfn; i++) now += g_fn[i].patched;
-            d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0;
-            g_tr_n++; g_tr_state_started = 0;
-            snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n);
-            snprintf(note, sizeof note, "label 0 = swaps off, label 1 = swaps on (%d functions swapped); %d frames each; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_FRAMES, g_rel, g_recon_lo);
-            klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
-          }
+          if (n >= TR_FRAMES) trace_finish("halves");
           break;
   }
+}
+
+/* the alternating trace: called after apply(), before the frame's own calls. A frame is labelled by what apply()
+   achieved: 0 = every function restored, 1 = every one swapped, 2 = mixed (a thread was inside an entry, so some
+   were left as they were; trace_diff.py leaves such a frame out). */
+static void trace_label(void) {
+  if (g_tr_state != 5) return;
+  int on = 0; for (int i = 0; i < g_nfn; i++) on += g_fn[i].patched;
+  d3dprof_trace_relabel(g_dirty ? 2 : g_master_off ? 0 : 1);
+  if (on > g_tr_maxon) g_tr_maxon = on;
 }
 
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
@@ -546,6 +578,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_trace_attached) trace_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_dirty) apply();
+    if (g_trace_attached) trace_label();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
   }
   return ((PresentFn)g_orig_vt[SLOT_PRESENT])(dev, a, b, w, r);
@@ -737,7 +770,7 @@ static DWORD WINAPI start(LPVOID self) {
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);
-    g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); if (g_tr_every < 20) g_tr_every = 20;
+    g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); if (g_tr_every < 20) g_tr_every = 20;
     klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
   }
   /* watchdog: if the game ever makes a new device object, give that one the hook too (Reset keeps the object) */

@@ -146,6 +146,8 @@ void d3dprof_trace_start(int label) {
   g_trace_label = label; g_trace_frame = 0;
 }
 void d3dprof_trace_stop(void) { g_trace_label = -1; }
+/* the alternating trace (xikit.c): the label of the frame that starts now, without restarting the record */
+void d3dprof_trace_relabel(int label) { if (g_trace_label >= 0) g_trace_label = label; }
 void d3dprof_trace_frames(int *n_out) { if (n_out) *n_out = (int)g_trace_frame; }
 int d3dprof_trace_write(const char *path, const char *note) {
   FILE *f = fopen(path, "w");

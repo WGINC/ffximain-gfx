@@ -745,3 +745,62 @@ than once); fixed.
 - **The owner states the game always crashes without dgVoodoo** on their machine. Windows' own Direct3D 8 is
   therefore not a path to compare there. Why it crashes is not known; xikit.log's module list would show what
   loads up to the crash. Left to compare: dgVoodoo's own settings, such as its output API.
+
+## 6 Oct (evening): the owner's three sessions (build f94640a)
+
+**Environment** (the new log), the same in every session.
+- CPUID vendor "Virtual CPU " (Virtual CPU @ 3.07GHz), SSE to SSE4.2, no AVX. The game's detection therefore
+  withholds its SSE skinning.
+- Native ARM64, the process x86-emulated. RtlGetVersion reports Windows 5.1 build 2600 (XP) inside pol.exe, which
+  looks like a compatibility-mode version lie; not established.
+- Graphics modules:
+  - d3d8.dll 4.8.2.134 (dgVoodoo's, in PlayOnlineViewer);
+  - DDRAW and D3DIM700;
+  - Windows' D3D11, dxgi and dxcore (26100);
+  - Parallels' prl_umdd10.dll 20.18.2640.57513.
+  All x86.
+- dgVoodoo's Direct3D 12 output shows texture stretching and flicker (owner). D3D11 stays.
+
+**Session 1 (process 12764): xikit ab=1 with speedfix's four levers on**, all of them, against the kit off, in Bedau.
+- A 74.1, 70.6, 70.6, 71.2 ms; B 40.2, 33.2, 34.6, 34.6 ms.
+- B − A = −36.0 ms (−50.2%). The spread within a label was at most 7.0 ms.
+- The per-lever A/B (ab_levers) was not run, so each lever's share is not known.
+- speedfix's counts:
+  - DrawPrimitiveUP 84 to 87% fewer;
+  - lazy_state: about 7 million calls a minute never sent;
+  - merge_scenes: 3,000 to 8,000 pairs a minute dropped;
+  - every actor occlusion query skipped;
+  - the math tier in use was SSE, because cpu_tier applied before the game chose.
+- Sampler, last 600 frames with everything on (about 36 ms each):
+  - SkinAndDrawV2's calls into Direct3D 26%. DrawIndexedPrimitive lists at 0x1002E746 13.6%; SetStreamSource
+    right after the skinning buffers 4.9%.
+  - The occlusion readback's LockRect 22.4%: the non-actor query users.
+  - Present (Frame_Render 0x10012B00) 16.9%. merge_scenes moves the scene's end to just before it.
+  - The x87 skinning loop no longer appears; the SSE loop 0x100303B0 is under 1%.
+- motion_stats: no camera-moving frames during the A/B (as asked: standing).
+
+**Session 2 (process 5180).**
+- 3 captures of SkinAndDrawV2 (82 MB each; the page budget ran out) and a trace of 590,195 records.
+- merge_potential.py on label 0 (no swaps, no mods), per frame:
+  - DrawIndexedPrimitive 1,620 draws make 1,561 runs; merging in place leaves nearly all of them;
+  - DrawPrimitive 225 make 216 runs;
+  - DrawPrimitiveUP 1,221 make 185 runs.
+- Between consecutive character draws:
+
+  | What separates them | Share of pairs |
+  |---|---|
+  | Their vertex buffers differ (vb:0, vb:1), nothing else | 49% |
+  | SetLight | 36% |
+  | SetLight and SetTransform | 6.6% |
+  | Nothing: mergeable | 3.6% |
+
+- If every part were skinned into one shared buffer, the draws would make 771 runs. If, in addition, a light,
+  transform, material or viewport set to the value it already has did not count as a change, they would make 510.
+  That is the measured upper bound for SkinAndDrawV2 issuing fewer draws.
+- Replaying capture 1 through the gate: UNRESOLVED at 0x1002DD00, the skinning buffer's IDirect3DVertexBuffer8::Lock,
+  a call into dgVoodoo's d3d8.dll whose pop count no source settles. The fact recorder measures it: 110 sites
+  prepared, the 57 indirect calls of SkinAndDrawV2 and the gate's other UNRESOLVED sites.
+
+**Session 3 (process 2020): dgVoodoo D3D11, no mods.**
+- 72.7 ms a frame; 43,659 calls, 3,213 draws a frame.
+- No D3D12 profile was taken, because of the glitches above.

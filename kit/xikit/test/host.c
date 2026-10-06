@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <setjmp.h>
 
@@ -44,7 +45,10 @@ static HRESULT __stdcall d_createimg(void *d, UINT w, UINT h, UINT f, void **pp)
 static HRESULT __stdcall d_copyrects(void *d, void *src, const RECT *r, UINT n, void *dst, const POINT *pt) { (void)d; (void)r; (void)n; (void)pt; memcpy(((FakeSurf *)dst)->pix, ((FakeSurf *)src)->pix, sizeof g_bbpix); return 0; }
 static uint8_t *g_paint_site;
 static int tcl_calls, bs_calls;     /* facts mode: the device methods CDx::TestCooperativeLevel and CDx::BeginScene call (slots 3, 34) */
-static uint32_t g_faketex[4];       /* profile mode: resources created through the hooked device (d3dprof's wrappers log them) */
+static void __stdcall d_texmethod(void) {}
+static void (__stdcall *const g_texvt[19])(void) = { d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod,
+  d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod };
+static uint32_t g_faketex[4] = { 0 };   /* profile mode: resources created through the hooked device (d3dprof's wrappers log them); [0]: its vtable, set in main */
 static HRESULT __stdcall d_createtex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) { (void)d; (void)w; (void)h; (void)lv; (void)us; (void)fmt; (void)pool; *pp = g_faketex; return 0; }
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD usage) { (void)d; (void)decl; (void)fn; (void)usage; *h = 0x1234; return 0; }
 static HRESULT __stdcall d_tcl(void *d) { (void)d; tcl_calls++; return 0; }
@@ -77,6 +81,7 @@ int main(int argc, char **argv) {
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
   int abrun = argc > 1 && !strcmp(argv[1], "ab");
+  g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -206,6 +211,15 @@ int main(int argc, char **argv) {
     if (x) { fread(head, 4, 16, x); fseek(x, 0, SEEK_END); size = ftell(x); fclose(x); }
     check(x && head[0] == 0x50414358u && head[2] == GETCOLOR && head[8] > 0 && size == 64 + 36 + 72L * head[7] + 4L * head[8] + 4096L * head[8],
           "the .xcap holds the entry, the modules and the pages, sized as its header says");
+    /* capture_follow (16): the pages after `this` (ECX) are taken, while readable */
+    { uint32_t want = ((uint32_t)(uintptr_t)actor & ~0xFFFu) + 0x1000u; MEMORY_BASIC_INFORMATION mb; int have = 0;
+      int readable = VirtualQuery((void *)(uintptr_t)want, &mb, sizeof mb) && mb.State == MEM_COMMIT && (mb.Protect & 0xEE) && !(mb.Protect & (PAGE_GUARD | PAGE_NOACCESS));
+      x = fopen(name, "rb");
+      if (x && head[8]) { uint32_t *pg = malloc(4 * head[8]); fseek(x, 64 + 36 + 72L * head[7], SEEK_SET);
+                          if (pg && fread(pg, 4, head[8], x) == head[8]) for (uint32_t i = 0; i < head[8]; i++) have |= pg[i] == want;
+                          free(pg); }
+      if (x) fclose(x);
+      check(!readable || have, "capture_follow: the page after the captured call's `this` is in the .xcap"); }
     FILE *lg = fopen("xikit.log", "r"); int logged = 0;
     if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "capture 1 of CXiSkeletonActor::GetColor")) logged = 1; fclose(lg); }
     check(logged, "xikit.log has the capture");
@@ -449,7 +463,13 @@ int main(int argc, char **argv) {
       FILE *rf = fopen(name, "r"); int t1 = 0, v1 = 0;
       if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, ",\"CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
                                                        if (strstr(line, ",\"CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
-      check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created"); }
+      check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created");
+      snprintf(name, sizeof name, "xikit_vtables_%lu.csv", GetCurrentProcessId());
+      FILE *vf = fopen(name, "r"); int vrows = 0, vok = 0; static char vl[2048];
+      if (vf) { while (fgets(vl, sizeof vl, vf)) if (!strncmp(vl, "IDirect3DTexture8,", 18)) {
+                  int commas = 0; for (char *q = vl; *q; q++) commas += *q == ',';
+                  vrows++; vok = commas == 20 && strstr(vl, ".exe+0x") != NULL; } fclose(vf); }
+      check(vrows == 1 && vok, "xikit_vtables_<pid>.csv: the created texture's vtable once, as IDirect3DTexture8 with its 19 entries"); }
     /* timing (always) and the sampling profiler (sample=1): written every report_every (60) frames */
     snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());
     FILE *tm = fopen(name, "r"); int trows = 0;

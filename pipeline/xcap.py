@@ -15,7 +15,7 @@ and the pages of memory reachable from the registers and the stack (kit/xikit/xi
 The capture comes from the analysed build: xikit runs only when FFXiMain.dll's TimeDateStamp is the analysed
 one and checks each entry's bytes before writing (xikit.c start, check_bytes).
 
-    python3 xcap.py CAPTURE.xcap CASES.json RECON.dll OUT_DIR [--trials 8]     (uses $FFXI_DLL)
+    python3 xcap.py CAPTURE.xcap CASES.json RECON.dll OUT_DIR [--trials 8] [--insn-limit N]     (uses $FFXI_DLL)
 prints the verdict and the coverage of the original's instructions in the compared trials."""
 import argparse, json, os, struct, subprocess, sys
 P = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, P)
@@ -77,10 +77,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('xcap'); ap.add_argument('cases'); ap.add_argument('recon'); ap.add_argument('out')
     ap.add_argument('--trials', type=int, default=8)
+    ap.add_argument('--insn-limit', type=int, help="the original's instruction budget a trial (the gate's default: "
+                    "300000); a real call can need more (SkinAndDrawV2 skinning a whole model). A trial over it is not compared")
     o = ap.parse_args()
     os.makedirs(o.out, exist_ok=True)
     cs = CaptureState(o.xcap)
     case = replay_case(cs, json.load(open(o.cases)))
+    if o.insn_limit: case['insn_limit'] = o.insn_limit
     stem = os.path.join(o.out, os.path.basename(o.xcap).rsplit('.', 1)[0])
     live = {'dump': os.path.abspath(o.xcap), 'build_map': None, 'image_base': '0x%08X' % cs.base, 'sandbox': '0x%08X' % cs.sandbox(),
             'data_writes': live_state.data_writes(cs, {}), 'this_sources': {}, 'instances': {}}

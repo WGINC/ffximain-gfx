@@ -108,11 +108,13 @@ static const char kDefaultIni[] =
   "motion_stats=0\r\n"
   "; seconds between speedfix's statistics lines in xikit.log\r\n"
   "stats_every=60\r\n"
-  "; A/B of levers with no keys: ab_levers lists settings above (comma-separated); ab_after seconds after it is\r\n"
-  ";   saved non-empty, phases of ab_phase seconds A B B A, ab_rounds times: A = those settings off (occlusion_stagger\r\n"
-  ";   4, the game's), B = as set above. The first ab_settle frames of a phase are left out. Results in xikit.log\r\n"
-  ";   (lines 'speedfix: ab'). Stand still while it runs; keep xikit.ini's ab=0. Empty it and set it again for\r\n"
-  ";   another run\r\n"
+  "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
+  ";     ab_levers=merge_scenes; skip_all_occlusion_readbacks; sse_skinning\r\n"
+  ";   (comma: measured together; semicolon: one after another). ab_after seconds after it is saved, speedfix\r\n"
+  ";   switches by itself between A = those settings off (occlusion_stagger 4, the game's) and B = as set above,\r\n"
+  ";   ab_phase seconds each, in the order A,B,B,A, ab_rounds times; nothing to type for A or B. The first\r\n"
+  ";   ab_settle frames of a phase are left out. Results in xikit.log (lines 'speedfix: ab'). Stand still while it\r\n"
+  ";   runs; keep xikit.ini's ab=0. Empty it and set it again for another run\r\n"
   "ab_levers=\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n";
 
 static int rd(const char *k, int def) { return (int)GetPrivateProfileIntA("speedfix", k, def, g_ini); }
@@ -360,7 +362,7 @@ static void ab_read(void) {                 // ab_levers and its timings from th
     if (g_base.*(kLevers[j].field) == kLevers[j].off) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (set to its off value: A and B would be the same)", t); continue; }
     g_ab_use[j] = true; n++;
   }
-  if (bad[0]) LOG("speedfix: ab: left out:%s", bad);
+  if (bad[0]) LOG("speedfix: ab: left out:%s%s", bad, strstr(bad, "(not a lever)") ? " -- ab_levers takes setting names, e.g. ab_levers=merge_scenes; sse_skinning (A and B are switched by speedfix itself)" : "");
   if (!n) { LOG("speedfix: ab: group %d (%s): no lever to compare; skipped", g_ab_grp + 1, g_ab_cur); g_ab_grp++; return; }
   g_ab_after = g_ab_grp ? 5 : rd("ab_after", 60); g_ab_phase = rd("ab_phase", 30); g_ab_settle = rd("ab_settle", 60);
   int rounds = rd("ab_rounds", 4);

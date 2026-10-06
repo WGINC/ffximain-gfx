@@ -261,7 +261,10 @@ The gate's trials ran 63% of the reconstruction's instructions; the hot paths fa
 of each, from `capture_after` seconds after the start (default 0):
 - **What a capture is.** At the entry, with every other thread suspended, it takes the registers, the stack
   above the entry (up to 256 KB), FFXiMain.dll's writable data, and every page reachable by following pointers
-  from those, breadth first, up to `capture_pages` pages (default 20,000, 80 MB). It writes them as
+  from those, breadth first, up to `capture_pages` pages (default 20,000, 80 MB). For the call's own pointers
+  (the registers and the first 8 arguments) it first takes the `capture_follow` pages after each (default 16): an
+  object or command list longer than a page. Without that, SkinAndDrawV2's command list ran onto a page the
+  budget-bound walk never reached, and the gate's replay looped on fuzzed bytes. It writes them as
   `xikit_capture_<pid>_<RVA>_<n>.xcap`. Which pages a call needs is not known beforehand: what pointers reach is
   a preparation of the inputs, and a page the capture lacks is filled as the gate fills any unknown page, on
   both sides alike.
@@ -269,7 +272,7 @@ of each, from `capture_after` seconds after the start (default 0):
   reconstruction where the entry has none). After the last capture the entry is restored.
 - **On the analysis side:**
 
-      python3 pipeline/xcap.py xikit_capture_....xcap verification/cases_clean_final.json tree/build/gfx_recon.dll OUT_DIR
+      python3 pipeline/xcap.py xikit_capture_....xcap verification/cases_clean_final.json tree/build/gfx_recon.dll OUT_DIR [--insn-limit N]
 
   runs the original and the reconstruction from that exact call (its `this` and arguments, on its memory) in
   the gate's live mode, with coverage, and prints the verdict and how many of the original's instructions ran.
@@ -372,6 +375,12 @@ wrapped from the start when d3dprof is attached (`profile=1` or `trace=1`), on e
 object it got and the HRESULT. The object pointers are the ones the trace's `tex:`, `vb:`, `ib=` and the
 `SetTexture`/`SetStreamSource` parameters show, so a state can be read back to who created what, with which format
 and size.
+
+The first time an object a creation method returned has a vtable not seen before, `xikit_vtables_<pid>.csv` gets
+a line: the interface the D3D8 header declares for that method's out parameter, the vtable, and its entries (as
+many as the interface has), each as `module+offset`. `pipeline/com_vtables.py ingest` turns it into
+`data/com_vtables.json`; the gate uses a record to know which interface a captured object is, but only when the
+captured vtable's entries are exactly the recorded ones.
 
 A vertex shader's declaration and code are saved exactly as the game passed them, as
 `xikit_vshader_<pid>_<handle>.bin`; the handle is the one `SetVertexShader` and the `#S` lines' `vs=` show.

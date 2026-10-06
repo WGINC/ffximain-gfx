@@ -69,6 +69,9 @@ PREFER = ['IDirect3DTexture8', 'IDirect3DSurface8', 'IDirect3DVertexBuffer8', 'I
           'IDirect3DDevice8', 'IDirect3D8']
 ALLOC_BASE, ALLOC_SIZE = 0x6F000000, 0x800000   # blocks returned by allocator stubs (data/allocators.json)
 SPEC = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'com_spec.json')))
+import com_vtables as COMVT
+_COM_VTABLES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'com_vtables.json'))) \
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'com_vtables.json')) else {}
 IFACES = sorted(SPEC)
 
 STACK_LO, STACK_HI = G.STACK_TOP - G.STACK_SIZE, G.STACK_TOP
@@ -428,6 +431,20 @@ class GfxMachine(G.Machine):
         except Exception: return None
         self._last_com = (vt, slot, this)
         if vt not in self._vt_iface:
+            # recorded in the running game (com_vtables.py): an object a Create method returned, whose interface the
+            # D3D8 header declares, had this vtable with exactly these entries
+            named = None
+            if _COM_VTABLES:
+                rel = lambda a: next(('%s+0x%X' % (n, a - b) for b, sz, n in self.live.foreign if b <= a < b + sz), None)
+                vname = rel(vt)
+                r = _COM_VTABLES.get(vname.lower()) if vname else None
+                if r and not r.get('conflict'):
+                    try: ents = [rel(rd(vt + 4 * k)) or '?' for k in range(len(r['entries']))]
+                    except Exception: ents = None
+                    if ents is not None: named = COMVT.lookup(_COM_VTABLES, vname, ents)
+            if named:
+                self._vt_iface[vt] = [named]
+        if vt not in self._vt_iface:
             mod = next(((a, b) for a, b in self.foreign if a <= addr < b), None)
             n = 0
             while n < 128:
@@ -645,6 +662,9 @@ IMPORT_FAKES = {   # name: (argument count, answer); stdcall: the fake pops the 
     # unspecified without HEAP_ZERO_MEMORY; zero is one instance of that); HeapFree reports success
     'HeapAlloc': (3, lambda m, uc, a: m.alloc(a[2]) if a[2] <= 0x10000 else 0),
     'HeapFree': (3, lambda m, uc, a: 1),
+    # VOID Sleep(DWORD) (Windows SDK): the thread yields; nothing is returned or written. The calls are compared
+    # (SkinAndDrawV2 sleeps 0 ms and retries after a failed Lock)
+    'Sleep': (1, lambda m, uc, a: 0),
     # void, and in a run with one thread entering always acquires: the calls are compared, nothing returned
     'EnterCriticalSection': (1, lambda m, uc, a: 0),
     'LeaveCriticalSection': (1, lambda m, uc, a: 0),

@@ -165,8 +165,8 @@ function whose prototype is definitive.
 - ~~The gate for a mod's own replacement functions~~ built 6 Oct (`fork.py gate-hook`: the mod's sources linked
   for the gate with the tree's rt.c; a mod that needs the C++ runtime, msvcrt or Windows imports still does not
   link for the gate, and the tool says so).
-- **Real inputs for the hot paths** (2a). Without them, a prediction about SkinAndDrawV2 rests on 4% of its
-  code.
+- **Real inputs for the hot paths** (2a). SkinAndDrawV2: one capture from Bedau PASSes, covering 932 of its 1,596
+  instructions (the fuzzed trials covered 62). The other hot paths still rest on the fuzzed trials alone.
 - **Cost prediction.** The measuring tools exist (ROADMAP.md P0: Present wait, per-call time, sampler); no
   in-game measurement has been taken with them yet. A change's effect on frame time is not predicted, only
   observed afterwards.

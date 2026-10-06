@@ -270,8 +270,9 @@ frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame;
 **Draw reduction, characters first.**
 1. Measure how many of SkinAndDrawV2's strips run under the same state with nothing between them
    (merge_potential.py on a Bedau trace).
-2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its gate trials covered 62 of 1,596
-   instructions.
+2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its fuzzed gate trials covered 62 of 1,596
+   instructions. With the facts of session 4, one capture PASSes 8 of 8 trials and covers 932. The other two lacked
+   the model's command list (capture budget); new captures with `capture_follow` are needed for the rest.
 3. A fork that draws a run of strips as one indexed list (an index list built once per model), gated against the
    game with the draw change declared.
 

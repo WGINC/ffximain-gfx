@@ -119,7 +119,8 @@ lazy_state=1
 ab_levers=lazy_state
 ```
 
-`ab_after` seconds after `ab_levers` is saved non-empty, phases of `ab_phase` seconds run in the order A B B A,
+`ab_levers` takes setting names (above: `lazy_state`), never "A" or "B": speedfix switches between the two by
+itself. `ab_after` seconds after `ab_levers` is saved non-empty, phases of `ab_phase` seconds run in the order A B B A,
 `ab_rounds` times (4: 8 phases, 4 minutes). A is the listed settings off (`occlusion_stagger` 4, the game's); B is
 the settings as set. Everything else speedfix does stays as set in both. The first `ab_settle` frames of a phase are
 left out, and so are frames that did not go through speedfix's hooks (F9, a trace). Results go to `xikit.log`, in

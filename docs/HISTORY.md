@@ -804,3 +804,39 @@ than once); fixed.
 **Session 3 (process 2020): dgVoodoo D3D11, no mods.**
 - 72.7 ms a frame; 43,659 calls, 3,213 draws a frame.
 - No D3D12 profile was taken, because of the glitches above.
+
+**Session 4 (process 12164): every speedfix lever on, facts=1, no profiler.**
+- Where it was taken is not in the log. Two scenes by their draw counts:
+  - the first 3 minutes: 819 draws a frame standing still; p50 17.5 to 19.4 ms, means 20 to 25 ms (spikes);
+  - from then on (about 10 minutes, standing still): 3,450 to 3,640 draws a frame (1,250 to 1,270 of them
+    DrawPrimitiveUP); in minutes without spike runs, mean 31.5 to 35 ms, p50 30 to 35 ms, p95 37 to 46 ms.
+- Present itself (the kit's own timing of the call into dgVoodoo) 0.27 to 0.59 ms a frame. So session 1's
+  "Present 16.9%" (the sampler at the Present call site) was not Present itself. merge_scenes sends the scene's
+  held EndScene from inside its Present hook, before passing Present on, so EndScene's time is counted at that site.
+- Occlusion readbacks: none ran (skip_all_occlusion_readbacks), CopyRects 0.0 a frame throughout. Every actor query
+  was skipped.
+- sse_skinning set the game's SSE flag (it was 0; the CPU reports SSE). The math tier stayed x87: cpu_tier applies
+  only when the kit is injected before the game chooses.
+- Spike runs: 24 runs of 5 to 71 consecutive frames at 88 to 123 ms in 12 minutes. Their cause was not measured
+  (no sampler in this session).
+- Windows reports itself as 5.1 build 2600 to the game (RtlGetVersion), and session 2's capture lists
+  AcLayers.DLL and AcGenral.DLL. The game runs under a Windows compatibility layer. Its effect was not measured.
+- ab_levers was set to "A", "B", "1" and "A B B A". None is a lever, so no A/B ran. The ini's text ("phases ... A B
+  B A") read as if those were the values. It now names settings in an example, and the log says so when a name is
+  not a lever.
+- facts=1 measured 61 call sites, every observed call agreeing, into data/game_sp.json. 50 of them are in
+  SkinAndDrawV2, including the skinning buffer's Lock at 0x1002DD00 (pops 20; vtable d3d8.dll+0x12A654, slot 11).
+- The 3 captures of session 2 replayed through the gate with these facts:
+  - Capture 2: PASS, 8 of 8 trials compared, 932 of SkinAndDrawV2's 1,596 instructions covered (the gate's fuzzing
+    had reached 62). This needed two gate changes. `Sleep` is now answered like the other benign imports
+    (VOID Sleep(DWORD) in the Windows SDK; the calls are still compared), because SkinAndDrawV2 sleeps and retries
+    after a failed Lock. And xcap.py takes `--insn-limit` (5,000,000 here); the gate's default of 300,000 is less
+    than skinning a whole model takes.
+  - Captures 1 and 3: every trial runs out of instructions in the command-list walk. The model's list runs onto
+    page 0x26714000, which the capture does not hold (its 20,000-page budget ran out). Filled with fuzzed bytes,
+    the list holds a command word the walk never advances past. The kit now takes the `capture_follow` pages
+    (default 16) after each of the call's own pointers.
+- The kit now records which interface each dgVoodoo vtable is: the vtable of each object a Create method returned,
+  in xikit_vtables_<pid>.csv (profile=1 or trace=1), ingested by pipeline/com_vtables.py. The gate uses a record only
+  when a captured vtable's entries match it exactly. Whether these captures need it is not known: the
+  reconstruction's Lock went unresolved only in trials where the game's side had stopped at Sleep.

@@ -173,7 +173,9 @@ static const char DEFAULT_INI[] =
   ";    on creating xikit_reload_now.txt); takes effect at the next start\r\n"
   "mod_reload=0\r\n"
   "; record real calls for the gate (docs/KIT.md): manifest names, comma-separated; each writes an .xcap\r\n"
-  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n"
+  "; capture_follow: for the call's own pointers (registers, the first 8 arguments), also the pages after each, up\r\n"
+  ";    to this many (an object or list longer than a page)\r\n"
+  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\ncapture_follow=16\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
   ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
   "sample=0\r\nsample_ms=1\r\n"
@@ -1397,7 +1399,10 @@ static void mods_frame(void *dev) {
      * FFXiMain.dll's writable data, whole;
      * every committed, readable page a pointer reaches: from the registers and the stack, then from each page
        taken, breadth first, until capture_pages pages; the page after one is taken too when the pointer is in
-       its last quarter (an object crossing the boundary). FFXiMain's own image is not taken (the gate has it);
+       its last quarter (an object crossing the boundary). For the call's own pointers (the registers and the first
+       8 arguments) the capture_follow pages after each are taken first, while readable: an object or command
+       list longer than a page (SkinAndDrawV2's model, whose list ran into a page a budget-bound walk missed).
+       FFXiMain's own image is not taken (the gate has it);
        a page of another module's code is, with the three after it (the gate reads a foreign callee's code to
        find what it pops).
    Which pages a call needs is not known beforehand: what pointers reach is a preparation of the inputs, not a
@@ -1405,7 +1410,7 @@ static void mods_frame(void *dev) {
    fills any unknown page. */
 #define MAXCAP 64
 typedef struct { Fn *f; int count; volatile LONG done; uint8_t *stub; } Cap;
-static Cap g_caps[MAXCAP]; static int g_ncap, g_cap_pages_max = 20000; static volatile LONG g_cap_busy;
+static Cap g_caps[MAXCAP]; static int g_ncap, g_cap_pages_max = 20000, g_cap_follow = 16; static volatile LONG g_cap_busy;
 static DWORD g_cap_from;                       /* GetTickCount at which captures may start (capture_after) */
 static uint32_t *g_cp_addr; static uint8_t *g_cp_data; static uint32_t *g_cp_set; static uint32_t g_cp_setn, g_cp_n;
 static uint8_t *g_capstubs;
@@ -1442,6 +1447,16 @@ static void cp_ptr(uint32_t v) {
   if ((v & 0xFFF) >= 0xC00) cp_take((v & ~0xFFFu) + 0x1000);
 }
 
+static void cp_follow(uint32_t v) {               /* the pages after v's, up to capture_follow, while readable */
+  int exec;
+  if (v < 0x10000) return;
+  for (int k = 1; k <= g_cap_follow; k++) {
+    uint32_t p = (v & ~0xFFFu) + 4096u * (uint32_t)k;
+    if (p < (v & ~0xFFFu) || !cp_readable(p, &exec)) break;
+    cp_take(p);
+  }
+}
+
 /* the stub jumps here with idx and the block pushad/pushfd left: edi esi ebp esp(+4 = the entry ESP) ebx edx ecx eax eflags */
 static void __cdecl capture_c(int idx, uint32_t *r) {
   Cap *c = &g_caps[idx];
@@ -1456,7 +1471,11 @@ static void __cdecl capture_c(int idx, uint32_t *r) {
   int exec;
   for (uint32_t a = esp & ~0xFFFu, k = 0; k < 64 && cp_readable(a, &exec); a += 4096, k++) cp_take(a);
   for (uint32_t a = ANALYSED_BASE + 0x34F000u + g_rel; a < ANALYSED_BASE + 0x9FB000u + g_rel; a += 4096) cp_take(a);
-  for (int k = 0; k < 8; k++) if (k != 4) cp_ptr(regs[k]);
+  for (int k = 0; k < 8; k++) if (k != 4) { cp_ptr(regs[k]); cp_follow(regs[k]); }
+  for (int k = 1; k <= 8; k++) {                     /* the arguments: the dwords above the return address */
+    uint32_t a = esp + 4u * (uint32_t)k;
+    if (cp_readable(a & ~0xFFFu, &exec)) { uint32_t w = *(const uint32_t *)(uintptr_t)a; cp_ptr(w); cp_follow(w); }
+  }
   for (uint32_t i = 0; i < g_cp_n; i++) {            /* breadth first: pages taken are scanned in the order taken */
     const uint32_t *w = (const uint32_t *)(g_cp_data + (size_t)i * 4096);
     for (int k = 0; k < 1024 && (int)g_cp_n < g_cap_pages_max; k++) if (w[k] >= 0x10000) cp_ptr(w[k]);
@@ -1497,6 +1516,9 @@ static void setup_captures(void) {
   int count = GetPrivateProfileIntA("xikit", "capture_count", 1, g_ini), after = GetPrivateProfileIntA("xikit", "capture_after", 0, g_ini);
   g_cap_pages_max = GetPrivateProfileIntA("xikit", "capture_pages", 20000, g_ini);
   if (g_cap_pages_max < 2048) g_cap_pages_max = 2048;
+  g_cap_follow = GetPrivateProfileIntA("xikit", "capture_follow", 16, g_ini);
+  if (g_cap_follow < 0) g_cap_follow = 0;
+  if (g_cap_follow > 256) g_cap_follow = 256;
   g_cap_from = GetTickCount() + (DWORD)(after > 0 ? after : 0) * 1000;
   for (g_cp_setn = 1; g_cp_setn < (uint32_t)g_cap_pages_max * 4; g_cp_setn <<= 1) {}
   g_cp_addr = (uint32_t *)VirtualAlloc(NULL, (size_t)g_cap_pages_max * 4, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);

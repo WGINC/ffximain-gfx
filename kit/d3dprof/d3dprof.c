@@ -570,40 +570,71 @@ static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, 
   }
   LeaveCriticalSection(&g_reslock);
 }
+/* the vtable of the objects the Create methods return: the D3D8 header declares the interface of each method's out
+   parameter (CreateVertexBuffer: IDirect3DVertexBuffer8, ...), so an object with that vtable holds that interface.
+   One line per (interface, vtable) the first time it is seen, with the vtable's entries as many as the header gives
+   the interface (data/com_spec.json), each as module+offset: <dir>/xikit_vtables_<pid>.csv. The gate reads it
+   (pipeline/com_vtables.py ingest) to know which interface a captured object's vtable is, where the vtable's own
+   layout leaves it open. */
+static void vt_note(const char *iface, int n, uint32_t obj) {
+  static struct { const char *iface; uint32_t vt; } seen[64]; static int nseen; static FILE *f;
+  if (!g_res_init || !obj) return;
+  uint32_t vt = *(volatile uint32_t *)(uintptr_t)obj; HMODULE m = NULL;
+  if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)vt, &m) || !m)
+    return;                               /* a vtable in no module (not a real implementation's object): nothing to name */
+  EnterCriticalSection(&g_reslock);
+  int i = 0;
+  while (i < nseen && !(seen[i].vt == vt && seen[i].iface == iface)) i++;
+  if (i == nseen && nseen < 64) {
+    seen[nseen].iface = iface; seen[nseen].vt = vt; nseen++;
+    if (!f) {
+      char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vtables_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
+      f = fopen(path, "a");
+      if (f) fprintf(f, "# vtables of objects the device's Create methods returned (the D3D8 header's out-parameter interface): interface,vtable,entries (module+offset)...\n");
+    }
+    if (f) {
+      char mod[MAX_PATH];
+      fprintf(f, "%s,%s", iface, module_of(vt, mod, sizeof mod));
+      for (int k = 0; k < n; k++) fprintf(f, ",%s", module_of(((volatile uint32_t *)(uintptr_t)vt)[k], mod, sizeof mod));
+      fputc('\n', f); fflush(f);
+    }
+  }
+  LeaveCriticalSection(&g_reslock);
+}
 #define RA() ((uint32_t)(uintptr_t)__builtin_return_address(0))
 #define OBJ(pp) ((hr >= 0 && (pp)) ? (uint32_t)(uintptr_t)*(pp) : 0)
 static HRESULT __stdcall w_tex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[20])(d, w, h, lv, us, fmt, pool, pp);
-  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vol(void *d, UINT w, UINT h, UINT dp, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[21])(d, w, h, dp, lv, us, fmt, pool, pp);
-  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVolumeTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_cube(void *d, UINT e, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[22])(d, e, lv, us, fmt, pool, pp);
-  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DCubeTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[23])(d, len, us, fvf, pool, pp);
-  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVertexBuffer8", 14, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_ib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[24])(d, len, us, fmt, pool, pp);
-  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DIndexBuffer8", 14, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_rt(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, BOOL lk, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, BOOL, void **))g_orig[25])(d, w, h, fmt, ms, lk, pp);
-  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_ds(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, void **))g_orig[26])(d, w, h, fmt, ms, pp);
-  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_img(void *d, UINT w, UINT h, DWORD fmt, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, void **))g_orig[27])(d, w, h, fmt, pp);
-  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); return hr; }
+  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWORD *handle, DWORD usage) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_orig[75])(d, decl, func, handle, usage);

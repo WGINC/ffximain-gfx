@@ -77,11 +77,13 @@ XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8,
   int v15;
   int v16;
   int result;
-  int a3[24];
-  float v19;
-  float v20;
-  float v21;
-  int v22;
+  alignas(16) unsigned char xi_frame[0x47C];  // address-taken locals at their original offsets
+  int (&a3)[24] = *reinterpret_cast<int (*)[24]>(xi_frame + 0xC);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x6C);
+  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x70);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x74);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x78);
+
   v6 = *((_DWORD *)a1 + 4);
   v7 = *((_DWORD *)a1 + 5);
   v19 = *a1;

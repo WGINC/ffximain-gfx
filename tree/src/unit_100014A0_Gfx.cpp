@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10002040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 252 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 97, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 257 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 97, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
 {
   unsigned __int16 v4;

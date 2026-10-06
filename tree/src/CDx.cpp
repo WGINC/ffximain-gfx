@@ -475,30 +475,32 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int v4;
-  int a3[7];
-  float v7;
-  int v8;
-  int v9;
-  int v10;
-  int v11;
-  int v12;
-  int v13;
-  int v14;
-  float v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  float v21;
-  float v22;
-  int v23;
-  int v24;
-  int v25;
-  int v26;
-  int v27;
-  int v28;
-  int v29;
+  alignas(16) unsigned char xi_frame[0x49C];  // address-taken locals at their original offsets
+  int (&a3)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0x14);
+  float &v7 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  float &v15 = *reinterpret_cast<float *>(xi_frame + 0x50);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x54);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x58);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x5C);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x60);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x64);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x68);
+  float &v22 = *reinterpret_cast<float *>(xi_frame + 0x6C);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  int &v25 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x7C);
+  int &v27 = *reinterpret_cast<int *>(xi_frame + 0x80);
+  int &v28 = *reinterpret_cast<int *>(xi_frame + 0x8C);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x98);
+
   v28 = *((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)self) + 2);
   v29 = *((_DWORD *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)self) + 3);
   v7 = (float)v28;
@@ -548,35 +550,37 @@ int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
   double v12;
   double v13;
   int v14;
-  float v16;
-  int v17;
-  float v18;
-  int v19;
-  int v20;
-  int v21;
-  int v22;
-  int v23;
-  float v24;
-  float v25;
-  int v26;
-  int v27;
-  int v28;
-  int v29;
-  int v30;
-  int v31;
-  float v32;
-  int v33;
-  int v34;
-  int v35;
-  int v36;
-  int v37;
-  float v38;
-  float v39;
-  int v40;
-  int v41;
-  int v42;
-  int v43;
-  int v44;
+  alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
+  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x10);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  float &v18 = *reinterpret_cast<float *>(xi_frame + 0x18);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x1C);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x20);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  float &v24 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  float &v25 = *reinterpret_cast<float *>(xi_frame + 0x34);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x38);
+  int &v27 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  int &v28 = *reinterpret_cast<int *>(xi_frame + 0x40);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x44);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x48);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x4C);
+  float &v32 = *reinterpret_cast<float *>(xi_frame + 0x50);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x54);
+  int &v34 = *reinterpret_cast<int *>(xi_frame + 0x58);
+  int &v35 = *reinterpret_cast<int *>(xi_frame + 0x5C);
+  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x60);
+  int &v37 = *reinterpret_cast<int *>(xi_frame + 0x64);
+  float &v38 = *reinterpret_cast<float *>(xi_frame + 0x68);
+  float &v39 = *reinterpret_cast<float *>(xi_frame + 0x6C);
+  int &v40 = *reinterpret_cast<int *>(xi_frame + 0x70);
+  int &v41 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x78);
+  int &v43 = *reinterpret_cast<int *>(xi_frame + 0x7C);
+  int &v44 = *reinterpret_cast<int *>(xi_frame + 0x80);
+
   v7 = (double)*(int *)a3;
   v8 = *(_DWORD *)a4;
   v21 = a2;
@@ -1112,11 +1116,13 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int result;
-  int v5;
-  char v6;
-  char v7;
-  char v8;
-  char v9;
+  alignas(16) unsigned char xi_frame[0x410];  // address-taken locals at their original offsets
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0x8);
+  char &v6 = *reinterpret_cast<char *>(xi_frame + 0xC);
+  char &v7 = *reinterpret_cast<char *>(xi_frame + 0xD);
+  char &v8 = *reinterpret_cast<char *>(xi_frame + 0xE);
+  char &v9 = *reinterpret_cast<char *>(xi_frame + 0xF);
+
   result = (int)g_pEnv;
   if ( g_pEnv[6] != 0 )
   {

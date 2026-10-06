@@ -275,15 +275,17 @@ XI_API int * __cdecl sqgxShapeBegin(void)
   unsigned int v20;
   int j;
   struct IDirect3DDevice8Vtbl *lpVtbl;
-  unsigned int v23;
-  unsigned int v24;
-  unsigned int v25;
-  unsigned int v26;
-  unsigned int v27;
-  unsigned int v28;
-  void *v29;
-  int v30;
-  int v31;
+  alignas(16) unsigned char xi_frame[0x54C];  // address-taken locals at their original offsets
+  unsigned int &v23 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v24 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v25 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v26 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v27 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v28 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  void * &v29 = *reinterpret_cast<void * *>(xi_frame + 0x140);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x144);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x148);
+
   v0 = g_pSqgxContext;
   for ( i = 0; i < g_pSqgxContext[710] + 1; ++i )
   {

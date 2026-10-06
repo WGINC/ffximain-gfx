@@ -354,3 +354,25 @@ fixed:
   leave-one-out below 9 suspects (simulated over every 1-, 2- and 3-function culprit set of 7: each found exactly, at
   most 7 answers; Wine test: a single culprit and a pair).
 
+## 6 Oct (late): the picture fault found and fixed; the gate compares the data behind pointers
+- **Culprit**: the kit's new bisect (ddmin + leave-one-out) named `CDx::DrawTexturedScreenQuad` (0x1000A5A0). The
+  original builds the full-screen quad's 4 vertices (112 bytes) as one block on its stack and passes its address to
+  `CDx::DrawPrimitiveUP`; Hex-Rays split the block into 28 scalars, and GCC kept the first and dropped the other 27 as
+  dead stores (seen in the compiled code of both the gate and the in-game DLL), so the quad was drawn from stack garbage.
+- **Why the gate passed it**: it compared the pointer as "a stack address" only. It now compares the data the D3D8
+  methods read through pointers (UP draws, transforms, viewport, material, light, clip plane, shader constants; sizes from
+  the D3D8 header) and the data `CDx::DrawPrimitiveUP` (0x1000CD00) forwards to the device (its own code). With that, the
+  promoted tree failed 7 functions this way (DrawTexturedScreenQuad, DrawScreenQuadAtDepth, Gfx_DrawScreenQuad256,
+  ProjTex_CaptureToTarget, Mem_DrawHeapUsageBar, Gfx_DrawSolidRect2D, Gfx_DrawQuadOutline).
+- **Fix**: `byref_blocks.py` finds a BYREF local whose block (to the end of the frame, from the export's [esp+X] [ebp-Y])
+  holds a write-only local or undeclared bytes; that is a fifth trigger of `exact_frame` (locals at their original
+  offsets). 71 functions in the export, 10 of the tree changed; all pass. (A first attempt as packed structs broke a
+  function whose locals alias one slot; dropped.)
+- **x87 intrinsics** on `long double` keep 80 bits (overloads in xi_decomp.hpp).
+- **Gate of the promoted tree** (fuzz + four dumps, data compared): 774 PASS, 2 INCONCLUSIVE (as before), 1 FAIL:
+  `Post_DrawRotatingGhostLayers` (0x10038E10, flag 4, never swapped by default), whose vertices carry -0.0 where the
+  reconstruction writes +0.0; cause not found. 620 fully covered. Kit: 774 listed.
+- **Trace** records the bytes of matrices and vertex lists up to 128 bytes; `trace_diff.py` prints them for calls that
+  differ. The owner's trace with the interim kit (5304): 8 call variants change with swaps on against 66 between
+  unswapped frames; one world transform (from a matrix at another address) and one UI quad differ every frame.
+

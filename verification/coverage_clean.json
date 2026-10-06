@@ -9291,11 +9291,11 @@
 "0x10038E10": {
 "name": "Post_DrawRotatingGhostLayers 0x10038E10",
 "verdicts": {
-"gate_fuzz": "PASS",
-"gate_live_town": "PASS",
-"gate_live_town2": "PASS",
-"gate_live_combat": "PASS",
-"gate_live_zonetoinn": "PASS"
+"gate_fuzz": "FAIL",
+"gate_live_town": "FAIL",
+"gate_live_town2": "FAIL",
+"gate_live_combat": "FAIL",
+"gate_live_zonetoinn": "FAIL"
 },
 "insns": 417,
 "calls": 40,

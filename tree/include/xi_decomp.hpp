@@ -89,6 +89,15 @@ static inline double fabs(double x) { double r; __asm__("fabs" : "=t"(r) : "0"(x
 static inline double atan2(double y, double x) { double r; __asm__("fpatan" : "=t"(r) : "0"(x), "u"(y) : "st(1)"); return r; }
 static inline double atan(double x) { return atan2(x, 1.0); }
 static inline double tan(double x)  { double r, one; __asm__("fptan" : "=t"(one), "=u"(r) : "0"(x)); (void)one; return r; }
+// the same on an 80-bit value: a `long double` local (Hex-Rays: an x87 register the original never stored) keeps all its
+// bits, as in the original's fsin/fcos on st(0); through the double versions it was rounded to 53 bits first, and near a
+// zero of cos the sign of the result came out different (Post_DrawRotatingGhostLayers 0x10038E10: -0.0 vs +0.0, 6 Oct)
+static inline long double sin(long double x)  { long double r; __asm__("fsin" : "=t"(r) : "0"(x)); return r; }
+static inline long double cos(long double x)  { long double r; __asm__("fcos" : "=t"(r) : "0"(x)); return r; }
+static inline long double sqrt(long double x) { long double r; __asm__("fsqrt" : "=t"(r) : "0"(x)); return r; }
+static inline long double fabs(long double x) { long double r; __asm__("fabs" : "=t"(r) : "0"(x)); return r; }
+static inline long double atan2(long double y, long double x) { long double r; __asm__("fpatan" : "=t"(r) : "0"(x), "u"(y) : "st(1)"); return r; }
+static inline long double tan(long double x)  { long double r, one; __asm__("fptan" : "=t"(one), "=u"(r) : "0"(x)); (void)one; return r; }
 // Hex-Rays bit reinterpretation helpers
 template <class To, class From> static inline To xi_bitcast(From f) { To t; memcpy(&t, &f, sizeof(t)); return t; }
 #define COERCE_FLOAT(v)    xi_bitcast<float>((uint32_t)(v))

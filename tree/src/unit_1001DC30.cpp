@@ -32,28 +32,30 @@ XI_API int __thiscall Tex_DrawNamedTexturePreview(void *self_, int a1, int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Gfx_DrawScreenQuad256(int a1, int a2)
 {
-  int a3[7];
-  float v4;
-  int v5;
-  int v6;
-  int v7;
-  int v8;
-  int v9;
-  int v10;
-  int v11;
-  float v12;
-  int v13;
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  float v18;
-  float v19;
-  int v20;
-  int v21;
-  int v22;
-  int v23;
-  int v24;
+  alignas(16) unsigned char xi_frame[0x530];  // address-taken locals at their original offsets
+  int (&a3)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0xC0);
+  float &v4 = *reinterpret_cast<float *>(xi_frame + 0xDC);
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0xE0);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0xE4);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0xE8);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0xEC);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0xF0);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0xF4);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0xF8);
+  float &v12 = *reinterpret_cast<float *>(xi_frame + 0xFC);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0x108);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x10C);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x110);
+  float &v18 = *reinterpret_cast<float *>(xi_frame + 0x114);
+  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x118);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x11C);
+  int &v21 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x124);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x128);
+  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x12C);
+
   a3[0] = a1;
   a3[1] = a2;
   v4 = *(float *)&a1 + 256.0;

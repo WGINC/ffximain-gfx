@@ -489,7 +489,7 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 }
 
 // FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 53 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 99, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 53 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 char CMoDistMorphElem::UpdateMorphBlend()
 {
   CMoProcessor *v2;

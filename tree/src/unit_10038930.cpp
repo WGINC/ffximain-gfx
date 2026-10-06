@@ -107,7 +107,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 10062 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// NOT VERIFIED -- FAIL
 XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;

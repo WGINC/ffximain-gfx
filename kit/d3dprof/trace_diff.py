@@ -14,7 +14,14 @@ proof the site is inside that function. Nothing here says which side is right: i
 import argparse, collections, re, sys
 
 
-def parse(path):
+# parameters that are addresses of the data the hash covers: a different run of the same call has a different address
+# (stack, heap), so they are left out of the token whenever the hash stands for what they point at
+PTR_ARG = {'SetTransform': (1,), 'MultiplyTransform': (1,), 'SetViewport': (0,), 'SetMaterial': (0,), 'SetLight': (1,),
+           'SetClipPlane': (1,), 'SetVertexShaderConstant': (1,), 'SetPixelShaderConstant': (1,),
+           'DrawPrimitiveUP': (2,), 'DrawIndexedPrimitiveUP': (4,)}
+
+
+def parse(path, by_site=False):
     frames = collections.defaultdict(list)          # (label, frame) -> [token]
     meta = []
     for l in open(path):
@@ -23,7 +30,8 @@ def parse(path):
         if len(p) < 7: continue
         label, frame, slot, name, site, np_ = int(p[0]), int(p[1]), int(p[2]), p[3], int(p[4], 16), int(p[5])
         args = tuple(p[6:6 + min(np_, 6)]); h = p[6 + min(np_, 6)]
-        frames[(label, frame)].append((name, site, args, h))
+        args = tuple(a for i, a in enumerate(args) if i not in PTR_ARG.get(name, ()))
+        frames[(label, frame)].append((name, site if by_site else 0, args, h))
     return frames, meta
 
 
@@ -56,9 +64,9 @@ def delta(a, b):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('trace'); ap.add_argument('--manifest'); ap.add_argument('--top', type=int, default=40)
+    ap.add_argument('trace'); ap.add_argument('--manifest'); ap.add_argument('--by-site', action='store_true', help='keep the call site in the token (sites inside the reconstruction are addresses of the reconstruction, not of the game: a swapped run then differs at every swapped function)'); ap.add_argument('--top', type=int, default=40)
     o = ap.parse_args()
-    frames, meta = parse(o.trace); tab = names(o.manifest)
+    frames, meta = parse(o.trace, o.by_site); tab = names(o.manifest)
     for m in meta[:3]: print(m)
     A = sorted(f for l, f in frames if l == 0); B = sorted(f for l, f in frames if l == 1)
     print('frames: %d without swaps, %d with; calls per frame %s | %s' % (
@@ -85,7 +93,7 @@ def main():
     rows = sorted(by.items(), key=lambda kv: -sum(abs(x[2][0] - (x[2][1] + x[3]) / 2) for x in kv[1][2]) if False else -len(kv[1][2]))
     print('call sites whose calls differ with swaps on (method, site, owner; per frame calls off -> on; distinct tokens changed):')
     for (site, name), (off, on, toks) in rows[:o.top]:
-        print('  %-26s 0x%08X %-40s %7.1f -> %7.1f  tokens %d' % (name, site, owner(tab, site), off, on, len(toks)))
+        print('  %-26s 0x%08X %-40s %7.1f -> %7.1f  tokens %d' % (name, site, (owner(tab, site) if site else '(content only)'), off, on, len(toks)))
         for args, h, lo, hi, got in toks[:3]:
             print('       args %s hash %s : off %d..%d, on %s' % (' '.join(args), h, lo, hi, got))
     if not changed: print('no call differs beyond what the scene itself changes: the swaps drew the same calls')

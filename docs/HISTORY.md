@@ -332,3 +332,12 @@ fixed:
 - **A/B trace** (`kit/d3dprof` trace, xikit `trace=1`, Ctrl+Alt+F8, `docs/KIT.md`): the real game's Direct3D calls with
   and without the swaps, compared by call site (`trace_diff.py`). Tested under Wine and in the thunk test.
 
+
+- **First A/B traces from the game** (7428, three traces): compared by call site every swapped function looked different (the
+  call comes from reconstruction addresses): an artefact, fixed in `trace_diff.py` (content comparison). Compared by
+  content, traces 1 and 2 (same scene) show the same Direct3D state and draw stream with 620 swapped as with none,
+  within the scene's own change (about 21,000 calls per frame, a few dozen tokens differ). Trace 3 is a different scene
+  (calls fall from 15,800 to 15,000 within the unswapped frames) and says nothing. Vertex-buffer and texture contents
+  are not in the trace. `Gfx_DestroyD3DHolder` faults every run in xikit.dll's data area (g_vt region): left out of the
+  shipped ini (`exclude=`), cause not found.
+

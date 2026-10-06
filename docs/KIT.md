@@ -134,7 +134,7 @@ Vertex buffers are not hashed (their contents are written through a locked point
 
     python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --manifest xikit_manifest.txt
 
-compares the halves by (method, call site, parameters). The scene's own change (the 4 frames without swaps against
+compares the halves by call content (method, parameters, the hash of the data a pointer parameter covers; the pointer itself is left out, it differs between runs). It does not compare call sites by default: with the swaps on a call is made from inside the reconstruction, whose addresses are not the game's, so by-site (`--by-site`) shows every swapped function as different. The scene's own change (the 4 frames without swaps against
 each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
 nearest below each call site. It says where the two differ, not which side is right.
 

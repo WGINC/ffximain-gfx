@@ -25,7 +25,7 @@ XI_ORIG int Gfx_DestroyD3DHolder() { return reinterpret_cast<int (__cdecl *)()>(
 XI_ORIG _DWORD * D3DHolder_Constructor(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x10003070u))(a0); }
 XI_ORIG char D3DHolder_Initialize(void * a0, int a1, int a2, int a3, char a4, char a5) { return reinterpret_cast<char (__thiscall *)(void *, int, int, int, char, char)>(XI_GAME(0x10003110u))(a0, a1, a2, a3, a4, a5); }
 XI_ORIG char Gfx_TryCreateDeviceForMode(void * a0, int a1, int a2, int a3, char a4, char a5, int a6, int a7) { return reinterpret_cast<char (__thiscall *)(void *, int, int, int, char, char, int, int)>(XI_GAME(0x100033C0u))(a0, a1, a2, a3, a4, a5, a6, a7); }
-XI_ORIG bool D3DHolder_CheckDepthFormat(void * a0, int a1, int a2, int a3) { return reinterpret_cast<bool (__thiscall *)(void *, int, int, int)>(XI_GAME(0x10003460u))(a0, a1, a2, a3); }
+XI_ORIG uint8_t D3DHolder_CheckDepthFormat(void * a0, int a1, int a2, int a3) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int, int, int)>(XI_GAME(0x10003460u))(a0, a1, a2, a3); }
 XI_ORIG char Gfx_CreateDevice(void * a0, int a1, int a2, int a3, int a4, int a5, char a6, char a7, int a8) { return reinterpret_cast<char (__thiscall *)(void *, int, int, int, int, int, char, char, int)>(XI_GAME(0x100034B0u))(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
 XI_ORIG int nullsub_71() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x100035A0u))(); }
 XI_ORIG int sub_100035F0(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x100035F0u))(a0); }
@@ -41,7 +41,7 @@ XI_ORIG char CDx_SetDefaultRenderTargets(void * a0, int a1, int a2, int a3) { re
 XI_ORIG int CDx_SetClearParams(void * a0, int a1, int a2, int a3, int a4) { return reinterpret_cast<int (__thiscall *)(void *, int, int, int, int)>(XI_GAME(0x10009640u))(a0, a1, a2, a3, a4); }
 XI_ORIG int CDx_SetClearColor(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x10009670u))(a0, a1); }
 XI_ORIG int CDx_EndClearBegin(void * a0, int a1, int a2, int a3, int a4, int a5, int a6) { return reinterpret_cast<int (__thiscall *)(void *, int, int, int, int, int, int)>(XI_GAME(0x100096B0u))(a0, a1, a2, a3, a4, a5, a6); }
-XI_ORIG bool CDx_TestCooperativeLevel(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10009710u))(a0); }
+XI_ORIG uint8_t CDx_TestCooperativeLevel(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10009710u))(a0); }
 XI_ORIG int CDx_Present() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10009720u))(); }
 XI_ORIG int CDx_BeginScene(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10009730u))(a0); }
 XI_ORIG int CDx_EndScene(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10009740u))(a0); }
@@ -107,18 +107,18 @@ XI_ORIG char App_InitScene(int a0, int a1) { return reinterpret_cast<char (__thi
 XI_ORIG int Post_Afterimage() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10012F40u))(); }
 XI_ORIG int Post_FlashAndZoomFeedback(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100132B0u))(a0); }
 XI_ORIG char sub_100139E0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100139E0u))(a0); }
-XI_ORIG bool fn_10013AC0() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10013AC0u))(); }
+XI_ORIG uint8_t fn_10013AC0() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10013AC0u))(); }
 XI_ORIG char App_StepGameState5Connect(int a0, int a1) { return reinterpret_cast<char (__thiscall *)(int, int)>(XI_GAME(0x10013AD0u))(a0, a1); }
 XI_ORIG char App_StepGameState6(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10013DF0u))(a0); }
 XI_ORIG char App_StepGameState7(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10013F10u))(a0); }
 XI_ORIG char App_StepGameState8(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10014030u))(a0); }
-XI_ORIG bool App_StepGameState9() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014120u))(); }
+XI_ORIG uint8_t App_StepGameState9() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10014120u))(); }
 XI_ORIG char sub_10014170(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10014170u))(a0); }
 XI_ORIG char sub_100149B0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100149B0u))(a0); }
-XI_ORIG bool sub_10014A20() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014A20u))(); }
+XI_ORIG uint8_t sub_10014A20(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10014A20u))(a0); }
 XI_ORIG char sub_10014A30(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x10014A30u))(a0); }
 XI_ORIG char sub_10014AD0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10014AD0u))(a0); }
-XI_ORIG bool sub_10014C10() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10014C10u))(); }
+XI_ORIG uint8_t sub_10014C10(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10014C10u))(a0); }
 XI_ORIG double Camera_GetFrameScale() { return reinterpret_cast<double (__cdecl *)()>(XI_GAME(0x10014CF0u))(); }
 XI_ORIG int GetFrameCounter() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10014D50u))(); }
 XI_ORIG double Camera_GetFloat2DC() { return reinterpret_cast<double (__cdecl *)()>(XI_GAME(0x10014D70u))(); }
@@ -142,12 +142,12 @@ XI_ORIG void Camera_ApplyViewProjection() { reinterpret_cast<void (__cdecl *)()>
 XI_ORIG __int16 Camera_GetViewportWidth() { return reinterpret_cast<__int16 (__cdecl *)()>(XI_GAME(0x10015680u))(); }
 XI_ORIG __int16 Camera_GetViewportHeight() { return reinterpret_cast<__int16 (__cdecl *)()>(XI_GAME(0x10015690u))(); }
 XI_ORIG int sub_100156A0(int a0, int a1, void * a2, void * a3) { return reinterpret_cast<int (__cdecl *)(int, int, void *, void *)>(XI_GAME(0x100156A0u))(a0, a1, a2, a3); }
-XI_ORIG bool fn_10015740() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10015740u))(); }
+XI_ORIG uint8_t fn_10015740() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10015740u))(); }
 XI_ORIG int App_RunWithCOM(int a0, int a1) { return reinterpret_cast<int (__stdcall *)(int, int)>(XI_GAME(0x10015AB0u))(a0, a1); }
 XI_ORIG char App_InitDataPaths() { return reinterpret_cast<char (__cdecl *)()>(XI_GAME(0x10015CB0u))(); }
 XI_ORIG int App_DestroyDataPaths() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10015F50u))(); }
 XI_ORIG char App_CheckOSVersion() { return reinterpret_cast<char (__cdecl *)()>(XI_GAME(0x10015F80u))(); }
-XI_ORIG bool App_IsRegistryFlagSet(HKEY a0) { return reinterpret_cast<bool (__cdecl *)(HKEY)>(XI_GAME(0x100160C0u))(a0); }
+XI_ORIG uint8_t App_IsRegistryFlagSet(HKEY a0) { return reinterpret_cast<uint8_t (__cdecl *)(HKEY)>(XI_GAME(0x100160C0u))(a0); }
 XI_ORIG char App_InitSoundSystem() { return reinterpret_cast<char (__cdecl *)()>(XI_GAME(0x10016150u))(); }
 XI_ORIG int thunk_sub_10035900() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x100161A0u))(); }
 XI_ORIG char sub_100163C0(char a0) { return reinterpret_cast<char (__cdecl *)(char)>(XI_GAME(0x100163C0u))(a0); }
@@ -200,7 +200,7 @@ XI_ORIG int sub_1001E760(void * a0, void * a1) { return reinterpret_cast<int (__
 XI_ORIG int sub_1001E780(int a0, void * a1) { return reinterpret_cast<int (__thiscall *)(int, void *)>(XI_GAME(0x1001E780u))(a0, a1); }
 XI_ORIG int sub_10021280(int a0, int a1) { return reinterpret_cast<int (__cdecl *)(int, int)>(XI_GAME(0x10021280u))(a0, a1); }
 XI_ORIG void Camera_UpdateController(int a0) { reinterpret_cast<void (__thiscall *)(int)>(XI_GAME(0x10021900u))(a0); }
-XI_ORIG bool sub_10021AE0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10021AE0u))(a0); }
+XI_ORIG uint8_t sub_10021AE0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10021AE0u))(a0); }
 XI_ORIG float * sub_10021B70(void * a0) { return reinterpret_cast<float * (__thiscall *)(void *)>(XI_GAME(0x10021B70u))(a0); }
 XI_ORIG double Actor_GetPercentScaleByIndex(void * a0, unsigned int a1) { return reinterpret_cast<double (__thiscall *)(void *, unsigned int)>(XI_GAME(0x10022120u))(a0, a1); }
 XI_ORIG double Actor_LookupPercentScaleA(void * a0, int a1) { return reinterpret_cast<double (__thiscall *)(void *, int)>(XI_GAME(0x10022190u))(a0, a1); }
@@ -391,7 +391,7 @@ XI_ORIG int CMoDistMorphElem_ApplyMorph(int a0, int a1, void * a2, int a3, int a
 XI_ORIG void unknown_libname_25() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x1003F890u))(); }
 XI_ORIG _DWORD * CMoDistMorphElem_ComputeMorphHandle(int a0, int a1, int a2) { return reinterpret_cast<_DWORD * (__thiscall *)(int, int, int)>(XI_GAME(0x1003F8A0u))(a0, a1, a2); }
 XI_ORIG char CXi471011C8_VT_1032AC90_Dtor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x1003FB10u))(a0); }
-XI_ORIG bool sub_1003FCB0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x1003FCB0u))(a0); }
+XI_ORIG uint8_t sub_1003FCB0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x1003FCB0u))(a0); }
 XI_ORIG char * sub_1003FCE0(void * a0) { return reinterpret_cast<char * (__thiscall *)(void *)>(XI_GAME(0x1003FCE0u))(a0); }
 XI_ORIG char * sub_1003FCF0(void * a0) { return reinterpret_cast<char * (__thiscall *)(void *)>(XI_GAME(0x1003FCF0u))(a0); }
 XI_ORIG char * MoElem_GetVertexData(void * a0) { return reinterpret_cast<char * (__thiscall *)(void *)>(XI_GAME(0x1003FD70u))(a0); }
@@ -430,9 +430,9 @@ XI_ORIG void DynVB_Destructor(void * a0) { reinterpret_cast<void (__thiscall *)(
 XI_ORIG int DynVB_Create(void * a0, int a1, unsigned int a2, int a3) { return reinterpret_cast<int (__thiscall *)(void *, int, unsigned int, int)>(XI_GAME(0x10043E50u))(a0, a1, a2, a3); }
 XI_ORIG void sub_10043F00(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10043F00u))(a0); }
 XI_ORIG int sub_10043F40(void * a0, int a1, int a2, int a3, unsigned int a4, int a5) { return reinterpret_cast<int (__thiscall *)(void *, int, int, int, unsigned int, int)>(XI_GAME(0x10043F40u))(a0, a1, a2, a3, a4, a5); }
-XI_ORIG int DynVB_Reserve(int a0) { return reinterpret_cast<int (__stdcall *)(int)>(XI_GAME(0x10044010u))(a0); }
+XI_ORIG int DynVB_Reserve(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x10044010u))(a0, a1); }
 XI_ORIG void * DynVB_Lock(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x10044130u))(a0); }
-XI_ORIG int DynVB_Unlock() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x100441A0u))(); }
+XI_ORIG int DynVB_Unlock(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100441A0u))(a0); }
 XI_ORIG int sub_100441C0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100441C0u))(a0); }
 XI_ORIG int Gfx_SetViewMatrixFromField10(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x10044210u))(a0); }
 XI_ORIG int Gfx_SetViewMatrixFromField90(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x10044230u))(a0); }
@@ -459,7 +459,7 @@ XI_ORIG char CMoGeneratorClone_UnlinkElemListB(void * a0, int a1) { return reint
 XI_ORIG _DWORD * CMoGeneratorClone_FindCmdByType(void * a0, int a1) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, int)>(XI_GAME(0x100492F0u))(a0, a1); }
 XI_ORIG int sub_10049560(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10049560u))(a0); }
 XI_ORIG int CMoGeneratorClone_ResolveTarget(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10049570u))(a0); }
-XI_ORIG bool sub_100496F0(int a0, int a1) { return reinterpret_cast<bool (__thiscall *)(int, int)>(XI_GAME(0x100496F0u))(a0, a1); }
+XI_ORIG uint8_t sub_100496F0(int a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(int, int)>(XI_GAME(0x100496F0u))(a0, a1); }
 XI_ORIG BOOL sub_1004E3B0(void * a0, int a1) { return reinterpret_cast<BOOL (__thiscall *)(void *, int)>(XI_GAME(0x1004E3B0u))(a0, a1); }
 XI_ORIG int sub_1004E3C0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1004E3C0u))(a0); }
 XI_ORIG Iostream_init * fn_100527F0(void * a0) { return reinterpret_cast<Iostream_init * (__thiscall *)(void *)>(XI_GAME(0x100527F0u))(a0); }
@@ -474,7 +474,7 @@ XI_ORIG int CMoGeneratorClone_CreateInstance(void * a0, void * a1, void * a2, in
 XI_ORIG char * CMoGeneratorClone_VT_1032B69C_ScalarDeletingDtor(void * a0, char a1) { return reinterpret_cast<char * (__thiscall *)(void *, char)>(XI_GAME(0x10053840u))(a0, a1); }
 XI_ORIG int sub_10053890(int a0, char a1) { return reinterpret_cast<int (__thiscall *)(int, char)>(XI_GAME(0x10053890u))(a0, a1); }
 XI_ORIG char sub_100538E0(int a0, void * a1) { return reinterpret_cast<char (__thiscall *)(int, void *)>(XI_GAME(0x100538E0u))(a0, a1); }
-XI_ORIG bool sub_100539E0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x100539E0u))(a0); }
+XI_ORIG uint8_t sub_100539E0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x100539E0u))(a0); }
 XI_ORIG char sub_10053A00(int a0, int a1, int a2, char a3, void * a4) { return reinterpret_cast<char (__thiscall *)(int, int, int, char, void *)>(XI_GAME(0x10053A00u))(a0, a1, a2, a3, a4); }
 XI_ORIG char sub_10053E60(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10053E60u))(a0); }
 XI_ORIG char CMoTask_VT_1032B654_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100541C0u))(a0); }
@@ -507,8 +507,8 @@ XI_ORIG int sub_10057BE0(void * a0) { return reinterpret_cast<int (__thiscall *)
 XI_ORIG int sub_10057BF0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10057BF0u))(a0); }
 XI_ORIG int CMoSchedularTask_Interpret(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10057FB0u))(a0); }
 XI_ORIG long double sub_1005DFF0(float a0, float a1) { return reinterpret_cast<long double (__cdecl *)(float, float)>(XI_GAME(0x1005DFF0u))(a0, a1); }
-XI_ORIG bool sub_1005E000(void * a0, char a1) { return reinterpret_cast<bool (__thiscall *)(void *, char)>(XI_GAME(0x1005E000u))(a0, a1); }
-XI_ORIG bool sub_1005E020(void * a0, char a1) { return reinterpret_cast<bool (__thiscall *)(void *, char)>(XI_GAME(0x1005E020u))(a0, a1); }
+XI_ORIG uint8_t sub_1005E000(void * a0, char a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, char)>(XI_GAME(0x1005E000u))(a0, a1); }
+XI_ORIG uint8_t sub_1005E020(void * a0, char a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, char)>(XI_GAME(0x1005E020u))(a0, a1); }
 XI_ORIG _DWORD * sub_1005E040(int a0) { return reinterpret_cast<_DWORD * (__cdecl *)(int)>(XI_GAME(0x1005E040u))(a0); }
 XI_ORIG _DWORD * sub_1005E070(void * a0, void * a1, int a2) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, void *, int)>(XI_GAME(0x1005E070u))(a0, a1, a2); }
 XI_ORIG int sub_1005E090(void * a0, void * a1, void * a2) { return reinterpret_cast<int (__thiscall *)(void *, void *, void *)>(XI_GAME(0x1005E090u))(a0, a1, a2); }
@@ -543,7 +543,7 @@ XI_ORIG char sub_1005E2B0(void * a0) { return reinterpret_cast<char (__thiscall 
 XI_ORIG char sub_1005E2C0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x1005E2C0u))(a0); }
 XI_ORIG char sub_1005E2D0(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x1005E2D0u))(a0); }
 XI_ORIG int sub_1005E2E0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1005E2E0u))(a0); }
-XI_ORIG bool sub_1005E2F0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x1005E2F0u))(a0); }
+XI_ORIG uint8_t sub_1005E2F0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x1005E2F0u))(a0); }
 XI_ORIG int unknown_libname_57() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1005E300u))(); }
 XI_ORIG int sub_1005E310(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1005E310u))(a0); }
 XI_ORIG int sub_1005E320(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1005E320u))(a0); }
@@ -681,12 +681,12 @@ XI_ORIG int sub_100685F0(void * a0, int a1, float a2) { return reinterpret_cast<
 XI_ORIG int sub_10068890(void * a0, int a1, float a2) { return reinterpret_cast<int (__thiscall *)(void *, int, float)>(XI_GAME(0x10068890u))(a0, a1, a2); }
 XI_ORIG int sub_10068AE0(void * a0, int a1, float a2) { return reinterpret_cast<int (__thiscall *)(void *, int, float)>(XI_GAME(0x10068AE0u))(a0, a1, a2); }
 XI_ORIG int sub_10068CE0(void * a0, int a1, float a2) { return reinterpret_cast<int (__thiscall *)(void *, int, float)>(XI_GAME(0x10068CE0u))(a0, a1, a2); }
-XI_ORIG bool sub_10068EF0(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x10068EF0u))(a0, a1); }
-XI_ORIG bool sub_10068F80(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x10068F80u))(a0, a1); }
-XI_ORIG bool sub_10069010(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x10069010u))(a0, a1); }
-XI_ORIG bool sub_100690A0(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x100690A0u))(a0, a1); }
-XI_ORIG bool sub_10069130(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x10069130u))(a0, a1); }
-XI_ORIG bool sub_100691C0(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x100691C0u))(a0, a1); }
+XI_ORIG uint8_t sub_10068EF0(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x10068EF0u))(a0, a1); }
+XI_ORIG uint8_t sub_10068F80(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x10068F80u))(a0, a1); }
+XI_ORIG uint8_t sub_10069010(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x10069010u))(a0, a1); }
+XI_ORIG uint8_t sub_100690A0(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x100690A0u))(a0, a1); }
+XI_ORIG uint8_t sub_10069130(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x10069130u))(a0, a1); }
+XI_ORIG uint8_t sub_100691C0(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x100691C0u))(a0, a1); }
 XI_ORIG _DWORD * sub_10069D30(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x10069D30u))(a0); }
 XI_ORIG char CMoDX_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10069D70u))(a0); }
 XI_ORIG _BYTE * CMoDX_Initialize(int a0, int a1) { return reinterpret_cast<_BYTE * (__thiscall *)(int, int)>(XI_GAME(0x10069DD0u))(a0, a1); }
@@ -752,7 +752,7 @@ XI_ORIG float * CMoProcessor_ProjectVertsAndBounds(void * a0, void * a1, int a2,
 XI_ORIG CMoProcessor * CMoProcessor_CalcScreenBoundsAndVisible(void * a0, void * a1, void * a2, int a3, int a4, int a5, float a6, float a7) { return reinterpret_cast<CMoProcessor * (__thiscall *)(void *, void *, void *, int, int, int, float, float)>(XI_GAME(0x1006ED10u))(a0, a1, a2, a3, a4, a5, a6, a7); }
 XI_ORIG char CMoTask_VT_1032C490_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10070F80u))(a0); }
 XI_ORIG __int16 ResHandle_FreeIfUnreferenced(void * a0) { return reinterpret_cast<__int16 (__thiscall *)(void *)>(XI_GAME(0x10071050u))(a0); }
-XI_ORIG bool ResourceHandle_IsResident(void * a0) { return reinterpret_cast<bool (__fastcall *)(void *)>(XI_GAME(0x10071060u))(a0); }
+XI_ORIG uint8_t ResourceHandle_IsResident(void * a0) { return reinterpret_cast<uint8_t (__fastcall *)(void *)>(XI_GAME(0x10071060u))(a0); }
 XI_ORIG int sub_100710F0(void * a0, int a1, int a2, void * a3, void * a4) { return reinterpret_cast<int (__thiscall *)(void *, int, int, void *, void *)>(XI_GAME(0x100710F0u))(a0, a1, a2, a3, a4); }
 XI_ORIG _DWORD * CMoAttachments_VT_1032C4E8_ScalarDeletingDtor(void * a0, char a1) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, char)>(XI_GAME(0x10071180u))(a0, a1); }
 XI_ORIG void nullsub_171() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x100719B0u))(); }
@@ -817,11 +817,11 @@ XI_ORIG BOOL sub_10083340(void * a0) { return reinterpret_cast<BOOL (__thiscall 
 XI_ORIG char CXiActor_IsModelMissingOrFlag2000(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x10084140u))(a0); }
 XI_ORIG std::codecvt_base * sub_10084160(void * a0, void * a1) { return reinterpret_cast<std::codecvt_base * (__thiscall *)(void *, void *)>(XI_GAME(0x10084160u))(a0, a1); }
 XI_ORIG _DWORD * sub_100841A0(void * a0) { return reinterpret_cast<_DWORD * (__cdecl *)(void *)>(XI_GAME(0x100841A0u))(a0); }
-XI_ORIG bool CXiActor_ModelTest95790(void * a0, int a1) { return reinterpret_cast<bool (__thiscall *)(void *, int)>(XI_GAME(0x10084330u))(a0, a1); }
-XI_ORIG bool CXiActor_ModelTest95680(void * a0, int a1) { return reinterpret_cast<bool (__thiscall *)(void *, int)>(XI_GAME(0x10084350u))(a0, a1); }
-XI_ORIG bool CXiActor_ModelTest956A0(void * a0, int a1) { return reinterpret_cast<bool (__thiscall *)(void *, int)>(XI_GAME(0x10084370u))(a0, a1); }
+XI_ORIG uint8_t CXiActor_ModelTest95790(void * a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int)>(XI_GAME(0x10084330u))(a0, a1); }
+XI_ORIG uint8_t CXiActor_ModelTest95680(void * a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int)>(XI_GAME(0x10084350u))(a0, a1); }
+XI_ORIG uint8_t CXiActor_ModelTest956A0(void * a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int)>(XI_GAME(0x10084370u))(a0, a1); }
 XI_ORIG int CXiActor_GetModelField170(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10084390u))(a0); }
-XI_ORIG bool CXiActor_HasNonzeroField150or158(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x100843B0u))(a0); }
+XI_ORIG uint8_t CXiActor_HasNonzeroField150or158(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x100843B0u))(a0); }
 XI_ORIG int CXiActor_GetModelByteEE(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10084400u))(a0); }
 XI_ORIG int CXiActor_GetModelByteEF(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10084420u))(a0); }
 XI_ORIG int CXiActor_GetModelPartWord(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x10084480u))(a0, a1); }
@@ -832,26 +832,26 @@ XI_ORIG BOOL CXiActor_IsModelMissingOrSuppressed(int a0) { return reinterpret_ca
 XI_ORIG BOOL CXiActor_TestModelFlag128_8(void * a0) { return reinterpret_cast<BOOL (__thiscall *)(void *)>(XI_GAME(0x100845B0u))(a0); }
 XI_ORIG int sub_100845E0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100845E0u))(a0); }
 XI_ORIG BOOL CXiActor_TestModelFlags100000_200000_4000(void * a0) { return reinterpret_cast<BOOL (__thiscall *)(void *)>(XI_GAME(0x10084640u))(a0); }
-XI_ORIG bool sub_10084670(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10084670u))(a0); }
+XI_ORIG uint8_t sub_10084670(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10084670u))(a0); }
 XI_ORIG __int16 sub_10084690(void * a0) { return reinterpret_cast<__int16 (__thiscall *)(void *)>(XI_GAME(0x10084690u))(a0); }
 XI_ORIG BOOL sub_100846D0(void * a0) { return reinterpret_cast<BOOL (__thiscall *)(void *)>(XI_GAME(0x100846D0u))(a0); }
 XI_ORIG unsigned int sub_100846F0(void * a0, char a1) { return reinterpret_cast<unsigned int (__thiscall *)(void *, char)>(XI_GAME(0x100846F0u))(a0, a1); }
 XI_ORIG int CXiActor_GetModelByte1DB(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10084720u))(a0); }
 XI_ORIG int sub_10085000(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x10085000u))(a0, a1); }
 XI_ORIG int CXiActor_SpawnResourceGenerators(int a0, void * a1) { return reinterpret_cast<int (__thiscall *)(int, void *)>(XI_GAME(0x10085060u))(a0, a1); }
-XI_ORIG bool CXiActor_IsInModelSlotTable(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10085490u))(a0); }
+XI_ORIG uint8_t CXiActor_IsInModelSlotTable(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10085490u))(a0); }
 XI_ORIG void CXiActor_KillGeneratorClones(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10085570u))(a0); }
 XI_ORIG int sub_10085BF0(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x10085BF0u))(a0, a1); }
 XI_ORIG float * sub_10085E40(void * a0) { return reinterpret_cast<float * (__cdecl *)(void *)>(XI_GAME(0x10085E40u))(a0); }
 XI_ORIG void Actor_DrawWorldText(void * a0, void * a1, float a2, unsigned int a3, int a4) { reinterpret_cast<void (__cdecl *)(void *, void *, float, unsigned int, int)>(XI_GAME(0x10086210u))(a0, a1, a2, a3, a4); }
-XI_ORIG bool sub_10087060() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10087060u))(); }
+XI_ORIG uint8_t sub_10087060() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10087060u))(); }
 XI_ORIG int Call1008A0E0With2() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1008A0D0u))(); }
-XI_ORIG bool sub_1008E130(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x1008E130u))(a0); }
+XI_ORIG uint8_t sub_1008E130(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x1008E130u))(a0); }
 XI_ORIG char Unit10086E90_ResetGlobals() { return reinterpret_cast<char (__cdecl *)()>(XI_GAME(0x10093720u))(); }
-XI_ORIG bool Net_SendPacket00COnce() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10093DB0u))(); }
+XI_ORIG uint8_t Net_SendPacket00COnce() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10093DB0u))(); }
 XI_ORIG char * Entity_BuildDisplayName(int a0) { return reinterpret_cast<char * (__thiscall *)(int)>(XI_GAME(0x10097840u))(a0); }
 XI_ORIG int Entity_GetIndexedPtr(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10097A40u))(a0); }
-XI_ORIG bool Entity_IsModelIdB22toB31(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10098320u))(a0); }
+XI_ORIG uint8_t Entity_IsModelIdB22toB31(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10098320u))(a0); }
 XI_ORIG char CMoTask_VT_1032D6D4_Destructor(void * a0) { return reinterpret_cast<char (__thiscall *)(void *)>(XI_GAME(0x100A2810u))(a0); }
 XI_ORIG _DWORD * CXiCollisionActor_Constructor(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x100A4C20u))(a0); }
 XI_ORIG int sub_100A4ED0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100A4ED0u))(a0); }
@@ -919,7 +919,7 @@ XI_ORIG void sub_100D0D70(int a0, int a1, void * a2) { reinterpret_cast<void (__
 XI_ORIG int sub_100D0E80(int a0, int a1) { return reinterpret_cast<int (__cdecl *)(int, int)>(XI_GAME(0x100D0E80u))(a0, a1); }
 XI_ORIG char sub_100D1070(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x100D1070u))(a0); }
 XI_ORIG int sub_100D1190(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x100D1190u))(a0); }
-XI_ORIG bool CXiSkeletonActor_IsReadCompleteBody(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x100D12D0u))(a0); }
+XI_ORIG uint8_t CXiSkeletonActor_IsReadCompleteBody(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x100D12D0u))(a0); }
 XI_ORIG char CXiSkeletonActor_OnSkeletonLoaded(int a0, int a1) { return reinterpret_cast<char (__cdecl *)(int, int)>(XI_GAME(0x100D2F40u))(a0, a1); }
 XI_ORIG char CXiSkeletonActor_LoadSkeletonSync(int a0, int a1) { return reinterpret_cast<char (__thiscall *)(int, int)>(XI_GAME(0x100D2F60u))(a0, a1); }
 XI_ORIG int sub_100D4100(int a0, int a1) { return reinterpret_cast<int (__cdecl *)(int, int)>(XI_GAME(0x100D4100u))(a0, a1); }
@@ -934,7 +934,7 @@ XI_ORIG void CXiSkeletonActor_CalcGroundTiltMatrix(void * a0, void * a1, float a
 XI_ORIG void CXiSkeletonActor_UpdateHeadLook(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x100D5B10u))(a0); }
 XI_ORIG void sub_100D5F10(void * a0, int a1, int a2) { reinterpret_cast<void (__thiscall *)(void *, int, int)>(XI_GAME(0x100D5F10u))(a0, a1, a2); }
 XI_ORIG void sub_100D60E0(void * a0, int a1, int a2) { reinterpret_cast<void (__thiscall *)(void *, int, int)>(XI_GAME(0x100D60E0u))(a0, a1, a2); }
-XI_ORIG bool sub_100D6240(void * a0, int a1) { return reinterpret_cast<bool (__thiscall *)(void *, int)>(XI_GAME(0x100D6240u))(a0, a1); }
+XI_ORIG uint8_t sub_100D6240(void * a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int)>(XI_GAME(0x100D6240u))(a0, a1); }
 XI_ORIG _DWORD * sub_100D6850(void * a0, void * a1, int a2, int a3, int a4) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, void *, int, int, int)>(XI_GAME(0x100D6850u))(a0, a1, a2, a3, a4); }
 XI_ORIG int Actor_PrepareDrawGlobals(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100D6D30u))(a0); }
 XI_ORIG _DWORD * CXiSkeletonActorRes_Constructor(void * a0, int a1, int a2) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, int, int)>(XI_GAME(0x100D7020u))(a0, a1, a2); }
@@ -952,7 +952,7 @@ XI_ORIG int sub_101037F0(int a0, int a1) { return reinterpret_cast<int (__cdecl 
 XI_ORIG int ntGameTimeGet() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x101039E0u))(); }
 XI_ORIG int sub_10118260(int a0, int a1) { return reinterpret_cast<int (__thiscall *)(int, int)>(XI_GAME(0x10118260u))(a0, a1); }
 XI_ORIG void nullsub_48() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10118520u))(); }
-XI_ORIG bool sub_10118C10(void * a0, void * a1) { return reinterpret_cast<bool (__thiscall *)(void *, void *)>(XI_GAME(0x10118C10u))(a0, a1); }
+XI_ORIG uint8_t sub_10118C10(void * a0, void * a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, void *)>(XI_GAME(0x10118C10u))(a0, a1); }
 XI_ORIG __int16 sub_10118CB0(void * a0, void * a1, void * a2) { return reinterpret_cast<__int16 (__thiscall *)(void *, void *, void *)>(XI_GAME(0x10118CB0u))(a0, a1, a2); }
 XI_ORIG int sub_10118DB0(void * a0, int a1, int a2) { return reinterpret_cast<int (__thiscall *)(void *, int, int)>(XI_GAME(0x10118DB0u))(a0, a1, a2); }
 XI_ORIG _WORD * sub_1011AC70(void * a0, __int16 a1, __int16 a2) { return reinterpret_cast<_WORD * (__thiscall *)(void *, __int16, __int16)>(XI_GAME(0x1011AC70u))(a0, a1, a2); }
@@ -966,7 +966,7 @@ XI_ORIG int Font_AllocHighResImage(void * a0, int a1, int a2) { return reinterpr
 XI_ORIG char Tex_LoadSurfaceFromDatFile(void * a0, int a1) { return reinterpret_cast<char (__stdcall *)(void *, int)>(XI_GAME(0x1011C670u))(a0, a1); }
 XI_ORIG void Font_LoadHighResTexture(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x1011C720u))(a0); }
 XI_ORIG int Font_ReleaseHighResTexture(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1011C810u))(a0); }
-XI_ORIG bool Font_IsHighResTextureLoaded(int a0) { return reinterpret_cast<bool (__thiscall *)(int)>(XI_GAME(0x1011C850u))(a0); }
+XI_ORIG uint8_t Font_IsHighResTextureLoaded(int a0) { return reinterpret_cast<uint8_t (__thiscall *)(int)>(XI_GAME(0x1011C850u))(a0); }
 XI_ORIG int unknown_libname_88(_DWORD a0) { return reinterpret_cast<int (__thiscall *)(_DWORD)>(XI_GAME(0x1011C870u))(a0); }
 XI_ORIG char sub_1011C8B0() { return reinterpret_cast<char (__cdecl *)()>(XI_GAME(0x1011C8B0u))(); }
 XI_ORIG __int16 Font_DecodeNextChar(void * a0) { return reinterpret_cast<__int16 (__cdecl *)(void *)>(XI_GAME(0x1011CE80u))(a0); }
@@ -982,10 +982,10 @@ XI_ORIG int Color_ModulateArgb128(unsigned int a0, unsigned int a1) { return rei
 XI_ORIG _DWORD * ShapeMng_Init(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x101201C0u))(a0); }
 XI_ORIG _DWORD * sub_10120200(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x10120200u))(a0); }
 XI_ORIG char * ShapeMng_FindShape(void * a0, void * a1) { return reinterpret_cast<char * (__thiscall *)(void *, void *)>(XI_GAME(0x10120450u))(a0, a1); }
-XI_ORIG bool ShapeMng_GetFontGlyph(void * a0, unsigned __int8 a1, int a2, void * a3, void * a4, void * a5) { return reinterpret_cast<bool (__thiscall *)(void *, unsigned __int8, int, void *, void *, void *)>(XI_GAME(0x10120510u))(a0, a1, a2, a3, a4, a5); }
+XI_ORIG uint8_t ShapeMng_GetFontGlyph(void * a0, unsigned __int8 a1, int a2, void * a3, void * a4, void * a5) { return reinterpret_cast<uint8_t (__thiscall *)(void *, unsigned __int8, int, void *, void *, void *)>(XI_GAME(0x10120510u))(a0, a1, a2, a3, a4, a5); }
 XI_ORIG char ShapeMng_BindFontTexture(void * a0, unsigned int a1, void * a2, void * a3) { return reinterpret_cast<char (__thiscall *)(void *, unsigned int, void *, void *)>(XI_GAME(0x10120590u))(a0, a1, a2, a3); }
 XI_ORIG char * ShapeMng_LoadFontTextures(void * a0) { return reinterpret_cast<char * (__thiscall *)(void *)>(XI_GAME(0x10120660u))(a0); }
-XI_ORIG bool ShapeMng_GetDmgNumGlyph(void * a0, unsigned __int8 a1, int a2, void * a3, void * a4, void * a5) { return reinterpret_cast<bool (__thiscall *)(void *, unsigned __int8, int, void *, void *, void *)>(XI_GAME(0x10120730u))(a0, a1, a2, a3, a4, a5); }
+XI_ORIG uint8_t ShapeMng_GetDmgNumGlyph(void * a0, unsigned __int8 a1, int a2, void * a3, void * a4, void * a5) { return reinterpret_cast<uint8_t (__thiscall *)(void *, unsigned __int8, int, void *, void *, void *)>(XI_GAME(0x10120730u))(a0, a1, a2, a3, a4, a5); }
 XI_ORIG char ShapeMng_BindDmgNumTexture(void * a0, unsigned int a1, void * a2, void * a3) { return reinterpret_cast<char (__thiscall *)(void *, unsigned int, void *, void *)>(XI_GAME(0x101207B0u))(a0, a1, a2, a3); }
 XI_ORIG char * ShapeMng_LoadDmgNumTextures(void * a0) { return reinterpret_cast<char * (__thiscall *)(void *)>(XI_GAME(0x10120880u))(a0); }
 XI_ORIG char sub_10123A70(int a0, int a1, int a2, int a3) { return reinterpret_cast<char (__cdecl *)(int, int, int, int)>(XI_GAME(0x10123A70u))(a0, a1, a2, a3); }
@@ -995,13 +995,13 @@ XI_ORIG void Cursor_SetPosition(int a0, void * a1, float a2) { reinterpret_cast<
 XI_ORIG void sub_101248A0(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101248A0u))(a0); }
 XI_ORIG char sub_10125040(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x10125040u))(a0); }
 XI_ORIG int sub_10125170(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10125170u))(a0); }
-XI_ORIG bool sub_101252C0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x101252C0u))(a0); }
+XI_ORIG uint8_t sub_101252C0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x101252C0u))(a0); }
 XI_ORIG unsigned __int8 Cursor_SetVisible(void * a0, unsigned __int8 a1) { return reinterpret_cast<unsigned __int8 (__thiscall *)(void *, unsigned __int8)>(XI_GAME(0x101252F0u))(a0, a1); }
 XI_ORIG double sub_10125FE0(void * a0) { return reinterpret_cast<double (__thiscall *)(void *)>(XI_GAME(0x10125FE0u))(a0); }
 XI_ORIG double sub_101260E0(void * a0) { return reinterpret_cast<double (__thiscall *)(void *)>(XI_GAME(0x101260E0u))(a0); }
 XI_ORIG double sub_101260F0(void * a0) { return reinterpret_cast<double (__thiscall *)(void *)>(XI_GAME(0x101260F0u))(a0); }
 XI_ORIG double sub_10126100(void * a0) { return reinterpret_cast<double (__thiscall *)(void *)>(XI_GAME(0x10126100u))(a0); }
-XI_ORIG bool sub_10126270() { return reinterpret_cast<bool (__cdecl *)()>(XI_GAME(0x10126270u))(); }
+XI_ORIG uint8_t sub_10126270() { return reinterpret_cast<uint8_t (__cdecl *)()>(XI_GAME(0x10126270u))(); }
 XI_ORIG int unknown_libname_89() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10126290u))(); }
 XI_ORIG int Cursor_StoreScreenCenter(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x101262A0u))(a0); }
 XI_ORIG int sub_10126510(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10126510u))(a0); }
@@ -1022,11 +1022,11 @@ XI_ORIG char Actor_SetSlotTableEntry(unsigned int a0, int a1) { return reinterpr
 XI_ORIG int sub_101598A0(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x101598A0u))(a0); }
 XI_ORIG int MenuMng_Init(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x1015D900u))(a0); }
 XI_ORIG _DWORD * sub_1015D9E0(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x1015D9E0u))(a0); }
-XI_ORIG bool sub_1015DCE0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x1015DCE0u))(a0); }
+XI_ORIG uint8_t sub_1015DCE0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x1015DCE0u))(a0); }
 XI_ORIG int sub_1015DD00(int a0, int a1) { return reinterpret_cast<int (__thiscall *)(int, int)>(XI_GAME(0x1015DD00u))(a0, a1); }
 XI_ORIG void nullsub_49(int a0) { reinterpret_cast<void (__stdcall *)(int)>(XI_GAME(0x1015DFC0u))(a0); }
 XI_ORIG _DWORD * MenuMng_OpenByName(void * a0, void * a1, char a2, char a3) { return reinterpret_cast<_DWORD * (__thiscall *)(void *, void *, char, char)>(XI_GAME(0x1015E350u))(a0, a1, a2, a3); }
-XI_ORIG bool sub_1015EDB0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x1015EDB0u))(a0); }
+XI_ORIG uint8_t sub_1015EDB0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x1015EDB0u))(a0); }
 XI_ORIG int sub_1015EE20(void * a0) { return reinterpret_cast<int (__stdcall *)(void *)>(XI_GAME(0x1015EE20u))(a0); }
 XI_ORIG int sub_1015F6A0(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1015F6A0u))(a0); }
 XI_ORIG int sub_1015FA00(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1015FA00u))(a0); }
@@ -1037,7 +1037,7 @@ XI_ORIG int ** sub_10160440(int a0, int a1, void * a2, int a3) { return reinterp
 XI_ORIG int Gfx_SetDefault2DStates() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x101604B0u))(); }
 XI_ORIG int Gfx_DisableFogAndAlphaBlend() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x10160650u))(); }
 XI_ORIG int sub_101606F0(_DWORD a0) { return reinterpret_cast<int (__thiscall *)(_DWORD)>(XI_GAME(0x101606F0u))(a0); }
-XI_ORIG bool sub_10160700(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x10160700u))(a0); }
+XI_ORIG uint8_t sub_10160700(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x10160700u))(a0); }
 XI_ORIG int sub_10160C90(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10160C90u))(a0); }
 XI_ORIG int Obj_10621944_DrawBgRect(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10163390u))(a0); }
 XI_ORIG _WORD * GameSystems_InitializeAll() { return reinterpret_cast<_WORD * (__cdecl *)()>(XI_GAME(0x10163640u))(); }
@@ -1126,7 +1126,7 @@ XI_ORIG int Sch_GetStatusEntry(int a0) { return reinterpret_cast<int (__thiscall
 XI_ORIG char sub_1018CE10(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x1018CE10u))(a0); }
 XI_ORIG _DWORD * sub_1018CEF0(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x1018CEF0u))(a0); }
 XI_ORIG int Settings_GetValue(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(XI_GAME(0x10193850u))(a0); }
-XI_ORIG bool sub_10193890(char a0) { return reinterpret_cast<bool (__cdecl *)(char)>(XI_GAME(0x10193890u))(a0); }
+XI_ORIG uint8_t sub_10193890(char a0) { return reinterpret_cast<uint8_t (__cdecl *)(char)>(XI_GAME(0x10193890u))(a0); }
 XI_ORIG int sub_1019C3E0() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1019C3E0u))(); }
 XI_ORIG int sub_1019C5B0() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1019C5B0u))(); }
 XI_ORIG int sub_1019EBB0(int a0) { return reinterpret_cast<int (__thiscall *)(int)>(XI_GAME(0x1019EBB0u))(a0); }
@@ -1146,8 +1146,8 @@ XI_ORIG char sub_101BCE30(int a0) { return reinterpret_cast<char (__thiscall *)(
 XI_ORIG void sub_101C46A0(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101C46A0u))(a0); }
 XI_ORIG int FileMng_ResolveOrExit(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x101C4AF0u))(a0, a1); }
 XI_ORIG char sub_101C4CC0(void * a0, int a1) { return reinterpret_cast<char (__thiscall *)(void *, int)>(XI_GAME(0x101C4CC0u))(a0, a1); }
-XI_ORIG bool sub_101C4CD0(void * a0) { return reinterpret_cast<bool (__thiscall *)(void *)>(XI_GAME(0x101C4CD0u))(a0); }
-XI_ORIG int sub_101C4CE0(int a0) { return reinterpret_cast<int (__stdcall *)(int)>(XI_GAME(0x101C4CE0u))(a0); }
+XI_ORIG uint8_t sub_101C4CD0(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x101C4CD0u))(a0); }
+XI_ORIG int sub_101C4CE0(void * a0, int a1) { return reinterpret_cast<int (__thiscall *)(void *, int)>(XI_GAME(0x101C4CE0u))(a0, a1); }
 XI_ORIG int sub_101C4D10(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x101C4D10u))(a0); }
 XI_ORIG int sub_101C9B50(__int16 a0, __int16 a1, void * a2, int a3, int a4, float a5, float a6) { return reinterpret_cast<int (__cdecl *)(__int16, __int16, void *, int, int, float, float)>(XI_GAME(0x101C9B50u))(a0, a1, a2, a3, a4, a5, a6); }
 XI_ORIG int sub_101CC4F0() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x101CC4F0u))(); }
@@ -1158,7 +1158,7 @@ XI_ORIG _WORD * YkInit() { return reinterpret_cast<_WORD * (__cdecl *)()>(XI_GAM
 XI_ORIG void sub_101D5680(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101D5680u))(a0); }
 XI_ORIG void sub_101EE7B0(int a0, void * a1) { reinterpret_cast<void (__thiscall *)(int, void *)>(XI_GAME(0x101EE7B0u))(a0, a1); }
 XI_ORIG _WORD * sub_1021BB90() { return reinterpret_cast<_WORD * (__cdecl *)()>(XI_GAME(0x1021BB90u))(); }
-XI_ORIG int CXiMovie_DrawFrame() { return reinterpret_cast<int (__cdecl *)()>(XI_GAME(0x1021D4C0u))(); }
+XI_ORIG int CXiMovie_DrawFrame(int a0, int a1, int a2, int a3, void * a4) { return reinterpret_cast<int (__cdecl *)(int, int, int, int, void *)>(XI_GAME(0x1021D4C0u))(a0, a1, a2, a3, a4); }
 XI_ORIG char Movie_Update(int a0) { return reinterpret_cast<char (__thiscall *)(int)>(XI_GAME(0x1021D980u))(a0); }
 XI_ORIG int Movie_GetCurrentTexture(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1021DDF0u))(a0); }
 XI_ORIG int sub_10220EF0(int a0, int a1, int a2, char a3) { return reinterpret_cast<int (__thiscall *)(int, int, int, char)>(XI_GAME(0x10220EF0u))(a0, a1, a2, a3); }

@@ -13,6 +13,7 @@ int __cdecl CXiActorNameDraw::SetRenderState()
   bool v4; // c0
   char v5; // c2
   bool v6; // c3
+  bool xi_fpu_unord = false;
 
   result = g_pSceneState;
   if ( *(_DWORD *)g_pSceneState == 96 )
@@ -38,10 +39,10 @@ int __cdecl CXiActorNameDraw::SetRenderState()
     for ( i = g_pActorDrawListHead; i != 0; i = *(_DWORD *)(i + 84) )
     {
       v3 = *(float *)(i + 140);
-      v4 = v3 < 0.0;
+      (xi_fpu_unord = __builtin_isunordered(v3, 0.0), v4 = v3 < 0.0);
       v5 = 0;
       v6 = v3 == 0.0;
-      if ( ((__int16)(((v4 || __builtin_isunordered(v3, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v3, 0.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v3, 0.0)) ? 0x4000 : 0)) & 0x100) == 0 )
+      if ( ((__int16)(((v4 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v6 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
         (*(void (__thiscall **)(int))(*(_DWORD *)i + 644))(i);
     }
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);

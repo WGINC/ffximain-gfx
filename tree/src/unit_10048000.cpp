@@ -16,6 +16,8 @@ XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
   int v13;
   int v14[4];
   int v15;
+  bool xi_fpu_unord = false;
+
   (*((void (__thiscall **)(void *, int *, int, int, int, int, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 35))(g_pProcessor, 
     v14,
     a2,
@@ -31,10 +33,10 @@ XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
   if ( *(float *)&(*(unsigned __int8 *)((char *)g_pProcessor + 0xA98)) < 0.0 )
     return false;
   v6 = *(float *)&(*(unsigned __int8 *)((char *)g_pProcessor + 0xA9C));
-  v7 = v6 < 1.0;
+  (xi_fpu_unord = __builtin_isunordered(v6, 1.0), v7 = v6 < 1.0);
   v8 = 0;
   v9 = v6 == 1.0;
-  if ( ((__int16)(((v7 || __builtin_isunordered(v6, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 1.0)) ? 0x400 : 0) | ((v9 || __builtin_isunordered(v6, 1.0)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v7 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v9 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
     return false;
   if ( a4 == nullptr )
     return true;
@@ -47,7 +49,7 @@ XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E630  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API double __cdecl fn_1004E630(int a1, int a2, __int16 *a3)
 {
   int v4;
@@ -81,7 +83,7 @@ XI_API double __cdecl fn_1004E630(int a1, int a2, __int16 *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E720  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 79, town2 PASS 79, combat PASS 79, zonetoinn PASS 79
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 76, town2 PASS 76, combat PASS 77, zonetoinn PASS 76
 XI_API void __thiscall fn_1004E720(_DWORD *self_, int a2)
 {
   int v2;

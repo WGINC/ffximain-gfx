@@ -278,7 +278,7 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D3B0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1391 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1232 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
 {
   int result;
@@ -378,7 +378,7 @@ LABEL_11:
 }
 
 // FUNCTION: FFXIMAIN 0x1001D940  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 39 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 39, town PASS 39, town2 PASS 39, combat PASS 39, zonetoinn PASS 39
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31, town PASS 31, town2 PASS 31, combat PASS 31, zonetoinn PASS 31
 XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
 {
   _DWORD *v4;
@@ -391,11 +391,13 @@ XI_API char __cdecl TexObj_InitFromHeader(int a1, int a2, int a3, int a4)
   int v11;
   int v12;
   unsigned __int8 v13;
-  int v15;
-  char v16;
-  char v17;
-  char v18;
-  char v19;
+  alignas(16) unsigned char xi_frame[0x414];  // address-taken locals at their original offsets
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0xC);
+  char &v16 = *reinterpret_cast<char *>(xi_frame + 0x10);
+  char &v17 = *reinterpret_cast<char *>(xi_frame + 0x11);
+  char &v18 = *reinterpret_cast<char *>(xi_frame + 0x12);
+  char &v19 = *reinterpret_cast<char *>(xi_frame + 0x13);
+
   orig::Util_Copy16Bytes(&v15, a2);
   orig::CYyTexBase_SetName((_DWORD *)a1, &v15);
   if ( v15 == 1700951395 && v16 == 109 && v17 == 97 && v18 == 112 && v19 == 32 )

@@ -3,7 +3,7 @@
 #include "CXiMovie.hpp"
 
 // FUNCTION: FFXIMAIN 0x10026AD0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 592 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 554 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -20,6 +20,8 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
   int v17;
   float v18;
   float a1a;
+  bool xi_fpu_unord = false;
+
   result = this->pMovieTexture;
   if ( result != 0 && (*(_DWORD *)(result + 64) != 0 || *(_DWORD *)(result + 68) != 0) )
   {
@@ -54,10 +56,10 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
     at<float>(this, 0x64) = v12;
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
     result = (int)(((uint32_t)(result) & 0xFFFFu) | ((uint32_t)(uint16_t)((unsigned int)orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self + 12, 28) >> 16) << 16));
-    v14 = *(float *)&a3 < 1.0;
+    (xi_fpu_unord = __builtin_isunordered(*(float *)&a3, 1.0), v14 = *(float *)&a3 < 1.0);
     v15 = 0;
     v16 = *(float *)&a3 == 1.0;
-    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v14 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&a3, 1.0)) ? 0x400 : 0) | ((v16 || __builtin_isunordered(*(float *)&a3, 1.0)) ? 0x4000 : 0))) << 0));
+    result = (int)(((uint32_t)(result) & 0xFFFF0000u) | ((uint32_t)(uint16_t)((__int16)(((v14 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v16 || xi_fpu_unord) ? 0x4000 : 0))) << 0));
     if ( *(float *)&a3 != 1.0 )
     {
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
@@ -69,53 +71,46 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 18 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 18, town PASS 22, town2 PASS 23, combat PASS 25, zonetoinn PASS 23
-int __cdecl CXiMovie::DrawFrame()
+// GATE: PASS -- 100 trials, 25 returned normally, 51 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 25, town PASS 32, town2 PASS 31, combat PASS 33, zonetoinn PASS 30
+int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float * scale)
 {
   int result;
   IDirect3DDevice8 *pDevice;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int CurrentTexture;
   int v4;
-  float v5;
-  int a3;
-  float v7;
-  float v8;
-  int v9;
-  int v10;
-  int v11;
-  int v12;
-  float v13;
-  float v14;
-  float v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  float v21;
-  float v22;
-  int v23;
-  int v24;
-  int v25;
-  int v26;
-  float v27;
-  float v28;
-  int v29;
-  int v30;
-  int v31;
-  int v32;
-  int v33;
-  _BYTE v34[32];
-  int v35;
-  int v36;
-  int v37;
-  int v38;
-  int v39;
-  int v40;
-  int v41;
-  int v42;
-  float *v43;
+  alignas(16) unsigned char xi_frame[0x560];  // address-taken locals at their original offsets
+  float &v5 = *reinterpret_cast<float *>(xi_frame + 0xCC);
+  int &a3 = *reinterpret_cast<int *>(xi_frame + 0xD0);
+  float &v7 = *reinterpret_cast<float *>(xi_frame + 0xD4);
+  float &v8 = *reinterpret_cast<float *>(xi_frame + 0xD8);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0xDC);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0xE0);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0xE4);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0xE8);
+  float &v13 = *reinterpret_cast<float *>(xi_frame + 0xEC);
+  float &v14 = *reinterpret_cast<float *>(xi_frame + 0xF0);
+  float &v15 = *reinterpret_cast<float *>(xi_frame + 0xF4);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0xF8);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xFC);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0x108);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x10C);
+  float &v22 = *reinterpret_cast<float *>(xi_frame + 0x110);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int &v25 = *reinterpret_cast<int *>(xi_frame + 0x11C);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  float &v27 = *reinterpret_cast<float *>(xi_frame + 0x124);
+  float &v28 = *reinterpret_cast<float *>(xi_frame + 0x128);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x12C);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x130);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x134);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x138);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x13C);
+  _BYTE (&v34)[32] = *reinterpret_cast<_BYTE (*)[32]>(xi_frame + 0x140);
+
   if ( g_pMovie != 0 )
   {
     orig::Movie_Update(g_pMovie);
@@ -130,23 +125,23 @@ int __cdecl CXiMovie::DrawFrame()
       result = (*(int (__stdcall **)(int, _DWORD, _BYTE *))(*(_DWORD *)v4 + 56))(v4, 0, v34);
       if ( result >= 0 )
       {
-        v36 = (__int64)(((double)v35 + *v43) * v43[1]);
-        v40 = (__int64)(((double)v39 + *v43) * v43[1]);
-        v42 = (__int64)(((double)v41 + v43[2]) * v43[3]);
-        v38 = (__int64)(((double)v37 + v43[2]) * v43[3]);
+        rcLeft = (__int64)(((double)rcLeft + *scale) * scale[1]);
+        rcRight = (__int64)(((double)rcRight + *scale) * scale[1]);
+        rcBottom = (__int64)(((double)rcBottom + scale[2]) * scale[3]);
+        rcTop = (__int64)(((double)rcTop + scale[2]) * scale[3]);
         v8 = 0.0;
         v9 = 1065353216;
-        *(float *)&a3 = (float)v36;
+        *(float *)&a3 = (float)rcLeft;
         v10 = -2139062144;
         v11 = 0;
         v12 = 1065353216;
         v15 = 0.0;
-        v7 = (float)v38;
+        v7 = (float)rcTop;
         v16 = 1065353216;
         v17 = -2139062144;
         v18 = 1065353216;
         v19 = 1065353216;
-        v5 = (float)v40;
+        v5 = (float)rcRight;
         v13 = v5;
         v22 = 0.0;
         v14 = v7;
@@ -156,7 +151,7 @@ int __cdecl CXiMovie::DrawFrame()
         v24 = -2139062144;
         v25 = 0;
         v26 = 0;
-        v21 = (float)v42;
+        v21 = (float)rcBottom;
         v28 = v21;
         v29 = 0;
         v30 = 1065353216;

@@ -47,7 +47,7 @@ _DWORD * CMoProcessor::InitRotationMatrices()
 }
 
 // FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 198 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 51, town2 PASS 51, combat PASS 51, zonetoinn PASS 51
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 50, town2 PASS 50, combat PASS 50, zonetoinn PASS 50
 int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -69,7 +69,7 @@ int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1006E970  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 53, town2 PASS 53, combat PASS 54, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 55, town2 PASS 55, combat PASS 54, zonetoinn PASS 55
 CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5)
 {
   CMoProcessor *result;
@@ -99,6 +99,8 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
   float v30;
   float v31;
   float v32;
+  bool xi_fpu_unord = false;
+
   result = (CMoProcessor *)g_pResourceMng;
   if ( g_pResourceMng != 0 )
   {
@@ -130,17 +132,17 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
         v17 = (1.0 - v16 * v29) * *(float *)(g_pResourceMng + 3524);
         if ( v32 < (double)v26 )
           v26 = v32;
-        v19 = v32 < (double)v28;
+        (xi_fpu_unord = __builtin_isunordered(v32, (double)v28), v19 = v32 < (double)v28);
         v20 = 0;
         v21 = v32 == v28;
-        if ( ((__int16)(((v19 || __builtin_isunordered(v32, (double)v28)) ? 0x100 : 0) | ((__builtin_isunordered(v32, (double)v28)) ? 0x400 : 0) | ((v21 || __builtin_isunordered(v32, (double)v28)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v19 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v21 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           v28 = v32;
         if ( v17 < v27 )
           v27 = v17;
-        v22 = v17 < v8;
+        (xi_fpu_unord = __builtin_isunordered(v17, v8), v22 = v17 < v8);
         v23 = 0;
         v24 = v17 == v8;
-        if ( ((__int16)(((v22 || __builtin_isunordered(v17, v8)) ? 0x100 : 0) | ((__builtin_isunordered(v17, v8)) ? 0x400 : 0) | ((v24 || __builtin_isunordered(v17, v8)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v22 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v24 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         {
           v30 = v17;
           v8 = v30;

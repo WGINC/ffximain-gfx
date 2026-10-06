@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10003890  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 5 returned normally, 12624 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz UNRESOLVED 0, town PASS 5, town2 PASS 5, combat PASS 5, zonetoinn PASS 5
+// GATE: PASS -- 100 trials, 3 returned normally, 8244 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz UNRESOLVED 0, town PASS 3, town2 PASS 3, combat PASS 3, zonetoinn PASS 3
 XI_API void __thiscall fn_10003890(_DWORD *self_)
 {
   int v2;
@@ -76,7 +76,7 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10007EF0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
 {
   _DWORD *v2;

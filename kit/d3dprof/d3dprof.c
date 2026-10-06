@@ -62,6 +62,7 @@ enum { S_PRESENT = 15, S_SETRT = 31, S_BEGIN = 34, S_END = 35, S_RS = 50, S_STAT
        S_SSS = 83, S_SETIND = 85 };
 
 static void **g_orig;                 /* the device's own vtable */
+static void *g_next[NSLOTS];          /* where each thunk goes on to: g_orig's method, or a logging wrapper (resources, below) */
 static void *g_vt[NSLOTS];            /* the copy the device is given */
 static uint32_t g_rel;                /* load address - analysed address */
 static uint32_t g_lo, g_hi;           /* the game DLL's address range as loaded */
@@ -96,6 +97,232 @@ static uint32_t g_frames;
 static uint64_t g_calls_window, g_draws_window, g_prims_window, g_redundant_window;
 static LARGE_INTEGER g_qpf, g_last_present;
 static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
+
+
+/* ------------------------------------------------------------------------------------------------ call trace
+   A record of every call the render thread makes through the device, for a few frames: slot, call site (as in the
+   profile), the method's first parameters, and a hash of what a pointer parameter points at where the method reads
+   a structure through it (transform 64 bytes, viewport 24, material 68, light 104, clip plane 16, shader constants,
+   and the vertex data of the two ...UP draws). The kit records frames with its swaps off, then on, in one session
+   (xikit.c: Ctrl+Alt+F8), and trace_diff.py compares the two by call site. Vertex buffers a draw uses are not
+   hashed: their contents are written through a locked pointer, not through a device call. */
+#define SLOT_VB_UNLOCK 97                /* buffer records (below): not device methods */
+#define SLOT_IB_UNLOCK 98
+static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2, 1, 4, 3, 1, 2, 1, 7, 8, 6, 5, 5, 6, 5, 4, 5, 2, 1, 2, 1, 1, 0, 0, 6, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 2, 2, 3, 3, 1, 3, 2, 2, 1, 1, 3, 5, 4, 8, 5, 4, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 1};
+typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
+#define TRACE_MAX 1500000           /* records (40 bytes each); a busy scene makes 35000 calls a frame. Fewer if the address space has no room: */
+#define TRACE_MIN 400000
+static uint32_t g_trace_cap;
+static Rec *g_trace; static uint32_t g_ntrace, g_trace_dropped, g_trace_frame; static int g_trace_label = -1;
+/* the bytes themselves for the small structures a call reads (a matrix, a vertex list up to 128 bytes), so a difference
+   can be read field by field: per record an offset into g_bytes and a length (0: none) */
+#define TRACE_BYTES (24u << 20)
+static uint8_t *g_bytes; static uint32_t g_nbytes, *g_boff; static uint8_t *g_blen;
+/* the device state each draw ran with (docs/KIT.md): per draw record a hash of what the shadow below knows, and per
+   distinct hash the state itself, written with the trace. A state the shadow does not know (never set since the
+   kit attached, or since a state block was applied or the device reset: forget_state) is written as unknown */
+static uint32_t *g_st;
+typedef struct { uint32_t rs[256], tss[8][32], tex[8], vs, ib, vb[16], stride[16]; } Snap;
+#define MAXSNAP 4096
+static Snap *g_snap; static uint32_t g_snaph[MAXSNAP], g_nsnap, g_snap_collide;
+static void keep_bytes(uint32_t rec, const void *p, uint32_t n) {
+  g_blen[rec] = 0;
+  if (!p || n == 0 || n > 128 || g_nbytes + n > TRACE_BYTES || IsBadReadPtr(p, n)) return;
+  for (uint32_t k = 0; k < n; k++) g_bytes[g_nbytes + k] = ((const uint8_t *)p)[k];   /* (no CRT call: test_thunks.py) */
+  g_boff[rec] = g_nbytes; g_blen[rec] = (uint8_t)n; g_nbytes += n;
+}
+
+static uint32_t fnv(const void *p, uint32_t n) {
+  uint32_t h = 2166136261u;
+  if (!p || n == 0 || n > 0x1000000 || IsBadReadPtr(p, n)) return 0xDEAD0000u | (p ? 1u : 0u);
+  for (uint32_t i = 0; i < n; i++) h = (h ^ ((const uint8_t *)p)[i]) * 16777619u;
+  return h;
+}
+static uint32_t prim_verts(uint32_t type, uint32_t n) {     /* D3DPRIMITIVETYPE: POINTLIST 1 .. TRIANGLEFAN 6 */
+  switch (type) { case 1: return n; case 2: return 2 * n; case 3: return n + 1; case 4: return 3 * n; case 5: case 6: return n + 2; }
+  return 0;
+}
+
+static void state_now(Snap *s) {
+  memcpy(s->rs, g_rs, sizeof s->rs); memcpy(s->tss, g_tss, sizeof s->tss);
+  for (int i = 0; i < 8; i++) s->tex[i] = (uint32_t)(uintptr_t)g_tex[i];
+  s->vs = g_vs; s->ib = g_ib;
+  for (int i = 0; i < 16; i++) { s->vb[i] = (uint32_t)(uintptr_t)g_vb[i]; s->stride[i] = g_vbstride[i]; }
+}
+static uint32_t state_hash(void) {        /* the current state's hash; its first occurrence in the trace is kept */
+  static Snap cur; state_now(&cur);
+  uint32_t h = 2166136261u; const uint8_t *b = (const uint8_t *)&cur;
+  for (uint32_t i = 0; i < sizeof cur; i++) h = (h ^ b[i]) * 16777619u;
+  if (!g_snap) g_snap = (Snap *)VirtualAlloc(NULL, MAXSNAP * sizeof(Snap), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  for (uint32_t k = 0; k < g_nsnap; k++) if (g_snaph[k] == h) { if (memcmp(&g_snap[k], &cur, sizeof cur)) g_snap_collide++; return h; }
+  if (g_snap && g_nsnap < MAXSNAP) { g_snaph[g_nsnap] = h; g_snap[g_nsnap++] = cur; }
+  return h;
+}
+
+static void pend_clear(void);
+void d3dprof_trace_start(int label) {
+  for (uint32_t cap = TRACE_MAX; !g_trace && cap >= TRACE_MIN; cap /= 2) {
+    g_trace = (Rec *)VirtualAlloc(NULL, cap * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    g_bytes = g_trace ? (uint8_t *)VirtualAlloc(NULL, TRACE_BYTES + cap * 9, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE) : NULL;
+    if (g_trace && !g_bytes) { VirtualFree(g_trace, 0, MEM_RELEASE); g_trace = NULL; }
+    if (g_bytes) { g_trace_cap = cap; g_boff = (uint32_t *)(g_bytes + TRACE_BYTES); g_st = g_boff + cap; g_blen = (uint8_t *)(g_st + cap); }
+  }
+  if (!g_trace || !g_bytes) return;
+  if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; g_nbytes = 0; g_nsnap = 0; g_snap_collide = 0; }
+  pend_clear();
+  g_trace_label = label; g_trace_frame = 0;
+}
+void d3dprof_trace_stop(void) { g_trace_label = -1; }
+/* the alternating trace (xikit.c): the label of the frame that starts now, without restarting the record */
+void d3dprof_trace_relabel(int label) { if (g_trace_label >= 0) g_trace_label = label; }
+void d3dprof_trace_frames(int *n_out) { if (n_out) *n_out = (int)g_trace_frame; }
+int d3dprof_trace_write(const char *path, const char *note) {
+  if (!g_trace) return 0;
+  FILE *f = fopen(path, "w");
+  if (!f) return 0;
+  fprintf(f, "# d3d trace v1: %s\n# label frame slot method call_site nparams a2..a7 hash; call site = analysed address (0x10xxxxxx) or the raw return address\n"
+             "# %u records, %u dropped\n", note, g_ntrace, g_trace_dropped);
+  for (uint32_t i = 0; i < g_ntrace; i++) {
+    Rec *r = &g_trace[i];
+    fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot,
+            r->slot < NSLOTS ? NAMES[r->slot] : r->slot == SLOT_VB_UNLOCK ? "VB_Unlock" : "IB_Unlock", r->site, r->np);
+    for (int k = 0; k < r->np && k < 6; k++) fprintf(f, " %08X", r->a[k]);
+    fprintf(f, " %08X", r->h);
+    if (g_blen && g_blen[i]) { fputs(" d=", f); for (uint32_t k = 0; k < g_blen[i]; k++) fprintf(f, "%02X", g_bytes[g_boff[i] + k]); }
+    if (g_st && g_st[i]) fprintf(f, " s=%08X", g_st[i]);
+    fputc('\n', f);
+  }
+  /* the states the draws ran with: only what is known (0xFFFFFFFF: not known, written as nothing) */
+  fprintf(f, "# states: %u distinct (hash collisions with a different state: %u); per state: rs:STATE=VALUE tss:STAGE.TYPE=VALUE tex:STAGE=OBJECT vs ib vb:STREAM=OBJECT/STRIDE\n", g_nsnap, g_snap_collide);
+  for (uint32_t k = 0; k < g_nsnap; k++) {
+    Snap *sn = &g_snap[k]; fprintf(f, "#S %08X", g_snaph[k]);
+    for (int i = 0; i < 256; i++) if (sn->rs[i] != 0xFFFFFFFFu) fprintf(f, " rs:%d=%X", i, sn->rs[i]);
+    for (int st = 0; st < 8; st++) for (int i = 0; i < 32; i++) if (sn->tss[st][i] != 0xFFFFFFFFu) fprintf(f, " tss:%d.%d=%X", st, i, sn->tss[st][i]);
+    for (int i = 0; i < 8; i++) if (sn->tex[i] != 0xFFFFFFFFu) fprintf(f, " tex:%d=%X", i, sn->tex[i]);
+    if (sn->vs != 0xFFFFFFFFu) fprintf(f, " vs=%X", sn->vs);
+    if (sn->ib != 0xFFFFFFFFu) fprintf(f, " ib=%X", sn->ib);
+    for (int i = 0; i < 16; i++) if (sn->vb[i] != 0xFFFFFFFFu) fprintf(f, " vb:%d=%X/%u", i, sn->vb[i], sn->stride[i]);
+    fputc('\n', f);
+  }
+  fclose(f); return 1;
+}
+/* Vertex and index buffer contents. The game writes them through the pointer IDirect3DVertexBuffer8::Lock /
+   IDirect3DIndexBuffer8::Lock returns (slots 11 and 12 Unlock, 13 GetDesc in the D3D8 header for both), not
+   through the device, so the device trace cannot see them. While a trace is armed, every buffer the game binds
+   (SetStreamSource, SetIndices) gets a copy of its class's vtable with Lock and Unlock wrapped (that object only, as
+   for the device); at Unlock the locked range is hashed and recorded as VB_Unlock / IB_Unlock with the call site of
+   the Lock: the function that filled it. Also counted: dwords whose float exponent is all ones (inf/NaN, also what a
+   D3DCOLOR with alpha 0xFF looks like) and dwords that are floats of magnitude 2^20 or more. */
+#define NBUFCLS 16
+#define BUFVT 14
+typedef HRESULT (__stdcall *LockFn)(void *, UINT, UINT, BYTE **, DWORD);
+typedef HRESULT (__stdcall *UnlockFn)(void *);
+typedef HRESULT (__stdcall *DescFn)(void *, void *);
+static void **g_bc_orig[NBUFCLS]; static void *g_bc_copy[NBUFCLS][BUFVT]; static uint8_t g_bc_kind[NBUFCLS]; static int g_nbc;
+static int g_hookbufs;
+typedef struct { void *obj; uint8_t *p; uint32_t off, size, site; } Pending;
+#define NPEND 1024
+static Pending g_pend[NPEND];
+static int bc_of(void **vp) { for (int i = 0; i < g_nbc; i++) if (vp == (void **)g_bc_copy[i]) return i; return -1; }
+static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DWORD flags);
+static HRESULT __stdcall buf_unlock(void *self);
+static void hook_buf(void *obj, int kind) {
+  if (!obj || IsBadReadPtr(obj, 4)) return;
+  void **vp = *(void ***)obj;
+  if (bc_of(vp) >= 0 || IsBadReadPtr(vp, BUFVT * 4)) return;
+  int i = 0;
+  while (i < g_nbc && g_bc_orig[i] != vp) i++;
+  if (i == g_nbc) {
+    if (g_nbc >= NBUFCLS) return;
+    memcpy(g_bc_copy[i], vp, sizeof g_bc_copy[i]);
+    g_bc_copy[i][11] = (void *)buf_lock; g_bc_copy[i][12] = (void *)buf_unlock;
+    g_bc_orig[i] = vp; g_bc_kind[i] = (uint8_t)kind; g_nbc++;
+  }
+  *(void ***)obj = (void **)g_bc_copy[i];
+}
+void d3dprof_trace_hookbufs(int on) { g_hookbufs = on; }
+static void pend_clear(void) { for (int i = 0; i < NPEND; i++) g_pend[i].obj = NULL; }   /* (no CRT call: test_thunks.py runs this) */
+#ifdef _MSC_VER
+#include <intrin.h>
+#define RETADDR() ((uint32_t)(uintptr_t)_ReturnAddress())
+#else
+#define RETADDR() ((uint32_t)(uintptr_t)__builtin_return_address(0))
+#endif
+static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DWORD flags) {
+  uint32_t ra = RETADDR();
+  int i = bc_of(*(void ***)self);
+  if (i < 0) return E_FAIL;                         /* cannot happen: only objects given this vtable copy get here */
+  HRESULT hr = ((LockFn)g_bc_orig[i][11])(self, off, size, pp, flags);
+  if (g_trace_label >= 0 && hr >= 0 && pp && *pp && GetCurrentThreadId() == g_thread) {
+    if (size == 0) {                                /* the whole buffer from off: the size is in the description */
+      uint32_t d[8] = {0};
+      if (((DescFn)g_bc_orig[i][13])(self, d) >= 0 && d[4] > off) size = d[4] - off;
+    }
+    uint32_t h = ((uint32_t)(uintptr_t)self >> 4) & (NPEND - 1);
+    for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1))
+      if (!g_pend[h].obj || g_pend[h].obj == (void *)1 || g_pend[h].obj == self) {
+        g_pend[h].obj = self; g_pend[h].p = *pp; g_pend[h].off = off; g_pend[h].size = size;
+        g_pend[h].site = ra >= g_lo && ra < g_hi ? ra - g_rel : ra; break;
+      }
+  }
+  return hr;
+}
+static HRESULT __stdcall buf_unlock(void *self) {
+  int i = bc_of(*(void ***)self);
+  if (i < 0) return E_FAIL;
+  uint32_t h = ((uint32_t)(uintptr_t)self >> 4) & (NPEND - 1);
+  for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1)) {
+    if (!g_pend[h].obj) break;
+    if (g_pend[h].obj != self) continue;
+    Pending q = g_pend[h]; g_pend[h].obj = (void *)1;    /* a tombstone keeps later entries of the probe reachable */
+    if (g_trace_label >= 0 && g_trace && GetCurrentThreadId() == g_thread) {
+      if (g_ntrace >= g_trace_cap) { g_trace_dropped++; break; }
+      uint32_t nonfinite = 0, huge = 0;
+      if (q.size <= 0x1000000 && !IsBadReadPtr(q.p, q.size))
+        for (uint32_t k = 0; k + 4 <= q.size; k += 4) {
+          uint32_t w = *(const uint32_t *)(q.p + k), e = (w >> 23) & 0xFF;
+          if (e == 0xFF) nonfinite++; else if (e >= 147) huge++;
+        }
+      Rec *r = &g_trace[g_ntrace++];
+      r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = g_bc_kind[i] ? SLOT_IB_UNLOCK : SLOT_VB_UNLOCK;
+      r->site = q.site; r->np = 4; r->a[0] = q.off; r->a[1] = q.size; r->a[2] = nonfinite; r->a[3] = huge; r->a[4] = r->a[5] = 0;
+      r->h = fnv(q.p, q.size); g_blen[g_ntrace - 1] = 0;
+    }
+    break;
+  }
+  return ((UnlockFn)g_bc_orig[i][12])(self);
+}
+
+static void trace_call(int slot, uint32_t *a, uint32_t site) {
+  if (g_hookbufs && GetCurrentThreadId() == g_thread) {
+    if (slot == S_SSS) hook_buf((void *)a[3], 0);
+    else if (slot == S_SETIND) hook_buf((void *)a[2], 1);
+  }
+  if (g_trace_label < 0 || !g_trace) return;
+  if (g_ntrace >= g_trace_cap) { g_trace_dropped++; return; }
+  Rec *r = &g_trace[g_ntrace++];
+  r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = (uint16_t)slot; r->site = site; r->np = NPARAM[slot];
+  for (int k = 0; k < 6; k++) r->a[k] = k < r->np ? a[2 + k] : 0;
+  uint32_t h = 0;
+  switch (slot) {
+  case 37: case 39: h = fnv((void *)a[3], 64); break;                       /* SetTransform, MultiplyTransform */
+  case 40: h = fnv((void *)a[2], 24); break;                                /* SetViewport */
+  case 42: h = fnv((void *)a[2], 68); break;                                /* SetMaterial */
+  case 44: h = fnv((void *)a[3], 104); break;                               /* SetLight */
+  case 48: h = fnv((void *)a[3], 16); break;                                /* SetClipPlane */
+  case 79: case 91: h = fnv((void *)a[3], 16 * a[4]); break;                /* Set{Vertex,Pixel}ShaderConstant */
+  case 72: h = fnv((void *)a[4], prim_verts(a[2], a[3]) * a[5]); break;     /* DrawPrimitiveUP(type, count, data, stride) */
+  case 73: h = fnv((void *)a[8], (a[3] + a[4]) * a[9]); break;              /* DrawIndexedPrimitiveUP(type, min, num, count, idx, fmt, data, stride) */
+  }
+  r->h = h;
+  switch (slot) {                                                           /* the bytes too, where small */
+  case 37: case 39: keep_bytes(g_ntrace - 1, (void *)a[3], 64); break;
+  case 44: keep_bytes(g_ntrace - 1, (void *)a[3], 104); break;           /* a light: animated lights are told apart by value */
+  case 72: keep_bytes(g_ntrace - 1, (void *)a[4], prim_verts(a[2], a[3]) * a[5]); break;
+  default: g_blen[g_ntrace - 1] = 0;
+  }
+  g_st[g_ntrace - 1] = (slot >= S_DP && slot <= S_DIPUP) ? state_hash() : 0;
+}
 
 static Site *site_of(uint32_t site, int slot, int kind) {
   uint32_t h = (site * 2654435761u ^ (uint32_t)slot * 40503u ^ (uint32_t)kind * 97u) & (MAXSITES - 1);
@@ -138,13 +365,24 @@ static void report(void) {
 
 /* called by the thunk with the method's slot and the caller's stack (a[0] = return address, a[1] = this,
    a[2...] = the method's parameters); returns the original method, which the thunk jumps to */
+/* xikit's device hooks for mods (xikit.c, device_hook) sit in front of these thunks. When one runs on the render
+   thread, the kit pushes the return address of the call it intercepted here (and pops it when that call returns),
+   so a call the mod's hook passes on, or makes itself, is recorded with the site of the call it is handling, not
+   with an address inside the mod */
+uint32_t d3dprof_via_stk[64]; volatile uint32_t d3dprof_via_depth;
+const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES[slot] : NULL; }
+
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
-  if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_orig[slot]; }
+  if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_next[slot]; }
   /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
-  int game = a[0] >= g_lo && a[0] < g_hi;
-  uint32_t ret = game ? a[0] - g_rel : a[0];
+  uint32_t ra = a[0];
+  if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
+  int game = ra >= g_lo && ra < g_hi;
+  uint32_t ret = game ? ra - g_rel : ra;
   int redundant = 0; uint32_t prims = 0;
+  trace_call(slot, a, ret);
+  if (slot == S_PRESENT && g_trace_label >= 0) g_trace_frame++;
   if (slot == 52) g_recording = 1;
   else if (slot == 53) g_recording = 0;
   if (!g_recording) switch (slot) {
@@ -182,7 +420,7 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     }
     g_last_present = now;
   }
-  return g_orig[slot];
+  return g_next[slot];
 }
 
 /* one thunk per slot: EAX = slot (EAX is not preserved across a stdcall method anyway), then the common
@@ -225,6 +463,84 @@ static void *const THUNKS[NSLOTS] = {P(0), P(1), P(2), P(3), P(4), P(5), P(6), P
   P10(1), P10(2), P10(3), P10(4), P10(5), P10(6), P10(7), P10(8),
   P(90), P(91), P(92), P(93), P(94), P(95), P(96)};
 
+
+/* ------------------------------------------------------------------------------------------------ resources
+   Every texture, buffer, surface and vertex shader the device creates (any thread), with the call site that asked
+   for it, its parameters and the object it got: <dir>/xikit_resources_<pid>.csv, appended as they happen. A
+   vertex shader's declaration and function tokens are saved as xikit_vshader_<pid>_<handle>.bin, exactly as the
+   game passed them (kit/d3dprof/vshader.py reads them). The wrappers sit after the thunk (g_next) and call the
+   device's own method, so the counts and the trace see the call as before. */
+static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_PATH]; static int g_res_init;
+static uint32_t site_of_ra(uint32_t ra) { return ra >= g_lo && ra < g_hi ? ra - g_rel : ra; }
+static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, uint32_t obj, HRESULT hr) {
+  if (!g_res_init) return;
+  EnterCriticalSection(&g_reslock);
+  if (!g_res) {
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_resources_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
+    g_res = fopen(path, "a");
+    if (g_res) fprintf(g_res, "# resources created through the device: frame,thread,method,call_site,result,object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
+  }
+  if (g_res) {
+    fprintf(g_res, "%u,%s,%s,0x%08X,%08lX,%08X", g_frames, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra), (unsigned long)hr, obj);
+    for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
+    fputc('\n', g_res); fflush(g_res);
+  }
+  LeaveCriticalSection(&g_reslock);
+}
+#define RA() ((uint32_t)(uintptr_t)__builtin_return_address(0))
+#define OBJ(pp) ((hr >= 0 && (pp)) ? (uint32_t)(uintptr_t)*(pp) : 0)
+static HRESULT __stdcall w_tex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[20])(d, w, h, lv, us, fmt, pool, pp);
+  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_vol(void *d, UINT w, UINT h, UINT dp, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[21])(d, w, h, dp, lv, us, fmt, pool, pp);
+  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_cube(void *d, UINT e, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[22])(d, e, lv, us, fmt, pool, pp);
+  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_vb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[23])(d, len, us, fvf, pool, pp);
+  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_ib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[24])(d, len, us, fmt, pool, pp);
+  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_rt(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, BOOL lk, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, BOOL, void **))g_orig[25])(d, w, h, fmt, ms, lk, pp);
+  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_ds(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, void **))g_orig[26])(d, w, h, fmt, ms, pp);
+  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_img(void *d, UINT w, UINT h, DWORD fmt, void **pp) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, void **))g_orig[27])(d, w, h, fmt, pp);
+  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr); return hr; }
+static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWORD *handle, DWORD usage) {
+  HRESULT hr = ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_orig[75])(d, decl, func, handle, usage);
+  uint32_t h = (hr >= 0 && handle) ? *handle : 0, nd = 0, nf = 0;
+  if (decl) while (nd < 512 && decl[nd] != 0xFFFFFFFFu) nd++;          /* D3DVSD_END() */
+  if (func) while (nf < 65536 && func[nf] != 0x0000FFFFu) nf++;         /* the end token */
+  uint32_t a[3] = {nd + (decl ? 1 : 0), nf + (func ? 1 : 0), usage};
+  res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr);
+  if (hr >= 0 && g_res_init) {
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vshader_%lu_%08X.bin", g_resdir, (unsigned long)GetCurrentProcessId(), h);
+    FILE *f = fopen(path, "wb");
+    if (f) { uint32_t head[4] = {0x48535658u /* "XVSH" */, h, a[0], a[1]}; fwrite(head, 4, 4, f);
+             if (decl) fwrite(decl, 4, a[0], f);
+             if (func) fwrite(func, 4, a[1], f);
+             fclose(f); }
+  }
+  return hr;
+}
+static void resources_init(void) {
+  InitializeCriticalSection(&g_reslock);
+  snprintf(g_resdir, sizeof g_resdir, "%s", g_out); char *sl = strrchr(g_resdir, '\\'); if (sl) *sl = 0; else snprintf(g_resdir, sizeof g_resdir, ".");
+  g_res_init = 1;
+}
+static void set_next(void) {
+  for (int k = 0; k < NSLOTS; k++) g_next[k] = g_orig[k];
+  g_next[20] = (void *)w_tex; g_next[21] = (void *)w_vol; g_next[22] = (void *)w_cube; g_next[23] = (void *)w_vb; g_next[24] = (void *)w_ib;
+  g_next[25] = (void *)w_rt; g_next[26] = (void *)w_ds; g_next[27] = (void *)w_img; g_next[75] = (void *)w_vs;
+}
+
 #ifdef XIKIT
 /* built into the in-game kit (kit/xikit): no thread of its own; the kit finds the device and calls this. The
    device's current vtable (the kit's copy) becomes what every thunk calls on to, so the two chain. */
@@ -232,7 +548,7 @@ void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const ch
   snprintf(g_out, sizeof g_out, "%s", csv);
   g_rel = rel; g_lo = lo; g_hi = hi;
   QueryPerformanceFrequency(&g_qpf); forget_state();
-  g_orig = (void **)*dev;
+  g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;
 }
@@ -263,7 +579,7 @@ static DWORD WINAPI start(LPVOID self) {
     Sleep(200);
   }
   QueryPerformanceFrequency(&g_qpf); forget_state();
-  g_orig = (void **)*dev;
+  g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;                             /* this object only; the driver's vtable is untouched */
   char msg[160]; snprintf(msg, sizeof msg, "hooked: FFXiMain.dll at %p, device %p, its vtable %p", game, dev, g_orig);

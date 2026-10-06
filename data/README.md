@@ -20,8 +20,12 @@ here regenerates it.
 | `sp_solved.json` | Indirect calls' pops solved from the caller's stack balance | `sp_solve.py` |
 | `vcalls.json` | Virtual calls whose every possible callee is proven | `vcall_resolve.py` |
 | `ecx_use.json` | Functions that read their entry ECX, with the instruction | `vcall_resolve.py` |
+| `edx_use.json` | Functions that read their entry EDX, with the instruction | `edx_inputs.py` |
+| `ecx_this_sites.json` | Virtual calls where the original enters the callee with ECX = the object, and whether it is also pushed | `ecx_this_sites.py` |
+| `reg_kept_audit.json` | EAX/ECX/EDX values the original keeps live across a call to a callee that leaves them untouched, and where it uses them | `reg_kept_audit.py` |
 | `com_calls.json` | D3D8 calls on a proven object, with the header's pop | `com_calls.py` |
 | `real_sp.json` | Stack depth measured running real code | `real_sp.py` |
+| `game_sp.json` | What a callee pops at call sites the gate could not settle, measured in the running game (xikit `facts=1`); recorded only where every observed call agreed (not re-derivable: an observation) | `fact_sites.py ingest` |
 | `callsite_args.json` | Each call's type as the IDB declares it (`typed`) or Hex-Rays made up (`cast`) | `callsites.py` |
 | `callsite_audit.json` | All sources side by side for every indirect call | `callsite_audit.py` |
 | `ret_kinds.json` | EAX at `ret`: 0/1, or AL 0/1 | `ret_kinds.py` |
@@ -77,3 +81,4 @@ here regenerates it.
 | File | What | From |
 |---|---|---|
 | `gfx_extension.json` | The 267 graphics-related functions outside the set, by tier | `gfx_coverage.py` |
+| `../verification/coverage_clean.json` | Per function, the original's instructions and calls no compared gate trial reached, over the fuzz and live gates | `combine_coverage.py` (gates run with `FFXI_COVERAGE=1`) |

@@ -1,0 +1,11 @@
+{
+ "why": "The original returns a1 on both paths: 0x1006B4C0 `mov eax,[esp+4]` puts a1 in EAX, and the call at 0x1006B4CF goes to 0x10069E90 (nullsub_43), whose only instruction is `ret`, so EAX still holds a1 at 0x1006B4D4 `ret 4`. Hex-Rays assumes a call sets EAX and wrote `return nullsub_43(...)`, so the reconstruction returned whatever EAX the call left: 0x10069E90 in the in-game build, where the call goes through a register (gate of gfx_recon_ingame.dll on fuzz: 'EAX 0x30000F50 vs 0x10069E90'), and a1 in the clean build only by how that build happened to compile the call.",
+ "evidence": "Disassembly of 0x1006B4C0..0x1006B4D4 and of 0x10069E90 (`ret`); data/reg_kept_audit.json (EAX kept across 0x10069E90 to the return).",
+ "text_sha1": "fda4cea9af6b7b978a1b8a5895c13ba35ad9302b",
+ "replace": [
+  [
+   "    return (_DWORD *)nullsub_43(g_pResourceMng);",
+   "  {\n    nullsub_43(g_pResourceMng);\n    return result;\n  }"
+  ]
+ ]
+}

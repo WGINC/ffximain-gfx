@@ -18,7 +18,7 @@ XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x1006C300  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 53, town2 PASS 53, combat PASS 52, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 54 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 53, town2 PASS 52, combat PASS 54, zonetoinn PASS 53
 XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0, int a2, int a5, int a6, int a7, int a8, int _60, char a9, int a10)
 {
   int v10;
@@ -92,7 +92,7 @@ XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C530  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 99, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 97, zonetoinn PASS 98
 XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
   double v9;
@@ -203,12 +203,14 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C9B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 77, town2 PASS 77, combat PASS 77, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70, town PASS 70, town2 PASS 70, combat PASS 70, zonetoinn PASS 70
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 {
   int result;
-  int v3;
-  _BYTE v4[32];
+  alignas(16) unsigned char xi_frame[0x438];  // address-taken locals at their original offsets
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x14);
+  _BYTE (&v4)[32] = *reinterpret_cast<_BYTE (*)[32]>(xi_frame + 0x18);
+
   if ( *(_DWORD *)(g_pOcclusionMng + 12) == 0 )
     orig::OcclusionMng_CreateTarget((_DWORD *)g_pOcclusionMng);
   result = *(self_ + 1);

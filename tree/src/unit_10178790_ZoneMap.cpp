@@ -23,7 +23,7 @@ XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 57 returned normally, 362 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57, town PASS 66, town2 PASS 66, combat PASS 66, zonetoinn PASS 66
+// GATE: PASS -- 100 trials, 58 returned normally, 359 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 63, town2 PASS 63, combat PASS 63, zonetoinn PASS 63
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a2)
 {
   IDirect3DDevice8 *pDevice;
@@ -84,7 +84,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1017B510  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 10100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 87 returned normally, 10225 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Zone_RenderEnvironment(CTsZoneMap *self_)
 {
   unsigned int *v2;
@@ -579,7 +579,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x1017C9C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 3532 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 87, town2 PASS 87, combat PASS 89, zonetoinn PASS 87
+// GATE: PASS -- 100 trials, 95 returned normally, 1371 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 93, town2 PASS 93, combat PASS 94, zonetoinn PASS 93
 XI_API int __thiscall fn_1017C9C0(CTsZoneMap *self_, int a2, int a3, int a4)
 {
   double v6;
@@ -708,6 +708,7 @@ XI_API int __thiscall fn_1017C9C0(CTsZoneMap *self_, int a2, int a3, int a4)
   float (&pIn)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x220);
   float (&v129)[13] = *reinterpret_cast<float (*)[13]>(xi_frame + 0x260);
   float (&v130)[14] = *reinterpret_cast<float (*)[14]>(xi_frame + 0x2A0);
+  bool xi_fpu_unord = false;
 
   if ( a4 != 0 )
   {
@@ -734,18 +735,18 @@ XI_API int __thiscall fn_1017C9C0(CTsZoneMap *self_, int a2, int a3, int a4)
     if ( (_BYTE)v9 != 0 )
     {
       v16 = (*(float *)((char *)self_ + 0x39428)) * *(float *)(a3 + 208);
-      v17 = v14 < v16;
+      (xi_fpu_unord = __builtin_isunordered(v14, v16), v17 = v14 < v16);
       v18 = 0;
       v19 = v14 == v16;
     }
     else
     {
-      v17 = v14 < (*(float *)((char *)self_ + 0x39424));
+      (xi_fpu_unord = __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424))), v17 = v14 < (*(float *)((char *)self_ + 0x39424)));
       v18 = 0;
       v19 = v14 == (*(float *)((char *)self_ + 0x39424));
     }
-    result = (__int16)(((v17 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v17 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v17 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v19 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v17 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v19 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     result = orig::sub_10181BB0((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38EDC)), (float *)(a3 + 244));
   }
@@ -759,35 +760,35 @@ XI_API int __thiscall fn_1017C9C0(CTsZoneMap *self_, int a2, int a3, int a4)
     if ( *(_BYTE *)(a3 + 11) != 0 )
     {
       v26 = (*(float *)((char *)self_ + 0x39428)) * *(float *)(a3 + 208);
-      v27 = v24 < v26;
+      (xi_fpu_unord = __builtin_isunordered(v24, v26), v27 = v24 < v26);
       v28 = 0;
       v29 = v24 == v26;
     }
     else
     {
-      v27 = v24 < (*(float *)((char *)self_ + 0x39424));
+      (xi_fpu_unord = __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424))), v27 = v24 < (*(float *)((char *)self_ + 0x39424)));
       v28 = 0;
       v29 = v24 == (*(float *)((char *)self_ + 0x39424));
     }
-    result = (__int16)(((v27 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v27 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x100 : 0) | ((__builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, (*(float *)((char *)self_ + 0x39424)))) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     result = orig::sub_10181BB0((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38FDC)), (float *)(a3 + 244));
   }
   if ( result != 0 )
     return result;
   v30 = (_DWORD *)a3;
-  v32 = v115 < (double)*(float *)(a3 + 204);
+  (xi_fpu_unord = __builtin_isunordered(v115, (double)*(float *)(a3 + 204)), v32 = v115 < (double)*(float *)(a3 + 204));
   v33 = 0;
   v34 = v115 == *(float *)(a3 + 204);
-  result = (__int16)(((v32 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x400 : 0) | ((v34 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x4000 : 0)) & 0x4100;
-  if ( ((__int16)(((v32 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x400 : 0) | ((v34 || __builtin_isunordered(v115, (double)*(float *)(a3 + 204))) ? 0x4000 : 0)) & 0x4100) != 0 )
+  result = (__int16)(((v32 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v34 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+  if ( ((__int16)(((v32 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v34 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
   {
-    v37 = v115 < (double)*(float *)(a3 + 200);
+    (xi_fpu_unord = __builtin_isunordered(v115, (double)*(float *)(a3 + 200)), v37 = v115 < (double)*(float *)(a3 + 200));
     v38 = 0;
     v39 = v115 == *(float *)(a3 + 200);
-    result = (__int16)(((v37 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x400 : 0) | ((v39 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x4000 : 0)) & 0x4100;
-    v35 = ((__int16)(((v37 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x400 : 0) | ((v39 || __builtin_isunordered(v115, (double)*(float *)(a3 + 200))) ? 0x4000 : 0)) & 0x4100) != 0 ? *(_DWORD *)(a3 + 24) : *(_DWORD *)(a3 + 20);
+    result = (__int16)(((v37 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v39 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+    v35 = ((__int16)(((v37 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v39 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 ? *(_DWORD *)(a3 + 24) : *(_DWORD *)(a3 + 20);
   }
   else
   {
@@ -1406,7 +1407,7 @@ LABEL_157:
 }
 
 // FUNCTION: FFXIMAIN 0x1017DE20  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 90 returned normally, 119 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 90, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 93 returned normally, 86 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 100, town2 PASS 100, combat PASS 99, zonetoinn PASS 100
 XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
 {
   float *v4;
@@ -1801,6 +1802,7 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
   float (&pOut)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x198);
   float (&v399)[36] = *reinterpret_cast<float (*)[36]>(xi_frame + 0x1D8);
   float (&pM1)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x268);
+  bool xi_fpu_unord = false;
 
   v4 = self_;
   v383 = self_;
@@ -1827,18 +1829,18 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
     if ( v9 != 0 )
     {
       v15 = v383[58634] * *(float *)(a3 + 208);
-      v16 = v13 < v15;
+      (xi_fpu_unord = __builtin_isunordered(v13, v15), v16 = v13 < v15);
       v17 = 0;
       v18 = v13 == v15;
     }
     else
     {
-      v16 = v13 < v383[58633];
+      (xi_fpu_unord = __builtin_isunordered(v13, v383[58633]), v16 = v13 < v383[58633]);
       v17 = 0;
       v18 = v13 == v383[58633];
     }
-    result = (__int16)(((v16 || __builtin_isunordered(v13, v383[58633])) ? 0x100 : 0) | ((__builtin_isunordered(v13, v383[58633])) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v13, v383[58633])) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v16 || __builtin_isunordered(v13, v383[58633])) ? 0x100 : 0) | ((__builtin_isunordered(v13, v383[58633])) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v13, v383[58633])) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v16 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v18 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v16 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v18 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     *(float *)&result = COERCE_FLOAT(orig::sub_10181BB0(v383 + 58295, (float *)(a3 + 244)));
     if ( *(float *)&result != 0.0 )
@@ -1856,33 +1858,33 @@ XI_API int __thiscall fn_1017DE20(float *self_, int a2, int a3, int a4)
     if ( (_BYTE)v22 != 0 )
     {
       v26 = *(self_ + 58634) * *(float *)(a3 + 208);
-      v27 = v24 < v26;
+      (xi_fpu_unord = __builtin_isunordered(v24, v26), v27 = v24 < v26);
       v28 = 0;
       v29 = v24 == v26;
     }
     else
     {
-      v27 = v24 < *(self_ + 58633);
+      (xi_fpu_unord = __builtin_isunordered(v24, *(self_ + 58633)), v27 = v24 < *(self_ + 58633));
       v28 = 0;
       v29 = v24 == *(self_ + 58633);
     }
-    result = (__int16)(((v27 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *(self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x4000 : 0)) & 0x4100;
-    if ( ((__int16)(((v27 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x100 : 0) | ((__builtin_isunordered(v24, *(self_ + 58633))) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v24, *(self_ + 58633))) ? 0x4000 : 0)) & 0x4100) == 0 )
+    result = (__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100;
+    if ( ((__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       return result;
     *(float *)&result = COERCE_FLOAT(orig::sub_10181BB0(self_ + 58359, (float *)(a3 + 244)));
     if ( *(float *)&result != 0.0 )
       return result;
     v6 = a3;
   }
-  v31 = *(float *)&v393 < (double)*(float *)(v6 + 204);
+  (xi_fpu_unord = __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204)), v31 = *(float *)&v393 < (double)*(float *)(v6 + 204));
   v32 = 0;
   v33 = *(float *)&v393 == *(float *)(v6 + 204);
-  if ( ((__int16)(((v31 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x400 : 0) | ((v33 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 204))) ? 0x4000 : 0)) & 0x4100) != 0 )
+  if ( ((__int16)(((v31 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v33 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
   {
-    v35 = *(float *)&v393 < (double)*(float *)(v6 + 200);
+    (xi_fpu_unord = __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200)), v35 = *(float *)&v393 < (double)*(float *)(v6 + 200));
     v36 = 0;
     v37 = *(float *)&v393 == *(float *)(v6 + 200);
-    if ( ((__int16)(((v35 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x400 : 0) | ((v37 || __builtin_isunordered(*(float *)&v393, (double)*(float *)(v6 + 200))) ? 0x4000 : 0)) & 0x4100) != 0 )
+    if ( ((__int16)(((v35 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v37 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
       v392 = *(_DWORD **)(v6 + 24);
     else
       v392 = *(_DWORD **)(v6 + 20);
@@ -3424,7 +3426,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10183490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 2184 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 90, town2 PASS 90, combat PASS 90, zonetoinn PASS 90
+// GATE: PASS -- 100 trials, 89 returned normally, 2284 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89, town PASS 94, town2 PASS 94, combat PASS 94, zonetoinn PASS 94
 XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
 {
   float *result;
@@ -3515,7 +3517,7 @@ XI_API float * __thiscall fn_10183490(float *self_, float *pM1, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10183760  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 715 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79, town PASS 73, town2 PASS 73, combat PASS 73, zonetoinn PASS 73
+// GATE: PASS -- 100 trials, 79 returned normally, 1591 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79, town PASS 81, town2 PASS 81, combat PASS 81, zonetoinn PASS 81
 XI_API char __thiscall fn_10183760(float *self_, float *pM1, int a3, int a4, int a5)
 {
   int v5;
@@ -3654,7 +3656,7 @@ LABEL_26:
 }
 
 // FUNCTION: FFXIMAIN 0x10183DA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 {
   _DWORD *result;
@@ -3698,6 +3700,8 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
   float v42;
   _DWORD *v43;
   int *v44;
+  bool xi_fpu_unord = false;
+
   result = *(_DWORD **)(a3 + 24);
   v37 = result;
   if ( result != nullptr )
@@ -3717,11 +3721,11 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
         v10 = v42;
       }
     }
-    v13 = v9 < v10;
+    (xi_fpu_unord = __builtin_isunordered(v9, v10), v13 = v9 < v10);
     v14 = 0;
     v15 = v9 == v10;
-    result = (_DWORD *)((__int16)(((v13 || __builtin_isunordered(v9, v10)) ? 0x100 : 0) | ((__builtin_isunordered(v9, v10)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v9, v10)) ? 0x4000 : 0)) & 0x4100);
-    if ( ((__int16)(((v13 || __builtin_isunordered(v9, v10)) ? 0x100 : 0) | ((__builtin_isunordered(v9, v10)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v9, v10)) ? 0x4000 : 0)) & 0x4100) != 0 )
+    result = (_DWORD *)((__int16)(((v13 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v15 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100);
+    if ( ((__int16)(((v13 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v15 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
     {
       result = (_DWORD *)orig::sub_10181BB0((float *)(self_ + 233436), (float *)(a3 + 244));
       if ( result == nullptr )
@@ -4070,7 +4074,7 @@ XI_API int __thiscall fn_10184C90(void *self_, int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10185CA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 1620 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 65 returned normally, 1635 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 68
 XI_API int __thiscall fn_10185CA0(void *self_, float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4)
 {
   float *v5;

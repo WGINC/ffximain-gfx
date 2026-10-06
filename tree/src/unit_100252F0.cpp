@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10025330  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1716 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1778 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD *a4)
 {
   _DWORD v6[16];
@@ -49,7 +49,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
 }
 
 // FUNCTION: FFXIMAIN 0x100255C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 71 returned normally, 880 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 71, town2 PASS 71, combat PASS 71, zonetoinn PASS 71
+// GATE: PASS -- 100 trials, 53 returned normally, 498 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
 XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 {
   int result;
@@ -122,37 +122,39 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10025870  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1314 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1278 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a3, int a4)
 {
   __int64 v6; // rcx
   int result;
-  int v8;
-  int v9;
-  __int64 v10;
-  int v11[5];
-  __int64 v12;
-  float v13;
-  int v14;
-  int v15;
-  int v16;
-  int v17;
-  int v18;
-  int v19;
-  int v20;
-  float v21;
-  int v22;
-  int v23;
-  int v24;
-  int v25;
-  int v26;
-  float v27;
-  float v28;
-  int v29;
-  int v30;
-  int v31;
-  int v32;
-  int v33;
+  alignas(16) unsigned char xi_frame[0x528];  // address-taken locals at their original offsets
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x98);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x9C);
+  __int64 &v10 = *reinterpret_cast<__int64 *>(xi_frame + 0xB0);
+  int (&v11)[5] = *reinterpret_cast<int (*)[5]>(xi_frame + 0xB8);
+  __int64 &v12 = *reinterpret_cast<__int64 *>(xi_frame + 0xCC);
+  float &v13 = *reinterpret_cast<float *>(xi_frame + 0xD4);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0xD8);
+  int &v15 = *reinterpret_cast<int *>(xi_frame + 0xDC);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0xE0);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xE4);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0xE8);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0xEC);
+  int &v20 = *reinterpret_cast<int *>(xi_frame + 0xF0);
+  float &v21 = *reinterpret_cast<float *>(xi_frame + 0xF4);
+  int &v22 = *reinterpret_cast<int *>(xi_frame + 0xF8);
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0xFC);
+  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x100);
+  int &v25 = *reinterpret_cast<int *>(xi_frame + 0x104);
+  int &v26 = *reinterpret_cast<int *>(xi_frame + 0x108);
+  float &v27 = *reinterpret_cast<float *>(xi_frame + 0x10C);
+  float &v28 = *reinterpret_cast<float *>(xi_frame + 0x110);
+  int &v29 = *reinterpret_cast<int *>(xi_frame + 0x114);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x118);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x11C);
+  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x120);
+  int &v33 = *reinterpret_cast<int *>(xi_frame + 0x124);
+
   g_projTexFactor = a1;
   dword_10456E60 = a3;
   v6 = (unsigned int)a2;
@@ -217,7 +219,7 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025C40  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2420 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2471 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
   float v4[16];
@@ -272,7 +274,7 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10025F70  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 1060 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 63, town2 PASS 63, combat PASS 63, zonetoinn PASS 63
+// GATE: PASS -- 100 trials, 41 returned normally, 671 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 41, town PASS 41, town2 PASS 41, combat PASS 41, zonetoinn PASS 41
 XI_API int __stdcall EnvMap_EndPass(int a1)
 {
   int result;
@@ -350,17 +352,19 @@ XI_API void __cdecl Dbg_DrawGroundGrid(void)
 {
   int v0;
   int v1;
-  int v2;
-  int v3;
-  _DWORD v4[3];
-  int a3[2];
-  float v6;
-  int v7;
-  float v8;
-  int v9;
-  float v10;
-  int v11;
-  _DWORD v12[16];
+  alignas(16) unsigned char xi_frame[0x480];  // address-taken locals at their original offsets
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x10);
+  _DWORD (&v4)[3] = *reinterpret_cast<_DWORD (*)[3]>(xi_frame + 0x14);
+  int (&a3)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x20);
+  float &v6 = *reinterpret_cast<float *>(xi_frame + 0x28);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  float &v8 = *reinterpret_cast<float *>(xi_frame + 0x30);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  float &v10 = *reinterpret_cast<float *>(xi_frame + 0x38);
+  int &v11 = *reinterpret_cast<int *>(xi_frame + 0x3C);
+  _DWORD (&v12)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x40);
+
   orig::fn_10027990((Iostream_init *)v12);
   v4[0] = 1065353216;
   v4[1] = 1065353216;

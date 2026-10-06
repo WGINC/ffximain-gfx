@@ -6,7 +6,7 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(all 700 functions; `// NOT VERIFIED` marks any that are not).
+(777 functions: 774 PASS; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

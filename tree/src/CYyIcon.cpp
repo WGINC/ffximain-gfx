@@ -3,7 +3,7 @@
 #include "CYyIcon.hpp"
 
 // FUNCTION: FFXIMAIN 0x10026990  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 372 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 361 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CYyIcon::Draw(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -58,7 +58,7 @@ int CYyIcon::Draw(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10026C70  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 138 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 134 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int CYyIcon::DrawSubRect(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

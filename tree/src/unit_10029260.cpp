@@ -2,18 +2,19 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100295A0  (unit unit_10029260: no unit evidence of its own; in the gap between 0x10029240 (CYyLowerMemory) and 0x10029880 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1715 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1754 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall Mem_DrawHeapUsageBar(int a1, int a2, int a3, int a4, int a5)
 {
   _DWORD *v5;
-  int v7[4];
-  unsigned int v8;
-  float v9[4];
-  unsigned int v10;
-  _DWORD v11[4];
-  unsigned int v12;
-  float v13[4];
-  unsigned int v14;
+  alignas(16) unsigned char xi_frame[0x4F4];  // address-taken locals at their original offsets
+  int (&v7)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0xA4);
+  unsigned int &v8 = *reinterpret_cast<unsigned int *>(xi_frame + 0xB4);
+  float (&v9)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0xB8);
+  unsigned int &v10 = *reinterpret_cast<unsigned int *>(xi_frame + 0xC8);
+  _DWORD (&v11)[4] = *reinterpret_cast<_DWORD (*)[4]>(xi_frame + 0xCC);
+  unsigned int &v12 = *reinterpret_cast<unsigned int *>(xi_frame + 0xDC);
+  float (&v13)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0xE0);
+  unsigned int &v14 = *reinterpret_cast<unsigned int *>(xi_frame + 0xF0);
   float a2a;
   float a4a;
   float a5a;

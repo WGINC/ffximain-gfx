@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10043E50  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 52 returned normally, 27 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 52, town PASS 52, town2 PASS 52, combat PASS 52, zonetoinn PASS 52
+// GATE: PASS -- 100 trials, 56 returned normally, 26 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 56, town2 PASS 56, combat PASS 56, zonetoinn PASS 56
 XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a4)
 {
   _DWORD *v4;
@@ -45,7 +45,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10043F40  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 166 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 97, town2 PASS 97, combat PASS 97, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 99 returned normally, 138 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
 XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigned int a5, int a6)
 {
   int v7;
@@ -119,7 +119,7 @@ XI_API int __thiscall Gfx_SetViewMatrixFromField90(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10044270  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 98
 XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
 {
   int *v0;
@@ -133,7 +133,10 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   _DWORD *result;
   int v9;
   orig::Rand_SeedMT19937(4357);
-  qmemcpy(&g_cubemapSpecName, "cubemap spec    ", 16);
+  *((_DWORD *)&g_cubemapSpecName + 2) = *(_DWORD *)(int)XI_GAME(0x10353414u);
+  *((_DWORD *)&g_cubemapSpecName + 3) = *(_DWORD *)(int)XI_GAME(0x10353418u);
+  *((_DWORD *)&g_cubemapSpecName + 0) = *(_DWORD *)(int)XI_GAME(0x10353408u);
+  *((_DWORD *)&g_cubemapSpecName + 1) = *(_DWORD *)(int)XI_GAME(0x1035340Cu);
   v0 = *(int **)(g_pMeshResourceMng + 262152);
   if ( v0 != nullptr )
     v1 = *v0;

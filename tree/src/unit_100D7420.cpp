@@ -29,7 +29,7 @@ XI_API int __cdecl Gfx_ApplyViewport1B70(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1011BAE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 92 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 93 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall Font_BindGlyphTexture(int self_)
 {
   int v2;
@@ -144,7 +144,7 @@ XI_API int __cdecl Gfx_SetAdditiveBlend(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1011C1F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 344 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 370 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
 {
   if ( a1 == 0 )
@@ -339,7 +339,7 @@ LABEL_43:
 }
 
 // FUNCTION: FFXIMAIN 0x1011C720  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92, town PASS 87, town2 PASS 87, combat PASS 87, zonetoinn PASS 87
+// GATE: PASS -- 100 trials, 87 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 88, town2 PASS 88, combat PASS 88, zonetoinn PASS 88
 XI_API void __thiscall Font_LoadHighResTexture(int *self_)
 {
   int v2;
@@ -388,7 +388,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x1011E800  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 76 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 69 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 {
   int v4;
@@ -469,7 +469,7 @@ XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1011E980  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 443 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 473 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v8;
@@ -526,6 +526,8 @@ XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, i
   int a1a;
   float a2a;
   int a2b;
+  bool xi_fpu_unord = false;
+
   v8 = *((_DWORD *)self_ + 19);
   if ( v8 != 0 )
   {
@@ -586,10 +588,10 @@ XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, i
     *((float *)self_ + 39) = *((float *)self_ + 46) - v24;
   }
   v26 = *((float *)self_ + 27);
-  v27 = v26 < *(float *)&a1a;
+  (xi_fpu_unord = __builtin_isunordered(v26, *(float *)&a1a), v27 = v26 < *(float *)&a1a);
   v28 = 0;
   v29 = v26 == *(float *)&a1a;
-  if ( ((__int16)(((v27 || __builtin_isunordered(v26, *(float *)&a1a)) ? 0x100 : 0) | ((__builtin_isunordered(v26, *(float *)&a1a)) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v26, *(float *)&a1a)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
   {
     v30 = *((float *)self_ + 27) - *v17;
     v32 = v30;
@@ -620,10 +622,10 @@ XI_API int __thiscall fn_1011E980(void *self_, int a1, int a2, int a3, int a4, i
     *((float *)self_ + 33) = *((float *)self_ + 47) - v43;
   }
   v45 = *((float *)self_ + 35);
-  v46 = v45 < *(float *)&a2b;
+  (xi_fpu_unord = __builtin_isunordered(v45, *(float *)&a2b), v46 = v45 < *(float *)&a2b);
   v47 = 0;
   v48 = v45 == *(float *)&a2b;
-  if ( ((__int16)(((v46 || __builtin_isunordered(v45, *(float *)&a2b)) ? 0x100 : 0) | ((__builtin_isunordered(v45, *(float *)&a2b)) ? 0x400 : 0) | ((v48 || __builtin_isunordered(v45, *(float *)&a2b)) ? 0x4000 : 0)) & 0x4100) == 0 )
+  if ( ((__int16)(((v46 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v48 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
   {
     v49 = *((float *)self_ + 35) - *((float *)self_ + 21);
     v51 = v49;
@@ -672,7 +674,7 @@ LABEL_35:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 79 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, unsigned int a20, int a21)
 {
   int v22;
@@ -756,7 +758,7 @@ LABEL_15:
 }
 
 // FUNCTION: FFXIMAIN 0x1011EF60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 468 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 471 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a4, int a5, int a6, int a7, float a8, float a9, unsigned int a10, unsigned int a11, char a12)
 {
   int v12;
@@ -927,7 +929,7 @@ XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x1011F300  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 391 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 377 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, int a4, int a5)
 {
   char v6;
@@ -1536,6 +1538,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
   int &v119 = *reinterpret_cast<int *>(xi_frame + 0x1C);
   int &v120 = *reinterpret_cast<int *>(xi_frame + 0x20);
   int &v121 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  bool xi_fpu_unord = false;
 
   if ( (unsigned __int8)orig::sub_101606F0(g_menuMng) != 0 || g_pMovie != 0 )
   {
@@ -1566,10 +1569,10 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
     }
     orig::sub_10157720((int)g_pTargetMng, v120, v121);
     v7 = *((float *)self_ + 18);
-    v8 = v7 < 0.0;
+    (xi_fpu_unord = __builtin_isunordered(v7, 0.0), v8 = v7 < 0.0);
     v9 = 0;
     v10 = v7 == 0.0;
-    if ( ((__int16)(((v8 || __builtin_isunordered(v7, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v7, 0.0)) ? 0x400 : 0) | ((v10 || __builtin_isunordered(v7, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+    if ( ((__int16)(((v8 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v10 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
     {
       v17 = *((_DWORD *)self_ + 2);
       *((_DWORD *)self_ + 3) = *((_DWORD *)self_ + 1);
@@ -1580,10 +1583,10 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
       FrameScale = (__int16)(__int64)orig::Camera_GetFrameScale();
       v11 = *((float *)self_ + 18) - (double)FrameScale;
       *((float *)self_ + 18) = v11;
-      v13 = v11 < 0.0;
+      (xi_fpu_unord = __builtin_isunordered(v11, 0.0), v13 = v11 < 0.0);
       v14 = 0;
       v15 = v11 == 0.0;
-      if ( ((__int16)(((v13 || __builtin_isunordered(v11, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v11, 0.0)) ? 0x400 : 0) | ((v15 || __builtin_isunordered(v11, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+      if ( ((__int16)(((v13 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v15 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
       {
         *((_DWORD *)self_ + 18) = 0;
       }
@@ -1684,7 +1687,7 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
         {
           flt_1036E5F4 = -*((float *)self_ + 42) - 0x1.921cac0000000p+0;
           v27 = flt_1036E5F4;
-          if ( (v28 | v29) != 0 )
+          if ( v27 < -0x1.921cac0000000p+1 )
           {
             v30 = v27 + 0x1.921cac0000000p+2;
             goto LABEL_72;
@@ -1696,16 +1699,16 @@ XI_API char __thiscall fn_10125360(_BYTE *self_)
           *(float *)&FrameScale = orig::sub_10126100(self_);
           flt_1036E5F4 = atan2(orig::sub_10125FE0(self_), *(float *)&FrameScale) - 0x1.921cac0000000p+0;
           v32 = flt_1036E5F4;
-          if ( (v33 | v34) != 0 )
+          if ( v32 < -0x1.921cac0000000p+1 )
           {
             v35 = v32 + 0x1.921cac0000000p+2;
           }
           else
           {
-            v36 = v32 < 0x1.921cac0000000p+1;
+            (xi_fpu_unord = __builtin_isunordered(v32, 0x1.921cac0000000p+1), v36 = v32 < 0x1.921cac0000000p+1);
             v37 = 0;
             v38 = v32 == 0x1.921cac0000000p+1;
-            if ( ((__int16)(((v36 || __builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v38 || __builtin_isunordered(v32, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) != 0 )
+            if ( ((__int16)(((v36 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v38 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
               goto LABEL_68;
             v35 = flt_1036E5F4 - 0x1.921cac0000000p+2;
           }
@@ -1716,16 +1719,16 @@ LABEL_68:
         FrameScale = (__int64)orig::sub_10126100(self_);
         flt_1036E5F4 = atan2((double)v119, (double)FrameScale) - 0x1.921cac0000000p+0;
         v27 = flt_1036E5F4;
-        if ( (v39 | v40) != 0 )
+        if ( v27 < -0x1.921cac0000000p+1 )
         {
           v30 = v27 + 0x1.921cac0000000p+2;
           goto LABEL_72;
         }
 LABEL_70:
-        v41 = v27 < 0x1.921cac0000000p+1;
+        (xi_fpu_unord = __builtin_isunordered(v27, 0x1.921cac0000000p+1), v41 = v27 < 0x1.921cac0000000p+1);
         v42 = 0;
         v43 = v27 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v41 || __builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v43 || __builtin_isunordered(v27, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v41 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v43 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         {
           v30 = flt_1036E5F4 - 0x1.921cac0000000p+2;
 LABEL_72:
@@ -1763,16 +1766,16 @@ LABEL_80:
           goto LABEL_141;
         }
         v48 = flt_1036E634;
-        if ( (v49 | v50) != 0 )
+        if ( v48 < -0x1.921cac0000000p+1 )
         {
           v51 = v48 + 0x1.921cac0000000p+2;
         }
         else
         {
-          v52 = v48 < 0x1.921cac0000000p+1;
+          (xi_fpu_unord = __builtin_isunordered(v48, 0x1.921cac0000000p+1), v52 = v48 < 0x1.921cac0000000p+1);
           v53 = 0;
           v54 = v48 == 0x1.921cac0000000p+1;
-          if ( ((__int16)(((v52 || __builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v54 || __builtin_isunordered(v48, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) != 0 )
+          if ( ((__int16)(((v52 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v54 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
             goto LABEL_89;
           v51 = flt_1036E634 - 0x1.921cac0000000p+2;
         }
@@ -1780,45 +1783,45 @@ LABEL_80:
 LABEL_89:
         if ( !(flt_1036E634 < -0x1.5fd9160000000p+1) )
         {
-          v56 = flt_1036E634 < -0x1.5fd9160000000p+1;
+          (xi_fpu_unord = __builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1), v56 = flt_1036E634 < -0x1.5fd9160000000p+1);
           v57 = 0;
           v58 = flt_1036E634 == -0x1.5fd9160000000p+1;
-          if ( ((__int16)(((v56 || __builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x400 : 0) | ((v58 || __builtin_isunordered(flt_1036E634, -0x1.5fd9160000000p+1)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.f6a3d80000000p+0) )
+          if ( ((__int16)(((v56 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v58 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.f6a3d80000000p+0) )
           {
-            v60 = flt_1036E634 < -0x1.f6a3d80000000p+0;
+            (xi_fpu_unord = __builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0), v60 = flt_1036E634 < -0x1.f6a3d80000000p+0);
             v61 = 0;
             v62 = flt_1036E634 == -0x1.f6a3d80000000p+0;
-            if ( ((__int16)(((v60 || __builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x400 : 0) | ((v62 || __builtin_isunordered(flt_1036E634, -0x1.f6a3d80000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.2d95800000000p+0) )
+            if ( ((__int16)(((v60 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v62 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.2d95800000000p+0) )
             {
-              v64 = flt_1036E634 < -0x1.2d95800000000p+0;
+              (xi_fpu_unord = __builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0), v64 = flt_1036E634 < -0x1.2d95800000000p+0);
               v65 = 0;
               v66 = flt_1036E634 == -0x1.2d95800000000p+0;
-              if ( ((__int16)(((v64 || __builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x400 : 0) | ((v66 || __builtin_isunordered(flt_1036E634, -0x1.2d95800000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.921cac0000000p-2) )
+              if ( ((__int16)(((v64 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v66 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < -0x1.921cac0000000p-2) )
               {
-                v68 = flt_1036E634 < -0x1.921cac0000000p-2;
+                (xi_fpu_unord = __builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2), v68 = flt_1036E634 < -0x1.921cac0000000p-2);
                 v69 = 0;
                 v70 = flt_1036E634 == -0x1.921cac0000000p-2;
-                if ( ((__int16)(((v68 || __builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x400 : 0) | ((v70 || __builtin_isunordered(flt_1036E634, -0x1.921cac0000000p-2)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.921cac0000000p-2) )
+                if ( ((__int16)(((v68 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v70 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.921cac0000000p-2) )
                 {
-                  v72 = flt_1036E634 < 0x1.921cac0000000p-2;
+                  (xi_fpu_unord = __builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2), v72 = flt_1036E634 < 0x1.921cac0000000p-2);
                   v73 = 0;
                   v74 = flt_1036E634 == 0x1.921cac0000000p-2;
-                  if ( ((__int16)(((v72 || __builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x400 : 0) | ((v74 || __builtin_isunordered(flt_1036E634, 0x1.921cac0000000p-2)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.2d95800000000p+0) )
+                  if ( ((__int16)(((v72 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v74 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.2d95800000000p+0) )
                   {
-                    v76 = flt_1036E634 < 0x1.2d95800000000p+0;
+                    (xi_fpu_unord = __builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0), v76 = flt_1036E634 < 0x1.2d95800000000p+0);
                     v77 = 0;
                     v78 = flt_1036E634 == 0x1.2d95800000000p+0;
-                    if ( ((__int16)(((v76 || __builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x400 : 0) | ((v78 || __builtin_isunordered(flt_1036E634, 0x1.2d95800000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.f6a3d80000000p+0) )
+                    if ( ((__int16)(((v76 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v78 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.f6a3d80000000p+0) )
                     {
-                      v80 = flt_1036E634 < 0x1.f6a3d80000000p+0;
+                      (xi_fpu_unord = __builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0), v80 = flt_1036E634 < 0x1.f6a3d80000000p+0);
                       v81 = 0;
                       v82 = flt_1036E634 == 0x1.f6a3d80000000p+0;
-                      if ( ((__int16)(((v80 || __builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x400 : 0) | ((v82 || __builtin_isunordered(flt_1036E634, 0x1.f6a3d80000000p+0)) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.5fd9160000000p+1) )
+                      if ( ((__int16)(((v80 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v82 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 || !(flt_1036E634 < 0x1.5fd9160000000p+1) )
                       {
-                        v84 = flt_1036E634 < 0x1.5fd9160000000p+1;
+                        (xi_fpu_unord = __builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1), v84 = flt_1036E634 < 0x1.5fd9160000000p+1);
                         v85 = 0;
                         v86 = flt_1036E634 == 0x1.5fd9160000000p+1;
-                        if ( ((__int16)(((v84 || __builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x400 : 0) | ((v86 || __builtin_isunordered(flt_1036E634, 0x1.5fd9160000000p+1)) ? 0x4000 : 0)) & 0x100) == 0 )
+                        if ( ((__int16)(((v84 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v86 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
                           *((_WORD *)self_ + 83) = 10;
                       }
                       else
@@ -1872,12 +1875,12 @@ LABEL_89:
           if ( *(_DWORD *)(*v89 + 4 * v90) == 0 )
             *((_WORD *)self_ + 34) = 0;
           v92 = *((float *)self_ + 32);
-          v93 = v92 < 0.0;
+          (xi_fpu_unord = __builtin_isunordered(v92, 0.0), v93 = v92 < 0.0);
           v94 = 0;
           v95 = v92 == 0.0;
           if ( v87 == 8 )
           {
-            if ( ((__int16)(((v93 || __builtin_isunordered(v92, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v92, 0.0)) ? 0x400 : 0) | ((v95 || __builtin_isunordered(v92, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+            if ( ((__int16)(((v93 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v95 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
             {
               if ( *((float *)self_ + 32) < 0.0 )
                 orig::sub_1015DD00((int)g_menuMng, 24);
@@ -1887,7 +1890,7 @@ LABEL_89:
               orig::sub_1015DD00((int)g_menuMng, 25);
             }
           }
-          else if ( ((__int16)(((v93 || __builtin_isunordered(v92, 0.0)) ? 0x100 : 0) | ((__builtin_isunordered(v92, 0.0)) ? 0x400 : 0) | ((v95 || __builtin_isunordered(v92, 0.0)) ? 0x4000 : 0)) & 0x4100) != 0 )
+          else if ( ((__int16)(((v93 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v95 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
           {
             if ( *((float *)self_ + 32) < 0.0 )
               orig::sub_1015DD00((int)g_menuMng, 22);

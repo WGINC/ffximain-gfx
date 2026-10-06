@@ -219,7 +219,7 @@ XI_API bool __thiscall fn_10045920(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 74 returned normally, 1447 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74, town PASS 73, town2 PASS 73, combat PASS 73, zonetoinn PASS 73
+// GATE: PASS -- 100 trials, 78 returned normally, 1452 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78, town PASS 76, town2 PASS 76, combat PASS 77, zonetoinn PASS 76
 XI_API int __thiscall fn_100467E0(void *self_, int a1)
 {
   int **v2;
@@ -681,7 +681,7 @@ void CMoElem::vf018()
 }
 
 // FUNCTION: FFXIMAIN 0x100472F0  (unit CMoElem: between 0x100472E0 (class model places it in CMoElem) and 0x100473E0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 97, combat PASS 98, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API int __thiscall fn_100472F0(_WORD *a1, __int16 a4)
 {
   __int16 v4;

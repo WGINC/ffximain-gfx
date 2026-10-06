@@ -1,0 +1,11 @@
+{
+ "why": "The call to 0x10014C10 passes the object in g_pCamera (0x104568FC) in ECX: 0x100016A3 `mov ecx,[0x104568FC]`, 0x100016A9 `call 0x10014C10`. 0x10014C10 takes ECX (0x10014C11 `mov esi, ecx`) and passes it on in ECX to 0x10014C60 (0x10014C3D) and, unchanged, to 0x1019C4F0. The IDB types it `bool()`, so the reconstruction called it with whatever ECX held. data/type_fixes.json declares it __thiscall; this passes the object the original passes.",
+ "evidence": "Disassembly of 0x1000169F..0x100016A9 and 0x10014C10..0x10014C54; data/ecx_use.json 0x10014C10: `0x10014C11 mov esi, ecx`; data/protos_fixed.json 0x10014C10: thiscall, 0 stack arguments.",
+ "text_sha1": "51f501447f6223ede4631b2f62b634143038ff5e",
+ "replace": [
+  [
+   "  return sub_10014C10();",
+   "  return sub_10014C10(g_pCamera);"
+  ]
+ ]
+}

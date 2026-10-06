@@ -1,0 +1,35 @@
+{
+ "why": "The function's five stack arguments (a rectangle by value and a float[4] pointer, data/type_fixes.json 0x1021D4C0) were named as locals at [ebp+4h]..[ebp+14h]: v35/v36 are the first argument's slot (read, then written back), v37/v38 the second, v39/v40 the third, v41/v42 the fourth, v43 the fifth. They become the parameters.",
+ "evidence": "Export declarations `int v35; // [esp+164h] [ebp+4h]` .. `float *v43; // [esp+174h] [ebp+14h]`; disasm 0x1021D52E..0x1021D58E: fild [esp+0x9C] then mov [esp+0x9C],eax (slot 1), likewise [esp+0xA4] (3), [esp+0xA8] (4), [esp+0xA0] (2); [esp+0xAC] (5) is the float pointer.",
+ "text_sha1": "41c4a9a6f405bd097bfacbf66cb58d3fd2e8fabd",
+ "replace": [
+  [
+   "int __cdecl CXiMovie_DrawFrame()",
+   "int __cdecl CXiMovie_DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float *scale)"
+  ],
+  [
+   "  int v35; // [esp+164h] [ebp+4h]\n  int v36; // [esp+164h] [ebp+4h]\n  int v37; // [esp+168h] [ebp+8h]\n  int v38; // [esp+168h] [ebp+8h]\n  int v39; // [esp+16Ch] [ebp+Ch]\n  int v40; // [esp+16Ch] [ebp+Ch]\n  int v41; // [esp+170h] [ebp+10h]\n  int v42; // [esp+170h] [ebp+10h]\n  float *v43; // [esp+174h] [ebp+14h]\n",
+   ""
+  ],
+  [
+   "        v36 = (__int64)(((double)v35 + *v43) * v43[1]);\n        v40 = (__int64)(((double)v39 + *v43) * v43[1]);\n        v42 = (__int64)(((double)v41 + v43[2]) * v43[3]);\n        v38 = (__int64)(((double)v37 + v43[2]) * v43[3]);",
+   "        rcLeft = (__int64)(((double)rcLeft + *scale) * scale[1]);\n        rcRight = (__int64)(((double)rcRight + *scale) * scale[1]);\n        rcBottom = (__int64)(((double)rcBottom + scale[2]) * scale[3]);\n        rcTop = (__int64)(((double)rcTop + scale[2]) * scale[3]);"
+  ],
+  [
+   "        *(float *)&a3 = (float)v36;",
+   "        *(float *)&a3 = (float)rcLeft;"
+  ],
+  [
+   "        v7 = (float)v38;",
+   "        v7 = (float)rcTop;"
+  ],
+  [
+   "        v5 = (float)v40;",
+   "        v5 = (float)rcRight;"
+  ],
+  [
+   "        v21 = (float)v42;",
+   "        v21 = (float)rcBottom;"
+  ]
+ ]
+}

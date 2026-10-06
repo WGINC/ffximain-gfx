@@ -75,7 +75,8 @@ def main():
              ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
              ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
              ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
-             ('edx_use.json', 'edx_inputs.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
+             ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
+             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
              ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
              ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
              ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
@@ -88,6 +89,26 @@ def main():
         if f == 'vcalls.json':
             d = jdiff(load(os.path.join(tmp, 'ecx_use.json')), load(os.path.join(D, 'ecx_use.json')))
             report('facts:ecx_use.json', not d, n_differing=len(d))
+
+    # 2b the registers each game function reads at its entry against the convention the tree calls it with
+    #    (the DynVB_Reserve crash, 6 Oct: read its ECX, typed __stdcall(int)). A wrapper (tree/include/gfx_orig.hpp)
+    #    that is not __thiscall/__fastcall must not read its entry ECX; none but __fastcall may read EDX; none may
+    #    read EAX/EBX/ESI/EDI/EBP (a `push` of a callee-saved register is a save or undecided, not a read).
+    #    A read through a callee (no instruction named) is reported, not failed: the leftover audit judges those.
+    import re as _re
+    wr = {int(m.group(3), 16): (m.group(1), m.group(2)) for m in _re.finditer(
+        r'XI_ORIG [^\n]*? (\w+)\([^)]*\) \{ return reinterpret_cast<[^(]*\((__\w+) \*\)\([^)]*\)>\(XI_GAME\((0x[0-9A-F]+)u\)\)',
+        open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
+    eu, du, er = (load(os.path.join(D, f)) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
+    direct = lambda v: isinstance(v, str) and v.startswith('0x')           # an instruction that reads it
+    bad, via = [], []
+    for a, (name, cc) in sorted(wr.items()):
+        k = '0x%08X' % a
+        if cc not in ('__thiscall', '__fastcall') and eu.get(k): (bad if direct(eu[k]) else via).append('%s %s %s reads ECX' % (k, name, cc))
+        if cc != '__fastcall' and du.get(k): (bad if direct(du[k]) else via).append('%s %s %s reads EDX' % (k, name, cc))
+        for r, ins in (er.get(k) or {}).items():
+            if ' push ' not in ' ' + ins[11:] + ' ': bad.append('%s %s %s reads %s: %s' % (k, name, cc, r.upper(), ins))
+    report('wrapper-regs', not bad, wrappers=len(wr), reads_a_register_it_is_not_given=bad, via_a_callee=via)
 
     # 3 one stack effect per call
     purges = load(os.path.join(D, 'purges.json')); vals = collections.defaultdict(dict)

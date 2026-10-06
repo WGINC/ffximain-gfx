@@ -18,6 +18,7 @@ def reference():
 
 
 CASES = [None]
+SLICE_SECONDS = 20          # a case expected to take longer is split into pieces of about this length
 
 
 def norm(a): return '0x%08X' % int(a, 16)
@@ -43,6 +44,42 @@ def select(run, sels):
     return out
 
 
+def merge_pieces(res, trials):
+    """one record per function from the pieces of a split case (gate_some cuts slow cases into trial ranges):
+    outcomes, mismatches, D3D calls and unresolved/fault counts added; the earliest mismatch; coverage: an
+    instruction is covered if any piece covered it. The verdict as run_case gives it for the whole: FAIL if any
+    trial differed, PASS if some trial returned and none differed, else UNRESOLVED if any trial was, else
+    INCONCLUSIVE. A function missing a piece is reported INCOMPLETE, never PASS."""
+    by = collections.OrderedDict()
+    for r in res: by.setdefault(norm(r['original']), []).append(r)
+    out = []
+    for k, rs in by.items():
+        if len(rs) == 1 and '_trial_first' not in rs[0]: out.append(rs[0]); continue
+        rs.sort(key=lambda r: r.get('_trial_first', 0))
+        m = {kk: v for kk, v in rs[0].items() if kk != '_trial_first'}
+        add = lambda key: sum(r.get(key, 0) for r in rs)
+        m['trials'] = add('trials'); m['mismatches'] = add('mismatches'); m['d3d_calls_checked'] = add('d3d_calls_checked')
+        m['x87_rounded_trials'] = add('x87_rounded_trials')
+        for key in ('original_outcomes', 'unresolved', 'original_faults'):
+            c = collections.Counter()
+            for r in rs: c.update(r.get(key, {}))
+            if c or key != 'original_faults': m[key] = dict(c)
+        m['first_mismatch'] = next((r['first_mismatch'] for r in rs if r.get('first_mismatch')), None)
+        if all('coverage' in r for r in rs):
+            unc = set.intersection(*(set(r['coverage']['uncovered']) for r in rs))
+            cu = set.intersection(*(set(r['coverage']['calls_uncovered']) for r in rs))
+            c0 = rs[0]['coverage']
+            m['coverage'] = {'insns': c0['insns'], 'covered': c0['insns'] - len(unc), 'uncovered': sorted(unc),
+                             'calls': c0['calls'], 'calls_uncovered': sorted(cu)}
+        if m['trials'] != trials or any(r['verdict'] == 'ERROR' for r in rs): m['verdict'] = 'INCOMPLETE'
+        elif m['mismatches']: m['verdict'] = 'FAIL'
+        elif m['original_outcomes'].get('return', 0): m['verdict'] = 'PASS'
+        else: m['verdict'] = 'UNRESOLVED' if m['unresolved'] else 'INCONCLUSIVE'
+        m['pieces'] = len(rs)
+        out.append(m)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('run'); ap.add_argument('select', nargs='+')
@@ -50,7 +87,8 @@ def main():
     ap.add_argument('--out', default='gate_some'); ap.add_argument('--chunk', type=int, default=1)
     ap.add_argument('--dll', help='DLL to gate (default RUN/raw/gfx_raw.dll)')
     ap.add_argument('--cases', help='cases file (default RUN/cases.json)')
-    ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
+    ap.add_argument('--no-cache', dest='cache', action='store_false',
+                    help='run every case even where gate_cache.py shows the run would be identical to a stored one')
     a = ap.parse_args()
     run = os.path.join(ROOT, 'runs', a.run) if not os.path.isdir(a.run) else a.run
     CASES[0] = a.cases
@@ -67,7 +105,18 @@ def main():
     try: times = json.load(open(tpath))
     except (OSError, ValueError): times = {}
     known = times.get(tkey, {})
-    cases.sort(key=lambda c: -known.get(norm(c['original']), 1e9))
+    # a case known to take long is cut into pieces of trials (diffemu_gfx.run_case: _trial_first/_trial_count;
+    # each trial's inputs depend only on its number), run on any free worker and merged below, so one slow
+    # function no longer holds the run while the other workers sit idle
+    pieces = []
+    for c in cases:
+        n = min(a.trials // 5, int(known.get(norm(c['original']), 0) // SLICE_SECONDS) + 1) if a.trials >= 10 else 1
+        if n <= 1: pieces.append(c); continue
+        step = -(-a.trials // n)
+        for f in range(0, a.trials, step):
+            pieces.append(dict(c, _trial_first=f, _trial_count=min(step, a.trials - f)))
+    cases = pieces
+    cases.sort(key=lambda c: -known.get(norm(c['original']), 1e9) / max(1, a.trials // c.get('_trial_count', a.trials)))
     chunks = [cases[i:i + a.chunk] for i in range(0, len(cases), a.chunk)]
     for f in os.listdir(run):
         if f.startswith(os.path.basename(base) + '_') and f.endswith(('.json', '.jsonl', '.log')): os.remove(os.path.join(run, f))
@@ -105,17 +154,20 @@ def main():
         try: w.stdin.close()
         except Exception: pass
         w.wait()
+    run_t = collections.defaultdict(float)             # a split case's time is the sum of its pieces
     for i in range(len(chunks)):
         tf = '%s_%d.jsonl.times' % (base, i)
         if os.path.exists(tf):
             for l in open(tf):
-                o_, t_ = l.split(); known[norm(o_)] = float(t_)
+                o_, t_ = l.split(); run_t[norm(o_)] += float(t_)
+    known.update(run_t)
     times[tkey] = known
     try:
         json.dump(times, open(tpath + '.tmp', 'w'), indent=0, sort_keys=True); os.replace(tpath + '.tmp', tpath)
     except OSError: pass
     if feed.k < len(chunks) or len(res) < len(cases):
         print('INCOMPLETE: %d of %d cases have results' % (len(res), len(cases)))
+    res = merge_pieces(res, a.trials)
     with open(base + '.jsonl', 'w') as f:
         for r in res: f.write(json.dumps(r) + '\n')
     ref = reference()

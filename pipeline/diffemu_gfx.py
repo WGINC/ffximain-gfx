@@ -12,7 +12,7 @@ Additions, all applied identically to the original and the reconstruction:
     case "struct_globals": {"0xADDR": {"size": "0x478", "com": {"8": "IDirect3DDevice8"}}}
     puts a fuzzed struct there whose listed fields are fake objects (the D3D holder, CDx).
 """
-import bisect, json, os, random, struct, sys, time
+import bisect, json, os, random, re, struct, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 import diffemu_fixed as G
 # Live mode (FFXI_LIVE=live.json from live_state.py): inputs come from a memory dump of the running game.
@@ -39,6 +39,31 @@ STRUCT_OUT = {'GetTransform': (1, 64, 'f'), 'GetMaterial': (0, 68, 'f'), 'GetLig
               'GetPixelShader': (0, 4, 'i'), 'GetDisplayMode': (0, 16, 'i'), 'GetCreationParameters': (0, 16, 'i'),
               'GetRasterStatus': (0, 8, 'i'), 'GetClipStatus': (0, 8, 'i'), 'GetCurrentTexturePalette': (0, 4, 'i'),
               'GetDesc': (0, 32, 'i'), 'GetLevelDesc': (1, 32, 'i')}
+# D3D8 methods that read data through a pointer parameter (the D3D8 SDK header): method -> function of the parameters
+# giving (parameter index, bytes read). The bytes are compared, hashed, with the call: before 6 Oct only the pointer was
+# (as "a stack address"), so a reconstruction that never wrote the data it passes compared equal
+def _prim_verts(t, n):
+    return {1: n, 2: 2 * n, 3: n + 1, 4: 3 * n, 5: n + 2, 6: n + 2}.get(t, 0)
+IN_DATA = {'SetTransform': lambda a: [(1, 64)], 'MultiplyTransform': lambda a: [(1, 64)], 'SetViewport': lambda a: [(0, 24)],
+           'SetMaterial': lambda a: [(0, 68)], 'SetLight': lambda a: [(1, 104)], 'SetClipPlane': lambda a: [(1, 16)],
+           'SetVertexShaderConstant': lambda a: [(1, 16 * a[2])], 'SetPixelShaderConstant': lambda a: [(1, 16 * a[2])],
+           'DrawPrimitiveUP': lambda a: [(2, _prim_verts(a[0], a[1]) * a[3])],
+           'DrawIndexedPrimitiveUP': lambda a: [(4, _prim_verts(a[0], a[3]) * (2 if a[5] == 101 else 4)), (6, (a[1] + a[2]) * a[7])]}
+# game functions stubbed in the gate that pass a pointer parameter on to one of those methods unchanged: callee -> the same
+# rule over the stub's own arguments. CDx::DrawPrimitiveUP 0x1000CD00 pushes its 4 arguments to
+# IDirect3DDevice8::DrawPrimitiveUP (vtable +0x120) at 0x1000CD53 and 0x1000CD96 (its own code)
+STUB_DATA = {0x1000CD00: lambda a: [(2, _prim_verts(a[0], a[1]) * a[3])]}
+
+
+def _data_hash(uc, p, n):
+    """the bytes a callee reads through a pointer, hashed for the call log; -1 when they cannot be read"""
+    import zlib
+    if not p or n <= 0: return 0
+    if n > 0x100000: return -2
+    try: return zlib.crc32(bytes(uc.mem_read(p, n)))
+    except Exception: return -1
+
+
 PREFER = ['IDirect3DTexture8', 'IDirect3DSurface8', 'IDirect3DVertexBuffer8', 'IDirect3DIndexBuffer8',
           'IDirect3DCubeTexture8', 'IDirect3DVolumeTexture8', 'IDirect3DSwapChain8', 'IDirect3DVolume8',
           'IDirect3DDevice8', 'IDirect3D8']
@@ -80,8 +105,12 @@ def _live_state():
     """the dump, opened once per process: LiveState only reads it (its one cache, the pops of foreign code it
     has decoded, is a function of the dump's bytes), so every case of the process shares it"""
     if not _LIVE:
-        import live_state
-        _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
+        if LIVE_CFG['dump'].endswith('.xcap'):          # a call captured in the game (xikit capture=, xcap.py)
+            import xcap
+            _LIVE.append(xcap.CaptureState(LIVE_CFG['dump']))
+        else:
+            import live_state
+            _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
     return _LIVE[0]
 
 
@@ -155,6 +184,11 @@ class GfxMachine(G.Machine):
             from capstone import Cs, CS_ARCH_X86, CS_MODE_32
             self._md = Cs(CS_ARCH_X86, CS_MODE_32); self._md.detail = True
             self.demand_limit = 4096          # dump pages share the demand list with fuzzed ones
+        # synthetic (fuzzed) pages have their own budget in both modes: a trial that wanders through thousands
+        # of random pages is not comparable either way (it ended at the instruction limit after ~18 s of page
+        # mapping on the dumps: 0x1006E970 spent ~1000 s per dump gate this way); the dumps' own pages keep
+        # the larger demand_limit
+        self.synth_limit = 96; self.synth = 0
         # a thread information block at FS, as Windows lays it out: the SEH prologue of MSVC code reads and
         # writes fs:[0] (ExceptionList; here the end-of-chain marker) and restores it before it returns
         u.mem_map(TEB, G.PAGE, UC_PROT_ALL); u.mem_map(GDT, G.PAGE, UC_PROT_ALL)
@@ -187,7 +221,17 @@ class GfxMachine(G.Machine):
         self.tls = {}                     # the emulated thread's TLS slots (TlsSetValue / TlsGetValue)
         self.files = {}                   # files the run created: handle -> [position, size]
         self.last_error = None            # the thread's last-error value once the run sets it
+        self.key_n = {}                   # declared mode: identical calls so far in this run (_keyed)
         return super().call(*a, **k)
+
+    def _keyed(self, call):
+        """declared mode (declared.py): the answer to this call comes from the call itself -- the trial, its target
+        and arguments, and how many identical calls came before it in this run -- so a call the change drops or adds
+        does not move the answers of the calls after it. Off (the default), the run's one stream answers in order."""
+        if not getattr(self, 'keyed', False): return
+        h = hashlib.sha1(repr(call).encode()).digest()
+        c = self.key_n.get(h, 0); self.key_n[h] = c + 1
+        self.rng = random.Random(h + struct.pack('<QI', self.key_seed & 0xFFFFFFFFFFFFFFFF, c))
 
     def _on_data_exec(self, uc, addr, size, _):
         self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
@@ -212,7 +256,7 @@ class GfxMachine(G.Machine):
         if fake and len(args) == fake[0]:
             # a benign query answered the same way on both sides (logged, compared like a stubbed call),
             # so a function that only asks Windows something on its way does not stop there
-            self.calls.append((addr, 0, tuple(_stackref(a) for a in args)))
+            self.calls.append((addr, 0, tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
             try: v = fake[1](self, uc, args)
             except Exception: v = 0
             uc.reg_write(UC_X86_REG_EAX, v & 0xFFFFFFFF)
@@ -278,7 +322,7 @@ class GfxMachine(G.Machine):
                 ret_addr, *args = struct.unpack('<5I', uc.mem_read(esp, 20))
             except Exception:
                 return super()._on_invalid(uc, access, addr, size, value, _)
-            self.calls.append((0xD0000000, addr, tuple(G_stack(a) for a in args[:4])))
+            self.calls.append((0xD0000000, addr, tuple(G_stack(a) for a in args[:4]))); self._keyed(self.calls[-1])
             uc.reg_write(UC_X86_REG_EAX, self.rng.getrandbits(32))
             uc.reg_write(UC_X86_REG_ESP, esp + 4)
             uc.reg_write(UC_X86_REG_EIP, ret_addr)
@@ -296,7 +340,8 @@ class GfxMachine(G.Machine):
                     if p not in self.demand and not self.live_map(p): return False
                 return True
         if access not in (UC_MEM_READ_UNMAPPED, UC_MEM_WRITE_UNMAPPED) or addr < 0x10000 or \
-           len(getattr(self, 'demand', [])) >= getattr(self, 'demand_limit', 0):
+           len(getattr(self, 'demand', [])) >= getattr(self, 'demand_limit', 0) or \
+           getattr(self, 'synth', 0) >= getattr(self, 'synth_limit', 1 << 30):
             return super()._on_invalid(uc, access, addr, size, value, _)
         for page in {addr & ~(G.PAGE - 1), (addr + size - 1) & ~(G.PAGE - 1)}:
             if page in self.demand: continue
@@ -304,7 +349,7 @@ class GfxMachine(G.Machine):
                 uc.mem_map(page, G.PAGE, UC_PROT_ALL)
             except Exception:
                 return False
-            uc.mem_write(page, self._page_bytes(page)); self.demand.append(page)
+            uc.mem_write(page, self._page_bytes(page)); self.demand.append(page); self.synth += 1
         return True
 
     def _on_foreign(self, uc, addr, size, _):
@@ -334,8 +379,8 @@ class GfxMachine(G.Machine):
         n = 4 * site[0]
         if os.environ.get('FFXI_LIVE_TRACE'):
             print('foreign %08X pops %d ret %08X esp %08X' % (addr, n, ret_addr, esp), file=sys.stderr)
-        args = struct.unpack('<%dI' % min(n // 4, 4), uc.mem_read(esp + 4, 4 * min(n // 4, 4))) if n else ()
-        self.calls.append((addr, _stackref(uc.reg_read(UC_X86_REG_ECX)), tuple(_stackref(a) for a in args)))
+        args = struct.unpack('<%dI' % min(n // 4, MAX_STUB_ARGS), uc.mem_read(esp + 4, 4 * min(n // 4, MAX_STUB_ARGS))) if n else ()
+        self.calls.append((addr, _stackref(uc.reg_read(UC_X86_REG_ECX)), tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.6 else 1 if k < 0.7 else self.rng.randrange(2, 64) if k < 0.85 else self.rng.getrandbits(32)
         uc.reg_write(UC_X86_REG_EAX, v)
@@ -416,7 +461,7 @@ class GfxMachine(G.Machine):
         self.uc.mem_write(addr, data)
 
     def reset_demand(self):
-        self.wild = 0
+        self.wild = 0; self.synth = 0
         for page in self.demand:
             try: self.uc.mem_unmap(page, G.PAGE)
             except Exception: pass
@@ -430,15 +475,20 @@ class GfxMachine(G.Machine):
         if spec.get('returns') != 'fuzz':
             return super()._on_stub(uc, addr, size, _)
         esp = uc.reg_read(UC_X86_REG_ESP)
-        ret_addr, *args = struct.unpack('<5I', uc.mem_read(esp, 20))
-        ecx = uc.reg_read(UC_X86_REG_ECX)
         nargs = spec.get('args', spec.get('pops', 0))
+        k = max(4, min(nargs, MAX_STUB_ARGS))           # the return address and the arguments logged
+        ret_addr, *args = struct.unpack('<%dI' % (k + 1), uc.mem_read(esp, 4 * (k + 1)))
+        ecx = uc.reg_read(UC_X86_REG_ECX)
         masks = spec.get('masks') or []
         logged = tuple(a & (masks[i] if i < len(masks) else 0xFFFFFFFF) for i, a in enumerate(args[:nargs]))
         logged = tuple(_stackref(a) for a in logged)
-        self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' else 0, logged))
+        if addr in STUB_DATA and len(args) >= 4:
+            logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
+        self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
+        d = getattr(self, 'dict', ())
+        if d and self.rng.random() < 0.125: v = d[self.rng.randrange(len(d))]    # one of the function's constants
         if spec.get('ret') == 'alloc':         # an allocator: a fresh zeroed block, never NULL
             v = self.alloc(args[spec['size_arg']] if spec.get('size_arg') is not None else 0x1000)
         elif spec.get('ret') == 'bool':          # the callee only ever returns EAX = 0 or 1 (ret_kinds.py)
@@ -489,7 +539,7 @@ class GfxMachine(G.Machine):
             n = max(pops, nlog, 0)
             vals = struct.unpack('<%dI' % (1 + n), uc.mem_read(esp, 4 * (1 + n)))
             ecx = _stackref(uc.reg_read(UC_X86_REG_ECX)) if this_ else 0       # a stack-`this` call leaves ECX undefined
-            self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)])))
+            self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)]))); self._keyed(self.calls[-1])
             for a in vals[1:1 + (nlog if nlog >= 0 else pops)]:
                 if esp < a < esp + 0x800:     # into the caller's own frame: an output it reads back
                     k = self.rng.random()
@@ -511,7 +561,8 @@ class GfxMachine(G.Machine):
         ret_addr, this, args = vals[0], vals[1], vals[2:]
         if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
             self._record_site((ret_addr, 'fake', name, slot), this, esp + 4, min(n, 3))   # record only
-        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args)))
+        data = tuple(_data_hash(uc, args[i], sz) for i, sz in IN_DATA[m['name']](args)) if m['name'] in IN_DATA else ()
+        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args) + data)); self._keyed(self.calls[-1])
         if m['ret'] == 'hresult':
             k = self.rng.random()
             v = 0 if k < 0.8 else 0x8876086C if k < 0.9 else 0x88760868   # D3D_OK / INVALIDCALL / DEVICELOST
@@ -643,6 +694,8 @@ def site_pops(m, ret):
     """What the callee of the call returning to `ret` pops, from definitive sources only:
       data/sp_solved.json   solved from the caller's own stack balance (sp_solve.py, self-tested);
       data/real_sp.json     measured by running real game code (real_sp.py, trusted calls only);
+      data/game_sp.json     measured in the running game itself (xikit facts=1, fact_sites.py ingest: ESP after
+                            the call minus ESP before it, recorded only where every observed call agreed);
       data/vcalls.json      a virtual call on `this` whose every possible callee is proven (vcall_resolve.py);
       data/com_calls.json   a D3D8 method on an object proven to hold that interface (com_calls.py);
       data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
@@ -678,6 +731,7 @@ def site_pops(m, ret):
     srcs = {}
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
     if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
+    if k in _CALLSITES['game']: srcs['game'] = _CALLSITES['game'][k]
     if k in _CALLSITES['vtable']: srcs['vtable'] = _CALLSITES['vtable'][k]
     if k in _CALLSITES['com']: srcs['com'] = _CALLSITES['com'][k]
     if typed: srcs['typed'] = 0 if typed['cc'] == 'cdecl' else 4 * typed['args']
@@ -686,11 +740,20 @@ def site_pops(m, ret):
         return None
     pops = next(iter(srcs.values()))
     if pops % 4: return None
-    this = bool(typed) and typed['cc'] == 'thiscall'       # unknown: ECX is not compared (no claim either way)
+    # ECX carries `this` where the IDB declares __thiscall, where the original's own code enters the callee with
+    # ECX = the object whose vtable it calls through, not also pushed as an argument (data/ecx_this_sites.json),
+    # or where the call is direct to a function data/type_fixes.json corrects to __thiscall (each entry names the
+    # instructions that read or pass on ECX): the reconstruction must then pass that object in ECX too.
+    # Otherwise ECX is not compared (no claim either way)
+    direct = int(call.op_str, 16) if re.fullmatch(r'0x[0-9a-f]+', call.op_str) else None
+    this = (bool(typed) and typed['cc'] == 'thiscall') or k in _CALLSITES['ecx_this'] or direct in _CALLSITES['thiscall_fix']
     return pops // 4, this, (typed['args'] if typed else pops // 4)
 
 
 _CALLSITES = {}
+# a stub logs at most this many stack arguments (16 dwords: more than any callee in the graphics set takes;
+# it was 4 before 5 Oct, which left the fifth argument of CXiMovie_DrawFrame uncompared)
+MAX_STUB_ARGS = 16
 
 
 def site_pops_init():
@@ -698,8 +761,13 @@ def site_pops_init():
         d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
         ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
         _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
+        _CALLSITES['ecx_this'] = {k for k, v in ld('ecx_this_sites.json').items()
+                                  if not k.startswith('_') and v['ecx'] and not v['pushed']}
+        _CALLSITES['thiscall_fix'] = {int(k, 16) for k, v in ld('type_fixes.json').items()
+                                      if re.search(r'__thiscall\s*\(', v['type'])}
         _CALLSITES['solved'] = {k: v['pops'] for k, v in ld('sp_solved.json').items() if not k.startswith('_')}
         _CALLSITES['real'] = {c: p for r in ld('real_sp.json').values() for c, p in r.get('calls', {}).items()}
+        _CALLSITES['game'] = {k: v['pops'] for k, v in ld('game_sp.json').items() if not k.startswith('_')}
         _CALLSITES['vtable'] = {k: v['pops'] for k, v in ld('vcalls.json').items() if not k.startswith('_')}
         _CALLSITES['com'] = {k: v['pops'] for k, v in ld('com_calls.json').items()}
 _STARTS = []
@@ -826,7 +894,8 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
     patches = []; rng = random.Random(ts * 7919 + 1); top = G.SANDBOX + 0x700000; tried = set()
     m.cur_args = args
     def run():
-        m.rng = random.Random(ts); m.wild = 0; return m.call(orig, conv, this, args, limit)
+        if getattr(m, 'cov_run', None) is not None: m.cov_run.clear()    # coverage: this run's instructions only
+        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0; return m.call(orig, conv, this, args, limit)
     for _ in range(3 + repairs):
         before = len(m.demand); r = run()
         if len(m.demand) != before: continue
@@ -906,6 +975,9 @@ def setup_trial(m, case, fz):
     fz.reset()
     for g, n in case.get("fuzz_ranges", []):
         b = bytes(0 if fz.rng.random() < 0.5 else fz.rng.getrandbits(8) for _ in range(n))
+        if fz.dict and n >= 1 and fz.rng.random() < 0.25:     # one of the function's constants, at an aligned offset
+            at = 4 * fz.rng.randrange((n + 3) // 4); v = struct.pack('<I', fz.dict[fz.rng.randrange(len(fz.dict))])
+            b = b[:at] + v[:n - at] + b[at + 4:]
         if not held(int(g, 16)): m.uc.mem_write(int(g, 16), b)
     for g, spec in case.get("globals", {}).items():
         v = fz.arg(spec) & 0xFFFFFFFF
@@ -923,7 +995,11 @@ def setup_trial(m, case, fz):
             m.uc.mem_write(buf + int(off, 0), struct.pack("<I", m.obj[iface]))
         m.uc.mem_write(int(g, 16), struct.pack("<I", buf))
     this = None
-    if conv == "thiscall":
+    rp = case.get("replay")                 # a captured call (xcap.py): its own `this` and arguments, nothing drawn
+    if rp:
+        this = int(rp["this"], 16) if rp.get("this") else None
+        if this: patches += [(this + int(off, 0), struct.pack("<I", m.obj[iface])) for off, iface in case.get("this_com", {}).items()]
+    elif conv == "thiscall":
         vptr = int(case["vptr"], 16) if case.get("vptr") else None
         if live:
             inst = m.live_inst.get(vptr) if vptr else None
@@ -940,12 +1016,12 @@ def setup_trial(m, case, fz):
             this = fz.buffer(int(str(case.get("this_size", "0x400")), 0), vptr)
             for off, iface in case.get("this_com", {}).items():
                 m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
-    args = [fz.arg(s) for s in case.get("args", [])]
+    args = [int(a, 16) for a in rp["args"]] if rp else [fz.arg(s) for s in case.get("args", [])]
     trial_seed = fz.rng.getrandbits(32)
     m.page_seed = trial_seed; m.reset_demand()
     for a, b in patches: m.live_write(a, b)
     if live: m.trial_no += 1
-    m.constrain(case.get("input_ranges", []), this, args)
+    m.constrain([] if rp else case.get("input_ranges", []), this, args)  # (a captured call's inputs are the game's own: not narrowed)
     m.ctx = m.uc.context_save()
     return this, args, trial_seed
 
@@ -961,23 +1037,47 @@ def run_case(m, case, trials, seed):
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
     fz = G.Fuzzer(m, seed)
-    statuses, first_fail, fails, com_calls, rounded, unresolved = {}, None, 0, 0, 0, {}
+    fz.dict = m.dict = _cmp_consts(orig)
+    statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
+    # declared differences (declared.py): a changed function against the original, every difference stated
+    decl = None
+    if case.get('declared') is not None:
+        import declared as DC
+        decl = DC.load(case['declared'])
+    m.keyed = decl is not None; declared_seen, declared_trials = {}, 0
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
     touched = [(int(g, 16), n) for g, n in case.get("fuzz_ranges", [])]
     touched += [(int(g, 16), 4) for g in list(case.get("globals", {})) + list(case.get("com_globals", {})) + list(case.get("struct_globals", {}))]
     touched += [(int(e["addr"], 16), 4) for e in case.get("input_ranges", []) if e["where"] == "global"]
     saved = [(a, bytes(m.uc.mem_read(a, n))) for a, n in touched]
-    for t in range(trials):
+    # FFXI_COVERAGE=1: which of the original's own instructions ran in the trials that were compared (the original
+    # returned and the reconstruction ran). A PASS says nothing about code no compared trial reached.
+    cov = cov_hooks = None
+    if os.environ.get('FFXI_COVERAGE'):
+        cov_ins, cov_calls = _own_insns(orig)
+        m.cov_run = set(); cov = set()
+        cov_hooks = [m.uc.hook_add(UC_HOOK_CODE, lambda uc, addr, size, _: m.cov_run.add(addr), begin=lo, end=hi - 1)
+                     for lo, hi in _extent(orig)]
+    # each trial's inputs come from (seed, trial number) alone, so a slice of the trials (gate_some splits slow
+    # functions into pieces: _trial_first, _trial_count) runs exactly the trials the whole run would. In live
+    # mode the trial number also picks the dump object used as `this` (it was a per-process counter, so a
+    # function's inputs depended on which cases the same worker had run before it).
+    first = case.get('_trial_first', 0); trials = case.get('_trial_count', trials)
+    for t in range(first, first + trials):
+        fz.rng = random.Random(seed * 1000003 + t)
+        if getattr(m, 'live', None): m.trial_no = t
         this, args, trial_seed = setup_trial(m, case, fz)
         a, patches = run_original(m, orig, conv, this, args, limit, trial_seed)
+        ran = set(m.cov_run) if cov is not None else None
         if a.status == 'unresolved': unresolved[a.detail] = unresolved.get(a.detail, 0) + 1
+        if a.status == 'fault': faults[a.detail or '?'] = faults.get(a.detail or '?', 0) + 1     # where the original faulted
         if a.status in ('fault', 'limit', 'unresolved'):
             b = None            # not compared (below): the reconstruction need not run
         else:
             # the original returned within `limit`; compiled code may take more instructions for the same
             # work, so the reconstruction gets ten times that before its not returning counts as a difference
-            m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit * 10)
+            m.rng = random.Random(trial_seed); m.key_seed = trial_seed; m.wild = 0; b = m.call(cand, conv, this, args, limit * 10)
         restore_inputs(m, patches); demand_pages = len(m.demand); m.reset_demand()
         if b is not None and b.status == 'unresolved':     # the reconstruction met a count no source gives:
             unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared
@@ -998,19 +1098,111 @@ def run_case(m, case, trials, seed):
                                 # faulted on, or order independent work differently before a crash).
                                 # A reconstruction that crashes where the original returns stays a FAIL.
         else:
-            why = G.compare(a, b, 'int' if ret == 'word' else ret)
+            if decl is None: why = G.compare(a, b, 'int' if ret == 'word' else ret)
+            else:
+                why, seen = DC.compare(a, b, 'int' if ret == 'word' else ret, decl, this, G.compare)
+                for k_, v_ in seen.items(): declared_seen[k_] = declared_seen.get(k_, 0) + v_
+                declared_trials += bool(seen)
+        if cov is not None and b is not None and a.status not in ('fault', 'limit', 'unresolved'):
+            cov |= ran
         if why:
             fails += 1
             if first_fail is None:
                 first_fail = {"trial": t, "this": hex(this) if this else None, "args": [hex(x) for x in args], "why": why}
     for a, b_ in saved: m.uc.mem_write(a, b_)
     m.ctx = m.uc.context_save()
+    coverage = None
+    if cov is not None:
+        for h in cov_hooks: m.uc.hook_del(h)
+        m.cov_run = None
+        coverage = {"insns": len(cov_ins), "covered": len(cov & cov_ins),
+                    "uncovered": ['0x%08X' % x for x in sorted(cov_ins - cov)],
+                    "calls": len(cov_calls), "calls_uncovered": ['0x%08X' % x for x in sorted(cov_calls - cov)]}
     ok_runs = statuses.get("return", 0)
     verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
-            "trials": trials, "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
+            "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
-            "unresolved": unresolved}
+            "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
+            **({"coverage": coverage} if coverage is not None else {}),
+            **({"declared": {"trials_with_declared_differences": declared_trials, "seen": declared_seen,
+                             "never_seen": [d['text'] for d in decl['calls'] + decl['memory'] if d['text'] not in declared_seen]
+                                           + (['return'] if decl['return'] and 'return' not in declared_seen else [])}}
+               if decl is not None else {})}
+
+
+_COV_EXT = {}
+
+
+def _extent(f):
+    """the function's pieces [(lo, hi)] (data/func_extents.json)"""
+    if not _COV_EXT:
+        _COV_EXT.update({int(k, 16): v for k, v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json'))).items()})
+    return [tuple(x) for x in _COV_EXT.get(f, [])]
+
+
+_OWN = {}
+
+
+def _own_insns(f):
+    """(instruction addresses, call instruction addresses) of the function's own pieces, decoded from the image"""
+    if f not in _OWN:
+        from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
+        import pefile
+        if '_imgb' not in _OWN:
+            p = pefile.PE(os.environ['FFXI_DLL']); _OWN['_imgb'] = (bytes(p.get_memory_mapped_image()), p.OPTIONAL_HEADER.ImageBase)
+        img, base = _OWN['_imgb']; ins, calls = set(), set()
+        for lo, hi in _extent(f):
+            for i in _Cs(_A, _M).disasm(img[lo - base:hi - base], lo):
+                ins.add(i.address)
+                if i.mnemonic == 'call': calls.add(i.address)
+        _OWN[f] = (ins, calls)
+    return _OWN[f]
+
+_CONSTS = {}
+
+
+def _cmp_consts(f):
+    """the values the function's own code compares its inputs against, for the fuzzer's dictionary (Fuzzer.dict):
+    the immediate of each `cmp`/`test` (and that value + 1, the other side of an ordered comparison); in a chain
+    of `dec r` / `sub r, N` / `add r, N` each followed by a conditional jump (only `mov`/`push`/`pop`/`lea`, which leave the flags, between; an MSVC switch lowered to
+    decrements), the value of r that makes the result zero; the dword of each `fcom`/`fcomp`/`fucom`/`fucomp`
+    operand at a fixed address in the image, and of each `fld dword` from one. Only the inputs a trial draws
+    change; both sides get the same ones, so this decides nothing, it only reaches branches a random value
+    almost never takes (a transform type of 2, 3 or 256, an alpha of 0x80, a '\\n')."""
+    if f in _CONSTS: return _CONSTS[f]
+    from capstone import CS_ARCH_X86 as _A, CS_MODE_32 as _M, Cs as _Cs
+    from capstone.x86 import X86_OP_IMM as _I, X86_OP_MEM as _MEM, X86_OP_REG as _R
+    _own_insns(f)
+    img, base = _OWN['_imgb']; md = _Cs(_A, _M); md.detail = True
+    out = set()
+    for lo, hi in _extent(f):
+        ins = list(md.disasm(img[lo - base:hi - base], lo)); off = {}
+        for n, i in enumerate(ins):
+            m = i.mnemonic; o = i.operands
+            k = n + 1                                # the next instruction that reads or sets flags
+            while k < len(ins) and ins[k].mnemonic in ('mov', 'push', 'pop', 'lea'): k += 1
+            nxt = ins[k].mnemonic if k < len(ins) else ''
+            if m in ('cmp', 'test') and len(o) == 2 and o[1].type == _I:
+                v = o[1].imm & 0xFFFFFFFF
+                r = i.reg_name(o[0].reg) if o[0].type == _R else None
+                out.add((v + off.get(r, 0)) & 0xFFFFFFFF if m == 'cmp' else v)
+                if m == 'cmp': out.add((v + off.get(r, 0) + 1) & 0xFFFFFFFF)
+            elif m in ('fcom', 'fcomp', 'fucom', 'fucomp', 'fld') and o and o[0].type == _MEM and o[0].size == 4 \
+                    and not o[0].mem.base and not o[0].mem.index and base <= o[0].mem.disp < base + len(img) - 4:
+                out.add(struct.unpack_from('<I', img, o[0].mem.disp - base)[0])
+            if m in ('dec', 'sub', 'add') and o and o[0].type == _R and (m == 'dec' or (len(o) == 2 and o[1].type == _I)):
+                r = i.reg_name(o[0].reg)
+                d = 1 if m == 'dec' else (o[1].imm if m == 'sub' else -o[1].imm)
+                off[r] = (off.get(r, 0) + d) & 0xFFFFFFFF
+                if nxt.startswith('j') and nxt != 'jmp': out.add(off[r])
+                continue
+            if m.startswith('j') or m.startswith('ret'): continue
+            for r in list(off):                      # any other write to r ends its chain
+                if o and o[0].type == _R and i.reg_name(o[0].reg) == r and m not in ('cmp', 'test', 'push'): del off[r]
+    out.discard(0)
+    _CONSTS[f] = tuple(sorted(out)); return _CONSTS[f]
+
 
 def _x87_round(st0, kind):
     """80-bit (mantissa, sign|exponent) -> the value rounded to float or double, as bytes"""

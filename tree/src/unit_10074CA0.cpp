@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 705 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55, town PASS 53, town2 PASS 53, combat PASS 53, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 48 returned normally, 685 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 48, town PASS 47, town2 PASS 47, combat PASS 46, zonetoinn PASS 47
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 {
   int v0;
@@ -111,7 +111,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 96 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 95, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 100 returned normally, 93 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 {
   int v2;
@@ -151,7 +151,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10075700  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 190 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 52, town2 PASS 53, combat PASS 52, zonetoinn PASS 53
+// GATE: PASS -- 100 trials, 64 returned normally, 238 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64, town PASS 62, town2 PASS 62, combat PASS 62, zonetoinn PASS 62
 XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float a5)
 {
   int v6;
@@ -212,7 +212,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
     v11 = 1.0 / (double)(g_cubeMapTargetHeight - 1);
     v19 = v11;
     v20 = v11 * a5 * 0x1.921fb00000000p+2;
-    orig::DynVB_Reserve(2 * g_cubeMapTargetHeight + 2);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 2 * g_cubeMapTargetHeight + 2);
     v12 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
     v13 = 0;
     v21 = 0;
@@ -244,7 +244,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
       }
       while ( v13 < g_cubeMapTargetHeight + 1 );
     }
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
     orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
     (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
       *(_DWORD *)(g_pResourceMng + 3772),
@@ -263,7 +263,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
 }
 
 // FUNCTION: FFXIMAIN 0x10075960  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 97, town2 PASS 97, combat PASS 96, zonetoinn PASS 97
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 95, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
 XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 {
   int v2;
@@ -285,7 +285,7 @@ XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100759C0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 357 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 94, town2 PASS 95, combat PASS 95, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 100 returned normally, 382 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
 XI_API int __thiscall fn_100759C0(int *self_, int a2, int a3)
 {
   int v4;
@@ -337,7 +337,7 @@ LABEL_13:
     *(_DWORD *)(g_pResourceMng + 3772),
     60,
     a3);
-  orig::DynVB_Reserve(4);
+  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
   v6 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
   *v6 = 0.0;
   v6[1] = 0.0;
@@ -366,7 +366,7 @@ LABEL_13:
   v6[26] = 1.0;
   v6[27] = 1.0;
   v6[22] = v9;
-  orig::DynVB_Unlock();
+  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   v10 = *(_DWORD *)(*self_ + 64);
   if ( v10 == 0 )
     v10 = *(_DWORD *)(*self_ + 68);
@@ -399,7 +399,7 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10076030  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2700 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 95, town2 PASS 95, combat PASS 94, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 96 returned normally, 2603 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96, town PASS 94, town2 PASS 94, combat PASS 92, zonetoinn PASS 94
 XI_API int __thiscall fn_10076030(int *self_, float *a2, char arg4)
 {
   double v3;
@@ -600,7 +600,7 @@ XI_API int __thiscall fn_10076030(int *self_, float *a2, char arg4)
 }
 
 // FUNCTION: FFXIMAIN 0x10076520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1000 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1000 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
 XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
 {
   float *v5;
@@ -612,7 +612,7 @@ XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
   double v12;
   double v13;
   double v14;
-  orig::DynVB_Reserve(4);
+  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
   v5 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
   v5[24] = 1.0;
   v5[17] = 1.0;
@@ -650,7 +650,7 @@ XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
   v14 = a3[3];
   v5[27] = a3[3];
   v5[20] = v14;
-  orig::DynVB_Unlock();
+  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   if ( a4 != 0 )
     orig::TexRef_SetTexture(self_, 0);
   (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(

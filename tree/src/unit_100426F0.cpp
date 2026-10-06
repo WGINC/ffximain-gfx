@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100426F0  (unit unit_100426F0: no unit evidence of its own; in the gap between 0x100426E0 (CMoDist) and 0x10042D00 (CMoDistMorphElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 57 returned normally, 272 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57, town PASS 50, town2 PASS 50, combat PASS 50, zonetoinn PASS 51
+// GATE: PASS -- 100 trials, 69 returned normally, 332 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69, town PASS 56, town2 PASS 57, combat PASS 57, zonetoinn PASS 56
 XI_API _DWORD * __thiscall fn_100426F0(float *self_)
 {
   void (__thiscall **vftable)(CMoProcessor *, int *, char *, int, float *, int, int, int);
@@ -82,6 +82,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
   _DWORD (&v75)[4] = *reinterpret_cast<_DWORD (*)[4]>(xi_frame + 0x7C);
   _DWORD (&v76)[6] = *reinterpret_cast<_DWORD (*)[6]>(xi_frame + 0x8C);
   char (&v77)[60] = *reinterpret_cast<char (*)[60]>(xi_frame + 0xA4);
+  bool xi_fpu_unord = false;
 
   v73 = self_;
   if ( (CMoDist_vf18_staticGuards & 1) == 0 )
@@ -141,30 +142,30 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
         v60 = v72[i];
       if ( v11 < v69[i] )
         v11 = v69[i];
-      v14 = v67 < (double)v72[i];
+      (xi_fpu_unord = __builtin_isunordered(v67, (double)v72[i]), v14 = v67 < (double)v72[i]);
       v15 = 0;
       v16 = v67 == v72[i];
-      if ( ((__int16)(((v14 || __builtin_isunordered(v67, (double)v72[i])) ? 0x100 : 0) | ((__builtin_isunordered(v67, (double)v72[i])) ? 0x400 : 0) | ((v16 || __builtin_isunordered(v67, (double)v72[i])) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v14 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v16 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v67 = v72[i];
-      v18 = v66 < (double)v69[i];
+      (xi_fpu_unord = __builtin_isunordered(v66, (double)v69[i]), v18 = v66 < (double)v69[i]);
       v19 = 0;
       v20 = v66 == v69[i];
-      if ( ((__int16)(((v18 || __builtin_isunordered(v66, (double)v69[i])) ? 0x100 : 0) | ((__builtin_isunordered(v66, (double)v69[i])) ? 0x400 : 0) | ((v20 || __builtin_isunordered(v66, (double)v69[i])) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v18 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v20 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v66 = v69[i];
     }
     v61 = v60 - v67;
     v65 = v11 - v66;
-    v22 = v61 < 256.0;
+    (xi_fpu_unord = __builtin_isunordered(v61, 256.0), v22 = v61 < 256.0);
     v23 = 0;
     v24 = v61 == 256.0;
-    if ( ((__int16)(((v22 || __builtin_isunordered(v61, 256.0)) ? 0x100 : 0) | ((__builtin_isunordered(v61, 256.0)) ? 0x400 : 0) | ((v24 || __builtin_isunordered(v61, 256.0)) ? 0x4000 : 0)) & 0x100) != 0 )
+    if ( ((__int16)(((v22 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v24 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 )
       v25 = 1.0;
     else
       v25 = 255.0 / v61;
-    v27 = v65 < 256.0;
+    (xi_fpu_unord = __builtin_isunordered(v65, 256.0), v27 = v65 < 256.0);
     v28 = 0;
     v29 = v65 == 256.0;
-    if ( ((__int16)(((v27 || __builtin_isunordered(v65, 256.0)) ? 0x100 : 0) | ((__builtin_isunordered(v65, 256.0)) ? 0x400 : 0) | ((v29 || __builtin_isunordered(v65, 256.0)) ? 0x4000 : 0)) & 0x100) != 0 )
+    if ( ((__int16)(((v27 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v29 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 )
       v30 = 1.0;
     else
       v30 = 255.0 / v65;
@@ -173,7 +174,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       v32 = v72[j++ - 1];
       *(float *)((char *)&v70 + j * 4) = (v32 - v67) * v25;
     }
-    orig::DynVB_Reserve(4);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
     v33 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
     v34 = v76[2];
     v33[5] = *(float *)&v75[1];
@@ -214,7 +215,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     v33[22] = v48;
     v33[23] = 0.0;
     v33[24] = 1.0;
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
     (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
@@ -241,7 +242,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       0,
       0);
     orig::sub_1006A0E0(g_pResourceMng, 0, 0);
-    orig::DynVB_Reserve(6);
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF142, 6);
     v49 = orig::DynVB_Lock((void *)g_pDynVB_FVF142);
     v50 = v49 + 9;
     for ( k = 5; k != 0; --k )
@@ -277,7 +278,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
     }
     *((float *)v49 + 34) = v72[0] * 0x1.0101020000000p-8;
     *((float *)v49 + 35) = v69[0] * 0x1.0101020000000p-8;
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF142);
     ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
     v56 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
     (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;

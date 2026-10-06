@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102394A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 48 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 48 returned normally, 36 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 48, town PASS 34, town2 PASS 34, combat PASS 34, zonetoinn PASS 34
 XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
 {
   char *result;
@@ -11,9 +11,11 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
   int v5;
   int v6;
   double v7;
-  float v8;
-  int v9;
-  __int64 v10;
+  alignas(16) unsigned char xi_frame[0x430];  // address-taken locals at their original offsets
+  float &v8 = *reinterpret_cast<float *>(xi_frame + 0x20);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  __int64 &v10 = *reinterpret_cast<__int64 *>(xi_frame + 0x28);
+
   result = (char *)self_->field_2C;
   if ( result != nullptr )
   {

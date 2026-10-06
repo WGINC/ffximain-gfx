@@ -174,6 +174,22 @@ def filled_past_array(body):
         return True
     return False
 
+def read_past_byref(body):
+    # An address-taken local -- scalar or array -- followed directly by a local whose first use is a read:
+    # the callee given the address fills a struct that runs on into it, and Hex-Rays named the struct's
+    # later fields as separate locals (0x10042020: `int v22` BYREF at +0x24 handed to a virtual method that
+    # fills a 12-byte vector, then `float v23` at +0x28 and `int v24` at +0x2C read without being assigned).
+    # GCC places such locals anywhere, so they read garbage.
+    ds = sorted(((int(m.group(6), 16), m) for m in STACK_DECL.finditer(body)), key=lambda x: x[0])
+    start = body.find('\n\n'); start = start if start > 0 else 0
+    for (o1, a), (o2, b) in zip(ds, ds[1:]):
+        if 'BYREF' not in a.group(0) or a.group(3): continue
+        el = _ELEM.get(a.group(2).strip())
+        if not el or o1 + (int(a.group(5)[1:-1]) if a.group(5) else 1) * el != o2: continue
+        m = re.search(r'(?<![\w.>])%s\b(\s*=(?!=))?' % re.escape(b.group(4)), body[start:])
+        if m and not m.group(1): return True
+    return False
+
 def negative_index(body):
     # `v72[v5 - 1]` with v5 from 0: an index below a stack array reaches the local before it (one array
     # split by Hex-Rays), which GCC places elsewhere
@@ -214,9 +230,15 @@ def exact_frame(body):
     # A third: an address-taken array followed directly by a local of its element type (`float v3[12];`
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
+    # A fourth: an address-taken local followed directly by a local read before it is assigned (read_past_byref).
+    # A fifth (byref_blocks.py): an address-taken local whose block (to the end of the frame) holds a local the code
+    # writes and never reads, or bytes no local is declared in. Its address is passed, so the callee reads what the
+    # original wrote there; as separate variables GCC drops the write-only ones (CDx::DrawTexturedScreenQuad 0x1000A5A0:
+    # the full-screen quad's vertices, 6 Oct). Placing the locals at their original offsets is what the original does.
     decls = list(BYREF_DECL.finditer(body))
+    import byref_blocks
     if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body) \
-            or filled_past_array(body):
+            or filled_past_array(body) or read_past_byref(body) or byref_blocks.blocks(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body
@@ -342,6 +364,7 @@ def body_rules(ea, body, exact_signs=False):
     body = fpu_status_words(body)
     body = negate_if_negative(body)
     body = float_args_in_casts(body)
+    body = thiscall_float_this(body)
     body = deleting_dtor_this(body)
     if not exact_signs: body = signed_dword_compares(body)
     body = vmethod_this(body)
@@ -386,32 +409,44 @@ def fpu_status_words(body):
     # word variable (// fps) unassigned, so `(fps & 0x100)` reads garbage. Each read of the status word
     # becomes the word fnstsw stores, built from the condition variables assigned most recently before it.
     # Hex-Rays writes them as c0 = a < b, c2 = 0, c3 = a == b; for an unordered pair (a NaN) x87 sets all
-    # three, so the word adds the unordered case, from the operands of the c0 comparison. The variables
-    # themselves keep Hex-Rays' meaning: its `(c0 | c2)` for a `test ah, 5; jp` parity test relies on it.
+    # three, so the word adds the unordered case. Whether the pair was unordered is recorded where the
+    # comparison is made (xi_fpu_unord, set with each c0 assignment from its operands), not rebuilt at the
+    # read: when branches compare different operands (`if (..) c0 = a < b; else c0 = a < c;`) the read must
+    # see the comparison the path took, and the operands may have changed by then (0x1017DE20 tested `a, c`
+    # on the `b` path, and missed the original's call when b was a NaN). The variables themselves keep
+    # Hex-Rays' meaning: its `(c0 | c2)` for a `test ah, 5; jp` parity test relies on it.
     decl = dict((v, k) for v, k in re.findall(r'\b(v\d+); // (fps|c0|c2|c3)\b', body))
     fps = {v for v, k in decl.items() if k == 'fps'}
     if not fps: return body
     cond = {v: k for v, k in decl.items() if k != 'fps'}
     tok = re.compile(r'\b(v\d+)\b(\s*=(?!=))?')
-    last, out, pos, unord = {}, [], 0, None
+    last, out, pos, unord = {}, [], 0, False
     start = body.find('\n\n')            # skip the declarations
-    for m in tok.finditer(body, start if start > 0 else 0):
+    start = start if start > 0 else 0
+    for m in tok.finditer(body, start):
+        if m.start() < pos: continue
         v, assign = m.group(1), m.group(2)
         if v in cond and assign:
             last[cond[v]] = v
             if cond[v] == 'c0':
-                ab = _split_top(_expr_at(body, m.end()), '<')
-                unord = '__builtin_isunordered(%s, %s)' % ab if ab else None
+                rhs = _expr_at(body, m.end()); ab = _split_top(rhs, '<')
+                un = '__builtin_isunordered(%s, %s)' % ab if ab else '0'
+                out.append(body[pos:m.start()])
+                out.append('(xi_fpu_unord = %s, %s%s)' % (un, body[m.start():m.end()], rhs))
+                pos = m.end() + len(rhs); unord = True
         elif v in fps and not assign and last:
             bit = {'c0': 0x100, 'c2': 0x400, 'c3': 0x4000}
             if unord:
-                bits = ' | '.join('((%s) ? 0x%X : 0)' % (' || '.join(([last[k]] if k in last and k != 'c2' else []) + [unord]), bit[k])
+                bits = ' | '.join('((%s) ? 0x%X : 0)' % (' || '.join(([last[k]] if k in last and k != 'c2' else []) + ['xi_fpu_unord']), bit[k])
                                   for k in ('c0', 'c2', 'c3'))
             else:
                 bits = ' | '.join('(%s ? 0x%X : 0)' % (last[k], bit[k]) for k in ('c0', 'c2', 'c3') if k in last)
             out.append(body[pos:m.start()]); out.append('(__int16)(%s)' % bits); pos = m.end()
     out.append(body[pos:])
-    return ''.join(out)
+    res = ''.join(out)
+    if unord:                            # declared with the function's other locals
+        res = res[:start] + '\n  bool xi_fpu_unord = false;' + res[start:]
+    return res
 
 def negate_if_negative(body):
     # `fcom [0.0]; fnstsw ax; test ah, 5; jp skip` followed by `fchs` (x < 0 ? -x : x, the game's inline
@@ -456,6 +491,40 @@ def float_args_in_casts(body):
         new = [('float' if p in ('_DWORD', 'int', 'unsigned int') and x.startswith('*(float *)') else p) for p, x in zip(ps, args)]
         if new != ps:
             out.append(body[pos:i]); out.append(', '.join(new)); pos = j - 1
+    out.append(body[pos:])
+    return ''.join(out)
+
+def _group_end(text, i):
+    # text[i] is '(': the index just past its matching ')', or -1
+    d = 0
+    for j in range(i, len(text)):
+        d += {'(': 1, ')': -1}.get(text[j], 0)
+        if d == 0: return j + 1
+    return -1
+
+def thiscall_float_this(body):
+    # A __thiscall's first parameter is `this`, passed in ECX, whatever Hex-Rays typed it. Typed `float` (an
+    # object pointer kept in a stack slot Hex-Rays also uses as a float), GCC pushes it instead and ECX keeps a
+    # stale value (CMoSchedularTask_Interpret, 0x1005CA6E `mov ecx, ebp; call [eax+0x178]` became a call with
+    # ECX = 2). In `(*(T (__thiscall **)(float, ...))(ptr))(x, ...)` the parameter is declared `_DWORD` and
+    # passed x's bits: COERCE_FLOAT(y) becomes y; any other float, xi_bitcast<uint32_t>((float)(x)).
+    out, pos = [], 0
+    for m in re.finditer(r'\(\*\([^()]*\(__thiscall \*\*\)\((float|double)(?=[,)])', body):
+        if m.start() < pos: continue
+        pl = m.end() - len(m.group(1)) - 1                    # '(' of the parameter list
+        pe = _group_end(body, pl)
+        if pe < 0 or body[pe:pe + 2] != ')(': continue
+        ee = _group_end(body, pe + 1)                          # the pointer expression
+        if ee < 0 or body[ee:ee + 2] != ')(': continue
+        ae = _group_end(body, ee + 1)
+        if ae < 0: continue
+        ps, args = _split_args(body[pl + 1:pe - 1]), _split_args(body[ee + 2:ae - 1])
+        if not args or len(ps) != len(args): continue
+        x = args[0]; inner = x[len('COERCE_FLOAT('):-1]
+        if x.startswith('COERCE_FLOAT(') and _expr_at(x, len('COERCE_FLOAT(')) == inner: arg0 = inner
+        else: arg0 = 'xi_bitcast<uint32_t>((float)(%s))' % x
+        out += [body[pos:pl + 1], ', '.join(['_DWORD'] + ps[1:]), body[pe - 1:ee + 2], ', '.join([arg0] + args[1:])]
+        pos = ae - 1
     out.append(body[pos:])
     return ''.join(out)
 

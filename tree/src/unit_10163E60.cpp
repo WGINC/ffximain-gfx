@@ -41,7 +41,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 23 returned normally, 212 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23, town PASS 26, town2 PASS 26, combat PASS 29, zonetoinn PASS 26
+// GATE: PASS -- 100 trials, 9 returned normally, 345 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 9, town PASS 21, town2 PASS 21, combat PASS 22, zonetoinn PASS 21
 XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
@@ -718,7 +718,7 @@ LABEL_18:
 }
 
 // FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 37 returned normally, 803 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 37, town PASS 37, town2 PASS 37, combat PASS 37, zonetoinn PASS 37
+// GATE: PASS -- 100 trials, 40 returned normally, 770 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40, town PASS 40, town2 PASS 40, combat PASS 40, zonetoinn PASS 40
 XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 {
   int v3;
@@ -839,7 +839,7 @@ XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 24 returned normally, 127357 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 24 returned normally, 141672 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 30, town2 PASS 30, combat PASS 31, zonetoinn PASS 31
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
 {
   int result;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 280 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 {
   int result;
@@ -49,7 +49,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10297EC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 604 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 674 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 {
   g_pSqgxContext[73] = a1;
@@ -72,7 +72,7 @@ XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102981E0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 17 returned normally, 234 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 17, town PASS 17, town2 PASS 17, combat PASS 17, zonetoinn PASS 17
+// GATE: PASS -- 100 trials, 29 returned normally, 258 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 29, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
   g_pSqgxContext[81] = 0;

@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 50 returned normally, 189 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
+// GATE: PASS -- 100 trials, 64 returned normally, 267 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64, town PASS 71, town2 PASS 72, combat PASS 71, zonetoinn PASS 72
 XI_API void __cdecl sqsnSceneDraw(int a1)
 {
   int v2;
@@ -44,6 +44,8 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
   int &v37 = *reinterpret_cast<int *>(xi_frame + 0x4C);
   int &v38 = *reinterpret_cast<int *>(xi_frame + 0x50);
   float *a1a;
+  bool xi_fpu_unord = false;
+
   v2 = 0;
   v3 = 0;
   v32 = 0;
@@ -188,10 +190,10 @@ LABEL_53:
         if ( *(float *)(*(_DWORD *)(a1 + 72) + v16 + 20) < 1.0 )
         {
           v20 = *(float *)(a1 + 56);
-          v21 = v20 < 0.999;
+          (xi_fpu_unord = __builtin_isunordered(v20, 0.999), v21 = v20 < 0.999);
           v22 = 0;
           v23 = v20 == 0.999;
-          if ( ((__int16)(((v21 || __builtin_isunordered(v20, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 0.999)) ? 0x400 : 0) | ((v23 || __builtin_isunordered(v20, 0.999)) ? 0x4000 : 0)) & 0x4100) == 0 )
+          if ( ((__int16)(((v21 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v23 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           {
 LABEL_46:
             orig::nullsub_60(a1, v15);
@@ -205,10 +207,10 @@ LABEL_46:
         if ( *(float *)(*(_DWORD *)(a1 + 72) + v16 + 20) < 1.0 )
         {
           v25 = *(float *)(a1 + 56);
-          v26 = v25 < 0.999;
+          (xi_fpu_unord = __builtin_isunordered(v25, 0.999), v26 = v25 < 0.999);
           v27 = 0;
           v28 = v25 == 0.999;
-          if ( ((__int16)(((v26 || __builtin_isunordered(v25, 0.999)) ? 0x100 : 0) | ((__builtin_isunordered(v25, 0.999)) ? 0x400 : 0) | ((v28 || __builtin_isunordered(v25, 0.999)) ? 0x4000 : 0)) & 0x4100) == 0 )
+          if ( ((__int16)(((v26 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v28 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
             goto LABEL_46;
         }
         orig::sqsnSceneLayerDraw((_DWORD *)a1, v15);

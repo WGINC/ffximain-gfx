@@ -1,0 +1,17 @@
+-O2
+-mfpmath=387
+-march=i686
+-ffreestanding
+-fno-builtin
+-fno-asynchronous-unwind-tables
+-fexcess-precision=standard
+-fno-exceptions
+-fno-rtti
+-std=c++17
+-Iinclude
+-fno-strict-aliasing
+-fwrapv
+-fno-delete-null-pointer-checks
+-fpermissive
+-w
+-DXI_API=__attribute__((dllexport))

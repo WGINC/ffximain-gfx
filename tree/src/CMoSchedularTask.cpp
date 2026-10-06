@@ -21,7 +21,7 @@ void * CMoSchedularTask::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10057FB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 93 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 80, town2 PASS 77, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 90 returned normally, 8 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 90, town PASS 89, town2 PASS 76, combat PASS 100, zonetoinn PASS 100
 int CMoSchedularTask::Interpret()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -983,6 +983,7 @@ int CMoSchedularTask::Interpret()
   char (&v956)[4] = *reinterpret_cast<char (*)[4]>(xi_frame + 0x268);
   int &v957 = *reinterpret_cast<int *>(xi_frame + 0x26C);
   _DWORD (&v958)[4] = *reinterpret_cast<_DWORD (*)[4]>(xi_frame + 0x270);
+  bool xi_fpu_unord = false;
 
   v2 = this->field_88;
   v3 = (unsigned __int8)*(_DWORD *)v2;
@@ -1214,10 +1215,10 @@ LABEL_212:
           v837 = COERCE_FLOAT(orig::ResourceHandle_Deref(v840[0]));
         *(float *)&v838 = orig::sub_1005E590((int)self);
         if ( orig::sub_1005E130(v840) == 0
-          || (v621 = *(float *)&v838 < 0x1.47ae140000000p-7,
+          || ((xi_fpu_unord = __builtin_isunordered(*(float *)&v838, 0x1.47ae140000000p-7), v621 = *(float *)&v838 < 0x1.47ae140000000p-7),
               v622 = 0,
               v623 = *(float *)&v838 == 0x1.47ae140000000p-7,
-              ((__int16)(((v621 || __builtin_isunordered(*(float *)&v838, 0x1.47ae140000000p-7)) ? 0x100 : 0) | ((__builtin_isunordered(*(float *)&v838, 0x1.47ae140000000p-7)) ? 0x400 : 0) | ((v623 || __builtin_isunordered(*(float *)&v838, 0x1.47ae140000000p-7)) ? 0x4000 : 0)) & 0x4100) != 0) )
+              ((__int16)(((v621 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v623 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0) )
         {
           *(float *)&v836 = 1.0;
         }
@@ -1680,26 +1681,26 @@ LABEL_212:
         v13 = (float *)(v7 + 1564);
         orig::Vec4_Copy((_DWORD *)v7 + 391, v841);
         v15 = *((float *)v7 + 391);
-        v16 = v15 < 0x1.921cac0000000p+1;
+        (xi_fpu_unord = __builtin_isunordered(v15, 0x1.921cac0000000p+1), v16 = v15 < 0x1.921cac0000000p+1);
         v17 = 0;
         v18 = v15 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v16 || __builtin_isunordered(v15, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v15, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v18 || __builtin_isunordered(v15, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v16 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v18 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           *v13 = *v13 - 0x1.921cac0000000p+2;
         if ( *v13 < -0x1.921cac0000000p+1 )
           *v13 = *v13 + 0x1.921cac0000000p+2;
         v20 = *((float *)v7 + 392);
-        v21 = v20 < 0x1.921cac0000000p+1;
+        (xi_fpu_unord = __builtin_isunordered(v20, 0x1.921cac0000000p+1), v21 = v20 < 0x1.921cac0000000p+1);
         v22 = 0;
         v23 = v20 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v21 || __builtin_isunordered(v20, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v20, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v23 || __builtin_isunordered(v20, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v21 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v23 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           *((float *)v7 + 392) = *((float *)v7 + 392) - 0x1.921cac0000000p+2;
         if ( *((float *)v7 + 392) < -0x1.921cac0000000p+1 )
           *((float *)v7 + 392) = *((float *)v7 + 392) + 0x1.921cac0000000p+2;
         v25 = *((float *)v7 + 393);
-        v26 = v25 < 0x1.921cac0000000p+1;
+        (xi_fpu_unord = __builtin_isunordered(v25, 0x1.921cac0000000p+1), v26 = v25 < 0x1.921cac0000000p+1);
         v27 = 0;
         v28 = v25 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v26 || __builtin_isunordered(v25, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v25, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v28 || __builtin_isunordered(v25, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v26 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v28 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           *((float *)v7 + 393) = *((float *)v7 + 393) - 0x1.921cac0000000p+2;
         if ( *((float *)v7 + 393) < -0x1.921cac0000000p+1 )
           *((float *)v7 + 393) = *((float *)v7 + 393) + 0x1.921cac0000000p+2;
@@ -1707,26 +1708,26 @@ LABEL_212:
       v29 = (float *)(v7 + 68);
       orig::Vec4_Copy((_DWORD *)v7 + 17, v841);
       v31 = *((float *)v7 + 17);
-      v32 = v31 < 0x1.921cac0000000p+1;
+      (xi_fpu_unord = __builtin_isunordered(v31, 0x1.921cac0000000p+1), v32 = v31 < 0x1.921cac0000000p+1);
       v33 = 0;
       v34 = v31 == 0x1.921cac0000000p+1;
-      if ( ((__int16)(((v32 || __builtin_isunordered(v31, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v31, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v34 || __builtin_isunordered(v31, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v32 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v34 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *v29 = *v29 - 0x1.921cac0000000p+2;
       if ( *v29 < -0x1.921cac0000000p+1 )
         *v29 = *v29 + 0x1.921cac0000000p+2;
       v36 = *((float *)v7 + 18);
-      v37 = v36 < 0x1.921cac0000000p+1;
+      (xi_fpu_unord = __builtin_isunordered(v36, 0x1.921cac0000000p+1), v37 = v36 < 0x1.921cac0000000p+1);
       v38 = 0;
       v39 = v36 == 0x1.921cac0000000p+1;
-      if ( ((__int16)(((v37 || __builtin_isunordered(v36, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v36, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v39 || __builtin_isunordered(v36, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v37 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v39 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *((float *)v7 + 18) = *((float *)v7 + 18) - 0x1.921cac0000000p+2;
       if ( *((float *)v7 + 18) < -0x1.921cac0000000p+1 )
         *((float *)v7 + 18) = *((float *)v7 + 18) + 0x1.921cac0000000p+2;
       v41 = *((float *)v7 + 19);
-      v42 = v41 < 0x1.921cac0000000p+1;
+      (xi_fpu_unord = __builtin_isunordered(v41, 0x1.921cac0000000p+1), v42 = v41 < 0x1.921cac0000000p+1);
       v43 = 0;
       v44 = v41 == 0x1.921cac0000000p+1;
-      if ( ((__int16)(((v42 || __builtin_isunordered(v41, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v41, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v44 || __builtin_isunordered(v41, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v42 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v44 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *((float *)v7 + 19) = *((float *)v7 + 19) - 0x1.921cac0000000p+2;
       if ( !(*((float *)v7 + 19) < -0x1.921cac0000000p+1) )
         return 0;
@@ -2002,7 +2003,7 @@ LABEL_700:
         return 0;
       if ( v837 == 0.0 )
         return 0;
-      if ( (*(unsigned __int8 (__thiscall **)(float))(*(_DWORD *)LODWORD(v837) + 376))(COERCE_FLOAT(LODWORD(v837))) == 0 )
+      if ( (*(unsigned __int8 (__thiscall **)(_DWORD))(*(_DWORD *)LODWORD(v837) + 376))(LODWORD(v837)) == 0 )
         return 0;
       v609 = orig::sub_1005E040(176);
       if ( v609 == nullptr )
@@ -3180,10 +3181,10 @@ LABEL_370:
       *(float *)v841 = -v400;
       v402 = *(float *)v841 - *(float *)((*(int (__thiscall **)(int *))(v401 + 448))(v392) + 4);
       *(float *)&v839 = v402;
-      v404 = v402 < 0x1.921cac0000000p+1;
+      (xi_fpu_unord = __builtin_isunordered(v402, 0x1.921cac0000000p+1), v404 = v402 < 0x1.921cac0000000p+1);
       v405 = 0;
       v406 = v402 == 0x1.921cac0000000p+1;
-      if ( ((__int16)(((v404 || __builtin_isunordered(v402, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v402, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v406 || __builtin_isunordered(v402, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+      if ( ((__int16)(((v404 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v406 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         *(float *)&v839 = *(float *)&v839 - 0x1.921cac0000000p+2;
       if ( *(float *)&v839 < -0x1.921cac0000000p+1 )
         *(float *)&v839 = *(float *)&v839 + 0x1.921cac0000000p+2;

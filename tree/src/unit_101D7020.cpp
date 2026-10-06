@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x101EEBD0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 374 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 79 returned normally, 358 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall fn_101EEBD0(int self_)
 {
   int v2;

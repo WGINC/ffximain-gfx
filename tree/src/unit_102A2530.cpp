@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 95 returned normally, 31 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 89, town2 PASS 89, combat PASS 91, zonetoinn PASS 89
+// GATE: PASS -- 100 trials, 93 returned normally, 19 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 89, town2 PASS 83, combat PASS 83, zonetoinn PASS 84
 XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 {
   int *v3;
@@ -29,6 +29,8 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
   int v24[4];
   int i;
   int v26;
+  bool xi_fpu_unord = false;
+
   if ( !(*(float *)(a1 + 56) < 1.0) )
   {
     v3 = (int *)(*(_DWORD *)(a1 + 64) + 48 * a2);
@@ -46,10 +48,10 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
     orig::sqgxZMask(0);
     orig::sqgxZTest(0);
     v6 = *(float *)(a1 + 56);
-    v7 = v6 < 0.9999;
+    (xi_fpu_unord = __builtin_isunordered(v6, 0.9999), v7 = v6 < 0.9999);
     v8 = 0;
     v9 = v6 == 0.9999;
-    if ( ((__int16)(((v7 || __builtin_isunordered(v6, 0.9999)) ? 0x100 : 0) | ((__builtin_isunordered(v6, 0.9999)) ? 0x400 : 0) | ((v9 || __builtin_isunordered(v6, 0.9999)) ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v7 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v9 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
     {
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
       orig::sqgxTextureStencilClear(0);
@@ -75,10 +77,10 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
       ++v10;
     }
     v17 = *(float *)(a1 + 56);
-    v18 = v17 < 0.9999;
+    (xi_fpu_unord = __builtin_isunordered(v17, 0.9999), v18 = v17 < 0.9999);
     v19 = 0;
     v20 = v17 == 0.9999;
-    if ( ((__int16)(((v18 || __builtin_isunordered(v17, 0.9999)) ? 0x100 : 0) | ((__builtin_isunordered(v17, 0.9999)) ? 0x400 : 0) | ((v20 || __builtin_isunordered(v17, 0.9999)) ? 0x4000 : 0)) & 0x4100) != 0 )
+    if ( ((__int16)(((v18 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v20 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
     else
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);

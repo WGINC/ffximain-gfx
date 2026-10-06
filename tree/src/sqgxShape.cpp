@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x1028AA70  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
-// GATE: PASS -- 100 trials, 78 returned normally, 28 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78, town PASS 78, town2 PASS 78, combat PASS 78, zonetoinn PASS 78
+// GATE: PASS -- 100 trials, 71 returned normally, 42 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 71, town2 PASS 71, combat PASS 71, zonetoinn PASS 71
 XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 {
   int *result;
@@ -41,7 +41,7 @@ XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1028AB50  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
-// GATE: PASS -- 100 trials, 34 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34, town PASS 34, town2 PASS 34, combat PASS 34, zonetoinn PASS 34
+// GATE: PASS -- 100 trials, 29 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 29, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
 XI_API int __cdecl fn_1028AB50(void)
 {
   int result;
@@ -67,8 +67,10 @@ XI_API int __cdecl fn_1028AB50(void)
   int v20;
   int v21;
   int v22;
-  int v23;
-  unsigned int v24;
+  alignas(16) unsigned char xi_frame[0x47C];  // address-taken locals at their original offsets
+  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x74);
+  unsigned int &v24 = *reinterpret_cast<unsigned int *>(xi_frame + 0x78);
+
   v1 = g_pSqgxContext;
   v2 = g_pSqgxContext[614];
   if ( v2 != 0 )
@@ -247,7 +249,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1028AFE0  (unit sqgxShape: name sqgxShape_1028AFE0)
-// GATE: PASS -- 100 trials, 89 returned normally, 153 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89, town PASS 89, town2 PASS 89, combat PASS 89, zonetoinn PASS 89
+// GATE: PASS -- 100 trials, 89 returned normally, 155 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89, town PASS 89, town2 PASS 89, combat PASS 89, zonetoinn PASS 89
 XI_API int * __cdecl sqgxShapeBegin(void)
 {
   int *v0;
@@ -273,15 +275,17 @@ XI_API int * __cdecl sqgxShapeBegin(void)
   unsigned int v20;
   int j;
   struct IDirect3DDevice8Vtbl *lpVtbl;
-  unsigned int v23;
-  unsigned int v24;
-  unsigned int v25;
-  unsigned int v26;
-  unsigned int v27;
-  unsigned int v28;
-  void *v29;
-  int v30;
-  int v31;
+  alignas(16) unsigned char xi_frame[0x54C];  // address-taken locals at their original offsets
+  unsigned int &v23 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v24 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v25 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v26 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v27 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  unsigned int &v28 = *reinterpret_cast<unsigned int *>(xi_frame + 0x124);
+  void * &v29 = *reinterpret_cast<void * *>(xi_frame + 0x140);
+  int &v30 = *reinterpret_cast<int *>(xi_frame + 0x144);
+  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x148);
+
   v0 = g_pSqgxContext;
   for ( i = 0; i < g_pSqgxContext[710] + 1; ++i )
   {

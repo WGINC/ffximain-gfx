@@ -181,10 +181,11 @@ class Machine:
     def _on_stub(self, uc, addr, size, _):
         spec = self.stubs[addr]
         esp = uc.reg_read(UC_X86_REG_ESP)
-        ret_addr, *args = struct.unpack("<5I", uc.mem_read(esp, 20))
-        ecx = uc.reg_read(UC_X86_REG_ECX)
         # log only the callee's real stack arguments; anything above them is the caller's frame
         nargs = spec.get("args", spec.get("pops", 0))
+        k = max(4, min(nargs, 16))
+        ret_addr, *args = struct.unpack("<%dI" % (k + 1), uc.mem_read(esp, 4 * (k + 1)))
+        ecx = uc.reg_read(UC_X86_REG_ECX)
         # ECX is only meaningful to a thiscall callee; for cdecl/stdcall it is scratch
         logged_ecx = ecx if spec.get("conv", "thiscall") == "thiscall" else 0
         self.calls.append((addr, logged_ecx, tuple(args[:nargs])))
@@ -271,6 +272,7 @@ class Fuzzer:
         self.m = m
         self.rng = random.Random(seed)
         self.cursor = SANDBOX
+        self.dict = ()          # values the function under test compares against (diffemu_gfx._cmp_consts); empty: none
 
     def reset(self):
         self.cursor = SANDBOX
@@ -302,7 +304,11 @@ class Fuzzer:
         after another; only the Python call overhead is gone."""
         rnd = self.rng.random; bits = self.rng.getrandbits; f2i = _F2I
         span = POOL_SIZE - 0x1000; kspan = span.bit_length(); out = []
+        d = self.dict
         for _ in range(n):
+            # with a dictionary, one draw in eight is one of the constants the function compares against (an extra
+            # random() per value; without one the stream is exactly as before)
+            if d and rnd() < 0.125: out.append(d[int(rnd() * len(d))]); continue
             k = rnd()
             if k < 0.25: out.append(0)
             elif k < 0.45:

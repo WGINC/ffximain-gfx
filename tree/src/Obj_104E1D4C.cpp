@@ -68,7 +68,7 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10124EB0  (placed by callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 void Obj_104E1D4C::Cursor_Draw()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

@@ -16,3 +16,4 @@ __pycache__/
 # kit build outputs (kit/xikit/build.sh): the manifest holds bytes of the game's code
 kit/xikit/build/
 kit/xikit/dist/
+sdk/dist/

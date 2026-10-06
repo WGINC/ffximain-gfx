@@ -1,0 +1,11 @@
+{
+ "why": "The fifth call to 0x1003FCF0 passes the element in ECX, kept from the call before it: 0x10040B22 `mov ecx, ebp` (EBP = this, 0x10040675 `mov ebp, ecx`), 0x10040B24 `call 0x1003FCE0`, 0x10040B31 `call 0x1003FCF0`. 0x1003FCE0 is `lea eax,[ecx+0x38]; ret`: it writes no part of ECX, so ECX still holds the element at 0x10040B31, and 0x1003FCF0 reads it at once (`mov al,[ecx+0x30]`). Hex-Rays treated ECX as lost across the first call and passed the never-assigned `v23 // ecx`. The other four calls to 0x1003FCF0 (0x10040677, 0x100407BF, 0x1004092E, 0x10040A71) already pass the element.",
+ "evidence": "Disassembly of 0x10040675, 0x10040B20..0x10040B31 and 0x1003FCE0..0x1003FCE3; data/ecx_use.json 0x1003FCF0: `mov al, byte ptr [ecx + 0x30]`; data/reg_leftover_audit.json lists v23 (ecx) as not proven.",
+ "text_sha1": "f5dd6ec45a7d8c6b3101505cacb89640dc330b8e",
+ "replace": [
+  [
+   "      v24 = sub_1003FCF0(v23);",
+   "      v24 = sub_1003FCF0((char *)self);"
+  ]
+ ]
+}

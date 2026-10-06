@@ -3,7 +3,7 @@
 #include "CYyModelDt.hpp"
 
 // FUNCTION: FFXIMAIN 0x100224D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 72 returned normally, 240 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 72, town PASS 75, town2 PASS 75, combat PASS 74, zonetoinn PASS 75
+// GATE: PASS -- 100 trials, 71 returned normally, 245 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71, town PASS 84, town2 PASS 84, combat PASS 84, zonetoinn PASS 83
 char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
 {
   _BYTE * self = reinterpret_cast<_BYTE *>(this);  // byte-exact view for the rest
@@ -41,6 +41,8 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
   unsigned __int16 a3b;
   int v39;
   int v40;
+  bool xi_fpu_unord = false;
+
   v6 = self;
   self_v = self;
   orig::CYyModelDt_SetVertexShader(0);
@@ -253,10 +255,10 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
             }
             while ( (int)v12 < (int)&g_lightTable_End );
             v14 = *(float *)(v7 + 18);
-            v15 = v14 < 1.5;
+            (xi_fpu_unord = __builtin_isunordered(v14, 1.5), v15 = v14 < 1.5);
             v16 = 0;
             v17 = v14 == 1.5;
-            if ( ((__int16)(((v15 || __builtin_isunordered(v14, 1.5)) ? 0x100 : 0) | ((__builtin_isunordered(v14, 1.5)) ? 0x400 : 0) | ((v17 || __builtin_isunordered(v14, 1.5)) ? 0x4000 : 0)) & 0x4100) != 0 )
+            if ( ((__int16)(((v15 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v17 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) != 0 )
             {
               g_modelMaterial[12] = 0;
               g_modelMaterial[13] = 0;
@@ -374,7 +376,7 @@ LABEL_80:
 }
 
 // FUNCTION: FFXIMAIN 0x10022FA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 int __cdecl CYyModelDt::SetVertexShader(int a1)
 {
   g_vertexShader_6E4C = a1;
@@ -435,7 +437,7 @@ __int16 CYyModelDt::GetElementCount()
 }
 
 // FUNCTION: FFXIMAIN 0x100251A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74, town PASS 41, town2 PASS 54, combat PASS 46, zonetoinn PASS 23
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 45, town2 PASS 58, combat PASS 47, zonetoinn PASS 20
 int CYyModelDt::MarkReferencedBones(int a2)
 {
   int v2;
@@ -476,7 +478,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63, town PASS 49, town2 PASS 27, combat PASS 49, zonetoinn PASS 27
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67, town PASS 58, town2 PASS 24, combat PASS 58, zonetoinn PASS 24
 __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

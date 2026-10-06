@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10044F10  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 89 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 99, combat PASS 100, zonetoinn PASS 100
 XI_API void __thiscall fn_10044F10(int self_)
 {
   int v2;
@@ -29,6 +29,7 @@ XI_API void __thiscall fn_10044F10(int self_)
   int &v22 = *reinterpret_cast<int *>(xi_frame + 0x10);
   int &v23 = *reinterpret_cast<int *>(xi_frame + 0x14);
   int &v24 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  bool xi_fpu_unord = false;
 
   v2 = *(_DWORD *)(self_ + 268);
   if ( (v2 & 4) != 0 )
@@ -111,10 +112,10 @@ XI_API void __thiscall fn_10044F10(int self_)
     v14 = *(float *)(self_ + 296);
     if ( v14 < 0.0 )
       v14 = -v14;
-    v17 = v14 < 0x1.eb851e0000000p-6;
+    (xi_fpu_unord = __builtin_isunordered(v14, 0x1.eb851e0000000p-6), v17 = v14 < 0x1.eb851e0000000p-6);
     v18 = 0;
     v19 = v14 == 0x1.eb851e0000000p-6;
-    if ( ((__int16)(((v17 || __builtin_isunordered(v14, 0x1.eb851e0000000p-6)) ? 0x100 : 0) | ((__builtin_isunordered(v14, 0x1.eb851e0000000p-6)) ? 0x400 : 0) | ((v19 || __builtin_isunordered(v14, 0x1.eb851e0000000p-6)) ? 0x4000 : 0)) & 0x4100) == 0 )
+    if ( ((__int16)(((v17 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v19 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       v20 = 1.0 - *(float *)(self_ + 296);
     else
 LABEL_28:
@@ -178,7 +179,7 @@ XI_API CMoProcessor * __thiscall fn_10045C50(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100464D0  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 294 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 98, town2 PASS 97, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 95, town2 PASS 94, combat PASS 97, zonetoinn PASS 95
 XI_API int __cdecl fn_100464D0(void)
 {
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(

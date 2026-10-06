@@ -131,6 +131,22 @@ def covered(part, written_parts):
     return part in have and (part != 'ecx' or 'ecx' in written_parts)
 
 
+def masked_read(i, parts):
+    """`and r32, imm` whose immediate keeps only bits 0-7, 8-15 or 0-15: the result's other bits are 0 whatever
+    the register held (Intel SDM, AND), so the instruction reads only the part those bits are in and writes the
+    whole register. ({the part read}, or None when the instruction is not such an `and`.) parts: the register's
+    names in the order 32-bit, 16-bit, low byte, high byte"""
+    ops = i.operands
+    if i.mnemonic != 'and' or len(ops) != 2 or ops[0].type != X86_OP_REG or ops[1].type != X86_OP_IMM: return None
+    full, x, lo, hi = parts
+    if i.reg_name(ops[0].reg) != full: return None
+    v = ops[1].imm & 0xFFFFFFFF
+    if v & ~0xFF == 0: return {lo}
+    if v & ~0xFF00 == 0: return {hi}
+    if v & ~0xFFFF == 0: return {x}
+    return None
+
+
 def ecx_effect(i):
     """(parts of ECX the instruction reads, parts it writes, may-read-unknown)"""
     m = i.mnemonic; ops = i.operands; rd, wr, unk = set(), set(), False
@@ -145,6 +161,7 @@ def ecx_effect(i):
             and ((m == 'or' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == (1 << 8 * ops[0].size) - 1)
                  or (m == 'and' and ops[1].imm & ((1 << 8 * ops[0].size) - 1) == 0)):
         return rd, {i.reg_name(ops[0].reg)}, False                     # `or ecx, -1` / `and ecx, 0`: a constant
+    if masked_read(i, ('ecx', 'cx', 'cl', 'ch')) is not None: return masked_read(i, ('ecx', 'cx', 'cl', 'ch')), {'ecx'}, False
     if m == 'push' and ops and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'ecx':
         return rd, wr, True                                             # `push ecx` also reserves 4 stack bytes
     for n, o in enumerate(ops):
@@ -169,12 +186,24 @@ def ecx_inputs(im, code, starts):
     an indirect call or jump, or a callee that cannot tell, reached with ECX not wholly written)}; a fixpoint
     over direct calls and tail jumps"""
     res, pend = {}, {}
+    import reg_preserve                     # (imports this module: not at the top)
+    keeps = reg_preserve.preserved(im, code)
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
         wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
+        order = sorted(ins)
         while work:
             a = work.pop(); i = ins[a]; w = wr[a]; o = i.operands
             rd, wp, unk = ecx_effect(i)
+            if unk and i.mnemonic == 'push' and o and o[0].type == X86_OP_REG and r32(i.reg_name(o[0].reg)) == REG:
+                # `push REG`: MSVC's stack-slot reservation or an argument. Only the exact case is decided here:
+                # reg_preserve.slot_kind says "overwritten" when a 4-byte write to the slot comes straight after, before
+                # anything could read it, so REG is not read. Everything else (its "use" is only "not shown to be
+                # overwritten") stays undecided
+                if reg_preserve.slot_kind(ins, order, a) == 'overwritten': rd, wp, unk = set(), set(), False
+            # a direct call to a function that leaves the register untouched (reg_preserve.py) does not write it:
+            # the entry value is still there afterwards (0x10044010 reads its ECX after `call 0x10043de0`)
+            if i.mnemonic == 'call' and o and o[0].type == X86_OP_IMM and REG in keeps.get(o[0].imm, ()): wp = set()
             if any(not covered(p, w) for p in rd): read = True; FIRST_READ[f] = '0x%08X %s %s' % (a, i.mnemonic, i.op_str); break
             whole = REG in w
             if not whole:

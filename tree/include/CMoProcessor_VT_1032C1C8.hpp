@@ -5,12 +5,12 @@
 #pragma pack(push, 1)
 class XI_API CMoProcessor_VT_1032C1C8 {
 public:
-    int vf008();  // 0x1006CC40
-    int vf010();  // 0x1006CC50
-    int vf040();  // 0x1006CC60
-    int vf038();  // 0x1006CC70
-    int vf046();  // 0x1006CC80
-    int vf045();  // 0x1006CC90
+    int vf008(void * a1, void * a2, void * a3);  // 0x1006CC40
+    int vf010(void * a1, void * a2, void * a3);  // 0x1006CC50
+    int vf040(float * a1);  // 0x1006CC60
+    int vf038(float * a1, float * a2);  // 0x1006CC70
+    int vf046(void * a1);  // 0x1006CC80
+    int vf045(void * a1, void * a2);  // 0x1006CC90
     static char ** __cdecl CMoProcessor_GetRuntimeClass();  // 0x1006CCD0
     float * vf012(float *a1, float *a2, float a3);  // 0x10070780
     double vf014(float *a1, float *a2);  // 0x10070790

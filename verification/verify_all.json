@@ -93,6 +93,21 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:ecx_this_sites.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:reg_kept_audit.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:entry_regs.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:ida_classes.json": {
   "ok": true,
   "differing": [],
@@ -132,6 +147,16 @@
   "ok": true,
   "differing": [],
   "n_differing": 0
+ },
+ "wrapper-regs": {
+  "ok": true,
+  "wrappers": 1165,
+  "reads_a_register_it_is_not_given": [],
+  "via_a_callee": [
+   "0x10047F80 CMoGeneratorClone_VT_1032B114_Constructor __thiscall reads EDX",
+   "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
+   "0x1006CB50 CreateProcessorInstance __cdecl reads EDX"
+  ]
  },
  "agreement": {
   "ok": true,
@@ -183,7 +208,7 @@
  },
  "hx_patches": {
   "ok": true,
-  "patches": 6,
+  "patches": 27,
   "stale": [],
   "without_evidence": []
  },
@@ -221,7 +246,68 @@
   ]
  },
  "tree-gate": {
-  "ok": null,
-  "skipped": "--quick"
+  "ok": false,
+  "functions": 777,
+  "gates": {
+   "fuzz": {
+    "PASS": 772,
+    "FAIL": 1,
+    "INCONCLUSIVE": 2,
+    "UNRESOLVED": 2
+   },
+   "town": {
+    "PASS": 773,
+    "FAIL": 1,
+    "INCONCLUSIVE": 2,
+    "UNRESOLVED": 1
+   },
+   "town2": {
+    "PASS": 773,
+    "FAIL": 1,
+    "INCONCLUSIVE": 2,
+    "UNRESOLVED": 1
+   },
+   "combat": {
+    "PASS": 773,
+    "FAIL": 1,
+    "INCONCLUSIVE": 2,
+    "UNRESOLVED": 1
+   },
+   "zonetoinn": {
+    "PASS": 773,
+    "FAIL": 1,
+    "INCONCLUSIVE": 2,
+    "UNRESOLVED": 1
+   }
+  },
+  "not_passing": {
+   "0x10016320": {
+    "fuzz": "INCONCLUSIVE",
+    "town": "INCONCLUSIVE",
+    "town2": "INCONCLUSIVE",
+    "combat": "INCONCLUSIVE",
+    "zonetoinn": "INCONCLUSIVE"
+   },
+   "0x10038E10": {
+    "fuzz": "FAIL",
+    "town": "FAIL",
+    "town2": "FAIL",
+    "combat": "FAIL",
+    "zonetoinn": "FAIL"
+   },
+   "0x1006B3B0": {
+    "fuzz": "INCONCLUSIVE",
+    "town": "INCONCLUSIVE",
+    "town2": "INCONCLUSIVE",
+    "combat": "INCONCLUSIVE",
+    "zonetoinn": "INCONCLUSIVE"
+   }
+  },
+  "live": [
+   "town",
+   "town2",
+   "combat",
+   "zonetoinn"
+  ]
  }
 }

@@ -12,8 +12,10 @@ rm -rf "$W/tree"; cp -r "$ROOT/tree" "$W/tree"; rm -rf "$W/tree/build"
 cp "$W/tree/build/gfx_recon_ingame.dll" "$OUT/"
 python3 "$H/close_gaps.py" "$OUT/gfx_recon_ingame.dll"        # Windows refuses gaps between sections (error 193)
 python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" | head -1
+python3 "$ROOT/sdk/gen_sdk.py"                                # sdk/include/xikit_game.hpp follows the manifest
+python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" --from-gates | head -1   # the UNRESOLVED call sites, for facts=1
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
-    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp
+    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
 python3 - "$H/xikit.c" "$OUT/xikit.ini" <<'PY'
 import re, sys
 s = open(sys.argv[1]).read()

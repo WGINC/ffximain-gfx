@@ -52,7 +52,7 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
   {
     v3 = 2 * result + 2;
     v29 = v3;
-    orig::DynVB_Reserve(v3 * at<int8_t>(this, 0x1B5));
+    orig::DynVB_Reserve((void *)g_pDynVB_FVF42, v3 * at<int8_t>(this, 0x1B5));
     v4 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF42);
     v5 = 0;
     if ( at<int8_t>(this, 0x1B5) > 0 )
@@ -139,7 +139,7 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
       v7 = v31;
       v3 = v29;
     }
-    orig::DynVB_Unlock();
+    orig::DynVB_Unlock((void *)g_pDynVB_FVF42);
     if ( (CXi471011C8_VT_1032B478_RebuildBlendWeights_staticGuards & 1) == 0 )
     {
       CXi471011C8_VT_1032B478_RebuildBlendWeights_staticGuards |= 1u;

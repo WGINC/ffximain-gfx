@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 69 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 95
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
@@ -26,7 +26,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 830 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1022 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -107,7 +107,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 13958 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// NOT VERIFIED -- FAIL
 XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
 {
   _DWORD *v1;
@@ -163,6 +163,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   unsigned int &v51 = *reinterpret_cast<unsigned int *>(xi_frame + 0x1AC);
   int &v52 = *reinterpret_cast<int *>(xi_frame + 0x1B0);
   int &v53 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
+  bool xi_fpu_unord = false;
 
   v1 = self_;
   result = orig::Settings_GetValue(200);
@@ -212,10 +213,10 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
       {
         (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
         v10 = (double)(v1[2] + v22 / v5) * 0x1.1df2420000000p-6;
-        v11 = v10 < 0x1.921cac0000000p+1;
+        (xi_fpu_unord = __builtin_isunordered(v10, 0x1.921cac0000000p+1), v11 = v10 < 0x1.921cac0000000p+1);
         v12 = 0;
         v13 = v10 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v11 || __builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x100 : 0) | ((__builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x400 : 0) | ((v13 || __builtin_isunordered(v10, 0x1.921cac0000000p+1)) ? 0x4000 : 0)) & 0x4100) == 0 )
+        if ( ((__int16)(((v11 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v13 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
           v10 = v10 - 0x1.921cac0000000p+2;
         if ( v10 < -0x1.921cac0000000p+1 )
           v10 = v10 + 0x1.921cac0000000p+2;

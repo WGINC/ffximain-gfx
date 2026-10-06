@@ -3,7 +3,7 @@
 #include "CYyOs2VtxBuffer.hpp"
 
 // FUNCTION: FFXIMAIN 0x1002CCB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 90, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
 {
   unsigned int v3;
@@ -142,7 +142,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 98 returned normally, 147 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 100 returned normally, 158 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 100, zonetoinn PASS 100
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
   unsigned int v2;

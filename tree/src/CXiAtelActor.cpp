@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 276 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5)
 {
   __int16 v5; // fps
@@ -76,6 +76,7 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
   char &v72 = *reinterpret_cast<char *>(xi_frame + 0x1F4);
   char &v73 = *reinterpret_cast<char *>(xi_frame + 0x254);
   char &v74 = *reinterpret_cast<char *>(xi_frame + 0x258);
+  bool xi_fpu_unord = false;
 
   orig::fn_10027990((Iostream_init *)v68);
   v58 = 0.0;
@@ -86,11 +87,11 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
   orig::Mat4_SetTranslation(v68, a1);
   orig::CDx_SetTransform(g_pCDx, 256, v68);
   orig::Gfx_ProjectWorldToClip(&v58, &v58);
-  v6 = v60 < 1.0;
+  (xi_fpu_unord = __builtin_isunordered(v60, 1.0), v6 = v60 < 1.0);
   v7 = 0;
   v8 = v60 == 1.0;
   v64 = v60;
-  if ( ((__int16)(((v6 || __builtin_isunordered(v60, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v60, 1.0)) ? 0x400 : 0) | ((v8 || __builtin_isunordered(v60, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v60 < 0.0) )
+  if ( ((__int16)(((v6 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v8 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 && !(v60 < 0.0) )
   {
     orig::Gfx_NdcToScreen(&v58);
     orig::Vec2_AddScalar(&v58, -0.5);
@@ -338,7 +339,7 @@ LABEL_63:
 }
 
 // FUNCTION: FFXIMAIN 0x10086900  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 252 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 172 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
 {
   __int16 v3; // fps
@@ -396,6 +397,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   _WORD (&v54)[72] = *reinterpret_cast<_WORD (*)[72]>(xi_frame + 0x1D0);
   char &v55 = *reinterpret_cast<char *>(xi_frame + 0x260);
   char &v56 = *reinterpret_cast<char *>(xi_frame + 0x264);
+  bool xi_fpu_unord = false;
 
   orig::fn_10027990((Iostream_init *)v50);
   v41 = 0.0;
@@ -406,11 +408,11 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
   orig::Mat4_SetTranslation(v50, a1);
   orig::CDx_SetTransform(g_pCDx, 256, v50);
   orig::Gfx_ProjectWorldToClip(&v41, &v41);
-  v4 = v43 < 1.0;
+  (xi_fpu_unord = __builtin_isunordered(v43, 1.0), v4 = v43 < 1.0);
   v5 = 0;
   v6 = v43 == 1.0;
   v47 = v43;
-  if ( ((__int16)(((v4 || __builtin_isunordered(v43, 1.0)) ? 0x100 : 0) | ((__builtin_isunordered(v43, 1.0)) ? 0x400 : 0) | ((v6 || __builtin_isunordered(v43, 1.0)) ? 0x4000 : 0)) & 0x100) != 0 && !(v43 < 0.0) )
+  if ( ((__int16)(((v4 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v6 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) != 0 && !(v43 < 0.0) )
   {
     orig::Gfx_NdcToScreen(&v41);
     orig::Vec2_AddScalar(&v41, -0.5);

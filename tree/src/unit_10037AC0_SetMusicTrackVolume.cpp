@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 9 returned normally, 1327 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 9, town PASS 9, town2 PASS 9, combat PASS 9, zonetoinn PASS 9
+// GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 12, town PASS 12, town2 PASS 12, combat PASS 12, zonetoinn PASS 12
 XI_API int __cdecl Font_DrawPass(void)
 {
   int *v0;
@@ -55,7 +55,7 @@ XI_API int __cdecl Font_DrawPass(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038720  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 26 returned normally, 170122 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26, town PASS 26, town2 PASS 26, combat PASS 26, zonetoinn PASS 26
+// GATE: PASS -- 100 trials, 24 returned normally, 174795 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 24, town2 PASS 24, combat PASS 24, zonetoinn PASS 24
 XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float arg8, float a4)
 {
   unsigned __int8 *v4;

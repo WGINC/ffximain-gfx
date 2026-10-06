@@ -2,15 +2,17 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x101771B0  (unit unit_10177070: no unit evidence of its own; in the gap between 0x10177050 (CMoResource_VT_103366F0) and 0x101773C0 (CTsZoneMap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 252 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 246 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __stdcall fn_101771B0(int a1, int a2)
 {
   int v2;
   IDirect3DDevice8 *pDevice;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int v5;
-  int v7;
-  char Buffer[512];
+  alignas(16) unsigned char xi_frame[0x61C];  // address-taken locals at their original offsets
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x18);
+  char (&Buffer)[512] = *reinterpret_cast<char (*)[512]>(xi_frame + 0x1C);
+
   v2 = orig::fn_102DA79B(aCTestVsh, 0, nullptr, (struct ID3DXBuffer **)&v7, nullptr);
   orig::fn_102DAA71(v2, Buffer, 0x200u);
   if ( v2 >= 0 )
@@ -26,7 +28,7 @@ XI_API int __stdcall fn_101771B0(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x101772E0  (unit unit_10177070: no unit evidence of its own; in the gap between 0x10177050 (CMoResource_VT_103366F0) and 0x101773C0 (CTsZoneMap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 243 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 261 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API int __thiscall fn_101772E0(const char **self_, int a2)
 {
   char *Text;

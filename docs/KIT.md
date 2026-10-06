@@ -13,7 +13,8 @@ the crash-safety rules the owner's `speedfix_hook` already follows.
 | Selection | All verified functions, or a list (address or name); minus an exclude list, the quarantine file, and the functions `speedfix_hook` patches inside when it is loaded | all verified |
 | Live toggle | Changing the ini (re-read every 60 frames) or the hotkey (Ctrl+Alt+F9: all swaps off/on) patches or restores at the next frame boundary | on |
 | Call counts | A per-function stub counts how often each swapped function runs (`xikit_calls_<pid>.csv`): which reconstructed code the game actually used | on |
-| Crash capture | An exception whose address is in reconstructed code (or a stub) is logged with the function, registers and the top of the stack, and the function is added to `xikit_quarantine.txt`, so the next start leaves it out | always |
+| Crash capture | An exception whose address is in reconstructed code (or a stub) is logged with the function, registers and the top of the stack, and the function is added to `xikit_quarantine.txt`, so the next start leaves it out. An exception in game code (or another module) called from reconstructed code: the stack is searched for return addresses into reconstructions (each must follow a `call`), the chain is logged, and the innermost is quarantined as `suspected` | always |
+| Untested functions | Functions whose gate trials did not run every instruction of the original (manifest flag 4) are left out | on; `include_untested=1` swaps them too |
 | Profiler | d3dprof (per call site, per frame) in the same process, chained | off; `profile=1` |
 | Log | `xikit.log` next to the DLL: what was checked, swapped, refused and why | always |
 
@@ -31,6 +32,17 @@ The manifest also carries flags that leave a function out by default, each with 
   reconstruction has no `__try`, so on an exception it does not behave the same;
 - **speedfix site**: `speedfix_hook` patches inside it (0x1006C4D7, 0x100CC688, 0x100CD011, 0x1006CDDC). Only
   left out when speedfix_hook.dll is loaded in the process.
+- **untested** (flag 4): the compared trials of the fuzz and live gates together did not run every instruction
+  of the original (`verification/coverage_clean.json`, `pipeline/combine_coverage.py`). A PASS says nothing
+  about code no trial reached. The first in-game crash (5 Oct) was in such code: `Frame_Render` passed every
+  gate with 53 of its 1424 instructions run, and its two calls of `CXiTimer::GetFps` lost the timer in ECX
+  (pol.exe, c0000005 at FFXiMain.dll+0x19230). Also set when the PASS rests on fewer than 10
+  trials in which the original returned, over all gates together (thin evidence: `sub_10016320` passed on one
+  trial per gate). Left out unless `include_untested=1`.
+- **register input** (flag 8): the original reads EDX at its entry, or ECX while the tree declares it neither
+  `__thiscall` nor `__fastcall` (`data/edx_use.json`, `data/ecx_use.json`). Swapping is unaffected; a mod may not
+  hook it (docs/SDK.md). One function: `Obj_104E1D4C::Cursor_Draw`.
+- **T=** (the trampoline column, for mods): see docs/SDK.md, "What `previous` is".
 
 ## How a patch is written (the same rules as speedfix_hook, plus the classic hot-patch ones)
 
@@ -50,19 +62,26 @@ The manifest also carries flags that leave a function out by default, each with 
 
 ## What the build gives (`kit/xikit/build.sh`, this commit's tree)
 
-- **Manifest**: 777 functions listed, none refused (each has its export, room for the jump, and no jump into
-  its first 5 bytes). Flags: 0 SEH, 3 speedfix sites.
+- **Manifest**: 774 functions listed (every function PASS over the merged gates), none refused (each has its
+  export, room for the jump, and no jump into its first 5 bytes). Flags: 0 SEH, 3 speedfix sites, 154 untested
+  or thin evidence (left out by default), 1 register input (also untested); 620 are swapped in by default.
+  721 have a trampoline for mods (`T=`), and the reconstruction DLL's 792 code symbols are listed (`!code`) so a
+  fault inside it is attributed to the function it is in.
 - **The in-game DLL is the verified code**: `gfx_recon_ingame.dll` (the tree built with `XI_INGAME`, every
-  game address `XI_GAME(ea) = ea + xi_rel`) was gated on fuzz with `xi_rel = 0`. Its verdicts are the clean
-  tree's fuzz verdicts, function for function: 774 PASS, and the same 3 that need the live dumps to pass
-  (0x1006B3B0 INCONCLUSIVE, 0x10003890 and 0x100CB4E0 UNRESOLVED, from pop counts not known).
+  game address `XI_GAME(ea) = ea + xi_rel`) is gated on fuzz itself with `xi_rel = 0`. Its verdicts are the clean
+  tree's fuzz verdicts, function for function (re-run 6 Oct on the shipped DLL, `runs/ingame`): 772 PASS; 1 FAIL,
+  `Post_DrawRotatingGhostLayers` (0x10038E10), which fails in the tree too and is not in the manifest; and 4 not
+  compared on fuzz (0x10003890 and 0x100CB4E0 UNRESOLVED, which pass on the dumps; 0x1006B3B0 and 0x10016320
+  INCONCLUSIVE everywhere, not listed).
+  This check found the 5 Oct translation defects the clean build had passed by chance (`docs/HISTORY.md`).
 - **No game address is left unrebased**: a scan of the in-game DLL's code finds 4,118 rebased adds and no
   absolute game address used directly; its data sections hold no game pointers.
 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs three times:
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs five times (the last two
+with a mod, `test/mod_test.cpp`, at the analysed base and relocated: docs/SDK.md, Limits); the first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -76,13 +95,18 @@ fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread.
 All three pass every check:
 - the device is hooked through its own vtable copy; the original vtable is not written; Present still
   reaches the device's method;
-- `swap=1`: all 777 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
+- `swap=1` (with `include_untested=1`): all 774 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
   `this+0x660`, `GetColor` reads it back, and `Gfx_IsGammaSupported` reads `g_pCDx` at the rebased address;
 - the call count of `SetColor` is in the report;
 - `swap=0` written to the ini: re-read, all original bytes back;
 - `swap=1` with an exclude: the excluded function keeps its original bytes;
+- the default leaves `Frame_Render` (flag 4) unswapped; `include_untested=1` swaps it;
 - an access violation inside the reconstruction (a null `this`) is passed on to the game's own handlers,
   the function is restored at the next frame and written to `xikit_quarantine.txt`;
+- an access violation in the game's own code called from a reconstruction (`CDx::PushRenderTargetRet1` on a
+  null CDx calls the reconstructed `CDx_PushRenderTarget`, which calls the original
+  `CDx_PushRenderTargetTexture`, which faults): the innermost reconstructed caller, `CDx_PushRenderTarget`, is
+  restored at the next frame and listed as `suspected`; its caller stays swapped;
 - profile mode only: Present still reaches the device through both hooks; d3dprof writes its report at 600
   frames, and the report has the host's Present calls as `other module`, 601 calls in 600 frames (a frame is
   Present to Present, so the first window holds one more Present than frames).
@@ -106,3 +130,195 @@ first run in the game is with `swap=0`, then `swap=1` with `only=` a few functio
 - `kit/xikit/close_gaps.py`: closes the layout gaps in the in-game DLL so Windows loads it (build.sh runs it).
 - `kit/xikit/test/`: `host.c` and `test_xikit.py`, above.
 - `xikit.ini`: written next to the DLL with every key documented when it is missing (`DEFAULT_INI` in xikit.c).
+
+### Pictures (`trace_pictures=K`)
+
+The trace compares calls, not what they draw. With `trace_pictures=K` an alternating trace also saves the finished
+picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbours, about 8 MB a frame at
+1920x1080, as `xikit_trace_<pid>_<n>_f<frame>_l<label>.pic`.
+- **How a picture is read.** The back buffer is read at the start of Present into a system-memory surface, with
+  CopyRects, the way the game reads its own occlusion target. The device's own methods are called through its
+  original vtable, so the trace does not record them.
+- **The comparison:**
+
+      python3 kit/d3dprof/pictures.py DIR_WITH_THE_PICS [--out prefix]
+
+  checks each swapped frame pixel by pixel against the range its two neighbours span (`--tol`, default 2), with
+  the same test on an unswapped frame as the control. It reports the share of pixels outside and where. With
+  `--out` it also writes a picture with those pixels in red.
+- **Tested** (Wine, mode `profile`): a host back buffer with one smoothly animated band and one band that
+  changes only while a function is swapped. Exactly the swapped band is found on both swapped frames, nothing in
+  the animated band, and nothing in the control.
+
+## Where the time goes (`xikit_timing_<pid>.csv`, `sample=1`)
+
+- **Frame timing, always on.** Every `report_every` frames the kit appends one line to
+  `xikit_timing_<pid>.csv`:
+  - the frame time (Present to Present: average, median, 95th percentile, maximum);
+  - the time inside the device's Present;
+  - the kit's own time before it (its checks and swaps, and mods' frame callbacks);
+  - the number of functions swapped.
+- **The sampling profiler, `sample=1`.** Read at the start. Every `sample_ms` (default 1) a thread of the kit
+  suspends the render thread for an instant and records:
+  - its EIP;
+  - the return addresses into the game or the reconstruction on its stack. A return address is an address that
+    follows a call instruction; the readable parts of both images are checked first, so the scan never faults.
+
+  `xikit_samples_<pid>.csv` is rewritten every window. Then
+
+      python3 kit/d3dprof/samples.py xikit_samples_<pid>.csv
+
+  shows, as shares of the samples with their standard error:
+  - **self:** where the thread was (game function, reconstructed function, or module);
+  - **elsewhere:** time in Direct3D, the driver and Windows, by the game or reconstructed function that called
+    there, with the call sites;
+  - **inclusive:** time under each function. This is an upper estimate: a stale return address left in an
+    older frame is counted too.
+
+  Samples estimate time shares; they do not time each call. Per-call time for Direct3D methods is this
+  "elsewhere" view, statistically.
+- **Tested** (Wine, mode `profile`): timing lines written; samples written; samples taken while the thread ran
+  the reconstructed GetColor name it.
+
+## Capturing real calls for the gate (`capture=`)
+
+The gate's trials ran 63% of the reconstruction's instructions; the hot paths far less (docs/GAPS.md). With
+`capture=Name1,Name2` (manifest names or addresses), the kit records the next `capture_count` calls (default 1)
+of each, from `capture_after` seconds after the start (default 0):
+- **What a capture is.** At the entry, with every other thread suspended, it takes the registers, the stack
+  above the entry (up to 256 KB), FFXiMain.dll's writable data, and every page reachable by following pointers
+  from those, breadth first, up to `capture_pages` pages (default 20,000, 80 MB). It writes them as
+  `xikit_capture_<pid>_<RVA>_<n>.xcap`. Which pages a call needs is not known beforehand: what pointers reach is
+  a preparation of the inputs, and a page the capture lacks is filled as the gate fills any unknown page, on
+  both sides alike.
+- **The game is not changed.** The call then continues into the game's own code (a trampoline; the
+  reconstruction where the entry has none). After the last capture the entry is restored.
+- **On the analysis side:**
+
+      python3 pipeline/xcap.py xikit_capture_....xcap verification/cases_clean_final.json tree/build/gfx_recon.dll OUT_DIR
+
+  runs the original and the reconstruction from that exact call (its `this` and arguments, on its memory) in
+  the gate's live mode, with coverage, and prints the verdict and how many of the original's instructions ran.
+  Each capture is a gate case on the game's real state.
+- **Tested** (Wine, mode `capture`): GetColor and SetColor captured, the game's values returned, the entries
+  restored, and both captures replayed through the gate (PASS, every instruction run, SetColor's argument read
+  off the captured stack).
+
+## Measuring what the gate cannot settle (`facts=1`)
+
+8 exported functions are UNRESOLVED (the occlusion readback among them), and 2 more in the in-game DLL's fuzz
+gate. Each is blocked at a call whose pop count has no definitive source. `xikit_facts.txt`
+(`pipeline/fact_sites.py sites --from-gates`, built with the kit) lists the 54 such call sites in the committed
+gate records, each with a patch region that:
+- ends at the call's return address, so a thread inside the callee returns to the game's own bytes;
+- is the call plus the plain instructions just before it, at least 5 and at most 16 bytes;
+- holds no other call or branch;
+- is jumped into by nothing in the game.
+
+With `facts=1` the kit patches those regions to run from a copy that records ESP just before the call and just
+after it returns, plus where the call went: the target, and for `call [reg+disp]` the vtable and slot.
+`xikit_facts_<pid>.csv` is rewritten every window. Then
+
+    python3 pipeline/fact_sites.py ingest xikit_facts_<pid>.csv
+
+records each site's pop count in `data/game_sp.json`, only when every observed call agreed. The gate reads that
+file as one more definitive source (CLAUDE.md: the original running real game code); the site then needs a
+re-gate. A site never reached in a session stays unmeasured.
+
+**Tested** (Wine, mode `facts`): two CDx call sites, one a 3-byte `call [ecx+0xC]` whose region starts 2 bytes
+earlier. Both still reach their methods, are measured popping 4 through vtable slots 3 and 34, and are ingested.
+
+## Mods (`mods=`)
+
+`mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call
+the game's own version through a trampoline, and draw each frame. See docs/SDK.md.
+
+**Device hooks** (`device_hook`, docs/SDK.md) sit in a vtable copy of their own in front of the others on the device
+object: the game's call reaches a mod's hook first, then the profiler and trace (d3dprof), then the kit's Present hook,
+then Direct3D. So the profile and the trace record what the mods let through, which is what the device receives. A
+call that a hook passes on, or makes itself while handling a call, is recorded with the call site of the call it is
+handling (the kit keeps that return address while the hook runs, on the render thread). Device hooks follow the master
+switch like function hooks: F9 and a trace's unswapped frames send every call past them.
+
+**Reloading** (`mod_reload=1`, read at the start): the kit loads each mod from a copy,
+`xikit_mods_loaded\NAME.N.dll`, so a build can write the mod's file while the game runs. Every 30 frames it looks at
+the files; one that has changed, and not changed again since the last look, is loaded again: the new build is loaded
+first (if that fails the old one stays), the old build's `xikit_mod_unload` runs, its function and device hooks are
+taken off, and the new build's `xikit_mod_init` hooks again; the entries are re-aimed at that frame's `apply()`, with
+the other threads suspended. Creating `xikit_reload_now.txt` reloads every mod. No reload starts during a trace. Old
+builds stay loaded: a thread may still be inside one.
+
+## Comparing what the game draws with and without the swaps (`trace=1`)
+
+Bisect needs your eyes. The trace needs only a still scene. With `trace=1` in `xikit.ini` (takes effect at the next
+start; d3dprof is built in), standing still, press **Ctrl+Alt+F8**. Where keys do not reach the game window (this client), use the timer or a file instead: `trace_after=60` runs the trace 60 seconds after the start, then every `trace_every` seconds, `trace_count` times in all; creating `xikit_trace_now.txt` next to `xikit.dll` starts one (the kit deletes it). With `bisect=1`, the files `xikit_bisect_bad.txt`, `_good.txt` and `_stop.txt` answer like F10, F11, F12. The kit restores every original, then records the
+Direct3D calls the render thread makes for 17 frames with the swaps flipped at every frame (off, on, off, ... off;
+`trace_alternate=1`, the default), and writes `xikit_trace_<pid>_<n>.txt` (progress in `xikit.log`). A frame where a
+thread was inside a function's entry, so not every swap could be flipped, is labelled 2 (mixed) and left out.
+`trace_alternate=0` gives the older trace: 4 frames all off, then 4 all on. Per call: the method, the call site (analysed address), the
+method's first parameters, and a hash of what a pointer parameter points at where the method reads a structure through
+it (transform, viewport, material, light, clip plane, shader constants, vertex data of the two `...UP` draws).
+With `trace_buffers=1` (default) every vertex and index buffer the game binds during a trace gets its `Lock`/`Unlock` wrapped (a vtable copy for that object, as for the device): at `Unlock` the locked range is hashed and recorded with the call site of the `Lock`, so `trace_diff.py` lists buffer contents by the function that filled them (reconstruction addresses are named through the reconstruction's exports and the load address in the trace header). Texture contents are not traced.
+
+    python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --manifest xikit_manifest.txt
+
+For an alternating trace, each swapped frame is compared with the unswapped frames just before and after it. Calls are
+paired by method, the state they set (render state, stage and type, transform, light index, ...) and their order in
+the frame; a group is compared only where all three frames make the same number of calls. A call is reported as
+STABLE (both neighbours agree with each other and the swapped frame does not), OUTSIDE (a kept matrix or vertex
+float lies outside the range its two neighbours span, so it is not in between the frame before and the frame
+after) or COUNT (the neighbours make the same number of calls and the swapped frame another). The same test is run
+on unswapped frames against the unswapped frames two either side, as a control: a finding the control shows as
+often is the scene's own. Where the neighbours differ and only a hash was kept (a light), the call is counted as
+undecided. The function named with a finding is the swapped frame's call site through the reconstruction's exports,
+a naming aid.
+
+For a trace with `trace_alternate=0` it compares the halves by call content (method, parameters, the hash of the data a pointer parameter covers; the pointer itself is left out, it differs between runs). It does not compare call sites by default: with the swaps on a call is made from inside the reconstruction, whose addresses are not the game's, so by-site (`--by-site`) shows every swapped function as different. The scene's own change (the 4 frames without swaps against
+each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
+nearest below each call site. It says where the two differ, not which side is right.
+
+### The state each draw ran with (in every trace)
+
+d3dprof shadows the render states, texture-stage states, textures, vertex shader, index buffer and vertex streams
+the game sets (for its redundancy count). In a trace, each draw record carries ` s=XXXXXXXX`: a hash of that shadow
+at the draw. After the records, one `#S HASH ...` line per distinct state lists it: `rs:STATE=VALUE`,
+`tss:STAGE.TYPE=VALUE`, `tex:STAGE=OBJECT`, `vs=`, `ib=`, `vb:STREAM=OBJECT/STRIDE` (values in hex, state numbers
+as the D3D8 header numbers them). Only what is known is written: a state the game has not set since the kit
+attached, or since a state block was applied or the device reset, is unknown to the shadow and left out, not
+guessed. At most 4096 distinct states are kept per trace; the header line counts hash collisions with a different
+state (expected 0). `trace_diff.py` uses them: a STABLE finding on a draw names the states that differ between the
+swapped frame's draw and its neighbours' (`| states: rs:7 FFFF->1, ...`).
+
+### Every resource the game creates (`xikit_resources_<pid>.csv`, with `profile=1` or `trace=1`)
+
+The device's creation methods (CreateTexture, CreateVolumeTexture, CreateCubeTexture, CreateVertexBuffer,
+CreateIndexBuffer, CreateRenderTarget, CreateDepthStencilSurface, CreateImageSurface, CreateVertexShader) are
+wrapped from the start when d3dprof is attached (`profile=1` or `trace=1`), on every thread: each call is appended to `xikit_resources_<pid>.csv` with the call site
+(analysed address, or the raw return address outside FFXiMain), the parameters named in the method column, the
+object it got and the HRESULT. The object pointers are the ones the trace's `tex:`, `vb:`, `ib=` and the
+`SetTexture`/`SetStreamSource` parameters show, so a state can be read back to who created what, with which format
+and size.
+
+A vertex shader's declaration and code are saved exactly as the game passed them, as
+`xikit_vshader_<pid>_<handle>.bin`; the handle is the one `SetVertexShader` and the `#S` lines' `vs=` show.
+
+    python3 kit/d3dprof/vshader.py xikit_vshader_*.bin
+
+decodes them by the D3D8 SDK's token formats (d3d8types.h): which stream and register each input comes from, with
+its type, and the vs.1.x instructions. An opcode or register type outside that table is printed raw. This is the
+runtime catalogue: the shaders as created. Mapping each to its `vs.1.1` source text in the binary (a static
+catalogue) is not built.
+
+## Finding which functions break the picture (`bisect=1`)
+
+With `bisect=1`, and the screen wrong with everything swapped: Ctrl+Alt+F10, or create `xikit_bisect_bad.txt` next to
+`xikit.dll` (the keys do not reach every game window; the kit deletes the file once read). The candidates are the
+swapped functions that have run. The kit then swaps a part of them only and logs which (`xikit.log`,
+`xikit_bisect.txt`); answer each step with F10 / `xikit_bisect_bad.txt` (still wrong) or F11 /
+`xikit_bisect_good.txt` (right). F12 / `xikit_bisect_stop.txt` ends it and swaps everything again.
+
+No single culprit is assumed (on 6 Oct the picture broke with 7 functions swapped and was right with every group a
+one-culprit bisect tried). The search is delta debugging (Zeller's ddmin) while more than 8 suspects remain, then each
+suspect is left out in turn: at most 8 answers from there. It ends with `CULPRIT: <name>`, or `CULPRITS TOGETHER` and
+the list when several functions break the picture only together; the set it reports is minimal (with any one of them
+left out the screen is right). The culprits stay on the original code for the rest of the run.

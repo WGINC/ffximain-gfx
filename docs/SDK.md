@@ -253,8 +253,11 @@ The build can then write `my_mod.dll` while the game runs.
 - **The register-input data has a known blind spot (task #64).** Flag 8 marks a function whose game code reads a
   register its declaration does not carry (data/edx_use.json, data/ecx_use.json). The kit refuses to hook it,
   because the replacement could neither see the register nor pass it on. One manifest function has it:
-  `Obj_104E1D4C::Cursor_Draw` (EDX). The data behind this flag can miss callees that leave a register untouched, so
-  other functions may be affected without being flagged.
+  `Obj_104E1D4C::Cursor_Draw` (EDX). For ECX the analysis follows callees that leave the register untouched
+  (`pipeline/reg_preserve.py`, since 6 Oct). For EDX it does not: `pipeline/edx_inputs.py` counts every call as a
+  write of EDX, so a function that reads EDX only after a call that leaves it untouched is recorded as never reading
+  it, and may be affected without being flagged. 5,746 further functions are "cannot tell" (`null` in
+  data/edx_use.json).
 - **What is tested and what is not.** The Wine tests (`kit/xikit/test`, modes `mod` and `modrel`) cover:
   - loading a mod;
   - `xi_rel`;

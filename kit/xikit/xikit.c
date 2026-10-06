@@ -1541,6 +1541,12 @@ static DWORD WINAPI start(LPVOID self) {
   snprintf(g_ini, sizeof g_ini, "%s\\xikit.ini", g_dir);
   snprintf(g_quar, sizeof g_quar, "%s\\xikit_quarantine.txt", g_dir);
   klog("xikit started in process %lu", (unsigned long)GetCurrentProcessId());
+  {                                     /* the kit's build stamp (build.sh writes VERSION.txt): which source this is */
+    char vp[MAX_PATH], line[256] = ""; snprintf(vp, sizeof vp, "%s\\VERSION.txt", g_dir);
+    FILE *vf = fopen(vp, "r");
+    if (vf) { if (fgets(line, sizeof line, vf)) line[strcspn(line, "\r\n")] = 0; fclose(vf); }
+    klog("kit build: %s", line[0] ? line : "no VERSION.txt next to xikit.dll");
+  }
   if (GetFileAttributesA(g_ini) == INVALID_FILE_ATTRIBUTES) {
     FILE *f = fopen(g_ini, "wb"); if (f) { fwrite(DEFAULT_INI, 1, sizeof DEFAULT_INI - 1, f); fclose(f); }
   }

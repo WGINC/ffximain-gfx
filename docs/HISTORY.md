@@ -465,3 +465,19 @@ has been run in the game yet.
   return 67 / import 33 now, against 75 / 25 recorded. 0x1000A820 has 1568 D3D calls compared, against 1552.
   0x100091B0 has coverage 282, against 274. The record predates later harness changes, and which change moved
   the numbers is not established here.
+
+## 6 Oct (morning, tools): the tools brought up to date
+- **Tests run here:** 32-bit Wine 9.0 and `numpy` installed; `test_xikit.py` 185 checks ok (it now builds the gate's
+  tree DLL when the capture replay needs it, and checks the logged build stamp), `test_thunks.py`, `sdk/test_fork.py`,
+  `run.sh test` all pass.
+- **`pipeline/tool_drift.py`:** regenerates the IDA script and the SDK's generated files, rebuilds the kit (reproducible:
+  d3dprof now links with `--no-insert-timestamp` too) and compares with `kit/BUILD.lock.json`; checks the ini keys
+  xikit.c reads against its default ini and docs/KIT.md. First run found:
+  - `ida/ffxi_ida_fix.py` lacked the 6 Oct DynVB fixes in `data/type_fixes.json` (2 conventions, 9 prototypes):
+    regenerated;
+  - the shipped `exclude=Gfx_DestroyD3DHolder` was in the hand-edited ini only, not in xikit.c's default: added;
+  - four ini keys missing from docs/KIT.md: documented.
+- **Build stamp:** `kit/xikit/dist/VERSION.txt` (source commit, date, tree gate, file hashes), logged by xikit.dll at
+  start; the SDK zip carries its own `VERSION.txt`.
+- **Docs:** README (layout rows for `kit/` and `sdk/`, Wine and numpy, `tool_drift.py`), kit/README.md counts, SDK.md's
+  register blind spot stated exactly (EDX analysis still counts every call as a write).

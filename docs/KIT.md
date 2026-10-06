@@ -10,13 +10,13 @@ the crash-safety rules the owner's `speedfix_hook` already follows.
 |---|---|---|
 | Build check | Does nothing unless FFXiMain.dll is the analysed build (PE TimeDateStamp 0x6A995428) and the reconstruction DLL is the one the manifest was made from | always |
 | Swap | Writes a `jmp` at a verified function's entry to its reconstruction (`gfx_recon_ingame.dll`, every game address rebased through `xi_rel`) | off; `swap=1` |
-| Selection | All verified functions, or a list (address or name); minus an exclude list, the quarantine file, and the functions `speedfix_hook` patches inside when it is loaded | all verified |
+| Selection | All verified functions, or a list (address or name); minus an exclude list (`exclude=`; shipped with `Gfx_DestroyD3DHolder`, which faults when swapped), the quarantine file, the functions flagged SEH or speedfix-site in the manifest (`include_flagged=1` swaps them too), and the functions `speedfix_hook` patches inside when it is loaded (`respect_speedfix=0` keeps them) | all verified |
 | Live toggle | Changing the ini (re-read every 60 frames) or the hotkey (Ctrl+Alt+F9: all swaps off/on) patches or restores at the next frame boundary | on |
-| Call counts | A per-function stub counts how often each swapped function runs (`xikit_calls_<pid>.csv`): which reconstructed code the game actually used | on |
+| Call counts | A per-function stub counts how often each swapped function runs (`xikit_calls_<pid>.csv`): which reconstructed code the game actually used | on; `count_calls=0` turns it off |
 | Crash capture | An exception whose address is in reconstructed code (or a stub) is logged with the function, registers and the top of the stack, and the function is added to `xikit_quarantine.txt`, so the next start leaves it out. An exception in game code (or another module) called from reconstructed code: the stack is searched for return addresses into reconstructions (each must follow a `call`), the chain is logged, and the innermost is quarantined as `suspected` | always |
 | Untested functions | Functions whose gate trials did not run every instruction of the original (manifest flag 4) are left out | on; `include_untested=1` swaps them too |
 | Profiler | d3dprof (per call site, per frame) in the same process, chained | off; `profile=1` |
-| Log | `xikit.log` next to the DLL: what was checked, swapped, refused and why | always |
+| Log | `xikit.log` next to the DLL: what was checked, swapped, refused and why; the kit's build stamp (`VERSION.txt`) on the second line | always; `log_each=1` lists every function patched and restored, not only totals |
 
 ## Which functions may be swapped (decided at build time, from the binary: `kit/xikit/make_manifest.py`)
 
@@ -80,8 +80,11 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs five times (the last two
-with a mod, `test/mod_test.cpp`, at the analysed base and relocated: docs/SDK.md, Limits); the first three:
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eight times: base,
+relocated and profile (below); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
+relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
+needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); and `facts`
+(`facts=1`). The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 185 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does

@@ -50,7 +50,8 @@ other threads (counted as `other_thread_calls`, not profiled).
 ## xikit: run the reconstructed graphics code in the game
 
 `xikit.dll` swaps the game's functions for their reconstructions (`gfx_recon_ingame.dll`, the verified
-tree built with every game address rebased to where FFXiMain.dll is loaded), one at a time or all 777, and
+tree built with every game address rebased to where FFXiMain.dll is loaded), one at a time or all 774 in the
+manifest (620 by default: the other 154 are flagged untested), and
 switches back at any frame. The design, the rules it writes patches by, and the test results are in
 `docs/KIT.md`.
 
@@ -65,4 +66,8 @@ every 60 frames. Ctrl+Alt+F9 switches all swaps off and on. `xikit.log` says wha
 exception is put back and listed in `xikit_quarantine.txt`, and left out at the next start. `profile=1`
 runs d3dprof inside it.
 
-Test: `xikit/test/test_xikit.py` (Wine, the real FFXiMain.dll, at its base and relocated).
+Each build writes `dist/VERSION.txt`: the source commit, the date, the tree's gate result and every file's
+SHA-256. `xikit.log` repeats its first line, so a log says which kit wrote it.
+
+Test: `xikit/test/test_xikit.py` (32-bit Wine and `numpy`, the real FFXiMain.dll; eight runs, docs/KIT.md, Tests).
+Is the kit current? `pipeline/tool_drift.py` rebuilds it and compares with `kit/BUILD.lock.json`.

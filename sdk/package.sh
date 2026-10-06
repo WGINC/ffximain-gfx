@@ -16,5 +16,9 @@ cp "$ROOT/tree/placement.json" "$D/tree_placement.json"
 cp -r "$ROOT/tree/include" "$D/tree_include"; cp -r "$ROOT/tree/src" "$D/tree_src"
 # the packaged build scripts find the headers next to them (tree_include), as the repo's find ../tree/include
 (cd "$H/dist" && "$D/build_mod.sh" /tmp/xikit_sdk_selfcheck.dll xikit_sdk/examples/overlay.cpp >/dev/null && rm -f /tmp/xikit_sdk_selfcheck.dll)
+{ printf 'xikit SDK, source %s%s, built %s UTC\r\n' "$(git -C "$ROOT" rev-parse --short=12 HEAD)" \
+    "$([ -n "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ] && echo +modified)" "$(date -u '+%Y-%m-%d %H:%M')"
+  [ -f "$ROOT/kit/xikit/dist/VERSION.txt" ] && printf 'with the kit: %s\r\n' "$(head -1 "$ROOT/kit/xikit/dist/VERSION.txt" | tr -d '\r')"
+} > "$D/VERSION.txt"
 (cd "$H/dist" && zip -qr xikit_sdk.zip xikit_sdk)
 echo "built $H/dist/xikit_sdk.zip"

@@ -39,6 +39,31 @@ STRUCT_OUT = {'GetTransform': (1, 64, 'f'), 'GetMaterial': (0, 68, 'f'), 'GetLig
               'GetPixelShader': (0, 4, 'i'), 'GetDisplayMode': (0, 16, 'i'), 'GetCreationParameters': (0, 16, 'i'),
               'GetRasterStatus': (0, 8, 'i'), 'GetClipStatus': (0, 8, 'i'), 'GetCurrentTexturePalette': (0, 4, 'i'),
               'GetDesc': (0, 32, 'i'), 'GetLevelDesc': (1, 32, 'i')}
+# D3D8 methods that read data through a pointer parameter (the D3D8 SDK header): method -> function of the parameters
+# giving (parameter index, bytes read). The bytes are compared, hashed, with the call: before 6 Oct only the pointer was
+# (as "a stack address"), so a reconstruction that never wrote the data it passes compared equal
+def _prim_verts(t, n):
+    return {1: n, 2: 2 * n, 3: n + 1, 4: 3 * n, 5: n + 2, 6: n + 2}.get(t, 0)
+IN_DATA = {'SetTransform': lambda a: [(1, 64)], 'MultiplyTransform': lambda a: [(1, 64)], 'SetViewport': lambda a: [(0, 24)],
+           'SetMaterial': lambda a: [(0, 68)], 'SetLight': lambda a: [(1, 104)], 'SetClipPlane': lambda a: [(1, 16)],
+           'SetVertexShaderConstant': lambda a: [(1, 16 * a[2])], 'SetPixelShaderConstant': lambda a: [(1, 16 * a[2])],
+           'DrawPrimitiveUP': lambda a: [(2, _prim_verts(a[0], a[1]) * a[3])],
+           'DrawIndexedPrimitiveUP': lambda a: [(4, _prim_verts(a[0], a[3]) * (2 if a[5] == 101 else 4)), (6, (a[1] + a[2]) * a[7])]}
+# game functions stubbed in the gate that pass a pointer parameter on to one of those methods unchanged: callee -> the same
+# rule over the stub's own arguments. CDx::DrawPrimitiveUP 0x1000CD00 pushes its 4 arguments to
+# IDirect3DDevice8::DrawPrimitiveUP (vtable +0x120) at 0x1000CD53 and 0x1000CD96 (its own code)
+STUB_DATA = {0x1000CD00: lambda a: [(2, _prim_verts(a[0], a[1]) * a[3])]}
+
+
+def _data_hash(uc, p, n):
+    """the bytes a callee reads through a pointer, hashed for the call log; -1 when they cannot be read"""
+    import zlib
+    if not p or n <= 0: return 0
+    if n > 0x100000: return -2
+    try: return zlib.crc32(bytes(uc.mem_read(p, n)))
+    except Exception: return -1
+
+
 PREFER = ['IDirect3DTexture8', 'IDirect3DSurface8', 'IDirect3DVertexBuffer8', 'IDirect3DIndexBuffer8',
           'IDirect3DCubeTexture8', 'IDirect3DVolumeTexture8', 'IDirect3DSwapChain8', 'IDirect3DVolume8',
           'IDirect3DDevice8', 'IDirect3D8']
@@ -443,6 +468,8 @@ class GfxMachine(G.Machine):
         masks = spec.get('masks') or []
         logged = tuple(a & (masks[i] if i < len(masks) else 0xFFFFFFFF) for i, a in enumerate(args[:nargs]))
         logged = tuple(_stackref(a) for a in logged)
+        if addr in STUB_DATA and len(args) >= 4:
+            logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged))
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -520,7 +547,8 @@ class GfxMachine(G.Machine):
         ret_addr, this, args = vals[0], vals[1], vals[2:]
         if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
             self._record_site((ret_addr, 'fake', name, slot), this, esp + 4, min(n, 3))   # record only
-        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args)))
+        data = tuple(_data_hash(uc, args[i], sz) for i, sz in IN_DATA[m['name']](args)) if m['name'] in IN_DATA else ()
+        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args) + data))
         if m['ret'] == 'hresult':
             k = self.rng.random()
             v = 0 if k < 0.8 else 0x8876086C if k < 0.9 else 0x88760868   # D3D_OK / INVALIDCALL / DEVICELOST

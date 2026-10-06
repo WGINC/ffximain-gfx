@@ -231,9 +231,14 @@ def exact_frame(body):
     # at +0xC, `float v4;` at +0x3C): one array (a 4x4 matrix) that Hex-Rays cut where the code stopped
     # naming elements; a callee that fills the whole array overruns GCC's shorter one.
     # A fourth: an address-taken local followed directly by a local read before it is assigned (read_past_byref).
+    # A fifth (byref_blocks.py): an address-taken local whose block (to the end of the frame) holds a local the code
+    # writes and never reads, or bytes no local is declared in. Its address is passed, so the callee reads what the
+    # original wrote there; as separate variables GCC drops the write-only ones (CDx::DrawTexturedScreenQuad 0x1000A5A0:
+    # the full-screen quad's vertices, 6 Oct). Placing the locals at their original offsets is what the original does.
     decls = list(BYREF_DECL.finditer(body))
+    import byref_blocks
     if pointer_walks_locals(body) or split_array(body) or negative_index(body) or truncated_array(body) \
-            or filled_past_array(body) or read_past_byref(body):
+            or filled_past_array(body) or read_past_byref(body) or byref_blocks.blocks(body):
         decls = list(STACK_DECL.finditer(body))
     elif not any(m.group(2).strip() == 'char' and not m.group(3) and not m.group(5) for m in decls): return body
     if not decls: return body

@@ -41,7 +41,7 @@ def parse(path, by_site=False):
     for l in open(path):
         if l.startswith('#'): meta.append(l.rstrip()); continue
         raw = l.split(); dat = next((x[2:] for x in raw if x.startswith('d=')), None)
-        p = [x for x in raw if not x.startswith('d=')]       # (the recorded bytes: kept per token in BYTES, shown below)
+        p = [x for x in raw if not x.startswith(('d=', 's='))]   # (the recorded bytes: kept per token in BYTES, shown below; s=: the draw's state, alternating view only)
         if len(p) < 7: continue
         label, frame, slot, name, site, np_ = int(p[0]), int(p[1]), int(p[2]), p[3], int(p[4], 16), int(p[5])
         args = tuple(p[6:6 + min(np_, 6)]); h = p[6 + min(np_, 6)]
@@ -160,13 +160,24 @@ SELECT = {'SetRenderState': 1, 'SetTextureStageState': 2, 'SetTransform': 1, 'Mu
           'SetPixelShaderConstant': 1, 'SetClipPlane': 1}
 
 
+STATES = {}                 # state hash -> {state: value} (the '#S' lines of a trace with per-draw states)
+
+
+def state_diff(a, b):
+    """the states two draws' state hashes differ in: 'rs:7 1->0' ...; a state known on one side only is shown as ?"""
+    x, y = STATES.get(a, {}), STATES.get(b, {})
+    return ['%s %s->%s' % (k, x.get(k, '?'), y.get(k, '?')) for k in sorted(set(x) | set(y), key=lambda k: (k.split(':')[0], [int(t, 16) if all(c in '0123456789abcdefABCDEF' for c in t) else 0 for t in re.split('[:.=]', k)[1:]])) if x.get(k) != y.get(k)]
+
+
 def parse_alt(path):
     """an alternating trace: {frame: (label, [(method, site, select, value, bytes)])}"""
     fr = {}; meta = []
     for l in open(path):
         if l.startswith('#'): meta.append(l.rstrip()); continue
-        raw = l.split(); dat = next((x[2:] for x in raw if x.startswith('d=')), None)
-        p = [x for x in raw if not x.startswith('d=')]
+        if l.startswith('#S '):                         # a state a draw ran with (d3dprof: only what is known)
+            q = l.split(); STATES[q[1]] = dict(x.split('=', 1) for x in q[2:]); continue
+        raw = l.split(); dat = next((x[2:] for x in raw if x.startswith('d=')), None); st = next((x[2:] for x in raw if x.startswith('s=')), None)
+        p = [x for x in raw if not x.startswith(('d=', 's='))]
         if len(p) < 7: continue
         label, frame, name, site, np_ = int(p[0]), int(p[1]), p[3], int(p[4], 16), int(p[5])
         if name in ('VB_Unlock', 'IB_Unlock', 'Present'): continue
@@ -174,7 +185,7 @@ def parse_alt(path):
         args = [a for i, a in enumerate(args) if i not in PTR_ARG.get(name, ())]
         k = SELECT.get(name, 0)
         e = fr.setdefault(frame, [label, []]); e[0] = label
-        e[1].append((name, site, tuple(args[:k]), (tuple(args[k:]), h), dat))
+        e[1].append((name, site, tuple(args[:k]), (tuple(args[k:]), h) + ((st,) if st else ()), dat))
     return fr, meta
 
 
@@ -220,7 +231,9 @@ def alternating(path, owners, top):
                 stats['calls compared'] += 1; kk = (who(sb),) + k
                 if va == vb == vc: stats['same in all three'] += 1; continue
                 if va == vc:
-                    found[('STABLE',) + kk].append((f, 'call %d: %s | before and after %s' % (i, fmtval(vb, db), fmtval(va, da)))); continue
+                    why = 'call %d: %s | before and after %s' % (i, fmtval(vb, db), fmtval(va, da))
+                    if len(va) > 2 and len(vb) > 2 and va[2] != vb[2]: why += ' | states: ' + ', '.join(state_diff(va[2], vb[2])[:12])
+                    found[('STABLE',) + kk].append((f, why)); continue
                 if da and db and dc and len(da) == len(db) == len(dc):
                     x, y, z = f32(da), f32(db), f32(dc); bad = []
                     for j, (p, q, r) in enumerate(zip(x, y, z)):
@@ -255,8 +268,8 @@ def alternating(path, owners, top):
 
 
 def fmtval(v, d):
-    args, h = v
-    s = ' '.join(args) + (' hash ' + h if h != '00000000' else '')
+    args, h = v[0], v[1]
+    s = ' '.join(args) + (' hash ' + h if h != '00000000' else '') + (' state ' + v[2] if len(v) > 2 else '')
     if d and len(d) <= 128: s += ' [' + ' '.join('%.5g' % x for x in f32(d)[:16]) + ']'
     return s
 

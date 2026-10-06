@@ -44,6 +44,9 @@ static HRESULT __stdcall d_createimg(void *d, UINT w, UINT h, UINT f, void **pp)
 static HRESULT __stdcall d_copyrects(void *d, void *src, const RECT *r, UINT n, void *dst, const POINT *pt) { (void)d; (void)r; (void)n; (void)pt; memcpy(((FakeSurf *)dst)->pix, ((FakeSurf *)src)->pix, sizeof g_bbpix); return 0; }
 static uint8_t *g_paint_site;
 static int tcl_calls, bs_calls;     /* facts mode: the device methods CDx::TestCooperativeLevel and CDx::BeginScene call (slots 3, 34) */
+static uint32_t g_faketex[4];       /* profile mode: resources created through the hooked device (d3dprof's wrappers log them) */
+static HRESULT __stdcall d_createtex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) { (void)d; (void)w; (void)h; (void)lv; (void)us; (void)fmt; (void)pool; *pp = g_faketex; return 0; }
+static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD usage) { (void)d; (void)decl; (void)fn; (void)usage; *h = 0x1234; return 0; }
 static HRESULT __stdcall d_tcl(void *d) { (void)d; tcl_calls++; return 0; }
 static HRESULT __stdcall d_beginscene(void *d) { (void)d; bs_calls++; return 0; }   /* GetColor's entry: the band it "draws" is bright while it is swapped */
 static uint8_t g_cdx[0x1000];
@@ -107,7 +110,7 @@ int main(int argc, char **argv) {
   uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)(0x100096B0u + rel), 9);     /* CDx::EndClearBegin (the mod run) */
   for (int k = 0; k < 97; k++) g_vtbl[k] = (void *)other_slot;
   g_vtbl[15] = (void *)fake_present;
-  g_vtbl[3] = (void *)d_tcl; g_vtbl[34] = (void *)d_beginscene;
+  g_vtbl[3] = (void *)d_tcl; g_vtbl[34] = (void *)d_beginscene; g_vtbl[20] = (void *)d_createtex; g_vtbl[75] = (void *)d_createvs;
   g_vtbl[16] = (void *)d_getbb; g_vtbl[27] = (void *)d_createimg; g_vtbl[28] = (void *)d_copyrects;
   for (int k = 0; k < 11; k++) g_svt[k] = (void *)other_slot;
   g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_desc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
@@ -331,6 +334,19 @@ int main(int argc, char **argv) {
     { DWORD t = GetTickCount(); volatile uint32_t sink = 0;
       while (GetTickCount() - t < 500) for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor);
       present(60); }
+    /* resources: a texture and a vertex shader created through the device (as the game would), logged by d3dprof's
+       wrappers; the shader saved as the game passed it: stream 0, v0 <- FLOAT3, v5 <- D3DCOLOR; m4x4 oPos, v0, c0; mov oD0, v5 */
+    { void *tex = NULL; DWORD vsh = 0;
+      static const DWORD decl[] = { 0x20000000u, 0x40020000u, 0x40040005u, 0xFFFFFFFFu };
+      static const DWORD fn[] = { 0xFFFE0101u, 0x00000014u, 0xC00F0000u, 0x90E40000u, 0xA0E40000u, 0x00000001u, 0xD00F0000u, 0x90E40005u, 0x0000FFFFu };
+      ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_dev.vt[20])(&g_dev, 256, 128, 1, 0, 21, 1, &tex);
+      ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_dev.vt[75])(&g_dev, decl, fn, &vsh, 0);
+      check(tex == g_faketex && vsh == 0x1234, "CreateTexture and CreateVertexShader through the hooked device still return the device's results");
+      snprintf(name, sizeof name, "xikit_resources_%lu.csv", GetCurrentProcessId());
+      FILE *rf = fopen(name, "r"); int t1 = 0, v1 = 0;
+      if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, "CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
+                                                       if (strstr(line, "CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
+      check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created"); }
     /* timing (always) and the sampling profiler (sample=1): written every report_every (60) frames */
     snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());
     FILE *tm = fopen(name, "r"); int trows = 0;

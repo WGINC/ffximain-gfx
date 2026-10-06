@@ -416,3 +416,20 @@ fixed:
   it: ROADMAP.md and RENDERER.md said otherwise and are corrected; every device user is in the export. The
   in-game DLL's own fuzz gate, re-run: 772 PASS, 1 FAIL (Post_DrawRotatingGhostLayers, not in the manifest), 4 not
   compared. Ordered closers: in-game input recorder, timing, picture comparison, in-game fact recorder.
+
+## 6 Oct (night): the measuring tools of GAPS.md section 7, items 1 to 5
+
+All tested under Wine with the real FFXiMain.dll (kit/xikit/test/test_xikit.py, kit/d3dprof/test_thunks.py); none
+has been run in the game yet.
+- **Input recorder** (`capture=`): the registers and the pages reachable at a function's entry, as `.xcap`;
+  pipeline/xcap.py replays the call in the gate (the test capture: PASS, with coverage).
+- **Timing** (`xikit_timing_<pid>.csv`: the wait inside Present against frame time) and the **sampler**
+  (`sample=1`, kit/d3dprof/samples.py: self, elsewhere and inclusive views).
+- **Pictures** (`trace_pictures=K`): the back buffer of the alternating trace's frames; kit/d3dprof/pictures.py
+  compares each swapped frame with its neighbours, against a control.
+- **Fact recorder** (`facts=1`): pop count and target at the call sites the gate leaves UNRESOLVED;
+  pipeline/fact_sites.py prepares the sites and turns agreeing observations into data/game_sp.json.
+- **State per draw, resources, shaders**: ` s=` per draw and `#S` per distinct state in the trace (known states
+  only), named by trace_diff.py in a finding; every creation call in `xikit_resources_<pid>.csv`; every vertex
+  shader saved as created and decoded by kit/d3dprof/vshader.py. Not built: the static catalogue mapping each
+  shader to its `vs.1.1` source text in the binary.

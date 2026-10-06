@@ -44,6 +44,11 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'capture', 'facts'
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
     if mode == 'profile':
+        vs = [f for f in os.listdir(d) if f.startswith('xikit_vshader_')]
+        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'vshader.py')] + [os.path.join(d, f) for f in vs], capture_output=True, text=True)
+        print(r.stdout.strip(), r.stderr.strip()[-500:])
+        ok = len(vs) == 1 and 'v5 <- D3DCOLOR' in r.stdout and 'm4x4 oPos, v0, c0' in r.stdout and 'mov oD0, v5' in r.stdout
+        print('%s: the vertex shader was saved and vshader.py decodes its declaration and code' % ('ok' if ok else 'FAIL')); bad += not ok
         sm = [f for f in os.listdir(d) if f.startswith('xikit_samples_')]
         if sm:
             r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'samples.py'), os.path.join(d, sm[0])], capture_output=True, text=True)

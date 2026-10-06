@@ -262,6 +262,38 @@ For a trace with `trace_alternate=0` it compares the halves by call content (met
 each other) is subtracted; what is left changed when the swaps went on, and `--manifest` names the swapped function
 nearest below each call site. It says where the two differ, not which side is right.
 
+### The state each draw ran with (in every trace)
+
+d3dprof shadows the render states, texture-stage states, textures, vertex shader, index buffer and vertex streams
+the game sets (for its redundancy count). In a trace, each draw record carries ` s=XXXXXXXX`: a hash of that shadow
+at the draw. After the records, one `#S HASH ...` line per distinct state lists it: `rs:STATE=VALUE`,
+`tss:STAGE.TYPE=VALUE`, `tex:STAGE=OBJECT`, `vs=`, `ib=`, `vb:STREAM=OBJECT/STRIDE` (values in hex, state numbers
+as the D3D8 header numbers them). Only what is known is written: a state the game has not set since the kit
+attached, or since a state block was applied or the device reset, is unknown to the shadow and left out, not
+guessed. At most 4096 distinct states are kept per trace; the header line counts hash collisions with a different
+state (expected 0). `trace_diff.py` uses them: a STABLE finding on a draw names the states that differ between the
+swapped frame's draw and its neighbours' (`| states: rs:7 FFFF->1, ...`).
+
+### Every resource the game creates (`xikit_resources_<pid>.csv`, always on)
+
+The device's creation methods (CreateTexture, CreateVolumeTexture, CreateCubeTexture, CreateVertexBuffer,
+CreateIndexBuffer, CreateRenderTarget, CreateDepthStencilSurface, CreateImageSurface, CreateVertexShader) are
+wrapped from the start, on every thread: each call is appended to `xikit_resources_<pid>.csv` with the call site
+(analysed address, or the raw return address outside FFXiMain), the parameters named in the method column, the
+object it got and the HRESULT. The object pointers are the ones the trace's `tex:`, `vb:`, `ib=` and the
+`SetTexture`/`SetStreamSource` parameters show, so a state can be read back to who created what, with which format
+and size.
+
+A vertex shader's declaration and code are saved exactly as the game passed them, as
+`xikit_vshader_<pid>_<handle>.bin`; the handle is the one `SetVertexShader` and the `#S` lines' `vs=` show.
+
+    python3 kit/d3dprof/vshader.py xikit_vshader_*.bin
+
+decodes them by the D3D8 SDK's token formats (d3d8types.h): which stream and register each input comes from, with
+its type, and the vs.1.x instructions. An opcode or register type outside that table is printed raw. This is the
+runtime catalogue: the shaders as created. Mapping each to its `vs.1.1` source text in the binary (a static
+catalogue) is not built.
+
 ## Finding which functions break the picture (`bisect=1`)
 
 With `bisect=1`, and the screen wrong with everything swapped: Ctrl+Alt+F10, or create `xikit_bisect_bad.txt` next to

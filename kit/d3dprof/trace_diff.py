@@ -60,7 +60,7 @@ def names(manifest):
     for l in open(manifest):
         if l[0] in '#!' or not l.strip(): continue
         p = l.split()
-        out.append((0x10000000 + int(p[0], 16), p[-1]))
+        out.append((0x10000000 + int(p[0], 16), p[5]))          # (column 6: NAME; T= may follow)
     return sorted(out)
 
 
@@ -82,7 +82,7 @@ class Owners:
         for l in open(manifest):
             if l[0] in '#!' or not l.strip(): continue
             p = l.split(); a = 0x10000000 + int(p[0], 16)
-            self.man[a] = p[-1]; self.exp_name[p[2]] = (a, p[-1])
+            self.man[a] = p[5]; self.exp_name[p[2]] = (a, p[5])       # (column 6: NAME; T= may follow)
         ex = json.load(open(extents))
         self.pieces = sorted((lo, hi, int(k, 16)) for k, v in ex.items() for lo, hi in v)
         self.starts = [x[0] for x in self.pieces]

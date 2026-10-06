@@ -1,6 +1,7 @@
 # The renderer: what it calls, where, and what that means for the goals
 
-The goals are a performance patch, a possible graphical overhaul, and a renderer port to D3D11. This
+The goals are a performance patch, a UI overhaul (the owner's wording, 6 Oct; first written here as "a possible
+graphical overhaul"), and a renderer port to D3D11. docs/ROADMAP.md charts them. This
 document maps the parts of the renderer they depend on. Each fact names its source. A fact rests on one
 of three kinds of evidence, and the text says which:
 

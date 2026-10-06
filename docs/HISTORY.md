@@ -385,7 +385,7 @@ fixed:
   after `apply()` (2 = a mixed frame, left out); `trace_diff.py` tests each swapped frame against its two unswapped
   neighbours (STABLE / OUTSIDE / COUNT) with the same test on unswapped frames as a control. Same-frame replay is not
   possible in game: a frame advances the game's own state.
-- **Alternating traces 11000_1..4** (owner, in town; 8 swapped frames each, 5 in trace 2): no call of a swapped frame
+- **Alternating traces 11000_1..4** (owner's session; scene not stated; 8 swapped frames each, 5 in trace 2): no call of a swapped frame
   differs from its two unswapped neighbours more often than the same test fires among unswapped frames, except in
   trace 4: five render-state/transform groups one call longer in frame 9 and one shorter in frame 15 (one object
   more, then one fewer: opposite directions, the scene's object count). Buffer creations (CreateTexture from
@@ -405,3 +405,8 @@ fixed:
   pointers for all 777 reconstructed functions and `xihook::` flags. Wine: mod runs at base and relocated (hook,
   trampoline to the game's code, a re-aimed call in a trampoline, refusal, frame callback, swap=0). The example's
   drawing is compiled only; nothing has run in the game yet.
+- **Roadmap** (docs/ROADMAP.md): the three goals charted from the research. Over 8 captures, frame time follows
+  the call count (frame ms ~ 6.6 + 0.00168 x calls, r = 0.988; a correlation, not a cost measurement). In capture
+  11000 the heaviest caller is CYyModelDt::SkinAndDrawV2 (5,330 calls per frame, 72% redundant); every hot
+  function there is hookable, most with flag 4. The next step is measuring where the time goes (P0).
+- **trace_diff.py** read the manifest's last column as the name; since the `T=` column it is column 6 (fixed).

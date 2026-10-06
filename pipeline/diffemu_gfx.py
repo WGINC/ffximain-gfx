@@ -221,7 +221,17 @@ class GfxMachine(G.Machine):
         self.tls = {}                     # the emulated thread's TLS slots (TlsSetValue / TlsGetValue)
         self.files = {}                   # files the run created: handle -> [position, size]
         self.last_error = None            # the thread's last-error value once the run sets it
+        self.key_n = {}                   # declared mode: identical calls so far in this run (_keyed)
         return super().call(*a, **k)
+
+    def _keyed(self, call):
+        """declared mode (declared.py): the answer to this call comes from the call itself -- the trial, its target
+        and arguments, and how many identical calls came before it in this run -- so a call the change drops or adds
+        does not move the answers of the calls after it. Off (the default), the run's one stream answers in order."""
+        if not getattr(self, 'keyed', False): return
+        h = hashlib.sha1(repr(call).encode()).digest()
+        c = self.key_n.get(h, 0); self.key_n[h] = c + 1
+        self.rng = random.Random(h + struct.pack('<QI', self.key_seed & 0xFFFFFFFFFFFFFFFF, c))
 
     def _on_data_exec(self, uc, addr, size, _):
         self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
@@ -246,7 +256,7 @@ class GfxMachine(G.Machine):
         if fake and len(args) == fake[0]:
             # a benign query answered the same way on both sides (logged, compared like a stubbed call),
             # so a function that only asks Windows something on its way does not stop there
-            self.calls.append((addr, 0, tuple(_stackref(a) for a in args)))
+            self.calls.append((addr, 0, tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
             try: v = fake[1](self, uc, args)
             except Exception: v = 0
             uc.reg_write(UC_X86_REG_EAX, v & 0xFFFFFFFF)
@@ -312,7 +322,7 @@ class GfxMachine(G.Machine):
                 ret_addr, *args = struct.unpack('<5I', uc.mem_read(esp, 20))
             except Exception:
                 return super()._on_invalid(uc, access, addr, size, value, _)
-            self.calls.append((0xD0000000, addr, tuple(G_stack(a) for a in args[:4])))
+            self.calls.append((0xD0000000, addr, tuple(G_stack(a) for a in args[:4]))); self._keyed(self.calls[-1])
             uc.reg_write(UC_X86_REG_EAX, self.rng.getrandbits(32))
             uc.reg_write(UC_X86_REG_ESP, esp + 4)
             uc.reg_write(UC_X86_REG_EIP, ret_addr)
@@ -370,7 +380,7 @@ class GfxMachine(G.Machine):
         if os.environ.get('FFXI_LIVE_TRACE'):
             print('foreign %08X pops %d ret %08X esp %08X' % (addr, n, ret_addr, esp), file=sys.stderr)
         args = struct.unpack('<%dI' % min(n // 4, MAX_STUB_ARGS), uc.mem_read(esp + 4, 4 * min(n // 4, MAX_STUB_ARGS))) if n else ()
-        self.calls.append((addr, _stackref(uc.reg_read(UC_X86_REG_ECX)), tuple(_stackref(a) for a in args)))
+        self.calls.append((addr, _stackref(uc.reg_read(UC_X86_REG_ECX)), tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.6 else 1 if k < 0.7 else self.rng.randrange(2, 64) if k < 0.85 else self.rng.getrandbits(32)
         uc.reg_write(UC_X86_REG_EAX, v)
@@ -474,7 +484,7 @@ class GfxMachine(G.Machine):
         logged = tuple(_stackref(a) for a in logged)
         if addr in STUB_DATA and len(args) >= 4:
             logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
-        self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged))
+        self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
         d = getattr(self, 'dict', ())
@@ -529,7 +539,7 @@ class GfxMachine(G.Machine):
             n = max(pops, nlog, 0)
             vals = struct.unpack('<%dI' % (1 + n), uc.mem_read(esp, 4 * (1 + n)))
             ecx = _stackref(uc.reg_read(UC_X86_REG_ECX)) if this_ else 0       # a stack-`this` call leaves ECX undefined
-            self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)])))
+            self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)]))); self._keyed(self.calls[-1])
             for a in vals[1:1 + (nlog if nlog >= 0 else pops)]:
                 if esp < a < esp + 0x800:     # into the caller's own frame: an output it reads back
                     k = self.rng.random()
@@ -552,7 +562,7 @@ class GfxMachine(G.Machine):
         if self.com_sites is not None and IMAGE_LO <= ret_addr < IMAGE_HI:
             self._record_site((ret_addr, 'fake', name, slot), this, esp + 4, min(n, 3))   # record only
         data = tuple(_data_hash(uc, args[i], sz) for i, sz in IN_DATA[m['name']](args)) if m['name'] in IN_DATA else ()
-        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args) + data))
+        self.calls.append((0xC0000000 | (IFACES.index(name) << 8) | slot, this, tuple(_stackref(a) for a in args) + data)); self._keyed(self.calls[-1])
         if m['ret'] == 'hresult':
             k = self.rng.random()
             v = 0 if k < 0.8 else 0x8876086C if k < 0.9 else 0x88760868   # D3D_OK / INVALIDCALL / DEVICELOST
@@ -885,7 +895,7 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
     m.cur_args = args
     def run():
         if getattr(m, 'cov_run', None) is not None: m.cov_run.clear()    # coverage: this run's instructions only
-        m.rng = random.Random(ts); m.wild = 0; return m.call(orig, conv, this, args, limit)
+        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0; return m.call(orig, conv, this, args, limit)
     for _ in range(3 + repairs):
         before = len(m.demand); r = run()
         if len(m.demand) != before: continue
@@ -1029,6 +1039,12 @@ def run_case(m, case, trials, seed):
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
+    # declared differences (declared.py): a changed function against the original, every difference stated
+    decl = None
+    if case.get('declared') is not None:
+        import declared as DC
+        decl = DC.load(case['declared'])
+    m.keyed = decl is not None; declared_seen, declared_trials = {}, 0
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)
     touched = [(int(g, 16), n) for g, n in case.get("fuzz_ranges", [])]
@@ -1061,7 +1077,7 @@ def run_case(m, case, trials, seed):
         else:
             # the original returned within `limit`; compiled code may take more instructions for the same
             # work, so the reconstruction gets ten times that before its not returning counts as a difference
-            m.rng = random.Random(trial_seed); m.wild = 0; b = m.call(cand, conv, this, args, limit * 10)
+            m.rng = random.Random(trial_seed); m.key_seed = trial_seed; m.wild = 0; b = m.call(cand, conv, this, args, limit * 10)
         restore_inputs(m, patches); demand_pages = len(m.demand); m.reset_demand()
         if b is not None and b.status == 'unresolved':     # the reconstruction met a count no source gives:
             unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared
@@ -1082,7 +1098,11 @@ def run_case(m, case, trials, seed):
                                 # faulted on, or order independent work differently before a crash).
                                 # A reconstruction that crashes where the original returns stays a FAIL.
         else:
-            why = G.compare(a, b, 'int' if ret == 'word' else ret)
+            if decl is None: why = G.compare(a, b, 'int' if ret == 'word' else ret)
+            else:
+                why, seen = DC.compare(a, b, 'int' if ret == 'word' else ret, decl, this, G.compare)
+                for k_, v_ in seen.items(): declared_seen[k_] = declared_seen.get(k_, 0) + v_
+                declared_trials += bool(seen)
         if cov is not None and b is not None and a.status not in ('fault', 'limit', 'unresolved'):
             cov |= ran
         if why:
@@ -1104,7 +1124,11 @@ def run_case(m, case, trials, seed):
             "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
             "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
-            **({"coverage": coverage} if coverage is not None else {})}
+            **({"coverage": coverage} if coverage is not None else {}),
+            **({"declared": {"trials_with_declared_differences": declared_trials, "seen": declared_seen,
+                             "never_seen": [d['text'] for d in decl['calls'] + decl['memory'] if d['text'] not in declared_seen]
+                                           + (['return'] if decl['return'] and 'return' not in declared_seen else [])}}
+               if decl is not None else {})}
 
 
 _COV_EXT = {}

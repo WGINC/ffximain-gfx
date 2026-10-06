@@ -151,11 +151,17 @@ function whose prototype is definitive.
 - the gate, which compares a function with the original in an emulator;
 - the alternating trace, which compares the calls the game makes.
 
+- **Built (6 Oct): the differential gate with declared differences** (pipeline/declared.py; `fork.py gate
+  --declare`). A changed function runs against the original on fuzz or a dump; each difference must be on the
+  change's list, which can name calls dropped, added or changed (by Direct3D method or game function, with
+  argument conditions), memory, and the return value. The report counts each declaration seen and names the
+  declarations never seen. In this mode each stubbed call's answer depends on the call itself, so a dropped call
+  does not shift the answers of later calls. It runs on forks today; a replacement written from scratch in a mod
+  has no gate build yet.
+
 **Missing:**
-- **A differential gate with stated, intended differences.** Run a mod's replacement against the original
-  function in the emulator, on fuzz and the dumps (and recorded inputs, 2a), and report every difference that is
-  not on a list the mod declares, e.g. "fewer SetRenderState calls, same draws, same vertex data". Today the gate
-  answers only "identical or not".
+- **The gate for a mod's own replacement functions** (not forks): the mod DLL imports Windows and the C library,
+  which the gate's loader does not provide.
 - **Real inputs for the hot paths** (2a). Without them, a prediction about SkinAndDrawV2 rests on 4% of its
   code.
 - **Cost prediction.** Nothing measures time yet (ROADMAP.md P0). A change's effect on frame time is not
@@ -191,7 +197,7 @@ function whose prototype is definitive.
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
 | 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built, except the static shader-source catalogue (the shaders as created are saved and decoded) |
 | 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Built (Wine-tested; not run in the game) |
-| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Medium |
+| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`); not for a mod's from-scratch replacements |
 | 8 | **Next exports**: tier 1 of the 267 callers (world draw path, menu path, asset loading) | What gets drawn and from what (2c) | IDA run, then the existing pipeline |
 | 9 | **De-artifacting** with observed virtual-call targets and field values | Reading the code without offsets (2d) | Long, incremental |
 | 10 | Task #64, the raw re-gate, the two open defects | Blind spots (6) | Small each |

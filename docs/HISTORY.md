@@ -449,3 +449,19 @@ has been run in the game yet.
 - Tested under Wine (test_xikit.py: the mod runs and a new reload run); not run in the game.
 - The resource log of the previous entry is written only when d3dprof is attached (`profile=1` or `trace=1`);
   KIT.md said "always on" and is corrected.
+
+## 6 Oct (night, later): GAPS.md section 7, item 7: the gate with declared differences
+
+- **pipeline/declared.py, `fork.py gate --declare`:** a changed function against the original, where every
+  difference must be declared: calls dropped, added or changed (Direct3D method or game function, argument
+  conditions), memory, return value; the report counts each declaration seen and lists those never seen.
+  `sdk/test_fork.py` (CDx::DrawFadeQuad): unedited PASS; FOGENABLE 0 -> 1 FAIL, declared PASS; LIGHTING replaced
+  by AddRef: FAIL until both the drop and the add are declared; a declaration for another state does not cover it.
+- In declared mode the gate answers each stubbed call from the call's own content (diffemu_gfx.py `_keyed`), so a
+  dropped call does not shift later answers. Off by default: a normal gate run is byte-identical to the previous
+  harness (checked on 0x10001520, 0x100091B0, 0x1000A820, 0x100A4830).
+- **Found while checking that:** the current harness does not reproduce `verification/gate_clean_final.jsonl`
+  exactly, with or without this change. The verdicts agree, but the counts differ. 0x10001520 has outcomes
+  return 67 / import 33 now, against 75 / 25 recorded. 0x1000A820 has 1568 D3D calls compared, against 1552.
+  0x100091B0 has coverage 282, against 274. The record predates later harness changes, and which change moved
+  the numbers is not established here.

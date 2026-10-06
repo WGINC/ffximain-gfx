@@ -186,6 +186,34 @@ Build it like any source of the mod: `build_mod.sh my_mod.dll my_mod.cpp mymod/C
   - An unedited fork must PASS as the tree does.
   - An edited one shows where it now differs from the game. For example, `D3DRS_FOGENABLE` changed from 0 to 1
     gives `stubbed call #7 differs: ... 0x0000001C, 0x00000000 / ... 0x0000001C, 0x00000001`.
+- **Declared differences** (`fork.py gate FILE --declare DIFFS.json`, pipeline/declared.py): for an edit that is
+  meant to change what the function does, list the changes. PASS then means every difference in every trial is on
+  the list, and the report counts each declaration seen and names any never seen:
+
+  ```json
+  {"calls": [{"may": "drop",   "call": "IDirect3DDevice8::SetRenderState", "where": {"0": "0x89"}},
+             {"may": "change", "call": "IDirect3DDevice8::SetRenderState", "where": {"0": "0x1C"}, "args": [1]},
+             {"may": "add",    "call": "0x1000CD00"}],
+   "memory": [{"base": "this", "offset": "0x908", "size": 4}],
+   "return": false}
+  ```
+
+  - A call is named by its Direct3D method (`Interface::Method`) or by the analysed address of a game function.
+  - Arguments are numbered from 0 after `this`.
+  - `where` limits a declaration to calls with those argument values.
+  - Stack cleanup and the callee-saved registers can never differ.
+  - The calls of the two runs are aligned. Identical calls are matched first. Between two matched calls, calls to
+    the same function are paired as changed; any left over are dropped or added. That pairing is a reading of two
+    call lists.
+  - Each stubbed call is answered from the call itself (its target, arguments and how many identical calls came
+    before it), so a dropped call does not change what later calls return. One exception: answers that input
+    repair fixed are still matched by call order.
+  - `sdk/test_fork.py` covers:
+    - an unedited fork, PASS;
+    - an edit, FAIL;
+    - the edit declared, PASS;
+    - a drop plus an added call, with and without the added call declared;
+    - a declaration that does not cover the drop, FAIL, reported never seen.
 - **C library calls differ by place:** in the game, a fork's `memcpy` and similar calls are the mod's (msvcrt); in
   `gate` they are the tree's `rt.c`.
 

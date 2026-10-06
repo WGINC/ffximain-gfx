@@ -5,12 +5,15 @@ gate the edit against the game's own code (docs/SDK.md, "Forks").
                                          analysed address (0x1000A820). Writes DIR/<Name>.fork.cpp (default: .): the
                                          function's block from the tree's source, verbatim, with that file's includes
     python3 fork.py diff FILE.fork.cpp   the fork against the tree's source of the same function (unified diff)
-    python3 fork.py gate FILE.fork.cpp [--trials N] [--live LIVE.json] [--work DIR]
+    python3 fork.py gate FILE.fork.cpp [--declare DIFFS.json] [--trials N] [--live LIVE.json] [--work DIR]
                                          (in the repository, $FFXI_DLL) the gate on the fork: the in-game build of the
                                          tree with this one function replaced by the fork, compiled with the flags a mod
                                          build gives it, run against the game's original function (diffemu_gfx.py,
                                          with coverage). An unedited fork must PASS as the tree does; an edited one
-                                         shows where it now differs from the game
+                                         shows where it now differs from the game. With --declare, the differences
+                                         the edit is meant to make (pipeline/declared.py: calls dropped, added or
+                                         changed, memory, the return value): PASS then means every difference in
+                                         every trial is a declared one, and the report counts each declaration seen
 
 What is a fact here and what is not:
   * `new` copies the gate-verified source text. It does not claim the copy compiles to the same machine code in a
@@ -144,6 +147,9 @@ def cmd_gate(o):
     run([cxx, '-shared', '-nostdlib', '-o', out, os.path.join(obj, 'rt.o')] + objs + [os.path.join(g, 'fork.o'), '-lgcc',
          '-Wl,--image-base=0x60000000', '-Wl,-e,_DllMainCRTStartup@12', '-Wl,--disable-auto-image-base', '-Wl,--kill-at'])
     run([sys.executable, os.path.join(ROOT, 'kit', 'xikit', 'close_gaps.py'), out])
+    if o.declare:
+        sys.path.insert(0, os.path.join(ROOT, 'pipeline')); import declared
+        cases[0]['declared'] = json.load(open(o.declare)); declared.load(cases[0]['declared'])    # (refuses a bad file here)
     json.dump(cases, open(os.path.join(g, 'case.json'), 'w'))
     res = os.path.join(g, 'gate.jsonl')
     env = dict(os.environ, FFXI_COVERAGE='1')
@@ -155,6 +161,10 @@ def cmd_gate(o):
                                                                         cov.get('covered'), cov.get('insns')))
     if r.get('first_mismatch'): print('  first mismatch:', json.dumps(r['first_mismatch'])[:1500])
     if r.get('unresolved'): print('  unresolved:', json.dumps(r['unresolved'])[:800])
+    if r.get('declared'):
+        dd = r['declared']; print('  declared differences: in %d trials' % dd['trials_with_declared_differences'])
+        for k, v in dd['seen'].items(): print('    %6d x %s' % (v, k))
+        for k in dd['never_seen']: print('    never: %s' % k)
     print('  (gate record: %s)' % res)
     sys.exit(0 if r['verdict'] == 'PASS' else 1)
 
@@ -164,6 +174,7 @@ def main():
     a = sp.add_parser('new'); a.add_argument('name'); a.add_argument('dir', nargs='?', default='.')
     b = sp.add_parser('diff'); b.add_argument('file')
     c = sp.add_parser('gate'); c.add_argument('file'); c.add_argument('--trials', type=int, default=100); c.add_argument('--live')
+    c.add_argument('--declare', help='the differences the edit is meant to make (pipeline/declared.py)')
     c.add_argument('--work', default=os.path.join(ROOT, 'runs', 'fork'))
     o = ap.parse_args()
     if not SRC: sys.exit('fork.py: no tree source (tree/src, or tree_src next to this script)')

@@ -67,7 +67,7 @@ def main():
     for m in meta[:1]: print(m)
     total = sum(n for _, _, n in rows['self'])
     if not total: print('no samples'); return
-    se = lambda n: 100 * math.sqrt((n / total) * (1 - n / total) / total)
+    se = lambda n: 100 * math.sqrt(min(n / total, 1.0) * (1 - min(n / total, 1.0)) / total)   # (inclusive: a function on a stack more than once can pass 100%)
     def table(title, kind, by_site=False):
         agg = collections.Counter(); sites = collections.defaultdict(collections.Counter)
         for fn, site, n in rows[kind]: agg[fn] += n; sites[fn][site] += n

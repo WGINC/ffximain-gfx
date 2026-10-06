@@ -5,7 +5,7 @@ profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod
 base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
-import json, os, shutil, subprocess, sys, tempfile
+import json, os, re, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
 bad = 0
@@ -40,9 +40,9 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts'):
+for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab'):
     d = tempfile.mkdtemp(prefix='xikit_')
-    for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt'): shutil.copy(os.path.join(DIST, f), d)
+    for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
     if mode.startswith('mod') or mode == 'reload': shutil.copy(MODDLL, d)
     if mode == 'reload': shutil.copy(MODDLL2, d)
@@ -51,8 +51,16 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture
     r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
+    if mode == 'base':
+        ok = 'kit build: ' + open(os.path.join(DIST, 'VERSION.txt')).readline().strip() in log
+        print('%s: xikit.log names the kit\'s build (VERSION.txt line 1)' % ('ok' if ok else 'FAIL')); bad += not ok
     print('-- xikit.log --'); print('\n'.join(l for l in log.splitlines() if 'swapped ' not in l and 'restored ' not in l)[-3000:])
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
+    if mode == 'base':
+        ok = re.search(r'cpu: CPUID vendor "\w+", brand ".*"; SSE 1', log) is not None and 'machine: ' in log
+        print('%s: the environment is logged (CPUID vendor and features, machine and Windows build)' % ('ok' if ok else 'FAIL')); bad += not ok
+        ok = re.search(r'compatibility: kernel version \d+\.\d+ build \d+ \(KUSER_SHARED_DATA; the game is told \d+\.\d+\); __COMPAT_LAYER .*; registry layers for .*host\.exe: user .*, machine ', log) is not None
+        print('%s: the compatibility layers are logged (the kernel\'s own version, __COMPAT_LAYER, the registry)' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'profile':
         vs = [f for f in os.listdir(d) if f.startswith('xikit_vshader_')]
         r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'd3dprof', 'vshader.py')] + [os.path.join(d, f) for f in vs], capture_output=True, text=True)
@@ -82,6 +90,8 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture
         # the capture replayed through the gate: the original and the tree's reconstruction run from that call
         xc = [f for f in os.listdir(d) if f.endswith('.xcap')]
         tree_dll = os.path.join(H, '..', '..', '..', 'tree', 'build', 'gfx_recon.dll')
+        if not os.path.exists(tree_dll):                    # the gate's build of the tree (not the kit's in-game one)
+            subprocess.run(['./build.sh'], cwd=os.path.join(H, '..', '..', '..', 'tree'), check=True, stdout=subprocess.DEVNULL)
         cases = os.path.join(H, '..', '..', '..', 'verification', 'cases_clean_final.json')
         if len(xc) != 2: print('FAIL: %d .xcap files written, not 2' % len(xc)); bad += 1
         for x in sorted(xc):

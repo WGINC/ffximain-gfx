@@ -100,7 +100,7 @@ the owner's decision. Until then the fixes are reimplemented.
 | Tool | What it answers | State |
 |---|---|---|
 | Present wait timer (xikit) | Time inside Present per frame, against frame time: is the GPU or the translation stack the limit? | Built: xikit_timing_<pid>.csv |
-| Per-call timing (d3dprof) | Time inside each Direct3D method, per call site: the actual cost per call under dgVoodoo | Covered statistically by the sampler's "elsewhere" view (time in other modules by calling site); exact per-call timing not built |
+| Per-call timing (d3dprof) | Time inside each Direct3D method, per call site: the actual cost per call under dgVoodoo | Built: `call_time=1` (with `profile=1`): `us_per_call` per (method, call site) in d3dprof_<pid>.csv; also the sampler's "elsewhere" view |
 | Sampling profiler of the render thread (xikit) | Exclusive CPU time by function and by module (game, reconstruction, the D3D8 runtime or wrapper, driver, Sleep in the pacing loop) | Built: `sample=1`, kit/d3dprof/samples.py |
 | Fixed test scenes | Repeatable captures: a busy town, an empty zone, combat; each with speedfix off | Owner, in game |
 
@@ -180,13 +180,17 @@ shows only its intended differences. And the patch has run for a full session wi
 
 ## 4. Goal 2: the D3D11 renderer
 
+The worked-out scheme, from what is measured now (the emulated x86 setup, the plaza profile, the scope of D3D8 the
+game uses, three designs and the measurement that chooses between them): docs/D3D11.md.
+
 **What it has to replace:**
 1. **Every device user.**
    - 1,633 call sites in the export use the device.
    - Every function that uses the device is in the export (data/gfx_device_users.json: 0 outside it). 90 of
      the 867 are not in the verified tree (docs/RESIDUE.md); until they are, they run as the game's code.
-2. **Resources.** The game creates textures, vertex and index buffers, state blocks and 7 vertex shaders
-   (CreateVertexShader sites) on the Direct3D 8 device and keeps them.
+2. **Resources.** The game creates textures, vertex and index buffers, state blocks and vertex shaders
+   (7 CreateVertexShader sites: 5 programmable shaders and 1 pixel shader from one function, 4 fixed-function, 2
+   unreachable; docs/KIT.md, the static shader catalogue) on the Direct3D 8 device and keeps them.
 3. **The fixed-function pipeline.**
    - 56 render states and 15 texture-stage state types are set somewhere.
    - FVF codes seen: XYZRHW|DIFFUSE|TEX1, XYZ|DIFFUSE|TEX1, XYZ|NORMAL|DIFFUSE|TEX1, XYZB1 and others.
@@ -237,12 +241,12 @@ Unlike dgVoodoo, it can be told what a draw is for (the CDx and sqgx wrapper lay
 
 | # | Item | Needed for | State |
 |---|---|---|---|
-| 1 | P0 measurement tools (Present wait, per-call timing, sampling profiler) | Goal 1; goal 2's baseline | To build |
+| 1 | P0 measurement tools (Present wait, per-call timing, sampling profiler) | Goal 1; goal 2's baseline | Built (Wine-tested); the in-game measurements are the owner's |
 | 2 | Raise gate coverage of the hot flag-4 functions (SkinAndDrawV2, Cell_DrawQuadBlended, fn_1017C9C0, fn_100467E0, Actor_DrawWorldText, ...) | Goal 1 P2 | Fuzz aimed at their unrun branches, and new dumps from busy scenes. The four dumps are town, town2, combat and zonetoinn |
 | 3 | The 90 exported functions outside the verified tree (8 UNRESOLVED calls, 13 FAIL, 11 constructs, 9 compile), and the world draw path outside the export (docs/GAPS.md) | Goal 1 P3; goal 2; goal 3's asset and menu paths | Open |
-| 4 | Task #64: the register-preserving-callee blind spot in ecx_use/edx_use | The types mods and the gate rely on | Open |
+| 4 | Task #64: the register-preserving-callee blind spot in ecx_use/edx_use | The types mods and the gate rely on | Closed (7a925bd; checked 6 Oct: regenerated data identical) |
 | 5 | The SDK's first in-game run (the example mod) | Every mod | Owner, in game |
-| 6 | Picture comparison | Goal 2; checking visual changes | To build |
+| 6 | Picture comparison | Goal 2; checking visual changes | Built (`trace_pictures=K`, pictures.py); not run in the game yet |
 | 7 | Task #65: whole-frame differential (blocked on calls into real D3D8 objects) | Confidence in the swapped set as a whole | Blocked; the alternating trace covers part of it in game |
 | 8 | `Post_DrawRotatingGhostLayers` (gate FAIL, -0.0 vs +0.0) and `Gfx_DestroyD3DHolder` (crash when swapped) | Completeness | Open, causes unknown |
 
@@ -251,3 +255,39 @@ trial, and orders the tools that close it.
 
 **The next step:** build P0 and take one baseline capture in a busy scene with speedfix off. Then P1, then the
 first P2 mod for text.
+
+## Measured in Bedau (the busy plaza of Port Jeuno), 6 Oct: where a frame goes and what draws it
+
+**Render-thread time** (the owner's M5 MacBook Pro, Windows on ARM in Parallels, dgVoodoo to D3D11; about 71 ms a
+frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame; text and UI quads about 7 ms.
+
+| Work | Share | Where |
+|---|---|---|
+| Occlusion readback stall | 19.5% | LockRect at 0x1006C91C |
+| Character draws | 16% | every one of the 1,586 DrawIndexedPrimitive a frame comes from CYyModelDt::SkinAndDrawV2, one triangle strip of about 58 triangles each |
+| x87 skinning | 13.3% | |
+| Skinning buffer locks | 7.6% | |
+| Text and UI quads | 10.3% | DrawPrimitiveUP, 885 a frame of 2 triangles each: glyphs 386, Cell quads 209, name plates 200 |
+| Effects and zone | 3.2% | DrawPrimitive: CMoVuElem_Draw 270 a frame, the zone mesh 45 |
+
+**Draw reduction, characters first.**
+1. Measure how many of SkinAndDrawV2's strips run under the same state with nothing between them
+   (merge_potential.py on a Bedau trace).
+2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its fuzzed gate trials covered 62 of 1,596
+   instructions. With the facts of session 4, one capture PASSes 8 of 8 trials and covers 932. The other two lacked
+   the model's command list (capture budget); new captures with `capture_follow` are needed for the rest.
+3. A fork that draws a run of strips as one indexed list (an index list built once per model), gated against the
+   game with the draw change declared.
+
+That is the first step of the renderer port (goal 2) done in place. The D3D11 backend then draws the same merged
+lists, and can skin on the GPU.
+
+**The Direct3D 8 path on the owner's machine.** The game crashes there without dgVoodoo (owner, 6 Oct), so every
+call goes through dgVoodoo's D3D8-to-D3D11 translation, as emulated x86 code. The only comparison left in place is
+between dgVoodoo's own settings (compare_paths.py). Leaving the translation behind takes a renderer that issues
+D3D11 itself: the D3D11 backend of goal 2. That backend is also the way to fewer and cheaper calls.
+
+**Concluded (6 Oct, owner's sessions 3 and 4):** Windows' own d3d8.dll crashes the game on this machine; dgVoodoo
+2.8.2 with D3D12 output stretches and flickers textures; dgVoodoo with D3D11 output is the one working path (D3D11 on
+Parallels' prl_umdd10.dll, all x86 code emulated). No further path comparison is open; compare_paths.py stays for
+comparing dgVoodoo settings if one is ever changed.

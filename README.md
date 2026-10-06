@@ -11,9 +11,11 @@ This is private work: nothing here is published, and no game bytes are in the re
 |---|---|
 | `tree/` | **The deliverable.** Clean, class-shaped C++ (`include/`, `src/`, `build.sh`); each function carries its `// GATE:` result. Generated; see `tree/README.md` |
 | `verification/` | Gate results for the tree: fuzz raw (`gate_raw_final`), fuzz and live combined (`gate_raw_combined`, `gate_clean_final`), the live gates per dump and the dumps' verification (`live/`), cases, first divergences, the mutation test |
-| `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `RESIDUE.md` (every graphics function not in the tree, with the reason; generated), `NAMES.md` (naming evidence) |
+| `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `RESIDUE.md` (every graphics function not in the tree, with the reason; generated), `NAMES.md` (naming evidence), `KIT.md` and `SDK.md` (the in-game tools), `ROADMAP.md`, `GAPS.md`, `RENDERER.md`, `UI.md`, `DEARTIFACT.md`, `LOCALS.md` |
 | `pipeline/` | Everything that runs outside IDA: translator, gate, fact tools, tests (`pipeline/tests/`) |
 | `ida/` | What runs inside IDA: `ffxi_ida_fix.py` (generated, self-contained), its template, the graphics-set exporter `ida_gfx.py`, `ida_regflow.py` |
+| `kit/` | The in-game kit: `xikit` (swaps reconstructed functions into the running game, traces, bisect, capture) and `d3dprof` (per-call-site Direct3D profiler). `kit/README.md`, `docs/KIT.md` |
+| `sdk/` | Mods for xikit: headers, template, examples, forks (`fork.py`). `docs/SDK.md` |
 | `data/` | Inputs and facts: the Hex-Rays export (`exports/`), facts read from the DLL, hand corrections (`hx_patches/`, `type_fixes.json`), the gate's input model, the class model, D3D8/D3DX data (`d3dx/`) |
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
@@ -76,9 +78,11 @@ the rule tests and the stack solver's self-test. A full gate takes about 8 minut
 `pipeline/gate_some.py RUN fail|notpass|changed:DIR|0xADDR...` gates a subset.
 
 **Requirements:**
-- Python 3 with `unicorn`, `pefile`, `capstone` and `minidump` (for dumps);
+- Python 3 with `unicorn`, `pefile`, `capstone` and `minidump` (for dumps), and `numpy` (the kit's picture comparison);
 - MinGW-w64 i686 (`i686-w64-mingw32-g++`);
-- IDA Pro 9.x with Hex-Rays, for new exports.
+- IDA Pro 9.x with Hex-Rays, for new exports;
+- 32-bit Wine, for the kit's tests (`kit/xikit/test/test_xikit.py`; on Ubuntu: `dpkg --add-architecture i386`,
+  then `wine` and `wine32:i386`).
 
 ## The IDA step
 
@@ -104,3 +108,4 @@ With the IDB open in IDA 9.4 (save it first, or work on a copy), run **File > Sc
 | `same_code.py` | Are two builds the same code, function by function |
 | `make_ida_fix.py` | Rebuild `ida/ffxi_ida_fix.py` from the template and `data/` |
 | `bg.sh` | Run a long job in the background and stop it by process group |
+| `tool_drift.py` | Are the tools current: regenerates the IDA script and the SDK's generated files, rebuilds the kit and compares with `kit/BUILD.lock.json`, checks the kit's ini keys against `docs/KIT.md` (`--fix` keeps the regenerated files) |

@@ -29,7 +29,13 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "../../sdk/include/xikit_mod.h"
+#ifdef _MSC_VER
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#endif
 
 #define ANALYSED_BASE 0x10000000u
 #define G_PCDX 0x1045666Cu             /* CDx*; the device is at +0xC (data/com_fields.json, accepted) */
@@ -45,7 +51,7 @@
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
 void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
-extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
+extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -70,6 +76,7 @@ typedef struct {
 
 typedef struct {
   int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
+  int ab, ab_after, ab_phase, ab_rounds, ab_settle, spike_ms;
   char only[4096], exclude[4096];
 } Cfg;
 
@@ -81,6 +88,7 @@ static Code g_code[MAXCODE]; static int g_ncode;
 static Fn *g_by_target[MAXFN];         /* sorted by reconstruction address, for the exception handler */
 static Cfg g_cfg;
 static char g_dir[MAX_PATH], g_ini[MAX_PATH], g_logpath[MAX_PATH], g_quar[MAX_PATH];
+static char g_out[MAX_PATH];           /* where everything the kit writes goes (log_folder=1: xikit_logs\\<start>_<pid>); its inputs stay in g_dir */
 static FILETIME g_ini_time;
 static CRITICAL_SECTION g_loglock;
 static CRITICAL_SECTION g_susplock;   /* one thread at a time suspends the others (apply, capture): two doing it at once could suspend each other */
@@ -113,8 +121,8 @@ static const char DEFAULT_INI[] =
   "swap=0\r\n"
   "; only these (comma-separated RVAs like 0x6C530 / addresses like 0x1006C530 / names); empty = all\r\n"
   "only=\r\n"
-  "; never these (same forms)\r\n"
-  "exclude=\r\n"
+  "; never these (same forms). Gfx_DestroyD3DHolder faults when swapped, cause not found (docs/GAPS.md)\r\n"
+  "exclude=Gfx_DestroyD3DHolder\r\n"
   "; 1: also swap functions flagged SEH or speedfix-site (see the manifest)\r\n"
   "include_flagged=0\r\n"
   "; 1: also swap functions whose gate runs did not reach all of the original's code (flag 4 in the manifest).\r\n"
@@ -155,6 +163,9 @@ static const char DEFAULT_INI[] =
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n"
+  "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
+  ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
+  "call_time=0\r\n"
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
@@ -162,13 +173,28 @@ static const char DEFAULT_INI[] =
   ";    on creating xikit_reload_now.txt); takes effect at the next start\r\n"
   "mod_reload=0\r\n"
   "; record real calls for the gate (docs/KIT.md): manifest names, comma-separated; each writes an .xcap\r\n"
-  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\n"
+  "; capture_follow: for the call's own pointers (registers, the first 8 arguments), also the pages after each, up\r\n"
+  ";    to this many (an object or list longer than a page)\r\n"
+  "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\ncapture_follow=16\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
   ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
   "sample=0\r\nsample_ms=1\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
   ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
-  "facts=0\r\n";
+  "facts=0\r\n"
+  "; 1: everything the kit writes (this log, profiles, traces, timing, samples, captures, A/B results) goes into a new\r\n"
+  ";    folder per start, xikit_logs\\<date>_<time>_<pid>; 0: next to xikit.dll as before. Read at the start\r\n"
+  "log_folder=1\r\n"
+  "; 1: an A/B test with no keys: ab_after seconds from now (or from the start), the kit switches everything it adds\r\n"
+  ";    off (A: no swaps, no mod hooks, as F9) and on (B) in phases of ab_phase seconds, A B B A for each of ab_rounds\r\n"
+  ";    rounds (ABBA cancels a steady drift in the scene). The first ab_settle frames of each phase are left out. Each\r\n"
+  ";    phase's frame times and a summary go to xikit_ab_<pid>.csv and xikit.log. Stand still while it runs. Setting\r\n"
+  ";    ab=0 stops it; set it to 0 and back to 1 to run another. Not affected: what a mod did once at its start\r\n"
+  ";    (speedfix's cpu_tier, texture_compression)\r\n"
+  "ab=0\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n"
+  "; every frame slower than this many ms (Present to Present) goes to xikit_spikes_<pid>.csv with its frame number (the\r\n"
+  ";    resource log's frame numbers match, with profile=1: what was created in a stutter); 0 = off\r\n"
+  "spike_ms=50\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -183,6 +209,17 @@ static void read_cfg(void) {
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
   c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
   c.trace = GetPrivateProfileIntA("xikit", "trace", 0, g_ini);
+  c.ab = GetPrivateProfileIntA("xikit", "ab", 0, g_ini);
+  c.spike_ms = GetPrivateProfileIntA("xikit", "spike_ms", 50, g_ini);
+  c.ab_after = GetPrivateProfileIntA("xikit", "ab_after", 60, g_ini);
+  c.ab_phase = GetPrivateProfileIntA("xikit", "ab_phase", 30, g_ini);
+  c.ab_rounds = GetPrivateProfileIntA("xikit", "ab_rounds", 4, g_ini);
+  c.ab_settle = GetPrivateProfileIntA("xikit", "ab_settle", 60, g_ini);
+  if (c.ab_after < 0) c.ab_after = 0;
+  if (c.ab_phase < 1) c.ab_phase = 1;
+  if (c.ab_rounds < 1) c.ab_rounds = 1;
+  if (c.ab_rounds > 16) c.ab_rounds = 16;
+  if (c.ab_settle < 0) c.ab_settle = 0;
   GetPrivateProfileStringA("xikit", "only", "", c.only, sizeof c.only, g_ini);
   GetPrivateProfileStringA("xikit", "exclude", "", c.exclude, sizeof c.exclude, g_ini);
   if (c.report_every < 60) c.report_every = 60;
@@ -431,7 +468,7 @@ static int g_bis_t[MAXFN], g_bis_tn;                             /* the set bein
 static void bis_note(const char *fmt, ...) {
   char buf[400]; va_list ap; va_start(ap, fmt); vsnprintf(buf, sizeof buf, fmt, ap); va_end(ap);
   klog("bisect: %s", buf);
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_bisect.txt", g_dir);
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_bisect.txt", g_out);
   FILE *f = fopen(path, "a"); if (f) { fprintf(f, "%s\n", buf); fclose(f); }
 }
 
@@ -529,7 +566,7 @@ __declspec(dllexport) void xikit_bisect_answer(int bad) { if (bad == 2) bis_stop
 
 /* ------------------------------------------------------------------------------------------------ reports */
 static void report_calls(void) {
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_calls_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_calls_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   fprintf(f, "# frame %u; calls of each swapped function since it was swapped, and in the last window\n", g_frame);
   fprintf(f, "address,name,swapped,calls_total,calls_window\n");
@@ -564,7 +601,7 @@ static void trace_finish(const char *mode) {
   if (g_tr_maxon > now) now = g_tr_maxon;      /* (alternating: the last frame is an unswapped one) */
   d3dprof_trace_stop(); g_master_off = g_tr_prev_off; g_dirty = 1; g_tr_state = 0; g_tr_maxon = 0;
   g_tr_n++; g_tr_state_started = 0;
-  snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n);
+  snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_out, (unsigned long)GetCurrentProcessId(), g_tr_n);
   if (!strcmp(mode, "alternating"))
     snprintf(note, sizeof note, "alternating: label 0 = swaps off, 1 = swaps on (%d functions swapped), 2 = mixed; %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_ALT_FRAMES, g_rel, g_recon_lo);
   else
@@ -644,7 +681,7 @@ static void pic_capture(void *dev, int frame, int label) {
   if (g_pic_img && (hr = ((CopyRectsFn)g_orig_vt[28])(dev, bb, NULL, 0, g_pic_img, NULL)) >= 0 &&
       (hr = ((SurfLockFn)VT(g_pic_img)[9])(g_pic_img, lr, NULL, 0x10 /* D3DLOCK_READONLY */)) >= 0) {
     int bpp = (d[0] == 21 || d[0] == 22) ? 4 : (d[0] >= 23 && d[0] <= 26) ? 2 : 0;   /* A8R8G8B8, X8R8G8B8; R5G6B5, X1R5G5B5, A1R5G5B5, A4R4G4B4 */
-    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_trace_%lu_%d_f%02d_l%d.pic", g_dir, (unsigned long)GetCurrentProcessId(), g_tr_n + 1, frame, label);
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_trace_%lu_%d_f%02d_l%d.pic", g_out, (unsigned long)GetCurrentProcessId(), g_tr_n + 1, frame, label);
     FILE *f = bpp ? fopen(path, "wb") : NULL;
     if (f) {
       uint32_t head[8] = { 0x43495058u /* "XPIC" */, 1, d[6], d[7], d[0], (uint32_t)bpp, (uint32_t)frame, (uint32_t)label };
@@ -770,7 +807,7 @@ static void report_timing(void) {
     for (int i = 1; i < n; i++) { sorted[i - 1] = g_tm_frame[i]; sf += g_tm_frame[i]; if (g_tm_frame[i] > mf) mf = g_tm_frame[i]; }
     for (int i = 0; i < n; i++) { sp += g_tm_present[i]; sk += g_tm_kit[i]; if (g_tm_present[i] > mp) mp = g_tm_present[i]; }
     qsort(sorted, n - 1, sizeof sorted[0], cmp_double);
-    snprintf(path, sizeof path, "%s\\xikit_timing_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    snprintf(path, sizeof path, "%s\\xikit_timing_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     int fresh = GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES;
     FILE *f = fopen(path, "a");
     if (f) {
@@ -782,7 +819,7 @@ static void report_timing(void) {
     }
   }
   if (!g_sampling) return;
-  snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   EnterCriticalSection(&g_samplock);
   fprintf(f, "# xikit samples: %ld samples every %d ms of the render thread (%ld missed), over the last %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X\n"
@@ -810,6 +847,88 @@ static void start_sampler(void) {
   klog("sample: the render thread every %d ms (xikit_samples_<pid>.csv every %d frames)", g_sample_ms, g_cfg.report_every);
 }
 typedef HRESULT (__stdcall *PresentFn)(void *, const RECT *, const RECT *, HWND, const void *);
+
+/* ------------------------------------------------------------------------------------------------ ab=1 (docs/KIT.md)
+   An A/B test with no keys. ab_after seconds after it is switched on, phases of ab_phase seconds in the order
+   A B B A, ab_rounds times: A = everything the kit adds off (g_master_off, as F9: no swaps, no mod hooks), B = on.
+   ABBA puts each label's phases around the same mean time, so a scene that drifts steadily affects both alike. The
+   first ab_settle frames of a phase are left out (the switch itself, and what it takes to settle), and so are frames
+   while a trace runs. Per phase: frames used, mean, median, p95 and max frame time; at the end the two labels
+   compared, with how much the phases of one label differ among themselves (the noise the difference must beat). */
+#define AB_MAX 16384
+static int g_ab_state;                  /* 0 idle, 1 waiting ab_after, 2 running, 3 done (ab=0 resets) */
+static DWORD g_ab_t0; static int g_ab_i, g_ab_nph, g_ab_seen, g_ab_n, g_ab_after, g_ab_phase, g_ab_settle;
+static double g_ab_ft[AB_MAX], g_ab_mean[32], g_ab_med[32]; static int g_ab_cnt[32];
+static char g_ab_path[MAX_PATH];
+static char ab_label(int i) { return ((i + 1) / 2) % 2 ? 'B' : 'A'; }
+static void ab_set(int i) {
+  g_ab_i = i; g_ab_t0 = GetTickCount(); g_ab_seen = 0; g_ab_n = 0;
+  int off = ab_label(i) == 'A';
+  if (g_master_off != off) { g_master_off = off; g_dirty = 1; }
+  klog("ab: phase %d of %d: %c (%s)", i + 1, g_ab_nph, ab_label(i), off ? "everything the kit adds off" : "on");
+}
+static void ab_end_phase(void) {
+  int i = g_ab_i, n = g_ab_n; double sum = 0, mx = 0;
+  for (int k = 0; k < n; k++) { sum += g_ab_ft[k]; if (g_ab_ft[k] > mx) mx = g_ab_ft[k]; }
+  qsort(g_ab_ft, n, sizeof g_ab_ft[0], cmp_double);
+  g_ab_cnt[i] = n; g_ab_mean[i] = n ? sum / n : 0; g_ab_med[i] = n ? g_ab_ft[n / 2] : 0;
+  FILE *f = fopen(g_ab_path, "a");
+  if (f) { fprintf(f, "%d,%c,%d,%.3f,%.3f,%.3f,%.3f\n", i + 1, ab_label(i), n, g_ab_mean[i], g_ab_med[i], n ? g_ab_ft[(int)(n * 0.95)] : 0, mx); fclose(f); }
+  klog("ab: phase %d (%c): %d frames, mean %.2f ms, median %.2f ms", i + 1, ab_label(i), n, g_ab_mean[i], g_ab_med[i]);
+}
+static void ab_finish(int stopped) {
+  if (g_master_off) { g_master_off = 0; g_dirty = 1; }
+  if (stopped) { klog("ab: stopped before the end (ab=0); everything back on"); return; }
+  double s[2] = {0, 0}, m[2] = {0, 0}, lo[2] = {1e9, 1e9}, hi[2] = {0, 0}; int c[2] = {0, 0};
+  for (int i = 0; i < g_ab_nph; i++) {
+    if (!g_ab_cnt[i]) continue;
+    int b = ab_label(i) == 'B'; s[b] += g_ab_mean[i]; m[b] += g_ab_med[i]; c[b]++;
+    if (g_ab_mean[i] < lo[b]) lo[b] = g_ab_mean[i];
+    if (g_ab_mean[i] > hi[b]) hi[b] = g_ab_mean[i];
+  }
+  if (!c[0] || !c[1]) { klog("ab: done, but a label has no frames: nothing to compare"); return; }
+  double a = s[0] / c[0], b = s[1] / c[1], am = m[0] / c[0], bm = m[1] / c[1];
+  double noise = hi[0] - lo[0] > hi[1] - lo[1] ? hi[0] - lo[0] : hi[1] - lo[1];
+  FILE *f = fopen(g_ab_path, "a");
+  if (f) {
+    fprintf(f, "# A (off): mean of phase means %.3f ms, of medians %.3f; B (on): %.3f, %.3f; B - A: %+.3f ms (%+.1f%%), medians %+.3f ms\n",
+            a, am, b, bm, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0, bm - am);
+    fprintf(f, "# phases of one label differ among themselves by up to %.3f ms: a B - A smaller than that is within the noise\n", noise);
+    fclose(f);
+  }
+  klog("ab: done. A (off) %.2f ms, B (on) %.2f ms: B - A %+.2f ms (%+.1f%%), medians %+.2f ms; phases of one label differ by up to %.2f ms%s",
+       a, b, b - a, a > 0 ? 100.0 * (b - a) / a : 0.0, bm - am, noise, fabs(b - a) <= noise ? " (the difference is within that)" : "");
+}
+static void ab_control(void) {          /* each frame on the render thread, before apply() */
+  if (!g_cfg.ab) { if (g_ab_state == 1 || g_ab_state == 2) ab_finish(1); g_ab_state = 0; return; }
+  if (g_ab_state == 0) {
+    g_ab_state = 1; g_ab_t0 = GetTickCount();
+    g_ab_after = g_cfg.ab_after; g_ab_phase = g_cfg.ab_phase; g_ab_settle = g_cfg.ab_settle; g_ab_nph = 2 * g_cfg.ab_rounds;
+    for (int i = 0; i < 32; i++) g_ab_cnt[i] = 0;
+    klog("ab: starts in %d s: %d phases of %d s (A B B A ...), the first %d frames of each left out; stand still", g_ab_after, g_ab_nph, g_ab_phase, g_ab_settle);
+  }
+  if (g_ab_state == 1 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_after * 1000) {
+    static int run; run++;
+    snprintf(g_ab_path, sizeof g_ab_path, "%s\\xikit_ab_%lu_%d.csv", g_out, (unsigned long)GetCurrentProcessId(), run);
+    FILE *f = fopen(g_ab_path, "w");
+    if (f) {
+      fprintf(f, "# A/B test %d: A = everything the kit adds off (no swaps, no mod hooks), B = on (swap=%d, mods as loaded); phases of %d s, "
+              "the first %d frames of each left out; frame time = Present to Present\nphase,label,frames,mean_ms,p50_ms,p95_ms,max_ms\n",
+              run, g_cfg.swap, g_ab_phase, g_ab_settle);
+      fclose(f);
+    }
+    g_ab_state = 2; ab_set(0);
+  }
+  if (g_ab_state == 2 && GetTickCount() - g_ab_t0 >= (DWORD)g_ab_phase * 1000) {
+    ab_end_phase();
+    if (g_ab_i + 1 < g_ab_nph) ab_set(g_ab_i + 1);
+    else { ab_finish(0); g_ab_state = 3; klog("ab: set ab=0 and back to 1 for another run; results in %s", g_ab_path); }
+  }
+}
+static void ab_frame(double ms) {       /* each frame's time, after Present */
+  if (g_ab_state != 2 || g_dirty || g_tr_state || ms <= 0) return;
+  if (g_ab_seen++ >= g_ab_settle && g_ab_n < AB_MAX) g_ab_ft[g_ab_n++] = ms;
+}
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
@@ -845,6 +964,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_trace_attached) trace_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_nmods) mods_watch();
+    ab_control();
     if (g_dirty) apply();
     if (g_trace_attached) trace_label();
     if (g_cfg.count_calls && g_frame % (uint32_t)g_cfg.report_every == 0) report_calls();
@@ -857,6 +977,20 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     if (g_tm_n < 4096) {
       g_tm_frame[g_tm_n] = g_t_prev.QuadPart ? (double)(t0.QuadPart - g_t_prev.QuadPart) * ms : 0;
       g_tm_present[g_tm_n] = (double)(t2.QuadPart - t1.QuadPart) * ms; g_tm_kit[g_tm_n] = (double)(t1.QuadPart - t0.QuadPart) * ms; g_tm_n++;
+    }
+    if (g_t_prev.QuadPart) {
+      double fm = (double)(t0.QuadPart - g_t_prev.QuadPart) * ms;
+      ab_frame(fm);
+      if (g_cfg.spike_ms > 0 && fm > g_cfg.spike_ms) {           /* a stutter: which frame, how long, what the kit was doing */
+        char sp[MAX_PATH]; snprintf(sp, sizeof sp, "%s\\xikit_spikes_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
+        int fresh = GetFileAttributesA(sp) == INVALID_FILE_ATTRIBUTES;
+        FILE *f = fopen(sp, "a");
+        if (f) {
+          if (fresh) fprintf(f, "# frames slower than spike_ms; frame = the kit's frame number (d3dprof's resource log counts the same Presents)\nframe,ms,present_ms_before,swaps_off\n");
+          fprintf(f, "%u,%.1f,%.2f,%d\n", g_frame, fm, g_tm_n > 1 ? g_tm_present[g_tm_n - 2] : 0.0, g_master_off);
+          fclose(f);
+        }
+      }
     }
     g_t_prev = t0;
     if (g_frame % (uint32_t)g_cfg.report_every == 0) { report_timing(); report_facts(); }
@@ -1037,7 +1171,7 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   if (f->mod_target) { host_log("hook(%s): already hooked by %s", f->name, g_mods[f->mod - 1].name); return XIKIT_E_TAKEN; }
   int d = f->patched ? -1 : check_bytes(f);       /* (patched: a reload; the bytes were checked before the kit wrote its jmp) */
   if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
-  if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix_hook patches it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
+  if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix (speedfix_hook or the speedfix mod) patches inside it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
   if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
   void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
   if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
@@ -1206,6 +1340,12 @@ static void load_mods(void *dev, HMODULE rec) {
     if (!start_mod(i, h, loaded)) { g_nmods--; continue; }
   }
   if (g_mod_reload) klog("mod_reload=1: a mod's file that changes is loaded again (also: create xikit_reload_now.txt)");
+  /* the speedfix mod (kit/speedfix) re-aims calls inside two speedfix-site functions, as speedfix_hook did: their
+     reconstructions would bypass that, so respect_speedfix applies to it too */
+  if (!g_speedfix_loaded && GetModuleHandleA("speedfix.dll")) {
+    g_speedfix_loaded = 1;
+    klog("speedfix.dll (the speedfix mod) is loaded: functions it changes inside (manifest flag 2) are left to the game's code (respect_speedfix=%d)", g_cfg.respect_speedfix);
+  }
 }
 
 /* a reload, on the render thread inside Present (kit_present calls apply() right after, which re-aims the entries):
@@ -1259,7 +1399,10 @@ static void mods_frame(void *dev) {
      * FFXiMain.dll's writable data, whole;
      * every committed, readable page a pointer reaches: from the registers and the stack, then from each page
        taken, breadth first, until capture_pages pages; the page after one is taken too when the pointer is in
-       its last quarter (an object crossing the boundary). FFXiMain's own image is not taken (the gate has it);
+       its last quarter (an object crossing the boundary). For the call's own pointers (the registers and the first
+       8 arguments) the capture_follow pages after each are taken first, while readable: an object or command
+       list longer than a page (SkinAndDrawV2's model, whose list ran into a page a budget-bound walk missed).
+       FFXiMain's own image is not taken (the gate has it);
        a page of another module's code is, with the three after it (the gate reads a foreign callee's code to
        find what it pops).
    Which pages a call needs is not known beforehand: what pointers reach is a preparation of the inputs, not a
@@ -1267,7 +1410,7 @@ static void mods_frame(void *dev) {
    fills any unknown page. */
 #define MAXCAP 64
 typedef struct { Fn *f; int count; volatile LONG done; uint8_t *stub; } Cap;
-static Cap g_caps[MAXCAP]; static int g_ncap, g_cap_pages_max = 20000; static volatile LONG g_cap_busy;
+static Cap g_caps[MAXCAP]; static int g_ncap, g_cap_pages_max = 20000, g_cap_follow = 16; static volatile LONG g_cap_busy;
 static DWORD g_cap_from;                       /* GetTickCount at which captures may start (capture_after) */
 static uint32_t *g_cp_addr; static uint8_t *g_cp_data; static uint32_t *g_cp_set; static uint32_t g_cp_setn, g_cp_n;
 static uint8_t *g_capstubs;
@@ -1304,6 +1447,16 @@ static void cp_ptr(uint32_t v) {
   if ((v & 0xFFF) >= 0xC00) cp_take((v & ~0xFFFu) + 0x1000);
 }
 
+static void cp_follow(uint32_t v) {               /* the pages after v's, up to capture_follow, while readable */
+  int exec;
+  if (v < 0x10000) return;
+  for (int k = 1; k <= g_cap_follow; k++) {
+    uint32_t p = (v & ~0xFFFu) + 4096u * (uint32_t)k;
+    if (p < (v & ~0xFFFu) || !cp_readable(p, &exec)) break;
+    cp_take(p);
+  }
+}
+
 /* the stub jumps here with idx and the block pushad/pushfd left: edi esi ebp esp(+4 = the entry ESP) ebx edx ecx eax eflags */
 static void __cdecl capture_c(int idx, uint32_t *r) {
   Cap *c = &g_caps[idx];
@@ -1318,7 +1471,11 @@ static void __cdecl capture_c(int idx, uint32_t *r) {
   int exec;
   for (uint32_t a = esp & ~0xFFFu, k = 0; k < 64 && cp_readable(a, &exec); a += 4096, k++) cp_take(a);
   for (uint32_t a = ANALYSED_BASE + 0x34F000u + g_rel; a < ANALYSED_BASE + 0x9FB000u + g_rel; a += 4096) cp_take(a);
-  for (int k = 0; k < 8; k++) if (k != 4) cp_ptr(regs[k]);
+  for (int k = 0; k < 8; k++) if (k != 4) { cp_ptr(regs[k]); cp_follow(regs[k]); }
+  for (int k = 1; k <= 8; k++) {                     /* the arguments: the dwords above the return address */
+    uint32_t a = esp + 4u * (uint32_t)k;
+    if (cp_readable(a & ~0xFFFu, &exec)) { uint32_t w = *(const uint32_t *)(uintptr_t)a; cp_ptr(w); cp_follow(w); }
+  }
   for (uint32_t i = 0; i < g_cp_n; i++) {            /* breadth first: pages taken are scanned in the order taken */
     const uint32_t *w = (const uint32_t *)(g_cp_data + (size_t)i * 4096);
     for (int k = 0; k < 1024 && (int)g_cp_n < g_cap_pages_max; k++) if (w[k] >= 0x10000) cp_ptr(w[k]);
@@ -1327,7 +1484,7 @@ static void __cdecl capture_c(int idx, uint32_t *r) {
   LeaveCriticalSection(&g_susplock);
   /* written with the threads running again */
   char path[MAX_PATH]; LONG nth = InterlockedIncrement(&c->done);
-  snprintf(path, sizeof path, "%s\\xikit_capture_%lu_%05X_%ld.xcap", g_dir, (unsigned long)GetCurrentProcessId(), c->f->rva, (long)nth);
+  snprintf(path, sizeof path, "%s\\xikit_capture_%lu_%05X_%ld.xcap", g_out, (unsigned long)GetCurrentProcessId(), c->f->rva, (long)nth);
   FILE *o = fopen(path, "wb"); uint32_t nmods = 0;
   if (o) {
     MODULEENTRY32 me; me.dwSize = sizeof me; HANDLE ms = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, 0);
@@ -1359,6 +1516,9 @@ static void setup_captures(void) {
   int count = GetPrivateProfileIntA("xikit", "capture_count", 1, g_ini), after = GetPrivateProfileIntA("xikit", "capture_after", 0, g_ini);
   g_cap_pages_max = GetPrivateProfileIntA("xikit", "capture_pages", 20000, g_ini);
   if (g_cap_pages_max < 2048) g_cap_pages_max = 2048;
+  g_cap_follow = GetPrivateProfileIntA("xikit", "capture_follow", 16, g_ini);
+  if (g_cap_follow < 0) g_cap_follow = 0;
+  if (g_cap_follow > 256) g_cap_follow = 256;
   g_cap_from = GetTickCount() + (DWORD)(after > 0 ? after : 0) * 1000;
   for (g_cp_setn = 1; g_cp_setn < (uint32_t)g_cap_pages_max * 4; g_cp_setn <<= 1) {}
   g_cp_addr = (uint32_t *)VirtualAlloc(NULL, (size_t)g_cap_pages_max * 4, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
@@ -1516,7 +1676,7 @@ static int sites_pending(void) { for (int i = 0; i < g_nsites; i++) if (!g_sites
 static void where(uint32_t a, char *out, size_t n);
 static void report_facts(void) {
   if (!g_nsites) return;
-  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   fprintf(f, "# xikit facts: per call site (analysed), what the callee popped (ESP after the call minus ESP before it), how often, where it went;"
              " frame %u; FFXiMain.dll at +0x%X\nsite,pops,calls,target,vtable,slot,function\n", g_frame, g_rel);
@@ -1533,17 +1693,124 @@ static void report_facts(void) {
 }
 
 /* ------------------------------------------------------------------------------------------------ start */
+/* ------------------------------------------------------------------------------------------------ environment
+   What the game runs on, logged once the device exists: the CPU as CPUID reports it (the game's own detection,
+   0x1000D400, chooses its SSE code by the vendor string), the machine and Windows build (an x86 process on ARM64
+   Windows is emulated), and every graphics module loaded, with its path, file version and PE machine type: which
+   Direct3D 8 implementation the calls go through (a d3d8.dll next to the game, such as dgVoodoo's, or Windows' own)
+   and what lies under it. */
+static void cpuid_regs(unsigned leaf, unsigned r[4]) {
+#ifdef _MSC_VER
+  int x[4]; __cpuid(x, (int)leaf); for (int i = 0; i < 4; i++) r[i] = (unsigned)x[i];
+#else
+  if (!__get_cpuid(leaf, &r[0], &r[1], &r[2], &r[3])) r[0] = r[1] = r[2] = r[3] = 0;
+#endif
+}
+static const char *machine_name(unsigned m) {
+  return m == 0x14c ? "x86" : m == 0x8664 ? "x64" : m == 0xAA64 ? "ARM64" : m == 0x1c4 ? "ARMNT" : m == 0xA641 ? "ARM64EC" : m == 0x3A64 ? "CHPE x86" : "other";
+}
+static void log_environment(void) {
+  unsigned r[4]; char vendor[13] = {0}, brand[49] = {0};
+  cpuid_regs(0, r); memcpy(vendor, &r[1], 4); memcpy(vendor + 4, &r[3], 4); memcpy(vendor + 8, &r[2], 4);
+  cpuid_regs(0x80000000u, r);
+  if (r[0] >= 0x80000004u) for (unsigned l = 0; l < 3; l++) { cpuid_regs(0x80000002u + l, r); memcpy(brand + 16 * l, r, 16); }
+  cpuid_regs(1, r);
+  klog("cpu: CPUID vendor \"%s\", brand \"%s\"; SSE %u SSE2 %u SSE3 %u SSSE3 %u SSE4.1 %u SSE4.2 %u AVX %u (the game's own detection turns its SSE code on only for an Intel or Transmeta vendor)",
+       vendor, brand, r[3] >> 25 & 1, r[3] >> 26 & 1, r[2] & 1, r[2] >> 9 & 1, r[2] >> 19 & 1, r[2] >> 20 & 1, r[2] >> 28 & 1);
+  typedef BOOL (WINAPI *IW2)(HANDLE, USHORT *, USHORT *);
+  IW2 iw2 = (IW2)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process2");
+  USHORT pm = 0, nm = 0;
+  typedef LONG (WINAPI *RGV)(OSVERSIONINFOW *);
+  RGV rgv = (RGV)(void *)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+  OSVERSIONINFOW ov; memset(&ov, 0, sizeof ov); ov.dwOSVersionInfoSize = sizeof ov;
+  if (rgv) rgv(&ov);
+  if (iw2 && iw2(GetCurrentProcess(), &pm, &nm))
+    klog("machine: native %s (0x%X), this process %s; Windows %lu.%lu build %lu", machine_name(nm), nm, pm ? "emulated or WOW64" : "native",
+         (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
+  else klog("machine: IsWow64Process2 not available; Windows %lu.%lu build %lu", (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion, (unsigned long)ov.dwBuildNumber);
+  /* compatibility layers: the kernel's own version (KUSER_SHARED_DATA at 0x7FFE0000: NtMajorVersion +0x26C,
+     NtMinorVersion +0x270, NtBuildNumber +0x260 from Windows 10 on; no shim changes it), the layers the process was
+     started with (__COMPAT_LAYER) and the layers the registry sets for this exe (AppCompatFlags\Layers) */
+  { volatile const uint8_t *kusd = (volatile const uint8_t *)(uintptr_t)0x7FFE0000u;
+    char exe[MAX_PATH] = "", layer[512] = "", hku[512] = "", hkl[512] = "";
+    GetModuleFileNameA(NULL, exe, sizeof exe);
+    if (!GetEnvironmentVariableA("__COMPAT_LAYER", layer, sizeof layer)) snprintf(layer, sizeof layer, "(not set)");
+    const char *key = "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers";
+    HKEY roots[2] = { HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE }; char *outs[2] = { hku, hkl };
+    for (int k = 0; k < 2; k++) {
+      HKEY h; DWORD n = 511, t = 0;
+      if (RegOpenKeyExA(roots[k], key, 0, KEY_QUERY_VALUE, &h) == ERROR_SUCCESS) {
+        if (RegQueryValueExA(h, exe, NULL, &t, (BYTE *)outs[k], &n) != ERROR_SUCCESS || t != REG_SZ) snprintf(outs[k], 512, "(none)");
+        else outs[k][n < 512 ? n : 511] = 0;
+        RegCloseKey(h);
+      } else snprintf(outs[k], 512, "(none)");
+    }
+    klog("compatibility: kernel version %lu.%lu build %lu (KUSER_SHARED_DATA; the game is told %lu.%lu); __COMPAT_LAYER %s; "
+         "registry layers for %s: user %s, machine %s",
+         (unsigned long)*(volatile const uint32_t *)(kusd + 0x26C), (unsigned long)*(volatile const uint32_t *)(kusd + 0x270),
+         (unsigned long)(*(volatile const uint32_t *)(kusd + 0x260) & 0xFFFF), (unsigned long)ov.dwMajorVersion, (unsigned long)ov.dwMinorVersion,
+         layer, exe, hku, hkl); }
+  /* the graphics modules */
+  HMODULE ver = LoadLibraryA("version.dll");
+  typedef DWORD (WINAPI *GFVIS)(LPCSTR, LPDWORD); typedef BOOL (WINAPI *GFVI)(LPCSTR, DWORD, DWORD, LPVOID); typedef BOOL (WINAPI *VQV)(LPCVOID, LPCSTR, LPVOID *, PUINT);
+  GFVIS gfvis = ver ? (GFVIS)(void *)GetProcAddress(ver, "GetFileVersionInfoSizeA") : NULL;
+  GFVI gfvi = ver ? (GFVI)(void *)GetProcAddress(ver, "GetFileVersionInfoA") : NULL;
+  VQV vqv = ver ? (VQV)(void *)GetProcAddress(ver, "VerQueryValueA") : NULL;
+  static const char *const pat[] = {"d3d8", "d3d9", "d3d10", "d3d11", "d3d12", "dxgi", "dxcore", "d3dim", "ddraw", "dgvoodoo", "prl_", "opengl32", "vulkan", "atidxx", "nvd3d", "igd", "d3d8thk", "dxvk", "d3dcompiler", "d3dx"};
+  HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
+  if (snap == INVALID_HANDLE_VALUE) { klog("graphics modules: the module list could not be read (%lu)", GetLastError()); return; }
+  MODULEENTRY32 me; me.dwSize = sizeof me; int n = 0;
+  for (BOOL ok = Module32First(snap, &me); ok; ok = Module32Next(snap, &me)) {
+    char low[MAX_PATH]; size_t i = 0;
+    for (; me.szModule[i] && i < sizeof low - 1; i++) low[i] = (char)(me.szModule[i] >= 'A' && me.szModule[i] <= 'Z' ? me.szModule[i] + 32 : me.szModule[i]);
+    low[i] = 0;
+    int hit = 0; for (unsigned k = 0; k < sizeof pat / sizeof *pat; k++) if (strstr(low, pat[k])) hit = 1;
+    if (!hit) continue;
+    char fv[64] = "?";
+    if (gfvis && gfvi && vqv) {
+      DWORD h = 0, sz = gfvis(me.szExePath, &h);
+      void *buf = sz ? malloc(sz) : NULL; VS_FIXEDFILEINFO *fi = NULL; UINT fl = 0;
+      if (buf && gfvi(me.szExePath, 0, sz, buf) && vqv(buf, "\\", (LPVOID *)&fi, &fl) && fi && fl >= sizeof *fi)
+        snprintf(fv, sizeof fv, "%u.%u.%u.%u", (unsigned)(fi->dwFileVersionMS >> 16), (unsigned)(fi->dwFileVersionMS & 0xFFFF),
+                 (unsigned)(fi->dwFileVersionLS >> 16), (unsigned)(fi->dwFileVersionLS & 0xFFFF));
+      free(buf);
+    }
+    unsigned mach = 0;
+    IMAGE_DOS_HEADER *dh = (IMAGE_DOS_HEADER *)me.modBaseAddr;
+    if (dh && dh->e_magic == IMAGE_DOS_SIGNATURE) mach = ((IMAGE_NT_HEADERS *)(me.modBaseAddr + dh->e_lfanew))->FileHeader.Machine;
+    klog("graphics module: %s at %p, version %s, PE machine %s: %s", me.szModule, (void *)me.modBaseAddr, fv, machine_name(mach), me.szExePath);
+    n++;
+  }
+  CloseHandle(snap);
+  if (!n) klog("graphics modules: none of the known names loaded");
+}
+
 static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
   GetModuleFileNameA((HMODULE)self, g_dir, MAX_PATH);
   char *slash = strrchr(g_dir, '\\'); if (slash) *slash = 0;
-  snprintf(g_logpath, sizeof g_logpath, "%s\\xikit.log", g_dir);
   snprintf(g_ini, sizeof g_ini, "%s\\xikit.ini", g_dir);
-  snprintf(g_quar, sizeof g_quar, "%s\\xikit_quarantine.txt", g_dir);
-  klog("xikit started in process %lu", (unsigned long)GetCurrentProcessId());
   if (GetFileAttributesA(g_ini) == INVALID_FILE_ATTRIBUTES) {
     FILE *f = fopen(g_ini, "wb"); if (f) { fwrite(DEFAULT_INI, 1, sizeof DEFAULT_INI - 1, f); fclose(f); }
   }
+  snprintf(g_out, sizeof g_out, "%s", g_dir);
+  if (GetPrivateProfileIntA("xikit", "log_folder", 1, g_ini)) {   /* a folder of its own for this start's files */
+    char base[MAX_PATH], d[MAX_PATH]; SYSTEMTIME st; GetLocalTime(&st);
+    snprintf(base, sizeof base, "%s\\xikit_logs", g_dir); CreateDirectoryA(base, NULL);
+    snprintf(d, sizeof d, "%s\\%04u-%02u-%02u_%02u%02u%02u_%lu", base, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond,
+             (unsigned long)GetCurrentProcessId());
+    if (CreateDirectoryA(d, NULL) || GetLastError() == ERROR_ALREADY_EXISTS) snprintf(g_out, sizeof g_out, "%s", d);
+  }
+  snprintf(g_logpath, sizeof g_logpath, "%s\\xikit.log", g_out);
+  snprintf(g_quar, sizeof g_quar, "%s\\xikit_quarantine.txt", g_dir);
+  klog("xikit started in process %lu", (unsigned long)GetCurrentProcessId());
+  {                                     /* the kit's build stamp (build.sh writes VERSION.txt): which source this is */
+    char vp[MAX_PATH], line[256] = ""; snprintf(vp, sizeof vp, "%s\\VERSION.txt", g_dir);
+    FILE *vf = fopen(vp, "r");
+    if (vf) { if (fgets(line, sizeof line, vf)) line[strcspn(line, "\r\n")] = 0; fclose(vf); }
+    klog("kit build: %s", line[0] ? line : "no VERSION.txt next to xikit.dll");
+  }
+  if (strcmp(g_out, g_dir)) klog("this start's files go to %s (log_folder=1)", g_out);
   ini_changed(); read_cfg();
   snprintf(path, sizeof path, "%s\\xikit_manifest.txt", g_dir);
   if (!load_manifest(path)) return 0;
@@ -1615,9 +1882,12 @@ static DWORD WINAPI start(LPVOID self) {
   g_vt[SLOT_PRESENT] = (void *)kit_present;
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
+  log_environment();
   if (g_cfg.profile || g_cfg.trace) {
-    char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_dir, (unsigned long)GetCurrentProcessId());
+    char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
+    d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
+    if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);

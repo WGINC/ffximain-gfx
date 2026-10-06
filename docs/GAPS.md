@@ -47,7 +47,7 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 A PASS says nothing about code no trial reached. The cause is the inputs: fuzzed objects and four dumps rarely
 hold a loaded model, a full zone or a busy scheduler at the moment a function starts.
 
-**What closes it: an in-game input recorder (to build).**
+**What closes it: an in-game input recorder (built 6 Oct: `capture=`, pipeline/xcap.py; section 7 item 1).**
 - xikit writes a process dump at the entry of a chosen function, when the game calls it, with that thread's
   registers. It can be once per function or once per new path through it.
 - The gate's live mode already runs a function from a process dump of the real game (pipeline/live_state.py),
@@ -65,7 +65,7 @@ hold a loaded model, a full zone or a busy scheduler at the moment a function st
   Most are Direct3D calls on texture or surface objects whose interface is not proven at that site. The in-game
   DLL's gate leaves two more for fuzz (0x10003890, 0x100CB4E0).
 
-  **Closes it: an in-game fact recorder (to build).** For a named call site, the kit records ESP before and after
+  **Closes it: an in-game fact recorder (built 6 Oct: `facts=1`, pipeline/fact_sites.py; section 7 item 4; no measurements from the game yet).** For a named call site, the kit records ESP before and after
   the call while the game's own code runs. CLAUDE.md accepts "the original running real game code" as a source
   (pipeline/real_sp.py, trusted calls only). The same recorder can note which method a COM call reached, from the
   vtable entry it jumped through.
@@ -110,16 +110,18 @@ A change to such code is reasoned from offsets and arithmetic, which is where gu
 ### 2e. What the GPU is asked to do
 
 - **Shaders.** The vertex shader assembly text is in the binary (`vs.1.1` source near CTsZoneMap's strings,
-  file offset 0x376250). Seven CreateVertexShader sites exist. No catalogue maps each shader to its source,
-  declaration and users. A port and any shading change start there.
+  file offset 0x376250). Seven CreateVertexShader sites exist. The catalogue below now maps each shader to its
+  source, declaration and builder. A port and any shading change start there.
 - **State per draw.** RENDERER.md lists which states are set where. Nobody has recorded the full device state at
   each draw, so "what does this draw look like to the GPU" is reconstructed by reading code paths.
 - **Resources.** There is no catalogue of textures, buffers and render targets: format, size, who creates them,
   who reads them.
 
 **Closes it:**
-- a shader catalogue from the binary and the 7 creation sites (static, definitive). **Not built.** The runtime
-  half is: every vertex shader the game creates is saved as created and decoded (`vshader.py`, docs/KIT.md);
+- a shader catalogue from the binary and the 7 creation sites (static, definitive). **Built** (6 Oct,
+  `kit/d3dprof/shader_catalogue.py`, `data/shader_catalogue.json`, docs/KIT.md): 5 vertex shaders and 1 pixel shader,
+  assembled by the game's own D3DX in Unicorn; the other creation sites are fixed-function or unreachable. The
+  runtime half: every vertex shader the game creates is saved as created, decoded and named against it (`vshader.py`);
 - a per-draw state snapshot in the trace. **Built:** ` s=` per draw, `#S` per state, the known states only;
   `trace_diff.py` names the states a finding's draw differs in;
 - a resource log (creation calls with their parameters and the creating function). **Built:**
@@ -156,16 +158,18 @@ function whose prototype is definitive.
   change's list, which can name calls dropped, added or changed (by Direct3D method or game function, with
   argument conditions), memory, and the return value. The report counts each declaration seen and names the
   declarations never seen. In this mode each stubbed call's answer depends on the call itself, so a dropped call
-  does not shift the answers of later calls. It runs on forks today; a replacement written from scratch in a mod
-  has no gate build yet.
+  does not shift the answers of later calls. It runs on forks, and on a mod's own replacement through `fork.py
+  gate-hook` (6 Oct).
 
 **Missing:**
-- **The gate for a mod's own replacement functions** (not forks): the mod DLL imports Windows and the C library,
-  which the gate's loader does not provide.
-- **Real inputs for the hot paths** (2a). Without them, a prediction about SkinAndDrawV2 rests on 4% of its
-  code.
-- **Cost prediction.** Nothing measures time yet (ROADMAP.md P0). A change's effect on frame time is not
-  predicted, only observed afterwards.
+- ~~The gate for a mod's own replacement functions~~ built 6 Oct (`fork.py gate-hook`: the mod's sources linked
+  for the gate with the tree's rt.c; a mod that needs the C++ runtime, msvcrt or Windows imports still does not
+  link for the gate, and the tool says so).
+- **Real inputs for the hot paths** (2a). SkinAndDrawV2: one capture from Bedau PASSes, covering 932 of its 1,596
+  instructions (the fuzzed trials covered 62). The other hot paths still rest on the fuzzed trials alone.
+- **Cost prediction.** The measuring tools exist (ROADMAP.md P0: Present wait, per-call time, sampler); no
+  in-game measurement has been taken with them yet. A change's effect on frame time is not predicted, only
+  observed afterwards.
 
 ## 5. Confirm: knowing in the game that it did that and nothing else
 
@@ -173,15 +177,15 @@ function whose prototype is definitive.
 |---|---|---|
 | Alternating trace (calls, arguments, small data, buffer hashes) | Did the Direct3D calls change beyond what the scene changes? | Built |
 | Profiler (per call site), call counts (per function) | How many calls, from where | Built |
-| Picture capture and comparison | Did the pixels change? Where? | **Missing.** Read back the frame (or a named render target) on the alternating frames and compare: the trace compares calls, not what they draw |
-| Timing: Present wait, per-call time, sampling profiler | Where the time went | **Missing** (ROADMAP.md P0) |
+| Picture capture and comparison | Did the pixels change? Where? | Built (`trace_pictures=K`, kit/d3dprof/pictures.py; section 7 item 3); not run in the game yet |
+| Timing: Present wait, per-call time, sampling profiler | Where the time went | Built (`xikit_timing_<pid>.csv`, `call_time=1`, `sample=1`; section 7 item 2); no in-game measurements yet |
 | Coverage in the game | Which swapped or hooked code actually ran this session | Call counts per function only; not per path inside a function |
 
 ## 6. Correctness blind spots that undermine "know"
 
 | Blind spot | Effect | State |
 |---|---|---|
-| Task #64: callees that leave a register untouched (ecx_use/edx_use miss inputs passed through them) | A function could be typed without an input it has | Open |
+| Task #64: callees that leave a register untouched (ecx_use/edx_use miss inputs passed through them) | A function could be typed without an input it has | Closed in 7a925bd (both analyses follow `reg_preserve.py`); `data/edx_use.json` regenerated identical on 6 Oct. Left: the "cannot tell" functions (indirect calls, a pushed register) |
 | The committed raw-stage gate predates the 6 Oct translator changes (the clean tree was re-gated after them, the raw records were not) | The residue classification of non-tree functions rests on older translations | Re-run the raw gate |
 | `Gfx_DestroyD3DHolder` crashes when swapped (excluded) | Cause unknown | Open |
 | `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0) | Cause unknown | Open |
@@ -192,12 +196,12 @@ function whose prototype is definitive.
 | # | Tool | Closes | Size / state |
 |---|---|---|---|
 | 1 | **In-game input recorder**: a process dump at a chosen function's entry, replayed by the gate | The unverified hot paths (2a), the 2 INCONCLUSIVE, predictions on real inputs (4) | Built: `capture=` and pipeline/xcap.py (the kit writes its own capture of the reachable pages, not a minidump) |
-| 2 | **Timing**: Present wait, per-call time, render-thread sampling profiler | Cost: where time goes, what a change saves (4, 5) | Built: Present wait timer, sampler; exact per-call timing not built |
+| 2 | **Timing**: Present wait, per-call time, render-thread sampling profiler | Cost: where time goes, what a change saves (4, 5) | Built: Present wait timer, sampler, exact per-call time of Direct3D methods (`call_time=1`, 6 Oct) |
 | 3 | **Picture capture and comparison** on the alternating trace's frames | "Nothing else changed" for pixels (5) | Built: `trace_pictures=`, pictures.py |
 | 4 | **In-game fact recorder**: pops and COM methods at named call sites | The 8 + 2 UNRESOLVED, the occlusion readback (2b) | Built: pop counts and call targets (`facts=1`, pipeline/fact_sites.py); no measurements taken in game yet |
-| 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built, except the static shader-source catalogue (the shaders as created are saved and decoded) |
+| 5 | **Per-draw state snapshot and resource log** in the trace; **shader catalogue** from the binary | What the GPU is asked to do (2e) | Built (static catalogue: `shader_catalogue.py`, 6 Oct) |
 | 6 | **SDK: fork workflow, device-interception API, mod reload** | Edits as diffs against verified code; device-level fixes; fast iteration (3) | Built (Wine-tested; not run in the game) |
-| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`); not for a mod's from-scratch replacements |
+| 7 | **Differential gate with declared differences** | Predicting a mod's effect offline (4) | Built for forks (`fork.py gate --declare`) and for a mod's own replacements (`fork.py gate-hook`, 6 Oct) |
 | 8 | **Next exports**: tier 1 of the 267 callers (world draw path, menu path, asset loading) | What gets drawn and from what (2c) | IDA run, then the existing pipeline |
 | 9 | **De-artifacting** with observed virtual-call targets and field values | Reading the code without offsets (2d) | Long, incremental |
 | 10 | Task #64, the raw re-gate, the two open defects | Blind spots (6) | Small each |

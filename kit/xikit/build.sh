@@ -23,4 +23,19 @@ m = re.search(r'static const char DEFAULT_INI\[\] =\n(.*?);\n', s, re.S)
 txt = ''.join(eval(x) for x in re.findall(r'"(?:[^"\\]|\\.)*"', m.group(1)))
 open(sys.argv[2], 'w', newline='').write(txt)
 PY
+# the build stamp: source commit (+modified when the working tree differs from it), date, the tree's gate, file hashes;
+# xikit.dll logs its first line at start
+python3 - "$ROOT" "$OUT" <<'PY'
+import datetime, hashlib, json, os, subprocess, sys
+root, out = sys.argv[1:3]
+git = lambda *a: subprocess.run(['git', '-C', root] + list(a), capture_output=True, text=True).stdout.strip()
+rev = git('rev-parse', '--short=12', 'HEAD') or 'unknown'
+mod = '+modified' if git('status', '--porcelain', '--untracked-files=no') else ''
+g = [json.loads(l)['verdict'] for l in open(os.path.join(root, 'verification', 'gate_clean_final.jsonl'))]
+files = sorted(f for f in os.listdir(out) if f != 'VERSION.txt')
+with open(os.path.join(out, 'VERSION.txt'), 'w', newline='\r\n') as f:
+    f.write('xikit kit, source %s%s, built %s UTC; tree gate %d PASS of %d\n' % (rev, mod,
+            datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M'), g.count('PASS'), len(g)))
+    for n in files: f.write('sha256 %s  %s\n' % (hashlib.sha256(open(os.path.join(out, n), 'rb').read()).hexdigest(), n))
+PY
 ls -la "$OUT"

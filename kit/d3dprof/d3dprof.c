@@ -70,14 +70,17 @@ static int g_recording;               /* between BeginStateBlock and EndStateBlo
                                          into the block, not applied to the device (D3D8 documentation) */
 static DWORD g_thread;
 static char g_out[MAX_PATH];
+int d3dprof_call_time;                 /* per-call time (below, d3dprof_return); xikit sets it from call_time= */
+static double g_ct_overhead_us, g_ct_overhead_min_us;   /* two counter reads back to back, measured at attach: mean, least */
 
 /* per (slot, site) totals over the report window */
 /* kind: 0 = a call site in FFXiMain (the analysed address of the return address), 1 = a caller outside
    FFXiMain (the return address as it is), 2 = the caller of one of CDx's draw wrappers (the analysed
    address the wrapper returns to; see WRAP) */
 enum { K_GAME, K_OTHER, K_WRAPPED };
+static const char *module_of(uint32_t a, char *buf, size_t n);
 static const char *KIND[] = {"FFXiMain", "other module", "caller of CDx draw wrapper"};
-typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims; } Site;
+typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims, ticks; uint32_t timed; } Site;
 /* The draws of CDx_DrawPrimitive / CDx_DrawIndexedPrimitive / CDx_DrawPrimitiveUP (0x1000CB20, 0x1000CC00,
    0x1000CD00) are made inside those wrappers. Who asked for the draw is the wrapper's caller. Its return
    address is at a fixed offset from ESP at the method's entry: 4 + the exact stack depth at the call
@@ -87,7 +90,7 @@ static const struct { uint32_t ret; uint32_t off; } WRAP[] = {
   {0x1000CC5E, 52}, {0x1000CCA6, 52}, {0x1000CCF1, 40},     /* CDx_DrawIndexedPrimitive: 48, 48, 36 */
   {0x1000CD59, 48}, {0x1000CD9C, 48}, {0x1000CDE2, 36}};    /* CDx_DrawPrimitiveUP: 44, 44, 32 */
 static Site g_sites[MAXSITES];
-static uint32_t g_nsites, g_dropped_sites, g_other_thread;
+static uint32_t g_nsites, g_dropped_sites, g_other_thread, g_other_window, g_frame_abs;
 /* the value each state was last set to (0xFFFFFFFF never set; reset by ApplyStateBlock, see below) */
 static uint32_t g_rs[256], g_tss[8][32], g_vs, g_ib;
 static void *g_tex[8], *g_vb[16];
@@ -347,15 +350,27 @@ static void report(void) {
   if (!f) return;
   double n = g_frames ? (double)g_frames : 1.0;
   fprintf(f, "# d3dprof v2: %u frames; frame ms avg %.3f min %.3f max %.3f; per frame: calls %.1f draws %.1f "
-             "primitives %.1f redundant_sets %.1f; other_thread_calls %u; sites %u (dropped %u)\n",
+             "primitives %.1f redundant_sets %.1f; other_thread_calls %u in this window (%u since the start); sites %u (dropped %u)\n",
           g_frames, g_ms_sum / n, g_ms_min, g_ms_max, g_calls_window / n, g_draws_window / n, g_prims_window / n,
-          g_redundant_window / n, g_other_thread, g_nsites, g_dropped_sites);
-  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame\n");
+          g_redundant_window / n, g_other_window, g_other_thread, g_nsites, g_dropped_sites);
+  g_other_window = 0;
+  if (d3dprof_call_time)
+    fprintf(f, "# call time: QueryPerformanceCounter at %.0f Hz around each call on the render thread; timer overhead per "
+               "call (two counter reads back to back, measured at start, not subtracted): mean %.3f us, least %.3f us\n", (double)g_qpf.QuadPart, g_ct_overhead_us, g_ct_overhead_min_us);
+  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame%s\n",
+          d3dprof_call_time ? ",us_per_call,us_per_frame" : "");
   for (uint32_t i = 0; i < MAXSITES; i++) {
     Site *s = &g_sites[i];
     if (!s->used) continue;
-    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f\n", NAMES[s->slot], s->site, KIND[s->kind],
+    char mod[MAX_PATH]; const char *kind = KIND[s->kind];
+    if (s->kind == K_OTHER) kind = module_of(s->site, mod, sizeof mod);       /* (an other-module site is its raw address) */
+    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", NAMES[s->slot], s->site, kind,
             s->calls / n, s->redundant / n, s->prims / n);
+    if (d3dprof_call_time) {
+      double us = g_qpf.QuadPart ? s->ticks * 1e6 / (double)g_qpf.QuadPart : 0;
+      if (s->timed) fprintf(f, ",%.3f,%.3f", us / s->timed, us / n); else fputs(",,", f);
+    }
+    fputc('\n', f);
   }
   fclose(f);
   memset(g_sites, 0, sizeof g_sites); g_nsites = g_dropped_sites = 0;
@@ -370,11 +385,29 @@ static void report(void) {
    so a call the mod's hook passes on, or makes itself, is recorded with the site of the call it is handling, not
    with an address inside the mod */
 uint32_t d3dprof_via_stk[64]; volatile uint32_t d3dprof_via_depth;
+
+/* Per-call time (d3dprof_call_time, xikit.ini call_time=1): on the render thread, the call's return address on the
+   caller's stack is replaced by d3dprof_ret_stub, the real one kept on a shadow stack with the counter read last
+   thing before the method runs; the stub reads the counter first thing after it returns, adds the difference to
+   the call's site and jumps to the real return address with EAX and EDX as the method left them. Nothing else of
+   the caller's stack changes, and the method's own `ret N` has already popped its arguments. The return path is
+   integer code only (the x87 stack is not touched). The site is looked up again at return (report() may have
+   started a new window in between). Calls deeper than 64 on the shadow stack are counted but not timed. */
+typedef struct { uint32_t ret, site; uint16_t slot; uint8_t kind; LARGE_INTEGER t0; } Pending_call;
+static Pending_call g_ct[64]; static uint32_t g_ct_depth, g_ct_untimed;
+extern void d3dprof_ret_stub(void);
+uint32_t __cdecl d3dprof_return(void) {
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  Pending_call *c = &g_ct[--g_ct_depth];
+  Site *s = site_of(c->site, c->slot, c->kind);
+  if (s) { s->ticks += (uint64_t)(now.QuadPart - c->t0.QuadPart); s->timed++; }
+  return c->ret;
+}
 const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES[slot] : NULL; }
 
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
-  if (GetCurrentThreadId() != g_thread) { g_other_thread++; return g_next[slot]; }
+  if (GetCurrentThreadId() != g_thread) { g_other_thread++; g_other_window++; return g_next[slot]; }
   /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
   uint32_t ra = a[0];
   if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
@@ -416,9 +449,18 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     if (g_last_present.QuadPart) {
       double ms = (now.QuadPart - g_last_present.QuadPart) * 1000.0 / g_qpf.QuadPart;
       g_ms_sum += ms; if (ms > g_ms_max) g_ms_max = ms; if (ms < g_ms_min) g_ms_min = ms;
+      g_frame_abs++;
       if (++g_frames >= REPORT_EVERY) report();
     }
     g_last_present = now;
+  }
+  if (d3dprof_call_time) {
+    if (g_ct_depth < 64) {
+      Pending_call *c = &g_ct[g_ct_depth++];
+      c->ret = a[0]; c->site = ret; c->slot = (uint16_t)slot; c->kind = (uint8_t)(game ? K_GAME : K_OTHER);
+      a[0] = (uint32_t)(uintptr_t)d3dprof_ret_stub;
+      QueryPerformanceCounter(&c->t0);
+    } else g_ct_untimed++;
   }
   return g_next[slot];
 }
@@ -437,6 +479,17 @@ static __declspec(naked) void d3dprof_common(void) {
     jmp eax
   }
 }
+__declspec(naked) void d3dprof_ret_stub(void) {
+  __asm {
+    push eax
+    push edx
+    call d3dprof_return
+    mov ecx, eax
+    pop edx
+    pop eax
+    jmp ecx
+  }
+}
 #define T(k) static __declspec(naked) void d3dprof_t##k(void) { __asm mov eax, k __asm jmp d3dprof_common }
 #else
 /* GCC / MinGW */
@@ -449,6 +502,15 @@ __asm__(
   "  call _d3dprof_record\n"
   "  add esp, 8\n"
   "  jmp eax\n"
+  ".globl _d3dprof_ret_stub\n"
+  "_d3dprof_ret_stub:\n"
+  "  push eax\n"
+  "  push edx\n"
+  "  call _d3dprof_return\n"
+  "  mov ecx, eax\n"
+  "  pop edx\n"
+  "  pop eax\n"
+  "  jmp ecx\n"
   ".att_syntax\n");
 #define T(k) __asm__(".intel_syntax noprefix\n.globl _d3dprof_t" #k "\n_d3dprof_t" #k ":\n  mov eax, " #k "\n  jmp d3dprof_common\n.att_syntax\n"); \
              extern void d3dprof_t##k(void);
@@ -471,55 +533,116 @@ static void *const THUNKS[NSLOTS] = {P(0), P(1), P(2), P(3), P(4), P(5), P(6), P
    game passed them (kit/d3dprof/vshader.py reads them). The wrappers sit after the thunk (g_next) and call the
    device's own method, so the counts and the trace see the call as before. */
 static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_PATH]; static int g_res_init;
-static uint32_t site_of_ra(uint32_t ra) { return ra >= g_lo && ra < g_hi ? ra - g_rel : ra; }
-static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, uint32_t obj, HRESULT hr) {
+/* a call that reached the wrapper through a mod's device hook (xikit device_hook) returns into the mod: on the render
+   thread the kit keeps the return address of the call the hook is handling (d3dprof_via_stk, as d3dprof_record uses
+   it), so the creating game function is named; on other threads it is not kept and the raw address stays */
+static uint32_t site_of_ra(uint32_t ra) {
+  if (!(ra >= g_lo && ra < g_hi) && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_thread)
+    ra = d3dprof_via_stk[d3dprof_via_depth - 1];
+  return ra >= g_lo && ra < g_hi ? ra - g_rel : ra;
+}
+/* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
+static const char *module_of(uint32_t a, char *buf, size_t n) {
+  HMODULE m = NULL; char path[MAX_PATH];
+  if (a >= g_lo && a < g_hi) { snprintf(buf, n, "FFXiMain"); return buf; }
+  if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)a, &m) && m &&
+      GetModuleFileNameA(m, path, sizeof path)) {
+    const char *b = strrchr(path, '\\'); snprintf(buf, n, "%s+0x%lX", b ? b + 1 : path, (unsigned long)(a - (uint32_t)(uintptr_t)m));
+  } else snprintf(buf, n, "no module");
+  return buf;
+}
+static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, uint32_t obj, HRESULT hr, LONGLONG t0) {
+  LARGE_INTEGER t1; QueryPerformanceCounter(&t1);
+  double us = g_qpf.QuadPart ? (double)(t1.QuadPart - t0) * 1e6 / (double)g_qpf.QuadPart : 0;   /* the creation call itself */
   if (!g_res_init) return;
   EnterCriticalSection(&g_reslock);
   if (!g_res) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_resources_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
     g_res = fopen(path, "a");
-    if (g_res) fprintf(g_res, "# resources created through the device: frame,thread,method,call_site,result,object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
+    if (g_res) fprintf(g_res, "# resources created through the device: frame (since the start),thread,method (quoted),call_site,module,result,us (the call),object,parameters... (call site: analysed address in FFXiMain, or the raw return address)\n");
   }
   if (g_res) {
-    fprintf(g_res, "%u,%s,%s,0x%08X,%08lX,%08X", g_frames, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra), (unsigned long)hr, obj);
+    char mod[MAX_PATH];
+    fprintf(g_res, "%u,%s,\"%s\",0x%08X,%s,%08lX,%.1f,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra),
+            module_of(ra, mod, sizeof mod), (unsigned long)hr, us, obj);
     for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
     fputc('\n', g_res); fflush(g_res);
+  }
+  LeaveCriticalSection(&g_reslock);
+}
+/* the vtable of the objects the Create methods return: the D3D8 header declares the interface of each method's out
+   parameter (CreateVertexBuffer: IDirect3DVertexBuffer8, ...), so an object with that vtable holds that interface.
+   One line per (interface, vtable) the first time it is seen, with the vtable's entries as many as the header gives
+   the interface (data/com_spec.json), each as module+offset: <dir>/xikit_vtables_<pid>.csv. The gate reads it
+   (pipeline/com_vtables.py ingest) to know which interface a captured object's vtable is, where the vtable's own
+   layout leaves it open. */
+static void vt_note(const char *iface, int n, uint32_t obj) {
+  static struct { const char *iface; uint32_t vt; } seen[64]; static int nseen; static FILE *f;
+  if (!g_res_init || !obj) return;
+  uint32_t vt = *(volatile uint32_t *)(uintptr_t)obj; HMODULE m = NULL;
+  if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)vt, &m) || !m)
+    return;                               /* a vtable in no module (not a real implementation's object): nothing to name */
+  EnterCriticalSection(&g_reslock);
+  int i = 0;
+  while (i < nseen && !(seen[i].vt == vt && seen[i].iface == iface)) i++;
+  if (i == nseen && nseen < 64) {
+    seen[nseen].iface = iface; seen[nseen].vt = vt; nseen++;
+    if (!f) {
+      char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vtables_%lu.csv", g_resdir, (unsigned long)GetCurrentProcessId());
+      f = fopen(path, "a");
+      if (f) fprintf(f, "# vtables of objects the device's Create methods returned (the D3D8 header's out-parameter interface): interface,vtable,entries (module+offset)...\n");
+    }
+    if (f) {
+      char mod[MAX_PATH];
+      fprintf(f, "%s,%s", iface, module_of(vt, mod, sizeof mod));
+      for (int k = 0; k < n; k++) fprintf(f, ",%s", module_of(((volatile uint32_t *)(uintptr_t)vt)[k], mod, sizeof mod));
+      fputc('\n', f); fflush(f);
+    }
   }
   LeaveCriticalSection(&g_reslock);
 }
 #define RA() ((uint32_t)(uintptr_t)__builtin_return_address(0))
 #define OBJ(pp) ((hr >= 0 && (pp)) ? (uint32_t)(uintptr_t)*(pp) : 0)
 static HRESULT __stdcall w_tex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[20])(d, w, h, lv, us, fmt, pool, pp);
-  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr); return hr; }
+  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vol(void *d, UINT w, UINT h, UINT dp, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[21])(d, w, h, dp, lv, us, fmt, pool, pp);
-  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr); return hr; }
+  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVolumeTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_cube(void *d, UINT e, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[22])(d, e, lv, us, fmt, pool, pp);
-  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr); return hr; }
+  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DCubeTexture8", 19, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[23])(d, len, us, fvf, pool, pp);
-  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVertexBuffer8", 14, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_ib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[24])(d, len, us, fmt, pool, pp);
-  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DIndexBuffer8", 14, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_rt(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, BOOL lk, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, BOOL, void **))g_orig[25])(d, w, h, fmt, ms, lk, pp);
-  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr); return hr; }
+  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_ds(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, void **))g_orig[26])(d, w, h, fmt, ms, pp);
-  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr); return hr; }
+  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_img(void *d, UINT w, UINT h, DWORD fmt, void **pp) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, void **))g_orig[27])(d, w, h, fmt, pp);
-  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr); return hr; }
+  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
 static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWORD *handle, DWORD usage) {
+  LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_orig[75])(d, decl, func, handle, usage);
   uint32_t h = (hr >= 0 && handle) ? *handle : 0, nd = 0, nf = 0;
   if (decl) while (nd < 512 && decl[nd] != 0xFFFFFFFFu) nd++;          /* D3DVSD_END() */
   if (func) while (nf < 65536 && func[nf] != 0x0000FFFFu) nf++;         /* the end token */
   uint32_t a[3] = {nd + (decl ? 1 : 0), nf + (func ? 1 : 0), usage};
-  res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr);
+  res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr, t0_.QuadPart);
   if (hr >= 0 && g_res_init) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vshader_%lu_%08X.bin", g_resdir, (unsigned long)GetCurrentProcessId(), h);
     FILE *f = fopen(path, "wb");
@@ -535,6 +658,17 @@ static void resources_init(void) {
   snprintf(g_resdir, sizeof g_resdir, "%s", g_out); char *sl = strrchr(g_resdir, '\\'); if (sl) *sl = 0; else snprintf(g_resdir, sizeof g_resdir, ".");
   g_res_init = 1;
 }
+static void measure_overhead(void) {      /* two counter reads back to back, 1000 times: the mean and the least, in us */
+  LONGLONG best = -1, sum = 0;
+  for (int i = 0; i < 1000; i++) {
+    LARGE_INTEGER x, y; QueryPerformanceCounter(&x); QueryPerformanceCounter(&y);
+    LONGLONG d = y.QuadPart - x.QuadPart; sum += d;
+    if (best < 0 || d < best) best = d;
+  }
+  g_ct_overhead_us = g_qpf.QuadPart ? sum / 1000.0 * 1e6 / (double)g_qpf.QuadPart : 0;
+  g_ct_overhead_min_us = g_qpf.QuadPart ? best * 1e6 / (double)g_qpf.QuadPart : 0;
+}
+
 static void set_next(void) {
   for (int k = 0; k < NSLOTS; k++) g_next[k] = g_orig[k];
   g_next[20] = (void *)w_tex; g_next[21] = (void *)w_vol; g_next[22] = (void *)w_cube; g_next[23] = (void *)w_vb; g_next[24] = (void *)w_ib;
@@ -547,7 +681,7 @@ static void set_next(void) {
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv) {
   snprintf(g_out, sizeof g_out, "%s", csv);
   g_rel = rel; g_lo = lo; g_hi = hi;
-  QueryPerformanceFrequency(&g_qpf); forget_state();
+  QueryPerformanceFrequency(&g_qpf); forget_state(); if (d3dprof_call_time) measure_overhead();
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;
@@ -578,7 +712,10 @@ static DWORD WINAPI start(LPVOID self) {
     if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break;
     Sleep(200);
   }
-  QueryPerformanceFrequency(&g_qpf); forget_state();
+  /* d3dprof.ini next to the DLL, [d3dprof] call_time=1: time each call (xikit sets it from its own ini) */
+  char ini[MAX_PATH]; snprintf(ini, sizeof ini, "%sd3dprof.ini", path);
+  d3dprof_call_time = GetPrivateProfileIntA("d3dprof", "call_time", 0, ini);
+  QueryPerformanceFrequency(&g_qpf); forget_state(); if (d3dprof_call_time) measure_overhead();
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;                             /* this object only; the driver's vtable is untouched */

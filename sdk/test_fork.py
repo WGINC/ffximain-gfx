@@ -1,6 +1,7 @@
 """test_fork.py -- fork.py and the declared-differences gate (pipeline/declared.py) on CDx::DrawFadeQuad (0x1000A820,
 which sets render states through the device): the unedited fork PASSes; an edit FAILs where it changed the game's
 behaviour; the same edit PASSes with its difference declared, and FAILs with a declaration that does not cover it.
+The same for a mod's own replacement hooked with XI_HOOK (fork.py gate-hook).
 
     python3 sdk/test_fork.py            (uses $FFXI_DLL and MinGW; builds the in-game tree once into runs/fork)"""
 import os, subprocess, sys, tempfile
@@ -57,5 +58,27 @@ r = fork('gate', drop, '--trials', '30', '--work', os.path.join(D, 'w'), '--decl
 print(r.stdout.strip())
 check(r.returncode == 1 and 'the original calls IDirect3DDevice8::SetRenderState(this=0x' in r.stdout and 'never: ' in r.stdout,
       'a declaration for another state (ZENABLE) does not cover the dropped LIGHTING: FAIL, and it is reported never seen')
+# a mod's own replacement (XI_HOOK, not a fork): fork.py gate-hook
+HOOK = r"""#include "xikit_sdk.hpp"
+XIKIT_MOD_GLOBALS
+static xikit::fn<decltype(&CDx::DrawFadeQuad)> prev;
+static int __thiscall my_DrawFadeQuad(CDx *self, int a1, int a2) { BODY }
+extern "C" __declspec(dllexport) int xikit_mod_init(const XikitHost *host) { return XI_HOOK(host, CDx::DrawFadeQuad, my_DrawFadeQuad, prev); }
+"""
+def hook(name, body):
+    p = os.path.join(D, name + '.cpp'); open(p, 'w').write(HOOK.replace('BODY', body)); return p
+def gate_hook(src, *extra):
+    r = fork('gate-hook', 'CDx::DrawFadeQuad', src, '--trials', '30', '--work', os.path.join(D, 'w'), *extra)
+    print(r.stdout.strip(), r.stderr.strip()[-1500:]); return r
+r = gate_hook(hook('pass', 'return prev(self, a1, a2);'))
+check(r.returncode == 0 and ': PASS;' in r.stdout, 'gate-hook: a replacement that calls previous (the game\'s code) PASSes')
+r = gate_hook(hook('seven', 'return 7;'))
+check(r.returncode == 1 and 'stubbed call #1 differs' in r.stdout and 'reconstruction no call' in r.stdout,
+      'gate-hook: a replacement that does nothing FAILs at the first call it does not make')
+w = hook('write', 'int r = prev(self, a1, a2); *(volatile int *)((char *)self + 0x908) = 5; return r;')
+r = gate_hook(w)
+check(r.returncode == 1 and 'memory differs at 4 byte(s)' in r.stdout, 'gate-hook: an extra write to this+0x908 FAILs')
+r = gate_hook(w, '--declare', decl('write', '{"memory": [{"base": "this", "offset": "0x908", "size": 4}]}'))
+check(r.returncode == 0 and ': PASS;' in r.stdout and '"offset": "0x908"' in r.stdout, 'gate-hook: the same write declared: PASS')
 print('ALL OK' if not bad else 'FAILED')
 sys.exit(1 if bad else 0)

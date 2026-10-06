@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <setjmp.h>
 
@@ -44,7 +45,10 @@ static HRESULT __stdcall d_createimg(void *d, UINT w, UINT h, UINT f, void **pp)
 static HRESULT __stdcall d_copyrects(void *d, void *src, const RECT *r, UINT n, void *dst, const POINT *pt) { (void)d; (void)r; (void)n; (void)pt; memcpy(((FakeSurf *)dst)->pix, ((FakeSurf *)src)->pix, sizeof g_bbpix); return 0; }
 static uint8_t *g_paint_site;
 static int tcl_calls, bs_calls;     /* facts mode: the device methods CDx::TestCooperativeLevel and CDx::BeginScene call (slots 3, 34) */
-static uint32_t g_faketex[4];       /* profile mode: resources created through the hooked device (d3dprof's wrappers log them) */
+static void __stdcall d_texmethod(void) {}
+static void (__stdcall *const g_texvt[19])(void) = { d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod,
+  d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod, d_texmethod };
+static uint32_t g_faketex[4] = { 0 };   /* profile mode: resources created through the hooked device (d3dprof's wrappers log them); [0]: its vtable, set in main */
 static HRESULT __stdcall d_createtex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) { (void)d; (void)w; (void)h; (void)lv; (void)us; (void)fmt; (void)pool; *pp = g_faketex; return 0; }
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD usage) { (void)d; (void)decl; (void)fn; (void)usage; *h = 0x1234; return 0; }
 static HRESULT __stdcall d_tcl(void *d) { (void)d; tcl_calls++; return 0; }
@@ -76,6 +80,8 @@ int main(int argc, char **argv) {
   int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel") || reloadrun);
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
+  int abrun = argc > 1 && !strcmp(argv[1], "ab");
+  g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -121,18 +127,53 @@ int main(int argc, char **argv) {
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
-  touch_ini(ini, profile ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
-                 : reloadrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
-                 : modrun ? "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
-                 : factrun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
-                 : caprun ? "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
-                         : "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, abrun ? "[xikit]\nlog_folder=1\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nab=1\nab_after=0\nab_phase=1\nab_rounds=2\nab_settle=3\n"
+                 : profile ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
+                 : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
+                 : modrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
+                 : factrun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
+                 : caprun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
+                         : "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
+  if (abrun) {
+    /* ab=1 with log_folder=1: 4 phases of 1 s, A B B A; the swapped entries follow the phases; everything the kit writes
+       goes to one new folder under xikit_logs */
+    char seq[64] = ""; int ns = 0; int last = -1; DWORD t0 = GetTickCount();
+    while (GetTickCount() - t0 < 6500) {
+      present(1); Sleep(5);
+      int on = set[0] == 0xE9;
+      if (on != last && ns < 60) { seq[ns++] = on ? 'B' : 'A'; last = on; }
+    }
+    seq[ns] = 0;
+    check(!strncmp(seq, "BABAB", 5) || !strncmp(seq, "ABAB", 4), "ab: the swaps went off and on with the phases");
+    printf("note: entry states seen in order: %s (A B B A: off, on, on, off, then on again after the test)\n", seq);
+    check(GetFileAttributesA("xikit.log") == INVALID_FILE_ATTRIBUTES, "log_folder=1: no xikit.log next to xikit.dll");
+    WIN32_FIND_DATAA fd; HANDLE h = FindFirstFileA("xikit_logs\\*_*", &fd); char dir[MAX_PATH] = "";
+    if (h != INVALID_HANDLE_VALUE) { snprintf(dir, sizeof dir, "xikit_logs\\%s", fd.cFileName); FindClose(h); }
+    check(dir[0] != 0, "log_folder=1: a folder xikit_logs\\<date>_<time>_<pid> was made");
+    char p2[MAX_PATH], line[512]; int rows = 0, labels_ok = 1, summary = 0; const char *want = "ABBA";
+    snprintf(p2, sizeof p2, "%s\\xikit_ab_%lu_1.csv", dir, GetCurrentProcessId());
+    FILE *af = fopen(p2, "r");
+    if (af) { while (fgets(line, sizeof line, af)) {
+        int ph, n; char lab; double mean;
+        if (sscanf(line, "%d,%c,%d,%lf", &ph, &lab, &n, &mean) == 4) { if (ph < 1 || ph > 4 || lab != want[ph - 1] || n < 1 || mean <= 0) labels_ok = 0; rows++; }
+        if (!strncmp(line, "# A (off):", 10)) summary = 1; } fclose(af); }
+    check(rows == 4 && labels_ok && summary, "ab: xikit_ab_<pid>_1.csv in that folder has 4 phases A B B A with frames, and the summary");
+    snprintf(p2, sizeof p2, "%s\\xikit.log", dir); int done = 0; FILE *lf = fopen(p2, "r");
+    if (lf) { while (fgets(line, sizeof line, lf)) if (strstr(line, "ab: done. A (off)")) done = 1; fclose(lf); }
+    check(done, "ab: xikit.log (in that folder) has the comparison");
+    present(1); Sleep(150); present(1);                     /* a stutter: one frame of 150 ms */
+    snprintf(p2, sizeof p2, "%s\\xikit_spikes_%lu.csv", dir, GetCurrentProcessId()); int spike = 0; FILE *sf = fopen(p2, "r");
+    if (sf) { while (fgets(line, sizeof line, sf)) { unsigned fr; double ms; if (sscanf(line, "%u,%lf", &fr, &ms) == 2 && ms > 140) spike = 1; } fclose(sf); }
+    check(spike, "spike_ms=50: a 150 ms frame is in xikit_spikes_<pid>.csv with its frame number");
+    printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+    ExitProcess(fails ? 1 : 0);
+  }
   if (!caprun && !factrun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
@@ -170,6 +211,15 @@ int main(int argc, char **argv) {
     if (x) { fread(head, 4, 16, x); fseek(x, 0, SEEK_END); size = ftell(x); fclose(x); }
     check(x && head[0] == 0x50414358u && head[2] == GETCOLOR && head[8] > 0 && size == 64 + 36 + 72L * head[7] + 4L * head[8] + 4096L * head[8],
           "the .xcap holds the entry, the modules and the pages, sized as its header says");
+    /* capture_follow (16): the pages after `this` (ECX) are taken, while readable */
+    { uint32_t want = ((uint32_t)(uintptr_t)actor & ~0xFFFu) + 0x1000u; MEMORY_BASIC_INFORMATION mb; int have = 0;
+      int readable = VirtualQuery((void *)(uintptr_t)want, &mb, sizeof mb) && mb.State == MEM_COMMIT && (mb.Protect & 0xEE) && !(mb.Protect & (PAGE_GUARD | PAGE_NOACCESS));
+      x = fopen(name, "rb");
+      if (x && head[8]) { uint32_t *pg = malloc(4 * head[8]); fseek(x, 64 + 36 + 72L * head[7], SEEK_SET);
+                          if (pg && fread(pg, 4, head[8], x) == head[8]) for (uint32_t i = 0; i < head[8]; i++) have |= pg[i] == want;
+                          free(pg); }
+      if (x) fclose(x);
+      check(!readable || have, "capture_follow: the page after the captured call's `this` is in the .xcap"); }
     FILE *lg = fopen("xikit.log", "r"); int logged = 0;
     if (lg) { while (fgets(line, sizeof line, lg)) if (strstr(line, "capture 1 of CXiSkeletonActor::GetColor")) logged = 1; fclose(lg); }
     check(logged, "xikit.log has the capture");
@@ -251,7 +301,7 @@ int main(int argc, char **argv) {
       printf("%s\n", fails ? "FAILED" : "ALL OK");
       ExitProcess(fails ? 1 : 0);
     }
-    touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
     present(130);
     check(!memcmp(gam, orig_gam, 5), "swap=0: Gfx_IsGammaSupported has its original bytes again");
     check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u && set[0] == 0xE9, "swap=0: the mod's hook and its fork stay");
@@ -265,7 +315,16 @@ int main(int argc, char **argv) {
                   uintptr_t a = (uintptr_t)strtoul(line + 11, NULL, 16);
                   if (a >= (uintptr_t)hx && a < (uintptr_t)hx + hn->OptionalHeader.SizeOfImage) in_host = 1;
                   if (a >= (uintptr_t)m && a < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage) in_mod = 1; } fclose(pc); }
-      check(in_host && !in_mod, "d3dprof reports the hooked BeginScene at the host's call site, none inside the mod"); }
+      check(in_host && !in_mod, "d3dprof reports the hooked BeginScene at the host's call site, none inside the mod");
+      /* a creation through the mod's CreateTexture hook: the resource log names the host's call site too */
+      void *tex = NULL; ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_dev.vt[20])(&g_dev, 64, 32, 1, 0, 21, 1, &tex);
+      snprintf(nm, sizeof nm, "xikit_resources_%lu.csv", GetCurrentProcessId()); FILE *rf = fopen(nm, "r"); int r_host = 0, r_mod = 0;
+      if (rf) { while (fgets(line, sizeof line, rf)) { char *q = strstr(line, "\"CreateTexture(");
+                  if (!q || !(q = strstr(q, "\",0x"))) continue;
+                  uintptr_t a = (uintptr_t)strtoul(q + 2, NULL, 16);
+                  if (a >= (uintptr_t)hx && a < (uintptr_t)hx + hn->OptionalHeader.SizeOfImage) r_host = 1;
+                  if (a >= (uintptr_t)m && a < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage) r_mod = 1; } fclose(rf); }
+      check(tex == g_faketex && r_host && !r_mod, "a CreateTexture through the mod's device hook: xikit_resources_<pid>.csv names the host's call site, not the mod"); }
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
   }
@@ -278,24 +337,24 @@ int main(int argc, char **argv) {
   csv = fopen(name, "r"); int seen = 0; char line[256];
   if (csv) { while (fgets(line, sizeof line, csv)) if (strstr(line, "0x100A4830,") && strstr(line, ",1,1,1")) seen = 1; fclose(csv); }
   check(seen, "the call count of SetColor is in the report (1 call)");
-  touch_ini(ini, "[xikit]\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "swap=0 (ini re-read): the original bytes are back");
   /* the default: a function the gate's compared trials did not fully cover (manifest flag 4) is left out.
      Frame_Render's trials ran 53 of its 1424 instructions */
   uint8_t *frame = (uint8_t *)(uintptr_t)(FRAME_RENDER + rel);
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(frame[0] == 0xE9, "include_untested=1: Frame_Render (flag 4) is swapped");
-  touch_ini(ini, "[xikit]\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(frame, orig_frame, 5), "the default (include_untested=0): Frame_Render, flag 4, has its original bytes");
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, Gfx_IsGammaSupported not");
   /* bisect: SetColor is the "culprit" (the screen is wrong while it is swapped); the host answers as a person would */
   if (!profile) {          /* (its extra frames would shift the profiler's per-window counts) */
-  touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
     present(130);
     ((SetColorFn)set)(actor, 1); ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); ((GammaFn)gam)();
     present(2);
@@ -338,7 +397,7 @@ int main(int argc, char **argv) {
       check(pair && both, "bisect: two functions that break the screen only together are found as that pair");
       check(set[0] != 0xE9 && gc[0] != 0xE9, "bisect: both stay on the original code after they are found");
       answer(2); present(2); }
-    touch_ini(ini, "[xikit]\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
     present(130);
   }
   /* a crash inside reconstructed code: SetColor on a null this */
@@ -371,16 +430,22 @@ int main(int argc, char **argv) {
     int before = presents; present(600);
     check(presents == before + 600, "profile=1: Present still reaches the device's own method through both hooks");
     snprintf(name, sizeof name, "d3dprof_%lu.csv", GetCurrentProcessId());
-    csv = fopen(name, "r"); int head = 0, row = 0;
+    csv = fopen(name, "r"); int head = 0, row = 0, ctime = 0, crow = 0;
     if (csv) {
       while (fgets(line, sizeof line, csv)) {
         if (!strncmp(line, "# d3dprof v2: 600 frames", 24)) head = 1;
+        if (!strncmp(line, "# call time: QueryPerformanceCounter", 36)) ctime++;
+        if (strstr(line, ",primitives_per_frame,us_per_call,us_per_frame")) ctime++;
+        /* call_time=1: the Present row carries the time per call and per frame (two numbers after the primitives) */
+        if (!strncmp(line, "Present,", 8)) { double a, b, c, d, e; char *p = strstr(line, ",host.exe+0x"); if (p) p = strchr(p + 1, ',');   /* the caller: its module */
+          if (p && sscanf(p + 1, "%lf,%lf,%lf,%lf,%lf", &a, &b, &c, &d, &e) == 5 && d >= 0 && e >= 0) crow = 1; }
         /* the first window: a frame is Present to Present, so 601 Present calls over 600 frames = 1.002 */
-        if (!strncmp(line, "Present,", 8) && strstr(line, ",other module,1.002,")) row = 1;
+        if (!strncmp(line, "Present,", 8) && strstr(line, ",host.exe+0x") && strstr(line, ",1.002,")) row = 1;
       }
       fclose(csv);
     }
     check(head, "profile=1: d3dprof wrote its report after 600 frames");
+    check(ctime == 2 && crow, "call_time=1: the report has the timer line, the two time columns, and Present's time per call and per frame");
     /* the sampler should find the render thread in game or reconstructed code when it is there: GetColor (swapped)
        called for about half a second, then a window of frames so the samples are written */
     { DWORD t = GetTickCount(); volatile uint32_t sink = 0;
@@ -396,9 +461,15 @@ int main(int argc, char **argv) {
       check(tex == g_faketex && vsh == 0x1234, "CreateTexture and CreateVertexShader through the hooked device still return the device's results");
       snprintf(name, sizeof name, "xikit_resources_%lu.csv", GetCurrentProcessId());
       FILE *rf = fopen(name, "r"); int t1 = 0, v1 = 0;
-      if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, "CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
-                                                       if (strstr(line, "CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
-      check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created"); }
+      if (rf) { while (fgets(line, sizeof line, rf)) { if (strstr(line, ",\"CreateTexture(") && strstr(line, ",100,80,1,0,15,1")) t1 = 1;
+                                                       if (strstr(line, ",\"CreateVertexShader(") && strstr(line, ",00001234,4,9,0")) v1 = 1; } fclose(rf); }
+      check(t1 && v1, "xikit_resources_<pid>.csv logs both, with their parameters and the objects created");
+      snprintf(name, sizeof name, "xikit_vtables_%lu.csv", GetCurrentProcessId());
+      FILE *vf = fopen(name, "r"); int vrows = 0, vok = 0; static char vl[2048];
+      if (vf) { while (fgets(vl, sizeof vl, vf)) if (!strncmp(vl, "IDirect3DTexture8,", 18)) {
+                  int commas = 0; for (char *q = vl; *q; q++) commas += *q == ',';
+                  vrows++; vok = commas == 20 && strstr(vl, ".exe+0x") != NULL; } fclose(vf); }
+      check(vrows == 1 && vok, "xikit_vtables_<pid>.csv: the created texture's vtable once, as IDirect3DTexture8 with its 19 entries"); }
     /* timing (always) and the sampling profiler (sample=1): written every report_every (60) frames */
     snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());
     FILE *tm = fopen(name, "r"); int trows = 0;

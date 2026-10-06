@@ -1,0 +1,251 @@
+{
+ "source": "kit/d3dprof/shader_catalogue.py (the game's own D3DXAssembleShader, in Unicorn; d3d8.dll validation not run)",
+ "shaders": [
+  {
+   "name": "vs0_flag0",
+   "kind": "vs",
+   "table": "0x10376FF8",
+   "lines": 19,
+   "cdx_920": 0,
+   "source_lines": 19,
+   "built_at": "0x10178327",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 81,
+   "sha256": "84ce3d7335725ea6993748dfed205cb7b9cf22ed05b2d124b177dafc2f63255b"
+  },
+  {
+   "name": "vs0_flag1",
+   "kind": "vs",
+   "table": "0x10376FF8",
+   "lines": 19,
+   "cdx_920": 1,
+   "source_lines": 19,
+   "built_at": "0x10178327",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 81,
+   "sha256": "84ce3d7335725ea6993748dfed205cb7b9cf22ed05b2d124b177dafc2f63255b"
+  },
+  {
+   "name": "vs1_flag0",
+   "kind": "vs",
+   "table": "0x10377048",
+   "lines": 33,
+   "cdx_920": 0,
+   "source_lines": 33,
+   "built_at": "0x10178358",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 137,
+   "sha256": "65df0c819fc99d8169195d46fa51237aff7d73c021b59737dc1702add618a01a"
+  },
+  {
+   "name": "vs1_flag1",
+   "kind": "vs",
+   "table": "0x10377048",
+   "lines": 33,
+   "cdx_920": 1,
+   "source_lines": 33,
+   "built_at": "0x10178358",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 137,
+   "sha256": "65df0c819fc99d8169195d46fa51237aff7d73c021b59737dc1702add618a01a"
+  },
+  {
+   "name": "vs2_flag0",
+   "kind": "vs",
+   "table": "0x103770D0",
+   "lines": 37,
+   "cdx_920": 0,
+   "source_lines": 37,
+   "built_at": "0x10178389",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 152,
+   "sha256": "a89231834eab3c0c1ab6546c11175daf0fa466a0cd26c339539159037de9429e"
+  },
+  {
+   "name": "vs2_flag1",
+   "kind": "vs",
+   "table": "0x103770D0",
+   "lines": 37,
+   "cdx_920": 1,
+   "source_lines": 37,
+   "built_at": "0x10178389",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 152,
+   "sha256": "a89231834eab3c0c1ab6546c11175daf0fa466a0cd26c339539159037de9429e"
+  },
+  {
+   "name": "vs3_flag0",
+   "kind": "vs",
+   "table": "0x10377168",
+   "lines": 41,
+   "cdx_920": 0,
+   "source_lines": 41,
+   "built_at": "0x101783BA",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 167,
+   "sha256": "6d2c9ccf119ce7e5a32b0fc246dc5e060385d61ea9ac76b18f6046db1fd4a055"
+  },
+  {
+   "name": "vs3_flag1",
+   "kind": "vs",
+   "table": "0x10377168",
+   "lines": 41,
+   "cdx_920": 1,
+   "source_lines": 41,
+   "built_at": "0x101783BA",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 167,
+   "sha256": "6d2c9ccf119ce7e5a32b0fc246dc5e060385d61ea9ac76b18f6046db1fd4a055"
+  },
+  {
+   "name": "vs4_flag0",
+   "kind": "vs",
+   "table": "0x10377210",
+   "lines": 45,
+   "cdx_920": 0,
+   "source_lines": 45,
+   "built_at": "0x101783EB",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 182,
+   "sha256": "8b800e6420fb65cc5f23e5af85872e33ec2bb9972b3e5afecd24ce0f90f8f8f8"
+  },
+  {
+   "name": "vs4_flag1",
+   "kind": "vs",
+   "table": "0x10377210",
+   "lines": 45,
+   "cdx_920": 1,
+   "source_lines": 45,
+   "built_at": "0x101783EB",
+   "d3dx_flags": 0,
+   "hresult": "0x00000000",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ],
+   "tokens": 182,
+   "sha256": "8b800e6420fb65cc5f23e5af85872e33ec2bb9972b3e5afecd24ce0f90f8f8f8"
+  },
+  {
+   "name": "ps0_flag0",
+   "kind": "ps",
+   "table": "0x103772C4",
+   "lines": 9,
+   "cdx_920": 0,
+   "source_lines": 9,
+   "built_at": "0x10178443",
+   "d3dx_flags": 2,
+   "hresult": "0x00000000",
+   "tokens": 37,
+   "sha256": "63cff8b08e28aaff2fb26bd54a6aee7f3a49cae33b24f9e65ca96d6c2c2dabaa"
+  },
+  {
+   "name": "ps0_flag1",
+   "kind": "ps",
+   "table": "0x103772C4",
+   "lines": 9,
+   "cdx_920": 1,
+   "source_lines": 9,
+   "built_at": "0x10178443",
+   "d3dx_flags": 2,
+   "hresult": "0x00000000",
+   "tokens": 37,
+   "sha256": "63cff8b08e28aaff2fb26bd54a6aee7f3a49cae33b24f9e65ca96d6c2c2dabaa"
+  }
+ ]
+}

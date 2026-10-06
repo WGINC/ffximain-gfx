@@ -465,3 +465,485 @@ has been run in the game yet.
   return 67 / import 33 now, against 75 / 25 recorded. 0x1000A820 has 1568 D3D calls compared, against 1552.
   0x100091B0 has coverage 282, against 274. The record predates later harness changes, and which change moved
   the numbers is not established here.
+
+## 6 Oct (morning, tools): the tools brought up to date
+- **Tests run here:** 32-bit Wine 9.0 and `numpy` installed; `test_xikit.py` 185 checks ok (it now builds the gate's
+  tree DLL when the capture replay needs it, and checks the logged build stamp), `test_thunks.py`, `sdk/test_fork.py`,
+  `run.sh test` all pass.
+- **`pipeline/tool_drift.py`:** regenerates the IDA script and the SDK's generated files, rebuilds the kit (reproducible:
+  d3dprof now links with `--no-insert-timestamp` too) and compares with `kit/BUILD.lock.json`; checks the ini keys
+  xikit.c reads against its default ini and docs/KIT.md. First run found:
+  - `ida/ffxi_ida_fix.py` lacked the 6 Oct DynVB fixes in `data/type_fixes.json` (2 conventions, 9 prototypes):
+    regenerated;
+  - the shipped `exclude=Gfx_DestroyD3DHolder` was in the hand-edited ini only, not in xikit.c's default: added;
+  - four ini keys missing from docs/KIT.md: documented.
+- **Build stamp:** `kit/xikit/dist/VERSION.txt` (source commit, date, tree gate, file hashes), logged by xikit.dll at
+  start; the SDK zip carries its own `VERSION.txt`.
+- **Docs:** README (layout rows for `kit/` and `sdk/`, Wine and numpy, `tool_drift.py`), kit/README.md counts, SDK.md's
+  register note. A first edit there said the EDX analysis still counts every call as a write; that was wrong:
+  `edx_inputs.py` runs `ecx_inputs`' fixpoint, which follows `reg_preserve.py` for EDX too (7a925bd). Regenerated,
+  `data/edx_use.json` is identical to the committed file; task #64 is marked closed in SDK.md, GAPS.md and ROADMAP.md.
+- **The gate counts that "did not reproduce" (6 Oct, night) do reproduce.** The harness had not changed: the
+  check ran `diffemu_gfx.py` directly, whose `--seed` defaulted to 1, while every recorded gate runs with seed 11
+  (`gate_some.py`, `mutate_clean.py`). With seed 11 the current harness gives the recorded numbers exactly
+  (0x10001520 return 75 / import 25, 0x1000A820 1552 D3D calls compared, 0x100091B0 coverage 274); with seed 1 it
+  gives the numbers that were reported as drift (67 / 33, 1568). `diffemu_gfx.py` now defaults to seed 11, so
+  `fork.py gate` and any direct run use the gate's trials (`sdk/test_fork.py` passes).
+- **Static shader catalogue** (`kit/d3dprof/shader_catalogue.py`, `data/shader_catalogue.json`; GAPS.md 7 item 5,
+  the part not built): the 5 vertex shaders and 1 pixel shader 0x10178250 builds from source-line tables in `.data`,
+  their text as 0x10177090 joins it (both `[CDx+0x920]` variants; none of the six has an optional `#` line), and
+  the exact tokens from the game's own `D3DXAssembleShader` run in Unicorn (heap and critical sections answered;
+  d3d8.dll's validation of the result not run, it writes no tokens). Decoded by `vshader.py` the tokens are the
+  source lines (D3DX writes `sub` as `add` with a negated source). `vshader.py` names a captured shader by its
+  token hash. The other 6 CreateVertexShader sites: 4 fixed-function (no code), 2 in functions nothing calls or
+  points to (one assembles `c:\test.vsh`). `tool_drift.py` regenerates the catalogue too.
+- **`fork.py gate-hook`** (GAPS.md 7 item 7, the part not built): a mod's own replacement hooked with `XI_HOOK`,
+  gated against the game's function from the mod's sources (compiled as `build_mod.sh` does), with a generated
+  gate host: the mod's `xikit_mod_init` runs once before the trials (a case's new `setup` export in
+  `diffemu_gfx.py`, its writes kept; a normal gate run is byte-identical, checked on 3 functions), `previous` is the
+  game's own entry. `sdk/test_fork.py`: 12 checks, all ok (4 new).
+- **Per-call time** (GAPS.md 7 item 2, the part not built): `call_time=1` (xikit, with `profile=1`; standalone
+  d3dprof: `d3dprof.ini`) times each Direct3D call on the render thread through a return stub and a 64-deep shadow
+  stack; `us_per_call` and `us_per_frame` per call site, the counter's frequency and its read cost in the header.
+  Tested in Unicorn (`test_thunks.py`: return, pop, EAX/EDX, one interval recorded) and under Wine (`test_xikit.py`
+  profile run: 186 checks ok). Stale rows in GAPS.md and ROADMAP.md (timing, pictures "missing" / "to build") updated.
+
+## 6 Oct (later): speedfix rewritten as a mod of the kit
+- The owner gave speedfix_hook.cpp (2,091 lines, GPL-3.0-only) and its last build; `speedfix_patches.h` (its patch
+  data) was not among them. Rewritten as `kit/speedfix/` (GPL-3.0-only kept): the device fixes on the kit's device
+  hooks (d3dprof behind them measures what they save), the game-code changes re-derived from the binary.
+- Found in the code while doing so:
+  - the occlusion stagger can be one re-aimed call in the bucket test (0x100CC58A), keeping forced updates and allowing N
+    to be lowered live;
+  - skipping the readback alone (not the whole query) keeps Impl's restoring of ZENABLE/ZWRITEENABLE;
+  - `frame_cap_fps` above 60 would make the game's time run fast (the step is max(step, 1) ticks; RENDERER.md 3a), and
+    60/n caps keep game time exact;
+  - the SSE tier is chosen in a load step after the device exists (0x10010D20), so a mod's init is usually early
+    enough.
+- Tested offline: `kit/speedfix/test/test_speedfix.py` (Wine host with the real DLL and the kit: 20 checks; the gate
+  on the query hook: PASS, 38 of 38 instructions). The kit now applies `respect_speedfix` to the mod too. Not run in
+  the game.
+
+## 6 Oct (later): the owner's baseline capture (kit 0de35c4, no speedfix, swap=0, profile=1 call_time=1)
+- d3dprof's last 600-frame window (process 10016): 19.2 ms per frame; 13,701 Direct3D calls, 1,670 draws, 4,519
+  sets that repeat the current value. The timed calls add up to about 15.9 ms per frame, timer reads included. Frame
+  time varied between 18 and 46 ms over the session's windows (xikit_timing), so only a run ending in the same place
+  compares with this window.
+- Where the measured time is:
+  - EndScene: 4.4 ms (3 per frame, 1.46 ms each);
+  - SetRenderState: 3.9 ms, 3.6 ms of it at one site, 0x1011F962 in Cell_DrawQuadBlended (ALPHABLENDENABLE = 0 right
+    after each quad's DrawPrimitiveUP; 540 per frame at 6.7 us; 10 of them repeats). The other sites average about
+    0.1 us;
+  - DrawPrimitiveUP: 3.4 ms (1,031 per frame);
+  - DrawPrimitive: 2.7 ms.
+  Not known: whether that state change is expensive itself, or whether the layers below (dgVoodoo) do the queued
+  draw's work when blending changes. The trace cannot tell them apart. Either way the state cache cannot remove it
+  (it is not a repeat), and batching cannot merge across it.
+- SetVertexShader: 1,215 of 1,241 per frame repeat the bound shader (0.1 ms in all).
+- Other-thread calls: 3,220 since the start. In the resource log, 1,970 creations were on another thread
+  (CreateVertexBuffer, CreateTexture).
+- Fixed in d3dprof's reports (no change to what is measured):
+  - the resource log's method field held unquoted commas, which shifted the columns;
+  - its frame column was the frame within the window;
+  - `other_thread_calls` was a total since the start without saying so; it is now given per window and since the
+    start;
+  - the timer cost showed only the least of 1000 back-to-back read pairs, 0 at 24 MHz. It now shows the mean too.
+
+## 6 Oct (later): the owner's speedfix run (kit 0de35c4, speedfix defaults, process 6080)
+- Scene: combat test, a busy town, then the same combat test as the baseline. The last 600 frames do not match the
+  baseline's: 25,766 calls, 4,888 draws and 808,715 primitives per frame (baseline 13,701, 1,670, 204,100). The
+  difference is the zone mesh: sub_1017C9C0 asked for 3,851 DrawPrimitive per frame (baseline 557), 16.3 ms at 4.2 us
+  each. speedfix does not touch it, so frame time (40.2 ms against 19.2) does not compare.
+- Per call, compared: SetRenderState 0.87 -> 0.54 us on average (the repeats it removes were the cheap ones); the
+  Cell_DrawQuadBlended blend site 6.7 -> 6.9 us (not a repeat: unchanged, as expected); EndScene 1.46 -> 1.29 ms.
+  Repeated sets reaching the device: 4,519 -> 201 per frame. speedfix's log: 15-34% of the cached setters skipped
+  per minute, varying with the scene. cpu_tier was too late (the tier was already chosen at injection).
+- The alternating trace (17 frames, speedfix off/on each frame), with `trace_diff.py`:
+  - 44 COUNT findings: fewer repeated state calls in the speedfix frames;
+  - one OUTSIDE finding: SetLight of light 1 differs in Position, in every speedfix frame. Light 1 is directional
+    (type 3), and D3D8 ignores Position for directional lights; it holds leftover stack values
+    (`7184BA71 001AEAC0 0` off, `32 AB 1` on) that speedfix's code on the stack changes. Direction, colours and
+    attenuation are identical.
+  Nothing else differs.
+- Not measured: the cost of speedfix's own hooks (d3dprof sits below them). With batching off, speedfix had still
+  hooked all 94 methods, putting some 20,000 calls a frame through two layers for nothing. It now hooks only the 12 it
+  needs unless batching or the extended cache is on at the start.
+- **The kit, asked for by the owner (keys do not reach the game window):**
+  - `ab=1`, an A/B test with no keys: ABBA phases switching off everything the kit adds, with per-phase frame times and
+    a summary that sets B - A against the spread between phases of one label;
+  - `log_folder=1` (the default): a folder per start for every file the kit writes.
+  Wine test mode `ab`; 194 checks, all ok.
+- **Loading and stutters, from the two captures' resource logs:**
+  - about 14,450 resource creations per session; 12,460 of them on the render thread, which waits on each;
+  - per-call times that were measured: CreateVertexShader 269 us, CreateTexture 148 us, CreateIndexBuffer 70 us;
+  - CreateVertexShader was called about 1,450 times per session for only 3 distinct shaders (declarations without
+    code; 471 and 397 handles saved, 3 distinct contents), so the same shaders are created again and again;
+  - most creations came from one call site outside FFXiMain (module offset 0x9D8E), which the old logs could not
+    name;
+  - frame spikes reached 1.3-1.5 s.
+  Kit changes so the next capture can tie stutters to their cause:
+  - the resource log names the module of a caller outside FFXiMain (`module+0xOFFSET`), as does d3dprof's profile;
+  - the resource log times each creation call;
+  - `spike_ms=50` writes every slow frame with its frame number, which matches the resource log's.
+
+## Levers for the owner to measure (speedfix)
+
+The owner asked for the levers from the analysis, made testable. From the two sessions' logs (runs 10016 and 6080)
+and the repo:
+- **Steady frame time:** `Cell_DrawQuadBlended` turns ALPHABLENDENABLE off after each quad and on before the next
+  (540 calls a frame of the off alone, 3.6 ms a frame in the baseline). The cache cannot skip a change. New lever
+  `lazy_state`: render-state, texture-stage-state and texture changes are held until a method that reads them, and a
+  change undone before then is never sent. With batching, quads around such a toggle merge. It hooks every
+  state-reading method, a cost not yet measured against the saving.
+- **Loading and stutter:** about 1,450 CreateVertexShader calls a session (269 us each) for 3 distinct declaration-only
+  shaders. New lever `vs_dedupe`: one shader per declaration and usage, its handle given out again, deleted with its
+  last holder.
+- **Vertex and index buffers:** about 10,000 created a session (parsed from the resource logs: mostly DYNAMIC |
+  WRITEONLY default-pool vertex buffers of 6,000, 4,000, 8,000 and 2,000 bytes; 6,500-6,800 of them from the unnamed
+  module at offset 0x9D8E, 1,260-1,630 from FFXiMain 0x10170A61 and 0x101703C7). Not a lever yet: pooling needs the
+  buffers' own Release, and the creating module is still to be named by the next capture.
+- **The lever A/B:** speedfix's `ab_levers=` runs ABBA phases with the listed settings off (A) and as set (B), the rest
+  of speedfix on in both, and logs per-phase frame times and B - A against the spread within a label.
+- The default hook set grows from 12 to 13 methods (CreateVertexShader, so vs_dedupe can switch live).
+- Tested offline (`test_speedfix.py`, three Wine runs plus the gate): every lazy_state, vs_dedupe and A/B check ok.
+  Not tested: the real game.
+
+## 6 Oct (later): the owner's Bedau run (kit 0de35c4, speedfix mod, profile=1 call_time=1, swap=0)
+
+Process 3736, about 28 minutes, 28,200 frames. The run has no sampler output (sample=1 was not set).
+
+**Frame time by section (xikit_timing):**
+- Frames 600 to 6000: about 18 to 21 ms per frame.
+- From about frame 6600: 64 to 79 ms per frame, steady to the end.
+
+**d3dprof's last 600-frame window:**
+- 67.9 ms per frame.
+- About 30,000 Direct3D calls, 2,830 draws and 168,590 primitives per frame.
+- 20 repeated sets per frame. speedfix's cache skipped the rest: 37 to 44% of the setter calls entering it, per its
+  log.
+
+**Where the time inside Direct3D calls goes.** Timed calls add up to 25.8 ms per frame; Present is 0.24 ms of it.
+
+| Method | ms per frame | Calls per frame | µs per call |
+|---|---|---|---|
+| DrawIndexedPrimitive | 9.0 | 1,586 | 5.7 |
+| DrawPrimitiveUP | 4.9 | 885 | 5.5 (2.5 primitives each) |
+| DrawPrimitive | 1.6 | 359 | 4.5 |
+| EndScene | 4.6 | 7.7 | 600 |
+| SetRenderState | 2.8 | 11,228 | — |
+| Other setters | under 0.6 each | | 0.08 to 0.45 |
+
+- 1.5 ms of the SetRenderState time is one site, 0x1011F968 in Cell_DrawQuadBlended: 198 calls per frame at
+  7.4 µs each.
+- The other setters cost 0.08 to 0.45 µs per call.
+
+**Outside any timed Direct3D call: about 42 ms per frame.** That covers the game's own code, the layers in front
+of d3dprof and Parallels.
+- The layers in front of d3dprof: speedfix on 94 methods, the kit's front thunk, and d3dprof's own record.
+- How the 42 ms divides among these is not measured.
+- In the baseline (no speedfix, a different place), only about 3.3 ms of 19.2 ms was outside the timed calls.
+
+**Across this run's 27 one-minute speedfix reports:**
+- Fit: frame ms ≈ 11.0 + 1.48 µs × setter calls entering speedfix (r = 0.970).
+- That per-call figure is far above the 0.08 to 0.25 µs the setters take inside Direct3D.
+- This is a correlation over one session's scenes, not a measured cost.
+
+**Present stays at about 0.24 ms throughout:** the CPU does not wait for the GPU at Present.
+
+**Resource log:**
+- 15,367 creations in all:
+  - 9,438 vertex buffers;
+  - 2,525 textures;
+  - 1,741 vertex shaders (498 distinct handles saved);
+  - 1,649 index buffers;
+  - 1,970 of them on another thread.
+- Every row's call site was the same raw address, 0x71D39D8E. speedfix hooks the Create methods, and the resource
+  wrappers took their return address, which lies in the hook layer, not in the game. Fixed:
+  - The wrappers now name the game's call through the kit's caller stack, on the render thread.
+  - Other threads keep the raw address.
+  - Test: test_xikit.py, mod runs.
+- This build wrote neither an absolute frame number nor the creation time, so churn per frame and stutter causes
+  cannot be read from this log. Later builds record both.
+
+## 6 Oct (later): the owner's Bedau run with the sampler and the A/B (kit b617642, speedfix defaults, profile=0)
+
+Process 6156. Bedau frame times are the same as the profiled run before it (64 to 72 ms), with the profiler off and
+speedfix on 13 methods, not 94. So the profiler and hook layers did not make those frames slow.
+
+**A/B (xikit_ab_6156_1.csv).** The game was closed during phase 6, so 5 of 8 phases are complete.
+- A (kit and speedfix off): 69.9, 70.9, 72.0 ms.
+- B (on): 68.1, 66.4 ms.
+- B − A ≈ −3.6 ms (about 5%). That exceeds the spread within each label, but rests on two B phases.
+
+**Sampler (the last 600 frames, about 71 ms each; 21,595 samples of the render thread).**
+- 62.5% of samples report EIP 0x00010002. That is no module's code, and every such sample has a game return address on
+  the stack. Read as: the thread was in code outside the 32-bit context (the D3D11 runtime, the Parallels display
+  driver prl_umdd10.dll, the kernel). That reading is not established.
+- Time inside calls the game made out of its own code, by the game function that made them (68.9% in all):
+
+  | Calls made by | Share of time | Decoded at the call site |
+  |---|---|---|
+  | The occlusion readback 0x1006C8B0 | 19.5% | IDirect3DSurface8::LockRect, vtable slot 9, D3DLOCK_READONLY, at 0x1006C91C |
+  | CDx::DrawIndexedPrimitive | 16.0% | |
+  | CDx::DrawPrimitiveUP | 10.3% | |
+  | CYyModelDt::SkinAndDrawV2 | 7.6% | IDirect3DVertexBuffer8::Lock (slot 11) with D3DLOCK_DISCARD (0x2000), and Unlock; on a failed lock the game calls Sleep(0) and retries |
+  | CDx::DrawPrimitive | 3.2% | |
+  | Cell_DrawQuadBlended | 1.95% | SetRenderState(ALPHABLENDENABLE, 0) at 0x1011F962 |
+
+- The game's own code: 31.1%.
+  - 13.3% in 0x1002F1D0's x87 skinning loop (0x1002F200..0x100300AF, which reads g_boneWeightMatrixTable).
+  - 0x1002F1D0 chooses between that loop and an SSE loop at 0x100300B0, whose helpers 0x100309B0 and 0x10030A40 are SSE
+    code. The choice follows two bytes, [[0x104566E8]+9] and [[0x104566E8]+0xC], of an object set at start
+    (0x10001339).
+  - All 2,865 samples in that function were in the x87 loop.
+  - What sets those two bytes is not traced here. Whether speedfix's cpu_tier changes them is not established:
+    cpu_tier writes the SSE flag 0x1047CF78, which feeds the processor object made by 0x1006CB50.
+- xikit.dll and speedfix.dll together: 26 samples (0.1%).
+
+**Why call_time timed only 38%.** call_time timed only device methods. The readback's LockRect (a surface method) and
+the skinning buffers' Lock and Unlock are not device methods, which accounts for most of the time call_time saw as
+"outside Direct3D" in the run before.
+
+kit/d3dprof/samples.py: the inclusive view's standard error failed on shares above 100% (a function on a stack more
+than once); fixed.
+- **The owner's machine is an M5 MacBook Pro** (stated by the owner). So Windows on ARM runs in Parallels and the game
+  is x86-emulated.
+- **Why the game skins with x87:** its CPU detection (0x1000D400) sets the SSE flag `[0x104566E8]+9`, the one that
+  selects the SSE skinning loop, only for a "GenuineTMx86" vendor or one containing "Intel". speedfix lever
+  `sse_skinning` (off by default; A/B-able) writes the CPU's own SSE bit there. Wine-tested; not run in the game.
+- **The owner's earlier speedfix_hook.cpp compared with kit/speedfix.**
+  - Already carried over: cpu_tier, texture_compression, the caches, occlusion_stagger, both occlusion skips, the
+    frame pacer (high-resolution timer plus spin), batching with the RHW rule, and the batch caps.
+  - Dropped on purpose earlier: the device-call census (d3dprof's profile replaces it) and the unsafe worker-thread
+    submit.
+  - Left out: `occlusion_async_readback`. The owner measured it slower on dgVoodoo/D3D11/Parallels.
+  - Taken now: its log of the math tier in use. g_pProcessor's vtable is checked against the three tier classes,
+    0x1032C298 SSE, 0x1032C1C8 3DNow! and 0x1032C368 x87.
+  - Run 6156's samples show the x87 tier in use. Its methods took 0.6% of the render thread, so the tier itself is
+    not a lever there.
+  - Not taken: its camera still/moving split of frame statistics, which needs a SetTransform hook.
+- **speedfix additions after the Bedau runs:**
+  - `merge_scenes` (lever): one Begin/EndScene pair a frame. The profiled run had 7.7 scenes a frame and 4.6 ms in
+    EndScene.
+  - `motion_stats`: speedfix_hook's still/moving split of frame statistics.
+  - `stats_every`: seconds between the statistics lines.
+  - `ab_levers` groups separated by `;`, run one after another. Several levers can be measured in one session
+    without editing the ini between them.
+  - All Wine-tested (test_speedfix.py); none run in the game yet.
+- **Who issues the draws in Bedau** (run 3736's profile, by the caller of each CDx draw wrapper):
+  - DrawIndexedPrimitive, 1,586 a frame: all from CYyModelDt::SkinAndDrawV2. It walks a model's command list and
+    issues one triangle strip (type 5) per strip record, about 58 primitives each.
+  - DrawPrimitiveUP, 885 a frame: Font_DrawGlyphQuad 386, Cell_DrawQuadBlended 209, Actor_DrawWorldText 200 (2
+    triangles each).
+  - DrawPrimitive, 359 a frame: CMoVuElem_Draw 270; the zone mesh 0x1017C9C0 45, at about 714 primitives each.
+- **New tools:**
+  - the kit logs the CPU (CPUID), the machine and Windows build, and every graphics module with its version;
+  - kit/d3dprof/compare_paths.py compares two profiles per method;
+  - kit/d3dprof/merge_potential.py counts the draws merging would leave in a trace.
+- **Fixed:** trace_diff.py read the `#S` state lines as comments, because the `#` test came first. Its state
+  differences were therefore always empty.
+- **The owner states the game always crashes without dgVoodoo** on their machine. Windows' own Direct3D 8 is
+  therefore not a path to compare there. Why it crashes is not known; xikit.log's module list would show what
+  loads up to the crash. Left to compare: dgVoodoo's own settings, such as its output API.
+
+## 6 Oct (evening): the owner's three sessions (build f94640a)
+
+**Environment** (the new log), the same in every session.
+- CPUID vendor "Virtual CPU " (Virtual CPU @ 3.07GHz), SSE to SSE4.2, no AVX. The game's detection therefore
+  withholds its SSE skinning.
+- Native ARM64, the process x86-emulated. RtlGetVersion reports Windows 5.1 build 2600 (XP) inside pol.exe, which
+  looks like a compatibility-mode version lie; not established.
+- Graphics modules:
+  - d3d8.dll 4.8.2.134 (dgVoodoo's, in PlayOnlineViewer);
+  - DDRAW and D3DIM700;
+  - Windows' D3D11, dxgi and dxcore (26100);
+  - Parallels' prl_umdd10.dll 20.18.2640.57513.
+  All x86.
+- dgVoodoo's Direct3D 12 output shows texture stretching and flicker (owner). D3D11 stays.
+
+**Session 1 (process 12764): xikit ab=1 with speedfix's four levers on**, all of them, against the kit off, in Bedau.
+- A 74.1, 70.6, 70.6, 71.2 ms; B 40.2, 33.2, 34.6, 34.6 ms.
+- B − A = −36.0 ms (−50.2%). The spread within a label was at most 7.0 ms.
+- The per-lever A/B (ab_levers) was not run, so each lever's share is not known.
+- speedfix's counts:
+  - DrawPrimitiveUP 84 to 87% fewer;
+  - lazy_state: about 7 million calls a minute never sent;
+  - merge_scenes: 3,000 to 8,000 pairs a minute dropped;
+  - every actor occlusion query skipped;
+  - the math tier in use was SSE, because cpu_tier applied before the game chose.
+- Sampler, last 600 frames with everything on (about 36 ms each):
+  - SkinAndDrawV2's calls into Direct3D 26%. DrawIndexedPrimitive lists at 0x1002E746 13.6%; SetStreamSource
+    right after the skinning buffers 4.9%.
+  - The occlusion readback's LockRect 22.4%: the non-actor query users.
+  - Present (Frame_Render 0x10012B00) 16.9%. merge_scenes moves the scene's end to just before it.
+  - The x87 skinning loop no longer appears; the SSE loop 0x100303B0 is under 1%.
+- motion_stats: no camera-moving frames during the A/B (as asked: standing).
+
+**Session 2 (process 5180).**
+- 3 captures of SkinAndDrawV2 (82 MB each; the page budget ran out) and a trace of 590,195 records.
+- merge_potential.py on label 0 (no swaps, no mods), per frame:
+  - DrawIndexedPrimitive 1,620 draws make 1,561 runs; merging in place leaves nearly all of them;
+  - DrawPrimitive 225 make 216 runs;
+  - DrawPrimitiveUP 1,221 make 185 runs.
+- Between consecutive character draws:
+
+  | What separates them | Share of pairs |
+  |---|---|
+  | Their vertex buffers differ (vb:0, vb:1), nothing else | 49% |
+  | SetLight | 36% |
+  | SetLight and SetTransform | 6.6% |
+  | Nothing: mergeable | 3.6% |
+
+- If every part were skinned into one shared buffer, the draws would make 771 runs. If, in addition, a light,
+  transform, material or viewport set to the value it already has did not count as a change, they would make 510.
+  That is the measured upper bound for SkinAndDrawV2 issuing fewer draws.
+- Replaying capture 1 through the gate: UNRESOLVED at 0x1002DD00, the skinning buffer's IDirect3DVertexBuffer8::Lock,
+  a call into dgVoodoo's d3d8.dll whose pop count no source settles. The fact recorder measures it: 110 sites
+  prepared, the 57 indirect calls of SkinAndDrawV2 and the gate's other UNRESOLVED sites.
+
+**Session 3 (process 2020): dgVoodoo D3D11, no mods.**
+- 72.7 ms a frame; 43,659 calls, 3,213 draws a frame.
+- No D3D12 profile was taken, because of the glitches above.
+
+**Session 4 (process 12164): every speedfix lever on, facts=1, no profiler.**
+- Where it was taken is not in the log. Two scenes by their draw counts:
+  - the first 3 minutes: 819 draws a frame standing still; p50 17.5 to 19.4 ms, means 20 to 25 ms (spikes);
+  - from then on (about 10 minutes, standing still): 3,450 to 3,640 draws a frame (1,250 to 1,270 of them
+    DrawPrimitiveUP); in minutes without spike runs, mean 31.5 to 35 ms, p50 30 to 35 ms, p95 37 to 46 ms.
+- Present itself (the kit's own timing of the call into dgVoodoo) 0.27 to 0.59 ms a frame. So session 1's
+  "Present 16.9%" (the sampler at the Present call site) was not Present itself. merge_scenes sends the scene's
+  held EndScene from inside its Present hook, before passing Present on, so EndScene's time is counted at that site.
+- Occlusion readbacks: none ran (skip_all_occlusion_readbacks), CopyRects 0.0 a frame throughout. Every actor query
+  was skipped.
+- sse_skinning set the game's SSE flag (it was 0; the CPU reports SSE). The math tier stayed x87: cpu_tier applies
+  only when the kit is injected before the game chooses.
+- Spike runs: 24 runs of 5 to 71 consecutive frames at 88 to 123 ms in 12 minutes. Their cause was not measured
+  (no sampler in this session).
+- Windows reports itself as 5.1 build 2600 to the game (RtlGetVersion), and session 2's capture lists
+  AcLayers.DLL and AcGenral.DLL. The game runs under a Windows compatibility layer. Its effect was not measured.
+- ab_levers was set to "A", "B", "1" and "A B B A". None is a lever, so no A/B ran. The ini's text ("phases ... A B
+  B A") read as if those were the values. It now names settings in an example, and the log says so when a name is
+  not a lever.
+- facts=1 measured 61 call sites, every observed call agreeing, into data/game_sp.json. 50 of them are in
+  SkinAndDrawV2, including the skinning buffer's Lock at 0x1002DD00 (pops 20; vtable d3d8.dll+0x12A654, slot 11).
+- The 3 captures of session 2 replayed through the gate with these facts:
+  - Capture 2: PASS, 8 of 8 trials compared, 932 of SkinAndDrawV2's 1,596 instructions covered (the gate's fuzzing
+    had reached 62). This needed two gate changes. `Sleep` is now answered like the other benign imports
+    (VOID Sleep(DWORD) in the Windows SDK; the calls are still compared), because SkinAndDrawV2 sleeps and retries
+    after a failed Lock. And xcap.py takes `--insn-limit` (5,000,000 here); the gate's default of 300,000 is less
+    than skinning a whole model takes.
+  - Captures 1 and 3: every trial runs out of instructions in the command-list walk. The model's list runs onto
+    page 0x26714000, which the capture does not hold (its 20,000-page budget ran out). Filled with fuzzed bytes,
+    the list holds a command word the walk never advances past. The kit now takes the `capture_follow` pages
+    (default 16) after each of the call's own pointers.
+- The kit now records which interface each dgVoodoo vtable is: the vtable of each object a Create method returned,
+  in xikit_vtables_<pid>.csv (profile=1 or trace=1), ingested by pipeline/com_vtables.py. The gate uses a record only
+  when a captured vtable's entries match it exactly. Whether these captures need it is not known: the
+  reconstruction's Lock went unresolved only in trials where the game's side had stopped at Sleep.
+
+**The owner, 6 Oct:**
+- "Bedau", the name these records use for the measuring spot, is the busy plaza of Port Jeuno.
+- No exe in the PlayOnline folder is set to run in compatibility mode, yet the game is told Windows 5.1 and the
+  compatibility DLLs are loaded. Where the layer comes from is not known. The kit now logs the kernel's own version,
+  `__COMPAT_LAYER` and the registry layers for the exe.
+
+**Session 5 (6 Oct), Port Jeuno's plaza ("Bedau"), standing still, every speedfix lever on.**
+- Part 1 (process 2264): speedfix's lever A/B. Phases of 30 s, A B B A, 3 rounds, about 3,100 to 3,400 draws a
+  frame. A = the lever off, B = on, everything else on in both:
+
+  | Lever | A (off) | B (on) | B − A | Spread within a label |
+  |---|---|---|---|---|
+  | sse_skinning | 45.73 ms | 31.22 ms | −14.51 ms (−31.7%) | 5.96 ms |
+  | batch_up_draws + lazy_state | 39.02 ms | 30.86 ms | −8.16 ms (−20.9%) | 3.37 ms |
+  | skip_all_occlusion_readbacks | 31.80 ms | 30.49 ms | −1.31 ms | 3.98 ms (within it) |
+  | merge_scenes | 30.31 ms | 31.48 ms | +1.17 ms | 3.48 ms (within it) |
+  | skip_actor_occlusion | 29.48 ms | 29.81 ms | +0.33 ms | 4.37 ms (within it) |
+
+  Occlusion readbacks requested: 158 in the first minute (loading in), none later while standing still. The
+  readback LockRect at 22% in session 1's samples is not explained by this.
+  The math tier was x87 at this start.
+- Part 2 (process 11952): profile=1, sample=1, 3 captures, facts=1.
+  - The compatibility line: the kernel is Windows 10.0 build 26200; the game is told 5.1. __COMPAT_LAYER is
+    "HighDpiAware" and the registry has no layers for pol.exe. So the 5.1 does not come from a layer set on the
+    exe; where it comes from is not known.
+  - The math tier was SSE at this start (x87 at part 1's). Which tier a start gets is not under the kit's control
+    when the game chooses before the kit is injected.
+  - The profiler (after speedfix): 17,478 calls and 1,982 draws a frame; SetRenderState 4,745, SetStreamSource
+    3,071, SetTextureStageState 1,861, SetTransform 1,653, SetLight 1,140, DrawIndexedPrimitive 956.
+  - The sampler, last 600 frames (31.5 ms each): 70% of the render thread's samples were in memory of no module.
+    By the game call site under them: SkinAndDrawV2 27% (its DrawIndexedPrimitive wrapper call 0x1002E746
+    15.3%, 0x1002F130 5.2%, the buffer Lock 1.6%); CDx::Present from Frame_Render (with merge_scenes' EndScene)
+    11.6%; CTsZoneMap::DrawProjectedShadow's SetTransform calls 9.8%; fn 0x10021C10 (via 0x100279F0) 5.2%.
+  - xikit_vtables: the 5 dgVoodoo vtables (vertex and index buffer, texture, cube texture, surface) into
+    data/com_vtables.json. The vertex buffer's matches the session 2 capture's entries exactly. facts=1 added sites
+    to data/game_sp.json.
+  - The 3 captures, with capture_follow, replayed: all PASS (7, 8 and 8 trials compared; one trial stopped at
+    0x1002DDCE, the vertex buffer's Unlock on its retry path, with no fact for it). Coverage 840, 765 and 233 of
+    1,596. Together with session 2's capture 2: 937 of SkinAndDrawV2's 1,596 instructions have run in a compared
+    trial and agreed.
+
+## 6 Oct (evening): the render-target switches (task 18) and speedfix's skip_shadow_pass
+
+From run 6080's trace (taken about a minute before the session ended; where is not in its log, and the owner says the session ended at the combat-test spot) (17 frames, kit e69ca62), each frame is three scenes:
+- one that only sets a render target;
+- the world (about 3,860 draws, the zone mesh's DrawPrimitive almost all of them);
+- the last one, which holds 18 Push/Pop pairs of one off-screen target (surface 3E21D114, no depth) with 1 or 2 draws
+  each, then the UI.
+
+That is 38 or 42 SetRenderTarget a frame.
+- The pairs are Model_BeginOffscreenPass / Model_EndOffscreenPassBindTextures. When g_actorShadowMode is 1, the pass
+  draws meshes a second time into that target (14 distinct meshes, 28 draws a frame), from the light's view. The mode
+  is set in CXiSkeletonActor's per-actor update; which actors' meshes the pass draws is not traced here.
+- Across the 17 frames, SetTexture never bound any render-target texture the resource log saw created, except the
+  scene's (3E02CB40, 3024 x 1898). That log began after the game started, so the shadow texture may not be in it. The
+  only CopyRects were the occlusion readback's, from another surface. What reads the shadow target is not known.
+- Checked afterwards against the game's instructions (IDA listing): all four `call Model_BeginOffscreenPass` are
+  followed by `test al, al` / `jz` past the matching End call. speedfix now counts, in the game, SetTexture binds of
+  the exact texture the pass draws into (Begin's `[self+8]`).
+- speedfix lever `skip_shadow_pass` (off by default): it hooks the pair and, between them, sends no SetRenderTarget,
+  Clear or draw; every state call is sent.
+  - Tested in the Wine host, driving the game's own two functions.
+  - The owner checks it by eye: the actor's shadow with it on.
+- The other scene splits are what merge_scenes (the parallel session) already removes.
+
+## 6 Oct (evening): speedfix up_ring (task 19), and a race in the speedfix host test
+
+- `up_ring` (lever, off by default): DrawPrimitiveUP, merged or not, goes out as DrawPrimitive from speedfix's own
+  2 MB dynamic vertex buffer (NOOVERWRITE at the cursor, DISCARD on wrap; released before Reset). Wine-tested; its
+  gain on dgVoodoo is for the A/B to show.
+- test_speedfix.py's minimal run failed after the kit gained its environment log. xikit.c puts its Present hook on
+  the device, then logs the environment, and only then puts the mods' device hooks in front. The host began its
+  checks at the first vtable change, so under Wine the first calls missed speedfix. The host now waits for the kit's
+  "methods hooked by mods" line. In the game this window is the first frames after injection, which speedfix's gap
+  rule already treats as frames without its hooks.
+
+## 6 Oct (evening): merging within one model, and the zone mesh's draws (tasks 78 and 16)
+
+- kit/d3dprof/merge_potential.py `--same-value`: a SetTransform, SetLight, SetMaterial, LightEnable or SetViewport
+  that sets the value its slot already holds does not break a run. The vertex streams stay in the state hash, so this
+  measures merging within one model's own buffers, with no shared skinning buffer. Selftest ok.
+- The plaza trace it was written for (session 2, process 5180) was in the parallel session's container and is not
+  here. On run 6080's trace, character DrawIndexedPrimitive goes from 79 to 78 runs a frame with
+  --same-value. The plaza's figure is still to be measured; send the session-2 trace (or a new trace=1 run in the
+  plaza).
+- The zone mesh in that frame (sub_1017C9C0, the DrawPrimitive through CDx at 0x1000CBF3): 3,879 consecutive
+  pairs, none mergeable. Every pair is separated by its own vertex buffer (3,851 SetStreamSource over 371 buffers)
+  and a SetTexture (3,479 changes over 17 textures). The SetLight between them always repeats its value, which
+  extended_state_cache already removes. Fewer zone draws therefore need the zone's geometry rebuilt into shared
+  buffers, grouped by texture (17 textures). That is a load-time rebuild of the zone format (task 16), worth it for
+  town scenes like 6080's (16.3 ms of zone draws). In the plaza (45 zone draws a frame) it does not pay.
+
+## 6 Oct (evening): the plaza trace measured for merging within a model (task 78)
+
+The owner sent sessions 1 to 3 ("mutil") and session 5 ("Gumba", processes 2264 and 11952) again. The parallel
+session had already recorded them (above). New here, from session 2's trace (process 5180, label 0, 9 frames):
+- merge_potential.py in place: DrawIndexedPrimitive 1,620 draws make 1,561 runs; with `--same-value`, 1,525. Merging
+  strips where they stand barely pays. Within a model, consecutive draws alternate between two pairs of vertex
+  buffers (SkinAndDrawV2 draws each strip a second time, from v10+80/+84, when field_34 bit 0 is set), and material
+  records sit between strips.
+- Reordering within a model: 326 models a frame, each identified by its index buffer (the SetIndices before its
+  draws). Their draws use 764 distinct combinations of state hash (textures, render and stage states, streams, index
+  buffer), light values and transforms. So drawing each model's strips grouped by those combinations, each group as one
+  indexed list built once, would leave at most 764 draws, close to the 771 that one shared skinning buffer gives. This
+  is an upper bound: reordering keeps the picture only for parts drawn without alpha blending, and the hash alone does
+  not say which parts blend. The fork has to keep blended parts in their order.

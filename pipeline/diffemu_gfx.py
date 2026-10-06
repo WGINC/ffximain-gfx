@@ -69,6 +69,9 @@ PREFER = ['IDirect3DTexture8', 'IDirect3DSurface8', 'IDirect3DVertexBuffer8', 'I
           'IDirect3DDevice8', 'IDirect3D8']
 ALLOC_BASE, ALLOC_SIZE = 0x6F000000, 0x800000   # blocks returned by allocator stubs (data/allocators.json)
 SPEC = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'com_spec.json')))
+import com_vtables as COMVT
+_COM_VTABLES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'com_vtables.json'))) \
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'com_vtables.json')) else {}
 IFACES = sorted(SPEC)
 
 STACK_LO, STACK_HI = G.STACK_TOP - G.STACK_SIZE, G.STACK_TOP
@@ -428,6 +431,20 @@ class GfxMachine(G.Machine):
         except Exception: return None
         self._last_com = (vt, slot, this)
         if vt not in self._vt_iface:
+            # recorded in the running game (com_vtables.py): an object a Create method returned, whose interface the
+            # D3D8 header declares, had this vtable with exactly these entries
+            named = None
+            if _COM_VTABLES:
+                rel = lambda a: next(('%s+0x%X' % (n, a - b) for b, sz, n in self.live.foreign if b <= a < b + sz), None)
+                vname = rel(vt)
+                r = _COM_VTABLES.get(vname.lower()) if vname else None
+                if r and not r.get('conflict'):
+                    try: ents = [rel(rd(vt + 4 * k)) or '?' for k in range(len(r['entries']))]
+                    except Exception: ents = None
+                    if ents is not None: named = COMVT.lookup(_COM_VTABLES, vname, ents)
+            if named:
+                self._vt_iface[vt] = [named]
+        if vt not in self._vt_iface:
             mod = next(((a, b) for a, b in self.foreign if a <= addr < b), None)
             n = 0
             while n < 128:
@@ -645,6 +662,9 @@ IMPORT_FAKES = {   # name: (argument count, answer); stdcall: the fake pops the 
     # unspecified without HEAP_ZERO_MEMORY; zero is one instance of that); HeapFree reports success
     'HeapAlloc': (3, lambda m, uc, a: m.alloc(a[2]) if a[2] <= 0x10000 else 0),
     'HeapFree': (3, lambda m, uc, a: 1),
+    # VOID Sleep(DWORD) (Windows SDK): the thread yields; nothing is returned or written. The calls are compared
+    # (SkinAndDrawV2 sleeps 0 ms and retries after a failed Lock)
+    'Sleep': (1, lambda m, uc, a: 0),
     # void, and in a run with one thread entering always acquires: the calls are compared, nothing returned
     'EnterCriticalSection': (1, lambda m, uc, a: 0),
     'LeaveCriticalSection': (1, lambda m, uc, a: 0),
@@ -1036,6 +1056,19 @@ def run_case(m, case, trials, seed):
     cand = m.exports[case["candidate"]]
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     limit = case.get("insn_limit", 300000)
+    # "setup": an export of the candidate DLL run once before the trials, its writes kept (fork.py gate-hook: the
+    # mod's xikit_mod_init with a gate host, which records the replacement the candidate's entry jumps to). It
+    # runs before any trial, so what it writes is the same state for every trial, and outside the original's runs
+    if case.get("setup") and case["setup"] not in getattr(m, "setup_done", set()):
+        if case["setup"] not in m.exports:
+            return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
+                    "verdict": "ERROR", "reason": "setup export %s not found" % case["setup"]}
+        r0 = m.call(m.exports[case["setup"]], "cdecl", None, [], 2_000_000)
+        if r0.status != "return":
+            return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
+                    "verdict": "ERROR", "reason": "setup %s did not return: %s %s" % (case["setup"], r0.status, r0.detail)}
+        for a, v in r0.changes.items(): m.uc.mem_write(a, bytes([v]))
+        m.setup_done = getattr(m, "setup_done", set()) | {case["setup"]}
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
@@ -1242,7 +1275,7 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument('game'); ap.add_argument('recon'); ap.add_argument('cases'); ap.add_argument('out')
-    ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--trials', type=int, default=100); ap.add_argument('--seed', type=int, default=11)     # the gate's (gate_some.py), so a direct run reproduces verification/
     ap.add_argument('--only', default=None)
     ap.add_argument('--cache', action='store_true', help='reuse verdicts of provably identical runs (gate_cache.py)')
     ap.add_argument('--serve', action='store_true',

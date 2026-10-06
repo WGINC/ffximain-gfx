@@ -173,9 +173,9 @@ def parse_alt(path):
     """an alternating trace: {frame: (label, [(method, site, select, value, bytes)])}"""
     fr = {}; meta = []
     for l in open(path):
-        if l.startswith('#'): meta.append(l.rstrip()); continue
         if l.startswith('#S '):                         # a state a draw ran with (d3dprof: only what is known)
             q = l.split(); STATES[q[1]] = dict(x.split('=', 1) for x in q[2:]); continue
+        if l.startswith('#'): meta.append(l.rstrip()); continue
         raw = l.split(); dat = next((x[2:] for x in raw if x.startswith('d=')), None); st = next((x[2:] for x in raw if x.startswith('s=')), None)
         p = [x for x in raw if not x.startswith(('d=', 's='))]
         if len(p) < 7: continue

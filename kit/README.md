@@ -44,13 +44,21 @@ caches or merges calls, d3dprof counts them on its side of speedfix:
 `test_thunks.py` runs the thunks in Unicorn: a call through the copy reaches the original
 method with the caller's stack unchanged, returns with the method's own pop, and is counted.
 
-What it does not measure: time spent inside each D3D call (that needs a return hook), and calls made on
-other threads (counted as `other_thread_calls`, not profiled).
+Time spent inside each D3D call: off by default; `call_time=1` (in xikit.ini with `profile=1`, or `[d3dprof]` in a
+`d3dprof.ini` next to the standalone DLL) adds `us_per_call` and `us_per_frame` per call site (docs/KIT.md, "Where the
+time goes"). Calls made on other threads are counted as `other_thread_calls`, not profiled.
+
+## speedfix: the performance fixes, as a mod of the kit
+
+`speedfix/` is speedfix_hook rewritten as an xikit mod: state cache, UP batching, occlusion stagger and skips, frame
+pacing, texture compression, the SSE tier. Build with `speedfix/build.sh`, add `mods=speedfix.dll`. What changed,
+the settings and the tests: `speedfix/README.md`.
 
 ## xikit: run the reconstructed graphics code in the game
 
 `xikit.dll` swaps the game's functions for their reconstructions (`gfx_recon_ingame.dll`, the verified
-tree built with every game address rebased to where FFXiMain.dll is loaded), one at a time or all 777, and
+tree built with every game address rebased to where FFXiMain.dll is loaded), one at a time or all 774 in the
+manifest (620 by default: the other 154 are flagged untested), and
 switches back at any frame. The design, the rules it writes patches by, and the test results are in
 `docs/KIT.md`.
 
@@ -65,4 +73,8 @@ every 60 frames. Ctrl+Alt+F9 switches all swaps off and on. `xikit.log` says wha
 exception is put back and listed in `xikit_quarantine.txt`, and left out at the next start. `profile=1`
 runs d3dprof inside it.
 
-Test: `xikit/test/test_xikit.py` (Wine, the real FFXiMain.dll, at its base and relocated).
+Each build writes `dist/VERSION.txt`: the source commit, the date, the tree's gate result and every file's
+SHA-256. `xikit.log` repeats its first line, so a log says which kit wrote it.
+
+Test: `xikit/test/test_xikit.py` (32-bit Wine and `numpy`, the real FFXiMain.dll; eight runs, docs/KIT.md, Tests).
+Is the kit current? `pipeline/tool_drift.py` rebuilds it and compares with `kit/BUILD.lock.json`.

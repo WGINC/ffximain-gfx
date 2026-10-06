@@ -48,6 +48,12 @@ Time spent inside each D3D call: off by default; `call_time=1` (in xikit.ini wit
 `d3dprof.ini` next to the standalone DLL) adds `us_per_call` and `us_per_frame` per call site (docs/KIT.md, "Where the
 time goes"). Calls made on other threads are counted as `other_thread_calls`, not profiled.
 
+## speedfix: the performance fixes, as a mod of the kit
+
+`speedfix/` is speedfix_hook rewritten as an xikit mod: state cache, UP batching, occlusion stagger and skips, frame
+pacing, texture compression, the SSE tier. Build with `speedfix/build.sh`, add `mods=speedfix.dll`. What changed,
+the settings and the tests: `speedfix/README.md`.
+
 ## xikit: run the reconstructed graphics code in the game
 
 `xikit.dll` swaps the game's functions for their reconstructions (`gfx_recon_ingame.dll`, the verified

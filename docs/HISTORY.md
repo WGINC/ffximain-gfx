@@ -507,3 +507,19 @@ has been run in the game yet.
   stack; `us_per_call` and `us_per_frame` per call site, the counter's frequency and its read cost in the header.
   Tested in Unicorn (`test_thunks.py`: return, pop, EAX/EDX, one interval recorded) and under Wine (`test_xikit.py`
   profile run: 186 checks ok). Stale rows in GAPS.md and ROADMAP.md (timing, pictures "missing" / "to build") updated.
+
+## 6 Oct (later): speedfix rewritten as a mod of the kit
+- The owner gave speedfix_hook.cpp (2,091 lines, GPL-3.0-only) and its last build; `speedfix_patches.h` (its patch
+  data) was not among them. Rewritten as `kit/speedfix/` (GPL-3.0-only kept): the device fixes on the kit's device
+  hooks (d3dprof behind them measures what they save), the game-code changes re-derived from the binary.
+- Found in the code while doing so:
+  - the occlusion stagger can be one re-aimed call in the bucket test (0x100CC58A), keeping forced updates and allowing N
+    to be lowered live;
+  - skipping the readback alone (not the whole query) keeps Impl's restoring of ZENABLE/ZWRITEENABLE;
+  - `frame_cap_fps` above 60 would make the game's time run fast (the step is max(step, 1) ticks; RENDERER.md 3a), and
+    60/n caps keep game time exact;
+  - the SSE tier is chosen in a load step after the device exists (0x10010D20), so a mod's init is usually early
+    enough.
+- Tested offline: `kit/speedfix/test/test_speedfix.py` (Wine host with the real DLL and the kit: 20 checks; the gate
+  on the query hook: PASS, 38 of 38 instructions). The kit now applies `respect_speedfix` to the mod too. Not run in
+  the game.

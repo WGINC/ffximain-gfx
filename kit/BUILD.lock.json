@@ -1,7 +1,8 @@
 {
  "kit/d3dprof/d3dprof.dll": "1f7c3d70bc6c88dafc1bfdfc50377aefb7c136a1529300965ee63a8c57be0c8f",
+ "kit/speedfix/dist/speedfix.dll": "e1cda5713d2aa6a2c9acd495a407692f5dfcae4d4a3dfc0f3848821db28ba47d",
  "kit/xikit/dist/gfx_recon_ingame.dll": "667b2f3ca29c759ec32e0535b9f26593586e56221dadb4dfdc246f4ff6878831",
- "kit/xikit/dist/xikit.dll": "34cd652e8a5a70c3f2050672fd62c61e53034926ddba77c44abf07fa4d4eb7c8",
+ "kit/xikit/dist/xikit.dll": "c89003feb85d192e47822fa126d99bc4cb84abdc7dfd79ebf5879fb9ca3c494d",
  "kit/xikit/dist/xikit.ini": "17ccde081da7c9c32478e6f4bf6176b503406fb343dde815498bde1b5a042909",
  "kit/xikit/dist/xikit_facts.txt": "5d050de192b0883d14b535a79eea6ab2e7e9d44208dfa727d656c280fee2573b",
  "kit/xikit/dist/xikit_manifest.txt": "c36493ee903f53988d01b955acf9c3f4e215f8581288eb36262130911a2c7faa"

@@ -1040,7 +1040,7 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   if (f->mod_target) { host_log("hook(%s): already hooked by %s", f->name, g_mods[f->mod - 1].name); return XIKIT_E_TAKEN; }
   int d = f->patched ? -1 : check_bytes(f);       /* (patched: a reload; the bytes were checked before the kit wrote its jmp) */
   if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
-  if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix_hook patches it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
+  if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix (speedfix_hook or the speedfix mod) patches inside it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
   if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
   void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
   if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
@@ -1209,6 +1209,12 @@ static void load_mods(void *dev, HMODULE rec) {
     if (!start_mod(i, h, loaded)) { g_nmods--; continue; }
   }
   if (g_mod_reload) klog("mod_reload=1: a mod's file that changes is loaded again (also: create xikit_reload_now.txt)");
+  /* the speedfix mod (kit/speedfix) re-aims calls inside two speedfix-site functions, as speedfix_hook did: their
+     reconstructions would bypass that, so respect_speedfix applies to it too */
+  if (!g_speedfix_loaded && GetModuleHandleA("speedfix.dll")) {
+    g_speedfix_loaded = 1;
+    klog("speedfix.dll (the speedfix mod) is loaded: functions it changes inside (manifest flag 2) are left to the game's code (respect_speedfix=%d)", g_cfg.respect_speedfix);
+  }
 }
 
 /* a reload, on the render thread inside Present (kit_present calls apply() right after, which re-aims the entries):

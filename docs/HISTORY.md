@@ -911,3 +911,19 @@ That is 38 or 42 SetRenderTarget a frame.
   checks at the first vtable change, so under Wine the first calls missed speedfix. The host now waits for the kit's
   "methods hooked by mods" line. In the game this window is the first frames after injection, which speedfix's gap
   rule already treats as frames without its hooks.
+
+## 6 Oct (evening): merging within one model, and the zone mesh's draws (tasks 78 and 16)
+
+- kit/d3dprof/merge_potential.py `--same-value`: a SetTransform, SetLight, SetMaterial, LightEnable or SetViewport
+  that sets the value its slot already holds does not break a run. The vertex streams stay in the state hash, so this
+  measures merging within one model's own buffers, with no shared skinning buffer. Selftest ok.
+- The plaza trace it was written for (session 2, process 5180) was in the parallel session's container and is not
+  here. On the run-6080 town trace, character DrawIndexedPrimitive goes from 79 to 78 runs a frame with
+  --same-value. The plaza's figure is still to be measured; send the session-2 trace (or a new trace=1 run in the
+  plaza).
+- The zone mesh in that town frame (sub_1017C9C0, the DrawPrimitive through CDx at 0x1000CBF3): 3,879 consecutive
+  pairs, none mergeable. Every pair is separated by its own vertex buffer (3,851 SetStreamSource over 371 buffers)
+  and a SetTexture (3,479 changes over 17 textures). The SetLight between them always repeats its value, which
+  extended_state_cache already removes. Fewer zone draws therefore need the zone's geometry rebuilt into shared
+  buffers, grouped by texture (17 textures). That is a load-time rebuild of the zone format (task 16), worth it for
+  town scenes like 6080's (16.3 ms of zone draws). In the plaza (45 zone draws a frame) it does not pay.

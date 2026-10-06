@@ -47,7 +47,7 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 A PASS says nothing about code no trial reached. The cause is the inputs: fuzzed objects and four dumps rarely
 hold a loaded model, a full zone or a busy scheduler at the moment a function starts.
 
-**What closes it: an in-game input recorder (to build).**
+**What closes it: an in-game input recorder (built 6 Oct: `capture=`, pipeline/xcap.py; section 7 item 1).**
 - xikit writes a process dump at the entry of a chosen function, when the game calls it, with that thread's
   registers. It can be once per function or once per new path through it.
 - The gate's live mode already runs a function from a process dump of the real game (pipeline/live_state.py),
@@ -65,7 +65,7 @@ hold a loaded model, a full zone or a busy scheduler at the moment a function st
   Most are Direct3D calls on texture or surface objects whose interface is not proven at that site. The in-game
   DLL's gate leaves two more for fuzz (0x10003890, 0x100CB4E0).
 
-  **Closes it: an in-game fact recorder (to build).** For a named call site, the kit records ESP before and after
+  **Closes it: an in-game fact recorder (built 6 Oct: `facts=1`, pipeline/fact_sites.py; section 7 item 4; no measurements from the game yet).** For a named call site, the kit records ESP before and after
   the call while the game's own code runs. CLAUDE.md accepts "the original running real game code" as a source
   (pipeline/real_sp.py, trusted calls only). The same recorder can note which method a COM call reached, from the
   vtable entry it jumped through.
@@ -158,16 +158,18 @@ function whose prototype is definitive.
   change's list, which can name calls dropped, added or changed (by Direct3D method or game function, with
   argument conditions), memory, and the return value. The report counts each declaration seen and names the
   declarations never seen. In this mode each stubbed call's answer depends on the call itself, so a dropped call
-  does not shift the answers of later calls. It runs on forks today; a replacement written from scratch in a mod
-  has no gate build yet.
+  does not shift the answers of later calls. It runs on forks, and on a mod's own replacement through `fork.py
+  gate-hook` (6 Oct).
 
 **Missing:**
-- **The gate for a mod's own replacement functions** (not forks): the mod DLL imports Windows and the C library,
-  which the gate's loader does not provide.
+- ~~The gate for a mod's own replacement functions~~ built 6 Oct (`fork.py gate-hook`: the mod's sources linked
+  for the gate with the tree's rt.c; a mod that needs the C++ runtime, msvcrt or Windows imports still does not
+  link for the gate, and the tool says so).
 - **Real inputs for the hot paths** (2a). Without them, a prediction about SkinAndDrawV2 rests on 4% of its
   code.
-- **Cost prediction.** Nothing measures time yet (ROADMAP.md P0). A change's effect on frame time is not
-  predicted, only observed afterwards.
+- **Cost prediction.** The measuring tools exist (ROADMAP.md P0: Present wait, per-call time, sampler); no
+  in-game measurement has been taken with them yet. A change's effect on frame time is not predicted, only
+  observed afterwards.
 
 ## 5. Confirm: knowing in the game that it did that and nothing else
 

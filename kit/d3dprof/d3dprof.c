@@ -533,7 +533,14 @@ static void *const THUNKS[NSLOTS] = {P(0), P(1), P(2), P(3), P(4), P(5), P(6), P
    game passed them (kit/d3dprof/vshader.py reads them). The wrappers sit after the thunk (g_next) and call the
    device's own method, so the counts and the trace see the call as before. */
 static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_PATH]; static int g_res_init;
-static uint32_t site_of_ra(uint32_t ra) { return ra >= g_lo && ra < g_hi ? ra - g_rel : ra; }
+/* a call that reached the wrapper through a mod's device hook (xikit device_hook) returns into the mod: on the render
+   thread the kit keeps the return address of the call the hook is handling (d3dprof_via_stk, as d3dprof_record uses
+   it), so the creating game function is named; on other threads it is not kept and the raw address stays */
+static uint32_t site_of_ra(uint32_t ra) {
+  if (!(ra >= g_lo && ra < g_hi) && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_thread)
+    ra = d3dprof_via_stk[d3dprof_via_depth - 1];
+  return ra >= g_lo && ra < g_hi ? ra - g_rel : ra;
+}
 /* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
 static const char *module_of(uint32_t a, char *buf, size_t n) {
   HMODULE m = NULL; char path[MAX_PATH];

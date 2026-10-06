@@ -301,7 +301,16 @@ int main(int argc, char **argv) {
                   uintptr_t a = (uintptr_t)strtoul(line + 11, NULL, 16);
                   if (a >= (uintptr_t)hx && a < (uintptr_t)hx + hn->OptionalHeader.SizeOfImage) in_host = 1;
                   if (a >= (uintptr_t)m && a < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage) in_mod = 1; } fclose(pc); }
-      check(in_host && !in_mod, "d3dprof reports the hooked BeginScene at the host's call site, none inside the mod"); }
+      check(in_host && !in_mod, "d3dprof reports the hooked BeginScene at the host's call site, none inside the mod");
+      /* a creation through the mod's CreateTexture hook: the resource log names the host's call site too */
+      void *tex = NULL; ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_dev.vt[20])(&g_dev, 64, 32, 1, 0, 21, 1, &tex);
+      snprintf(nm, sizeof nm, "xikit_resources_%lu.csv", GetCurrentProcessId()); FILE *rf = fopen(nm, "r"); int r_host = 0, r_mod = 0;
+      if (rf) { while (fgets(line, sizeof line, rf)) { char *q = strstr(line, "\"CreateTexture(");
+                  if (!q || !(q = strstr(q, "\",0x"))) continue;
+                  uintptr_t a = (uintptr_t)strtoul(q + 2, NULL, 16);
+                  if (a >= (uintptr_t)hx && a < (uintptr_t)hx + hn->OptionalHeader.SizeOfImage) r_host = 1;
+                  if (a >= (uintptr_t)m && a < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage) r_mod = 1; } fclose(rf); }
+      check(tex == g_faketex && r_host && !r_mod, "a CreateTexture through the mod's device hook: xikit_resources_<pid>.csv names the host's call site, not the mod"); }
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
   }

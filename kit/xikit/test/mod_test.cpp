@@ -27,6 +27,10 @@ static XI_DEVICE_FN(BeginScene) prev_BeginScene;
 static int __stdcall my_BeginScene(IDirect3DDevice8 *dev) { mod_begins += MOD_GEN; return prev_BeginScene(dev); }
 static XI_DEVICE_FN(TestCooperativeLevel) prev_TestCooperativeLevel;
 static int __stdcall my_TestCooperativeLevel(IDirect3DDevice8 *dev) { (void)dev; return 7; }   // never reaches the device
+static XI_DEVICE_FN(CreateTexture) prev_CreateTexture;    // passes on: the resource log names the caller, not the mod
+static int __stdcall my_CreateTexture(IDirect3DDevice8 *dev, unsigned w, unsigned h, unsigned lv, unsigned us, D3DFORMAT f, D3DPOOL p, IDirect3DTexture8 **t) {
+  return prev_CreateTexture(dev, w, h, lv, us, f, p, t);
+}
 
 extern "C" {
 __declspec(dllexport) int xikit_mod_init(const XikitHost *host) {
@@ -38,7 +42,8 @@ __declspec(dllexport) int xikit_mod_init(const XikitHost *host) {
   mod_prev_ecb = (void *)prev_EndClearBegin;
   mod_unknown_result = host->hook("No::SuchFunction", (void *)my_GetColor, nullptr);
   mod_dev_result = XI_DEVICE_HOOK(host, BeginScene, my_BeginScene, prev_BeginScene)
-                 | XI_DEVICE_HOOK(host, TestCooperativeLevel, my_TestCooperativeLevel, prev_TestCooperativeLevel);
+                 | XI_DEVICE_HOOK(host, TestCooperativeLevel, my_TestCooperativeLevel, prev_TestCooperativeLevel)
+                 | XI_DEVICE_HOOK(host, CreateTexture, my_CreateTexture, prev_CreateTexture);
   mod_bad_slot_result = host->device_hook("BeginScene", 35, (void *)my_BeginScene, nullptr);   // 35 is EndScene
   mod_fork_result = XI_FORK(host, CXiSkeletonActor::SetColor);        // the fork's own definition (SetColor.fork.cpp)
   mod_fork_code = ::xikit::code_of(&CXiSkeletonActor::SetColor);

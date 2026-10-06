@@ -607,3 +607,60 @@ and the repo:
 - The default hook set grows from 12 to 13 methods (CreateVertexShader, so vs_dedupe can switch live).
 - Tested offline (`test_speedfix.py`, three Wine runs plus the gate): every lazy_state, vs_dedupe and A/B check ok.
   Not tested: the real game.
+
+## 6 Oct (later): the owner's Bedau run (kit 0de35c4, speedfix mod, profile=1 call_time=1, swap=0)
+
+Process 3736, about 28 minutes, 28,200 frames. The run has no sampler output (sample=1 was not set).
+
+**Frame time by section (xikit_timing):**
+- Frames 600 to 6000: about 18 to 21 ms per frame.
+- From about frame 6600: 64 to 79 ms per frame, steady to the end.
+
+**d3dprof's last 600-frame window:**
+- 67.9 ms per frame.
+- About 30,000 Direct3D calls, 2,830 draws and 168,590 primitives per frame.
+- 20 repeated sets per frame. speedfix's cache skipped the rest: 37 to 44% of the setter calls entering it, per its
+  log.
+
+**Where the time inside Direct3D calls goes.** Timed calls add up to 25.8 ms per frame; Present is 0.24 ms of it.
+
+| Method | ms per frame | Calls per frame | µs per call |
+|---|---|---|---|
+| DrawIndexedPrimitive | 9.0 | 1,586 | 5.7 |
+| DrawPrimitiveUP | 4.9 | 885 | 5.5 (2.5 primitives each) |
+| DrawPrimitive | 1.6 | 359 | 4.5 |
+| EndScene | 4.6 | 7.7 | 600 |
+| SetRenderState | 2.8 | 11,228 | — |
+| Other setters | under 0.6 each | | 0.08 to 0.45 |
+
+- 1.5 ms of the SetRenderState time is one site, 0x1011F968 in Cell_DrawQuadBlended: 198 calls per frame at
+  7.4 µs each.
+- The other setters cost 0.08 to 0.45 µs per call.
+
+**Outside any timed Direct3D call: about 42 ms per frame.** That covers the game's own code, the layers in front
+of d3dprof and Parallels.
+- The layers in front of d3dprof: speedfix on 94 methods, the kit's front thunk, and d3dprof's own record.
+- How the 42 ms divides among these is not measured.
+- In the baseline (no speedfix, a different place), only about 3.3 ms of 19.2 ms was outside the timed calls.
+
+**Across this run's 27 one-minute speedfix reports:**
+- Fit: frame ms ≈ 11.0 + 1.48 µs × setter calls entering speedfix (r = 0.970).
+- That per-call figure is far above the 0.08 to 0.25 µs the setters take inside Direct3D.
+- This is a correlation over one session's scenes, not a measured cost.
+
+**Present stays at about 0.24 ms throughout:** the CPU does not wait for the GPU at Present.
+
+**Resource log:**
+- 15,367 creations in all:
+  - 9,438 vertex buffers;
+  - 2,525 textures;
+  - 1,741 vertex shaders (498 distinct handles saved);
+  - 1,649 index buffers;
+  - 1,970 of them on another thread.
+- Every row's call site was the same raw address, 0x71D39D8E. speedfix hooks the Create methods, and the resource
+  wrappers took their return address, which lies in the hook layer, not in the game. Fixed:
+  - The wrappers now name the game's call through the kit's caller stack, on the render thread.
+  - Other threads keep the raw address.
+  - Test: test_xikit.py, mod runs.
+- This build wrote neither an absolute frame number nor the creation time, so churn per frame and stutter causes
+  cannot be read from this log. Later builds record both.

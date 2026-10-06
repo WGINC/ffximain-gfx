@@ -245,7 +245,10 @@ def alternating(path, owners, top):
     print('control (unswapped frames tested the same way against the unswapped frames two either side): %d frames, %d findings' % (ctriples, len(ctrl)))
     print('\ncalls that differ (kind, function the swapped frame\'s call is in, method, the state it sets; in how many swapped frames, and in how many\n'
           'control frames the same test fires on the same calls: a finding the control shows as often is the scene\'s own):')
-    for (kind, o, name, sel), hits in sorted(found.items(), key=lambda kv: (-len({h[0] for h in kv[1]}), kv[0]))[:top]:
+    rate = lambda d, k, n: len({h[0] for h in d.get(k, ())}) / max(n, 1)
+    excess = lambda k: rate(found, k, triples) - rate(ctrl, k, ctriples)
+    print('findings more frequent in swapped frames than in the control by more than 0.2: %d (listed first)' % sum(excess(k) > 0.2 for k in found))
+    for (kind, o, name, sel), hits in sorted(found.items(), key=lambda kv: (-excess(kv[0]), -len(kv[1]), kv[0]))[:top]:
         print('  %-7s %-44s %-22s %-18s in %d of %d swapped frames; control %d of %d' % (kind, o or '-', name, ' '.join(sel),
               len({h[0] for h in hits}), triples, len({h[0] for h in ctrl.get((kind, o, name, sel), ())}), ctriples))
         for f, why in hits[:2]: print('           frame %d: %s' % (f, why))

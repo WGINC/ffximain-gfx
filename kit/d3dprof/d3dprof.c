@@ -109,7 +109,9 @@ static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
 #define SLOT_IB_UNLOCK 98
 static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2, 1, 4, 3, 1, 2, 1, 7, 8, 6, 5, 5, 6, 5, 4, 5, 2, 1, 2, 1, 1, 0, 0, 6, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 2, 2, 3, 3, 1, 3, 2, 2, 1, 1, 3, 5, 4, 8, 5, 4, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 1};
 typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
-#define TRACE_MAX 600000
+#define TRACE_MAX 1500000           /* records (40 bytes each); a busy scene makes 35000 calls a frame. Fewer if the address space has no room: */
+#define TRACE_MIN 400000
+static uint32_t g_trace_cap;
 static Rec *g_trace; static uint32_t g_ntrace, g_trace_dropped, g_trace_frame; static int g_trace_label = -1;
 /* the bytes themselves for the small structures a call reads (a matrix, a vertex list up to 128 bytes), so a difference
    can be read field by field: per record an offset into g_bytes and a length (0: none) */
@@ -135,10 +137,11 @@ static uint32_t prim_verts(uint32_t type, uint32_t n) {     /* D3DPRIMITIVETYPE:
 
 static void pend_clear(void);
 void d3dprof_trace_start(int label) {
-  if (!g_trace) g_trace = (Rec *)VirtualAlloc(NULL, TRACE_MAX * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-  if (!g_bytes) {
-    g_bytes = (uint8_t *)VirtualAlloc(NULL, TRACE_BYTES + TRACE_MAX * 5, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-    if (g_bytes) { g_boff = (uint32_t *)(g_bytes + TRACE_BYTES); g_blen = (uint8_t *)(g_boff + TRACE_MAX); }
+  for (uint32_t cap = TRACE_MAX; !g_trace && cap >= TRACE_MIN; cap /= 2) {
+    g_trace = (Rec *)VirtualAlloc(NULL, cap * sizeof(Rec), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    g_bytes = g_trace ? (uint8_t *)VirtualAlloc(NULL, TRACE_BYTES + cap * 5, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE) : NULL;
+    if (g_trace && !g_bytes) { VirtualFree(g_trace, 0, MEM_RELEASE); g_trace = NULL; }
+    if (g_bytes) { g_trace_cap = cap; g_boff = (uint32_t *)(g_bytes + TRACE_BYTES); g_blen = (uint8_t *)(g_boff + cap); }
   }
   if (!g_trace || !g_bytes) return;
   if (label == 0) { g_ntrace = 0; g_trace_dropped = 0; g_nbytes = 0; }
@@ -235,7 +238,7 @@ static HRESULT __stdcall buf_unlock(void *self) {
     if (g_pend[h].obj != self) continue;
     Pending q = g_pend[h]; g_pend[h].obj = (void *)1;    /* a tombstone keeps later entries of the probe reachable */
     if (g_trace_label >= 0 && g_trace && GetCurrentThreadId() == g_thread) {
-      if (g_ntrace >= TRACE_MAX) { g_trace_dropped++; break; }
+      if (g_ntrace >= g_trace_cap) { g_trace_dropped++; break; }
       uint32_t nonfinite = 0, huge = 0;
       if (q.size <= 0x1000000 && !IsBadReadPtr(q.p, q.size))
         for (uint32_t k = 0; k + 4 <= q.size; k += 4) {
@@ -258,7 +261,7 @@ static void trace_call(int slot, uint32_t *a, uint32_t site) {
     else if (slot == S_SETIND) hook_buf((void *)a[2], 1);
   }
   if (g_trace_label < 0 || !g_trace) return;
-  if (g_ntrace >= TRACE_MAX) { g_trace_dropped++; return; }
+  if (g_ntrace >= g_trace_cap) { g_trace_dropped++; return; }
   Rec *r = &g_trace[g_ntrace++];
   r->label = (uint8_t)g_trace_label; r->frame = g_trace_frame; r->slot = (uint16_t)slot; r->site = site; r->np = NPARAM[slot];
   for (int k = 0; k < 6; k++) r->a[k] = k < r->np ? a[2 + k] : 0;
@@ -276,6 +279,7 @@ static void trace_call(int slot, uint32_t *a, uint32_t site) {
   r->h = h;
   switch (slot) {                                                           /* the bytes too, where small */
   case 37: case 39: keep_bytes(g_ntrace - 1, (void *)a[3], 64); break;
+  case 44: keep_bytes(g_ntrace - 1, (void *)a[3], 104); break;           /* a light: animated lights are told apart by value */
   case 72: keep_bytes(g_ntrace - 1, (void *)a[4], prim_verts(a[2], a[3]) * a[5]); break;
   default: g_blen[g_ntrace - 1] = 0;
   }

@@ -19,10 +19,10 @@ u = Uc(UC_ARCH_X86, UC_MODE_32)
 u.mem_map(base, (len(img) + 0xFFF) & ~0xFFF); u.mem_write(base, img)
 STUB, STACK, VT, GAME = 0x20000000, 0x30000000, 0x40000000, 0x10000000
 u.mem_map(STUB, 0x10000); u.mem_write(STUB + 0xF00, struct.pack('<I', 0x50000000)); u.mem_map(STACK - 0x10000, 0x10000); u.mem_map(VT, 0x1000)
-# imports the record path uses (VirtualAlloc: successive 32 MB blocks from 0x50000000): GetCurrentThreadId -> 7, QueryPerformanceCounter -> writes 0 (stdcall, 1 arg)
+# imports the record path uses (VirtualAlloc: successive 128 MB blocks from 0x50000000): GetCurrentThreadId -> 7, QueryPerformanceCounter -> writes 0 (stdcall, 1 arg)
 for e in pe.DIRECTORY_ENTRY_IMPORT:
     for imp in e.imports:
-        code = {b'VirtualAlloc': b'\xA1' + struct.pack('<I', STUB + 0xF00) + b'\x81\x05' + struct.pack('<I', STUB + 0xF00) + b'\x00\x00\x00\x02\xC2\x10\x00', b'IsBadReadPtr': b'\x31\xC0\xC2\x08\x00',
+        code = {b'VirtualAlloc': b'\xA1' + struct.pack('<I', STUB + 0xF00) + b'\x81\x05' + struct.pack('<I', STUB + 0xF00) + b'\x00\x00\x00\x08\xC2\x10\x00', b'IsBadReadPtr': b'\x31\xC0\xC2\x08\x00',
                 b'GetCurrentThreadId': b'\xB8\x07\x00\x00\x00\xC3',
                 b'QueryPerformanceCounter': b'\x8B\x44\x24\x04\xC7\x00\x00\x00\x00\x00\xC7\x40\x04\x00\x00\x00\x00\xC2\x04\x00'}.get(imp.name)
         a = STUB + 0x100 * (imp.address & 0xFF)
@@ -81,19 +81,19 @@ assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
 assert sites.get((caller, 72, 2)) == (1, 2), sites
 # the call trace: label 0 for one frame, a SetRenderState, a SetTransform (matrix hashed), a DrawPrimitiveUP (vertex data
 # hashed), then Present ends the frame; label 1 starts at frame 0 again and keeps the earlier records
-TR = 0x50000000; u.mem_map(TR, 0x04000000)      # the trace (first block) and the recorded bytes (second)
+TR = 0x50000000; u.mem_map(TR, 0x10000000)      # the trace (first block) and the recorded bytes (second)
 def ccall(name, *args):
     sp = STACK - 0x400; u.mem_write(sp, struct.pack('<%dI' % (len(args) + 1), RET, *args)); u.reg_write(UC_X86_REG_ESP, sp)
     u.mem_write(RET, b'\xF4'); u.emu_start(sym[name], RET)
 ccall('_d3dprof_trace_start', 0)
 MAT = 0x60000000; u.mem_map(MAT, 0x1000); u.mem_write(MAT, bytes(range(64)))
 call(50, [27, 1]); call(37, [2, MAT]); call(72, [4, 1, MAT, 12]); call(15, [0, 0, 0, 0])
-ccall('_d3dprof_trace_start', 1); call(50, [27, 0])
+ccall('_d3dprof_trace_start', 1); call(50, [27, 0]); call(44, [1, MAT])
 ccall('_d3dprof_trace_stop'); call(50, [27, 5])
 n = struct.unpack('<I', u.mem_read(sym['_g_ntrace'], 4))[0]
 recs = [struct.unpack('<BBHII6II', u.mem_read(g + 0, 40)) for g in [TR + 40 * k for k in range(n)]]
-assert n == 5, n
-assert [(r[0], r[2], r[3], r[1]) for r in recs] == [(0, 50, 0, 2), (0, 37, 0, 2), (0, 72, 0, 4), (0, 15, 0, 4), (1, 50, 0, 2)], recs
+assert n == 6, n
+assert [(r[0], r[2], r[3], r[1]) for r in recs] == [(0, 50, 0, 2), (0, 37, 0, 2), (0, 72, 0, 4), (0, 15, 0, 4), (1, 50, 0, 2), (1, 44, 0, 2)], recs
 assert recs[0][5:7] == (27, 1) and recs[4][5:7] == (27, 0)
 fnv = lambda b: __import__('functools').reduce(lambda h, x: ((h ^ x) * 16777619) & 0xFFFFFFFF, b, 2166136261)
 assert recs[1][11] == fnv(bytes(range(64))), hex(recs[1][11])
@@ -102,6 +102,8 @@ boff = struct.unpack('<I', u.mem_read(sym['_g_boff'], 4))[0]; blen = struct.unpa
 o1 = struct.unpack('<I', u.mem_read(boff + 4, 4))[0]; l1 = u.mem_read(blen + 1, 1)[0]
 assert l1 == 64 and bytes(u.mem_read(gb + o1, 64)) == bytes(range(64)), (l1, o1)
 assert u.mem_read(blen + 0, 1)[0] == 0                       # SetRenderState: no bytes
+o5 = struct.unpack('<I', u.mem_read(boff + 20, 4))[0]
+assert u.mem_read(blen + 5, 1)[0] == 104 and bytes(u.mem_read(gb + o5, 104)) == bytes(range(64)) + bytes(40)   # SetLight: the D3DLIGHT8
 
 # vertex buffer contents: with buffers hooked, SetStreamSource gives the bound VB a vtable copy whose Lock/Unlock are
 # wrapped; at Unlock the locked range is hashed and recorded (slot 97) with the Lock's call site

@@ -385,3 +385,13 @@ fixed:
   after `apply()` (2 = a mixed frame, left out); `trace_diff.py` tests each swapped frame against its two unswapped
   neighbours (STABLE / OUTSIDE / COUNT) with the same test on unswapped frames as a control. Same-frame replay is not
   possible in game: a frame advances the game's own state.
+- **Alternating traces 11000_1..4** (owner, in town; 8 swapped frames each, 5 in trace 2): no call of a swapped frame
+  differs from its two unswapped neighbours more often than the same test fires among unswapped frames, except in
+  trace 4: five render-state/transform groups one call longer in frame 9 and one shorter in frame 15 (one object
+  more, then one fewer: opposite directions, the scene's object count). Buffer creations (CreateTexture from
+  0x102D3013, CreateIndexBuffer) fell in swapped frames 3 times, CreateVertexBuffer in unswapped frames twice: loading,
+  too few to tell. Trace 2 hit the 600000-record limit (a busy scene, about 35000 calls a frame). Undecided calls were
+  almost all `SetLight` (hash only).
+- **Trace**: up to 1500000 records (falls back to fewer if the address space has no room); `SetLight` keeps its 104
+  bytes, so an animated light is checked as between its neighbours; `trace_diff.py` lists findings by how much more
+  often they fire in swapped frames than in the control.

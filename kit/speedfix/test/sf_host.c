@@ -344,6 +344,7 @@ int main(int argc, char **argv) {
     check(t1 == 256 && t2 == 0 && t3 == truth[2], "occlusion_async=3 (measure only): every answer is the game's");
     for (int i = 0; i < 300 && !log_has("occlusion_async=3: of"); i++) { frames(1); Sleep(10); }   /* stats_every=1: once a second */
     check(log_has("occlusion_async=3: of") && log_has("occlusion_async: its image surfaces: format 21, pool 2"), "... the differences are logged; the image surface's pool is logged from GetDesc (2, system memory, as this fake says)");
+    check(log_has("speedfix: readback time: the game's readback") && log_has("occlusion_async's copy"), "... the time in the game's readback and in its copy and read is logged");
     touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\noccl_test=0\n"); frames(65);
     *(void **)GAME(0x1047C004u) = 0; *(void **)GAME(0x1047BFA8u) = 0;
   }

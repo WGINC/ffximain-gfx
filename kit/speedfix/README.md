@@ -96,6 +96,9 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     If that copy fails, it uses 2's surface. 2: a lockable render target like the game's (the delay alone). 3: the
     game's answer, with the delayed one compared in the log (no time saved).
   - Its surfaces are released before Reset. Wine-tested against the game's own 0x1006C8B0 on fake surfaces.
+  - Timed: each statistics line gives `readback time:`. That is the game's readback (mean us, ms a frame with the
+    lever off), and occlusion_async's copy and read (mean us each, ms a frame with it on). Scene noise does not
+    enter it.
   - Not known: whether dgVoodoo copies to a system-memory surface without waiting (then 1 saves nothing over 2), and
     the time saved. An A/B where readbacks happen (walking through a crowd) decides it.
 - **skin_merge: character draws.** In the plaza trace, 1,577 of a frame's 1,620 DrawIndexedPrimitive come from

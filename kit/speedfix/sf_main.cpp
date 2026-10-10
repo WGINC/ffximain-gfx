@@ -213,7 +213,7 @@ static int __thiscall sf_readback(void *q, int flag) {
   if (sf_cfg.skip_all_occlusion_readbacks && flag == 0 && sf_hooks_live()) { g_rb_skipped++; return 256; }
   if (sf_cfg.occlusion_async && flag == 0 && sf_hooks_live()) return sf_occl_readback(q, sf_cfg.occlusion_async);
   g_rb_run++;
-  return ((ReadbackFn)(uintptr_t)XI_GAME(0x1006C8B0u))(q, flag);
+  return sf_occl_game(q, flag);              // the game's readback, timed (sf_occlusion.cpp)
 }
 
 // skip_actor_occlusion: the hook itself is in sf_game.cpp (it needs the tree's declaration of the function)
@@ -448,6 +448,7 @@ extern "C" void sf_frame(void) {
   if (n % 60 == 1) ab_read();
   ab_control();
   apply_code();
+  sf_occl_frame(sf_cfg.occlusion_async && sf_hooks_live());
   sf_device_frame();
   if (GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
     last_stats = GetTickCount();

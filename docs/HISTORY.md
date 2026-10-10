@@ -1089,3 +1089,24 @@ Testing:
     logged and mode 1 then uses mode 2's surface;
   - the time saved, and whether a one-probe-late answer is ever seen. An A/B while walking through a crowd, and
     mode 3's log of how often the delayed answer differs, decide them.
+
+## 10 Oct (later): the owner's run 13172 (kit 60b67e2), occlusion_async alone
+
+- Port Jeuno, walking through the crowd. Every other lever was off, occlusion_stagger 4 (the game's), ab_levers =
+  occlusion_async (mode 1), 8 phases of 30 s.
+- **It ran as built:**
+  - its image surfaces came out in pool 2 (system memory); the game's own target is pool 0;
+  - no copy failed in any minute;
+  - with it on, 96 to 98% of probes were answered from the previous probe;
+  - up to 518 query objects were seen;
+  - 3,879 to 4,656 readbacks a minute with it off, about 2.5 a frame. Walking gave readbacks, which standing still had
+    not.
+- **The A/B:**
+  - A (off) 34.15 ms, B (on) 38.32 ms: B - A +4.18 ms (+12.2%);
+  - but phases of one label differed by up to 15.14 ms (single phases 27.3 to 45.0 ms, as the scene changed), so no
+    difference either way is measured.
+- **Not known:** where the readback's time goes on this setup. If the copy into system memory waits for the GPU there,
+  the wait only moves.
+- So speedfix now times it directly. The `readback time:` statistics line gives:
+  - the game's readback (QueryPerformanceCounter around its call, per call and per frame with the lever off);
+  - occlusion_async's copy and read, each per call, and both per frame with it on.

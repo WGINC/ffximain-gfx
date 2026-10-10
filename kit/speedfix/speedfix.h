@@ -45,7 +45,9 @@ int  sf_fork_skinmerge(const XikitHost *host);
 void sf_occl_init(const XikitHost *host);
 int  sf_occl_readback(void *q, int mode);
 void sf_occl_reset(void);                         // before Reset: its surfaces released
-void sf_occl_stats(void);   // XI_FORK of CYyModelDt::SkinAndDrawV2
+void sf_occl_stats(void);
+int  sf_occl_game(void *q, int flag);              // the game's readback 0x1006C8B0, timed
+void sf_occl_frame(int on);                       // once a frame: whether occlusion_async was on   // XI_FORK of CYyModelDt::SkinAndDrawV2
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
 extern int sf_skinmerge_installed;
 // sf_device.cpp

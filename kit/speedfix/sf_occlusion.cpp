@@ -44,6 +44,19 @@ static OaSlot g_slot[OA_SLOTS];
 static int g_used;
 static bool g_imageFailed;                    // mode 1 could not make or fill an image surface: mode 2's surface instead
 static volatile LONG g_nAsync, g_nSync, g_nCopyFail, g_nNoSlot, g_nSame, g_nDiffer, g_nVisFlip;
+// timing (QueryPerformanceCounter ticks), render thread only: the game's readback, this file's copy and its read;
+// frames counted apart for the lever on and off, so each figure is also given per frame of its own label
+static LONGLONG g_tGame, g_tCopy, g_tRead; static LONG g_nGame, g_nCopy, g_nRead, g_framesOn, g_framesOff;
+static inline LONGLONG qpc(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart; }
+typedef int (__thiscall *ReadbackFn)(void *, int);
+// the game's readback, timed (sf_main.cpp calls it for every readback speedfix does not answer itself)
+extern "C" int sf_occl_game(void *q, int flag) {
+  LONGLONG t = qpc();
+  int r = ((ReadbackFn)XI_GAME(0x1006C8B0u))(q, flag);
+  g_tGame += qpc() - t; g_nGame++;
+  return r;
+}
+extern "C" void sf_occl_frame(int on) { if (on) g_framesOn++; else g_framesOff++; }
 
 extern "C" void sf_occl_init(const XikitHost *host) { H = host; }
 
@@ -107,9 +120,11 @@ static bool queue_copy(IDirect3DDevice8 *dev, IDirect3DTexture8 *tex, IDirect3DS
   if (!e->s) { e->s = make_surface(dev, game, kind); e->kind = e->s ? kind : 0; }
   if (!e->s) return false;
   IDirect3DSurface8 *src = NULL;
+  LONGLONG t = qpc();
   if (FAILED(tex->GetSurfaceLevel(0, &src)) || !src) return false;
   HRESULT hr = dev->CopyRects(src, &kRect16, 1, e->s, NULL);
   src->Release();
+  g_tCopy += qpc() - t; g_nCopy++;
   if (FAILED(hr)) {
     static bool logged[3];
     if (!logged[kind]) { logged[kind] = true; H->log("speedfix: occlusion_async: CopyRects into its %s surface failed: 0x%08lX", kind == 1 ? "image" : "render-target", (unsigned long)hr); }
@@ -127,37 +142,46 @@ static int read_previous(OaSlot *e) {
   e->pending = false;
   if (sf_frame_no - e->frame > OA_MAX_AGE) return -1;
   D3DLOCKED_RECT lr;
-  if (FAILED(e->s->LockRect(&lr, &kRect16, D3DLOCK_READONLY))) return 0;   // as the game answers a failed lock
+  LONGLONG t = qpc();
+  if (FAILED(e->s->LockRect(&lr, &kRect16, D3DLOCK_READONLY))) { g_tRead += qpc() - t; g_nRead++; return 0; }   // as the game answers a failed lock
   int n = count_locked(lr);
   e->s->UnlockRect();
+  g_tRead += qpc() - t; g_nRead++;
   return n;
 }
 
-typedef int (__thiscall *ReadbackFn)(void *, int);
 // called for argument 0 only, with occlusion_async on and the kit's hooks live (sf_main.cpp, sf_readback)
 extern "C" int sf_occl_readback(void *q, int mode) {
-  ReadbackFn game = (ReadbackFn)XI_GAME(0x1006C8B0u);
   uintptr_t modx = *(uintptr_t *)XI_GAME(0x1047BFA8u);
   uint8_t *mng = *(uint8_t **)XI_GAME(0x1047C004u);
   IDirect3DDevice8 *dev = modx ? *(IDirect3DDevice8 **)(modx + 0xEBC) : NULL;
   IDirect3DTexture8 *tex = mng ? *(IDirect3DTexture8 **)(mng + 0xC) : NULL;
   IDirect3DSurface8 *gsurf = mng ? *(IDirect3DSurface8 **)(mng + 0x18) : NULL;
-  if (!dev || !tex || !gsurf) { g_nSync++; return game(q, 0); }
+  if (!dev || !tex || !gsurf) { g_nSync++; return sf_occl_game(q, 0); }
   OaSlot *e = find_slot(q);
-  if (!e) { g_nNoSlot++; return game(q, 0); }
+  if (!e) { g_nNoSlot++; return sf_occl_game(q, 0); }
   int kind = mode == 1 && !g_imageFailed ? 1 : 2;
   int prev = read_previous(e);
   int ans;
   if (mode == 3) {                            // measure only
-    ans = game(q, 0);
+    ans = sf_occl_game(q, 0);
     if (prev >= 0) { if (prev == ans) g_nSame++; else g_nDiffer++; if ((prev == 0) != (ans == 0)) g_nVisFlip++; }
   } else if (prev >= 0) { ans = prev; g_nAsync++; }
-  else { ans = game(q, 0); g_nSync++; }
+  else { ans = sf_occl_game(q, 0); g_nSync++; }
   if (!queue_copy(dev, tex, gsurf, e, kind)) g_nCopyFail++;
   return ans;
 }
 
 extern "C" void sf_occl_stats(void) {
+  LARGE_INTEGER qf; QueryPerformanceFrequency(&qf);
+  double us = 1e6 / (double)qf.QuadPart;
+  if (g_nGame + g_nCopy + g_nRead)
+    H->log("speedfix: readback time: the game's readback %ld calls, mean %.1f us, %.3f ms a frame with occlusion_async off (%ld frames); "
+           "occlusion_async's copy %ld, mean %.1f us; its read %ld, mean %.1f us; the two %.3f ms a frame with it on (%ld frames)",
+           g_nGame, g_nGame ? g_tGame * us / g_nGame : 0.0, g_framesOff ? g_tGame * us / 1000.0 / g_framesOff : 0.0, g_framesOff,
+           g_nCopy, g_nCopy ? g_tCopy * us / g_nCopy : 0.0, g_nRead, g_nRead ? g_tRead * us / g_nRead : 0.0,
+           g_framesOn ? (g_tCopy + g_tRead) * us / 1000.0 / g_framesOn : 0.0, g_framesOn);
+  g_tGame = g_tCopy = g_tRead = 0; g_nGame = g_nCopy = g_nRead = g_framesOn = g_framesOff = 0;
   LONG a = InterlockedExchange(&g_nAsync, 0), s = InterlockedExchange(&g_nSync, 0), f = InterlockedExchange(&g_nCopyFail, 0);
   LONG n = InterlockedExchange(&g_nNoSlot, 0), same = InterlockedExchange(&g_nSame, 0), dif = InterlockedExchange(&g_nDiffer, 0);
   LONG flip = InterlockedExchange(&g_nVisFlip, 0);

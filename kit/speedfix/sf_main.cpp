@@ -107,6 +107,11 @@ static const char kDefaultIni[] =
   ";   texture or offscreen pass) drawn as one DrawIndexedPrimitive (docs/SKINMERGE.md). Forks SkinAndDrawV2 at the\r\n"
   ";   start when on there; then live both ways\r\n"
   "skin_merge=0\r\n"
+  "; the occlusion readback answered from each query's previous probe, its picture copied then and read at the next\r\n"
+  ";   probe, so the CPU does not wait for the GPU (sf_occlusion.cpp): 1 = copied to a system-memory image surface,\r\n"
+  ";   2 = to a lockable render target like the game's (the delay alone), 3 = measure only (the game's answer, and how\r\n"
+  ";   often the delayed one differs, in the log); live\r\n"
+  "occlusion_async=0\r\n"
   "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
   ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
   "motion_stats=0\r\n"
@@ -132,7 +137,9 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.occlusion_async = rd("occlusion_async", 0);
+  if (c.occlusion_async < 0 || c.occlusion_async > 3) c.occlusion_async = 0;
+  c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
@@ -151,9 +158,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d occlusion_async=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.occlusion_async, c.motion_stats);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -204,6 +211,7 @@ typedef int (__thiscall *ReadbackFn)(void *, int);
 static volatile LONG g_rb_skipped, g_rb_run;
 static int __thiscall sf_readback(void *q, int flag) {
   if (sf_cfg.skip_all_occlusion_readbacks && flag == 0 && sf_hooks_live()) { g_rb_skipped++; return 256; }
+  if (sf_cfg.occlusion_async && flag == 0 && sf_hooks_live()) return sf_occl_readback(q, sf_cfg.occlusion_async);
   g_rb_run++;
   return ((ReadbackFn)(uintptr_t)XI_GAME(0x1006C8B0u))(q, flag);
 }
@@ -230,7 +238,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   static const uint8_t kBucketCall[5] = {0xE8, 0xC1, 0x87, 0xF4, 0xFF};     // 0x100CC58A call 0x10014D50
   static const uint8_t kReadbackCall[5] = {0xE8, 0xD4, 0x03, 0x00, 0x00};   // 0x1006C4D7 call 0x1006C8B0
   if (!g_bucket_done && sf_cfg.occlusion_stagger > 4) { g_bucket_done = true; reaim_call(0x100CC58Au, kBucketCall, (void *)sf_bucket_stub, "occlusion_stagger"); }
-  if (!g_readback_done && sf_cfg.skip_all_occlusion_readbacks) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, "skip_all_occlusion_readbacks"); }
+  if (!g_readback_done && (sf_cfg.skip_all_occlusion_readbacks || sf_cfg.occlusion_async)) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, sf_cfg.occlusion_async ? "occlusion_async" : "skip_all_occlusion_readbacks"); }
   apply_texture();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
@@ -300,7 +308,7 @@ static const Lever kLevers[] = {
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
-  {"skin_merge", &SfConfig::skin_merge, 0},
+  {"skin_merge", &SfConfig::skin_merge, 0}, {"occlusion_async", &SfConfig::occlusion_async, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -414,6 +422,7 @@ extern "C" int sf_init(const XikitHost *host) {
   sf_cfg = g_base = read_config(); ini_time(&g_ini_time);
   log_config(sf_cfg, "start");
   if (sf_cfg.cpu_tier) apply_cpu_tier();
+  sf_occl_init(host);
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
   if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
@@ -447,5 +456,6 @@ extern "C" void sf_frame(void) {
     LONG as = InterlockedExchange(&sf_aq_skipped, 0), ar = InterlockedExchange(&sf_aq_run, 0);
     if (rs + rr) LOG("speedfix: occlusion readbacks: %ld run, %ld skipped", rr, rs);
     if (as + ar) LOG("speedfix: actor occlusion queries: %ld run, %ld skipped", ar, as);
+    sf_occl_stats();
   }
 }

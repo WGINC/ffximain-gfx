@@ -1074,3 +1074,31 @@ Testing:
   - CMoOcclusionMng's constructor (0x1006C140) makes a 16x16 lockable render target (D3DPOOL_DEFAULT) at [mng+0x18];
   - the readback 0x1006C8B0 copies (CopyRects) the box texture into it and locks it at once;
   - the query objects are per owner (an actor's at +0x8F0).
+
+## 11 Oct: an outside write-up of the renderer, tested against this build
+
+The owner received a write-up of the client's renderer (static analysis of an older build, sha256 392e847a...,
+6,206,976 bytes; "nothing was measured", in its own words). Nothing from it enters this repository; its claims were
+tested here against the analysed build and the owner's traces.
+- **Its functions are ours.** Its byte signatures each match one place in our build:
+  - 0x10022400 -> 0x100224D0 (PrepareRenderState); 0x10033730 / 0x100339A0 -> 0x10033800 / 0x10033A70 (the
+    offscreen shadow pass);
+  - 0x1006C1B0 / 0x1006C7E0 -> 0x1006C280 / 0x1006C8B0 (the occlusion query and readback); 0x100CBCA0 -> 0x100CBDE0;
+  - 0x1002DB40 -> 0x1002DC10 (SkinAndDrawV2); 0x1000D400 (CPU detection) at the same address;
+  - its door visibility test 0x100AC4C0 -> 0x100AC5A0.
+- **Agrees with this build:**
+  - the 30 fps default pacing (RENDERER.md 3);
+  - CDx::Present (0x10009720) retries up to 100 times and only logs a lost device;
+  - no device Reset: none in the reconstructed tree, and none of the binary's 52 calls through slot 0x38 loads a
+    device pointer within 20 instructions before it (a scan, not a proof);
+  - the vendor-gated SSE skinning;
+  - the door test reaches the occlusion query (0x100AC894) with no frame-counter test on its way.
+- **Measured in the owner's traces** (frame 2, label 0):
+  - occlusion readbacks (CopyRects at 0x1006C900): plaza (5180) 9 every traced frame; run 6080 1 every fourth;
+  - the type-1 mesh path (its "re-expanded every frame", rank 3): no device call from PrepareRenderState in either;
+  - the offscreen shadow pass: 18 a frame in both, 33 to 38 device calls each (it says 53 to 56), 629 calls a frame
+    in all (1.5% of the plaza's);
+  - draws repeated with the same arguments, state, stream, transforms and lights (its rank 6, layer 0 drawn twice
+    "when a sub-area is loaded"): 1 in the plaza frame, 0 in run 6080's. Whether either had a sub-area is not known.
+- **Not settled:** its "world target defaults to 512 by 512" is about the persisted settings' defaults. The owner's
+  run 6080 had a 3024 x 1898 scene target, so its "fill cost is small" does not hold there.

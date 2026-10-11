@@ -11,6 +11,9 @@ What is established, what the merge does, how it is checked, and what is open. E
 - A record with bit 15 set is a material: `v14 == 0` sets the texture and TSS 0 ARG1s; `v14 == 1` sets the lights,
   AMBIENT, TEXTUREFACTOR and stage 1's state.
 - When `field_34 & 1`, each record is drawn twice: from streams `v10+68/+72`, then `v10+80/+84`.
+  The second draw is a mirrored copy: 0x1002D340 builds the `+0x6e` array from `+0x76` by multiplying each vertex
+  through a sign table at 0x103515E8 (1, 1, 1, 0, -1, 1, ...), one axis negated (disassembly; first named in an outside
+  write-up, HISTORY.md 11 Oct).
 - Per record, three optional passes may draw it again: EnvMap_BeginPass when `g_envMapEnabled`, ProjTex_BeginPass when
   `g_projTexEnabled`, Model_BeginOffscreenPass when it returns non-zero.
 - **Model_BeginOffscreenPass (0x10033800), disassembled:** it calls 0x10027990 (`mov eax, ecx / ret`) twice, then

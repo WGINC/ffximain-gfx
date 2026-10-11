@@ -1102,3 +1102,51 @@ tested here against the analysed build and the owner's traces.
     "when a sub-area is loaded"): 1 in the plaza frame, 0 in run 6080's. Whether either had a sub-area is not known.
 - **Not settled:** its "world target defaults to 512 by 512" is about the persisted settings' defaults. The owner's
   run 6080 had a 3024 x 1898 scene target, so its "fill cost is small" does not hold there.
+
+## 11 Oct (later): the outside write-up audited in full
+
+Every one of its 769 function entries mapped to this build where possible:
+- 245 by its own byte signature (each one match);
+- 454 by the address drift of the nearest signature, kept only where our function's span (start to the next start)
+  equals the size the entry states;
+- 70 not mapped.
+Its "size" is that span, padding included. Its 3,943 instruction citations ("`text` at 0xADDR") were each checked
+against our disassembly at the mapped address:
+- 3,212 match outright, of 3,318 that can be checked (96.8%);
+- of the other 106: 26 are rep forms or C expressions; 29 match within 16 bytes and 18 elsewhere in the same function
+  (the cited address points at a neighbouring instruction); 33 have no literal match. Of those 33, the hand-checked
+  ones are the same facts at a neighbouring address (both offsets 0x39594/0x39598, 0xdc0/0xdc4, 0x16c/0x19c occur
+  there), or call targets our drift map placed on another function of the same size. No invented instruction was
+  found.
+
+**Its inefficiency claims, tested** (code: this build's disassembly or gate-verified tree; trace: frame 2, label 0
+of the plaza 5180 and run 6080 traces):
+- Confirmed in code:
+  - the main loop forces the window to the foreground every frame (9 user32 calls) in window mode 0, the default;
+    and the "restore" of the foreground lock timeout passes the buffer's address, not the value (a bug);
+  - the vertex-buffer pool's 200 warm-up buffers (4 sizes x 50, about 1.3 MB) are never reused: they are state 4,
+    Acquire reuses only state 0 and ages only 1-2, Release acts only on state 3;
+  - the projection's bounding box is overwritten by its only caller (0x10042D43, the one slot-0x84 call on the
+    processor in the binary) before any read;
+  - the zone's deferred-element count (+0x38D40) is zeroed once before the layer loop and each layer's drain starts
+    at 0: with two layers, layer 0's deferred elements are drawn again (not seen in either traced frame);
+  - the weather blend frees and reallocates its 0xAC-byte record on that path (Mem_FreeObject, Mem_AllocObject);
+  - the camera's view/projection is applied only after Present (0x10012E1E, its one caller), a frame late;
+  - the skinned mesh's second draw is a mirrored copy (SKINMERGE.md).
+- Confirmed in the traces (repeats of the value the device holds):
+  - SkinAndDrawV2 8,872 of 12,477 sets;
+  - nameplate text 1,095 of 1,136;
+  - the font page SetTexture 286 of 335;
+  - the zone model draw 211 of 302;
+  - the D3A model's ZWRITEENABLE 17 of 17;
+  - SetLight 1,459 of 1,857;
+  - SetTransform 132 of 1,037.
+  In all, 16,769 of the plaza frame's 36,919 state calls (45%) repeat the held value.
+- Confirmed with different numbers:
+  - an occlusion probe is 28 traced device calls (they say about 40), with the four SetRenderTarget, three
+    DrawPrimitiveUP and a Clear inside its own EndScene/BeginScene pair, as they say;
+  - the shadow pass is 33 to 38 calls per record (they say 53 to 56).
+- Not running in the traced scenes: the type-1 mesh path (their rank 3), the Dancer's draws, the subtractive-blend
+  restore.
+- Their open question "how often the per-record shadow pass fires": 18 a frame in both traces.
+- Their own caveat stands: nothing in it is measured. Its ranking is work per call times proven frequency.

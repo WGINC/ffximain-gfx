@@ -1150,3 +1150,17 @@ of the plaza 5180 and run 6080 traces):
   restore.
 - Their open question "how often the per-record shadow pass fires": 18 a frame in both traces.
 - Their own caveat stands: nothing in it is measured. Its ranking is work per call times proven frequency.
+
+## 11 Oct (later still): their source compared with ours; the effect drain measured
+
+- docs/DECOMP_COMPARISON.md: the outside decompilation against `tree/`. In brief:
+  - 176 functions are in both;
+  - both agree with the binary's `ret N` on stack arguments (169 of 169);
+  - their `void` for 75 functions whose return ours keeps is right in practice: no direct caller reads EAX;
+  - 110 of 176 make the same virtual calls; the rest that were read are differences of representation;
+  - 227 of 280 sampled files of theirs compile; none can run in the game.
+- **The effect drain** (their rank 5), in the plaza trace (frame 2, label 0): 203 queued elements drawn, 29 to 79
+  device calls each from setup to restore (mean 37.3, the element's draw included). That is about 7,570 calls, 18% of
+  the frame's 41,093, the largest block after the character draws.
+- Still not tested: their 70 entries that could not be mapped, and the load-time claims (format checks per texture,
+  zone entry).

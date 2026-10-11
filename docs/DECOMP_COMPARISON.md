@@ -25,7 +25,15 @@ The builds differ, so their addresses are not ours. Each of their 769 entries wa
 - **454 by drift.** The entry has no signature. The nearest signature-mapped entry gave the offset between the
   builds; the mapping was kept only where our function at that address has the same span (start to the next
   function's start) as the entry's stated size.
-- **70 not mapped.**
+- **28 more** from the 70 left, without a signature or matching span, each by evidence of its own:
+  - 10 by their in-function citations (at least 3, 90% or more checking out at the candidate);
+  - 11 by call links: two or more of the functions the entry names call it, or are called by it, in our build. A
+    twelfth so mapped was rejected: its first cited instruction does not match;
+  - 7 by citations, links and a span within 32 bytes together.
+- **42 not mapped**, almost all stubs of 1 to 64 bytes (`ret`, empty methods, getters) that occur many times over.
+  The larger exceptions, where the best candidate was not clearly better than the next, were left unmapped:
+  XiZone::CreateShaders, SetupCullingProjection, DrawMovieFrameQuad, CTkInputCtrl::Loop, TransformPointX87 and a few
+  more.
 
 Their "size" is that span, alignment padding included, not the code length. Where the two disagree, it is mostly
 how functions are split: their 0x1002F100 (48 bytes) and 0x1002F130 (3,728) are our one 0x1002F1D0 (3,776). A few
@@ -34,7 +42,8 @@ ours).
 
 The drift is not constant: 0 at the start of `.text`, then +0x40, +0xD0, +0xE0 and more further on (for example
 their 0x100119C0 is our Frame_Render 0x10011A00, their 0x1006C7E0 our readback 0x1006C8B0). Data addresses moved
-too: their `g_1047bf74` is our processor pointer 0x1047CF7C. Of their 769 entries, **176 are functions in our tree**.
+too: their `g_1047bf74` is our processor pointer 0x1047CF7C. Of their 769 entries, 727 are mapped, and **176 of those
+are functions in our tree**.
 
 ## Accuracy, tested
 
@@ -49,6 +58,7 @@ mapped).
   0x39598, 0xDC0 and 0xDC4, 0x16C and 0x19C occur in those functions), or call targets our drift map placed on another
   function of the same size.
 - No invented instruction was found.
+- With the 28 later mappings included: 3,341 of 3,453 checkable citations match (96.7%).
 
 ### Signatures (176 functions in both)
 - **Stack arguments.** For the 169 whose every `ret N` agrees, both declare N / 4 stack arguments: theirs 169 of 169,

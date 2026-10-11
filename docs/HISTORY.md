@@ -1164,3 +1164,42 @@ of the plaza 5180 and run 6080 traces):
   the frame's 41,093, the largest block after the character draws.
 - Still not tested: their 70 entries that could not be mapped, and the load-time claims (format checks per texture,
   zone entry).
+
+## 11 Oct (last): the outside write-up's remaining entries and load-time claims
+
+**The 70 unmapped entries.** 28 more were mapped (DECOMP_COMPARISON.md); one call-link mapping was rejected because
+its first cited instruction does not match. The 42 left are almost all stubs of 1 to 64 bytes. With the 28, 3,341 of
+3,453 citations match (96.7%).
+
+**Claims in the newly mapped entries:** the distortion ring sends SetVertexShader(0x152) once per band, as they say:
+our loop 0x1004394B-0x1004398B calls slot +0x130 with 0x152 before each band's DrawPrimitiveUP.
+
+**Load-time claims, tested in this build's code.** Static, so "reachable" says the path exists, not how often it
+runs.
+- **Format search** (their 102d20dd, our 0x102D270D): confirmed.
+  - The table at 0x10345730 has 43 records of 0x24 bytes; A8R8G8B8 is record 2, A1R5G5B5 8, DXT1 28, DXT3 30.
+  - One CheckDeviceFormat per record until the requested format is found supported.
+  - A texture made through TexObj_Create reaches the search twice (D3DXCheckTextureRequirements, then
+    D3DXCreateTexture through TexObj_Upload): 56 calls for DXT1, 60 for DXT3. Their "62 to 64 per DXT texture" is not
+    reproduced; other calls inside D3DX were not counted.
+- **Texture pump** (their 1003aae0, our TexMgr_UploadPump 0x1003ABB0): confirmed. It stops after 21 creates
+  (`cmp ebp, 0x14` / `jg`), counted only while `[[0x10456a28]]` is 0x60 and `this+0x10` is clear; re-uploads (state 2)
+  are never counted.
+- **Temporary texture** (their 10039d80, our TexObj_Upload 0x10039E50): confirmed. The temporary is made at
+  0x10039EC9 (D3DXCreateTexture), decoded into with D3DXLoadSurfaceFromMemory, and copied at 0x1003A89F
+  (D3DXLoadSurfaceFromSurface).
+- **Startup cursors** (our gate-verified 0x100091B0): confirmed. 18 cursor files (table 0x1034FBB0, mousenor.ani to
+  arw_nw.ani) are loaded with LoadCursorFromFileA whenever GetCurrentDirectoryA succeeds; no cursor-option test.
+- **Character mesh task** (their 1002c8c0, our 0x1002C990): structure confirmed. State word +0x38 through the jump
+  table at 0x1002CB60, sub-step +0x3C, states 0 to 8, the flag at +0x120. Their "at least 18 calls" was not counted.
+- **Bone-use flags** (their 10029ff0, our 0x1002A0C0): confirmed. Each rebuild clears the block and re-marks every
+  node, and it is called per node add (0x10029E50, 0x10029F70): k(k+1)/2 node passes for k adds.
+- **Zone exit** (their 10073a50): confirmed. Each destroy (0x100721F0 -> 0x10073B80 -> 0x100720B0) searches the
+  singly linked list from [0x1047D124] along +0x2C (0x10071FD0) for the predecessor: quadratic in the node count.
+- **Zone entry** (their 10178c80, our 0x10178DF0): confirmed as a path. Direct calls reach the resource manager's
+  blocking fetch (0x10072FD0), the file-event dispatch (0x1019F960), a 0x40000-byte chunk reader with Sleep
+  (0x101BE590), CreateFileA, ReadFile, CloseHandle and WaitForSingleObject, with no hand-off to another thread on
+  that path.
+- **Dancer** (their 10250ed0, our 0x10251500): confirmed. 0x10251A80 on its open path pushes 0xB00010 bytes (11.0 MB).
+- **Not tested:** the cube-texture build's "about 221 device calls"; "nothing evicts a texture"; the per-frame
+  re-poll of resource requests.

@@ -32,7 +32,6 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
-| `occlusion_async` | 0 | Lever: the occlusion readback answered from each query's previous probe (1 system-memory copy, 2 render-target copy, 3 measure only; below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
@@ -83,24 +82,6 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     - how far the SSE loop's single-precision results differ from the x87 loop's (it is the game's own code for
       Intel CPUs);
     - what the emulator's CPUID vendor is.
-- **occlusion_async: the occlusion readback without the wait** (sf_occlusion.cpp; from a design reported to the owner,
-  which measured 39 to 114 fps under DXVK).
-  - The game, from its code: a 16x16 lockable render target (D3DPOOL_DEFAULT) made by CMoOcclusionMng's constructor
-    (0x1006C140); each probe draws a box into a 16x16 texture, and 0x1006C8B0 copies it there (CopyRects) and locks
-    it (LockRect, READONLY) at once, so the CPU waits for the GPU. Measured: 19.5% of the render thread (run 6156).
-  - What it does: per query object (an actor's own, at +0x8F0; never one answer shared between objects), the probe's
-    picture is copied into a surface of the object's own and read at the object's next probe. The answer is that
-    previous picture's, counted exactly as the game counts. A first probe, or one whose previous picture is older than
-    32 frames, gets the game's own readback. Culling is kept, unlike skip_all_occlusion_readbacks.
-  - 1: the copy goes to a CreateImageSurface surface (system memory in D3D8; the log gives its pool from GetDesc).
-    If that copy fails, it uses 2's surface. 2: a lockable render target like the game's (the delay alone). 3: the
-    game's answer, with the delayed one compared in the log (no time saved).
-  - Its surfaces are released before Reset. Wine-tested against the game's own 0x1006C8B0 on fake surfaces.
-  - Timed: each statistics line gives `readback time:`. That is the game's readback (mean us, ms a frame with the
-    lever off), and occlusion_async's copy and read (mean us each, ms a frame with it on). Scene noise does not
-    enter it.
-  - Not known: whether dgVoodoo copies to a system-memory surface without waiting (then 1 saves nothing over 2), and
-    the time saved. An A/B where readbacks happen (walking through a crowd) decides it.
 - **skin_merge: character draws.** In the plaza trace, 1,577 of a frame's 1,620 DrawIndexedPrimitive come from
   SkinAndDrawV2, one per triangle-list record (two when the model draws twice). Consecutive list records draw
   consecutive ranges of one index buffer, so a run of them is one range.
@@ -160,7 +141,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `occlusion_async`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
@@ -249,10 +230,7 @@ and set it again for another run.
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
   - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
-  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code;
-  - occlusion_async: the game's own readback runs on fake surfaces and gives 0, 256 and 128; the delayed path gives each
-    object its own previous picture's answer, equal to the game's count; a first or stale probe gets the game's
-    answer; Reset releases the surfaces; mode 2 makes render targets; mode 3 returns the game's answers and logs.
+  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code.
 - **The gate:** the query hook.
 
 `test/test_skinmerge.py` (FFXI_DLL; CAPTURES, a folder of the owner's SkinAndDrawV2 captures): the skin_merge fork,

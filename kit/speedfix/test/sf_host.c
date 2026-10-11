@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define G_PCDX 0x1045666Cu
 static uint32_t rel;
@@ -41,31 +40,7 @@ static DWORD g_nvs = 0x101;                      /* shader handles: odd, as D3D8
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD us) {
   *h = g_nvs; g_nvs += 2; rec(75, *h, (uint32_t)(uintptr_t)fn, us, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletevs(void *d, DWORD h) { rec(78, h, 0, 0, 0, 0, 0); return 0; }
-/* fake 16x16 surfaces for the occlusion readback (occlusion_async): CopyRects copies their pixels, LockRect gives them */
-typedef struct { void **vt; uint32_t px[256]; DWORD pool; LONG refs; } FSurf;
-static void *g_svt[11];
-static FSurf g_boxSurf, g_gameSurf;             /* the box texture's level 0; the game's lockable target at [mng+0x18] */
-static LONG g_nImage, g_nRT, g_nSurfRelease, g_nLock;
-static ULONG __stdcall s_addref(FSurf *s) { return ++s->refs; }
-static ULONG __stdcall s_release(FSurf *s) { if (s != &g_boxSurf && s != &g_gameSurf) g_nSurfRelease++; return --s->refs; }
-static HRESULT __stdcall s_getdesc(FSurf *s, uint32_t *d) { memset(d, 0, 32); d[0] = 21; d[1] = 1; d[3] = s->pool; d[6] = 16; d[7] = 16; return 0; }
-static HRESULT __stdcall s_lock(FSurf *s, struct { INT Pitch; void *pBits; } *lr, const RECT *r, DWORD f) { g_nLock++; lr->Pitch = 64; lr->pBits = s->px; return 0; }
-static HRESULT __stdcall s_unlock(FSurf *s) { return 0; }
-static FSurf *new_surf(DWORD pool) { FSurf *s = (FSurf *)calloc(1, sizeof *s); s->vt = g_svt; s->pool = pool; s->refs = 1; return s; }
-static HRESULT __stdcall d_creatert(void *d, UINT w, UINT h, DWORD f, DWORD ms, BOOL lk, FSurf **o) { g_nRT++; *o = new_surf(0); return 0; }
-static HRESULT __stdcall d_createimage(void *d, UINT w, UINT h, DWORD f, FSurf **o) { g_nImage++; *o = new_surf(2); return 0; }
-static HRESULT __stdcall d_reset(void *d, void *pp) { rec(14, 0, 0, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) {
-  rec(28, 0, 0, 0, 0, 0, 0);
-  if (s && t && *(void ***)s == g_svt && *(void ***)t == g_svt) memcpy(((FSurf *)t)->px, ((FSurf *)s)->px, 1024);
-  return 0;
-}
-static HRESULT __stdcall x_getsurflevel(void *t, UINT l, FSurf **o) { g_boxSurf.refs++; *o = &g_boxSurf; return 0; }
-static void *g_xvt[17]; static struct { void **vt; } g_boxTex = { g_xvt };
-static uint8_t g_mng[0x40], g_modx[0xF00];
-static void picture(int kind) {                 /* 0: nothing drawn, 1: all drawn, 2: the top half drawn */
-  for (int i = 0; i < 256; i++) g_boxSurf.px[i] = kind == 1 || (kind == 2 && i < 128) ? 0xFFFFFFFFu : 0xFF000000u;
-}
+static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) { rec(28, 0, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, 0, 0); return 0; }
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
@@ -126,14 +101,6 @@ int main(int argc, char **argv) {
   for (int k = 0; k < 97; k++) g_vt[k] = (void *)d_other;
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
   g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
-  g_vt[14] = (void *)d_reset; g_vt[25] = (void *)d_creatert; g_vt[27] = (void *)d_createimage;
-  for (int k = 0; k < 11; k++) g_svt[k] = (void *)d_other;
-  g_svt[1] = (void *)s_addref; g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_getdesc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
-  for (int k = 0; k < 17; k++) g_xvt[k] = (void *)d_other;
-  g_xvt[15] = (void *)x_getsurflevel;
-  g_boxSurf.vt = g_gameSurf.vt = g_svt; g_boxSurf.refs = g_gameSurf.refs = 1;
-  *(void **)(g_mng + 0xC) = &g_boxTex; *(void **)(g_mng + 0x18) = &g_gameSurf;
-  *(void **)(g_modx + 0xEBC) = &g_dev;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
@@ -303,51 +270,6 @@ int main(int argc, char **argv) {
   check(call_target(0x1006C4D7u) != (void *)GAME(0x1006C8B0u), "skip_all_occlusion_readbacks=1: the readback call goes to speedfix");
   { typedef int (__attribute__((thiscall)) *Rb)(void *, int); Rb rb = (Rb)call_target(0x1006C4D7u);
     begin(); check(rb((void *)0x1234, 0) == 256, "... and answers 256 (fully visible) without the game's readback"); end(); present(); }
-  /* occlusion_async: the game's own readback (0x1006C8B0, run here on fake surfaces) gives the truth for each
-     picture; the delayed path must give the previous probe's, per query object, counted the same way */
-  { typedef int (__attribute__((thiscall)) *Rb)(void *, int); Rb rb = (Rb)call_target(0x1006C4D7u);
-    *(void **)GAME(0x1047C004u) = g_mng; *(void **)GAME(0x1047BFA8u) = g_modx;
-    struct { short w[2]; void *s; } q1 = {{0, 0}, &g_gameSurf}, q2 = {{0, 0}, &g_gameSurf};
-    int truth[3];
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\noccl_test=1\n"); frames(65);
-    begin(); for (int k = 0; k < 3; k++) { picture(k); truth[k] = rb(&q1, 0); } end(); present();
-    printf("info: the game's readback answers %d (nothing drawn), %d (all), %d (top half)\n", truth[0], truth[1], truth[2]);
-    check(truth[0] == 0 && truth[1] == 256 && truth[2] > 0 && truth[2] < 256, "the game's own readback runs on the fake surfaces: 0, 256 and a part");
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_async=1\nstats_every=1\n"); frames(65);
-    LONG locks0 = g_nLock;
-    begin();
-    picture(1); int a1 = rb(&q1, 0);           /* no previous picture: the game's answer (256), this one queued */
-    LONG locks1 = g_nLock;
-    picture(0); int a2 = rb(&q1, 0);           /* the previous picture's answer (256) */
-    picture(2); int a3 = rb(&q1, 0);           /* 0 */
-    picture(1); int a4 = rb(&q1, 0);           /* the top half's, as the game counts it */
-    picture(0); int b1 = rb(&q2, 0);           /* another object: no previous of its own: the game's 0 */
-    picture(0); int a5 = rb(&q1, 0);           /* q1's previous (all drawn), not q2's */
-    end(); present();
-    check(a1 == 256 && locks1 - locks0 == 1 + 0, "occlusion_async=1: a first probe is answered by the game's readback (its LockRect)");
-    check(a2 == 256 && a3 == 0 && a4 == truth[2], "... later probes answer the previous probe's picture, counted exactly as the game counts (the half picture: the game's value)");
-    check(b1 == 0 && a5 == 256, "... per query object: a second object starts with the game's answer, and the first keeps its own previous picture");
-    check(g_nImage == 2 && g_nRT == 0, "... each object's copy goes to its own image surface (CreateImageSurface, two objects)");
-    frames(40);                                  /* older than OA_MAX_AGE (32 frames) */
-    begin(); picture(2); int s1 = rb(&q1, 0); end(); present();
-    check(s1 == truth[2], "... a previous picture older than 32 frames is not used: the game's answer for this frame's picture");
-    LONG rel0 = g_nSurfRelease;
-    DEV(14, HRESULT (__stdcall *)(void *, void *))(&g_dev, 0);
-    check(g_nSurfRelease - rel0 == 2, "... Reset releases its surfaces first (both)");
-    begin(); picture(1); int r1 = rb(&q1, 0); end(); present();
-    check(r1 == 256 && g_nImage == 3, "... after Reset: the game's answer, and a new surface");
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_async=2\nstats_every=1\n"); frames(65);
-    begin(); picture(0); int m1 = rb(&q1, 0); picture(1); int m2 = rb(&q1, 0); end(); present();
-    check(g_nRT >= 1 && m2 == 0 && (m1 == 0 || m1 == 256), "occlusion_async=2: a lockable render target of its own (CreateRenderTarget), the delayed answer");
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_async=3\nstats_every=1\n"); frames(65);
-    begin(); picture(1); int t1 = rb(&q1, 0); picture(0); int t2 = rb(&q1, 0); picture(2); int t3 = rb(&q1, 0); end(); present();
-    check(t1 == 256 && t2 == 0 && t3 == truth[2], "occlusion_async=3 (measure only): every answer is the game's");
-    for (int i = 0; i < 300 && !log_has("occlusion_async=3: of"); i++) { frames(1); Sleep(10); }   /* stats_every=1: once a second */
-    check(log_has("occlusion_async=3: of") && log_has("occlusion_async: its image surfaces: format 21, pool 2"), "... the differences are logged; the image surface's pool is logged from GetDesc (2, system memory, as this fake says)");
-    check(log_has("speedfix: readback time: the game's readback") && log_has("occlusion_async's copy"), "... the time in the game's readback and in its copy and read is logged");
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\noccl_test=0\n"); frames(65);
-    *(void **)GAME(0x1047C004u) = 0; *(void **)GAME(0x1047BFA8u) = 0;
-  }
   /* sse_skinning: off (the default) leaves the game's SSE flag; on sets it (the CPU under Wine reports SSE); off again
      puts the game's value back */
   check(g_cpu[9] == 0, "sse_skinning=0: the game's SSE flag (CPU object +9) left at 0");

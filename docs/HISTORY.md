@@ -1065,48 +1065,12 @@ Testing:
 - **Not known:** time saved, and the picture. Both need the game: `ab_levers=skin_merge`, and characters looked at with
   it on and off.
 
-## 10 Oct: speedfix occlusion_async (the occlusion readback without the wait)
+## 11 Oct: occlusion_async reverted
 
-- Reported to the owner: under DXVK, answering each occlusion probe from the previous one and copying into a
-  system-memory surface took a crowd scene from 39 to 114 fps. Not measured here.
-- **The game, from its code** (disassembled):
-  - CMoOcclusionMng's constructor (0x1006C140) makes a 16x16 lockable render target, D3DPOOL_DEFAULT, in the scene
-    texture's format, at [mng+0x18] (mng = [0x1047C004]).
-  - OcclusionMng_CreateTarget (0x1006C220) makes the 16x16 texture the boxes are drawn into, at [mng+0xC].
-  - 0x1006C8B0 (its one caller 0x1006C4D7 passes 0) runs GetSurfaceLevel(0), then CopyRects (0,0,16,16) into [q+4] on
-    the CMoDX device, then LockRect READONLY. It sums (dword & 0x80) over 8 dwords of every second row and returns the
-    sum >> 5 (0 to 256); a failed lock answers 0.
-  - The query objects are per owner: an actor's at +0x8F0, and the other four callers' own (0x1004A960, 0x1004E6FF,
-    0x10054AE2, 0x100AC894).
-- **speedfix `occlusion_async`** (off by default; sf_occlusion.cpp; an ab_levers name):
-  - per query object, the probe's picture is copied to a surface of its own and read at its next probe;
-  - a first probe, or a picture older than 32 frames (a chosen bound), gets the game's readback;
-  - 1 = image surface (CreateImageSurface; its pool logged), 2 = a lockable render target, 3 = measure only.
-- **Wine host test:** the game's own 0x1006C8B0 ran on fake surfaces (0, 256, 128) and the delayed answers equal its
-  count. Also checked: per-object previous pictures, the stale bound, Reset releasing the surfaces, modes 2 and 3.
-- **Not known:**
-  - whether D3D8's CopyRects into a system-memory surface works on dgVoodoo, and whether it waits there; a failure is
-    logged and mode 1 then uses mode 2's surface;
-  - the time saved, and whether a one-probe-late answer is ever seen. An A/B while walking through a crowd, and
-    mode 3's log of how often the delayed answer differs, decide them.
-
-## 10 Oct (later): the owner's run 13172 (kit 60b67e2), occlusion_async alone
-
-- Port Jeuno, walking through the crowd. Every other lever was off, occlusion_stagger 4 (the game's), ab_levers =
-  occlusion_async (mode 1), 8 phases of 30 s.
-- **It ran as built:**
-  - its image surfaces came out in pool 2 (system memory); the game's own target is pool 0;
-  - no copy failed in any minute;
-  - with it on, 96 to 98% of probes were answered from the previous probe;
-  - up to 518 query objects were seen;
-  - 3,879 to 4,656 readbacks a minute with it off, about 2.5 a frame. Walking gave readbacks, which standing still had
-    not.
-- **The A/B:**
-  - A (off) 34.15 ms, B (on) 38.32 ms: B - A +4.18 ms (+12.2%);
-  - but phases of one label differed by up to 15.14 ms (single phases 27.3 to 45.0 ms, as the scene changed), so no
-    difference either way is measured.
-- **Not known:** where the readback's time goes on this setup. If the copy into system memory waits for the GPU there,
-  the wait only moves.
-- So speedfix now times it directly. The `readback time:` statistics line gives:
-  - the game's readback (QueryPerformanceCounter around its call, per call and per frame with the lever off);
-  - occlusion_async's copy and read, each per call, and both per frame with it on.
+- The owner's further testing found the reported occlusion-readback fix wrong. At the owner's request, speedfix's
+  `occlusion_async` (sf_occlusion.cpp), its readback timing and their tests and notes are reverted. kit/speedfix is
+  back to 291b257 (skin_merge).
+- Kept from that work, as facts read from the game's code and not tied to the lever:
+  - CMoOcclusionMng's constructor (0x1006C140) makes a 16x16 lockable render target (D3DPOOL_DEFAULT) at [mng+0x18];
+  - the readback 0x1006C8B0 copies (CopyRects) the box texture into it and locks it at once;
+  - the query objects are per owner (an actor's at +0x8F0).

@@ -123,7 +123,8 @@ the correlation in section 2 suggests.
   (18% of the plaza frame's calls, 544 blocks applied inside it). The game records each block once from a fixed
   table, so speedfix can keep each block's recorded values and set its shadow to them on apply. Simulated on the
   plaza trace, with only the drain's two blocks known: 20,645 to 18,423 calls a frame with lazy_state, and 24,347
-  to 22,391 without it. This rests on D3D8's documented behaviour for recorded blocks, not yet checked on a device.
+  to 22,391 without it. Built as speedfix's `block_cache` (off by default). The documented behaviour is checked by
+  probe8 through the game's d3d8.dll (it passes under Wine); the owner's run and an A/B are still to come.
 
 ### P2. Fix the hot functions at the source (SDK mods)
 

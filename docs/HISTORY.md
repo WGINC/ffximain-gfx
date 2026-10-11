@@ -1298,3 +1298,44 @@ are within a few percent.
   - What happens to recorded blocks on Reset, and to token reuse after DeleteStateBlock. Speedfix would have to
     forget a block's contents on both.
   - Calls are counted, not time: applying a block still costs the driver its 16 states. The lever A/B decides.
+
+## 11 Oct: block_cache (speedfix) and the state-block check (probe8)
+
+- **The documentation.** Microsoft's reference for IDirect3DDevice8::BeginStateBlock (archived Windows CE .NET 4.2
+  pages, learn.microsoft.com/previous-versions/ms889280; EndStateBlock ms889304; ApplyStateBlock ms889278):
+  - the setters called between BeginStateBlock and EndStateBlock are recorded in the block (LightEnable,
+    SetClipPlane, SetIndices, SetLight, SetMaterial, SetRenderState, SetStreamSource, SetTexture,
+    SetTextureStageState, SetTransform, SetViewport, SetVertexShader);
+  - "The ordering of state changes in a state block is not guaranteed. If the same state is specified multiple times
+    in a state block, only the last value is used";
+  - 0xFFFFFFFF is an invalid handle; a block cannot be applied while another is being recorded.
+
+  The pages do not say outright that applying a block leaves every other state alone, or what Reset does to blocks.
+  Wine's d3d8 tests (dlls/d3d8/tests/stateblock.c) check that apply does not overwrite constants the block did not
+  set. Wine is a reimplementation, not the runtime the game uses.
+- **The check on the real thing.** probe8 now records a block and applies it through the `d3d8.dll` next to it,
+  before its bench (`stateblock.record`, `stateblock.apply`, `stateblock.after Reset`; the phase 0 report prints
+  them). It checks four things: the sets are recorded, not applied; the block sets ALPHAREF to its last recorded value
+  and MAGFILTER; ZFUNC and MINFILTER, set after recording, stay. Under Wine: PASS, and the token still applies its
+  values after Reset. On the owner's machine that `d3d8.dll` is dgVoodoo's, so `run_phase0.bat` there answers it for
+  the game.
+- **block_cache** (speedfix, off by default, live both ways; kit/speedfix/README.md):
+  - Speedfix follows every block recorded on the render thread: its render and stage states with their values, the
+    texture stages it binds, and whether it records any other setter it sees.
+  - With the lever on, applying a followed block sets those states in the shadow, makes the texture stages (and, if
+    any, the other kinds) unknown, and keeps the rest.
+  - A block stops being followed at DeleteStateBlock, CaptureStateBlock, CreateStateBlock with its token, and Reset.
+    That last one is conservative: under Wine the block survives Reset, but on dgVoodoo that is not known yet.
+  - CaptureStateBlock, DeleteStateBlock and CreateStateBlock now have their own hooks, so the minimal start hooks 16
+    methods instead of 13.
+  - Offline (test_speedfix.py, new mode `blocks`, fake device):
+    - after a block, its values and the states it does not touch are cached;
+    - a different value still goes out;
+    - a block that binds a texture or sets the shader makes those unknown;
+    - Capture and Create make a block unknown;
+    - switching off and on while running works, and a block recorded while the lever was off is followed.
+
+    All four modes pass, and test_probe.py passes.
+  - Simulated effect on the plaza trace (above): 24,347 to 22,391 calls a frame with the extended cache, 20,645 to
+    18,423 with lazy_state; more if other blocks behave the same.
+  - Still to measure: frame time (`ab_levers=block_cache`), and probe8's answer on dgVoodoo.

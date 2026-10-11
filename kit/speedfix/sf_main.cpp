@@ -93,6 +93,10 @@ static const char kDefaultIni[] =
   ";   draw never reaches the device (the game's UI quads turn alpha blending off and on again for each quad). Hooks\r\n"
   ";   every method that reads that state, so it takes effect at the next start when it was off at this one\r\n"
   "lazy_state=0\r\n"
+  "; applying a state block the game recorded (BeginStateBlock..EndStateBlock) updates the state cache with what the\r\n"
+  ";   block sets, instead of forgetting the whole cache (the effects apply 2-3 blocks each; docs/HISTORY.md 11 Oct);\r\n"
+  ";   live both ways\r\n"
+  "block_cache=0\r\n"
   "; a vertex shader with the same declaration (and no shader code) is made once and its handle given out again\r\n"
   ";   (loading: some 1,450 creations a session, 3 distinct shaders); the same at the next start or live\r\n"
   "vs_dedupe=0\r\n"
@@ -131,7 +135,7 @@ static SfConfig read_config(void) {
   c.skip_actor_occlusion = rd("skip_actor_occlusion", 0); c.skip_all_occlusion_readbacks = rd("skip_all_occlusion_readbacks", 0);
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
-  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
+  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
@@ -151,9 +155,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -296,7 +300,7 @@ struct Lever { const char *key; int SfConfig::*field; int off; };
 static const Lever kLevers[] = {
   {"state_cache", &SfConfig::state_cache, 0}, {"vertex_shader_cache", &SfConfig::vs_cache, 0},
   {"extended_state_cache", &SfConfig::ext_cache, 0}, {"state_cache_reset_each_scene", &SfConfig::scene_reset, 0},
-  {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
+  {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"block_cache", &SfConfig::block_cache, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},

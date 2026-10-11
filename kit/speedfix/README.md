@@ -29,6 +29,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `texture_compression`, `texture_compression_value` | 1, 15 | The DXT threshold for textures loaded from now on |
 | `cpu_tier` | 1 | The SSE math tier on any CPU with SSE (only before the game has chosen its tier) |
 | `lazy_state` | 0 | Lever: hold SetRenderState / SetTextureStageState / SetTexture until a method that reads them; a change undone before then never reaches the device (below) |
+| `block_cache` | 0 | Lever: applying a state block the game recorded updates the cache with what the block sets, instead of forgetting the whole cache (below) |
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
@@ -54,6 +55,28 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   off at this one; with batching or the extended cache on, every method is hooked anyway and it switches live.
   Not known: how much the extra hooks cost on each call against what the skipped calls save. That is what its A/B
   measures.
+- **block_cache: frame time in effect-heavy scenes.** Each queued effect element applies two or three state blocks
+  (YmElem_SetupDevice and YmElem_RestoreDevice; 544 inside the effect drain of the plaza trace's frame 2, which is
+  7,580 of the frame's 41,093 calls). The cache forgets everything at each block, since a block may set anything,
+  so the default cache skipped 46 of those 7,580 calls (docs/HISTORY.md, 11 Oct).
+  - Where the rule comes from: Microsoft's reference for BeginStateBlock says the setters called between
+    BeginStateBlock and EndStateBlock are recorded in the block, and that a state set twice keeps its last value. The
+    game records each block once, from a fixed table (StateBlock_ApplyTSS 0x1006AF90, 0x1006AF00).
+  - What speedfix does: it follows every block recorded on the render thread, whether the lever is on or off. That
+    is its render and stage states with their values, the texture stages it binds, and whether it records anything
+    else this layer sees (the shader; transforms, viewport, lights, streams and indices when they are hooked). With
+    the lever on, applying a followed block sets its states in the shadow, makes its texture stages and those other
+    kinds unknown, and keeps everything else. Any other block forgets everything, as before.
+  - A block stops being followed at DeleteStateBlock, CaptureStateBlock, CreateStateBlock returning its token, or
+    Reset. After a Reset the game's own blocks are therefore forgotten at each apply, as without the lever (the game
+    does not record them again).
+  - Live both ways.
+  - Simulated on the plaza trace: 24,347 to 22,391 calls a frame with the extended cache, 20,645 to 18,423 with
+    lazy_state. Only the drain's two blocks were modelled there.
+  - Not known:
+    - whether the game's d3d8.dll (dgVoodoo on the owner's machine) behaves as the reference says. probe8 checks it
+      (`stateblock.apply` in its CSV; it passes under Wine);
+    - what applying a block costs against the calls it saves. Its A/B measures that.
 - **vs_dedupe: loading and stutter.** The sessions made about 1,450 vertex shaders each (CreateVertexShader at about
   269 us each, on the render thread), and d3dprof's shader catalogue found 3 distinct ones: declarations with no
   shader code. A vertex shader with no code is the fixed-function pipeline fed by its declaration (DirectX 8 SDK,

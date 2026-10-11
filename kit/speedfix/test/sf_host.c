@@ -41,6 +41,14 @@ static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn,
   *h = g_nvs; g_nvs += 2; rec(75, *h, (uint32_t)(uintptr_t)fn, us, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletevs(void *d, DWORD h) { rec(78, h, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) { rec(28, 0, 0, 0, 0, 0, 0); return 0; }
+/* state blocks: tokens counted up; what reaches the device is recorded like any other call */
+static DWORD g_ntok = 1;
+static HRESULT __stdcall d_beginsb(void *d) { rec(52, 0, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_endsb(void *d, DWORD *t) { *t = g_ntok++; rec(53, *t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_applysb(void *d, DWORD t) { rec(54, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_capturesb(void *d, DWORD t) { rec(55, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_deletesb(void *d, DWORD t) { rec(56, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_createsb(void *d, DWORD ty, DWORD *t) { *t = g_ntok++; rec(57, *t, ty, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, 0, 0); return 0; }
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
@@ -67,6 +75,12 @@ static void getrs(DWORD s, DWORD *v) { DEV(51, HRESULT (__stdcall *)(void *, DWO
 static DWORD createvs(const DWORD *decl, const DWORD *fn) { DWORD h = 0; DEV(75, HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))(&g_dev, decl, fn, &h, 0); return h; }
 static void deletevs(DWORD h) { DEV(78, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, h); }
 static void dpup(DWORD t, UINT n, const void *data, UINT stride) { DEV(72, HRESULT (__stdcall *)(void *, DWORD, UINT, const void *, UINT))(&g_dev, t, n, data, stride); }
+static void beginsb(void) { DEV(52, HRESULT (__stdcall *)(void *))(&g_dev); }
+static DWORD endsb(void) { DWORD t = 0; DEV(53, HRESULT (__stdcall *)(void *, DWORD *))(&g_dev, &t); return t; }
+static void applysb(DWORD t) { DEV(54, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static void capturesb(DWORD t) { DEV(55, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static void deletesb(DWORD t) { DEV(56, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static DWORD createsb(DWORD ty) { DWORD t = 0; DEV(57, HRESULT (__stdcall *)(void *, DWORD, DWORD *))(&g_dev, ty, &t); return t; }
 static void frames(int k) { for (int i = 0; i < k; i++) { begin(); end(); present(); } }
 static void copyrects(void) { DEV(28, HRESULT (__stdcall *)(void *, void *, const void *, UINT, void *, const void *))(&g_dev, 0, 0, 0, 0, 0); }
 static void setview(float x) { float m[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, x,0,0,1}; DEV(37, HRESULT (__stdcall *)(void *, DWORD, const float *))(&g_dev, 2, m); }
@@ -93,7 +107,7 @@ static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
 
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
-  int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy");
+  int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -102,6 +116,8 @@ int main(int argc, char **argv) {
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
   g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
+  g_vt[52] = (void *)d_beginsb; g_vt[53] = (void *)d_endsb; g_vt[54] = (void *)d_applysb; g_vt[55] = (void *)d_capturesb;
+  g_vt[56] = (void *)d_deletesb; g_vt[57] = (void *)d_createsb;
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
@@ -117,6 +133,7 @@ int main(int argc, char **argv) {
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
+  else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
@@ -132,7 +149,7 @@ int main(int argc, char **argv) {
     void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
     if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
     int forked = m && m == GetModuleHandleA("speedfix.dll");
-    if (!minimal && !lazy) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    if (!minimal && !lazy && !blocks) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
     else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
   }
   if (minimal) {
@@ -143,6 +160,42 @@ int main(int argc, char **argv) {
     touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\n"); frames(65);
     m = g_n; begin(); dpup(4, 1, v, 16); dpup(4, 1, v, 16);
     check(count(72, m) == 2, "minimal: batch_up_draws=1 written while running is left for the next start (each draw still reaches the device)");
+    end(); present();
+    printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+    return fails ? 1 : 0;
+  }
+
+  if (blocks) {
+    /* block_cache: a block recorded through the hooks; applying it sets what it holds in the shadow */
+    begin(); setrs(7, 1); setrs(22, 3);
+    beginsb(); setrs(15, 1); settss(0, 16, 2); setrs(15, 1); DWORD t = endsb();
+    setrs(15, 0);
+    LONG m = g_n; applysb(t); setrs(15, 1); settss(0, 16, 2); setrs(22, 3); setrs(7, 1);
+    check(!strcmp(seq(m), "54"), "block_cache: after the block, its own values (render state, stage state) and the states it does not touch are cached");
+    m = g_n; setrs(15, 0);
+    check(!strcmp(seq(m), "50"), "a value other than the block's still reaches the device");
+    /* a block that binds a texture or sets the shader: those are made unknown */
+    settex(0, &g_tex1); setvs(0x111);
+    beginsb(); settex(0, &g_tex1); setvs(0x111); DWORD t2 = endsb();
+    m = g_n; applysb(t2); settex(0, &g_tex1); setvs(0x111); setrs(22, 3);
+    check(!strcmp(seq(m), "54 61 76"), "a block binding a texture or setting the shader: those go out again after it; other states stay cached");
+    /* CaptureStateBlock, DeleteStateBlock, CreateStateBlock: the block is no longer followed */
+    capturesb(t); m = g_n; applysb(t); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "after CaptureStateBlock the block's contents are unknown: applying it forgets the cache");
+    DWORD t3 = createsb(1); m = g_n; applysb(t3); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "a block made by CreateStateBlock is not followed");
+    beginsb(); setrs(15, 1); DWORD t4 = endsb(); deletesb(t4);
+    end(); present();
+    /* switched off while running: every block forgets the cache again */
+    touch("speedfix.ini", "[speedfix]\nblock_cache=0\n"); frames(65);
+    begin(); setrs(22, 3);
+    beginsb(); setrs(15, 1); DWORD t5 = endsb();
+    m = g_n; applysb(t5); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "block_cache=0 while running: applying a block forgets the cache, as before");
+    end(); present();
+    touch("speedfix.ini", "[speedfix]\nblock_cache=1\n"); frames(65);
+    begin(); setrs(22, 3); m = g_n; applysb(t5); setrs(22, 3); setrs(15, 1);
+    check(!strcmp(seq(m), "54"), "on again: a block recorded while it was off is followed (blocks are always followed)");
     end(); present();
     printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
     return fails ? 1 : 0;

@@ -42,7 +42,7 @@ enum {
   S_MultiplyTransform = 39, S_SetViewport = 40, S_SetMaterial = 42, S_SetLight = 44, S_LightEnable = 46,
   S_SetRenderState = 50, S_GetRenderState = 51, S_BeginSB = 52, S_EndSB = 53, S_ApplySB = 54, S_SetTexture = 61,
   S_SetTSS = 63, S_DP = 70, S_DIP = 71, S_DPUP = 72, S_DIPUP = 73, S_SetVS = 76, S_DeleteVS = 78, S_SetStream = 83,
-  S_SetIndices = 85, NSLOT = 97, ID_TEXLOCK = 116, ID_SURFLOCK = 109
+  S_SetIndices = 85, S_CaptureSB = 55, S_DeleteSB = 56, S_CreateSB = 57, NSLOT = 97, ID_TEXLOCK = 116, ID_SURFLOCK = 109
 };
 static const char *const kName[NSLOT] = {
   "QueryInterface","AddRef","Release","TestCooperativeLevel","GetAvailableTextureMem","ResourceManagerDiscardBytes",
@@ -74,6 +74,7 @@ static BOOL g_le[32]; static bool g_leV[32];
 static void *g_ssVb[16]; static UINT g_ssStride[16]; static bool g_ssV[16];
 static void *g_ib; static UINT g_ibBase; static bool g_ibV;
 static int g_recording;                 // between BeginStateBlock and EndStateBlock: setters are recorded, not applied
+static bool g_recOk;                    // the block being recorded is followed here (block_cache, below)
 static DWORD g_curVS = 1;               // the bound shader or FVF (1: unknown), tracked whatever the switches
 static DWORD g_fill, g_shade; static bool g_fillV, g_shadeV;   // FILLMODE (8), SHADEMODE (9), tracked always
 static int g_frame, g_last_scene_frame = -1;
@@ -107,7 +108,7 @@ static void flush(void) {
 static inline bool render_thread(void) { return g_render_tid && GetCurrentThreadId() == g_render_tid; }
 static void apply_pending(void);
 // a call from another thread: whatever is pending goes out first, and nothing seen so far is trusted any more
-static inline void foreign(void) { flush(); apply_pending(); forget_all(); g_recording = 0; g_foreign++; }
+static inline void foreign(void) { flush(); apply_pending(); forget_all(); g_recording = 0; g_recOk = false; g_foreign++; }
 
 // ---- lazy_state: changes held until something reads them --------------------------------------------------------
 // Keys: 0..255 render states, PK_TSS + stage * 32 + type texture stage states, PK_TEX + stage textures. Each held key
@@ -236,6 +237,36 @@ typedef HRESULT (__stdcall *PFN_DPr4)(void *, D3DPRIMITIVETYPE, UINT, UINT);
 typedef HRESULT (__stdcall *PFN_DIP6)(void *, D3DPRIMITIVETYPE, UINT, UINT, UINT, UINT);
 #define PREV(T, s) ((T)g_prev[s])
 
+// ---- block_cache: what a recorded state block sets --------------------------------------------------------------
+// Microsoft's reference for IDirect3DDevice8::BeginStateBlock: the setters called between BeginStateBlock and
+// EndStateBlock are recorded in the block ("If the same state is specified multiple times in a state block, only the
+// last value is used"); ApplyStateBlock applies it. The game records its blocks that way, once each, from fixed
+// tables (StateBlock_ApplyTSS 0x1006AF90, 0x1006AF00; docs/HISTORY.md 11 Oct). Each block recorded on the render thread
+// is followed here: its render states and texture stage states with their values, the texture stages it binds, and
+// whether it records any other setter this layer sees (the shader; transforms, viewport, lights, streams and indices
+// when they are hooked). With block_cache on, applying a followed block sets those states in the shadow, makes its
+// texture stages and (if it had any) those other kinds unknown, and keeps the rest; any other block forgets
+// everything, as before. Textures are not taken from a block: whether the block's reference keeps a texture alive
+// is not established here, so a stage it binds is made unknown. A block is no longer followed after DeleteStateBlock,
+// CaptureStateBlock (it takes new values), CreateStateBlock returning its token, or Reset (which loses all state).
+enum { BLK_MAX = 64, BLK_N = 256 };
+struct Blk { DWORD tok; bool used, other; int n; short key[BLK_N]; DWORD val[BLK_N]; };
+static Blk g_blk[BLK_MAX], g_rec;
+static volatile LONG g_blkKnown, g_blkForgot;
+static void rec_add(int k, DWORD v) {
+  if (!g_recOk) return;
+  if (g_rec.n == BLK_N) { g_recOk = false; return; }
+  g_rec.key[g_rec.n] = (short)k; g_rec.val[g_rec.n++] = v;
+}
+static inline void rec_other(void) { if (g_recording) g_rec.other = true; }
+static Blk *blk_find(DWORD t) { for (int i = 0; i < BLK_MAX; i++) if (g_blk[i].used && g_blk[i].tok == t) return &g_blk[i]; return NULL; }
+static void blk_drop(DWORD t) { Blk *b = blk_find(t); if (b) b->used = false; }
+static void blk_drop_all(void) { for (int i = 0; i < BLK_MAX; i++) g_blk[i].used = false; }
+static void blk_keep(DWORD t) {
+  blk_drop(t);
+  for (int i = 0; i < BLK_MAX; i++) if (!g_blk[i].used) { g_blk[i] = g_rec; g_blk[i].tok = t; g_blk[i].used = true; return; }
+}
+
 // ---- sending a set call on to the device, with the shadow updated (the setters and apply_pending) ---------------
 static inline bool cache_on(void) { return sf_cfg.state_cache || sf_cfg.lazy_state; }
 static HRESULT fwd_rs(DWORD st, DWORD v) {
@@ -246,19 +277,21 @@ static HRESULT fwd_rs(DWORD st, DWORD v) {
     g_rs[st] = v; g_rsV[st] = ok && cache_on();
     if (st == D3DRS_FILLMODE) { g_fill = v; g_fillV = ok; }
     if (st == D3DRS_SHADEMODE) { g_shade = v; g_shadeV = ok; }
-  }
+  } else if (g_recording) { if (st < 256 && SUCCEEDED(hr)) rec_add((int)st, v); else g_recOk = false; }
   return hr;
 }
 static HRESULT fwd_tss(DWORD stage, DWORD ty, DWORD v) {
   g_fwd++;
   HRESULT hr = PREV(PFN_D3, S_SetTSS)(g_dev, stage, ty, v);
   if (stage < 8 && ty < 32 && !g_recording) { g_tss[stage][ty] = v; g_tssV[stage][ty] = SUCCEEDED(hr) && cache_on(); }
+  else if (g_recording) { if (stage < 8 && ty < 32 && SUCCEEDED(hr)) rec_add(PK_TSS + (int)stage * 32 + (int)ty, v); else g_recOk = false; }
   return hr;
 }
 static HRESULT fwd_tex(DWORD stage, IDirect3DBaseTexture8 *t) {
   g_fwd++;
   HRESULT hr = PREV(PFN_DP, S_SetTexture)(g_dev, stage, t);
   if (stage < 8 && !g_recording) { g_tex[stage] = t; g_texV[stage] = SUCCEEDED(hr) && cache_on(); }
+  else if (g_recording) { if (stage < 8) rec_add(PK_TEX + (int)stage, 0); else g_recOk = false; }
   return hr;
 }
 // every held change goes out, in the order first held (the batch, drawn under the state before them, goes first)
@@ -290,7 +323,7 @@ static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
   close_held();
   flush(); drop_pending(); forget_all();
   HRESULT hr = PREV(PFN_Reset, S_Reset)(d, pp);
-  forget_all(); g_curVS = 1; g_recording = 0;   // Reset returns the device to its default state
+  forget_all(); g_curVS = 1; g_recording = 0; g_recOk = false; blk_drop_all();   // Reset returns the device to its default state
   return hr;
 }
 static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w, const RGNDATA *r) {
@@ -333,17 +366,57 @@ static HRESULT __stdcall h_EndScene(void *d) {
 }
 // a state block records, applies or captures state: what is held goes out first, in its place in the order
 static HRESULT __stdcall h_BeginSB(void *d) {
-  if (!render_thread() && g_render_tid) foreign(); else commit();
-  HRESULT hr = PREV(PFN_Dev, S_BeginSB)(d); if (SUCCEEDED(hr)) g_recording = 1; return hr;
+  bool mine = render_thread();
+  if (!mine && g_render_tid) foreign(); else commit();
+  HRESULT hr = PREV(PFN_Dev, S_BeginSB)(d);
+  if (SUCCEEDED(hr)) { g_recording = 1; g_rec.n = 0; g_rec.other = false; g_recOk = mine; }
+  return hr;
 }
 static HRESULT __stdcall h_EndSB(void *d, DWORD *tok) {
-  if (!render_thread() && g_render_tid) foreign(); else commit();
-  g_recording = 0; return PREV(PFN_DPtr, S_EndSB)(d, tok);
+  bool mine = render_thread();
+  if (!mine && g_render_tid) foreign(); else commit();
+  bool follow = g_recOk && mine; g_recording = 0; g_recOk = false;
+  HRESULT hr = PREV(PFN_DPtr, S_EndSB)(d, tok);
+  if (SUCCEEDED(hr) && tok) { if (follow) blk_keep(*tok); else blk_drop(*tok); }
+  return hr;
 }
 static HRESULT __stdcall h_ApplySB(void *d, DWORD tok) {
-  if (!render_thread() && g_render_tid) foreign(); else commit();
+  bool mine = render_thread();
+  if (!mine && g_render_tid) foreign(); else commit();
   HRESULT hr = PREV(PFN_D1, S_ApplySB)(d, tok);
-  forget_all(); g_curVS = 1;                     // a block may set any state, the shader too
+  Blk *b = mine && SUCCEEDED(hr) && sf_cfg.block_cache && !g_recording ? blk_find(tok) : NULL;
+  if (!b) { forget_all(); g_curVS = 1; g_blkForgot++; return hr; }   // a block may set any state, the shader too
+  if (b->other) {
+    g_vsV = false; g_curVS = 1; memset(g_xfV, 0, sizeof g_xfV); g_vpV = false; memset(g_lightV, 0, sizeof g_lightV);
+    memset(g_leV, 0, sizeof g_leV); memset(g_ssV, 0, sizeof g_ssV); g_ibV = false;
+  }
+  bool c = cache_on();
+  for (int i = 0; i < b->n; i++) {             // in recorded order: a state set twice ends at its last value
+    int k = b->key[i]; DWORD v = b->val[i];
+    if (k < PK_TSS) {
+      g_rs[k] = v; g_rsV[k] = c;
+      if (k == D3DRS_FILLMODE) { g_fill = v; g_fillV = true; }
+      if (k == D3DRS_SHADEMODE) { g_shade = v; g_shadeV = true; }
+    } else if (k < PK_TEX) { g_tss[(k - PK_TSS) >> 5][(k - PK_TSS) & 31] = v; g_tssV[(k - PK_TSS) >> 5][(k - PK_TSS) & 31] = c; }
+    else g_texV[k - PK_TEX] = false;
+  }
+  g_blkKnown++;
+  return hr;
+}
+typedef HRESULT (__stdcall *PFN_CreateSB)(void *, DWORD, DWORD *);
+// these change no device state; what is held goes out first, as the flushing stub in their slots did
+static HRESULT __stdcall h_CaptureSB(void *d, DWORD tok) {
+  if (!render_thread() && g_render_tid) foreign(); else commit();
+  blk_drop(tok); return PREV(PFN_D1, S_CaptureSB)(d, tok);
+}
+static HRESULT __stdcall h_DeleteSB(void *d, DWORD tok) {
+  if (!render_thread() && g_render_tid) foreign(); else commit();
+  blk_drop(tok); return PREV(PFN_D1, S_DeleteSB)(d, tok);
+}
+static HRESULT __stdcall h_CreateSB(void *d, DWORD ty, DWORD *tok) {
+  if (!render_thread() && g_render_tid) foreign(); else commit();
+  HRESULT hr = PREV(PFN_CreateSB, S_CreateSB)(d, ty, tok);
+  if (SUCCEEDED(hr) && tok) blk_drop(*tok);
   return hr;
 }
 
@@ -400,7 +473,7 @@ static HRESULT __stdcall h_SetVS(void *d, DWORD h) {
   flush();
   g_fwd++;
   HRESULT hr = PREV(PFN_D1, S_SetVS)(d, h);
-  if (!g_recording) { if (SUCCEEDED(hr)) g_curVS = h; g_vs = h; g_vsV = SUCCEEDED(hr) && sf_cfg.vs_cache; }
+  if (!g_recording) { if (SUCCEEDED(hr)) g_curVS = h; g_vs = h; g_vsV = SUCCEEDED(hr) && sf_cfg.vs_cache; } else rec_other();
   return hr;
 }
 
@@ -485,6 +558,7 @@ static HRESULT __stdcall h_SetTransform(void *d, D3DTRANSFORMSTATETYPE st, const
   g_fwd++;
   HRESULT hr = PREV(PFN_DP, S_SetTransform)(d, st, m);
   if (!g_recording && (unsigned)st < 512) { if (m && SUCCEEDED(hr)) { g_xf[st] = *m; g_xfV[st] = true; } else g_xfV[st] = false; }
+  rec_other();
   return hr;
 }
 static HRESULT __stdcall h_SetViewport(void *d, const D3DVIEWPORT8 *v) {
@@ -493,6 +567,7 @@ static HRESULT __stdcall h_SetViewport(void *d, const D3DVIEWPORT8 *v) {
   flush(); g_fwd++;
   HRESULT hr = PREV(PFN_P, S_SetViewport)(d, v);
   if (!g_recording) { if (v && SUCCEEDED(hr)) { g_vp = *v; g_vpV = true; } else g_vpV = false; }
+  rec_other();
   return hr;
 }
 static HRESULT __stdcall h_SetMaterial(void *d, const D3DMATERIAL8 *m) {
@@ -507,6 +582,7 @@ static HRESULT __stdcall h_SetLight(void *d, DWORD i, const D3DLIGHT8 *l) {
   g_fwd++;
   HRESULT hr = PREV(PFN_DP, S_SetLight)(d, i, l);
   if (!g_recording && i < 32) { if (l && SUCCEEDED(hr)) { g_light[i] = *l; g_lightV[i] = true; } else g_lightV[i] = false; }
+  rec_other();
   return hr;
 }
 static HRESULT __stdcall h_LightEnable(void *d, DWORD i, BOOL on) {
@@ -516,6 +592,7 @@ static HRESULT __stdcall h_LightEnable(void *d, DWORD i, BOOL on) {
   g_fwd++;
   HRESULT hr = PREV(PFN_D2, S_LightEnable)(d, i, on);
   if (!g_recording && i < 32) { g_le[i] = on; g_leV[i] = SUCCEEDED(hr); }
+  rec_other();
   return hr;
 }
 // re-binding the buffer the device already holds a reference to
@@ -525,6 +602,7 @@ static HRESULT __stdcall h_SetStream(void *d, UINT n, IDirect3DVertexBuffer8 *vb
   flush(); g_fwd++;
   HRESULT hr = PREV(PFN_SS, S_SetStream)(d, n, vb, stride);
   if (!g_recording && n < 16) { g_ssVb[n] = vb; g_ssStride[n] = stride; g_ssV[n] = SUCCEEDED(hr); }
+  rec_other();
   return hr;
 }
 static HRESULT __stdcall h_SetIndices(void *d, IDirect3DIndexBuffer8 *ib, UINT base) {
@@ -533,6 +611,7 @@ static HRESULT __stdcall h_SetIndices(void *d, IDirect3DIndexBuffer8 *ib, UINT b
   flush(); g_fwd++;
   HRESULT hr = PREV(PFN_SI, S_SetIndices)(d, ib, base);
   if (!g_recording) { g_ib = ib; g_ibBase = base; g_ibV = SUCCEEDED(hr); }
+  rec_other();
   return hr;
 }
 
@@ -588,6 +667,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
 static bool core_slot(int s) {
   switch (s) {
   case S_Reset: case S_Present: case S_BeginScene: case S_EndScene: case S_BeginSB: case S_EndSB: case S_ApplySB:
+  case S_CaptureSB: case S_DeleteSB: case S_CreateSB:
   case S_SetRenderState: case S_SetTexture: case S_SetTSS: case S_SetVS: case S_DeleteVS: case 75 /* CreateVertexShader */: return true;
   }
   return false;
@@ -599,6 +679,7 @@ static void *hook_for(int s) {
   case S_Reset: return (void *)h_Reset; case S_Present: return (void *)h_Present;
   case S_BeginScene: return (void *)h_BeginScene; case S_EndScene: return (void *)h_EndScene;
   case S_BeginSB: return (void *)h_BeginSB; case S_EndSB: return (void *)h_EndSB; case S_ApplySB: return (void *)h_ApplySB;
+  case S_CaptureSB: return (void *)h_CaptureSB; case S_DeleteSB: return (void *)h_DeleteSB; case S_CreateSB: return (void *)h_CreateSB;
   case S_SetRenderState: return (void *)h_SetRenderState; case S_SetTexture: return (void *)h_SetTexture;
   case S_SetTSS: return (void *)h_SetTSS; case S_SetVS: return (void *)h_SetVS; case S_DeleteVS: return (void *)h_DeleteVS;
   case S_SetTransform: return (void *)h_SetTransform; case S_SetViewport: return (void *)h_SetViewport;
@@ -783,6 +864,8 @@ extern "C" void sf_device_stats(void) {
                  in, out, 100.0 * (in - out) / (double)in, cv, sf_cfg.batch_up ? "" : " [batching off]");
   if (fo) H->log("speedfix: %ld device calls from other threads (each made the shadow unknown)", fo);
   if (gap) H->log("speedfix: shadow forgotten %ld times after frames without the hooks (F9, a trace)", gap);
+  LONG bk = InterlockedExchange(&g_blkKnown, 0), bf = InterlockedExchange(&g_blkForgot, 0);
+  if (sf_cfg.block_cache && bk + bf) H->log("speedfix: block_cache: %ld state blocks applied with their contents known, %ld not (the shadow forgotten)", bk, bf);
   LONG me = InterlockedExchange(&g_mergedEnds, 0);
   if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
   if (g_motion) mot_log();

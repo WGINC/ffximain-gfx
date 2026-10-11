@@ -38,6 +38,8 @@ def report(folder):
         for k in ('process', 'device.create', 'adapter', 'shader compiler'):
             for v in d.get(k, []): out.append('%-6s %-16s %s' % (name, k, v))
     for v in d8.get('d3d8.dll', []) + d8.get('adapter', []): out.append('d3d8   %s' % v)
+    for k in ('stateblock.record', 'stateblock.apply', 'stateblock.after Reset'):   # speedfix's block_cache rests on these
+        for v in d8.get(k, []): out.append('d3d8   %s: %s' % (k, v))
     out.append('')
     out.append('%-62s %12s %12s %12s %10s %12s' % ('ns a call', 'D3D11 x86', 'D3D11 arm64', 'D3D8 x86', 'x86/arm64', 'D3D8/D3D11'))
     for label, k11, k8 in CALLS:

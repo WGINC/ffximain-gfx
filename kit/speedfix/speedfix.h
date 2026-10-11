@@ -30,6 +30,8 @@ struct SfConfig {
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int skin_merge;           // CYyModelDt::SkinAndDrawV2 forked (fork/): runs of a model's triangle-list records drawn as one
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
+  int block_cache;          // applying a state block recorded on the render thread sets what it holds in the shadow
+                            // instead of forgetting everything (sf_device.cpp)
 };
 extern SfConfig sf_cfg;
 

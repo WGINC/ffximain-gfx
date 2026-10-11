@@ -21,7 +21,7 @@ checks = [
     ('probe11_x86.csv', ['process', 'module', 'device.create', 'adapter', 'format', 'shader compiler', 'call.OMSetBlendState', 'call.PSSetShaderResources',
                          'call.IASetVertexBuffers', 'call.Map constant buffer (DISCARD)', 'call.DrawIndexed (2 triangles)', 'call.ring Map NOOVERWRITE + Draw',
                          'frame.plaza-like as D3D8 issues it (1600+900 draws)', 'frame.plaza-like merged (33 draws)'], 'probe11 caps and bench: every result line'),
-    ('probe8_x86.csv', ['d3d8.dll', 'device.create', 'call.SetRenderState', 'call.DrawPrimitiveUP (2 triangles)', 'call.VB Lock DISCARD + Unlock',
+    ('probe8_x86.csv', ['d3d8.dll', 'device.create', 'stateblock.record', 'stateblock.apply', 'stateblock.after Reset', 'call.SetRenderState', 'call.DrawPrimitiveUP (2 triangles)', 'call.VB Lock DISCARD + Unlock',
                         'frame.plaza-like as D3D8 issues it (1600+900 draws)', 'frame.plaza-like merged (33 draws)'], 'probe8 bench: every result line'),
     ('probe11_xproc_x86.csv', ['xproc.shared texture', 'xproc.child exit', 'xproc.child present into this window', 'xproc.shared texture written by the child'], 'xproc: the parent\'s lines'),
     ('probe11_xchild_x86.csv', ['xchild.swap chain on the parent\'s window', 'xchild.present'], 'xproc: the child ran on the parent\'s window and wrote its log into the run folder'),

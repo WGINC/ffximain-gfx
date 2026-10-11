@@ -129,6 +129,41 @@ static void frame_bench(const char *name, int merged) {
   put(name, "submit %.2f ms (p95 %.2f), with Present %.2f ms (p95 %.2f); median of %d frames; means %.2f / %.2f ms", cpu[20 + n / 2], cpu[20 + n * 95 / 100], tot[20 + n / 2], tot[20 + n * 95 / 100], n, ms, mt);
 }
 
+/* speedfix's block_cache rests on how a recorded state block behaves (kit/speedfix/sf_device.cpp; docs/HISTORY.md
+   11 Oct): the sets between BeginStateBlock and EndStateBlock are recorded, not applied; applying the block sets
+   what it recorded, a state set twice at its last value, and leaves every other state as it was. Checked here
+   through this folder's d3d8.dll (the one the game uses), before any resource is made so that Reset can run:
+   whether the block is still usable after Reset is logged as found (the game re-records only if its token is -1). */
+static DWORD rs(D3DRENDERSTATETYPE s) { DWORD v = 0xDEADBEEF; IDirect3DDevice8_GetRenderState(d, s, &v); return v; }
+static DWORD tss(DWORD st, D3DTEXTURESTAGESTATETYPE t) { DWORD v = 0xDEADBEEF; IDirect3DDevice8_GetTextureStageState(d, st, t, &v); return v; }
+static void stateblock_check(D3DPRESENT_PARAMETERS *pp) {
+  IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x10); IDirect3DDevice8_SetRenderState(d, D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+  IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, D3DTEXF_POINT); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+  DWORD tok = 0xFFFFFFFF;
+  HRESULT h1 = IDirect3DDevice8_BeginStateBlock(d);
+  IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x60); IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x61);
+  IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  HRESULT h2 = IDirect3DDevice8_EndStateBlock(d, &tok);
+  DWORD rec_ar = rs(D3DRS_ALPHAREF), rec_mag = tss(0, D3DTSS_MAGFILTER);
+  put("stateblock.record", "Begin hr 0x%08lX, End hr 0x%08lX, token 0x%lX; after recording ALPHAREF 0x%lX MAGFILTER %lu (%s)",
+      (unsigned long)h1, (unsigned long)h2, (unsigned long)tok, (unsigned long)rec_ar, (unsigned long)rec_mag,
+      rec_ar == 0x10 && rec_mag == D3DTEXF_POINT ? "PASS: recorded, not applied" : "FAIL: the recording changed the device");
+  IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x20); IDirect3DDevice8_SetRenderState(d, D3DRS_ZFUNC, D3DCMP_ALWAYS);
+  IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+  HRESULT h3 = IDirect3DDevice8_ApplyStateBlock(d, tok);
+  DWORD ar = rs(D3DRS_ALPHAREF), zf = rs(D3DRS_ZFUNC), mn = tss(0, D3DTSS_MINFILTER), mg = tss(0, D3DTSS_MAGFILTER);
+  int ok = ar == 0x61 && mg == D3DTEXF_LINEAR && zf == D3DCMP_ALWAYS && mn == D3DTEXF_LINEAR;
+  put("stateblock.apply", "hr 0x%08lX; ALPHAREF 0x%lX (block: 0x61, its last value), MAGFILTER %lu (block: 2); not in the block: ZFUNC %lu (set 8), MINFILTER %lu (set 2) (%s)",
+      (unsigned long)h3, (unsigned long)ar, (unsigned long)mg, (unsigned long)zf, (unsigned long)mn,
+      ok ? "PASS: the block set what it recorded and nothing else" : "FAIL");
+  D3DPRESENT_PARAMETERS q = *pp;
+  HRESULT h4 = IDirect3DDevice8_Reset(d, &q);
+  IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x20);
+  HRESULT h5 = IDirect3DDevice8_ApplyStateBlock(d, tok);
+  put("stateblock.after Reset", "Reset hr 0x%08lX; ApplyStateBlock of the old token hr 0x%08lX, ALPHAREF then 0x%lX (found, not judged)",
+      (unsigned long)h4, (unsigned long)h5, (unsigned long)rs(D3DRS_ALPHAREF));
+  IDirect3DDevice8_DeleteStateBlock(d, tok);
+}
 int main(int argc, char **argv) {
   LARGE_INTEGER f; QueryPerformanceFrequency(&f); g_qpf = (double)f.QuadPart;
   if (argc < 3 || strcmp(argv[1], "bench")) { printf("usage: probe8 bench OUTDIR\n"); return 2; }
@@ -150,6 +185,7 @@ int main(int argc, char **argv) {
   put("device.create", "hr 0x%08lX", (unsigned long)hr);
   if (FAILED(hr)) return 1;
   D3DADAPTER_IDENTIFIER8 id; if (SUCCEEDED(IDirect3D8_GetAdapterIdentifier(d3d, D3DADAPTER_DEFAULT, 0, &id))) put("adapter", "%s (%s)", id.Description, id.Driver);
+  stateblock_check(&pp);
   /* resources: as probe11's */
   Vtx v[60]; for (int i = 0; i < 60; i++) { memset(&v[i], 0, sizeof v[i]); v[i].x = (i % 2) * 0.02f + (i / 2) * 0.001f - 0.5f; v[i].y = (i / 2) * 0.01f - 0.2f; v[i].z = 0.5f; v[i].nz = -1; v[i].c = 0xFFFFFFFF; v[i].u = (float)(i % 2); v[i].v = (float)(i / 2) / 30; }
   for (int i = 0; i < NVB; i++) { BYTE *p; IDirect3DDevice8_CreateVertexBuffer(d, sizeof v, D3DUSAGE_WRITEONLY, FVF, D3DPOOL_MANAGED, &g_vb[i]);

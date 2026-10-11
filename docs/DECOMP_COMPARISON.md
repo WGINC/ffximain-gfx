@@ -30,10 +30,19 @@ The builds differ, so their addresses are not ours. Each of their 769 entries wa
   - 11 by call links: two or more of the functions the entry names call it, or are called by it, in our build. A
     twelfth so mapped was rejected: its first cited instruction does not match;
   - 7 by citations, links and a span within 32 bytes together.
-- **42 not mapped**, almost all stubs of 1 to 64 bytes (`ret`, empty methods, getters) that occur many times over.
-  The larger exceptions, where the best candidate was not clearly better than the next, were left unmapped:
-  XiZone::CreateShaders, SetupCullingProjection, DrawMovieFrameQuad, CTkInputCtrl::Loop, TransformPointX87 and a few
-  more.
+- **6 more** by content: the best candidate does what their entry describes, checked against an independent fact:
+  - DrawMovieFrameQuad = our `CXiMovie_DrawFrame` 0x1021D4C0 (exact span, our own name);
+  - XiZone::CreateShaders = 0x10178250, which RENDERER.md already records as the site that makes the zone map's five
+    vertex shaders and its pixel shader;
+  - TransformPointX87 = 0x1006D720, slot +0x50 of our x87 math-tier vtable 0x1032C368 (the SSE and 3DNow! tables'
+    slot +0x50, 0x1006F800 and 0x10070960, are where TransformPointSse and TransformPoint3DNow had been mapped by
+    citations);
+  - SetupCullingProjection = 0x10182490 (the four divisions of their projection);
+  - ToggleOptionFlags = 0x101D2260 (the two-dword mask set and clear);
+  - DestroyRootXiAreaOnBroadcast = 0x1018B360.
+- **36 not mapped**: stubs of 1 to 64 bytes (`ret`, empty methods, getters) that occur many times over, and a few
+  whose candidates nothing tells apart (SetAspectFactor, SetCameraEyeTarget, GetStaticSingleton,
+  FileRequest::StepStateMachine, CTkInputCtrl::Loop, XiArea::UnlinkFromChain, StDancer::SetLookAtTarget).
 
 Their "size" is that span, alignment padding included, not the code length. Where the two disagree, it is mostly
 how functions are split: their 0x1002F100 (48 bytes) and 0x1002F130 (3,728) are our one 0x1002F1D0 (3,776). A few
@@ -42,7 +51,7 @@ ours).
 
 The drift is not constant: 0 at the start of `.text`, then +0x40, +0xD0, +0xE0 and more further on (for example
 their 0x100119C0 is our Frame_Render 0x10011A00, their 0x1006C7E0 our readback 0x1006C8B0). Data addresses moved
-too: their `g_1047bf74` is our processor pointer 0x1047CF7C. Of their 769 entries, 727 are mapped, and **176 of those
+too: their `g_1047bf74` is our processor pointer 0x1047CF7C. Of their 769 entries, 733 are mapped, and **176 of those
 are functions in our tree**.
 
 ## Accuracy, tested

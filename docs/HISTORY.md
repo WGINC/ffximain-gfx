@@ -1203,3 +1203,37 @@ runs.
 - **Dancer** (their 10250ed0, our 0x10251500): confirmed. 0x10251A80 on its open path pushes 0xB00010 bytes (11.0 MB).
 - **Not tested:** the cube-texture build's "about 221 device calls"; "nothing evicts a texture"; the per-frame
   re-poll of resource requests.
+
+## 11 Oct (done): the outside write-up, last claims
+
+- **Mapping.** Six more of its entries were mapped by content, each checked against an independent fact
+  (DECOMP_COMPARISON.md): 733 of 769 now, the 36 left stubs or functions that nothing tells apart.
+  - TransformPointX87 is slot +0x50 of our x87 math-tier vtable (0x1006D720). The SSE and 3DNow! tables' slot +0x50 is
+    where their two other variants had already been mapped by citations.
+- **Cube textures** (their 100751b0, our Gfx_InitCubeMapTextures 0x10075280): confirmed.
+  - 3 cubes (count stored at 0x10075320), edges 32 << n, faces from the table at 0x103546A0 with face 5 skipped:
+    15 faces;
+  - per face: the push (0x1006A070: 4 SetTexture, SetRenderTarget, SetViewport), SetVertexShader, the draw, the pop
+    (0x1006A0E0: 4 SetTexture, SetRenderTarget, SetViewport): 14 calls;
+  - with the 5 render states and 3 cube textures, 218 plus the depth surfaces: their "about 220".
+- **Texture cache:** confirmed.
+  - The unlink helper (0x1003AB10) has two callers, CYyTex_Destructor 0x10039970 and 0x100399D0: an entry leaves the
+    cache only when its owner releases it; nothing evicts by size, age or use.
+  - Appending (TexMgr_Enqueue 0x1003AB80 -> 0x1003AB40 -> 0x1003AAF0) walks the +0x38 links to the tail each time.
+- **Resource requests** (their 100729a0, our 0x10072A70): partly confirmed.
+  - State at +0x41, the started-request limit `cmp eax, 0x10` at 0x10072BC2.
+  - The state-1 poll (0x101C4AD0) resolves the file name again through XiFileImpl_getFileName on each poll.
+  - Their semaphore search of the request ring in the same poll was not traced.
+- **Mesh build** (their 1002c8c0): confirmed.
+  - CreateBuffersStep (our gate-verified 0x1002CCB0) returns false for steps 0 to 6 and true at 7: 8 calls.
+  - A failed CreateIndexBuffer or AcquireVertexBuffer frees everything but keeps the step, so the next call retries:
+    no failure exit.
+  - Their minimum of 18 calls rests also on the index fill (0x1002CE20) taking 2, not counted here.
+  - Their summary's "every mesh request creates its own buffer" is overstated. AcquireVertexBuffer, called with 0
+    (pooled), reuses a released buffer of the same rounded size, usage and pool once it has aged to free; only the
+    warm-up's 200 buffers (state 4) never are. Their entry's own wording (one usage, format and pool; sizes rounded up
+    to 2,000 bytes) is right.
+- **Format search, per texture: not settled.** Per search: DXT1 28 calls, DXT3 30. Two searches per texture made
+  through TexObj_Create: 56 / 60. Their 62 to 64 would need further CheckDeviceFormat calls inside D3DX. Those cannot
+  be told apart statically from other interfaces' slot 0x28, and counting them needs D3DX run against a device that
+  answers like a real one.

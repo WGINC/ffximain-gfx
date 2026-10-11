@@ -119,6 +119,11 @@ the correlation in section 2 suggests.
 - **Risk:** state the cache does not see. Direct3D 8 state blocks (ApplyStateBlock: 329 calls per frame in 11000)
   change states behind it, and Reset or CreateStateBlock does too. Invalidate on those, as speedfix does
   (`state_cache_reset_each_scene`).
+- **Next (11 Oct, HISTORY.md):** forgetting at each ApplyStateBlock is what defeats the cache in the effect drain
+  (18% of the plaza frame's calls, 544 blocks applied inside it). The game records each block once from a fixed
+  table, so speedfix can keep each block's recorded values and set its shadow to them on apply. Simulated on the
+  plaza trace, with only the drain's two blocks known: 20,645 to 18,423 calls a frame with lazy_state, and 24,347
+  to 22,391 without it. This rests on D3D8's documented behaviour for recorded blocks, not yet checked on a device.
 
 ### P2. Fix the hot functions at the source (SDK mods)
 

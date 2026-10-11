@@ -1246,3 +1246,55 @@ runs.
   were wrong in detail: 0x10183490 is called (from 0x100431B0), and 0x1003EB30 is a wrapper of 0x1003E910.
 - **Address table.** `data/outside_writeup_map.json` and `pipeline/outside_lookup.py` (DECOMP_COMPARISON.md, "How to
   use theirs"): 733 of 769 entries mapped, 35 unmapped, 1 rejected.
+
+## 11 Oct: the effect drain as a performance target (pipeline/effect_drain.py)
+
+Plaza trace (session 2, process 5180), label 0, the nine frames 0 to 16. The figures are for frame 2; the other eight
+are within a few percent.
+
+- **What it is.** Each queued effect element runs YmElem_SetupDevice (0x100467E0), its draw, then YmElem_RestoreDevice
+  (0x100472F0). That is 203 elements, 7,580 calls (18% of the frame's 41,093), 29 to 79 calls each.
+  - Setup makes 4,400 of them (about 22 per element): mostly SetRenderState, then a texture-stage block.
+  - Restore makes one SetTransform and applies a render-state block.
+  - Between two elements there are only two calls: OnDraw's SetRenderState 0xAB and one SetTransform (201 of 202
+    gaps).
+- **Why speedfix's cache misses it.** The default cache skips 46 of the 7,580 calls, and the extended cache none
+  more. 544 ApplyStateBlock calls fall inside the drain, 2.7 per element. Speedfix forgets everything at each one,
+  since a block may set any state, so the sets after it are always sent.
+- **What the blocks hold** (the game's own code):
+  - 0x1006AF00 and StateBlock_ApplyTSS (0x1006AF90) record a block once (token -1): BeginStateBlock, one
+    SetRenderState or SetTextureStageState per table entry up to 0x7FFFFFFF, then EndStateBlock. After that they
+    only apply it.
+  - Setup passes table 0x10353598 at 0x10047207: stages 0 to 3, each with TEXTURETRANSFORMFLAGS 0, TEXCOORDINDEX 0,
+    MAGFILTER 2 and MINFILTER 2.
+  - Restore passes table 0x10353668 at 0x10047371: 16 render states (LIGHTING 1, FOGENABLE 0, CULLMODE 1,
+    ALPHABLENDENABLE 0, ALPHATESTENABLE 1, ALPHAFUNC 8, ALPHAREF 0x60, ZENABLE 1, ZWRITEENABLE 1, ZFUNC 4, ...;
+    state names from d3d8types.h).
+  - Both tables are in `.data`, and each is referenced once. That they are not written at run time is not proven.
+  - In the trace, token 8 always follows a setup call, and token 0xA always comes just before restore's SetTransform
+    (1,812 of 1,812 across the nine frames).
+- **Simulated over the whole frame** (device calls that would reach the device; drain window in brackets):
+
+  | Settings | Frame | Drain |
+  |---|---|---|
+  | none | 41,093 | 7,580 |
+  | defaults | 27,688 | 7,534 |
+  | + extended cache | 24,347 | 7,534 |
+  | + extended cache, blocks known | 22,391 | 5,783 |
+  | + lazy_state | 20,645 | 7,355 |
+  | + lazy_state, blocks known | 18,423 | 5,138 |
+
+  "Blocks known" means that applying a block sets speedfix's shadow to the block's values instead of forgetting.
+  Only the drain's two blocks are modelled: tokens 8 and 0xA, of the 13 tokens seen in label 0. The others are still forgotten,
+  so the frame figure is a lower bound for that change. Speedfix would learn every block by watching its recording,
+  which it already marks (`g_recording`).
+- **Not a fix: restoring once per run.** Applying the restore block only at the end of a run of elements (a game-side
+  change) gives 18,927, more than the block-aware cache alone. Without the restore, each element starts from what
+  the previous one left, and its setup changes more.
+- **What it rests on, and what is not known:**
+  - That a recorded block holds exactly the states set during the recording. This is the DirectX 8 SDK's
+    documented behaviour for BeginStateBlock/EndStateBlock; the documentation is not in this repository, and it has
+    not been checked on a device.
+  - What happens to recorded blocks on Reset, and to token reuse after DeleteStateBlock. Speedfix would have to
+    forget a block's contents on both.
+  - Calls are counted, not time: applying a block still costs the driver its 16 states. The lever A/B decides.

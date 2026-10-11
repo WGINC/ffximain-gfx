@@ -5066,5 +5066,221 @@
   "name": "App_DestroyGlobalObjects",
   "confidence": "high",
   "evidence": "deletes every object in the scene-state table (vfunc +24 with 1), g_pApp and g_pCDx (scalar deleting destructors), then the shape and menu managers' teardown (sub_10120200(g_shapeMng), sub_1015D9E0(g_menuMng)). Its only caller 0x10015AB0 runs CoInitialize, creates the app object 0x104570B0, runs init and the main loop, calls this on every path, deletes the app object and calls CoUninitialize"
+ },
+ "0x10183760": {
+  "old": "sub_10183760",
+  "name": "XiZone_DrawEffectElementModel",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x101835f0 (XiZone::DrawEffectElementModel), mapped by signature; 3 of 4 callees it names are called here. Checked: callees as named."
+ },
+ "0x100472F0": {
+  "old": "sub_100472F0",
+  "name": "YmElem_RestoreDevice",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10047220 (YmElem::RestoreDevice), mapped by signature. Checked: Calls CMoDX_SetViewMatrix, one SetTransform and one SetRenderState."
+ },
+ "0x1004E630": {
+  "old": "sub_1004E630",
+  "name": "ScaleElemVisibilityByProbe",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1004e560 (ScaleElemVisibilityByProbe), mapped by signature; 0 of 1 callees it names are called here. Checked: Calls Occlusion_QueryScreenRect with the viewport width and height."
+ },
+ "0x10045920": {
+  "old": "sub_10045920",
+  "name": "YmElem_BuildDrawMatrixAndTest",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10045850 (YmElem::BuildDrawMatrixAndTest), mapped by signature. Checked: Calls g_pProcessor's slot +0x8C, which is CMoProcessor_CalcScreenBoundsAndVisible in the x87 vtable (0x1032C368+0x8C = 0x1006ED10)."
+ },
+ "0x100538E0": {
+  "old": "sub_100538E0",
+  "name": "YmGenerater_Stop",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10053810 (YmGenerater::Stop), mapped by address drift with equal span; 2 of 2 callees it names are called here. Checked: callees as named."
+ },
+ "0x1006AF00": {
+  "old": "sub_1006AF00",
+  "name": "StateBlockHolder_ApplyRenderStates",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1006ae30 (StateBlockHolder::ApplyRenderStates), mapped by signature. Checked: Device calls BeginStateBlock, SetRenderState, EndStateBlock, ApplyStateBlock."
+ },
+ "0x1004A870": {
+  "old": "sub_1004A870",
+  "name": "GateEffectBoxProjection",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1004a7a0 (GateEffectBoxProjection), mapped by signature; 0 of 1 callees it names are called here. Checked: Calls Occlusion_QueryScreenRect with the viewport width and height."
+ },
+ "0x1003E9A0": {
+  "old": "sub_1003E9A0",
+  "name": "YmElem_SetD3ADrawState",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1003e8d0 (YmElem::SetD3ADrawState), mapped by signature; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x10185CA0": {
+  "old": "sub_10185CA0",
+  "name": "XiZone_DrawDecalOnTriangles",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10185b30 (XiZone::DrawDecalOnTriangles), mapped by signature; 2 of 2 callees it names are called here. Checked: callees as named."
+ },
+ "0x10054D70": {
+  "old": "sub_10054D70",
+  "name": "BeginEffectOffscreenPass",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10054ca0 (BeginEffectOffscreenPass), mapped by signature. Checked: Pushes 0x100 (256), calls D3DXMatrixLookAtRH, CMoDX_PushViewMatrix, Clear and SetViewport."
+ },
+ "0x10041AF0": {
+  "old": "sub_10041AF0",
+  "name": "YmElem_DrawFloatingText",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10041a20 (YmElem::DrawFloatingText), mapped by address drift with equal span; 0 of 2 callees it names are called here. Checked: Calls CXiActor_NameCalc and Font_DrawProjectedText3D. Neither callee their entry names is called directly."
+ },
+ "0x1016FCD0": {
+  "old": "sub_1016FCD0",
+  "name": "ParseZoneMeshData",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1016fb60 (ParseZoneMeshData), mapped by signature. Checked: 5 CreateVertexBuffer, 1 CreateIndexBuffer, 6 Lock/Unlock pairs."
+ },
+ "0x1024CF50": {
+  "old": "sub_1024CF50",
+  "name": "StAvatarInit",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1024c920 (StAvatarInit), mapped by address drift with equal span. Checked: Calls scnFini; BeginStateBlock and EndStateBlock through the device."
+ },
+ "0x1017B510": {
+  "old": "sub_1017B510",
+  "name": "XiZone_Draw",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1017b3a0 (XiZone::Draw), mapped by signature; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x100141C0": {
+  "old": "sub_100141C0",
+  "name": "Game_InGameSubState0",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10014180 (Game::InGameSubState0), mapped by address drift with equal span; 0 of 1 callees it names are called here. Checked: Writes [0x103D3CB8]->+8, plus 1, to word 0x104568F8 when non-zero, then CDx_StepFadeCounter and App_AdvanceSeqStep; returns 1. The callee their entry names (0x10014200) is not called."
+ },
+ "0x10075700": {
+  "old": "sub_10075700",
+  "name": "TextureHolder_BindWarped",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10075630 (TextureHolder::BindWarped), mapped by signature. Checked: Uses fsin; 3 SetTexture, 2 SetRenderState, DynVB_Lock/Unlock, then 0x10043F40."
+ },
+ "0x1006C530": {
+  "old": "sub_1006C530",
+  "name": "DrawScreenProbe",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1006c460 (DrawScreenProbe), mapped by address drift with equal span; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x10177CD0": {
+  "old": "sub_10177CD0",
+  "name": "XiZone_DrawMarkerForward",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10177b60 (XiZone::DrawMarkerForward), mapped by address drift with equal span. Checked: 12 instructions: forwards to Dbg_DrawWireMesh."
+ },
+ "0x1003BE10": {
+  "old": "sub_1003BE10",
+  "name": "YmGenerater_BuildAttachMatrix",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1003bd40 (YmGenerater::BuildAttachMatrix), mapped by signature; 2 of 2 callees it names are called here. Checked: callees as named."
+ },
+ "0x10086900": {
+  "old": "sub_10086900",
+  "name": "DrawNameplateSecondString",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10086830 (DrawNameplateSecondString), mapped by signature. Checked: CDx_DrawPrimitiveUP per glyph; 3 SetRenderState, 1 SetVertexShader."
+ },
+ "0x100412B0": {
+  "old": "sub_100412B0",
+  "name": "YmElem_DrawSpecular",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x100411e0 (YmElem::DrawSpecular), mapped by address drift with equal span; 2 of 3 callees it names are called here. Checked: callees as named."
+ },
+ "0x102501C0": {
+  "old": "sub_102501C0",
+  "name": "StAvatarRender",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1024fb90 (StAvatarRender), mapped by signature. Checked: ApplyStateBlock and Clear through the device; Dancer callees."
+ },
+ "0x10183490": {
+  "old": "sub_10183490",
+  "name": "XiZone_DrawModelAtMatrix",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10183320 (XiZone::DrawModelAtMatrix), mapped by address drift with equal span; 3 of 6 callees it names are called here. Checked: 7 SetTextureStageState, SetTransform, Gfx_SetZBias, CDx_DrawPrimitive. Their entry says it is never called: it is called once, from 0x100431B0 (which has no direct callers)."
+ },
+ "0x10043F40": {
+  "old": "sub_10043F40",
+  "name": "VertexBatch_BindAndDraw",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10043e70 (VertexBatch::BindAndDraw), mapped by signature; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x100426F0": {
+  "old": "sub_100426F0",
+  "name": "YmElem_DrawScreenDistortion",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10042620 (YmElem::DrawScreenDistortion), mapped by address drift with equal span. Checked: Two CDx_GetRenderTargetTop, a device slot +0x80 call, 4 SetTexture, DynVB_Lock/Unlock."
+ },
+ "0x10044F10": {
+  "old": "sub_10044F10",
+  "name": "YmElem_ComputeViewDepthKey",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10044e40 (YmElem::ComputeViewDepthKey), mapped by signature. Checked: Calls g_pProcessor's slot +0x50 (the point transform: 0x1006D720 x87, 0x1006F800 SSE, 0x10070960 3DNow) three times on this+0x188."
+ },
+ "0x1017C9C0": {
+  "old": "sub_1017C9C0",
+  "name": "XiZone_DrawElement",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1017c850 (XiZone::DrawElement), mapped by signature. Checked: 19 SetRenderState, 8 LightEnable, CDx_SetLight, Env_ComputeAmbient, DrawIndexedPrimitive and DrawPrimitive."
+ },
+ "0x10054F80": {
+  "old": "sub_10054F80",
+  "name": "EndEffectOffscreenPass",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10054eb0 (EndEffectOffscreenPass), mapped by signature; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x10184C90": {
+  "old": "sub_10184C90",
+  "name": "XiZone_DrawGroundShadowQuad",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10184b20 (XiZone::DrawGroundShadowQuad), mapped by signature; 3 of 3 callees it names are called here. Checked: callees as named."
+ },
+ "0x100441C0": {
+  "old": "sub_100441C0",
+  "name": "CameraCache_CacheViewProjection",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x100440f0 (CameraCache::CacheViewProjection), mapped by address drift with equal span; 1 of 1 callees it names are called here. Checked: callees as named."
+ },
+ "0x100759C0": {
+  "old": "sub_100759C0",
+  "name": "TextureHolder_BindTinted",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x100758f0 (TextureHolder::BindTinted), mapped by signature. Checked: 5 SetTexture, 5 SetRenderState, DynVB_Lock/Unlock, StateBlock_ApplyRSTSS."
+ },
+ "0x10042020": {
+  "old": "sub_10042020",
+  "name": "YmDamValueProgElem_Step",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10041f50 (YmDamValueProgElem::Step), mapped by address drift with equal span; 2 of 2 callees it names are called here. Checked: callees as named."
+ },
+ "0x100467E0": {
+  "old": "sub_100467E0",
+  "name": "YmElem_SetupDevice",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10046710 (YmElem::SetupDevice), mapped by signature; 3 of 4 callees it names are called here. Checked: callees as named."
+ },
+ "0x10063C80": {
+  "old": "sub_10063C80",
+  "name": "YmElem_ForEachInstance",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10063bb0 (YmElem::ForEachInstance), mapped by signature. Checked: Calls a callback through its stack argument ([esp+0xA6C]) per instance; uses g_pProcessor's slot +0x50."
+ },
+ "0x1003EB30": {
+  "old": "sub_1003EB30",
+  "name": "YmElem_DrawD3AFromBatch",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x1003ea60 (YmElem::DrawD3AFromBatch), mapped by address drift with equal span; 0 of 3 callees it names are called here. Checked: 15 instructions: passes this+0x104's model to 0x1003E910, which calls TexRef_SetTexture, 0x1003E9A0 and 0x10043F40 (the callees their entry names). The draw is in 0x1003E910."
+ },
+ "0x10029A50": {
+  "old": "sub_10029A50",
+  "name": "CreateSharedVertexBuffers",
+  "confidence": "medium",
+  "evidence": "outside write-up entry 0x10029980 (CreateSharedVertexBuffers), mapped by address drift with equal span. Checked: 4 CreateVertexBuffer; calls Model_CreateTranslucentTargets and Post_CreateScreenEffectTargets."
  }
 }

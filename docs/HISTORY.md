@@ -1237,3 +1237,12 @@ runs.
   through TexObj_Create: 56 / 60. Their 62 to 64 would need further CheckDeviceFormat calls inside D3DX. Those cannot
   be told apart statically from other interfaces' slot 0x28, and counting them needs D3DX run against a device that
   answers like a real one.
+
+## 11 Oct: the outside write-up as context (names, address table)
+
+- **Names.** 38 functions shared with the write-up still had `sub_` names here. 36 of its names were checked against
+  our disassembly and taken (NAMES.md, 11 Oct; `data/names_pending_idb.json`, `ida/ffxi_ida_fix.py` regenerated).
+  Two were not: 0x1006B480 and 0x101D0B00, where nothing in the code supports the role given. Two of its entries
+  were wrong in detail: 0x10183490 is called (from 0x100431B0), and 0x1003EB30 is a wrapper of 0x1003E910.
+- **Address table.** `data/outside_writeup_map.json` and `pipeline/outside_lookup.py` (DECOMP_COMPARISON.md, "How to
+  use theirs"): 733 of 769 entries mapped, 35 unmapped, 1 rejected.

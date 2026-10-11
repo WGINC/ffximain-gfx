@@ -161,6 +161,11 @@ function boundaries and argument counts agree with the binary. Its source is a r
 on: it is not verified by execution, part of it does not compile, and its prose itself notes where it is wrong. Its
 performance ranking is not measured (its own caveat), and the owner's measurements reorder it.
 
+The mapping is kept in `data/outside_writeup_map.json` (all 769 entries: our address, how it was mapped, their name,
+ours). `python3 pipeline/outside_lookup.py ADDR...` takes addresses in our build, such as a profile's call sites,
+and names the entry for the function that contains each; `--theirs` goes the other way. 36 of their names for our
+`sub_` functions were checked and taken (NAMES.md, 11 Oct).
+
 ## Appendix: the 176 functions in both
 
 | Theirs | Ours | Their name | Our name |

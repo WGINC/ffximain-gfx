@@ -1,0 +1,4619 @@
+{
+ "_about": "Outside write-up (HISTORY.md 11 Oct, docs/DECOMP_COMPARISON.md): each of its 769 entry addresses (its build) with our address. how: signature = its byte signature matched exactly one place here; drift = offset from the nearest signature-mapped entry, with equal span; citations / call links / combined = its cited instructions or call targets placed it, see DECOMP_COMPARISON.md; content = checked against an independent fact (DECOMP_COMPARISON.md lists them); rejected = 0x1002FFE0, call-link candidate whose first cited instruction does not match; unmapped = stubs or candidates nothing tells apart. their_name is their label, not a fact; our_name is ours (names_pending_idb.json, else the export). Their text is not in this repository.",
+ "entries": {
+  "0x10001520": {
+   "ours": "0x10001520",
+   "how": "drift",
+   "their_name": "Application::RunMessageLoop",
+   "our_name": "CApp_RunMainLoop"
+  },
+  "0x10001B50": {
+   "ours": "0x10001B50",
+   "how": "signature",
+   "their_name": "Application::StepFrameMasked",
+   "our_name": "App_RenderFrameMaskedFPU"
+  },
+  "0x10002D80": {
+   "ours": "0x10002D80",
+   "how": "signature",
+   "their_name": "ReadEffectScaleSetting",
+   "our_name": "sub_10002D80"
+  },
+  "0x10002F20": {
+   "ours": "0x10002F20",
+   "how": "drift",
+   "their_name": "CreateD3DWrapper",
+   "our_name": "Gfx_CreateD3DHolder"
+  },
+  "0x10003040": {
+   "ours": "0x10003040",
+   "how": "drift",
+   "their_name": "DestroyD3DWrapper",
+   "our_name": "Gfx_DestroyD3DHolder"
+  },
+  "0x10003110": {
+   "ours": "0x10003110",
+   "how": "drift",
+   "their_name": "D3DWrapper::CreateDeviceRecordFailure",
+   "our_name": "D3DHolder_Initialize"
+  },
+  "0x100031F0": {
+   "ours": "0x100031F0",
+   "how": "drift",
+   "their_name": "D3DWrapper::CreateD3DListModes",
+   "our_name": "Gfx_D3DBootstrap"
+  },
+  "0x100033C0": {
+   "ours": "0x100033C0",
+   "how": "drift",
+   "their_name": "D3DWrapper::SearchFormatPairs",
+   "our_name": "Gfx_TryCreateDeviceForMode"
+  },
+  "0x100034B0": {
+   "ours": "0x100034B0",
+   "how": "signature",
+   "their_name": "D3DWrapper::CreateDevice",
+   "our_name": "Gfx_CreateDevice"
+  },
+  "0x100035B0": {
+   "ours": "0x100035B0",
+   "how": "signature",
+   "their_name": "D3DWrapper::PresentWithRetry",
+   "our_name": null
+  },
+  "0x10003650": {
+   "ours": "0x10003890",
+   "how": "call links",
+   "their_name": "Overlay::DrawWorldOverlay",
+   "our_name": "sub_10003890"
+  },
+  "0x10005A40": {
+   "ours": "0x10005A40",
+   "how": "drift",
+   "their_name": "InputManager::PollDevices",
+   "our_name": "sub_10005A40"
+  },
+  "0x10008830": {
+   "ours": "0x10008830",
+   "how": "drift",
+   "their_name": "InputManager::IsActive",
+   "our_name": "sub_10008830"
+  },
+  "0x100088F0": {
+   "ours": "0x100088F0",
+   "how": "drift",
+   "their_name": "InputManager::ApplyBindings",
+   "our_name": "sub_100088F0"
+  },
+  "0x10008F90": {
+   "ours": "0x10008F90",
+   "how": "drift",
+   "their_name": "Renderer::Renderer",
+   "our_name": "CDx_Constructor"
+  },
+  "0x100091B0": {
+   "ours": "0x100091B0",
+   "how": "signature",
+   "their_name": "Renderer::ProbeCapsLoadCursor",
+   "our_name": "CDx_Initialize"
+  },
+  "0x10009620": {
+   "ours": "0x10009620",
+   "how": "drift",
+   "their_name": "Renderer::SaveBackBuffer",
+   "our_name": "CDx_SetDefaultRenderTargets"
+  },
+  "0x10009640": {
+   "ours": "0x10009640",
+   "how": "drift",
+   "their_name": "Renderer::StoreClearParams",
+   "our_name": "CDx_SetClearParams"
+  },
+  "0x10009670": {
+   "ours": "0x10009670",
+   "how": "drift",
+   "their_name": "Renderer::SetClearColor",
+   "our_name": "CDx_SetClearColor"
+  },
+  "0x100096B0": {
+   "ours": "0x100096B0",
+   "how": "signature",
+   "their_name": "Renderer::ClearBetweenScenes",
+   "our_name": "CDx_EndClearBegin"
+  },
+  "0x10009710": {
+   "ours": "0x10009710",
+   "how": "signature",
+   "their_name": "Renderer::IsDeviceReady",
+   "our_name": "CDx_TestCooperativeLevel"
+  },
+  "0x10009720": {
+   "ours": "0x10009720",
+   "how": "drift",
+   "their_name": "Renderer::Present",
+   "our_name": "CDx_Present"
+  },
+  "0x10009730": {
+   "ours": "0x10009730",
+   "how": "signature",
+   "their_name": "Renderer::BeginScene",
+   "our_name": "CDx_BeginScene"
+  },
+  "0x10009740": {
+   "ours": "0x10009740",
+   "how": "signature",
+   "their_name": "Renderer::EndScene",
+   "our_name": "CDx_EndScene"
+  },
+  "0x10009780": {
+   "ours": "0x10009780",
+   "how": "drift",
+   "their_name": "Renderer::ShowCursor",
+   "our_name": "CDx_ShowCursor"
+  },
+  "0x10009870": {
+   "ours": "0x10009870",
+   "how": "drift",
+   "their_name": "Renderer::BeginStateBlock",
+   "our_name": "sub_10009870"
+  },
+  "0x100098E0": {
+   "ours": "0x100098E0",
+   "how": "drift",
+   "their_name": "Renderer::EndStateBlock",
+   "our_name": "sub_100098E0"
+  },
+  "0x10009920": {
+   "ours": "0x10009920",
+   "how": "signature",
+   "their_name": "Renderer::ResetRenderStates",
+   "our_name": "CDx_SetDefaultRenderState"
+  },
+  "0x10009D20": {
+   "ours": "0x10009D20",
+   "how": "drift",
+   "their_name": "Renderer::SetFullViewport",
+   "our_name": "sub_10009D20"
+  },
+  "0x10009DC0": {
+   "ours": "0x10009DC0",
+   "how": "drift",
+   "their_name": "Renderer::SetViewportRecord",
+   "our_name": "CDx_SetViewport"
+  },
+  "0x10009E00": {
+   "ours": "0x10009E00",
+   "how": "drift",
+   "their_name": "GetCurrentSlot",
+   "our_name": "CDx_GetRenderTargetTop"
+  },
+  "0x10009E20": {
+   "ours": "0x10009E20",
+   "how": "drift",
+   "their_name": "Renderer::PushTargetOrigin",
+   "our_name": "CDx_PushRenderTarget"
+  },
+  "0x10009E60": {
+   "ours": "0x10009E60",
+   "how": "drift",
+   "their_name": "Renderer::PushTargetOriginV01",
+   "our_name": "sub_10009E60"
+  },
+  "0x10009EA0": {
+   "ours": "0x10009EA0",
+   "how": "drift",
+   "their_name": "Renderer::PushTargetOriginV10",
+   "our_name": "sub_10009EA0"
+  },
+  "0x10009EE0": {
+   "ours": "0x10009EE0",
+   "how": "drift",
+   "their_name": "Renderer::PushTargetOriginV00",
+   "our_name": "sub_10009EE0"
+  },
+  "0x10009F20": {
+   "ours": "0x10009F20",
+   "how": "signature",
+   "their_name": "Renderer::PushTarget",
+   "our_name": "CDx_PushRenderTargetTexture"
+  },
+  "0x1000A070": {
+   "ours": "0x1000A070",
+   "how": "drift",
+   "their_name": "Renderer::PushSurfaceOrigin",
+   "our_name": "sub_1000A070"
+  },
+  "0x1000A0A0": {
+   "ours": "0x1000A0A0",
+   "how": "drift",
+   "their_name": "Renderer::PushSurface",
+   "our_name": "sub_1000A0A0"
+  },
+  "0x1000A1D0": {
+   "ours": "0x1000A1D0",
+   "how": "drift",
+   "their_name": "Renderer::UnbindAndPopTarget",
+   "our_name": "CDx_SetTexture"
+  },
+  "0x1000A200": {
+   "ours": "0x1000A200",
+   "how": "drift",
+   "their_name": "Renderer::UnbindAndPopTargetV10",
+   "our_name": "sub_1000A200"
+  },
+  "0x1000A230": {
+   "ours": "0x1000A230",
+   "how": "drift",
+   "their_name": "Renderer::UnbindAndPopTargetV01",
+   "our_name": "sub_1000A230"
+  },
+  "0x1000A260": {
+   "ours": "0x1000A260",
+   "how": "drift",
+   "their_name": "Renderer::UnbindAndPopTargetV00",
+   "our_name": "sub_1000A260"
+  },
+  "0x1000A290": {
+   "ours": "0x1000A290",
+   "how": "drift",
+   "their_name": "Renderer::PopTargetNoUnbind",
+   "our_name": "CDx_PopRenderTargetDefault"
+  },
+  "0x1000A2B0": {
+   "ours": "0x1000A2B0",
+   "how": "drift",
+   "their_name": "Renderer::PopTarget",
+   "our_name": "CDx_PopRenderTarget"
+  },
+  "0x1000A390": {
+   "ours": "0x1000A390",
+   "how": "drift",
+   "their_name": "Renderer::ClearCurrentTarget",
+   "our_name": "sub_1000A390"
+  },
+  "0x1000A4F0": {
+   "ours": "0x1000A4F0",
+   "how": "drift",
+   "their_name": "Renderer::DrawTextureViewport",
+   "our_name": "CDx_DrawTextureToViewport"
+  },
+  "0x1000A550": {
+   "ours": "0x1000A550",
+   "how": "drift",
+   "their_name": "Renderer::DrawTextureRect",
+   "our_name": "sub_1000A550"
+  },
+  "0x1000A5A0": {
+   "ours": "0x1000A5A0",
+   "how": "drift",
+   "their_name": "Renderer::DrawTexturedRect",
+   "our_name": "CDx_DrawTexturedScreenQuad"
+  },
+  "0x1000A6E0": {
+   "ours": "0x1000A6E0",
+   "how": "signature",
+   "their_name": "Renderer::CreateTargetTexture",
+   "our_name": "CDx_CreateTexture"
+  },
+  "0x1000A800": {
+   "ours": "0x1000A800",
+   "how": "drift",
+   "their_name": "Renderer::PushTargetReturnOne",
+   "our_name": "CDx_PushRenderTargetRet1"
+  },
+  "0x1000A820": {
+   "ours": "0x1000A820",
+   "how": "signature",
+   "their_name": "Renderer::DrawColorOverlay",
+   "our_name": "CDx_DrawFadeQuad"
+  },
+  "0x1000AAB0": {
+   "ours": "0x1000AAB0",
+   "how": "drift",
+   "their_name": "Renderer::DrawTextureAtDepth",
+   "our_name": "Post_DepthBlurComposite"
+  },
+  "0x1000ABE0": {
+   "ours": "0x1000ABE0",
+   "how": "drift",
+   "their_name": "Renderer::DrawTextureAlphaTest",
+   "our_name": "sub_1000ABE0"
+  },
+  "0x1000AD70": {
+   "ours": "0x1000AD70",
+   "how": "signature",
+   "their_name": "Renderer::CreateDepthStencil",
+   "our_name": "CDx_CreateDepthSurfaceLikeMain"
+  },
+  "0x1000AE40": {
+   "ours": "0x1000AE40",
+   "how": "drift",
+   "their_name": "Renderer::StepFadeCounter",
+   "our_name": "CDx_StepFadeCounter"
+  },
+  "0x1000BB90": {
+   "ours": "0x1000BB90",
+   "how": "drift",
+   "their_name": "Renderer::DrawBottomStrip",
+   "our_name": "CDx_DrawStereoOddFrameOverlay"
+  },
+  "0x1000BD50": {
+   "ours": "0x1000BD50",
+   "how": "drift",
+   "their_name": "Renderer::SetTransformCached",
+   "our_name": "CDx_SetTransform"
+  },
+  "0x1000BDB0": {
+   "ours": "0x1000BDB0",
+   "how": "drift",
+   "their_name": "Renderer::GetCachedTransform",
+   "our_name": "CDx_GetTransformCached"
+  },
+  "0x1000BE10": {
+   "ours": "0x1000BE10",
+   "how": "drift",
+   "their_name": "Renderer::SetVertexShaderCache",
+   "our_name": "sub_1000BE10"
+  },
+  "0x1000BE50": {
+   "ours": "0x1000BE50",
+   "how": "drift",
+   "their_name": "Renderer::GammaScaleLight",
+   "our_name": "Light_ApplyTimeOfDayTint"
+  },
+  "0x1000BF30": {
+   "ours": "0x1000BF30",
+   "how": "signature",
+   "their_name": "Renderer::UploadLight",
+   "our_name": "CDx_SetLight"
+  },
+  "0x1000C0B0": {
+   "ours": "0x1000C0B0",
+   "how": "signature",
+   "their_name": "Renderer::CompositeWorldTexture",
+   "our_name": "CDx_CompositeSceneToBackBuffer"
+  },
+  "0x1000C6E0": {
+   "ours": "0x1000C6E0",
+   "how": "drift",
+   "their_name": "Renderer::CreateSecondViewTextures",
+   "our_name": "CDx_CreateStereoResources"
+  },
+  "0x1000C7C0": {
+   "ours": "0x1000C7C0",
+   "how": "drift",
+   "their_name": "Renderer::ReleaseSecondViewTextures",
+   "our_name": "CDx_ReleaseStereoResources"
+  },
+  "0x1000C850": {
+   "ours": "0x1000C850",
+   "how": "drift",
+   "their_name": "Renderer::CreateStripTexture",
+   "our_name": "CDx_CreateRampTexture1x16"
+  },
+  "0x1000C900": {
+   "ours": "0x1000C900",
+   "how": "drift",
+   "their_name": "Renderer::CreateColumnPatternTextures",
+   "our_name": "CDx_CreateRampTextures1024x2"
+  },
+  "0x1000CA00": {
+   "ours": "0x1000CA00",
+   "how": "signature",
+   "their_name": "Renderer::IsSecondViewDraw",
+   "our_name": "CDx_GetStereoSecondEyeTarget"
+  },
+  "0x1000CB20": {
+   "ours": "0x1000CB20",
+   "how": "signature",
+   "their_name": "Renderer::DrawPrimitivesStream",
+   "our_name": "CDx_DrawPrimitive"
+  },
+  "0x1000CC00": {
+   "ours": "0x1000CC00",
+   "how": "signature",
+   "their_name": "Renderer::DrawIndexedBound",
+   "our_name": "CDx_DrawIndexedPrimitive"
+  },
+  "0x1000CD00": {
+   "ours": "0x1000CD00",
+   "how": "drift",
+   "their_name": "Renderer::DrawPrimitivesMemory",
+   "our_name": "CDx_DrawPrimitiveUP"
+  },
+  "0x1000CDF0": {
+   "ours": "0x1000CDF0",
+   "how": "drift",
+   "their_name": "Renderer::DrawIndexedMemory",
+   "our_name": "sub_1000CDF0"
+  },
+  "0x1000CF20": {
+   "ours": "0x1000CF20",
+   "how": "signature",
+   "their_name": "Renderer::SetProjectionShifted",
+   "our_name": "CDx_ApplyStereoEyeProjection"
+  },
+  "0x1000CF90": {
+   "ours": "0x1000CF90",
+   "how": "signature",
+   "their_name": "Renderer::ResendProjection",
+   "our_name": "CDx_RestoreProjection"
+  },
+  "0x1000D380": {
+   "ours": "0x1000D380",
+   "how": "drift",
+   "their_name": "CpuFeatures::CpuFeatures",
+   "our_name": "CEnv_Constructor"
+  },
+  "0x1000D3E0": {
+   "ours": "0x1000D3E0",
+   "how": "drift",
+   "their_name": "CpuFeatures::Init",
+   "our_name": "sub_1000D3E0"
+  },
+  "0x1000D3F0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "CpuFeatures::StepSecondView",
+   "our_name": null
+  },
+  "0x1000D400": {
+   "ours": "0x1000D400",
+   "how": "signature",
+   "their_name": "CpuFeatures::ProbeCpu",
+   "our_name": null
+  },
+  "0x1000D630": {
+   "ours": "0x1000D630",
+   "how": "drift",
+   "their_name": "CpuFeatures::RefreshSecondView",
+   "our_name": null
+  },
+  "0x1000D660": {
+   "ours": "0x1000D660",
+   "how": "drift",
+   "their_name": "CpuFeatures::IsSecondView",
+   "our_name": "CEnv_IsStereoMode"
+  },
+  "0x1000D680": {
+   "ours": "0x1000D680",
+   "how": "signature",
+   "their_name": "GetSseFlag",
+   "our_name": "sub_1000D680"
+  },
+  "0x1000D6B0": {
+   "ours": "0x1000D6B0",
+   "how": "drift",
+   "their_name": "GetSimdFlag2",
+   "our_name": "sub_1000D6B0"
+  },
+  "0x100106C0": {
+   "ours": "0x100106C0",
+   "how": "drift",
+   "their_name": "InGameTask::Update",
+   "our_name": "sub_100106C0"
+  },
+  "0x10010700": {
+   "ours": "0x10010700",
+   "how": "drift",
+   "their_name": "Game::Game",
+   "our_name": "App_Constructor"
+  },
+  "0x10010CE0": {
+   "ours": "0x10010CE0",
+   "how": "drift",
+   "their_name": "Game::SetSubState",
+   "our_name": "App_SetSeqStep"
+  },
+  "0x10010D20": {
+   "ours": "0x10010D20",
+   "how": "signature",
+   "their_name": "Game::StepStartup",
+   "our_name": "App_InitScene"
+  },
+  "0x10011900": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "Game::EmptyTaskMethod",
+   "our_name": null
+  },
+  "0x100119C0": {
+   "ours": "0x10011A00",
+   "how": "signature",
+   "their_name": "Game::Update",
+   "our_name": "Frame_Render"
+  },
+  "0x10012F00": {
+   "ours": "0x10012F40",
+   "how": "signature",
+   "their_name": "DrawFrameDissolve",
+   "our_name": "Post_Afterimage"
+  },
+  "0x10013270": {
+   "ours": "0x100132B0",
+   "how": "signature",
+   "their_name": "Game::DrawColorWashTrail",
+   "our_name": "Post_FlashAndZoomFeedback"
+  },
+  "0x10013A90": {
+   "ours": "0x10013AD0",
+   "how": "drift",
+   "their_name": "Game::StepStartupState5",
+   "our_name": "App_StepGameState5Connect"
+  },
+  "0x10014130": {
+   "ours": "0x10014170",
+   "how": "signature",
+   "their_name": "Game::DispatchInGameSubState",
+   "our_name": "sub_10014170"
+  },
+  "0x10014180": {
+   "ours": "0x100141C0",
+   "how": "drift",
+   "their_name": "Game::InGameSubState0",
+   "our_name": "Game_InGameSubState0"
+  },
+  "0x100141C0": {
+   "ours": "0x10014200",
+   "how": "drift",
+   "their_name": "Game::InGameSubState1",
+   "our_name": "sub_10014200"
+  },
+  "0x10014260": {
+   "ours": "0x100142A0",
+   "how": "drift",
+   "their_name": "Game::InGameSubState2",
+   "our_name": "sub_100142A0"
+  },
+  "0x10014270": {
+   "ours": "0x100142B0",
+   "how": "drift",
+   "their_name": "InGameSubState3",
+   "our_name": "sub_100142B0"
+  },
+  "0x10014310": {
+   "ours": "0x10014350",
+   "how": "drift",
+   "their_name": "Game::InGameSubState4",
+   "our_name": "sub_10014350"
+  },
+  "0x10014350": {
+   "ours": "0x10014390",
+   "how": "signature",
+   "their_name": "Game::StepWorld",
+   "our_name": "sub_10014390"
+  },
+  "0x10014CB0": {
+   "ours": "0x10014CF0",
+   "how": "drift",
+   "their_name": "GetFrameStepFloored",
+   "our_name": "Camera_GetFrameScale"
+  },
+  "0x10014D30": {
+   "ours": "0x10014D70",
+   "how": "drift",
+   "their_name": "GetNearPlane",
+   "our_name": "Camera_GetFloat2DC"
+  },
+  "0x10014D40": {
+   "ours": "0x10014D80",
+   "how": "drift",
+   "their_name": "GetFarPlane",
+   "our_name": "Camera_GetFloat2E0"
+  },
+  "0x10014D50": {
+   "ours": "0x10014D90",
+   "how": "drift",
+   "their_name": "SetClearColor",
+   "our_name": "Camera_SetClearColorRGB"
+  },
+  "0x10014D70": {
+   "ours": "0x10014DB0",
+   "how": "drift",
+   "their_name": "Game::SetWorldClearColor",
+   "our_name": "sub_10014DB0"
+  },
+  "0x10014DC0": {
+   "ours": "0x10014E00",
+   "how": "drift",
+   "their_name": "SetGameColor304",
+   "our_name": "sub_10014E00"
+  },
+  "0x10014DE0": {
+   "ours": "0x10014E20",
+   "how": "drift",
+   "their_name": "Game::SetColor304",
+   "our_name": "sub_10014E20"
+  },
+  "0x10014E20": {
+   "ours": "0x10014E60",
+   "how": "drift",
+   "their_name": "SetGameField2fc",
+   "our_name": "sub_10014E60"
+  },
+  "0x10014E40": {
+   "ours": "0x10014E80",
+   "how": "drift",
+   "their_name": "SetGameField300",
+   "our_name": "sub_10014E80"
+  },
+  "0x10014E70": {
+   "ours": "0x10014EB0",
+   "how": "drift",
+   "their_name": "SetGameField314",
+   "our_name": "sub_10014EB0"
+  },
+  "0x10014E90": {
+   "ours": "0x10014ED0",
+   "how": "drift",
+   "their_name": "SetGameField318",
+   "our_name": "sub_10014ED0"
+  },
+  "0x10014F50": {
+   "ours": "0x10014F90",
+   "how": "drift",
+   "their_name": "Game::AddScreenWash",
+   "our_name": "sub_10014F90"
+  },
+  "0x10015090": {
+   "ours": "0x100150D0",
+   "how": "drift",
+   "their_name": "SetViewMatrix",
+   "our_name": "Camera_SetViewMatrix"
+  },
+  "0x100150E0": {
+   "ours": "0x10015120",
+   "how": "signature",
+   "their_name": "Game::StoreViewMatrices",
+   "our_name": "sub_10015120"
+  },
+  "0x10015160": {
+   "ours": "0x100151A0",
+   "how": "drift",
+   "their_name": "Game::SetCamera",
+   "our_name": "sub_100151A0"
+  },
+  "0x10015210": {
+   "ours": "0x10015250",
+   "how": "drift",
+   "their_name": "GetActiveCamera",
+   "our_name": "Camera_GetField50"
+  },
+  "0x10015230": {
+   "ours": "0x10015270",
+   "how": "drift",
+   "their_name": "GetProjectionMatrixAddress",
+   "our_name": "Camera_GetMatrix154Ptr"
+  },
+  "0x10015250": {
+   "ours": "0x10015290",
+   "how": "drift",
+   "their_name": "SetFocalValue",
+   "our_name": "sub_10015290"
+  },
+  "0x10015270": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "Game::SetFocalValue",
+   "our_name": null
+  },
+  "0x100152C0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "RestoreProjection",
+   "our_name": null
+  },
+  "0x10015360": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "SetAspectFactor",
+   "our_name": null
+  },
+  "0x10015390": {
+   "ours": "0x100153A0",
+   "how": "call links",
+   "their_name": "Game::ResetZoomClipRebuild",
+   "our_name": "sub_100153A0"
+  },
+  "0x100153F0": {
+   "ours": "0x10015430",
+   "how": "drift",
+   "their_name": "SetProjectionParams",
+   "our_name": "sub_10015430"
+  },
+  "0x10015440": {
+   "ours": "0x10015480",
+   "how": "drift",
+   "their_name": "RebuildProjection",
+   "our_name": "Camera_BuildProjection"
+  },
+  "0x10015450": {
+   "ours": "0x10015490",
+   "how": "signature",
+   "their_name": "Game::BuildProjectionMatrix",
+   "our_name": "sub_10015490"
+  },
+  "0x100154D0": {
+   "ours": "0x10015510",
+   "how": "signature",
+   "their_name": "UpdateCameraProjection",
+   "our_name": "Camera_ApplyViewProjection"
+  },
+  "0x100160E0": {
+   "ours": "0x100161B0",
+   "how": "drift",
+   "their_name": "CreateRendererSaveBackBuffer",
+   "our_name": "App_CreateRendererAndApp"
+  },
+  "0x10016310": {
+   "ours": "0x100163E0",
+   "how": "drift",
+   "their_name": "SetFlagByte4559be",
+   "our_name": "sub_100163E0"
+  },
+  "0x100163F0": {
+   "ours": "0x10016430",
+   "how": "drift",
+   "their_name": "SetExitCode",
+   "our_name": "sub_10016430"
+  },
+  "0x10017030": {
+   "ours": "0x10017100",
+   "how": "drift",
+   "their_name": "Renderer::GetGammaFactors",
+   "our_name": "GammaRamp_GetChannelSamples"
+  },
+  "0x10017160": {
+   "ours": "0x10017230",
+   "how": "drift",
+   "their_name": "Renderer::UpdateGammaRamp",
+   "our_name": "GammaRamp_ApplyIfChanged"
+  },
+  "0x10017C50": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ErrPrintf",
+   "our_name": null
+  },
+  "0x10018780": {
+   "ours": "0x10018850",
+   "how": "drift",
+   "their_name": "MoviePlayer::DrivePlaylist",
+   "our_name": "sub_10018850"
+  },
+  "0x10019960": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ResourceClass::StoreArgSlot10",
+   "our_name": null
+  },
+  "0x10019980": {
+   "ours": "0x10019A50",
+   "how": "signature",
+   "their_name": "MotionResource::SampleFlaggedBones",
+   "our_name": null
+  },
+  "0x10019A60": {
+   "ours": "0x10019B30",
+   "how": "signature",
+   "their_name": "MotionResource::SampleBoneToPose",
+   "our_name": "SampleAnimationTrack_ToBuffer"
+  },
+  "0x10019E10": {
+   "ours": "0x10019EE0",
+   "how": "signature",
+   "their_name": "MotionResource::SampleBoneBlend",
+   "our_name": "SampleAnimationTrack_Live"
+  },
+  "0x1001A310": {
+   "ours": "0x1001A3E0",
+   "how": "signature",
+   "their_name": "KzMotionMan::UpdateFrame",
+   "our_name": "sub_1001A3E0"
+  },
+  "0x1001A350": {
+   "ours": "0x1001A420",
+   "how": "signature",
+   "their_name": "KzMotionMan::EvaluatePose",
+   "our_name": null
+  },
+  "0x1001AA90": {
+   "ours": "0x1001AB60",
+   "how": "drift",
+   "their_name": "KzQue::SampleMotion",
+   "our_name": "CYyMotionQue_StartMotion"
+  },
+  "0x1001AB70": {
+   "ours": "0x1001AC40",
+   "how": "drift",
+   "their_name": "QueueSlot::ClearDword10",
+   "our_name": "sub_1001AC40"
+  },
+  "0x1001B120": {
+   "ours": "0x1001B1F0",
+   "how": "drift",
+   "their_name": "QueueSlot::AdvanceMotionTime",
+   "our_name": "sub_1001B1F0"
+  },
+  "0x1001B160": {
+   "ours": "0x1001B230",
+   "how": "combined",
+   "their_name": "QueueSlot::SampleEntries",
+   "our_name": "CYyMotionQue_SampleInto"
+  },
+  "0x1001B210": {
+   "ours": "0x1001B2E0",
+   "how": "drift",
+   "their_name": "QueueSlot::AgeEntries",
+   "our_name": "sub_1001B2E0"
+  },
+  "0x1001B500": {
+   "ours": "0x1001B5D0",
+   "how": "drift",
+   "their_name": "KzQue::CheckStatus",
+   "our_name": "sub_1001B5D0"
+  },
+  "0x1001CFD0": {
+   "ours": "0x1001D0A0",
+   "how": "call links",
+   "their_name": "CreateRedirectTexture",
+   "our_name": "Model_CreateTranslucentTargets"
+  },
+  "0x1001D170": {
+   "ours": "0x1001D240",
+   "how": "signature",
+   "their_name": "ActorRedirect::Begin",
+   "our_name": "Model_BeginTranslucentPass"
+  },
+  "0x1001D280": {
+   "ours": "0x1001D350",
+   "how": "signature",
+   "their_name": "ActorRedirect::End",
+   "our_name": "Model_TranslucentUnbindTexture"
+  },
+  "0x1001D2C0": {
+   "ours": "0x1001D390",
+   "how": "drift",
+   "their_name": "SetActorTintRedirect",
+   "our_name": "sub_1001D390"
+  },
+  "0x1001D2E0": {
+   "ours": "0x1001D3B0",
+   "how": "signature",
+   "their_name": "ActorRedirect::BlendToScene",
+   "our_name": "Model_CompositeTranslucentPass"
+  },
+  "0x1001E340": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "SetCameraEyeTarget",
+   "our_name": null
+  },
+  "0x1001E400": {
+   "ours": "0x1001E4D0",
+   "how": "drift",
+   "their_name": "GetDirection",
+   "our_name": "sub_1001E4D0"
+  },
+  "0x1001E4E0": {
+   "ours": "0x1001E5B0",
+   "how": "drift",
+   "their_name": "YmCameraManager::HandleEvent",
+   "our_name": "sub_1001E5B0"
+  },
+  "0x1001ED90": {
+   "ours": "0x1001EE60",
+   "how": "signature",
+   "their_name": "YmCameraManager::Follow",
+   "our_name": "sub_1001EE60"
+  },
+  "0x100215B0": {
+   "ours": "0x10021680",
+   "how": "drift",
+   "their_name": "YmCameraManager::AttachToActor",
+   "our_name": "sub_10021680"
+  },
+  "0x10021830": {
+   "ours": "0x10021900",
+   "how": "signature",
+   "their_name": "YmCameraManager::Step",
+   "our_name": "Camera_UpdateController"
+  },
+  "0x10021A10": {
+   "ours": "0x10021AE0",
+   "how": "signature",
+   "their_name": "YmCameraManager::HasChanged",
+   "our_name": "sub_10021AE0"
+  },
+  "0x10021AA0": {
+   "ours": "0x10021B70",
+   "how": "signature",
+   "their_name": "YmCameraManager::RebuildView",
+   "our_name": "sub_10021B70"
+  },
+  "0x10021B40": {
+   "ours": "0x10021C10",
+   "how": "drift",
+   "their_name": "YmCameraManager::MakeMatrix",
+   "our_name": "sub_10021C10"
+  },
+  "0x10022400": {
+   "ours": "0x100224D0",
+   "how": "signature",
+   "their_name": "Type1MeshNode::DrawNode",
+   "our_name": "CYyModelDt_PrepareRenderState"
+  },
+  "0x10022ED0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "SetType1VertexShader",
+   "our_name": null
+  },
+  "0x10022EE0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ApplyType1VertexShader",
+   "our_name": null
+  },
+  "0x10022F00": {
+   "ours": "0x10022FD0",
+   "how": "drift",
+   "their_name": "Type1MeshNode::CopyStagedVertex",
+   "our_name": "sub_10022FD0"
+  },
+  "0x10022F40": {
+   "ours": "0x10023010",
+   "how": "signature",
+   "their_name": "Type1MeshNode::ExpandTriList",
+   "our_name": "CYyModelDt_ExpandTriList"
+  },
+  "0x10023000": {
+   "ours": "0x100230D0",
+   "how": "signature",
+   "their_name": "Type1MeshNode::ExpandTriStrip",
+   "our_name": "CYyModelDt_ExpandTriStrip"
+  },
+  "0x100230F0": {
+   "ours": "0x100231C0",
+   "how": "drift",
+   "their_name": "Type1MeshNode::ShiftIfPosed",
+   "our_name": "CYyModelDt_PrepareRenderStateSimple"
+  },
+  "0x10023120": {
+   "ours": "0x100231F0",
+   "how": "drift",
+   "their_name": "Type1MeshNode::ShiftByOwnerMove",
+   "our_name": "SkinVerticesSimple"
+  },
+  "0x100231C0": {
+   "ours": "0x10023290",
+   "how": "signature",
+   "their_name": "Type1MeshNode::BoneTransformVertices",
+   "our_name": "SkinVertices"
+  },
+  "0x100234F0": {
+   "ours": "0x100235C0",
+   "how": "drift",
+   "their_name": "Type1MeshNode::TransformVertexByBone",
+   "our_name": "ApplyWeightedBoneMatrix"
+  },
+  "0x10023550": {
+   "ours": "0x10023620",
+   "how": "drift",
+   "their_name": "Type1MeshNode::BlendBoneVertex",
+   "our_name": "sub_10023620"
+  },
+  "0x10023630": {
+   "ours": "0x10023700",
+   "how": "drift",
+   "their_name": "Type1MeshNode::StepSpringParticles",
+   "our_name": "SkinVerticesFinish_SecondaryMotionSolver"
+  },
+  "0x10024830": {
+   "ours": "0x10024900",
+   "how": "signature",
+   "their_name": "Type1MeshNode::RecomputeNormals",
+   "our_name": "sub_10024900"
+  },
+  "0x10024F40": {
+   "ours": "0x10025010",
+   "how": "drift",
+   "their_name": "Type1MeshNode::Type1MeshNode",
+   "our_name": "sub_10025010"
+  },
+  "0x10024F60": {
+   "ours": "0x10025030",
+   "how": "signature",
+   "their_name": "Type1MeshNode::Draw",
+   "our_name": "CYyModelDt_PrepareRenderStateEntry"
+  },
+  "0x10024F90": {
+   "ours": "0x10025060",
+   "how": "drift",
+   "their_name": "Type1MeshNode::Update",
+   "our_name": "CYyModelDt_PrepareRenderStateSimpleEntry"
+  },
+  "0x10025020": {
+   "ours": "0x100250F0",
+   "how": "drift",
+   "their_name": "Type1MeshNode::AllocStagingVertices",
+   "our_name": "sub_100250F0"
+  },
+  "0x100250D0": {
+   "ours": "0x100251A0",
+   "how": "citations",
+   "their_name": "Type1MeshNode::MarkUsedBones",
+   "our_name": "CYyModelDt_MarkReferencedBones"
+  },
+  "0x10025130": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ResetSharedTextureCache2",
+   "our_name": null
+  },
+  "0x10025260": {
+   "ours": "0x10025330",
+   "how": "signature",
+   "their_name": "ScreenPass::SetupRepeatDraw",
+   "our_name": "ProjTex_BeginPass"
+  },
+  "0x100254F0": {
+   "ours": "0x100255C0",
+   "how": "signature",
+   "their_name": "ScreenPass::UndoRepeatDraw",
+   "our_name": "ProjTex_EndPass"
+  },
+  "0x100257A0": {
+   "ours": "0x10025870",
+   "how": "signature",
+   "their_name": "ScreenPass::CopyWorldTexture",
+   "our_name": "ProjTex_CaptureToTarget"
+  },
+  "0x10025B00": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "EmptyStartupInit",
+   "our_name": null
+  },
+  "0x10025B70": {
+   "ours": "0x10025C40",
+   "how": "signature",
+   "their_name": "SetupOverlayRepeatDraw",
+   "our_name": "EnvMap_BeginPass"
+  },
+  "0x10025EA0": {
+   "ours": "0x10025F70",
+   "how": "signature",
+   "their_name": "UndoOverlayRepeatDraw",
+   "our_name": "EnvMap_EndPass"
+  },
+  "0x10027620": {
+   "ours": "0x100276F0",
+   "how": "drift",
+   "their_name": "ProjectPoint",
+   "our_name": "Gfx_ProjectWorldToClip"
+  },
+  "0x10027810": {
+   "ours": "0x100278E0",
+   "how": "call links",
+   "their_name": "NdcToPixels",
+   "our_name": "Gfx_NdcToScreen"
+  },
+  "0x100278E0": {
+   "ours": "0x100279B0",
+   "how": "drift",
+   "their_name": "sqMat4Identity",
+   "our_name": "Mat4_SetIdentity"
+  },
+  "0x100282F0": {
+   "ours": "0x100283C0",
+   "how": "signature",
+   "their_name": "Matrix4::InvertRigid",
+   "our_name": "Mat4_InvertOrthonormal"
+  },
+  "0x10029980": {
+   "ours": "0x10029A50",
+   "how": "drift",
+   "their_name": "CreateSharedVertexBuffers",
+   "our_name": "CreateSharedVertexBuffers"
+  },
+  "0x10029A90": {
+   "ours": "0x10029B60",
+   "how": "drift",
+   "their_name": "ReleaseSharedBuffersTextures",
+   "our_name": "sub_10029B60"
+  },
+  "0x10029AE0": {
+   "ours": "0x10029BB0",
+   "how": "drift",
+   "their_name": "MeshSlotHolder::MeshSlotHolder",
+   "our_name": "??0NativeDisplay@Sexy@@QAE@XZ"
+  },
+  "0x10029BC0": {
+   "ours": "0x10029C90",
+   "how": "drift",
+   "their_name": "MeshNode::MeshNode",
+   "our_name": "sub_10029C90"
+  },
+  "0x10029C60": {
+   "ours": "0x10029D30",
+   "how": "drift",
+   "their_name": "KzMotionMan::KzMotionMan",
+   "our_name": "sub_10029D30"
+  },
+  "0x10029D80": {
+   "ours": "0x10029E50",
+   "how": "drift",
+   "their_name": "KzMotionMan::BindSkeleton",
+   "our_name": "CYyModelBase_SetResourceAndRebuild"
+  },
+  "0x10029DE0": {
+   "ours": "0x10029EB0",
+   "how": "drift",
+   "their_name": "KzMotionMan::FindNodeListTail",
+   "our_name": "sub_10029EB0"
+  },
+  "0x10029E30": {
+   "ours": "0x10029F00",
+   "how": "drift",
+   "their_name": "KzMotionMan::AppendNode",
+   "our_name": "sub_10029F00"
+  },
+  "0x10029EA0": {
+   "ours": "0x10029F70",
+   "how": "drift",
+   "their_name": "KzMotionMan::CreateMeshNode",
+   "our_name": "CYyModelBase_AddPartFromResource"
+  },
+  "0x10029F30": {
+   "ours": "0x1002A000",
+   "how": "signature",
+   "their_name": "MeshNode::Draw",
+   "our_name": "sub_1002A000"
+  },
+  "0x10029F70": {
+   "ours": "0x1002A040",
+   "how": "drift",
+   "their_name": "MeshNode::Update",
+   "our_name": "sub_1002A040"
+  },
+  "0x10029FF0": {
+   "ours": "0x1002A0C0",
+   "how": "signature",
+   "their_name": "KzMotionMan::RebuildBoneUseFlags",
+   "our_name": "sub_1002A0C0"
+  },
+  "0x1002A060": {
+   "ours": "0x1002A130",
+   "how": "call links",
+   "their_name": "KzMotionMan::StepMotionQueues",
+   "our_name": "sub_1002A130"
+  },
+  "0x1002A070": {
+   "ours": "0x1002A140",
+   "how": "signature",
+   "their_name": "KzMotionMan::CalcMotion",
+   "our_name": "Model_AnimateAndPose"
+  },
+  "0x1002A2E0": {
+   "ours": "0x1002A3B0",
+   "how": "signature",
+   "their_name": "KzMotionMan::Draw",
+   "our_name": "CYyModelBase_DrawLit"
+  },
+  "0x1002A630": {
+   "ours": "0x1002A700",
+   "how": "drift",
+   "their_name": "KzMotionMan::UpdateNodes",
+   "our_name": "sub_1002A700"
+  },
+  "0x1002A680": {
+   "ours": "0x1002A750",
+   "how": "drift",
+   "their_name": "KzMotionMan::QueryKeyPointPosition",
+   "our_name": "sub_1002A750"
+  },
+  "0x1002A6B0": {
+   "ours": "0x1002A780",
+   "how": "drift",
+   "their_name": "KzMotionMan::GetKeyPointPosition",
+   "our_name": "sub_1002A780"
+  },
+  "0x1002A8E0": {
+   "ours": "0x1002A9B0",
+   "how": "drift",
+   "their_name": "KzMotionMan::FindBoneByKey",
+   "our_name": "sub_1002A9B0"
+  },
+  "0x1002AB90": {
+   "ours": "0x1002AC60",
+   "how": "drift",
+   "their_name": "KzMotionMan::TurnJointsToGaze",
+   "our_name": "sub_1002AC60"
+  },
+  "0x1002B5D0": {
+   "ours": "0x1002B6A0",
+   "how": "drift",
+   "their_name": "ModelOwner::CreateContainer",
+   "our_name": "CYyModel_CreateModelBase"
+  },
+  "0x1002B610": {
+   "ours": "0x1002B6E0",
+   "how": "signature",
+   "their_name": "ModelOwner::Draw",
+   "our_name": "CXiSkeletonActor_DrawModel"
+  },
+  "0x1002C1A0": {
+   "ours": "0x1002C270",
+   "how": "signature",
+   "their_name": "ModelOwner::UpdateHiddenNodes",
+   "our_name": "sub_1002C270"
+  },
+  "0x1002C1D0": {
+   "ours": "0x1002C2A0",
+   "how": "drift",
+   "their_name": "ModelOwner::StepMotionQueues",
+   "our_name": "sub_1002C2A0"
+  },
+  "0x1002C200": {
+   "ours": "0x1002C2D0",
+   "how": "signature",
+   "their_name": "ModelOwner::UpdatePose",
+   "our_name": "CXiSkeletonActor_AnimateModels"
+  },
+  "0x1002C290": {
+   "ours": "0x1002C360",
+   "how": "signature",
+   "their_name": "ModelOwner::DrawMeshNodes",
+   "our_name": "CXiSkeletonActor_PrepareModelsOnce"
+  },
+  "0x1002C330": {
+   "ours": "0x1002C400",
+   "how": "drift",
+   "their_name": "ModelOwner::GetNodePoint",
+   "our_name": "sub_1002C400"
+  },
+  "0x1002C4F0": {
+   "ours": "0x1002C5C0",
+   "how": "drift",
+   "their_name": "ModelOwner::GetKeyPointBoneIndex",
+   "our_name": "CXiSkeletonActor_GetModelElem"
+  },
+  "0x1002C860": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "SetPrecedingDwordBit0",
+   "our_name": null
+  },
+  "0x1002C8C0": {
+   "ours": "0x1002C990",
+   "how": "signature",
+   "their_name": "MeshObject::StepBuild",
+   "our_name": "sub_1002C990"
+  },
+  "0x1002CAB0": {
+   "ours": "0x1002CB80",
+   "how": "drift",
+   "their_name": "MeshObject::CountTriangleCorners",
+   "our_name": "sub_1002CB80"
+  },
+  "0x1002CBE0": {
+   "ours": "0x1002CCB0",
+   "how": "drift",
+   "their_name": "MeshObject::CreateIndexAndUvBuffers",
+   "our_name": "CYyOs2VtxBuffer_CreateBuffersStep"
+  },
+  "0x1002CD50": {
+   "ours": "0x1002CE20",
+   "how": "drift",
+   "their_name": "MeshObject::FillIndexAndUvBuffers",
+   "our_name": "sub_1002CE20"
+  },
+  "0x1002D240": {
+   "ours": "0x1002D310",
+   "how": "drift",
+   "their_name": "MeshObject::SetSkinSource",
+   "our_name": "sub_1002D310"
+  },
+  "0x1002D270": {
+   "ours": "0x1002D340",
+   "how": "drift",
+   "their_name": "MeshObject::BuildMirroredVertices",
+   "our_name": "sub_1002D340"
+  },
+  "0x1002D5B0": {
+   "ours": "0x1002D680",
+   "how": "drift",
+   "their_name": "MeshObject::MeshObject",
+   "our_name": "CYyOs2VtxBuffer_Constructor"
+  },
+  "0x1002D630": {
+   "ours": "0x1002D700",
+   "how": "drift",
+   "their_name": "MeshObject::~MeshObject",
+   "our_name": "CYyOs2VtxBuffer_Destructor"
+  },
+  "0x1002DB40": {
+   "ours": "0x1002DC10",
+   "how": "signature",
+   "their_name": "MeshResource::DrawSkinned",
+   "our_name": "CYyModelDt_SkinAndDrawV2"
+  },
+  "0x1002F060": {
+   "ours": "0x1002F130",
+   "how": "signature",
+   "their_name": "BindVertexStream",
+   "our_name": "Gfx_SetStreamSourceCached"
+  },
+  "0x1002F0D0": {
+   "ours": "0x1002F1A0",
+   "how": "drift",
+   "their_name": "ApplyVertexShader",
+   "our_name": "Gfx_ApplyCachedVertexShader"
+  },
+  "0x1002F0F0": {
+   "ours": "0x1002F1C0",
+   "how": "drift",
+   "their_name": "SetVertexShader",
+   "our_name": "Gfx_SetVertexShaderCached"
+  },
+  "0x1002F100": {
+   "ours": "0x1002F1D0",
+   "how": "signature",
+   "their_name": "MeshResource::ChooseTransformRoutine",
+   "our_name": "Model_SkinVerticesCpu"
+  },
+  "0x1002F130": {
+   "ours": "0x1002F200",
+   "how": "signature",
+   "their_name": "MeshResource::SkinX87",
+   "our_name": null
+  },
+  "0x1002FFE0": {
+   "ours": null,
+   "how": "rejected",
+   "their_name": "MeshResource::ChooseSimdTransform",
+   "our_name": null
+  },
+  "0x1002FFF0": {
+   "ours": "0x100300C0",
+   "how": "signature",
+   "their_name": "MeshResource::SkinSse",
+   "our_name": null
+  },
+  "0x100302E0": {
+   "ours": "0x100303B0",
+   "how": "signature",
+   "their_name": "MeshResource::SkinSseMirrored",
+   "our_name": "sub_100303B0"
+  },
+  "0x100308E0": {
+   "ours": "0x100309B0",
+   "how": "drift",
+   "their_name": "SkinVertexOneBoneSse",
+   "our_name": "sub_100309B0"
+  },
+  "0x10030970": {
+   "ours": "0x10030A40",
+   "how": "signature",
+   "their_name": "SkinVertexTwoBoneSse",
+   "our_name": "sub_10030A40"
+  },
+  "0x10030AA0": {
+   "ours": "0x10030B70",
+   "how": "drift",
+   "their_name": "MeshNode::MarkUsedBones",
+   "our_name": "sub_10030B70"
+  },
+  "0x10030B00": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "MeshResource::UpdateEmpty",
+   "our_name": null
+  },
+  "0x10032F10": {
+   "ours": "0x10032FE0",
+   "how": "call links",
+   "their_name": "Quaternion::ToMatrix",
+   "our_name": "sub_10032FE0"
+  },
+  "0x10033150": {
+   "ours": "0x10033220",
+   "how": "signature",
+   "their_name": "Quaternion::LerpUnnormalized",
+   "our_name": "Quat_NLerp"
+  },
+  "0x10033290": {
+   "ours": "0x10033360",
+   "how": "drift",
+   "their_name": "Quaternion::FromPartialRotation",
+   "our_name": "sub_10033360"
+  },
+  "0x100335E0": {
+   "ours": "0x100336B0",
+   "how": "drift",
+   "their_name": "ResetSharedTextureCache",
+   "our_name": "sub_100336B0"
+  },
+  "0x10033730": {
+   "ours": "0x10033800",
+   "how": "signature",
+   "their_name": "ModelShadow::BeginSilhouetteDraw",
+   "our_name": "Model_BeginOffscreenPass"
+  },
+  "0x100339A0": {
+   "ours": "0x10033A70",
+   "how": "signature",
+   "their_name": "ModelShadow::EndSilhouetteDraw",
+   "our_name": "Model_EndOffscreenPassBindTextures"
+  },
+  "0x10033CD0": {
+   "ours": "0x10033DA0",
+   "how": "signature",
+   "their_name": "ModelShadow::DrawGroundShadow",
+   "our_name": "sub_10033DA0"
+  },
+  "0x100341D0": {
+   "ours": "0x100342A0",
+   "how": "signature",
+   "their_name": "SkeletonState::AllocatePaletteAndFlags",
+   "our_name": "sub_100342A0"
+  },
+  "0x10034260": {
+   "ours": "0x10034330",
+   "how": "signature",
+   "their_name": "SkeletonState::SelectPalette",
+   "our_name": "Skel_BindShared"
+  },
+  "0x10034550": {
+   "ours": "0x10034620",
+   "how": "signature",
+   "their_name": "SkeletonState::CombineWithRestPose",
+   "our_name": "Skel_LoadBoneRotTrans"
+  },
+  "0x10034700": {
+   "ours": "0x100347D0",
+   "how": "signature",
+   "their_name": "SkeletonState::BuildBoneMatrices",
+   "our_name": "Skel_ComposeMode"
+  },
+  "0x10034AB0": {
+   "ours": "0x10034B80",
+   "how": "drift",
+   "their_name": "RebuildBoneMatricesFrom",
+   "our_name": "Skel_ComposeFromBone"
+  },
+  "0x100350A0": {
+   "ours": "0x10035170",
+   "how": "signature",
+   "their_name": "SkeletonState::ShiftBoneMatrices",
+   "our_name": "Skel_OffsetAllTranslations"
+  },
+  "0x100351D0": {
+   "ours": "0x100352A0",
+   "how": "drift",
+   "their_name": "SkeletonState::ClearBoneUseFlags",
+   "our_name": "sub_100352A0"
+  },
+  "0x10035870": {
+   "ours": "0x10035940",
+   "how": "drift",
+   "their_name": "SoundFadeTask::EaseLevel",
+   "our_name": "sub_10035940"
+  },
+  "0x10035AF0": {
+   "ours": "0x10035BC0",
+   "how": "drift",
+   "their_name": "StartSoundFades",
+   "our_name": "sub_10035BC0"
+  },
+  "0x10035C70": {
+   "ours": "0x10035D40",
+   "how": "drift",
+   "their_name": "StartSoundFadeMode2",
+   "our_name": "sub_10035D40"
+  },
+  "0x10035CC0": {
+   "ours": "0x10035D90",
+   "how": "drift",
+   "their_name": "StartSoundFadeMode1",
+   "our_name": "sub_10035D90"
+  },
+  "0x10035D10": {
+   "ours": "0x10035DE0",
+   "how": "drift",
+   "their_name": "StartSoundFadeMode4",
+   "our_name": "sub_10035DE0"
+  },
+  "0x10035D60": {
+   "ours": "0x10035E30",
+   "how": "drift",
+   "their_name": "StartSoundFadeMode8",
+   "our_name": "sub_10035E30"
+  },
+  "0x100360A0": {
+   "ours": "0x10036170",
+   "how": "drift",
+   "their_name": "HandRecordToSoundEffect",
+   "our_name": "sub_10036170"
+  },
+  "0x10036160": {
+   "ours": "0x10036230",
+   "how": "drift",
+   "their_name": "UpdateSoundCueElements",
+   "our_name": "sub_10036230"
+  },
+  "0x10036290": {
+   "ours": "0x10036360",
+   "how": "drift",
+   "their_name": "FindOrRecordSoundHandleKey",
+   "our_name": "sub_10036360"
+  },
+  "0x100363D0": {
+   "ours": "0x100364A0",
+   "how": "drift",
+   "their_name": "SoundCueElement::Update",
+   "our_name": "sub_100364A0"
+  },
+  "0x100367E0": {
+   "ours": "0x100368B0",
+   "how": "drift",
+   "their_name": "SoundCueElement::Step",
+   "our_name": "sub_100368B0"
+  },
+  "0x10037280": {
+   "ours": "0x10037350",
+   "how": "drift",
+   "their_name": "YmMusicServer::Play",
+   "our_name": "sub_10037350"
+  },
+  "0x100376D0": {
+   "ours": "0x100377A0",
+   "how": "drift",
+   "their_name": "QueueTableSoundChange",
+   "our_name": "sub_100377A0"
+  },
+  "0x10037890": {
+   "ours": "0x10037960",
+   "how": "drift",
+   "their_name": "QueueSoundSwitchNoRestart",
+   "our_name": null
+  },
+  "0x100383E0": {
+   "ours": "0x100384B0",
+   "how": "drift",
+   "their_name": "QueueTextRecord",
+   "our_name": "Font_QueueText"
+  },
+  "0x10038450": {
+   "ours": "0x10038520",
+   "how": "drift",
+   "their_name": "FlushTextRecords",
+   "our_name": "Font_DrawPass"
+  },
+  "0x10038650": {
+   "ours": "0x10038720",
+   "how": "drift",
+   "their_name": "DrawQueuedText",
+   "our_name": "Font_DrawString"
+  },
+  "0x10038860": {
+   "ours": "0x10038930",
+   "how": "drift",
+   "their_name": "CreateHelperTexture",
+   "our_name": "Post_CreateScreenEffectTargets"
+  },
+  "0x100389A0": {
+   "ours": "0x10038A70",
+   "how": "drift",
+   "their_name": "SetShrinkQuadColor",
+   "our_name": "sub_10038A70"
+  },
+  "0x100389B0": {
+   "ours": "0x10038A80",
+   "how": "signature",
+   "their_name": "ActorImageHelper::ShrinkImage",
+   "our_name": "Post_CaptureSceneToTarget"
+  },
+  "0x10038D40": {
+   "ours": "0x10038E10",
+   "how": "signature",
+   "their_name": "ActorImageHelper::DrawTintedRing",
+   "our_name": "Post_DrawRotatingGhostLayers"
+  },
+  "0x100399B0": {
+   "ours": "0x10039A80",
+   "how": "signature",
+   "their_name": "TextureCacheEntry::CreateAndFill",
+   "our_name": "TexObj_Create"
+  },
+  "0x10039D80": {
+   "ours": "0x10039E50",
+   "how": "signature",
+   "their_name": "TextureCacheEntry::DecodeAndLoadMips",
+   "our_name": "TexObj_Upload"
+  },
+  "0x1003AAA0": {
+   "ours": "0x1003AB70",
+   "how": "drift",
+   "their_name": "ResourceCache::PumpLoadRelease",
+   "our_name": "TexMgr_UploadPumpEntry"
+  },
+  "0x1003AAE0": {
+   "ours": "0x1003ABB0",
+   "how": "signature",
+   "their_name": "TextureCache::PumpLoads",
+   "our_name": "TexMgr_UploadPump"
+  },
+  "0x1003AE40": {
+   "ours": "0x1003AF10",
+   "how": "drift",
+   "their_name": "TextureCache::FindEntryByName",
+   "our_name": "CYyTexMng_FindByNameInResource"
+  },
+  "0x1003AFB0": {
+   "ours": "0x1003B080",
+   "how": "signature",
+   "their_name": "VertexBufferPool::VertexBufferPool",
+   "our_name": "sub_1003B080"
+  },
+  "0x1003B140": {
+   "ours": "0x1003B210",
+   "how": "drift",
+   "their_name": "VertexBufferPool::Allocate",
+   "our_name": "CYyVbMng_AcquireVertexBuffer"
+  },
+  "0x1003B2F0": {
+   "ours": "0x1003B3C0",
+   "how": "drift",
+   "their_name": "ReleasePooledVertexBuffer",
+   "our_name": "CYyVbMng_ReleaseVertexBuffer"
+  },
+  "0x1003B360": {
+   "ours": "0x1003B430",
+   "how": "drift",
+   "their_name": "PoolRecord::DeletingDestructor",
+   "our_name": "CYyVb_ScalarDeletingDtor"
+  },
+  "0x1003B380": {
+   "ours": "0x1003B450",
+   "how": "drift",
+   "their_name": "PoolRecord::PoolRecord",
+   "our_name": "CYyVb_Constructor"
+  },
+  "0x1003B3D0": {
+   "ours": "0x1003B4A0",
+   "how": "drift",
+   "their_name": "PoolRecord::~PoolRecord",
+   "our_name": "sub_1003B4A0"
+  },
+  "0x1003B400": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "PoolRecord::LinkAtHead",
+   "our_name": null
+  },
+  "0x1003B4C0": {
+   "ours": "0x1003B590",
+   "how": "drift",
+   "their_name": "ActorRef::ReturnZero",
+   "our_name": "CMoAttachments_vf006"
+  },
+  "0x1003B8B0": {
+   "ours": "0x1003B980",
+   "how": "drift",
+   "their_name": "BuildAimMatrix",
+   "our_name": "sub_1003B980"
+  },
+  "0x1003B950": {
+   "ours": "0x1003BA20",
+   "how": "signature",
+   "their_name": "ResolveActorAttachPoint",
+   "our_name": "sub_1003BA20"
+  },
+  "0x1003BD40": {
+   "ours": "0x1003BE10",
+   "how": "signature",
+   "their_name": "YmGenerater::BuildAttachMatrix",
+   "our_name": "YmGenerater_BuildAttachMatrix"
+  },
+  "0x1003C650": {
+   "ours": "0x1003C720",
+   "how": "drift",
+   "their_name": "ActorRef::ForwardSlot3E8",
+   "our_name": "sub_1003C720"
+  },
+  "0x1003D570": {
+   "ours": "0x1003D640",
+   "how": "signature",
+   "their_name": "DrawSkyDome",
+   "our_name": "Sky_DrawGradientDome"
+  },
+  "0x1003D8D0": {
+   "ours": "0x1003D9A0",
+   "how": "drift",
+   "their_name": "DrawSkyDomePassUnused",
+   "our_name": "Sky_DrawDome"
+  },
+  "0x1003DA90": {
+   "ours": "0x1003DB60",
+   "how": "signature",
+   "their_name": "DrawSkyDomePass",
+   "our_name": "Sky_DrawDomeViewCentered"
+  },
+  "0x1003DF10": {
+   "ours": "0x1003DFE0",
+   "how": "drift",
+   "their_name": "Color4::Scale",
+   "our_name": "sub_1003DFE0"
+  },
+  "0x1003E100": {
+   "ours": "0x1003E1D0",
+   "how": "drift",
+   "their_name": "Color4::Add",
+   "our_name": "sub_1003E1D0"
+  },
+  "0x1003E1B0": {
+   "ours": "0x1003E280",
+   "how": "drift",
+   "their_name": "Color4::SwapFirstThirdBytes",
+   "our_name": "Color_SetFromU32SwapRB"
+  },
+  "0x1003E5E0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ResourceNode::RunSlot20",
+   "our_name": null
+  },
+  "0x1003E840": {
+   "ours": "0x1003E910",
+   "how": "signature",
+   "their_name": "D3AModel::DrawFrame",
+   "our_name": "sub_1003E910"
+  },
+  "0x1003E8D0": {
+   "ours": "0x1003E9A0",
+   "how": "signature",
+   "their_name": "YmElem::SetD3ADrawState",
+   "our_name": "YmElem_SetD3ADrawState"
+  },
+  "0x1003EA60": {
+   "ours": "0x1003EB30",
+   "how": "drift",
+   "their_name": "YmElem::DrawD3AFromBatch",
+   "our_name": "YmElem_DrawD3AFromBatch"
+  },
+  "0x1003EB20": {
+   "ours": "0x1003EBF0",
+   "how": "signature",
+   "their_name": "SpriteGroup::Draw",
+   "our_name": "sub_1003EBF0"
+  },
+  "0x1003EDA0": {
+   "ours": "0x1003EE70",
+   "how": "drift",
+   "their_name": "YmElem::DrawD3AOffscreen",
+   "our_name": "sub_1003EE70"
+  },
+  "0x1003EEC0": {
+   "ours": "0x1003EF90",
+   "how": "drift",
+   "their_name": "YmElem::StepForward",
+   "our_name": "CMoVuAnmElem_vf008"
+  },
+  "0x1003F060": {
+   "ours": "0x1003F130",
+   "how": "citations",
+   "their_name": "YmElem::DrawQuadInstances",
+   "our_name": "sub_1003F130"
+  },
+  "0x1003F350": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ResourceNode::ForwardSlot20",
+   "our_name": null
+  },
+  "0x1003F370": {
+   "ours": "0x1003F440",
+   "how": "signature",
+   "their_name": "MorphModel::DrawExpanded",
+   "our_name": "CMoDistMorphElem_ApplyMorph"
+  },
+  "0x1003F7D0": {
+   "ours": "0x1003F8A0",
+   "how": "signature",
+   "their_name": "MorphModel::BlendTargets",
+   "our_name": "CMoDistMorphElem_ComputeMorphHandle"
+  },
+  "0x1003FAE0": {
+   "ours": "0x1003FBB0",
+   "how": "drift",
+   "their_name": "YmElem::SubmitMorph",
+   "our_name": null
+  },
+  "0x10040150": {
+   "ours": "0x10040220",
+   "how": "signature",
+   "their_name": "ModelMesh::DrawPieces",
+   "our_name": "sub_10040220"
+  },
+  "0x100405A0": {
+   "ours": "0x10040670",
+   "how": "signature",
+   "their_name": "ModelMesh::DrawDistortionPieces",
+   "our_name": "CMoDistModelElem_DrawMesh"
+  },
+  "0x10040AD0": {
+   "ours": "0x10040BA0",
+   "how": "drift",
+   "their_name": "YmElem::SubmitModelMesh",
+   "our_name": "sub_10040BA0"
+  },
+  "0x10040B50": {
+   "ours": "0x10040C20",
+   "how": "drift",
+   "their_name": "YmElem::DrawZoneModel",
+   "our_name": "CMoElemFamily_SharedEarlyExit"
+  },
+  "0x10040DA0": {
+   "ours": "0x10040E70",
+   "how": "drift",
+   "their_name": "YmElem::SubmitOffscreen",
+   "our_name": null
+  },
+  "0x10041090": {
+   "ours": "0x10041160",
+   "how": "drift",
+   "their_name": "YmElem::PreDrawSpecular",
+   "our_name": "sub_10041160"
+  },
+  "0x100411E0": {
+   "ours": "0x100412B0",
+   "how": "drift",
+   "their_name": "YmElem::DrawSpecular",
+   "our_name": "YmElem_DrawSpecular"
+  },
+  "0x10041A20": {
+   "ours": "0x10041AF0",
+   "how": "drift",
+   "their_name": "YmElem::DrawFloatingText",
+   "our_name": "YmElem_DrawFloatingText"
+  },
+  "0x10041B50": {
+   "ours": "0x10041C20",
+   "how": "signature",
+   "their_name": "DrawFloatingTextString",
+   "our_name": "Font_DrawProjectedText3D"
+  },
+  "0x10041F50": {
+   "ours": "0x10042020",
+   "how": "drift",
+   "their_name": "YmDamValueProgElem::Step",
+   "our_name": "YmDamValueProgElem_Step"
+  },
+  "0x100420D0": {
+   "ours": "0x100421A0",
+   "how": "drift",
+   "their_name": "YmDamValueProgElem::OnDraw",
+   "our_name": "sub_100421A0"
+  },
+  "0x10042570": {
+   "ours": "0x10042640",
+   "how": "drift",
+   "their_name": "Task::StepDefault",
+   "our_name": "CMoTask_vf008"
+  },
+  "0x10042620": {
+   "ours": "0x100426F0",
+   "how": "drift",
+   "their_name": "YmElem::DrawScreenDistortion",
+   "our_name": "YmElem_DrawScreenDistortion"
+  },
+  "0x10042C30": {
+   "ours": "0x10042D00",
+   "how": "signature",
+   "their_name": "CaptureWorldTexture",
+   "our_name": "CMoDistMorphElem_ValidateMorphData"
+  },
+  "0x10043040": {
+   "ours": "0x10043110",
+   "how": "drift",
+   "their_name": "YmElem::SubmitDistortion",
+   "our_name": "sub_10043110"
+  },
+  "0x10043250": {
+   "ours": "0x10043320",
+   "how": "citations",
+   "their_name": "YmElem::DrawDistortionCopied",
+   "our_name": "CMoDistModelElem_BuildDistortedMesh"
+  },
+  "0x100434C0": {
+   "ours": "0x10043590",
+   "how": "citations",
+   "their_name": "YmElem::SubmitVertexMorphDistortion",
+   "our_name": "CMoDistMorphElem_UpdateMorphBlend"
+  },
+  "0x10043650": {
+   "ours": "0x10043720",
+   "how": "citations",
+   "their_name": "YmElem::DrawDistortionRing",
+   "our_name": "CMoDistRingElem_AllocRingGeometry"
+  },
+  "0x10043D00": {
+   "ours": "0x10043DD0",
+   "how": "drift",
+   "their_name": "DynamicVertexBuffer::Flip",
+   "our_name": "sub_10043DD0"
+  },
+  "0x10043D80": {
+   "ours": "0x10043E50",
+   "how": "signature",
+   "their_name": "VertexBatch::AcquireDynamicBuffer",
+   "our_name": "DynVB_Create"
+  },
+  "0x10043E30": {
+   "ours": "0x10043F00",
+   "how": "drift",
+   "their_name": "VertexBatch::ParkBuffers",
+   "our_name": "sub_10043F00"
+  },
+  "0x10043E70": {
+   "ours": "0x10043F40",
+   "how": "signature",
+   "their_name": "VertexBatch::BindAndDraw",
+   "our_name": "VertexBatch_BindAndDraw"
+  },
+  "0x10043F40": {
+   "ours": "0x10044010",
+   "how": "drift",
+   "their_name": "VertexBatch::ReserveVertices",
+   "our_name": "DynVB_Reserve"
+  },
+  "0x10043FA0": {
+   "ours": "0x10044070",
+   "how": "drift",
+   "their_name": "VertexBatch::ReserveAll",
+   "our_name": "sub_10044070"
+  },
+  "0x10043FD0": {
+   "ours": "0x100440A0",
+   "how": "drift",
+   "their_name": "VertexBatch::LockNoOverwrite",
+   "our_name": "sub_100440A0"
+  },
+  "0x10044020": {
+   "ours": "0x100440F0",
+   "how": "drift",
+   "their_name": "VertexBatch::LockReserved",
+   "our_name": "sub_100440F0"
+  },
+  "0x10044060": {
+   "ours": "0x10044130",
+   "how": "drift",
+   "their_name": "VertexBatch::LockBuffer",
+   "our_name": "DynVB_Lock"
+  },
+  "0x100440D0": {
+   "ours": "0x100441A0",
+   "how": "drift",
+   "their_name": "VertexBatch::Unlock",
+   "our_name": "DynVB_Unlock"
+  },
+  "0x100440F0": {
+   "ours": "0x100441C0",
+   "how": "drift",
+   "their_name": "CameraCache::CacheViewProjection",
+   "our_name": "CameraCache_CacheViewProjection"
+  },
+  "0x10044140": {
+   "ours": "0x10044210",
+   "how": "drift",
+   "their_name": "CameraCache::ResendView",
+   "our_name": "Gfx_SetViewMatrixFromField10"
+  },
+  "0x10044160": {
+   "ours": "0x10044230",
+   "how": "drift",
+   "their_name": "CameraCache::ResendViewNoTranslation",
+   "our_name": "Gfx_SetViewMatrixFromField90"
+  },
+  "0x10044180": {
+   "ours": "0x10044250",
+   "how": "drift",
+   "their_name": "BindCubemapSpecTexture",
+   "our_name": "sub_10044250"
+  },
+  "0x100441A0": {
+   "ours": "0x10044270",
+   "how": "signature",
+   "their_name": "BuildCubemapRenderContext",
+   "our_name": "Mo_InitSharedRenderResources"
+  },
+  "0x10044470": {
+   "ours": "0x10044540",
+   "how": "combined",
+   "their_name": "FlipEffectVertexBuffers",
+   "our_name": "sub_10044540"
+  },
+  "0x100445D0": {
+   "ours": "0x100446A0",
+   "how": "drift",
+   "their_name": "StopResourceTreeGenerators",
+   "our_name": "sub_100446A0"
+  },
+  "0x10044A10": {
+   "ours": "0x10044AE0",
+   "how": "signature",
+   "their_name": "YmElem::TickLifetime",
+   "our_name": "sub_10044AE0"
+  },
+  "0x10044C70": {
+   "ours": "0x10044D40",
+   "how": "signature",
+   "their_name": "YmElem::RebuildTransform",
+   "our_name": "sub_10044D40"
+  },
+  "0x10044E40": {
+   "ours": "0x10044F10",
+   "how": "signature",
+   "their_name": "YmElem::ComputeViewDepthKey",
+   "our_name": "YmElem_ComputeViewDepthKey"
+  },
+  "0x100450C0": {
+   "ours": "0x10045190",
+   "how": "signature",
+   "their_name": "YmElem::CalcRotAhead",
+   "our_name": "sub_10045190"
+  },
+  "0x10045820": {
+   "ours": "0x100458F0",
+   "how": "drift",
+   "their_name": "YmElem::QueueIfVisible",
+   "our_name": "sub_100458F0"
+  },
+  "0x10045850": {
+   "ours": "0x10045920",
+   "how": "signature",
+   "their_name": "YmElem::BuildDrawMatrixAndTest",
+   "our_name": "YmElem_BuildDrawMatrixAndTest"
+  },
+  "0x10045970": {
+   "ours": "0x10045A40",
+   "how": "signature",
+   "their_name": "YmElem::Step",
+   "our_name": "sub_10045A40"
+  },
+  "0x10045A10": {
+   "ours": "0x10045AE0",
+   "how": "signature",
+   "their_name": "YmElem::StepNoOrient",
+   "our_name": "sub_10045AE0"
+  },
+  "0x10045AE0": {
+   "ours": "0x10045BB0",
+   "how": "drift",
+   "their_name": "YmElem::UpdateNoDraw",
+   "our_name": "sub_10045BB0"
+  },
+  "0x10045C70": {
+   "ours": "0x10045D40",
+   "how": "signature",
+   "their_name": "YmElem::CalcMatrix",
+   "our_name": "RegisterWithProcessor"
+  },
+  "0x10045FA0": {
+   "ours": "0x10046070",
+   "how": "signature",
+   "their_name": "YmElem::OnDraw",
+   "our_name": "sub_10046070"
+  },
+  "0x100462B0": {
+   "ours": "0x10046380",
+   "how": "drift",
+   "their_name": "CaptureEnvironmentResetMaterial",
+   "our_name": "sub_10046380"
+  },
+  "0x10046480": {
+   "ours": "0x10046550",
+   "how": "signature",
+   "their_name": "YmElem::SetSubtractiveBlend",
+   "our_name": "sub_10046550"
+  },
+  "0x10046710": {
+   "ours": "0x100467E0",
+   "how": "signature",
+   "their_name": "YmElem::SetupDevice",
+   "our_name": "YmElem_SetupDevice"
+  },
+  "0x10047220": {
+   "ours": "0x100472F0",
+   "how": "signature",
+   "their_name": "YmElem::RestoreDevice",
+   "our_name": "YmElem_RestoreDevice"
+  },
+  "0x100474C0": {
+   "ours": "0x10047590",
+   "how": "drift",
+   "their_name": "YmElem::HandPoseToActor",
+   "our_name": "CMoSkeletonElem_UpdateBoneTransform"
+  },
+  "0x10047760": {
+   "ours": "0x10047830",
+   "how": "signature",
+   "their_name": "YmElem::StepModelEffect",
+   "our_name": "sub_10047830"
+  },
+  "0x10047890": {
+   "ours": "0x10047960",
+   "how": "drift",
+   "their_name": "YmElem::YmElem",
+   "our_name": "sub_10047960"
+  },
+  "0x10049620": {
+   "ours": "0x100496F0",
+   "how": "signature",
+   "their_name": "YmGenerater::Idle",
+   "our_name": "sub_100496F0"
+  },
+  "0x1004A7A0": {
+   "ours": "0x1004A870",
+   "how": "signature",
+   "their_name": "GateEffectBoxProjection",
+   "our_name": "GateEffectBoxProjection"
+  },
+  "0x1004A8B0": {
+   "ours": "0x1004A980",
+   "how": "signature",
+   "their_name": "YmGenerater::RunElemTagScript",
+   "our_name": "sub_1004A980"
+  },
+  "0x1004E560": {
+   "ours": "0x1004E630",
+   "how": "signature",
+   "their_name": "ScaleElemVisibilityByProbe",
+   "our_name": "ScaleElemVisibilityByProbe"
+  },
+  "0x1004E800": {
+   "ours": "0x1004E8D0",
+   "how": "signature",
+   "their_name": "YmGenerater::ElemGenerate",
+   "our_name": "sub_1004E8D0"
+  },
+  "0x10052D10": {
+   "ours": "0x10052DE0",
+   "how": "drift",
+   "their_name": "YmElem::StepForwardB",
+   "our_name": "CMoVuDist_vf008"
+  },
+  "0x10053070": {
+   "ours": "0x10053140",
+   "how": "drift",
+   "their_name": "YmElem::StepForwardC",
+   "our_name": "CMoDisintegrateProgElem_vf008"
+  },
+  "0x10053100": {
+   "ours": "0x100531D0",
+   "how": "drift",
+   "their_name": "YmGenerater::Activate",
+   "our_name": "SharedConditionalStateReset"
+  },
+  "0x100535F0": {
+   "ours": "0x100536C0",
+   "how": "drift",
+   "their_name": "YmGenerater::CloneAndStart",
+   "our_name": "CMoGeneratorClone_CreateInstance"
+  },
+  "0x10053810": {
+   "ours": "0x100538E0",
+   "how": "drift",
+   "their_name": "YmGenerater::Stop",
+   "our_name": "YmGenerater_Stop"
+  },
+  "0x10053930": {
+   "ours": "0x10053A00",
+   "how": "citations",
+   "their_name": "YmGenerater::StopByOwner",
+   "our_name": "sub_10053A00"
+  },
+  "0x10053BB0": {
+   "ours": "0x10053C80",
+   "how": "signature",
+   "their_name": "YmGenerater::BlendAttachMatrix",
+   "our_name": "sub_10053C80"
+  },
+  "0x10053D90": {
+   "ours": "0x10053E60",
+   "how": "drift",
+   "their_name": "YmGenerater::RefreshAttachMatrix",
+   "our_name": "sub_10053E60"
+  },
+  "0x10054150": {
+   "ours": "0x10054220",
+   "how": "signature",
+   "their_name": "GeneratorDriverTask::Step",
+   "our_name": "sub_10054220"
+  },
+  "0x10054340": {
+   "ours": "0x10054410",
+   "how": "drift",
+   "their_name": "GetElemRegistrationPriority",
+   "our_name": "sub_10054410"
+  },
+  "0x10054800": {
+   "ours": "0x100548D0",
+   "how": "drift",
+   "their_name": "CMoLfdElem::OnDraw",
+   "our_name": "sub_100548D0"
+  },
+  "0x10054CA0": {
+   "ours": "0x10054D70",
+   "how": "signature",
+   "their_name": "BeginEffectOffscreenPass",
+   "our_name": "BeginEffectOffscreenPass"
+  },
+  "0x10054EB0": {
+   "ours": "0x10054F80",
+   "how": "signature",
+   "their_name": "EndEffectOffscreenPass",
+   "our_name": "EndEffectOffscreenPass"
+  },
+  "0x10054F70": {
+   "ours": "0x10055040",
+   "how": "drift",
+   "their_name": "ZonePath::ZonePath",
+   "our_name": "sub_10055040"
+  },
+  "0x10055060": {
+   "ours": "0x10055130",
+   "how": "drift",
+   "their_name": "ZonePath::SetPhaseAndDirection",
+   "our_name": "sub_10055130"
+  },
+  "0x10055090": {
+   "ours": "0x10055160",
+   "how": "drift",
+   "their_name": "ZonePath::GetSampleMatrix",
+   "our_name": "sub_10055160"
+  },
+  "0x10055230": {
+   "ours": "0x10055300",
+   "how": "combined",
+   "their_name": "EffectQueue::InitBuckets",
+   "our_name": "sub_10055300"
+  },
+  "0x100552F0": {
+   "ours": "0x100553C0",
+   "how": "signature",
+   "their_name": "EffectQueue::InsertByDepth",
+   "our_name": "sub_100553C0"
+  },
+  "0x100553E0": {
+   "ours": "0x100554B0",
+   "how": "drift",
+   "their_name": "EffectQueue::ResetBuckets",
+   "our_name": "sub_100554B0"
+  },
+  "0x10055450": {
+   "ours": "0x10055520",
+   "how": "signature",
+   "their_name": "EffectQueue::Walk",
+   "our_name": "sub_10055520"
+  },
+  "0x100554D0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "EffectQueueCallbackStub",
+   "our_name": null
+  },
+  "0x100554E0": {
+   "ours": "0x100555B0",
+   "how": "drift",
+   "their_name": "EffectQueueNode::StoreDepthAndQueue",
+   "our_name": "sub_100555B0"
+  },
+  "0x10055500": {
+   "ours": "0x100555D0",
+   "how": "drift",
+   "their_name": "CreateEffectQueue",
+   "our_name": "sub_100555D0"
+  },
+  "0x10055550": {
+   "ours": "0x10055620",
+   "how": "signature",
+   "their_name": "DrawEffectQueue",
+   "our_name": "sub_10055620"
+  },
+  "0x10056330": {
+   "ours": "0x10056400",
+   "how": "drift",
+   "their_name": "YmElem::SubmitPointLight",
+   "our_name": "sub_10056400"
+  },
+  "0x100564D0": {
+   "ours": "0x100565A0",
+   "how": "signature",
+   "their_name": "YmElem::DrawRingMesh",
+   "our_name": null
+  },
+  "0x10056A50": {
+   "ours": "0x10056B20",
+   "how": "signature",
+   "their_name": "TimelineResource::StartWithCatchUp",
+   "our_name": "sub_10056B20"
+  },
+  "0x10056C10": {
+   "ours": "0x10056CE0",
+   "how": "signature",
+   "their_name": "TimelineResource::CreateTask",
+   "our_name": "sub_10056CE0"
+  },
+  "0x10056E20": {
+   "ours": "0x10056EF0",
+   "how": "signature",
+   "their_name": "Kill",
+   "our_name": "Scheduler_Kill"
+  },
+  "0x100574D0": {
+   "ours": "0x100575A0",
+   "how": "drift",
+   "their_name": "YmSchedulerTask::RunCatchUp",
+   "our_name": "sub_100575A0"
+  },
+  "0x10057B50": {
+   "ours": "0x10057C20",
+   "how": "signature",
+   "their_name": "YmSchedulerTask::OnDie",
+   "our_name": "sub_10057C20"
+  },
+  "0x10057D40": {
+   "ours": "0x10057E10",
+   "how": "signature",
+   "their_name": "YmSchedulerTask::Step",
+   "our_name": "sub_10057E10"
+  },
+  "0x10057EE0": {
+   "ours": "0x10057FB0",
+   "how": "signature",
+   "their_name": "YmSchedulerTask::ExecuteTag",
+   "our_name": "CMoSchedularTask_Interpret"
+  },
+  "0x100607E0": {
+   "ours": "0x100608B0",
+   "how": "drift",
+   "their_name": "C_1032ab54::~C_1032ab54",
+   "our_name": "CMoAttachments_VT_1032BB38_ScalarDeletingDtor"
+  },
+  "0x10060AE0": {
+   "ours": "0x10060BB0",
+   "how": "drift",
+   "their_name": "C_1032abc8::~C_1032abc8",
+   "our_name": "CMoAttachments_VT_1032BBAC_VectorDeletingDtor"
+  },
+  "0x10060D90": {
+   "ours": "0x10060E60",
+   "how": "drift",
+   "their_name": "C_1032ac10::~C_1032ac10",
+   "our_name": "CMoAttachments_VT_1032BBF4_VectorDeletingDtor"
+  },
+  "0x10061070": {
+   "ours": "0x10061140",
+   "how": "drift",
+   "their_name": "C_1032aca0::~C_1032aca0",
+   "our_name": "CMoAttachments_VT_1032BC84_VectorDeletingDtor"
+  },
+  "0x10061230": {
+   "ours": "0x10061300",
+   "how": "drift",
+   "their_name": "C_1032ace8::~C_1032ace8",
+   "our_name": "CMoAttachments_VT_1032BCCC_VectorDeletingDtor"
+  },
+  "0x100613E0": {
+   "ours": "0x100614B0",
+   "how": "drift",
+   "their_name": "C_1032ad30::~C_1032ad30",
+   "our_name": "CMoAttachments_VT_1032BD14_VectorDeletingDtor"
+  },
+  "0x100615E0": {
+   "ours": "0x100616B0",
+   "how": "drift",
+   "their_name": "C_1032ad78::~C_1032ad78",
+   "our_name": "CMoAttachments_VT_1032BD5C_VectorDeletingDtor"
+  },
+  "0x10061760": {
+   "ours": "0x10061830",
+   "how": "drift",
+   "their_name": "C_1032adc0::~C_1032adc0",
+   "our_name": "CMoAttachments_VT_1032BDA4_VectorDeletingDtor"
+  },
+  "0x10062D10": {
+   "ours": "0x10062DE0",
+   "how": "drift",
+   "their_name": "YmSchedulerTask::SetNextTag",
+   "our_name": "sub_10062DE0"
+  },
+  "0x100634E0": {
+   "ours": "0x100635B0",
+   "how": "signature",
+   "their_name": "SplineEvaluator::BuildTables",
+   "our_name": "sub_100635B0"
+  },
+  "0x10063AB0": {
+   "ours": "0x10063B80",
+   "how": "signature",
+   "their_name": "PathResource::GetSplineEvaluator",
+   "our_name": "sub_10063B80"
+  },
+  "0x10063B60": {
+   "ours": "0x10063C30",
+   "how": "signature",
+   "their_name": "PathResource::SampleSpline",
+   "our_name": "sub_10063C30"
+  },
+  "0x10063BB0": {
+   "ours": "0x10063C80",
+   "how": "signature",
+   "their_name": "YmElem::ForEachInstance",
+   "our_name": "YmElem_ForEachInstance"
+  },
+  "0x10069D00": {
+   "ours": "0x10069DD0",
+   "how": "drift",
+   "their_name": "EffectWorld::Init",
+   "our_name": "CMoDX_Initialize"
+  },
+  "0x10069EC0": {
+   "ours": "0x10069F90",
+   "how": "drift",
+   "their_name": "EffectWorld::UpdateTimeStep",
+   "our_name": "sub_10069F90"
+  },
+  "0x1006A010": {
+   "ours": "0x1006A0E0",
+   "how": "signature",
+   "their_name": "EffectWorld::EndOffscreenPass",
+   "our_name": "sub_1006A0E0"
+  },
+  "0x1006A0B0": {
+   "ours": "0x1006A180",
+   "how": "drift",
+   "their_name": "EffectWorld::RefreshCameraSnapshots",
+   "our_name": "sub_1006A180"
+  },
+  "0x1006A350": {
+   "ours": "0x1006A420",
+   "how": "drift",
+   "their_name": "EffectWorld::PushWorldMatrix",
+   "our_name": "sub_1006A420"
+  },
+  "0x1006A3B0": {
+   "ours": "0x1006A480",
+   "how": "drift",
+   "their_name": "EffectWorld::SetWorldTransform",
+   "our_name": "CMoDX_SetWorldMatrix"
+  },
+  "0x1006A3D0": {
+   "ours": "0x1006A4A0",
+   "how": "drift",
+   "their_name": "EffectWorld::GetWorldMatrix",
+   "our_name": "CMoDX_GetWorldMatrix"
+  },
+  "0x1006A3F0": {
+   "ours": "0x1006A4C0",
+   "how": "drift",
+   "their_name": "EffectWorld::PushView",
+   "our_name": "CMoDX_PushViewMatrix"
+  },
+  "0x1006A420": {
+   "ours": "0x1006A4F0",
+   "how": "drift",
+   "their_name": "EffectWorld::PopView",
+   "our_name": "CMoDX_PopViewMatrix"
+  },
+  "0x1006A450": {
+   "ours": "0x1006A520",
+   "how": "drift",
+   "their_name": "EffectWorld::SetViewTransform",
+   "our_name": "CMoDX_SetViewMatrix"
+  },
+  "0x1006AC80": {
+   "ours": "0x1006AD50",
+   "how": "drift",
+   "their_name": "TransposeMatrix",
+   "our_name": "sub_1006AD50"
+  },
+  "0x1006ACC0": {
+   "ours": "0x1006AD90",
+   "how": "drift",
+   "their_name": "StateBlockHolder::StateBlockHolder",
+   "our_name": "??0exception@@QAE@XZ_1"
+  },
+  "0x1006AD60": {
+   "ours": "0x1006AE30",
+   "how": "drift",
+   "their_name": "StateBlockHolder::Apply",
+   "our_name": "StateBlock_ApplyRSTSS"
+  },
+  "0x1006AE30": {
+   "ours": "0x1006AF00",
+   "how": "signature",
+   "their_name": "StateBlockHolder::ApplyRenderStates",
+   "our_name": "StateBlockHolder_ApplyRenderStates"
+  },
+  "0x1006AEC0": {
+   "ours": "0x1006AF90",
+   "how": "signature",
+   "their_name": "StateBlockHolder::ApplyTextureStageStates",
+   "our_name": "StateBlock_ApplyTSS"
+  },
+  "0x1006B050": {
+   "ours": "0x1006B120",
+   "how": "drift",
+   "their_name": "ReleasedBufferCache::Insert",
+   "our_name": "sub_1006B120"
+  },
+  "0x1006B100": {
+   "ours": "0x1006B1D0",
+   "how": "drift",
+   "their_name": "ReleasedBufferCache::TakeOldest",
+   "our_name": "sub_1006B1D0"
+  },
+  "0x1006B1A0": {
+   "ours": "0x1006B250",
+   "how": "call links",
+   "their_name": "RefreshEffectWorld",
+   "our_name": "CMoTask_VT_10329C70_Destructor"
+  },
+  "0x1006B1E0": {
+   "ours": "0x1006B2B0",
+   "how": "drift",
+   "their_name": "CreateEffectWorld",
+   "our_name": "CMoDX_CreateAndInitSystem"
+  },
+  "0x1006B3B0": {
+   "ours": "0x1006B480",
+   "how": "drift",
+   "their_name": "EffectRefreshTask::Step",
+   "our_name": "sub_1006B480"
+  },
+  "0x1006C070": {
+   "ours": "0x1006C140",
+   "how": "drift",
+   "their_name": "ScreenProbeTarget::CreateSurface",
+   "our_name": "CMoOcclusionMng_Constructor"
+  },
+  "0x1006C150": {
+   "ours": "0x1006C220",
+   "how": "combined",
+   "their_name": "ScreenProbeTarget::CreateTexture",
+   "our_name": "OcclusionMng_CreateTarget"
+  },
+  "0x1006C1B0": {
+   "ours": "0x1006C280",
+   "how": "signature",
+   "their_name": "ScreenProbe::TestRectVisible",
+   "our_name": "Occlusion_QueryScreenRect"
+  },
+  "0x1006C230": {
+   "ours": "0x1006C300",
+   "how": "drift",
+   "their_name": "ScreenProbe::ClipDrawReadBack",
+   "our_name": "Occlusion_QueryScreenRectImpl"
+  },
+  "0x1006C460": {
+   "ours": "0x1006C530",
+   "how": "drift",
+   "their_name": "DrawScreenProbe",
+   "our_name": "DrawScreenProbe"
+  },
+  "0x1006C7E0": {
+   "ours": "0x1006C8B0",
+   "how": "signature",
+   "their_name": "ScreenProbe::ReadBack",
+   "our_name": "sub_1006C8B0"
+  },
+  "0x1006C8E0": {
+   "ours": "0x1006C9B0",
+   "how": "drift",
+   "their_name": "ScreenProbe::Prepare",
+   "our_name": "OcclusionMng_Prepare"
+  },
+  "0x1006CA80": {
+   "ours": "0x1006CB50",
+   "how": "signature",
+   "their_name": "CreateMatrixPool",
+   "our_name": "CreateProcessorInstance"
+  },
+  "0x1006CC10": {
+   "ours": "0x1006CCE0",
+   "how": "signature",
+   "their_name": "ProbeCpuFeatures",
+   "our_name": "sub_1006CCE0"
+  },
+  "0x1006CD70": {
+   "ours": "0x1006CE40",
+   "how": "signature",
+   "their_name": "MatrixPool::ResetTakeStack",
+   "our_name": null
+  },
+  "0x1006CDA0": {
+   "ours": "0x1006CE70",
+   "how": "drift",
+   "their_name": "MatrixPool::MatrixPool",
+   "our_name": "CMoProcessor_InitRotationMatrices"
+  },
+  "0x1006CFD0": {
+   "ours": "0x1006D0A0",
+   "how": "drift",
+   "their_name": "SetIdentityMatrixX87",
+   "our_name": "sub_1006D0A0"
+  },
+  "0x1006D0C0": {
+   "ours": "0x1006D190",
+   "how": "signature",
+   "their_name": "InvertMatrix4x4",
+   "our_name": "sub_1006D190"
+  },
+  "0x1006D1A0": {
+   "ours": "0x1006D270",
+   "how": "drift",
+   "their_name": "MultiplyMatrixX87",
+   "our_name": "sub_1006D270"
+  },
+  "0x1006D500": {
+   "ours": "0x1006D5D0",
+   "how": "combined",
+   "their_name": "NormalizeVector3",
+   "our_name": "CMoProcessor_Vec3Normalize"
+  },
+  "0x1006D650": {
+   "ours": "0x1006D720",
+   "how": "content",
+   "their_name": "TransformPointX87",
+   "our_name": "sub_1006D720"
+  },
+  "0x1006DC20": {
+   "ours": "0x1006DCF0",
+   "how": "drift",
+   "their_name": "MatrixPool::BuildRotationMatrix",
+   "our_name": "sub_1006DCF0"
+  },
+  "0x1006E700": {
+   "ours": "0x1006E7D0",
+   "how": "signature",
+   "their_name": "ProjectPointsX87",
+   "our_name": "CMoProcessor_ProjectPointsToScreen"
+  },
+  "0x1006EAA0": {
+   "ours": "0x1006EB70",
+   "how": "signature",
+   "their_name": "ProjectVertexBatchX87",
+   "our_name": "CMoProcessor_ProjectVertsAndBounds"
+  },
+  "0x1006EC40": {
+   "ours": "0x1006ED10",
+   "how": "signature",
+   "their_name": "MatrixPool::ProjectAndBound",
+   "our_name": "CMoProcessor_CalcScreenBoundsAndVisible"
+  },
+  "0x1006EFD0": {
+   "ours": "0x1006F0A0",
+   "how": "signature",
+   "their_name": "MatrixPool::MultiplyMatrixSse",
+   "our_name": null
+  },
+  "0x1006F730": {
+   "ours": "0x1006F800",
+   "how": "combined",
+   "their_name": "TransformPointSse",
+   "our_name": "sub_1006F800"
+  },
+  "0x1006FC10": {
+   "ours": "0x1006FCE0",
+   "how": "signature",
+   "their_name": "MatrixPool::ProjectPointsSse",
+   "our_name": "sub_1006FCE0"
+  },
+  "0x1006FDA0": {
+   "ours": "0x1006FE70",
+   "how": "signature",
+   "their_name": "MatrixPool::ProjectVertexBatchSse",
+   "our_name": "sub_1006FE70"
+  },
+  "0x1006FF50": {
+   "ours": "0x10070020",
+   "how": "drift",
+   "their_name": "MatrixPool::ProjectAndBoundSse",
+   "our_name": "CMoProcessor_VT_1032C298_vf035"
+  },
+  "0x1006FFD0": {
+   "ours": "0x100700A0",
+   "how": "drift",
+   "their_name": "MatrixPool::SetIdentitySse",
+   "our_name": "sub_100700A0"
+  },
+  "0x10070140": {
+   "ours": "0x10070210",
+   "how": "signature",
+   "their_name": "MatrixPool::MultiplyMatrix3DNow",
+   "our_name": null
+  },
+  "0x10070890": {
+   "ours": "0x10070960",
+   "how": "combined",
+   "their_name": "TransformPoint3DNow",
+   "our_name": "sub_10070960"
+  },
+  "0x10070CB0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ProjectPoints3DNow",
+   "our_name": null
+  },
+  "0x10070D50": {
+   "ours": "0x10070E20",
+   "how": "drift",
+   "their_name": "ProjectVertexBatch3DNow",
+   "our_name": "CMoProcessor_VT_1032C1C8_vf033"
+  },
+  "0x10070D70": {
+   "ours": "0x10070E40",
+   "how": "drift",
+   "their_name": "MatrixPool::ProjectAndBound3DNow",
+   "our_name": "CMoProcessor_VT_1032C1C8_vf035"
+  },
+  "0x10070E10": {
+   "ours": "0x10070EE0",
+   "how": "drift",
+   "their_name": "MatrixPool::SetIdentity3DNow",
+   "our_name": "sub_10070EE0"
+  },
+  "0x100711A0": {
+   "ours": "0x10071270",
+   "how": "signature",
+   "their_name": "CreateChunkNode",
+   "our_name": "sub_10071270"
+  },
+  "0x10071CA0": {
+   "ours": "0x10071D70",
+   "how": "drift",
+   "their_name": "GetResourceClassRecord",
+   "our_name": "CMoResource_GetRuntimeClass_variant3"
+  },
+  "0x10071D30": {
+   "ours": "0x10071E00",
+   "how": "drift",
+   "their_name": "ResourceNode::CopyUnitBlock",
+   "our_name": "sub_10071E00"
+  },
+  "0x10071DF0": {
+   "ours": "0x10071EC0",
+   "how": "drift",
+   "their_name": "ResourceNode::ReleaseReference",
+   "our_name": "CMoResource_ReleaseChain"
+  },
+  "0x100729A0": {
+   "ours": "0x10072A70",
+   "how": "signature",
+   "their_name": "ResourceRequestTask::Step",
+   "our_name": "sub_10072A70"
+  },
+  "0x10072F00": {
+   "ours": "0x10072FD0",
+   "how": "drift",
+   "their_name": "ResourceManager::FetchBlocking",
+   "our_name": "sub_10072FD0"
+  },
+  "0x10073010": {
+   "ours": "0x100730E0",
+   "how": "drift",
+   "their_name": "QueueResourceLoad",
+   "our_name": "sub_100730E0"
+  },
+  "0x100730E0": {
+   "ours": "0x100731B0",
+   "how": "drift",
+   "their_name": "YmResourceFile::ReferenceLoad",
+   "our_name": "sub_100731B0"
+  },
+  "0x10073360": {
+   "ours": "0x10073430",
+   "how": "signature",
+   "their_name": "ResourceManager::ParseAndDecode",
+   "our_name": "MeshResourceMng_ResolveTree"
+  },
+  "0x10073A50": {
+   "ours": "0x10073B20",
+   "how": "signature",
+   "their_name": "DestroyResourceTree",
+   "our_name": "MoRes_FreeIfUnreferenced"
+  },
+  "0x10074820": {
+   "ours": "0x100748F0",
+   "how": "drift",
+   "their_name": "TaskNode::TaskNode",
+   "our_name": "CMoTask_ResetFields"
+  },
+  "0x100748E0": {
+   "ours": "0x100749B0",
+   "how": "drift",
+   "their_name": "TaskNode::RegisterAtPriority",
+   "our_name": "CMoTask_RegisterWithMng"
+  },
+  "0x10074B60": {
+   "ours": "0x10074C30",
+   "how": "signature",
+   "their_name": "TaskManager::Dispatch",
+   "our_name": "sub_10074C30"
+  },
+  "0x10074EB0": {
+   "ours": "0x10074F80",
+   "how": "signature",
+   "their_name": "TaskManager::LinkInPriorityList",
+   "our_name": "sub_10074F80"
+  },
+  "0x10074F30": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "TaskCallbackTrampoline",
+   "our_name": null
+  },
+  "0x10074F50": {
+   "ours": "0x10075020",
+   "how": "drift",
+   "their_name": "TaskManager::LinkBeforeHead",
+   "our_name": "sub_10075020"
+  },
+  "0x10074F90": {
+   "ours": "0x10075060",
+   "how": "drift",
+   "their_name": "TaskManager::LinkAfterTail",
+   "our_name": "sub_10075060"
+  },
+  "0x10074FE0": {
+   "ours": "0x100750B0",
+   "how": "drift",
+   "their_name": "TaskManager::LinkAfterRunning",
+   "our_name": "sub_100750B0"
+  },
+  "0x10075050": {
+   "ours": "0x10075120",
+   "how": "drift",
+   "their_name": "TaskManager::LinkBeforeRunning",
+   "our_name": "sub_10075120"
+  },
+  "0x100750E0": {
+   "ours": "0x100751B0",
+   "how": "drift",
+   "their_name": "TaskManager::Unlink",
+   "our_name": "sub_100751B0"
+  },
+  "0x100751B0": {
+   "ours": "0x10075280",
+   "how": "citations",
+   "their_name": "CreateEffectCubeTextures",
+   "our_name": "Gfx_InitCubeMapTextures"
+  },
+  "0x10075450": {
+   "ours": "0x10075520",
+   "how": "drift",
+   "their_name": "TextureHolder::ResolveName",
+   "our_name": "TexRef_ResolveByName"
+  },
+  "0x100755C0": {
+   "ours": "0x10075690",
+   "how": "drift",
+   "their_name": "TextureHolder::ResolveAndBind",
+   "our_name": "sub_10075690"
+  },
+  "0x10075630": {
+   "ours": "0x10075700",
+   "how": "signature",
+   "their_name": "TextureHolder::BindWarped",
+   "our_name": "TextureHolder_BindWarped"
+  },
+  "0x10075890": {
+   "ours": "0x10075960",
+   "how": "drift",
+   "their_name": "TextureHolder::Bind",
+   "our_name": "TexRef_SetTexture"
+  },
+  "0x100758F0": {
+   "ours": "0x100759C0",
+   "how": "signature",
+   "their_name": "TextureHolder::BindTinted",
+   "our_name": "TextureHolder_BindTinted"
+  },
+  "0x10081420": {
+   "ours": "0x100814F0",
+   "how": "drift",
+   "their_name": "ActorRef::SetActor",
+   "our_name": "sub_100814F0"
+  },
+  "0x10081480": {
+   "ours": "0x10081550",
+   "how": "drift",
+   "their_name": "ActorRef::GetActor",
+   "our_name": "ActorHandle_Resolve"
+  },
+  "0x10081670": {
+   "ours": "0x10081740",
+   "how": "drift",
+   "their_name": "CXiActorDraw::GetClassRecord",
+   "our_name": "CXiActorDraw_GetRuntimeClass"
+  },
+  "0x10081690": {
+   "ours": "0x10081760",
+   "how": "drift",
+   "their_name": "ActorLabelTask::GetClassRecord",
+   "our_name": "CXiActorNameDraw_GetRuntimeClass"
+  },
+  "0x10081710": {
+   "ours": "0x100817E0",
+   "how": "drift",
+   "their_name": "CXiActorDraw::Step",
+   "our_name": null
+  },
+  "0x10081720": {
+   "ours": "0x100817F0",
+   "how": "signature",
+   "their_name": "ActorLabelTask::Step",
+   "our_name": "CXiActorNameDraw_SetRenderState"
+  },
+  "0x10081A10": {
+   "ours": "0x10081AE0",
+   "how": "signature",
+   "their_name": "CXiActor::LinkIntoActorList",
+   "our_name": "sub_10081AE0"
+  },
+  "0x10081A90": {
+   "ours": "0x10081B60",
+   "how": "drift",
+   "their_name": "CXiActor::UnlinkFromActorList",
+   "our_name": "sub_10081B60"
+  },
+  "0x10081C20": {
+   "ours": "0x10081CF0",
+   "how": "drift",
+   "their_name": "CXiActor::CXiActor",
+   "our_name": "sub_10081CF0"
+  },
+  "0x10082400": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "CXiActor::DrawLabel",
+   "our_name": null
+  },
+  "0x10082580": {
+   "ours": "0x10082650",
+   "how": "drift",
+   "their_name": "CXiActor::Update",
+   "our_name": null
+  },
+  "0x10082A70": {
+   "ours": "0x10082B40",
+   "how": "drift",
+   "their_name": "CXiActor::~CXiActor",
+   "our_name": "sub_10082B40"
+  },
+  "0x10082CA0": {
+   "ours": "0x10082D70",
+   "how": "signature",
+   "their_name": "DrawActorPass",
+   "our_name": "CXiActorDraw_UpdateDrawList"
+  },
+  "0x10082E50": {
+   "ours": "0x10082F20",
+   "how": "drift",
+   "their_name": "CXiActor::GetNameplateFirstString",
+   "our_name": "CXiSkeletonActor_GetEnglishName"
+  },
+  "0x10082E90": {
+   "ours": "0x10082F60",
+   "how": "drift",
+   "their_name": "CXiActor::GetNameplateSecondString",
+   "our_name": "sub_10082F60"
+  },
+  "0x10082EE0": {
+   "ours": "0x10082FB0",
+   "how": "signature",
+   "their_name": "Game::ProjectWorldPoint",
+   "our_name": "sub_10082FB0"
+  },
+  "0x10082FF0": {
+   "ours": "0x100830C0",
+   "how": "signature",
+   "their_name": "CXiActor::ProjectNameplateAnchor",
+   "our_name": "CXiActor_NameCalc"
+  },
+  "0x10083210": {
+   "ours": "0x100832E0",
+   "how": "drift",
+   "their_name": "CXiActor::DecrementCounter",
+   "our_name": "CXiSkeletonActor_SubRef"
+  },
+  "0x10084F30": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "CXiActor::SetDrawOrderKey",
+   "our_name": null
+  },
+  "0x10084F90": {
+   "ours": "0x10085060",
+   "how": "drift",
+   "their_name": "XiActor::StartGeneraters",
+   "our_name": "CXiActor_SpawnResourceGenerators"
+  },
+  "0x10085BC0": {
+   "ours": "0x10085C90",
+   "how": "drift",
+   "their_name": "CXiActor::DetachAttachment",
+   "our_name": "CXiAtelActor_UnlinkCasterAttachments"
+  },
+  "0x10086140": {
+   "ours": "0x10086210",
+   "how": "signature",
+   "their_name": "DrawNameplateFirstString",
+   "our_name": "Actor_DrawWorldText"
+  },
+  "0x10086830": {
+   "ours": "0x10086900",
+   "how": "signature",
+   "their_name": "DrawNameplateSecondString",
+   "our_name": "DrawNameplateSecondString"
+  },
+  "0x1008CCC0": {
+   "ours": "0x1008CD90",
+   "how": "signature",
+   "their_name": "XiAtelBuff::CalcMove",
+   "our_name": "sub_1008CD90"
+  },
+  "0x1008E8D0": {
+   "ours": "0x1008E9A0",
+   "how": "signature",
+   "their_name": "XiAtelBuff::Idle",
+   "our_name": "sub_1008E9A0"
+  },
+  "0x10096570": {
+   "ours": "0x10096640",
+   "how": "signature",
+   "their_name": "UpdatePlayerControl",
+   "our_name": "sub_10096640"
+  },
+  "0x100AB370": {
+   "ours": "0x100AB450",
+   "how": "drift",
+   "their_name": "CXiSklFurnitureActor::Update",
+   "our_name": "sub_100AB450"
+  },
+  "0x100ABAF0": {
+   "ours": "0x100ABBD0",
+   "how": "drift",
+   "their_name": "CXiDancerActor::Update",
+   "our_name": "sub_100ABBD0"
+  },
+  "0x100ABB30": {
+   "ours": "0x100ABC10",
+   "how": "drift",
+   "their_name": "CXiDancerActor::Draw",
+   "our_name": null
+  },
+  "0x100AC2A0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "XiDoorActor::DrawLabel",
+   "our_name": null
+  },
+  "0x100AC4C0": {
+   "ours": "0x100AC5A0",
+   "how": "signature",
+   "their_name": "XiDoorActor::TestVisible",
+   "our_name": "sub_100AC5A0"
+  },
+  "0x100C3790": {
+   "ours": "0x100C38D0",
+   "how": "drift",
+   "their_name": "XiLiftActor::DrawLabel",
+   "our_name": "sub_100C38D0"
+  },
+  "0x100C4AE0": {
+   "ours": "0x100C4C20",
+   "how": "signature",
+   "their_name": "XiModelActor::Draw",
+   "our_name": "sub_100C4C20"
+  },
+  "0x100C6290": {
+   "ours": "0x100C63D0",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::Update",
+   "our_name": "CXiSkeletonActor_OnMove"
+  },
+  "0x100CB3A0": {
+   "ours": "0x100CB4E0",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::SelectLightsAndFog",
+   "our_name": "Actor_SelectNearestLights"
+  },
+  "0x100CBC20": {
+   "ours": "0x100CBD60",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::DrawSlot",
+   "our_name": "CXiSkeletonActor_RunStaggeredUpdates"
+  },
+  "0x100CBCA0": {
+   "ours": "0x100CBDE0",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::Draw",
+   "our_name": "PerActor_FourBucketStaggeredUpdate"
+  },
+  "0x100CCD20": {
+   "ours": "0x100CCE60",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::QueueCameraRequest",
+   "our_name": "Actor_SetCameraFromModelPoints"
+  },
+  "0x100CCF00": {
+   "ours": "0x100CD040",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::UpdateAlphaAndVisibility",
+   "our_name": "sub_100CD040"
+  },
+  "0x100CF0D0": {
+   "ours": "0x100CF210",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::SetModel",
+   "our_name": "CXiSkeletonActor_SetModel"
+  },
+  "0x100D0380": {
+   "ours": "0x100D04C0",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::PlaceNameplate",
+   "our_name": "CXiSkeletonActor_GetNamePos"
+  },
+  "0x100D03D0": {
+   "ours": "0x100D0510",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::DrawLabel",
+   "our_name": "CXiSkeletonActor_OnDrawName"
+  },
+  "0x100D0740": {
+   "ours": "0x100D0880",
+   "how": "citations",
+   "their_name": "XiSkeletonActor::DrawNameplateFirst",
+   "our_name": "CXiSkeletonActor_DrawNameIfVisible"
+  },
+  "0x100D0770": {
+   "ours": "0x100D08B0",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::DrawNameplateSecond",
+   "our_name": "CXiSkeletonActor_DrawName2IfVisible"
+  },
+  "0x100D4420": {
+   "ours": "0x100D4560",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::GetNameplateAnchor",
+   "our_name": "CXiSkeletonActor_GetElem"
+  },
+  "0x100D4A80": {
+   "ours": "0x100D4BC0",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::PlayFootSteps",
+   "our_name": "sub_100D4BC0"
+  },
+  "0x100D5380": {
+   "ours": "0x100D54C0",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::BuildTiltedRotation",
+   "our_name": "CXiSkeletonActor_CalcGroundTiltMatrix"
+  },
+  "0x100D59D0": {
+   "ours": "0x100D5B10",
+   "how": "drift",
+   "their_name": "XiSkeletonActor::UpdateHeadLookWeight",
+   "our_name": "CXiSkeletonActor_UpdateHeadLook"
+  },
+  "0x100D62B0": {
+   "ours": "0x100D63F0",
+   "how": "signature",
+   "their_name": "WalkEffect",
+   "our_name": "sub_100D63F0"
+  },
+  "0x100D6390": {
+   "ours": "0x100D64D0",
+   "how": "signature",
+   "their_name": "EnterWater",
+   "our_name": "sub_100D64D0"
+  },
+  "0x100D6410": {
+   "ours": "0x100D6550",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::ExitWater",
+   "our_name": "sub_100D6550"
+  },
+  "0x100D6BF0": {
+   "ours": "0x100D6D30",
+   "how": "signature",
+   "their_name": "XiSkeletonActor::OnDraw",
+   "our_name": "Actor_PrepareDrawGlobals"
+  },
+  "0x10103690": {
+   "ours": "0x101037F0",
+   "how": "drift",
+   "their_name": "SetEightEntryArrayValue",
+   "our_name": "sub_101037F0"
+  },
+  "0x1011B980": {
+   "ours": "0x1011BAE0",
+   "how": "drift",
+   "their_name": "TextQueue::BindGlyphAtlas",
+   "our_name": "Font_BindGlyphTexture"
+  },
+  "0x1011CD20": {
+   "ours": "0x1011CE80",
+   "how": "drift",
+   "their_name": "DecodeTextChar",
+   "our_name": "Font_DecodeNextChar"
+  },
+  "0x1011D6E0": {
+   "ours": "0x1011D840",
+   "how": "drift",
+   "their_name": "AddGlyphAdvance",
+   "our_name": "Font_AddGlyphAdvance"
+  },
+  "0x1011F920": {
+   "ours": "0x1011FA80",
+   "how": "drift",
+   "their_name": "FontGlyph::ReadQuad",
+   "our_name": "sub_1011FA80"
+  },
+  "0x101202F0": {
+   "ours": "0x10120450",
+   "how": "drift",
+   "their_name": "FindMenuShapeFile",
+   "our_name": "ShapeMng_FindShape"
+  },
+  "0x101203B0": {
+   "ours": "0x10120510",
+   "how": "signature",
+   "their_name": "GetFontShpGlyphInfo",
+   "our_name": "ShapeMng_GetFontGlyph"
+  },
+  "0x10120430": {
+   "ours": "0x10120590",
+   "how": "signature",
+   "their_name": "FontObject::BindPageTexture",
+   "our_name": "ShapeMng_BindFontTexture"
+  },
+  "0x10120500": {
+   "ours": "0x10120660",
+   "how": "drift",
+   "their_name": "FontObject::LoadNameplatePages",
+   "our_name": "ShapeMng_LoadFontTextures"
+  },
+  "0x101205D0": {
+   "ours": "0x10120730",
+   "how": "drift",
+   "their_name": "FontObject::MeasureFloatingGlyph",
+   "our_name": "ShapeMng_GetDmgNumGlyph"
+  },
+  "0x10120650": {
+   "ours": "0x101207B0",
+   "how": "signature",
+   "their_name": "FontObject::BindFloatingTextPage",
+   "our_name": "ShapeMng_BindDmgNumTexture"
+  },
+  "0x10120720": {
+   "ours": "0x10120880",
+   "how": "drift",
+   "their_name": "FontObject::LoadFloatingTextPages",
+   "our_name": "ShapeMng_LoadDmgNumTextures"
+  },
+  "0x10123910": {
+   "ours": "0x10123A70",
+   "how": "drift",
+   "their_name": "CTkInputCtrl::GetKey",
+   "our_name": "sub_10123A70"
+  },
+  "0x10123D30": {
+   "ours": "0x10123E90",
+   "how": "drift",
+   "their_name": "ClearKeyQuerySuppression",
+   "our_name": "sub_10123E90"
+  },
+  "0x10124740": {
+   "ours": "0x101248A0",
+   "how": "drift",
+   "their_name": "InputState::StepHeldRepeat",
+   "our_name": "sub_101248A0"
+  },
+  "0x10153EA0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "GetStaticSingleton",
+   "our_name": null
+  },
+  "0x10154710": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "FileRequest::StepStateMachine",
+   "our_name": null
+  },
+  "0x10157870": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "CTkInputCtrl::Loop",
+   "our_name": null
+  },
+  "0x10167770": {
+   "ours": "0x101678E0",
+   "how": "drift",
+   "their_name": "CollisionGrid::ClearLastQuery",
+   "our_name": "sub_101678E0"
+  },
+  "0x101677D0": {
+   "ours": "0x10167940",
+   "how": "drift",
+   "their_name": "CollisionGrid::GetGridParams",
+   "our_name": "GetPtr8IfField60Set"
+  },
+  "0x10167830": {
+   "ours": "0x101679A0",
+   "how": "drift",
+   "their_name": "CollisionGrid::RemoveLayerNodes",
+   "our_name": "sub_101679A0"
+  },
+  "0x10168300": {
+   "ours": "0x10168470",
+   "how": "drift",
+   "their_name": "CollisionGrid::DrawWireframe",
+   "our_name": "sub_10168470"
+  },
+  "0x10168BB0": {
+   "ours": "0x10168D20",
+   "how": "drift",
+   "their_name": "DrawWirePolyhedron",
+   "our_name": "Dbg_DrawWireMesh"
+  },
+  "0x1016BEF0": {
+   "ours": "0x1016C060",
+   "how": "drift",
+   "their_name": "MultiplyMatrix4x4",
+   "our_name": "Mat44_Multiply"
+  },
+  "0x1016BFE0": {
+   "ours": "0x1016C150",
+   "how": "drift",
+   "their_name": "CollisionGrid::GetLastGroundHit",
+   "our_name": "sub_1016C150"
+  },
+  "0x1016FB60": {
+   "ours": "0x1016FCD0",
+   "how": "signature",
+   "their_name": "ParseZoneMeshData",
+   "our_name": "ParseZoneMeshData"
+  },
+  "0x101709C0": {
+   "ours": "0x10170B30",
+   "how": "drift",
+   "their_name": "ComputeVertexTangent",
+   "our_name": "sub_10170B30"
+  },
+  "0x10170B10": {
+   "ours": "0x10170C80",
+   "how": "drift",
+   "their_name": "MeshContainer::AppendNode",
+   "our_name": "sub_10170C80"
+  },
+  "0x10170B60": {
+   "ours": "0x10170CD0",
+   "how": "drift",
+   "their_name": "MeshContainer::ReleaseNodes",
+   "our_name": "sub_10170CD0"
+  },
+  "0x10170DC0": {
+   "ours": "0x10170F30",
+   "how": "signature",
+   "their_name": "MeshContainer::FindNode",
+   "our_name": "sub_10170F30"
+  },
+  "0x10170E60": {
+   "ours": "0x10170FD0",
+   "how": "drift",
+   "their_name": "MeshContainer::GetTotalBufferBytes",
+   "our_name": "sub_10170FD0"
+  },
+  "0x10170E80": {
+   "ours": "0x10170FF0",
+   "how": "drift",
+   "their_name": "PostPassGroup::PostPassGroup",
+   "our_name": "sub_10170FF0"
+  },
+  "0x101712D0": {
+   "ours": "0x10171440",
+   "how": "drift",
+   "their_name": "TransformPoint4x4",
+   "our_name": "sub_10171440"
+  },
+  "0x10171350": {
+   "ours": "0x101714C0",
+   "how": "drift",
+   "their_name": "PostPassGroup::BuildMemberMatrix",
+   "our_name": "sub_101714C0"
+  },
+  "0x101748F0": {
+   "ours": "0x10174A60",
+   "how": "drift",
+   "their_name": "RegionData::FreeChunkLists",
+   "our_name": "sub_10174A60"
+  },
+  "0x10174D50": {
+   "ours": "0x10174EC0",
+   "how": "drift",
+   "their_name": "DrawNodeBoxesWithLabels",
+   "our_name": "Dbg_DrawOrientedBoxes"
+  },
+  "0x101755D0": {
+   "ours": "0x10175740",
+   "how": "drift",
+   "their_name": "SetIdentityMatrix",
+   "our_name": "Mat4_SetIdentity_2"
+  },
+  "0x10176D60": {
+   "ours": "0x10176ED0",
+   "how": "drift",
+   "their_name": "ZoneMeshChunk::Build",
+   "our_name": "sub_10176ED0"
+  },
+  "0x10176E40": {
+   "ours": "0x10176FB0",
+   "how": "drift",
+   "their_name": "ZoneLayoutChunk::Decode",
+   "our_name": "sub_10176FB0"
+  },
+  "0x10177290": {
+   "ours": "0x10177400",
+   "how": "signature",
+   "their_name": "SetZBiasRenderState",
+   "our_name": "Gfx_SetZBias"
+  },
+  "0x101772B0": {
+   "ours": "0x10177420",
+   "how": "signature",
+   "their_name": "XiZone::SetBiasedProjection",
+   "our_name": "ZoneMap_SetOverlayProjection"
+  },
+  "0x10177B60": {
+   "ours": "0x10177CD0",
+   "how": "drift",
+   "their_name": "XiZone::DrawMarkerForward",
+   "our_name": "XiZone_DrawMarkerForward"
+  },
+  "0x10177B90": {
+   "ours": "0x10177D00",
+   "how": "drift",
+   "their_name": "XiZone::XiZone",
+   "our_name": "sub_10177D00"
+  },
+  "0x10177E30": {
+   "ours": "0x10177FA0",
+   "how": "drift",
+   "their_name": "XiZone::AssignLightSlots",
+   "our_name": "sub_10177FA0"
+  },
+  "0x10178060": {
+   "ours": "0x101781D0",
+   "how": "drift",
+   "their_name": "XiZone::SetDepthBias",
+   "our_name": "CTsZoneMap_InitZBiasPresets"
+  },
+  "0x101780E0": {
+   "ours": "0x10178250",
+   "how": "content",
+   "their_name": "XiZone::CreateShaders",
+   "our_name": "sub_10178250"
+  },
+  "0x101784A0": {
+   "ours": "0x10178610",
+   "how": "drift",
+   "their_name": "RewriteZoneLightAsPoint",
+   "our_name": "sub_10178610"
+  },
+  "0x101785B0": {
+   "ours": "0x10178720",
+   "how": "drift",
+   "their_name": "ClaimZoneLightById",
+   "our_name": "sub_10178720"
+  },
+  "0x101785F0": {
+   "ours": "0x10178760",
+   "how": "drift",
+   "their_name": "FindZoneLightById",
+   "our_name": "ZoneMap_FindLight"
+  },
+  "0x10178650": {
+   "ours": "0x101787C0",
+   "how": "drift",
+   "their_name": "XiZone::StepLoadState",
+   "our_name": "sub_101787C0"
+  },
+  "0x10178790": {
+   "ours": "0x10178900",
+   "how": "signature",
+   "their_name": "XiZone::LoadSubAreaSync",
+   "our_name": "sub_10178900"
+  },
+  "0x101788B0": {
+   "ours": "0x10178A20",
+   "how": "signature",
+   "their_name": "XiZone::RequestSubAreaLoad",
+   "our_name": "sub_10178A20"
+  },
+  "0x10178950": {
+   "ours": "0x10178AC0",
+   "how": "drift",
+   "their_name": "XiZone::ReleaseLayer",
+   "our_name": "sub_10178AC0"
+  },
+  "0x101789C0": {
+   "ours": "0x10178B30",
+   "how": "signature",
+   "their_name": "XiZone::Update",
+   "our_name": "sub_10178B30"
+  },
+  "0x10178C80": {
+   "ours": "0x10178DF0",
+   "how": "signature",
+   "their_name": "XiZone::LoadMainZoneSync",
+   "our_name": "sub_10178DF0"
+  },
+  "0x10178E00": {
+   "ours": "0x10178F70",
+   "how": "drift",
+   "their_name": "XiZone::TeardownResetPath",
+   "our_name": "sub_10178F70"
+  },
+  "0x10178E20": {
+   "ours": "0x10178F90",
+   "how": "drift",
+   "their_name": "XiZone::ResetDrawState",
+   "our_name": "sub_10178F90"
+  },
+  "0x10179080": {
+   "ours": "0x101791F0",
+   "how": "drift",
+   "their_name": "XiZone::DrawIndexedQuads24",
+   "our_name": "ZoneMap_DrawBox"
+  },
+  "0x10179130": {
+   "ours": "0x101792A0",
+   "how": "drift",
+   "their_name": "XiZone::CreateVertexDeclarations",
+   "our_name": "ZoneMap_CreateVertexShaders"
+  },
+  "0x10179180": {
+   "ours": "0x101792F0",
+   "how": "drift",
+   "their_name": "XiZone::BuildMesh",
+   "our_name": "sub_101792F0"
+  },
+  "0x10179220": {
+   "ours": "0x10179390",
+   "how": "drift",
+   "their_name": "XiZone::SetGroundQueryElements",
+   "our_name": "CTsZoneMap_UpdateViewerPosition"
+  },
+  "0x101792C0": {
+   "ours": "0x10179430",
+   "how": "signature",
+   "their_name": "XiZone::DecodeLayoutChunk",
+   "our_name": "sub_10179430"
+  },
+  "0x1017A280": {
+   "ours": "0x1017A3F0",
+   "how": "drift",
+   "their_name": "XiZone::UpdateMorphWeight",
+   "our_name": "sub_1017A3F0"
+  },
+  "0x1017A420": {
+   "ours": "0x1017A590",
+   "how": "drift",
+   "their_name": "XiZone::SetDrawStateTagged999",
+   "our_name": "sub_1017A590"
+  },
+  "0x1017A4C0": {
+   "ours": "0x1017A630",
+   "how": "drift",
+   "their_name": "XiZone::ResetElementDrawStates",
+   "our_name": "sub_1017A630"
+  },
+  "0x1017A520": {
+   "ours": "0x1017A690",
+   "how": "drift",
+   "their_name": "DropLayerLightRefs",
+   "our_name": "sub_1017A690"
+  },
+  "0x1017A560": {
+   "ours": "0x1017A6D0",
+   "how": "drift",
+   "their_name": "XiZone::ClaimLayoutLights",
+   "our_name": "sub_1017A6D0"
+  },
+  "0x1017A5A0": {
+   "ours": "0x1017A710",
+   "how": "drift",
+   "their_name": "GetElementBoundsCorners",
+   "our_name": "sub_1017A710"
+  },
+  "0x1017A7E0": {
+   "ours": "0x1017A950",
+   "how": "drift",
+   "their_name": "BuildPostPassGroups",
+   "our_name": "sub_1017A950"
+  },
+  "0x1017AA60": {
+   "ours": "0x1017ABD0",
+   "how": "drift",
+   "their_name": "PostPassGroup::VectorDeletingDtor",
+   "our_name": "sub_1017ABD0"
+  },
+  "0x1017AC70": {
+   "ours": "0x1017ADE0",
+   "how": "signature",
+   "their_name": "XiZone::DrawLayerPostPass",
+   "our_name": "ZoneMap_DrawMeshGroupsWithFog"
+  },
+  "0x1017ADC0": {
+   "ours": "0x1017AF30",
+   "how": "drift",
+   "their_name": "RelocateLayoutGroupIndices",
+   "our_name": "sub_1017AF30"
+  },
+  "0x1017AE10": {
+   "ours": "0x1017AF80",
+   "how": "drift",
+   "their_name": "XiZone::BindElementMeshes",
+   "our_name": "sub_1017AF80"
+  },
+  "0x1017AE70": {
+   "ours": "0x1017AFE0",
+   "how": "drift",
+   "their_name": "BindElementLodMeshes",
+   "our_name": "sub_1017AFE0"
+  },
+  "0x1017AFA0": {
+   "ours": "0x1017B110",
+   "how": "drift",
+   "their_name": "XiZone::FreeLayer",
+   "our_name": "sub_1017B110"
+  },
+  "0x1017B070": {
+   "ours": "0x1017B1E0",
+   "how": "signature",
+   "their_name": "XiZone::Reset",
+   "our_name": "ZoneMap_TeardownStep"
+  },
+  "0x1017B3A0": {
+   "ours": "0x1017B510",
+   "how": "signature",
+   "their_name": "XiZone::Draw",
+   "our_name": "XiZone_Draw"
+  },
+  "0x1017C6B0": {
+   "ours": "0x1017C820",
+   "how": "drift",
+   "their_name": "RelocateLayoutCullTree",
+   "our_name": "sub_1017C820"
+  },
+  "0x1017C740": {
+   "ours": "0x1017C8B0",
+   "how": "signature",
+   "their_name": "XiZone::WalkTreeNode",
+   "our_name": "sub_1017C8B0"
+  },
+  "0x1017C850": {
+   "ours": "0x1017C9C0",
+   "how": "signature",
+   "their_name": "XiZone::DrawElement",
+   "our_name": "XiZone_DrawElement"
+  },
+  "0x1017DCB0": {
+   "ours": "0x1017DE20",
+   "how": "citations",
+   "their_name": "XiZone::DrawElementCpuLit",
+   "our_name": "sub_1017DE20"
+  },
+  "0x10181A40": {
+   "ours": "0x10181BB0",
+   "how": "signature",
+   "their_name": "XiZone::TestBoundsFrustum",
+   "our_name": "sub_10181BB0"
+  },
+  "0x10181DF0": {
+   "ours": "0x10181F60",
+   "how": "drift",
+   "their_name": "TransformPointW",
+   "our_name": "sub_10181F60"
+  },
+  "0x10181E70": {
+   "ours": "0x10181FE0",
+   "how": "drift",
+   "their_name": "ComputeClipOutcode",
+   "our_name": "sub_10181FE0"
+  },
+  "0x10181F00": {
+   "ours": "0x10182070",
+   "how": "drift",
+   "their_name": "TestBoundsFrustumNoPlusZ",
+   "our_name": "sub_10182070"
+  },
+  "0x10182290": {
+   "ours": "0x10182400",
+   "how": "drift",
+   "their_name": "ComputeClipOutcodeNoPlusZ",
+   "our_name": "sub_10182400"
+  },
+  "0x10182320": {
+   "ours": "0x10182490",
+   "how": "content",
+   "their_name": "SetupCullingProjection",
+   "our_name": "sub_10182490"
+  },
+  "0x10182590": {
+   "ours": "0x10182700",
+   "how": "signature",
+   "their_name": "XiZone::ProjectTextureOnCollision",
+   "our_name": "CTsZoneMap_DrawProjectedTexture"
+  },
+  "0x10183200": {
+   "ours": "0x10183370",
+   "how": "drift",
+   "their_name": "XiZone::InvertRigidMatrix",
+   "our_name": "sub_10183370"
+  },
+  "0x10183320": {
+   "ours": "0x10183490",
+   "how": "drift",
+   "their_name": "XiZone::DrawModelAtMatrix",
+   "our_name": "XiZone_DrawModelAtMatrix"
+  },
+  "0x101835F0": {
+   "ours": "0x10183760",
+   "how": "signature",
+   "their_name": "XiZone::DrawEffectElementModel",
+   "our_name": "XiZone_DrawEffectElementModel"
+  },
+  "0x10183C30": {
+   "ours": "0x10183DA0",
+   "how": "signature",
+   "their_name": "XiZone::DrawPostPassItem",
+   "our_name": "ZoneMap_DrawMeshById"
+  },
+  "0x10184350": {
+   "ours": "0x101844C0",
+   "how": "drift",
+   "their_name": "XiZone::DrawActorMesh",
+   "our_name": "ModelActor_Draw"
+  },
+  "0x10184B20": {
+   "ours": "0x10184C90",
+   "how": "signature",
+   "their_name": "XiZone::DrawGroundShadowQuad",
+   "our_name": "XiZone_DrawGroundShadowQuad"
+  },
+  "0x10184E70": {
+   "ours": "0x10184FE0",
+   "how": "signature",
+   "their_name": "XiZone::DrawShadowOnTriangles",
+   "our_name": "CTsZoneMap_DrawProjectedShadow"
+  },
+  "0x10185B30": {
+   "ours": "0x10185CA0",
+   "how": "signature",
+   "their_name": "XiZone::DrawDecalOnTriangles",
+   "our_name": "XiZone_DrawDecalOnTriangles"
+  },
+  "0x10186A10": {
+   "ours": "0x10186B80",
+   "how": "drift",
+   "their_name": "CollectLayerEnvKeys",
+   "our_name": "sub_10186B80"
+  },
+  "0x10186AF0": {
+   "ours": "0x10186C60",
+   "how": "drift",
+   "their_name": "XiZone::BuildEnvObjects",
+   "our_name": "sub_10186C60"
+  },
+  "0x10186B40": {
+   "ours": "0x10186CB0",
+   "how": "drift",
+   "their_name": "XiZone::ResolveElementEnvObjects",
+   "our_name": "sub_10186CB0"
+  },
+  "0x10186B90": {
+   "ours": "0x10186D00",
+   "how": "drift",
+   "their_name": "XiZone::PostProcessLayers",
+   "our_name": "sub_10186D00"
+  },
+  "0x10186BC0": {
+   "ours": "0x10186D30",
+   "how": "drift",
+   "their_name": "XiZone::PostProcessLayer",
+   "our_name": "sub_10186D30"
+  },
+  "0x10186C60": {
+   "ours": "0x10186DD0",
+   "how": "drift",
+   "their_name": "FreeLayerEnvObjects",
+   "our_name": "sub_10186DD0"
+  },
+  "0x10186D90": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "XiArea::GetColorVec64",
+   "our_name": null
+  },
+  "0x10186DA0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "XiArea::GetColorVec74",
+   "our_name": null
+  },
+  "0x10186DB0": {
+   "ours": "0x10186F20",
+   "how": "call links",
+   "their_name": "XiArea::GetColorVec84",
+   "our_name": "Env_GetColorPtr84"
+  },
+  "0x10186E70": {
+   "ours": "0x10186FE0",
+   "how": "drift",
+   "their_name": "XiArea::GetActiveRecordFloat",
+   "our_name": "sub_10186FE0"
+  },
+  "0x10186E80": {
+   "ours": "0x10186FF0",
+   "how": "drift",
+   "their_name": "XiArea::GetActiveRecordFloat2",
+   "our_name": "sub_10186FF0"
+  },
+  "0x10186E90": {
+   "ours": "0x10187000",
+   "how": "drift",
+   "their_name": "XiArea::GetActiveRecordFlag",
+   "our_name": "sub_10187000"
+  },
+  "0x10186EC0": {
+   "ours": "0x10187030",
+   "how": "drift",
+   "their_name": "XiArea::ResetChainNodeLists",
+   "our_name": "sub_10187030"
+  },
+  "0x10186EE0": {
+   "ours": "0x10187050",
+   "how": "drift",
+   "their_name": "XiArea::Init",
+   "our_name": "sub_10187050"
+  },
+  "0x10187210": {
+   "ours": "0x10187380",
+   "how": "drift",
+   "their_name": "XiArea::XiArea",
+   "our_name": "sub_10187380"
+  },
+  "0x10187230": {
+   "ours": "0x101873A0",
+   "how": "drift",
+   "their_name": "XiArea::XiAreaChained",
+   "our_name": "sub_101873A0"
+  },
+  "0x10187300": {
+   "ours": "0x10187470",
+   "how": "drift",
+   "their_name": "XiArea::~XiArea",
+   "our_name": "sub_10187470"
+  },
+  "0x10187330": {
+   "ours": "0x101874A0",
+   "how": "drift",
+   "their_name": "XiArea::Update",
+   "our_name": "sub_101874A0"
+  },
+  "0x10187380": {
+   "ours": "0x101874F0",
+   "how": "drift",
+   "their_name": "XiArea::SetWeather",
+   "our_name": "sub_101874F0"
+  },
+  "0x10187490": {
+   "ours": "0x10187600",
+   "how": "drift",
+   "their_name": "XiArea::RefreshCurrentVectors",
+   "our_name": "sub_10187600"
+  },
+  "0x101875B0": {
+   "ours": "0x10187720",
+   "how": "signature",
+   "their_name": "XiArea::PlaceOrbitingLights",
+   "our_name": "sub_10187720"
+  },
+  "0x10187F50": {
+   "ours": "0x101880C0",
+   "how": "drift",
+   "their_name": "XiArea::ApplyParamRecord",
+   "our_name": "sub_101880C0"
+  },
+  "0x10188020": {
+   "ours": "0x10188190",
+   "how": "drift",
+   "their_name": "XiArea::ExpandParamRecord",
+   "our_name": "sub_10188190"
+  },
+  "0x10188790": {
+   "ours": "0x10188900",
+   "how": "drift",
+   "their_name": "GetRootXiArea",
+   "our_name": "sub_10188900"
+  },
+  "0x101887A0": {
+   "ours": "0x10188910",
+   "how": "call links",
+   "their_name": "XiArea::AppendToChain",
+   "our_name": "sub_10188910"
+  },
+  "0x101887D0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "XiArea::UnlinkFromChain",
+   "our_name": null
+  },
+  "0x10188830": {
+   "ours": "0x101889A0",
+   "how": "drift",
+   "their_name": "XiArea::FindChainLast",
+   "our_name": "sub_101889A0"
+  },
+  "0x10188850": {
+   "ours": "0x101889C0",
+   "how": "drift",
+   "their_name": "FindXiAreaByKey",
+   "our_name": "sub_101889C0"
+  },
+  "0x10188870": {
+   "ours": "0x101889E0",
+   "how": "drift",
+   "their_name": "XiArea::RedoKeyframeSearches",
+   "our_name": "sub_101889E0"
+  },
+  "0x101888A0": {
+   "ours": "0x10188A10",
+   "how": "drift",
+   "their_name": "XiArea::FreeWeatherNodeLists",
+   "our_name": "sub_10188A10"
+  },
+  "0x101888E0": {
+   "ours": "0x10188A50",
+   "how": "drift",
+   "their_name": "XiArea::StepFlicker",
+   "our_name": "sub_10188A50"
+  },
+  "0x10188A00": {
+   "ours": "0x10188B70",
+   "how": "signature",
+   "their_name": "XiArea::BuildDirectionalLights",
+   "our_name": "XiZone_GetDirLights"
+  },
+  "0x10188B30": {
+   "ours": "0x10188CA0",
+   "how": "signature",
+   "their_name": "XiArea::BuildDirectionalLight",
+   "our_name": "sub_10188CA0"
+  },
+  "0x10188C90": {
+   "ours": "0x10188E00",
+   "how": "signature",
+   "their_name": "XiArea::PackAmbientColor",
+   "our_name": "Env_ComputeAmbient"
+  },
+  "0x10188E30": {
+   "ours": "0x10188FA0",
+   "how": "citations",
+   "their_name": "XiArea::GetAmbientConstant",
+   "our_name": "Env_ComputeAmbientFloat4"
+  },
+  "0x10188FB0": {
+   "ours": "0x10189120",
+   "how": "signature",
+   "their_name": "XiArea::GetFogColorAndDistances",
+   "our_name": "sub_10189120"
+  },
+  "0x10189140": {
+   "ours": "0x101892B0",
+   "how": "signature",
+   "their_name": "XiArea::GetDrawDistanceScale",
+   "our_name": "sub_101892B0"
+  },
+  "0x10189320": {
+   "ours": "0x10189490",
+   "how": "signature",
+   "their_name": "XiAreaRecord::Blend",
+   "our_name": "sub_10189490"
+  },
+  "0x101895E0": {
+   "ours": "0x10189750",
+   "how": "signature",
+   "their_name": "BlendColorBytes4",
+   "our_name": "sub_10189750"
+  },
+  "0x101896A0": {
+   "ours": "0x10189810",
+   "how": "drift",
+   "their_name": "BlendFloat",
+   "our_name": "sub_10189810"
+  },
+  "0x10189700": {
+   "ours": "0x10189870",
+   "how": "drift",
+   "their_name": "BlendColorByte",
+   "our_name": "sub_10189870"
+  },
+  "0x10189770": {
+   "ours": "0x101898E0",
+   "how": "drift",
+   "their_name": "XiAreaRecord::BlendColorGroup",
+   "our_name": "sub_101898E0"
+  },
+  "0x10189810": {
+   "ours": "0x10189980",
+   "how": "signature",
+   "their_name": "XiAreaRecord::BlendTail",
+   "our_name": "sub_10189980"
+  },
+  "0x10189AF0": {
+   "ours": "0x10189C60",
+   "how": "drift",
+   "their_name": "ReadKeyframeClock",
+   "our_name": "sub_10189C60"
+  },
+  "0x10189B30": {
+   "ours": "0x10189CA0",
+   "how": "signature",
+   "their_name": "WeatherNode::FindEarlierType3dRecord",
+   "our_name": "sub_10189CA0"
+  },
+  "0x10189CC0": {
+   "ours": "0x10189E30",
+   "how": "signature",
+   "their_name": "WeatherNode::FindEarlierKeyframe",
+   "our_name": "sub_10189E30"
+  },
+  "0x10189DB0": {
+   "ours": "0x10189F20",
+   "how": "signature",
+   "their_name": "WeatherNode::FindLaterType3dRecord",
+   "our_name": "sub_10189F20"
+  },
+  "0x10189F80": {
+   "ours": "0x1018A0F0",
+   "how": "signature",
+   "their_name": "WeatherNode::FindLaterKeyframe",
+   "our_name": "sub_1018A0F0"
+  },
+  "0x1018A0B0": {
+   "ours": "0x1018A220",
+   "how": "drift",
+   "their_name": "WeatherNode::SearchEarlierType3d",
+   "our_name": "sub_1018A220"
+  },
+  "0x1018A0F0": {
+   "ours": "0x1018A260",
+   "how": "drift",
+   "their_name": "WeatherNode::SearchLaterType3d",
+   "our_name": "sub_1018A260"
+  },
+  "0x1018A130": {
+   "ours": "0x1018A2A0",
+   "how": "drift",
+   "their_name": "WeatherNode::SearchEarlierKeyframe",
+   "our_name": "sub_1018A2A0"
+  },
+  "0x1018A150": {
+   "ours": "0x1018A2C0",
+   "how": "drift",
+   "their_name": "WeatherNode::SearchLaterKeyframe",
+   "our_name": "sub_1018A2C0"
+  },
+  "0x1018A1B0": {
+   "ours": "0x1018A320",
+   "how": "drift",
+   "their_name": "WeatherNode::RunSearches",
+   "our_name": "sub_1018A320"
+  },
+  "0x1018A1D0": {
+   "ours": "0x1018A340",
+   "how": "signature",
+   "their_name": "WeatherNode::BlendKeyframes",
+   "our_name": "sub_1018A340"
+  },
+  "0x1018A630": {
+   "ours": "0x1018A7A0",
+   "how": "drift",
+   "their_name": "WeatherNode::WeatherNode",
+   "our_name": "sub_1018A7A0"
+  },
+  "0x1018AA80": {
+   "ours": "0x1018ABF0",
+   "how": "drift",
+   "their_name": "WeatherNode::~WeatherNode",
+   "our_name": "sub_1018ABF0"
+  },
+  "0x1018AC30": {
+   "ours": "0x1018ADA0",
+   "how": "signature",
+   "their_name": "WeatherNode::Release",
+   "our_name": "sub_1018ADA0"
+  },
+  "0x1018AC60": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "WeatherNode::WalkListThunk",
+   "our_name": null
+  },
+  "0x1018AC70": {
+   "ours": "0x1018ADE0",
+   "how": "signature",
+   "their_name": "WeatherNode::WalkAndCrossFade",
+   "our_name": "sub_1018ADE0"
+  },
+  "0x1018AD40": {
+   "ours": "0x1018AEB0",
+   "how": "signature",
+   "their_name": "AllocBlendedRecord",
+   "our_name": "sub_1018AEB0"
+  },
+  "0x1018AEA0": {
+   "ours": "0x1018B010",
+   "how": "drift",
+   "their_name": "InstallDefaultAreaRecord",
+   "our_name": "sub_1018B010"
+  },
+  "0x1018AFC0": {
+   "ours": "0x1018B130",
+   "how": "drift",
+   "their_name": "CreateXiArea",
+   "our_name": "sub_1018B130"
+  },
+  "0x1018B000": {
+   "ours": "0x1018B170",
+   "how": "drift",
+   "their_name": "XiArea::XiAreaRoot",
+   "our_name": "sub_1018B170"
+  },
+  "0x1018B1D0": {
+   "ours": "0x1018B340",
+   "how": "call links",
+   "their_name": "XiArea::DestroyRoot",
+   "our_name": "sub_1018B340"
+  },
+  "0x1018B1F0": {
+   "ours": "0x1018B360",
+   "how": "content",
+   "their_name": "DestroyRootXiAreaOnBroadcast",
+   "our_name": "sub_1018B360"
+  },
+  "0x1018B230": {
+   "ours": "0x1018B3A0",
+   "how": "drift",
+   "their_name": "XiZone::Open",
+   "our_name": "sub_1018B3A0"
+  },
+  "0x1018B390": {
+   "ours": "0x1018B500",
+   "how": "signature",
+   "their_name": "EnterZone",
+   "our_name": "sub_1018B500"
+  },
+  "0x1018B470": {
+   "ours": "0x1018B5E0",
+   "how": "signature",
+   "their_name": "XiArea::SetRootFlag",
+   "our_name": "sub_1018B5E0"
+  },
+  "0x1018B4B0": {
+   "ours": "0x1018B620",
+   "how": "drift",
+   "their_name": "XiArea::ResetForZoneChange",
+   "our_name": "sub_1018B620"
+  },
+  "0x1018B530": {
+   "ours": "0x1018B6A0",
+   "how": "drift",
+   "their_name": "XiArea::FinishZoneEntry",
+   "our_name": "sub_1018B6A0"
+  },
+  "0x1018B6F0": {
+   "ours": "0x1018B860",
+   "how": "signature",
+   "their_name": "XiArea::UpdateRoot",
+   "our_name": "sub_1018B860"
+  },
+  "0x1018B740": {
+   "ours": "0x1018B8B0",
+   "how": "drift",
+   "their_name": "XiArea::ForwardRecordToSound",
+   "our_name": "sub_1018B8B0"
+  },
+  "0x1018B780": {
+   "ours": "0x1018B8F0",
+   "how": "signature",
+   "their_name": "XiArea::GetZoneDrawDistance",
+   "our_name": "sub_1018B8F0"
+  },
+  "0x1018B7F0": {
+   "ours": "0x1018B960",
+   "how": "signature",
+   "their_name": "XiArea::BuildTwoLightsKeyed",
+   "our_name": "sub_1018B960"
+  },
+  "0x1018B830": {
+   "ours": "0x1018B9A0",
+   "how": "signature",
+   "their_name": "XiArea::BuildOneLightKeyed",
+   "our_name": "XiZone_GetDirLight"
+  },
+  "0x1018B870": {
+   "ours": "0x1018B9E0",
+   "how": "signature",
+   "their_name": "XiArea::GetAmbientColorKeyed",
+   "our_name": "XiZone_GetAmbient"
+  },
+  "0x1018B8B0": {
+   "ours": "0x1018BA20",
+   "how": "signature",
+   "their_name": "XiArea::GetFogKeyed",
+   "our_name": "XiZone_GetFog"
+  },
+  "0x1018B970": {
+   "ours": "0x1018BAE0",
+   "how": "drift",
+   "their_name": "XiArea::SelectTagTable",
+   "our_name": "sub_1018BAE0"
+  },
+  "0x1018BA40": {
+   "ours": "0x1018BBB0",
+   "how": "drift",
+   "their_name": "TimeCounter::Zero",
+   "our_name": "unknown_libname_158"
+  },
+  "0x1018BAD0": {
+   "ours": "0x1018BC40",
+   "how": "drift",
+   "their_name": "TimeCounter::SetTickFrame",
+   "our_name": "sub_1018BC40"
+  },
+  "0x1018C100": {
+   "ours": "0x1018C270",
+   "how": "drift",
+   "their_name": "TimeCounter::Advance",
+   "our_name": "sub_1018C270"
+  },
+  "0x1018C120": {
+   "ours": "0x1018C290",
+   "how": "drift",
+   "their_name": "TimeCounter::CountDown",
+   "our_name": "sub_1018C290"
+  },
+  "0x1018C140": {
+   "ours": "0x1018C2B0",
+   "how": "drift",
+   "their_name": "UpdateGameClock",
+   "our_name": "sub_1018C2B0"
+  },
+  "0x1018C360": {
+   "ours": "0x1018C4D0",
+   "how": "drift",
+   "their_name": "StartGameClock",
+   "our_name": "sub_1018C4D0"
+  },
+  "0x1019C0D0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "CallHostCallback",
+   "our_name": null
+  },
+  "0x101A29B0": {
+   "ours": "0x101A2E80",
+   "how": "drift",
+   "their_name": "FsMacroController::onKeyDown",
+   "our_name": "sub_101A2E80"
+  },
+  "0x101AB2A0": {
+   "ours": "0x101AB770",
+   "how": "drift",
+   "their_name": "UpdateJumpMapHotkeys",
+   "our_name": "sub_101AB770"
+  },
+  "0x101AB350": {
+   "ours": "0x101AB820",
+   "how": "drift",
+   "their_name": "UpdateMenuHotkeys",
+   "our_name": "sub_101AB820"
+  },
+  "0x101ADF10": {
+   "ours": "0x101AE3E0",
+   "how": "drift",
+   "their_name": "UpdateTextCommandHotkeys",
+   "our_name": "sub_101AE3E0"
+  },
+  "0x101BC960": {
+   "ours": "0x101BCE30",
+   "how": "drift",
+   "their_name": "WatchExternalWindow",
+   "our_name": "sub_101BCE30"
+  },
+  "0x101C41D0": {
+   "ours": "0x101C46A0",
+   "how": "drift",
+   "their_name": "FileRequest::DrainRingBuffer",
+   "our_name": "sub_101C46A0"
+  },
+  "0x101D0630": {
+   "ours": "0x101D0B00",
+   "how": "signature",
+   "their_name": "DrawCornerTextLine",
+   "our_name": "sub_101D0B00"
+  },
+  "0x101D07A0": {
+   "ours": "0x101D0C70",
+   "how": "drift",
+   "their_name": "UpdateScreenshotHotkey",
+   "our_name": "sub_101D0C70"
+  },
+  "0x101D1D90": {
+   "ours": "0x101D2260",
+   "how": "content",
+   "their_name": "ToggleOptionFlags",
+   "our_name": "sub_101D2260"
+  },
+  "0x101D24F0": {
+   "ours": "0x101D29C0",
+   "how": "drift",
+   "their_name": "TestOptionFlags",
+   "our_name": "sub_101D29C0"
+  },
+  "0x101D51B0": {
+   "ours": "0x101D5680",
+   "how": "drift",
+   "their_name": "DrawEntityMarkerSprite",
+   "our_name": "sub_101D5680"
+  },
+  "0x101DA2A0": {
+   "ours": "0x101DA770",
+   "how": "drift",
+   "their_name": "MenuObject::OnSelectA",
+   "our_name": "sub_101DA770"
+  },
+  "0x101DA380": {
+   "ours": "0x101DA850",
+   "how": "drift",
+   "their_name": "MenuObject::OnSelectB",
+   "our_name": "sub_101DA850"
+  },
+  "0x1021CFA0": {
+   "ours": "0x1021D4C0",
+   "how": "content",
+   "their_name": "DrawMovieFrameQuad",
+   "our_name": "CXiMovie_DrawFrame"
+  },
+  "0x1024C920": {
+   "ours": "0x1024CF50",
+   "how": "drift",
+   "their_name": "StAvatarInit",
+   "our_name": "StAvatarInit"
+  },
+  "0x1024D220": {
+   "ours": "0x1024D850",
+   "how": "call links",
+   "their_name": "StAvatarResolve",
+   "our_name": "sub_1024D850"
+  },
+  "0x1024D530": {
+   "ours": "0x1024DB60",
+   "how": "signature",
+   "their_name": "StAvatarUpdate",
+   "our_name": "sub_1024DB60"
+  },
+  "0x1024D6E0": {
+   "ours": "0x1024DD10",
+   "how": "drift",
+   "their_name": "StAvatarControl",
+   "our_name": "sub_1024DD10"
+  },
+  "0x1024F2D0": {
+   "ours": "0x1024F900",
+   "how": "signature",
+   "their_name": "StAvatarCameraTransfer",
+   "our_name": "StAvatar_SetViewFromDancerCamera"
+  },
+  "0x1024F5E0": {
+   "ours": "0x1024FC10",
+   "how": "drift",
+   "their_name": "StAvatarScaleUpdate",
+   "our_name": "sub_1024FC10"
+  },
+  "0x1024F7C0": {
+   "ours": "0x1024FDF0",
+   "how": "drift",
+   "their_name": "StAvatarFadeUpdate",
+   "our_name": "sub_1024FDF0"
+  },
+  "0x1024F890": {
+   "ours": "0x1024FEC0",
+   "how": "drift",
+   "their_name": "StAvatarFireFrameTriggers",
+   "our_name": "sub_1024FEC0"
+  },
+  "0x1024FA00": {
+   "ours": "0x10250030",
+   "how": "drift",
+   "their_name": "StAvatarSongUpdate",
+   "our_name": "sub_10250030"
+  },
+  "0x1024FB60": {
+   "ours": "0x10250190",
+   "how": "drift",
+   "their_name": "StAvatarDraw",
+   "our_name": "sub_10250190"
+  },
+  "0x1024FB90": {
+   "ours": "0x102501C0",
+   "how": "signature",
+   "their_name": "StAvatarRender",
+   "our_name": "StAvatarRender"
+  },
+  "0x10250030": {
+   "ours": "0x10250660",
+   "how": "drift",
+   "their_name": "StAvatarSetMonolithActive",
+   "our_name": "sub_10250660"
+  },
+  "0x102501D0": {
+   "ours": "0x10250800",
+   "how": "drift",
+   "their_name": "StAvatarSetCamera",
+   "our_name": "sub_10250800"
+  },
+  "0x10250BD0": {
+   "ours": "0x10251200",
+   "how": "drift",
+   "their_name": "StChannelItemForceUpdate",
+   "our_name": "sub_10251200"
+  },
+  "0x10250DE0": {
+   "ours": "0x10251410",
+   "how": "drift",
+   "their_name": "StChannelItemGetFrameNdx",
+   "our_name": "sub_10251410"
+  },
+  "0x10250ED0": {
+   "ours": "0x10251500",
+   "how": "signature",
+   "their_name": "StDancer::Update",
+   "our_name": "sub_10251500"
+  },
+  "0x10250FC0": {
+   "ours": "0x102515F0",
+   "how": "drift",
+   "their_name": "StDancer::GateSceneRender",
+   "our_name": "sub_102515F0"
+  },
+  "0x10251080": {
+   "ours": "0x102516B0",
+   "how": "drift",
+   "their_name": "StDancer::SelectModelPair",
+   "our_name": "sub_102516B0"
+  },
+  "0x102510F0": {
+   "ours": "0x10251720",
+   "how": "drift",
+   "their_name": "StDancer::SetSize",
+   "our_name": "sub_10251720"
+  },
+  "0x10251120": {
+   "ours": "0x10251750",
+   "how": "drift",
+   "their_name": "StDancer::SetCamera",
+   "our_name": "sub_10251750"
+  },
+  "0x10251150": {
+   "ours": "0x10251780",
+   "how": "drift",
+   "their_name": "StDancer::SetHairShader",
+   "our_name": "sub_10251780"
+  },
+  "0x10251260": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "StDancer::SetLookAtTarget",
+   "our_name": null
+  },
+  "0x10251450": {
+   "ours": "0x10251A80",
+   "how": "drift",
+   "their_name": "StDancer::_dancerInit",
+   "our_name": "Dancer_InitDevice"
+  },
+  "0x1025DAB0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "StepCounterTowardZero",
+   "our_name": null
+  },
+  "0x1025DAC0": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "ReturnFalseStub",
+   "our_name": null
+  },
+  "0x10270900": {
+   "ours": "0x10270F30",
+   "how": "signature",
+   "their_name": "scnProcess",
+   "our_name": "sub_10270F30"
+  },
+  "0x10274A60": {
+   "ours": "0x10275090",
+   "how": "drift",
+   "their_name": "sqTimerTick",
+   "our_name": "sub_10275090"
+  },
+  "0x102D1FD6": {
+   "ours": "0x102D2606",
+   "how": "drift",
+   "their_name": "FindD3DXFormatRecord",
+   "our_name": "?D3DXGetFormatInfo@@YAPBU_D3DXFORMAT_INFO@@W4_D3DFORMAT@@@Z"
+  },
+  "0x102D20DD": {
+   "ours": "0x102D270D",
+   "how": "signature",
+   "their_name": "FindClosestSupportedTextureFormat",
+   "our_name": "?D3DXFindClosestDeviceFormat@@YA?AW4_D3DFORMAT@@PAUIDirect3DDevice8@@KW4_D3DRESOURCETYPE@@PBU_D3DXFORMAT_INFO@@@Z"
+  },
+  "0x102D25E6": {
+   "ours": "0x102D2C16",
+   "how": "drift",
+   "their_name": "CorrectTextureParams",
+   "our_name": "sub_102D2C16"
+  },
+  "0x102D2910": {
+   "ours": "0x102D2F40",
+   "how": "drift",
+   "their_name": "D3DXCheckTextureRequirements",
+   "our_name": "_D3DXCheckTextureRequirements@28"
+  },
+  "0x102D2989": {
+   "ours": "0x102D2FB9",
+   "how": "signature",
+   "their_name": "D3DXCreateTexture",
+   "our_name": "_D3DXCreateTexture@32"
+  },
+  "0x102D79C9": {
+   "ours": "0x102D7FF9",
+   "how": "signature",
+   "their_name": "D3DXMatrixLookAtRH",
+   "our_name": "_D3DXMatrixLookAtRH@16"
+  },
+  "0x102D7D96": {
+   "ours": "0x102D83C6",
+   "how": "signature",
+   "their_name": "D3DXMatrixPerspectiveFovRH",
+   "our_name": "D3DXMatrixPerspectiveFovLH_static"
+  },
+  "0x10312E86": {
+   "ours": null,
+   "how": "unmapped",
+   "their_name": "atexit",
+   "our_name": null
+  }
+ }
+}

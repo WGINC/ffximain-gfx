@@ -1534,7 +1534,8 @@ frames):
   - Gfx_SetStreamSourceCached 0x1002F130: 5.4%;
   - CTsZoneMap::DrawProjectedShadow: 4.0%;
   - CDx::SetTransform: 3.6%.
-- The render thread itself: 68.8% of samples in memory of no module, as in session 5.
+- The render thread itself: 68.8% of samples in memory of no module, as in session 5. (Corrected below: 66% are
+  one address, 0x00010002.)
 - The occlusion readback is the largest single item while walking: a quarter of the render thread. Phase 0
   measured what an answer a frame late costs on this machine (0.18 ms for eight, against 3.40 ms for one LockRect
   after 1,600 draws). That is the asynchronous query of goal 2 (docs/D3D11.md section 3).
@@ -1573,3 +1574,58 @@ frames):
   those dumps are not in this container. The function stays a raw PASS until it is gated there.
 - data/global_com.json declares the objects for this function only. The same device sits behind 0x1047BFA8 for 102
   other gated functions; declaring it for them would strengthen their gates and needs them re-gated.
+
+## 14 Oct: corrections to what we understood (the owner asked for them before any more porting)
+
+Each checked against the owner's own run files.
+
+**1. The game draws with no vertex or pixel shader programs. Every draw seen is fixed-function.**
+- Before: the scope listed the game's 5 vertex and 1 pixel shader programs (data/shader_catalogue.json) and "281
+  shader handles". The device's README and D3D11.md read that as "the game's own programs, not drawn yet,
+  milestone 2c", and task 32 was to translate them.
+- What the runs show:
+  - Every vertex shader the kit captured in the owner's sessions (2,253 xikit_vshader_*.bin, 6 to 13 Oct) has 0
+    function tokens: a declaration only.
+  - No CreatePixelShader appears in any resource log.
+  - The only two captures with code in this container are test fixtures made here from the catalogue's tokens
+    (scratchpad xikit_vshader_1_0000004{2,3}.bin), not the game's.
+  - The 281 handles are these declarations.
+- Run 2's three distinct declarations:
+  - handle 3: stream 0 position, stream 1 normal, stream 2 texcoord. These are SkinAndDrawV2's three streams,
+    strides 12, 12 and 8: the characters.
+  - handle 5: stream 0 position; stream 1 normal, diffuse and texcoord.
+  - handle 7: one stream with position, normal, diffuse and texcoord.
+- The programs are built only by 0x10178250. Its one caller is a branch of 0x10178B30, a virtual method (vtable
+  entry 0x10336768) that also calls Zone_RenderEnvironment. Which zone or state takes that branch is not
+  established; no session reached it.
+- Consequence: the port needs no shader translation for anything observed. Task 32 is closed as not needed. A
+  program is logged if it ever comes.
+- kit/d3d8on11's picture test now draws the character layout (three streams, indexed, lit, textured). It matches
+  Wine. One case was found and kept out of the test: where a texture coordinate is exactly 1.0 between vertices,
+  point sampling ties between two texels, and Wine and D3D11 break the tie differently. Wine nudges its GL
+  geometry for D3D's fill convention (wined3d get_projection_matrix). How Windows' D3D8 breaks it is not
+  established.
+
+**2. "68.8% of the render thread in memory of no module" is one address, not unknown code.**
+- 7,230 of run 2's 10,977 samples (66%) are at EIP 0x00010002. That is not a code region in any module or heap the
+  kit knows.
+- The process is x86 emulated on ARM64. What 0x00010002 means there is not established. One reading, not
+  verified: the emulator shows that x86 context while the thread runs native code (the system's D3D11, the
+  Parallels driver) or waits.
+- The "elsewhere" view (time by the game function on the stack) is not affected: it reads return addresses, not
+  EIP. So "the readback's LockRect is 26.8%" stands as time under that call, not as time in x86 code.
+
+**3. The resource log's module column was wrong for calls through speedfix's device hooks.**
+- Example: 18,283 CreateVertexBuffer at 0x1003B334 were labelled "no module". The call-site column already named
+  the game's own return address (d3dprof_via_stk); the module column used the immediate return address, which is
+  the kit's thunk memory.
+- Fixed (kit/d3dprof/d3dprof.c caller_ra): both columns use the same caller. Earlier logs: read the call-site
+  column, not the module column, for such rows.
+
+**4. What stands, rechecked:**
+- The machine: Windows 11 on ARM64 under Parallels, the game emulated x86. The GPU is the Parallels Display Adapter
+  (shared memory only), reached through dgVoodoo 4.8.2.134, which is a D3D11 layer (D3D11.DLL and
+  prl_umdd10.dll are loaded).
+  - Every time measured so far, the readback stall above all, is on this one machine and virtual GPU. None of it
+    is shown to hold on a native Windows PC.
+- Hook.dll (Windower's) is in the process and patches three non-graphics game functions (METHOD.md, the dumps).

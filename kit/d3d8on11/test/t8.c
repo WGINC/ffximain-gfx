@@ -433,6 +433,55 @@ static void scenes(void) {
     for (int i = 0; i < 8; i++) IDirect3DDevice8_LightEnable(d, i, FALSE); }
   end("lights_8");
 
+  /* the game's character layout (run 2's captured declaration, handle 3): position, normal and texcoord each from
+     its own stream (SkinAndDrawV2's streams 0, 1, 2, strides 12, 12, 8), indexed, lit, textured */
+  reset_state(); begin(0xFF000000);
+  { static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_STREAM(1), D3DVSD_REG(3, D3DVSDT_FLOAT3),
+                                 D3DVSD_STREAM(2), D3DVSD_REG(7, D3DVSDT_FLOAT2), D3DVSD_END()};
+    DWORD h = 0; IDirect3DVertexBuffer8 *vp = NULL, *vn = NULL, *vt = NULL; IDirect3DIndexBuffer8 *ib = NULL; BYTE *p;
+    IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+    IDirect3DDevice8_CreateVertexBuffer(d, 64 * 12, D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &vp);
+    IDirect3DDevice8_CreateVertexBuffer(d, 64 * 12, D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &vn);
+    IDirect3DDevice8_CreateVertexBuffer(d, 64 * 8, D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &vt);
+    IDirect3DDevice8_CreateIndexBuffer(d, 7 * 7 * 6 * 2, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &ib);
+    float *P, *N, *T; WORD *I;
+    IDirect3DVertexBuffer8_Lock(vp, 0, 0, &p, 0); P = (float *)p;
+    IDirect3DVertexBuffer8_Lock(vn, 0, 0, &p, 0); N = (float *)p;
+    IDirect3DVertexBuffer8_Lock(vt, 0, 0, &p, 0); T = (float *)p;
+    for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) {
+      int k = y * 8 + x; float fx = x / 7.0f * 2 - 1, fy = y / 7.0f * 2 - 1;
+      P[3 * k] = fx * 2.2f; P[3 * k + 1] = -fy * 2.2f; P[3 * k + 2] = 0.3f * fx * fx;
+      N[3 * k] = fx * 0.6f; N[3 * k + 1] = -fy * 0.6f; N[3 * k + 2] = -1;
+      /* 1.9, not 2: at exactly u = 1.0 between vertices point sampling ties between two texels, and Wine (which nudges
+         GL geometry for D3D's fill convention, wined3d get_projection_matrix) and D3D11 break the tie differently;
+         which way Windows' D3D8 does is not established (docs/HISTORY.md, 14 Oct corrections) */
+      T[2 * k] = x / 7.0f * 1.9f; T[2 * k + 1] = y / 7.0f * 1.9f; }
+    IDirect3DVertexBuffer8_Unlock(vp); IDirect3DVertexBuffer8_Unlock(vn); IDirect3DVertexBuffer8_Unlock(vt);
+    IDirect3DIndexBuffer8_Lock(ib, 0, 0, &p, 0); I = (WORD *)p; int n = 0;
+    for (int y = 0; y < 7; y++) for (int x = 0; x < 7; x++) {
+      WORD a = (WORD)(y * 8 + x); I[n++] = a; I[n++] = a + 1; I[n++] = a + 8; I[n++] = a + 1; I[n++] = a + 9; I[n++] = a + 8; }
+    IDirect3DIndexBuffer8_Unlock(ib);
+    IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &view);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_AMBIENT, 0xFF42404C);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
+    D3DMATERIAL8 m; memset(&m, 0, sizeof m); m.Diffuse.r = m.Diffuse.g = m.Diffuse.b = m.Diffuse.a = 1; m.Ambient = m.Diffuse;
+    IDirect3DDevice8_SetMaterial(d, &m);
+    D3DLIGHT8 l; memset(&l, 0, sizeof l); l.Type = D3DLIGHT_DIRECTIONAL; l.Diffuse.r = l.Diffuse.g = l.Diffuse.b = 0.8f;
+    l.Direction.x = 0.4f; l.Direction.y = -0.6f; l.Direction.z = 1;
+    IDirect3DDevice8_SetLight(d, 0, &l); IDirect3DDevice8_LightEnable(d, 0, TRUE);
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)grad);
+    IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+    IDirect3DDevice8_SetVertexShader(d, h);
+    IDirect3DDevice8_SetStreamSource(d, 0, vp, 12); IDirect3DDevice8_SetStreamSource(d, 1, vn, 12); IDirect3DDevice8_SetStreamSource(d, 2, vt, 8);
+    IDirect3DDevice8_SetIndices(d, ib, 0);
+    IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, 64, 0, 7 * 7 * 2);
+    IDirect3DDevice8_LightEnable(d, 0, FALSE);
+    for (int i = 0; i < 3; i++) IDirect3DDevice8_SetStreamSource(d, i, NULL, 0);
+    IDirect3DDevice8_SetIndices(d, NULL, 0); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+    IDirect3DDevice8_DeleteVertexShader(d, h);
+    IDirect3DVertexBuffer8_Release(vp); IDirect3DVertexBuffer8_Release(vn); IDirect3DVertexBuffer8_Release(vt); IDirect3DIndexBuffer8_Release(ib); }
+  end("three_stream_declaration");
+
   if (chk) IDirect3DTexture8_Release(chk); if (grad) IDirect3DTexture8_Release(grad); if (alp) IDirect3DTexture8_Release(alp);
 }
 

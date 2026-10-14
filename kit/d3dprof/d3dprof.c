@@ -548,9 +548,13 @@ static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_
 /* a call that reached the wrapper through a mod's device hook (xikit device_hook) returns into the mod: on the render
    thread the kit keeps the return address of the call the hook is handling (d3dprof_via_stk, as d3dprof_record uses
    it), so the creating game function is named; on other threads it is not kept and the raw address stays */
-static uint32_t site_of_ra(uint32_t ra) {
+static uint32_t caller_ra(uint32_t ra) {
   if (!(ra >= g_lo && ra < g_hi) && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_thread)
     ra = d3dprof_via_stk[d3dprof_via_depth - 1];
+  return ra;
+}
+static uint32_t site_of_ra(uint32_t ra) {
+  ra = caller_ra(ra);
   return ra >= g_lo && ra < g_hi ? an(ra) : ra;
 }
 /* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
@@ -576,7 +580,7 @@ static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, 
   if (g_res) {
     char mod[MAX_PATH];
     fprintf(g_res, "%u,%s,\"%s\",0x%08X,%s,%08lX,%.1f,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra),
-            module_of(ra, mod, sizeof mod), (unsigned long)hr, us, obj);
+            module_of(caller_ra(ra), mod, sizeof mod), (unsigned long)hr, us, obj);   /* the same caller as the site column */
     for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
     fputc('\n', g_res); fflush(g_res);
   }

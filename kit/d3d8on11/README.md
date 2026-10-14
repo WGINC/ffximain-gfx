@@ -65,8 +65,9 @@ Where each behaviour comes from (named in the code where it is used):
   - the half-pixel offset (`get_projection_matrix`).
 
 Not implemented, each logged and the draw skipped:
-- the game's own vertex programs (its declarations with code, register v15; 281 SetVertexShader calls by handle in
-  the traces): milestone 2c, translating vs 1.x;
+- vertex shaders with code. The game holds some (data/shader_catalogue.json), but none was created in the owner's
+  sessions: all 2,253 captured were declarations only (docs/D3D11.md section 2). The 281 handles in the traces are
+  those declarations, which this device draws;
 - pixel shaders;
 - vertex blending (FVF XYZB*);
 - tessellation;

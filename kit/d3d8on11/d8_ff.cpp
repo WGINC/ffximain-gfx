@@ -463,7 +463,7 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   if (st.vs & 1) {
     size_t i = st.vs >> 1;
     if (i >= vshaders.size() || !vshaders[i].used) return D3DERR_INVALIDCALL;
-    if (!vshaders[i].code.empty()) { d8_once("vsprog", "a vertex shader with code (the game's own programs): not translated yet (draw skipped)"); return D3D_OK; }
+    if (!vshaders[i].code.empty()) { d8_once("vsprog", "a vertex shader with code: not translated (draw skipped); the game was never seen creating one"); return D3D_OK; }
     if (!layout_decl(vshaders[i].decl, vk)) return D3D_OK;
   } else if (!layout_fvf(st.vs, vk, fvfStride)) {
     d8_once(("fvf" + std::to_string(st.vs)).c_str(), "FVF 0x%lX: not implemented (draw skipped)", (unsigned long)st.vs);

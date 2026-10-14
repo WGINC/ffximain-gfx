@@ -103,7 +103,7 @@ def main(folder):
                 if u:
                     cls = ''.join(sorted(rclass(ls))) + ('S' if cube_linear_stages(ls) else '') + ('L' if lit_unnormalized(ls) else '') + ('F' if fog_reversed(ls) else '') + ('W' if fog_rhw_table(ls) else '')
                     diff.append('%s %d px %s' % (n, u, cls or '-'))
-            print('random seed %d: %d of %d cases differ from ours: %s' % (s, len(diff), len(ra), '; '.join(diff)))
+            print('random seed %d: %d of %d cases differ from ours: %s' % (s, len(diff), sum(1 for k in cases if k[0] == s), '; '.join(diff)))
 
 
 if __name__ == '__main__':

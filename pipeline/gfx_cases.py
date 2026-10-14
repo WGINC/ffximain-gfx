@@ -23,6 +23,9 @@ ECX_READ = {k for k, v in (json.load(open(os.path.join(DATADIR, 'ecx_use.json'))
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
 THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
+# fake Direct3D objects behind globals (and in `this`), per function, each with its source (data/global_com.json)
+GLOBAL_COM = {k: v for k, v in json.load(open(os.path.join(DATADIR, 'global_com.json'))).items() if not k.startswith('_')} \
+    if os.path.exists(os.path.join(DATADIR, 'global_com.json')) else {}
 LEAF = json.load(open(os.path.join(DATADIR, 'leaf_funcs.json'))) if os.path.exists(os.path.join(DATADIR, 'leaf_funcs.json')) else {}
 ALLOC = {int(k, 16): v for k, v in json.load(open(os.path.join(DATADIR, 'allocators.json'))).items() if k.startswith('0x')} \
     if os.path.exists(os.path.join(DATADIR, 'allocators.json')) else {}
@@ -143,6 +146,8 @@ def main(exp, metaf, protof, out):
                 c['vptr'] = VT[cls]['vtable']; c['vslots'] = VT[cls]['slots']
             hint = THIS_COM.get('0x%08X' % r['ea'])
             if hint: c['this_com'] = dict(c.get('this_com', {}), **hint['fields'])   # data/this_com.json
+            gh = GLOBAL_COM.get('0x%08X' % r['ea'], {}).get('this_com')
+            if gh: c['this_com'] = dict(c.get('this_com', {}), **gh)                 # data/global_com.json
         c['args'] = [arg_kind(a[1], a[4]) for a in stack_args]
         stubs = {}; fuzz = []; glob = {}; ran = set()
         for nm, o in r.get('objs', {}).items():
@@ -213,7 +218,17 @@ def main(exp, metaf, protof, out):
         if fuzz: c['fuzz_ranges'] = fuzz
         if glob: c['globals'] = glob
         c.update(COMMON)
-        cases.append(case_abs_reads.add(c))      # globals its own code reads at a fixed address, fuzzed too
+        c = case_abs_reads.add(c)                # globals its own code reads at a fixed address, fuzzed too
+        sg = GLOBAL_COM.get('0x%08X' % r['ea'], {}).get('struct_globals')
+        if sg:                                   # data/global_com.json: a struct with fake objects there, not fuzzed bytes
+            c['struct_globals'] = dict(c['struct_globals'], **{hex(int(g, 16)): {k: v for k, v in e.items() if k != 'why'}
+                                                               for g, e in sg.items()})
+            held = {int(g, 16) for g in sg}
+            c['fuzz_ranges'] = [f for f in c.get('fuzz_ranges', []) if int(f[0], 16) not in held]
+            if not c['fuzz_ranges']: del c['fuzz_ranges']
+            for g in list(c.get('globals', {})):
+                if int(g, 16) in held: del c['globals'][g]
+        cases.append(c)
     json.dump(cases, open(out, 'w'), indent=0)
     print(len(cases), 'cases')
 

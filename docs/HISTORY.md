@@ -1520,9 +1520,9 @@ frames):
   slot 16 (a texture), i.e. IDirect3DTexture8::GetSurfaceLevel(this, level, ppSurface): three DWORDs in the D3D8
   header, 12 bytes.
 - The other sites measured again agree with the pop counts already recorded.
-- The readback function 0x1006C8B0 cannot be re-gated yet: the tree does not reconstruct it (it calls the game's
-  code), and no translation of it is in the repository. Its UNRESOLVED verdict stays until it is translated and
-  gated.
+- The readback function 0x1006C8B0 could not be re-gated at first: the tree does not reconstruct it (it calls the
+  game's code), and no translation of it was in the repository. It has since been translated and gated: PASS
+  ("14 Oct: the occlusion readback 0x1006C8B0 translated and gated").
 
 **Where the time goes with the whole patch on** (kit/d3dprof/samples.py; the last 600 frames, 10,977 samples at
 1 ms, during the walk):
@@ -1538,3 +1538,38 @@ frames):
 - The occlusion readback is the largest single item while walking: a quarter of the render thread. Phase 0
   measured what an answer a frame late costs on this machine (0.18 ms for eight, against 3.40 ms for one LockRect
   after 1,600 draws). That is the asynchronous query of goal 2 (docs/D3D11.md section 3).
+
+## 14 Oct: the occlusion readback 0x1006C8B0 translated and gated (task 31)
+
+- **Translated** from the committed Hex-Rays export (data/exports/gfx_export.jsonl) by the pipeline's own steps:
+  hx2cpp.py, build_raw.sh, gfx_cases.py.
+- **Gate results, one step at a time:**
+  - The recorded verdict was UNRESOLVED: call 0x1006C8CD, pop count unknown.
+  - With run 2's fact (12, data/game_sp.json) the gate went one call further. It stopped at 0x1006C907 (slot 2 of
+    the object GetSurfaceLevel returned), because nothing in the case said what the objects are.
+  - The objects are now declared for this function (data/global_com.json, read by gfx_cases.py), each with its
+    source:
+    - [[0x1047C004]+12] is an IDirect3DTexture8: run 2's facts, its call target is slot 15 of the vtable the kit
+      captured as the texture's;
+    - [[0x1047BFA8]+0xEBC] is the device: data/com_calls.json, site 0x1006C8FD, CopyRects;
+    - this+4 is an IDirect3DSurface8: it is CopyRects' destination parameter in d3d8.h, and the same field is locked
+      through slot 9.
+  - With those: PASS, but 89 of 100 trials faulted reading address 0. The harness did not fill LockRect's
+    D3DLOCKED_RECT, so pBits was 0.
+- **Harness addition** (pipeline/diffemu_gfx.py, LOCKED_RECT_OUT):
+  - LockRect on a fake surface, texture or cube texture now writes Pitch and a pBits into readable pool memory,
+    parameter positions from d3d8.h.
+  - Its values come from a stream of their own (trial seed, call number). Functions that never lock draw from the
+    trial stream as before.
+  - Checked against the old harness on every gated function with a call through +0x24 or +0x40 (18 besides this
+    one): 17 identical; 0x1000C900 now returns in 58 trials instead of 32, 138 D3D calls compared instead of 68,
+    PASS either way. Its line in verification/gate_raw_final.jsonl is the old harness's.
+- **Result:** PASS, 100 trials, 82 returned (through the pixel-counting loop over the locked memory), 18 faulted the
+  same way in the game's own code (a failed GetSurfaceLevel leaves the surface pointer unset and it is released), 0
+  mismatches, 435 D3D calls compared, nothing unresolved.
+  - Also PASS on the state of the one full dump in this container (runs/dump/pol_full_dump.dmp: 431 D3D calls).
+  - verification/cases_raw_final.json and gate_raw_final.jsonl carry the new case and verdict.
+- **Not in the clean tree:** the tree is promoted on fuzz and the four dumps (town, town2, combat, zone to inn), and
+  those dumps are not in this container. The function stays a raw PASS until it is gated there.
+- data/global_com.json declares the objects for this function only. The same device sits behind 0x1047BFA8 for 102
+  other gated functions; declaring it for them would strengthen their gates and needs them re-gated.

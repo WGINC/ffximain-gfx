@@ -105,7 +105,7 @@ void Dev::defaults() {
   }
   for (int i = 0; i < 512; i++) { identity(&st.xf[i]); st.xfSet[i] = false; }
   st.vp = {0, 0, pp.BackBufferWidth, pp.BackBufferHeight, 0.0f, 1.0f};
-  memset(&st.mat, 0, sizeof st.mat); st.light.clear(); st.lightOn.clear(); st.vs = 0; st.ps = 0;
+  memset(&st.mat, 0, sizeof st.mat); st.light.clear(); st.lightOn.clear(); st.vs = 0; st.ps = 0; memset(st.clip, 0, sizeof st.clip);
 }
 
 // ---- the executor -------------------------------------------------------------------------------------------------------
@@ -289,6 +289,22 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
       for (LONG y = r.top; y < r.bottom; y++)
         memcpy(&d->cpu[(size_t)(p.y + y - r.top) * d8_pitch(d->fmt, d->w) + (size_t)p.x * bpp], (uint8_t *)lr.pBits + (size_t)y * lr.Pitch + (size_t)r.left * bpp, (size_t)(r.right - r.left) * bpp);
       s->UnlockRect();
+    } else if (s->kind == SK_IMAGE && (d->tex || d->kind == SK_IMAGE)) {   // system memory to the GPU, or to system memory
+      FmtInfo fi = d8_fmt(s->fmt);
+      UINT bw = fi.block ? 4 : 1;                               // block formats copy whole 4x4 blocks
+      if ((r.left | r.top | p.x | p.y) % bw) { d8_once("copyalign", "CopyRects of a block format not on block edges (refused)"); return D3DERR_INVALIDCALL; }
+      UINT sp = d8_pitch(s->fmt, s->w), rowb = d8_pitch(s->fmt, (UINT)(r.right - r.left)), rows = d8_rows(s->fmt, (UINT)(r.bottom - r.top));
+      const uint8_t *src = s->cpu.data() + (size_t)(r.top / bw) * sp + (size_t)d8_pitch(s->fmt, (UINT)r.left);
+      if (d->kind == SK_IMAGE) {
+        UINT dp = d8_pitch(d->fmt, d->w);
+        for (UINT y = 0; y < rows; y++) memcpy(&d->cpu[(size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x)], src + (size_t)y * sp, rowb);
+      } else {
+        flush();
+        D3D11_TEXTURE2D_DESC dd; d->tex->GetDesc(&dd);
+        UINT sub = d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, dd.MipLevels) : 0;
+        D3D11_BOX bx = {(UINT)p.x, (UINT)p.y, 0, (UINT)(p.x + r.right - r.left), (UINT)(p.y + r.bottom - r.top), 1};
+        ctx->UpdateSubresource(d->tex, sub, &bx, src, sp, 0);
+      }
     } else {
       d8_notimpl("CopyRects between these kinds of surface");
       return D3DERR_INVALIDCALL;
@@ -331,6 +347,14 @@ HRESULT Dev::MultiplyTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) {
   }
   return SetTransform(t, &o);
 }
+// user clip planes: kept and read back; drawing with D3DRS_CLIPPLANEENABLE set is logged as not implemented (d8_ff.cpp).
+// The game's traces never set CLIPPLANEENABLE (data/d3d8_scope.json)
+HRESULT Dev::SetClipPlane(DWORD i, const float *p) {
+  if (i >= 6 || !p) return D3DERR_INVALIDCALL;
+  memcpy(TARGET.clip[i], p, 16); if (rec) rec->clip[i] = true;
+  return D3D_OK;
+}
+HRESULT Dev::GetClipPlane(DWORD i, float *p) { if (i >= 6 || !p) return D3DERR_INVALIDCALL; memcpy(p, st.clip[i], 16); return D3D_OK; }
 HRESULT Dev::SetViewport(const D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; TARGET.vp = *v; if (rec) rec->vp = true; return D3D_OK; }
 HRESULT Dev::GetViewport(D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; *v = st.vp; return D3D_OK; }
 HRESULT Dev::SetMaterial(const D3DMATERIAL8 *m) { if (!m) return D3DERR_INVALIDCALL; TARGET.mat = *m; if (rec) rec->mat = true; return D3D_OK; }
@@ -405,6 +429,7 @@ static void copy_block(State &to, const State &from, const Block &b) {
   for (int i = 0; i < 512; i++) if (b.xf[i]) to.xf[i] = from.xf[i];
   if (b.vp) to.vp = from.vp;
   if (b.mat) to.mat = from.mat;
+  for (int i = 0; i < 6; i++) if (b.clip[i]) memcpy(to.clip[i], from.clip[i], 16);
   for (int n = 0; n < 16; n++) if (b.stream[n]) { rebind(to.stream[n], from.stream[n]); to.stride[n] = from.stride[n]; }
   if (b.ib) { rebind(to.ib, from.ib); to.baseVertex = from.baseVertex; }
   if (b.vs) to.vs = from.vs;
@@ -457,6 +482,7 @@ HRESULT Dev::CreateStateBlock(D3DSTATEBLOCKTYPE type, DWORD *tok) {
   Block *b = new_block();
   memset(b->rs, 1, sizeof b->rs); memset(b->tss, 1, sizeof b->tss); memset(b->tex, 1, sizeof b->tex);
   memset(b->xf, 1, sizeof b->xf); b->vp = b->mat = b->ib = b->vs = b->ps = true; memset(b->stream, 1, sizeof b->stream);
+  memset(b->clip, 1, sizeof b->clip);
   for (size_t i = 0; i < st.light.size(); i++) b->lights.push_back((int)i);
   copy_block(b->s, st, *b);
   blocks.push_back(b); *tok = (DWORD)blocks.size();

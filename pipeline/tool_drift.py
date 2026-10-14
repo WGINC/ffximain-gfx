@@ -7,6 +7,7 @@ Regenerates every generated tool file and rebuilds the kit, then compares:
     sdk/fork_flags.txt
   * kit/xikit/dist/*, kit/d3dprof/d3dprof.dll, kit/speedfix/dist/speedfix.dll, kit/d3d11probe/dist/*.exe,
                                       kit/d3d8on11/dist/d3d8.dll
+                                      kit/fcap/dist/fcap_replay.exe
                                       the builds (reproducible: --no-insert-timestamp) against kit/BUILD.lock.json,
                                       the hashes of the last build committed as current
   * xikit.ini keys                    the keys xikit.c reads = the keys of its default ini, each one in docs/KIT.md
@@ -38,6 +39,7 @@ def built():
     p = os.path.join(R, 'kit', 'd3d11probe', 'dist')
     for f in ('probe11_x86.exe', 'probe11_arm64.exe', 'probe8_x86.exe'): h['kit/d3d11probe/dist/' + f] = sha(os.path.join(p, f))
     h['kit/d3d8on11/dist/d3d8.dll'] = sha(os.path.join(R, 'kit', 'd3d8on11', 'dist', 'd3d8.dll'))
+    h['kit/fcap/dist/fcap_replay.exe'] = sha(os.path.join(R, 'kit', 'fcap', 'dist', 'fcap_replay.exe'))
     return h
 
 
@@ -66,6 +68,7 @@ def main():
         run(['bash', 'kit/speedfix/build.sh'])
         run(['bash', 'kit/d3d11probe/build.sh'])
         run(['bash', 'kit/d3d8on11/build.sh'])
+        run(['bash', 'kit/fcap/build.sh'])
         for p in WATCH:
             if open(os.path.join(R, p), 'rb').read() != before[p]:
                 problems.append('%s is not what its generator writes from the current sources' % p)

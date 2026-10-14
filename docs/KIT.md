@@ -457,6 +457,54 @@ declaration only (0x1002D6DC, 0x101792BE, 0x101792DF, 0x10284A58); 2 in function
 (0x10017810; 0x101771B0, which assembles `c:\test.vsh`, a developer leftover). The one `CreatePixelShader` site
 (0x10177323) makes the pixel shader above.
 
+## Frame capture (`fcap=1`): one whole frame, replayed through any d3d8.dll
+
+`fcap=1` keeps, from the start, a copy of what the game writes into its vertex and index buffers in D3DPOOL_DEFAULT.
+The game cannot read those back: they are write-only (run 2's resource log: 18,704 dynamic vertex buffers, 3,856 model
+index buffers). A capture then writes one frame, from one Present to the next, to `xikit_fcap_<pid>_<n>.fcap` in the
+log folder (format: kit/d3dprof/fcap_fmt.h). It holds:
+- the device's state at the start, as Set calls;
+- every call that changes something, with the data it points to (matrices, lights, ...UP vertices, rectangles);
+- every object the frame uses, at first use:
+  - managed textures and buffers, read back;
+  - default-pool buffers, from the kept copies;
+  - render-target textures, through CopyRects into an image surface;
+  - the vertex shader declarations;
+- buffer locks inside the frame;
+- the back buffer as the game finished it: the picture the game's own d3d8.dll (dgVoodoo) drew.
+
+D3D8 cannot read a state block's contents. At each ApplyStateBlock the capture applies the block itself (a block only
+sets values, so applying it twice changes nothing), reads the whole state back, and writes what changed as Set calls.
+Calls recorded into a block (between BeginStateBlock and EndStateBlock) are left out.
+
+When: `fcap_after` seconds after the start (then every `fcap_every` seconds, `fcap_count` in all), or when the file
+`xikit_fcap_now.txt` is created next to xikit.dll (the kit deletes it). The capture frame is slow (it reads the state
+back at every ApplyStateBlock and every texture the frame uses); a plaza frame's file is expected to be tens of MB.
+
+Not recorded (version 1), each said in the file as a note where it happens:
+- calls from other threads during the frame;
+- a texture written through LockRect after the frame first used it;
+- objects or vertex shaders made before the kit attached;
+- depth surfaces' contents;
+- pixel shaders and ProcessVertices.
+
+Buffers are wrapped by patching Lock, Unlock and Release in their class's vtable, not by giving objects a copy: Wine's
+d3d8 checks that a buffer's vtable is its own (it asserts in dlls/d3d8/buffer.c).
+
+**Replay** (`kit/fcap/replay.c` → `fcap_replay.exe CAPTURE.fcap OUT`): plays the capture into whichever d3d8.dll sits
+next to it, and writes `OUT_replay.pic` (what that device drew) and `OUT_capture.pic` (what the game's drew).
+`kit/fcap/compare.py A.pic B.pic --png OUT.png` compares two pictures.
+
+**Tested** (`kit/fcap/test/test_fcap.py`, Wine):
+- a program draws game-like frames through Wine's d3d8 with d3dprof and fcap attached as the kit attaches them, and
+  captures one. The frames hold write-only buffers filled before the captured frame, a dynamic buffer rewritten in it,
+  managed DXT1 and A8R8G8B8 textures, the three-stream character declaration, a state block applied, a render-to-texture
+  pass, fog, ZBIAS, ...UP draws and the readback's CopyRects;
+- replayed through Wine's d3d8: the picture equals the captured one exactly;
+- replayed through kit/d3d8on11: equal within 1 of 255.
+- The first replay through d3d8on11 found three of its gaps: normals normalized without D3DRS_NORMALIZENORMALS,
+  SetClipPlane, and CopyRects from an image surface. All three are fixed.
+
 ## Finding which functions break the picture (`bisect=1`)
 
 With `bisect=1`, and the screen wrong with everything swapped: Ctrl+Alt+F10, or create `xikit_bisect_bad.txt` next to

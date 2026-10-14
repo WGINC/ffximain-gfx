@@ -163,11 +163,12 @@ struct State {
   std::vector<D3DLIGHT8> light; std::vector<BOOL> lightOn;
   VB *stream[16]; UINT stride[16]; IB *ib; UINT baseVertex;
   DWORD vs, ps;
+  float clip[6][4];
 };
 
 // recorded state blocks: which pieces the block holds, with their values
 struct Block {
-  bool rs[256], tss[8][32], tex[8], xf[512], vp, mat, stream[16], ib, vs, ps;
+  bool rs[256], tss[8][32], tex[8], xf[512], vp, mat, stream[16], ib, vs, ps, clip[6];
   std::vector<int> lights;                      // indices set or enabled
   State s;
 };
@@ -251,6 +252,8 @@ struct Dev final : public IDirect3DDevice8_Stub {
   HRESULT STDMETHODCALLTYPE GetLight(DWORD, D3DLIGHT8 *);
   HRESULT STDMETHODCALLTYPE LightEnable(DWORD, WINBOOL);
   HRESULT STDMETHODCALLTYPE GetLightEnable(DWORD, WINBOOL *);
+  HRESULT STDMETHODCALLTYPE SetClipPlane(DWORD, const float *);
+  HRESULT STDMETHODCALLTYPE GetClipPlane(DWORD, float *);
   HRESULT STDMETHODCALLTYPE SetRenderState(D3DRENDERSTATETYPE, DWORD);
   HRESULT STDMETHODCALLTYPE GetRenderState(D3DRENDERSTATETYPE, DWORD *);
   HRESULT STDMETHODCALLTYPE BeginStateBlock();

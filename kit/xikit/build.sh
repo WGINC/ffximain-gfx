@@ -24,7 +24,7 @@ for b in "$H"/builds/*.json; do
 done
 python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" --from-gates | head -1   # the UNRESOLVED call sites, for facts=1
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
-    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
+    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
 python3 - "$H/xikit.c" "$OUT/xikit.ini" <<'PY'
 import re, sys
 s = open(sys.argv[1]).read()

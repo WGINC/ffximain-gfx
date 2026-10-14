@@ -134,7 +134,9 @@ static std::string gen_vs(const VSKey &k) {
   bool needN = k.lighting || [&] { for (int i = 0; i < k.ntc; i++) if (k.tc[i].src == 1 || k.tc[i].src == 3) return true; return false; }();
   if (needN && !k.rhw) {
     s += "  float3 nrm = mul(float4(" + in(SE_NORMAL, 0, "float4(0,0,0,0)") + ".xyz, 0), wvn).xyz;\n";
-    s += k.normalize || k.lighting ? "  if (dot(nrm, nrm) > 0) nrm = normalize(nrm);\n" : "";
+    // normals are normalized only with D3DRS_NORMALIZENORMALS (the DirectX 8 reference; Wine's glsl_shader.c does
+    // the same): a normal that is not unit length, or a scaled world matrix, changes the lighting otherwise
+    s += k.normalize ? "  if (dot(nrm, nrm) > 0) nrm = normalize(nrm);\n" : "";
   }
   if (k.lighting && !k.rhw) {
     const char *src[] = {"", "vd", "vs"};
@@ -469,6 +471,7 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     d8_once(("fvf" + std::to_string(st.vs)).c_str(), "FVF 0x%lX: not implemented (draw skipped)", (unsigned long)st.vs);
     return D3D_OK;
   }
+  if (st.rs[D3DRS_CLIPPLANEENABLE]) d8_once("clipplanes", "D3DRS_CLIPPLANEENABLE 0x%lX: user clip planes are not applied", (unsigned long)st.rs[D3DRS_CLIPPLANEENABLE]);
   if (st.ps) { d8_once("psprog", "a pixel shader (the game's own program): not translated yet (draw skipped)"); return D3D_OK; }
   const DWORD *r = st.rs;
   // ---- vertex key

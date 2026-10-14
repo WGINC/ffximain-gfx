@@ -1629,3 +1629,26 @@ Each checked against the owner's own run files.
   - Every time measured so far, the readback stall above all, is on this one machine and virtual GPU. None of it
     is shown to hold on a native Windows PC.
 - Hook.dll (Windower's) is in the process and patches three non-graphics game functions (METHOD.md, the dumps).
+
+## 14 Oct: frame capture and replay (task 29)
+
+- **The kit captures one whole frame** (`fcap=1`, docs/KIT.md "Frame capture"; kit/d3dprof/fcap.c). It holds every
+  call with its data, every object the frame uses with its contents, the start state, state blocks written as the
+  Set calls they amount to, and the picture the game's own d3d8.dll drew.
+  - The default-pool buffers the game cannot read back are copied from creation on.
+  - Buffers are wrapped by patching their class vtable, because Wine's d3d8 asserts that a buffer's vtable is its own.
+- **The replayer** (kit/fcap/replay.c, dist/fcap_replay.exe) plays a capture into any d3d8.dll and writes both
+  pictures; kit/fcap/compare.py compares them.
+- **Tested under Wine** (kit/fcap/test/test_fcap.py): a game-like frame captured through Wine's d3d8.
+  - Replayed through Wine's d3d8: identical to the captured picture.
+  - Replayed through d3d8on11: within 1 of 255.
+- **The first replay through d3d8on11 found three gaps, now fixed:**
+  - normals were normalized whenever lighting was on. D3D8 normalizes only with D3DRS_NORMALIZENORMALS (the DirectX 8
+    reference; Wine does the same). The 20 picture-test scenes had near-unit normals and an unscaled world matrix, so
+    they did not show it;
+  - SetClipPlane and GetClipPlane were missing. They are now kept, read back and recorded in blocks; drawing with
+    CLIPPLANEENABLE set is logged as not implemented (the game's traces never set it);
+  - CopyRects from an image surface into a GPU surface, and between image surfaces.
+- **What it is for:** a real plaza frame from the owner's game, replayed through dgVoodoo and through d3d8on11 on the
+  owner's machine and here, compared with the picture the game drew. That is phase 1's check (D3D11.md). No such
+  capture exists yet.

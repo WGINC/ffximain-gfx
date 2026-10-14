@@ -9,7 +9,7 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
     message(FATAL_ERROR "Build 32-bit: cmake -B build -A Win32")
 endif()
 
-add_library(d3dprof SHARED d3dprof.c)
+add_library(d3dprof SHARED d3dprof.c fcap.c)
 if(MSVC)
     # static runtime: the DLL needs no Visual C++ redistributable in the game's process
     set_property(TARGET d3dprof PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")

@@ -52,6 +52,8 @@ void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const ch
 void d3dprof_set_shift(const int32_t *tab);   /* another build's moved code ranges: call sites reported in the analysed build's numbering */
 void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
+/* frame capture (kit/d3dprof/fcap.c): one frame with every piece of data its calls use, for kit/fcap/replay.c */
+extern int fcap_enabled; void fcap_arm(void); int fcap_busy(void); unsigned fcap_written(void);
 extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
 
 typedef struct {
@@ -185,6 +187,12 @@ static const char DEFAULT_INI[] =
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n"
+  "; 1: frame capture (docs/KIT.md): from the start, copies of what the game writes into its default-pool vertex and\r\n"
+  ";    index buffers are kept (the game cannot read those back), and a capture writes one whole frame, every call with its\r\n"
+  ";    data and every resource it uses, to xikit_fcap_<pid>_<n>.fcap (tens of MB) for kit/fcap/replay.c. A capture is\r\n"
+  ";    taken fcap_after seconds after the start (then every fcap_every seconds, fcap_count in all), or when the file\r\n"
+  ";    xikit_fcap_now.txt is created next to xikit.dll. Takes effect at the next start\r\n"
+  "fcap=0\r\nfcap_after=0\r\nfcap_every=60\r\nfcap_count=1\r\n"
   "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
   ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "call_time=0\r\n"
@@ -634,6 +642,20 @@ static void trace_finish(const char *mode) {
   klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
 }
 
+static int g_fc_after, g_fc_every, g_fc_count, g_fc_started; static DWORD g_fc_next; static unsigned g_fc_logged;
+static void fcap_step(void) {
+  if (g_frame % 30 == 0) {
+    char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_fcap_now.txt", g_dir);
+    if (DeleteFileA(p) && !fcap_busy()) { fcap_arm(); klog("fcap: the next frame is captured (xikit_fcap_now.txt)"); }
+  }
+  if (g_fc_after > 0 && g_fc_started < g_fc_count && !fcap_busy()) {
+    DWORD now = GetTickCount();
+    if (!g_fc_next) g_fc_next = now + (DWORD)g_fc_after * 1000;
+    if ((int)(now - g_fc_next) >= 0) { g_fc_started++; g_fc_next = now + (DWORD)g_fc_every * 1000; fcap_arm(); klog("fcap: the next frame is captured (timer, %d of %d)", g_fc_started, g_fc_count); }
+  }
+  if (fcap_written() != g_fc_logged) { g_fc_logged = fcap_written(); klog("fcap: xikit_fcap_%lu_%u.fcap written (kit/fcap/replay.c plays it)", (unsigned long)GetCurrentProcessId(), g_fc_logged - 1); }
+}
+
 static void trace_step(void) {
   int n = 0;
   int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F8) & 0x8000);
@@ -987,6 +1009,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       }
     }
     if (g_trace_attached) trace_step();
+    if (fcap_enabled) fcap_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_nmods) mods_watch();
     ab_control();
@@ -1922,7 +1945,10 @@ static DWORD WINAPI start(LPVOID self) {
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   log_environment();
-  if (g_cfg.profile || g_cfg.trace) {
+  fcap_enabled = GetPrivateProfileIntA("xikit", "fcap", 0, g_ini) != 0;
+  g_fc_after = GetPrivateProfileIntA("xikit", "fcap_after", 0, g_ini); g_fc_every = GetPrivateProfileIntA("xikit", "fcap_every", 60, g_ini);
+  g_fc_count = GetPrivateProfileIntA("xikit", "fcap_count", 1, g_ini); if (g_fc_every < 10) g_fc_every = 10;
+  if (g_cfg.profile || g_cfg.trace || fcap_enabled) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
     d3dprof_set_shift(g_shift);
@@ -1932,7 +1958,7 @@ static DWORD WINAPI start(LPVOID self) {
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);
     g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); g_tr_pictures = GetPrivateProfileIntA("xikit", "trace_pictures", 0, g_ini); if (g_tr_every < 20) g_tr_every = 20;
-    klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
+    klog("profiler attached: %s%s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "", fcap_enabled ? "; fcap=1: buffer copies kept, captures written as asked" : "");
   }
   if (g_nmods) {                              /* the mods' device hooks, in front of everything (device_hook) */
     front_install(dev);

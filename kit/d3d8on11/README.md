@@ -158,14 +158,17 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 1 of 255 (lights_8), and no pixel is beyond
   the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
   written as a PNG (Wine | ours | difference).
-- `defaults`: every render state and stage state of a fresh device, read on both and compared. On 14 Oct: 480
-  states each, 30 differing.
-  - 28 of the 30 are numbers above D3DRS_BLENDOP (171), which the D3D8 header does not define. Wine's d3d8 answers
-    for them because its implementation is shared with D3D9.
-  - D3DRS_DEBUGMONITORTOKEN (165): Wine 0xBAADCAFE, ours 0.
-  - D3DRS_POINTSIZE_MAX (166): Wine 256.0, ours 64.0.
-  - Which of these Windows' own D3D8 gives is not established. Neither matters to the game as far as the scope
-    shows: it sets neither.
+- `defaults`: every render state and stage state of a fresh device, read on both and compared, and (by hand, 14 Oct)
+  with the defaults the DirectX 8.1 reference states (D3DRENDERSTATETYPE, D3DTEXTURESTAGESTATETYPE). Every one of the
+  76 render states Microsoft's d3d8types.h defines, and every stage state, now has the reference's stated default:
+  - three did not, and were changed: D3DRS_POSITIONORDER (172) to D3DORDER_CUBIC and D3DRS_NORMALORDER (173) to
+    D3DORDER_LINEAR (both as Wine has them; ours had 0), and D3DRS_AMBIENTMATERIALSOURCE (147) to D3DMCS_COLOR2, where
+    the Direct3D 9 reference and Wine have D3DMCS_MATERIAL (no difference to the game's vertex formats: d8_device.cpp);
+  - two where the reference supports ours against Wine: D3DRS_DEBUGMONITORTOKEN (165) "defaults to D3DDMT_ENABLE"
+    (0; Wine 0xBAADCAFE) and D3DRS_POINTSIZE_MAX (166) 64.0 (Wine 256.0);
+  - the other differences from Wine are numbers above 173, which d3d8types.h does not define (Wine's d3d8 shares
+    its state with D3D9). An earlier version of this file put 172 and 173 among them; they are defined.
+  - ALPHAREF, ZVISIBLE and WRAP0-7 have no default in the reference; ours are 0, as Wine's.
 
     KEEP=1 python3 test/test_d3d8on11.py
 

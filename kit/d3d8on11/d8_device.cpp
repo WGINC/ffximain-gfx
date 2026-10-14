@@ -96,13 +96,20 @@ void Dev::defaults() {
   r[D3DRS_TEXTUREFACTOR] = 0xFFFFFFFF; r[D3DRS_CLIPPING] = TRUE; r[D3DRS_LIGHTING] = TRUE;
   r[D3DRS_COLORVERTEX] = TRUE; r[D3DRS_LOCALVIEWER] = TRUE;
   r[D3DRS_DIFFUSEMATERIALSOURCE] = D3DMCS_COLOR1; r[D3DRS_SPECULARMATERIALSOURCE] = D3DMCS_COLOR2;
-  r[D3DRS_AMBIENTMATERIALSOURCE] = D3DMCS_MATERIAL; r[D3DRS_EMISSIVEMATERIALSOURCE] = D3DMCS_MATERIAL;
+  // AMBIENTMATERIALSOURCE: D3DMCS_COLOR2 by the DirectX 8.1 reference (D3DRENDERSTATETYPE); the Direct3D 9 reference
+  // gives D3DMCS_MATERIAL, as Wine does. The two differ only for a lit vertex with a specular colour: the game's traced
+  // formats have none (FVF codes 0x42, 0x44, 0x104, 0x142, 0x144, 0x152; its declarations map no register 6), and
+  // with no specular colour COLOR2 uses the material's ambient colour ("Ambient Lighting"), which is MATERIAL
+  r[D3DRS_AMBIENTMATERIALSOURCE] = D3DMCS_COLOR2; r[D3DRS_EMISSIVEMATERIALSOURCE] = D3DMCS_MATERIAL;
   r[D3DRS_SOFTWAREVERTEXPROCESSING] = (behavior & D3DCREATE_SOFTWARE_VERTEXPROCESSING) ? TRUE : FALSE;
   r[D3DRS_POINTSIZE] = fbits(1.0f); r[D3DRS_POINTSIZE_MIN] = fbits(0.0f); r[D3DRS_POINTSCALE_A] = fbits(1.0f);
   r[D3DRS_POINTSCALE_B] = fbits(0.0f); r[D3DRS_POINTSCALE_C] = fbits(0.0f);
   r[D3DRS_MULTISAMPLEANTIALIAS] = TRUE; r[D3DRS_MULTISAMPLEMASK] = 0xFFFFFFFF; r[D3DRS_PATCHSEGMENTS] = fbits(1.0f);
   r[D3DRS_POINTSIZE_MAX] = fbits(64.0f); r[D3DRS_COLORWRITEENABLE] = 0xF; r[D3DRS_TWEENFACTOR] = fbits(0.0f);
   r[D3DRS_BLENDOP] = D3DBLENDOP_ADD;
+  // N-patch interpolation orders: D3DORDER_CUBIC (3) and D3DORDER_LINEAR (1), the DirectX 8.1 reference's defaults
+  // and d3d8types.h's comments; not drawn here (no N-patches), only answered
+  r[D3DRS_POSITIONORDER] = 3; r[D3DRS_NORMALORDER] = 1;
   for (int s = 0; s < 8; s++) {
     DWORD *t = st.tss[s];
     t[D3DTSS_COLOROP] = s ? D3DTOP_DISABLE : D3DTOP_MODULATE; t[D3DTSS_ALPHAOP] = s ? D3DTOP_DISABLE : D3DTOP_SELECTARG1;

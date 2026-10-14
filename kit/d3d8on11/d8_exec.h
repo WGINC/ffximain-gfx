@@ -25,6 +25,8 @@ struct Exec {
   std::unordered_map<uint32_t, ExecRes> res;
   ID3D11RenderTargetView *cur_rtv = nullptr; ID3D11DepthStencilView *cur_dsv = nullptr;
   ExecFF *ff = nullptr;
+  ID3D11InfoQueue *iq = nullptr;                   // D8ON11_DEBUG_LAYER only: drained to the log at each Present
+  void drain_debug();
   uint64_t draws = 0, presents = 0;
   int32_t fail_init = 0;                           // tests only (d8x.exe): X_INIT answers this when nonzero
   // one record; a sync record's answer goes to hr and reply

@@ -54,7 +54,7 @@ def alpha_of(pic, x, y, src, bg=0x203040):
 
 
 def main(folder):
-    impls = [d for d in ('dgv', 'win', 'ours_direct', 'ours_remote') if os.path.isdir(os.path.join(folder, d))]
+    impls = [d for d in ('dgv', 'win', 'ours_direct', 'ours_remote', 'ours_warp', 'ours_debug') if os.path.isdir(os.path.join(folder, d))]
     base = os.path.join(folder, 'ours_direct')
     ours_sc = pictures(os.path.join(base, 'scenes.txt'))
     ours_def = dict(l.rsplit(' ', 1) for l in open(os.path.join(base, 'defaults.txt'), errors='replace') if l[:3] in ('rs ', 'tss')) \

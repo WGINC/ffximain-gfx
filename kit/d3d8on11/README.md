@@ -40,6 +40,9 @@ code that uses Direct3D 11.
   - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame) and, in `thread` and `remote`,
     `ring stats`: how long the game thread waited for room, for pacing and for answers, and the MB it sent. In
     `remote` mode the executor's line is in `d3d8on11_exec.log`.
+  - Diagnostics: `D8ON11_DRIVER=warp` makes the D3D11 device on WARP, Microsoft's software rasterizer, instead of the
+    GPU; `D8ON11_DEBUG_LAYER=1` asks for the D3D11 debug layer and writes its messages to the log at each Present
+    (Windows needs the optional Graphics Tools feature, or the device is not made). Both log a `D3D11 device:` line.
   - For the tests only: `D8ON11_RING_KB` (a power of two, 64 to 32768) makes the ring small so it wraps, and
     `D8ON11_RING_START` (hex) starts its byte counters near 2^32 so they wrap too. The ring's size must divide 2^32:
     positions are counter % size.

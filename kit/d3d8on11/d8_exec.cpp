@@ -370,13 +370,35 @@ void Exec::release_swap() {
   if (it != res.end()) { free_res(it->second); res.erase(it); }
   if (swap) swap->Release(); swap = nullptr;
 }
+void Exec::drain_debug() {
+  if (!iq) return;
+  UINT64 n = iq->GetNumStoredMessages();
+  for (UINT64 i = 0; i < n; i++) {
+    SIZE_T len = 0;
+    if (FAILED(iq->GetMessage(i, NULL, &len)) || !len) continue;
+    D3D11_MESSAGE *m = (D3D11_MESSAGE *)malloc(len);
+    if (m && SUCCEEDED(iq->GetMessage(i, m, &len)))
+      d8_log("D3D11 debug layer [frame %llu] sev %d id %d: %.*s", (unsigned long long)presents, (int)m->Severity, (int)m->ID,
+             (int)m->DescriptionByteLength, m->pDescription);
+    free(m);
+  }
+  iq->ClearStoredMessages();
+}
 int32_t Exec::init(const XInit &x, bool resize) {
   if (fail_init) { d8_log("X_INIT answered 0x%08X (D8ON11_TEST_EXEC_FAIL_INIT, a test)", (unsigned)fail_init); return fail_init; }
   wnd = (HWND)(uintptr_t)x.hwnd;
   if (!resize) {
     D3D_FEATURE_LEVEL fl = D3D_FEATURE_LEVEL_11_0, got;
-    HRESULT hr = D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT, &fl, 1,
+    /* Diagnostics (the owner's t8run, HISTORY 14 Oct): D8ON11_DRIVER=warp draws on Microsoft's software rasterizer
+       instead of the GPU; D8ON11_DEBUG_LAYER=1 asks for the D3D11 debug layer (needs the Graphics Tools feature). */
+    const char *drv = getenv("D8ON11_DRIVER");
+    bool warp = drv && !_stricmp(drv, "warp");
+    UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT | (getenv("D8ON11_DEBUG_LAYER") ? D3D11_CREATE_DEVICE_DEBUG : 0);
+    HRESULT hr = D3D11CreateDevice(NULL, warp ? D3D_DRIVER_TYPE_WARP : D3D_DRIVER_TYPE_HARDWARE, NULL, flags, &fl, 1,
                                    D3D11_SDK_VERSION, &dev, &got, &ctx);
+    if (warp || (flags & D3D11_CREATE_DEVICE_DEBUG)) d8_log("D3D11 device: %s%s: 0x%08lX", warp ? "WARP" : "hardware",
+                                                            (flags & D3D11_CREATE_DEVICE_DEBUG) ? ", debug layer" : "", (unsigned long)hr);
+    if (SUCCEEDED(hr) && (flags & D3D11_CREATE_DEVICE_DEBUG)) dev->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&iq);
     if (FAILED(hr)) { d8_log("D3D11CreateDevice (feature level 11_0): 0x%08lX", (unsigned long)hr); return D3DERR_NOTAVAILABLE; }
     ff_init();
   } else release_swap();
@@ -557,6 +579,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     break; }
   case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw)); draws++; break;
   case X_PRESENT: {
+    drain_debug();
     HRESULT h = swap ? swap->Present(0, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;

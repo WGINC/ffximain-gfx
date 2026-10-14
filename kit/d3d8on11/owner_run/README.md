@@ -18,7 +18,9 @@ under Wine here: it is packed, and its unpacked code faults at the same place on
 
 ## What it runs
 
-For each implementation (`dgv`, `win`, `ours_direct`, `ours_remote`), in a folder of its own: `t8 where` (which
+For each implementation (`dgv`, `win`, `ours_direct`, `ours_remote`, and ours direct again on WARP, Microsoft's
+software rasterizer (`ours_warp`, D8ON11_DRIVER=warp), and with the D3D11 debug layer (`ours_debug`,
+D8ON11_DEBUG_LAYER=1; its messages go to d3d8on11.log; it needs Windows' optional Graphics Tools)), in a folder of its own: `t8 where` (which
 `d3d8.dll` was loaded, its version, the adapter), `t8 basic`, `t8 defaults`, `t8 scenes` and `t8 random` on three
 case files (random_cases.py seeds 1 to 3, 200 cases each). `owner_compare.py FOLDER` (here) compares each with ours
 scene by scene, with the criterion of the reference-device stage in test_d3d8on11.py.

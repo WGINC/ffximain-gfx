@@ -13,14 +13,14 @@ if not exist "..\d3d8.dll" (
   exit /b 1
 )
 rem each implementation in a folder of its own, with t8 and the cases beside it
-for %%d in (dgv win ours_direct ours_remote) do (
+for %%d in (dgv win ours_direct ours_remote ours_warp ours_debug) do (
   mkdir "%O%\%%d"
   copy /y t8.exe "%O%\%%d\" >nul
   copy /y t8_cases*.txt "%O%\%%d\" >nul
 )
 copy /y "..\d3d8.dll" "%O%\dgv\" >nul
 if exist "..\dgVoodoo.conf" copy /y "..\dgVoodoo.conf" "%O%\dgv\" >nul
-for %%d in (ours_direct ours_remote) do copy /y ours\*.* "%O%\%%d\" >nul
+for %%d in (ours_direct ours_remote ours_warp ours_debug) do copy /y ours\*.* "%O%\%%d\" >nul
 set D8ON11_MODE=
 call :run dgv
 call :run win
@@ -28,6 +28,15 @@ set D8ON11_MODE=direct
 call :run ours_direct
 set D8ON11_MODE=remote
 call :run ours_remote
+rem ours again on Microsoft's software rasterizer (WARP) instead of the GPU, then with the D3D11 debug layer (its
+rem messages go to d3d8on11.log; it needs Windows' optional "Graphics Tools" feature, or the device is not made)
+set D8ON11_MODE=direct
+set D8ON11_DRIVER=warp
+call :run ours_warp
+set D8ON11_DRIVER=
+set D8ON11_DEBUG_LAYER=1
+call :run ours_debug
+set D8ON11_DEBUG_LAYER=
 set D8ON11_MODE=
 echo Done. Send the folder %O%.
 pause

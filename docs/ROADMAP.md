@@ -218,6 +218,14 @@ Unlike dgVoodoo, it can be told what a draw is for (the CDx and sqgx wrapper lay
   pixel). It does not exist yet; the alternating trace compares calls, not pixels;
 - P0's measurements, to know what the translation layer costs today.
 
+### Stretch: modernise the renderer's methods (deferred)
+
+The owner asked for Square's rendering code and methods to be improved losslessly with current practice (Luna, "3D
+Game Programming with DirectX 11", e.g. constant buffers by update frequency, immutable state objects, instancing,
+fewer state changes). Deferred until the port draws as the reference on the owner's driver (HISTORY, 14 Oct t8run):
+"lossless" needs a verified baseline to compare against. Each change, when taken, is gated like the rest: same
+pictures as the reference in t8 and in frame replay.
+
 ## 5. Goal 3: the UI overhaul
 
 **Known (docs/UI.md):**

@@ -1889,3 +1889,35 @@ Wine's d3dcompiler does not evaluate a float2 ?: per component (it took the firs
 found writing the switch; the generated shaders' ?: conditions are all scalar (checked).
 The randomized test's classes now come from random_cases.py (classes(), changes()) in both test_d3d8on11.py and
 owner_compare.py, which also lists D, N and P.
+
+## 14 Oct: the owner's t8run (20261014_193029), read (task 39)
+
+The run: a Parallels VM; Windows' d3d8.dll 6.2.26100.9278 on the Parallels Display Adapter (prl_umdd.dll);
+dgVoodoo 4.8.2.134; ours direct and remote. Its case files equal `random_cases.py 1/2/3 200`. Its ours d3d8.dll is
+byte-identical to a fresh build of e42c097 here, so the build reproduces.
+
+Windows against Microsoft's reference (the reference rerun here on the same scenes):
+- the alpha test: Windows draws stages_blend_alphatest as the reference and today's ours do (the floor rule);
+  dgVoodoo differs by 165 px there, as Wine's float compare does.
+- decl_short2/4: Windows and the reference both draw one flat texel (ours differs by 682 px). Already undefined (the
+  debug runtime rejects SHORT texcoords); the game declares FLOAT only.
+- fog_vertex_linear: Windows differs from the reference by 624 px; the reference and ours agree (0).
+- fog on with FOGTABLEMODE and FOGVERTEXMODE NONE and an FVF without specular (r0095 s3, r0041 s3, r0057 s2): the
+  reference draws fully fogged, as ours does; Windows/Parallels draws the colours unfogged. The game's fogged draws
+  all use table mode LINEAR (scope: rs 35 {3: 4240}, rs 140 {0: 4240}), so the case does not arise in the game.
+
+Ours on the owner's driver against ours here (same DLL): 24 random cases differ for seed 1, 13 for seed 2, 20 for
+seed 3; scenes stages_blend_alphatest 165 px and texture_transform_2d 50 px. Ruled out here:
+- the shader compiler: Microsoft's D3DCompiler_43 (NuGet Microsoft.DXSDK.D3DX 9.29.952.8) in place of Wine's gives
+  identical pictures;
+- the D3D11 implementation: DXVK 2.7.1 on lavapipe gives pictures identical to Wine's d3d11 (0 differences, all seeds
+  and scenes).
+What the pixels show: in stages_blend_alphatest the differing pixels (365, in all four quadrants) take another
+texel's value (e.g. (5,2): 20e93c there, 20093c here and on Windows; the green comes from a different texture row),
+not a different blend. The cause is not known. Unverified hypotheses: a point-sampling tie at an exact texel boundary
+broken differently by that GPU; a Parallels D3D11 driver fault; behaviour of ours that D3D11 leaves undefined. The
+next measurement needs the owner's machine: the same run under WARP and with the D3D11 debug layer.
+
+Not started, on purpose: "losslessly improve Square's code and methods" (the owner, with Luna's "3D Game
+Programming with DirectX 11"). Deferred until ours is shown correct on the owner's driver: a rewrite measured
+against an implementation whose pictures are not yet explained cannot be shown lossless. ROADMAP lists it.

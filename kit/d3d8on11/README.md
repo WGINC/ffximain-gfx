@@ -89,13 +89,20 @@ silent, each named as such; Wine 9.0's wined3d only where neither says, and then
 behaviour in those cases is not established. Still Wine's:
 - a stage whose op reads a texture that is not bound passes CURRENT on (`is_invalid_op`); the reference says only
   that ALPHAARG1 then defaults to DIFFUSE;
-- the fog model's specular-alpha case and the start == end case (`get_fog_start_end`);
+- the fog model's specular-alpha case and vertex linear fog's start == end case (`get_fog_start_end`);
 - ZBIAS as −ZBIAS units and −ZBIAS times the slope (d3d8 `WINED3D_LEGACY_DEPTH_BIAS`): the reference says only that a
   higher value draws in front;
 - the half-pixel offset's arithmetic (`get_projection_matrix`); that pixel centres are at integer coordinates is the
   reference's ("Triangle Rasterization Rules");
 - the clamp of each light's N.L at 0, specular's N.L > 0 and N.H > 0, the spot factor;
 - DOTPRODUCT3's scale of 4 (the reference: inputs "shifted down by half", no scale given).
+
+Taken from Microsoft's own DirectX 8.1 runtime with its reference device (14 Oct; "Microsoft's reference device"
+below), where Wine or the reference text said otherwise:
+- vertex fog makes the fog factor per vertex, clamped to [0, 1], and interpolates it (Wine interpolates the distance
+  and makes the factor per pixel). The reference says the same: "it applies fog calculations at each vertex in a
+  polygon, and then interpolates the results" ("Vertex Fog");
+- D3DRS_AMBIENTMATERIALSOURCE defaults to D3DMCS_MATERIAL, D3DRS_DEBUGMONITORTOKEN answers 0xBAADCAFE ("defaults").
 
 Known gaps, each logged when hit:
 - full screen (renders windowed);
@@ -113,8 +120,9 @@ Sources: the DirectX 8.1 SDK's own documentation (directx8_c.chm, 19 Oct 2001) a
 owner's copy of the SDK (14 Oct; neither is in the repository; the code quotes what it relies on), and Microsoft's
 Direct3D 9 pages where named, and the Direct3D 11 pages of the June 2010 SDK (windows_graphics.chm) where named.
 Checked, area by area:
-- Render-state and stage-state defaults: all as the reference states (README "defaults" below). Changed:
-  POSITIONORDER, NORMALORDER, AMBIENTMATERIALSOURCE (the last differs between the 8.1 and 9 references).
+- Render-state and stage-state defaults: all as the reference states (README "defaults" below), and as Microsoft's
+  runtime answers them. Changed: POSITIONORDER, NORMALORDER; AMBIENTMATERIALSOURCE and DEBUGMONITORTOKEN, where the
+  runtime answers otherwise than the reference text (the text contradicts itself on the first).
 - Texture operations (D3DTEXTUREOP's formulas) and argument flags: as the reference. Not stated there: whether results
   are clamped (ours: each to [0, 1]); DOTPRODUCT3's scale.
 - Default vertex colours: diffuse 0xFFFFFFFF, specular 0 ("Untransformed and Lit Vertices", "Transformed and Lit
@@ -125,7 +133,8 @@ Checked, area by area:
   Transformations"). Filtering: MAGFILTER and MINFILTER by magnification, MIPFILTER NONE "disables mipmapping".
 - Lighting: the "Mathematics of Lighting" pages, term for term; the ambient term differs between 8.1 (no attenuation)
   and 9 (with), ours is 9's, and every SetLight the game traced has ambient 0.
-- Fog: the formulas (linear, exp, exp2, the blend), the depths (camera |z|, range), and pixel fog's depth: w on a
+- Fog: the formulas (linear, exp, exp2, the blend), the depths (camera |z|, range), vertex fog's factor made per
+  vertex and interpolated ("Vertex Fog"; changed 14 Oct, found against Microsoft's runtime), and pixel fog's depth: w on a
   device with D3DPRASTERCAPS_WFOG (ours: dgVoodoo's caps) unless the projection is affine, 1/RHW for pre-transformed
   vertices (changed: was z, as Wine; no test compares this case).
 - Flat shading: colour and specular from the first vertex (fans: vertex i + 1), specular alpha interpolated (changed:
@@ -166,7 +175,10 @@ Checked, area by area:
   (D3D11_SAMPLER_DESC, D3D11_TEX2D_SRV, SetResourceMinLOD) say whether magnification and minification are decided
   against level 0 or against the most detailed level allowed. Ours decides against the latter (a view starting at
   that level). The game was not seen setting MAXMIPLEVEL or MIPMAPLODBIAS in its traces (MIPFILTER NONE then gives
-  level 0, where both readings agree).
+  level 0, where both readings agree). For Direct3D 11 itself the functional specification says: "The selection of
+  minification vs magnification occurs after LOD clamping. Prior to feature level 11.0, it was undefined whether
+  magnification selection occurred before or after LOD clamping" (D3D11.3 Functional Spec 7.18.11); that is about
+  the sampler's own clamp, which ours does not use for this.
 - Not yet checked against the reference: the caps' use.
 
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
@@ -177,28 +189,52 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   lights, shader handles, Reset, release, a rectangle lock of the target, tweening). All pass on both (tweening on ours
   only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
 - `scenes`: 24 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
-  - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements;
+  - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements
+    (as texture coordinates, which Microsoft's runtime does not define for the fixed-function pipeline: the debug
+    runtime rejects them; these two check our expansion against the D3DVSD_REG text only);
   - strips, lists, fans, indexed and ...UP draws, base vertex;
   - depth and culling, ZBIAS 8;
   - lighting with material and vertex colour sources, specular, eight point and spot lights;
   - texture stages with TFACTOR, MODULATE2X and BLENDTEXTUREALPHA;
   - the blend modes and BLENDOP values the game sets, alpha test;
-  - vertex, table linear and table exp fog;
+  - vertex, table linear and table exp fog (untextured: a texture minified toward the horizon made those pictures
+    turn on where each pixel samples);
   - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
   - DXT1 with mips, flat shading;
   - Clear of a smaller viewport and of rectangles.
 
-  On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 1 of 255 (lights_8), and no pixel is beyond
-  the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
-  written as a PNG (Wine | ours | difference).
+  On 14 Oct 23 match Wine's d3d8 (worst channel difference 1 of 255, lights_8; none beyond the test's tolerance of
+  8), and `thread` and `remote` draw exactly what `direct` draws (every pixel). fog_vertex_linear differs from Wine
+  as listed in the test (WINE_DIFFERS): Wine's vertex fog is not Microsoft's (below). The tolerance and the 1% limit
+  are the test's own criteria. With KEEP=1 each scene is written as a PNG (Wine | ours | difference).
+- Microsoft's reference device (with D3D8REF_DIR and WDK_DDI set; otherwise the test says it did not run): the
+  DirectX 8.1 SDK's retail d3d8.dll and d3dref8.dll under Wine, with our stand-in for d3d8thk.dll, the runtime's calls
+  into the NT kernel's DirectDraw (test/msref: kthunk.c emulates a display driver with no 3D; each thunk's argument
+  count from the real d3d8thk.dll's `ret N`, gen_thunks.py). t8 makes a D3DDEVTYPE_REF device (T8_REF=1), and the
+  scenes and defaults are compared with ours:
+  - scenes: a pixel passes within 3 of the reference's pixel or, both ways, of one of its 3x3 neighbours. Every pixel
+    beyond 3 on 14 Oct was computed to be a tie: a pixel centre on a triangle edge (or within 0.013 px of one), or a
+    point sample on a texel boundary (within 0.006 texel), or a cube lookup within 0.2% of a face edge; the four the
+    neighbourhood does not absorb are listed in the test with their numbers (REF_TIES). Not compared: zbias (the
+    reference device does not report D3DPRASTERCAPS_ZBIAS; its RasterCaps are 0x00772199) and decl_short2/4 (above).
+    All 21 others pass;
+  - defaults: 290 states equal; left out are D3DRS_SOFTWAREVERTEXPROCESSING (it follows the creation flags), numbers
+    above 173, and the 51 the runtime answers 0xBAADCAFE (its fill for a state never set), and Microsoft's runtime
+    fails GetRenderState for the retired numbers (1-6, 11-13, ...) where ours answers 0.
+  What it found: vertex fog (above), and the two defaults below. Microsoft's debug runtime (d3d8d.dll) checks more than
+  the retail one: it rejects a fixed-function declaration whose position is not FLOAT3 or whose texture coordinates are
+  not FLOAT1-4, among others; the retail runtime, which the game runs on, does not check, and neither does ours.
 - `defaults`: every render state and stage state of a fresh device, read on both and compared, and (by hand, 14 Oct)
   with the defaults the DirectX 8.1 reference states (D3DRENDERSTATETYPE, D3DTEXTURESTAGESTATETYPE). Every one of the
   76 render states Microsoft's d3d8types.h defines, and every stage state, now has the reference's stated default:
-  - three did not, and were changed: D3DRS_POSITIONORDER (172) to D3DORDER_CUBIC and D3DRS_NORMALORDER (173) to
-    D3DORDER_LINEAR (both as Wine has them; ours had 0), and D3DRS_AMBIENTMATERIALSOURCE (147) to D3DMCS_COLOR2, where
-    the Direct3D 9 reference and Wine have D3DMCS_MATERIAL (no difference to the game's vertex formats: d8_device.cpp);
-  - two where the reference supports ours against Wine: D3DRS_DEBUGMONITORTOKEN (165) "defaults to D3DDMT_ENABLE"
-    (0; Wine 0xBAADCAFE) and D3DRS_POINTSIZE_MAX (166) 64.0 (Wine 256.0);
+  - two did not, and were changed: D3DRS_POSITIONORDER (172) to D3DORDER_CUBIC and D3DRS_NORMALORDER (173) to
+    D3DORDER_LINEAR (both as Wine has them; ours had 0);
+  - D3DRS_AMBIENTMATERIALSOURCE (147): the reference contradicts itself (D3DRENDERSTATETYPE: D3DMCS_COLOR2; "Color
+    Vertices": D3DMCS_MATERIAL). Ours had COLOR2; Microsoft's runtime answers MATERIAL, as Wine and the Direct3D 9
+    reference, and ours does now (no difference to the game's vertex formats: d8_device.cpp);
+  - D3DRS_DEBUGMONITORTOKEN (165): the reference says it "defaults to D3DDMT_ENABLE" (0), which ours had; Microsoft's
+    runtime answers 0xBAADCAFE, as Wine, and ours does now. D3DRS_POINTSIZE_MAX (166) is 64.0 on ours and on
+    Microsoft's runtime with its reference device (Wine 256.0);
   - the other differences from Wine are numbers above 173, which d3d8types.h does not define (Wine's d3d8 shares
     its state with D3D9). An earlier version of this file put 172 and 173 among them; they are defined.
   - ALPHAREF, ZVISIBLE and WRAP0-7 have no default in the reference; ours are 0, as Wine's.
@@ -226,8 +262,11 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - C: a stage reading a coordinate set the vertex format does not have. Ours reads zeros; not in the reference.
     Change: the stage reads set 0 (or has no texture).
   - S: a cube texture filtered linearly. Wine's d3d8 filters each face apart (WINED3D_LEGACY_CUBEMAP_FILTERING,
-    dlls/d3d8/d3d8_private.h); ours leaves it to Direct3D 11 and the driver, and draws differently. Neither the 8.1 reference nor the June 2010 SDK's Direct3D 11 pages
-    say which a device does, and what Direct3D 8 hardware did is not established.
+    dlls/d3d8/d3d8_private.h); ours leaves it to Direct3D 11, whose functional specification requires filtering
+    across faces ("TextureCube filtering near Cube edges, where 2x2 (bilinear) filter taps would fall off a face are
+    required to spill over by one texel row/column to the appropriate adjacent map", D3D11.3 Functional Spec 7.18.12).
+    Neither the 8.1 reference nor the June 2010 SDK's Direct3D 11 pages say which a Direct3D 8 device does, and what
+    Direct3D 8 hardware did is not established.
     Change: that stage point-filtered.
   - L: lighting with normals longer than 1, NORMALIZENORMALS off. Wine clamps each light's N.L at 1; the reference's
     equation, sum[Cd*Ld*(N.Ldir)*Atten*Spot] clamped after all lights ("Diffuse Lighting", Direct3D 9), does not;

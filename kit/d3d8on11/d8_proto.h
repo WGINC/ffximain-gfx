@@ -61,6 +61,7 @@ struct VSKey {
   uint8_t matsrc[4];                      // diffuse, specular, ambient, emissive: 0 material, 1 vertex diffuse, 2 vertex specular
   uint8_t specular, localviewer, normalize;
   uint8_t fogsrc, flat, tween;            // the fog coordinate (FOG_* below); flat shading; D3DVBF_TWEENING
+  uint8_t vfog;                           // vertex fog: 0 none, else the factor made per vertex (1 linear, 2 exp, 3 exp2)
   uint8_t ntc; struct { uint8_t src, idx, count, proj; } tc[8];   // per stage: 0 passthru, 1 cs normal, 2 cs position, 3 cs reflection
 };
 // The fog model (Wine 9.0 wined3d: utils.c wined3d_ffp_get_vs_settings / wined3d_ffp_get_fs_settings /
@@ -68,6 +69,10 @@ struct VSKey {
 // shader turns it into the factor with the table mode if set, else the vertex mode, linearly from FOGSTART/FOGEND or by
 // FOGDENSITY. With no table mode and no vertex mode (or pre-transformed vertices) the coordinate is the specular alpha,
 // read linearly with start 255 and end 0, so the factor is that alpha.
+// Vertex fog differs from Wine: the factor itself is made per vertex, clamped to [0, 1] and interpolated (VSKey.vfog),
+// as the DirectX 8.1 reference says ("Vertex Fog": "it applies fog calculations at each vertex in a polygon, and then
+// interpolates the results"; "The system stores the fog factor in the alpha component of the specular color for a
+// vertex") and as Microsoft's own runtime with its reference device draws it (t8 fog_vertex_linear, T8_REF).
 enum { FOG_OFF, FOG_SPECA, FOG_RANGE, FOG_EYEZ, FOG_RHWZ, FOG_CLIPZ, FOG_RHWW };
 struct PSKey {
   struct { uint8_t cop, ca1, ca2, ca0, aop, aa1, aa2, aa0, res, tex, tcn; } s[8];
@@ -103,7 +108,7 @@ struct XDraw {
 };
 
 static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32, "the stream's layout");
-static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 152 && sizeof(PSKey) == 96, "the keys' layout");
+static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
-static_assert(sizeof(XDraw) == 3192 && offsetof(XDraw, vc) == 248 && offsetof(XDraw, blend) == 2120 &&
-              offsetof(XDraw, stage) == 2508 && offsetof(XDraw, stream) == 3020, "the draw packet's layout");
+static_assert(sizeof(XDraw) == 3196 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&
+              offsetof(XDraw, stage) == 2512 && offsetof(XDraw, stream) == 3024, "the draw packet's layout");

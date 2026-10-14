@@ -40,7 +40,7 @@ struct RingHdr {
 };
 static_assert(sizeof(RingHdr) == 64, "the ring header's layout (shared by x86 and ARM64 processes)");
 #define RING_MAGIC 0x52384438u                    /* "8D8R" */
-#define RING_VERSION 1u
+#define RING_VERSION 2u                           /* 2: VSKey.vfog (the draw packet grew) */
 // the executor's side: run records until X_QUIT (remote) or quit is set; `wake` is signalled when data comes,
 // `space` / `replied` signalled by the reader
 struct Exec;

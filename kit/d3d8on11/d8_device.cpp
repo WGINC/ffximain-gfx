@@ -96,17 +96,21 @@ void Dev::defaults() {
   r[D3DRS_TEXTUREFACTOR] = 0xFFFFFFFF; r[D3DRS_CLIPPING] = TRUE; r[D3DRS_LIGHTING] = TRUE;
   r[D3DRS_COLORVERTEX] = TRUE; r[D3DRS_LOCALVIEWER] = TRUE;
   r[D3DRS_DIFFUSEMATERIALSOURCE] = D3DMCS_COLOR1; r[D3DRS_SPECULARMATERIALSOURCE] = D3DMCS_COLOR2;
-  // AMBIENTMATERIALSOURCE: D3DMCS_COLOR2 by the DirectX 8.1 reference (D3DRENDERSTATETYPE); the Direct3D 9 reference
-  // gives D3DMCS_MATERIAL, as Wine does. The two differ only for a lit vertex with a specular colour: the game's traced
-  // formats have none (FVF codes 0x42, 0x44, 0x104, 0x142, 0x144, 0x152; its declarations map no register 6), and
-  // with no specular colour COLOR2 uses the material's ambient colour ("Ambient Lighting"), which is MATERIAL
-  r[D3DRS_AMBIENTMATERIALSOURCE] = D3DMCS_COLOR2; r[D3DRS_EMISSIVEMATERIALSOURCE] = D3DMCS_MATERIAL;
+  // AMBIENTMATERIALSOURCE: D3DMCS_MATERIAL, as Microsoft's DirectX 8.1 runtime reports on a fresh device (t8 defaults,
+  // T8_REF). The DirectX 8.1 reference contradicts itself (D3DRENDERSTATETYPE: "The default value is D3DMCS_COLOR2";
+  // "Color Vertices": D3DMCS_MATERIAL); Wine and the Direct3D 9 reference give MATERIAL too. The two differ only for a
+  // lit vertex with a specular colour, which the game's traced formats do not have (FVF codes 0x42, 0x44, 0x104, 0x142,
+  // 0x144, 0x152; its declarations map no register 6)
+  r[D3DRS_AMBIENTMATERIALSOURCE] = D3DMCS_MATERIAL; r[D3DRS_EMISSIVEMATERIALSOURCE] = D3DMCS_MATERIAL;
   r[D3DRS_SOFTWAREVERTEXPROCESSING] = (behavior & D3DCREATE_SOFTWARE_VERTEXPROCESSING) ? TRUE : FALSE;
   r[D3DRS_POINTSIZE] = fbits(1.0f); r[D3DRS_POINTSIZE_MIN] = fbits(0.0f); r[D3DRS_POINTSCALE_A] = fbits(1.0f);
   r[D3DRS_POINTSCALE_B] = fbits(0.0f); r[D3DRS_POINTSCALE_C] = fbits(0.0f);
   r[D3DRS_MULTISAMPLEANTIALIAS] = TRUE; r[D3DRS_MULTISAMPLEMASK] = 0xFFFFFFFF; r[D3DRS_PATCHSEGMENTS] = fbits(1.0f);
   r[D3DRS_POINTSIZE_MAX] = fbits(64.0f); r[D3DRS_COLORWRITEENABLE] = 0xF; r[D3DRS_TWEENFACTOR] = fbits(0.0f);
   r[D3DRS_BLENDOP] = D3DBLENDOP_ADD;
+  // D3DRS_DEBUGMONITORTOKEN: the reference says it "defaults to D3DDMT_ENABLE" (0), but Microsoft's DirectX 8.1 runtime
+  // answers 0xBAADCAFE on a fresh device (t8 defaults, T8_REF), as Wine does; the runtime's answer is kept
+  r[D3DRS_DEBUGMONITORTOKEN] = 0xBAADCAFE;
   // N-patch interpolation orders: D3DORDER_CUBIC (3) and D3DORDER_LINEAR (1), the DirectX 8.1 reference's defaults
   // and d3d8types.h's comments; not drawn here (no N-patches), only answered
   r[D3DRS_POSITIONORDER] = 3; r[D3DRS_NORMALORDER] = 1;

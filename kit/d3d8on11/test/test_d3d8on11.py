@@ -10,6 +10,14 @@
 Ours runs in each executor mode (README.md: direct, thread, remote -- the last with dist/d8x.exe, the x86 build of the
 executor process; MODES="direct thread remote" by default): 1 and 3 must pass in each, and each mode's pictures must
 equal direct mode's exactly (the same commands reach the same executor code; only the transport differs).
+Where Wine is known to differ from Microsoft's own runtime (WINE_DIFFERS), a scene's difference from Wine is listed,
+not failed, and that scene is held to the next stage instead:
+  4. with D3D8REF_DIR (the DirectX 8.1 SDK's retail d3d8.dll, d3dref8.dll and d3d8thk.dll) and WDK_DDI (the WDK 7.1
+     DDI headers) set: Microsoft's runtime with its reference device (msref/build.sh: our stand-in for the kernel
+     thunks), t8 scenes and defaults, against ours (direct mode). A pixel passes when within REF_TOL of the reference's
+     pixel or, both ways, of one of its 3x3 neighbours: a pixel centre exactly on (or within about 0.01 px of) an
+     edge, or a texture coordinate on a texel boundary, is a tie each rasterizer's rounding decides (every such
+     pixel of 14 Oct was computed to be one: docs/HISTORY.md). REF_SKIP lists the scenes not compared, and why.
 
     python3 test_d3d8on11.py          (after build.sh; needs wine, xvfb-run)"""
 import os, shutil, subprocess, sys, tempfile
@@ -46,11 +54,15 @@ for name, where, ov, xm in [('Wine\'s d3d8', ref, False, None)] + [('d3d8on11, %
 
 a = dict(l.rsplit(' ', 1) for l in run(ref, 'defaults', False).splitlines() if l[:3] in ('rs ', 'tss'))
 b = dict(l.rsplit(' ', 1) for l in run(ours, 'defaults', True).splitlines() if l[:3] in ('rs ', 'tss'))
+bdef = b
 diff = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
 print('== defaults: %d states read on Wine\'s d3d8, %d on ours, %d differ' % (len(a), len(b), len(diff)))
 for k in diff: print('  %-10s Wine %s  ours %s' % (k, a.get(k, '(fails)'), b.get(k, '(fails)')))
 
 TOL, MAXFRAC = 8, 0.01
+# scenes where Wine's d3d8 is known to draw otherwise than Microsoft's runtime with its reference device (stage 4)
+WINE_DIFFERS = {'fog_vertex_linear': 'vertex fog: Microsoft\'s runtime makes the factor per vertex, clamps it and '
+                'interpolates it ("Vertex Fog", DirectX 8.1); Wine interpolates the distance'}
 
 
 def scenes(where, ov, xm=None, extra=None):
@@ -80,7 +92,10 @@ for m in MODES:
           print('FAIL %-32s %s' % (n, 'no picture from ' + ('Wine' if not a else 'ours'))); bad += 1; continue
       dif = [max(abs(((x >> s_) & 255) - ((y >> s_) & 255)) for s_ in (0, 8, 16)) for x, y in zip(a, b)]
       nd = sum(1 for v in dif if v > TOL); frac = nd / len(dif)
-      ok = frac <= MAXFRAC; bad += not ok
+      ok = frac <= MAXFRAC
+      if not ok and n in WINE_DIFFERS:
+          print('note %-32s %4d of %d pixels differ from Wine, as known: %s' % (n, nd, len(dif), WINE_DIFFERS[n])); continue
+      bad += not ok
       print('%-4s %-32s %4d of %d pixels differ, worst channel difference %d' % ('ok' if ok else 'FAIL', n, nd, len(dif), max(dif)))
       if os.environ.get('KEEP'):
           import zlib, struct
@@ -97,6 +112,68 @@ for m in MODES:
           open(os.path.join(w, 'scene_%s.png' % n), 'wb').write(png)
   for n in sb:
       if n not in sa: print('FAIL %-32s only ours drew it' % n); bad += 1
+# 4. Microsoft's DirectX 8.1 runtime with its reference device (D3DDEVTYPE_REF), against ours in direct mode
+REF_TOL = 3
+REF_SKIP = {'zbias': 'the reference device does not report D3DPRASTERCAPS_ZBIAS (RasterCaps 0x00772199) and ignores it',
+            'decl_short2': 'SHORT2 texture coordinates are not fixed-function input (Microsoft\'s debug runtime: "Invalid '
+                           'data type set for texture register")',
+            'decl_short4': 'as decl_short2'}
+# pixels no neighbour matches, each a tie computed from the scene's geometry (14 Oct, docs/HISTORY.md): which texel a
+# point sample takes where the coordinate is within a hundredth of a texel of a boundary, or the cube face where two
+# components of the lookup vector are within 0.2% of each other, is the rasterizer's rounding
+REF_TIES = {('texgen_reflection_cube', 44, 39): 'lookup (-1.593, 1.596, -1.005): |x| and |y| within 0.2% (face edge)',
+            ('texgen_reflection_cube', 55, 40): 'face -Z, u = 4.0024 texels (the checker changes at 4)',
+            ('texgen_reflection_cube', 54, 42): 'face -Z, v = 2.0052 texels (the checker changes at 2)',
+            ('three_stream_declaration', 19, 50): 'v = 25.9940 texels, 0.006 from the row boundary at 26'}
+MSD, DDI = os.environ.get('D3D8REF_DIR'), os.environ.get('WDK_DDI')
+if not (MSD and DDI):
+    print('== Microsoft\'s reference device: not run (set D3D8REF_DIR and WDK_DDI); not checked: %s' % ', '.join(sorted(WINE_DIFFERS)))
+elif first:
+    msr = os.path.join(w, 'msref')
+    subprocess.run(['bash', os.path.join(H, 'msref', 'build.sh'), MSD, DDI, msr], check=True, stdout=subprocess.DEVNULL)
+    shutil.copy(os.path.join(H, 't8.exe'), msr)
+    mx = {'T8_REF': '1', 'WINEDLLOVERRIDES': 'd3d8=n;d3d8thk=n'}
+    def msrun(mode):
+        env = dict(os.environ, WINEDEBUG='-all', **mx)
+        return subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', mode], cwd=msr,
+                              capture_output=True, text=True, timeout=900, env=env).stdout
+    sm = {}
+    for l in msrun('scenes').splitlines():
+        if l.startswith('scene '):
+            _, n, hx = l.split(' ', 2)
+            sm[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
+    def near(x, y): return all(abs(((x >> s_) & 255) - ((y >> s_) & 255)) <= REF_TOL for s_ in (0, 8, 16))
+    print('== scenes: Microsoft\'s reference device against ours, direct mode (a pixel passes within %d of the reference '
+          'pixel, or both ways of one of its 3x3 neighbours)' % REF_TOL)
+    ours_d = first[1]
+    for n in ours_d:
+        if n in REF_SKIP: print('skip %-32s %s' % (n, REF_SKIP[n])); continue
+        a, b = sm.get(n), ours_d[n]
+        if not a or not b or len(a) != len(b): print('FAIL %-32s no picture from %s' % (n, 'the reference' if not a else 'ours')); bad += 1; continue
+        nb_bad = exact = 0; ties = []
+        for i in range(len(a)):
+            if near(a[i], b[i]): exact += 1; continue
+            x, y = i % 64, i // 64
+            nbr = [(x + dx) + 64 * (y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1) if 0 <= x + dx < 64 and 0 <= y + dy < 64]
+            if not (any(near(a[i], b[j]) for j in nbr) and any(near(b[i], a[j]) for j in nbr)):
+                if (n, x, y) in REF_TIES: ties.append('(%d,%d) %s' % (x, y, REF_TIES[(n, x, y)])); continue
+                nb_bad += 1; print('     (%d,%d) reference %06X, ours %06X' % (x, y, a[i], b[i]))
+        ok = nb_bad == 0; bad += not ok
+        print('%-4s %-32s %4d pixels beyond %d, %d of them with no match in their neighbourhood%s' % ('ok' if ok else 'FAIL', n, len(a) - exact, REF_TOL, nb_bad,
+              ''.join('\n     tie %s' % t for t in ties)))
+    for n in sm:
+        if n not in ours_d: print('FAIL %-32s only the reference drew it' % n); bad += 1
+    # defaults: the states Microsoft's runtime answers (it fails the retired ones) up to 173, the last d3d8types.h
+    # defines, but D3DRS_SOFTWAREVERTEXPROCESSING (153), which follows the device's creation flags (the reference
+    # device is made with software vertex processing), and those it answers 0xBAADCAFE, its fill for a state it never
+    # set (all numbers d3d8types.h does not define, and D3DRS_DEBUGMONITORTOKEN, 165, which ours answers so too)
+    md = dict(l.rsplit(' ', 1) for l in msrun('defaults').splitlines() if l[:3] in ('rs ', 'tss'))
+    keys = [k for k in md if not (k.startswith('rs ') and (int(k.split()[1]) > 173 or int(k.split()[1]) == 153))]
+    cafe = [k for k in keys if md[k] == 'BAADCAFE']; keys = [k for k in keys if k not in cafe]
+    dd = [k for k in keys if md[k] != bdef.get(k)]
+    print('%s: defaults: %d states compared with Microsoft\'s runtime (%d it answers 0xBAADCAFE left out), %d differ' % (
+          'ok' if not dd else 'FAIL', len(keys), len(cafe), len(dd))); bad += len(dd) > 0
+    for k in dd: print('  %-10s Microsoft %s  ours %s' % (k, md[k], bdef.get(k, '(fails)')))
 # the ring wrapping: the scenes through a 64 KB ring (D8ON11_RING_KB) must draw what direct draws. They send about 165 KB,
 # so the ring wraps twice (two X_PAD records, counted with a -DD8_TRACE build on 14 Oct). The byte counters start at
 # 0xFFFF0100 (D8ON11_RING_START), so they also pass 2^32 on the way, as they do every few minutes in the game

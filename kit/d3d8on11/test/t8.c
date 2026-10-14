@@ -18,6 +18,7 @@
 #include <windows.h>
 #include <d3d8.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <tlhelp32.h>
@@ -36,6 +37,10 @@ static HRESULT make(HWND w, D3DPRESENT_PARAMETERS *pp) {
   pp->Windowed = TRUE; pp->SwapEffect = D3DSWAPEFFECT_DISCARD; pp->BackBufferFormat = D3DFMT_X8R8G8B8;
   pp->BackBufferWidth = 64; pp->BackBufferHeight = 64; pp->EnableAutoDepthStencil = TRUE; pp->AutoDepthStencilFormat = D3DFMT_D24S8;
   pp->hDeviceWindow = w;
+  /* T8_REF=1: Microsoft's reference device (D3DDEVTYPE_REF), with software vertex processing as its caps allow */
+  const char *ref = getenv("T8_REF");
+  if (ref && *ref == '1')
+    return IDirect3D8_CreateDevice(g_d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, w, D3DCREATE_SOFTWARE_VERTEXPROCESSING, pp, &d);
   return IDirect3D8_CreateDevice(g_d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, w, D3DCREATE_HARDWARE_VERTEXPROCESSING, pp, &d);
 }
 /* the back buffer's pixel at x,y, read through CopyRects into an image surface (as the game's code reads surfaces) */
@@ -75,7 +80,8 @@ static void begin(DWORD clear) {
   IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, clear, 1.0f, 0);
   IDirect3DDevice8_BeginScene(d);
 }
-static void end(const char *name) { IDirect3DDevice8_EndScene(d); dump(name); }
+/* the scene's name also goes to the debugger output, between the runtime's own messages for it and for the next */
+static void end(const char *name) { IDirect3DDevice8_EndScene(d); dump(name); OutputDebugStringA("t8: end of scene "); OutputDebugStringA(name); OutputDebugStringA("\n"); }
 static void reset_state(void) {
   /* back to the state a scene starts from: the defaults the scenes rely on, set explicitly */
   D3DMATRIX id; memset(&id, 0, sizeof id); id._11 = id._22 = id._33 = id._44 = 1;
@@ -230,7 +236,8 @@ static void scenes(void) {
     IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
   end("stages_blend_alphatest");
 
-  /* fog: vertex linear fog, then table (pixel) linear and exp fog, on a floor going into the distance */
+  /* fog: vertex linear fog, then table (pixel) linear and exp fog, on a floor going into the distance. Untextured: a
+     texture minified toward the horizon makes the picture turn on where each pixel samples, not on the fog */
   { static const DWORD tm[3][2] = {{D3DFOG_NONE, D3DFOG_LINEAR}, {D3DFOG_LINEAR, D3DFOG_NONE}, {D3DFOG_EXP, D3DFOG_NONE}};
     static const char *names[3] = {"fog_vertex_linear", "fog_table_linear", "fog_table_exp"};
     for (int k = 0; k < 3; k++) {
@@ -241,7 +248,6 @@ static void scenes(void) {
       IDirect3DDevice8_SetRenderState(d, D3DRS_FOGSTART, *(DWORD *)&fs); IDirect3DDevice8_SetRenderState(d, D3DRS_FOGEND, *(DWORD *)&fe);
       IDirect3DDevice8_SetRenderState(d, D3DRS_FOGDENSITY, *(DWORD *)&fd);
       IDirect3DDevice8_SetRenderState(d, D3DRS_FOGTABLEMODE, tm[k][0]); IDirect3DDevice8_SetRenderState(d, D3DRS_FOGVERTEXMODE, tm[k][1]);
-      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)chk);
       IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
       VXyzT v[4] = {{-6, -1.5f, -2, 0xFFFF4040, 0, 0}, {6, -1.5f, -2, 0xFFFF4040, 8, 0}, {-6, -1.5f, 40, 0xFFFF4040, 0, 8}, {6, -1.5f, 40, 0xFFFF4040, 8, 8}};
       IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
@@ -275,15 +281,17 @@ static void scenes(void) {
     IDirect3DVertexBuffer8_Release(vb); IDirect3DIndexBuffer8_Release(ib); }
   end("buffers_strip_fan_indexed");
 
-  /* a declaration (no shader code), as the game makes its vertex shaders; and a fan through ...UP */
+  /* a declaration (no shader code), as the game makes its vertex shaders; and a fan through ...UP. The position is
+     FLOAT3: Microsoft's debug runtime rejects FLOAT4 ("Position register must be FLOAT3 for fixed-function pipeline"),
+     and its retail runtime then draws the fan without the colours, so a FLOAT4 position is not defined behaviour. */
   reset_state(); begin(0xFF000000);
-  { static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT4), D3DVSD_REG(5, D3DVSDT_D3DCOLOR), D3DVSD_END()};
+  { static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_REG(5, D3DVSDT_D3DCOLOR), D3DVSD_END()};
     DWORD h = 0;
     IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
     IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &view);
     IDirect3DDevice8_SetVertexShader(d, h);
-    struct { float x, y, z, w; DWORD c; } v[5] = {{0, 0, 0, 1, 0xFFFFFFFF}, {0, 2, 0, 1, 0xFFFF0000}, {2, 0, 0, 1, 0xFF00FF00},
-                                                   {0, -2, 0, 1, 0xFF0000FF}, {-2, 0, 0, 1, 0xFFFFFF00}};
+    struct { float x, y, z; DWORD c; } v[5] = {{0, 0, 0, 0xFFFFFFFF}, {0, 2, 0, 0xFFFF0000}, {2, 0, 0, 0xFF00FF00},
+                                                {0, -2, 0, 0xFF0000FF}, {-2, 0, 0, 0xFFFFFF00}};
     IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLEFAN, 3, v, sizeof v[0]);
     IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
     IDirect3DDevice8_DeleteVertexShader(d, h); }
@@ -515,7 +523,10 @@ static void scenes(void) {
     end("v15_declaration");
     IDirect3DDevice8_DeleteVertexShader(d, h); IDirect3DDevice8_LightEnable(d, 0, FALSE); }
   /* SHORT2 and SHORT4 elements: "2-D signed short expanded to (value, value, 0.0, 1.0)" (DirectX 8.1, D3DVSD_REG), here
-     as texture coordinates of a checker texture, so a wrong expansion shows */
+     as texture coordinates of a checker texture, so a wrong expansion shows. Outside the fixed-function pipeline's
+     defined inputs: Microsoft's debug runtime rejects these ("Invalid data type set for texture register"; texture
+     coordinates must be FLOAT1-4) and its retail runtime with the reference device draws one flat texel colour, so
+     these scenes check our expansion against the documentation, not against Microsoft's device. */
   { typedef struct { float x, y, z; DWORD c; short u, v; short s[4]; } VS2;
     DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_REG(5, D3DVSDT_D3DCOLOR),
                     D3DVSD_REG(7, D3DVSDT_SHORT2), D3DVSD_REG(8, D3DVSDT_SHORT4), D3DVSD_END()};

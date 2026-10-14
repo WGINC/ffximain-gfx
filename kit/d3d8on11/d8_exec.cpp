@@ -193,6 +193,10 @@ static std::string gen_vs(const VSKey &k) {
   case FOG_RHWW: s += "  o.fog = w;\n"; break;                      // 1/RHW: "true w" (DirectX 8.1, "Pixel Fog")
   default: s += "  o.fog = 0;\n";
   }
+  // vertex fog: the factor per vertex, clamped, as 255 * factor (fogp: start, end, density, 1 / (end - start))
+  if (k.vfog == 1) s += "  o.fog = saturate((fogp.y - o.fog) * fogp.w) * 255;\n";
+  else if (k.vfog == 2) s += "  o.fog = saturate(exp(-fogp.z * o.fog)) * 255;\n";
+  else if (k.vfog == 3) s += "  o.fog = saturate(exp(-fogp.z * fogp.z * o.fog * o.fog)) * 255;\n";
   s += "  o.d1a = o.d1.a;\n  return o;\n}\n";
   return s;
 }

@@ -175,8 +175,10 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     bool affine = P._14 == 0 && P._24 == 0 && P._34 == 0 && P._44 == 1;
     vk.fogsrc = vk.rhw ? (affine ? FOG_RHWZ : FOG_RHWW) : affine ? FOG_CLIPZ : FOG_EYEZ;
   }
-  else vk.fogsrc = r[D3DRS_RANGEFOGENABLE] ? FOG_RANGE : FOG_EYEZ;
-  if (fog) { DWORD m = coordfog ? D3DFOG_LINEAR : tmode != D3DFOG_NONE ? tmode : vmode;
+  else { vk.fogsrc = r[D3DRS_RANGEFOGENABLE] ? FOG_RANGE : FOG_EYEZ;
+    vk.vfog = vmode == D3DFOG_EXP ? 2 : vmode == D3DFOG_EXP2 ? 3 : vmode == D3DFOG_LINEAR ? 1 : 0; }
+  // vertex fog's factor arrives made, as 255 * factor: read like the specular-alpha coordinate
+  if (fog) { DWORD m = coordfog || vk.vfog ? D3DFOG_LINEAR : tmode != D3DFOG_NONE ? tmode : vmode;
     pk.fog = m == D3DFOG_EXP ? 2 : m == D3DFOG_EXP2 ? 3 : m == D3DFOG_LINEAR ? 1 : 0; }
   (void)hasN;
   // ---- the stages: textures, coordinates, combiners
@@ -253,10 +255,10 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     PSConst &p = D.pc;
     argb4(r[D3DRS_TEXTUREFACTOR], p.tfactor); argb4(r[D3DRS_FOGCOLOR], p.fogcolor);
     // start, end, density, scale = 1 / (end - start), as Wine's get_fog_start_end and shader_glsl_load_fog_uniform:
-    // the specular-alpha coordinate reads with start 255, end 0; vertex fog with start == end fogs everything
+    // the specular-alpha coordinate (and vertex fog's factor) reads with start 255, end 0. Vertex linear fog with
+    // start == end fogs everything (Wine's choice, kept: the vertex shader's scale is then 0, so the factor is 0)
     { float s0 = fs, e0 = fe;
-      if (coordfog) { s0 = 255; e0 = 0; }
-      else if (tmode == D3DFOG_NONE && fs == fe) { s0 = -INFINITY; e0 = 0; }
+      if (coordfog || vk.vfog) { s0 = 255; e0 = 0; }
       p.fog[0] = s0; p.fog[1] = e0; p.fog[2] = fdn; p.fog[3] = 1.0f / (e0 - s0); }
     p.aref[0] = (r[D3DRS_ALPHAREF] & 255) / 255.0f;
   }

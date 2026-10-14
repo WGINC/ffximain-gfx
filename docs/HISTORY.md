@@ -1770,3 +1770,47 @@ thread of its own (design A2), or in a process of its own built natively for ARM
   Direct3D 11 pages are silent; the game was not seen setting MAXMIPLEVEL), and how a cube texture is filtered at
   face edges (the README's earlier "D3D11 always filters across faces" had no source and is withdrawn).
 
+
+### Microsoft's own DirectX 8.1 runtime as a test reference (14 Oct)
+
+The owner's copy of the DirectX 8.1 SDK holds the retail runtime (d3d8.dll), its reference device (d3dref8.dll) and
+the runtime's kernel-thunk DLL (d3d8thk.dll) in dxnt.cab. Under Wine the runtime stops at the thunks, which call into
+the NT kernel's DirectDraw. Our stand-in for d3d8thk.dll (kit/d3d8on11/test/msref/kthunk.c) emulates a display driver
+with no 3D, using the structures in Microsoft's WDK 7.1 DDI headers (downloaded from Microsoft; not in the repository).
+Each thunk's argument count comes from the real DLL's `ret N`. With it, `t8` gets a D3DDEVTYPE_REF device that draws
+in software. The SDK's debug runtime (d3d8d.dll) runs the same way and reports its validation errors through
+OutputDebugString. test_d3d8on11.py compares against it when D3D8REF_DIR and WDK_DDI are set.
+
+What it showed:
+- Vertex fog. Microsoft's runtime makes the factor per vertex, clamps it to [0, 1] and interpolates it. Ours (Wine's
+  model) interpolated the distance and made the factor per pixel, so a floor whose near vertex is nearer than
+  FOGSTART was unfogged where Microsoft's device fogs it slightly. On an untextured copy of the scene, rows 41-59
+  differed by up to 6 levels. Worked out from the scene's geometry, the reference device's values are the clamped
+  factor interpolated perspective-correctly. The DirectX 8.1 text says the same ("it applies fog calculations at
+  each vertex in a polygon, and then interpolates the results"; "The system stores the fog factor in the alpha
+  component of the specular color for a vertex"). Changed: VSKey.vfog; the draw packet grew by 4 bytes (the layout
+  checks were re-measured on both compilers), and the ring version is now 2.
+- Defaults. D3DRS_AMBIENTMATERIALSOURCE is D3DMCS_MATERIAL on Microsoft's runtime. The 8.1 text says COLOR2 in
+  D3DRENDERSTATETYPE and MATERIAL in "Color Vertices", and ours had taken the first. D3DRS_DEBUGMONITORTOKEN answers
+  0xBAADCAFE, where the text says D3DDMT_ENABLE. Both changed to the runtime's values. The other 288 states compared
+  are equal.
+- The debug runtime rejects fixed-function declarations the retail runtime draws: a FLOAT4 position ("Position
+  register must be FLOAT3 for fixed-function pipeline") and SHORT2 texture coordinates ("Invalid data type set for
+  texture register"). Retail drew the first without its colours and the second with one flat texel colour.
+  declaration_fan now uses FLOAT3. decl_short2/4 check our expansion only and are not compared. No validation was
+  added to ours: the game runs on the retail runtime.
+- ZBIAS cannot be compared: the reference device does not report D3DPRASTERCAPS_ZBIAS (RasterCaps 0x00772199) and
+  ignores it.
+- Every other differing pixel is a tie, computed from each scene's geometry:
+  - xyz_depth_cull: 7 pixels within 0.013 px of an edge;
+  - fog: 13 pixels exactly on the floor's side edges; the other fog-scene differences came from the checker texture
+    (on texel boundaries, or 0.004 px from one at the horizon), and the fog scenes are untextured now;
+  - texture_transform_2d (301 pixels), stages_blend_alphatest (141), texgen_cameraspace_transform and
+    v15_declaration (the centre row and column): point samples exactly on texel boundaries;
+  - three_stream_declaration (19,50): v = 25.994 texels;
+  - texgen_reflection_cube: three lookups within 0.006 texel of a checker boundary or within 0.2% of a face edge.
+  Nudging our geometry by 1e-4 px did not flip those four, so they are ties at the 0.01 px scale, not 1e-4. The
+  test's criterion takes a pixel as matching when a 3x3 neighbour matches both ways, and it names those four.
+- D3D11.3 Functional Spec (microsoft.github.io/DirectX-Specs) 7.18.12 says Direct3D 11 filters cube textures across
+  faces. That settles what ours does; what Direct3D 8 hardware did is still not established. 7.18.11: magnification
+  against minification is decided after the sampler's LOD clamp from feature level 11.0, and undefined before it.

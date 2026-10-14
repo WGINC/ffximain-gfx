@@ -184,6 +184,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   // ---- the stages: textures, coordinates, combiners
   int ns = 0;
   for (; ns < 8 && st.tss[ns][D3DTSS_COLOROP] != D3DTOP_DISABLE; ns++) {
+    // "When a texture stage has D3DTSS_COLORARG1 equal to D3DTA_TEXTURE and the texture pointer for the stage is NULL,
+    // this stage and all stages after it are not processed" (DirectX 8.1, Texture Blending). Measured on the reference
+    // device (t8 random, 14 Oct): whatever the op (SELECTARG2 too), alpha included, stage 0 so skipped draws the diffuse
+    // colour and alpha (as DISABLE does); D3DTA_TEXTURE with a modifier (COMPLEMENT, ALPHAREPLICATE) is not "equal"
+    if (!st.tex[ns] && st.tss[ns][D3DTSS_COLORARG1] == D3DTA_TEXTURE) break;
     const DWORD *t = st.tss[ns]; auto &s = pk.s[ns];
     s.cop = (uint8_t)t[D3DTSS_COLOROP]; s.ca1 = (uint8_t)t[D3DTSS_COLORARG1]; s.ca2 = (uint8_t)t[D3DTSS_COLORARG2]; s.ca0 = (uint8_t)t[D3DTSS_COLORARG0];
     s.aop = (uint8_t)t[D3DTSS_ALPHAOP]; s.aa1 = (uint8_t)t[D3DTSS_ALPHAARG1]; s.aa2 = (uint8_t)t[D3DTSS_ALPHAARG2]; s.aa0 = (uint8_t)t[D3DTSS_ALPHAARG0];
@@ -199,19 +204,6 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     // the game's traces never set it (data/d3d8_scope.json)
     s.tcn = c.proj && c.count ? c.count : 0;
     if (c.proj) d8_once("ttffproj", "D3DTTFF_PROJECTED: executed as the reference describes; not compared with Wine (the game was not seen using it)");
-    // a stage whose op reads a texture that is not bound passes the current colour (alpha) on: SELECTARG1(CURRENT).
-    // The DirectX 8 reference documents only ALPHAARG1 (D3DTA_TEXTURE with no texture reads as D3DTA_DIFFUSE, the same
-    // as CURRENT in stage 0); the rule for the rest is Wine's (9.0 utils.c is_invalid_op). Windows' is not established.
-    if (!s.tex) {
-      auto invalid = [](uint8_t op, uint8_t a1, uint8_t a2, uint8_t a0) {
-        if (op == D3DTOP_DISABLE) return false;
-        if ((a1 & D3DTA_SELECTMASK) == D3DTA_TEXTURE && op != D3DTOP_SELECTARG2) return true;
-        if ((a2 & D3DTA_SELECTMASK) == D3DTA_TEXTURE && op != D3DTOP_SELECTARG1) return true;
-        return (a0 & D3DTA_SELECTMASK) == D3DTA_TEXTURE && (op == D3DTOP_MULTIPLYADD || op == D3DTOP_LERP);
-      };
-      if (invalid(s.cop, s.ca1, s.ca2, s.ca0)) { s.cop = D3DTOP_SELECTARG1; s.ca1 = D3DTA_CURRENT; }
-      if (s.cop != D3DTOP_DOTPRODUCT3 && invalid(s.aop, s.aa1, s.aa2, s.aa0)) { s.aop = D3DTOP_SELECTARG1; s.aa1 = D3DTA_CURRENT; }
-    }
     if (s.cop == D3DTOP_BUMPENVMAP || s.cop == D3DTOP_BUMPENVMAPLUMINANCE || s.cop == D3DTOP_PREMODULATE) {
       d8_once("tssop", "texture stage op %u: not implemented (treated as SELECTARG1)", s.cop); s.cop = D3DTOP_SELECTARG1;
     }

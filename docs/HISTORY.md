@@ -1873,3 +1873,19 @@ here. It does not run under Wine: it is packed, and the unpacked code faults at 
 dgVoodoo d3d8.dll, Windows' own and ours (direct and remote), each in its own folder, and owner_compare.py compares
 them. `t8 where` prints the d3d8.dll loaded, its version and the adapter. Tried here with a stand-in folder (the
 reference in dgVoodoo's place, Wine in Windows'): the script reads all of it.
+
+The 45 cases, analysed (14 Oct). Each finding was reduced to a minimal case and measured against the reference:
+- a stage reading a texture it was not given: the DirectX 8.1 "Texture Blending" text defines it, Wine did otherwise;
+  ours now follows the text (d8_ff.cpp). The game does it from 0x1000CBF3 (23 of 28 such draws in trace 6796). Class N.
+- the alpha test: the reference compares floor(alpha x 255) with ALPHAREF; ours now does the same (d8_exec.cpp). Wine
+  compares the float (wined3d_private.h:3117, glsl_shader.c:7529), so the Wine suite counts it as class T.
+- a stage read with no texture set reads (0,0,0,1) on the reference, as on ours.
+- not taken, reference artefacts (README, "Measured on Microsoft's reference device and not taken"): the lit vertex
+  colour truncated to 8 bits (s2r0073, 934 px), and point sampling near a texel boundary. The test switch
+  D8ON11_TEST_TEXEDGE flips the texel within eps texels of a boundary: at 0.05 it explains 856 of 1920 unmatched
+  pixels over the 67 of 142 changed cases that still differ; with s2r0073, 130 pixels remain, at most 29 a case, not
+  analysed.
+Wine's d3dcompiler does not evaluate a float2 ?: per component (it took the first component's choice for both):
+found writing the switch; the generated shaders' ?: conditions are all scalar (checked).
+The randomized test's classes now come from random_cases.py (classes(), changes()) in both test_d3d8on11.py and
+owner_compare.py, which also lists D, N and P.

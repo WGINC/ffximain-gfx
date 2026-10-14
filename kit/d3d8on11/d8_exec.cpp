@@ -8,6 +8,7 @@
 #include "d8_exec.h"
 #include <d3dcompiler.h>
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef HRESULT (WINAPI *PFN_Compile)(const void *, SIZE_T, const char *, const D3D_SHADER_MACRO *, ID3DInclude *,
@@ -242,6 +243,7 @@ static std::string op(int o, const std::string &a1, const std::string &a2, const
   }
   return "";
 }
+static float texedge() { static float e = getenv("D8ON11_TEST_TEXEDGE") ? (float)atof(getenv("D8ON11_TEST_TEXEDGE")) : 0; return e; }
 static std::string gen_ps(const PSKey &k) {
   std::string s =
     "cbuffer C : register(b0) { float4 tfactor, fogcolor, fogp, aref; };\n"
@@ -260,8 +262,23 @@ static std::string gen_ps(const PSKey &k) {
     if (t.tex == 1) {
       std::string uv = t.tcn ? "i.tc[" + std::to_string(i) + "].xy / i.tc[" + std::to_string(i) + "]." + "xyzw"[t.tcn - 1] : "i.tc[" + std::to_string(i) + "].xy";
       snprintf(b, sizeof b, "  float4 x%d = t%d.Sample(s%d, %s);\n", i, i, i, uv.c_str());
+      if (texedge() > 0) {
+        // a test only (D8ON11_TEST_TEXEDGE=eps): where the coordinate lies within eps texels of a texel boundary, read
+        // the texel across the nearer boundary. Applied to every 2D stage, so meaningful only for point-filtered cases:
+        // a pixel that then matches Microsoft's reference device differed from it only by the reference's point
+        // sampling at a boundary (DirectX 8.1, "Nearest-Point Sampling"; README.md). The choice is made by a scalar
+        // condition: Wine's d3dcompiler does not evaluate a float2 ?: per component (measured, 14 Oct)
+        char e[600];
+        snprintf(e, sizeof e, "  { uint w, h; t%d.GetDimensions(w, h); float2 z = float2(w, h), q = (%s) * z, f = frac(q), d = min(f, 1 - f); float2 m = "
+                 "(d.x <= d.y ? float2(1, 0) : float2(0, 1)) * sign(f - 0.5); if (min(d.x, d.y) < %g) x%d = t%d.Sample(s%d, (floor(q) + m + 0.5) / z); }\n",
+                 i, uv.c_str(), texedge(), i, i, i);
+        s += b; s += e; b[0] = 0;
+      }
     } else if (t.tex == 2) snprintf(b, sizeof b, "  float4 x%d = t%d.Sample(s%d, i.tc[%d].xyz);\n", i, i, i, i);
-    else snprintf(b, sizeof b, "  float4 x%d = float4(0, 0, 0, 1);\n", i);    // no texture bound PROVISIONAL
+    // any other read of a stage's texture when none is set (d8_ff.cpp: COLORARG1 D3DTA_TEXTURE ends the stages) reads
+    // (0, 0, 0, 1): measured on the reference device (t8 random, 14 Oct: through ARG2, ARG0, the alpha args, with
+    // COMPLEMENT and ALPHAREPLICATE); the DirectX 8 reference does not say
+    else snprintf(b, sizeof b, "  float4 x%d = float4(0, 0, 0, 1);\n", i);
     s += b;
     std::string cr = op(t.cop, arg(t.ca1, tex), arg(t.ca2, tex), arg(t.ca0, tex), tex, ".rgb");
     std::string ar = t.aop == D3DTOP_DISABLE ? "cur.a" : op(t.aop, arg(t.aa1, tex), arg(t.aa2, tex), arg(t.aa0, tex), tex, ".a");
@@ -272,9 +289,14 @@ static std::string gen_ps(const PSKey &k) {
   }
   if (k.specadd) s += "  cur.rgb = saturate(cur.rgb + i.d1.rgb);\n";
   if (k.alphatest) {
-    // D3DCMP: NEVER 1, LESS 2, EQUAL 3, LESSEQUAL 4, GREATER 5, NOTEQUAL 6, GREATEREQUAL 7, ALWAYS 8 (pass when alpha OP ref)
-    static const char *c[] = {"", "false", "a < r", "abs(a - r) < 0.5 / 255", "a <= r", "a > r", "abs(a - r) >= 0.5 / 255", "a >= r", "true"};
-    s += std::string("  { float a = cur.a, r = aref.x; if (!(") + c[k.alphatest] + ")) discard; }\n";
+    // D3DCMP: NEVER 1, LESS 2, EQUAL 3, LESSEQUAL 4, GREATER 5, NOTEQUAL 6, GREATEREQUAL 7, ALWAYS 8 (pass when alpha OP ref).
+    // ALPHAREF "is an 8-bit value" and "the incoming alpha value is compared with" it (DirectX 8.1, D3DRENDERSTATETYPE);
+    // the text does not say how the incoming alpha is made 8-bit. Measured on the reference device (t8 random, 14 Oct:
+    // alpha T*T, a two-stage chain, ADDSIGNED's half steps, against each function): floor(alpha * 255), taken once
+    // after the last stage, whatever the function. The 1/512 added first is ours: it keeps a value that is exactly
+    // k/255 from falling a step under float rounding (a product of 8-bit values is m/255, 1/255 from the next step)
+    static const char *c[] = {"", "false", "a < r", "a == r", "a <= r", "a > r", "a != r", "a >= r", "true"};
+    s += std::string("  { float a = floor(cur.a * 255 + 1.0 / 512), r = round(aref.x * 255); if (!(") + c[k.alphatest] + ")) discard; }\n";
   }
   // fog: 1 linear, 2 exp, 3 exp2 (fogp: start, end, density, 1 / (end - start))
   if (k.fog == 1) s += "  cur.rgb = lerp(fogcolor.rgb, cur.rgb, saturate((fogp.y - i.fog) * fogp.w));\n";

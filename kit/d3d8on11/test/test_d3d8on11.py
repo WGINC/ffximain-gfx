@@ -221,9 +221,16 @@ for m in [m for m in MODES if m != 'direct']:
 #      above FOGSTART then draws the same on both
 #   W  table fog on pre-transformed vertices: Wine 9.0 fogs by the vertex z, Microsoft's runtime and ours by 1/RHW
 #      (scene fog_table_rhw, WINE_DIFFERS). Counts as W only if the same case with fog off then draws the same on both
+#   D  a stage with its colour op on and its alpha op DISABLE, undefined by the DirectX 8.1 text (random_cases.py
+#      alpha_disabled). Counts as D only if the same case with that alpha op SELECTARG1 of CURRENT then draws the same
+#   N  a stage reading a texture it was not given (random_cases.py rclass; ours draws it by the DirectX 8.1 "Texture
+#      Blending" rule, Wine otherwise). Counts as N only if the same case with that stage off then draws the same
+#   T  the alpha test, compared by Wine on the float alpha and by ours on floor(alpha x 255) as Microsoft's reference
+#      device does (random_cases.py alpha_test_wine). Counts as T only if the same case with the alpha test off then
+#      draws the same
 RSEED, RCOUNT = int(os.environ.get('RANDOM_SEED', '1')), int(os.environ.get('RANDOM_CASES', '200'))
 sys.path.insert(0, H)
-from random_cases import rclass, lit_unnormalized, cube_linear_stages, fog_reversed, fog_rhw_table   # the classes below
+from random_cases import classes, changes   # the classes below
 cases_txt = subprocess.run([sys.executable, os.path.join(H, 'random_cases.py'), str(RSEED), str(RCOUNT)], capture_output=True, text=True, check=True).stdout
 for d in (ref, ours): open(os.path.join(d, 'cases.txt'), 'w').write(cases_txt)
 def rscenes(where, ov, xm=None):
@@ -244,15 +251,14 @@ for n in blocks:
     dif = [max(abs(((x >> s_) & 255) - ((y >> s_) & 255)) for s_ in (0, 8, 16)) for x, y in zip(a, b)]
     nd = sum(1 for v in dif if v > TOL)
     if nd / len(dif) <= MAXFRAC: continue
-    if rclass(blocks[n]) or cube_linear_stages(blocks[n]) or lit_unnormalized(blocks[n]) or fog_reversed(blocks[n]) or fog_rhw_table(blocks[n]): cands.append((n, nd, max(dif)))
+    if classes(blocks[n]): cands.append((n, nd, max(dif)))
     else: fails.append('%s: %d of %d pixels differ, worst channel difference %d' % (n, nd, len(dif), max(dif)))
 # the candidates again, changed in every way their classes name (A: the stage stops generating; C: the stage reads
-# set 0, or no texture if there is no set; S: the cube stages point-filtered; L: NORMALIZENORMALS on; F: FOGEND above FOGSTART; W: fog off): they must then draw the same, or the difference is not explained by those classes
+# set 0, or no texture if there is no set; S: the cube stages point-filtered; L: NORMALIZENORMALS on; F: FOGEND above FOGSTART; W: fog off;
+# D: the alpha op SELECTARG1 of CURRENT; N: the stage off; T: the alpha test off): they must then draw the same, or the difference is not
+# explained by those classes
 if cands:
-    def change(ls):
-        fx = []; rclass(ls, fx); fog_reversed(ls, fx); fog_rhw_table(ls, fx)
-        return fx + ['tss %d 16 1\ntss %d 17 1' % (k, k) for k in cube_linear_stages(ls)] + (['rs 143 1'] if lit_unnormalized(ls) else [])
-    chg = {n: '\n'.join([blocks[n][0]] + blocks[n][1:-1] + change(blocks[n]) + ['draw']) + '\n' for n, _, _ in cands}
+    chg = {n: '\n'.join([blocks[n][0]] + blocks[n][1:-1] + changes(blocks[n]) + ['draw']) + '\n' for n, _, _ in cands}
     txt = ''.join(chg[n] for n, _, _ in cands)
     for d in (ref, ours): open(os.path.join(d, 'cases.txt'), 'w').write(txt)
     pa, pb = rscenes(ref, False), rscenes(ours, True, 'direct')
@@ -260,7 +266,7 @@ if cands:
         a, b = pa.get(n), pb.get(n)
         dif = [max(abs(((x >> s_) & 255) - ((y >> s_) & 255)) for s_ in (0, 8, 16)) for x, y in zip(a or [], b or [])]
         nd = sum(1 for v in dif if v > TOL)
-        cls = ''.join(sorted(rclass(blocks[n]))) + ('S' if cube_linear_stages(blocks[n]) else '') + ('L' if lit_unnormalized(blocks[n]) else '') + ('F' if fog_reversed(blocks[n]) else '') + ('W' if fog_rhw_table(blocks[n]) else '')
+        cls = classes(blocks[n])
         if a and b and nd / len(dif) <= MAXFRAC: known.setdefault(cls, []).append('%s (%d px, worst %d; changed: %d px)' % (n, nd0, w0, nd))
         else: fails.append('%s: differs, and still with the changes of class %s (%d px)' % (n, cls, nd)); variant[n] = (chg[n], b)
 # a case that still fails is drawn by Microsoft's runtime and reference device too (when there), as it failed (with its
@@ -285,7 +291,9 @@ print('    classes: A pre-transformed vertices generating coordinates, C a coord
       '    established for either, not seen in the game); S cube seams (Wine filters faces apart, D3D11 across them);\n'
       '    L N.L above 1 with long normals (Wine clamps it, the reference equation does not); F linear fog with start >= end\n'
       '    (undefined; the game never sets it); W table fog on pre-transformed vertices (Wine fogs by z, the reference by\n'
-      '    1/RHW). Each case below drew the same\n'
+      '    1/RHW); D an alpha op DISABLE on an enabled stage (undefined); N a stage without its texture (ours by the\n'
+      '    DirectX 8.1 text, Wine otherwise); T the alpha test (Wine compares the float alpha, ours and the reference\n'
+      '    floor(alpha x 255)). Each case below drew the same\n'
       '    on both once changed as its classes name ("changed: N px")')
 for c, l in sorted(known.items()): print('    class %s: %s' % (c, ', '.join(l)))
 bad += len(fails) > 0

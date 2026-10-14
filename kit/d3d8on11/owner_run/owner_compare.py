@@ -9,12 +9,17 @@ or a sample on a texel boundary, is a tie each implementation's rounding decides
 - random: per case file, the cases with unmatched pixels and their classes (random_cases.py: A and C read texture
   coordinates the vertices do not supply, which no documentation defines; S filters a cube texture linearly; L lights
   with unnormalized normals and NORMALIZENORMALS off; F has linear fog with FOGSTART >= FOGEND; W has table fog on pre-
-  transformed vertices). "-" is a case of none of these.
+  transformed vertices; D has a stage with its colour op on and its alpha op DISABLE, undefined by the DirectX 8.1 text;
+  N has a stage reading a texture it was not given; P filters a texture other than by point, for which the DirectX 8.1
+  text gives no precision). "-" is a case of none of these. A few unmatched pixels in a point-filtered case can be the
+  reference device's point sampling at a texel boundary ("Nearest-Point Sampling", DirectX 8.1: the reference device
+  "does not perform this operation with perfect accuracy"); ours' test switch D8ON11_TEST_TEXEDGE (README.md) tells
+  those apart.
 
     python3 owner_compare.py t8run_20261015_101010"""
 import os, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, '..', 'test'))
-from random_cases import rclass, lit_unnormalized, cube_linear_stages, fog_reversed, fog_rhw_table
+from random_cases import classes
 
 TOL = 3
 
@@ -101,7 +106,7 @@ def main(folder):
                 if not a or not b: diff.append('%s (no picture)' % n); continue
                 u = unmatched(a, b)
                 if u:
-                    cls = ''.join(sorted(rclass(ls))) + ('S' if cube_linear_stages(ls) else '') + ('L' if lit_unnormalized(ls) else '') + ('F' if fog_reversed(ls) else '') + ('W' if fog_rhw_table(ls) else '')
+                    cls = classes(ls, ref=True)
                     diff.append('%s %d px %s' % (n, u, cls or '-'))
             print('random seed %d: %d of %d cases differ from ours: %s' % (s, len(diff), sum(1 for k in cases if k[0] == s), '; '.join(diff)))
 

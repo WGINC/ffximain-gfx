@@ -87,8 +87,6 @@ Where each behaviour comes from (named in the code where it is used): the Direct
 "Checked against Microsoft's documentation" below), then Microsoft's Direct3D 9 pages where the 8.1 reference is
 silent, each named as such; Wine 9.0's wined3d only where neither says, and then named as Wine's. Windows' own
 behaviour in those cases is not established. Still Wine's:
-- a stage whose op reads a texture that is not bound passes CURRENT on (`is_invalid_op`); the reference says only
-  that ALPHAARG1 then defaults to DIFFUSE;
 - the fog model's specular-alpha case and vertex linear fog's start == end case (`get_fog_start_end`);
 - ZBIAS as −ZBIAS units and −ZBIAS times the slope (d3d8 `WINED3D_LEGACY_DEPTH_BIAS`): the reference says only that a
   higher value draws in front;
@@ -103,6 +101,41 @@ below), where Wine or the reference text said otherwise:
   and makes the factor per pixel). The reference says the same: "it applies fog calculations at each vertex in a
   polygon, and then interpolates the results" ("Vertex Fog");
 - D3DRS_AMBIENTMATERIALSOURCE defaults to D3DMCS_MATERIAL, D3DRS_DEBUGMONITORTOKEN answers 0xBAADCAFE ("defaults").
+- a stage's texture read when none is set (other than through COLORARG1, below) reads (0, 0, 0, 1): through ARG2,
+  ARG0, the alpha args, with COMPLEMENT and ALPHAREPLICATE (the reference does not say; Wine passes CURRENT on, its
+  `is_invalid_op`);
+- the alpha test compares floor(alpha * 255), taken once after the last stage, with ALPHAREF, for every function
+  (alpha T*T, a two-stage chain and ADDSIGNED's half steps against each). The reference says ALPHAREF "is an 8-bit
+  value" and not how the incoming alpha becomes one. Ours compared the float for LESS and GREATER and within half a
+  step for EQUAL and NOTEQUAL (Wine: the float), so it could pass EQUAL 145 and fail GREATEREQUAL 145 on one value.
+  The 1/512 added before the floor is ours (a product of 8-bit values is m/255; float rounding must not drop it a
+  step). The game alpha-tests nearly all its draws, with GREATER 0, GREATER 0x45 and GREATER 0x60 (traces 5180,
+  6080, 6796).
+
+From the DirectX 8.1 text, where Wine did otherwise:
+- "When a texture stage has D3DTSS_COLORARG1 equal to D3DTA_TEXTURE and the texture pointer for the stage is NULL,
+  this stage and all stages after it are not processed" ("Texture Blending"). Microsoft's reference device does so
+  for every op (SELECTARG2 too) and for alpha; a stage 0 so skipped draws the diffuse colour and alpha, as DISABLE
+  does; TEXTURE with a modifier is not "equal". Wine 9.0 passes CURRENT on and runs the later stages. The game draws
+  so: 23 and 28 draws of traces 6796_1 and 6796_2, stage 0 from 0x1000CBF3 (colour MODULATE(TEXTURE, TFACTOR),
+  alpha MODULATE4X), some with a later stage on; traces 5180 and 6080 have none.
+
+Measured on Microsoft's reference device and not taken (each a reference-device artefact, not Direct3D's rule):
+- it truncates the lit vertex colour to 8 bits per vertex before interpolating (ours interpolates the float): one
+  step lower, which a stage squaring the colour makes four (random case s2r0073: 934 pixels differ, 0 with ours
+  truncated). It does so with D3DCREATE_HARDWARE_VERTEXPROCESSING too. The game creates its device with
+  HARDWARE_VERTEXPROCESSING (0x40) unless its setting at g_pAppSettings+88 is set or that fails, then SOFTWARE (0x20)
+  (Gfx_CreateDevice 0x100034B0, Gfx_CreateD3DHolder's callers); what its machines' drivers do here is not known;
+- point sampling near a texel boundary: "the reference rasterizer does not perform this operation with perfect
+  accuracy" (DirectX 8.1, "Nearest-Point Sampling"). Measured (14 Oct) on the random cases that differ from it with no
+  class: the unmatched pixels of the point-filtered perspective cases lie within 0.05 texels of a texel boundary
+  (mostly within 0.006) by the exact texture coordinates; ours takes the texel the exact coordinate falls in, the
+  reference device the neighbour (case m4: 17 of 17 pixels). The test switch D8ON11_TEST_TEXEDGE=eps makes ours read
+  the texel across the nearer boundary wherever the coordinate is within eps texels of it (every 2D stage; a test
+  only): at eps 0.05, 58 of the 59 unmatched pixels of the four reduced cases then match, and of the 1920 unmatched
+  pixels of the 67 random cases (of 142) that still differ with their classes' changes, 856 match; of the 1064
+  left, 934 are s2r0073 (the lit colour, above) and the rest (at most 29 a case, many differing by 4 or 5 where 3 is allowed) are not analysed: not
+  explained.
 
 Known gaps, each logged when hit:
 - full screen (renders windowed);
@@ -139,7 +172,8 @@ Checked, area by area:
   vertices (changed: was z, as Wine; no test compares this case).
 - Flat shading: colour and specular from the first vertex (fans: vertex i + 1), specular alpha interpolated (changed:
   it was held too).
-- Blend factors and operations, alpha test, culling, the fill convention: as the reference.
+- Blend factors and operations, culling, the fill convention: as the reference. The alpha test: as above (the
+  reference does not say how the alpha is made 8-bit).
 - Clear: the viewport, or rectangles clipped to it; fails for Z or stencil with no depth buffer or no stencil
   (changed: rectangles and smaller viewports failed; now drawn, test scene clear_viewport_rects, equal to Wine's).
 - State blocks: D3DSBT_ALL holds what the reference lists (changed: it held the index buffer, which is not listed,
@@ -273,7 +307,8 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
     transforms, not generation, so for generation this is a reading. Wine's own bug 37313 reads it the same way.
     Change: the stage stops generating.
   - C: a stage reading a coordinate set the vertex format does not have. Ours reads zeros; not in the reference.
-    Change: the stage reads set 0 (or has no texture).
+    Change: the stage reads set 0 (or, with no set, is turned off: COLOROP DISABLE; a stage left without its
+    texture is drawn by the "Texture Blending" rule above, and by Wine otherwise).
   - S: a cube texture filtered linearly. Wine's d3d8 filters each face apart (WINED3D_LEGACY_CUBEMAP_FILTERING,
     dlls/d3d8/d3d8_private.h); ours leaves it to Direct3D 11, whose functional specification requires filtering
     across faces ("TextureCube filtering near Cube edges, where 2x2 (bilinear) filter taps would fall off a face are
@@ -291,6 +326,14 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
     FOGSTART.
   - W: table fog on pre-transformed vertices: Wine fogs by z, Microsoft's runtime and ours by 1/RHW (scene
     fog_table_rhw, above). Change: fog off.
+  - D: a stage with its colour op on and its alpha op DISABLE, which the DirectX 8.1 text calls undefined
+    (D3DTEXTUREOP). The game does it (0x1000CBF3). Change: that alpha op SELECTARG1 of CURRENT.
+  - N: a stage reading a texture it was not given: ours by the "Texture Blending" rule above, Wine otherwise. The
+    game does it (0x1000CBF3). Change: that stage off.
+  - T: the alpha test (a function other than NEVER or ALWAYS): Wine compares the float alpha with ALPHAREF / 255
+    (wined3d_private.h:3117, glsl_shader.c:7529 of Wine 9.0), ours floor(alpha x 255) as Microsoft's reference device
+    (above); they differ where alpha x 255 falls between two integers. Counted against Wine only. Change: the alpha
+    test off.
   The game was seen using none of A and C in its traces (a trace's state at a draw is partial, so this is "not seen",
   not "never"). It does create cube textures and set linear filtering, and it sets NORMALIZENORMALS off, so S and L
   may show in the game.

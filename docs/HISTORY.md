@@ -1382,6 +1382,22 @@ What was still open for the performance patch, put into three runs for the owner
     480 states compared: 2 D3D8 states differ (DEBUGMONITORTOKEN, POINTSIZE_MAX); the other 28 are numbers D3D8
     does not define.
   - In tool_drift and BUILD.lock.json.
+- **kit/d3d8on11, milestone 2: drawing** (`d8_ff.cpp`; README there).
+  - Fixed-function state becomes vertex and pixel shader keys, then HLSL compiled with d3dcompiler_47, cached.
+    D3D11 state objects are cached by description. Fans become lists; ...UP draws use a ring buffer.
+  - Picture test (`t8 scenes`): 20 scenes through Wine's d3d8 and ours. The first run matched 2 of 13, and every
+    difference had a cause found:
+    - a stage reading an unbound texture: Wine passes CURRENT on (`is_invalid_op`); the DirectX 8 reference
+      documents only ALPHAARG1's fallback to DIFFUSE;
+    - no texture transform on pre-transformed vertices or with COUNT1 (Wine's `compute_texture_matrix`);
+    - the fog model: a per-vertex coordinate and a per-pixel factor (Wine's `get_fog_start_end` and the GLSL fog
+      code);
+    - the half-pixel offset for transformed vertices had the wrong sign: geometry moves +0.5 px right and down;
+    - fan flat shading takes the first non-spoke vertex (Khronos EXT_provoking_vertex, issue 7: Direct3D 9's
+      behaviour).
+
+    After those, all 20 match within 3 of 255.
+  - Not drawn yet: the game's own vertex programs (milestone 2c), pixel shaders, vertex blending. Each is logged.
 - **probe8** also dumps the whole D3DCAPS8 (`caps.raw`). The device's caps are provisional until they can answer as
   dgVoodoo's do on the owner's machine. The game chooses its paths by caps.
 

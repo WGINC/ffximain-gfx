@@ -197,6 +197,11 @@ struct Dev final : public IDirect3DDevice8_Stub {
   std::vector<VShader> vshaders;                // handle = (index << 1) | 1, as D3D8 handles have bit 0 set
   std::vector<Cmd> q;                            // recorded, not yet executed
   D3DGAMMARAMP gamma; bool inScene = false; UINT64 draws = 0, drawsNotExecuted = 0;
+  struct FF *ff = nullptr;                       // the fixed-function pipeline as generated shaders (d8_ff.cpp)
+  void ff_init();
+  void ff_free();
+  HRESULT ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVertex, UINT minIndex, UINT numVerts, UINT startIndex,
+                  const void *upv, UINT upStride, const void *upi, D3DFORMAT upiFmt);
   HRESULT init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p);
   HRESULT make_swap();
   void release_swap();

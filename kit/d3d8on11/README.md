@@ -8,6 +8,7 @@ Direct3D 8 the game uses (`data/d3d8_scope.json`) on Direct3D 11.
 - `d8_main.cpp`: the module (`Direct3DCreate8`), the log (`d3d8on11.log` next to the DLL), formats, caps, IDirect3D8.
 - `d8_device.cpp`: IDirect3DDevice8: the state the game sets and reads back, state blocks, resources, frames.
 - `d8_res.cpp`: textures, cube textures, surfaces, vertex and index buffers.
+- `d8_ff.cpp`: draws, through Direct3D 8's fixed-function pipeline as generated shaders (milestone 2).
 - `gen_stubs.py` → `d8_gen.h` (generated at build): every method of every interface, logging "not implemented" once and
   failing. The device's classes override what they implement. A method the game calls that is not implemented is
   found in the log, not guessed. The vtable order is the D3D8 header's: a method missing from the generator leaves a
@@ -22,7 +23,7 @@ function to a second thread (A2) or another process (B) without changing the ent
 what changed. A lockable render target or the back buffer read back at LockRect waits for the GPU, as the game's
 occlusion readback does on any D3D8.
 
-## Milestone 1 (this): everything but drawing
+## Milestone 1: everything but drawing
 
 Done and tested:
 - device creation with its swap chain on the game's window (windowed), automatic depth buffer, Reset;
@@ -34,7 +35,44 @@ Done and tested:
   textures, streams, indices, vertex shader handles;
 - state blocks recorded with Begin/End, applied, captured, deleted, and CreateStateBlock(ALL).
 
-Draws are recorded and counted but **not executed**. Drawing needs the fixed-function pipeline as shaders: milestone 2.
+## Milestone 2: drawing (`d8_ff.cpp`)
+
+At a draw, the state that decides the vertex work becomes a key (VSKey), and so does the state that decides the pixel
+work (PSKey):
+- vertex work: the layout from the FVF or the declaration, lighting, material sources, texture coordinate sources and
+  transforms, the fog coordinate, flat shading;
+- pixel work: the stages, alpha test, fog mode, specular, flat shading.
+
+Each key becomes HLSL once, is compiled with `D3DCompile` from `d3dcompiler_47.dll` (loaded at run time), and is cached.
+Blend, depth-stencil, rasterizer and sampler states are D3D11 state objects, cached by description. Fans become lists.
+...UP draws go through a dynamic ring buffer. Phase 1 executes a draw when it is made, after what was recorded
+before it.
+
+Where each behaviour comes from (named in the code where it is used):
+- The DirectX 8 reference: the stage ops and arguments, ALPHAARG1's fallback to DIFFUSE with no texture, lighting,
+  material sources, texture coordinate generation, D3DTTFF_PROJECTED, flat shading from the first vertex, ZBIAS
+  ordering.
+- Khronos EXT_provoking_vertex, issue 7: in a triangle fan, flat shading takes the first non-spoke vertex (Direct3D 9's
+  behaviour).
+- Wine 9.0's wined3d, where the reference leaves the behaviour open. Windows' own behaviour in these cases is not
+  established:
+  - a stage whose op reads a texture that is not bound passes CURRENT on (`is_invalid_op`);
+  - no texture transform with COUNT1 or on pre-transformed vertices (`compute_texture_matrix`);
+  - the fog model: one coordinate per vertex (specular alpha, eye distance or depth) and the factor per pixel, with the
+    start == end case (`get_fog_start_end`);
+  - ZBIAS as −ZBIAS units and −ZBIAS times the slope (d3d8 `WINED3D_LEGACY_DEPTH_BIAS`);
+  - a vertex without a diffuse colour is white, and without a specular colour is 0;
+  - the half-pixel offset (`get_projection_matrix`).
+
+Not implemented, each logged and the draw skipped:
+- the game's own vertex programs (its declarations with code, register v15; 281 SetVertexShader calls by handle in
+  the traces): milestone 2c, translating vs 1.x;
+- pixel shaders;
+- vertex blending (FVF XYZB*);
+- tessellation;
+- BUMPENVMAP and PREMODULATE (drawn as SELECTARG1).
+
+None of these appears in the game's fixed-function draws as far as the traces show.
 
 Known gaps, each logged when hit:
 - Clear of rectangles, or of a viewport smaller than the target;
@@ -52,6 +90,20 @@ Known gaps, each logged when hit:
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours:
 - `basic`: 22 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
   lights, shader handles, Reset, release). All pass on both.
+- `scenes`: 20 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
+  - the six FVF codes the game uses (data/d3d8_scope.json) and a declaration;
+  - strips, lists, fans, indexed and ...UP draws, base vertex;
+  - depth and culling, ZBIAS 8;
+  - lighting with material and vertex colour sources, specular, eight point and spot lights;
+  - texture stages with TFACTOR, MODULATE2X and BLENDTEXTUREALPHA;
+  - the blend modes and BLENDOP values the game sets, alpha test;
+  - vertex, table linear and table exp fog;
+  - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
+  - DXT1 with mips, flat shading.
+
+  On 14 Oct all 20 match Wine's d3d8. The worst channel difference is 3 of 255 (lighting), and no pixel is beyond
+  the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
+  written as a PNG (Wine | ours | difference).
 - `defaults`: every render state and stage state of a fresh device, read on both and compared. On 14 Oct: 480
   states each, 30 differing.
   - 28 of the 30 are numbers above D3DRS_BLENDOP (171), which the D3D8 header does not define. Wine's d3d8 answers

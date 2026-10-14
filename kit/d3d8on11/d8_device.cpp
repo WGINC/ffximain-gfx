@@ -1,8 +1,8 @@
 // d8_device.cpp -- d3d8on11: IDirect3DDevice8, milestone 1 (docs/D3D11.md phase 1; kit/d3d8on11/README.md).
 //
 // Milestone 1 makes the device, its swap chain, resources and their uploads, Clear, Present, Reset, render targets,
-// copies and read-backs, and keeps every state the game sets and reads back, state blocks included. Draws are
-// recorded and counted but not executed: the fixed-function shaders that execute them are the next milestone.
+// copies and read-backs, and keeps every state the game sets and reads back, state blocks included. Milestone 2
+// executes draws through generated shaders (d8_ff.cpp).
 #include "d8.h"
 #include <string>
 
@@ -23,6 +23,7 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   memset(&gamma, 0, sizeof gamma);
   for (int i = 0; i < 256; i++) gamma.red[i] = gamma.green[i] = gamma.blue[i] = (WORD)(i * 257);
   defaults();
+  ff_init();
   d8_log("device: %ux%u, back buffer format %lu, %s, depth %s (format %lu), behavior 0x%lX, window %p",
          pp.BackBufferWidth, pp.BackBufferHeight, (unsigned long)pp.BackBufferFormat, pp.Windowed ? "windowed" : "full screen asked: windowed",
          pp.EnableAutoDepthStencil ? "yes" : "no", (unsigned long)pp.AutoDepthStencilFormat, (unsigned long)beh, (void *)wnd);
@@ -148,8 +149,7 @@ void Dev::exec(const Cmd &c) {
     D3D11_BOX bx = {(UINT)c.copy.r.left, (UINT)c.copy.r.top, 0, (UINT)c.copy.r.right, (UINT)c.copy.r.bottom, 1};
     ctx->CopySubresourceRegion(d->tex, ds, c.copy.p.x, c.copy.p.y, 0, s->tex, ss, &bx);
     break; }
-  case C_DRAW:
-    drawsNotExecuted++;
+  case C_DRAW:                                   // phase 1 executes a draw when it is made (d8_ff.cpp)
     break;
   }
 }
@@ -163,10 +163,11 @@ ULONG Dev::AddRef() { return InterlockedIncrement(&ref); }
 ULONG Dev::Release() {
   LONG n = InterlockedDecrement(&ref);
   if (n) return n;
-  d8_log("device released: %llu draws recorded, %llu of them not executed (milestone 1)", (unsigned long long)draws, (unsigned long long)drawsNotExecuted);
+  d8_log("device released: %llu draws, %llu of them not executed", (unsigned long long)draws, (unsigned long long)drawsNotExecuted);
   for (Block *b : blocks) delete b;
   st.vs = 0; defaults();
   release_swap();
+  ff_free();
   if (ctx) ctx->Release(); if (dev) dev->Release();
   d3d->Release();
   delete this;
@@ -498,14 +499,19 @@ HRESULT Dev::DeleteVertexShader(DWORD h) {
   return D3D_OK;
 }
 
-// ---- draws: recorded and counted; not executed in milestone 1 ----------------------------------------------------------------
-static HRESULT draw(Dev *d) {
-  d->draws++;
-  d8_once("draws", "draws are recorded and counted, not executed (milestone 1: the fixed-function shaders come next)");
-  Cmd c; c.op = C_DRAW; c.draw.kind = 0; d->push(c);
-  return D3D_OK;
+// ---- draws: executed through generated shaders (d8_ff.cpp) ----------------------------------------------------------------
+static HRESULT counted(Dev *d, HRESULT hr) { d->draws++; if (hr != D3D_OK) d->drawsNotExecuted++; return hr; }
+HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE t, UINT start, UINT n) {
+  return counted(this, ff_draw(0, t, n, start, 0, 0, 0, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
-HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE, UINT, UINT) { return draw(this); }
-HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE, UINT, UINT, UINT, UINT) { return draw(this); }
-HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE, UINT, const void *, UINT) { return draw(this); }
-HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE, UINT, UINT, UINT, const void *, D3DFORMAT, const void *, UINT) { return draw(this); }
+HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT startIndex, UINT n) {
+  return counted(this, ff_draw(1, t, n, 0, minIndex, numVerts, startIndex, NULL, 0, NULL, D3DFMT_UNKNOWN));
+}
+HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE t, UINT n, const void *v, UINT stride) {
+  if (!v || !stride) return D3DERR_INVALIDCALL;
+  return counted(this, ff_draw(2, t, n, 0, 0, 0, 0, v, stride, NULL, D3DFMT_UNKNOWN));
+}
+HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT n, const void *i, D3DFORMAT f, const void *v, UINT stride) {
+  if (!v || !i || !stride) return D3DERR_INVALIDCALL;
+  return counted(this, ff_draw(3, t, n, 0, minIndex, numVerts, 0, v, stride, i, f));
+}

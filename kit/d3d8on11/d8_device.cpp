@@ -13,59 +13,68 @@ static void identity(D3DMATRIX *m) { memset(m, 0, sizeof *m); m->_11 = m->_22 = 
 HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   d3d = o; d3d->AddRef(); behavior = beh; pp = *p;
   wnd = pp.hDeviceWindow ? pp.hDeviceWindow : focus;
-  D3D_FEATURE_LEVEL fl = D3D_FEATURE_LEVEL_11_0, got;
-  HRESULT hr = D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT, &fl, 1,
-                                 D3D11_SDK_VERSION, &dev, &got, &ctx);
-  if (FAILED(hr)) { d8_log("D3D11CreateDevice (feature level 11_0): 0x%08lX", (unsigned long)hr); return D3DERR_NOTAVAILABLE; }
-  hr = make_swap();
+  // the executor: on this thread (direct), on its own thread (thread, the default), or in its own process (remote: the
+  // ARM64 build on an ARM64 machine). d3d8on11.ini next to the DLL, [d3d8on11] mode=; D8ON11_MODE overrides it
+  char mode[32] = "thread", ini[MAX_PATH]; HMODULE m = NULL;
+  GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&identity, &m);
+  GetModuleFileNameA(m, ini, sizeof ini); char *sl = strrchr(ini, '\\'); strcpy(sl ? sl + 1 : ini, "d3d8on11.ini");
+  GetPrivateProfileStringA("d3d8on11", "mode", "thread", mode, sizeof mode, ini);
+  char env[32]; DWORD ne = GetEnvironmentVariableA("D8ON11_MODE", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) strcpy(mode, env);
+  link = link_make(mode);
+  if (!link && strcmp(mode, "direct")) { d8_log("mode %s could not start: thread instead", mode); link = link_make("thread"); }
+  if (!link) link = link_make("direct");
+  d8_log("executor: %s", link->name());
+  HRESULT hr = make_swap(false);
+  if (FAILED(hr) && strcmp(link->name(), "thread") && strcmp(link->name(), "direct")) {
+    // the executor process could not make the device or the swap chain (d3d8on11_exec.log says why): in-process instead
+    d8_log("the %s executor could not start the device: thread instead", link->name());
+    delete link; link = link_make("thread"); if (!link) link = link_make("direct");
+    d8_log("executor: %s", link->name());
+    hr = make_swap(false);
+  }
   if (FAILED(hr)) return hr;
   vshaders.push_back(VShader{false, 0, {}, {}});            // index 0 unused: handles start at 3
   memset(&gamma, 0, sizeof gamma);
   for (int i = 0; i < 256; i++) gamma.red[i] = gamma.green[i] = gamma.blue[i] = (WORD)(i * 257);
   defaults();
-  ff_init();
   d8_log("device: %ux%u, back buffer format %lu, %s, depth %s (format %lu), behavior 0x%lX, window %p",
          pp.BackBufferWidth, pp.BackBufferHeight, (unsigned long)pp.BackBufferFormat, pp.Windowed ? "windowed" : "full screen asked: windowed",
          pp.EnableAutoDepthStencil ? "yes" : "no", (unsigned long)pp.AutoDepthStencilFormat, (unsigned long)beh, (void *)wnd);
   return D3D_OK;
 }
-HRESULT Dev::make_swap() {
-  if (!pp.Windowed) d8_once("fullscreen", "full screen was asked: milestone 1 renders windowed");
+HRESULT Dev::make_swap(bool resize) {
+  if (!pp.Windowed) d8_once("fullscreen", "full screen was asked: rendered windowed");
   RECT cr; GetClientRect(wnd, &cr);
   if (!pp.BackBufferWidth) pp.BackBufferWidth = cr.right > 0 ? cr.right : 1;     // D3D8: 0 in windowed mode is the client area
   if (!pp.BackBufferHeight) pp.BackBufferHeight = cr.bottom > 0 ? cr.bottom : 1;
   if (pp.BackBufferFormat == D3DFMT_UNKNOWN) pp.BackBufferFormat = D3DFMT_X8R8G8B8;
   if (!pp.BackBufferCount) pp.BackBufferCount = 1;
-  IDXGIDevice *xd = NULL; IDXGIAdapter *xa = NULL; IDXGIFactory *xf = NULL;
-  dev->QueryInterface(__uuidof(IDXGIDevice), (void **)&xd); xd->GetAdapter(&xa); xa->GetParent(__uuidof(IDXGIFactory), (void **)&xf);
-  DXGI_SWAP_CHAIN_DESC sd = {};
-  sd.BufferDesc.Width = pp.BackBufferWidth; sd.BufferDesc.Height = pp.BackBufferHeight; sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  sd.SampleDesc.Count = 1; sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; sd.BufferCount = 1; sd.OutputWindow = wnd;
-  sd.Windowed = TRUE; sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-  HRESULT hr = xf->CreateSwapChain(dev, &sd, &swap);
-  xf->MakeWindowAssociation(wnd, DXGI_MWA_NO_ALT_ENTER);
-  xf->Release(); xa->Release(); xd->Release();
-  if (FAILED(hr)) { d8_log("CreateSwapChain %ux%u: 0x%08lX", pp.BackBufferWidth, pp.BackBufferHeight, (unsigned long)hr); return D3DERR_NOTAVAILABLE; }
+  uint32_t ds_id = pp.EnableAutoDepthStencil ? new_id() : 0;
+  if (pp.EnableAutoDepthStencil && (!d8_fmt(pp.AutoDepthStencilFormat).depth)) { d8_notimpl("this automatic depth-stencil format"); ds_id = 0; }
+  XInit x = {(uint64_t)(uintptr_t)wnd, pp.BackBufferWidth, pp.BackBufferHeight, ds_id ? (uint32_t)pp.AutoDepthStencilFormat : 0u, ds_id};
+  int32_t hr = link->call(resize ? X_RESIZE : X_INIT, &x, sizeof x);
+  if (hr < 0) return D3DERR_NOTAVAILABLE;
   backbuf = new Surf(this, SK_BACKBUFFER, pp.BackBufferWidth, pp.BackBufferHeight, pp.BackBufferFormat, D3DPOOL_DEFAULT, D3DUSAGE_RENDERTARGET);
-  swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&backbuf->tex);
-  backbuf->get_rtv(); backbuf->lockable = (pp.Flags & D3DPRESENTFLAG_LOCKABLE_BACKBUFFER) != 0;
+  backbuf->id = X_BACKBUFFER; backbuf->lockable = (pp.Flags & D3DPRESENTFLAG_LOCKABLE_BACKBUFFER) != 0;
   curRT = backbuf; curRT->AddRef();
-  if (pp.EnableAutoDepthStencil) {
-    IDirect3DSurface8 *s = NULL;
-    if (SUCCEEDED(CreateDepthStencilSurface(pp.BackBufferWidth, pp.BackBufferHeight, pp.AutoDepthStencilFormat, D3DMULTISAMPLE_NONE, &s))) {
-      autods = (Surf *)s; curDS = autods; curDS->AddRef();
-    }
+  if (ds_id) {
+    autods = new Surf(this, SK_DS, pp.BackBufferWidth, pp.BackBufferHeight, pp.AutoDepthStencilFormat, D3DPOOL_DEFAULT, D3DUSAGE_DEPTHSTENCIL);
+    autods->id = ds_id; curDS = autods; curDS->AddRef();
   }
-  Cmd c; c.op = C_SET_TARGETS; c.targets.rt = curRT; c.targets.ds = curDS; push(c);
+  targets();
   return D3D_OK;
 }
+void Dev::targets() {
+  XTargets t; memset(&t, 0, sizeof t);
+  if (curRT) t.rt = curRT->xref();
+  t.ds = curDS ? curDS->id : 0;
+  link->put(X_TARGETS, &t, sizeof t);
+}
 void Dev::release_swap() {
-  flush();
-  ctx->OMSetRenderTargets(0, NULL, NULL); ctx->ClearState(); ctx->Flush();
   if (curRT) curRT->Release(); if (curDS) curDS->Release(); curRT = curDS = nullptr;
   if (autods) autods->Release(); autods = nullptr;
   if (backbuf) backbuf->Release(); backbuf = nullptr;
-  if (swap) swap->Release(); swap = nullptr;
 }
 // D3D8's default state (the DirectX 8 SDK reference, the D3DRENDERSTATETYPE and D3DTEXTURESTAGESTATETYPE pages).
 // test/test_d3d8on11.py reads every render state and stage state back from a fresh device here and under Wine's own
@@ -108,52 +117,6 @@ void Dev::defaults() {
   memset(&st.mat, 0, sizeof st.mat); st.light.clear(); st.lightOn.clear(); st.vs = 0; st.ps = 0; memset(st.clip, 0, sizeof st.clip);
 }
 
-// ---- the executor -------------------------------------------------------------------------------------------------------
-void Dev::flush() {
-  if (q.empty()) return;
-  std::vector<Cmd> run; run.swap(q);
-  for (const Cmd &c : run) exec(c);
-}
-static void argb(D3DCOLOR c, float *f) {
-  f[0] = ((c >> 16) & 255) / 255.0f; f[1] = ((c >> 8) & 255) / 255.0f; f[2] = (c & 255) / 255.0f; f[3] = (c >> 24) / 255.0f;
-}
-void Dev::exec(const Cmd &c) {
-  switch (c.op) {
-  case C_SET_TARGETS: {
-    ID3D11RenderTargetView *rv = c.targets.rt ? c.targets.rt->get_rtv() : NULL;
-    ctx->OMSetRenderTargets(1, &rv, c.targets.ds ? c.targets.ds->dsv : NULL);
-    break; }
-  case C_CLEAR: {
-    if ((c.clear.flags & D3DCLEAR_TARGET) && curRT && curRT->get_rtv()) { float f[4]; argb(c.clear.color, f); ctx->ClearRenderTargetView(curRT->get_rtv(), f); }
-    UINT df = ((c.clear.flags & D3DCLEAR_ZBUFFER) ? D3D11_CLEAR_DEPTH : 0) | ((c.clear.flags & D3DCLEAR_STENCIL) ? D3D11_CLEAR_STENCIL : 0);
-    if (df && curDS && curDS->dsv) ctx->ClearDepthStencilView(curDS->dsv, df, c.clear.z, (UINT8)c.clear.stencil);
-    break; }
-  case C_PRESENT: {
-    HRESULT hr = swap->Present(0, 0);
-    if (FAILED(hr)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)hr);
-    break; }
-  case C_UPLOAD_TEX: {
-    TexCore *t = c.uptex.t; UINT l = c.uptex.sub % t->levels, face = c.uptex.sub / t->levels;
-    const std::vector<uint8_t> &b = t->cpu[c.uptex.sub];
-    if (!b.empty() && t->gpu) ctx->UpdateSubresource(t->gpu, D3D11CalcSubresource(l, face, t->levels), NULL, b.data(), d8_pitch(t->fmt, t->lw(l)), 0);
-    break; }
-  case C_UPLOAD_BUF: {
-    D3D11_BOX bx = {c.upbuf.lo, 0, 0, c.upbuf.hi, 1, 1};
-    ctx->UpdateSubresource(c.upbuf.b->gpu, 0, &bx, c.upbuf.b->cpu.data() + c.upbuf.lo, 0, 0);
-    break; }
-  case C_COPY: {
-    Surf *s = c.copy.src, *d = c.copy.dst;
-    D3D11_TEXTURE2D_DESC sd, dd; s->tex->GetDesc(&sd); d->tex->GetDesc(&dd);
-    UINT ss = s->kind == SK_TEXLEVEL ? D3D11CalcSubresource(s->level, s->face, sd.MipLevels) : 0;
-    UINT ds = d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, dd.MipLevels) : 0;
-    D3D11_BOX bx = {(UINT)c.copy.r.left, (UINT)c.copy.r.top, 0, (UINT)c.copy.r.right, (UINT)c.copy.r.bottom, 1};
-    ctx->CopySubresourceRegion(d->tex, ds, c.copy.p.x, c.copy.p.y, 0, s->tex, ss, &bx);
-    break; }
-  case C_DRAW:                                   // phase 1 executes a draw when it is made (d8_ff.cpp)
-    break;
-  }
-}
-
 // ---- IUnknown and the simple queries ------------------------------------------------------------------------------------
 HRESULT Dev::QueryInterface(REFIID r, void **o) {
   if (IsEqualGUID(r, IID_IUnknown) || IsEqualGUID(r, IID_IDirect3DDevice8)) { *o = this; AddRef(); return S_OK; }
@@ -167,8 +130,7 @@ ULONG Dev::Release() {
   for (Block *b : blocks) delete b;
   st.vs = 0; defaults();
   release_swap();
-  ff_free();
-  if (ctx) ctx->Release(); if (dev) dev->Release();
+  delete link; link = nullptr;
   d3d->Release();
   delete this;
   return 0;
@@ -192,7 +154,7 @@ HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) {
   if (!p) return D3DERR_INVALIDCALL;
   release_swap();
   pp = *p; if (pp.hDeviceWindow) wnd = pp.hDeviceWindow;
-  HRESULT hr = make_swap();
+  HRESULT hr = make_swap(true);
   if (FAILED(hr)) return D3DERR_DEVICELOST;
   defaults();
   d8_log("Reset: %ux%u", pp.BackBufferWidth, pp.BackBufferHeight);
@@ -200,7 +162,7 @@ HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) {
 }
 HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
-  Cmd c; c.op = C_PRESENT; push(c); flush();
+  link->put(X_PRESENT, nullptr, 0);
   return D3D_OK;
 }
 HRESULT Dev::GetBackBuffer(UINT i, D3DBACKBUFFER_TYPE, IDirect3DSurface8 **o) {
@@ -212,12 +174,13 @@ HRESULT Dev::EndScene() { if (!inScene) return D3DERR_INVALIDCALL; inScene = fal
 HRESULT Dev::Clear(DWORD n, const D3DRECT *r, DWORD flags, D3DCOLOR color, float z, DWORD stencil) {
   // D3D8 clears the viewport (or rectangles in it); a D3D11 view clear covers the whole target, so only that case is done
   bool whole = st.vp.X == 0 && st.vp.Y == 0 && curRT && st.vp.Width >= curRT->w && st.vp.Height >= curRT->h;
+  (void)r;
   if (n || (r && n) || !whole) {
     d8_once("clearrect", "Clear of rectangles or of a viewport smaller than the target: not implemented (failed; first: %lu rects, viewport %lux%lu at %lu,%lu)",
             (unsigned long)n, (unsigned long)st.vp.Width, (unsigned long)st.vp.Height, (unsigned long)st.vp.X, (unsigned long)st.vp.Y);
     return D3DERR_INVALIDCALL;
   }
-  Cmd c; c.op = C_CLEAR; c.clear.flags = flags; c.clear.color = color; c.clear.z = z; c.clear.stencil = stencil; push(c);
+  XClear c = {flags, color, z, stencil}; link->put(X_CLEAR, &c, sizeof c);
   return D3D_OK;
 }
 
@@ -251,9 +214,7 @@ HRESULT Dev::CreateRenderTarget(UINT w, UINT h, D3DFORMAT f, D3DMULTISAMPLE_TYPE
   FmtInfo fi = d8_fmt(f);
   if (ms != D3DMULTISAMPLE_NONE || fi.dxgi == DXGI_FORMAT_UNKNOWN || fi.depth || fi.block) { d8_notimpl("CreateRenderTarget of this format or multisampling"); return D3DERR_INVALIDCALL; }
   Surf *s = new Surf(this, SK_RT, w, h, f, D3DPOOL_DEFAULT, D3DUSAGE_RENDERTARGET); s->lockable = lockable != 0;
-  D3D11_TEXTURE2D_DESC td = {}; td.Width = w; td.Height = h; td.MipLevels = 1; td.ArraySize = 1; td.Format = fi.dxgi;
-  td.SampleDesc.Count = 1; td.Usage = D3D11_USAGE_DEFAULT; td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-  if (FAILED(dev->CreateTexture2D(&td, NULL, &s->tex))) { delete s; return D3DERR_OUTOFVIDEOMEMORY; }
+  s->id = new_id(); XTex t = {s->id, XT_RENDERTARGET, w, h, 1, 1, (uint32_t)f, D3DUSAGE_RENDERTARGET}; link->put(X_TEX, &t, sizeof t);
   *o = s; return D3D_OK;
 }
 HRESULT Dev::CreateDepthStencilSurface(UINT w, UINT h, D3DFORMAT f, D3DMULTISAMPLE_TYPE ms, IDirect3DSurface8 **o) {
@@ -261,9 +222,7 @@ HRESULT Dev::CreateDepthStencilSurface(UINT w, UINT h, D3DFORMAT f, D3DMULTISAMP
   FmtInfo fi = d8_fmt(f);
   if (ms != D3DMULTISAMPLE_NONE || !fi.depth) { d8_notimpl("CreateDepthStencilSurface of this format or multisampling"); return D3DERR_INVALIDCALL; }
   Surf *s = new Surf(this, SK_DS, w, h, f, D3DPOOL_DEFAULT, D3DUSAGE_DEPTHSTENCIL);
-  D3D11_TEXTURE2D_DESC td = {}; td.Width = w; td.Height = h; td.MipLevels = 1; td.ArraySize = 1; td.Format = fi.dxgi;
-  td.SampleDesc.Count = 1; td.Usage = D3D11_USAGE_DEFAULT; td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-  if (FAILED(dev->CreateTexture2D(&td, NULL, &s->tex)) || FAILED(dev->CreateDepthStencilView(s->tex, NULL, &s->dsv))) { delete s; return D3DERR_OUTOFVIDEOMEMORY; }
+  s->id = new_id(); XTex t = {s->id, XT_DEPTH, w, h, 1, 1, (uint32_t)f, D3DUSAGE_DEPTHSTENCIL}; link->put(X_TEX, &t, sizeof t);
   *o = s; return D3D_OK;
 }
 HRESULT Dev::CreateImageSurface(UINT w, UINT h, D3DFORMAT f, IDirect3DSurface8 **o) {
@@ -280,16 +239,20 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
   for (UINT i = 0; i < cnt; i++) {
     RECT r = rects && n ? rects[i] : whole; POINT p = pts ? pts[i] : POINT{r.left, r.top};
     if (!rects || !n) p = zero;
-    if (s->tex && d->tex) {                                   // GPU to GPU
-      Cmd c; c.op = C_COPY; c.copy.src = s; c.copy.dst = d; c.copy.r = r; c.copy.p = p; push(c); flush();
-    } else if (s->tex && d->kind == SK_IMAGE) {               // GPU to system memory: a read back
-      D3DLOCKED_RECT lr;
-      if (FAILED(s->LockRect(&lr, NULL, D3DLOCK_READONLY))) return D3DERR_INVALIDCALL;
-      UINT bpp = d8_fmt(s->fmt).bpp / 8;
-      for (LONG y = r.top; y < r.bottom; y++)
-        memcpy(&d->cpu[(size_t)(p.y + y - r.top) * d8_pitch(d->fmt, d->w) + (size_t)p.x * bpp], (uint8_t *)lr.pBits + (size_t)y * lr.Pitch + (size_t)r.left * bpp, (size_t)(r.right - r.left) * bpp);
-      s->UnlockRect();
-    } else if (s->kind == SK_IMAGE && (d->tex || d->kind == SK_IMAGE)) {   // system memory to the GPU, or to system memory
+    bool sg = s->kind != SK_IMAGE && s->id, dg = d->kind != SK_IMAGE && d->id;
+    if (sg && dg) {                                           // GPU to GPU
+      XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
+    } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
+      std::vector<uint8_t> out; XRef ref = s->xref();
+      if (link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;
+      FmtInfo fi = d8_fmt(s->fmt);
+      UINT bw = fi.block ? 4 : 1, sw = s->kind == SK_TEXLEVEL ? s->w : s->w;
+      UINT sp = d8_pitch(s->fmt, sw), dp = d8_pitch(d->fmt, d->w), rowb = d8_pitch(s->fmt, (UINT)(r.right - r.left)), rows = d8_rows(s->fmt, (UINT)(r.bottom - r.top));
+      for (UINT y = 0; y < rows; y++) {
+        size_t so = (size_t)(r.top / bw + y) * sp + d8_pitch(s->fmt, (UINT)r.left), dof = (size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x);
+        if (so + rowb <= out.size() && dof + rowb <= d->cpu.size()) memcpy(&d->cpu[dof], &out[so], rowb);
+      }
+    } else if (s->kind == SK_IMAGE && (dg || d->kind == SK_IMAGE)) {   // system memory to the GPU, or to system memory
       FmtInfo fi = d8_fmt(s->fmt);
       UINT bw = fi.block ? 4 : 1;                               // block formats copy whole 4x4 blocks
       if ((r.left | r.top | p.x | p.y) % bw) { d8_once("copyalign", "CopyRects of a block format not on block edges (refused)"); return D3DERR_INVALIDCALL; }
@@ -299,11 +262,14 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
         UINT dp = d8_pitch(d->fmt, d->w);
         for (UINT y = 0; y < rows; y++) memcpy(&d->cpu[(size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x)], src + (size_t)y * sp, rowb);
       } else {
-        flush();
-        D3D11_TEXTURE2D_DESC dd; d->tex->GetDesc(&dd);
-        UINT sub = d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, dd.MipLevels) : 0;
-        D3D11_BOX bx = {(UINT)p.x, (UINT)p.y, 0, (UINT)(p.x + r.right - r.left), (UINT)(p.y + r.bottom - r.top), 1};
-        ctx->UpdateSubresource(d->tex, sub, &bx, src, sp, 0);
+        UINT levels = 1;
+        if (d->kind == SK_TEXLEVEL && d->container)
+          levels = ((IDirect3DBaseTexture8 *)d->container)->GetType() == D3DRTYPE_CUBETEXTURE ? ((CubeTex *)(IDirect3DCubeTexture8 *)d->container)->c.levels : ((Tex *)(IDirect3DTexture8 *)d->container)->c.levels;
+        std::vector<uint8_t> rowsdata((size_t)rowb * rows);
+        for (UINT y = 0; y < rows; y++) memcpy(&rowsdata[(size_t)y * rowb], src + (size_t)y * sp, rowb);
+        XUpTex u = {d->id, d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, levels) : 0u, (uint32_t)p.x, (uint32_t)p.y,
+                    (uint32_t)(r.right - r.left), (uint32_t)(r.bottom - r.top), rowb, rows};
+        link->put(X_UPLOAD_TEX, &u, sizeof u, rowsdata.data(), (uint32_t)rowsdata.size());
       }
     } else {
       d8_notimpl("CopyRects between these kinds of surface");
@@ -319,7 +285,7 @@ HRESULT Dev::SetRenderTarget(IDirect3DSurface8 *rt, IDirect3DSurface8 *ds) {
   if (r) { r->AddRef(); if (curRT) curRT->Release(); curRT = r; }       // D3D8: a NULL target keeps the current one
   if (z) z->AddRef(); if (curDS) curDS->Release(); curDS = z;
   st.vp = {0, 0, curRT->w, curRT->h, 0.0f, 1.0f};                       // D3D8: setting a target resets the viewport
-  Cmd c; c.op = C_SET_TARGETS; c.targets.rt = curRT; c.targets.ds = curDS; push(c);
+  targets();
   return D3D_OK;
 }
 HRESULT Dev::GetRenderTarget(IDirect3DSurface8 **o) { if (!o || !curRT) return D3DERR_INVALIDCALL; *o = curRT; curRT->AddRef(); return D3D_OK; }

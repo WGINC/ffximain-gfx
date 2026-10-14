@@ -6,7 +6,7 @@ Regenerates every generated tool file and rebuilds the kit, then compares:
   * sdk/include/xikit_game.hpp,       gen_sdk.py from the tree and the kit's manifest (run by kit/xikit/build.sh)
     sdk/fork_flags.txt
   * kit/xikit/dist/*, kit/d3dprof/d3dprof.dll, kit/speedfix/dist/speedfix.dll, kit/d3d11probe/dist/*.exe,
-                                      kit/d3d8on11/dist/d3d8.dll
+                                      kit/d3d8on11/dist/d3d8.dll, d8x.exe, d8x_arm64.exe
                                       kit/fcap/dist/fcap_replay.exe
                                       the builds (reproducible: --no-insert-timestamp) against kit/BUILD.lock.json,
                                       the hashes of the last build committed as current
@@ -38,7 +38,7 @@ def built():
     h['kit/speedfix/dist/speedfix.dll'] = sha(os.path.join(R, 'kit', 'speedfix', 'dist', 'speedfix.dll'))
     p = os.path.join(R, 'kit', 'd3d11probe', 'dist')
     for f in ('probe11_x86.exe', 'probe11_arm64.exe', 'probe8_x86.exe'): h['kit/d3d11probe/dist/' + f] = sha(os.path.join(p, f))
-    h['kit/d3d8on11/dist/d3d8.dll'] = sha(os.path.join(R, 'kit', 'd3d8on11', 'dist', 'd3d8.dll'))
+    for f in ('d3d8.dll', 'd8x.exe', 'd8x_arm64.exe'): h['kit/d3d8on11/dist/' + f] = sha(os.path.join(R, 'kit', 'd3d8on11', 'dist', f))
     h['kit/fcap/dist/fcap_replay.exe'] = sha(os.path.join(R, 'kit', 'fcap', 'dist', 'fcap_replay.exe'))
     return h
 

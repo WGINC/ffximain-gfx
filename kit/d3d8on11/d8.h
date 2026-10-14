@@ -2,37 +2,16 @@
 //
 // Layout of the work:
 //   - the D3D8 side (entry points): keeps the state the game can read back (Get*), owns the D3D8 objects, and records
-//     what the GPU must do as commands (Cmd);
+//     what the GPU must do as records of the command stream (d8_proto.h, through d8_link.h);
 //   - the executor (Exec): plays commands into D3D11. Phase 1 runs it on the game's thread at each sync point (a draw,
 //     Clear, Present, a copy, a lock of GPU data); phase 2 moves the same function to another thread or process.
 // Anything not implemented logs once and fails (d8_gen.h), so what the game needs is found, not guessed.
 #pragma once
-#define WIN32_LEAN_AND_MEAN
 #define COBJMACROS
-#include <windows.h>
-#include <d3d8.h>
-#define D3DCOLORVALUE_DEFINED            // d3d8types.h has defined it; dxgitype.h would again
-#include <d3d11.h>
-#include <dxgi.h>
-#include <stdint.h>
+#include "d8_common.h"                     // the log, the formats (shared with the executor)
+#include "d8_link.h"                       // the command stream to the executor (d8_proto.h)
 #include <string.h>
 #include <vector>
-
-// ---- log (d3d8on11.log next to the module; each message once unless counted) ------------------------------------
-void d8_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-void d8_notimpl(const char *what);                  // once per name
-void d8_once(const char *key, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
-
-// ---- formats ------------------------------------------------------------------------------------------------------
-struct FmtInfo {
-  DXGI_FORMAT dxgi;   // DXGI_FORMAT_UNKNOWN: not supported here
-  int bpp;            // bits per pixel (0 for block formats)
-  int block;          // bytes per 4x4 block (BC formats), else 0
-  bool depth;
-};
-FmtInfo d8_fmt(D3DFORMAT f);
-UINT d8_pitch(D3DFORMAT f, UINT w);                 // bytes per row (per row of blocks for BC)
-UINT d8_rows(D3DFORMAT f, UINT h);                  // rows (rows of blocks for BC)
 
 #include "d8_gen.h"
 
@@ -45,8 +24,7 @@ struct Surf final : public IDirect3DSurface8_Stub {
   LONG ref = 1;
   Dev *dev; SurfKind kind; IUnknown *container = nullptr;   // the texture of a texture level (not referenced)
   UINT w, h, level = 0, face = 0; D3DFORMAT fmt; D3DPOOL pool; DWORD usage; bool lockable = false;
-  ID3D11Texture2D *tex = nullptr;                // its own GPU image (RT, DS, back buffer); levels use the container's
-  ID3D11RenderTargetView *rtv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
+  uint32_t id = 0;                               // the executor's object: its own (RT, DS, back buffer) or the container's
   std::vector<uint8_t> cpu;                      // image surfaces, and what a lock reads back or writes
   bool locked = false;
   Surf(Dev *d, SurfKind k, UINT w_, UINT h_, D3DFORMAT f, D3DPOOL p, DWORD u);
@@ -59,13 +37,13 @@ struct Surf final : public IDirect3DSurface8_Stub {
   HRESULT STDMETHODCALLTYPE GetDesc(D3DSURFACE_DESC *);
   HRESULT STDMETHODCALLTYPE LockRect(D3DLOCKED_RECT *, const RECT *, DWORD);
   HRESULT STDMETHODCALLTYPE UnlockRect();
-  ID3D11RenderTargetView *get_rtv();             // a texture level's view is made on first use
+  XRef xref() const { XRef r = {id, level, face}; return r; }
 };
 
 // ---- a 2D texture (cube textures are Tex with six faces) -------------------------------------------------------------
 struct TexCore {
   Dev *dev; UINT w, h, levels, faces; D3DFORMAT fmt; D3DPOOL pool; DWORD usage;
-  ID3D11Texture2D *gpu = nullptr; ID3D11ShaderResourceView *srv = nullptr;
+  uint32_t id = 0;                               // the executor's texture (0: kept on the CPU only, D3DPOOL_SYSTEMMEM)
   std::vector<std::vector<uint8_t>> cpu;         // per face*levels+level: what the game writes through LockRect
   std::vector<Surf *> surfs;                     // per face*levels+level, made on first GetSurfaceLevel
   UINT lw(UINT l) const { UINT v = w >> l; return v ? v : 1; }
@@ -118,7 +96,7 @@ struct CubeTex final : public IDirect3DCubeTexture8_Stub {
 // ---- vertex and index buffers: a CPU copy the game locks, uploaded to the GPU buffer at Unlock ------------------------
 struct BufCore {
   Dev *dev; UINT len; DWORD usage, fvf; D3DFORMAT fmt; D3DPOOL pool; bool index;
-  std::vector<uint8_t> cpu; ID3D11Buffer *gpu = nullptr;
+  std::vector<uint8_t> cpu; uint32_t id = 0;     // the executor's buffer (0: system memory only)
   UINT lo = 0, hi = 0; int locks = 0;            // the range written since the last upload
   HRESULT init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPOOL p, bool idx);
   void destroy();
@@ -173,43 +151,26 @@ struct Block {
   State s;
 };
 
-// ---- the commands the executor plays into D3D11 -------------------------------------------------------------------------
-enum CmdOp { C_CLEAR, C_PRESENT, C_UPLOAD_TEX, C_UPLOAD_BUF, C_SET_TARGETS, C_DRAW, C_COPY };
-struct Cmd {
-  CmdOp op;
-  union {
-    struct { DWORD flags; D3DCOLOR color; float z; DWORD stencil; } clear;
-    struct { TexCore *t; UINT sub; } uptex;
-    struct { BufCore *b; UINT lo, hi; } upbuf;
-    struct { Surf *rt, *ds; } targets;
-    struct { Surf *src, *dst; RECT r; POINT p; } copy;
-    struct { int kind; } draw;
-  };
-};
-
 struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;
-  ID3D11Device *dev = nullptr; ID3D11DeviceContext *ctx = nullptr; IDXGISwapChain *swap = nullptr;
+  Link *link = nullptr;                          // the command stream to the executor (direct, thread or remote)
+  uint32_t next_id = X_BACKBUFFER + 1;
+  uint32_t new_id() { return next_id++; }
   Surf *backbuf = nullptr, *autods = nullptr, *curRT = nullptr, *curDS = nullptr;
   State st;
   std::vector<Block *> blocks; Block *rec = nullptr;
   struct VShader { bool used; DWORD fvf; std::vector<DWORD> decl, code; };
   std::vector<VShader> vshaders;                // handle = (index << 1) | 1, as D3D8 handles have bit 0 set
-  std::vector<Cmd> q;                            // recorded, not yet executed
   D3DGAMMARAMP gamma; bool inScene = false; UINT64 draws = 0, drawsNotExecuted = 0;
-  struct FF *ff = nullptr;                       // the fixed-function pipeline as generated shaders (d8_ff.cpp)
-  void ff_init();
-  void ff_free();
   HRESULT ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVertex, UINT minIndex, UINT numVerts, UINT startIndex,
                   const void *upv, UINT upStride, const void *upi, D3DFORMAT upiFmt);
   HRESULT init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p);
-  HRESULT make_swap();
+  HRESULT make_swap(bool resize);
   void release_swap();
   void defaults();
-  void flush();                                  // the executor: play q into D3D11
-  void exec(const Cmd &c);
-  void push(const Cmd &c) { q.push_back(c); }
+  void targets();                                // the current render target and depth surface to the executor
+  void destroy_obj(uint32_t id) { if (id && link) link->put(X_DESTROY, &id, 4); }
 
   HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void **);
   ULONG STDMETHODCALLTYPE AddRef();

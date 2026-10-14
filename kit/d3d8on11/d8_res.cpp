@@ -1,9 +1,9 @@
 // d8_res.cpp -- d3d8on11: textures, surfaces, vertex and index buffers.
 //
-// Lockable data lives in a CPU copy the game writes through Lock; Unlock records an upload of what changed (Cmd), so
-// the executor is the only code that touches the D3D11 context. GPU images that the game reads back (a lockable
-// render target, the back buffer) are copied out through a staging texture at LockRect: that read waits for the GPU,
-// as the game's occlusion readback does under any D3D8 implementation.
+// Lockable data lives in a CPU copy the game writes through Lock; Unlock sends what changed to the executor
+// (d8_exec.cpp, through the link), which alone uses Direct3D 11. GPU images that the game reads back (a lockable
+// render target, the back buffer) are asked for at LockRect (X_READBACK): that read waits for the executor and the
+// GPU, as the game's occlusion readback does under any D3D8 implementation.
 #include "d8.h"
 #include <string>
 
@@ -25,21 +25,16 @@ HRESULT TexCore::init(Dev *d, UINT w_, UINT h_, UINT lv, UINT faces_, DWORD u, D
   if (pool == D3DPOOL_SYSTEMMEM || pool == D3DPOOL_SCRATCH) {
     d8_once("syspool", "a texture in pool %d: kept on the CPU only (no GPU copy)", (int)pool);
   } else {
-    D3D11_TEXTURE2D_DESC td = {}; td.Width = w; td.Height = h; td.MipLevels = levels; td.ArraySize = faces;
-    td.Format = fi.dxgi; td.SampleDesc.Count = 1; td.Usage = D3D11_USAGE_DEFAULT;
-    td.BindFlags = D3D11_BIND_SHADER_RESOURCE | ((usage & D3DUSAGE_RENDERTARGET) ? D3D11_BIND_RENDER_TARGET : 0);
-    td.MiscFlags = faces == 6 ? D3D11_RESOURCE_MISC_TEXTURECUBE : 0;
-    HRESULT hr = d->dev->CreateTexture2D(&td, NULL, &gpu);
-    if (FAILED(hr)) { d8_log("CreateTexture2D %ux%u fmt %lu levels %u: 0x%08lX", w, h, (unsigned long)f, levels, (unsigned long)hr); return D3DERR_OUTOFVIDEOMEMORY; }
-    d->dev->CreateShaderResourceView(gpu, NULL, &srv);
+    id = d->new_id();
+    XTex t = {id, XT_TEXTURE, w, h, levels, faces, (uint32_t)f, usage};
+    d->link->put(X_TEX, &t, sizeof t);
   }
   cpu.resize(faces * levels); surfs.assign(faces * levels, nullptr);
   return D3D_OK;
 }
 void TexCore::destroy() {
   for (Surf *s : surfs) if (s) { s->container = nullptr; s->Release(); }
-  if (srv) srv->Release(); if (gpu) gpu->Release();
-  srv = nullptr; gpu = nullptr;
+  dev->destroy_obj(id); id = 0;
 }
 HRESULT TexCore::lock(UINT face, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWORD) {
   if (l >= levels || face >= faces || !lr) return D3DERR_INVALIDCALL;
@@ -57,14 +52,20 @@ HRESULT TexCore::lock(UINT face, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWOR
 }
 HRESULT TexCore::unlock(UINT face, UINT l) {
   if (l >= levels || face >= faces) return D3DERR_INVALIDCALL;
-  if (gpu) { Cmd c; c.op = C_UPLOAD_TEX; c.uptex.t = this; c.uptex.sub = face * levels + l; dev->push(c); }
+  if (id) {                                                  // the whole level, as the CPU copy holds it
+    std::vector<uint8_t> &b = cpu[face * levels + l];
+    UINT pitch = d8_pitch(fmt, lw(l)), rows = d8_rows(fmt, lh(l));
+    if (b.size() < (size_t)pitch * rows) b.resize((size_t)pitch * rows, 0);
+    XUpTex u = {id, D3D11CalcSubresource(l, face, levels), 0, 0, 0, 0, pitch, rows};
+    dev->link->put(X_UPLOAD_TEX, &u, sizeof u, b.data(), pitch * rows);
+  }
   return D3D_OK;
 }
 Surf *TexCore::surface(IUnknown *owner, UINT face, UINT l) {
   UINT sub = face * levels + l;
   if (!surfs[sub]) {
     Surf *s = new Surf(dev, SK_TEXLEVEL, lw(l), lh(l), fmt, pool, usage);
-    s->container = owner; s->level = l; s->face = face; s->tex = gpu; if (gpu) gpu->AddRef();
+    s->container = owner; s->level = l; s->face = face; s->id = id;
     surfs[sub] = s;
   }
   surfs[sub]->AddRef();
@@ -78,7 +79,7 @@ static bool is_iid(REFIID r, const GUID &own) {
 }
 HRESULT Tex::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DTexture8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG Tex::AddRef() { return InterlockedIncrement(&ref); }
-ULONG Tex::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->flush(); c.destroy(); delete this; } return n; }
+ULONG Tex::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
 HRESULT Tex::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT Tex::GetLevelDesc(UINT l, D3DSURFACE_DESC *d) {
   if (l >= c.levels || !d) return D3DERR_INVALIDCALL;
@@ -92,7 +93,7 @@ HRESULT Tex::UnlockRect(UINT l) { return c.unlock(0, l); }
 
 HRESULT CubeTex::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DCubeTexture8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG CubeTex::AddRef() { return InterlockedIncrement(&ref); }
-ULONG CubeTex::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->flush(); c.destroy(); delete this; } return n; }
+ULONG CubeTex::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
 HRESULT CubeTex::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT CubeTex::GetLevelDesc(UINT l, D3DSURFACE_DESC *d) {
   if (l >= c.levels || !d) return D3DERR_INVALIDCALL;
@@ -110,7 +111,7 @@ HRESULT CubeTex::UnlockRect(D3DCUBEMAP_FACES f, UINT l) { return c.unlock((UINT)
 // ---- surfaces -----------------------------------------------------------------------------------------------------------
 Surf::Surf(Dev *d, SurfKind k, UINT w_, UINT h_, D3DFORMAT f, D3DPOOL p, DWORD u)
     : dev(d), kind(k), w(w_), h(h_), fmt(f), pool(p), usage(u) {}
-Surf::~Surf() { if (rtv) rtv->Release(); if (dsv) dsv->Release(); if (tex) tex->Release(); }
+Surf::~Surf() { if (kind == SK_RT || kind == SK_DS) dev->destroy_obj(id); }   // (the back buffer is the swap chain's)
 HRESULT Surf::QueryInterface(REFIID r, void **o) {
   if (IsEqualGUID(r, IID_IUnknown) || IsEqualGUID(r, IID_IDirect3DSurface8)) { *o = this; AddRef(); return S_OK; }
   *o = NULL; return E_NOINTERFACE;
@@ -135,40 +136,15 @@ HRESULT Surf::GetDesc(D3DSURFACE_DESC *d) {
   d->Width = w; d->Height = h; d->Size = d8_pitch(fmt, w) * d8_rows(fmt, h);
   return D3D_OK;
 }
-ID3D11RenderTargetView *Surf::get_rtv() {
-  if (rtv || !tex) return rtv;
-  D3D11_RENDER_TARGET_VIEW_DESC rd = {}; rd.Format = d8_fmt(fmt).dxgi;
-  if (kind == SK_TEXLEVEL && face == 0 && !(container && ((IDirect3DBaseTexture8 *)container)->GetType() == D3DRTYPE_CUBETEXTURE)) {
-    rd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D; rd.Texture2D.MipSlice = level;
-  } else if (kind == SK_TEXLEVEL) {
-    rd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY; rd.Texture2DArray.MipSlice = level;
-    rd.Texture2DArray.FirstArraySlice = face; rd.Texture2DArray.ArraySize = 1;
-  } else { rd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D; }
-  if (kind == SK_BACKBUFFER) rd.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  dev->dev->CreateRenderTargetView(tex, &rd, &rtv);
-  return rtv;
-}
-// The GPU image read back into the CPU copy: flushes what is recorded, copies through a staging texture, waits.
+// the GPU image read back into the CPU copy: the executor runs what came before, copies through a staging texture, answers
 static bool read_back(Surf *s) {
-  if (!s->tex) return false;
-  s->dev->flush();
-  D3D11_TEXTURE2D_DESC td; s->tex->GetDesc(&td);
-  UINT sub = s->kind == SK_TEXLEVEL ? D3D11CalcSubresource(s->level, s->face, td.MipLevels) : 0;
-  D3D11_TEXTURE2D_DESC sd = {}; sd.Width = s->w; sd.Height = s->h; sd.MipLevels = 1; sd.ArraySize = 1; sd.Format = td.Format;
-  sd.SampleDesc.Count = 1; sd.Usage = D3D11_USAGE_STAGING; sd.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-  ID3D11Texture2D *st = NULL;
-  if (FAILED(s->dev->dev->CreateTexture2D(&sd, NULL, &st))) return false;
-  s->dev->ctx->CopySubresourceRegion(st, 0, 0, 0, 0, s->tex, sub, NULL);
-  D3D11_MAPPED_SUBRESOURCE m;
-  bool ok = SUCCEEDED(s->dev->ctx->Map(st, 0, D3D11_MAP_READ, 0, &m));
-  if (ok) {
-    UINT pitch = d8_pitch(s->fmt, s->w), rows = d8_rows(s->fmt, s->h);
-    s->cpu.resize((size_t)pitch * rows);
-    for (UINT y = 0; y < rows; y++) memcpy(&s->cpu[(size_t)y * pitch], (uint8_t *)m.pData + (size_t)y * m.RowPitch, pitch);
-    s->dev->ctx->Unmap(st, 0);
-  }
-  st->Release();
-  return ok;
+  if (!s->id) return false;
+  std::vector<uint8_t> out; XRef r = s->xref();
+  if (s->dev->link->call(X_READBACK, &r, sizeof r, &out) < 0) return false;
+  UINT pitch = d8_pitch(s->fmt, s->w), rows = d8_rows(s->fmt, s->h);
+  s->cpu.assign((size_t)pitch * rows, 0);
+  memcpy(s->cpu.data(), out.data(), out.size() < s->cpu.size() ? out.size() : s->cpu.size());
+  return true;
 }
 HRESULT Surf::LockRect(D3DLOCKED_RECT *lr, const RECT *r, DWORD flags) {
   if (!lr || locked) return D3DERR_INVALIDCALL;
@@ -207,14 +183,10 @@ HRESULT BufCore::init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPO
   dev = d; len = len_; usage = u; fvf = fvf_; fmt = f; pool = p; index = idx;
   if (!len) return D3DERR_INVALIDCALL;
   cpu.assign(len, 0);
-  if (pool != D3DPOOL_SYSTEMMEM) {
-    D3D11_BUFFER_DESC bd = {}; bd.ByteWidth = (len + 15) & ~15u; bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.BindFlags = idx ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER;
-    if (FAILED(d->dev->CreateBuffer(&bd, NULL, &gpu))) return D3DERR_OUTOFVIDEOMEMORY;
-  }
+  if (pool != D3DPOOL_SYSTEMMEM) { id = d->new_id(); XBuf b = {id, len, idx ? 1u : 0u}; d->link->put(X_BUF, &b, sizeof b); }
   return D3D_OK;
 }
-void BufCore::destroy() { if (gpu) gpu->Release(); gpu = nullptr; }
+void BufCore::destroy() { dev->destroy_obj(id); id = 0; }
 HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD) {
   if (!p || off > len) return D3DERR_INVALIDCALL;
   if (!size || off + size > len) size = len - off;               // D3D8: size 0 locks the whole buffer
@@ -225,12 +197,12 @@ HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD) {
 HRESULT BufCore::unlock() {
   if (!locks) return D3DERR_INVALIDCALL;
   if (--locks) return D3D_OK;
-  if (gpu && hi > lo) { Cmd c; c.op = C_UPLOAD_BUF; c.upbuf.b = this; c.upbuf.lo = lo; c.upbuf.hi = hi; dev->push(c); }
+  if (id && hi > lo) { XUpBuf u = {id, lo, hi - lo}; dev->link->put(X_UPLOAD_BUF, &u, sizeof u, cpu.data() + lo, hi - lo); }
   return D3D_OK;
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG VB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->flush(); c.destroy(); delete this; } return n; }
+ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
 HRESULT VB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;
@@ -239,7 +211,7 @@ HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
 }
 HRESULT IB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DIndexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG IB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->flush(); c.destroy(); delete this; } return n; }
+ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
 HRESULT IB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT IB::GetDesc(D3DINDEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;

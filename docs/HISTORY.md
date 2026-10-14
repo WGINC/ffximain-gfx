@@ -1652,3 +1652,28 @@ Each checked against the owner's own run files.
 - **What it is for:** a real plaza frame from the owner's game, replayed through dgVoodoo and through d3d8on11 on the
   owner's machine and here, compared with the picture the game drew. That is phase 1's check (D3D11.md). No such
   capture exists yet.
+
+## 14 Oct: the port's phase 2 and ARM mode (tasks 35, 36)
+
+kit/d3d8on11 is split in two halves joined by a command stream, so the D3D11 work can run on the game's thread, on a
+thread of its own (design A2), or in a process of its own built natively for ARM64 (design B). The owner asked for
+"an ARM mode, or do what you think is right": both designs are in, chosen at start.
+- The stream (`d8_proto.h`): fixed-width records with ids instead of pointers, the same layout in x86 and ARM64
+  builds. A draw is one packet: the shader keys, the constants, the D3D11 state descriptions, the bound ids, and
+  for ...UP draws and fans, the vertex and index data. Four records are answered; the game waits only for those,
+  for room, and when it is two Presents ahead.
+- The executor (`d8_exec.cpp`): the device, swap chain, resources by id, and the HLSL generator, moved unchanged.
+- The transports (`d8_link.cpp`): `direct`, `thread` (default) and `remote` (d8x.exe or d8x_arm64.exe, started
+  next to the DLL; on failure to start, the device falls back to `thread`; if it ends mid-game, the game is ended
+  with a log line).
+- Tested here, under Wine:
+  - test_d3d8on11.py in all three modes: basic passes in each; the 20 scenes match Wine's d3d8 as before; `thread`
+    and `remote` (x86 executor) draw the same pixels as `direct`;
+  - test_fcap.py: the replay through ours matches its capture (worst channel difference 1);
+  - the fallback with no executor beside the DLL.
+- Not established:
+  - d8x_arm64.exe runs: it is built (zig 0.16.0, imports only d3d11, kernel32 and the UCRT) but this container
+    cannot run ARM64 code;
+  - whether any mode is faster than `direct`, or than dgVoodoo, in the game: nothing here measures speed;
+  - the executor process ending mid-game (the code path exists, untested).
+

@@ -5,23 +5,48 @@ Direct3D 8 the game uses (`data/d3d8_scope.json`) on Direct3D 11.
 
 ## How it is built
 
-- `d8_main.cpp`: the module (`Direct3DCreate8`), the log (`d3d8on11.log` next to the DLL), formats, caps, IDirect3D8.
-- `d8_device.cpp`: IDirect3DDevice8: the state the game sets and reads back, state blocks, resources, frames.
-- `d8_res.cpp`: textures, cube textures, surfaces, vertex and index buffers.
-- `d8_ff.cpp`: draws, through Direct3D 8's fixed-function pipeline as generated shaders (milestone 2).
-- `gen_stubs.py` → `d8_gen.h` (generated at build): every method of every interface, logging "not implemented" once and
-  failing. The device's classes override what they implement. A method the game calls that is not implemented is
-  found in the log, not guessed. The vtable order is the D3D8 header's: a method missing from the generator leaves a
-  class abstract and the build fails.
+Two halves joined by a command stream (`d8_proto.h`): the D3D8 side, which the game calls, and the executor, the only
+code that uses Direct3D 11.
 
-**Recording and execution are separate from the start.** The entry points keep the state and record what the GPU
-must do (`Cmd`). One function, `Dev::flush` → `Dev::exec`, plays the commands into D3D11. Today it runs on the game's
-thread at each sync point: a draw, Clear, Present, a copy, a read-back, a resource release. Phase 2 moves that
-function to a second thread (A2) or another process (B) without changing the entry points.
+- D3D8 side, in `d3d8.dll`:
+  - `d8_main.cpp`: the module (`Direct3DCreate8`), caps, IDirect3D8.
+  - `d8_device.cpp`: IDirect3DDevice8: the state the game sets and reads back, state blocks, resources, frames.
+  - `d8_res.cpp`: textures, cube textures, surfaces, vertex and index buffers, each with a CPU copy the game locks.
+  - `d8_ff.cpp`: a draw, decided: the fixed-function state becomes the shader keys, the constants and the D3D11 state
+    descriptions, in one draw packet (`XDraw`) with the ids of the buffers and textures it reads.
+  - `gen_stubs.py` → `d8_gen.h` (generated at build): every method of every interface, logging "not implemented"
+    once and failing. The device's classes override what they implement. A method the game calls that is not
+    implemented is found in the log, not guessed. The vtable order is the D3D8 header's: a method missing from the
+    generator leaves a class abstract and the build fails.
+- The stream, `d8_proto.h`: fixed-width records with no pointers, laid out the same in an x86 and an ARM64 build
+  (pinned by static_asserts). Objects are named by ids. Four records are answered (X_INIT, X_RESIZE, X_READBACK,
+  X_FINISH); the D3D8 side waits only for those. Everything else runs later, in order.
+- The executor, `d8_exec.cpp`: runs the records in order on Direct3D 11. It holds the device, the swap chain on the
+  game's window, the resources by id, and the shader generator: each key becomes HLSL once, is compiled with
+  `D3DCompile` from `d3dcompiler_47.dll` (loaded at run time), and is cached; state objects are cached by
+  description.
+- The transport, `d8_link.cpp`, one of three modes:
+  - `direct`: each record runs as it is written, on the game's thread (phase 1);
+  - `thread` (the default): a 32 MB ring in the game's process, read by an executor thread (phase 2, design A2).
+    The game waits only for answered records, for room in the ring, and when it is two Presents ahead of the
+    executor;
+  - `remote`: the same ring in a shared mapping, read by an executor process started next to the DLL (design B, "ARM
+    mode"): `d8x_arm64.exe`, built natively for ARM64, when Windows reports an ARM64 machine (IsWow64Process2) and
+    it is there, else `d8x.exe` (x86). It presents into the game's window. Its log is `d3d8on11_exec.log`. If it
+    cannot be started, or cannot make the device and swap chain, the device falls back to `thread` and logs why. If
+    it ends while the game runs, the game is ended with a log line: the game's resources live in it.
+  - Chosen by `d3d8on11.ini` next to the DLL (`[d3d8on11]` `mode=direct|thread|remote`), or the `D8ON11_MODE`
+    environment variable, which wins. The log's second line names the mode in use.
+- `build.sh` builds `dist/d3d8.dll` and `dist/d8x.exe` with MinGW-w64, and `dist/d8x_arm64.exe` with zig's clang
+  (PyPI `ziglang` 0.16.0, as kit/d3d11probe does). All three are reproducible and locked in kit/BUILD.lock.json.
 
-**Locked data.** Textures and buffers keep a CPU copy that the game writes through Lock. Unlock records an upload of
-what changed. A lockable render target or the back buffer read back at LockRect waits for the GPU, as the game's
-occlusion readback does on any D3D8.
+**Locked data.** Textures and buffers keep a CPU copy that the game writes through Lock. Unlock sends what changed
+(a buffer's range, a texture level). A lockable render target or the back buffer read back at LockRect waits for the
+executor to reach it, as the game's occlusion readback does on any D3D8.
+
+**Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
+area, which bounds one read-back). A record larger than half the ring ends the game with a log line; none of the
+traces shows a draw near that size, but that is not checked against the game.
 
 ## Milestone 1: everything but drawing
 
@@ -43,10 +68,10 @@ work (PSKey):
   transforms, the fog coordinate, flat shading;
 - pixel work: the stages, alpha test, fog mode, specular, flat shading.
 
-Each key becomes HLSL once, is compiled with `D3DCompile` from `d3dcompiler_47.dll` (loaded at run time), and is cached.
-Blend, depth-stencil, rasterizer and sampler states are D3D11 state objects, cached by description. Fans become lists.
-...UP draws go through a dynamic ring buffer. Phase 1 executes a draw when it is made, after what was recorded
-before it.
+The keys, the constants and the state descriptions go to the executor in the draw packet. There each key becomes
+HLSL once, compiled with `D3DCompile` and cached; blend, depth-stencil, rasterizer and sampler states are D3D11 state
+objects, cached by description. Fans become indexed lists, their indices made on the D3D8 side. ...UP draws carry
+their vertices and indices in the packet; the executor writes them into a dynamic ring buffer.
 
 Where each behaviour comes from (named in the code where it is used):
 - The DirectX 8 reference: the stage ops and arguments, ALPHAARG1's fallback to DIFFUSE with no texture, lighting,
@@ -89,7 +114,8 @@ Known gaps, each logged when hit:
 
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
 
-`t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours:
+`t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`
+with the x86 `d8x.exe`: Wine here runs x86 only):
 - `basic`: 22 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
   lights, shader handles, Reset, release). All pass on both.
 - `scenes`: 20 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
@@ -103,7 +129,7 @@ Known gaps, each logged when hit:
   - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
   - DXT1 with mips, flat shading.
 
-  On 14 Oct all 20 match Wine's d3d8. The worst channel difference is 3 of 255 (lighting), and no pixel is beyond
+  On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 3 of 255 (lighting), and no pixel is beyond
   the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
   written as a PNG (Wine | ours | difference).
 - `defaults`: every render state and stage state of a fresh device, read on both and compared. On 14 Oct: 480
@@ -116,3 +142,8 @@ Known gaps, each logged when hit:
     shows: it sets neither.
 
     KEEP=1 python3 test/test_d3d8on11.py
+
+Not tested here: `d8x_arm64.exe` itself (this container runs no ARM64 Windows code), and an executor process that
+ends while the game runs. What is established for the ARM64 path comes from the owner's machine: phase 0's xproc
+probe saw an ARM64 child's swap chain present into an x86 parent's window (docs/D3D11.md section 4). Speed in any
+mode is not measured: Wine on a software renderer says nothing about it.

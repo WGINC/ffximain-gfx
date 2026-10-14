@@ -1814,3 +1814,62 @@ What it showed:
 - D3D11.3 Functional Spec (microsoft.github.io/DirectX-Specs) 7.18.12 says Direct3D 11 filters cube textures across
   faces. That settles what ours does; what Direct3D 8 hardware did is still not established. 7.18.11: magnification
   against minification is decided after the sampler's LOD clamp from feature level 11.0, and undefined before it.
+
+### The randomized cases against Microsoft's runtime; a run for the owner's machine (14 Oct)
+
+Two faults in the randomized test itself, both fixed:
+- The scope (data/d3d8_scope.json) lists at most 24 values for a state and ends a longer list with a "..." entry.
+  random_cases.py drew that entry as a value; t8's sscanf skipped the line, so those states kept their starting
+  value. The generator now leaves "..." out.
+- Each case started from reset_state, which sets only some states. Whatever else a case set stayed set for the cases
+  after it. Every implementation ran the cases in the same order, so the comparisons were like for like, but a case's
+  text was not all of its state, and the classes (read from the text) and any bisection of a case could be wrong.
+  Found when r0146 drew 829 pixels differently from Microsoft's reference in its file and 3,959 alone. t8 now reads
+  each state a case sets before setting it and puts it back before the next case. Microsoft's runtime answers a real
+  value for every state the generator sets (none of them is one it answers 0xBAADCAFE). Afterwards r0146 draws the
+  same in its file and alone.
+
+What the reference showed, case by case (bisected by taking out one line at a time and compared with the reference
+criterion):
+- Linear fog with FOGSTART >= FOGEND. Along a depth ramp (2.5 to 4.5) the reference device fogs fully where the depth
+  is at or past FOGEND and not at all before it, whatever FOGSTART is: start 4/end 3, start 4.5/end 2.5, start 100/
+  end 3.5, start 3.5/end 3.5 and start 3.5/end 0 all step at end. With start < end it is the formula, as ours. The
+  DirectX 8.1 text ("Fog Formulas") calls start the distance where fog "begins" and end the distance where it "no
+  longer increases", which contradict each other when start >= end, and says nothing more. Wine 9.0 and ours compute
+  the formula. Every fogged draw in traces 5180, 6080 and 6796 has start < end (table linear, start 0 or about 8,
+  end 750 to 3,242). Not changed; a class (F) of the randomized test.
+- Table fog on pre-transformed vertices. Microsoft's runtime fogs by 1/RHW, as ours (the 8.1 "Pixel Fog" text:
+  "Direct3D takes the reciprocal of the RHW element ... to reproduce true w"); Wine 9.0 by the vertex z (glsl_shader.c,
+  for transformed vertices: ffp_varying_fogcoord = ec_pos.z). The game draws such vertices with table fog: 255 draws
+  of trace 6796 (FVF 0x144, 0x44, 0x104; from 0x1000CDE2, 0x1000CBF3, 0x10009915, 0x100097A0), 6 of 5180. A new scene,
+  fog_table_rhw, draws it: the reference and ours are equal (0 pixels), Wine differs (WINE_DIFFERS). A class (W) of
+  the randomized test against Wine, checked by drawing the case with fog off. (In the vertex-shader trace column, odd
+  values are shader handles, not FVF codes: D3D8 handles have bit 0 set, FVF codes never do.)
+- r0179, with its class F changed: 57 pixels, all in column 22 but a few. A probe (the gradient texture selected
+  straight through) showed the reference sampling texel 1 there and ours texel 2. From the case's geometry (pre-
+  transformed, w 2.1 to 2.7 between the grid vertices at u 0.2 and 0.4, screen fraction 0.5909), the perspective-
+  correct coordinate there is s = 0.12533, 16s = 2.0053: 0.005 texel past the boundary, a tie (ours takes the side
+  the exact value is on). Two hypotheses taken on the way were wrong and are not used: that the column was the
+  magnification/minification boundary (equal MAG and MIN filters left all 57 pixels), and that it depended on fog
+  (it is there with fog off; fog with table mode NONE only covered it up).
+- With the MS reference in the suite, a case that still differs from Wine after its classes' changes is drawn by the
+  reference too: if that matches ours by the reference criterion, it is listed as Wine's alone. Seeds 1 to 3 now pass
+  (0 cases outside the classes).
+
+Not yet analysed: drawn by Microsoft's reference, 45 of the 600 cases of seeds 1 to 3 differ from ours with none of
+the classes (21 of them by 60 pixels or fewer). Known causes that can be among them, not yet assigned case by case:
+ZBIAS (the reference ignores it) and an alpha op DISABLE on a colour-enabled stage (r0052 is that, bisected). The
+randomized test compares with Wine only; it does not yet compare with the reference.
+
+ALPHAOP DISABLE on a colour-enabled stage: "causes undefined behavior" (D3DTEXTUREOP, 8.1). The reference device
+makes alpha 1; ours and Wine pass the previous stage's alpha on. The game does it from 0x1000CBF3 (stage 1: colour
+MODULATE4X of CURRENT and TFACTOR, alpha DISABLE, a texture bound; alpha test ALWAYS; blending SRCALPHA onto ONE or
+INVSRCALPHA) in 8,715 of 34,011 draws of trace 6796, 1,132 of 5180 and 85 of 6080, so the alpha shows. Scenes
+alphaop_disabled_stage0/1 draw it in that state; the reference test lists them as undefined, not failed.
+
+dgVoodoo 2.87.5 (its D3D8.dll is file version 4.8.2.134, the owner's) was downloaded from its GitHub releases to run
+here. It does not run under Wine: it is packed, and the unpacked code faults at RVA 0x5E683 on Wine's D3D11 and on DXVK
+2.7.1 with lavapipe alike. So kit/d3d8on11/owner_run (run_t8.bat) runs t8 on the owner's machine through the game's
+dgVoodoo d3d8.dll, Windows' own and ours (direct and remote), each in its own folder, and owner_compare.py compares
+them. `t8 where` prints the d3d8.dll loaded, its version and the adapter. Tried here with a stand-in folder (the
+reference in dgVoodoo's place, Wine in Windows'): the script reads all of it.

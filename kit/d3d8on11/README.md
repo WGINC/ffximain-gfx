@@ -188,7 +188,7 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
 - `basic`: 24 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
   lights, shader handles, Reset, release, a rectangle lock of the target, tweening). All pass on both (tweening on ours
   only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
-- `scenes`: 24 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
+- `scenes`: 27 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
   - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements
     (as texture coordinates, which Microsoft's runtime does not define for the fixed-function pipeline: the debug
     runtime rejects them; these two check our expansion against the D3DVSD_REG text only);
@@ -197,15 +197,20 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - lighting with material and vertex colour sources, specular, eight point and spot lights;
   - texture stages with TFACTOR, MODULATE2X and BLENDTEXTUREALPHA;
   - the blend modes and BLENDOP values the game sets, alpha test;
-  - vertex, table linear and table exp fog (untextured: a texture minified toward the horizon made those pictures
+  - vertex, table linear and table exp fog, table fog on pre-transformed vertices (untextured: a texture minified toward the horizon made those pictures
     turn on where each pixel samples);
   - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
   - DXT1 with mips, flat shading;
-  - Clear of a smaller viewport and of rectangles.
+  - Clear of a smaller viewport and of rectangles;
+  - a stage whose colour op is on and whose alpha op is DISABLE, on stage 0 and on stage 1, in the game's state at
+    its draws from 0x1000CBF3 (alphaop_disabled_stage0/1).
 
-  On 14 Oct 23 match Wine's d3d8 (worst channel difference 1 of 255, lights_8; none beyond the test's tolerance of
-  8), and `thread` and `remote` draw exactly what `direct` draws (every pixel). fog_vertex_linear differs from Wine
-  as listed in the test (WINE_DIFFERS): Wine's vertex fog is not Microsoft's (below). The tolerance and the 1% limit
+  On 14 Oct 25 of 27 match Wine's d3d8 (worst channel difference 1 of 255, lights_8; none beyond the test's
+  tolerance of 8), and `thread` and `remote` draw exactly what `direct` draws (every pixel). Two differ from Wine as
+  listed in the test (WINE_DIFFERS), and Microsoft's runtime draws both as ours does: fog_vertex_linear (Wine's
+  vertex fog is not Microsoft's, below) and fog_table_rhw (table fog on pre-transformed vertices: the DirectX 8.1
+  "Pixel Fog" text takes 1/RHW "to reproduce true w", as ours; Wine 9.0 reads the vertex z, glsl_shader.c). The game
+  draws such vertices with table fog (trace 6796: 255 draws, from 0x1000CDE2 and 0x1000CBF3). The tolerance and the 1% limit
   are the test's own criteria. With KEEP=1 each scene is written as a PNG (Wine | ours | difference).
 - Microsoft's reference device (with D3D8REF_DIR and WDK_DDI set; otherwise the test says it did not run): the
   DirectX 8.1 SDK's retail d3d8.dll and d3dref8.dll under Wine, with our stand-in for d3d8thk.dll, the runtime's calls
@@ -217,11 +222,17 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
     point sample on a texel boundary (within 0.006 texel), or a cube lookup within 0.2% of a face edge; the four the
     neighbourhood does not absorb are listed in the test with their numbers (REF_TIES). Not compared: zbias (the
     reference device does not report D3DPRASTERCAPS_ZBIAS; its RasterCaps are 0x00772199) and decl_short2/4 (above).
-    All 21 others pass;
+    Listed as undefined, not failed: alphaop_disabled_stage0/1 (below). All 22 others pass;
   - defaults: 290 states equal; left out are D3DRS_SOFTWAREVERTEXPROCESSING (it follows the creation flags), numbers
     above 173, and the 51 the runtime answers 0xBAADCAFE (its fill for a state never set), and Microsoft's runtime
     fails GetRenderState for the retired numbers (1-6, 11-13, ...) where ours answers 0.
-  What it found: vertex fog (above), and the two defaults below. Microsoft's debug runtime (d3d8d.dll) checks more than
+  What it found: vertex fog (above), and the two defaults below. And one case the reference leaves undefined that the
+  game relies on: a stage whose colour op is on and whose alpha op is D3DTOP_DISABLE ("Setting the alpha operation to
+  D3DTOP_DISABLE when color blending is enabled causes undefined behavior", D3DTEXTUREOP). The reference device makes
+  alpha 1 there; ours and Wine pass the previous stage's alpha on. The game does it from 0x1000CBF3, with SRCALPHA
+  blending, in 8,715 of the 34,011 draws of trace 6796 (1,132 in 5180, 85 in 6080), and the alpha shows on screen.
+  What the owner's dgVoodoo makes there is not known: the scenes alphaop_disabled_stage0/1 draw it, and `owner_run/`
+  runs them on the owner's machine. Ours is unchanged until that is known. Microsoft's debug runtime (d3d8d.dll) checks more than
   the retail one: it rejects a fixed-function declaration whose position is not FLOAT3 or whose texture coordinates are
   not FLOAT1-4, among others; the retail runtime, which the game runs on, does not check, and neither does ours.
 - `defaults`: every render state and stage state of a fresh device, read on both and compared, and (by hand, 14 Oct)
@@ -253,7 +264,9 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   (data/d3d8_scope.json), over its six FVF codes, strips and lists, UP, buffer and indexed draws, with lights, texture
   transforms and cube textures. 200 per run (`RANDOM_SEED`, `RANDOM_CASES`); compared with Wine's d3d8 as the scenes
   are. A difference fails unless it falls in a class below and the case, changed only as its class says, then draws
-  the same on both (0 pixels in every case of seeds 1 to 5, 14 Oct: 1,000 cases):
+  the same on both (0 pixels in every case of seeds 1 to 3, 14 Oct, after the two fixes below the classes). A case
+  that still differs is drawn by Microsoft's runtime too when D3D8REF_DIR is set: where that matches ours by the
+  reference criterion, the difference is listed as Wine's alone, not failed:
   - A: pre-transformed vertices with a stage generating coordinates. Wine 9.0 generates them from the screen
     position; ours reads the set as given. Microsoft's text: "Direct3D does not modify transformed and lit vertices"
     (Direct3D 9, "Texture Coordinate Transformations"; the same in the Windows CE .NET 4.2 Direct3D text). It names
@@ -271,11 +284,25 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - L: lighting with normals longer than 1, NORMALIZENORMALS off. Wine clamps each light's N.L at 1; the reference's
     equation, sum[Cd*Ld*(N.Ldir)*Atten*Spot] clamped after all lights ("Diffuse Lighting", Direct3D 9), does not;
     ours follows the equation. Change: NORMALIZENORMALS on.
+  - F: linear fog with FOGSTART >= FOGEND. The DirectX 8.1 text defines start as where fog "begins" and end as where
+    it "no longer increases" ("Fog Formulas"), which contradict each other then. Microsoft's reference device fogs
+    fully from end on and not before (measured along a depth ramp, 14 Oct); Wine and ours compute the formula. The
+    game never sets it (every fogged draw of traces 5180, 6080 and 6796 has start < end). Change: FOGEND above
+    FOGSTART.
+  - W: table fog on pre-transformed vertices: Wine fogs by z, Microsoft's runtime and ours by 1/RHW (scene
+    fog_table_rhw, above). Change: fog off.
   The game was seen using none of A and C in its traces (a trace's state at a draw is partial, so this is "not seen",
   not "never"). It does create cube textures and set linear filtering, and it sets NORMALIZENORMALS off, so S and L
   may show in the game.
 - Not established and not tested apart: what the third component of a 2D coordinate set reads as when a cube texture
   is addressed with it (ours 1, by the PROVISIONAL rule in d8_exec.cpp; Wine 0). The rechecks avoid it.
+- What was wrong with the randomized test itself (found 14 Oct, fixed):
+  - the scope lists at most 24 values a state and ends a longer list with a "..." entry; the generator drew it as a
+    value, and t8 skipped the line (sscanf). Those states were then left at their starting value.
+  - each case started from reset_state, which sets only some states: the others a case set were left for the cases
+    after it, so a case's text was not all of its state (and the classes, read from the text, could be wrong). t8 now
+    reads each state a case sets before setting it and puts it back before the next case. The rest of the device's
+    state is the same for every case.
 - What the randomized test fixed (14 Oct):
   - MIPFILTER NONE and MAXMIPLEVEL were sent as the sampler's LOD clamp, and a clamp to one level can decide
     magnification against minification (on Mesa a minified texture was drawn with MAGFILTER). The reference applies
@@ -288,6 +315,12 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   destroyed unknown is logged as a stream error. Object ids were taken from a counter that was not atomic: with two
   threads creating objects, the log of each of two runs had stream errors (5 and 2 lines); the counter is atomic now and the test
   fails on any stream error.
+- `where` prints the d3d8.dll t8 loaded (path and file version) and the adapter, for runs on other machines.
+- On the owner's machine (`owner_run/`: run_t8.bat, README.md): where, basic, defaults, scenes and random (seeds 1 to
+  3) through the game's dgVoodoo d3d8.dll, Windows' own and ours in direct and remote mode, each in a folder of its
+  own; `owner_run/owner_compare.py` compares each with ours by the reference criterion and names, per random case
+  that differs, its classes. dgVoodoo does not run under Wine here (packed; it faults at the same place on Wine's
+  D3D11 and on DXVK), so this is the only way to see what it draws.
 - Elsewhere: kit/xikit/test (`realdev_ours`) hooks this device with the kit as the game's device is hooked and gets
   its frame times; kit/fcap/test captures a frame through it and replays that through Wine's d3d8 to the same picture.
 

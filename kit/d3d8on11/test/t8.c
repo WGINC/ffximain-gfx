@@ -1,6 +1,7 @@
 /* t8.c -- d3d8on11's test program: the same D3D8 calls through whichever d3d8.dll Windows loads (Wine's own, or ours
    next to this program with WINEDLLOVERRIDES=d3d8=n). test_d3d8on11.py runs both and compares.
 
+     t8 where       which d3d8.dll was loaded (path, file version) and the adapter it reports
      t8 defaults    every render state and texture stage state of a fresh device, one per line ("rs N V", "tss S T V")
      t8 basic       the milestone-1 checks, one line each: "ok: ..." or "FAIL: ..."
      t8 scenes      feature scenes (the vertex formats, primitives, states and stage setups the game uses, data/d3d8_scope.json),
@@ -236,6 +237,41 @@ static void scenes(void) {
     IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
   end("stages_blend_alphatest");
 
+  /* a stage whose colour op is on and whose alpha op is D3DTOP_DISABLE: "Setting the alpha operation to D3DTOP_DISABLE
+     when color blending is enabled causes undefined behavior" (DirectX 8.1, D3DTEXTUREOP). The game does it: its
+     draws from 0x1000CBF3 with stage 0 MODULATE / alpha MODULATE4X (diffuse, texture), stage 1 MODULATE4X (current,
+     TFACTOR) / alpha DISABLE, alpha test ALWAYS, blend SRCALPHA onto ONE or INVSRCALPHA (8,715 of the 34,011 draws of
+     trace 6796, 13 Oct). Here that state, blended SRCALPHA / INVSRCALPHA so that the alpha shows; and stage 0 alone
+     with its alpha op disabled. Microsoft's reference device takes alpha 1 there; Wine's d3d8 passes the previous
+     stage's alpha (stage 0: the diffuse alpha) on */
+  { static const char *nm[2] = {"alphaop_disabled_stage1", "alphaop_disabled_stage0"};
+    for (int k = 0; k < 2; k++) {
+      reset_state(); begin(0xFF203040);
+      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)alp);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLORARG1, D3DTA_TEXTURE); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_ALPHAOP, k ? D3DTOP_DISABLE : D3DTOP_MODULATE4X);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
+      if (!k) {
+        IDirect3DDevice8_SetTexture(d, 1, (IDirect3DBaseTexture8 *)grad);
+        IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_COLOROP, D3DTOP_MODULATE4X);
+        IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_COLORARG1, D3DTA_CURRENT); IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_COLORARG2, D3DTA_TFACTOR);
+        IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+        IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_ALPHAARG1, D3DTA_CURRENT); IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+        IDirect3DDevice8_SetTextureStageState(d, 1, D3DTSS_TEXCOORDINDEX, 0);
+        IDirect3DDevice8_SetRenderState(d, D3DRS_TEXTUREFACTOR, 0x80808080);
+      }
+      IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHATESTENABLE, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAREF, 0x60);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_ALPHABLENDENABLE, TRUE);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); IDirect3DDevice8_SetRenderState(d, D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+      VRhwT v[4] = {{4, 4, 0.5f, 1, 0x20FFC080, 0.01f, 0.01f}, {60, 4, 0.5f, 1, 0x20FFC080, 0.99f, 0.01f},
+                    {4, 60, 0.5f, 1, 0x50FFC080, 0.01f, 0.99f}, {60, 60, 0.5f, 1, 0x50FFC080, 0.99f, 0.99f}};
+      IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
+      end(nm[k]);
+    } }
+
   /* fog: vertex linear fog, then table (pixel) linear and exp fog, on a floor going into the distance. Untextured: a
      texture minified toward the horizon makes the picture turn on where each pixel samples, not on the fog */
   { static const DWORD tm[3][2] = {{D3DFOG_NONE, D3DFOG_LINEAR}, {D3DFOG_LINEAR, D3DFOG_NONE}, {D3DFOG_EXP, D3DFOG_NONE}};
@@ -253,6 +289,21 @@ static void scenes(void) {
       IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
       end(names[k]);
     } }
+  /* table fog on pre-transformed vertices (the game draws them: trace 6796, 0x1000CDE2 and 0x1000CBF3, FVF 0x144): a
+     floor in screen space, w from 2 (bottom) to 18 (top), z as the scenes' projection makes it, linear fog 5 to 30.
+     The depth fog reads for them: "Direct3D takes the reciprocal of the RHW element ... to reproduce true w" (DirectX
+     8.1, "Pixel Fog"), with a projection set that is not affine (as here) */
+  { reset_state(); begin(0xFF000000);
+    IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_FOGENABLE, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_FOGCOLOR, 0xFF8090A0);
+    float fs = 5, fe = 30;
+    IDirect3DDevice8_SetRenderState(d, D3DRS_FOGSTART, *(DWORD *)&fs); IDirect3DDevice8_SetRenderState(d, D3DRS_FOGEND, *(DWORD *)&fe);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+    float w0 = 2, w1 = 18, z0 = 100.0f / 99 * (1 - 1 / w0), z1 = 100.0f / 99 * (1 - 1 / w1);
+    VRhw v[4] = {{4, 20, z1, 1 / w1, 0xFFFF4040}, {60, 20, z1, 1 / w1, 0xFF40FF40}, {4, 60, z0, 1 / w0, 0xFFFF4040}, {60, 60, z0, 1 / w0, 0xFF40FF40}};
+    IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
+    end("fog_table_rhw"); }
 
   /* the primitives from buffers: a vertex buffer and an index buffer with a base vertex; a strip, a fan, a list */
   reset_state(); begin(0xFF000000);
@@ -667,9 +718,16 @@ static void random_cases(const char *path) {
     lt[i].Ambient.r = lt[i].Ambient.g = lt[i].Ambient.b = 0.1f; IDirect3DDevice8_SetLight(d, i, &lt[i]);
   }
   char line[512], name[64] = ""; unsigned fvf = 0; int prim = 5, kind = 0;
+  /* every render state and stage state a case sets is put back, before the next case, to the value it had before the
+     case (read with Get): reset_state covers only some states, and a case is to start from the same state whatever
+     cases came before it (random_cases.py: "left at the case's starting state") */
+  static struct { int rs; unsigned st, t, v; } undo[1024]; int nu = 0;
   while (fgets(line, sizeof line, f)) {
     unsigned a, b, c; int i; float m[6];
     if (sscanf(line, "case %63s %x %d %d", name, &fvf, &prim, &kind) == 4) {
+      while (nu > 0) { nu--;
+        if (undo[nu].rs) IDirect3DDevice8_SetRenderState(d, (D3DRENDERSTATETYPE)undo[nu].t, undo[nu].v);
+        else IDirect3DDevice8_SetTextureStageState(d, undo[nu].st, (D3DTEXTURESTAGESTATETYPE)undo[nu].t, undo[nu].v); }
       reset_state();
       D3DMATRIX pr; persp(&pr, 1.2f, 1.0f, 20.0f); IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &pr);
       for (i = 0; i < 3; i++) IDirect3DDevice8_LightEnable(d, i, FALSE);
@@ -677,8 +735,13 @@ static void random_cases(const char *path) {
       IDirect3DDevice8_SetMaterial(d, &mt);
       for (i = 0; i < 4; i++) { D3DMATRIX id; memset(&id, 0, sizeof id); id._11 = id._22 = id._33 = id._44 = 1; IDirect3DDevice8_SetTransform(d, (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + i), &id); }
       IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
-    } else if (sscanf(line, "rs %u %x", &a, &b) == 2) IDirect3DDevice8_SetRenderState(d, (D3DRENDERSTATETYPE)a, b);
-    else if (sscanf(line, "tss %u %u %x", &a, &b, &c) == 3) IDirect3DDevice8_SetTextureStageState(d, a, (D3DTEXTURESTAGESTATETYPE)b, c);
+    } else if (sscanf(line, "rs %u %x", &a, &b) == 2) {
+      DWORD o = 0; if (nu < 1024 && SUCCEEDED(IDirect3DDevice8_GetRenderState(d, (D3DRENDERSTATETYPE)a, &o))) { undo[nu].rs = 1; undo[nu].t = a; undo[nu].v = o; nu++; }
+      IDirect3DDevice8_SetRenderState(d, (D3DRENDERSTATETYPE)a, b);
+    } else if (sscanf(line, "tss %u %u %x", &a, &b, &c) == 3) {
+      DWORD o = 0; if (nu < 1024 && SUCCEEDED(IDirect3DDevice8_GetTextureStageState(d, a, (D3DTEXTURESTAGESTATETYPE)b, &o))) { undo[nu].rs = 0; undo[nu].st = a; undo[nu].t = b; undo[nu].v = o; nu++; }
+      IDirect3DDevice8_SetTextureStageState(d, a, (D3DTEXTURESTAGESTATETYPE)b, c);
+    }
     else if (sscanf(line, "tex %u %u", &a, &b) == 2) IDirect3DDevice8_SetTexture(d, a, b == 4 ? (IDirect3DBaseTexture8 *)g_cube : b == 5 ? (IDirect3DBaseTexture8 *)g_cube_flat :
                                                                      b == 6 ? (IDirect3DBaseTexture8 *)g_cube_faces : b < 4 ? (IDirect3DBaseTexture8 *)tx[b] : NULL);
     else if (sscanf(line, "light %u %u", &a, &b) == 2) IDirect3DDevice8_LightEnable(d, a, b);
@@ -801,6 +864,19 @@ int main(int argc, char **argv) {
       printf("presented %d\n", f);
     }
     printf("still running after 600 frames\n");
+    return 0;
+  }
+  if (argc > 1 && !strcmp(argv[1], "where")) {
+    HMODULE m = GetModuleHandleA("d3d8.dll"); char p[MAX_PATH] = "?"; if (m) GetModuleFileNameA(m, p, sizeof p);
+    char fv[64] = "?"; DWORD h = 0, sz = GetFileVersionInfoSizeA(p, &h);
+    void *buf = sz ? malloc(sz) : NULL; VS_FIXEDFILEINFO *fi = NULL; UINT fl = 0;
+    if (buf && GetFileVersionInfoA(p, 0, sz, buf) && VerQueryValueA(buf, "\\", (LPVOID *)&fi, &fl) && fi)
+      snprintf(fv, sizeof fv, "%u.%u.%u.%u", (unsigned)(fi->dwFileVersionMS >> 16), (unsigned)(fi->dwFileVersionMS & 0xFFFF),
+               (unsigned)(fi->dwFileVersionLS >> 16), (unsigned)(fi->dwFileVersionLS & 0xFFFF));
+    free(buf);
+    D3DADAPTER_IDENTIFIER8 ai; memset(&ai, 0, sizeof ai); IDirect3D8_GetAdapterIdentifier(g_d3d, D3DADAPTER_DEFAULT, 0, &ai);
+    printf("d3d8.dll: %s, version %s\nadapter: %s (%s)\n", p, fv, ai.Description, ai.Driver);
+    IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
     return 0;
   }
   if (argc > 1 && !strcmp(argv[1], "defaults")) {

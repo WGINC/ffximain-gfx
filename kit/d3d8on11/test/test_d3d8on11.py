@@ -23,7 +23,7 @@ not failed, and that scene is held to the next stage instead:
 import os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); D8 = os.path.join(H, '..')
 bad = 0
-subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-Wno-misleading-indentation', '-o', os.path.join(H, 't8.exe'), os.path.join(H, 't8.c'), '-ld3d8', '-static-libgcc'], check=True)
+subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-Wno-misleading-indentation', '-o', os.path.join(H, 't8.exe'), os.path.join(H, 't8.c'), '-ld3d8', '-lversion', '-static-libgcc'], check=True)
 w = tempfile.mkdtemp(prefix='d3d8on11_')
 ours = os.path.join(w, 'ours'); ref = os.path.join(w, 'ref'); os.makedirs(ours); os.makedirs(ref)
 for d in (ours, ref): shutil.copy(os.path.join(H, 't8.exe'), d)
@@ -62,7 +62,10 @@ for k in diff: print('  %-10s Wine %s  ours %s' % (k, a.get(k, '(fails)'), b.get
 TOL, MAXFRAC = 8, 0.01
 # scenes where Wine's d3d8 is known to draw otherwise than Microsoft's runtime with its reference device (stage 4)
 WINE_DIFFERS = {'fog_vertex_linear': 'vertex fog: Microsoft\'s runtime makes the factor per vertex, clamps it and '
-                'interpolates it ("Vertex Fog", DirectX 8.1); Wine interpolates the distance'}
+                'interpolates it ("Vertex Fog", DirectX 8.1); Wine interpolates the distance',
+                'fog_table_rhw': 'table fog on pre-transformed vertices: the depth is 1/RHW ("Pixel Fog", DirectX 8.1: '
+                '"to reproduce true w"), as Microsoft\'s runtime does; Wine 9.0 reads the vertex z (glsl_shader.c, '
+                'transformed: ffp_varying_fogcoord = ec_pos.z)'}
 
 
 def scenes(where, ov, xm=None, extra=None):
@@ -118,6 +121,11 @@ REF_SKIP = {'zbias': 'the reference device does not report D3DPRASTERCAPS_ZBIAS 
             'decl_short2': 'SHORT2 texture coordinates are not fixed-function input (Microsoft\'s debug runtime: "Invalid '
                            'data type set for texture register")',
             'decl_short4': 'as decl_short2'}
+# scenes whose state the reference leaves undefined, where the reference device and ours differ: listed with what each
+# does, not passed or failed. Which one the owner's setup does is measured by test/owner_run (run_t8.bat)
+REF_UNDEFINED = {n: 'an alpha op D3DTOP_DISABLE on a stage whose colour op is on "causes undefined behavior" (D3DTEXTUREOP); '
+                    'the reference device takes alpha 1, ours (and Wine) the previous stage\'s alpha; the game does it '
+                    '(draws from 0x1000CBF3)' for n in ('alphaop_disabled_stage1', 'alphaop_disabled_stage0')}
 # pixels no neighbour matches, each a tie computed from the scene's geometry (14 Oct, docs/HISTORY.md): which texel a
 # point sample takes where the coordinate is within a hundredth of a texel of a boundary, or the cube face where two
 # components of the lookup vector are within 0.2% of each other, is the rasterizer's rounding
@@ -126,6 +134,17 @@ REF_TIES = {('texgen_reflection_cube', 44, 39): 'lookup (-1.593, 1.596, -1.005):
             ('texgen_reflection_cube', 54, 42): 'face -Z, v = 2.0052 texels (the checker changes at 2)',
             ('three_stream_declaration', 19, 50): 'v = 25.9940 texels, 0.006 from the row boundary at 26'}
 MSD, DDI = os.environ.get('D3D8REF_DIR'), os.environ.get('WDK_DDI')
+msrun = None
+def ref_unmatched(a, b):
+    """pixels of b with no match in a by the criterion above (within REF_TOL, or both ways of a 3x3 neighbour)"""
+    near = lambda x, y: all(abs(((x >> s_) & 255) - ((y >> s_) & 255)) <= REF_TOL for s_ in (0, 8, 16))
+    bad_ = 0
+    for i in range(len(a)):
+        if near(a[i], b[i]): continue
+        x, y = i % 64, i // 64
+        nbr = [(x + dx) + 64 * (y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1) if 0 <= x + dx < 64 and 0 <= y + dy < 64]
+        if not (any(near(a[i], b[j]) for j in nbr) and any(near(b[i], a[j]) for j in nbr)): bad_ += 1
+    return bad_
 if not (MSD and DDI):
     print('== Microsoft\'s reference device: not run (set D3D8REF_DIR and WDK_DDI); not checked: %s' % ', '.join(sorted(WINE_DIFFERS)))
 elif first:
@@ -135,7 +154,7 @@ elif first:
     mx = {'T8_REF': '1', 'WINEDLLOVERRIDES': 'd3d8=n;d3d8thk=n'}
     def msrun(mode):
         env = dict(os.environ, WINEDEBUG='-all', **mx)
-        return subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', mode], cwd=msr,
+        return subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe'] + mode.split(), cwd=msr,
                               capture_output=True, text=True, timeout=900, env=env).stdout
     sm = {}
     for l in msrun('scenes').splitlines():
@@ -148,6 +167,7 @@ elif first:
     ours_d = first[1]
     for n in ours_d:
         if n in REF_SKIP: print('skip %-32s %s' % (n, REF_SKIP[n])); continue
+        if n in REF_UNDEFINED: print('undefined %-27s %s' % (n, REF_UNDEFINED[n])); continue
         a, b = sm.get(n), ours_d[n]
         if not a or not b or len(a) != len(b): print('FAIL %-32s no picture from %s' % (n, 'the reference' if not a else 'ours')); bad += 1; continue
         nb_bad = exact = 0; ties = []
@@ -184,7 +204,7 @@ for m in [m for m in MODES if m != 'direct']:
     print('%s: %s mode through a 64 KB ring, its counters passing 2^32, drew exactly what %s mode drew (%d scenes)' % ('ok' if same else 'FAIL', m, first[0] if first else '?', len(sb)))
 # randomized cases (random_cases.py: each state drawn from the values the game sets, data/d3d8_scope.json), through
 # Wine's d3d8 and ours (direct mode; the other modes draw the same, above). Same criteria as the scenes. A difference
-# fails unless the case is in one of two classes where the reference behaviour is not established and the game was
+# fails unless the case is in one of the classes below, where the reference behaviour is not established and the game was
 # not seen in them (its traces, 14 Oct); those are listed with their class, not hidden:
 #   A  pre-transformed vertices with a stage generating coordinates (Wine generates from the screen position; ours,
 #      by the DirectX 8 era text that such vertices are not modified, reads the set as given: d8_exec.cpp)
@@ -196,7 +216,14 @@ for m in [m for m in MODES if m != 'direct']:
 #      dlls/d3d8/d3d8_private.h), D3D11 always across faces. Checked, not assumed: such a case counts as S only if the
 #      same case with that stage's filters set to point then draws the same on both (a one-colour cube and point
 #      filtering never differ; with a colour per face the differences lie on the face boundaries: 14 Oct)
+#   F  linear fog with FOGSTART >= FOGEND, which the DirectX 8.1 text leaves undefined (random_cases.py fog_reversed;
+#      Microsoft's reference device and Wine differ there too). Counts as F only if the same case with FOGEND moved
+#      above FOGSTART then draws the same on both
+#   W  table fog on pre-transformed vertices: Wine 9.0 fogs by the vertex z, Microsoft's runtime and ours by 1/RHW
+#      (scene fog_table_rhw, WINE_DIFFERS). Counts as W only if the same case with fog off then draws the same on both
 RSEED, RCOUNT = int(os.environ.get('RANDOM_SEED', '1')), int(os.environ.get('RANDOM_CASES', '200'))
+sys.path.insert(0, H)
+from random_cases import rclass, lit_unnormalized, cube_linear_stages, fog_reversed, fog_rhw_table   # the classes below
 cases_txt = subprocess.run([sys.executable, os.path.join(H, 'random_cases.py'), str(RSEED), str(RCOUNT)], capture_output=True, text=True, check=True).stdout
 for d in (ref, ours): open(os.path.join(d, 'cases.txt'), 'w').write(cases_txt)
 def rscenes(where, ov, xm=None):
@@ -206,75 +233,59 @@ def rscenes(where, ov, xm=None):
             _, n, hx = l.split(' ', 2)
             out[n] = None if hx.strip() == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx.strip()), 6)]
     return out
-def rclass(lines, fix=None):
-    fvf, tss, tex, cube = int(lines[0].split()[2], 16), {}, set(), set()
-    for l in lines[1:]:
-        p = l.split()
-        if p[0] == 'tss': tss[(int(p[1]), int(p[2]))] = int(p[3], 16)
-        if p[0] == 'tex' and p[2] != '0': tex.add(int(p[1]))
-        if p[0] == 'tex': (cube.add if p[2] in ('4', '5', '6') else cube.discard)(int(p[1]))
-    rhw, nsets, cls = (fvf & 0xE) == 4, (fvf >> 8) & 15, set()
-    for st in range(4):
-        if tss.get((st, 1), 4 if st == 0 else 1) == 1: break               # D3DTOP_DISABLE ends the stages
-        if st not in tex: continue
-        tci = tss.get((st, 11), st)
-        # the change that takes the class away must not make another undefined case: a cube stage reading a 2D set
-        # (what a missing third component reads as is not in the reference) gets a 2D texture
-        two_d = lambda: ['tex %d 1' % st] if st in cube else []
-        if rhw and tci >> 16:
-            cls.add('A')
-            if fix is not None: fix.extend(['tss %d 11 %X' % (st, tci & 7)] + two_d())
-        if (rhw or not tci >> 16) and (tci & 7) >= nsets:
-            cls.add('C')
-            if fix is not None: fix.extend(['tss %d 11 0' % st] + two_d() if nsets else ['tex %d 0' % st])
-    return cls
-def lit_unnormalized(lines):
-    rs = {}
-    for l in lines[1:]:
-        p = l.split()
-        if p[0] == 'rs': rs[int(p[1])] = int(p[2], 16)
-    return (int(lines[0].split()[2], 16) & 0x10) and rs.get(137, 1) and not rs.get(143, 0)
-def cube_linear_stages(lines):
-    tss, cube = {}, set()
-    for l in lines[1:]:
-        p = l.split()
-        if p[0] == 'tss': tss[(int(p[1]), int(p[2]))] = int(p[3], 16)
-        if p[0] == 'tex' and p[2] in ('4', '5', '6'): cube.add(int(p[1]))
-    return [st for st in cube if tss.get((st, 16), 1) >= 2 or tss.get((st, 17), 1) >= 2]
 blocks = {}
 for blk in cases_txt.split('case ')[1:]:
     ls = ('case ' + blk).strip().splitlines(); blocks[ls[0].split()[1]] = ls
 ra, rb = rscenes(ref, False), rscenes(ours, True, 'direct')
-fails, known, cands = [], {}, []
+fails, known, cands, variant = [], {}, [], {}
 for n in blocks:
     a, b = ra.get(n), rb.get(n)
     if not a or not b or len(a) != len(b): fails.append('%s: no picture from %s' % (n, 'Wine' if not a else 'ours')); continue
     dif = [max(abs(((x >> s_) & 255) - ((y >> s_) & 255)) for s_ in (0, 8, 16)) for x, y in zip(a, b)]
     nd = sum(1 for v in dif if v > TOL)
     if nd / len(dif) <= MAXFRAC: continue
-    if rclass(blocks[n]) or cube_linear_stages(blocks[n]) or lit_unnormalized(blocks[n]): cands.append((n, nd, max(dif)))
+    if rclass(blocks[n]) or cube_linear_stages(blocks[n]) or lit_unnormalized(blocks[n]) or fog_reversed(blocks[n]) or fog_rhw_table(blocks[n]): cands.append((n, nd, max(dif)))
     else: fails.append('%s: %d of %d pixels differ, worst channel difference %d' % (n, nd, len(dif), max(dif)))
 # the candidates again, changed in every way their classes name (A: the stage stops generating; C: the stage reads
-# set 0, or no texture if there is no set; S: the cube stages point-filtered; L: NORMALIZENORMALS on): they must then draw the same, or the difference is not explained by those classes
+# set 0, or no texture if there is no set; S: the cube stages point-filtered; L: NORMALIZENORMALS on; F: FOGEND above FOGSTART; W: fog off): they must then draw the same, or the difference is not explained by those classes
 if cands:
     def change(ls):
-        fx = []; rclass(ls, fx)
+        fx = []; rclass(ls, fx); fog_reversed(ls, fx); fog_rhw_table(ls, fx)
         return fx + ['tss %d 16 1\ntss %d 17 1' % (k, k) for k in cube_linear_stages(ls)] + (['rs 143 1'] if lit_unnormalized(ls) else [])
-    txt = ''.join('\n'.join([blocks[n][0]] + blocks[n][1:-1] + change(blocks[n]) + ['draw']) + '\n' for n, _, _ in cands)
+    chg = {n: '\n'.join([blocks[n][0]] + blocks[n][1:-1] + change(blocks[n]) + ['draw']) + '\n' for n, _, _ in cands}
+    txt = ''.join(chg[n] for n, _, _ in cands)
     for d in (ref, ours): open(os.path.join(d, 'cases.txt'), 'w').write(txt)
     pa, pb = rscenes(ref, False), rscenes(ours, True, 'direct')
     for n, nd0, w0 in cands:
         a, b = pa.get(n), pb.get(n)
         dif = [max(abs(((x >> s_) & 255) - ((y >> s_) & 255)) for s_ in (0, 8, 16)) for x, y in zip(a or [], b or [])]
         nd = sum(1 for v in dif if v > TOL)
-        cls = ''.join(sorted(rclass(blocks[n]))) + ('S' if cube_linear_stages(blocks[n]) else '') + ('L' if lit_unnormalized(blocks[n]) else '')
+        cls = ''.join(sorted(rclass(blocks[n]))) + ('S' if cube_linear_stages(blocks[n]) else '') + ('L' if lit_unnormalized(blocks[n]) else '') + ('F' if fog_reversed(blocks[n]) else '') + ('W' if fog_rhw_table(blocks[n]) else '')
         if a and b and nd / len(dif) <= MAXFRAC: known.setdefault(cls, []).append('%s (%d px, worst %d; changed: %d px)' % (n, nd0, w0, nd))
-        else: fails.append('%s: differs, and still with the changes of class %s (%d px)' % (n, cls, nd))
+        else: fails.append('%s: differs, and still with the changes of class %s (%d px)' % (n, cls, nd)); variant[n] = (chg[n], b)
+# a case that still fails is drawn by Microsoft's runtime and reference device too (when there), as it failed (with its
+# class's changes if it failed with them): where that matches ours by the reference criterion (above), the difference
+# is Wine's alone and is listed so, not failed. Without the reference such a case fails: Wine is then the only one
+alone = []
+if msrun and fails:
+    fn = [f.split(':')[0] for f in fails]
+    open(os.path.join(msr, 'cases.txt'), 'w').write(''.join(variant[n][0] if n in variant else '\n'.join(blocks[n]) + '\n' for n in fn if n in blocks))
+    pm = {}
+    for l in msrun('random cases.txt').splitlines():
+        if l.startswith('scene '):
+            _, n, hx = l.split(' ', 2); hx = hx.strip()
+            pm[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
+    for f in list(fails):
+        n = f.split(':')[0]; a, b = pm.get(n), variant[n][1] if n in variant else rb.get(n)
+        if a and b and len(a) == len(b) and ref_unmatched(a, b) == 0: fails.remove(f); alone.append(n)
 print('%s: %d random cases (seed %d): %d differ outside the known classes' % ('ok' if not fails else 'FAIL', len(blocks), RSEED, len(fails)))
+if alone: print('    Wine alone differs (Microsoft\'s reference device draws them as ours does): %s' % ', '.join(alone))
 for f in fails: print('   ', f)
 print('    classes: A pre-transformed vertices generating coordinates, C a coordinate set the format lacks (reference not\n'
       '    established for either, not seen in the game); S cube seams (Wine filters faces apart, D3D11 across them);\n'
-      '    L N.L above 1 with long normals (Wine clamps it, the reference equation does not). Each case below drew the same\n'
+      '    L N.L above 1 with long normals (Wine clamps it, the reference equation does not); F linear fog with start >= end\n'
+      '    (undefined; the game never sets it); W table fog on pre-transformed vertices (Wine fogs by z, the reference by\n'
+      '    1/RHW). Each case below drew the same\n'
       '    on both once changed as its classes name ("changed: N px")')
 for c, l in sorted(known.items()): print('    class %s: %s' % (c, ', '.join(l)))
 bad += len(fails) > 0

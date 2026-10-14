@@ -82,8 +82,9 @@ Known gaps, each logged when hit:
 - writing to a locked render target;
 - textures in a block format whose top level is not whole 4x4 blocks: D3D11 wants whole blocks; behaviour to be
   checked;
-- caps: provisional. The game chooses paths by them, so they should answer as dgVoodoo does on the owner's machine.
-  That needs a dump of dgVoodoo's caps, which probe8 does not make yet.
+- caps: the device answers with dgVoodoo's own D3DCAPS8 from the owner's machine (probe8's caps.raw, 13 Oct;
+  data/dgvoodoo_caps8.json), so the game takes the paths it takes there. They promise features not implemented here
+  yet (vertex blending, the game's own shaders); those are logged when used.
 
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
 

@@ -20,7 +20,7 @@ aside if you want them back). Every run writes into a new log folder (`log_folde
 
 Every lever measured so far that helped is on: `sse_skinning`, `batch_up_draws`, `lazy_state`. So are the ones not
 yet measured: `skin_merge`, `block_cache`, `extended_state_cache`, `vs_dedupe`. speedfix then switches each of the
-three in `ab_levers` off (A) and on (B) by itself, one after another, about 6 minutes each.
+three in `ab_levers` off (A) and on (B) by itself, one after another: six phases of 30 s each, about 3 minutes a lever.
 
 1. Start the game and go to Port Jeuno's plaza (the busy part).
 2. Stand still and leave the game alone. The A/B starts 60 s after the start.
@@ -47,3 +47,10 @@ into view.
 - Run 2: `pictures.py` compares the pictures. A lever that changes the picture stays off until that is explained.
   `fact_sites.py ingest` records the readback call's pop count, and the readback function is gated again. The samples
   give the table goal 2 starts from: where the time goes with the patch on.
+
+## Results (13 Oct runs; docs/HISTORY.md "13 Oct runs")
+
+- Run 0: stateblock.record and stateblock.apply PASS. dgVoodoo keeps state blocks as the reference says.
+- Run 1: block_cache +1.43 ms, skin_merge +1.36 ms, extended_state_cache −2.53 ms. Each is within its 3.9 to 5.3 ms
+  spread between phases of one label, so none becomes a default.
+- Run 2: not yet received.

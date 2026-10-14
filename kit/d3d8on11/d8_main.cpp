@@ -58,50 +58,24 @@ UINT d8_pitch(D3DFORMAT f, UINT w) { FmtInfo i = d8_fmt(f); return i.block ? ((w
 UINT d8_rows(D3DFORMAT f, UINT h) { return d8_fmt(f).block ? (h + 3) / 4 : h; }
 
 // ---- caps ---------------------------------------------------------------------------------------------------------------
-// PROVISIONAL. The game reads caps to choose its paths (Gfx_ProbeDeviceCaps and others), so ours should answer as the
-// device the game runs on today does: dgVoodoo's on the owner's machine. Those values are not known yet (probe8's
-// caps.raw, next run); until then these are what this device can do, chosen here, and every field is listed.
+// The caps the game is given: what the owner's dgVoodoo answered on the owner's machine (probe8's caps.raw, phase 0
+// run of 13 Oct; data/dgvoodoo_caps8.json decodes it). The game chooses its paths by caps, so it is told the same as
+// under dgVoodoo and takes the paths its traces were recorded on. Where these promise something this device does not
+// do yet (vertex blending, the game's own shaders), the call is logged when it comes, not hidden by smaller caps.
+static const uint8_t kCaps[212] = {
+  0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x0A, 0x20, 0x20, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x00, 0x80,
+  0x03, 0x00, 0x00, 0x00, 0xF0, 0xBE, 0x1B, 0x01, 0xF2, 0x0E, 0x00, 0x00, 0x91, 0x61, 0x73, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x1F, 0x00, 0x00,
+  0xFF, 0x1F, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x08, 0x42, 0x08, 0x00, 0xC5, 0xEC, 0x01, 0x00, 0x00, 0x07, 0x03, 0x07, 0x00, 0x07, 0x03, 0x07,
+  0x00, 0x07, 0x03, 0x07, 0x3F, 0x00, 0x00, 0x00, 0x3F, 0x00, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00,
+  0x00, 0x40, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0xB7, 0x43, 0xBA, 0x51, 0x80, 0x96, 0x18, 0xCB,
+  0x80, 0x96, 0x18, 0xCB, 0x80, 0x96, 0x18, 0x4B, 0x80, 0x96, 0x18, 0x4B, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x08, 0x00, 0x18, 0x00,
+  0xFF, 0xFF, 0xFE, 0x03, 0x08, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x7B, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00,
+  0x04, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0x0F, 0x10, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x01, 0x00, 0x01, 0x01, 0xFE, 0xFF, 0x00, 0x01, 0x00, 0x00, 0x04, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x7F,
+};
 void d8_caps(D3DCAPS8 *c) {
-  memset(c, 0, sizeof *c);
-  c->DeviceType = D3DDEVTYPE_HAL; c->AdapterOrdinal = 0;
-  c->Caps2 = D3DCAPS2_FULLSCREENGAMMA | D3DCAPS2_CANRENDERWINDOWED | D3DCAPS2_DYNAMICTEXTURES;
-  c->Caps3 = D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD;
-  c->PresentationIntervals = D3DPRESENT_INTERVAL_IMMEDIATE | D3DPRESENT_INTERVAL_ONE;
-  c->CursorCaps = D3DCURSORCAPS_COLOR;
-  c->DevCaps = D3DDEVCAPS_EXECUTESYSTEMMEMORY | D3DDEVCAPS_TLVERTEXSYSTEMMEMORY | D3DDEVCAPS_TLVERTEXVIDEOMEMORY |
-               D3DDEVCAPS_TEXTUREVIDEOMEMORY | D3DDEVCAPS_DRAWPRIMTLVERTEX | D3DDEVCAPS_CANRENDERAFTERFLIP |
-               D3DDEVCAPS_DRAWPRIMITIVES2 | D3DDEVCAPS_DRAWPRIMITIVES2EX | D3DDEVCAPS_HWTRANSFORMANDLIGHT |
-               D3DDEVCAPS_HWRASTERIZATION | D3DDEVCAPS_PUREDEVICE;
-  c->PrimitiveMiscCaps = D3DPMISCCAPS_MASKZ | D3DPMISCCAPS_CULLNONE | D3DPMISCCAPS_CULLCW | D3DPMISCCAPS_CULLCCW |
-                         D3DPMISCCAPS_COLORWRITEENABLE | D3DPMISCCAPS_BLENDOP | D3DPMISCCAPS_TSSARGTEMP;
-  c->RasterCaps = D3DPRASTERCAPS_DITHER | D3DPRASTERCAPS_ZTEST | D3DPRASTERCAPS_FOGVERTEX | D3DPRASTERCAPS_FOGTABLE |
-                  D3DPRASTERCAPS_MIPMAPLODBIAS | D3DPRASTERCAPS_ZBIAS | D3DPRASTERCAPS_FOGRANGE |
-                  D3DPRASTERCAPS_ANISOTROPY | D3DPRASTERCAPS_WFOG | D3DPRASTERCAPS_ZFOG;
-  c->ZCmpCaps = c->AlphaCmpCaps = 0xFF;                       // every D3DPCMPCAPS_*
-  c->SrcBlendCaps = c->DestBlendCaps = 0x1FFF;                // every D3DPBLENDCAPS_*
-  c->ShadeCaps = D3DPSHADECAPS_COLORGOURAUDRGB | D3DPSHADECAPS_SPECULARGOURAUDRGB | D3DPSHADECAPS_ALPHAGOURAUDBLEND |
-                 D3DPSHADECAPS_FOGGOURAUD;
-  c->TextureCaps = D3DPTEXTURECAPS_PERSPECTIVE | D3DPTEXTURECAPS_ALPHA | D3DPTEXTURECAPS_CUBEMAP |
-                   D3DPTEXTURECAPS_MIPMAP | D3DPTEXTURECAPS_MIPCUBEMAP | D3DPTEXTURECAPS_PROJECTED;
-  c->TextureFilterCaps = c->CubeTextureFilterCaps = D3DPTFILTERCAPS_MINFPOINT | D3DPTFILTERCAPS_MINFLINEAR |
-      D3DPTFILTERCAPS_MINFANISOTROPIC | D3DPTFILTERCAPS_MIPFPOINT | D3DPTFILTERCAPS_MIPFLINEAR |
-      D3DPTFILTERCAPS_MAGFPOINT | D3DPTFILTERCAPS_MAGFLINEAR | D3DPTFILTERCAPS_MAGFANISOTROPIC;
-  c->TextureAddressCaps = D3DPTADDRESSCAPS_WRAP | D3DPTADDRESSCAPS_MIRROR | D3DPTADDRESSCAPS_CLAMP |
-                          D3DPTADDRESSCAPS_BORDER | D3DPTADDRESSCAPS_INDEPENDENTUV | D3DPTADDRESSCAPS_MIRRORONCE;
-  c->LineCaps = D3DLINECAPS_TEXTURE | D3DLINECAPS_ZTEST | D3DLINECAPS_BLEND | D3DLINECAPS_ALPHACMP | D3DLINECAPS_FOG;
-  c->MaxTextureWidth = c->MaxTextureHeight = 8192; c->MaxTextureRepeat = 8192; c->MaxTextureAspectRatio = 8192;
-  c->MaxAnisotropy = 16; c->MaxVertexW = 1e10f;
-  c->GuardBandLeft = -32768; c->GuardBandTop = -32768; c->GuardBandRight = 32768; c->GuardBandBottom = 32768;
-  c->StencilCaps = 0xFF;                                      // every D3DSTENCILCAPS_*
-  c->FVFCaps = 8 | D3DFVFCAPS_PSIZE;                          // 8 texture coordinate sets
-  c->TextureOpCaps = 0x03FFFFFF;                              // every D3DTEXOPCAPS_* up to LERP
-  c->MaxTextureBlendStages = 8; c->MaxSimultaneousTextures = 8;
-  c->VertexProcessingCaps = D3DVTXPCAPS_TEXGEN | D3DVTXPCAPS_MATERIALSOURCE7 | D3DVTXPCAPS_DIRECTIONALLIGHTS |
-                            D3DVTXPCAPS_POSITIONALLIGHTS | D3DVTXPCAPS_LOCALVIEWER;
-  c->MaxActiveLights = 8; c->MaxUserClipPlanes = 6; c->MaxVertexBlendMatrices = 4; c->MaxVertexBlendMatrixIndex = 0;
-  c->MaxPointSize = 256; c->MaxPrimitiveCount = 0xFFFFF; c->MaxVertexIndex = 0xFFFFFF; c->MaxStreams = 16;
-  c->MaxStreamStride = 255; c->VertexShaderVersion = D3DVS_VERSION(1, 1); c->MaxVertexShaderConst = 256;
-  c->PixelShaderVersion = D3DPS_VERSION(1, 4); c->MaxPixelShaderValue = 8.0f;
+  static_assert(sizeof(D3DCAPS8) == sizeof kCaps, "D3DCAPS8 is 212 bytes in d3d8caps.h");
+  memcpy(c, kCaps, sizeof kCaps);
 }
 
 // ---- IDirect3D8 ---------------------------------------------------------------------------------------------------------

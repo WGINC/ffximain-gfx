@@ -1398,8 +1398,8 @@ What was still open for the performance patch, put into three runs for the owner
 
     After those, all 20 match within 3 of 255.
   - Not drawn yet: the game's own vertex programs (milestone 2c), pixel shaders, vertex blending. Each is logged.
-- **probe8** also dumps the whole D3DCAPS8 (`caps.raw`). The device's caps are provisional until they can answer as
-  dgVoodoo's do on the owner's machine. The game chooses its paths by caps.
+- **probe8** also dumps the whole D3DCAPS8 (`caps.raw`). The device's caps were provisional until they could answer
+  as dgVoodoo's do on the owner's machine (done: see "13 Oct runs" below). The game chooses its paths by caps.
 
 ## 14 Oct: a new game build (5 Oct, TimeDateStamp 6AC37846), and build translation
 
@@ -1426,3 +1426,62 @@ What was still open for the performance patch, put into three runs for the owner
 - **Two test checks fail intermittently on both builds,** and on the commit before this work too (a worktree build of
   a888779): profile mode's "samples taken while the thread ran the reconstructed GetColor name it", and the mod
   modes' device-hook checks. They passed on reruns. Not caused by this change; not yet explained.
+
+## 13 Oct runs (kit 0ff09cd, received 14 Oct): run 0 (probes) and run 1 (levers) of goal1_finish
+
+Run 2 (the picture check, the time samples with the whole patch on, the readback call's pop) has not come in. The
+owner notes the movement timing of run 1 may have been off.
+
+**The machine, as the kit logs it.**
+- Windows 11 on ARM64 (kernel 10.0 build 26200), the game emulated x86.
+- "Virtual CPU" at 3.07 GHz with SSE to SSE4.2 and no AVX.
+- Parallels Display Adapter (`prl_umdd10.dll`), 4,092 MB shared and no dedicated memory.
+- d3d8.dll in the game folder: dgVoodoo ("dgVoodoo DX API Layer"), file version 4.8.2.134.
+
+**Run 0, probes (phase0_20261013_214301).**
+- State blocks on dgVoodoo:
+  - stateblock.record PASS: between Begin and End, a set is recorded, not applied.
+  - stateblock.apply PASS: applying sets what the block recorded (ALPHAREF at its last value, 0x61) and nothing
+    else.
+  - After Reset, the old token still applies (ALPHAREF 0x61); found, not judged.
+  - block_cache's premise holds on this d3d8.dll.
+- Caps (data/dgvoodoo_caps8.json decodes caps.raw):
+  - vertex shader 1.1, 256 constants;
+  - pixel shader 1.4;
+  - 4 vertex blend matrices, MaxVertexBlendMatrixIndex 255, UBYTE4 bone indices in a vertex shader supported;
+  - 16 streams, stride 65536, 8 lights, MaxPrimitiveCount 16,777,216.
+  - For goal 2: a vs 1.1 program has 256 constants; 77 bones as 4x3 matrices take 231 of them. That this leaves
+    room for the rest of a skinning shader is arithmetic, not a test.
+- Occlusion readback on dgVoodoo, the game's pattern (median of 70 frames):
+  - a query with nothing drawn: 0.54 ms;
+  - one query after 1,600 draws: 3.40 ms;
+  - eight queries after 1,600 draws: 6.26 ms;
+  - eight probes answered a frame late (no lock): 0.18 ms.
+  - A readback waits for the frame's GPU work before it; answering from the previous frame would avoid that wait.
+- D3D11 against D3D8 per call and the synthetic frames repeat the earlier runs' picture: D3D8 7.55 ms against D3D11
+  8.60 to 9.05 ms for the plaza-like frame, 0.17 to 0.31 ms merged. Cross-process present seen, shared texture not
+  seen, as before.
+- kit/d3d8on11 now answers GetDeviceCaps with these 212 bytes. The game takes the paths it takes under dgVoodoo.
+
+**Run 1, levers (process 8948, new game build 6AC37846 through build translation).**
+- Every lever on; A/B of each of the three, phases of 30 s (A B B A A B), the first 60 frames of each left out. Port
+  Jeuno plaza.
+
+  | Lever | A (off) | B (on) | B − A | Spread within a label |
+  |---|---|---|---|---|
+  | block_cache | 24.68 ms | 26.11 ms | +1.43 ms (+5.8%) | 3.94 ms (within it) |
+  | skin_merge | 24.23 ms | 25.59 ms | +1.36 ms (+5.6%) | 5.29 ms (within it) |
+  | extended_state_cache | 29.55 ms | 27.01 ms | −2.53 ms (−8.6%) | 4.25 ms (within it) |
+
+- None is faster by more than the spread, so by the session's rule none becomes a default. All three stay off as
+  they were.
+- What this run cannot say: whether any of them helps or costs by less than about 4 to 5 ms. The phases of one
+  label differed by 4 to 5 ms, as much as or more than any difference measured.
+- The frame was 22.7 to 31.2 ms a phase. Session 5's frames (6 Oct, same plaza, older build) were 29.5 to 45.7 ms;
+  the crowd and the machine's state are not controlled, so the two are not compared.
+- block_cache at work: most applies had their contents known after the first minute, e.g. 2,579,458 known and
+  138,980 not in one minute. The first minute (loading in) had 1,175,263 known and 1,075,114 not.
+- lazy_state: about a third of held changes never sent (e.g. 6,098,785 of 21,719,067 in a minute).
+- The cached setters skipped 51 to 61% of calls. batch_up_draws sent 86 to 90% fewer DrawPrimitiveUP calls.
+- vs_dedupe: 3 vertex shaders made in the session; every later creation got one of them.
+- The kit ran on build 6AC37846 through its translated manifest. Swapped functions: 2 at frame 1, none refused.

@@ -4,7 +4,7 @@ thread. Runs: the game DLL at its analysed base, loaded elsewhere (0x10000000 oc
 profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod.sh; function and device hooks) at its
 base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
 
-    python3 test_xikit.py            (after ../build.sh; needs wine)"""
+    python3 test_xikit.py            (after ../build.sh; needs wine; MODES="mod modrel" runs only those)"""
 import json, os, re, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); DIST = os.path.join(H, '..', 'dist')
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-o', os.path.join(H, 'host.exe'), os.path.join(H, 'host.c'), '-static-libgcc'], check=True)
@@ -41,6 +41,7 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
 for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab'):
+    if os.environ.get('MODES') and mode not in os.environ['MODES'].split(): continue     # MODES="mod modrel": only these runs
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)

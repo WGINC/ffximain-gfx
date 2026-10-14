@@ -101,7 +101,6 @@ Known gaps, each logged when hit:
 - full screen (renders windowed);
 - CreateStateBlock of the pixel or vertex state only (the game creates D3DSBT_ALL only: its two call sites);
 - palettized texture formats (the palettes themselves are kept and read back; the game creates no palettized texture);
-- writing to a locked render target;
 - textures in a block format whose top level is not whole 4x4 blocks: D3D11 wants whole blocks; behaviour to be
   checked;
 - caps: the device answers with dgVoodoo's own D3DCAPS8 from the owner's machine (probe8's caps.raw, 13 Oct;
@@ -112,7 +111,8 @@ Known gaps, each logged when hit:
 
 Sources: the DirectX 8.1 SDK's own documentation (directx8_c.chm, 19 Oct 2001) and headers (d3d8types.h), from the
 owner's copy of the SDK (14 Oct; neither is in the repository; the code quotes what it relies on), and Microsoft's
-Direct3D 9 pages where named. Checked, area by area:
+Direct3D 9 pages where named, and the Direct3D 11 pages of the June 2010 SDK (windows_graphics.chm) where named.
+Checked, area by area:
 - Render-state and stage-state defaults: all as the reference states (README "defaults" below). Changed:
   POSITIONORDER, NORMALORDER, AMBIENTMATERIALSOURCE (the last differs between the 8.1 and 9 references).
 - Texture operations (D3DTEXTUREOP's formulas) and argument flags: as the reference. Not stated there: whether results
@@ -136,17 +136,48 @@ Direct3D 9 pages where named. Checked, area by area:
 - State blocks: D3DSBT_ALL holds what the reference lists (changed: it held the index buffer, which is not listed,
   and not the palette, which is); recorded blocks record the methods the reference lists.
 - Palettes: SetPaletteEntries / SetCurrentTexturePalette as the reference (they failed before; the game calls both).
-- Not yet checked against the reference: CopyRects, LockRect and its flags, Reset, texture addressing and border
-  colour, vertex declarations, Present, the caps' use.
+- CopyRects: fails as the reference lists (the same surface, formats that differ, depth formats, a rectangle not
+  inside both surfaces; changed: none of these was checked). A copy into a texture level also updates the copy the
+  game locks (changed: it did not); a copy from the GPU into a lockable level is logged (`copystale`): the CPU copy
+  is not refreshed.
+- Locks: "Textures created in D3DPOOL_DEFAULT are not lockable" unless dynamic (changed: they were; in run 2's resource
+  log every DEFAULT-pool texture the game made is a render target, whose locks were already refused); READONLY sends
+  nothing back; a render target or back buffer locked for writing gets the locked rows back (changed: they were
+  dropped; basic check "a texel written through a rectangle lock"). A draw with a locked vertex buffer set fails, as
+  IDirect3DVertexBuffer8::Lock says (changed: it drew; logged `drawlocked`). Whether the game ever does this is not
+  known: its traces record vertex-buffer unlocks, not locks. The DISCARD / NOOVERWRITE / READONLY combinations the
+  reference allows per pool are not enforced.
+- Reset and lost devices: a failed Reset leaves the device "not reset": TestCooperativeLevel answers
+  D3DERR_DEVICENOTRESET and Present D3DERR_DEVICELOST until a Reset succeeds (changed: both answered D3D_OK).
+- Vertex declarations: registers as D3DVSDE_* (d3d8types.h); 15 and 16 (POSITION2, NORMAL2) were not mapped (a draw
+  was skipped). Now mapped, and read when D3DRS_VERTEXBLEND is D3DVBF_TWEENING: "POSITION = POSITION1 * (1.0 -
+  TWEENFACTOR) + POSITION2 * TWEENFACTOR", the same for normals ("Vertex Tweening"; dgVoodoo's caps report
+  D3DVTXPCAPS_TWEENING). This changes nothing the game was seen doing: its 2,253 captured shaders are three
+  declarations without register 15 or 16 (docs/HISTORY.md); v15 is only in the declarations of its shader programs,
+  which have code and were never reached. Scene v15_declaration (that declaration without code, VERTEXBLEND 0)
+  equals Wine's; the basic check "tweening at 0.5" runs on ours only (Wine's d3d8 does not report the cap). Other
+  VERTEXBLEND values are logged (`vblend`). Types expand as D3DVSD_REG says ("(value, value, 0.0, 1.0)" and so on);
+  SHORT2 did not compile (changed; scenes decl_short2, decl_short4).
+- Texture addressing and border colour: D3DTEXTUREADDRESS's five modes have the same definitions, word for word, as
+  D3D11_TEXTURE_ADDRESS_MODE's (June 2010 SDK); the border colour's default is 0, as D3DTSS_BORDERCOLOR says.
+- Present: rectangles and another window are not implemented (logged `presentargs`). The game passes NULL for all
+  four arguments in each of the 34 Presents of its two traces.
+- MAXMIPLEVEL: neither the 8.1 reference (D3DTSS_MAXMIPLEVEL) nor the Direct3D 11 pages of the June 2010 SDK
+  (D3D11_SAMPLER_DESC, D3D11_TEX2D_SRV, SetResourceMinLOD) say whether magnification and minification are decided
+  against level 0 or against the most detailed level allowed. Ours decides against the latter (a view starting at
+  that level). The game was not seen setting MAXMIPLEVEL or MIPMAPLODBIAS in its traces (MIPFILTER NONE then gives
+  level 0, where both readings agree).
+- Not yet checked against the reference: the caps' use.
 
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
 
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`
 with the x86 `d8x.exe`: Wine here runs x86 only):
-- `basic`: 22 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
-  lights, shader handles, Reset, release). All pass on both.
-- `scenes`: 20 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
-  - the six FVF codes the game uses (data/d3d8_scope.json) and a declaration;
+- `basic`: 24 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
+  lights, shader handles, Reset, release, a rectangle lock of the target, tweening). All pass on both (tweening on ours
+  only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
+- `scenes`: 24 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
+  - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements;
   - strips, lists, fans, indexed and ...UP draws, base vertex;
   - depth and culling, ZBIAS 8;
   - lighting with material and vertex colour sources, specular, eight point and spot lights;
@@ -154,7 +185,8 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - the blend modes and BLENDOP values the game sets, alpha test;
   - vertex, table linear and table exp fog;
   - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
-  - DXT1 with mips, flat shading.
+  - DXT1 with mips, flat shading;
+  - Clear of a smaller viewport and of rectangles.
 
   On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 1 of 255 (lights_8), and no pixel is beyond
   the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
@@ -194,7 +226,8 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - C: a stage reading a coordinate set the vertex format does not have. Ours reads zeros; not in the reference.
     Change: the stage reads set 0 (or has no texture).
   - S: a cube texture filtered linearly. Wine's d3d8 filters each face apart (WINED3D_LEGACY_CUBEMAP_FILTERING,
-    dlls/d3d8/d3d8_private.h); D3D11 always filters across faces. What Direct3D 8 hardware did is not established.
+    dlls/d3d8/d3d8_private.h); ours leaves it to Direct3D 11 and the driver, and draws differently. Neither the 8.1 reference nor the June 2010 SDK's Direct3D 11 pages
+    say which a device does, and what Direct3D 8 hardware did is not established.
     Change: that stage point-filtered.
   - L: lighting with normals longer than 1, NORMALIZENORMALS off. Wine clamps each light's N.L at 1; the reference's
     equation, sum[Cd*Ld*(N.Ldir)*Atten*Spot] clamped after all lights ("Diffuse Lighting", Direct3D 9), does not;

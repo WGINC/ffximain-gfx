@@ -68,7 +68,9 @@ static std::string gen_vs(const VSKey &k) {
     if (!has[sem][idx]) return def;
     const VElem &e = k.el[has[sem][idx] - 1]; std::string n = "v.a" + std::to_string(has[sem][idx] - 1);
     switch (e.fmt) {
-    case V_F1: return "float4(" + n + ", 0, 0, 1)"; case V_F2: return "float4(" + n + ", 0, 1)";
+    // "(value, 0.0, 0.0, 1.0)", "(value, value, 0.0, 1.0)", "(value, value, value, 1.0)"; SHORT2 as FLOAT2
+    // (DirectX 8.1, D3DVSD_REG)
+    case V_F1: return "float4(" + n + ", 0, 0, 1)"; case V_F2: case V_SHORT2: return "float4(" + n + ", 0, 1)";
     case V_F3: return "float4(" + n + ", 1)"; default: return "float4(" + n + ")";
     }
   };
@@ -80,13 +82,18 @@ static std::string gen_vs(const VSKey &k) {
     s += "  o.pos = float4(n * w, p.z * w, w);\n  float3 cp = float3(0, 0, p.z);\n";
   } else {
     s += "  float4 p = float4(" + in(SE_POS, 0, "float4(0,0,0,1)") + ".xyz, 1);\n";
+    // tweening, before lighting: "POSITION = POSITION1 * (1.0 - TWEENFACTOR) + POSITION2 * TWEENFACTOR, and likewise for
+    // normals" (DirectX 8.1, "Vertex Tweening"); fix.z holds D3DRS_TWEENFACTOR
+    if (k.tween && has[SE_POS][1]) s += "  p.xyz = p.xyz * (1.0 - fix.z) + " + in(SE_POS, 1, "float4(0,0,0,1)") + ".xyz * fix.z;\n";
     s += "  o.pos = mul(p, wvp);\n  o.pos.xy += fix.xy * o.pos.w;\n";
     s += "  float3 cp = mul(p, wv).xyz;\n";
   }
   s += "  float4 vd = " + in(SE_COLOR, 0, "float4(1,1,1,1)") + "; float4 vs = " + in(SE_COLOR, 1, "float4(0,0,0,0)") + ";\n";
   bool needN = k.lighting || [&] { for (int i = 0; i < k.ntc; i++) if (k.tc[i].src == 1 || k.tc[i].src == 3) return true; return false; }();
   if (needN && !k.rhw) {
-    s += "  float3 nrm = mul(float4(" + in(SE_NORMAL, 0, "float4(0,0,0,0)") + ".xyz, 0), wvn).xyz;\n";
+    std::string n0 = in(SE_NORMAL, 0, "float4(0,0,0,0)") + ".xyz";
+    if (k.tween && has[SE_NORMAL][1]) n0 = "(" + n0 + " * (1.0 - fix.z) + " + in(SE_NORMAL, 1, "float4(0,0,0,0)") + ".xyz * fix.z)";
+    s += "  float3 nrm = mul(float4(" + n0 + ", 0), wvn).xyz;\n";
     // normals are normalized only with D3DRS_NORMALIZENORMALS, after the transform (DirectX 8.1, "Camera Space
     // Transformations"): a normal that is not unit length, or a scaled world matrix, changes the lighting otherwise
     s += k.normalize ? "  if (dot(nrm, nrm) > 0) nrm = normalize(nrm);\n" : "";
@@ -169,7 +176,7 @@ static std::string gen_vs(const VSKey &k) {
       int ix = has[SE_TEX][t.idx]; std::string n = "v.a" + std::to_string(ix - 1);
       if (!ix) src = "float4(0,0,0,0)";
       else switch (k.el[ix - 1].fmt) {
-        case V_F1: src = "float4(" + n + ", 1, 0, 0)"; break; case V_F2: src = "float4(" + n + ", 1, 0)"; break;
+        case V_F1: src = "float4(" + n + ", 1, 0, 0)"; break; case V_F2: case V_SHORT2: src = "float4(" + n + ", 1, 0)"; break;
         case V_F3: src = "float4(" + n + ", 1)"; break; default: src = "float4(" + n + ")";
       }
     } }

@@ -142,7 +142,11 @@ ULONG Dev::Release() {
   delete this;
   return 0;
 }
-HRESULT Dev::TestCooperativeLevel() { return D3D_OK; }
+// lost devices (DirectX 8.1, IDirect3DDevice8::Reset and TestCooperativeLevel): "If a call to Reset fails, the device
+// will be placed in the 'lost' state"; a device that can be reset answers D3DERR_DEVICENOTRESET, and "Present will
+// return D3DERR_DEVICELOST if the device is either 'lost' or 'not reset'". This device is windowed and loses nothing
+// on its own (no full-screen focus to lose), so it is only ever "not reset", after a failed Reset
+HRESULT Dev::TestCooperativeLevel() { return notReset ? D3DERR_DEVICENOTRESET : D3D_OK; }
 UINT Dev::GetAvailableTextureMem() { return 512u << 20; }
 HRESULT Dev::GetDirect3D(IDirect3D8 **o) { if (!o) return D3DERR_INVALIDCALL; *o = d3d; d3d->AddRef(); return D3D_OK; }
 HRESULT Dev::GetDeviceCaps(D3DCAPS8 *c) { if (!c) return D3DERR_INVALIDCALL; d8_caps(c); return D3D_OK; }
@@ -162,12 +166,14 @@ HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) {
   release_swap();
   pp = *p; if (pp.hDeviceWindow) wnd = pp.hDeviceWindow;
   HRESULT hr = make_swap(true);
-  if (FAILED(hr)) return D3DERR_DEVICELOST;
+  if (FAILED(hr)) { notReset = true; return D3DERR_DEVICELOST; }
+  notReset = false;
   defaults();
   d8_log("Reset: %ux%u", pp.BackBufferWidth, pp.BackBufferHeight);
   return D3D_OK;
 }
 HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
+  if (notReset) return D3DERR_DEVICELOST;
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
   return D3D_OK;
@@ -252,17 +258,35 @@ HRESULT Dev::CreateImageSurface(UINT w, UINT h, D3DFORMAT f, IDirect3DSurface8 *
   s->cpu.assign((size_t)d8_pitch(f, w) * d8_rows(f, h), 0);
   *o = s; return D3D_OK;
 }
+// the texture a texture level belongs to
+static TexCore *core_of(Surf *s) {
+  if (s->kind != SK_TEXLEVEL || !s->container) return nullptr;
+  IDirect3DBaseTexture8 *t = (IDirect3DBaseTexture8 *)s->container;
+  return t->GetType() == D3DRTYPE_CUBETEXTURE ? &((CubeTex *)(IDirect3DCubeTexture8 *)t)->c : &((Tex *)(IDirect3DTexture8 *)t)->c;
+}
 HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirect3DSurface8 *dst, const POINT *pts) {
+  // DirectX 8.1, IDirect3DDevice8::CopyRects: source and destination "must point to a different surface"; "The format
+  // of the two surfaces must match"; "this method will fail unless all the source rectangles and their corresponding
+  // destination rectangles are completely contained within the source and destination surfaces"; it "cannot be
+  // applied to surfaces whose formats are classified as depth stencil formats"; NULL points copy each rectangle "to
+  // the same offset"; NULL rectangles copy "the entire surface"
   Surf *s = (Surf *)src, *d = (Surf *)dst;
-  if (!s || !d || s->fmt != d->fmt) return D3DERR_INVALIDCALL;
+  if (!s || !d || s == d || s->fmt != d->fmt || d8_fmt(s->fmt).depth) return D3DERR_INVALIDCALL;
   RECT whole = {0, 0, (LONG)s->w, (LONG)s->h}; POINT zero = {0, 0};
   UINT cnt = rects && n ? n : 1;
+  for (UINT i = 0; i < cnt; i++) {
+    RECT r = rects && n ? rects[i] : whole; POINT p = !(rects && n) ? zero : pts ? pts[i] : POINT{r.left, r.top};
+    if (r.left < 0 || r.top < 0 || r.right <= r.left || r.bottom <= r.top || r.right > (LONG)s->w || r.bottom > (LONG)s->h ||
+        p.x < 0 || p.y < 0 || p.x + (r.right - r.left) > (LONG)d->w || p.y + (r.bottom - r.top) > (LONG)d->h) return D3DERR_INVALIDCALL;
+  }
   for (UINT i = 0; i < cnt; i++) {
     RECT r = rects && n ? rects[i] : whole; POINT p = pts ? pts[i] : POINT{r.left, r.top};
     if (!rects || !n) p = zero;
     bool sg = s->kind != SK_IMAGE && s->id, dg = d->kind != SK_IMAGE && d->id;
     if (sg && dg) {                                           // GPU to GPU
       XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
+      if (d->kind == SK_TEXLEVEL && d->pool != D3DPOOL_DEFAULT)
+        d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels)");
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
       std::vector<uint8_t> out; XRef ref = s->xref();
       if (link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;
@@ -291,6 +315,13 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
         XUpTex u = {d->id, d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, levels) : 0u, (uint32_t)p.x, (uint32_t)p.y,
                     (uint32_t)(r.right - r.left), (uint32_t)(r.bottom - r.top), rowb, rows};
         link->put(X_UPLOAD_TEX, &u, sizeof u, rowsdata.data(), (uint32_t)rowsdata.size());
+        // a texture level's CPU copy is what LockRect reads and UnlockRect sends whole: it gets the rows too
+        if (TexCore *tc = d->kind == SK_TEXLEVEL ? core_of(d) : nullptr) {
+          std::vector<uint8_t> &lv = tc->cpu[d->face * tc->levels + d->level];
+          UINT dp = d8_pitch(d->fmt, d->w);
+          if (lv.size() < (size_t)dp * d8_rows(d->fmt, d->h)) lv.resize((size_t)dp * d8_rows(d->fmt, d->h), 0);
+          for (UINT y = 0; y < rows; y++) memcpy(&lv[(size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x)], &rowsdata[(size_t)y * rowb], rowb);
+        }
       }
     } else {
       d8_notimpl("CopyRects between these kinds of surface");

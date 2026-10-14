@@ -121,8 +121,10 @@ int main(int argc, char **argv) {
                     {16, 30, 0.5f, 1, 0xFF8080FF, 0.5f, 1}, {2, 16, 0.5f, 1, 0xFFFFFF80, 0, 0.5f}};
       IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLEFAN, 3, f, sizeof *f); }
     IDirect3DDevice8_EndScene(d);
-    /* the occlusion readback's path: CopyRects of a render target into a lockable one, then LockRect */
-    IDirect3DDevice8_CopyRects(d, lv, NULL, 0, occl, NULL);
+    /* the occlusion readback's path: CopyRects of a render target into a lockable one, then LockRect. As the game's
+       call (0x1006C8FD): one rectangle, the constant {0, 0, 16, 16} at 0x1032C18C, and no points; the whole 32x32
+       level would not fit the 16x16 target, which the DirectX 8.1 reference says fails (IDirect3DDevice8::CopyRects) */
+    { static const RECT occl_rect = {0, 0, 16, 16}; IDirect3DDevice8_CopyRects(d, lv, &occl_rect, 1, occl, NULL); }
     { D3DLOCKED_RECT lr; if (SUCCEEDED(IDirect3DSurface8_LockRect(occl, &lr, NULL, D3DLOCK_READONLY))) IDirect3DSurface8_UnlockRect(occl); }
     IDirect3DDevice8_SetRenderTarget(d, bb, ds);
     IDirect3DSurface8_Release(lv); IDirect3DSurface8_Release(bb); IDirect3DSurface8_Release(ds);

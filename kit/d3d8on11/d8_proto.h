@@ -60,7 +60,7 @@ struct VSKey {
   uint8_t rhw, lighting, nlights, ltype[8];
   uint8_t matsrc[4];                      // diffuse, specular, ambient, emissive: 0 material, 1 vertex diffuse, 2 vertex specular
   uint8_t specular, localviewer, normalize;
-  uint8_t fogsrc, flat, pad1;             // the fog coordinate (FOG_* below); flat shading
+  uint8_t fogsrc, flat, tween;            // the fog coordinate (FOG_* below); flat shading; D3DVBF_TWEENING
   uint8_t ntc; struct { uint8_t src, idx, count, proj; } tc[8];   // per stage: 0 passthru, 1 cs normal, 2 cs position, 3 cs reflection
 };
 // The fog model (Wine 9.0 wined3d: utils.c wined3d_ffp_get_vs_settings / wined3d_ffp_get_fs_settings /
@@ -79,7 +79,7 @@ struct VSConst {
   float wvp[16], wv[16], wvn[16], proj[16];   // world*view*proj, world*view, its inverse transpose (normals), projection
   float tex[8][16];
   float vp[4];                                // viewport x, y, w, h (pre-transformed vertices)
-  float fix[4];                               // the D3D8 to D3D11 pixel offset in clip space (x, y)
+  float fix[4];                               // the D3D8 to D3D11 pixel offset in clip space (x, y); the tween factor (z)
   float ambient[4], mdiff[4], mamb[4], mspec[4], memis[4], mpow[4];
   float ldiff[8][4], lspec[8][4], lamb[8][4], lpos[8][4], ldir[8][4], latt[8][4], lspot[8][4];
   float fog[4];                               // start, end, density, 1/(end-start)

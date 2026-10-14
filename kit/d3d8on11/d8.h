@@ -27,7 +27,7 @@ struct Surf final : public IDirect3DSurface8_Stub {
   UINT w, h, level = 0, face = 0; D3DFORMAT fmt; D3DPOOL pool; DWORD usage; bool lockable = false;
   uint32_t id = 0;                               // the executor's object: its own (RT, DS, back buffer) or the container's
   std::vector<uint8_t> cpu;                      // image surfaces, and what a lock reads back or writes
-  bool locked = false;
+  bool locked = false; DWORD lockFlags = 0; RECT lockRect = {0, 0, 0, 0};   // the open lock's flags and rectangle
   Surf(Dev *d, SurfKind k, UINT w_, UINT h_, D3DFORMAT f, D3DPOOL p, DWORD u);
   ~Surf();
   HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void **);
@@ -47,6 +47,7 @@ struct TexCore {
   uint32_t id = 0;                               // the executor's texture (0: kept on the CPU only, D3DPOOL_SYSTEMMEM)
   std::vector<std::vector<uint8_t>> cpu;         // per face*levels+level: what the game writes through LockRect
   std::vector<Surf *> surfs;                     // per face*levels+level, made on first GetSurfaceLevel
+  std::vector<char> readonly;                    // per face*levels+level: the open lock is D3DLOCK_READONLY
   UINT lw(UINT l) const { UINT v = w >> l; return v ? v : 1; }
   UINT lh(UINT l) const { UINT v = h >> l; return v ? v : 1; }
   HRESULT init(Dev *d, UINT w_, UINT h_, UINT lv, UINT faces_, DWORD u, D3DFORMAT f, D3DPOOL p);
@@ -157,6 +158,7 @@ struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;
   Link *link = nullptr;                          // the command stream to the executor (direct, thread or remote)
+  bool notReset = false;                         // a Reset failed: only Reset, TestCooperativeLevel, Release are valid
   // ids are taken on whichever thread creates an object. The game creates its device without D3DCREATE_MULTITHREADED
   // (Gfx_CreateDevice, 0x100034B0: behaviour 32 or 64), so D3D8 promises it no thread safety; whether it ever calls
   // the device from a second thread is not established (the frame capture notes such calls if they come). An atomic

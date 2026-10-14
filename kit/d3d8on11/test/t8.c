@@ -492,6 +492,48 @@ static void scenes(void) {
     IDirect3DVertexBuffer8_Release(vp); IDirect3DVertexBuffer8_Release(vn); IDirect3DVertexBuffer8_Release(vt); IDirect3DIndexBuffer8_Release(ib); }
   end("three_stream_declaration");
 
+  /* the declaration of the game's shader programs (data/d3d8_scope.json: stream 0, v0 FLOAT3, v3 FLOAT3, v5 D3DCOLOR,
+     v7 FLOAT2, v15 FLOAT3), here without code: register 15 is D3DVSDE_POSITION2, unused unless D3DRS_VERTEXBLEND is
+     D3DVBF_TWEENING. The game was not seen using it (docs/HISTORY.md: its 2,253 captured shaders are three other
+     declarations); it is here for register 15 */
+  { typedef struct { float x, y, z, nx, ny, nz; DWORD c; float u, v; float x2, y2, z2; } VG;
+    DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_REG(3, D3DVSDT_FLOAT3), D3DVSD_REG(5, D3DVSDT_D3DCOLOR),
+                    D3DVSD_REG(7, D3DVSDT_FLOAT2), D3DVSD_REG(15, D3DVSDT_FLOAT3), D3DVSD_END()};
+    DWORD h = 0; IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+    reset_state();
+    D3DMATRIX pr; persp(&pr, 1.2f, 1.0f, 20.0f); IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &pr);
+    D3DLIGHT8 L; memset(&L, 0, sizeof L); L.Type = D3DLIGHT_DIRECTIONAL; L.Diffuse.r = L.Diffuse.g = L.Diffuse.b = 1; L.Direction.z = 1; L.Direction.x = 0.4f;
+    IDirect3DDevice8_SetLight(d, 0, &L); IDirect3DDevice8_LightEnable(d, 0, TRUE);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_AMBIENT, 0xFF202020);
+    D3DMATERIAL8 mt; memset(&mt, 0, sizeof mt); mt.Diffuse.r = mt.Diffuse.g = mt.Diffuse.b = mt.Diffuse.a = 1; mt.Ambient = mt.Diffuse; IDirect3DDevice8_SetMaterial(d, &mt);
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)chk);
+    VG v[4] = {{-2, -2, 6, 0, 0, -1, 0xFFFF8040, 0, 1, -1, -3, 6}, {2, -2, 6, 0.3f, 0, -1, 0xFF40FF80, 2, 1, 3, -1, 6},
+               {-2, 2, 6, -0.3f, 0, -1, 0xFF8040FF, 0, 0, -3, 1, 6}, {2, 2, 6, 0, 0.3f, -1, 0xFFFFFFFF, 2, 0, 1, 3, 6}};
+    begin(0xFF000000); IDirect3DDevice8_SetVertexShader(d, h);
+    IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
+    IDirect3DDevice8_SetTexture(d, 0, NULL); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+    end("v15_declaration");
+    IDirect3DDevice8_DeleteVertexShader(d, h); IDirect3DDevice8_LightEnable(d, 0, FALSE); }
+  /* SHORT2 and SHORT4 elements: "2-D signed short expanded to (value, value, 0.0, 1.0)" (DirectX 8.1, D3DVSD_REG), here
+     as texture coordinates of a checker texture, so a wrong expansion shows */
+  { typedef struct { float x, y, z; DWORD c; short u, v; short s[4]; } VS2;
+    DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_REG(5, D3DVSDT_D3DCOLOR),
+                    D3DVSD_REG(7, D3DVSDT_SHORT2), D3DVSD_REG(8, D3DVSDT_SHORT4), D3DVSD_END()};
+    for (int pass = 0; pass < 2; pass++) {
+      DWORD h = 0; IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+      reset_state();
+      D3DMATRIX pr; persp(&pr, 1.2f, 1.0f, 20.0f); IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &pr);
+      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)chk);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_TEXCOORDINDEX, pass);
+      VS2 v[4] = {{-2, -2, 5, 0xFFFFFFFF, 0, 3, {0, 2, 0, 0}}, {2, -2, 5, 0xFFFFFFFF, 3, 3, {2, 2, 0, 0}},
+                  {-2, 2, 5, 0xFFFFFFFF, 0, 0, {0, 0, 0, 0}}, {2, 2, 5, 0xFFFFFFFF, 3, 0, {2, 0, 0, 0}}};
+      begin(0xFF000000); IDirect3DDevice8_SetVertexShader(d, h);
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
+      IDirect3DDevice8_SetTexture(d, 0, NULL); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_TEXCOORDINDEX, 0);
+      end(pass ? "decl_short4" : "decl_short2");
+      IDirect3DDevice8_DeleteVertexShader(d, h);
+    } }
   /* Clear of part of the target: "the viewport, or a set of rectangles in the viewport", rectangles "clipped to the
      bounds of the viewport rectangle" (DirectX 8.1, IDirect3DDevice8::Clear); depth cleared only there too */
   reset_state();
@@ -773,9 +815,48 @@ int main(int argc, char **argv) {
     IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF0000FF, 1.0f, 0);
     if (rt && SUCCEEDED(IDirect3DSurface8_LockRect(rt, &lr, NULL, D3DLOCK_READONLY))) { px = ((DWORD *)lr.pBits)[17] & 0xFFFFFF; IDirect3DSurface8_UnlockRect(rt); }
     check(px == 0x0000FF, "a lockable render target: cleared blue, read back blue");
+    /* written through a lock (a rectangle), then read back: the written texels are in the target */
+    { RECT q = {2, 3, 6, 5}; px = 0;
+      if (rt && SUCCEEDED(IDirect3DSurface8_LockRect(rt, &lr, &q, 0))) { ((DWORD *)lr.pBits)[1] = 0xFF00FF00; IDirect3DSurface8_UnlockRect(rt); }
+      if (rt && SUCCEEDED(IDirect3DSurface8_LockRect(rt, &lr, NULL, D3DLOCK_READONLY))) {
+        DWORD a = ((DWORD *)((BYTE *)lr.pBits + 3 * lr.Pitch))[3] & 0xFFFFFF, b = ((DWORD *)((BYTE *)lr.pBits + 3 * lr.Pitch))[2] & 0xFFFFFF;
+        px = (a == 0x00FF00 && b == 0x0000FF); IDirect3DSurface8_UnlockRect(rt); }
+      check(px == 1, "a lockable render target: a texel written through a rectangle lock is in the target, its neighbour unchanged"); }
     IDirect3DDevice8_SetRenderTarget(d, bb, ds);
     if (bb) IDirect3DSurface8_Release(bb); if (ds) IDirect3DSurface8_Release(ds); if (rt) IDirect3DSurface8_Release(rt); }
 
+  /* tweening against the reference's formula, "POSITION = POSITION1 * (1.0 - TWEENFACTOR) + POSITION2 * TWEENFACTOR"
+     (DirectX 8.1, "Vertex Tweening"): a quad tweened at 0.5 between two shapes covers the same pixels as the plain quad
+     at their midpoint. Only on a device that reports D3DVTXPCAPS_TWEENING */
+  { D3DCAPS8 cp; IDirect3DDevice8_GetDeviceCaps(d, &cp);
+    if (cp.VertexProcessingCaps & D3DVTXPCAPS_TWEENING) {
+      typedef struct { float x, y, z; DWORD c; float x2, y2, z2; } VT;
+      DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_REG(5, D3DVSDT_D3DCOLOR), D3DVSD_REG(15, D3DVSDT_FLOAT3), D3DVSD_END()};
+      DWORD h = 0; IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+      D3DMATRIX id; memset(&id, 0, sizeof id); id._11 = id._22 = id._33 = id._44 = 1;
+      IDirect3DDevice8_SetTransform(d, D3DTS_WORLD, &id); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &id); IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &id);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, FALSE); IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, FALSE);
+      VT a[4] = {{-0.9f, -0.5f, 0.5f, 0xFFFF0000, -0.1f, -0.9f, 0.5f}, {0.3f, -0.5f, 0.5f, 0xFFFF0000, 0.9f, -0.9f, 0.5f},
+                 {-0.9f, 0.7f, 0.5f, 0xFFFF0000, -0.1f, 0.1f, 0.5f}, {0.3f, 0.7f, 0.5f, 0xFFFF0000, 0.9f, 0.1f, 0.5f}};
+      float t = 0.5f; IDirect3DDevice8_SetRenderState(d, D3DRS_TWEENFACTOR, *(DWORD *)&t);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_VERTEXBLEND, D3DVBF_TWEENING);
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000, 1.0f, 0);
+      IDirect3DDevice8_BeginScene(d); IDirect3DDevice8_SetVertexShader(d, h);
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, a, sizeof *a); IDirect3DDevice8_EndScene(d);
+      /* 64x64 target: the midpoint quad covers pixels x 16..51, y 19..54; the first shape x 3..41, y 10..48. (40,40) is in the
+         midpoint quad; (6,30) is in the first shape only, so it stays black only if the shapes were blended */
+      DWORD in1 = bb_pixel(40, 40), out1 = bb_pixel(6, 30);
+      IDirect3DDevice8_SetRenderState(d, D3DRS_VERTEXBLEND, D3DVBF_DISABLE);
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000, 1.0f, 0);
+      VT b[4]; for (int i = 0; i < 4; i++) { b[i] = a[i]; b[i].x = (a[i].x + a[i].x2) / 2; b[i].y = (a[i].y + a[i].y2) / 2; }
+      IDirect3DDevice8_BeginScene(d); IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, b, sizeof *b); IDirect3DDevice8_EndScene(d);
+      DWORD in2 = bb_pixel(40, 40), out2 = bb_pixel(6, 30);
+      if (!(in1 == 0xFF0000 && out1 == 0)) printf("tween: in %06lX out %06lX; plain midpoint: in %06lX out %06lX\n", in1, out1, in2, out2);
+      IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE); IDirect3DDevice8_DeleteVertexShader(d, h);
+      check(in1 == 0xFF0000 && out1 == 0 && in2 == in1 && out2 == out1, "tweening at 0.5 draws the midpoint quad (D3DVBF_TWEENING)");
+    } else printf("note: the device does not report D3DVTXPCAPS_TWEENING; tweening not checked\n");
+  }
   /* textures and buffers */
   { IDirect3DTexture8 *t = NULL; D3DLOCKED_RECT lr; D3DSURFACE_DESC sd;
     hr = IDirect3DDevice8_CreateTexture(d, 32, 32, 0, 0, D3DFMT_DXT1, D3DPOOL_MANAGED, &t);

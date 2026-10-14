@@ -53,8 +53,11 @@ static bool layout_decl(const std::vector<DWORD> &d, VSKey &k) {
       static const uint8_t f[] = {V_F1, V_F2, V_F3, V_F4, V_COLOR, V_UBYTE4, V_SHORT2, V_SHORT4};
       if (dt > 7 || n >= 16) return false;
       // the fixed-function register meanings (d3d8types.h D3DVSDE_*): 0 position, 1 blend weight, 3 normal, 4 point
-      // size, 5 diffuse, 6 specular, 7..14 texture coordinates
+      // size, 5 diffuse, 6 specular, 7..14 texture coordinates,
       uint8_t sem, idx = 0;
+      // and 15 / 16 the second position and normal, read only when D3DRS_VERTEXBLEND is D3DVBF_TWEENING (DirectX 8.1,
+      // "Vertex Tweening"). Every declaration the game was traced using maps register 15 (data/d3d8_scope.json)
+      if (reg == 15) { sem = SE_POS; idx = 1; } else if (reg == 16) { sem = SE_NORMAL; idx = 1; } else
       if (reg == 0) sem = SE_POS; else if (reg == 1) sem = SE_WEIGHT; else if (reg == 3) sem = SE_NORMAL; else if (reg == 4) sem = SE_PSIZE;
       else if (reg == 5) sem = SE_COLOR; else if (reg == 6) { sem = SE_COLOR; idx = 1; } else if (reg >= 7 && reg <= 14) { sem = SE_TEX; idx = (uint8_t)(reg - 7); }
       else { d8_once("declreg", "a declaration register %lu without code: not implemented (draw skipped)", (unsigned long)reg); return false; }
@@ -140,6 +143,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   bool hasN = false, hasD = false, hasS = false;
   for (int i = 0; i < vk.nel; i++) { hasN |= vk.el[i].sem == SE_NORMAL; hasD |= vk.el[i].sem == SE_COLOR && vk.el[i].idx == 0; hasS |= vk.el[i].sem == SE_COLOR && vk.el[i].idx == 1; }
   vk.lighting = !vk.rhw && r[D3DRS_LIGHTING];
+  // tweening: D3DRS_VERTEXBLEND = D3DVBF_TWEENING (255) with a second position or normal in the declaration
+  { bool p2 = false; for (int e = 0; e < vk.nel; e++) p2 |= (vk.el[e].sem == SE_POS || vk.el[e].sem == SE_NORMAL) && vk.el[e].idx == 1;
+    vk.tween = !vk.rhw && r[D3DRS_VERTEXBLEND] == 255 && p2;
+    if (r[D3DRS_VERTEXBLEND] && r[D3DRS_VERTEXBLEND] != 255 && !vk.rhw)
+      d8_once("vblend", "D3DRS_VERTEXBLEND %lu (vertex blending by weights): not implemented, drawn unblended", (unsigned long)r[D3DRS_VERTEXBLEND]); }
   int lidx[8], nl = 0;
   if (vk.lighting) for (size_t i = 0; i < st.light.size() && nl < 8; i++) if (st.lightOn[i]) { lidx[nl] = (int)i; vk.ltype[nl] = (uint8_t)st.light[i].Type; nl++; }
   vk.nlights = (uint8_t)nl;
@@ -223,6 +231,7 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     // D3D8 puts pixel centres on integer screen coordinates, D3D11 on .5: geometry moves half a pixel right and down
     // (Wine 9.0 utils.c get_projection_matrix does the same for GL; the picture test compares the result)
     c.fix[0] = 1.0f / (float)st.vp.Width; c.fix[1] = -1.0f / (float)st.vp.Height;
+    memcpy(&c.fix[2], &r[D3DRS_TWEENFACTOR], 4);
     argb4(r[D3DRS_AMBIENT], c.ambient);
     memcpy(c.mdiff, &st.mat.Diffuse, 16); memcpy(c.mamb, &st.mat.Ambient, 16); memcpy(c.mspec, &st.mat.Specular, 16);
     memcpy(c.memis, &st.mat.Emissive, 16); c.mpow[0] = st.mat.Power;
@@ -343,6 +352,9 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     if (!used) continue;
     VB *b = st.stream[i];
     if (!b || !b->c.id) { d8_once("nostream", "a draw reads a stream with no vertex buffer (skipped)"); return D3D_OK; }
+    // "DrawPrimitive calls will not succeed with any outstanding lock count on any currently set vertex buffer"
+    // (DirectX 8.1, IDirect3DVertexBuffer8::Lock)
+    if (b->c.locks) { d8_once("drawlocked", "a draw with a locked vertex buffer set: failed, as the reference says"); return D3DERR_INVALIDCALL; }
     D.stream[i].buf = b->c.id; D.stream[i].stride = st.stride[i];
   }
   if (kind == 0) {

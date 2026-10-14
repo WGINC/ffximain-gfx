@@ -1746,5 +1746,27 @@ thread of its own (design A2), or in a process of its own built natively for ARM
 - Where Microsoft's documents disagree, both are named: AMBIENTMATERIALSOURCE's default and the ambient term (8.1 and
   9 differ; the game's traced vertex formats and lights make both read the same), the specular default (two 8.1 pages
   against one).
-- Not yet checked: CopyRects, LockRect, Reset, addressing and border colour, vertex declarations, Present.
+- Not yet checked then (done below): CopyRects, LockRect, Reset, addressing and border colour, vertex declarations, Present.
+
+### The rest of the DirectX 8.1 audit, and the June 2010 SDK's Direct3D 11 pages (14 Oct)
+
+- Vertex declarations: registers 15 and 16 (D3DVSDE_POSITION2, D3DVSDE_NORMAL2) were not mapped (a draw through one
+  was skipped). Now mapped, with tweening ("Vertex Tweening") when D3DRS_VERTEXBLEND is D3DVBF_TWEENING. The game
+  was not seen needing it: its three captured declarations (above, 14 Oct) have neither register; v15 is only in its
+  shader programs' declarations, which carry code and were never reached. SHORT2 elements did not compile; fixed to
+  D3DVSD_REG's expansion.
+- CopyRects validated as listed; a copy into a texture level updates the copy the game locks. Lock rules: DEFAULT-pool
+  textures not lockable unless dynamic, READONLY sends nothing, a written render-target lock goes back to the target,
+  a draw with a locked vertex buffer set fails (whether the game does that is not known: its traces record unlocks
+  only). A failed Reset leaves the device "not reset" (TestCooperativeLevel and Present answer as the reference).
+- The stricter CopyRects failed one call in kit/fcap's test host: the whole 32x32 level into the 16x16 target, which
+  the reference says fails and Wine's d3d8 allows. The game's own call (0x1006C8FD) passes one rectangle, the constant
+  {0, 0, 16, 16} at 0x1032C18C, into its 16x16 lockable target, whose format its constructor (0x1006C140) takes from
+  level 0 of a texture (GetDesc); that this texture is the copy's source is not established. The host now makes the
+  game's call.
+- Addressing and border colour match; Present's arguments are not implemented, and the game passes NULL in all 34
+  traced Presents.
+- Not settled by any document here: where magnification turns to minification under MAXMIPLEVEL (8.1 and the
+  Direct3D 11 pages are silent; the game was not seen setting MAXMIPLEVEL), and how a cube texture is filtered at
+  face edges (the README's earlier "D3D11 always filters across faces" had no source and is withdrawn).
 

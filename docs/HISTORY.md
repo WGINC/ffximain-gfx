@@ -1363,3 +1363,24 @@ What was still open for the performance patch, put into three runs for the owner
   on, and facts=1. facts=1 is there for the occlusion readback's call at 0x1006C8CD: it is in xikit_facts.txt, but
   no run so far reached it (the facts run of 6 Oct stood still, and readbacks stop when no character comes into
   view), so it is walked through the crowd.
+
+## 14 Oct: groundwork of the port (tasks 26-29)
+
+- **The scope as data** (`data/d3d8_scope.json`, pipeline/d3d8_scope.py):
+  - the static call-site map (62 methods on 7 interfaces, 27 sites of interfaces not established);
+  - the owner's traces 6080 and 5180: 33 methods, 25 render states and 35 stage states with their values, 6 FVF
+    codes;
+  - five resource logs (every creation's usage, format, pool, FVF);
+  - the profiles' calls per frame.
+
+  Each source is kept apart.
+- **kit/d3d8on11, milestone 1:** our d3d8.dll on D3D11, everything but executing draws (D3D11.md, phase 1; README
+  there).
+  - `gen_stubs.py` makes every D3D8 method log "not implemented" and fail until it is written.
+  - Commands are recorded and executed apart from the start.
+  - Tested under Wine: the same program through Wine's d3d8 and ours, 22 checks each, all pass. A fresh device's
+    480 states compared: 2 D3D8 states differ (DEBUGMONITORTOKEN, POINTSIZE_MAX); the other 28 are numbers D3D8
+    does not define.
+  - In tool_drift and BUILD.lock.json.
+- **probe8** also dumps the whole D3DCAPS8 (`caps.raw`). The device's caps are provisional until they can answer as
+  dgVoodoo's do on the owner's machine. The game chooses its paths by caps.

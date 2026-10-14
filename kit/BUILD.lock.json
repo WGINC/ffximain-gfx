@@ -1,7 +1,8 @@
 {
  "kit/d3d11probe/dist/probe11_arm64.exe": "3513225ef4eb1523c8a32e2b22dd0b95a4e2fa44d9c0a53f016c4192a17aaab4",
  "kit/d3d11probe/dist/probe11_x86.exe": "2e93b806b618c5fe46e3dec350a306d58ea7652226c9f49e5a3ce60463a6d040",
- "kit/d3d11probe/dist/probe8_x86.exe": "30bb9e4692ca517d495c607342d4ca7cf76c561cf25b413dc78cee56355b88a3",
+ "kit/d3d11probe/dist/probe8_x86.exe": "d1914bbc2bcd4438e11af672614f9b24d0308ac67611353fa92f53e286263a39",
+ "kit/d3d8on11/dist/d3d8.dll": "b5b34788fab0ab1bfd155d1c7b0a0f1bbe9d48027d0ea3a9d6a3e5470296e23e",
  "kit/d3dprof/d3dprof.dll": "7b3fef20f55a5f9364f147aae367b267a6bb4737373affe998dd6196cc5f6468",
  "kit/speedfix/dist/speedfix.dll": "4915a22709882070d60e7eadfab6c01d12544a960e3b6395df7ebce40b167356",
  "kit/xikit/dist/gfx_recon_ingame.dll": "667b2f3ca29c759ec32e0535b9f26593586e56221dadb4dfdc246f4ff6878831",

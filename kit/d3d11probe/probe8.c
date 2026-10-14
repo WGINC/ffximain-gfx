@@ -178,6 +178,9 @@ static void caps_log(void) {
   put("caps.vertex blending", "MaxVertexBlendMatrices %lu, MaxVertexBlendMatrixIndex %lu, MaxStreams %lu, bone indices as UBYTE4 in a vertex shader: %s",
       (unsigned long)c.MaxVertexBlendMatrices, (unsigned long)c.MaxVertexBlendMatrixIndex, (unsigned long)c.MaxStreams,
       (c.VertexProcessingCaps & D3DVTXPCAPS_NO_VSDT_UBYTE4) ? "not supported (D3DVTXPCAPS_NO_VSDT_UBYTE4)" : "supported");
+  { char hx[sizeof c * 2 + 1]; const unsigned char *b = (const unsigned char *)&c;   /* the whole D3DCAPS8, for d3d8on11 to answer the same */
+    for (size_t i = 0; i < sizeof c; i++) sprintf(hx + 2 * i, "%02X", b[i]);
+    put("caps.raw", "%u bytes: %s", (unsigned)sizeof c, hx); }
   put("caps.limits", "MaxPrimitiveCount %lu, MaxVertexIndex %lu, MaxActiveLights %lu, VertexProcessingCaps 0x%lX, DevCaps 0x%lX",
       (unsigned long)c.MaxPrimitiveCount, (unsigned long)c.MaxVertexIndex, (unsigned long)c.MaxActiveLights,
       (unsigned long)c.VertexProcessingCaps, (unsigned long)c.DevCaps);

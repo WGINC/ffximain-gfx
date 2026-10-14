@@ -37,6 +37,12 @@ code that uses Direct3D 11.
     it ends while the game runs, the game is ended with a log line: the game's resources live in it.
   - Chosen by `d3d8on11.ini` next to the DLL (`[d3d8on11]` `mode=direct|thread|remote`), or the `D8ON11_MODE`
     environment variable, which wins. The log's second line names the mode in use.
+  - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame) and, in `thread` and `remote`,
+    `ring stats`: how long the game thread waited for room, for pacing and for answers, and the MB it sent. In
+    `remote` mode the executor's line is in `d3d8on11_exec.log`.
+  - For the tests only: `D8ON11_RING_KB` (a power of two, 64 to 32768) makes the ring small so it wraps, and
+    `D8ON11_RING_START` (hex) starts its byte counters near 2^32 so they wrap too. The ring's size must divide 2^32:
+    positions are counter % size.
 - `build.sh` builds `dist/d3d8.dll` and `dist/d8x.exe` with MinGW-w64, and `dist/d8x_arm64.exe` with zig's clang
   (PyPI `ziglang` 0.16.0, as kit/d3d11probe does). All three are reproducible and locked in kit/BUILD.lock.json.
 
@@ -45,8 +51,12 @@ code that uses Direct3D 11.
 executor to reach it, as the game's occlusion readback does on any D3D8.
 
 **Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
-area, which bounds one read-back). A record larger than half the ring ends the game with a log line; none of the
-traces shows a draw near that size, but that is not checked against the game.
+area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. How large the game's largest
+record is (a ...UP draw carries its vertices) is not established.
+
+**Bytes per draw.** A draw packet is 3,128 bytes before any ...UP or fan data (pinned in d8_proto.h for both builds),
+so 3,000 draws make about 9.4 MB a frame through the ring, written by the game's thread and read by the executor.
+What that copying costs, against `direct` (which builds the same packet but runs it in place), is not measured.
 
 ## Milestone 1: everything but drawing
 
@@ -129,7 +139,7 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   - texture transforms, camera-space position, normal and reflection texgen into a cube texture;
   - DXT1 with mips, flat shading.
 
-  On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 3 of 255 (lighting), and no pixel is beyond
+  On 14 Oct all 20 match Wine's d3d8, and `thread` and `remote` draw exactly what `direct` draws (every pixel). The worst channel difference is 1 of 255 (lights_8), and no pixel is beyond
   the test's tolerance of 8. The tolerance and the 1% limit are the test's own criteria. With KEEP=1 each scene is
   written as a PNG (Wine | ours | difference).
 - `defaults`: every render state and stage state of a fresh device, read on both and compared. On 14 Oct: 480
@@ -143,7 +153,23 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
 
     KEEP=1 python3 test/test_d3d8on11.py
 
-Not tested here: `d8x_arm64.exe` itself (this container runs no ARM64 Windows code), and an executor process that
-ends while the game runs. What is established for the ARM64 path comes from the owner's machine: phase 0's xproc
-probe saw an ARM64 child's swap chain present into an x86 parent's window (docs/D3D11.md section 4). Speed in any
-mode is not measured: Wine on a software renderer says nothing about it.
+- `frames`, in each mode: 600 frames of Clear and Present, with a read-back each frame from frame 30, through a 64 KB
+  ring. All must run, and the stats lines must be written. (This test exists because a change made while adding the
+  stats wrote a wrong size into every record header; the scenes, which present a few times, had not shown it. It was
+  found and fixed before any commit.)
+- The scenes again in `thread` and `remote` through a 64 KB ring whose counters start at 0xFFFF0100: about 165 KB
+  go through, so the ring wraps twice and the counters pass 2^32. The pictures must equal `direct`'s exactly.
+- `orphan` (remote mode only): t8 ends its executor process at frame 30 and goes on presenting and reading back. The
+  game must end with exit code 3 and the log line, not hang. It does.
+- Elsewhere: kit/xikit/test (`realdev_ours`) hooks this device with the kit as the game's device is hooked and gets
+  its frame times; kit/fcap/test captures a frame through it and replays that through Wine's d3d8 to the same picture.
+
+Not tested here:
+- `d8x_arm64.exe` itself: this container runs no ARM64 Windows code.
+- The fallback when the executor process starts but cannot make its device or swap chain (the fallback when it
+  cannot be started is tested by hand: no d8x.exe beside the DLL gives `thread`).
+- What is established for the ARM64 path comes from the owner's machine. Phase 0's xproc probe (docs/HISTORY.md,
+  6 Oct) saw a child's swap chain present into the parent's window, with an x86 parent and an ARM64 child and the
+  reverse. The probe's swap chain is the executor's kind (windowed, DISCARD, one buffer) but R8G8B8A8, not
+  B8G8R8A8. The raw probe logs are not in the repository; HISTORY.md records the result.
+- Speed in any mode: Wine on a software renderer says nothing about it.

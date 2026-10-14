@@ -5,7 +5,9 @@
    fake CDx whose device has a fake vtable, loads xikit.dll and then plays the render thread: it calls the
    device's Present (which the kit hooks) and calls game functions through their original entries. Each check
    prints "ok: ..." or "FAIL: ...". */
+#define COBJMACROS
 #include <windows.h>
+#include <d3d8.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -81,6 +83,7 @@ int main(int argc, char **argv) {
   int caprun = argc > 1 && !strcmp(argv[1], "capture");
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
   int abrun = argc > 1 && !strcmp(argv[1], "ab");
+  int realrun = argc > 1 && !strcmp(argv[1], "realdev");
   g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
@@ -124,6 +127,41 @@ int main(int argc, char **argv) {
   g_paint_site = (uint8_t *)(uintptr_t)(GETCOLOR + rel);   /* (SetColor is quarantined by the crash checks before the trace) */
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
   *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
+  if (realrun) {
+    /* a real Direct3D 8 device in the game's place (whichever d3d8.dll loads: Wine's, or kit/d3d8on11 next to this
+       program): the kit must hook it as it hooks the game's (its own vtable copy) and write its frame times */
+    WNDCLASSA wc; memset(&wc, 0, sizeof wc); wc.lpfnWndProc = DefWindowProcA; wc.hInstance = GetModuleHandleA(NULL); wc.lpszClassName = "xh"; RegisterClassA(&wc);
+    HWND w = CreateWindowA("xh", "xh", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, 160, 120, NULL, NULL, wc.hInstance, NULL);
+    typedef IDirect3D8 *(WINAPI *Create8)(UINT);
+    HMODULE d8 = LoadLibraryA("d3d8.dll"); Create8 c8 = d8 ? (Create8)(void *)GetProcAddress(d8, "Direct3DCreate8") : NULL;
+    IDirect3D8 *d3d = c8 ? c8(D3D_SDK_VERSION) : NULL;
+    if (!d3d) { printf("FAIL: Direct3DCreate8\n"); return 2; }
+    D3DPRESENT_PARAMETERS pp; memset(&pp, 0, sizeof pp);
+    pp.BackBufferWidth = 64; pp.BackBufferHeight = 64; pp.BackBufferFormat = D3DFMT_X8R8G8B8; pp.BackBufferCount = 1;
+    pp.SwapEffect = D3DSWAPEFFECT_DISCARD; pp.hDeviceWindow = w; pp.Windowed = TRUE;
+    IDirect3DDevice8 *dev = NULL;
+    HRESULT hr = IDirect3D8_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, w, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pp, &dev);
+    if (FAILED(hr) || !dev) { printf("FAIL: CreateDevice 0x%08lX\n", (unsigned long)hr); return 2; }
+    void *vt0 = *(void **)dev;
+    *(void **)(g_cdx + 0xC) = dev;
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\n");
+    if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
+    for (int t = 0; t < 400 && *(void **)dev == vt0; t++) Sleep(50);
+    check(*(void **)dev != vt0, "the kit hooked the real device (its own vtable copy)");
+    int okp = 1;
+    for (int f = 0; f < 200; f++) {                         /* through the object's vtable, as the game calls it */
+      IDirect3DDevice8_Clear(dev, 0, NULL, D3DCLEAR_TARGET, 0xFF000000u | (DWORD)f, 1.0f, 0);
+      okp &= SUCCEEDED(IDirect3DDevice8_Present(dev, NULL, NULL, NULL, NULL));
+    }
+    check(okp, "200 frames presented through the hooked device");
+    char name[MAX_PATH], line[512]; snprintf(name, sizeof name, "xikit_timing_%lu.csv", GetCurrentProcessId());
+    FILE *tm = fopen(name, "r"); int trows = 0;
+    if (tm) { while (fgets(line, sizeof line, tm)) if (line[0] >= '0' && line[0] <= '9') trows++; fclose(tm); }
+    check(trows >= 3, "xikit_timing_<pid>.csv has a line per 60 frames");
+    IDirect3DDevice8_Release(dev); IDirect3D8_Release(d3d);
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);

@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
   if (!mem) { d8_log("MapViewOfFile: error %lu", (unsigned long)GetLastError()); return 2; }
   RingHdr *h = (RingHdr *)mem;
   if (h->magic != RING_MAGIC || h->version != RING_VERSION) { d8_log("the mapping is not a version %u ring", RING_VERSION); return 2; }
+  if (!h->size || (h->size & (h->size - 1))) { d8_log("the ring's size %u is not a power of two", h->size); return 2; }
   char e[128]; HANDLE ev[3];
   const char *suf[3] = {"_w", "_s", "_r"};
   for (int i = 0; i < 3; i++) {

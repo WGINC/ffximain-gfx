@@ -7,6 +7,7 @@
 #include "d8_link.h"
 #include "d8_exec.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static inline uint32_t ld(volatile uint32_t *p) { return __atomic_load_n(p, __ATOMIC_SEQ_CST); }
@@ -16,10 +17,29 @@ static bool is_sync(uint16_t op) { return op == X_INIT || op == X_RESIZE || op =
 #define reader_sleeping pad[0]
 #define writer_waiting pad[1]
 enum { MAX_AHEAD = 2 };                       // frames the game may be ahead of the executor's Presents
+enum { STATS_EVERY = 600 };                   // Presents between the stats lines in the logs
+
+// time, for the stats lines (QueryPerformanceCounter)
+static double qpc_ms() {
+  static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
+  LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
+}
+// the executor's side of the stats: the time spent running records, per frame
+struct ExecStats {
+  double busy = 0, since = 0; uint32_t frames = 0, records = 0;
+  void ran(uint16_t op, double ms) {
+    busy += ms; records++;
+    if (op != X_PRESENT || ++frames < STATS_EVERY) return;
+    double now = qpc_ms(), span = since ? now - since : 0;
+    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time), %u records a frame", frames, busy / frames,
+           span > 0 ? 100.0 * busy / span : 0.0, records / frames);
+    busy = 0; frames = records = 0; since = now;
+  }
+};
 
 // ---- the reader (the executor's side) -----------------------------------------------------------------------------
 void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wake, HANDLE space, HANDLE replied, HANDLE parent) {
-  std::vector<uint8_t> out;
+  std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms();
   for (;;) {
     uint32_t r = h->read, w = ld(&h->write);
     if (r == w) {
@@ -35,10 +55,15 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
     }
     const XHdr *hd = (const XHdr *)(data + r % h->size);
     uint32_t need = 8 + pad8(hd->bytes);
+#ifdef D8_TRACE
+    d8_log("R r=%u w=%u op=%u bytes=%u", r, w, hd->op, hd->bytes);
+#endif
     if (hd->op == X_QUIT) { st(&h->read, r + need); return; }
     if (hd->op != X_PAD) {
       int32_t hr = 0; out.clear();
+      double t0 = qpc_ms();
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
+      xs.ran(hd->op, qpc_ms() - t0);
       if (is_sync(hd->op)) {
         uint32_t n = (uint32_t)out.size();
         if (n > h->reply_max) { d8_log("a reply of %u bytes is larger than the reply area (%u): cut", n, h->reply_max); n = h->reply_max; }
@@ -70,19 +95,37 @@ struct RingLink : Link {
     }
   }
   uint32_t cur_w = 0, cur_need = 0, sent = 0; uint16_t cur_op = 0;
-  RingLink() { InitializeCriticalSection(&lock); }
+  // the game's side of the stats: time waited for room, for pacing, for answers; bytes and records sent
+  double waited[3] = {0, 0, 0}, since = 0; uint64_t sent_bytes = 0; uint32_t records = 0, frames = 0;
+  RingLink() { InitializeCriticalSection(&lock); since = qpc_ms(); }
+  void stats_frame() {
+    if (++frames < STATS_EVERY) return;
+    double now = qpc_ms();
+    d8_log("ring stats, %u frames: the game waited %.3f ms a frame for room, %.3f for pacing (%d frames ahead), %.3f for "
+           "answers; sent %.2f MB and %u records a frame", frames, waited[0] / frames,
+           waited[1] / frames, (int)MAX_AHEAD, waited[2] / frames, (double)sent_bytes / frames / 1048576.0, records / frames);
+    waited[0] = waited[1] = waited[2] = 0; sent_bytes = 0; records = frames = 0; since = now;
+  }
   uint8_t *begin(uint16_t op, uint32_t bytes) override {
     EnterCriticalSection(&lock);
-    uint32_t need = 8 + pad8(bytes), size = h->size;
+    uint32_t need = 8 + pad8(bytes), size = h->size;             // size: a power of two (ring_bytes)
     if (need > size / 2) { d8_log("a record of %u bytes does not fit the ring (%u): the device stops", bytes, size); ExitProcess(3); }
     uint32_t w = h->write, pos = w % size, padb = pos + need > size ? size - pos : 0;
-    while (size - (w - ld(&h->read)) < need + padb) {           // wait for room
-      st(&h->writer_waiting, 1);
-      if (size - (w - ld(&h->read)) < need + padb) wait_for(space);
-      st(&h->writer_waiting, 0);
+    if (size - (w - ld(&h->read)) < need + padb) {
+      double t0 = qpc_ms();
+      while (size - (w - ld(&h->read)) < need + padb) {         // wait for room
+        st(&h->writer_waiting, 1);
+        if (size - (w - ld(&h->read)) < need + padb) wait_for(space);
+        st(&h->writer_waiting, 0);
+      }
+      waited[0] += qpc_ms() - t0;
     }
+    sent_bytes += need + padb; records++;
     if (padb) { XHdr *p = (XHdr *)(data + pos); p->op = X_PAD; p->pad = 0; p->bytes = padb - 8; w += padb; pos = 0; }
     XHdr *hd = (XHdr *)(data + pos); hd->op = op; hd->pad = 0; hd->bytes = bytes;
+#ifdef D8_TRACE
+    d8_log("W w=%u op=%u bytes=%u", w, op, bytes);
+#endif
     cur_w = w; cur_need = need; cur_op = op;
     return (uint8_t *)(hd + 1);
   }
@@ -91,13 +134,20 @@ struct RingLink : Link {
     if (ld(&h->reader_sleeping)) SetEvent(wake);
     if (cur_op == X_PRESENT) {                                   // pacing: at most MAX_AHEAD frames queued
       uint32_t sent_p = ld(&h->presents_sent) + 1; st(&h->presents_sent, sent_p);
-      while (sent_p - ld(&h->presents_done) > MAX_AHEAD) wait_for(replied);
+      if (sent_p - ld(&h->presents_done) > MAX_AHEAD) {
+        double t0 = qpc_ms();
+        while (sent_p - ld(&h->presents_done) > MAX_AHEAD) wait_for(replied);
+        waited[1] += qpc_ms() - t0;
+      }
+      stats_frame();
     }
     if (is_sync(cur_op)) { sent++; return; }                     // the lock is kept until answer()
     LeaveCriticalSection(&lock);
   }
   int32_t answer(std::vector<uint8_t> *out) override {
+    double t0 = qpc_ms();
     while ((int32_t)(ld(&h->answered) - sent) < 0) wait_for(replied);
+    waited[2] += qpc_ms() - t0;
     int32_t hr = h->reply_hr;
     if (out) out->assign(reply, reply + h->reply_bytes);
     LeaveCriticalSection(&lock);
@@ -107,8 +157,21 @@ struct RingLink : Link {
 static void ring_init(RingHdr *h, uint32_t size, uint32_t reply_max) {
   memset(h, 0, sizeof *h);
   h->magic = RING_MAGIC; h->version = RING_VERSION; h->size = size; h->reply_max = reply_max; h->parent_pid = GetCurrentProcessId();
+  // D8ON11_RING_START (hex, a multiple of 8): where the byte counters start, so that a test reaches their wrap at 2^32
+  char v[16]; DWORD n = GetEnvironmentVariableA("D8ON11_RING_START", v, sizeof v);
+  if (n > 0 && n < sizeof v) { uint32_t s0 = (uint32_t)strtoul(v, NULL, 16) & ~7u; h->write = h->read = s0; d8_log("ring: counters start at 0x%08X (D8ON11_RING_START)", s0); }
 }
 enum : uint32_t { RING_BYTES = 32u << 20, REPLY_BYTES = 16u << 20 };
+// the ring's size: 32 MB, or D8ON11_RING_KB (a power of two from 64 to 32768; the tests make it small, so that it wraps
+// often). A power of two because positions are counter % size and the counters wrap at 2^32: only a size dividing 2^32
+// keeps the position continuous across that wrap (at 9 MB a frame the counters wrap every few minutes).
+static uint32_t ring_bytes() {
+  char v[16]; DWORD n = GetEnvironmentVariableA("D8ON11_RING_KB", v, sizeof v);
+  unsigned long kb = n > 0 && n < sizeof v ? strtoul(v, NULL, 10) : 0;
+  if (kb < 64 || kb > (RING_BYTES >> 10) || (kb & (kb - 1))) return RING_BYTES;
+  d8_log("ring: %lu KB (D8ON11_RING_KB)", kb);
+  return (uint32_t)kb << 10;
+}
 
 // thread: the ring in this process, the executor on a thread of its own
 struct ThreadLink : RingLink {
@@ -120,10 +183,11 @@ struct ThreadLink : RingLink {
     return 0;
   }
   bool start() {
-    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + RING_BYTES + REPLY_BYTES, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    uint32_t rb = ring_bytes();
+    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + rb + REPLY_BYTES, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (!mem) return false;
-    h = (RingHdr *)mem; data = mem + 4096; reply = data + RING_BYTES;
-    ring_init(h, RING_BYTES, REPLY_BYTES);
+    h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    ring_init(h, rb, REPLY_BYTES);
     wake = CreateEventA(NULL, FALSE, FALSE, NULL); space = CreateEventA(NULL, FALSE, FALSE, NULL); replied = CreateEventA(NULL, FALSE, FALSE, NULL);
     thread = CreateThread(NULL, 0, main, this, 0, NULL);
     return thread != NULL;
@@ -141,12 +205,13 @@ struct RemoteLink : RingLink {
   bool start() {
     char nm[96]; static LONG n;
     snprintf(nm, sizeof nm, "Local\\d3d8on11_%lu_%ld", (unsigned long)GetCurrentProcessId(), (long)InterlockedIncrement(&n));
-    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + RING_BYTES + REPLY_BYTES, nm);
+    uint32_t rb = ring_bytes();
+    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + rb + REPLY_BYTES, nm);
     if (!map) return false;
     mem = (uint8_t *)MapViewOfFile(map, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (!mem) return false;
-    h = (RingHdr *)mem; data = mem + 4096; reply = data + RING_BYTES;
-    ring_init(h, RING_BYTES, REPLY_BYTES);
+    h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    ring_init(h, rb, REPLY_BYTES);
     char e[128];
     snprintf(e, sizeof e, "%s_w", nm); wake = CreateEventA(NULL, FALSE, FALSE, e);
     snprintf(e, sizeof e, "%s_s", nm); space = CreateEventA(NULL, FALSE, FALSE, e);
@@ -184,14 +249,16 @@ struct RemoteLink : RingLink {
 
 // direct: the executor runs each record as it is written (phase 1)
 struct DirectLink : Link {
-  Exec x; std::vector<uint8_t> buf; uint32_t n = 0; uint16_t op = 0; int32_t hr = 0; std::vector<uint8_t> out;
+  Exec x; std::vector<uint8_t> buf; uint32_t n = 0; uint16_t op = 0; int32_t hr = 0; std::vector<uint8_t> out; ExecStats xs;
   CRITICAL_SECTION lock;
-  DirectLink() { InitializeCriticalSection(&lock); }
+  DirectLink() { InitializeCriticalSection(&lock); xs.since = qpc_ms(); }
   ~DirectLink() override { x.shutdown(); }
   uint8_t *begin(uint16_t o, uint32_t bytes) override { EnterCriticalSection(&lock); op = o; n = bytes; buf.resize(bytes ? bytes : 1); return buf.data(); }
   void end() override {
     out.clear(); hr = 0;
+    double t0 = qpc_ms();
     x.run(op, buf.data(), n, &hr, &out);
+    xs.ran(op, qpc_ms() - t0);
     if (!is_sync(op)) LeaveCriticalSection(&lock);
   }
   int32_t answer(std::vector<uint8_t> *o) override { if (o) *o = out; int32_t r = hr; LeaveCriticalSection(&lock); return r; }

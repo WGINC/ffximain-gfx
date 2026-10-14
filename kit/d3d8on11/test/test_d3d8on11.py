@@ -23,8 +23,8 @@ shutil.copy(os.path.join(D8, 'dist', 'd3d8.dll'), ours); shutil.copy(os.path.joi
 MODES = os.environ.get('MODES', 'direct thread remote').split()
 
 
-def run(where, mode, override, xmode=None):
-    env = dict(os.environ, WINEDEBUG='-all')
+def run(where, mode, override, xmode=None, extra=None):
+    env = dict(os.environ, WINEDEBUG='-all', **(extra or {}))
     if override: env['WINEDLLOVERRIDES'] = 'd3d8=n'
     if xmode: env['D8ON11_MODE'] = xmode
     r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', mode], cwd=where,
@@ -53,9 +53,9 @@ for k in diff: print('  %-10s Wine %s  ours %s' % (k, a.get(k, '(fails)'), b.get
 TOL, MAXFRAC = 8, 0.01
 
 
-def scenes(where, ov, xm=None):
+def scenes(where, ov, xm=None, extra=None):
     out = {}
-    for l in run(where, 'scenes', ov, xm).splitlines():
+    for l in run(where, 'scenes', ov, xm, extra).splitlines():
         if l.startswith('scene '):
             _, n, hx = l.split(' ', 2)
             out[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
@@ -97,6 +97,37 @@ for m in MODES:
           open(os.path.join(w, 'scene_%s.png' % n), 'wb').write(png)
   for n in sb:
       if n not in sa: print('FAIL %-32s only ours drew it' % n); bad += 1
+# the ring wrapping: the scenes through a 64 KB ring (D8ON11_RING_KB) must draw what direct draws. They send about 165 KB,
+# so the ring wraps twice (two X_PAD records, counted with a -DD8_TRACE build on 14 Oct). The byte counters start at
+# 0xFFFF0100 (D8ON11_RING_START), so they also pass 2^32 on the way, as they do every few minutes in the game
+for m in [m for m in MODES if m != 'direct']:
+    sb = scenes(ours, True, m, {'D8ON11_RING_KB': '64', 'D8ON11_RING_START': 'FFFF0100'})
+    t = open(log).read() if os.path.exists(log) else ''
+    same = first is not None and sb == first[1] and 'ring: 64 KB' in t and 'counters start at 0xFFFF0100' in t; bad += not same
+    print('%s: %s mode through a 64 KB ring, its counters passing 2^32, drew exactly what %s mode drew (%d scenes)' % ('ok' if same else 'FAIL', m, first[0] if first else '?', len(sb)))
+# 600 frames of Clear, Present and (from frame 30) a read-back, in each mode (t8 frames; a 64 KB ring): all 600 must run and the
+# stats lines must be written (d8_link.cpp, every 600 Presents). Then in remote mode t8 orphan ends the executor
+# process at frame 30: the device must end the game with a log line, not hang.
+for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remote' in MODES else []):
+    for f in os.listdir(ours):
+        if f.endswith('.log'): os.remove(os.path.join(ours, f))
+    env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE=m, D8ON11_RING_KB='64')
+    try:
+        r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', run_], cwd=ours,
+                           capture_output=True, text=True, timeout=300, env=env)
+        code, out = r.returncode, r.stdout
+    except subprocess.TimeoutExpired: code, out = None, '(timed out after 300 s)'
+    t = ''.join(open(os.path.join(ours, f)).read() for f in sorted(os.listdir(ours)) if f.endswith('.log'))
+    if run_ == 'orphan':
+        ok = code == 3 and 'ended 1 executor' in out and 'the executor process ended' in t
+        what = 'with its executor process ended at frame 30, the game ends (exit code %s), not hangs' % code
+    else:
+        need = ['executor stats, 600 frames'] + (['ring stats, 600 frames'] if m != 'direct' else [])
+        ok = code == 0 and 'still running after 600 frames' in out and all(n in t for n in need)
+        what = '600 frames run (exit code %s) and the stats lines are written' % code
+    print('%s: %s mode: %s' % ('ok' if ok else 'FAIL', m, what)); bad += not ok
+    for l in t.splitlines():
+        if 'stats,' in l or 'executor process ended' in l: print('   ', l)
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

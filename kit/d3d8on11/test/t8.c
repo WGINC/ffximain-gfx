@@ -4,13 +4,17 @@
      t8 defaults    every render state and texture stage state of a fresh device, one per line ("rs N V", "tss S T V")
      t8 basic       the milestone-1 checks, one line each: "ok: ..." or "FAIL: ..."
      t8 scenes      feature scenes (the vertex formats, primitives, states and stage setups the game uses, data/d3d8_scope.json),
-                    each drawn on a 64x64 back buffer and read back whole: "scene NAME <hex RGB per pixel>" */
+                    each drawn on a 64x64 back buffer and read back whole: "scene NAME <hex RGB per pixel>"
+     t8 frames      600 frames of Clear and Present, with a back-buffer read-back from frame 30: "presented N" lines
+     t8 orphan      (ours, remote mode) the same, ending every d8x*.exe process at frame 30: the device must end this
+                    process (exit code 3), not hang */
 #define COBJMACROS
 #include <windows.h>
 #include <d3d8.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <tlhelp32.h>
 
 static IDirect3DDevice8 *d; static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
@@ -495,6 +499,27 @@ int main(int argc, char **argv) {
   if (argc > 1 && !strcmp(argv[1], "scenes")) {
     scenes();
     IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
+    return 0;
+  }
+  if (argc > 1 && (!strcmp(argv[1], "frames") || !strcmp(argv[1], "orphan"))) {
+    int kill = !strcmp(argv[1], "orphan");
+    for (int f = 0; f < 600; f++) {
+      if (f == 30 && kill) {
+        int n = 0; HANDLE sn = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); PROCESSENTRY32 pe; pe.dwSize = sizeof pe;
+        for (BOOL more = Process32First(sn, &pe); more; more = Process32Next(sn, &pe))
+          if (!_strnicmp(pe.szExeFile, "d8x", 3)) {
+            HANDLE p = OpenProcess(PROCESS_TERMINATE | SYNCHRONIZE, FALSE, pe.th32ProcessID);
+            if (p) { TerminateProcess(p, 7); WaitForSingleObject(p, 5000); CloseHandle(p); n++; }
+          }
+        CloseHandle(sn);
+        printf("ended %d executor process(es)\n", n);
+      }
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000 | (f * 4), 1.0f, 0);
+      IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
+      if (f >= 30) bb_pixel(1, 1);                 /* a read-back: waits for an answer that cannot come */
+      printf("presented %d\n", f);
+    }
+    printf("still running after 600 frames\n");
     return 0;
   }
   if (argc > 1 && !strcmp(argv[1], "defaults")) {

@@ -8,6 +8,7 @@
 // buffer is X_BACKBUFFER. A record marked "sync" is answered: the D3D8 side waits for the executor to reach it and
 // reads the reply (XReply). Everything else is executed in order, later.
 #pragma once
+#include <stddef.h>
 #include <stdint.h>
 #include <d3d11.h>
 
@@ -102,4 +103,6 @@ struct XDraw {
 
 static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 152 && sizeof(PSKey) == 96, "the keys' layout");
-static_assert(sizeof(XDraw) % 4 == 0, "the draw packet's layout");
+// the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
+static_assert(sizeof(XDraw) == 3128 && offsetof(XDraw, vc) == 248 && offsetof(XDraw, blend) == 2120 &&
+              offsetof(XDraw, stage) == 2508 && offsetof(XDraw, stream) == 2956, "the draw packet's layout");

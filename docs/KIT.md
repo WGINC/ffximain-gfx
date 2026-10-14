@@ -80,11 +80,13 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs nine times: base,
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eleven times: base,
 relocated and profile (below); `ab` (the A/B test and the log folder); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
 relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
-needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); and `facts`
-(`facts=1`). The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
+needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); `facts`
+(`facts=1`); and `realdev` and `realdev_ours` (14 Oct): a real Direct3D 8 device in the fake one's place, Wine's d3d8
+and then kit/d3d8on11's, in a virtual X server. The kit must hook it, present 200 frames through it and write
+`xikit_timing_<pid>.csv`. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does

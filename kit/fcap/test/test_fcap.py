@@ -4,7 +4,9 @@ software renderer in a virtual X server:
      to the game's device) and captures one frame;
   2. the replayer plays that capture through Wine's d3d8: its picture must equal the capture's own (the same device);
   3. the replayer plays it through kit/d3d8on11: its picture is compared with the capture's (compare.py: a pixel differs
-     when a channel differs by more than 8; at most 1% may differ; the test's criteria).
+     when a channel differs by more than 8; at most 1% may differ; the test's criteria);
+  4. the host captures again with kit/d3d8on11 as its d3d8.dll (thread mode): the kit's hooks work on our device as on
+     another d3d8.dll, and that capture replays through Wine's d3d8 to its own picture (the same criteria).
 Every replay must run without a failed call, and the capture must carry no note (each note is something the capture
 could not do).
 
@@ -54,6 +56,23 @@ if caps:
             r = subprocess.run(args, capture_output=True, text=True)
             check(r.returncode == 0, 'replay through %s against the captured picture: %s' % (name, r.stdout.strip()))
         else: check(False, 'replay through %s: both pictures written' % name)
+# 4. the kit's hooks on our device: capture through d3d8on11, replay through Wine's d3d8
+o4 = os.path.join(w, 'ours_capture'); os.makedirs(o4)
+shutil.copy(os.path.join(H, 'fcap_host.exe'), o4); shutil.copy(os.path.join(K, 'd3d8on11', 'dist', 'd3d8.dll'), o4)
+print(wine('fcap_host.exe', ['Z:' + o4.replace('/', '\\') + '\\d3dprof.csv'], o4, True))
+caps = [f for f in os.listdir(o4) if f.endswith('.fcap')]
+check(len(caps) == 1 and os.path.exists(os.path.join(o4, 'd3d8on11.log')), 'the host captured one frame through d3d8on11')
+if len(caps) == 1:
+    d = os.path.join(o4, 'wine'); os.makedirs(d)
+    shutil.copy(os.path.join(F, 'dist', 'fcap_replay.exe'), d); shutil.copy(os.path.join(o4, caps[0]), d)
+    o = wine('fcap_replay.exe', [caps[0], 'x'], d)
+    print('== a capture made through d3d8on11, replayed through Wine\'s d3d8\n%s' % o)
+    check(' 0 failures' in o and 'capture note' not in o, 'that replay: no call failed, no note')
+    a, b = os.path.join(d, 'x_capture.pic'), os.path.join(d, 'x_replay.pic')
+    if os.path.exists(a) and os.path.exists(b):
+        r = subprocess.run([sys.executable, os.path.join(F, 'compare.py'), a, b], capture_output=True, text=True)
+        check(r.returncode == 0, 'captured through ours, replayed through Wine: %s' % r.stdout.strip())
+    else: check(False, 'that replay: both pictures written')
 if os.environ.get('KEEP'): print('kept', w)
 else: shutil.rmtree(w, ignore_errors=True)
 print('ALL OK' if not bad else 'FAILED (%d)' % bad)

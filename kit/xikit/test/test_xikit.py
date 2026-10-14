@@ -2,7 +2,8 @@
 host.exe (host.c) maps the game DLL without running it, fakes the device, loads xikit.dll and plays the render
 thread. Runs: the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), at its base with
 profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod.sh; function and device hooks) at its
-base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
+base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1; and with a real
+Direct3D 8 device instead of the fake one (realdev: Wine's d3d8, then kit/d3d8on11's, in a virtual X server).
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
 import json, os, re, shutil, subprocess, sys, tempfile
@@ -40,7 +41,8 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab'):
+ALL_MODES = ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours')
+for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
     for f in os.listdir(DIST):                                   # the manifests of other builds (build translation)
@@ -50,7 +52,12 @@ for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture
     if mode == 'reload': shutil.copy(MODDLL2, d)
     if mode == 'facts': shutil.copy(FACTS, d)
     env = dict(os.environ, WINEDEBUG='-all')
-    r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)
+    cmd = ['wine', 'host.exe', mode]
+    if mode.startswith('realdev'):                # a real D3D8 device: Wine's d3d8, then kit/d3d8on11's (thread mode)
+        cmd = ['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 'host.exe', 'realdev']
+        if mode == 'realdev_ours':
+            shutil.copy(os.path.join(H, '..', '..', 'd3d8on11', 'dist', 'd3d8.dll'), d); env['WINEDLLOVERRIDES'] = 'd3d8=n'
+    r = subprocess.run(cmd, cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())
     if mode in ('base', 'relocated'):           # build translation: the ranges the reconstruction got are the build's own
         import pefile as _pe

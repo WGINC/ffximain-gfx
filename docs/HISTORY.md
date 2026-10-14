@@ -1670,10 +1670,33 @@ thread of its own (design A2), or in a process of its own built natively for ARM
   - test_d3d8on11.py in all three modes: basic passes in each; the 20 scenes match Wine's d3d8 as before; `thread`
     and `remote` (x86 executor) draw the same pixels as `direct`;
   - test_fcap.py: the replay through ours matches its capture (worst channel difference 1);
-  - the fallback with no executor beside the DLL.
+  - the fallback with no executor beside the DLL;
+  - the executor process ended at frame 30 (t8 orphan): the game ends with exit code 3 and the log line.
+- Measured: a draw packet is 3,128 bytes in both builds (pinned by static_asserts), about 9.4 MB a frame at 3,000
+  draws. What copying it costs is not measured.
 - Not established:
   - d8x_arm64.exe runs: it is built (zig 0.16.0, imports only d3d11, kernel32 and the UCRT) but this container
     cannot run ARM64 code;
   - whether any mode is faster than `direct`, or than dgVoodoo, in the game: nothing here measures speed;
-  - the executor process ending mid-game (the code path exists, untested).
+  - the fallback when the executor starts but cannot make its device (code exists, untested).
+
+### Checks of the above (14 Oct, the same day)
+
+- The rewritten draw path was compared with the old one, section by section: the keys, constants, state descriptions
+  and sampler descriptions are the old code's, now filled into the packet; shader creation and binding moved to the
+  executor unchanged.
+- The draw packet's layout is the same under i686 MinGW-w64 g++ and zig 0.16.0's aarch64 clang (3,128 bytes; the
+  offsets of its parts compared), and is now pinned by static_asserts, as is the ring header's (64 bytes).
+- A 600-frame test in each mode found a hang that a change of that day had introduced (a stats counter named like the
+  record size parameter, so every record header got a wrong size). It was fixed before any commit; the test stays.
+- The ring's wrap (X_PAD) and the counters' wrap at 2^32 were never reached by the tests; now they are (64 KB ring,
+  counters started at 0xFFFF0100). The ring's size must be a power of two for the second; the executor checks it.
+- The executor process ending mid-game is tested (t8 orphan): exit code 3 and the log line.
+- The kit on our device: xikit hooks it and writes its frame times (test_xikit `realdev_ours`; also `realdev` on
+  Wine's d3d8). fcap captures through it; that capture replays through Wine's d3d8 to the same picture. Its call list
+  differs from a capture through Wine's d3d8 only in the start state of the 30 render states known to differ (states
+  D3D8 does not define, and 165), the vertex shader handle each device picks, and one undefined state (0xD3) Wine
+  keeps in state blocks.
+- test_xikit's `mod` run failed once and passed on the rerun, as it has before; its cause is not established.
+- kit/sessions/port_first: the first runs in the game (README there).
 

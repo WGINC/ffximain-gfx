@@ -53,4 +53,8 @@ into view.
 - Run 0: stateblock.record and stateblock.apply PASS. dgVoodoo keeps state blocks as the reference says.
 - Run 1: block_cache +1.43 ms, skin_merge +1.36 ms, extended_state_cache −2.53 ms. Each is within its 3.9 to 5.3 ms
   spread between phases of one label, so none becomes a default.
-- Run 2: not yet received.
+- Run 2 (docs/HISTORY.md "13 Oct run 2"):
+  - The pictures show no lever changing the picture in the traced frames.
+  - The readback call's pop is 12 (data/game_sp.json).
+  - While walking, the occlusion readback's LockRect is 26.8% of the render thread.
+  - The owner saw exploding vertices at times not covered by the traces. Their cause is not established.

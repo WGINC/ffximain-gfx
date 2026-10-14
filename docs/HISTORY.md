@@ -1485,3 +1485,56 @@ owner notes the movement timing of run 1 may have been off.
 - The cached setters skipped 51 to 61% of calls. batch_up_draws sent 86 to 90% fewer DrawPrimitiveUP calls.
 - vs_dedupe: 3 vertex shaders made in the session; every later creation got one of them.
 - The kit ran on build 6AC37846 through its translated manifest. Swapped functions: 2 at frame 1, none refused.
+
+## 13 Oct run 2, check (process 6796, received 14 Oct)
+
+Plaza, standing for the two traces, then walking through the crowd. Every lever on (sse_skinning, batch_up_draws,
+lazy_state, skin_merge, block_cache, extended_state_cache, vs_dedupe), cpu_tier=1 (the SSE tier was in use). The
+owner reports **exploding vertices during some parts of the run**.
+
+**The pictures** (kit/d3dprof/pictures.py, two traces of 9 frames, kit and speedfix hooks off and on in alternate
+frames):
+- trace 1 (90 s): swapped frames 3.5 to 5.5% of pixels outside their neighbours' range; control 7.2 to 10.4%;
+- trace 2 (210 s): swapped 0.47 to 0.53%; control 1.16 to 1.43%.
+- Verdict for both: no swapped frame differs from its neighbours more than the control does. The marked pixels are
+  the edges of animated characters, in swapped and control frames alike.
+- The alternation switches skin_merge, sse_skinning and every device-hook lever per frame (sf_hooks_live), so in
+  those frames the levers did not change the picture. No exploding vertices appear in these 18 frames. Both traces
+  were taken standing; when the explosions happened is not in the data.
+
+**The exploding vertices: what is established, what is not.**
+- skin_merge cannot draw a held record's vertices from a rewritten buffer. In SkinAndDrawV2 (the fork, lines
+  104-160) every Lock and Unlock of the model's vertex buffers, and Model_SkinVerticesCpu, come before the record
+  loop. The merged draw passes the same vertex range (0, the model's count) as the game's own draw of each record.
+- Not ruled out, from this data:
+  - sse_skinning: the game's own SSE skinning loops, switched on live on a CPU whose vendor string the game never
+    runs them for;
+  - cpu_tier: the game's SSE math tier, chosen at load and not undone by Ctrl+Alt+F9;
+  - the other levers;
+  - the game itself on this machine (x86 emulated on ARM64, Parallels display driver, dgVoodoo).
+- The way to settle it is a run where the owner switches things off while it happens: Ctrl+Alt+F9 (everything the kit
+  and speedfix add, live), then the levers one at a time in speedfix.ini (re-read live), then cpu_tier=0 at a start.
+
+**The readback call's pop** (fact_sites.py ingest; data/game_sp.json):
+- 0x1006C8CD: 12 bytes in all 80,805 observed calls. The target is slot 15 of the vtable the kit logs with LockRect at
+  slot 16 (a texture), i.e. IDirect3DTexture8::GetSurfaceLevel(this, level, ppSurface): three DWORDs in the D3D8
+  header, 12 bytes.
+- The other sites measured again agree with the pop counts already recorded.
+- The readback function 0x1006C8B0 cannot be re-gated yet: the tree does not reconstruct it (it calls the game's
+  code), and no translation of it is in the repository. Its UNRESOLVED verdict stays until it is translated and
+  gated.
+
+**Where the time goes with the whole patch on** (kit/d3dprof/samples.py; the last 600 frames, 10,977 samples at
+1 ms, during the walk):
+- Time in other modules (Direct3D, driver, Windows), by the game function that called there:
+  - the occlusion readback 0x1006C8B0, its LockRect (return 0x1006C91F): 26.8%;
+  - SkinAndDrawV2 through 0x1002A000 (return 0x1002A034 is after its call to 0x1002DC10; the forked copy runs in
+    speedfix): 12.1%;
+  - CMoVuElem_Draw: 7.6%;
+  - Gfx_SetStreamSourceCached 0x1002F130: 5.4%;
+  - CTsZoneMap::DrawProjectedShadow: 4.0%;
+  - CDx::SetTransform: 3.6%.
+- The render thread itself: 68.8% of samples in memory of no module, as in session 5.
+- The occlusion readback is the largest single item while walking: a quarter of the render thread. Phase 0
+  measured what an answer a frame late costs on this machine (0.18 ms for eight, against 3.40 ms for one LockRect
+  after 1,600 draws). That is the asynchronous query of goal 2 (docs/D3D11.md section 3).

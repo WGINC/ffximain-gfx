@@ -164,6 +164,80 @@ static void stateblock_check(D3DPRESENT_PARAMETERS *pp) {
       (unsigned long)h4, (unsigned long)h5, (unsigned long)rs(D3DRS_ALPHAREF));
   IDirect3DDevice8_DeleteStateBlock(d, tok);
 }
+/* What goal 2 needs to know from this d3d8.dll (docs/D3D11.md): the shader limits GPU skinning would work within,
+   and what the game's occlusion readback pattern costs here. The pattern is the one the game's code shows
+   (docs/HISTORY.md, 11 Oct): a probe drawn into a 16x16 render-target texture, CopyRects into a lockable 16x16 render
+   target, LockRect(READONLY) at once. This imitates it; it is not the game's code. */
+static int g_swvp;
+static void caps_log(void) {
+  D3DCAPS8 c; if (FAILED(IDirect3DDevice8_GetDeviceCaps(d, &c))) { put("caps", "GetDeviceCaps failed"); return; }
+  put("caps.vertex shader", "version %lu.%lu, MaxVertexShaderConst %lu; device made with %s vertex processing",
+      (unsigned long)((c.VertexShaderVersion >> 8) & 0xFF), (unsigned long)(c.VertexShaderVersion & 0xFF), (unsigned long)c.MaxVertexShaderConst,
+      g_swvp ? "SOFTWARE" : "HARDWARE");
+  put("caps.pixel shader", "version %lu.%lu", (unsigned long)((c.PixelShaderVersion >> 8) & 0xFF), (unsigned long)(c.PixelShaderVersion & 0xFF));
+  put("caps.vertex blending", "MaxVertexBlendMatrices %lu, MaxVertexBlendMatrixIndex %lu, MaxStreams %lu, bone indices as UBYTE4 in a vertex shader: %s",
+      (unsigned long)c.MaxVertexBlendMatrices, (unsigned long)c.MaxVertexBlendMatrixIndex, (unsigned long)c.MaxStreams,
+      (c.VertexProcessingCaps & D3DVTXPCAPS_NO_VSDT_UBYTE4) ? "not supported (D3DVTXPCAPS_NO_VSDT_UBYTE4)" : "supported");
+  put("caps.limits", "MaxPrimitiveCount %lu, MaxVertexIndex %lu, MaxActiveLights %lu, VertexProcessingCaps 0x%lX, DevCaps 0x%lX",
+      (unsigned long)c.MaxPrimitiveCount, (unsigned long)c.MaxVertexIndex, (unsigned long)c.MaxActiveLights,
+      (unsigned long)c.VertexProcessingCaps, (unsigned long)c.DevCaps);
+}
+static void plaza_draws(void) {                  /* the character part of frame_bench's D3D8 frame */
+  IDirect3DDevice8_SetIndices(d, g_ib, 0);
+  for (int i = 0; i < 1600; i++) {
+    IDirect3DDevice8_SetStreamSource(d, 0, g_vb[i % NVB], sizeof(Vtx)); set_world(i);
+    if (i % 3 == 0) IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)g_tex[i % NTEX]);
+    IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, 60, 0, MODEL_IDX / 3);
+  }
+}
+static void readback_bench(void) {
+  IDirect3DTexture8 *box = NULL; IDirect3DSurface8 *boxs = NULL, *lk = NULL, *bb = NULL, *ds = NULL;
+  D3DDISPLAYMODE dm; IDirect3DDevice8_GetDisplayMode(d, &dm);
+  HRESULT h1 = IDirect3DDevice8_CreateTexture(d, 16, 16, 1, D3DUSAGE_RENDERTARGET, dm.Format, D3DPOOL_DEFAULT, &box);
+  if (box) IDirect3DTexture8_GetSurfaceLevel(box, 0, &boxs);
+  HRESULT h2 = IDirect3DDevice8_CreateRenderTarget(d, 16, 16, dm.Format, D3DMULTISAMPLE_NONE, TRUE, &lk);
+  if (!boxs || !lk) { put("readback", "not run: CreateTexture hr 0x%08lX, CreateRenderTarget hr 0x%08lX", (unsigned long)h1, (unsigned long)h2); goto out; }
+  IDirect3DDevice8_GetRenderTarget(d, &bb); IDirect3DDevice8_GetDepthStencilSurface(d, &ds);
+  static const struct { const char *name; int plaza, n, lock; } cs[] = {
+    {"readback.1 query, empty frame", 0, 1, 1},
+    {"readback.1 query after 1600 draws", 1, 1, 1},
+    {"readback.8 queries after 1600 draws", 1, 8, 1},
+    {"readback.8 probes after 1600 draws, no lock (what an answer a frame late costs)", 1, 8, 0},
+  };
+  for (int k = 0; k < 4; k++) {
+    enum { FR = 80 }; double ms[FR]; int bad = 0;
+    for (int f = 0; f < FR; f++) {
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF202040, 1, 0); IDirect3DDevice8_BeginScene(d);
+      if (cs[k].plaza) plaza_draws();
+      double t0 = now_us();
+      for (int q = 0; q < cs[k].n; q++) {
+        IDirect3DDevice8_SetRenderTarget(d, boxs, NULL);
+        IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0, 1, 0);
+        up_draw();
+        IDirect3DDevice8_SetRenderTarget(d, bb, ds);
+        if (cs[k].lock) {
+          D3DLOCKED_RECT lr;
+          if (FAILED(IDirect3DDevice8_CopyRects(d, boxs, NULL, 0, lk, NULL))) bad++;
+          if (SUCCEEDED(IDirect3DSurface8_LockRect(lk, &lr, NULL, D3DLOCK_READONLY))) { volatile DWORD x = *(DWORD *)lr.pBits; (void)x; IDirect3DSurface8_UnlockRect(lk); }
+          else bad++;
+        }
+      }
+      double t1 = now_us();
+      IDirect3DDevice8_EndScene(d); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); pump();
+      ms[f] = (t1 - t0) / 1000.0;
+    }
+    double mean = 0; for (int f = 10; f < FR; f++) mean += ms[f]; mean /= FR - 10;
+    qsort(ms + 10, FR - 10, sizeof ms[0], cmp_d);
+    put(cs[k].name, "%.3f ms (median of %d frames; p95 %.3f; mean %.3f)%s", ms[10 + (FR - 10) / 2], FR - 10, ms[10 + (FR - 10) * 95 / 100], mean,
+        bad ? "; some CopyRects or LockRect failed" : "");
+  }
+out:
+  if (bb) IDirect3DSurface8_Release(bb);
+  if (ds) IDirect3DSurface8_Release(ds);
+  if (boxs) IDirect3DSurface8_Release(boxs);
+  if (box) IDirect3DTexture8_Release(box);
+  if (lk) IDirect3DSurface8_Release(lk);
+}
 int main(int argc, char **argv) {
   LARGE_INTEGER f; QueryPerformanceFrequency(&f); g_qpf = (double)f.QuadPart;
   if (argc < 3 || strcmp(argv[1], "bench")) { printf("usage: probe8 bench OUTDIR\n"); return 2; }
@@ -181,11 +255,12 @@ int main(int argc, char **argv) {
   D3DPRESENT_PARAMETERS pp; memset(&pp, 0, sizeof pp);
   pp.Windowed = TRUE; pp.SwapEffect = D3DSWAPEFFECT_DISCARD; pp.BackBufferFormat = dm.Format; pp.hDeviceWindow = hw;
   HRESULT hr = IDirect3D8_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hw, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pp, &d);
-  if (FAILED(hr)) hr = IDirect3D8_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hw, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &pp, &d);
+  if (FAILED(hr)) { g_swvp = 1; hr = IDirect3D8_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hw, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &pp, &d); }
   put("device.create", "hr 0x%08lX", (unsigned long)hr);
   if (FAILED(hr)) return 1;
   D3DADAPTER_IDENTIFIER8 id; if (SUCCEEDED(IDirect3D8_GetAdapterIdentifier(d3d, D3DADAPTER_DEFAULT, 0, &id))) put("adapter", "%s (%s)", id.Description, id.Driver);
   stateblock_check(&pp);
+  caps_log();
   /* resources: as probe11's */
   Vtx v[60]; for (int i = 0; i < 60; i++) { memset(&v[i], 0, sizeof v[i]); v[i].x = (i % 2) * 0.02f + (i / 2) * 0.001f - 0.5f; v[i].y = (i / 2) * 0.01f - 0.2f; v[i].z = 0.5f; v[i].nz = -1; v[i].c = 0xFFFFFFFF; v[i].u = (float)(i % 2); v[i].v = (float)(i / 2) / 30; }
   for (int i = 0; i < NVB; i++) { BYTE *p; IDirect3DDevice8_CreateVertexBuffer(d, sizeof v, D3DUSAGE_WRITEONLY, FVF, D3DPOOL_MANAGED, &g_vb[i]);
@@ -210,5 +285,6 @@ int main(int argc, char **argv) {
   micro("call.VB Lock NOOVERWRITE + Unlock", 9); micro("call.ring draw (Lock NOOVERWRITE + SetStreamSource + DrawPrimitive)", 10);
   frame_bench("frame.plaza-like as D3D8 issues it (1600+900 draws)", 0);
   frame_bench("frame.plaza-like merged (33 draws)", 1);
+  readback_bench();
   return 0;
 }

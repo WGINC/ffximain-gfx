@@ -40,6 +40,9 @@ def report(folder):
     for v in d8.get('d3d8.dll', []) + d8.get('adapter', []): out.append('d3d8   %s' % v)
     for k in ('stateblock.record', 'stateblock.apply', 'stateblock.after Reset'):   # speedfix's block_cache rests on these
         for v in d8.get(k, []): out.append('d3d8   %s: %s' % (k, v))
+    # goal 2's inputs: the shader limits GPU skinning works within, and the occlusion readback pattern's cost
+    for k in [k for k in d8 if k.startswith('caps.') or k.startswith('readback')]:
+        for v in d8[k]: out.append('d3d8   %s: %s' % (k, v))
     out.append('')
     out.append('%-62s %12s %12s %12s %10s %12s' % ('ns a call', 'D3D11 x86', 'D3D11 arm64', 'D3D8 x86', 'x86/arm64', 'D3D8/D3D11'))
     for label, k11, k8 in CALLS:

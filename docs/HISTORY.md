@@ -1339,3 +1339,27 @@ are within a few percent.
   - Simulated effect on the plaza trace (above): 24,347 to 22,391 calls a frame with the extended cache, 20,645 to
     18,423 with lazy_state; more if other blocks behave the same.
   - Still to measure: frame time (`ab_levers=block_cache`), and probe8's answer on dgVoodoo.
+
+## 14 Oct: the runs that finish goal 1's research (kit/sessions/goal1_finish)
+
+What was still open for the performance patch, put into three runs for the owner (README there):
+- **Run 0, probes.** probe8 now also logs, through the d3d8.dll beside it:
+  - its vertex and pixel shader versions, MaxVertexShaderConst, the blending caps and UBYTE4 support (the limits GPU
+    skinning would work within);
+  - the cost of the game's occlusion readback pattern: a probe drawn into a 16x16 render-target texture,
+    CopyRects into a lockable 16x16 target, LockRect(READONLY) at once (the pattern read from the game's code,
+    11 Oct; imitated, not the game's code). It times one query in an empty frame, one and eight after 1,600 draws,
+    and eight probes with no lock, which is what an answer a frame late would cost.
+
+  Under Wine (llvmpipe, numbers not meaningful for the owner's machine): 256 constants, vs 1.1, ps 1.4. The first
+  lock after 1,600 draws waits for all of them (68 ms there), later ones in the same frame add little, and no lock
+  costs nothing. That is the shape of the owner's measurement of the game (4-5 ms for the first query, 1.2 ms for
+  each further one).
+- **Run 1, levers.** Every lever measured as a gain is on (sse_skinning, batch_up_draws with lazy_state). The A/B
+  measures the three never measured in the game: block_cache, skin_merge, extended_state_cache. vs_dedupe is on
+  (it acts at load: its counts and the spike log, not the A/B).
+- **Run 2, check.** Two alternating traces with pictures (the hooks of the kit and of speedfix off and on in
+  alternate frames, so the pictures compare speedfix's levers), the sampler and the profile with the whole patch
+  on, and facts=1. facts=1 is there for the occlusion readback's call at 0x1006C8CD: it is in xikit_facts.txt, but
+  no run so far reached it (the facts run of 6 Oct stood still, and readbacks stop when no character comes into
+  view), so it is walked through the crowd.

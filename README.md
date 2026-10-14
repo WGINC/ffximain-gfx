@@ -110,4 +110,6 @@ With the IDB open in IDA 9.4 (save it first, or work on a copy), run **File > Sc
 | `same_code.py` | Are two builds the same code, function by function |
 | `make_ida_fix.py` | Rebuild `ida/ffxi_ida_fix.py` from the template and `data/` |
 | `bg.sh` | Run a long job in the background and stop it by process group |
+| `unpack_pol.py` | The shipped FFXiMain.dll with its code filled in (its entry stub run in an emulator); for a new build |
+| `build_translate.py` | Can the kit run on another build: the code ranges that moved, every manifest function proven the same code, every address we name settled (`kit/xikit/builds/<stamp>.json`; docs/KIT.md) |
 | `tool_drift.py` | Are the tools current: regenerates the IDA script and the SDK's generated files, rebuilds the kit and compares with `kit/BUILD.lock.json`, checks the kit's ini keys against `docs/KIT.md` (`--fix` keeps the regenerated files) |

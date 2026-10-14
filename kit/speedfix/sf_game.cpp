@@ -7,6 +7,7 @@
 #include "xikit_sdk.hpp"
 #include "speedfix.h"
 XIKIT_MOD_GLOBALS
+extern "C" uintptr_t sf_game_addr(uint32_t a) { return XI_GAME(a); }
 
 extern "C" volatile long sf_aq_skipped, sf_aq_run;
 

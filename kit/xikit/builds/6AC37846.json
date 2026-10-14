@@ -1,0 +1,38 @@
+{
+ "analysed_timestamp": "6A995428",
+ "timestamp": "6AC37846",
+ "ranges": [
+  [
+   "10001000",
+   "10232A90",
+   0
+  ],
+  [
+   "10232A90",
+   "10309EC0",
+   32
+  ],
+  [
+   "10309EC0",
+   "10329000",
+   64
+  ]
+ ],
+ "functions_mapped_by_build_map": 18690,
+ "manifest_functions": 774,
+ "manifest_proven": 774,
+ "changed_functions": [
+  "10232970-10232A2B",
+  "10232A30-10232A88",
+  "103149D0-10314D05",
+  "103169A0-10316CD5"
+ ],
+ "addresses_named": {
+  "code": 1893,
+  "data": 1138
+ },
+ "failures": {
+  "manifest": {},
+  "addresses": {}
+ }
+}

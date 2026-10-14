@@ -3,11 +3,11 @@
  "kit/d3d11probe/dist/probe11_x86.exe": "2e93b806b618c5fe46e3dec350a306d58ea7652226c9f49e5a3ce60463a6d040",
  "kit/d3d11probe/dist/probe8_x86.exe": "d1914bbc2bcd4438e11af672614f9b24d0308ac67611353fa92f53e286263a39",
  "kit/d3d8on11/dist/d3d8.dll": "b5b34788fab0ab1bfd155d1c7b0a0f1bbe9d48027d0ea3a9d6a3e5470296e23e",
- "kit/d3dprof/d3dprof.dll": "7b3fef20f55a5f9364f147aae367b267a6bb4737373affe998dd6196cc5f6468",
- "kit/speedfix/dist/speedfix.dll": "4915a22709882070d60e7eadfab6c01d12544a960e3b6395df7ebce40b167356",
- "kit/xikit/dist/gfx_recon_ingame.dll": "667b2f3ca29c759ec32e0535b9f26593586e56221dadb4dfdc246f4ff6878831",
- "kit/xikit/dist/xikit.dll": "dc331db80433e6f3b9e9f295ef158a78d9316312f10dc0bba2868b1c238abab5",
+ "kit/d3dprof/d3dprof.dll": "db9331198730e82c4d73f8d88544ac52306bc27f428f08ae8302833b2c3f675d",
+ "kit/speedfix/dist/speedfix.dll": "d0181a14b76e475a5f01aeec2635b693413a00ce56e647da641e99abf4e07823",
+ "kit/xikit/dist/gfx_recon_ingame.dll": "13af7c19e3b17a89540f68e7ecc16e200bc902ec599c8525672ec31a463dcf13",
+ "kit/xikit/dist/xikit.dll": "6d2e436747eb114da27e4f197441cd16cd9e1c750e958560171ba52a44aea879",
  "kit/xikit/dist/xikit.ini": "7d3d5fad8cd1f1933048e2edfa09adfa634dbd380a882dd5d99225b56578d89a",
  "kit/xikit/dist/xikit_facts.txt": "5d050de192b0883d14b535a79eea6ab2e7e9d44208dfa727d656c280fee2573b",
- "kit/xikit/dist/xikit_manifest.txt": "c36493ee903f53988d01b955acf9c3f4e215f8581288eb36262130911a2c7faa"
+ "kit/xikit/dist/xikit_manifest.txt": "336c5a6214c8913cffda5db1a666935fdacd76a116450d4bbb3c33f2b0296238"
 }

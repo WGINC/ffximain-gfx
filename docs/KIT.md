@@ -285,6 +285,49 @@ of each, from `capture_after` seconds after the start (default 0):
   restored, and both captures replayed through the gate (PASS, every instruction run, SetColor's argument read
   off the captured stack).
 
+## Another build of the game (build translation)
+
+Square Enix updates FFXiMain.dll. The kit, the reconstruction and the mods all name the game in the analysed build's
+numbering (3 Sep 2026, TimeDateStamp 6A995428). On a build it has no manifest for, the kit logs `FFXiMain.dll is a
+build the kit has no manifest for` and does nothing. A new build is added like this (game binaries stay out of the
+repository):
+
+1. `python3 pipeline/unpack_pol.py SHIPPED_FFXiMain.dll OUT_unpacked.dll`. The shipped DLL's code is compressed in
+   its POL1 section and unpacked by its entry stub at load. This runs the stub in an emulator up to the first
+   instruction in .text and writes the image as the stub leaves it.
+2. `python3 pipeline/build_translate.py $FFXI_DLL OUT_unpacked.dll` writes `kit/xikit/builds/<stamp>.json` only when
+   everything the kit relies on is settled (its docstring has the rules):
+   - the code ranges that moved, from build_map's matches;
+   - every manifest function proven the same code at its range's shift;
+   - every address the reconstruction, speedfix and the SDK name either lies in an unchanged range (code), or is
+     referenced by the same operand there (data).
+   Otherwise it names each unsettled function or address.
+3. `FFXI_DLL_<stamp>=OUT_unpacked.dll kit/xikit/build.sh` adds `dist/xikit_manifest_<stamp>.txt`
+   (manifest_for_build.py): the same functions, with that build's entry bytes and relocations, and `!shift LO HI
+   SHIFT` lines.
+
+At start the kit reads the running game's TimeDateStamp and loads `xikit_manifest_<stamp>.txt` when there is one.
+It writes its jumps at the translated addresses and passes the moved ranges to the reconstruction DLL and the mods
+(`xi_shift`, beside `xi_rel`; `XI_GAME` applies them). It keeps reporting the analysed build's addresses everywhere:
+logs, profiles, traces, samples, faults. Data addresses never move in a build it accepts, so for a constant address
+`XI_GAME` folds to what it was; a code address costs a search of at most 8 ranges. A mod built before this exports
+no `xi_shift` and is refused on a translated build; the SDK's `XIKIT_MOD_GLOBALS` defines it.
+
+`facts=1` keeps the analysed build's bytes for its sites. A site whose bytes differ in the running build (a call into
+code that moved) is refused, as on any mismatch.
+
+**Build 6AC37846 (5 Oct 2026), checked 14 Oct:**
+- The code moved in two places: +32 from 0x10232A90, +64 from 0x10309EC0.
+- Two handler functions (0x10232970, 0x10232A30, reached through pointers) gained a check and return early on it.
+  The other insertion is 32 bytes of int3 padding before `_a_atan2`.
+- All 774 manifest functions are proven the same code (718 unmoved, 56 at +32). The 1,893 code and 1,138 data
+  addresses the reconstruction, speedfix and the SDK name are settled.
+- Every changed dword in .rdata/.data is a pointer into moved code, a build timestamp or the build-date string.
+- Two copy routines with jump tables inside (0x103149D0, 0x103169A0) are not shown the same by the
+  instruction-by-instruction check. Nothing of ours names them.
+- test_xikit.py and test_speedfix.py pass on both builds. On the new build the kit swapped all 774 functions and
+  refused none, and the reconstruction received the two ranges.
+
 ## Measuring what the gate cannot settle (`facts=1`)
 
 8 exported functions are UNRESOLVED (the occlusion readback among them), and 2 more in the in-game DLL's fuzz

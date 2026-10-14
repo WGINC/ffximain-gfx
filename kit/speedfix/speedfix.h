@@ -40,6 +40,7 @@ extern "C" {
 int  sf_init(const XikitHost *host);
 void sf_frame(void);
 // sf_game.cpp
+uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the running game (XI_GAME, build translation)
 int  sf_hook_query(const XikitHost *host);
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)

@@ -2,6 +2,7 @@
 # build.sh -- the in-game kit into kit/xikit/dist/ (MinGW-w64 i686; uses $FFXI_DLL for the manifest):
 #   gfx_recon_ingame.dll   the clean tree (../../tree) built with XI_INGAME
 #   xikit_manifest.txt     make_manifest.py
+#   xikit_manifest_<stamp>.txt  manifest_for_build.py, for each other build in builds/ ($FFXI_DLL_<stamp>)
 #   xikit.dll              xikit.c + ../d3dprof/d3dprof.c (XIKIT)
 #   xikit.ini              the default settings
 set -euo pipefail
@@ -13,6 +14,14 @@ cp "$W/tree/build/gfx_recon_ingame.dll" "$OUT/"
 python3 "$H/close_gaps.py" "$OUT/gfx_recon_ingame.dll"        # Windows refuses gaps between sections (error 193)
 python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" | head -1
 python3 "$ROOT/sdk/gen_sdk.py"                                # sdk/include/xikit_game.hpp follows the manifest
+# other builds of the game (build translation, docs/KIT.md): a manifest for each builds/<stamp>.json whose unpacked DLL
+# is given as $FFXI_DLL_<stamp> (pipeline/unpack_pol.py; game binaries never enter the repository)
+for b in "$H"/builds/*.json; do
+  [ -e "$b" ] || continue
+  st="$(basename "$b" .json)"; var="FFXI_DLL_$st"
+  if [ -n "${!var:-}" ]; then python3 "$H/manifest_for_build.py" "$OUT/xikit_manifest.txt" "$b" "${!var}" "$OUT/xikit_manifest_$st.txt"
+  else echo "build $st: \$$var not set, no manifest for it"; rm -f "$OUT/xikit_manifest_$st.txt"; fi
+done
 python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" --from-gates | head -1   # the UNRESOLVED call sites, for facts=1
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
     "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm

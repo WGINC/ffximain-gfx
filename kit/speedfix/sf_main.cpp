@@ -55,7 +55,7 @@
 #include "speedfix.h"
 
 // an analysed address (base 0x10000000) where the game is loaded now
-#define XI_GAME(a) ((uintptr_t)(a) + (uintptr_t)g_host->rel)
+#define XI_GAME(a) sf_game_addr((uint32_t)(a))     /* the tree's XI_GAME (sf_game.cpp): another build's moved code too */
 
 static const XikitHost *g_host;
 SfConfig sf_cfg;

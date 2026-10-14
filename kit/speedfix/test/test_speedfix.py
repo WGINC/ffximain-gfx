@@ -13,6 +13,8 @@ subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-Wno-unused-parameter',
                 os.path.join(H, 'sf_host.c'), '-static-libgcc'], check=True)
 d = tempfile.mkdtemp(prefix='speedfix_')
 for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(KIT, f), d)
+for f in os.listdir(KIT):                                   # the manifests of other builds (build translation)
+    if f.startswith('xikit_manifest_'): shutil.copy(os.path.join(KIT, f), d)
 shutil.copy(os.path.join(SF, 'dist', 'speedfix.dll'), d); shutil.copy(os.path.join(H, 'sf_host.exe'), d)
 shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll'))
 for mode in ('minimal', 'full', 'lazy', 'blocks'):

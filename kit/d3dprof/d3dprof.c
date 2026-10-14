@@ -65,6 +65,18 @@ static void **g_orig;                 /* the device's own vtable */
 static void *g_next[NSLOTS];          /* where each thunk goes on to: g_orig's method, or a logging wrapper (resources, below) */
 static void *g_vt[NSLOTS];            /* the copy the device is given */
 static uint32_t g_rel;                /* load address - analysed address */
+/* another build of the game: the analysed build's code ranges that moved there (count, then lo, hi, shift), from
+   the kit (d3dprof_set_shift); call sites are reported in the analysed build's numbering */
+static int32_t g_shift[25];
+void d3dprof_set_shift(const int32_t *tab) { memcpy(g_shift, tab, sizeof g_shift); }
+static uint32_t an(uint32_t ra) {
+  uint32_t ea = ra - g_rel;
+  for (int i = 0; i < g_shift[0] && i < 8; i++) {
+    uint32_t lo = (uint32_t)g_shift[1 + 3 * i], hi = (uint32_t)g_shift[2 + 3 * i]; int32_t d = g_shift[3 + 3 * i];
+    if (ea >= lo + d && ea < hi + d) return ea - d;
+  }
+  return ea;
+}
 static uint32_t g_lo, g_hi;           /* the game DLL's address range as loaded */
 static int g_recording;               /* between BeginStateBlock and EndStateBlock: Set* calls are recorded
                                          into the block, not applied to the device (D3D8 documentation) */
@@ -265,7 +277,7 @@ static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DW
     for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1))
       if (!g_pend[h].obj || g_pend[h].obj == (void *)1 || g_pend[h].obj == self) {
         g_pend[h].obj = self; g_pend[h].p = *pp; g_pend[h].off = off; g_pend[h].size = size;
-        g_pend[h].site = ra >= g_lo && ra < g_hi ? ra - g_rel : ra; break;
+        g_pend[h].site = ra >= g_lo && ra < g_hi ? an(ra) : ra; break;
       }
   }
   return hr;
@@ -412,7 +424,7 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   uint32_t ra = a[0];
   if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
   int game = ra >= g_lo && ra < g_hi;
-  uint32_t ret = game ? ra - g_rel : ra;
+  uint32_t ret = game ? an(ra) : ra;
   int redundant = 0; uint32_t prims = 0;
   trace_call(slot, a, ret);
   if (slot == S_PRESENT && g_trace_label >= 0) g_trace_frame++;
@@ -439,7 +451,7 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     for (unsigned w = 0; w < sizeof WRAP / sizeof WRAP[0]; w++)
       if (WRAP[w].ret == ret) {
         uint32_t c = a[WRAP[w].off / 4];
-        if (c >= g_lo && c < g_hi && (s = site_of(c - g_rel, slot, K_WRAPPED)) != NULL) { s->calls++; s->prims += prims; }
+        if (c >= g_lo && c < g_hi && (s = site_of(an(c), slot, K_WRAPPED)) != NULL) { s->calls++; s->prims += prims; }
         break;
       }
   g_calls_window++; g_redundant_window += redundant; g_prims_window += prims;
@@ -539,7 +551,7 @@ static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_
 static uint32_t site_of_ra(uint32_t ra) {
   if (!(ra >= g_lo && ra < g_hi) && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_thread)
     ra = d3dprof_via_stk[d3dprof_via_depth - 1];
-  return ra >= g_lo && ra < g_hi ? ra - g_rel : ra;
+  return ra >= g_lo && ra < g_hi ? an(ra) : ra;
 }
 /* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
 static const char *module_of(uint32_t a, char *buf, size_t n) {

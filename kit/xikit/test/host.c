@@ -138,6 +138,13 @@ int main(int argc, char **argv) {
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
+  {   /* build translation: the moved code ranges the kit read from this build's manifest reach the reconstruction */
+    int32_t *xs = (int32_t *)GetProcAddress(GetModuleHandleA("gfx_recon_ingame.dll"), "xi_shift");
+    printf("xi_shift:");
+    if (xs) for (int i = 0; i <= 3 * xs[0] && i < 25; i++) printf(" %ld", (long)xs[i]);
+    printf("\n");
+    check(xs != NULL, "the reconstruction exports xi_shift and the kit filled it (its ranges: the xi_shift line)");
+  }
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
   if (abrun) {

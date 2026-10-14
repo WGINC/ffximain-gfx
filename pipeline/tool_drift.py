@@ -31,7 +31,8 @@ def run(cmd, cwd=R):
 def built():
     """hashes of the build outputs (VERSION.txt left out: it carries the date)"""
     d = os.path.join(R, 'kit', 'xikit', 'dist')
-    h = {'kit/xikit/dist/' + f: sha(os.path.join(d, f)) for f in sorted(os.listdir(d)) if f != 'VERSION.txt'}
+    # (the manifests of other builds, xikit_manifest_<stamp>.txt, need that build's DLL, which is not in the repository: left out)
+    h = {'kit/xikit/dist/' + f: sha(os.path.join(d, f)) for f in sorted(os.listdir(d)) if f != 'VERSION.txt' and not f.startswith('xikit_manifest_')}
     h['kit/d3dprof/d3dprof.dll'] = sha(os.path.join(R, 'kit', 'd3dprof', 'd3dprof.dll'))
     h['kit/speedfix/dist/speedfix.dll'] = sha(os.path.join(R, 'kit', 'speedfix', 'dist', 'speedfix.dll'))
     p = os.path.join(R, 'kit', 'd3d11probe', 'dist')

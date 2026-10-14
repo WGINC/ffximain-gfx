@@ -1384,3 +1384,29 @@ What was still open for the performance patch, put into three runs for the owner
   - In tool_drift and BUILD.lock.json.
 - **probe8** also dumps the whole D3DCAPS8 (`caps.raw`). The device's caps are provisional until they can answer as
   dgVoodoo's do on the owner's machine. The game chooses its paths by caps.
+
+## 14 Oct: a new game build (5 Oct, TimeDateStamp 6AC37846), and build translation
+
+- **Why the owner's runs wrote nothing:** the game updated. The kit checks the build stamp and did nothing on a build
+  it had no manifest for.
+- **The new build, unpacked** (pipeline/unpack_pol.py): the shipped DLL's entry stub decompresses POL1 into .text.
+  Run in an emulator, it reaches .text at 0x1031676F; the 3 Sep build's entry was 0x1031672F.
+- **What changed** (pipeline/build_translate.py; build_map.py matched 18,690 of 18,697 functions):
+  - code moved +32 from 0x10232A90 and +64 from 0x10309EC0;
+  - the first insertion is in two handler functions reached through pointers, 0x10232970 and 0x10232A30. Each now
+    calls 0x10230930 with its ID minus 0x2000 and returns early when that is true. Not graphics code; what they
+    handle is not established;
+  - the second insertion is 32 bytes of int3 padding;
+  - data does not move. The changed dwords in .rdata and .data are pointers into moved code, timestamps and the
+    build-date string.
+- **What it means for us:** all 774 manifest functions are proven the same code (56 of them moved by 32). Every
+  address the reconstruction, speedfix and the SDK name is settled. Nothing needs re-analysing; the kit translates.
+- **Build translation** (docs/KIT.md):
+  - `kit/xikit/builds/<stamp>.json` and `xikit_manifest_<stamp>.txt` per build;
+  - `xi_shift` beside `xi_rel` in the reconstruction and the mods (`XI_GAME` applies it; data accesses unchanged);
+  - the kit and d3dprof report analysed addresses on any build.
+- **Tests:** test_xikit.py and test_speedfix.py pass on both builds. On the new build, 774 functions swapped, none
+  refused, and the reconstruction received both moved ranges. test_fork.py passes.
+- **Two test checks fail intermittently on both builds,** and on the commit before this work too (a worktree build of
+  a888779): profile mode's "samples taken while the thread ran the reconstructed GetColor name it", and the mod
+  modes' device-hook checks. They passed on reruns. Not caused by this change; not yet explained.

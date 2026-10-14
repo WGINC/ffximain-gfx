@@ -1,0 +1,1039 @@
+{
+ "_about": "d3d8_scope.py -- what the game asks of Direct3D 8: the coverage list for our own device (docs/D3D11.md, phase 1). Built by pipeline/d3d8_scope.py; its docstring names the sources.",
+ "static": {
+  "methods_by_interface": {
+   "ID3DXBuffer": {
+    "GetBufferPointer": {
+     "sites": 4,
+     "example": "0x10017828"
+    },
+    "Release": {
+     "sites": 4,
+     "example": "0x1002D72C"
+    }
+   },
+   "IDirect3D8": {
+    "CheckDeviceFormat": {
+     "sites": 3,
+     "example": "0x10009378"
+    },
+    "CheckDeviceMultiSampleType": {
+     "sites": 2,
+     "example": "0x100093FA"
+    },
+    "CreateDevice": {
+     "sites": 2,
+     "example": "0x1000356E"
+    },
+    "GetAdapterDisplayMode": {
+     "sites": 2,
+     "example": "0x100033D5"
+    },
+    "GetAdapterIdentifier": {
+     "sites": 2,
+     "example": "0x10009474"
+    },
+    "GetDeviceCaps": {
+     "sites": 1,
+     "example": "0x100034C9"
+    }
+   },
+   "IDirect3DDevice8": {
+    "ApplyStateBlock": {
+     "sites": 4,
+     "example": "0x1006AF84"
+    },
+    "BeginScene": {
+     "sites": 2,
+     "example": "0x10009736"
+    },
+    "BeginStateBlock": {
+     "sites": 4,
+     "example": "0x1006AF1C"
+    },
+    "Clear": {
+     "sites": 7,
+     "example": "0x100096F1"
+    },
+    "CopyRects": {
+     "sites": 1,
+     "example": "0x1006C8FD"
+    },
+    "CreateCubeTexture": {
+     "sites": 1,
+     "example": "0x10075388"
+    },
+    "CreateDepthStencilSurface": {
+     "sites": 1,
+     "example": "0x102817E2"
+    },
+    "CreateIndexBuffer": {
+     "sites": 3,
+     "example": "0x1028AADA"
+    },
+    "CreatePixelShader": {
+     "sites": 1,
+     "example": "0x10177323"
+    },
+    "CreateRenderTarget": {
+     "sites": 1,
+     "example": "0x1006C1AB"
+    },
+    "CreateStateBlock": {
+     "sites": 2,
+     "example": "0x1017B5FE"
+    },
+    "CreateTexture": {
+     "sites": 11,
+     "example": "0x1000A737"
+    },
+    "CreateVertexBuffer": {
+     "sites": 17,
+     "example": "0x10029AA1"
+    },
+    "CreateVertexShader": {
+     "sites": 7,
+     "example": "0x10017832"
+    },
+    "DeleteStateBlock": {
+     "sites": 4,
+     "example": "0x1006ADD9"
+    },
+    "DeleteVertexShader": {
+     "sites": 5,
+     "example": "0x100177D1"
+    },
+    "DrawIndexedPrimitive": {
+     "sites": 8,
+     "example": "0x1000CC58"
+    },
+    "DrawPrimitive": {
+     "sites": 7,
+     "example": "0x1000CB6E"
+    },
+    "DrawPrimitiveUP": {
+     "sites": 6,
+     "example": "0x1000CD53"
+    },
+    "EndScene": {
+     "sites": 2,
+     "example": "0x10009746"
+    },
+    "EndStateBlock": {
+     "sites": 4,
+     "example": "0x1006AF5E"
+    },
+    "GetDepthStencilSurface": {
+     "sites": 1,
+     "example": "0x10251B99"
+    },
+    "GetDeviceCaps": {
+     "sites": 2,
+     "example": "0x100091C9"
+    },
+    "GetDisplayMode": {
+     "sites": 2,
+     "example": "0x10009322"
+    },
+    "GetLight": {
+     "sites": 1,
+     "example": "0x102835F5"
+    },
+    "GetRenderTarget": {
+     "sites": 2,
+     "example": "0x1000CA3C"
+    },
+    "GetTransform": {
+     "sites": 3,
+     "example": "0x10046ECD"
+    },
+    "GetViewport": {
+     "sites": 1,
+     "example": "0x10027943"
+    },
+    "LightEnable": {
+     "sites": 47,
+     "example": "0x1002A448"
+    },
+    "Present": {
+     "sites": 1,
+     "example": "0x100035C8"
+    },
+    "SetCurrentTexturePalette": {
+     "sites": 2,
+     "example": "0x1028169A"
+    },
+    "SetGammaRamp": {
+     "sites": 1,
+     "example": "0x100172C3"
+    },
+    "SetIndices": {
+     "sites": 5,
+     "example": "0x10179283"
+    },
+    "SetLight": {
+     "sites": 5,
+     "example": "0x1000BFFB"
+    },
+    "SetMaterial": {
+     "sites": 6,
+     "example": "0x10022768"
+    },
+    "SetPaletteEntries": {
+     "sites": 2,
+     "example": "0x1028168A"
+    },
+    "SetRenderState": {
+     "sites": 706,
+     "example": "0x100038AB"
+    },
+    "SetRenderTarget": {
+     "sites": 4,
+     "example": "0x10009F57"
+    },
+    "SetStreamSource": {
+     "sites": 22,
+     "example": "0x1002F186"
+    },
+    "SetTexture": {
+     "sites": 90,
+     "example": "0x1000A1DD"
+    },
+    "SetTextureStageState": {
+     "sites": 647,
+     "example": "0x100038DC"
+    },
+    "SetTransform": {
+     "sites": 18,
+     "example": "0x1000BD96"
+    },
+    "SetVertexShader": {
+     "sites": 66,
+     "example": "0x100039FB"
+    },
+    "SetViewport": {
+     "sites": 3,
+     "example": "0x10009DEA"
+    },
+    "TestCooperativeLevel": {
+     "sites": 2,
+     "example": "0x10009716"
+    }
+   },
+   "IDirect3DIndexBuffer8": {
+    "Lock": {
+     "sites": 3,
+     "example": "0x1028AB29"
+    }
+   },
+   "IDirect3DSurface8": {
+    "GetDesc": {
+     "sites": 2,
+     "example": "0x10039E25"
+    },
+    "Release": {
+     "sites": 1,
+     "example": "0x10039E2F"
+    }
+   },
+   "IDirect3DTexture8": {
+    "GetLevelDesc": {
+     "sites": 1,
+     "example": "0x1021E0DB"
+    },
+    "GetSurfaceLevel": {
+     "sites": 1,
+     "example": "0x10039E12"
+    },
+    "LockRect": {
+     "sites": 4,
+     "example": "0x1000C89C"
+    },
+    "UnlockRect": {
+     "sites": 1,
+     "example": "0x102816C8"
+    }
+   },
+   "IDirect3DVertexBuffer8": {
+    "Lock": {
+     "sites": 5,
+     "example": "0x10170316"
+    },
+    "Unlock": {
+     "sites": 2,
+     "example": "0x1017059E"
+    }
+   }
+  },
+  "sites_with_interface_not_established_by_slot": {
+   "11": {
+    "sites": 2,
+    "example": "0x1028AC1A"
+   },
+   "14": {
+    "sites": 1,
+    "example": "0x1021D522"
+   },
+   "15": {
+    "sites": 7,
+    "example": "0x100020A0"
+   },
+   "16": {
+    "sites": 2,
+    "example": "0x10016231"
+   },
+   "2": {
+    "sites": 3,
+    "example": "0x10002110"
+   },
+   "8": {
+    "sites": 5,
+    "example": "0x10002178"
+   },
+   "9": {
+    "sites": 1,
+    "example": "0x10002161"
+   },
+   "None": {
+    "sites": 6,
+    "example": "0x10016330"
+   }
+  }
+ },
+ "traces": {
+  "files": [
+   "xikit_trace_6080_1.txt",
+   "xikit_trace_5180_1.txt"
+  ],
+  "frames": 34,
+  "methods": {
+   "SetRenderState": 253666,
+   "SetTextureStageState": 188068,
+   "SetStreamSource": 144478,
+   "SetLight": 98309,
+   "SetTexture": 90595,
+   "DrawPrimitive": 69779,
+   "SetTransform": 48763,
+   "SetVertexShader": 40179,
+   "DrawPrimitiveUP": 34553,
+   "DrawIndexedPrimitive": 28881,
+   "SetIndices": 16937,
+   "ApplyStateBlock": 11948,
+   "LightEnable": 9073,
+   "GetTransform": 4315,
+   "SetMaterial": 4247,
+   "SetViewport": 2048,
+   "SetRenderTarget": 1818,
+   "VB_Unlock": 765,
+   "TestCooperativeLevel": 518,
+   "BeginScene": 225,
+   "EndScene": 225,
+   "Clear": 191,
+   "CopyRects": 123,
+   "Present": 34,
+   "GetDeviceCaps": 24,
+   "ShowCursor": 21,
+   "GetDirect3D": 12,
+   "GetDisplayMode": 12,
+   "DeleteVertexShader": 9,
+   "CreateVertexShader": 8,
+   "CreateIndexBuffer": 7,
+   "CreateTexture": 6,
+   "CreateVertexBuffer": 6
+  },
+  "render_states": {
+   "7 D3DRS_ZENABLE": {
+    "1": 5353,
+    "0": 748
+   },
+   "9 D3DRS_SHADEMODE": {
+    "2": 1681,
+    "1": 612
+   },
+   "14 D3DRS_ZWRITEENABLE": {
+    "0": 15267,
+    "1": 12216
+   },
+   "15 D3DRS_ALPHATESTENABLE": {
+    "1": 3983,
+    "0": 238
+   },
+   "19 D3DRS_SRCBLEND": {
+    "5": 8056,
+    "1": 631,
+    "2": 459
+   },
+   "20 D3DRS_DESTBLEND": {
+    "2": 6190,
+    "6": 2496,
+    "4": 631
+   },
+   "22 D3DRS_CULLMODE": {
+    "1": 4793,
+    "3": 3043,
+    "2": 2788
+   },
+   "23 D3DRS_ZFUNC": {
+    "4": 3684
+   },
+   "24 D3DRS_ALPHAREF": {
+    "0": 6421,
+    "60": 5650,
+    "45": 699
+   },
+   "25 D3DRS_ALPHAFUNC": {
+    "5": 4487,
+    "8": 4469
+   },
+   "27 D3DRS_ALPHABLENDENABLE": {
+    "1": 25712,
+    "0": 20270
+   },
+   "28 D3DRS_FOGENABLE": {
+    "1": 4842,
+    "0": 2754
+   },
+   "29 D3DRS_SPECULARENABLE": {
+    "0": 1527
+   },
+   "34 D3DRS_FOGCOLOR": {
+    "676968": 3743,
+    "0": 2978,
+    "101012": 796,
+    "22232B": 166,
+    "22232A": 90,
+    "F0F13": 34
+   },
+   "35 D3DRS_FOGTABLEMODE": {
+    "3": 4240
+   },
+   "36 D3DRS_FOGSTART": {
+    "0": 4485,
+    "410005D1": 16,
+    "4101269A": 16,
+    "4102E6DA": 16,
+    "4104DB7A": 16,
+    "4106CF0D": 16,
+    "4108C19B": 16,
+    "410AB322": 16,
+    "410BAE36": 16,
+    "410D9A0D": 16,
+    "41009B99": 14,
+    "4101E6C8": 14,
+    "4103E6BF": 14,
+    "4105CFDD": 14,
+    "4107C2DA": 14,
+    "4109B4CA": 14,
+    "410BA5B6": 14,
+    "410CAA2A": 14
+   },
+   "37 D3DRS_FOGEND": {
+    "454A9833": 247,
+    "454A9AC4": 241,
+    "454A99AA": 238,
+    "454A9C3C": 238,
+    "454A9ECD": 236,
+    "454A9D56": 235,
+    "454AA2D6": 234,
+    "454AA044": 233,
+    "454AA15E": 225,
+    "454A98EE": 213,
+    "454A9B80": 204,
+    "454A9C99": 203,
+    "454A9F88": 203,
+    "454A9E12": 201,
+    "454A9A67": 199,
+    "454AA21A": 197,
+    "454AA100": 196,
+    "443BA000": 85,
+    "443BC35D": 46,
+    "443BC359": 45,
+    "443BC357": 45,
+    "443BC354": 45,
+    "443BC352": 45,
+    "443BC34F": 45,
+    "...": "29 more values"
+   },
+   "47 D3DRS_ZBIAS": {
+    "0": 10449,
+    "8": 9809
+   },
+   "48 D3DRS_RANGEFOGENABLE": {
+    "0": 5159
+   },
+   "60 D3DRS_TEXTUREFACTOR": {
+    "80808080": 10964,
+    "80FFFFFF": 612,
+    "32808080": 312,
+    "19808080": 298,
+    "14808080": 218,
+    "23808080": 210,
+    "28808080": 205,
+    "F808080": 197,
+    "1E808080": 157,
+    "FF808080": 102,
+    "A808080": 99,
+    "8080805A": 60,
+    "A88044": 54,
+    "11808080": 52,
+    "10808080": 52,
+    "2E808080": 44,
+    "29808080": 38,
+    "40808080": 37,
+    "16808080": 36,
+    "17808080": 36,
+    "15808080": 35,
+    "1A808080": 35,
+    "5F949494": 34,
+    "7F808080": 34,
+    "...": "1164 more values"
+   },
+   "137 D3DRS_LIGHTING": {
+    "0": 4855,
+    "1": 2470
+   },
+   "139 D3DRS_AMBIENT": {
+    "42404C": 7431,
+    "757270": 3743,
+    "555362": 488,
+    "484653": 328,
+    "4F4C5B": 324,
+    "46465B": 292,
+    "636072": 206,
+    "403F52": 138,
+    "5C596A": 113,
+    "3B3A43": 85,
+    "3F3F52": 75,
+    "62627F": 35,
+    "302F3B": 34,
+    "54546D": 17,
+    "0": 17,
+    "848098": 17,
+    "706C81": 17
+   },
+   "140 D3DRS_FOGVERTEXMODE": {
+    "0": 4240
+   },
+   "143 D3DRS_NORMALIZENORMALS": {
+    "0": 777,
+    "1": 699
+   },
+   "171 D3DRS_BLENDOP": {
+    "1": 13548,
+    "3": 834
+   }
+  },
+  "texture_stage_states": {
+   "0.1 D3DTSS_COLOROP": {
+    "5": 2020,
+    "3": 612,
+    "4": 371,
+    "2": 34,
+    "1": 17
+   },
+   "0.2 D3DTSS_COLORARG1": {
+    "2": 12067,
+    "0": 5286,
+    "1": 119
+   },
+   "0.3 D3DTSS_COLORARG2": {
+    "1": 1938,
+    "3": 1051,
+    "0": 52,
+    "2": 34
+   },
+   "0.4 D3DTSS_ALPHAOP": {
+    "5": 2107,
+    "6": 631,
+    "3": 612,
+    "2": 34,
+    "1": 17
+   },
+   "0.5 D3DTSS_ALPHAARG1": {
+    "2": 11897,
+    "0": 5803,
+    "1": 119
+   },
+   "0.6 D3DTSS_ALPHAARG2": {
+    "3": 1529,
+    "1": 786,
+    "2": 524,
+    "0": 52
+   },
+   "0.11 D3DTSS_TEXCOORDINDEX": {
+    "0": 1002
+   },
+   "0.13 D3DTSS_ADDRESSU": {
+    "3": 9285,
+    "1": 8914
+   },
+   "0.14 D3DTSS_ADDRESSV": {
+    "3": 9285,
+    "1": 8914
+   },
+   "0.16 D3DTSS_MAGFILTER": {
+    "2": 2573,
+    "1": 1383
+   },
+   "0.17 D3DTSS_MINFILTER": {
+    "2": 2611,
+    "1": 1313
+   },
+   "0.18 D3DTSS_MIPFILTER": {
+    "0": 751
+   },
+   "0.24 D3DTSS_TEXTURETRANSFORMFLAGS": {
+    "0": 1173,
+    "2": 306
+   },
+   "0.28 D3DTSS_RESULTARG": {
+    "1": 51
+   },
+   "1.1 D3DTSS_COLOROP": {
+    "5": 11096,
+    "12": 2010,
+    "1": 1710,
+    "6": 371
+   },
+   "1.2 D3DTSS_COLORARG1": {
+    "1": 1410
+   },
+   "1.3 D3DTSS_COLORARG2": {
+    "3": 10907,
+    "2": 1978,
+    "0": 320
+   },
+   "1.4 D3DTSS_ALPHAOP": {
+    "6": 11433,
+    "1": 2108,
+    "7": 2010
+   },
+   "1.5 D3DTSS_ALPHAARG1": {
+    "1": 1359
+   },
+   "1.6 D3DTSS_ALPHAARG2": {
+    "3": 10856,
+    "2": 1978,
+    "0": 320
+   },
+   "1.11 D3DTSS_TEXCOORDINDEX": {
+    "0": 11340,
+    "30001": 1908,
+    "10001": 34
+   },
+   "1.13 D3DTSS_ADDRESSU": {
+    "3": 716
+   },
+   "1.14 D3DTSS_ADDRESSV": {
+    "3": 716
+   },
+   "1.16 D3DTSS_MAGFILTER": {
+    "2": 699
+   },
+   "1.17 D3DTSS_MINFILTER": {
+    "2": 699
+   },
+   "1.18 D3DTSS_MIPFILTER": {
+    "0": 1103
+   },
+   "1.24 D3DTSS_TEXTURETRANSFORMFLAGS": {
+    "0": 11410,
+    "3": 1942
+   },
+   "2.1 D3DTSS_COLOROP": {
+    "1": 1113
+   },
+   "2.4 D3DTSS_ALPHAOP": {
+    "1": 1113
+   },
+   "2.11 D3DTSS_TEXCOORDINDEX": {
+    "0": 17
+   },
+   "2.13 D3DTSS_ADDRESSU": {
+    "1": 17
+   },
+   "2.14 D3DTSS_ADDRESSV": {
+    "1": 17
+   },
+   "2.24 D3DTSS_TEXTURETRANSFORMFLAGS": {
+    "0": 17
+   },
+   "3.1 D3DTSS_COLOROP": {
+    "1": 34
+   },
+   "3.4 D3DTSS_ALPHAOP": {
+    "1": 34
+   }
+  },
+  "fvf_codes": {
+   "144": 17595,
+   "152": 9982,
+   "142": 631,
+   "44": 208,
+   "42": 187,
+   "104": 123
+  },
+  "vertex_shader_handles": 281,
+  "primitive_types": {
+   "TRIANGLESTRIP": 102979,
+   "TRIANGLELIST": 30234
+  }
+ },
+ "resources": {
+  "files": [
+   "xikit_resources_11952.csv",
+   "xikit_resources_5180.csv",
+   "xikit_resources_2020.csv",
+   "xikit_resources_6080.csv",
+   "xikit_resources_10016.csv"
+  ],
+  "values": "hex, as logged; format and pool as D3DFORMAT and D3DPOOL number them",
+  "creations": {
+   "CreateCubeTexture": {
+    "{\"format\": \"16\", \"levels\": \"1\", \"pool\": \"0\", \"usage\": \"1\"}": 15,
+    "{\"format\": \"15\", \"levels\": \"1\", \"pool\": \"1\", \"usage\": \"0\"}": 15
+   },
+   "CreateDepthStencilSurface": {
+    "{\"format\": \"4B\", \"multisample\": \"0\"}": 1134
+   },
+   "CreateIndexBuffer": {
+    "{\"format\": \"65\", \"pool\": \"0\", \"usage\": \"8\"}": 7024,
+    "{\"format\": \"65\", \"pool\": \"1\", \"usage\": \"8\"}": 117
+   },
+   "CreateRenderTarget": {
+    "{\"format\": \"15\", \"lockable\": \"1\", \"multisample\": \"0\"}": 5
+   },
+   "CreateTexture": {
+    "{\"format\": \"33545844\", \"levels\": \"1\", \"pool\": \"1\", \"usage\": \"0\"}": 9565,
+    "{\"format\": \"15\", \"levels\": \"1\", \"pool\": \"0\", \"usage\": \"1\"}": 1136,
+    "{\"format\": \"15\", \"levels\": \"1\", \"pool\": \"1\", \"usage\": \"0\"}": 489,
+    "{\"format\": \"15\", \"levels\": \"7\", \"pool\": \"1\", \"usage\": \"0\"}": 269,
+    "{\"format\": \"31545844\", \"levels\": \"1\", \"pool\": \"1\", \"usage\": \"0\"}": 207,
+    "{\"format\": \"15\", \"levels\": \"9\", \"pool\": \"1\", \"usage\": \"0\"}": 151,
+    "{\"format\": \"15\", \"levels\": \"6\", \"pool\": \"1\", \"usage\": \"0\"}": 84,
+    "{\"format\": \"15\", \"levels\": \"8\", \"pool\": \"1\", \"usage\": \"0\"}": 7,
+    "{\"format\": \"15\", \"levels\": \"D\", \"pool\": \"1\", \"usage\": \"0\"}": 5,
+    "{\"format\": \"15\", \"levels\": \"C\", \"pool\": \"1\", \"usage\": \"0\"}": 1
+   },
+   "CreateVertexBuffer": {
+    "{\"fvf\": \"0\", \"pool\": \"0\", \"usage\": \"208\"}": 28548,
+    "{\"fvf\": \"152\", \"pool\": \"1\", \"usage\": \"8\"}": 10519,
+    "{\"fvf\": \"0\", \"pool\": \"1\", \"usage\": \"8\"}": 3861,
+    "{\"fvf\": \"152\", \"pool\": \"0\", \"usage\": \"208\"}": 894,
+    "{\"fvf\": \"42\", \"pool\": \"0\", \"usage\": \"208\"}": 5,
+    "{\"fvf\": \"44\", \"pool\": \"0\", \"usage\": \"208\"}": 5,
+    "{\"fvf\": \"144\", \"pool\": \"0\", \"usage\": \"208\"}": 5,
+    "{\"fvf\": \"142\", \"pool\": \"0\", \"usage\": \"208\"}": 5,
+    "{\"fvf\": \"112\", \"pool\": \"0\", \"usage\": \"208\"}": 2,
+    "{\"fvf\": \"52\", \"pool\": \"0\", \"usage\": \"208\"}": 1
+   },
+   "CreateVertexShader": {
+    "{\"usage\": \"0\"}": 7560
+   }
+  }
+ },
+ "profile_calls_per_frame": {
+  "d3dprof_11952.csv": {
+   "SetRenderState": 4745.2,
+   "SetStreamSource": 3070.6,
+   "DrawIndexedPrimitive": 1912.1,
+   "SetTextureStageState": 1860.7,
+   "SetTransform": 1652.9,
+   "DrawPrimitive": 1204.6,
+   "SetLight": 1140.4,
+   "SetTexture": 838.0,
+   "SetIndices": 556.3,
+   "LightEnable": 444.6,
+   "ApplyStateBlock": 440.6,
+   "DrawPrimitiveUP": 423.4,
+   "SetVertexShader": 273.4,
+   "SetMaterial": 173.4,
+   "GetTransform": 171.7,
+   "SetViewport": 51.1,
+   "SetRenderTarget": 43.2,
+   "GetRenderState": 22.3,
+   "TestCooperativeLevel": 4.0,
+   "Clear": 3.5,
+   "Present": 1.0,
+   "EndScene": 1.0,
+   "BeginScene": 1.0,
+   "CreateVertexBuffer": 0.4,
+   "ShowCursor": 0.2,
+   "GetDeviceCaps": 0.1,
+   "DeleteVertexShader": 0.1,
+   "GetDisplayMode": 0.1,
+   "GetDirect3D": 0.1,
+   "CreateVertexShader": 0.0,
+   "CreateTexture": 0.0,
+   "CreateIndexBuffer": 0.0
+  },
+  "d3dprof_5180.csv": {
+   "SetRenderState": 7564.1,
+   "SetTextureStageState": 5814.1,
+   "SetStreamSource": 4488.9,
+   "DrawIndexedPrimitive": 3300.0,
+   "DrawPrimitiveUP": 2664.5,
+   "SetLight": 1909.5,
+   "SetTransform": 1796.8,
+   "SetTexture": 1066.0,
+   "SetIndices": 963.0,
+   "ApplyStateBlock": 642.0,
+   "SetVertexShader": 470.2,
+   "DrawPrimitive": 451.8,
+   "LightEnable": 427.0,
+   "SetMaterial": 239.9,
+   "GetTransform": 237.9,
+   "SetViewport": 65.4,
+   "SetRenderTarget": 58.5,
+   "TestCooperativeLevel": 17.2,
+   "EndScene": 7.6,
+   "BeginScene": 7.6,
+   "Clear": 6.6,
+   "CopyRects": 4.6,
+   "ShowCursor": 1.0,
+   "Present": 1.0
+  },
+  "d3dprof_2020.csv": {
+   "SetTextureStageState": 13364.2,
+   "SetRenderState": 11459.3,
+   "SetStreamSource": 4715.9,
+   "DrawIndexedPrimitive": 3475.2,
+   "DrawPrimitiveUP": 2498.0,
+   "SetVertexShader": 2427.6,
+   "SetLight": 1981.2,
+   "SetTransform": 1887.1,
+   "SetTexture": 1728.5,
+   "SetIndices": 1014.5,
+   "ApplyStateBlock": 688.3,
+   "DrawPrimitive": 452.3,
+   "LightEnable": 438.2,
+   "SetMaterial": 252.6,
+   "GetTransform": 250.6,
+   "SetViewport": 83.9,
+   "SetRenderTarget": 78.9,
+   "TestCooperativeLevel": 27.5,
+   "EndScene": 12.7,
+   "BeginScene": 12.7,
+   "Clear": 11.7,
+   "CopyRects": 9.7,
+   "Present": 1.0,
+   "CreateVertexBuffer": 0.1,
+   "GetDeviceCaps": 0.1,
+   "GetDisplayMode": 0.0,
+   "GetDirect3D": 0.0,
+   "DeleteVertexShader": 0.0,
+   "CreateVertexShader": 0.0,
+   "CreateIndexBuffer": 0.0,
+   "CreateTexture": 0.0
+  },
+  "d3dprof_6080.csv": {
+   "DrawPrimitive": 7754.0,
+   "SetRenderState": 5478.9,
+   "SetStreamSource": 4154.6,
+   "SetLight": 3928.7,
+   "SetTexture": 3660.0,
+   "SetTextureStageState": 2163.6,
+   "DrawPrimitiveUP": 1810.7,
+   "SetTransform": 1080.2,
+   "DrawIndexedPrimitive": 211.6,
+   "LightEnable": 116.7,
+   "SetIndices": 66.0,
+   "ApplyStateBlock": 57.3,
+   "SetViewport": 46.9,
+   "SetRenderTarget": 39.4,
+   "SetVertexShader": 36.4,
+   "GetTransform": 16.8,
+   "SetMaterial": 12.8,
+   "TestCooperativeLevel": 8.7,
+   "EndScene": 3.4,
+   "BeginScene": 3.4,
+   "Clear": 2.4,
+   "Present": 1.0,
+   "ShowCursor": 0.8,
+   "CopyRects": 0.3,
+   "GetDeviceCaps": 0.0,
+   "GetDisplayMode": 0.0,
+   "GetDirect3D": 0.0,
+   "CreateIndexBuffer": 0.0,
+   "CreateVertexShader": 0.0,
+   "CreateTexture": 0.0
+  },
+  "d3dprof_10016.csv": {
+   "SetRenderState": 4515.4,
+   "SetTextureStageState": 3047.0,
+   "DrawPrimitiveUP": 2062.9,
+   "SetVertexShader": 1240.6,
+   "SetTexture": 1226.2,
+   "DrawPrimitive": 1150.4,
+   "SetStreamSource": 737.2,
+   "SetLight": 603.4,
+   "SetTransform": 369.0,
+   "DrawIndexedPrimitive": 126.0,
+   "LightEnable": 83.5,
+   "SetViewport": 47.0,
+   "SetIndices": 43.0,
+   "ApplyStateBlock": 42.6,
+   "SetRenderTarget": 38.0,
+   "GetTransform": 11.2,
+   "SetMaterial": 9.2,
+   "TestCooperativeLevel": 8.0,
+   "EndScene": 3.0,
+   "BeginScene": 3.0,
+   "Clear": 2.0,
+   "Present": 1.0,
+   "ShowCursor": 1.0
+  }
+ },
+ "programmable_shaders": [
+  {
+   "name": "vs0_flag0",
+   "kind": "vs",
+   "built_at": "0x10178327",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs0_flag1",
+   "kind": "vs",
+   "built_at": "0x10178327",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs1_flag0",
+   "kind": "vs",
+   "built_at": "0x10178358",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs1_flag1",
+   "kind": "vs",
+   "built_at": "0x10178358",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs2_flag0",
+   "kind": "vs",
+   "built_at": "0x10178389",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs2_flag1",
+   "kind": "vs",
+   "built_at": "0x10178389",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs3_flag0",
+   "kind": "vs",
+   "built_at": "0x101783BA",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs3_flag1",
+   "kind": "vs",
+   "built_at": "0x101783BA",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs4_flag0",
+   "kind": "vs",
+   "built_at": "0x101783EB",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "vs4_flag1",
+   "kind": "vs",
+   "built_at": "0x101783EB",
+   "declaration": [
+    "stream 0",
+    "  v0 <- FLOAT3",
+    "  v3 <- FLOAT3",
+    "  v5 <- D3DCOLOR",
+    "  v7 <- FLOAT2",
+    "  v15 <- FLOAT3",
+    "end"
+   ]
+  },
+  {
+   "name": "ps0_flag0",
+   "kind": "ps",
+   "built_at": "0x10178443"
+  },
+  {
+   "name": "ps0_flag1",
+   "kind": "ps",
+   "built_at": "0x10178443"
+  }
+ ]
+}

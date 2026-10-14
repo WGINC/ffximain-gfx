@@ -47,8 +47,10 @@ static const char *VS_CB =
 // primitive's first vertex (the DirectX reference, D3DSHADEMODE); D3D11's nointerpolation takes the first vertex too.
 static std::string io_struct(const char *name, bool flat) {
   const char *q = flat ? "nointerpolation " : "";
+  // flat shading: "The color and specular component of the first vertex ... are used ... The specular alpha is
+  // interpolated" (DirectX 8.1, D3DSHADEMODE), so the specular alpha also goes as an interpolated value of its own
   return std::string("struct ") + name + " { float4 pos : SV_Position; " + q + "float4 d0 : COLOR0; " + q +
-         "float4 d1 : COLOR1; float4 tc[8] : TEXCOORD0; float fog : FOG; };\n";
+         "float4 d1 : COLOR1; float d1a : SPECALPHA; float4 tc[8] : TEXCOORD0; float fog : FOG; };\n";
 }
 static std::string gen_vs(const VSKey &k) {
   std::string s = VS_CB;
@@ -181,9 +183,10 @@ static std::string gen_vs(const VSKey &k) {
   case FOG_EYEZ: s += "  o.fog = abs(cp.z);\n"; break;
   case FOG_RHWZ: s += "  o.fog = p.z;\n"; break;
   case FOG_CLIPZ: s += "  o.fog = o.pos.z;\n"; break;
+  case FOG_RHWW: s += "  o.fog = w;\n"; break;                      // 1/RHW: "true w" (DirectX 8.1, "Pixel Fog")
   default: s += "  o.fog = 0;\n";
   }
-  s += "  return o;\n}\n";
+  s += "  o.d1a = o.d1.a;\n  return o;\n}\n";
   return s;
 }
 
@@ -192,7 +195,7 @@ static std::string arg(int a, const char *tex) {
   std::string v;
   switch (a & D3DTA_SELECTMASK) {
   case D3DTA_DIFFUSE: v = "i.d0"; break; case D3DTA_CURRENT: v = "cur"; break; case D3DTA_TEXTURE: v = tex; break;
-  case D3DTA_TFACTOR: v = "tfactor"; break; case D3DTA_SPECULAR: v = "i.d1"; break; case D3DTA_TEMP: v = "tmp"; break;
+  case D3DTA_TFACTOR: v = "tfactor"; break; case D3DTA_SPECULAR: v = "float4(i.d1.rgb, i.d1a)"; break; case D3DTA_TEMP: v = "tmp"; break;
   default: v = "cur";
   }
   if (a & D3DTA_ALPHAREPLICATE) v = "(" + v + ").aaaa";
@@ -358,7 +361,52 @@ int32_t Exec::init(const XInit &x, bool resize) {
   swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&b.tex);
   return D3D_OK;
 }
+// Clear of rectangles (part of the target, or a depth surface larger than it): each rectangle drawn with a shader
+// that writes the colour, the depth (SV_Depth) and, by REPLACE, the stencil. Draws reset every state they use, so
+// nothing is restored here.
+void Exec::clear_rects(const XClear &c, const XRect *r) {
+  if (!ff || !ff->compile) ff_init();
+  if (!ff || !ff->compile || !c.width || !c.height) return;
+  if (!clr_vs) {
+    const char *src =
+      "cbuffer C : register(b0) { float4 rect; float4 color; float4 zv; };\n"
+      "struct O { float4 pos : SV_Position; };\n"
+      "O vs(uint id : SV_VertexID) { O o; float2 t = float2(id & 1, id >> 1);\n"
+      "  o.pos = float4(lerp(rect.xy, rect.zw, t), zv.x, 1); return o; }\n"
+      "void ps(O i, out float4 col : SV_Target, out float dep : SV_Depth) { col = color; dep = zv.x; }\n";
+    ID3DBlob *b = nullptr, *err = nullptr;
+    if (SUCCEEDED(ff->compile(src, strlen(src), "clear", NULL, NULL, "vs", "vs_4_0", 0, 0, &b, &err))) { dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &clr_vs); b->Release(); }
+    if (err) { d8_log("clear shader: %s", (const char *)err->GetBufferPointer()); err->Release(); err = nullptr; }
+    if (SUCCEEDED(ff->compile(src, strlen(src), "clear", NULL, NULL, "ps", "ps_4_0", 0, 0, &b, &err))) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &clr_ps); b->Release(); }
+    if (err) { d8_log("clear shader: %s", (const char *)err->GetBufferPointer()); err->Release(); }
+    D3D11_BUFFER_DESC bd = {}; bd.ByteWidth = 48; bd.Usage = D3D11_USAGE_DYNAMIC; bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    dev->CreateBuffer(&bd, NULL, &clr_cb);
+  }
+  if (!clr_vs || !clr_ps || !clr_cb) return;
+  D3D11_BLEND_DESC bd = {}; bd.RenderTarget[0].RenderTargetWriteMask = (c.flags & D3DCLEAR_TARGET) ? 0xF : 0;
+  D3D11_DEPTH_STENCIL_DESC dd = {};
+  dd.DepthEnable = (c.flags & D3DCLEAR_ZBUFFER) ? TRUE : FALSE; dd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; dd.DepthFunc = D3D11_COMPARISON_ALWAYS;
+  dd.StencilEnable = (c.flags & D3DCLEAR_STENCIL) ? TRUE : FALSE; dd.StencilReadMask = 0xFF; dd.StencilWriteMask = 0xFF;
+  dd.FrontFace = {D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_COMPARISON_ALWAYS}; dd.BackFace = dd.FrontFace;
+  D3D11_RASTERIZER_DESC rd = {}; rd.FillMode = D3D11_FILL_SOLID; rd.CullMode = D3D11_CULL_NONE; rd.DepthClipEnable = FALSE;
+  ctx->OMSetBlendState(cached(ff->bs, bd, [&](const D3D11_BLEND_DESC *x, ID3D11BlendState **o) { dev->CreateBlendState(x, o); }), NULL, 0xFFFFFFFF);
+  ctx->OMSetDepthStencilState(cached(ff->ds, dd, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }), c.stencil & 0xFF);
+  ctx->RSSetState(cached(ff->rs, rd, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }));
+  D3D11_VIEWPORT v = {0, 0, (float)c.width, (float)c.height, 0, 1}; ctx->RSSetViewports(1, &v);
+  ctx->VSSetShader(clr_vs, NULL, 0); ctx->PSSetShader(clr_ps, NULL, 0); ctx->IASetInputLayout(NULL);
+  ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+  ctx->VSSetConstantBuffers(0, 1, &clr_cb); ctx->PSSetConstantBuffers(0, 1, &clr_cb);
+  for (uint32_t i = 0; i < c.nrects; i++) {
+    float k[12] = {r[i].x1 * 2.0f / c.width - 1, 1 - r[i].y1 * 2.0f / c.height, r[i].x2 * 2.0f / c.width - 1, 1 - r[i].y2 * 2.0f / c.height,
+                   ((c.color >> 16) & 255) / 255.0f, ((c.color >> 8) & 255) / 255.0f, (c.color & 255) / 255.0f, (c.color >> 24) / 255.0f,
+                   c.z, 0, 0, 0};
+    D3D11_MAPPED_SUBRESOURCE m;
+    if (SUCCEEDED(ctx->Map(clr_cb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, k, sizeof k); ctx->Unmap(clr_cb, 0); }
+    ctx->Draw(4, 0);
+  }
+}
 void Exec::shutdown() {
+  if (clr_vs) clr_vs->Release(); if (clr_ps) clr_ps->Release(); if (clr_cb) clr_cb->Release(); clr_vs = nullptr; clr_ps = nullptr; clr_cb = nullptr;
   // what the D3D8 side never destroyed (the tests expect none but the back buffer once the device is released)
   { size_t n = 0; for (auto &r : res) n += r.second.kind != 4; d8_log("executor shutdown: %u objects still held besides the back buffer", (unsigned)n); }
   release_swap();
@@ -458,12 +506,14 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     break; }
   case X_CLEAR: {
     const XClear &c = *(const XClear *)p;
-    if ((c.flags & D3DCLEAR_TARGET) && cur_rtv) {
-      float f[4] = {((c.color >> 16) & 255) / 255.0f, ((c.color >> 8) & 255) / 255.0f, (c.color & 255) / 255.0f, (c.color >> 24) / 255.0f};
-      ctx->ClearRenderTargetView(cur_rtv, f);
-    }
-    UINT df = ((c.flags & D3DCLEAR_ZBUFFER) ? D3D11_CLEAR_DEPTH : 0) | ((c.flags & D3DCLEAR_STENCIL) ? D3D11_CLEAR_STENCIL : 0);
-    if (df && cur_dsv) ctx->ClearDepthStencilView(cur_dsv, df, c.z, (UINT8)c.stencil);
+    if (!c.nrects) {
+      if ((c.flags & D3DCLEAR_TARGET) && cur_rtv) {
+        float f[4] = {((c.color >> 16) & 255) / 255.0f, ((c.color >> 8) & 255) / 255.0f, (c.color & 255) / 255.0f, (c.color >> 24) / 255.0f};
+        ctx->ClearRenderTargetView(cur_rtv, f);
+      }
+      UINT df = ((c.flags & D3DCLEAR_ZBUFFER) ? D3D11_CLEAR_DEPTH : 0) | ((c.flags & D3DCLEAR_STENCIL) ? D3D11_CLEAR_STENCIL : 0);
+      if (df && cur_dsv) ctx->ClearDepthStencilView(cur_dsv, df, c.z, (UINT8)c.stencil);
+    } else clear_rects(c, (const XRect *)(&c + 1));
     break; }
   case X_COPY: {
     const XCopy &c = *(const XCopy *)p;

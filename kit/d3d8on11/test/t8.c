@@ -492,6 +492,20 @@ static void scenes(void) {
     IDirect3DVertexBuffer8_Release(vp); IDirect3DVertexBuffer8_Release(vn); IDirect3DVertexBuffer8_Release(vt); IDirect3DIndexBuffer8_Release(ib); }
   end("three_stream_declaration");
 
+  /* Clear of part of the target: "the viewport, or a set of rectangles in the viewport", rectangles "clipped to the
+     bounds of the viewport rectangle" (DirectX 8.1, IDirect3DDevice8::Clear); depth cleared only there too */
+  reset_state();
+  IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFF800000, 1.0f, 0);
+  { D3DVIEWPORT8 v = {8, 12, 30, 24, 0.0f, 1.0f}; IDirect3DDevice8_SetViewport(d, &v);
+    IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFF00A000, 0.0f, 0);
+    D3DVIEWPORT8 v2 = {20, 30, 40, 30, 0.0f, 1.0f}; IDirect3DDevice8_SetViewport(d, &v2);
+    D3DRECT rr[2] = {{0, 0, 30, 40}, {50, 50, 70, 70}};
+    IDirect3DDevice8_Clear(d, 2, rr, D3DCLEAR_TARGET, 0xFF2040FF, 1.0f, 0);
+    D3DVIEWPORT8 vf = {0, 0, 64, 64, 0.0f, 1.0f}; IDirect3DDevice8_SetViewport(d, &vf); }
+  IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
+  IDirect3DDevice8_BeginScene(d);
+  quad_rhw(4, 4, 60, 60, 0.5f, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
+  end("clear_viewport_rects");
   if (chk) IDirect3DTexture8_Release(chk); if (grad) IDirect3DTexture8_Release(grad); if (alp) IDirect3DTexture8_Release(alp);
 }
 

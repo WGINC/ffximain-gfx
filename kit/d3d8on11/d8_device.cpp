@@ -179,15 +179,29 @@ HRESULT Dev::GetBackBuffer(UINT i, D3DBACKBUFFER_TYPE, IDirect3DSurface8 **o) {
 HRESULT Dev::BeginScene() { if (inScene) return D3DERR_INVALIDCALL; inScene = true; return D3D_OK; }
 HRESULT Dev::EndScene() { if (!inScene) return D3DERR_INVALIDCALL; inScene = false; return D3D_OK; }
 HRESULT Dev::Clear(DWORD n, const D3DRECT *r, DWORD flags, D3DCOLOR color, float z, DWORD stencil) {
-  // D3D8 clears the viewport (or rectangles in it); a D3D11 view clear covers the whole target, so only that case is done
-  bool whole = st.vp.X == 0 && st.vp.Y == 0 && curRT && st.vp.Width >= curRT->w && st.vp.Height >= curRT->h;
-  (void)r;
-  if (n || (r && n) || !whole) {
-    d8_once("clearrect", "Clear of rectangles or of a viewport smaller than the target: not implemented (failed; first: %lu rects, viewport %lux%lu at %lu,%lu)",
-            (unsigned long)n, (unsigned long)st.vp.Width, (unsigned long)st.vp.Height, (unsigned long)st.vp.X, (unsigned long)st.vp.Y);
+  // "Clears the viewport, or a set of rectangles in the viewport ... Coordinates are clipped to the bounds of the
+  // viewport rectangle", and it "fails if you specify the D3DCLEAR_ZBUFFER or D3DCLEAR_STENCIL flags when the render
+  // target does not have an attached depth buffer", or STENCIL when the depth format has no stencil (DirectX 8.1,
+  // IDirect3DDevice8::Clear)
+  if (!(flags & (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL)) || (n && !r) || !curRT) return D3DERR_INVALIDCALL;
+  if ((flags & (D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL)) && !curDS) return D3DERR_INVALIDCALL;
+  if ((flags & D3DCLEAR_STENCIL) && curDS->fmt != D3DFMT_D24S8 && curDS->fmt != D3DFMT_D15S1 && curDS->fmt != D3DFMT_D24X4S4)
     return D3DERR_INVALIDCALL;
+  LONG vx1 = (LONG)st.vp.X, vy1 = (LONG)st.vp.Y;
+  LONG vx2 = (LONG)(st.vp.X + st.vp.Width), vy2 = (LONG)(st.vp.Y + st.vp.Height);
+  if (vx2 > (LONG)curRT->w) vx2 = curRT->w; if (vy2 > (LONG)curRT->h) vy2 = curRT->h;
+  std::vector<XRect> rs;
+  if (!r) { if (vx2 > vx1 && vy2 > vy1) rs.push_back({vx1, vy1, vx2, vy2}); }
+  else for (DWORD i = 0; i < n; i++) {
+    XRect q = {r[i].x1 > vx1 ? r[i].x1 : vx1, r[i].y1 > vy1 ? r[i].y1 : vy1, r[i].x2 < vx2 ? r[i].x2 : vx2, r[i].y2 < vy2 ? r[i].y2 : vy2};
+    if (q.x2 > q.x1 && q.y2 > q.y1) rs.push_back(q);
   }
-  XClear c = {flags, color, z, stencil}; link->put(X_CLEAR, &c, sizeof c);
+  if (rs.empty()) return D3D_OK;
+  // the whole target in one rectangle, and a depth surface (if cleared) of the same size: a view clear does it all
+  bool dsSame = !(flags & (D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL)) || (curDS->w == curRT->w && curDS->h == curRT->h);
+  if (rs.size() == 1 && rs[0].x1 == 0 && rs[0].y1 == 0 && rs[0].x2 == (LONG)curRT->w && rs[0].y2 == (LONG)curRT->h && dsSame) rs.clear();
+  XClear c = {flags, color, z, stencil, curRT->w, curRT->h, (uint32_t)rs.size()};
+  link->put(X_CLEAR, &c, sizeof c, rs.data(), (uint32_t)(rs.size() * sizeof(XRect)));
   return D3D_OK;
 }
 
@@ -328,6 +342,28 @@ HRESULT Dev::SetClipPlane(DWORD i, const float *p) {
   return D3D_OK;
 }
 HRESULT Dev::GetClipPlane(DWORD i, float *p) { if (i >= 6 || !p) return D3DERR_INVALIDCALL; memcpy(p, st.clip[i], 16); return D3D_OK; }
+// texture palettes (DirectX 8.1, IDirect3DDevice8::SetPaletteEntries and SetCurrentTexturePalette): 256 entries each;
+// "A single logical palette is associated with the device, and is shared by all texture stages"; without
+// D3DPTEXTURECAPS_ALPHAPALETTE "every entry in the palette must have alpha set to 1.0 or this method will fail".
+// Kept and read back only: no palettized texture format is implemented, and the game creates none (its formats:
+// data/d3d8_scope.json, resources). The current palette's value before any set is not in the reference: 0 here
+HRESULT Dev::SetPaletteEntries(UINT n, const PALETTEENTRY *e) {
+  if (!e) return D3DERR_INVALIDCALL;
+  D3DCAPS8 c; GetDeviceCaps(&c);
+  if (!(c.TextureCaps & D3DPTEXTURECAPS_ALPHAPALETTE)) for (int i = 0; i < 256; i++) if (e[i].peFlags != 0xFF) return D3DERR_INVALIDCALL;
+  palettes[n].assign(e, e + 256);
+  return D3D_OK;
+}
+HRESULT Dev::GetPaletteEntries(UINT n, PALETTEENTRY *e) {
+  auto it = palettes.find(n);
+  if (!e || it == palettes.end()) return D3DERR_INVALIDCALL;
+  memcpy(e, it->second.data(), 256 * sizeof(PALETTEENTRY));
+  return D3D_OK;
+}
+// not among the methods a state block records (DirectX 8.1, BeginStateBlock), so it takes effect while one records;
+// a D3DSBT_ALL block holds "the current palette"
+HRESULT Dev::SetCurrentTexturePalette(UINT n) { st.palette = n; return D3D_OK; }
+HRESULT Dev::GetCurrentTexturePalette(UINT *n) { if (!n) return D3DERR_INVALIDCALL; *n = st.palette; return D3D_OK; }
 HRESULT Dev::SetViewport(const D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; TARGET.vp = *v; if (rec) rec->vp = true; return D3D_OK; }
 HRESULT Dev::GetViewport(D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; *v = st.vp; return D3D_OK; }
 HRESULT Dev::SetMaterial(const D3DMATERIAL8 *m) { if (!m) return D3DERR_INVALIDCALL; TARGET.mat = *m; if (rec) rec->mat = true; return D3D_OK; }
@@ -403,6 +439,7 @@ static void copy_block(State &to, const State &from, const Block &b) {
   if (b.vp) to.vp = from.vp;
   if (b.mat) to.mat = from.mat;
   for (int i = 0; i < 6; i++) if (b.clip[i]) memcpy(to.clip[i], from.clip[i], 16);
+  if (b.palette) to.palette = from.palette;
   for (int n = 0; n < 16; n++) if (b.stream[n]) { rebind(to.stream[n], from.stream[n]); to.stride[n] = from.stride[n]; }
   if (b.ib) { rebind(to.ib, from.ib); to.baseVertex = from.baseVertex; }
   if (b.vs) to.vs = from.vs;
@@ -454,7 +491,11 @@ HRESULT Dev::CreateStateBlock(D3DSTATEBLOCKTYPE type, DWORD *tok) {
   if (type != D3DSBT_ALL) { d8_notimpl("CreateStateBlock of the pixel or vertex state only"); return D3DERR_INVALIDCALL; }
   Block *b = new_block();
   memset(b->rs, 1, sizeof b->rs); memset(b->tss, 1, sizeof b->tss); memset(b->tex, 1, sizeof b->tex);
-  memset(b->xf, 1, sizeof b->xf); b->vp = b->mat = b->ib = b->vs = b->ps = true; memset(b->stream, 1, sizeof b->stream);
+  // D3DSBT_ALL: "all current render states, clipplanes, texture stage states, the current material, all current
+  // textures, all current lights and enabled light parameters, the current palette, the current pixel shader, all
+  // current streams, the pixel shader constants, the current viewport, the current vertex shader, all current
+  // transforms, the vertex shader constants" (DirectX 8.1, D3DSTATEBLOCKTYPE): the index buffer is not in the list
+  memset(b->xf, 1, sizeof b->xf); b->vp = b->mat = b->vs = b->ps = b->palette = true; b->ib = false; memset(b->stream, 1, sizeof b->stream);
   memset(b->clip, 1, sizeof b->clip);
   for (size_t i = 0; i < st.light.size(); i++) b->lights.push_back((int)i);
   copy_block(b->s, st, *b);

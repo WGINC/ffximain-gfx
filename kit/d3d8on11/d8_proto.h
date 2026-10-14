@@ -22,7 +22,7 @@ enum : uint16_t {
   X_UPLOAD_TEX,      // XUpTex, then the rows
   X_UPLOAD_BUF,      // XUpBuf, then the bytes
   X_TARGETS,         // XTargets
-  X_CLEAR,           // XClear
+  X_CLEAR,           // XClear, then its rectangles
   X_COPY,            // XCopy
   X_DRAW,            // XDraw, then UP vertex bytes, then index bytes
   X_PRESENT,         // (no payload)
@@ -47,7 +47,8 @@ struct XBuf { uint32_t id, length, index; };
 struct XUpTex { uint32_t id, sub, x, y, w, h, rowbytes, rows; };  // a rectangle of subresource sub (D3D11 numbering)
 struct XUpBuf { uint32_t id, offset, length; };
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
-struct XClear { uint32_t flags, color; float z; uint32_t stencil; };
+struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
+struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels
 struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };
 
 // ---- draws: the fixed-function pipeline as generated shaders (d8_ff.cpp decides, d8_exec.cpp draws) ------------------
@@ -67,7 +68,7 @@ struct VSKey {
 // shader turns it into the factor with the table mode if set, else the vertex mode, linearly from FOGSTART/FOGEND or by
 // FOGDENSITY. With no table mode and no vertex mode (or pre-transformed vertices) the coordinate is the specular alpha,
 // read linearly with start 255 and end 0, so the factor is that alpha.
-enum { FOG_OFF, FOG_SPECA, FOG_RANGE, FOG_EYEZ, FOG_RHWZ, FOG_CLIPZ };
+enum { FOG_OFF, FOG_SPECA, FOG_RANGE, FOG_EYEZ, FOG_RHWZ, FOG_CLIPZ, FOG_RHWW };
 struct PSKey {
   struct { uint8_t cop, ca1, ca2, ca0, aop, aa1, aa2, aa0, res, tex, tcn; } s[8];
   uint8_t nstages, alphatest, fog, specadd;   // fog: 0 none, 1 linear, 2 exp, 3 exp2

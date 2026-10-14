@@ -83,38 +83,24 @@ HLSL once, compiled with `D3DCompile` and cached; blend, depth-stencil, rasteriz
 objects, cached by description. Fans become indexed lists, their indices made on the D3D8 side. ...UP draws carry
 their vertices and indices in the packet; the executor writes them into a dynamic ring buffer.
 
-Where each behaviour comes from (named in the code where it is used):
-- The DirectX 8 reference: the stage ops and arguments, ALPHAARG1's fallback to DIFFUSE with no texture, lighting,
-  material sources, texture coordinate generation, D3DTTFF_PROJECTED, flat shading from the first vertex, ZBIAS
-  ordering.
-- Khronos EXT_provoking_vertex, issue 7: in a triangle fan, flat shading takes the first non-spoke vertex (Direct3D 9's
-  behaviour).
-- Wine 9.0's wined3d, where the reference leaves the behaviour open. Windows' own behaviour in these cases is not
-  established:
-  - a stage whose op reads a texture that is not bound passes CURRENT on (`is_invalid_op`);
-  - no texture transform with COUNT1 or on pre-transformed vertices (`compute_texture_matrix`);
-  - the fog model: one coordinate per vertex (specular alpha, eye distance or depth) and the factor per pixel, with the
-    start == end case (`get_fog_start_end`);
-  - ZBIAS as −ZBIAS units and −ZBIAS times the slope (d3d8 `WINED3D_LEGACY_DEPTH_BIAS`);
-  - a vertex without a diffuse colour is white, and without a specular colour is 0;
-  - the half-pixel offset (`get_projection_matrix`).
-
-Not implemented, each logged and the draw skipped:
-- vertex shaders with code. The game holds some (data/shader_catalogue.json), but none was created in the owner's
-  sessions: all 2,253 captured were declarations only (docs/D3D11.md section 2). The 281 handles in the traces are
-  those declarations, which this device draws;
-- pixel shaders;
-- vertex blending (FVF XYZB*);
-- tessellation;
-- BUMPENVMAP and PREMODULATE (drawn as SELECTARG1).
-
-None of these appears in the game's fixed-function draws as far as the traces show.
+Where each behaviour comes from (named in the code where it is used): the DirectX 8.1 (C++) reference first (see
+"Checked against Microsoft's documentation" below), then Microsoft's Direct3D 9 pages where the 8.1 reference is
+silent, each named as such; Wine 9.0's wined3d only where neither says, and then named as Wine's. Windows' own
+behaviour in those cases is not established. Still Wine's:
+- a stage whose op reads a texture that is not bound passes CURRENT on (`is_invalid_op`); the reference says only
+  that ALPHAARG1 then defaults to DIFFUSE;
+- the fog model's specular-alpha case and the start == end case (`get_fog_start_end`);
+- ZBIAS as −ZBIAS units and −ZBIAS times the slope (d3d8 `WINED3D_LEGACY_DEPTH_BIAS`): the reference says only that a
+  higher value draws in front;
+- the half-pixel offset's arithmetic (`get_projection_matrix`); that pixel centres are at integer coordinates is the
+  reference's ("Triangle Rasterization Rules");
+- the clamp of each light's N.L at 0, specular's N.L > 0 and N.H > 0, the spot factor;
+- DOTPRODUCT3's scale of 4 (the reference: inputs "shifted down by half", no scale given).
 
 Known gaps, each logged when hit:
-- Clear of rectangles, or of a viewport smaller than the target;
 - full screen (renders windowed);
-- CreateStateBlock of the pixel or vertex state only;
-- palettes;
+- CreateStateBlock of the pixel or vertex state only (the game creates D3DSBT_ALL only: its two call sites);
+- palettized texture formats (the palettes themselves are kept and read back; the game creates no palettized texture);
 - writing to a locked render target;
 - textures in a block format whose top level is not whole 4x4 blocks: D3D11 wants whole blocks; behaviour to be
   checked;
@@ -124,19 +110,34 @@ Known gaps, each logged when hit:
 
 ## Checked against Microsoft's documentation
 
-- Lighting, against the Microsoft DirectX 8.1 (C++) documentation's "Mathematics of Lighting" pages (the owner's copy,
-  a 549-page excerpt, 14 Oct; not in the repository): camera-space transforms, NORMALIZENORMALS, light vectors,
-  attenuation and range, the diffuse, specular and emissive equations, material sources, clamping after all lights.
-  All as the text has them (d8_exec.cpp names each). Not in the text: the per-light clamp at 0, specular's N.L > 0
-  and N.H > 0 conditions, the spot factor (its page is not in the excerpt; the game's traces set no spot light).
-  The ambient term: DirectX 8.1 has sum(Lai), Direct3D 9 sum(Atten*Spot*Lai); ours is Direct3D 9's. Every SetLight in
-  the game's traces (98,309) has ambient 0, so the difference cannot show in the game as traced.
-- Texture filtering and mipmapping (Direct3D 9, D3DTEXTUREFILTERTYPE), texture coordinate transforms and
-  pre-transformed vertices (Direct3D 9, "Texture Coordinate Transformations"): see the randomized test below.
-- Not yet checked against any Microsoft text, because the excerpt lacks the pages: the texture stage operations and
-  arguments, fog, alpha test, blending, culling, the half-pixel offset, ZBIAS, flat shading, addressing and border
-  colour, the default states, Clear, CopyRects, locks, Reset, state blocks. These follow Wine 9.0 where the code says
-  so; until checked, each is Wine's behaviour, not Microsoft's.
+Sources: the DirectX 8.1 SDK's own documentation (directx8_c.chm, 19 Oct 2001) and headers (d3d8types.h), from the
+owner's copy of the SDK (14 Oct; neither is in the repository; the code quotes what it relies on), and Microsoft's
+Direct3D 9 pages where named. Checked, area by area:
+- Render-state and stage-state defaults: all as the reference states (README "defaults" below). Changed:
+  POSITIONORDER, NORMALORDER, AMBIENTMATERIALSOURCE (the last differs between the 8.1 and 9 references).
+- Texture operations (D3DTEXTUREOP's formulas) and argument flags: as the reference. Not stated there: whether results
+  are clamped (ours: each to [0, 1]); DOTPRODUCT3's scale.
+- Default vertex colours: diffuse 0xFFFFFFFF, specular 0 ("Untransformed and Lit Vertices", "Transformed and Lit
+  Vertices"; the "Texture Argument Flags" page says 0xFFFFFFFF for specular, against both).
+- Texture coordinates: a missing set reads (0,0) (D3DTSS_TEXCOORDINDEX); a 2D set enters a transform with 1 as its
+  third component, as the reference's own example needs ("Special Effects": translation in the matrix's third
+  row); its fourth (ours 0) is not stated. No transform on pre-transformed vertices (Direct3D 9, "Texture Coordinate
+  Transformations"). Filtering: MAGFILTER and MINFILTER by magnification, MIPFILTER NONE "disables mipmapping".
+- Lighting: the "Mathematics of Lighting" pages, term for term; the ambient term differs between 8.1 (no attenuation)
+  and 9 (with), ours is 9's, and every SetLight the game traced has ambient 0.
+- Fog: the formulas (linear, exp, exp2, the blend), the depths (camera |z|, range), and pixel fog's depth: w on a
+  device with D3DPRASTERCAPS_WFOG (ours: dgVoodoo's caps) unless the projection is affine, 1/RHW for pre-transformed
+  vertices (changed: was z, as Wine; no test compares this case).
+- Flat shading: colour and specular from the first vertex (fans: vertex i + 1), specular alpha interpolated (changed:
+  it was held too).
+- Blend factors and operations, alpha test, culling, the fill convention: as the reference.
+- Clear: the viewport, or rectangles clipped to it; fails for Z or stencil with no depth buffer or no stencil
+  (changed: rectangles and smaller viewports failed; now drawn, test scene clear_viewport_rects, equal to Wine's).
+- State blocks: D3DSBT_ALL holds what the reference lists (changed: it held the index buffer, which is not listed,
+  and not the palette, which is); recorded blocks record the methods the reference lists.
+- Palettes: SetPaletteEntries / SetCurrentTexturePalette as the reference (they failed before; the game calls both).
+- Not yet checked against the reference: CopyRects, LockRect and its flags, Reset, texture addressing and border
+  colour, vertex declarations, Present, the caps' use.
 
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
 

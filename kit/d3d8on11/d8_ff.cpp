@@ -157,8 +157,16 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   const D3DMATRIX &P = st.xf[D3DTS_PROJECTION];
   if (!fog) vk.fogsrc = FOG_OFF;
   else if (coordfog) vk.fogsrc = FOG_SPECA;
-  else if (tmode != D3DFOG_NONE)                             // table fog: depth (an orthographic projection: clip z)
-    vk.fogsrc = vk.rhw ? FOG_RHWZ : P._14 == 0 && P._24 == 0 && P._34 == 0 && P._44 == 1 ? FOG_CLIPZ : FOG_EYEZ;
+  // Table (pixel) fog's depth, by the DirectX 8.1 reference ("Pixel Fog"): eye-relative depth, w, on a device with
+  // D3DPRASTERCAPS_WFOG (ours: dgVoodoo's caps, RasterCaps 0x00736191, have it), unless the projection matrix's
+  // fourth column is [0,0,0,1], then device z. "Direct3D takes the reciprocal of the RHW element ... to reproduce true
+  // w", and uses the set projection matrix "even if it does not use the Direct3D transformation pipeline", so
+  // pre-transformed vertices follow the same rule (Wine 9.0 uses z for them). For transformed vertices w is camera z
+  // with a "W-friendly" projection, the only kind the reference says fog works with.
+  else if (tmode != D3DFOG_NONE) {
+    bool affine = P._14 == 0 && P._24 == 0 && P._34 == 0 && P._44 == 1;
+    vk.fogsrc = vk.rhw ? (affine ? FOG_RHWZ : FOG_RHWW) : affine ? FOG_CLIPZ : FOG_EYEZ;
+  }
   else vk.fogsrc = r[D3DRS_RANGEFOGENABLE] ? FOG_RANGE : FOG_EYEZ;
   if (fog) { DWORD m = coordfog ? D3DFOG_LINEAR : tmode != D3DFOG_NONE ? tmode : vmode;
     pk.fog = m == D3DFOG_EXP ? 2 : m == D3DFOG_EXP2 ? 3 : m == D3DFOG_LINEAR ? 1 : 0; }
@@ -305,8 +313,8 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   std::vector<uint32_t> fanIdx;
   auto fan_list = [&](UINT first, UINT n, const std::function<uint32_t(UINT)> &ix) {
     fanIdx.resize(3 * n);
-    // each triangle starts at its first non-spoke vertex, so flat shading takes that vertex's colour as Direct3D 9 does
-    // for fans (Khronos EXT_provoking_vertex, issue 7); a rotation keeps the winding
+    // each triangle starts at its first non-spoke vertex, so flat shading takes that vertex's colour: "For a triangle
+    // fan, the first vertex of the triangle i is vertex i + 1" (DirectX 8.1, D3DSHADEMODE); a rotation keeps the winding
     for (UINT k = 0; k < n; k++) { fanIdx[3 * k] = ix(first + k + 1); fanIdx[3 * k + 1] = ix(first + k + 2); fanIdx[3 * k + 2] = ix(first); }
   };
   const void *idata = nullptr;

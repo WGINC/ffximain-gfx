@@ -1731,3 +1731,20 @@ thread of its own (design A2), or in a process of its own built natively for ARM
 - The excerpt has no render-state, stage-state, texture-operation, fog or rasterization pages, so those parts of the
   device are still checked only against Wine.
 
+### Checked against the DirectX 8.1 SDK's own documentation (14 Oct)
+
+- The owner supplied the DirectX 8.1 SDK (and the 8.1 extras, the DirectX 9 SDK and the June 2010 SDK). Its
+  documentation (directx8_c.chm, 9,246 pages) and headers are the source now; they are not in the repository.
+- Checked: render-state and stage-state defaults, texture operations and arguments, default vertex colours, texture
+  coordinates and filtering, lighting, fog, flat shading, blending, alpha test, culling, Clear, state blocks,
+  palettes (kit/d3d8on11 README, "Checked against Microsoft's documentation").
+- Changed by it: three defaults (POSITIONORDER, NORMALORDER, AMBIENTMATERIALSOURCE); pixel fog's depth for
+  pre-transformed vertices (1/RHW, not z); the specular alpha interpolated under flat shading; Clear of a viewport or
+  rectangles (it failed; the game's own code clears right after SetRenderTarget, where ours resets the viewport to
+  the target, so the change may not show in the game); D3DSBT_ALL without the index buffer and with the palette;
+  palettes kept (both calls failed before; the game makes both).
+- Where Microsoft's documents disagree, both are named: AMBIENTMATERIALSOURCE's default and the ambient term (8.1 and
+  9 differ; the game's traced vertex formats and lights make both read the same), the specular default (two 8.1 pages
+  against one).
+- Not yet checked: CopyRects, LockRect, Reset, addressing and border colour, vertex declarations, Present.
+

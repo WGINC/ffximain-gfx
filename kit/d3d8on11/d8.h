@@ -11,6 +11,7 @@
 #include "d8_common.h"                     // the log, the formats (shared with the executor)
 #include "d8_link.h"                       // the command stream to the executor (d8_proto.h)
 #include <string.h>
+#include <map>
 #include <vector>
 
 #include "d8_gen.h"
@@ -142,11 +143,12 @@ struct State {
   VB *stream[16]; UINT stride[16]; IB *ib; UINT baseVertex;
   DWORD vs, ps;
   float clip[6][4];
+  UINT palette;                                  // the current texture palette (SetCurrentTexturePalette)
 };
 
 // recorded state blocks: which pieces the block holds, with their values
 struct Block {
-  bool rs[256], tss[8][32], tex[8], xf[512], vp, mat, stream[16], ib, vs, ps, clip[6];
+  bool rs[256], tss[8][32], tex[8], xf[512], vp, mat, stream[16], ib, vs, ps, clip[6], palette;
   std::vector<int> lights;                      // indices set or enabled
   State s;
 };
@@ -219,6 +221,11 @@ struct Dev final : public IDirect3DDevice8_Stub {
   HRESULT STDMETHODCALLTYPE GetLightEnable(DWORD, WINBOOL *);
   HRESULT STDMETHODCALLTYPE SetClipPlane(DWORD, const float *);
   HRESULT STDMETHODCALLTYPE GetClipPlane(DWORD, float *);
+  HRESULT STDMETHODCALLTYPE SetPaletteEntries(UINT, const PALETTEENTRY *);
+  HRESULT STDMETHODCALLTYPE GetPaletteEntries(UINT, PALETTEENTRY *);
+  HRESULT STDMETHODCALLTYPE SetCurrentTexturePalette(UINT);
+  HRESULT STDMETHODCALLTYPE GetCurrentTexturePalette(UINT *);
+  std::map<UINT, std::vector<PALETTEENTRY>> palettes;   // 256 entries each
   HRESULT STDMETHODCALLTYPE SetRenderState(D3DRENDERSTATETYPE, DWORD);
   HRESULT STDMETHODCALLTYPE GetRenderState(D3DRENDERSTATETYPE, DWORD *);
   HRESULT STDMETHODCALLTYPE BeginStateBlock();

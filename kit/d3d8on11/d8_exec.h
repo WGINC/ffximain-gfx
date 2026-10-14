@@ -35,5 +35,7 @@ private:
   void release_swap();
   ID3D11RenderTargetView *rtv_of(const XRef &r);
   void draw(const XDraw &d, const uint8_t *data);
+  void clear_rects(const XClear &c, const XRect *r);
+  ID3D11VertexShader *clr_vs = nullptr; ID3D11PixelShader *clr_ps = nullptr; ID3D11Buffer *clr_cb = nullptr;
   void ff_init();
 };

@@ -113,6 +113,10 @@ static std::string gen_vs(const VSKey &k) {
                  "    att *= sp;\n", i, i, i, i, i, i, i);
         s += b;
       }
+      // each light's N.L as the Direct3D 9 reference's "Diffuse Lighting" equation has it, sum[Cd*Ld*(N.Ldir)*...],
+      // clamped "after all lights are processed": no clamp at 1 per light (Wine 9.0 clamps there, which shows with
+      // normals longer than 1 and NORMALIZENORMALS off: test/random_cases.py, class L). The clamp at 0 per light is
+      // not in that text; it is Wine's and keeps a light from taking light away. Windows' is not established
       snprintf(b, sizeof b,
                "    float nl = max(dot(nrm, L), 0);\n"
                "    asum += att * lamb[%d].rgb; dsum += att * nl * ldiff[%d].rgb;\n", i, i);
@@ -135,10 +139,15 @@ static std::string gen_vs(const VSKey &k) {
   for (int i = 0; i < k.ntc; i++) {
     char b[400]; const auto &t = k.tc[i];
     std::string src;
-    switch (t.src) {
-    case 1: src = k.rhw ? "float4(0,0,0,1)" : "float4(nrm, 1)"; break;
+    // Pre-transformed vertices: no coordinates are generated, the stage reads its set as given. The DirectX 8 era text
+    // (Windows CE .NET 4.2 Direct3D, "Transformed and Lit Vertices") says Direct3D "does not modify transformed and lit
+    // vertices at all"; it does not name the texture coordinate flags, so this is a reading of it, the one Wine's bug
+    // 37313 also takes (Wine 9.0 generates from the screen position instead). The game was not seen combining the two
+    // (its traces, 14 Oct). test/random_cases.py lists such cases apart.
+    switch (k.rhw ? 0 : t.src) {
+    case 1: src = "float4(nrm, 1)"; break;
     case 2: src = "float4(cp, 1)"; break;
-    case 3: src = k.rhw ? "float4(0,0,0,1)" : "float4(reflect(normalize(cp), nrm), 1)"; break;
+    case 3: src = "float4(reflect(normalize(cp), nrm), 1)"; break;
     default: {
       // a coordinate set's missing components: the one after its last is 1, the rest 0 (so a 2D set's translation
       // is the matrix's third row, as the DirectX 8 reference describes texture transforms) PROVISIONAL
@@ -300,6 +309,8 @@ void Exec::ff_init() {
 static void free_res(ExecRes &r) {
   for (auto &v : r.rtv) if (v.second) v.second->Release();
   r.rtv.clear();
+  for (auto &v : r.srv_levels) if (v.second) v.second->Release();
+  r.srv_levels.clear();
   if (r.srv) r.srv->Release(); if (r.dsv) r.dsv->Release(); if (r.tex) r.tex->Release(); if (r.buf) r.buf->Release();
   r.srv = nullptr; r.dsv = nullptr; r.tex = nullptr; r.buf = nullptr;
 }
@@ -311,6 +322,7 @@ void Exec::release_swap() {
   if (swap) swap->Release(); swap = nullptr;
 }
 int32_t Exec::init(const XInit &x, bool resize) {
+  if (fail_init) { d8_log("X_INIT answered 0x%08X (D8ON11_TEST_EXEC_FAIL_INIT, a test)", (unsigned)fail_init); return fail_init; }
   wnd = (HWND)(uintptr_t)x.hwnd;
   if (!resize) {
     D3D_FEATURE_LEVEL fl = D3D_FEATURE_LEVEL_11_0, got;
@@ -334,6 +346,8 @@ int32_t Exec::init(const XInit &x, bool resize) {
   return D3D_OK;
 }
 void Exec::shutdown() {
+  // what the D3D8 side never destroyed (the tests expect none but the back buffer once the device is released)
+  { size_t n = 0; for (auto &r : res) n += r.second.kind != 4; d8_log("executor shutdown: %u objects still held besides the back buffer", (unsigned)n); }
   release_swap();
   for (auto &r : res) free_res(r.second);
   res.clear();
@@ -378,6 +392,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     break; }
   case X_TEX: {
     const XTex &t = *(const XTex *)p;
+    if (res.count(t.id)) { d8_log("stream error: object %u created twice (the earlier one is replaced)", t.id); free_res(res[t.id]); res.erase(t.id); }
     FmtInfo fi = d8_fmt((D3DFORMAT)t.d3dfmt);
     ExecRes x; x.kind = t.kind; x.w = t.width; x.h = t.height; x.levels = t.levels; x.faces = t.faces; x.d3dfmt = t.d3dfmt;
     D3D11_TEXTURE2D_DESC td = {}; td.Width = t.width; td.Height = t.height; td.MipLevels = t.levels; td.ArraySize = t.faces;
@@ -393,6 +408,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     break; }
   case X_BUF: {
     const XBuf &b = *(const XBuf *)p;
+    if (res.count(b.id)) { d8_log("stream error: object %u created twice (the earlier one is replaced)", b.id); free_res(res[b.id]); res.erase(b.id); }
     ExecRes x; x.kind = 3; x.index = b.index; x.w = b.length;
     D3D11_BUFFER_DESC bd = {}; bd.ByteWidth = (b.length + 15) & ~15u; bd.Usage = D3D11_USAGE_DEFAULT;
     bd.BindFlags = b.index ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER;
@@ -401,6 +417,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     break; }
   case X_DESTROY: {
     auto it = res.find(*(const uint32_t *)p);
+    if (it == res.end()) d8_once("destroyunknown", "stream error: object %u destroyed but not held (its creation failed, or a stream error)", *(const uint32_t *)p);
     if (it != res.end()) {
       for (auto &v : it->second.rtv) if (v.second == cur_rtv) cur_rtv = nullptr;
       if (it->second.dsv == cur_dsv) cur_dsv = nullptr;
@@ -514,7 +531,21 @@ void Exec::draw(const XDraw &d, const uint8_t *data) {
     ID3D11ShaderResourceView *srv = nullptr; ID3D11SamplerState *smp = nullptr;
     if (d.stage[i].tex) {
       auto it = res.find(d.stage[i].tex);
-      if (it != res.end()) srv = it->second.srv;
+      if (it != res.end()) {
+        ExecRes &r = it->second; uint32_t f = d.stage[i].first_level, c = d.stage[i].nlevels;
+        if (f == 0 && (c == 0 || c >= r.levels)) srv = r.srv;
+        else if (r.tex && f < r.levels) {                        // a view of only the levels the stage may read
+          if (c == 0 || f + c > r.levels) c = r.levels - f;
+          ID3D11ShaderResourceView *&v = r.srv_levels[f * 256 + c];
+          if (!v) {
+            D3D11_SHADER_RESOURCE_VIEW_DESC vd = {}; D3D11_TEXTURE2D_DESC td; r.tex->GetDesc(&td); vd.Format = td.Format;
+            if (r.faces == 6) { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE; vd.TextureCube.MostDetailedMip = f; vd.TextureCube.MipLevels = c; }
+            else { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D; vd.Texture2D.MostDetailedMip = f; vd.Texture2D.MipLevels = c; }
+            if (FAILED(dev->CreateShaderResourceView(r.tex, &vd, &v))) d8_log("a view of levels %u..%u of object %u failed", f, f + c - 1, d.stage[i].tex);
+          }
+          srv = v;
+        }
+      }
       smp = cached(ff->ss, d.stage[i].sampler, [&](const D3D11_SAMPLER_DESC *x, ID3D11SamplerState **o) { dev->CreateSamplerState(x, o); });
     }
     ctx->PSSetShaderResources(i, 1, &srv); ctx->PSSetSamplers(i, 1, &smp);

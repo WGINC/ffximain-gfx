@@ -91,7 +91,7 @@ struct XDraw {
   VSConst vc; PSConst pc;
   D3D11_BLEND_DESC blend; D3D11_DEPTH_STENCIL_DESC depth; D3D11_RASTERIZER_DESC raster; D3D11_VIEWPORT viewport;
   uint32_t stencil_ref;
-  uint32_t nstages; struct { uint32_t tex; D3D11_SAMPLER_DESC sampler; } stage[8];    // tex: an id, 0 none
+  uint32_t nstages; struct { uint32_t tex; D3D11_SAMPLER_DESC sampler; uint32_t first_level, nlevels; } stage[8];   // tex: an id, 0 none; the levels it may read
   struct { uint32_t buf, stride; } stream[16];                                       // buf: an id, 0 unbound
   uint32_t ib, ib32;                                                                 // the index buffer (XD_INDEXED)
   uint32_t topology;                                                                 // D3D11_PRIMITIVE_TOPOLOGY
@@ -104,5 +104,5 @@ struct XDraw {
 static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 152 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
-static_assert(sizeof(XDraw) == 3128 && offsetof(XDraw, vc) == 248 && offsetof(XDraw, blend) == 2120 &&
-              offsetof(XDraw, stage) == 2508 && offsetof(XDraw, stream) == 2956, "the draw packet's layout");
+static_assert(sizeof(XDraw) == 3192 && offsetof(XDraw, vc) == 248 && offsetof(XDraw, blend) == 2120 &&
+              offsetof(XDraw, stage) == 2508 && offsetof(XDraw, stream) == 3020, "the draw packet's layout");

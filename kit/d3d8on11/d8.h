@@ -155,8 +155,12 @@ struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;
   Link *link = nullptr;                          // the command stream to the executor (direct, thread or remote)
-  uint32_t next_id = X_BACKBUFFER + 1;
-  uint32_t new_id() { return next_id++; }
+  // ids are taken on whichever thread creates an object. The game creates its device without D3DCREATE_MULTITHREADED
+  // (Gfx_CreateDevice, 0x100034B0: behaviour 32 or 64), so D3D8 promises it no thread safety; whether it ever calls
+  // the device from a second thread is not established (the frame capture notes such calls if they come). An atomic
+  // id costs nothing and keeps two creations at once from sharing an id (test/t8.c threads)
+  volatile LONG next_id = X_BACKBUFFER;
+  uint32_t new_id() { return (uint32_t)InterlockedIncrement(&next_id); }
   Surf *backbuf = nullptr, *autods = nullptr, *curRT = nullptr, *curDS = nullptr;
   State st;
   std::vector<Block *> blocks; Block *rec = nullptr;

@@ -276,7 +276,8 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     for (int i = 0; i < ns; i++) {
       if (!pk.s[i].tex) continue;
       IDirect3DBaseTexture8 *tx = st.tex[i];
-      D.stage[i].tex = tx->GetType() == D3DRTYPE_CUBETEXTURE ? ((CubeTex *)(IDirect3DCubeTexture8 *)tx)->c.id : ((Tex *)(IDirect3DTexture8 *)tx)->c.id;
+      const TexCore &tc = tx->GetType() == D3DRTYPE_CUBETEXTURE ? ((CubeTex *)(IDirect3DCubeTexture8 *)tx)->c : ((Tex *)(IDirect3DTexture8 *)tx)->c;
+      D.stage[i].tex = tc.id;
         const DWORD *t = st.tss[i];
         D3D11_SAMPLER_DESC &sd = D.stage[i].sampler;
         bool aniso = t[D3DTSS_MINFILTER] == D3DTEXF_ANISOTROPIC || t[D3DTSS_MAGFILTER] == D3DTEXF_ANISOTROPIC;
@@ -286,7 +287,14 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
         float bc[4]; argb4(t[D3DTSS_BORDERCOLOR], bc); memcpy(sd.BorderColor, bc, 16);
         sd.MaxAnisotropy = t[D3DTSS_MAXANISOTROPY] ? (t[D3DTSS_MAXANISOTROPY] > 16 ? 16 : t[D3DTSS_MAXANISOTROPY]) : 1;
         memcpy(&sd.MipLODBias, &t[D3DTSS_MIPMAPLODBIAS], 4);
-        sd.MinLOD = (float)t[D3DTSS_MAXMIPLEVEL]; sd.MaxLOD = t[D3DTSS_MIPFILTER] == D3DTEXF_NONE ? sd.MinLOD : D3D11_FLOAT32_MAX;
+        // The levels a stage may read: from MAXMIPLEVEL (the most detailed level used) down, or only that level with
+        // MIPFILTER NONE ("disables mipmapping"; the Direct3D 9 reference, D3DTEXTUREFILTERTYPE, which keeps D3D8's
+        // states). They go to the executor as a view of those levels, not as the sampler's LOD clamp: MAGFILTER and
+        // MINFILTER apply when the texture is magnified or minified "respectively" (same page), and a clamp to one
+        // level can decide that instead (it did on Mesa: a minified texture was drawn with MAGFILTER; test/random_cases.py)
+        UINT first = t[D3DTSS_MAXMIPLEVEL] < tc.levels ? t[D3DTSS_MAXMIPLEVEL] : tc.levels - 1;
+        D.stage[i].first_level = first; D.stage[i].nlevels = t[D3DTSS_MIPFILTER] == D3DTEXF_NONE ? 1 : tc.levels - first;
+        sd.MinLOD = 0; sd.MaxLOD = D3D11_FLOAT32_MAX;
         sd.ComparisonFunc = D3D11_COMPARISON_NEVER;
     }
   }

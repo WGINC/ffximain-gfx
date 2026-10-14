@@ -16,6 +16,7 @@ struct ExecRes {
   ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
   ID3D11Buffer *buf = nullptr;
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
+  std::unordered_map<uint32_t, ID3D11ShaderResourceView *> srv_levels;   // views of some levels: first*256+count
   uint32_t w = 0, h = 0, levels = 1, faces = 1, d3dfmt = 0, index = 0;
 };
 struct Exec {
@@ -25,6 +26,7 @@ struct Exec {
   ID3D11RenderTargetView *cur_rtv = nullptr; ID3D11DepthStencilView *cur_dsv = nullptr;
   ExecFF *ff = nullptr;
   uint64_t draws = 0, presents = 0;
+  int32_t fail_init = 0;                           // tests only (d8x.exe): X_INIT answers this when nonzero
   // one record; a sync record's answer goes to hr and reply
   void run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply);
   void shutdown();

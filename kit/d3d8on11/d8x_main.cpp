@@ -39,6 +39,9 @@ int main(int argc, char **argv) {
 #endif
          (unsigned)si.wProcessorArchitecture);
   Exec x;
+  // tests only: D8ON11_TEST_EXEC_FAIL_INIT=1 makes this executor answer X_INIT with a failure, so that the D3D8 side's
+  // fallback to an in-process executor is tested
+  if (getenv("D8ON11_TEST_EXEC_FAIL_INIT")) x.fail_init = (int32_t)0x887A0004;   /* DXGI_ERROR_UNSUPPORTED */
   __atomic_store_n(&h->ready, 1u, __ATOMIC_SEQ_CST);
   ring_consume(h, mem + 4096, mem + 4096 + h->size, &x, ev[0], ev[1], ev[2], parent);
   d8_log("executor: %llu draws, %llu presents", (unsigned long long)x.draws, (unsigned long long)x.presents);

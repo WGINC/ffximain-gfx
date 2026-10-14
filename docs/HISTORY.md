@@ -1700,3 +1700,22 @@ thread of its own (design A2), or in a process of its own built natively for ARM
 - test_xikit's `mod` run failed once and passed on the rerun, as it has before; its cause is not established.
 - kit/sessions/port_first: the first runs in the game (README there).
 
+### More checks, asked for ("have you tested everything you can?"), 14 Oct
+
+- A randomized comparison with Wine's d3d8 (test/random_cases.py, the game's own state values): 13 of the first 200
+  cases differed. Each was minimised automatically and traced:
+  - a defect of ours: MIPFILTER NONE / MAXMIPLEVEL as an LOD clamp made a minified texture use MAGFILTER (fixed: a
+    view of the levels instead; the Direct3D 9 reference's D3DTEXTUREFILTERTYPE);
+  - a choice of ours with no source: pre-transformed vertices with generated coordinates read (0,0,0,1) (now the set
+    as given, by Microsoft's "does not modify transformed and lit vertices");
+  - four classes where Wine and the reference, or the reference and nothing, decide: A, C, S, L (kit/d3d8on11
+    README). Each was checked, not assumed: the case changed only as its class says draws the same on both. S was
+    confirmed with a one-colour cube (no difference) and a colour per face (differences only on face boundaries).
+  - Seeds 1 to 5, 1,000 cases: no difference outside the classes.
+- Threads: a second thread making objects while the first does too. With the old id counter the executor saw an id
+  created twice in every run; the counter is atomic now. The pictures alone did not show it.
+- Churn: 5,000 rounds of every kind of object; the executor holds nothing at the end.
+- The remote executor failing to make its device: the device falls back to thread mode.
+- Corrections of the day's own statements: "the game writes buffers from a second thread" was not established (the
+  frame capture only guards against it); removed.
+

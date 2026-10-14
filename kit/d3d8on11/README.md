@@ -161,6 +161,41 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
   go through, so the ring wraps twice and the counters pass 2^32. The pictures must equal `direct`'s exactly.
 - `orphan` (remote mode only): t8 ends its executor process at frame 30 and goes on presenting and reading back. The
   game must end with exit code 3 and the log line, not hang. It does.
+- `random`: randomized cases (`test/random_cases.py`), each state drawn from the values the game was seen setting
+  (data/d3d8_scope.json), over its six FVF codes, strips and lists, UP, buffer and indexed draws, with lights, texture
+  transforms and cube textures. 200 per run (`RANDOM_SEED`, `RANDOM_CASES`); compared with Wine's d3d8 as the scenes
+  are. A difference fails unless it falls in a class below and the case, changed only as its class says, then draws
+  the same on both (0 pixels in every case of seeds 1 to 5, 14 Oct: 1,000 cases):
+  - A: pre-transformed vertices with a stage generating coordinates. Wine 9.0 generates them from the screen
+    position; ours reads the set as given. Microsoft's text: "Direct3D does not modify transformed and lit vertices"
+    (Direct3D 9, "Texture Coordinate Transformations"; the same in the Windows CE .NET 4.2 Direct3D text). It names
+    transforms, not generation, so for generation this is a reading. Wine's own bug 37313 reads it the same way.
+    Change: the stage stops generating.
+  - C: a stage reading a coordinate set the vertex format does not have. Ours reads zeros; not in the reference.
+    Change: the stage reads set 0 (or has no texture).
+  - S: a cube texture filtered linearly. Wine's d3d8 filters each face apart (WINED3D_LEGACY_CUBEMAP_FILTERING,
+    dlls/d3d8/d3d8_private.h); D3D11 always filters across faces. What Direct3D 8 hardware did is not established.
+    Change: that stage point-filtered.
+  - L: lighting with normals longer than 1, NORMALIZENORMALS off. Wine clamps each light's N.L at 1; the reference's
+    equation, sum[Cd*Ld*(N.Ldir)*Atten*Spot] clamped after all lights ("Diffuse Lighting", Direct3D 9), does not;
+    ours follows the equation. Change: NORMALIZENORMALS on.
+  The game was seen using none of A and C in its traces (a trace's state at a draw is partial, so this is "not seen",
+  not "never"). It does create cube textures and set linear filtering, and it sets NORMALIZENORMALS off, so S and L
+  may show in the game.
+- Not established and not tested apart: what the third component of a 2D coordinate set reads as when a cube texture
+  is addressed with it (ours 1, by the PROVISIONAL rule in d8_exec.cpp; Wine 0). The rechecks avoid it.
+- What the randomized test fixed (14 Oct):
+  - MIPFILTER NONE and MAXMIPLEVEL were sent as the sampler's LOD clamp, and a clamp to one level can decide
+    magnification against minification (on Mesa a minified texture was drawn with MAGFILTER). The reference applies
+    MAGFILTER and MINFILTER when the texture is magnified or minified "respectively" and MIPFILTER NONE "disables
+    mipmapping" (Direct3D 9, D3DTEXTUREFILTERTYPE). Now the executor binds a view of only the levels the stage may
+    read and leaves the LOD range open.
+  - Pre-transformed vertices with generated coordinates read the constant (0,0,0,1), which had no source; now the
+    set as given (class A).
+- `threads` and `churn` (above) are checked against the executor's own invariants too: an object created twice or
+  destroyed unknown is logged as a stream error. Object ids were taken from a counter that was not atomic: with two
+  threads creating objects, the log of each of two runs had stream errors (5 and 2 lines); the counter is atomic now and the test
+  fails on any stream error.
 - Elsewhere: kit/xikit/test (`realdev_ours`) hooks this device with the kit as the game's device is hooked and gets
   its frame times; kit/fcap/test captures a frame through it and replays that through Wine's d3d8 to the same picture.
 

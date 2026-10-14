@@ -1719,3 +1719,15 @@ thread of its own (design A2), or in a process of its own built natively for ARM
 - Corrections of the day's own statements: "the game writes buffers from a second thread" was not established (the
   frame capture only guards against it); removed.
 
+### Checked against Microsoft's documentation (14 Oct)
+
+- The owner supplied a 549-page excerpt of the Microsoft DirectX 8.1 (C++) documentation (not in the repository).
+  The lighting pages match d3d8on11's lighting term for term, with two exceptions and three gaps (kit/d3d8on11
+  README, "Checked against Microsoft's documentation"):
+  - The ambient term differs between DirectX 8.1 (no attenuation or spot factor) and Direct3D 9 (both); ours is
+    Direct3D 9's. The game's 98,309 traced SetLight calls all have ambient 0, so it cannot show there.
+  - The clamp of each light's N.L at 0, specular's N.L > 0 and N.H > 0 conditions, and the spot factor are in
+    neither text; they are Wine's. The traces set no spot light.
+- The excerpt has no render-state, stage-state, texture-operation, fog or rasterization pages, so those parts of the
+  device are still checked only against Wine.
+

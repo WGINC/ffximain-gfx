@@ -85,10 +85,23 @@ static std::string gen_vs(const VSKey &k) {
   bool needN = k.lighting || [&] { for (int i = 0; i < k.ntc; i++) if (k.tc[i].src == 1 || k.tc[i].src == 3) return true; return false; }();
   if (needN && !k.rhw) {
     s += "  float3 nrm = mul(float4(" + in(SE_NORMAL, 0, "float4(0,0,0,0)") + ".xyz, 0), wvn).xyz;\n";
-    // normals are normalized only with D3DRS_NORMALIZENORMALS (the DirectX 8 reference; Wine's glsl_shader.c does
-    // the same): a normal that is not unit length, or a scaled world matrix, changes the lighting otherwise
+    // normals are normalized only with D3DRS_NORMALIZENORMALS, after the transform (DirectX 8.1, "Camera Space
+    // Transformations"): a normal that is not unit length, or a scaled world matrix, changes the lighting otherwise
     s += k.normalize ? "  if (dot(nrm, nrm) > 0) nrm = normalize(nrm);\n" : "";
   }
+  // Lighting, checked against the Microsoft DirectX 8.1 (C++) documentation, "Mathematics of Lighting" and its pages
+  // (the owner's copy, 14 Oct): camera space, N = N*(wv^-1)^T and norm(N) only with NORMALIZENORMALS ("Camera Space
+  // Transformations"); a directional light's Ldir = -norm(Ldir*vMatrix), a point or spot light's the normalized vector
+  // to the light; Atten = 1/(att0 + att1*d + att2*d^2), and no effect beyond Range ("Attenuation and Spotlight
+  // Terms"); Diffuse = sum[Vd*Ld*(N.Ldir)*Atten*Spot], Specular = Vs*sum[Ls*(N.H)^P*Atten*Spot] with
+  // H = norm(norm(Cp - Vp) + Ldir) for LOCALVIEWER, else the viewer "infinitely distant on the z-axis", both clamped
+  // after all lights; Emissive = Me; the material-source rules for each.
+  //   - Ambient: DirectX 8.1 has Mc*[Ga + sum(Lai)], Direct3D 9 ("Ambient Lighting") Ca*[Ga + sum(Atten*Spot*Lai)];
+  //     this takes Direct3D 9's. The two differ only for a point or spot light with an ambient colour: every SetLight
+  //     in the game's traces (6080, 5180: 98,309 calls) has ambient 0, so the game's picture does not depend on it.
+  //   - Not in either text: the clamp of each light's N.L at 0, the N.L > 0 and N.H > 0 conditions on specular,
+  //     the spot factor's formula (in a "Spotlight Model" page the owner's copy lacks; the game's traces set no spot
+  //     light). Those are Wine 9.0's.
   if (k.lighting && !k.rhw) {
     const char *src[] = {"", "vd", "vs"};
     std::string md = k.matsrc[0] ? src[k.matsrc[0]] : "mdiff", ms = k.matsrc[1] ? src[k.matsrc[1]] : "mspec";
@@ -113,7 +126,7 @@ static std::string gen_vs(const VSKey &k) {
                  "    att *= sp;\n", i, i, i, i, i, i, i);
         s += b;
       }
-      // each light's N.L as the Direct3D 9 reference's "Diffuse Lighting" equation has it, sum[Cd*Ld*(N.Ldir)*...],
+      // each light's N.L as the "Diffuse Lighting" equation has it (DirectX 8.1 and Direct3D 9 alike), sum[...*(N.Ldir)*...],
       // clamped "after all lights are processed": no clamp at 1 per light (Wine 9.0 clamps there, which shows with
       // normals longer than 1 and NORMALIZENORMALS off: test/random_cases.py, class L). The clamp at 0 per light is
       // not in that text; it is Wine's and keeps a light from taking light away. Windows' is not established

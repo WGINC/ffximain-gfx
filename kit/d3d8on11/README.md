@@ -122,6 +122,22 @@ Known gaps, each logged when hit:
   data/dgvoodoo_caps8.json), so the game takes the paths it takes there. They promise features not implemented here
   yet (vertex blending, the game's own shaders); those are logged when used.
 
+## Checked against Microsoft's documentation
+
+- Lighting, against the Microsoft DirectX 8.1 (C++) documentation's "Mathematics of Lighting" pages (the owner's copy,
+  a 549-page excerpt, 14 Oct; not in the repository): camera-space transforms, NORMALIZENORMALS, light vectors,
+  attenuation and range, the diffuse, specular and emissive equations, material sources, clamping after all lights.
+  All as the text has them (d8_exec.cpp names each). Not in the text: the per-light clamp at 0, specular's N.L > 0
+  and N.H > 0 conditions, the spot factor (its page is not in the excerpt; the game's traces set no spot light).
+  The ambient term: DirectX 8.1 has sum(Lai), Direct3D 9 sum(Atten*Spot*Lai); ours is Direct3D 9's. Every SetLight in
+  the game's traces (98,309) has ambient 0, so the difference cannot show in the game as traced.
+- Texture filtering and mipmapping (Direct3D 9, D3DTEXTUREFILTERTYPE), texture coordinate transforms and
+  pre-transformed vertices (Direct3D 9, "Texture Coordinate Transformations"): see the randomized test below.
+- Not yet checked against any Microsoft text, because the excerpt lacks the pages: the texture stage operations and
+  arguments, fog, alpha test, blending, culling, the half-pixel offset, ZBIAS, flat shading, addressing and border
+  colour, the default states, Clear, CopyRects, locks, Reset, state blocks. These follow Wine 9.0 where the code says
+  so; until checked, each is Wine's behaviour, not Microsoft's.
+
 ## Tests (`test/test_d3d8on11.py`, Wine on Mesa's software renderer in a virtual X server)
 
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`

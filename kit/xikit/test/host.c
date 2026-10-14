@@ -61,6 +61,11 @@ static void paint(void) {        /* the top band animates smoothly (a triangle w
   for (int y = 0; y < PH; y++) for (int x = 0; x < PW; x++) g_bbpix[y * PW + x] = y < PH / 2 ? a * 0x010101u : (b << 16);
 }
 static void present(int n) { for (int i = 0; i < n; i++) { paint(); ((HRESULT (__stdcall *)(void *, const RECT *, const RECT *, HWND, const void *))g_dev.vt[15])(&g_dev, 0, 0, 0, 0); } }
+static int log_has(const char *what) {
+  FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
+  static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
+  return strstr(b, what) != NULL;
+}
 static void touch_ini(const char *ini, const char *body) {
   Sleep(20); FILE *f = fopen(ini, "w"); fputs(body, f); fclose(f);
 }
@@ -138,6 +143,13 @@ int main(int argc, char **argv) {
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
+  if (modrun) {
+    /* the kit puts its Present hook on the device, logs the environment, attaches the profiler, and only then puts
+       the mods' device hooks in front, logging "device hooks: N methods hooked by mods" after it (xikit.c, start):
+       wait for that, or the device calls below reach the device without the mod's hooks or the profiler */
+    for (int t = 0; t < 400 && !log_has("methods hooked by mods"); t++) Sleep(50);
+    check(log_has("methods hooked by mods"), "the kit put the mods' device hooks in front");
+  }
   present(2);
   uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
   if (abrun) {

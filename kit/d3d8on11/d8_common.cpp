@@ -34,7 +34,19 @@ void d8_once(const char *key, const char *fmt, ...) {
   char b[1024]; va_list a; va_start(a, fmt); vsnprintf(b, sizeof b, fmt, a); va_end(a);
   d8_log("%s", b);
 }
-void d8_notimpl(const char *what) { d8_once(what, "not implemented: %s (failed)", what); }
+const char *d8_caller(void *ra, char *buf, size_t n, char *mod, size_t nmod) {
+  HMODULE m = NULL; char path[MAX_PATH] = "?";
+  if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)ra, &m) && m)
+    GetModuleFileNameA(m, path, sizeof path);
+  const char *base = strrchr(path, '\\'); base = base ? base + 1 : path;
+  snprintf(buf, n, "%s+0x%lX", base, (unsigned long)((uintptr_t)ra - (uintptr_t)m));
+  if (mod && nmod) snprintf(mod, nmod, "%s", base);
+  return buf;
+}
+void d8_notimpl_at(const char *what, void *ra) {
+  char at[MAX_PATH + 16], mod[MAX_PATH]; d8_caller(ra, at, sizeof at, mod, sizeof mod);
+  d8_once((std::string(what) + "@" + mod).c_str(), "not implemented: %s (failed), called from %s", what, at);
+}
 
 // ---- formats (D3DFORMAT numbers from d3d8types.h; DXGI from dxgiformat.h) ------------------------------------------------
 FmtInfo d8_fmt(D3DFORMAT f) {

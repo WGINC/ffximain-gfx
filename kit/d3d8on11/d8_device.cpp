@@ -290,7 +290,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
     if (sg && dg) {                                           // GPU to GPU
       XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
       if (d->kind == SK_TEXLEVEL && d->pool != D3DPOOL_DEFAULT)
-        d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels)");
+        { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels); called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
       std::vector<uint8_t> out; XRef ref = s->xref();
       if (link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;

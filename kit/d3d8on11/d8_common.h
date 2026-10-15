@@ -10,7 +10,12 @@
 // ---- log (d8_log_name next to the module; each message once unless counted) ------------------------------------
 extern const char *d8_log_name;
 void d8_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-void d8_notimpl(const char *what);                  // once per name
+// once per name and calling module, naming the caller (module+offset): in a process with other Direct3D users (Windower's
+// Hook.dll draws through the same device) the log says whose call it was. ra: the return address in the method itself;
+// called from a helper of ours instead, it names d3d8.dll
+void d8_notimpl_at(const char *what, void *ra);
+#define d8_notimpl(what) d8_notimpl_at((what), __builtin_return_address(0))
+const char *d8_caller(void *ra, char *buf, size_t n, char *mod = nullptr, size_t nmod = 0);   // "Module.dll+0x1234"
 void d8_once(const char *key, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 
 // ---- formats ------------------------------------------------------------------------------------------------------

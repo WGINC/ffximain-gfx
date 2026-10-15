@@ -244,6 +244,7 @@ static std::string op(int o, const std::string &a1, const std::string &a2, const
   return "";
 }
 static float texedge() { static float e = getenv("D8ON11_TEST_TEXEDGE") ? (float)atof(getenv("D8ON11_TEST_TEXEDGE")) : 0; return e; }
+static float ties() { static float e = getenv("D8ON11_TEST_TIES") ? (float)atof(getenv("D8ON11_TEST_TIES")) : 0; return e > 0 ? e : 1.0f / 256; }
 static std::string gen_ps(const PSKey &k) {
   std::string s =
     "cbuffer C : register(b0) { float4 tfactor, fogcolor, fogp, aref; };\n"
@@ -255,7 +256,7 @@ static std::string gen_ps(const PSKey &k) {
     else b[0] = 0;
     s += b;
   }
-  s += "float4 main(PI i) : SV_Target {\n  float4 cur = i.d0, tmp = 0;\n";
+  s += "float4 main(PI i) : SV_Target {\n  float4 cur = i.d0, tmp = 0; bool tie = false;\n";
   for (int i = 0; i < k.nstages; i++) {
     const auto &t = k.s[i]; char b[400], tex[16];
     snprintf(tex, sizeof tex, "x%d", i);
@@ -272,6 +273,27 @@ static std::string gen_ps(const PSKey &k) {
         snprintf(e, sizeof e, "  { uint w, h; t%d.GetDimensions(w, h); float2 z = float2(w, h), q = (%s) * z, f = frac(q), d = min(f, 1 - f); float2 m = "
                  "(d.x <= d.y ? float2(1, 0) : float2(0, 1)) * sign(f - 0.5); if (min(d.x, d.y) < %g) x%d = t%d.Sample(s%d, (floor(q) + m + 0.5) / z); }\n",
                  i, uv.c_str(), texedge(), i, i, i);
+        s += b; s += e; b[0] = 0;
+      }
+      if ((k.tie_minpt | k.tie_magpt) >> i & 1) {
+        // a test only (D8ON11_TEST_TIES=eps): mark the pixel where this stage point-samples within eps texels of a
+        // texel boundary, where D3D11 lets the driver read either texel ("scaledU is converted to at least 16.8 Fixed
+        // Point"; "The integer part of fxpScaledU is the chosen texel", D3D11.3 functional spec 7.18.7, with the 0.6 ULP
+        // conversion tolerance of 3.2.4.1). Magnified or minified, and the level: the spec's isotropic LOD (7.18.11,
+        // log2 of the longer of the two derivative vectors in texels; ours, not the driver's, which may differ near
+        // LOD 0), a level nearest it (MIP POINT, 7.18.10) or the two around it (MIP LINEAR), within the stage's view
+        // (one level for MIPFILTER NONE, d8_ff.cpp). MIPMAPLODBIAS is not applied (the game's traces never set it,
+        // data/d3d8_scope.json); a boundary that address clamping removes is still counted
+        char e[1400];
+        snprintf(e, sizeof e,
+                 "  { uint w, h, n; t%d.GetDimensions(0, w, h, n); float2 q = (%s) * float2(w, h), gx = ddx(q), gy = ddy(q);\n"
+                 "    float lod = 0.5 * log2(max(dot(gx, gx), dot(gy, gy)));\n"
+                 "    if (lod <= 0 ? %d : %d) {\n"
+                 "      float l0 = lod <= 0 ? 0 : %s; uint la = (uint)min(l0, n - 1), lb = (uint)min(l0 + (%d && lod > 0 ? 1 : 0), n - 1);\n"
+                 "      for (uint l = la; l <= lb; l++) { t%d.GetDimensions(l, w, h, n); float2 f = frac((%s) * float2(w, h)), d = min(f, 1 - f);\n"
+                 "        if (min(d.x, d.y) < %g) tie = true; } } }\n",
+                 i, uv.c_str(), k.tie_magpt >> i & 1, k.tie_minpt >> i & 1, (k.tie_miplin >> i & 1) ? "floor(lod)" : "floor(lod + 0.5)",
+                 k.tie_miplin >> i & 1, i, uv.c_str(), ties());
         s += b; s += e; b[0] = 0;
       }
     } else if (t.tex == 2) snprintf(b, sizeof b, "  float4 x%d = t%d.Sample(s%d, i.tc[%d].xyz);\n", i, i, i, i);
@@ -302,6 +324,7 @@ static std::string gen_ps(const PSKey &k) {
   if (k.fog == 1) s += "  cur.rgb = lerp(fogcolor.rgb, cur.rgb, saturate((fogp.y - i.fog) * fogp.w));\n";
   else if (k.fog == 2) s += "  cur.rgb = lerp(fogcolor.rgb, cur.rgb, saturate(exp(-fogp.z * i.fog)));\n";
   else if (k.fog == 3) s += "  cur.rgb = lerp(fogcolor.rgb, cur.rgb, saturate(exp(-fogp.z * fogp.z * i.fog * i.fog)));\n";
+  if (k.tie_minpt | k.tie_magpt) s += "  if (tie) cur = float4(1, 0, 1, 1);\n";   // the tie marker (D8ON11_TEST_TIES)
   s += "  return cur;\n}\n";
   return s;
 }

@@ -77,7 +77,10 @@ enum { FOG_OFF, FOG_SPECA, FOG_RANGE, FOG_EYEZ, FOG_RHWZ, FOG_CLIPZ, FOG_RHWW };
 struct PSKey {
   struct { uint8_t cop, ca1, ca2, ca0, aop, aa1, aa2, aa0, res, tex, tcn; } s[8];
   uint8_t nstages, alphatest, fog, specadd;   // fog: 0 none, 1 linear, 2 exp, 3 exp2
-  uint8_t flat, pad[3];
+  uint8_t flat;
+  // a test only (D8ON11_TEST_TIES; zero otherwise): bit i set when stage i's MINFILTER / MAGFILTER is POINT, its
+  // MIPFILTER LINEAR
+  uint8_t tie_minpt, tie_magpt, tie_miplin;
 };
 // the constants (one buffer per stage; float4 rows)
 struct VSConst {

@@ -139,6 +139,16 @@ Measured on Microsoft's reference device and not taken (each a reference-device 
   pixels of the 67 random cases (of 142) that still differ with their classes' changes, 856 match; of the 1064
   left, 934 are s2r0073 (the lit colour, above) and the rest (at most 29 a case, many differing by 4 or 5 where 3 is allowed) are not analysed: not
   explained.
+- point sampling at a texel boundary, on D3D11: D3D11 converts the scaled coordinate to "at least 16.8 Fixed Point"
+  and takes its integer part (D3D11.3 functional spec 7.18.7), with a conversion tolerance (3.2.4.1), so within about
+  1/256 texel of a boundary drivers may read different texels; the owner's GPU and WARP did (docs/HISTORY.md, 15 Oct).
+  The test switch D8ON11_TEST_TIES=eps draws magenta (after the alpha test and fog) where a 2D stage whose effective
+  filter is POINT samples within eps texels of a boundary (eps <= 0: 1/256). Minified or magnified, and the level, by
+  the spec's isotropic LOD (7.18.11) and mip selection (7.18.10), computed by ours, not taken from the driver;
+  MIPMAPLODBIAS is not applied (the game's traces never set it). kit/fcap/ties.py counts it on a frame capture. On
+  t8's scenes (here, Wine): texture_transform_2d 832 pixels, every pixel where the owner's runs and the reference device differ
+  from it here among them; rhw_texture all 1024 of its point-sampled pixels, none of which differed
+  anywhere (a coordinate exactly on a boundary that arrives exact is read alike): the count is an upper bound.
 
 Known gaps, each logged when hit:
 - full screen (renders windowed);

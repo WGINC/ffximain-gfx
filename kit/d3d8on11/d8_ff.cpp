@@ -307,6 +307,12 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
         D.stage[i].first_level = first; D.stage[i].nlevels = t[D3DTSS_MIPFILTER] == D3DTEXF_NONE ? 1 : tc.levels - first;
         sd.MinLOD = 0; sd.MaxLOD = D3D11_FLOAT32_MAX;
         sd.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        // a test only (D8ON11_TEST_TIES, d8_exec.cpp gen_ps): which filters of this stage are POINT, for the tie marker
+        if (getenv("D8ON11_TEST_TIES") && !aniso && pk.s[i].tex == 1) {
+          if (!mn) pk.tie_minpt |= (uint8_t)(1 << i);
+          if (!mg) pk.tie_magpt |= (uint8_t)(1 << i);
+          if (mp) pk.tie_miplin |= (uint8_t)(1 << i);
+        }
     }
   }
   // ---- vertices and indices

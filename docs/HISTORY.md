@@ -1950,3 +1950,24 @@ does, the pictures can differ by driver, and ours would need a rule for the tie 
 
 dgVoodoo draws only the first 13 scenes in both of the owner's runs (no picture from declaration_fan on), and fails
 basic's tweening check; not examined.
+
+## 15 Oct: a counter for point samples at texel boundaries (task 42)
+
+The rule, from the D3D11.3 functional spec (downloaded, not in the repo): point sampling scales the coordinate by the
+texture size, converts it to "at least 16.8 Fixed Point" and takes the integer part as the texel (7.18.7); float to
+fixed conversion may be off by 0.6 ULP (3.2.4.1); 8 bits of subtexel precision are required (7.18.16.1). So within
+about 1/256 texel of a boundary either texel is D3D11 behaviour, which is what the owner's run showed.
+
+- **D8ON11_TEST_TIES=eps** (kit/d3d8on11, a test only): magenta where a point-filtered 2D stage samples within eps
+  texels of a boundary. Its filter bits ride in PSKey's spare bytes, set only with the switch, so normal runs make
+  the same shaders as before (test_d3d8on11.py: ALL OK).
+- **kit/fcap/ties.py** replays a capture with and without it and counts the pixels the marker reaches.
+- **On t8 here:** texture_transform_2d 832 px marked; every pixel where Windows, ours on the owner's GPU, ours on
+  WARP and the reference device differ from ours here is among them (546, 257, 588, 301 px). The same holds for
+  texgen_cameraspace_transform (70, 69, 69, 70) and, except against the reference (53 of 129), v15_declaration. rhw_texture: all 1024 point-sampled pixels marked (drawn 1:1, so
+  every coordinate is an exact integer), none differed anywhere. A marked pixel may differ; it need not.
+- **On a capture:** fcap_host with its filters set to POINT: 886 of 12288 px; the 1:1 quad entirely. The test's own
+  capture (linear filtering) marks none.
+
+Not known: the game's count. It needs a frame capture from the game (`fcap=1`, docs/KIT.md); none exists yet.
+

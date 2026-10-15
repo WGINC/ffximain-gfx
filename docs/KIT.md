@@ -496,6 +496,9 @@ d3d8 checks that a buffer's vtable is its own (it asserts in dlls/d3d8/buffer.c)
 **Replay** (`kit/fcap/replay.c` → `fcap_replay.exe CAPTURE.fcap OUT`): plays the capture into whichever d3d8.dll sits
 next to it, and writes `OUT_replay.pic` (what that device drew) and `OUT_capture.pic` (what the game's drew).
 `kit/fcap/compare.py A.pic B.pic --png OUT.png` compares two pictures.
+`kit/fcap/ties.py CAPTURE.fcap --png OUT.png` replays a capture through kit/d3d8on11 under Wine twice, the second time
+with D8ON11_TEST_TIES, and counts the pixels where the finished picture shows a point sample within 1/256 texel of a
+texel boundary: where D3D11 drivers may pick different texels (kit/d3d8on11/README.md). An upper bound.
 
 **Tested** (`kit/fcap/test/test_fcap.py`, Wine):
 - a program draws game-like frames through Wine's d3d8 with d3dprof and fcap attached as the kit attaches them, and

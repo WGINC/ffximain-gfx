@@ -2004,3 +2004,40 @@ log and the UI text. So the boundary ties are not the main difference from dgVoo
 
 Separately: xikit attaches to the device by polling for it every 200 ms (xikit.c), so its resource log misses the
 creates made before that. In the crashed run the first 216 were missing, Windower's two textures among them.
+
+## 15 Oct: what each state block type captures, from Microsoft's runtime
+
+The owner's log (kit 35fa886, thread mode, under Windower) had "not implemented: CreateStateBlock of the pixel or
+vertex state only". The game's own call (0x1017B5FE) asks for D3DSBT_ALL; which module asked for the other types is
+not established (the next kit names the caller in such lines).
+
+The DirectX 8.1 documentation does not settle what the pixel and vertex blocks hold: its D3DSTATEBLOCKTYPE page and
+its "Creating Predefined State Blocks" page list different states. BLENDOP, COLORARG0, ALPHAARG0 and RESULTARG are on
+the first only. MULTISAMPLEANTIALIAS and MULTISAMPLEMASK are vertex states on the first and pixel states on the
+second. CULLMODE, FOGCOLOR, FOGENABLE and SPECULARENABLE are vertex states on the second only; the second also has
+transforms and clip planes in the vertex block.
+
+So it was measured on the runtime itself: Microsoft's retail DirectX 8.1 d3d8.dll with its reference device (the
+msref stand-in, software vertex processing), new mode `t8 sbtypes`. Each state is set to A, a block of the type is
+created, the state is set to B, the block is applied and the state read back: A means captured. 1326 rows, none
+unmeasured. The same render state and texture stage state numbers are lists in that d3d8.dll's data (file offset
+0x11045C on: the vertex texture stage states 11 and 24, then the vertex render states, then the pixel texture stage
+states, the pixel render states and the full list).
+
+- ALL: every render state d3d8types.h defines except D3DRS_ZVISIBLE (30) and D3DRS_DEBUGMONITORTOKEN (165); every
+  texture stage state 1..28 but 12 (not defined); textures, transforms, the clip plane, the light and its enable, the
+  material, the viewport, both shaders and their constants, the stream, the palette, and the index buffer. The
+  documentation's list has no index buffer; ours had followed it, and now follows the runtime.
+- PIXELSTATE: the 38 render states in d8_device.cpp SB_RS_PIXEL (the documentation's pixel lists, with BLENDOP and
+  without FOG*, MULTISAMPLE*), every texture stage state, the pixel shader and its constants.
+- VERTEXSTATE: the 40 render states in SB_RS_VERTEX (with CULLMODE, FOGENABLE, FOGCOLOR, SPECULARENABLE,
+  MULTISAMPLE*, POSITIONORDER, NORMALORDER), TEXCOORDINDEX and TEXTURETRANSFORMFLAGS, the light and its enable, the
+  vertex shader and its constants. No transform and no clip plane, though the guide page lists them.
+
+Not established: whether the runtime takes the same lists on a HAL device or a pure device (only the reference device,
+not pure, was measured; the lists are the runtime's data, not the driver's). Only light 0, transforms 2, 3, 16, 23,
+256, 257, clip plane 0, texture stage 0's texture and stream 0 were tested of their kinds.
+
+Ours now creates all three types from these lists. `t8 sbtypes` through ours, direct mode, against the runtime: every
+row that both measure agrees; 9 rows are not measured on ours (its pixel shaders and shader constants are not
+implemented; the game uses neither). test_d3d8on11.py stage 4 runs this comparison.

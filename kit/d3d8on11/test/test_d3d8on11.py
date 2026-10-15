@@ -14,7 +14,7 @@ Where Wine is known to differ from Microsoft's own runtime (WINE_DIFFERS), a sce
 not failed, and that scene is held to the next stage instead:
   4. with D3D8REF_DIR (the DirectX 8.1 SDK's retail d3d8.dll, d3dref8.dll and d3d8thk.dll) and WDK_DDI (the WDK 7.1
      DDI headers) set: Microsoft's runtime with its reference device (msref/build.sh: our stand-in for the kernel
-     thunks), t8 scenes and defaults, against ours (direct mode). A pixel passes when within REF_TOL of the reference's
+     thunks), t8 scenes, defaults and sbtypes (what each state block type captures), against ours (direct mode). A pixel passes when within REF_TOL of the reference's
      pixel or, both ways, of one of its 3x3 neighbours: a pixel centre exactly on (or within about 0.01 px of) an
      edge, or a texture coordinate on a texel boundary, is a tie each rasterizer's rounding decides (every such
      pixel of 14 Oct was computed to be one: docs/HISTORY.md). REF_SKIP lists the scenes not compared, and why.
@@ -194,6 +194,20 @@ elif first:
     print('%s: defaults: %d states compared with Microsoft\'s runtime (%d it answers 0xBAADCAFE left out), %d differ' % (
           'ok' if not dd else 'FAIL', len(keys), len(cafe), len(dd))); bad += len(dd) > 0
     for k in dd: print('  %-10s Microsoft %s  ours %s' % (k, md[k], bdef.get(k, '(fails)')))
+    # state blocks: what each D3DSTATEBLOCKTYPE captures (t8 sbtypes), on every row Microsoft's runtime answers. Rows ours
+    # cannot measure ("unset": its pixel shaders and shader constants are not implemented) are listed, not failed
+    def sbrows(out): return {' '.join(l.split()[1:-1]): l.split()[-1] for l in out.splitlines() if l.startswith('sb ')}
+    ms_out = msrun('sbtypes'); ms_sb, ours_sb = sbrows(ms_out), sbrows(run(ours, 'sbtypes', True, 'direct'))
+    # complete: t8 ends each type with its own count of rows ("sbtotal TYPE captured N not N unmeasured N")
+    tot = sum(int(p_[3]) + int(p_[5]) + int(p_[7]) for p_ in (l.split() for l in ms_out.splitlines() if l.startswith('sbtotal ')))
+    complete = ms_out.count('sbtotal ') == 3 and tot == len(ms_sb)
+    gap = sorted(k for k in ms_sb if ours_sb.get(k) in (None, 'unset'))
+    sbd = sorted(k for k in ms_sb if k not in gap and ms_sb[k] != ours_sb[k])
+    print('%s: state blocks: %d rows Microsoft\'s runtime answers, %d compared, %d differ; not measured on ours: %s' % (
+          'ok' if not sbd and complete else 'FAIL', len(ms_sb), len(ms_sb) - len(gap), len(sbd), ', '.join(gap) or '-'))
+    bad += bool(sbd) or not complete
+    if not complete: print('  the runtime\'s output is incomplete: %d rows, its totals say %d' % (len(ms_sb), tot))
+    for k in sbd: print('  %-24s Microsoft %s  ours %s' % (k, ms_sb[k], ours_sb[k]))
 # the ring wrapping: the scenes through a 64 KB ring (D8ON11_RING_KB) must draw what direct draws. They send about 165 KB,
 # so the ring wraps twice (two X_PAD records, counted with a -DD8_TRACE build on 14 Oct). The byte counters start at
 # 0xFFFF0100 (D8ON11_RING_START), so they also pass 2^32 on the way, as they do every few minutes in the game

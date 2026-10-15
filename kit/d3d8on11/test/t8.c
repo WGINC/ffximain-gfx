@@ -120,7 +120,7 @@ static IDirect3DTexture8 *texture(int w, int h, DWORD (*f)(int, int)) {
 static DWORD tx_checker(int x, int y) { return ((x ^ y) & 1) ? 0xFFFFFFFF : 0xFF2040C0; }
 static DWORD tx_grad(int x, int y) { return 0x80000000 | (x * 16) << 16 | (y * 16) << 8 | 0x40; }
 static DWORD tx_alpha(int x, int y) { return (DWORD)((x * 255 / 15) << 24) | 0x00FF8000; }
-static DWORD tx_rows(int x, int y) { return 0xFF000000 | (DWORD)(y * 2654435761u >> 8 ^ x * 40503u) & 0xFFFFFF; }
+static DWORD tx_rows(int x, int y) { return 0xFF000000 | ((DWORD)(y * 2654435761u >> 8 ^ x * 40503u) & 0xFFFFFF); }
 static void persp(D3DMATRIX *m, float fov, float zn, float zf) {   /* the D3DX left-handed perspective, written out */
   float ys = 1.0f / (float)tan(fov / 2); memset(m, 0, sizeof *m);
   m->_11 = ys; m->_22 = ys; m->_33 = zf / (zf - zn); m->_34 = 1; m->_43 = -zn * zf / (zf - zn);
@@ -889,6 +889,98 @@ int main(int argc, char **argv) {
     free(buf);
     D3DADAPTER_IDENTIFIER8 ai; memset(&ai, 0, sizeof ai); IDirect3D8_GetAdapterIdentifier(g_d3d, D3DADAPTER_DEFAULT, 0, &ai);
     printf("d3d8.dll: %s, version %s\nadapter: %s (%s)\n", p, fv, ai.Description, ai.Driver);
+    IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
+    return 0;
+  }
+  /* sbtypes: what a state block of each D3DSTATEBLOCKTYPE captures, measured one state at a time: the state at its
+     value A, CreateStateBlock, the state set to B, ApplyStateBlock, the state read back. A again: captured; B: not.
+     "unset" where Set did not take B (Get answered something else), so nothing is measured there */
+  if (argc > 1 && !strcmp(argv[1], "sbtypes")) {
+    static const DWORD psc[] = {0xFFFF0101, 0x00000001, 0x800F0000, 0x90E40000, 0x0000FFFF}; DWORD ps = 0;
+    IDirect3DDevice8_CreatePixelShader(d, psc, &ps);
+    IDirect3DTexture8 *tx = NULL; IDirect3DDevice8_CreateTexture(d, 4, 4, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &tx);
+    IDirect3DVertexBuffer8 *vb = NULL; IDirect3DDevice8_CreateVertexBuffer(d, 64, 0, 0, D3DPOOL_MANAGED, &vb);
+    IDirect3DIndexBuffer8 *ib = NULL; IDirect3DDevice8_CreateIndexBuffer(d, 64, 0, D3DFMT_INDEX16, D3DPOOL_MANAGED, &ib);
+    { D3DLIGHT8 l; memset(&l, 0, sizeof l); l.Type = D3DLIGHT_DIRECTIONAL; l.Direction.z = 1; l.Diffuse.r = 1; IDirect3DDevice8_SetLight(d, 0, &l); }
+    PALETTEENTRY pal[256]; memset(pal, 0, sizeof pal); IDirect3DDevice8_SetPaletteEntries(d, 0, pal); IDirect3DDevice8_SetPaletteEntries(d, 1, pal);
+    static const char *tn[] = {"all", "pixel", "vertex"};
+    for (int ty = 1; ty <= 3; ty++) {
+      DWORD h; int nc = 0, nn = 0, nu = 0;
+#define SB_ONE(NAME, GETA, SETB, ISA, ISB, RESTORE) do { \
+        if (FAILED(IDirect3DDevice8_CreateStateBlock(d, (D3DSTATEBLOCKTYPE)ty, &h))) { printf("sb %s %s create-failed\n", tn[ty - 1], NAME); break; } \
+        SETB; const char *r_ = (ISB) ? NULL : "unset"; \
+        if (!r_) { IDirect3DDevice8_ApplyStateBlock(d, h); r_ = (ISA) ? "captured" : (ISB) ? "not" : "other"; } \
+        IDirect3DDevice8_DeleteStateBlock(d, h); RESTORE; \
+        if (!strcmp(r_, "captured")) nc++; else if (!strcmp(r_, "not")) nn++; else nu++; \
+        printf("sb %s %s %s\n", tn[ty - 1], NAME, r_); } while (0)
+      char nm[64];
+      for (int s = 1; s < 256; s++) {
+        DWORD a, v = 0; if (FAILED(IDirect3DDevice8_GetRenderState(d, (D3DRENDERSTATETYPE)s, &a))) continue;
+        snprintf(nm, sizeof nm, "rs %d", s);
+        SB_ONE(nm, , IDirect3DDevice8_SetRenderState(d, (D3DRENDERSTATETYPE)s, a ^ 1),
+               (IDirect3DDevice8_GetRenderState(d, (D3DRENDERSTATETYPE)s, &v), v == a),
+               (IDirect3DDevice8_GetRenderState(d, (D3DRENDERSTATETYPE)s, &v), v == (a ^ 1)),
+               IDirect3DDevice8_SetRenderState(d, (D3DRENDERSTATETYPE)s, a));
+      }
+      for (int st = 0; st < 8; st++) for (int t = 1; t < 29; t++) {
+        DWORD a, v = 0; if (FAILED(IDirect3DDevice8_GetTextureStageState(d, st, (D3DTEXTURESTAGESTATETYPE)t, &a))) continue;
+        snprintf(nm, sizeof nm, "tss %d %d", st, t);
+        SB_ONE(nm, , IDirect3DDevice8_SetTextureStageState(d, st, (D3DTEXTURESTAGESTATETYPE)t, a ^ 1),
+               (IDirect3DDevice8_GetTextureStageState(d, st, (D3DTEXTURESTAGESTATETYPE)t, &v), v == a),
+               (IDirect3DDevice8_GetTextureStageState(d, st, (D3DTEXTURESTAGESTATETYPE)t, &v), v == (a ^ 1)),
+               IDirect3DDevice8_SetTextureStageState(d, st, (D3DTEXTURESTAGESTATETYPE)t, a));
+      }
+      { static const int ts[] = {D3DTS_VIEW, D3DTS_PROJECTION, D3DTS_TEXTURE0, D3DTS_TEXTURE7, 256 /* WORLD */, 257 /* WORLD1 */};
+        for (unsigned i = 0; i < sizeof ts / sizeof *ts; i++) {
+          D3DMATRIX a, b, v; IDirect3DDevice8_GetTransform(d, (D3DTRANSFORMSTATETYPE)ts[i], &a); b = a; b._41 += 1;
+          snprintf(nm, sizeof nm, "transform %d", ts[i]);
+          SB_ONE(nm, , IDirect3DDevice8_SetTransform(d, (D3DTRANSFORMSTATETYPE)ts[i], &b),
+                 (IDirect3DDevice8_GetTransform(d, (D3DTRANSFORMSTATETYPE)ts[i], &v), !memcmp(&v, &a, sizeof v)),
+                 (IDirect3DDevice8_GetTransform(d, (D3DTRANSFORMSTATETYPE)ts[i], &v), !memcmp(&v, &b, sizeof v)),
+                 IDirect3DDevice8_SetTransform(d, (D3DTRANSFORMSTATETYPE)ts[i], &a)); } }
+      { float a[4], b[4], v[4]; IDirect3DDevice8_GetClipPlane(d, 0, a); memcpy(b, a, sizeof b); b[3] += 1;
+        SB_ONE("clipplane 0", , IDirect3DDevice8_SetClipPlane(d, 0, b), (IDirect3DDevice8_GetClipPlane(d, 0, v), !memcmp(v, a, sizeof v)),
+               (IDirect3DDevice8_GetClipPlane(d, 0, v), !memcmp(v, b, sizeof v)), IDirect3DDevice8_SetClipPlane(d, 0, a)); }
+      { BOOL a = 0, v = 0; IDirect3DDevice8_GetLightEnable(d, 0, &a);
+        SB_ONE("lightenable 0", , IDirect3DDevice8_LightEnable(d, 0, !a), (IDirect3DDevice8_GetLightEnable(d, 0, &v), !v == !a),
+               (IDirect3DDevice8_GetLightEnable(d, 0, &v), !v != !a), IDirect3DDevice8_LightEnable(d, 0, a)); }
+      { D3DLIGHT8 a, b, v; IDirect3DDevice8_GetLight(d, 0, &a); b = a; b.Diffuse.g += 1;
+        SB_ONE("light 0", , IDirect3DDevice8_SetLight(d, 0, &b), (IDirect3DDevice8_GetLight(d, 0, &v), !memcmp(&v, &a, sizeof v)),
+               (IDirect3DDevice8_GetLight(d, 0, &v), !memcmp(&v, &b, sizeof v)), IDirect3DDevice8_SetLight(d, 0, &a)); }
+      { D3DMATERIAL8 a, b, v; IDirect3DDevice8_GetMaterial(d, &a); b = a; b.Power += 1;
+        SB_ONE("material", , IDirect3DDevice8_SetMaterial(d, &b), (IDirect3DDevice8_GetMaterial(d, &v), !memcmp(&v, &a, sizeof v)),
+               (IDirect3DDevice8_GetMaterial(d, &v), !memcmp(&v, &b, sizeof v)), IDirect3DDevice8_SetMaterial(d, &a)); }
+      { D3DVIEWPORT8 a, b, v; IDirect3DDevice8_GetViewport(d, &a); b = a; b.Width -= 1;
+        SB_ONE("viewport", , IDirect3DDevice8_SetViewport(d, &b), (IDirect3DDevice8_GetViewport(d, &v), !memcmp(&v, &a, sizeof v)),
+               (IDirect3DDevice8_GetViewport(d, &v), !memcmp(&v, &b, sizeof v)), IDirect3DDevice8_SetViewport(d, &a)); }
+      { DWORD a = D3DFVF_XYZ, b = D3DFVF_XYZ | D3DFVF_DIFFUSE, v = 0; IDirect3DDevice8_SetVertexShader(d, a);
+        SB_ONE("vertexshader", , IDirect3DDevice8_SetVertexShader(d, b), (IDirect3DDevice8_GetVertexShader(d, &v), v == a),
+               (IDirect3DDevice8_GetVertexShader(d, &v), v == b), IDirect3DDevice8_SetVertexShader(d, a)); }
+      { DWORD v = 0; IDirect3DDevice8_SetPixelShader(d, 0);
+        SB_ONE(ps ? "pixelshader" : "pixelshader (no shader made)", , IDirect3DDevice8_SetPixelShader(d, ps), (IDirect3DDevice8_GetPixelShader(d, &v), v == 0),
+               (IDirect3DDevice8_GetPixelShader(d, &v), v == ps && ps), IDirect3DDevice8_SetPixelShader(d, 0)); }
+      { float a[4] = {1, 2, 3, 4}, b[4] = {5, 6, 7, 8}, v[4]; IDirect3DDevice8_SetVertexShaderConstant(d, 0, a, 1);
+        SB_ONE("vsconst 0", , IDirect3DDevice8_SetVertexShaderConstant(d, 0, b, 1), (IDirect3DDevice8_GetVertexShaderConstant(d, 0, v, 1), !memcmp(v, a, sizeof v)),
+               (IDirect3DDevice8_GetVertexShaderConstant(d, 0, v, 1), !memcmp(v, b, sizeof v)), ); }
+      { float a[4] = {.1f, .2f, .3f, .4f}, b[4] = {.5f, .6f, .7f, .8f}, v[4]; IDirect3DDevice8_SetPixelShaderConstant(d, 0, a, 1);
+        SB_ONE("psconst 0", , IDirect3DDevice8_SetPixelShaderConstant(d, 0, b, 1), (IDirect3DDevice8_GetPixelShaderConstant(d, 0, v, 1), !memcmp(v, a, sizeof v)),
+               (IDirect3DDevice8_GetPixelShaderConstant(d, 0, v, 1), !memcmp(v, b, sizeof v)), ); }
+      { IDirect3DBaseTexture8 *v = NULL; IDirect3DDevice8_SetTexture(d, 0, NULL);
+#define TXGET(X) (IDirect3DDevice8_GetTexture(d, 0, &v), (v ? IDirect3DBaseTexture8_Release(v) : 0), (X))
+        SB_ONE("texture 0", , IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)tx), TXGET(v == NULL),
+               TXGET(v == (IDirect3DBaseTexture8 *)tx && tx), IDirect3DDevice8_SetTexture(d, 0, NULL)); }
+      { IDirect3DVertexBuffer8 *v = NULL; UINT sd = 0; IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0);
+#define VBGET(X) (IDirect3DDevice8_GetStreamSource(d, 0, &v, &sd), (v ? IDirect3DVertexBuffer8_Release(v) : 0), (X))
+        SB_ONE("stream 0", , IDirect3DDevice8_SetStreamSource(d, 0, vb, 16), VBGET(v == NULL), VBGET(v == vb && vb),
+               IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0)); }
+      { IDirect3DIndexBuffer8 *v = NULL; UINT bi = 0; IDirect3DDevice8_SetIndices(d, NULL, 0);
+#define IBGET(X) (IDirect3DDevice8_GetIndices(d, &v, &bi), (v ? IDirect3DIndexBuffer8_Release(v) : 0), (X))
+        SB_ONE("indices", , IDirect3DDevice8_SetIndices(d, ib, 0), IBGET(v == NULL), IBGET(v == ib && ib), IDirect3DDevice8_SetIndices(d, NULL, 0)); }
+      { UINT v = 0; IDirect3DDevice8_SetCurrentTexturePalette(d, 0);
+        SB_ONE("palette", , IDirect3DDevice8_SetCurrentTexturePalette(d, 1), (IDirect3DDevice8_GetCurrentTexturePalette(d, &v), v == 0),
+               (IDirect3DDevice8_GetCurrentTexturePalette(d, &v), v == 1), IDirect3DDevice8_SetCurrentTexturePalette(d, 0)); }
+      printf("sbtotal %s captured %d not %d unmeasured %d\n", tn[ty - 1], nc, nn, nu);
+    }
     IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
     return 0;
   }

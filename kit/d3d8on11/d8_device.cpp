@@ -521,18 +521,37 @@ HRESULT Dev::DeleteStateBlock(DWORD t) {
   free_block(b); blocks[t - 1] = nullptr;
   return D3D_OK;
 }
+// What each D3DSTATEBLOCKTYPE captures, from Microsoft's DirectX 8.1 runtime itself, not from its documentation: the
+// documentation's two lists (D3DSTATEBLOCKTYPE and "Creating Predefined State Blocks") disagree with each other. Measured
+// on the retail d3d8.dll with its reference device, one state at a time (test/t8.c sbtypes: set A, create, set B,
+// apply, read back), and the same render state and texture stage state numbers are lists in that d3d8.dll's data. ALL
+// takes render states 7..173 that d3d8types.h defines except D3DRS_ZVISIBLE (30) and D3DRS_DEBUGMONITORTOKEN (165), every
+// texture stage state 1..28 but 12 (not defined), and the index buffer (not in the documentation's list). The pixel and
+// vertex blocks: the lists below, the pixel shader (pixel) or the lights, their enables and the vertex shader (vertex);
+// neither takes a texture, transform, clip plane, material, viewport, stream, index buffer or palette. Shader constants
+// are in all three, but ours keeps none (SetVertexShaderConstant is not implemented: the game sets none)
+static const uint8_t SB_RS_ALL[] = {7, 8, 9, 10, 14, 15, 16, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 34, 35, 36, 37, 38, 40,
+  47, 48, 52, 53, 54, 55, 56, 57, 58, 59, 60, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 139, 140, 141, 142, 143,
+  145, 146, 147, 148, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 167, 168, 170, 171, 172, 173};
+static const uint8_t SB_RS_PIXEL[] = {7, 8, 9, 10, 14, 15, 16, 19, 20, 23, 24, 25, 26, 27, 36, 37, 38, 40, 47, 52, 53, 54, 55,
+  56, 57, 58, 59, 60, 128, 129, 130, 131, 132, 133, 134, 135, 168, 171};
+static const uint8_t SB_RS_VERTEX[] = {9, 22, 28, 29, 34, 35, 36, 37, 38, 48, 136, 137, 139, 140, 141, 142, 143, 145, 146, 147,
+  148, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 167, 170, 172, 173};
 HRESULT Dev::CreateStateBlock(D3DSTATEBLOCKTYPE type, DWORD *tok) {
-  if (!tok || rec) return D3DERR_INVALIDCALL;
-  if (type != D3DSBT_ALL) { d8_notimpl("CreateStateBlock of the pixel or vertex state only"); return D3DERR_INVALIDCALL; }
+  if (!tok || rec || type < D3DSBT_ALL || type > D3DSBT_VERTEXSTATE) return D3DERR_INVALIDCALL;
   Block *b = new_block();
-  memset(b->rs, 1, sizeof b->rs); memset(b->tss, 1, sizeof b->tss); memset(b->tex, 1, sizeof b->tex);
-  // D3DSBT_ALL: "all current render states, clipplanes, texture stage states, the current material, all current
-  // textures, all current lights and enabled light parameters, the current palette, the current pixel shader, all
-  // current streams, the pixel shader constants, the current viewport, the current vertex shader, all current
-  // transforms, the vertex shader constants" (DirectX 8.1, D3DSTATEBLOCKTYPE): the index buffer is not in the list
-  memset(b->xf, 1, sizeof b->xf); b->vp = b->mat = b->vs = b->ps = b->palette = true; b->ib = false; memset(b->stream, 1, sizeof b->stream);
-  memset(b->clip, 1, sizeof b->clip);
-  for (size_t i = 0; i < st.light.size(); i++) b->lights.push_back((int)i);
+  bool all = type == D3DSBT_ALL, px = type == D3DSBT_PIXELSTATE, vx = type == D3DSBT_VERTEXSTATE;
+  const uint8_t *rs = all ? SB_RS_ALL : px ? SB_RS_PIXEL : SB_RS_VERTEX;
+  size_t nrs = all ? sizeof SB_RS_ALL : px ? sizeof SB_RS_PIXEL : sizeof SB_RS_VERTEX;
+  for (size_t i = 0; i < nrs; i++) b->rs[rs[i]] = true;
+  for (int s = 0; s < 8; s++) for (int t = 1; t <= 28; t++)
+    if (t != 12 && (!vx || t == D3DTSS_TEXCOORDINDEX || t == D3DTSS_TEXTURETRANSFORMFLAGS)) b->tss[s][t] = true;
+  if (all) {
+    memset(b->tex, 1, sizeof b->tex); memset(b->xf, 1, sizeof b->xf); memset(b->stream, 1, sizeof b->stream);
+    memset(b->clip, 1, sizeof b->clip); b->vp = b->mat = b->palette = b->ib = true;
+  }
+  b->vs = !px; b->ps = !vx;
+  if (!px) for (size_t i = 0; i < st.light.size(); i++) b->lights.push_back((int)i);
   copy_block(b->s, st, *b);
   blocks.push_back(b); *tok = (DWORD)blocks.size();
   return D3D_OK;

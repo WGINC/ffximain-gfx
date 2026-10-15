@@ -74,7 +74,7 @@ Done and tested:
   GPU, and GPU to an image surface), read-back through LockRect;
 - every state the game sets and reads back: render states, stage states, transforms, viewport, material, lights,
   textures, streams, indices, vertex shader handles;
-- state blocks recorded with Begin/End, applied, captured, deleted, and CreateStateBlock(ALL).
+- state blocks recorded with Begin/End, applied, captured, deleted, and CreateStateBlock of each type.
 
 ## Milestone 2: drawing (`d8_ff.cpp`)
 
@@ -155,7 +155,6 @@ Measured on Microsoft's reference device and not taken (each a reference-device 
 
 Known gaps, each logged when hit:
 - full screen (renders windowed);
-- CreateStateBlock of the pixel or vertex state only (the game creates D3DSBT_ALL only: its two call sites);
 - palettized texture formats (the palettes themselves are kept and read back; the game creates no palettized texture);
 - textures in a block format whose top level is not whole 4x4 blocks: D3D11 wants whole blocks; behaviour to be
   checked;
@@ -192,8 +191,13 @@ Checked, area by area:
   reference does not say how the alpha is made 8-bit).
 - Clear: the viewport, or rectangles clipped to it; fails for Z or stencil with no depth buffer or no stencil
   (changed: rectangles and smaller viewports failed; now drawn, test scene clear_viewport_rects, equal to Wine's).
-- State blocks: D3DSBT_ALL holds what the reference lists (changed: it held the index buffer, which is not listed,
-  and not the palette, which is); recorded blocks record the methods the reference lists.
+- State blocks: CreateStateBlock takes all three D3DSTATEBLOCKTYPEs, each capturing what Microsoft's DirectX 8.1 runtime
+  captures, measured on it (test/t8.c `sbtypes`; its render and texture stage state lists are also data in that
+  d3d8.dll), not what the documentation lists: its two lists for the pixel and vertex blocks disagree with each other,
+  and D3DSBT_ALL there omits the index buffer, which the runtime captures (changed twice: ALL first held the index
+  buffer, then followed the documentation and dropped it; now it holds it again, as the runtime does, and takes
+  neither D3DRS_ZVISIBLE nor D3DRS_DEBUGMONITORTOKEN). Shader constants are in all three on the runtime; ours keeps
+  none (SetVertexShaderConstant is not implemented). Recorded blocks record the methods the reference lists.
 - Palettes: SetPaletteEntries / SetCurrentTexturePalette as the reference (they failed before; the game calls both).
 - CopyRects: fails as the reference lists (the same surface, formats that differ, depth formats, a rectangle not
   inside both surfaces; changed: none of these was checked). A copy into a texture level also updates the copy the

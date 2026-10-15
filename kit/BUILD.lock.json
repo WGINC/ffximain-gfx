@@ -2,7 +2,7 @@
  "kit/d3d11probe/dist/probe11_arm64.exe": "3513225ef4eb1523c8a32e2b22dd0b95a4e2fa44d9c0a53f016c4192a17aaab4",
  "kit/d3d11probe/dist/probe11_x86.exe": "2e93b806b618c5fe46e3dec350a306d58ea7652226c9f49e5a3ce60463a6d040",
  "kit/d3d11probe/dist/probe8_x86.exe": "d1914bbc2bcd4438e11af672614f9b24d0308ac67611353fa92f53e286263a39",
- "kit/d3d8on11/dist/d3d8.dll": "37d0d930c8090fbb5bf29e7e229d348ef35cdc14f3293a76d7d9bf103373459a",
+ "kit/d3d8on11/dist/d3d8.dll": "8b6e9cabe4a6c3e6ae87db4c742ab1af999ed4efa04810e79982a97b008859fe",
  "kit/d3d8on11/dist/d8x.exe": "e703a3ebdb307a12e57841f9cfe715165da1cd148c16d8778ecbec34965e68ab",
  "kit/d3d8on11/dist/d8x_arm64.exe": "f15f8b08f22657af7fd6f83deae832090b17d04e612712a0c7399462a9821de6",
  "kit/d3dprof/d3dprof.dll": "c27ba62b4f0bd863516e281a639bb3eb86ddf4271b329bbce2a7b26949d0bf8f",

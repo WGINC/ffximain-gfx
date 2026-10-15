@@ -120,6 +120,7 @@ static IDirect3DTexture8 *texture(int w, int h, DWORD (*f)(int, int)) {
 static DWORD tx_checker(int x, int y) { return ((x ^ y) & 1) ? 0xFFFFFFFF : 0xFF2040C0; }
 static DWORD tx_grad(int x, int y) { return 0x80000000 | (x * 16) << 16 | (y * 16) << 8 | 0x40; }
 static DWORD tx_alpha(int x, int y) { return (DWORD)((x * 255 / 15) << 24) | 0x00FF8000; }
+static DWORD tx_rows(int x, int y) { return 0xFF000000 | (DWORD)(y * 2654435761u >> 8 ^ x * 40503u) & 0xFFFFFF; }
 static void persp(D3DMATRIX *m, float fov, float zn, float zf) {   /* the D3DX left-handed perspective, written out */
   float ys = 1.0f / (float)tan(fov / 2); memset(m, 0, sizeof *m);
   m->_11 = ys; m->_22 = ys; m->_33 = zf / (zf - zn); m->_34 = 1; m->_43 = -zn * zf / (zf - zn);
@@ -155,6 +156,18 @@ static void scenes(void) {
   { VRhwT v[4] = {{4, 40, 0.5f, 1, 0xFFFF8080, 0, 0}, {36, 40, 0.5f, 1, 0xFFFF8080, 1, 0}, {4, 60, 0.5f, 1, 0xFFFF8080, 0, 1}, {36, 60, 0.5f, 1, 0xFFFF8080, 1, 1}};
     IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
   end("rhw_texture");
+
+  /* a 2048x4096 A8R8G8B8 texture, as the game makes at startup (owner, 15 Oct): its one level is 32 MB, more than a
+     ring record may carry, so it goes in bands of rows (d8_link.h upload_tex). Drawn 32:1 across, 64:1 down, point
+     filtered: each pixel reads texel (32i+16, 64j+32), half a texel from any edge; every row gets its own colour */
+  { IDirect3DTexture8 *big = texture(2048, 4096, tx_rows);
+    reset_state(); begin(0xFF000000);
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)big);
+    IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+    { VRhwT v[4] = {{0, 0, 0.5f, 1, 0xFFFFFFFF, 0, 0}, {64, 0, 0.5f, 1, 0xFFFFFFFF, 1, 0}, {0, 64, 0.5f, 1, 0xFFFFFFFF, 0, 1}, {64, 64, 0.5f, 1, 0xFFFFFFFF, 1, 1}};
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
+    end("big_texture");
+    IDirect3DDevice8_SetTexture(d, 0, NULL); if (big) IDirect3DTexture8_Release(big); }
 
   /* transformed triangles with a perspective camera, depth test and culling */
   reset_state(); begin(0xFF101010);

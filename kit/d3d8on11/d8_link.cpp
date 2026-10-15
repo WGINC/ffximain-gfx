@@ -98,6 +98,7 @@ struct RingLink : Link {
   // the game's side of the stats: time waited for room, for pacing, for answers; bytes and records sent
   double waited[3] = {0, 0, 0}, since = 0; uint64_t sent_bytes = 0; uint32_t records = 0, frames = 0;
   RingLink() { InitializeCriticalSection(&lock); since = qpc_ms(); }
+  uint32_t max_payload() const override { return h->size / 2 - 8; }   // begin's limit: 8 + pad8(bytes) <= size / 2
   void stats_frame() {
     if (++frames < STATS_EVERY) return;
     double now = qpc_ms();

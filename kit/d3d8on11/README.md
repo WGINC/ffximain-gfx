@@ -54,8 +54,11 @@ code that uses Direct3D 11.
 executor to reach it, as the game's occlusion readback does on any D3D8.
 
 **Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
-area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. How large the game's largest
-record is (a ...UP draw carries its vertices) is not established.
+area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. Uploads
+never reach that: a texture upload larger than a record may carry goes in bands of whole rows, a buffer's in byte
+ranges (d8_link.h `upload_tex`, `upload_buf`). The game makes a 2048x4096 A8R8G8B8 texture at startup, whose one level
+is 32 MB; before the bands, `thread` ended the game there (owner, 15 Oct; t8 scene `big_texture`). How large the game's
+largest draw record is (a ...UP draw carries its vertices) is not established.
 
 **Bytes per draw.** A draw packet is 3,128 bytes before any ...UP or fan data (pinned in d8_proto.h for both builds),
 so 3,000 draws make about 9.4 MB a frame through the ring, written by the game's thread and read by the executor.

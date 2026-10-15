@@ -64,7 +64,7 @@ HRESULT TexCore::unlock(UINT face, UINT l) {
     UINT pitch = d8_pitch(fmt, lw(l)), rows = d8_rows(fmt, lh(l));
     if (b.size() < (size_t)pitch * rows) b.resize((size_t)pitch * rows, 0);
     XUpTex u = {id, D3D11CalcSubresource(l, face, levels), 0, 0, 0, 0, pitch, rows};
-    dev->link->put(X_UPLOAD_TEX, &u, sizeof u, b.data(), pitch * rows);
+    dev->link->upload_tex(u, b.data(), lw(l), lh(l), d8_fmt(fmt).block ? 4 : 1);
   }
   return D3D_OK;
 }
@@ -188,7 +188,7 @@ HRESULT Surf::UnlockRect() {
     std::vector<uint8_t> out((size_t)rb * rows);
     for (UINT y = 0; y < rows; y++) memcpy(&out[(size_t)y * rb], &cpu[(size_t)(lockRect.top + y) * pitch + d8_pitch(fmt, (UINT)lockRect.left)], rb);
     XUpTex u = {id, 0, (uint32_t)lockRect.left, (uint32_t)lockRect.top, (uint32_t)(lockRect.right - lockRect.left), rows, rb, rows};
-    dev->link->put(X_UPLOAD_TEX, &u, sizeof u, out.data(), (uint32_t)out.size());
+    dev->link->upload_tex(u, out.data(), w, h, 1);
   }
   return D3D_OK;
 }
@@ -212,7 +212,7 @@ HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD) {
 HRESULT BufCore::unlock() {
   if (!locks) return D3DERR_INVALIDCALL;
   if (--locks) return D3D_OK;
-  if (id && hi > lo) { XUpBuf u = {id, lo, hi - lo}; dev->link->put(X_UPLOAD_BUF, &u, sizeof u, cpu.data() + lo, hi - lo); }
+  if (id && hi > lo) dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo);
   return D3D_OK;
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }

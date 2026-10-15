@@ -1971,3 +1971,36 @@ about 1/256 texel of a boundary either texel is D3D11 behaviour, which is what t
 
 Not known: the game's count. It needs a frame capture from the game (`fcap=1`, docs/KIT.md); none exists yet.
 
+
+## 15 Oct: ours ended the game at startup in `thread` mode (owner, kit 35fa886)
+
+The owner's run with the thread folder's settings ended at startup: Windows logged exception 0x40000015 in Windower's
+Hook.dll (offset 0x000c73aa), about a second after xikit hooked the device. d3d8on11.log was not in the upload. The
+cause, found by replaying the same build's dgVoodoo capture (xikit_fcap_3956_0) through ours here:
+
+- In `thread` mode the replay ended with exit code 3 and the log line "a record of 33554464 bytes does not fit the
+  ring (33554432): the device stops" (d8_link.cpp, `ExitProcess(3)`). 33554464 = 2048 x 4096 x 4 + 32: an
+  XUpTex header and one level of a 2048x4096 A8R8G8B8 texture.
+- The game creates that texture at startup (0x102D3013, 800x1000 hex, levels 1 and 13, format 0x15, pool 1). It is
+  the last call in the crashed run's resource log, and in the dgVoodoo run it is followed by more frames.
+- TexCore::unlock sent the whole level as one record; the ring takes at most half its size.
+
+Not established: that this exit is what Windows reported. ExitProcess(3) is not 0x40000015, and how Windower's
+Hook.dll turns an exit into that exception is not known. The owner's d3d8on11.log would show the line if it was.
+
+Fix: d8_link.h `upload_tex` sends a texture upload larger than a record may carry in bands of whole rows (each
+with its box; a block format's band is whole block rows); `upload_buf` cuts a buffer's in byte ranges. Each
+link says what it takes (`max_payload`: the ring half its size less the header; direct, no limit). Checked:
+
+- the capture replays in `thread`, `remote` and `thread` with a 64 KB ring (every large upload in bands), each
+  identical to `direct` pixel for pixel (0 of 1434888 differ);
+- t8 has a new scene `big_texture` (that texture, a colour per row, point sampled half a texel from any edge);
+  test_d3d8on11.py runs it in every mode and through the 64 KB ring.
+
+Also from that capture (task 42, the game's first count): ties.py marks 8588 of 1434888 px (0.60%; the other two
+captures 8582 and 8600), spread over the room's walls and floor. Against dgVoodoo's own picture of that frame, ours
+differs in 8689 px by more than 8 in a channel. Only 34 of those are marked. 7755 are at y >= 730, in the chat
+log and the UI text. So the boundary ties are not the main difference from dgVoodoo; what is has not been found.
+
+Separately: xikit attaches to the device by polling for it every 200 ms (xikit.c), so its resource log misses the
+creates made before that. In the crashed run the first 216 were missing, Windower's two textures among them.

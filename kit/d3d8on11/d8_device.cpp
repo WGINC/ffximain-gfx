@@ -318,7 +318,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
         for (UINT y = 0; y < rows; y++) memcpy(&rowsdata[(size_t)y * rowb], src + (size_t)y * sp, rowb);
         XUpTex u = {d->id, d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, levels) : 0u, (uint32_t)p.x, (uint32_t)p.y,
                     (uint32_t)(r.right - r.left), (uint32_t)(r.bottom - r.top), rowb, rows};
-        link->put(X_UPLOAD_TEX, &u, sizeof u, rowsdata.data(), (uint32_t)rowsdata.size());
+        link->upload_tex(u, rowsdata.data(), d->w, d->h, bw);
         // a texture level's CPU copy is what LockRect reads and UnlockRect sends whole: it gets the rows too
         if (TexCore *tc = d->kind == SK_TEXLEVEL ? core_of(d) : nullptr) {
           std::vector<uint8_t> &lv = tc->cpu[d->face * tc->levels + d->level];

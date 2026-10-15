@@ -23,6 +23,29 @@ struct Link {
     uint8_t *p = begin(op, na + nb); memcpy(p, a, na); if (nb) memcpy(p + na, b, nb); end();
   }
   int32_t call(uint16_t op, const void *a, uint32_t na, std::vector<uint8_t> *reply = nullptr) { put(op, a, na); return answer(reply); }
+  // the largest payload one record may carry (a ring refuses a record larger than half of it)
+  virtual uint32_t max_payload() const { return 0xFFFFFFFFu; }
+  // an upload of u.rows rows of u.rowbytes (each row ph pixels high: 4 in a block format, else 1), cut into bands of
+  // whole rows when one record would not fit: a 2048x4096 32-bit level is 32 MB, the ring's whole size (owner, 15 Oct:
+  // the game makes one at startup). A band has an explicit box; lw x lh: the subresource's size, for u.w 0 (all of it).
+  void upload_tex(XUpTex u, const uint8_t *d, uint32_t lw, uint32_t lh, uint32_t ph) {
+    uint32_t room = max_payload() - (uint32_t)sizeof u, total = u.rowbytes * u.rows;
+    if (total <= room || u.rowbytes > room) { put(X_UPLOAD_TEX, &u, sizeof u, d, total); return; }
+    if (!u.w) { u.x = 0; u.y = 0; u.w = lw; u.h = lh; }
+    uint32_t k = room / u.rowbytes, y1 = u.y + u.h;
+    for (uint32_t r = 0; r < u.rows; r += k) {
+      XUpTex b = u; b.rows = u.rows - r < k ? u.rows - r : k;
+      b.y = u.y + r * ph; b.h = (y1 - b.y < b.rows * ph) ? y1 - b.y : b.rows * ph;
+      put(X_UPLOAD_TEX, &b, sizeof b, d + (size_t)r * u.rowbytes, b.rows * u.rowbytes);
+    }
+  }
+  void upload_buf(uint32_t id, uint32_t off, const uint8_t *d, uint32_t len) {
+    uint32_t room = max_payload() - (uint32_t)sizeof(XUpBuf);
+    for (uint32_t o = 0; o < len; o += room) {
+      XUpBuf u = {id, off + o, len - o < room ? len - o : room};
+      put(X_UPLOAD_BUF, &u, sizeof u, d + o, u.length);
+    }
+  }
 };
 // mode: "direct", "thread" or "remote" (d3d8on11.ini [d3d8on11] mode=, or D8ON11_MODE); NULL on failure
 Link *link_make(const char *mode);

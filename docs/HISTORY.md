@@ -1921,3 +1921,32 @@ next measurement needs the owner's machine: the same run under WARP and with the
 Not started, on purpose: "losslessly improve Square's code and methods" (the owner, with Luna's "3D Game
 Programming with DirectX 11"). Deferred until ours is shown correct on the owner's driver: a rewrite measured
 against an implementation whose pictures are not yet explained cannot be shown lossless. ROADMAP lists it.
+
+## 15 Oct: the owner's second t8run (20261014_195926): ours on WARP
+
+The run of t8_compare_d37f032: the same as the first plus ours on WARP (`ours_warp`) and with the D3D11 debug layer
+(`ours_debug`). The debug pass made no device: D3D11CreateDevice answered 0x887A002D (DXGI_ERROR_SDK_COMPONENT_MISSING:
+Windows' Graphics Tools are not installed), as run_t8.bat warned. The same DLL was run here on the same case files.
+
+Two groups of differences, by which implementations agree:
+- the owner's GPU against WARP on the owner's machine, which agrees with Wine here: scenes stages_blend_alphatest
+  (165 px unmatched) and texture_transform_2d (50); 16, 7 and 18 random cases (seeds 1 to 3).
+- Windows' D3D11 (the GPU and WARP agree) against Wine and DXVK here: 19, 11 and 16 random cases.
+Every pixel that differs in the two scenes, between any two of GPU, WARP and here (414, 305, 365 px in
+stages_blend_alphatest; 573, 588, 257 in texture_transform_2d), samples a 16-texel texture with point filtering
+exactly on a texel edge: D3D8 samples at integer pixel positions, and with the scenes' vertices the texel coordinate
+there is an exact integer (computed in rationals from t8.c). 832 of the 3136 drawn pixels of each scene do so; the
+others are the same everywhere. Where the edge is v = 0 with WRAP, one choice is the texture's last row, hence
+unmatched pixels rather than shifted ones. Every random case of either group is in class C or N except seed 1 r0152
+(class ST, 1 px). Class C reads a texture coordinate set the vertex lacks, which ours makes (0,0,0,0) (d8_exec.cpp
+gen_vs): an exact texel edge at every pixel. So: on the same input two of Microsoft's own D3D11 implementations (the
+Parallels driver and WARP) pick different texels at an exact edge with point sampling, and Wine and DXVK pick a third
+way in some cases. Ours passes the same coordinates to all of them; what differs is the choice at the tie.
+
+Not known yet: how many of the game's draws point-sample exactly on texel edges. The game sets point filtering
+(MAGFILTER/MINFILTER 1) on stage 0 in 1,383 and 1,313 of 3,956 and 3,924 filter sets (data/d3d8_scope.json, traces
+5180 and 6080); which draws, and at what coordinates, needs a frame capture (task 29's capture) to count. If the game
+does, the pictures can differ by driver, and ours would need a rule for the tie taken from the reference.
+
+dgVoodoo draws only the first 13 scenes in both of the owner's runs (no picture from declaration_fan on), and fails
+basic's tweening check; not examined.

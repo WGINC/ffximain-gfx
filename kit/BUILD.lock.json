@@ -1,9 +1,16 @@
 {
- "kit/d3dprof/d3dprof.dll": "7b3fef20f55a5f9364f147aae367b267a6bb4737373affe998dd6196cc5f6468",
- "kit/speedfix/dist/speedfix.dll": "56e0e40e6b540c85af0a3aca183570d32c839c27747c85245c455c98f52e96ba",
- "kit/xikit/dist/gfx_recon_ingame.dll": "667b2f3ca29c759ec32e0535b9f26593586e56221dadb4dfdc246f4ff6878831",
- "kit/xikit/dist/xikit.dll": "dc331db80433e6f3b9e9f295ef158a78d9316312f10dc0bba2868b1c238abab5",
- "kit/xikit/dist/xikit.ini": "7d3d5fad8cd1f1933048e2edfa09adfa634dbd380a882dd5d99225b56578d89a",
+ "kit/d3d11probe/dist/probe11_arm64.exe": "3513225ef4eb1523c8a32e2b22dd0b95a4e2fa44d9c0a53f016c4192a17aaab4",
+ "kit/d3d11probe/dist/probe11_x86.exe": "2e93b806b618c5fe46e3dec350a306d58ea7652226c9f49e5a3ce60463a6d040",
+ "kit/d3d11probe/dist/probe8_x86.exe": "d1914bbc2bcd4438e11af672614f9b24d0308ac67611353fa92f53e286263a39",
+ "kit/d3d8on11/dist/d3d8.dll": "8b6e9cabe4a6c3e6ae87db4c742ab1af999ed4efa04810e79982a97b008859fe",
+ "kit/d3d8on11/dist/d8x.exe": "e703a3ebdb307a12e57841f9cfe715165da1cd148c16d8778ecbec34965e68ab",
+ "kit/d3d8on11/dist/d8x_arm64.exe": "f15f8b08f22657af7fd6f83deae832090b17d04e612712a0c7399462a9821de6",
+ "kit/d3dprof/d3dprof.dll": "c27ba62b4f0bd863516e281a639bb3eb86ddf4271b329bbce2a7b26949d0bf8f",
+ "kit/fcap/dist/fcap_replay.exe": "1f2bb249f7b2c1bf8aad08fe29e9d0b427aaf3069c88ad58d363c6c9c426552a",
+ "kit/speedfix/dist/speedfix.dll": "d0181a14b76e475a5f01aeec2635b693413a00ce56e647da641e99abf4e07823",
+ "kit/xikit/dist/gfx_recon_ingame.dll": "13af7c19e3b17a89540f68e7ecc16e200bc902ec599c8525672ec31a463dcf13",
+ "kit/xikit/dist/xikit.dll": "05fe2f3d59b93f201f00ad411802e9cbe897113fff9b4f52f5ad58912dbec153",
+ "kit/xikit/dist/xikit.ini": "40a56558bac7eab33193a6427c11fb3a535160c36c11c4cba0d97dcabca75338",
  "kit/xikit/dist/xikit_facts.txt": "5d050de192b0883d14b535a79eea6ab2e7e9d44208dfa727d656c280fee2573b",
- "kit/xikit/dist/xikit_manifest.txt": "c36493ee903f53988d01b955acf9c3f4e215f8581288eb36262130911a2c7faa"
+ "kit/xikit/dist/xikit_manifest.txt": "336c5a6214c8913cffda5db1a666935fdacd76a116450d4bbb3c33f2b0296238"
 }

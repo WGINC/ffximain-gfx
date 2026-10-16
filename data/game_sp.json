@@ -1,6 +1,6 @@
 {
  "0x10009F44": {
-  "observed_calls": 1457779,
+  "observed_calls": 2158709,
   "pops": 12,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -8,7 +8,7 @@
   ]
  },
  "0x10012B1D": {
-  "observed_calls": 105783,
+  "observed_calls": 148738,
   "pops": 0,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -16,7 +16,7 @@
   ]
  },
  "0x1002A6C1": {
-  "observed_calls": 22215396,
+  "observed_calls": 25712150,
   "pops": 24,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -24,11 +24,12 @@
   ]
  },
  "0x1002DD00": {
-  "observed_calls": 20027114,
+  "observed_calls": 20031898,
   "pops": 20,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
-   "module:d3d8.dll+0xC0890"
+   "module:d3d8.dll+0xC0890",
+   "module:xikit.dll+0xBEF0"
   ]
  },
  "0x1002DD35": {
@@ -424,7 +425,7 @@
   ]
  },
  "0x1003A837": {
-  "observed_calls": 5205,
+  "observed_calls": 8968,
   "pops": 12,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -432,7 +433,7 @@
   ]
  },
  "0x1003C219": {
-  "observed_calls": 3219543,
+  "observed_calls": 3945557,
   "pops": 0,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -440,43 +441,63 @@
    "game:0x100C3FC0"
   ]
  },
+ "0x1003C282": {
+  "observed_calls": 777,
+  "pops": 0,
+  "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
+  "targets": [
+   "game:0x100A4750",
+   "game:0x100ABDA0"
+  ]
+ },
  "0x100408A9": {
-  "observed_calls": 122546,
+  "observed_calls": 148459,
   "pops": 16,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
    "memory:0x0FAD0DE8",
+   "memory:0x0FFE0DE8",
    "memory:0x161D0DE8"
   ]
  },
  "0x10040A96": {
-  "observed_calls": 122546,
+  "observed_calls": 148459,
   "pops": 16,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
    "memory:0x0FAD0DE8",
+   "memory:0x0FFE0DE8",
    "memory:0x161D0DE8"
   ]
  },
  "0x10041453": {
-  "observed_calls": 56902,
+  "observed_calls": 75800,
   "pops": 12,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
    "memory:0x0FAD0B78",
+   "memory:0x0FFE0B78",
    "memory:0x161D0B78"
   ]
  },
  "0x1005B7B4": {
-  "observed_calls": 8,
+  "observed_calls": 30,
   "pops": 0,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
    "game:0x100A4740"
   ]
  },
+ "0x1006C8CD": {
+  "observed_calls": 80805,
+  "pops": 12,
+  "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
+  "targets": [
+   "module:d3d8.dll+0xC0110"
+  ]
+ },
  "0x1006C9E4": {
-  "observed_calls": 52,
+  "observed_calls": 879,
   "pops": 12,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -484,7 +505,7 @@
   ]
  },
  "0x100CBF6F": {
-  "observed_calls": 2671867,
+  "observed_calls": 3266655,
   "pops": 0,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [
@@ -492,7 +513,7 @@
   ]
  },
  "0x100CC6B8": {
-  "observed_calls": 151,
+  "observed_calls": 134001,
   "pops": 0,
   "source": "measured in the running game (xikit facts=1): ESP after the call minus ESP before it",
   "targets": [

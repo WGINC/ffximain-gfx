@@ -11,7 +11,7 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
     message(FATAL_ERROR "Build 32-bit: cmake -B build -A Win32")
 endif()
 
-add_library(xikit SHARED xikit.c ../d3dprof/d3dprof.c)
+add_library(xikit SHARED xikit.c ../d3dprof/d3dprof.c ../d3dprof/fcap.c)
 target_compile_definitions(xikit PRIVATE XIKIT)
 if(MSVC)
     # static runtime: the DLL needs no Visual C++ redistributable in the game's process

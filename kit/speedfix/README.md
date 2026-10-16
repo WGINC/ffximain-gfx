@@ -29,11 +29,11 @@ checked against the analysed build, and each change to the game's code checks th
 | `texture_compression`, `texture_compression_value` | 1, 15 | The DXT threshold for textures loaded from now on |
 | `cpu_tier` | 1 | The SSE math tier on any CPU with SSE (only before the game has chosen its tier) |
 | `lazy_state` | 0 | Lever: hold SetRenderState / SetTextureStageState / SetTexture until a method that reads them; a change undone before then never reaches the device (below) |
+| `block_cache` | 0 | Lever: applying a state block the game recorded updates the cache with what the block sets, instead of forgetting the whole cache (below) |
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
-| `up_ring` | 0 | Lever: DrawPrimitiveUP sent as DrawPrimitive from speedfix's own dynamic vertex buffer (below) |
-| `skip_shadow_pass` | 0 | Lever: the shadow-texture pass of Model_BeginOffscreenPass not drawn; its state calls still sent (below) |
+| `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -55,6 +55,28 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   off at this one; with batching or the extended cache on, every method is hooked anyway and it switches live.
   Not known: how much the extra hooks cost on each call against what the skipped calls save. That is what its A/B
   measures.
+- **block_cache: frame time in effect-heavy scenes.** Each queued effect element applies two or three state blocks
+  (YmElem_SetupDevice and YmElem_RestoreDevice; 544 inside the effect drain of the plaza trace's frame 2, which is
+  7,580 of the frame's 41,093 calls). The cache forgets everything at each block, since a block may set anything,
+  so the default cache skipped 46 of those 7,580 calls (docs/HISTORY.md, 11 Oct).
+  - Where the rule comes from: Microsoft's reference for BeginStateBlock says the setters called between
+    BeginStateBlock and EndStateBlock are recorded in the block, and that a state set twice keeps its last value. The
+    game records each block once, from a fixed table (StateBlock_ApplyTSS 0x1006AF90, 0x1006AF00).
+  - What speedfix does: it follows every block recorded on the render thread, whether the lever is on or off. That
+    is its render and stage states with their values, the texture stages it binds, and whether it records anything
+    else this layer sees (the shader; transforms, viewport, lights, streams and indices when they are hooked). With
+    the lever on, applying a followed block sets its states in the shadow, makes its texture stages and those other
+    kinds unknown, and keeps everything else. Any other block forgets everything, as before.
+  - A block stops being followed at DeleteStateBlock, CaptureStateBlock, CreateStateBlock returning its token, or
+    Reset. After a Reset the game's own blocks are therefore forgotten at each apply, as without the lever (the game
+    does not record them again).
+  - Live both ways.
+  - Simulated on the plaza trace: 24,347 to 22,391 calls a frame with the extended cache, 20,645 to 18,423 with
+    lazy_state. Only the drain's two blocks were modelled there.
+  - Not known:
+    - whether the game's d3d8.dll (dgVoodoo on the owner's machine) behaves as the reference says. probe8 checks it
+      (`stateblock.apply` in its CSV; it passes under Wine);
+    - what applying a block costs against the calls it saves. Its A/B measures that.
 - **vs_dedupe: loading and stutter.** The sessions made about 1,450 vertex shaders each (CreateVertexShader at about
   269 us each, on the render thread), and d3dprof's shader catalogue found 3 distinct ones: declarations with no
   shader code. A vertex shader with no code is the fixed-function pipeline fed by its declaration (DirectX 8 SDK,
@@ -83,6 +105,17 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     - how far the SSE loop's single-precision results differ from the x87 loop's (it is the game's own code for
       Intel CPUs);
     - what the emulator's CPUID vendor is.
+- **skin_merge: character draws.** In the plaza trace, 1,577 of a frame's 1,620 DrawIndexedPrimitive come from
+  SkinAndDrawV2, one per triangle-list record (two when the model draws twice). Consecutive list records draw
+  consecutive ranges of one index buffer, so a run of them is one range.
+  - What it does: SkinAndDrawV2 is replaced by speedfix's fork (fork/CYyModelDt__SkinAndDrawV2.fork.cpp). It holds a
+    list record and draws the run in one call, the way the game draws one record, when the next record ends the run.
+    It holds only when none of the record's envmap, projected-texture or offscreen passes can draw. The trace bound is
+    1,330 draws a frame instead of 1,577; records invisible in a trace can lower the saving further.
+  - The fork is installed only when skin_merge is 1 at the start; after that it switches live both ways. With it off,
+    the fork is the game's function (the gate, no declarations).
+  - Checked: test_skinmerge.py (the gate both ways, and the owner's captures with the merge on). Not known: the time it
+    saves, and the picture: an A/B (`ab_levers=skin_merge`) and a look at characters, with it on and off.
 - **merge_scenes: frame time.** The profiles show several BeginScene/EndScene pairs a frame. The owner's Bedau run
   made 7.7 a frame, its EndScene calls taking 4.6 ms a frame in all, about 0.6 ms each. Under dgVoodoo that may be
   where queued work is submitted.
@@ -101,38 +134,8 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   - It hooks the draws, SetTransform and the Create methods from the start. It is a measurement, not a lever.
 - **Already there, now measurable one at a time:** `batch_up_draws` (1,031 DrawPrimitiveUP a frame through the CDx
   wrapper 0x1000CDE2), `extended_state_cache` (the zone mesh `sub_1017C9C0` sets the same light 3,925 times a frame in
-  the last profile window of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
+  the town scene of run 6080), `occlusion_stagger`, `skip_actor_occlusion` and `skip_all_occlusion_readbacks` (readbacks
   were rare in those scenes: 0.35 a frame).
-- **skip_shadow_pass: render-target switches and draws.** In run 6080's trace (17 frames; where it was taken is
-  not recorded), each frame had 18 pairs of SetRenderTarget to one off-screen target and back, with 28 draws into it.
-  - **Who issues them** (the game's code): Model_BeginOffscreenPass (0x10033800) and
-    Model_EndOffscreenPassBindTextures (0x10033A70). When `g_actorShadowMode` is 1 and `g_shadowCasterDistance` is
-    under 4, Begin pushes the texture at `[self+8]` as the render target, sets an unlit, single-colour state and the
-    light's view (`g_lightViewMatrix`). The caller draws the mesh again, and End restores the state and pops the
-    target. The mode is set in CXiSkeletonActor's per-actor update; which actors' meshes the pass draws is not traced
-    here.
-  - **The four callers** (CYyModelDt_PrepareRenderState and CYyModelDt_SkinAndDrawV2, two each) follow Begin with
-    `test al, al` / `jz` past their End call (IDA listing, the four `call Model_BeginOffscreenPass`). No other
-    reference to either function appears there.
-  - **Whether anything reads that texture is not known.** In the trace, SetTexture never bound any of the
-    render-target textures the resource log saw created, except the scene's own. That log began after the game
-    started, though, so it may not hold the shadow texture. speedfix now counts SetTexture binds of the exact
-    texture the pass draws into (Begin's `[self+8]`) and logs them each stats period: `the shadow pass's texture
-    ... was bound by SetTexture N times`. A read through CopyRects, UpdateTexture or LockRect of its surface would
-    not be counted.
-  - **What the lever does:** speedfix hooks the two functions (the game's code runs in both) and, between them, does
-    not send SetRenderTarget, Clear or the draws. Every state call still goes out, so the state after the pass is the
-    game's. If the texture is read somewhere, the visible sign would be a character's shadow going stale or missing.
-  - It hooks as lazy_state does, taking effect at the next start if both were off at this one.
-- **up_ring: text, UI and name-plate quads.** In Port Jeuno's plaza, DrawPrimitiveUP was 10.3% of the render thread
-  (885 calls a frame; HISTORY.md, run 6156). batch_up_draws merges them, but a merged batch still goes out as
-  DrawPrimitiveUP. How dgVoodoo handles DrawPrimitiveUP, compared with a draw from a vertex buffer, is not known
-  here. up_ring writes them into speedfix's own 2 MB dynamic vertex buffer: locked with D3DLOCK_NOOVERWRITE at its
-  cursor, and with D3DLOCK_DISCARD when it starts over (the DirectX 8 SDK's pattern for dynamic buffers). It then draws
-  with SetStreamSource and DrawPrimitive. Stream 0 is left on the ring, because D3D8 leaves stream 0 unset after a
-  DrawPrimitiveUP. The ring is released before Reset (a default-pool buffer must be), and only the render thread uses
-  it. Not known: whether dgVoodoo is faster this way. Its A/B says. It works with or without batching, and hooks as
-  lazy_state does.
 - **Not made into levers yet, and why:**
   - Pooling vertex and index buffers. The sessions made about 10,000 a session, mostly DYNAMIC | WRITEONLY vertex
     buffers in the default pool in a few sizes (6,000, 4,000, 8,000 and 2,000 bytes). Pooling them needs their
@@ -161,10 +164,33 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
+
+## Tried and reverted
+
+- **skip_shadow_pass** did not send the render-target switches, Clear and draws of Model_BeginOffscreenPass's
+  shadow pass. In run 7388 its own counter showed the game binding that texture for drawing (259 and 2,116 times a
+  minute): the texture is read, and the pass's output is needed. Reverted.
+- **up_ring** sent DrawPrimitiveUP as DrawPrimitive from a ring buffer, leaving stream 0 bound to the ring. In run
+  7388 it was slower (A 20.3 ms, B 25.6 ms) and the owner saw corrupted frames. Why the frames broke is not known.
+  One explanation was checked and is wrong: Gfx_SetStreamSourceCached (0x1002F130) does not skip a stream it has
+  recorded. It records the buffer and stride, then Gfx_ApplyCachedStreamSource calls SetStreamSource for any non-NULL
+  buffer (and does nothing for a NULL one; IDA listing). Reverted.
+  - **A bug, reproduced afterwards** (the reverted code in the Wine host, with batching, lazy_state and up_ring on):
+    the ring issued its SetStreamSource and DrawPrimitive through the device's front, which runs speedfix's own hooks
+    again. The DrawPrimitive hook first sent the held state changes, so a batched UI quad reached the device after the
+    next texture change: `SetTexture(A) ... SetStreamSource(ring), SetTexture(B), DrawPrimitive`. The quad was drawn
+    with the wrong texture. Whether this is all of what the owner saw is not established.
+  - **What the measurements allow:**
+    - Through dgVoodoo, a DrawPrimitiveUP costs 157.5 ns and a vertex-buffer Lock with DISCARD 2,849 ns (probe8, run 2).
+    - A ring needs a lock for every batch it sends, so it cannot beat DrawPrimitiveUP unless dgVoodoo's NOOVERWRITE
+      lock is far cheaper than its DISCARD one. That is not measured yet: probe8 now measures it, and a whole ring
+      draw.
+    - A ring returns only if that measurement favours it, and with its calls made below speedfix's hooks
+      (`g_prev`).
 
 ## What changed from speedfix_hook
 
@@ -227,11 +253,12 @@ and set it again for another run.
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
   - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
-  - up_ring: two lists become one buffer made, DrawPrimitive at vertex 0 and then 3 (NOOVERWRITE), the vertices
-    copied, no DrawPrimitiveUP; off again, DrawPrimitiveUP;
-  - skip_shadow_pass: the game's own Begin/End run against the fake device (shadow mode 1): no SetRenderTarget, Clear
-    or draw reaches it, its state calls do; turned off while running, the pass switches targets and draws.
+  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code.
 - **The gate:** the query hook.
+
+`test/test_skinmerge.py` (FFXI_DLL; CAPTURES, a folder of the owner's SkinAndDrawV2 captures): the skin_merge fork,
+merge off against the game's function with no declarations, merge on with fork/skinmerge.declare.json, and merge on
+replayed from the captures (docs/SKINMERGE.md, Checks).
 
 Not tested: the real game. That covers the real device and driver, dgVoodoo, which thread calls what, how much any
 of this saves, and the A/B picture. The first run: `profile=1 call_time=1` with the defaults, then the alternating trace.

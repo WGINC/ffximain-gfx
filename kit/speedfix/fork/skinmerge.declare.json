@@ -1,0 +1,59 @@
+{
+ "calls": [
+  {
+   "may": "drop",
+   "call": "0x1002F1C0"
+  },
+  {
+   "may": "change",
+   "call": "0x1002F1C0"
+  },
+  {
+   "may": "add",
+   "call": "0x1002F1C0"
+  },
+  {
+   "may": "drop",
+   "call": "0x1002F130"
+  },
+  {
+   "may": "change",
+   "call": "0x1002F130"
+  },
+  {
+   "may": "add",
+   "call": "0x1002F130"
+  },
+  {
+   "may": "drop",
+   "call": "0x1000CC00"
+  },
+  {
+   "may": "change",
+   "call": "0x1000CC00"
+  },
+  {
+   "may": "add",
+   "call": "0x1000CC00"
+  },
+  {
+   "may": "drop",
+   "call": "IDirect3DDevice8::SetIndices"
+  },
+  {
+   "may": "change",
+   "call": "IDirect3DDevice8::SetIndices"
+  },
+  {
+   "may": "add",
+   "call": "IDirect3DDevice8::SetIndices"
+  },
+  {
+   "may": "drop",
+   "call": "0x10033800"
+  }
+ ],
+ "memory": [],
+ "return": false,
+ "_why": "0x1002F1C0 Gfx_SetVertexShaderCached, 0x1002F130 Gfx_SetStreamSourceCached, 0x1000CC00 CDx_DrawIndexedPrimitive, SetIndices: a held run's draws go out once, after the records it covers; 0x10033800 Model_BeginOffscreenPass: a held record skips the pass block, whose only call under the hold condition is this one, which then returns 0 and writes nothing outside its frame (disassembly at 0x10033800, 0x10033A4A)"
+}

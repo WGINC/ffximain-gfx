@@ -81,6 +81,8 @@ the rule tests and the stack solver's self-test. A full gate takes about 8 minut
 - Python 3 with `unicorn`, `pefile`, `capstone` and `minidump` (for dumps), and `numpy` (the kit's picture comparison);
 - MinGW-w64 i686 (`i686-w64-mingw32-g++`);
 - IDA Pro 9.x with Hex-Rays, for new exports;
+- For kit/d3d11probe: PyPI `ziglang==0.16.0` (ARM64 Windows builds), and for its tests `xvfb` and i386 Mesa
+  (`libgl1-mesa-dri:i386`).
 - 32-bit Wine, for the kit's tests (`kit/xikit/test/test_xikit.py`; on Ubuntu: `dpkg --add-architecture i386`,
   then `wine` and `wine32:i386`).
 
@@ -108,4 +110,6 @@ With the IDB open in IDA 9.4 (save it first, or work on a copy), run **File > Sc
 | `same_code.py` | Are two builds the same code, function by function |
 | `make_ida_fix.py` | Rebuild `ida/ffxi_ida_fix.py` from the template and `data/` |
 | `bg.sh` | Run a long job in the background and stop it by process group |
+| `unpack_pol.py` | The shipped FFXiMain.dll with its code filled in (its entry stub run in an emulator); for a new build |
+| `build_translate.py` | Can the kit run on another build: the code ranges that moved, every manifest function proven the same code, every address we name settled (`kit/xikit/builds/<stamp>.json`; docs/KIT.md) |
 | `tool_drift.py` | Are the tools current: regenerates the IDA script and the SDK's generated files, rebuilds the kit and compares with `kit/BUILD.lock.json`, checks the kit's ini keys against `docs/KIT.md` (`--fix` keeps the regenerated files) |

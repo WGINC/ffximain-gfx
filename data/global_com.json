@@ -1,0 +1,25 @@
+{
+ "_about": "Fake Direct3D objects the gate places behind a global, per function (pipeline/gfx_cases.py: struct_globals). Each entry names its source. The same objects are reached by other functions through these globals; they are declared only where listed.",
+ "0x1006C8B0": {
+  "struct_globals": {
+   "0x1047C004": {
+    "size": "0x100",
+    "com": {
+     "12": "IDirect3DTexture8"
+    },
+    "why": "run 2 (13 Oct 2026), xikit facts: the call at 0x1006C8CD through [[0x1047C004]+12] went to d3d8.dll+0xC0110, slot 15 of the vtable the kit captured as IDirect3DTexture8 (xikit_vtables_6796.csv: the out-parameter interface of the device's Create methods), and popped 12 (GetSurfaceLevel(this, Level, ppSurfaceLevel) in d3d8.h)"
+   },
+   "0x1047BFA8": {
+    "size": "0x1000",
+    "com": {
+     "0xEBC": "IDirect3DDevice8"
+    },
+    "why": "data/com_calls.json: [[0x1047BFA8]+0xEBC] is the device (site 0x1006C8FD, CopyRects, slot 28)"
+   }
+  },
+  "this_com": {
+   "4": "IDirect3DSurface8"
+  },
+  "this_why": "this+4 (this[1 + v2] with v2 = 0) is passed as CopyRects' pDestinationSurface (IDirect3DSurface8* in d3d8.h) at 0x1006C8FD; the same field is locked through slot 9 (IDirect3DSurface8::LockRect) at 0x1006C91C"
+ }
+}

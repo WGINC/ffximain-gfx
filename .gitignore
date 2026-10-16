@@ -17,3 +17,9 @@ __pycache__/
 kit/xikit/build/
 kit/xikit/dist/
 sdk/dist/
+kit/d3d11probe/dist/
+kit/d3d8on11/dist/
+kit/d3d8on11/d8_gen.h
+kit/fcap/dist/
+kit/fcap/*.exe
+kit/fcap/test/*.exe

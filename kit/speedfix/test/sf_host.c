@@ -41,25 +41,15 @@ static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn,
   *h = g_nvs; g_nvs += 2; rec(75, *h, (uint32_t)(uintptr_t)fn, us, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletevs(void *d, DWORD h) { rec(78, h, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) { rec(28, 0, 0, 0, 0, 0, 0); return 0; }
+/* state blocks: tokens counted up; what reaches the device is recorded like any other call */
+static DWORD g_ntok = 1;
+static HRESULT __stdcall d_beginsb(void *d) { rec(52, 0, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_endsb(void *d, DWORD *t) { *t = g_ntok++; rec(53, *t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_applysb(void *d, DWORD t) { rec(54, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_capturesb(void *d, DWORD t) { rec(55, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_deletesb(void *d, DWORD t) { rec(56, t, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_createsb(void *d, DWORD ty, DWORD *t) { *t = g_ntok++; rec(57, *t, ty, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_ok0(void *d) { return 0; }                              /* TestCooperativeLevel */
-static HRESULT __stdcall d_setrt(void *d, void *rt, void *z) { rec(31, (uint32_t)(uintptr_t)rt, (uint32_t)(uintptr_t)z, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_setvp(void *d, const void *v) { rec(40, 0, 0, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_dp(void *d, DWORD t, UINT a, UINT n) { rec(70, t, a, n, 0, 0, 0); return 0; }
-/* the shadow pass's target: a texture whose level 0 is a 256 x 256 surface (GetSurfaceLevel, slot 15; the surface's
-   Release, slot 2, and GetDesc, slot 8: Width and Height at +0x18 of D3DSURFACE_DESC) */
-static void *g_svt[16]; static struct { void **vt; } g_surf = { g_svt };
-static ULONG __stdcall s_release(void *s) { return 1; }
-static HRESULT __stdcall s_getdesc(void *s, uint32_t *desc) { memset(desc, 0, 32); desc[6] = 256; desc[7] = 256; return 0; }
-static HRESULT __stdcall t_getsurf(void *t, UINT lv, void **out) { *out = &g_surf; return 0; }
-/* up_ring's vertex buffer: CreateVertexBuffer (slot 23) gives one whose Lock (slot 11) hands out g_vbmem + offset */
-static uint8_t g_vbmem[2 << 20]; static DWORD g_vblock[2];
-static void *g_vbvt[16]; static struct { void **vt; } g_vb = { g_vbvt };
-static HRESULT __stdcall vb_lock(void *v, UINT off, UINT n, BYTE **p, DWORD fl) { *p = g_vbmem + off; g_vblock[0] = off; g_vblock[1] = fl; return 0; }
-static HRESULT __stdcall vb_unlock(void *v) { return 0; }
-static HRESULT __stdcall d_createvb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **out) { *out = &g_vb; rec(23, len, us, pool, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_setss(void *d, UINT n, void *vb, UINT stride) { rec(83, n, (uint32_t)(uintptr_t)vb, stride, 0, 0, 0); return 0; }
-static void *g_rtvt[16]; static struct { void **vt; } g_rttex = { g_rtvt };
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
 static struct { void **vt; } g_dev = { g_vt };
@@ -84,16 +74,20 @@ static void clear(void) { DEV(36, HRESULT (__stdcall *)(void *, DWORD, const voi
 static void getrs(DWORD s, DWORD *v) { DEV(51, HRESULT (__stdcall *)(void *, DWORD, DWORD *))(&g_dev, s, v); }
 static DWORD createvs(const DWORD *decl, const DWORD *fn) { DWORD h = 0; DEV(75, HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))(&g_dev, decl, fn, &h, 0); return h; }
 static void deletevs(DWORD h) { DEV(78, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, h); }
-static void dp_(DWORD t, UINT a, UINT n) { DEV(70, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT))(&g_dev, t, a, n); }
 static void dpup(DWORD t, UINT n, const void *data, UINT stride) { DEV(72, HRESULT (__stdcall *)(void *, DWORD, UINT, const void *, UINT))(&g_dev, t, n, data, stride); }
+static void beginsb(void) { DEV(52, HRESULT (__stdcall *)(void *))(&g_dev); }
+static DWORD endsb(void) { DWORD t = 0; DEV(53, HRESULT (__stdcall *)(void *, DWORD *))(&g_dev, &t); return t; }
+static void applysb(DWORD t) { DEV(54, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static void capturesb(DWORD t) { DEV(55, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static void deletesb(DWORD t) { DEV(56, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
+static DWORD createsb(DWORD ty) { DWORD t = 0; DEV(57, HRESULT (__stdcall *)(void *, DWORD, DWORD *))(&g_dev, ty, &t); return t; }
 static void frames(int k) { for (int i = 0; i < k; i++) { begin(); end(); present(); } }
 static void copyrects(void) { DEV(28, HRESULT (__stdcall *)(void *, void *, const void *, UINT, void *, const void *))(&g_dev, 0, 0, 0, 0, 0); }
 static void setview(float x) { float m[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, x,0,0,1}; DEV(37, HRESULT (__stdcall *)(void *, DWORD, const float *))(&g_dev, 2, m); }
 static int count(int slot, LONG from) { int c = 0; for (LONG i = from; i < g_n; i++) c += g_log[i].slot == slot; return c; }
 /* the device calls since `from`, as slot numbers, e.g. "50 72 72 35" */
 static const char *seq(LONG from) { static char b[512]; int o = 0; b[0] = 0;
-  for (LONG i = from; i < g_n && o < 500; i++) o += sprintf(b + o, o ? " %d" : "%d", g_log[i].slot);
-  return b; }
+  for (LONG i = from; i < g_n && o < 500; i++) o += sprintf(b + o, o ? " %d" : "%d", g_log[i].slot); return b; }
 static Call *last(int slot) { for (LONG i = g_n - 1; i >= 0; i--) if (g_log[i].slot == slot) return &g_log[i]; return NULL; }
 static int log_has(const char *what) {
   FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
@@ -113,7 +107,7 @@ static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
 
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
-  int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy");
+  int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -122,13 +116,9 @@ int main(int argc, char **argv) {
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
   g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
+  g_vt[52] = (void *)d_beginsb; g_vt[53] = (void *)d_endsb; g_vt[54] = (void *)d_applysb; g_vt[55] = (void *)d_capturesb;
+  g_vt[56] = (void *)d_deletesb; g_vt[57] = (void *)d_createsb;
   g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
-  g_vt[3] = (void *)d_ok0; g_vt[31] = (void *)d_setrt; g_vt[40] = (void *)d_setvp; g_vt[70] = (void *)d_dp;
-  for (int k = 0; k < 16; k++) g_svt[k] = g_rtvt[k] = (void *)d_other;
-  g_vt[23] = (void *)d_createvb; g_vt[83] = (void *)d_setss;
-  for (int k = 0; k < 16; k++) g_vbvt[k] = (void *)d_other;
-  g_vbvt[2] = (void *)s_release; g_vbvt[11] = (void *)vb_lock; g_vbvt[12] = (void *)vb_unlock;
-  g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_getdesc; g_rtvt[15] = (void *)t_getsurf;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
   g_rs[8] = 3; g_rs[9] = 2;                        /* the device's defaults: FILL_SOLID, SHADE_GOURAUD */
@@ -142,8 +132,9 @@ int main(int argc, char **argv) {
   DeleteFileA("speedfix.ini");
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
-  if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nskip_shadow_pass=1\n");
-  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\n");
+  if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
+  else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
+  else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
   check(g_dev.vt != g_vt, "the kit hooked the device");
@@ -152,6 +143,15 @@ int main(int argc, char **argv) {
   for (int i = 0; i < 500 && !log_has("methods hooked by mods"); i++) Sleep(20);
   check(log_has("methods hooked by mods"), "the kit put the mods' device hooks in front");
   frames(3);
+  {   /* skin_merge (the kit writes code hooks at a Present): on at the start (the full run), SkinAndDrawV2's entry
+         (0x1002DC10) goes to speedfix's fork; off (minimal, lazy), it is the game's code */
+    uint8_t *e = (uint8_t *)GAME(0x1002DC10u); HMODULE m = NULL;
+    void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
+    if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
+    int forked = m && m == GetModuleHandleA("speedfix.dll");
+    if (!minimal && !lazy && !blocks) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
+  }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);
@@ -160,6 +160,42 @@ int main(int argc, char **argv) {
     touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\n"); frames(65);
     m = g_n; begin(); dpup(4, 1, v, 16); dpup(4, 1, v, 16);
     check(count(72, m) == 2, "minimal: batch_up_draws=1 written while running is left for the next start (each draw still reaches the device)");
+    end(); present();
+    printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+    return fails ? 1 : 0;
+  }
+
+  if (blocks) {
+    /* block_cache: a block recorded through the hooks; applying it sets what it holds in the shadow */
+    begin(); setrs(7, 1); setrs(22, 3);
+    beginsb(); setrs(15, 1); settss(0, 16, 2); setrs(15, 1); DWORD t = endsb();
+    setrs(15, 0);
+    LONG m = g_n; applysb(t); setrs(15, 1); settss(0, 16, 2); setrs(22, 3); setrs(7, 1);
+    check(!strcmp(seq(m), "54"), "block_cache: after the block, its own values (render state, stage state) and the states it does not touch are cached");
+    m = g_n; setrs(15, 0);
+    check(!strcmp(seq(m), "50"), "a value other than the block's still reaches the device");
+    /* a block that binds a texture or sets the shader: those are made unknown */
+    settex(0, &g_tex1); setvs(0x111);
+    beginsb(); settex(0, &g_tex1); setvs(0x111); DWORD t2 = endsb();
+    m = g_n; applysb(t2); settex(0, &g_tex1); setvs(0x111); setrs(22, 3);
+    check(!strcmp(seq(m), "54 61 76"), "a block binding a texture or setting the shader: those go out again after it; other states stay cached");
+    /* CaptureStateBlock, DeleteStateBlock, CreateStateBlock: the block is no longer followed */
+    capturesb(t); m = g_n; applysb(t); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "after CaptureStateBlock the block's contents are unknown: applying it forgets the cache");
+    DWORD t3 = createsb(1); m = g_n; applysb(t3); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "a block made by CreateStateBlock is not followed");
+    beginsb(); setrs(15, 1); DWORD t4 = endsb(); deletesb(t4);
+    end(); present();
+    /* switched off while running: every block forgets the cache again */
+    touch("speedfix.ini", "[speedfix]\nblock_cache=0\n"); frames(65);
+    begin(); setrs(22, 3);
+    beginsb(); setrs(15, 1); DWORD t5 = endsb();
+    m = g_n; applysb(t5); setrs(22, 3);
+    check(!strcmp(seq(m), "54 50"), "block_cache=0 while running: applying a block forgets the cache, as before");
+    end(); present();
+    touch("speedfix.ini", "[speedfix]\nblock_cache=1\n"); frames(65);
+    begin(); setrs(22, 3); m = g_n; applysb(t5); setrs(22, 3); setrs(15, 1);
+    check(!strcmp(seq(m), "54"), "on again: a block recorded while it was off is followed (blocks are always followed)");
     end(); present();
     printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
     return fails ? 1 : 0;
@@ -202,40 +238,6 @@ int main(int argc, char **argv) {
       check(count(78, m) == 1 && last(78)->a[0] == a, "deleting the last deletes it");
       m = g_n; DWORD e = createvs(d1, NULL);
       check(count(75, m) == 1, "after that, the declaration is made again"); deletevs(e); deletevs(c2); deletevs(c3); deletevs(f1); }
-    /* skip_shadow_pass through the game's own Model_BeginOffscreenPass / Model_EndOffscreenPassBindTextures (hooked):
-       the actor shadow mode on (g_actorShadowMode 1 at 0x1045B77A, g_shadowCasterDistance 0 at 0x1045B80C), the
-       pass object's target texture at +8; a caller's sequence: Begin, the draw again, End */
-    { typedef char (__attribute__((thiscall)) *Begin)(void *, int *, int); typedef char (__attribute__((thiscall)) *End)(void *, int);
-      Begin bg = (Begin)GAME(0x10033800u); End en = (End)GAME(0x10033A70u);
-      static uint8_t pass[0x40]; static int tok[2]; *(void **)(pass + 8) = &g_rttex;
-      *(int16_t *)GAME(0x1045B77Au) = 1; *(float *)GAME(0x1045B80Cu) = 0.0f;
-      static uint8_t dispcfg[0x100]; *(void **)GAME(0x103D3CB8u) = dispcfg;   /* CDx_EndClearBegin reads [[0x103D3CB8]+0x5C] (stencil) */
-      begin(); m = g_n;
-      char r = bg(pass, tok, 0x80808080); dp_(5, 0, 2); en(pass, 1);
-      end();     /* lazy_state holds the pass's state changes until a read: here, EndScene */
-      check(r == 1 && count(31, m) == 0 && count(36, m) == 0 && count(70, m) == 0 && count(50, m) > 0 && count(63, m) > 0 && count(37, m) > 0,
-            "skip_shadow_pass: the game's shadow pass ran (Begin returned 1): no SetRenderTarget, Clear or draw reached the device; its state calls did");
-      present();
-      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nskip_shadow_pass=0\n"); frames(65);
-      begin(); m = g_n;
-      r = bg(pass, tok, 0x80808080); dp_(5, 0, 2); en(pass, 1);
-      check(r == 1 && count(31, m) == 2 && count(70, m) == 1, "skip_shadow_pass=0 (while running): the pass switches the target there and back and draws");
-      end(); present();
-      *(int16_t *)GAME(0x1045B77Au) = 0; }
-    /* up_ring, switched on while running (the hooks lazy_state put in place): two DrawPrimitiveUP lists become
-       DrawPrimitive from one dynamic vertex buffer, the second after the first's vertices, the bytes copied */
-    { touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nup_ring=1\n"); frames(65);
-      float va[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, vb[12] = {21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
-      begin(); m = g_n; dpup(4, 1, va, 16); LONG m2 = g_n; dpup(4, 1, vb, 16);
-      Call *d2 = last(70);
-      check(count(23, m) == 1 && count(72, m) == 0 && count(70, m) == 2 && count(83, m) == 2 && d2 && d2->a[1] == 3 && d2->a[2] == 1
-            && g_vblock[0] == 48 && g_vblock[1] == 0x1000 && !memcmp(g_vbmem, va, 48) && !memcmp(g_vbmem + 48, vb, 48) && count(23, m2) == 0,
-            "up_ring: two lists of one triangle -> one buffer made, DrawPrimitive at vertex 0 and 3 (NOOVERWRITE), no DrawPrimitiveUP, the vertices copied");
-      end(); present();
-      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n"); frames(65);
-      begin(); m = g_n; dpup(4, 1, va, 16);
-      check(count(72, m) == 1 && count(70, m) == 0, "up_ring=0 (while running): DrawPrimitiveUP again");
-      end(); present(); }
     /* turned off while running: what is held goes out, and nothing more is held */
     begin(); setrs(7, 9);
     touch("speedfix.ini", "[speedfix]\nlazy_state=0\nvs_dedupe=1\n");

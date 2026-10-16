@@ -39,6 +39,11 @@ STRUCT_OUT = {'GetTransform': (1, 64, 'f'), 'GetMaterial': (0, 68, 'f'), 'GetLig
               'GetPixelShader': (0, 4, 'i'), 'GetDisplayMode': (0, 16, 'i'), 'GetCreationParameters': (0, 16, 'i'),
               'GetRasterStatus': (0, 8, 'i'), 'GetClipStatus': (0, 8, 'i'), 'GetCurrentTexturePalette': (0, 4, 'i'),
               'GetDesc': (0, 32, 'i'), 'GetLevelDesc': (1, 32, 'i')}
+# LockRect's output (D3DLOCKED_RECT *): (interface, method) -> its parameter index after `this` (d3d8.h prototypes:
+# IDirect3DSurface8::LockRect(pLockedRect, ...), IDirect3DTexture8::LockRect(Level, pLockedRect, ...),
+# IDirect3DCubeTexture8::LockRect(FaceType, Level, pLockedRect, ...))
+LOCKED_RECT_OUT = {('IDirect3DSurface8', 'LockRect'): 0, ('IDirect3DTexture8', 'LockRect'): 1,
+                   ('IDirect3DCubeTexture8', 'LockRect'): 2}
 # D3D8 methods that read data through a pointer parameter (the D3D8 SDK header): method -> function of the parameters
 # giving (parameter index, bytes read). The bytes are compared, hashed, with the call: before 6 Oct only the pointer was
 # (as "a stack address"), so a reconstruction that never wrote the data it passes compared equal
@@ -611,6 +616,20 @@ class GfxMachine(G.Machine):
             try:
                 self.writes.append((p, bytes(uc.mem_read(p, size))))
                 uc.mem_write(p, struct.pack('<%dI' % (size // 4), *words))
+            except Exception:
+                pass
+        lo = LOCKED_RECT_OUT.get((name, m['name']))
+        if lo is not None and v == 0:
+            # LockRect's D3DLOCKED_RECT {INT Pitch; void *pBits} (d3d8types.h): readable pool memory, so the code that
+            # reads the locked pixels runs. Drawn from a stream of its own (trial seed, call number), so functions that
+            # never lock see the trial stream they always did; both sides get the same values for the same call
+            r = random.Random(int.from_bytes(hashlib.md5(b'lock:%d:%d' % (self.page_seed, len(self.calls))).digest()[:8], 'little'))
+            pitch = 4 * r.randrange(1, 0x101)
+            bits = G.POOL + (r.randrange(0, G.POOL_SIZE - 0x20 * pitch - 0x1000) & ~3)
+            p = args[lo] if lo < len(args) else 0
+            try:
+                self.writes.append((p, bytes(uc.mem_read(p, 8))))
+                uc.mem_write(p, struct.pack('<iI', pitch, bits))
             except Exception:
                 pass
         uc.reg_write(UC_X86_REG_EAX, v)

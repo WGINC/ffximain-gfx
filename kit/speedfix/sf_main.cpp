@@ -55,7 +55,7 @@
 #include "speedfix.h"
 
 // an analysed address (base 0x10000000) where the game is loaded now
-#define XI_GAME(a) ((uintptr_t)(a) + (uintptr_t)g_host->rel)
+#define XI_GAME(a) sf_game_addr((uint32_t)(a))     /* the tree's XI_GAME (sf_game.cpp): another build's moved code too */
 
 static const XikitHost *g_host;
 SfConfig sf_cfg;
@@ -93,6 +93,10 @@ static const char kDefaultIni[] =
   ";   draw never reaches the device (the game's UI quads turn alpha blending off and on again for each quad). Hooks\r\n"
   ";   every method that reads that state, so it takes effect at the next start when it was off at this one\r\n"
   "lazy_state=0\r\n"
+  "; applying a state block the game recorded (BeginStateBlock..EndStateBlock) updates the state cache with what the\r\n"
+  ";   block sets, instead of forgetting the whole cache (the effects apply 2-3 blocks each; docs/HISTORY.md 11 Oct);\r\n"
+  ";   live both ways\r\n"
+  "block_cache=0\r\n"
   "; a vertex shader with the same declaration (and no shader code) is made once and its handle given out again\r\n"
   ";   (loading: some 1,450 creations a session, 3 distinct shaders); the same at the next start or live\r\n"
   "vs_dedupe=0\r\n"
@@ -103,18 +107,15 @@ static const char kDefaultIni[] =
   "; one BeginScene/EndScene pair a frame: an EndScene is held, and dropped with the BeginScene after it, until Present,\r\n"
   ";   Reset, CopyRects, UpdateTexture or GetFrontBuffer (the game ends and begins scenes several times a frame)\r\n"
   "merge_scenes=0\r\n"
+  "; a model's runs of triangle-list records (contiguous indices, no state call between them, no envmap, projected-\r\n"
+  ";   texture or offscreen pass) drawn as one DrawIndexedPrimitive (docs/SKINMERGE.md). Forks SkinAndDrawV2 at the\r\n"
+  ";   start when on there; then live both ways\r\n"
+  "skin_merge=0\r\n"
   "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
   ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
   "motion_stats=0\r\n"
   "; seconds between speedfix's statistics lines in xikit.log\r\n"
   "stats_every=60\r\n"
-  "; the shadow texture of Model_BeginOffscreenPass (18 render-target switches and 28 draws a frame in one capture)\r\n"
-  ";   is not drawn; nothing was seen reading it (xikit.log counts its binds), so watch character shadows. Hooks as\r\n"
-  ";   lazy_state does: takes effect at the next start when both were off at this one\r\n"
-  "skip_shadow_pass=0\r\n"
-  "; DrawPrimitiveUP (text, UI quads, name plates; merged ones too) sent as DrawPrimitive from speedfix's own\r\n"
-  ";   dynamic vertex buffer. Hooks as lazy_state does\r\n"
-  "up_ring=0\r\n"
   "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
   ";     ab_levers=merge_scenes; skip_all_occlusion_readbacks; sse_skinning\r\n"
   ";   (comma: measured together; semicolon: one after another). ab_after seconds after it is saved, speedfix\r\n"
@@ -134,10 +135,9 @@ static SfConfig read_config(void) {
   c.skip_actor_occlusion = rd("skip_actor_occlusion", 0); c.skip_all_occlusion_readbacks = rd("skip_all_occlusion_readbacks", 0);
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
-  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   if (c.stats_every < 1) c.stats_every = 1;
-  c.skip_shadow_pass = rd("skip_shadow_pass", 0); c.up_ring = rd("up_ring", 0);
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -155,9 +155,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d motion_stats=%d skip_shadow_pass=%d up_ring=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.motion_stats, c.skip_shadow_pass, c.up_ring);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -237,6 +237,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   if (!g_readback_done && sf_cfg.skip_all_occlusion_readbacks) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, "skip_all_occlusion_readbacks"); }
   apply_texture();
   apply_sse_skinning();
+  xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
   log_cpu_tier();
 }
 
@@ -299,11 +300,11 @@ struct Lever { const char *key; int SfConfig::*field; int off; };
 static const Lever kLevers[] = {
   {"state_cache", &SfConfig::state_cache, 0}, {"vertex_shader_cache", &SfConfig::vs_cache, 0},
   {"extended_state_cache", &SfConfig::ext_cache, 0}, {"state_cache_reset_each_scene", &SfConfig::scene_reset, 0},
-  {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
+  {"batch_up_draws", &SfConfig::batch_up, 0}, {"lazy_state", &SfConfig::lazy_state, 0}, {"block_cache", &SfConfig::block_cache, 0}, {"vs_dedupe", &SfConfig::vs_dedupe, 0},
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
-  {"skip_shadow_pass", &SfConfig::skip_shadow_pass, 0}, {"up_ring", &SfConfig::up_ring, 0},
+  {"skin_merge", &SfConfig::skin_merge, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -367,7 +368,7 @@ static void ab_read(void) {                 // ab_levers and its timings from th
   for (char *t = strtok(list, ", \t"); t; t = strtok(NULL, ", \t")) {
     int j = 0; while (j < NLEV && strcmp(kLevers[j].key, t)) j++;
     if (j == NLEV) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (not a lever)", t); continue; }
-    if (!sf_device_allows(t)) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (off at this start: its hooks are not in place)", t); continue; }
+    if (!sf_device_allows(t) || (!strcmp(t, "skin_merge") && !sf_skinmerge_installed)) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (off at this start: its hooks are not in place)", t); continue; }
     if (g_base.*(kLevers[j].field) == kLevers[j].off) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (set to its off value: A and B would be the same)", t); continue; }
     g_ab_use[j] = true; n++;
   }
@@ -419,7 +420,7 @@ extern "C" int sf_init(const XikitHost *host) {
   if (sf_cfg.cpu_tier) apply_cpu_tier();
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
-  if (sf_hook_shadow(host) != XIKIT_OK) LOG("speedfix: the shadow pass's functions not hooked: skip_shadow_pass does nothing");
+  if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
   return 0;
 }
 
@@ -433,7 +434,8 @@ extern "C" void sf_frame(void) {
       set_config(g_ab_state == 2 ? ab_config(ab_label(g_ab_i) == 'A') : g_base);
       // what this start's hooks cannot do stays off in B as well (sf_device_config_changed has logged it)
       if (!sf_device_allows("batch_up_draws")) g_base.batch_up = g_base.ext_cache = 0;
-      if (!sf_device_allows("lazy_state")) g_base.lazy_state = g_base.skip_shadow_pass = g_base.up_ring = 0;
+      if (!sf_device_allows("lazy_state")) g_base.lazy_state = 0;
+      if (g_base.skin_merge && !sf_skinmerge_installed) { g_base.skin_merge = 0; LOG("speedfix: skin_merge takes effect at the next start (it was off at this one, so SkinAndDrawV2 is not forked)"); }
       log_config(g_base, "changed");
       if (sf_cfg.cpu_tier && !before.cpu_tier) LOG("speedfix: cpu_tier is decided once per start");
     }

@@ -119,6 +119,12 @@ the correlation in section 2 suggests.
 - **Risk:** state the cache does not see. Direct3D 8 state blocks (ApplyStateBlock: 329 calls per frame in 11000)
   change states behind it, and Reset or CreateStateBlock does too. Invalidate on those, as speedfix does
   (`state_cache_reset_each_scene`).
+- **Next (11 Oct, HISTORY.md):** forgetting at each ApplyStateBlock is what defeats the cache in the effect drain
+  (18% of the plaza frame's calls, 544 blocks applied inside it). The game records each block once from a fixed
+  table, so speedfix can keep each block's recorded values and set its shadow to them on apply. Simulated on the
+  plaza trace, with only the drain's two blocks known: 20,645 to 18,423 calls a frame with lazy_state, and 24,347
+  to 22,391 without it. Built as speedfix's `block_cache` (off by default). The documented behaviour is checked by
+  probe8 through the game's d3d8.dll (it passes under Wine); the owner's run and an A/B are still to come.
 
 ### P2. Fix the hot functions at the source (SDK mods)
 
@@ -212,6 +218,14 @@ Unlike dgVoodoo, it can be told what a draw is for (the CDx and sqgx wrapper lay
   pixel). It does not exist yet; the alternating trace compares calls, not pixels;
 - P0's measurements, to know what the translation layer costs today.
 
+### Stretch: modernise the renderer's methods (deferred)
+
+The owner asked for Square's rendering code and methods to be improved losslessly with current practice (Luna, "3D
+Game Programming with DirectX 11", e.g. constant buffers by update frequency, immutable state objects, instancing,
+fewer state changes). Deferred until the port draws as the reference on the owner's driver (HISTORY, 14 Oct t8run):
+"lossless" needs a verified baseline to compare against. Each change, when taken, is gated like the rest: same
+pictures as the reference in t8 and in frame replay.
+
 ## 5. Goal 3: the UI overhaul
 
 **Known (docs/UI.md):**
@@ -270,7 +284,7 @@ frame; HISTORY.md, runs 3736 and 6156). Characters are about 26 ms of the frame;
 | Text and UI quads | 10.3% | DrawPrimitiveUP, 885 a frame of 2 triangles each: glyphs 386, Cell quads 209, name plates 200 |
 | Effects and zone | 3.2% | DrawPrimitive: CMoVuElem_Draw 270 a frame, the zone mesh 45 |
 
-**Draw reduction, characters first.**
+**Draw reduction, characters first.** The worked-out plan, with the facts it rests on: docs/SKINMERGE.md.
 1. Measure how many of SkinAndDrawV2's strips run under the same state with nothing between them
    (merge_potential.py on a Bedau trace).
 2. Gate the reconstruction of SkinAndDrawV2 on calls captured in Bedau. Its fuzzed gate trials covered 62 of 1,596

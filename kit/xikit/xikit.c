@@ -49,8 +49,11 @@
 
 /* d3dprof.c, built in with XIKIT defined: d3dprof_attach gives the device its counting vtable copy */
 void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const char *csv);
+void d3dprof_set_shift(const int32_t *tab);   /* another build's moved code ranges: call sites reported in the analysed build's numbering */
 void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void d3dprof_trace_hookbufs(int on); void d3dprof_trace_stop(void); void d3dprof_trace_frames(int *n);
 int d3dprof_trace_write(const char *path, const char *note);
+/* frame capture (kit/d3dprof/fcap.c): one frame with every piece of data its calls use, for kit/fcap/replay.c */
+extern int fcap_enabled; void fcap_arm(void); int fcap_busy(void); unsigned fcap_written(void);
 extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
 
 typedef struct {
@@ -98,6 +101,27 @@ static void **g_orig_vt; static void *g_vt[NSLOTS];
 static DWORD g_render_thread;
 static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_speedfix_loaded;
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
+/* Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): its manifest,
+   xikit_manifest_<stamp>.txt, carries the analysed build's code ranges that moved there (!shift LO HI SHIFT).
+   g_shift: count, then lo, hi, shift; the same table goes to the reconstruction DLL and the mods (xi_shift). The
+   kit keeps analysed addresses everywhere (manifest RVAs, logs, profiles, traces) and translates at the boundary. */
+static int32_t g_shift[25];
+#define TEXT_LO 0x10001000u                    /* the analysed build's code: .text up to .rdata */
+#define TEXT_HI 0x10329000u
+static uint32_t live_of(uint32_t ea) {         /* an analysed address -> where it is in the running game */
+  int32_t d = 0;
+  if (ea >= TEXT_LO && ea < TEXT_HI)
+    for (int i = 0; i < g_shift[0]; i++) if (ea >= (uint32_t)g_shift[1 + 3 * i] && ea < (uint32_t)g_shift[2 + 3 * i]) d = g_shift[3 + 3 * i];
+  return ea + g_rel + d;
+}
+static uint32_t analysed_of(uint32_t a) {      /* an address in the running game -> the analysed build's */
+  uint32_t ea = a - g_rel;
+  for (int i = 0; i < g_shift[0]; i++) {
+    uint32_t lo = (uint32_t)g_shift[1 + 3 * i], hi = (uint32_t)g_shift[2 + 3 * i]; int32_t d = g_shift[3 + 3 * i];
+    if (ea >= lo + d && ea < hi + d) return ea - d;
+  }
+  return ea;
+}
 static int g_trace_attached, g_tr_state, g_tr_wait, g_tr_prev_off, g_tr_key, g_tr_n, g_tr_after, g_tr_every, g_tr_count, g_tr_state_started, g_tr_buffers, g_tr_alt;
 static DWORD g_tr_next;
 static int g_tr_pictures, g_tr_labels[32];       /* trace_pictures=K; the label each recorded frame got */
@@ -163,6 +187,12 @@ static const char DEFAULT_INI[] =
   "trace_buffers=1\r\n"
   "; 1: d3dprof in the same process (d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "profile=0\r\n"
+  "; 1: frame capture (docs/KIT.md): from the start, copies of what the game writes into its default-pool vertex and\r\n"
+  ";    index buffers are kept (the game cannot read those back), and a capture writes one whole frame, every call with its\r\n"
+  ";    data and every resource it uses, to xikit_fcap_<pid>_<n>.fcap (tens of MB) for kit/fcap/replay.c. A capture is\r\n"
+  ";    taken fcap_after seconds after the start (then every fcap_every seconds, fcap_count in all), or when the file\r\n"
+  ";    xikit_fcap_now.txt is created next to xikit.dll. Takes effect at the next start\r\n"
+  "fcap=0\r\nfcap_after=0\r\nfcap_every=60\r\nfcap_count=1\r\n"
   "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
   ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "call_time=0\r\n"
@@ -290,6 +320,9 @@ static int load_manifest(const char *path) {
         if (!strcmp(k, "game_timestamp")) g_game_ts = v;
         else if (!strcmp(k, "recon_crc32")) g_recon_crc = v;
       }
+      { unsigned lo, hi; int d;
+        if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 8) {
+          int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
       if (g_ncode < MAXCODE && sscanf(line + 1, "code %x %159s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
       continue;
@@ -609,6 +642,20 @@ static void trace_finish(const char *mode) {
   klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
 }
 
+static int g_fc_after, g_fc_every, g_fc_count, g_fc_started; static DWORD g_fc_next; static unsigned g_fc_logged;
+static void fcap_step(void) {
+  if (g_frame % 30 == 0) {
+    char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_fcap_now.txt", g_dir);
+    if (DeleteFileA(p) && !fcap_busy()) { fcap_arm(); klog("fcap: the next frame is captured (xikit_fcap_now.txt)"); }
+  }
+  if (g_fc_after > 0 && g_fc_started < g_fc_count && !fcap_busy()) {
+    DWORD now = GetTickCount();
+    if (!g_fc_next) g_fc_next = now + (DWORD)g_fc_after * 1000;
+    if ((int)(now - g_fc_next) >= 0) { g_fc_started++; g_fc_next = now + (DWORD)g_fc_every * 1000; fcap_arm(); klog("fcap: the next frame is captured (timer, %d of %d)", g_fc_started, g_fc_count); }
+  }
+  if (fcap_written() != g_fc_logged) { g_fc_logged = fcap_written(); klog("fcap: xikit_fcap_%lu_%u.fcap written (kit/fcap/replay.c plays it)", (unsigned long)GetCurrentProcessId(), g_fc_logged - 1); }
+}
+
 static void trace_step(void) {
   int n = 0;
   int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F8) & 0x8000);
@@ -787,7 +834,7 @@ static DWORD WINAPI sampler(LPVOID unused) {
 }
 /* an address as the analysis reads it: game (analysed address), recon (symbol+offset), or module!offset */
 static void addr_name(uint32_t a, char *out, size_t n) {
-  if (a >= g_game_lo && a < g_game_hi) { snprintf(out, n, "game,0x%08X", a - g_rel); return; }
+  if (a >= g_game_lo && a < g_game_hi) { snprintf(out, n, "game,0x%08X", analysed_of(a)); return; }
   if (a >= g_recon_lo && a < g_recon_hi) {
     const char *sym = "?"; Fn *f = fn_at_sym(a, &sym);
     snprintf(out, n, "recon,0x%08X %s%s%s", a - g_recon_lo, sym, f ? " " : "", f ? f->name : ""); return;
@@ -962,6 +1009,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
       }
     }
     if (g_trace_attached) trace_step();
+    if (fcap_enabled) fcap_step();
     if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
     if (g_nmods) mods_watch();
     ab_control();
@@ -1062,7 +1110,7 @@ static LONG caller_fault(EXCEPTION_POINTERS *e) {
   if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(uintptr_t)eip, &mod))
     GetModuleFileNameA(mod, mname, sizeof mname);
   const char *base = strrchr(mname, '\\'); base = base ? base + 1 : mname;
-  uint32_t game_ea = (eip >= g_game_lo && eip < g_game_hi) ? eip - g_rel : 0;
+  uint32_t game_ea = (eip >= g_game_lo && eip < g_game_hi) ? analysed_of(eip) : 0;
   klog("fault module base %p, offset 0x%lX (look it up with nm -n on the DLL: offset + its ImageBase)", (void *)mod, (unsigned long)(eip - (uint32_t)(uintptr_t)mod));
   klog("EXCEPTION 0x%08lX at 0x%08lX in %s (analysed 0x%08X), called from reconstructed %s (original 0x%08X, return 0x%08X)%s%s%s%s: "
        "eax=%08lX ebx=%08lX ecx=%08lX edx=%08lX esi=%08lX edi=%08lX ebp=%08lX esp=%08lX",
@@ -1306,6 +1354,10 @@ static int start_mod(int i, HMODULE h, const char *loaded) {
   if (!init) { klog("mod %s: %s exports no xikit_mod_init; not used", m->name, loaded); return 0; }
   m->h = h; m->frame = (xikit_mod_frame_fn)GetProcAddress(h, "xikit_mod_frame"); m->unload = (xikit_mod_unload_fn)GetProcAddress(h, "xikit_mod_unload");
   uintptr_t *mr = (uintptr_t *)GetProcAddress(h, "xi_rel"); if (mr) *mr = g_rel;
+  int32_t *ms = (int32_t *)GetProcAddress(h, "xi_shift");
+  if (ms) memcpy(ms, g_shift, sizeof g_shift);
+  else if (g_shift[0]) klog("mod %s exports no xi_shift (built with an SDK older than build translation): its game addresses in moved code would be wrong; not used", m->name);
+  if (!ms && g_shift[0]) return 0;
   HMODULE pin; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, loaded, &pin);
   g_mod_cur = i; g_mods_open = 1;
   int r = init(&g_host);
@@ -1642,7 +1694,7 @@ static void setup_facts(void) {
     for (unsigned i = 0; i < t->len; i++) t->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
     t->nrel = 0;
     if (strcmp(rels, "-")) for (char *p = rels; *p && t->nrel < 4;) { t->rel[t->nrel++] = (int8_t)strtol(p, &p, 10); if (*p == ',') p++; }
-    t->at = (uint8_t *)(uintptr_t)(t->start + g_rel);
+    t->at = (uint8_t *)(uintptr_t)live_of(t->start);
     /* the stub: the instructions before the call (copied), the pre hook, the call (a direct one re-aimed), the post hook, back */
     uint8_t *p = t->stub = stubs + 96 * g_nsites;
     memcpy(p, t->at, t->calloff); p += t->calloff;
@@ -1812,8 +1864,18 @@ static DWORD WINAPI start(LPVOID self) {
   }
   if (strcmp(g_out, g_dir)) klog("this start's files go to %s (log_folder=1)", g_out);
   ini_changed(); read_cfg();
-  snprintf(path, sizeof path, "%s\\xikit_manifest.txt", g_dir);
+  HMODULE game;
+  while (!(game = GetModuleHandleA("FFXiMain.dll"))) Sleep(100);   /* injected possibly long before it loads */
+  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)game + ((IMAGE_DOS_HEADER *)game)->e_lfanew);
+  /* the manifest made for this build: the analysed build's, or another's (build translation) */
+  snprintf(path, sizeof path, "%s\\xikit_manifest_%08lX.txt", g_dir, (unsigned long)nt->FileHeader.TimeDateStamp);
+  if (GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES) snprintf(path, sizeof path, "%s\\xikit_manifest.txt", g_dir);
   if (!load_manifest(path)) return 0;
+  if (g_shift[0]) {
+    char b[256]; int o = 0;
+    for (int i = 0; i < g_shift[0] && o < 200; i++) o += snprintf(b + o, sizeof b - o, " %08X-%08X%+d", g_shift[1 + 3 * i], g_shift[2 + 3 * i], g_shift[3 + 3 * i]);
+    klog("FFXiMain.dll build %08lX: its manifest %s translates the analysed build's code ranges:%s", (unsigned long)nt->FileHeader.TimeDateStamp, path, b);
+  }
   snprintf(recon, sizeof recon, "%s\\gfx_recon_ingame.dll", g_dir);
   uint32_t size = 0, crc = crc32_file(recon, &size);
   if (!size || size != g_recon_size || crc != g_recon_crc) {
@@ -1821,11 +1883,8 @@ static DWORD WINAPI start(LPVOID self) {
          size, crc, g_recon_size, g_recon_crc);
     return 0;
   }
-  HMODULE game;
-  while (!(game = GetModuleHandleA("FFXiMain.dll"))) Sleep(100);   /* injected possibly long before it loads */
-  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)game + ((IMAGE_DOS_HEADER *)game)->e_lfanew);
   if (nt->FileHeader.TimeDateStamp != g_game_ts) {
-    klog("FFXiMain.dll is not the analysed build (TimeDateStamp %08lX, manifest %08X): nothing done", nt->FileHeader.TimeDateStamp, g_game_ts);
+    klog("FFXiMain.dll is a build the kit has no manifest for (TimeDateStamp %08lX; the manifest is for %08X): nothing done. A new build is added with pipeline/unpack_pol.py and pipeline/build_translate.py (docs/KIT.md)", nt->FileHeader.TimeDateStamp, g_game_ts);
     return 0;
   }
   g_rel = (uint32_t)(uintptr_t)game - ANALYSED_BASE;
@@ -1838,13 +1897,16 @@ static DWORD WINAPI start(LPVOID self) {
   uintptr_t *xi_rel = (uintptr_t *)GetProcAddress(rec, "xi_rel");
   if (!xi_rel) { klog("the reconstruction DLL exports no xi_rel (not the XI_INGAME build): nothing done"); return 0; }
   *xi_rel = g_rel;
+  int32_t *xs = (int32_t *)GetProcAddress(rec, "xi_shift");
+  if (xs) memcpy(xs, g_shift, sizeof g_shift);
+  else if (g_shift[0]) { klog("the reconstruction DLL exports no xi_shift (built before build translation): nothing done on this build"); return 0; }
   IMAGE_NT_HEADERS *rnt = (IMAGE_NT_HEADERS *)((char *)rec + ((IMAGE_DOS_HEADER *)rec)->e_lfanew);
   g_recon_lo = (uint32_t)(uintptr_t)rec; g_recon_hi = g_recon_lo + rnt->OptionalHeader.SizeOfImage;
   g_speedfix_loaded = GetModuleHandleA("speedfix_hook.dll") != NULL;
   int missing = 0;
   for (int i = 0; i < g_nfn; i++) {
     Fn *f = &g_fn[i];
-    f->site = (uint8_t *)(uintptr_t)(f->rva + ANALYSED_BASE + g_rel);
+    f->site = (uint8_t *)(uintptr_t)live_of(f->rva + ANALYSED_BASE);
     f->target = (void *)GetProcAddress(rec, f->exp);
     if (!f->target) { missing++; f->refused = 1; }
     g_by_target[i] = f;
@@ -1883,16 +1945,20 @@ static DWORD WINAPI start(LPVOID self) {
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   log_environment();
-  if (g_cfg.profile || g_cfg.trace) {
+  fcap_enabled = GetPrivateProfileIntA("xikit", "fcap", 0, g_ini) != 0;
+  g_fc_after = GetPrivateProfileIntA("xikit", "fcap_after", 0, g_ini); g_fc_every = GetPrivateProfileIntA("xikit", "fcap_every", 60, g_ini);
+  g_fc_count = GetPrivateProfileIntA("xikit", "fcap_count", 1, g_ini); if (g_fc_every < 10) g_fc_every = 10;
+  if (g_cfg.profile || g_cfg.trace || fcap_enabled) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
+    d3dprof_set_shift(g_shift);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
     if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);
     g_tr_buffers = GetPrivateProfileIntA("xikit", "trace_buffers", 1, g_ini); g_tr_alt = GetPrivateProfileIntA("xikit", "trace_alternate", 1, g_ini); g_tr_pictures = GetPrivateProfileIntA("xikit", "trace_pictures", 0, g_ini); if (g_tr_every < 20) g_tr_every = 20;
-    klog("profiler attached: %s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "");
+    klog("profiler attached: %s%s%s", csv, g_cfg.trace ? " (Ctrl+Alt+F8: A/B trace)" : "", fcap_enabled ? "; fcap=1: buffer copies kept, captures written as asked" : "");
   }
   if (g_nmods) {                              /* the mods' device hooks, in front of everything (device_hook) */
     front_install(dev);

@@ -62,9 +62,27 @@ enum { S_PRESENT = 15, S_SETRT = 31, S_BEGIN = 34, S_END = 35, S_RS = 50, S_STAT
        S_SSS = 83, S_SETIND = 85 };
 
 static void **g_orig;                 /* the device's own vtable */
+/* frame capture (fcap.c) */
+extern int fcap_enabled; extern uint32_t fcap_other_thread_calls;
+void fcap_attach(void **dev_vt, const char *dir, uint32_t game_ts); void fcap_call(int slot, void *dev, const uint32_t *a, int n);
+int fcap_busy(void); void fcap_object_created(void *obj);
+void fcap_buffer_created(void *obj, int ib, uint32_t len, uint32_t usage, uint32_t fvf_or_fmt, uint32_t pool);
+void fcap_vs_created(uint32_t h, const uint32_t *decl, uint32_t nd, const uint32_t *func, uint32_t nf);
 static void *g_next[NSLOTS];          /* where each thunk goes on to: g_orig's method, or a logging wrapper (resources, below) */
 static void *g_vt[NSLOTS];            /* the copy the device is given */
 static uint32_t g_rel;                /* load address - analysed address */
+/* another build of the game: the analysed build's code ranges that moved there (count, then lo, hi, shift), from
+   the kit (d3dprof_set_shift); call sites are reported in the analysed build's numbering */
+static int32_t g_shift[25];
+void d3dprof_set_shift(const int32_t *tab) { memcpy(g_shift, tab, sizeof g_shift); }
+static uint32_t an(uint32_t ra) {
+  uint32_t ea = ra - g_rel;
+  for (int i = 0; i < g_shift[0] && i < 8; i++) {
+    uint32_t lo = (uint32_t)g_shift[1 + 3 * i], hi = (uint32_t)g_shift[2 + 3 * i]; int32_t d = g_shift[3 + 3 * i];
+    if (ea >= lo + d && ea < hi + d) return ea - d;
+  }
+  return ea;
+}
 static uint32_t g_lo, g_hi;           /* the game DLL's address range as loaded */
 static int g_recording;               /* between BeginStateBlock and EndStateBlock: Set* calls are recorded
                                          into the block, not applied to the device (D3D8 documentation) */
@@ -265,7 +283,7 @@ static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DW
     for (int n = 0; n < NPEND; n++, h = (h + 1) & (NPEND - 1))
       if (!g_pend[h].obj || g_pend[h].obj == (void *)1 || g_pend[h].obj == self) {
         g_pend[h].obj = self; g_pend[h].p = *pp; g_pend[h].off = off; g_pend[h].size = size;
-        g_pend[h].site = ra >= g_lo && ra < g_hi ? ra - g_rel : ra; break;
+        g_pend[h].site = ra >= g_lo && ra < g_hi ? an(ra) : ra; break;
       }
   }
   return hr;
@@ -407,12 +425,13 @@ const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES
 
 void *__cdecl d3dprof_record(int slot, uint32_t *a) {
   if (g_thread == 0) g_thread = GetCurrentThreadId();
-  if (GetCurrentThreadId() != g_thread) { g_other_thread++; g_other_window++; return g_next[slot]; }
+  if (GetCurrentThreadId() != g_thread) { g_other_thread++; g_other_window++; if (fcap_busy()) fcap_other_thread_calls++; return g_next[slot]; }
+  if (fcap_enabled) fcap_call(slot, (void *)(uintptr_t)a[1], a + 2, NPARAM[slot]);
   /* a call site in the game's DLL as the analysed address; any other caller as it is, marked by its kind */
   uint32_t ra = a[0];
   if (d3dprof_via_depth && d3dprof_via_depth <= 64 && !(ra >= g_lo && ra < g_hi)) ra = d3dprof_via_stk[d3dprof_via_depth - 1];
   int game = ra >= g_lo && ra < g_hi;
-  uint32_t ret = game ? ra - g_rel : ra;
+  uint32_t ret = game ? an(ra) : ra;
   int redundant = 0; uint32_t prims = 0;
   trace_call(slot, a, ret);
   if (slot == S_PRESENT && g_trace_label >= 0) g_trace_frame++;
@@ -439,7 +458,7 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     for (unsigned w = 0; w < sizeof WRAP / sizeof WRAP[0]; w++)
       if (WRAP[w].ret == ret) {
         uint32_t c = a[WRAP[w].off / 4];
-        if (c >= g_lo && c < g_hi && (s = site_of(c - g_rel, slot, K_WRAPPED)) != NULL) { s->calls++; s->prims += prims; }
+        if (c >= g_lo && c < g_hi && (s = site_of(an(c), slot, K_WRAPPED)) != NULL) { s->calls++; s->prims += prims; }
         break;
       }
   g_calls_window++; g_redundant_window += redundant; g_prims_window += prims;
@@ -536,10 +555,14 @@ static CRITICAL_SECTION g_reslock; static FILE *g_res; static char g_resdir[MAX_
 /* a call that reached the wrapper through a mod's device hook (xikit device_hook) returns into the mod: on the render
    thread the kit keeps the return address of the call the hook is handling (d3dprof_via_stk, as d3dprof_record uses
    it), so the creating game function is named; on other threads it is not kept and the raw address stays */
-static uint32_t site_of_ra(uint32_t ra) {
+static uint32_t caller_ra(uint32_t ra) {
   if (!(ra >= g_lo && ra < g_hi) && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_thread)
     ra = d3dprof_via_stk[d3dprof_via_depth - 1];
-  return ra >= g_lo && ra < g_hi ? ra - g_rel : ra;
+  return ra;
+}
+static uint32_t site_of_ra(uint32_t ra) {
+  ra = caller_ra(ra);
+  return ra >= g_lo && ra < g_hi ? an(ra) : ra;
 }
 /* a caller outside FFXiMain named by its module: "name.dll+0xOFFSET" (the raw address alone does not say whose it is) */
 static const char *module_of(uint32_t a, char *buf, size_t n) {
@@ -564,7 +587,7 @@ static void res_log(const char *method, uint32_t ra, const uint32_t *p, int np, 
   if (g_res) {
     char mod[MAX_PATH];
     fprintf(g_res, "%u,%s,\"%s\",0x%08X,%s,%08lX,%.1f,%08X", g_frame_abs, GetCurrentThreadId() == g_thread ? "render" : "other", method, site_of_ra(ra),
-            module_of(ra, mod, sizeof mod), (unsigned long)hr, us, obj);
+            module_of(caller_ra(ra), mod, sizeof mod), (unsigned long)hr, us, obj);   /* the same caller as the site column */
     for (int i = 0; i < np; i++) fprintf(g_res, ",%X", p[i]);
     fputc('\n', g_res); fflush(g_res);
   }
@@ -606,35 +629,39 @@ static void vt_note(const char *iface, int n, uint32_t obj) {
 static HRESULT __stdcall w_tex(void *d, UINT w, UINT h, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[20])(d, w, h, lv, us, fmt, pool, pp);
-  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DTexture8", 19, OBJ(pp)); return hr; }
+  uint32_t a[6] = {w, h, lv, us, fmt, pool}; res_log("CreateTexture(w,h,levels,usage,format,pool)", RA(), a, 6, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DTexture8", 19, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_vol(void *d, UINT w, UINT h, UINT dp, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[21])(d, w, h, dp, lv, us, fmt, pool, pp);
-  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVolumeTexture8", 19, OBJ(pp)); return hr; }
+  uint32_t a[7] = {w, h, dp, lv, us, fmt, pool}; res_log("CreateVolumeTexture(w,h,depth,levels,usage,format,pool)", RA(), a, 7, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVolumeTexture8", 19, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_cube(void *d, UINT e, UINT lv, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, DWORD, void **))g_orig[22])(d, e, lv, us, fmt, pool, pp);
-  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DCubeTexture8", 19, OBJ(pp)); return hr; }
+  uint32_t a[5] = {e, lv, us, fmt, pool}; res_log("CreateCubeTexture(edge,levels,usage,format,pool)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DCubeTexture8", 19, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_vb(void *d, UINT len, DWORD us, DWORD fvf, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[23])(d, len, us, fvf, pool, pp);
-  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVertexBuffer8", 14, OBJ(pp)); return hr; }
+  uint32_t a[4] = {len, us, fvf, pool}; res_log("CreateVertexBuffer(length,usage,fvf,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DVertexBuffer8", 14, OBJ(pp));
+  if (fcap_enabled && OBJ(pp)) { fcap_object_created(*pp); fcap_buffer_created(*pp, 0, len, us, fvf, pool); }
+  return hr; }
 static HRESULT __stdcall w_ib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, DWORD, DWORD, DWORD, void **))g_orig[24])(d, len, us, fmt, pool, pp);
-  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DIndexBuffer8", 14, OBJ(pp)); return hr; }
+  uint32_t a[4] = {len, us, fmt, pool}; res_log("CreateIndexBuffer(length,usage,format,pool)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DIndexBuffer8", 14, OBJ(pp));
+  if (fcap_enabled && OBJ(pp)) { fcap_object_created(*pp); fcap_buffer_created(*pp, 1, len, us, fmt, pool); }
+  return hr; }
 static HRESULT __stdcall w_rt(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, BOOL lk, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, BOOL, void **))g_orig[25])(d, w, h, fmt, ms, lk, pp);
-  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
+  uint32_t a[5] = {w, h, fmt, ms, (uint32_t)lk}; res_log("CreateRenderTarget(w,h,format,multisample,lockable)", RA(), a, 5, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_ds(void *d, UINT w, UINT h, DWORD fmt, DWORD ms, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, DWORD, void **))g_orig[26])(d, w, h, fmt, ms, pp);
-  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
+  uint32_t a[4] = {w, h, fmt, ms}; res_log("CreateDepthStencilSurface(w,h,format,multisample)", RA(), a, 4, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_img(void *d, UINT w, UINT h, DWORD fmt, void **pp) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, UINT, UINT, DWORD, void **))g_orig[27])(d, w, h, fmt, pp);
-  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); return hr; }
+  uint32_t a[3] = {w, h, fmt}; res_log("CreateImageSurface(w,h,format)", RA(), a, 3, OBJ(pp), hr, t0_.QuadPart); vt_note("IDirect3DSurface8", 11, OBJ(pp)); if (OBJ(pp)) fcap_object_created(*pp); return hr; }
 static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWORD *handle, DWORD usage) {
   LARGE_INTEGER t0_; QueryPerformanceCounter(&t0_);
   HRESULT hr = ((HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))g_orig[75])(d, decl, func, handle, usage);
@@ -643,6 +670,7 @@ static HRESULT __stdcall w_vs(void *d, const DWORD *decl, const DWORD *func, DWO
   if (func) while (nf < 65536 && func[nf] != 0x0000FFFFu) nf++;         /* the end token */
   uint32_t a[3] = {nd + (decl ? 1 : 0), nf + (func ? 1 : 0), usage};
   res_log("CreateVertexShader(declaration tokens,function tokens,usage)", RA(), a, 3, h, hr, t0_.QuadPart);
+  if (hr >= 0) fcap_vs_created(h, (const uint32_t *)decl, decl ? nd + 1 : 0, (const uint32_t *)func, func ? nf + 1 : 0);
   if (hr >= 0 && g_res_init) {
     char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_vshader_%lu_%08X.bin", g_resdir, (unsigned long)GetCurrentProcessId(), h);
     FILE *f = fopen(path, "wb");
@@ -685,6 +713,12 @@ void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const ch
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;
+  uint32_t ts = 0;
+  if (lo && !IsBadReadPtr((void *)(uintptr_t)lo, 0x400)) {
+    IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)(uintptr_t)(lo + ((IMAGE_DOS_HEADER *)(uintptr_t)lo)->e_lfanew);
+    if (!IsBadReadPtr(nt, sizeof *nt)) ts = nt->FileHeader.TimeDateStamp;
+  }
+  fcap_attach(g_orig, g_resdir, ts);
 }
 #else
 static void log_line(const char *msg) {

@@ -2,7 +2,8 @@
 host.exe (host.c) maps the game DLL without running it, fakes the device, loads xikit.dll and plays the render
 thread. Runs: the game DLL at its analysed base, loaded elsewhere (0x10000000 occupied first), at its base with
 profile=1 (d3dprof built in), with a mod (mod_test.cpp, built with sdk/build_mod.sh; function and device hooks) at its
-base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1.
+base and loaded elsewhere, the mod reloaded while running (mod_reload=1), capture= and facts=1; and with a real
+Direct3D 8 device instead of the fake one (realdev: Wine's d3d8, then kit/d3d8on11's, in a virtual X server).
 
     python3 test_xikit.py            (after ../build.sh; needs wine)"""
 import json, os, re, shutil, subprocess, sys, tempfile
@@ -40,16 +41,36 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
-for mode in ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab'):
+ALL_MODES = ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours')
+for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
+    for f in os.listdir(DIST):                                   # the manifests of other builds (build translation)
+        if f.startswith('xikit_manifest_'): shutil.copy(os.path.join(DIST, f), d)
     shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll')); shutil.copy(os.path.join(H, 'host.exe'), d)
     if mode.startswith('mod') or mode == 'reload': shutil.copy(MODDLL, d)
     if mode == 'reload': shutil.copy(MODDLL2, d)
     if mode == 'facts': shutil.copy(FACTS, d)
     env = dict(os.environ, WINEDEBUG='-all')
-    r = subprocess.run(['wine', 'host.exe', mode], cwd=d, capture_output=True, text=True, timeout=600, env=env)
+    cmd = ['wine', 'host.exe', mode]
+    if mode.startswith('realdev'):                # a real D3D8 device: Wine's d3d8, then kit/d3d8on11's (thread mode)
+        cmd = ['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 'host.exe', 'realdev']
+        if mode == 'realdev_ours':
+            shutil.copy(os.path.join(H, '..', '..', 'd3d8on11', 'dist', 'd3d8.dll'), d); env['WINEDLLOVERRIDES'] = 'd3d8=n'
+    r = subprocess.run(cmd, cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())
+    if mode in ('base', 'relocated'):           # build translation: the ranges the reconstruction got are the build's own
+        import pefile as _pe
+        ts = '%08X' % _pe.PE(os.environ['FFXI_DLL'], fast_load=True).FILE_HEADER.TimeDateStamp
+        bj = os.path.join(H, '..', 'builds', ts + '.json')
+        want = [len([x for x in json.load(open(bj))['ranges'] if x[2]])] if os.path.exists(bj) else [0]
+        if os.path.exists(bj):
+            for lo, hi, dd in json.load(open(bj))['ranges']:
+                if dd: want += [int(lo, 16) - (1 << 32) if int(lo, 16) >= 1 << 31 else int(lo, 16), int(hi, 16), dd]
+        got = re.search(r'^xi_shift:(.*)$', r.stdout, re.M)
+        got = [int(x) for x in got.group(1).split()] if got else None
+        ok = got == want
+        print('%s: %s: the reconstruction\'s xi_shift is build %s\'s moved ranges (%s)' % ('ok' if ok else 'FAIL', mode, ts, got)); bad += not ok
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     if mode == 'base':
         ok = 'kit build: ' + open(os.path.join(DIST, 'VERSION.txt')).readline().strip() in log

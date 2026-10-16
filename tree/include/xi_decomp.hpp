@@ -28,7 +28,19 @@ typedef float    _FLOAT;
 // at its analysed base, and the code it compiles to is the same as a plain constant's.
 #ifdef XI_INGAME
 extern "C" uintptr_t xi_rel;
-#define XI_GAME(ea) (static_cast<uintptr_t>(ea) + xi_rel)
+// Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): the analysed build's code
+// ranges that moved there, set by the kit with xi_rel. xi_shift[0] is the number of ranges, then lo, hi, shift for
+// each. Data (at or above the analysed .rdata, 0x10329000) never moves in a build the kit accepts, so for a constant
+// address the range test folds away and a data access costs what it did; a code address pays the short search.
+extern "C" int32_t xi_shift[25];
+static inline uintptr_t xi_code(uint32_t ea) {
+  int32_t d = 0;
+  for (int32_t i = 0; i < xi_shift[0] && i < 8; i++)
+    if (ea >= static_cast<uint32_t>(xi_shift[1 + 3 * i]) && ea < static_cast<uint32_t>(xi_shift[2 + 3 * i])) d = xi_shift[3 + 3 * i];
+  return static_cast<uintptr_t>(ea) + xi_rel + d;
+}
+#define XI_GAME(ea) ((static_cast<uint32_t>(ea) >= 0x10001000u && static_cast<uint32_t>(ea) < 0x10329000u) \
+                     ? xi_code(static_cast<uint32_t>(ea)) : static_cast<uintptr_t>(ea) + xi_rel)
 #else
 #define XI_GAME(ea) (static_cast<uintptr_t>(ea))
 #endif

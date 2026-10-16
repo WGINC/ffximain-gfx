@@ -80,11 +80,13 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs nine times: base,
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eleven times: base,
 relocated and profile (below); `ab` (the A/B test and the log folder); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
 relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
-needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); and `facts`
-(`facts=1`). The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
+needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); `facts`
+(`facts=1`); and `realdev` and `realdev_ours` (14 Oct): a real Direct3D 8 device in the fake one's place, Wine's d3d8
+and then kit/d3d8on11's, in a virtual X server. The kit must hook it, present 200 frames through it and write
+`xikit_timing_<pid>.csv`. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -285,6 +287,49 @@ of each, from `capture_after` seconds after the start (default 0):
   restored, and both captures replayed through the gate (PASS, every instruction run, SetColor's argument read
   off the captured stack).
 
+## Another build of the game (build translation)
+
+Square Enix updates FFXiMain.dll. The kit, the reconstruction and the mods all name the game in the analysed build's
+numbering (3 Sep 2026, TimeDateStamp 6A995428). On a build it has no manifest for, the kit logs `FFXiMain.dll is a
+build the kit has no manifest for` and does nothing. A new build is added like this (game binaries stay out of the
+repository):
+
+1. `python3 pipeline/unpack_pol.py SHIPPED_FFXiMain.dll OUT_unpacked.dll`. The shipped DLL's code is compressed in
+   its POL1 section and unpacked by its entry stub at load. This runs the stub in an emulator up to the first
+   instruction in .text and writes the image as the stub leaves it.
+2. `python3 pipeline/build_translate.py $FFXI_DLL OUT_unpacked.dll` writes `kit/xikit/builds/<stamp>.json` only when
+   everything the kit relies on is settled (its docstring has the rules):
+   - the code ranges that moved, from build_map's matches;
+   - every manifest function proven the same code at its range's shift;
+   - every address the reconstruction, speedfix and the SDK name either lies in an unchanged range (code), or is
+     referenced by the same operand there (data).
+   Otherwise it names each unsettled function or address.
+3. `FFXI_DLL_<stamp>=OUT_unpacked.dll kit/xikit/build.sh` adds `dist/xikit_manifest_<stamp>.txt`
+   (manifest_for_build.py): the same functions, with that build's entry bytes and relocations, and `!shift LO HI
+   SHIFT` lines.
+
+At start the kit reads the running game's TimeDateStamp and loads `xikit_manifest_<stamp>.txt` when there is one.
+It writes its jumps at the translated addresses and passes the moved ranges to the reconstruction DLL and the mods
+(`xi_shift`, beside `xi_rel`; `XI_GAME` applies them). It keeps reporting the analysed build's addresses everywhere:
+logs, profiles, traces, samples, faults. Data addresses never move in a build it accepts, so for a constant address
+`XI_GAME` folds to what it was; a code address costs a search of at most 8 ranges. A mod built before this exports
+no `xi_shift` and is refused on a translated build; the SDK's `XIKIT_MOD_GLOBALS` defines it.
+
+`facts=1` keeps the analysed build's bytes for its sites. A site whose bytes differ in the running build (a call into
+code that moved) is refused, as on any mismatch.
+
+**Build 6AC37846 (5 Oct 2026), checked 14 Oct:**
+- The code moved in two places: +32 from 0x10232A90, +64 from 0x10309EC0.
+- Two handler functions (0x10232970, 0x10232A30, reached through pointers) gained a check and return early on it.
+  The other insertion is 32 bytes of int3 padding before `_a_atan2`.
+- All 774 manifest functions are proven the same code (718 unmoved, 56 at +32). The 1,893 code and 1,138 data
+  addresses the reconstruction, speedfix and the SDK name are settled.
+- Every changed dword in .rdata/.data is a pointer into moved code, a build timestamp or the build-date string.
+- Two copy routines with jump tables inside (0x103149D0, 0x103169A0) are not shown the same by the
+  instruction-by-instruction check. Nothing of ours names them.
+- test_xikit.py and test_speedfix.py pass on both builds. On the new build the kit swapped all 774 functions and
+  refused none, and the reconstruction received the two ranges.
+
 ## Measuring what the gate cannot settle (`facts=1`)
 
 8 exported functions are UNRESOLVED (the occlusion readback among them), and 2 more in the in-game DLL's fuzz
@@ -413,6 +458,57 @@ The 7 `CreateVertexShader` sites: 0x101772A7 (the 5 above); 4 with no code, fixe
 declaration only (0x1002D6DC, 0x101792BE, 0x101792DF, 0x10284A58); 2 in functions nothing calls or points to
 (0x10017810; 0x101771B0, which assembles `c:\test.vsh`, a developer leftover). The one `CreatePixelShader` site
 (0x10177323) makes the pixel shader above.
+
+## Frame capture (`fcap=1`): one whole frame, replayed through any d3d8.dll
+
+`fcap=1` keeps, from the start, a copy of what the game writes into its vertex and index buffers in D3DPOOL_DEFAULT.
+The game cannot read those back: they are write-only (run 2's resource log: 18,704 dynamic vertex buffers, 3,856 model
+index buffers). A capture then writes one frame, from one Present to the next, to `xikit_fcap_<pid>_<n>.fcap` in the
+log folder (format: kit/d3dprof/fcap_fmt.h). It holds:
+- the device's state at the start, as Set calls;
+- every call that changes something, with the data it points to (matrices, lights, ...UP vertices, rectangles);
+- every object the frame uses, at first use:
+  - managed textures and buffers, read back;
+  - default-pool buffers, from the kept copies;
+  - render-target textures, through CopyRects into an image surface;
+  - the vertex shader declarations;
+- buffer locks inside the frame;
+- the back buffer as the game finished it: the picture the game's own d3d8.dll (dgVoodoo) drew.
+
+D3D8 cannot read a state block's contents. At each ApplyStateBlock the capture applies the block itself (a block only
+sets values, so applying it twice changes nothing), reads the whole state back, and writes what changed as Set calls.
+Calls recorded into a block (between BeginStateBlock and EndStateBlock) are left out.
+
+When: `fcap_after` seconds after the start (then every `fcap_every` seconds, `fcap_count` in all), or when the file
+`xikit_fcap_now.txt` is created next to xikit.dll (the kit deletes it). The capture frame is slow (it reads the state
+back at every ApplyStateBlock and every texture the frame uses); a plaza frame's file is expected to be tens of MB.
+
+Not recorded (version 1), each said in the file as a note where it happens:
+- calls from other threads during the frame;
+- a texture written through LockRect after the frame first used it;
+- objects or vertex shaders made before the kit attached;
+- depth surfaces' contents;
+- pixel shaders and ProcessVertices.
+
+Buffers are wrapped by patching Lock, Unlock and Release in their class's vtable, not by giving objects a copy: Wine's
+d3d8 checks that a buffer's vtable is its own (it asserts in dlls/d3d8/buffer.c).
+
+**Replay** (`kit/fcap/replay.c` → `fcap_replay.exe CAPTURE.fcap OUT`): plays the capture into whichever d3d8.dll sits
+next to it, and writes `OUT_replay.pic` (what that device drew) and `OUT_capture.pic` (what the game's drew).
+`kit/fcap/compare.py A.pic B.pic --png OUT.png` compares two pictures.
+`kit/fcap/ties.py CAPTURE.fcap --png OUT.png` replays a capture through kit/d3d8on11 under Wine twice, the second time
+with D8ON11_TEST_TIES, and counts the pixels where the finished picture shows a point sample within 1/256 texel of a
+texel boundary: where D3D11 drivers may pick different texels (kit/d3d8on11/README.md). An upper bound.
+
+**Tested** (`kit/fcap/test/test_fcap.py`, Wine):
+- a program draws game-like frames through Wine's d3d8 with d3dprof and fcap attached as the kit attaches them, and
+  captures one. The frames hold write-only buffers filled before the captured frame, a dynamic buffer rewritten in it,
+  managed DXT1 and A8R8G8B8 textures, the three-stream character declaration, a state block applied, a render-to-texture
+  pass, fog, ZBIAS, ...UP draws and the readback's CopyRects;
+- replayed through Wine's d3d8: the picture equals the captured one exactly;
+- replayed through kit/d3d8on11: equal within 1 of 255.
+- The first replay through d3d8on11 found three of its gaps: normals normalized without D3DRS_NORMALIZENORMALS,
+  SetClipPlane, and CopyRects from an image surface. All three are fixed.
 
 ## Finding which functions break the picture (`bisect=1`)
 

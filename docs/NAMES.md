@@ -60,7 +60,7 @@ This round named the graphics functions that were still `sub_XXXX`: 154 in `tree
 | Address | Name | Conf. | In tree | Summary |
 |---|---|---|---|---|
 | `0x10001240` | `CApp_Constructor` | high |  | Constructs CApp: stores CApp_vtbl, duplicates two strings and the data-manager version string, installs a low-level keyboard hook, resets g_pCamera and creates g_pEnv. |
-| `0x100014A0` | `App_ForceForegroundWindow` | high |  | Forces the game window to the foreground: attaches thread input, temporarily zeroes the foreground lock timeout, calls SetForegroundWindow and restores the timeout; skipped unless window mode is 0. |
+| `0x100014A0` | `App_ForceForegroundWindow` | high |  | Forces the game window to the foreground: attaches thread input, reads the foreground lock timeout (SPI 0x2000) and sets it to 0 (SPI 0x2001), calls SetForegroundWindow, then sets the timeout to the address of the buffer it read into (`lea ecx,[esp+0x10]` / `push ecx` at 0x10001500), not to the value read; skipped unless window mode [0x10456A7C] is 0, its default (Config_SetDefaults). The main loop calls it every frame (CApp::RunMainLoop, LABEL_9). |
 | `0x10001520` | `CApp_RunMainLoop` | high | yes | CApp main loop: initialises CDx and input, creates the app/camera object, runs App_InitScene until done, then pumps PeekMessage and renders frames until WM_QUIT, finally running shutdown. |
 | `0x100016C0` | `App_PreTranslateInputMessage` | medium |  | Per-message input pre-handler called before TranslateMessage: forwards IME messages (0x10F, 0x281-0x283), WM_CHAR/WM_ACTIVATE/WM_KEYDOWN to the input and IME objects and mouse messages (0x200-0x20A) to the mouse handler, with client-area coordinate scaling. |
 | `0x10001B50` | `App_RenderFrameMaskedFPU` | medium |  | Masks all FPU exceptions, calls Frame_Render(g_pCamera), restores the FPU control word, and on success runs an update on off_103601BC; returns success. |
@@ -801,6 +801,62 @@ taken. The evidence below is ours; none of it rests on that repository.
 
 Not taken: `pGlobalNowZone` for 0x104DFD98 (the PS2 debug strings that would tie it are stripped on PC), and
 every other name and prototype in that repository. 107 globals remain unnamed.
+
+## 11 Oct 2026: names from the outside write-up, checked (36 functions, 2 not taken)
+
+The outside write-up (HISTORY.md, 11 Oct; docs/DECOMP_COMPARISON.md) names 38 functions that `tree/` still calls
+`sub_XXXX`. Its addresses were mapped to ours (data/outside_writeup_map.json) by signature (same bytes with
+relocations masked) or, failing that, by address drift with an equal span. Each name was then checked against
+our disassembly: the callees its entry names must be called here, or, where it names none or they are not
+called, the device calls, constants and callees here must fit the role it gives. The name is theirs; the check
+is ours. Names are in `data/names_pending_idb.json` (confidence medium, evidence naming the entry) and the
+regenerated `ida/ffxi_ida_fix.py`; `tree/` picks them up when it is next generated.
+
+| Ours | Name | Mapped by | Callees named / called | Checked |
+|---|---|---|---|---|
+| 0x10183760 | `XiZone_DrawEffectElementModel` | signature | 4 / 3 | 3 of its 4 named callees are called here; not called: 0x10181BB0. |
+| 0x100472F0 | `YmElem_RestoreDevice` | signature | - | Calls CMoDX_SetViewMatrix, one SetTransform and one SetRenderState. |
+| 0x1004E630 | `ScaleElemVisibilityByProbe` | signature | 1 / 0 | Calls Occlusion_QueryScreenRect with the viewport width and height. |
+| 0x10045920 | `YmElem_BuildDrawMatrixAndTest` | signature | - | Calls g_pProcessor's slot +0x8C, which is CMoProcessor_CalcScreenBoundsAndVisible in the x87 vtable (0x1032C368+0x8C = 0x1006ED10). |
+| 0x100538E0 | `YmGenerater_Stop` | drift | 2 / 2 | the callees it names are called here |
+| 0x1006AF00 | `StateBlockHolder_ApplyRenderStates` | signature | - | Device calls BeginStateBlock, SetRenderState, EndStateBlock, ApplyStateBlock. |
+| 0x1004A870 | `GateEffectBoxProjection` | signature | 1 / 0 | Calls Occlusion_QueryScreenRect with the viewport width and height. |
+| 0x1003E9A0 | `YmElem_SetD3ADrawState` | signature | 1 / 1 | the callees it names are called here |
+| 0x10185CA0 | `XiZone_DrawDecalOnTriangles` | signature | 2 / 2 | the callees it names are called here |
+| 0x10054D70 | `BeginEffectOffscreenPass` | signature | - | Pushes 0x100 (256), calls D3DXMatrixLookAtRH, CMoDX_PushViewMatrix, Clear and SetViewport. |
+| 0x10041AF0 | `YmElem_DrawFloatingText` | drift | 2 / 0 | Calls CXiActor_NameCalc and Font_DrawProjectedText3D. Neither callee their entry names is called directly. |
+| 0x1016FCD0 | `ParseZoneMeshData` | signature | - | 5 CreateVertexBuffer, 1 CreateIndexBuffer, 6 Lock/Unlock pairs. |
+| 0x1024CF50 | `StAvatarInit` | drift | - | Calls scnFini; BeginStateBlock and EndStateBlock through the device. |
+| 0x1017B510 | `XiZone_Draw` | signature | 1 / 1 | the callees it names are called here |
+| 0x100141C0 | `Game_InGameSubState0` | drift | 1 / 0 | Writes [0x103D3CB8]->+8, plus 1, to word 0x104568F8 when non-zero, then CDx_StepFadeCounter and App_AdvanceSeqStep; returns 1. The callee their entry names (0x10014200) is not called. |
+| 0x10075700 | `TextureHolder_BindWarped` | signature | - | Uses fsin; 3 SetTexture, 2 SetRenderState, DynVB_Lock/Unlock, then 0x10043F40. |
+| 0x1006C530 | `DrawScreenProbe` | drift | 1 / 1 | the callees it names are called here |
+| 0x10177CD0 | `XiZone_DrawMarkerForward` | drift | - | 12 instructions: forwards to Dbg_DrawWireMesh. |
+| 0x1003BE10 | `YmGenerater_BuildAttachMatrix` | signature | 2 / 2 | the callees it names are called here |
+| 0x10086900 | `DrawNameplateSecondString` | signature | - | CDx_DrawPrimitiveUP per glyph; 3 SetRenderState, 1 SetVertexShader. |
+| 0x100412B0 | `YmElem_DrawSpecular` | drift | 3 / 2 | 2 of its 3 named callees are called here; not called: 0x1006DCF0. |
+| 0x102501C0 | `StAvatarRender` | signature | - | ApplyStateBlock and Clear through the device; Dancer callees. |
+| 0x10183490 | `XiZone_DrawModelAtMatrix` | drift | 6 / 3 | 7 SetTextureStageState, SetTransform, Gfx_SetZBias, CDx_DrawPrimitive. Their entry says it is never called: it is called once, from 0x100431B0 (which has no direct callers). |
+| 0x10043F40 | `VertexBatch_BindAndDraw` | signature | 1 / 1 | the callees it names are called here |
+| 0x100426F0 | `YmElem_DrawScreenDistortion` | drift | - | Two CDx_GetRenderTargetTop, a device slot +0x80 call, 4 SetTexture, DynVB_Lock/Unlock. |
+| 0x10044F10 | `YmElem_ComputeViewDepthKey` | signature | - | Calls g_pProcessor's slot +0x50 (the point transform: 0x1006D720 x87, 0x1006F800 SSE, 0x10070960 3DNow) three times on this+0x188. |
+| 0x1017C9C0 | `XiZone_DrawElement` | signature | - | 19 SetRenderState, 8 LightEnable, CDx_SetLight, Env_ComputeAmbient, DrawIndexedPrimitive and DrawPrimitive. |
+| 0x10054F80 | `EndEffectOffscreenPass` | signature | 1 / 1 | the callees it names are called here |
+| 0x10184C90 | `XiZone_DrawGroundShadowQuad` | signature | 3 / 3 | the callees it names are called here |
+| 0x100441C0 | `CameraCache_CacheViewProjection` | drift | 1 / 1 | the callees it names are called here |
+| 0x100759C0 | `TextureHolder_BindTinted` | signature | - | 5 SetTexture, 5 SetRenderState, DynVB_Lock/Unlock, StateBlock_ApplyRSTSS. |
+| 0x10042020 | `YmDamValueProgElem_Step` | drift | 2 / 2 | the callees it names are called here |
+| 0x100467E0 | `YmElem_SetupDevice` | signature | 4 / 3 | 3 of its 4 named callees are called here; not called: 0x1000BD50. |
+| 0x10063C80 | `YmElem_ForEachInstance` | signature | - | Calls a callback through its stack argument ([esp+0xA6C]) per instance; uses g_pProcessor's slot +0x50. |
+| 0x1003EB30 | `YmElem_DrawD3AFromBatch` | drift | 3 / 0 | 15 instructions: passes this+0x104's model to 0x1003E910, which calls TexRef_SetTexture, 0x1003E9A0 and 0x10043F40 (the callees their entry names). The draw is in 0x1003E910. |
+| 0x10029A50 | `CreateSharedVertexBuffers` | drift | - | 4 CreateVertexBuffer; calls Model_CreateTranslucentTargets and Post_CreateScreenEffectTargets. |
+
+Not taken:
+- 0x101D0B00, their `DrawCornerTextLine` ("Draw a fixed text line at the corner of the world texture"): Draws through 0x101D0C40 and 0x101C9B50 at a position from the render target size; nothing in the code shows text or a fixed line.
+- 0x1006B480, their `EffectRefreshTask::Step` ("Effect-world refresh task step"): 20 instructions calling 0x10069EE0, 0x100441C0 and 0x1006A180; the callee their entry names (0x10008830) is not called and nothing in the code says "refresh".
+
+Corrections to their entries found while checking: 0x10183490 is called (from 0x100431B0), not "never called";
+0x1003EB30 is a 15-instruction wrapper, and the draw their entry describes is in 0x1003E910, which it calls.
 
 ## 2 Oct 2026: globals and callees
 

@@ -100,8 +100,8 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     assumes 1 and 1.0, which the code's constants do not fix; each statistics line gives both as the last wait read them); and on which thread the limiter runs (the log names
     both threads once). The limiter's position relative to Present is not known either, so the lever counts a frame
     as through the hooks when the frame now or the one just presented went through them.
-  - What it does not do: go above 60. The game's step is `max(step, 1)` ticks (frame_cap_fps, below), so above 60
-    its time would run fast (docs/ROADMAP.md).
+  - What it does not do: go above 60. The game's step is `max(step, 1)` ticks (frame_cap_fps, below); what that
+    does above 60 in the running game has not been observed (docs/ROADMAP.md P4).
   - Measure: `xikit.log` each minute, `precise_pacing: N frames timed by the counter; the limiter waited X ms`; and
     the frame A/B (`ab_levers=precise_pacing`), whose mean frame should move from about 17.0 to 16.67 ms. Do not use
     it with `frame_cap_fps` (two pacers).
@@ -226,7 +226,8 @@ and set it again for another run.
   two actor call sites, which it tells apart by their return addresses. With its switches off it is gated: PASS against
   the game's function, 38 of 38 instructions covered (`test/test_speedfix.py`).
 - **frame_cap_fps above 60 is refused** (clamped to 60). The game advances its time by `max(step, 1)` ticks of
-  1/60 s per frame (`Camera_GetFrameScale`, docs/RENDERER.md 3a), so above 60 it would run faster than real time.
+  1/60 s per frame (`Camera_GetFrameScale`, docs/RENDERER.md 3a). By that reading, above 60 it would run faster than
+  real time. That reading has not been tested in the running game; the cap stays at 60 until it is.
   Below 60 the step is truncated to whole ticks: 60, 30, 20 and 15 keep game time equal to real time, and another cap
   is used but logged.
 - **Batching:** strips and fans are converted to lists only while FILLMODE is SOLID and SHADEMODE is GOURAUD (read

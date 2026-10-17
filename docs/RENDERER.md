@@ -175,7 +175,8 @@ What follows from the code:
 - **Above 60 fps (minimum 0):**
   - the average falls below 1, its truncation is 0, so `[this+0x28]` becomes 0;
   - `Camera_GetFrameScale` then returns 1.0 every frame, so the 112 users advance one full tick per frame.
-    At 120 fps, what they drive runs at twice real time;
+    By this reading, at 120 fps what they drive runs at twice real time. Not observed in the running game (17 Oct):
+    players run with the tick count at 0, and what they see has not been measured here;
   - 0x10456960 becomes `60 / 0`.
 
   Going past 60 therefore needs the step changed. Some users convert it to an integer (`(int64)step`) and

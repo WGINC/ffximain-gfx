@@ -174,17 +174,27 @@ and 112 functions see a full tick every frame.
   decision for the owner.
 - **Reaching 60 itself (17 Oct):** the limiter (0x10011A00) times frames with timeGetTime's whole milliseconds.
   With a tick count of 1 and a scale of 1.0 that gives 17 ms frames, 58.8 fps. speedfix's `precise_pacing` times it
-  with the performance counter instead, and `kit/sessions/perf60` measures it in the game. The owner's tick count and
-  scale are not established; the lever logs them.
-- **Why above 60 is not a setting (17 Oct):**
-  - The step is `max(step, 1)` ticks a frame (frame_cap_fps's note in kit/speedfix/README.md).
-  - Letting the limiter through faster (`[limiter+0x30]` = 0) still gives at least one tick a frame. So at 120 fps
-    the game's clock, Camera_GetFrameScale's 1.0 and everything that reads them run at twice real time.
-  - A higher rate needs the game's update separated from its rendering. The update would run on whole ticks and
-    the rendering would run as often as the device allows, with or without interpolation. Which of the 112
-    functions belong to the update is not established.
-  - Hundreds of fps reported on other machines (Vulkan on Linux) are not explained by anything established here.
-    Which counter measured them, and which client it was, is not known.
+  with the performance counter instead.
+  - The owner's tick count `[[0x104568FC]+0x30]` is 1 and the scale 1.0: speedfix logged both every minute of both
+    16 Oct runs.
+  - The tick count is the setting players change. The game's own setter is 0x1008A0E0, which writes it and the
+    global 0x1035B5E8. Ashita's fps addon finds the setter by a byte pattern (`81EC000100003BC174218B0D`, at
+    0x1008A0EA) and writes `+0x30` of the object the global at +0xC points to. Windower's `FrameRateDivisor`
+    (2 = 30 fps, 1 = 60, 0 = uncapped) is documented as the same setting. That it writes the same field is not
+    established: Windower's code has not been read here.
+  - On the owner's machine the game does not reach the limiter. Frames are 27 to 37 ms through dgVoodoo and through
+    ours, and the limiter waited 0 ms in nearly every minute after the login. `precise_pacing` changed nothing
+    measurable (both A/Bs within their spread). It matters only once frames are shorter than 16.7 ms.
+- **Above 60 (17 Oct, corrected):**
+  - From the code (docs/RENDERER.md 3a): with the tick count at 0 the limiter does not wait, and
+    `Camera_GetFrameScale` returns `max(step, 1)`, so each frame advances its 112 callers by at least one tick.
+  - What that does in the running game has not been observed here. Players run with the setting at 0 (Windower
+    `FrameRateDivisor 0`, Ashita's fps addon). An earlier note here said the game's time "would run at twice real
+    time" at 120 fps as a fact. It is a reading of the code, untested.
+  - The owner's friend reports hundreds of fps under Vulkan on Linux and says he ties the game's clock to the frame
+    rate. How, and what that does to the game's time, is not known here.
+  - A test that would settle it: the tick count set to 0 on a machine that runs above 60, and a clock in the game
+    (the Vana'diel clock, an animation, a walk over a known distance) timed against real time.
 
 ### P5. Startup and load time
 

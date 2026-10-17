@@ -25,29 +25,33 @@ static double qpc_ms() {
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
 }
 // the executor's side of the stats: the time spent running records, per frame, split by kind (draws; texture and
-// buffer uploads; Present, which is IDXGISwapChain::Present and so includes any wait the swap chain makes; the rest).
+// buffer uploads; Present, which is IDXGISwapChain::Present and so includes any wait the swap chain makes; readbacks
+// (X_READBACK, which waits for the GPU to finish the copy it reads); the rest).
 // An X_OPTION (the A/B, d8_device.cpp) ends a phase: its figures are logged under the option's previous value and
 // added to that value's totals, leaving out the first `settle` frames after each switch.
 struct ExecStats {
-  enum { K_DRAW, K_UPLOAD, K_PRESENT, K_OTHER, NK };
+  enum { K_DRAW, K_UPLOAD, K_PRESENT, K_READBACK, K_OTHER, NK };
   double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
   // the A/B: the phase now running, its option value, frames still to leave out, totals per value (0 and 1)
   bool ab = false; uint32_t value = 0, settle = 0, phase = 0, pframes = 0; double pbusy[NK] = {}, tbusy[2][NK] = {}; uint32_t tframes[2] = {};
   static int kind(uint16_t op) {
-    return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT : K_OTHER;
+    return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT :
+           op == X_READBACK ? K_READBACK : K_OTHER;
   }
-  static double sum(const double *b) { return b[0] + b[1] + b[2] + b[3]; }
+  static double sum(const double *b) { double s = 0; for (int k = 0; k < NK; k++) s += b[k]; return s; }
   void phase_end() {
     if (!ab) return;
     if (pframes) {
       uint32_t v = value ? 1 : 0;
       d8_log("executor ab: phase %u, filter=%u, %u frames: busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, "
-             "other %.3f)", phase, value, pframes, sum(pbusy) / pframes, pbusy[0] / pframes, pbusy[1] / pframes, pbusy[2] / pframes, pbusy[3] / pframes);
+             "readbacks %.3f, other %.3f)", phase, value, pframes, sum(pbusy) / pframes, pbusy[0] / pframes, pbusy[1] / pframes,
+             pbusy[2] / pframes, pbusy[3] / pframes, pbusy[4] / pframes);
       for (int k = 0; k < NK; k++) tbusy[v][k] += pbusy[k];
       tframes[v] += pframes;
       for (int i = 0; i < 2; i++) if (tframes[i])
-        d8_log("executor ab: so far filter=%d: %u frames, busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, other %.3f)",
-               i, tframes[i], sum(tbusy[i]) / tframes[i], tbusy[i][0] / tframes[i], tbusy[i][1] / tframes[i], tbusy[i][2] / tframes[i], tbusy[i][3] / tframes[i]);
+        d8_log("executor ab: so far filter=%d: %u frames, busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, "
+               "readbacks %.3f, other %.3f)", i, tframes[i], sum(tbusy[i]) / tframes[i], tbusy[i][0] / tframes[i],
+               tbusy[i][1] / tframes[i], tbusy[i][2] / tframes[i], tbusy[i][3] / tframes[i], tbusy[i][4] / tframes[i]);
     }
     for (int k = 0; k < NK; k++) pbusy[k] = 0;
     pframes = 0;
@@ -73,9 +77,9 @@ struct ExecStats {
   void finish() { phase_end(); if (frames) report(); }
   void report() {
     double now = qpc_ms(), span = since ? now - since : 0;
-    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time; draws %.3f, uploads %.3f, Present %.3f, other "
-           "%.3f), %u records a frame", frames, sum(busy) / frames, span > 0 ? 100.0 * sum(busy) / span : 0.0,
-           busy[0] / frames, busy[1] / frames, busy[2] / frames, busy[3] / frames, records / frames);
+    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time; draws %.3f, uploads %.3f, Present %.3f, "
+           "readbacks %.3f, other %.3f), %u records a frame", frames, sum(busy) / frames, span > 0 ? 100.0 * sum(busy) / span : 0.0,
+           busy[0] / frames, busy[1] / frames, busy[2] / frames, busy[3] / frames, busy[4] / frames, records / frames);
     for (int i = 0; i < NK; i++) busy[i] = 0;
     frames = records = 0; since = now;
   }

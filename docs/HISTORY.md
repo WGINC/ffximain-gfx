@@ -2090,3 +2090,82 @@ implemented; the game uses neither). test_d3d8on11.py stage 4 runs this comparis
 - Whether either measure moves the owner's frame rate.
 - `kit/sessions/perf60` measures both in the game (run 1 on dgVoodoo, `precise_pacing`'s A/B; run 2 on ours,
   `exec_ab`, then `precise_pacing`'s A/B), with render-thread samples throughout.
+
+## 17 Oct: the owner's perf60 runs (16 Oct, received 17 Oct)
+
+Two runs at the Port Jeuno plaza, standing. Both used kit 35fa886 with the perf60 speedfix, on build 6AC37846.
+- Run 1, process 2420: dgVoodoo 4.8.2.134.
+- Run 2, process 3128: ours, in `thread` mode.
+
+The machine is a native ARM64 CPU with the game emulated as x86, under the Parallels display driver (prl_umdd10).
+Two things differed between the runs:
+- The cpu tier: run 1 had the SSE tier. In run 2 the game had already chosen x87 before speedfix loaded.
+- The crowd: it was not controlled.
+
+So the runs are not compared with each other. Each A/B compares phases within one run.
+
+**The divisor (tick count) and scale:** `[limiter+0x30]` was 1 and `[timer+8]` 1.0 in every minute of both runs.
+The limiter and the frame callback ran on the same thread (4056; 1716).
+
+**`precise_pacing`: no measurable effect, and why.**
+- Run 1: A 34.09 ms, B 34.36 ms (+0.8%). Phases of one label differ by up to 3.52 ms.
+- Run 2: A 35.00 ms, B 35.88 ms (+2.5%). Phases of one label differ by up to 3.49 ms.
+- The cause, from the log: the frames never reached the limiter's wait. After the first minute (the login), the
+  limiter waited 0 ms in every minute of run 1. In run 2 it waited 0 to 1.3 s a minute, 140 to 226 waits among
+  about 1,850 frames.
+- Frames were 31 to 36 ms, so the 16.7 ms limit never applied. The lever stays off by default and waits until
+  frames are shorter than 16.7 ms.
+
+**`exec_filter` (ours): faster in every phase.** 16 phases of 30 s, 8 each way, the first 60 frames of each left
+out (d3d8on11.log, `executor ab:`):
+
+| | filter off (8 phases) | filter on (8 phases) | on − off |
+|---|---|---|---|
+| The game's frame, mean of phases | 34.54 ms (32.93 to 36.92) | 29.07 ms (26.78 to 31.02) | −5.46 ms (−15.8%) |
+| Executor busy a frame | 33.52 ms (31.98 to 35.60) | 26.83 ms (24.87 to 28.50) | −6.69 ms (−20.0%) |
+| of which draws | 15.78 | 9.54 | −6.24 |
+| uploads | 3.68 | 3.70 | |
+| Present | 0.12 | 0.12 | |
+| other | 13.90 | 13.40 | |
+
+- The slowest phase with the filter on was faster than the fastest phase with it off, for both measures.
+- The difference exceeds the spread within either label (4.24 ms and 3.63 ms at most), so it meets the rule set
+  before the run (kit/sessions/perf60/README.md). `exec_filter` now defaults to 1 (d8_device.cpp). The tests run the
+  unfiltered baseline with `D8ON11_EXEC_FILTER=0`, and check that the filter is on when nothing sets it.
+- Switching the filter cannot leave stale state: an X_OPTION makes the executor forget what it set
+  (d8_exec.cpp:639).
+
+**Where ours spends its frame** (ring and executor stats, 600-frame lines):
+- The executor is busy 92 to 97% of the time. It is the bottleneck on this machine.
+- The game thread waits 15 to 24 ms a frame "for answers": the synchronous calls (X_READBACK, X_FINISH,
+  X_INIT, X_RESIZE). It waits 0 ms for room and 0 ms for pacing.
+- The render-thread samples agree. 66.5% of them are under the occlusion readback 0x1006C8B0, at its LockRect
+  (return address 0x1006C91F, IDirect3DSurface8::LockRect, vtable +0x24).
+- The executor's "other" (13 to 15 ms a frame) is every record that is not a draw, an upload or Present. That
+  includes X_READBACK, which waits for the GPU. How much of it is the readback is not established. The stats now
+  give readbacks their own figure (d8_link.cpp, `readbacks`).
+
+**Where dgVoodoo's frame goes** (run 1, samples of the last 600 frames, 10,463 at 1 ms; the time spent in other
+modules, by the game function that called there):
+- the occlusion readback's LockRect (0x1006C91F): 25.0%;
+- SkinAndDrawV2's call (0x1002A034, the forked copy in speedfix): 18.6%;
+- EndScene: 16.6%. This is Frame_Render's call to 0x10009740 at return 0x10012AFA, which calls device vtable
+  +0x8C, slot 35, IDirect3DDevice8::EndScene;
+- Gfx_SetStreamSourceCached (0x1002F150): 3.5%;
+- Cell_DrawQuadBlended: 2.9%.
+
+As in the 13 Oct run, 74 to 77% of samples report EIP 0x00010002 (task 34, not established).
+
+**The exploding vertices on new actors:**
+- The owner reports them "after a bit, not at the beginning". The logs do not record when, or in which run.
+- The A/Bs switched only:
+  - `precise_pacing`: the limiter's wait and rate entry. These do not touch vertices.
+  - `exec_filter`, in run 2 only. Switching it resets its shadow.
+- `vs_dedupe` (read again): it shares only fixed-function shaders (no function) whose declaration tokens and usage
+  are identical.
+- Not ruled out, as on 13 Oct:
+  - sse_skinning, which was switched on live in both runs ("the game's SSE flag is 0");
+  - cpu_tier: SSE in run 1, x87 in run 2;
+  - skin_merge and the other levers;
+  - the machine.
+- Which run showed them decides one of these. If run 2 did, the SSE math tier is ruled out, because run 2 ran x87.

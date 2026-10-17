@@ -27,8 +27,9 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   if (!link) link = link_make("direct");
   d8_log("executor: %s", link->name());
   // exec_filter=1: the executor skips the Direct3D 11 calls that set what is already set (d8_exec.cpp, Exec::draw);
-  // D8ON11_EXEC_FILTER overrides it. exec_ab=1: the A/B below, from the setting's value
-  ab.filter = (int)GetPrivateProfileIntA("d3d8on11", "exec_filter", 0, ini);
+  // D8ON11_EXEC_FILTER overrides it. The default is 1: the owner's exec_ab run of 16 Oct (docs/HISTORY.md, 17 Oct),
+  // every phase with it faster than every phase without. exec_ab=1: the A/B below, from the setting's value
+  ab.filter = (int)GetPrivateProfileIntA("d3d8on11", "exec_filter", 1, ini);
   ne = GetEnvironmentVariableA("D8ON11_EXEC_FILTER", env, sizeof env);
   if (ne > 0 && ne < sizeof env) ab.filter = atoi(env);
   ab.on = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab", 0, ini);

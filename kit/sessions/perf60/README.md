@@ -8,10 +8,11 @@ What these runs answer:
 - **Where does the render thread's time go?** (`sample=1`). The answer shows what stands between the game and 60
   where it does not reach 60.
 
-Neither run goes above 60. The game's time step is whole ticks of 1/60 s, at least one a frame. Above 60 the
-game's time would run fast (docs/ROADMAP.md P4). Your friend's hundreds of frames a second under Vulkan on Linux is
-not explained by anything established here. Which frame rate counter they use, and whether they run a patch or a
-private server's client, is not known. A frame log from their machine would say.
+Neither run goes above 60. From the game's code, each frame advances the game's time by at least one tick of
+1/60 s (docs/RENDERER.md 3a). What that does above 60 in the running game is not established here (docs/ROADMAP.md
+P4). Your friend's hundreds of frames a second under Vulkan on Linux is not explained by anything established here.
+Which frame rate counter they use, and how they tie the game's clock to the frame rate, is not known. A frame log
+from their machine would say.
 
 Each run's settings are in its folder. Copy them over the ones in the PlayOnlineViewer folder, and keep yours aside.
 Every run writes a new log folder (`log_folder=1`); send that folder.

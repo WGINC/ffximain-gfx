@@ -38,10 +38,10 @@ code that uses Direct3D 11.
   - Chosen by `d3d8on11.ini` next to the DLL (`[d3d8on11]` `mode=direct|thread|remote`), or the `D8ON11_MODE`
     environment variable, which wins. The log's second line names the mode in use.
   - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame, split into draws, uploads,
-    Present and the rest) and, in `thread` and `remote`,
+    Present, readbacks and the rest) and, in `thread` and `remote`,
     `ring stats`: how long the game thread waited for room, for pacing and for answers, and the MB it sent. In
     `remote` mode the executor's line is in `d3d8on11_exec.log`.
-  - The executor filter, `exec_filter=1` in `d3d8on11.ini` (`D8ON11_EXEC_FILTER` wins; default 0): a draw skips the
+  - The executor filter, `exec_filter=1` in `d3d8on11.ini` (`D8ON11_EXEC_FILTER` wins; default 1 since the owner's run of 16 Oct, `exec_filter=0` turns it off): a draw skips the
     Direct3D 11 calls that would set what the executor last set (shaders, layout, states, views, samplers, buffers,
     viewport, topology), the constant-buffer writes whose bytes equal the last, and the key and description lookups
     of a draw like the one before it. Whatever else sets context state (Clear of rectangles, render targets, a swap

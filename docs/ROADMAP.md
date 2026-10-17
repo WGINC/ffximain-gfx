@@ -7,6 +7,9 @@ The owner's goals, as stated on 6 Oct:
 
 docs/RENDERER.md, written earlier, phrased the third as "a possible graphical overhaul".
 
+**17 Oct:** docs/REEVALUATION.md re-reads all of the work and data from scratch, corrects what did not hold, and
+sets three tests (T1–T3) that bound what this machine can reach before any further lever work.
+
 This document charts the performance patch step by step, and lists for each goal what it needs and what exists
 already. Every number names its source. Where something has not been measured or established, the text says so.
 

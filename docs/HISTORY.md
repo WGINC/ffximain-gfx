@@ -2169,3 +2169,17 @@ As in the 13 Oct run, 74 to 77% of samples report EIP 0x00010002 (task 34, not e
   - skin_merge and the other levers;
   - the machine.
 - Which run showed them decides one of these. If run 2 did, the SSE math tier is ruled out, because run 2 ran x87.
+
+## 17 Oct: re-evaluation from scratch (docs/REEVALUATION.md)
+
+The owner asked for everything to be re-read with nothing assumed. Corrections that came out of it:
+- "Frames are flat at 30–35 ms whatever the levers" (said in conversation) is wrong. The plaza ran at about 70 ms
+  without speedfix. The levers took it to about 34 ms (session 1); `sse_skinning` and `batch_up_draws`+`lazy_state`
+  were measured singly at −14.5 and −8.2 ms.
+- Session 5's `skip_all_occlusion_readbacks` A/B did not test the readback: its own count says none were requested
+  after the first minute. "Removing the readback moves the wait elsewhere" (said in conversation) has no source and
+  is withdrawn. On 16 Oct the readback was under 25% (dgVoodoo) and 66.5% (ours) of render-thread samples.
+- No scene in any run has been measured at or below 16.7 ms. The lightest, 819 draws with every lever on, ran at
+  17.5–19.4 ms (p50).
+Never measured, and deciding where 60 can come from: the GPU's time a frame, the game's own CPU time without
+rendering, and the frame with the readbacks really removed. Tests T1–T3 in that document measure them.

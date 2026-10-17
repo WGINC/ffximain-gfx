@@ -2041,3 +2041,52 @@ not pure, was measured; the lists are the runtime's data, not the driver's). Onl
 Ours now creates all three types from these lists. `t8 sbtypes` through ours, direct mode, against the runtime: every
 row that both measure agrees; 9 rows are not measured on ours (its pixel shaders and shader constants are not
 implemented; the game uses neither). test_d3d8on11.py stage 4 runs this comparison.
+
+## 17 Oct: toward 60 fps: the game's limiter paced by the counter, and the executor filter measured offline
+
+**The limiter, from the game's code.** Read by disassembly of FFXiMain.dll, with the imports named by pefile:
+- The frame limiter is 0x10011A00, called from 0x10001B74. Its loop calls `Sleep(1)` (import 0x103290F8) while
+  60 / (scale x rate) is below the tick count `[limiter+0x30]`.
+- The rate is the timer's vtable 0x1032A118 slot 9, 0x10019550. It computes 1000 / (timeGetTime (import 0x10329400)
+  - `[t+0x1C]` - `[t+0xC]`), counting 0 ms as 1, and stores the result at `[t+4]`.
+- The lap is slot 8, 0x100194F0. The scale is `[t+8]` (0x10019230).
+- The limiter's second loop runs only on a NaN.
+- With whole milliseconds, a tick count of 1 and a scale of 1.0, no frame is shorter than 17 ms: 58.8 fps. The tick
+  count and scale in the owner's game are not established.
+
+**speedfix `precise_pacing`** (off by default):
+- The rate entry, for the limiter's three calls (by return address), uses QueryPerformanceCounter from the last
+  frame's start.
+- The wait at 0x10012B05 sleeps on a high-resolution waitable timer and then spins to the moment.
+- Other callers of the rate, and frames not through the hooks, get the game's code.
+- Which thread runs the limiter, and where it sits relative to Present, are not established. The log names the
+  threads, and the tick count and scale, as the last wait read them.
+- Tested in sf_host (Wine) on the game's own limiter code (0x10012B05 to the lap call):
+  - On: median 16.674 ms, ticks adding up to the counter's time.
+  - Off: every frame whole ms and 17 or more.
+- It does not go above 60. The step is `max(step,1)` ticks, so the game's time would run fast. docs/ROADMAP.md P4
+  says what going above 60 needs. Nothing here explains the hundreds of fps reported under Vulkan on Linux.
+
+**The executor filter (d3d8on11 `exec_filter`), offline.**
+- Setup: the owner's three 16 Oct frame captures (`2026-10-16_201622_3056`), each replayed 20 times with a
+  Present after each.
+- Configurations: through Wine's d3d8 and through ours (`direct` and `thread`, filter off and on), two rounds in
+  reverse order.
+- Machine: this container, Wine with Mesa llvmpipe. These are not figures for the owner's machine. Part of capture
+  0's runs overlapped the speedfix tests.
+- The executor's stats line is now also written at shutdown, so short runs get one.
+- Results, executor draw time a frame (mean of the six runs per configuration):
+
+| Mode | filter=0 | filter=1 |
+|---|---|---|
+| direct | 24.9 ms | 17.1 ms |
+| thread | 31.6 ms | 20.9 ms |
+
+- Filter on was lower in all 12 paired runs.
+- Present dominates the executor's time here (286 to 354 ms of llvmpipe rasterising), so whole-frame times
+  (ours 302 to 380 ms, Wine's 243 to 308 ms) say nothing about the filter. They also say nothing about a GPU.
+
+**Not known yet:**
+- Whether either measure moves the owner's frame rate.
+- `kit/sessions/perf60` measures both in the game (run 1 on dgVoodoo, `precise_pacing`'s A/B; run 2 on ours,
+  `exec_ab`, then `precise_pacing`'s A/B), with render-thread samples throughout.

@@ -32,6 +32,8 @@ struct SfConfig {
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
   int block_cache;          // applying a state block recorded on the render thread sets what it holds in the shadow
                             // instead of forgetting everything (sf_device.cpp)
+  int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
+                            // (sf_main.cpp): 60.0 fps instead of 58.8
 };
 extern SfConfig sf_cfg;
 

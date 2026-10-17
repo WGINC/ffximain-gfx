@@ -28,7 +28,8 @@ enum : uint16_t {
   X_PRESENT,         // (no payload)
   X_READBACK,        // sync: XRef -> the subresource's rows (pitch packed)
   X_FINISH,          // sync: nothing; answered when everything before it has run
-  X_QUIT             // the executor process ends
+  X_QUIT,            // the executor process ends
+  X_OPTION           // XOption: an executor switch (the A/B of d3d8on11.ini's exec_ab, d8_device.cpp)
 };
 #define X_BACKBUFFER 1u
 
@@ -49,6 +50,8 @@ struct XUpBuf { uint32_t id, offset, length; };
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
 struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
 struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels
+enum : uint32_t { OPT_FILTER = 1 };
+struct XOption { uint32_t key, value, settle; };   // settle: frames after it that the executor's phase figures leave out
 struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };
 
 // ---- draws: the fixed-function pipeline as generated shaders (d8_ff.cpp decides, d8_exec.cpp draws) ------------------
@@ -110,7 +113,7 @@ struct XDraw {
   uint32_t ibytes, i32;                 // XD_UP_INDEXED / XD_INLINE_INDEXED: index bytes that follow the vertices; 32-bit
 };
 
-static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32, "the stream's layout");
+static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
 static_assert(sizeof(XDraw) == 3196 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&

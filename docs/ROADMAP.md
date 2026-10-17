@@ -172,6 +172,19 @@ and 112 functions see a full tick every frame.
   Both change what those 112 functions see, and Frame_Render is flag 4. This comes last, with its own tests.
 - **The under-count below 60 is a correctness issue as well as a performance one.** Fixing it is a separate
   decision for the owner.
+- **Reaching 60 itself (17 Oct):** the limiter (0x10011A00) times frames with timeGetTime's whole milliseconds.
+  With a tick count of 1 and a scale of 1.0 that gives 17 ms frames, 58.8 fps. speedfix's `precise_pacing` times it
+  with the performance counter instead, and `kit/sessions/perf60` measures it in the game. The owner's tick count and
+  scale are not established; the lever logs them.
+- **Why above 60 is not a setting (17 Oct):**
+  - The step is `max(step, 1)` ticks a frame (frame_cap_fps's note in kit/speedfix/README.md).
+  - Letting the limiter through faster (`[limiter+0x30]` = 0) still gives at least one tick a frame. So at 120 fps
+    the game's clock, Camera_GetFrameScale's 1.0 and everything that reads them run at twice real time.
+  - A higher rate needs the game's update separated from its rendering. The update would run on whole ticks and
+    the rendering would run as often as the device allows, with or without interpolation. Which of the 112
+    functions belong to the update is not established.
+  - Hundreds of fps reported on other machines (Vulkan on Linux) are not explained by anything established here.
+    Which counter measured them, and which client it was, is not known.
 
 ### P5. Startup and load time
 

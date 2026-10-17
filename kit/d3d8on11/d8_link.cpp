@@ -24,22 +24,67 @@ static double qpc_ms() {
   static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
 }
-// the executor's side of the stats: the time spent running records, per frame
+// the executor's side of the stats: the time spent running records, per frame, split by kind (draws; texture and
+// buffer uploads; Present, which is IDXGISwapChain::Present and so includes any wait the swap chain makes; the rest).
+// An X_OPTION (the A/B, d8_device.cpp) ends a phase: its figures are logged under the option's previous value and
+// added to that value's totals, leaving out the first `settle` frames after each switch.
 struct ExecStats {
-  double busy = 0, since = 0; uint32_t frames = 0, records = 0;
+  enum { K_DRAW, K_UPLOAD, K_PRESENT, K_OTHER, NK };
+  double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
+  // the A/B: the phase now running, its option value, frames still to leave out, totals per value (0 and 1)
+  bool ab = false; uint32_t value = 0, settle = 0, phase = 0, pframes = 0; double pbusy[NK] = {}, tbusy[2][NK] = {}; uint32_t tframes[2] = {};
+  static int kind(uint16_t op) {
+    return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT : K_OTHER;
+  }
+  static double sum(const double *b) { return b[0] + b[1] + b[2] + b[3]; }
+  void phase_end() {
+    if (!ab) return;
+    if (pframes) {
+      uint32_t v = value ? 1 : 0;
+      d8_log("executor ab: phase %u, filter=%u, %u frames: busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, "
+             "other %.3f)", phase, value, pframes, sum(pbusy) / pframes, pbusy[0] / pframes, pbusy[1] / pframes, pbusy[2] / pframes, pbusy[3] / pframes);
+      for (int k = 0; k < NK; k++) tbusy[v][k] += pbusy[k];
+      tframes[v] += pframes;
+      for (int i = 0; i < 2; i++) if (tframes[i])
+        d8_log("executor ab: so far filter=%d: %u frames, busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, other %.3f)",
+               i, tframes[i], sum(tbusy[i]) / tframes[i], tbusy[i][0] / tframes[i], tbusy[i][1] / tframes[i], tbusy[i][2] / tframes[i], tbusy[i][3] / tframes[i]);
+    }
+    for (int k = 0; k < NK; k++) pbusy[k] = 0;
+    pframes = 0;
+  }
+  void option(const uint8_t *p) {
+    const XOption &o = *(const XOption *)p;
+    if (o.key != OPT_FILTER) return;
+    phase_end();
+    if (ab || o.settle) { ab = true; phase++; }
+    value = o.value; settle = o.settle;
+  }
   void ran(uint16_t op, double ms) {
-    busy += ms; records++;
-    if (op != X_PRESENT || ++frames < STATS_EVERY) return;
+    int k = kind(op);
+    busy[k] += ms; records++;
+    if (ab && !settle) pbusy[k] += ms;
+    if (op != X_PRESENT) return;
+    if (ab) { if (settle) settle--; else pframes++; }
+    if (++frames < STATS_EVERY) return;
+    report();
+  }
+  // the stats line for the frames since the last one; also at shutdown (finish), so that a run shorter than
+  // STATS_EVERY Presents (a replay) still gets one, and the A/B's last phase is logged
+  void finish() { phase_end(); if (frames) report(); }
+  void report() {
     double now = qpc_ms(), span = since ? now - since : 0;
-    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time), %u records a frame", frames, busy / frames,
-           span > 0 ? 100.0 * busy / span : 0.0, records / frames);
-    busy = 0; frames = records = 0; since = now;
+    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time; draws %.3f, uploads %.3f, Present %.3f, other "
+           "%.3f), %u records a frame", frames, sum(busy) / frames, span > 0 ? 100.0 * sum(busy) / span : 0.0,
+           busy[0] / frames, busy[1] / frames, busy[2] / frames, busy[3] / frames, records / frames);
+    for (int i = 0; i < NK; i++) busy[i] = 0;
+    frames = records = 0; since = now;
   }
 };
 
 // ---- the reader (the executor's side) -----------------------------------------------------------------------------
 void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wake, HANDLE space, HANDLE replied, HANDLE parent) {
   std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms();
+  struct Finish { ExecStats &s; ~Finish() { s.finish(); } } fin{xs};   // every return below logs the last figures
   for (;;) {
     uint32_t r = h->read, w = ld(&h->write);
     if (r == w) {
@@ -64,6 +109,7 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
       double t0 = qpc_ms();
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
       xs.ran(hd->op, qpc_ms() - t0);
+      if (hd->op == X_OPTION) xs.option((const uint8_t *)(hd + 1));
       if (is_sync(hd->op)) {
         uint32_t n = (uint32_t)out.size();
         if (n > h->reply_max) { d8_log("a reply of %u bytes is larger than the reply area (%u): cut", n, h->reply_max); n = h->reply_max; }
@@ -253,13 +299,14 @@ struct DirectLink : Link {
   Exec x; std::vector<uint8_t> buf; uint32_t n = 0; uint16_t op = 0; int32_t hr = 0; std::vector<uint8_t> out; ExecStats xs;
   CRITICAL_SECTION lock;
   DirectLink() { InitializeCriticalSection(&lock); xs.since = qpc_ms(); }
-  ~DirectLink() override { x.shutdown(); }
+  ~DirectLink() override { xs.finish(); x.shutdown(); }
   uint8_t *begin(uint16_t o, uint32_t bytes) override { EnterCriticalSection(&lock); op = o; n = bytes; buf.resize(bytes ? bytes : 1); return buf.data(); }
   void end() override {
     out.clear(); hr = 0;
     double t0 = qpc_ms();
     x.run(op, buf.data(), n, &hr, &out);
     xs.ran(op, qpc_ms() - t0);
+    if (op == X_OPTION) xs.option(buf.data());
     if (!is_sync(op)) LeaveCriticalSection(&lock);
   }
   int32_t answer(std::vector<uint8_t> *o) override { if (o) *o = out; int32_t r = hr; LeaveCriticalSection(&lock); return r; }

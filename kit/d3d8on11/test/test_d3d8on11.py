@@ -19,6 +19,8 @@ not failed, and that scene is held to the next stage instead:
      edge, or a texture coordinate on a texel boundary, is a tie each rasterizer's rounding decides (every such
      pixel of 14 Oct was computed to be one: docs/HISTORY.md). REF_SKIP lists the scenes not compared, and why.
 
+The executor's filter (exec_filter=1) is run in each mode too, and must draw exactly what direct mode draws without it.
+
     python3 test_d3d8on11.py          (after build.sh; needs wine, xvfb-run)"""
 import os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); D8 = os.path.join(H, '..')
@@ -115,6 +117,15 @@ for m in MODES:
           open(os.path.join(w, 'scene_%s.png' % n), 'wb').write(png)
   for n in sb:
       if n not in sa: print('FAIL %-32s only ours drew it' % n); bad += 1
+# the executor's filter (exec_filter, D8ON11_EXEC_FILTER: binds that repeat what is set are skipped) must draw exactly
+# what it draws without the filter, in each mode
+for m in MODES:
+    if not first: break
+    sf = scenes(ours, True, m, {'D8ON11_EXEC_FILTER': '1'})
+    same = sf == first[1]; bad += not same
+    print('%s: %s mode with the executor filter drew exactly what %s mode drew without it (%d scenes)' % ('ok' if same else 'FAIL', m, first[0], len(sf)))
+    for n in sorted(set(sf) | set(first[1])):
+        if sf.get(n) != first[1].get(n): print('  differs: %s' % n)
 # 4. Microsoft's DirectX 8.1 runtime with its reference device (D3DDEVTYPE_REF), against ours in direct mode
 REF_TOL = 3
 REF_SKIP = {'zbias': 'the reference device does not report D3DPRASTERCAPS_ZBIAS (RasterCaps 0x00772199) and ignores it',

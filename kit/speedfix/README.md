@@ -34,6 +34,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
+| `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -86,6 +87,24 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   handles anywhere (no such use has been seen), and whether Reset destroys vertex shaders on the owner's driver (the
   table is kept across Reset). Measure it by the creations it saves (`xikit.log`: `vs_dedupe:` each minute) and by
   the spike log (`spike_ms=50` in xikit.ini), not by the frame-time A/B: it acts while loading.
+- **precise_pacing: 60.0 frames a second instead of 58.8.** The game paces itself (sf_main.cpp's head lists each
+  instruction). Its limiter (in 0x10011A00) polls its timer's rate (0x10019550: 1000 / the ms since the last frame,
+  from timeGetTime, whole ms) and sleeps `Sleep(1)` until `60 / (scale * rate)` reaches `[limiter+0x30]` ticks of
+  1/60 s. With whole ms and one tick, 16 ms gives 0.96 and 17 ms gives 1.02, so each frame lasts at least 17 ms:
+  58.8 frames a second. The lever answers the limiter's three calls of the rate from the performance counter and
+  replaces its Sleep with a wait to the exact moment (a high-resolution timer, then a spin of about 1 ms). The game's
+  time stays exact: each frame's ms are measured from one frame's last rate call to the next, so they add up to the
+  counter's time (less the paused ms the timer keeps, which it still subtracts). Other callers of the rate get the
+  game's function. Off, or in a frame not through the hooks, the limiter is the game's (the counter is still read).
+  - Not established: the tick count `[limiter+0x30]` and the timer's scale (`+8`) in the owner's game (the 58.8
+    assumes 1 and 1.0, which the code's constants do not fix; each statistics line gives both as the last wait read them); and on which thread the limiter runs (the log names
+    both threads once). The limiter's position relative to Present is not known either, so the lever counts a frame
+    as through the hooks when the frame now or the one just presented went through them.
+  - What it does not do: go above 60. The game's step is `max(step, 1)` ticks (frame_cap_fps, below), so above 60
+    its time would run fast (docs/ROADMAP.md).
+  - Measure: `xikit.log` each minute, `precise_pacing: N frames timed by the counter; the limiter waited X ms`; and
+    the frame A/B (`ab_levers=precise_pacing`), whose mean frame should move from about 17.0 to 16.67 ms. Do not use
+    it with `frame_cap_fps` (two pacers).
 - **sse_skinning: frame time on CPUs the game does not call Intel.** On the owner's M5 MacBook Pro (Windows on ARM in
   Parallels, the game x86-emulated) the render thread spent 13.3% of its samples in the x87 skinning loop of
   0x1002F1D0, and none in its SSE loop (docs/HISTORY.md, run 6156).
@@ -164,7 +183,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
@@ -253,7 +272,12 @@ and set it again for another run.
   - merge_scenes: three scenes in a frame reach the device as one Begin and one End before Present, a CopyRects
     between scenes ends the held scene first, off again passes every scene;
   - motion_stats: frames with a fixed view and frames with a changing view are counted apart;
-  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code.
+  - skin_merge: on at the start, SkinAndDrawV2's entry jumps into speedfix.dll; off, it is the game's code;
+  - precise_pacing (a fifth run, `pacing`): the game's own limiter code (0x10012B05 to the lap at 0x10012BF5) runs on
+    a limiter object of the test's, with the imports it reaches filled in. On: both changes made, 240 frames at a
+    median of 16.674 ms (Wine, 17 Oct), the game's ticks equal to the counter's time within 0.1 tick, no frame timed
+    in whole ms; another caller of the rate gets the game's 1000 / whole ms; frames without the hooks get the game's
+    whole-ms timing; off again, every frame whole ms of 17 or more, the ticks within one of the time.
 - **The gate:** the query hook.
 
 `test/test_skinmerge.py` (FFXI_DLL; CAPTURES, a folder of the owner's SkinAndDrawV2 captures): the skin_merge fork,

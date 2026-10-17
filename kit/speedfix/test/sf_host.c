@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
 
 #define G_PCDX 0x1045666Cu
 static uint32_t rel;
@@ -105,9 +106,75 @@ static uint8_t g_cam[0x40];        /* [0x104568FC] -> +0x34: the frame counter (
 
 static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
 
+/* precise_pacing: the game's own limiter code, 0x10012B05 to the lap call at 0x10012BF5, run on a limiter object of the
+   test's (esi; [esi+0x1C] a timer with the game's vtable 0x1032A118). The DLL is mapped without its imports, so the
+   two the code reaches are filled in (timeGetTime 0x10329400, Sleep 0x103290F8). The lap (slot 8, 0x1032A138) goes
+   to lim_lap, which runs the game's lap (0x100194F0) and returns to the test instead of to 0x10012BF8. */
+static uint8_t g_lim[0x40], g_tim[0x20];
+uint32_t g_lim_sp, g_lim_entry, g_lap_orig;
+extern void run_limiter(void *obj);
+extern void lim_lap(void);
+__asm__(".globl _run_limiter\n_run_limiter:\n  push %ebp\n  push %ebx\n  push %esi\n  push %edi\n  mov 20(%esp), %esi\n"
+        "  mov %esp, _g_lim_sp\n  sub $0x40, %esp\n  xor %ebx, %ebx\n  jmp *_g_lim_entry\n"
+        ".globl _lim_lap\n_lim_lap:\n  call *_g_lap_orig\n  mov _g_lim_sp, %esp\n  pop %edi\n  pop %esi\n  pop %ebx\n  pop %ebp\n  ret\n");
+static LARGE_INTEGER g_qf;
+static double qms(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart * 1000.0 / (double)g_qf.QuadPart; }
+static int cmp_dbl(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
+/* k frames of the limiter, each after a frame through the hooks (scene) or not; the periods between the limiter's
+   returns, their median and mean, and the game's ticks over them ([esi+0x38] each frame, the fraction [esi+0x3C]).
+   g_whole: the frames after the first whose time, as the rate at 0x10012BCE stored it ([t+4] = 1000 / ms), is a whole
+   number of ms, 17 or more: the game's own timing (timeGetTime) and wait */
+static int g_whole;
+static double lim_frames(int k, int scene, double *mean, double *ticks, double *span) {
+  static double d[512]; double t0 = qms(), prev = t0, sum = 0; float f0 = *(float *)(g_lim + 0x3C); int tk = 0; g_whole = 0;
+  for (int i = 0; i < k && i < 512; i++) {
+    if (scene) { begin(); end(); }
+    present(); run_limiter(g_lim);
+    double t = qms(); d[i] = t - prev; prev = t; sum += d[i]; tk += *(int *)(g_lim + 0x38);
+    double e = 1000.0 / *(float *)(g_tim + 4); if (i && e > 16.5 && fabs(e - floor(e + 0.5)) < 1e-3) g_whole++;
+  }
+  *mean = sum / k; *ticks = tk + *(float *)(g_lim + 0x3C) - f0; *span = prev - t0;
+  qsort(d, k, sizeof d[0], cmp_dbl); return d[k / 2];
+}
+static int pacing_test(void) {
+  QueryPerformanceFrequency(&g_qf);
+  uint8_t *code = (uint8_t *)GAME(0x10012B05u);
+  void **vt = (void **)GAME(0x1032A118u);
+  check(vt[9] != (void *)GAME(0x10019550u), "precise_pacing=1 at the start: the timer's rate entry (1032A13C) no longer holds 10019550");
+  check(code[0] == 0xBD && code[5] == 0x90, "... and 10012B05 is mov ebp, imm32; nop (the wait thunk) instead of mov ebp, [Sleep]");
+  check(log_has("precise_pacing: the frame limiter's wait (10012B05) and its timer's rate entry (1032A13C) now go to speedfix"), "... logged");
+  /* another caller of the rate (this test, by its return address) gets the game's function: 1000 / whole ms */
+  { typedef float (__attribute__((thiscall)) *Rate)(void *); *(int *)(g_tim + 0xC) = (int)timeGetTime() - 40;
+    DWORD a = timeGetTime(); float r = ((Rate)vt[9])(g_tim); DWORD b = timeGetTime();
+    int lo = (int)(a - *(DWORD *)(g_tim + 0xC)), hi = (int)(b - *(DWORD *)(g_tim + 0xC)); int ok = 0;
+    for (int e = lo; e <= hi; e++) ok |= r == (float)(1000.0 / e) && *(float *)(g_tim + 4) == r;
+    check(ok, "another caller of the timer's rate runs the game's function (1000 / whole ms since the lap, stored at +4)"); }
+  double mean, ticks, span, med;
+  lim_frames(10, 1, &mean, &ticks, &span);           /* the counter's first base */
+  med = lim_frames(240, 1, &mean, &ticks, &span);
+  printf("    on: median %.3f ms, mean %.3f ms; game ticks %.3f over %.1f ms (%.3f by the counter)\n", med, mean, ticks, span, span * 0.06);
+  check(fabs(med - 1000.0 / 60) < 0.05 && fabs(mean - 1000.0 / 60) < 0.3, "precise_pacing=1: the game's limiter paces at 16.667 ms (median within 0.05, mean within 0.3)");
+  check(fabs(ticks - span * 0.06) < 0.1, "precise_pacing=1: the game's ticks add up to the counter's time (within 0.1 tick over 240 frames)");
+  check(g_whole < 5, "precise_pacing=1: the frames' times are the counter's, not whole ms (fewer than 5 of 240 whole by chance)");
+  med = lim_frames(12, 0, &mean, &ticks, &span);
+  printf("    on, frames without the hooks: median %.3f ms; %d of 11 timed in whole ms\n", med, g_whole);
+  check(g_whole == 11, "precise_pacing=1, frames without the hooks (after the first, whose frame before went through them): the game's own whole-ms timing and wait");
+  touch("speedfix.ini", "[speedfix]\nprecise_pacing=0\nstats_every=1\n");
+  lim_frames(70, 1, &mean, &ticks, &span);
+  med = lim_frames(120, 1, &mean, &ticks, &span);
+  printf("    off: median %.3f ms, mean %.3f ms; game ticks %.3f over %.1f ms (%.3f by the counter)\n", med, mean, ticks, span, span * 0.06);
+  check(g_whole == 119 && mean > 16.9, "precise_pacing=0 again: the game's own timing, every frame whole ms and 17 or more (58.8 fps)");
+  check(fabs(ticks - span * 0.06) < 1.0, "precise_pacing=0: the game's ticks still add up to the time (within a tick)");
+  check(log_has("precise_pacing: ") && log_has(" frames timed by the counter"), "the statistics line counts the frames the counter timed");
+  check(log_has("its tick count [+0x30] 1, its timer's scale [+8] 1.0000"), "... and names the limiter's tick count and its timer's scale (this host's: 1, 1.0)");
+  printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+  return fails ? 1 : 0;
+}
+
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
+  int pacing = argc > 1 && !strcmp(argv[1], "pacing");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -128,12 +195,21 @@ int main(int argc, char **argv) {
   *(void **)GAME(0x104568FCu) = g_cam;
   *(void **)GAME(0x104566E8u) = g_cpu;                /* +9 = 0: the game found no SSE (as on the owner's machine) */
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
+  if (pacing) {                                       /* pacing_test: the limiter's imports, its objects, its lap */
+    VirtualProtect((void *)GAME(0x10329000u), 0x2000, PAGE_READWRITE, &old);   /* the imports and the vtable (.rdata) */
+    *(void **)GAME(0x10329400u) = (void *)timeGetTime; *(void **)GAME(0x103290F8u) = (void *)Sleep;
+    g_lim_entry = (uint32_t)GAME(0x10012B05u); g_lap_orig = (uint32_t)GAME(0x100194F0u);
+    ((void **)GAME(0x1032A118u))[8] = (void *)lim_lap;
+    *(void **)g_tim = (void *)GAME(0x1032A118u); *(float *)(g_tim + 8) = 1.0f; *(DWORD *)(g_tim + 0xC) = timeGetTime();
+    *(void **)(g_lim + 0x1C) = g_tim; *(int *)(g_lim + 0x30) = 1;
+  }
   touch("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
   DeleteFileA("speedfix.ini");
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
   else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
+  else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
@@ -149,9 +225,10 @@ int main(int argc, char **argv) {
     void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
     if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
     int forked = m && m == GetModuleHandleA("speedfix.dll");
-    if (!minimal && !lazy && !blocks) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    if (!minimal && !lazy && !blocks && !pacing) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
     else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
   }
+  if (pacing) { frames(1); return pacing_test(); }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);

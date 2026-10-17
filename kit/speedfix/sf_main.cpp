@@ -39,6 +39,28 @@
 //                        of 1/60 s per frame (Camera_GetFrameScale, 0x10014CF0; docs/RENDERER.md 3a), so above 60 it
 //                        would run faster than real time. Below 60 the step is truncated to whole ticks, so 60, 30, 20
 //                        and 15 keep game time and real time equal; another value is used but logged.
+//   precise_pacing       The game's own frame limiter, timed with the performance counter instead of timeGetTime's
+//                        whole milliseconds. The limiter (in 0x10011A00; esi the limiter object, [esi+0x1C] its timer,
+//                        vtable 0x1032A118) waits in this loop:
+//                          0x10012B05  mov ebp, [Sleep]          (the import at 0x103290F8)
+//                          0x10012B1D  call [edx+0x30]           the timer's scale: fld [ecx+8] (0x10019230)
+//                          0x10012B28  call [eax+0x24]           the timer's rate (0x10019550): 1000 / ms since its lap,
+//                                                                timeGetTime - [t+0xC] - [t+0x1C] (the paused ms), 0 as 1
+//                          0x10012B35  v = 60 / (scale * rate)   ticks of 1/60 s; while v < [esi+0x30] (an int):
+//                          0x10012B60  Sleep(1), and again
+//                        then 0x10012BCB calls the rate once more: 60 / rate + the carried fraction [esi+0x3C] gives the
+//                        frame's whole ticks [esi+0x38] (_ftol 0x10311C2C), and 0x10012BF5 laps the timer (0x100194F0).
+//                        With whole milliseconds the wait ends at 17 ms when [esi+0x30] is 1 and the scale 1.0: 58.8
+//                        frames a second. (A second loop at 0x10012B7B runs only when the compare at 0x10012B72 is
+//                        unordered, a NaN: `test ah, 5; jp`.) This changes two things, both only for those calls:
+//                        the rate slot (0x1032A13C, holding 0x10019550) goes to sf_rate_thunk, which answers the three
+//                        calls returning to 0x10012B2B, 0x10012B94 and 0x10012BCE from the performance counter: the ms
+//                        since the call returning to 0x10012BCE a frame before, less [t+0x1C]; every other caller runs
+//                        the game's function. And 0x10012B05 becomes `mov ebp, sf_wait_thunk; nop`: the wait sleeps on
+//                        a high-resolution timer and spins the last ~1 ms to the moment v reaches [esi+0x30], instead
+//                        of Sleep(1) and polling. The game's time stays exact: each frame's ms run from one 0x10012BCE
+//                        call to the next, so they add up to the counter's time less the paused ms. Off, or a frame
+//                        without the hooks: the game's rate and Sleep (the counter is still read at 0x10012BCE).
 //   state_cache, vertex_shader_cache, extended_state_cache, state_cache_reset_each_scene, batch_up_draws,
 //   batch_up_max_prims, batch_up_max_bytes: sf_device.cpp.
 //
@@ -114,6 +136,10 @@ static const char kDefaultIni[] =
   "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
   ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
   "motion_stats=0\r\n"
+  "; the game's frame limiter timed with the performance counter instead of whole milliseconds, and its wait made\r\n"
+  ";   precise (a high-resolution timer, then a spin to the moment): 60.0 frames a second instead of 58.8. Live both\r\n"
+  ";   ways; use it without frame_cap_fps\r\n"
+  "precise_pacing=0\r\n"
   "; seconds between speedfix's statistics lines in xikit.log\r\n"
   "stats_every=60\r\n"
   "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
@@ -137,6 +163,7 @@ static SfConfig read_config(void) {
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.precise_pacing = rd("precise_pacing", 0);
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
@@ -155,9 +182,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -228,6 +255,120 @@ static void apply_texture(void) {
   if (want < 0) LOG("speedfix: texture_compression off: the game's value %u back (textures loaded from now on)", g_tex_orig);
   else LOG("speedfix: texture_compression %u -> %d (textures loaded from now on)", before, want);
 }
+// precise_pacing (head). Both thunks are reached only from the game's limiter, on the thread that runs it.
+static uintptr_t g_pp_rate_orig, g_pp_sleep;                 // the game's rate (0x10019550) and its Sleep import
+extern "C" { uintptr_t sf_pp_ret[3]; uintptr_t sf_pp_rate_orig; }   // 0x10012B2B, 0x10012B94, 0x10012BCE; the same rate
+static LARGE_INTEGER g_pp_qpf; static LONGLONG g_pp_base;    // the counter at the last call returning to 0x10012BCE
+static volatile LONG g_pp_frames, g_pp_waits, g_pp_sleeps, g_pp_late; static double g_pp_wait_ms; static DWORD g_pp_thread;
+typedef float (__thiscall *RateFn)(void *);
+// on, and the frame went through the hooks: the one now (the limiter ran before Present) or the one just presented
+// (it runs after Present, before the next BeginScene). Which of the two the game does is not established here.
+static bool pp_on(void) { return sf_cfg.precise_pacing && sf_frame_no - sf_hooks_frame <= 1; }
+extern "C" float __cdecl sf_rate(uint8_t *timer, uintptr_t ret) {
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  LONGLONG base = g_pp_base;
+  if (ret == sf_pp_ret[2]) g_pp_base = now.QuadPart;         // the next frame's start, whether on or off
+  if (!base || !pp_on()) return ((RateFn)g_pp_rate_orig)(timer);
+  double ms = (now.QuadPart - base) * 1000.0 / (double)g_pp_qpf.QuadPart - *(int32_t *)(timer + 0x1C);
+  if (!(ms > 0.001)) return ((RateFn)g_pp_rate_orig)(timer);  // (the paused ms exceed the counter's: the game's own)
+  float r = (float)(1000.0 / ms);
+  *(float *)(timer + 4) = r;                                 // as the game's rate stores it (0x10019583)
+  if (ret == sf_pp_ret[2]) g_pp_frames++;
+  return r;
+}
+static HANDLE g_pp_timer; static bool g_pp_timer_tried;
+static volatile int32_t g_pp_ticks; static volatile float g_pp_scale;   // as the last wait read them, for the log
+extern "C" void __cdecl sf_wait(uint8_t *obj, DWORD ms) {
+  if (!g_pp_thread) g_pp_thread = GetCurrentThreadId();
+  uint8_t *timer = *(uint8_t **)(obj + 0x1C);
+  int32_t ticks = *(int32_t *)(obj + 0x30);
+  float scale = *(float *)(timer + 8);
+  g_pp_ticks = ticks; g_pp_scale = scale;
+  LARGE_INTEGER t0; QueryPerformanceCounter(&t0);
+  if (!g_pp_base || !pp_on() || ticks <= 0 || !(scale > 0.0f && scale < 100.0f)) {
+    g_pp_sleeps++; ((void (WINAPI *)(DWORD))g_pp_sleep)(ms);
+  } else {
+    // the moment v = 60 / (scale * rate) reaches ticks: rate = 1000 / ms, so ms = ticks * 1000 * scale / 60 (+ 2 us,
+    // so that the game's float compare does not land a hair short and wait again)
+    double want = ticks * 1000.0 * scale / 60.0 + *(int32_t *)(timer + 0x1C) + 0.002;
+    LONGLONG end = g_pp_base + (LONGLONG)(want * (double)g_pp_qpf.QuadPart / 1000.0);
+    double remain = (end - t0.QuadPart) * 1000.0 / (double)g_pp_qpf.QuadPart;
+    if (remain > 1000.0) { remain = 1000.0; end = t0.QuadPart + g_pp_qpf.QuadPart; }   // the game asks again
+    if (remain > 0) {
+      if (!g_pp_timer_tried) {
+        g_pp_timer_tried = true;
+        typedef HANDLE (WINAPI *CWTEx)(LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD);
+        CWTEx f = (CWTEx)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExW");
+        g_pp_timer = f ? f(NULL, NULL, 0x2 /* CREATE_WAITABLE_TIMER_HIGH_RESOLUTION */, TIMER_ALL_ACCESS) : NULL;
+      }
+      if (remain > 1.5 && g_pp_timer) {         // sleep most of it on a high-resolution timer, spin the last ~1 ms
+        LARGE_INTEGER due; due.QuadPart = -(LONGLONG)((remain - 1.0) * 10000.0);
+        if (SetWaitableTimer(g_pp_timer, &due, 0, NULL, NULL, FALSE)) WaitForSingleObject(g_pp_timer, 1100);
+      } else if (remain > 1.5) ((void (WINAPI *)(DWORD))g_pp_sleep)((DWORD)(remain - 1.0));
+      LARGE_INTEGER t;
+      do { YieldProcessor(); QueryPerformanceCounter(&t); } while (t.QuadPart < end);
+    } else g_pp_late++;
+    g_pp_waits++;
+  }
+  LARGE_INTEGER t1; QueryPerformanceCounter(&t1);
+  g_pp_wait_ms += (t1.QuadPart - t0.QuadPart) * 1000.0 / (double)g_pp_qpf.QuadPart;
+}
+// thiscall, the timer in ECX: the limiter's three calls (by their return address) to sf_rate, every other to the game's
+asm(".text\n.globl _sf_rate_thunk\n_sf_rate_thunk:\n"
+    "  movl (%esp), %eax\n  cmpl _sf_pp_ret, %eax\n  je 1f\n  cmpl _sf_pp_ret+4, %eax\n  je 1f\n  cmpl _sf_pp_ret+8, %eax\n  je 1f\n"
+    "  jmp *_sf_pp_rate_orig\n"
+    "1:\n  pushl %eax\n  pushl %ecx\n  call _sf_rate\n  addl $8, %esp\n  ret\n");
+// in place of Sleep (stdcall, one argument), called with the limiter object in ESI
+asm(".text\n.globl _sf_wait_thunk\n_sf_wait_thunk:\n"
+    "  pushl 4(%esp)\n  pushl %esi\n  call _sf_wait\n  addl $8, %esp\n  ret $4\n");
+extern "C" void sf_rate_thunk(void); extern "C" void sf_wait_thunk(void);
+static bool g_pp_done;
+static void apply_precise_pacing(void) {
+  if (g_pp_done || !sf_cfg.precise_pacing) return;
+  g_pp_done = true;
+  QueryPerformanceFrequency(&g_pp_qpf);
+  volatile LONG *slot = (volatile LONG *)(uintptr_t)XI_GAME(0x1032A13Cu);      // the timer vtable's rate entry
+  uint8_t *mov = (uint8_t *)(uintptr_t)XI_GAME(0x10012B05u);
+  uintptr_t rate = XI_GAME(0x10019550u), imp = XI_GAME(0x103290F8u);
+  uint8_t expect[6] = {0x8B, 0x2D}, live[6];                                   // mov ebp, [imp]
+  memcpy(expect + 2, &imp, 4);
+  if ((uintptr_t)(uint32_t)*slot != rate) {
+    LOG("speedfix: precise_pacing not applied: the timer's rate entry at %08lX is %08lX, not %08lX", (unsigned long)(uintptr_t)slot,
+        (unsigned long)(uint32_t)*slot, (unsigned long)rate);
+    return;
+  }
+  if (!live_bytes(0x10012B05u, expect, 6, live)) {
+    LOG("speedfix: precise_pacing not applied: the bytes at 10012B05 are %02X %02X %02X %02X %02X %02X, not mov ebp, [Sleep]",
+        live[0], live[1], live[2], live[3], live[4], live[5]);
+    return;
+  }
+  g_pp_rate_orig = sf_pp_rate_orig = rate; g_pp_sleep = *(uintptr_t *)imp;
+  sf_pp_ret[0] = XI_GAME(0x10012B2Bu); sf_pp_ret[1] = XI_GAME(0x10012B94u); sf_pp_ret[2] = XI_GAME(0x10012BCEu);
+  DWORD old;
+  // the code first: until the slot changes, sf_wait sees no counter base and sleeps as the game does
+  if (!VirtualProtect(mov, 6, PAGE_EXECUTE_READWRITE, &old)) { LOG("speedfix: precise_pacing: VirtualProtect failed"); return; }
+  uintptr_t w = (uintptr_t)sf_wait_thunk; uint8_t code[6] = {0xBD, 0, 0, 0, 0, 0x90};    // mov ebp, imm32; nop
+  memcpy(code + 1, &w, 4); memcpy(mov, code, 6);
+  VirtualProtect(mov, 6, old, &old);
+  FlushInstructionCache(GetCurrentProcess(), mov, 6);
+  if (!VirtualProtect((void *)slot, 4, PAGE_READWRITE, &old)) { LOG("speedfix: precise_pacing: VirtualProtect of the vtable failed"); return; }
+  InterlockedCompareExchange(slot, (LONG)(uintptr_t)sf_rate_thunk, (LONG)rate);
+  VirtualProtect((void *)slot, 4, old, &old);
+  LOG("speedfix: precise_pacing: the frame limiter's wait (10012B05) and its timer's rate entry (1032A13C) now go to speedfix");
+}
+static void pp_stats(void) {
+  static bool told;
+  LONG f = InterlockedExchange(&g_pp_frames, 0), w = InterlockedExchange(&g_pp_waits, 0), s = InterlockedExchange(&g_pp_sleeps, 0);
+  LONG late = InterlockedExchange(&g_pp_late, 0); double ms = g_pp_wait_ms; g_pp_wait_ms = 0;
+  if (!g_pp_done) return;
+  if (!told && g_pp_thread) {
+    told = true;
+    LOG("speedfix: precise_pacing: the limiter runs on thread %lu, the frame callback on %lu", (unsigned long)g_pp_thread, (unsigned long)GetCurrentThreadId());
+  }
+  if (f + w + s) LOG("speedfix: precise_pacing: %ld frames timed by the counter; the limiter waited %.1f ms in all (%ld precise waits, %ld "
+                     "already past their moment, %ld Sleep calls as the game's); its tick count [+0x30] %d, its timer's scale [+8] %.4f",
+                     f, ms, w, late, s, (int)g_pp_ticks, (double)g_pp_scale);
+}
 static void apply_sse_skinning(void);
 static void log_cpu_tier(void);
 static void apply_code(void) {                      // render thread, inside Present
@@ -236,6 +377,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   if (!g_bucket_done && sf_cfg.occlusion_stagger > 4) { g_bucket_done = true; reaim_call(0x100CC58Au, kBucketCall, (void *)sf_bucket_stub, "occlusion_stagger"); }
   if (!g_readback_done && sf_cfg.skip_all_occlusion_readbacks) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, "skip_all_occlusion_readbacks"); }
   apply_texture();
+  apply_precise_pacing();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
   log_cpu_tier();
@@ -304,7 +446,7 @@ static const Lever kLevers[] = {
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
-  {"skin_merge", &SfConfig::skin_merge, 0},
+  {"skin_merge", &SfConfig::skin_merge, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -451,5 +593,6 @@ extern "C" void sf_frame(void) {
     LONG as = InterlockedExchange(&sf_aq_skipped, 0), ar = InterlockedExchange(&sf_aq_run, 0);
     if (rs + rr) LOG("speedfix: occlusion readbacks: %ld run, %ld skipped", rr, rs);
     if (as + ar) LOG("speedfix: actor occlusion queries: %ld run, %ld skipped", ar, as);
+    pp_stats();
   }
 }

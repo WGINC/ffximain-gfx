@@ -37,9 +37,19 @@ code that uses Direct3D 11.
     it ends while the game runs, the game is ended with a log line: the game's resources live in it.
   - Chosen by `d3d8on11.ini` next to the DLL (`[d3d8on11]` `mode=direct|thread|remote`), or the `D8ON11_MODE`
     environment variable, which wins. The log's second line names the mode in use.
-  - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame) and, in `thread` and `remote`,
+  - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame, split into draws, uploads,
+    Present and the rest) and, in `thread` and `remote`,
     `ring stats`: how long the game thread waited for room, for pacing and for answers, and the MB it sent. In
     `remote` mode the executor's line is in `d3d8on11_exec.log`.
+  - The executor filter, `exec_filter=1` in `d3d8on11.ini` (`D8ON11_EXEC_FILTER` wins; default 0): a draw skips the
+    Direct3D 11 calls that would set what the executor last set (shaders, layout, states, views, samplers, buffers,
+    viewport, topology), the constant-buffer writes whose bytes equal the last, and the key and description lookups
+    of a draw like the one before it. Whatever else sets context state (Clear of rectangles, render targets, a swap
+    chain change, a freed object) makes it forget what it set. The tests check that each mode draws every scene
+    exactly as `direct` without it. `exec_ab=1` measures it in the game: `exec_ab_after` seconds (60) after the start,
+    the filter alternates off, on, on, off for `exec_ab_phase` seconds (30) each, `exec_ab_rounds` times (4), the
+    first `exec_ab_settle` frames (60) of a phase left out; the log gets `executor ab:` lines with the game's frame
+    time and the executor's busy time per phase, then `exec_filter` as set again.
   - Diagnostics: `D8ON11_DRIVER=warp` makes the D3D11 device on WARP, Microsoft's software rasterizer, instead of the
     GPU; `D8ON11_DEBUG_LAYER=1` asks for the D3D11 debug layer and writes its messages to the log at each Present
     (Windows needs the optional Graphics Tools feature, or the device is not made). Both log a `D3D11 device:` line.

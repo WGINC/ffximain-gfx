@@ -388,6 +388,7 @@ static void free_res(ExecRes &r) {
 }
 void Exec::release_swap() {
   if (ctx) { ctx->OMSetRenderTargets(0, NULL, NULL); ctx->ClearState(); ctx->Flush(); }
+  forget();
   cur_rtv = nullptr; cur_dsv = nullptr;
   auto it = res.find(X_BACKBUFFER);
   if (it != res.end()) { free_res(it->second); res.erase(it); }
@@ -461,6 +462,7 @@ void Exec::clear_rects(const XClear &c, const XRect *r) {
     dev->CreateBuffer(&bd, NULL, &clr_cb);
   }
   if (!clr_vs || !clr_ps || !clr_cb) return;
+  forget();                                                // the binds below are not the filter's
   D3D11_BLEND_DESC bd = {}; bd.RenderTarget[0].RenderTargetWriteMask = (c.flags & D3DCLEAR_TARGET) ? 0xF : 0;
   D3D11_DEPTH_STENCIL_DESC dd = {};
   dd.DepthEnable = (c.flags & D3DCLEAR_ZBUFFER) ? TRUE : FALSE; dd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; dd.DepthFunc = D3D11_COMPARISON_ALWAYS;
@@ -561,6 +563,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
       for (auto &v : it->second.rtv) if (v.second == cur_rtv) cur_rtv = nullptr;
       if (it->second.dsv == cur_dsv) cur_dsv = nullptr;
       free_res(it->second); res.erase(it);
+      forget();                                            // a view or buffer the filter holds may be this object's
     }
     break; }
   case X_UPLOAD_TEX: {
@@ -581,6 +584,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto d = t.ds ? res.find(t.ds) : res.end();
     cur_dsv = d != res.end() ? d->second.dsv : nullptr;
     ctx->OMSetRenderTargets(1, &cur_rtv, cur_dsv);
+    forget();                                              // a render target bound as a texture is unbound by D3D11
     break; }
   case X_CLEAR: {
     const XClear &c = *(const XClear *)p;
@@ -630,6 +634,10 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     st->Release();
     break; }
   case X_FINISH: *hr = D3D_OK; break;
+  case X_OPTION: {
+    const XOption &o = *(const XOption *)p;
+    if (o.key == OPT_FILTER) { filter = o.value; forget(); }
+    break; }
   }
   (void)n;
 }
@@ -637,73 +645,116 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
 // ---- a draw -------------------------------------------------------------------------------------------------------------------
 void Exec::draw(const XDraw &d, const uint8_t *data) {
   if (!ff || !ff->compile) return;
-  std::string vks = kstr(d.vk);
+  // the filter (X_OPTION OPT_FILTER): a key, description or constant block equal to the last draw's reuses what that
+  // draw found or wrote, and a bind equal to what this executor last set (Bound) is not made again. Direct3D 11 keeps
+  // a context's state until it is set again, and a dynamic buffer's contents until it is mapped again, so the context
+  // ends each draw in the same state either way; test_d3d8on11.py compares the pictures with the filter on and off.
+  const bool f = filter != 0;
+  if (f && !bd.valid) { forget(); bd.valid = true; }
   ID3D11VertexShader *vsh = nullptr; ID3D11InputLayout *lay = nullptr;
-  auto vi = ff->vs.find(vks);
-  if (vi == ff->vs.end()) {
-    ID3DBlob *b = compile(ff, gen_vs(d.vk), "vs_4_0");
-    if (b) {
-      dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &vsh);
-      D3D11_INPUT_ELEMENT_DESC ie[16];
-      static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
-      for (int i = 0; i < d.vk.nel; i++)
-        ie[i] = {sn[d.vk.el[i].sem], d.vk.el[i].sem == SE_POST ? 0u : d.vk.el[i].idx, vdxgi(d.vk.el[i].fmt), d.vk.el[i].stream, d.vk.el[i].off, D3D11_INPUT_PER_VERTEX_DATA, 0};
-      if (FAILED(dev->CreateInputLayout(ie, d.vk.nel, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
-      b->Release();
-    }
-    ff->vs[vks] = vsh; ff->il[vks] = lay;
-  } else { vsh = vi->second; lay = ff->il[vks]; }
-  std::string pks = kstr(d.pk);
+  if (f && memo.vk_ok && !memcmp(&memo.vk, &d.vk, sizeof d.vk)) { vsh = memo.vsh; lay = memo.lay; }
+  else {
+    std::string vks = kstr(d.vk);
+    auto vi = ff->vs.find(vks);
+    if (vi == ff->vs.end()) {
+      ID3DBlob *b = compile(ff, gen_vs(d.vk), "vs_4_0");
+      if (b) {
+        dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &vsh);
+        D3D11_INPUT_ELEMENT_DESC ie[16];
+        static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
+        for (int i = 0; i < d.vk.nel; i++)
+          ie[i] = {sn[d.vk.el[i].sem], d.vk.el[i].sem == SE_POST ? 0u : d.vk.el[i].idx, vdxgi(d.vk.el[i].fmt), d.vk.el[i].stream, d.vk.el[i].off, D3D11_INPUT_PER_VERTEX_DATA, 0};
+        if (FAILED(dev->CreateInputLayout(ie, d.vk.nel, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
+        b->Release();
+      }
+      ff->vs[vks] = vsh; ff->il[vks] = lay;
+    } else { vsh = vi->second; lay = ff->il[vks]; }
+    memo.vk = d.vk; memo.vsh = vsh; memo.lay = lay; memo.vk_ok = true;
+  }
   ID3D11PixelShader *psh = nullptr;
-  auto pi = ff->ps.find(pks);
-  if (pi == ff->ps.end()) {
-    ID3DBlob *b = compile(ff, gen_ps(d.pk), "ps_4_0");
-    if (b) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &psh); b->Release(); }
-    ff->ps[pks] = psh;
-  } else psh = pi->second;
+  if (f && memo.pk_ok && !memcmp(&memo.pk, &d.pk, sizeof d.pk)) psh = memo.psh;
+  else {
+    std::string pks = kstr(d.pk);
+    auto pi = ff->ps.find(pks);
+    if (pi == ff->ps.end()) {
+      ID3DBlob *b = compile(ff, gen_ps(d.pk), "ps_4_0");
+      if (b) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &psh); b->Release(); }
+      ff->ps[pks] = psh;
+    } else psh = pi->second;
+    memo.pk = d.pk; memo.psh = psh; memo.pk_ok = true;
+  }
   if (!vsh || !psh || !lay) return;
   D3D11_MAPPED_SUBRESOURCE m;
-  if (SUCCEEDED(ctx->Map(ff->vcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.vc, sizeof d.vc); ctx->Unmap(ff->vcb, 0); }
-  if (SUCCEEDED(ctx->Map(ff->pcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.pc, sizeof d.pc); ctx->Unmap(ff->pcb, 0); }
-  ctx->OMSetBlendState(cached(ff->bs, d.blend, [&](const D3D11_BLEND_DESC *x, ID3D11BlendState **o) { dev->CreateBlendState(x, o); }), NULL, 0xFFFFFFFF);
-  ctx->OMSetDepthStencilState(cached(ff->ds, d.depth, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }), d.stencil_ref);
-  ctx->RSSetState(cached(ff->rs, d.raster, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }));
-  ctx->RSSetViewports(1, &d.viewport);
+  if (!f || !memo.vc_ok || memcmp(&memo.vc, &d.vc, sizeof d.vc)) {
+    memo.vc_ok = false;
+    if (SUCCEEDED(ctx->Map(ff->vcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.vc, sizeof d.vc); ctx->Unmap(ff->vcb, 0); memo.vc = d.vc; memo.vc_ok = true; }
+  }
+  if (!f || !memo.pc_ok || memcmp(&memo.pc, &d.pc, sizeof d.pc)) {
+    memo.pc_ok = false;
+    if (SUCCEEDED(ctx->Map(ff->pcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.pc, sizeof d.pc); ctx->Unmap(ff->pcb, 0); memo.pc = d.pc; memo.pc_ok = true; }
+  }
+  ID3D11BlendState *bs; ID3D11DepthStencilState *dss; ID3D11RasterizerState *rs;
+  if (f && memo.bs_ok && !memcmp(&memo.bsd, &d.blend, sizeof d.blend)) bs = memo.bs;
+  else { bs = cached(ff->bs, d.blend, [&](const D3D11_BLEND_DESC *x, ID3D11BlendState **o) { dev->CreateBlendState(x, o); }); memo.bsd = d.blend; memo.bs = bs; memo.bs_ok = true; }
+  if (f && memo.ds_ok && !memcmp(&memo.dsd, &d.depth, sizeof d.depth)) dss = memo.dss;
+  else { dss = cached(ff->ds, d.depth, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }); memo.dsd = d.depth; memo.dss = dss; memo.ds_ok = true; }
+  if (f && memo.rs_ok && !memcmp(&memo.rsd, &d.raster, sizeof d.raster)) rs = memo.rs;
+  else { rs = cached(ff->rs, d.raster, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }); memo.rsd = d.raster; memo.rs = rs; memo.rs_ok = true; }
+  if (!f || bs != bd.bs) { ctx->OMSetBlendState(bs, NULL, 0xFFFFFFFF); bd.bs = bs; }
+  if (!f || dss != bd.dss || d.stencil_ref != bd.sref) { ctx->OMSetDepthStencilState(dss, d.stencil_ref); bd.dss = dss; bd.sref = d.stencil_ref; }
+  if (!f || rs != bd.rs) { ctx->RSSetState(rs); bd.rs = rs; }
+  if (!f || memcmp(&d.viewport, &bd.vp, sizeof bd.vp)) { ctx->RSSetViewports(1, &d.viewport); bd.vp = d.viewport; }
   for (UINT i = 0; i < d.nstages && i < 8; i++) {
     ID3D11ShaderResourceView *srv = nullptr; ID3D11SamplerState *smp = nullptr;
     if (d.stage[i].tex) {
       auto it = res.find(d.stage[i].tex);
       if (it != res.end()) {
-        ExecRes &r = it->second; uint32_t f = d.stage[i].first_level, c = d.stage[i].nlevels;
-        if (f == 0 && (c == 0 || c >= r.levels)) srv = r.srv;
-        else if (r.tex && f < r.levels) {                        // a view of only the levels the stage may read
-          if (c == 0 || f + c > r.levels) c = r.levels - f;
-          ID3D11ShaderResourceView *&v = r.srv_levels[f * 256 + c];
+        ExecRes &r = it->second; uint32_t f0 = d.stage[i].first_level, c = d.stage[i].nlevels;
+        if (f0 == 0 && (c == 0 || c >= r.levels)) srv = r.srv;
+        else if (r.tex && f0 < r.levels) {                       // a view of only the levels the stage may read
+          if (c == 0 || f0 + c > r.levels) c = r.levels - f0;
+          ID3D11ShaderResourceView *&v = r.srv_levels[f0 * 256 + c];
           if (!v) {
             D3D11_SHADER_RESOURCE_VIEW_DESC vd = {}; D3D11_TEXTURE2D_DESC td; r.tex->GetDesc(&td); vd.Format = td.Format;
-            if (r.faces == 6) { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE; vd.TextureCube.MostDetailedMip = f; vd.TextureCube.MipLevels = c; }
-            else { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D; vd.Texture2D.MostDetailedMip = f; vd.Texture2D.MipLevels = c; }
-            if (FAILED(dev->CreateShaderResourceView(r.tex, &vd, &v))) d8_log("a view of levels %u..%u of object %u failed", f, f + c - 1, d.stage[i].tex);
+            if (r.faces == 6) { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE; vd.TextureCube.MostDetailedMip = f0; vd.TextureCube.MipLevels = c; }
+            else { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D; vd.Texture2D.MostDetailedMip = f0; vd.Texture2D.MipLevels = c; }
+            if (FAILED(dev->CreateShaderResourceView(r.tex, &vd, &v))) d8_log("a view of levels %u..%u of object %u failed", f0, f0 + c - 1, d.stage[i].tex);
           }
           srv = v;
         }
       }
-      smp = cached(ff->ss, d.stage[i].sampler, [&](const D3D11_SAMPLER_DESC *x, ID3D11SamplerState **o) { dev->CreateSamplerState(x, o); });
+      if (f && memo.ss_ok[i] && !memcmp(&memo.ssd[i], &d.stage[i].sampler, sizeof memo.ssd[i])) smp = memo.ss[i];
+      else {
+        smp = cached(ff->ss, d.stage[i].sampler, [&](const D3D11_SAMPLER_DESC *x, ID3D11SamplerState **o) { dev->CreateSamplerState(x, o); });
+        memo.ssd[i] = d.stage[i].sampler; memo.ss[i] = smp; memo.ss_ok[i] = true;
+      }
     }
-    ctx->PSSetShaderResources(i, 1, &srv); ctx->PSSetSamplers(i, 1, &smp);
+    if (!f || srv != bd.srv[i]) { ctx->PSSetShaderResources(i, 1, &srv); bd.srv[i] = srv; }
+    if (!f || smp != bd.smp[i]) { ctx->PSSetSamplers(i, 1, &smp); bd.smp[i] = smp; }
   }
-  ctx->VSSetShader(vsh, NULL, 0); ctx->PSSetShader(psh, NULL, 0); ctx->IASetInputLayout(lay);
-  ctx->VSSetConstantBuffers(0, 1, &ff->vcb); ctx->PSSetConstantBuffers(0, 1, &ff->pcb);
-  ctx->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)d.topology);
+  if (!f || vsh != bd.vs) { ctx->VSSetShader(vsh, NULL, 0); bd.vs = vsh; }
+  if (!f || psh != bd.ps) { ctx->PSSetShader(psh, NULL, 0); bd.ps = psh; }
+  if (!f || lay != bd.lay) { ctx->IASetInputLayout(lay); bd.lay = lay; }
+  if (!f || !bd.cbs) { ctx->VSSetConstantBuffers(0, 1, &ff->vcb); ctx->PSSetConstantBuffers(0, 1, &ff->pcb); bd.cbs = true; }
+  if (!f || d.topology != bd.topo) { ctx->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)d.topology); bd.topo = d.topology; }
+  auto set_vb = [&](UINT i, ID3D11Buffer *b, UINT stride) {
+    if (f && bd.vb[i] == b && bd.stride[i] == stride && bd.voff[i] == 0) return;
+    UINT off = 0; ctx->IASetVertexBuffers(i, 1, &b, &stride, &off); bd.vb[i] = b; bd.stride[i] = stride; bd.voff[i] = 0;
+  };
+  auto set_ib = [&](ID3D11Buffer *b, bool i32) {
+    DXGI_FORMAT fm = i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
+    if (f && bd.ib == b && bd.ifmt == fm) return;
+    ctx->IASetIndexBuffer(b, fm, 0); bd.ib = b; bd.ifmt = fm;
+  };
   if (d.kind == XD_UP || d.kind == XD_UP_INDEXED) {
-    UINT at = 0, stride = d.up_stride, off = 0;
+    UINT at = 0, stride = d.up_stride;
     if (!ring(ctx, ff->upvb, FF::UPVB, ff->upvbPos, data, d.up_vbytes, stride, &at)) { d8_once("upbig", "a ...UP draw larger than the ring: skipped"); return; }
-    ctx->IASetVertexBuffers(0, 1, &ff->upvb, &stride, &off);
+    set_vb(0, ff->upvb, stride);
     UINT first = at / stride;
     if (d.kind == XD_UP) { ctx->Draw(d.count, first); return; }
     UINT isz = d.i32 ? 4 : 2, ia;
     if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data + d.up_vbytes, d.ibytes, isz, &ia)) return;
-    ctx->IASetIndexBuffer(ff->upib, d.i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+    set_ib(ff->upib, d.i32);
     ctx->DrawIndexed(d.count, ia / isz, (INT)first);
     return;
   }
@@ -711,18 +762,18 @@ void Exec::draw(const XDraw &d, const uint8_t *data) {
     if (!d.stream[i].buf) continue;
     auto it = res.find(d.stream[i].buf);
     if (it == res.end() || !it->second.buf) { d8_once("nostream", "a draw reads a stream whose buffer is gone (skipped)"); return; }
-    UINT stride = d.stream[i].stride, off = 0; ctx->IASetVertexBuffers(i, 1, &it->second.buf, &stride, &off);
+    set_vb(i, it->second.buf, d.stream[i].stride);
   }
   if (d.kind == XD_DRAW) { ctx->Draw(d.count, d.start); return; }
   if (d.kind == XD_INLINE_INDEXED) {
     UINT isz = d.i32 ? 4 : 2, ia;
     if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data, d.ibytes, isz, &ia)) return;
-    ctx->IASetIndexBuffer(ff->upib, d.i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+    set_ib(ff->upib, d.i32);
     ctx->DrawIndexed(d.count, ia / isz, (INT)d.base);
     return;
   }
   auto ib = res.find(d.ib);
   if (ib == res.end() || !ib->second.buf) { d8_once("noib", "an indexed draw whose index buffer is gone (skipped)"); return; }
-  ctx->IASetIndexBuffer(ib->second.buf, d.ib32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+  set_ib(ib->second.buf, d.ib32 != 0);
   ctx->DrawIndexed(d.count, d.start, (INT)d.base);
 }

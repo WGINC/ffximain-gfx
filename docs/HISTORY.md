@@ -2199,3 +2199,32 @@ rendering, and the frame with the readbacks really removed. Tests T1–T3 in tha
   - Start 2, low resolution: T2's ini again. Its A phases against start 1's give T1.
 - **Known limit of T3:** the game's own frame limiter (16.67 ms with precise_pacing) is a floor. T3 can show
   whether the frame without draws reaches it, not how far below it the game would go.
+
+## 17 Oct: the run ledger, and what it corrects
+
+`pipeline/run_ledger.py DIR ...` reads every `xikit.log`, timing, spike and A/B CSV and `d3d8on11.log` under the
+given folders. It writes each run's settings, minutes, phases, A/B summaries and readback counts, each cited by file
+and line. It was run over every log folder the owner has sent. docs/REEVALUATION.md sections 3 and 4 are now built
+from it. Four runs there have no log here and are marked as HISTORY only: 3736, 6156, 12164, and 10016's d3dprof
+figures.
+
+Corrections against this file:
+- **Readbacks in session 5** (above, "158 in the first minute… none later while standing still") is wrong.
+  - Part 1 (2264) had 5,062, 2,005 and 7,165 in minutes 16 to 18 (2264/xikit.log:301,314,327). Those were the A
+    phases of the skip_actor_occlusion A/B, when actor queries ran.
+  - Part 2 (11952) had 83 to 2,602 in five later minutes with every actor query skipped
+    (11952/xikit.log:192–236).
+  - What makes the game request readbacks is not known.
+  - The readback A/B itself still did not test the readback: its phases fell in minutes 7 to 9, which have none.
+- **The house runs of 16 Oct (logs_up1)** were in no entry.
+  - Their modes come from the owner's message: direct, dgVoodoo, remote, thread, DXVK.
+  - In the house, without speedfix, dgVoodoo (7608), ours `remote` (5584) and ours `thread` (12120) held p50
+    17.1–17.6 ms. That is the game's limiter floor of 17 ms (above, "The limiter, from the game's code").
+  - Ours `direct` (5560) ran at 33–35 ms there.
+  - DXVK (2340) crashed after 5 log lines.
+  - So "no scene at or below 16.7 ms" holds only because the floor is 17 ms.
+  - The `thread` attribution of logs_up1's d3d8on11.log is confirmed by its line 2, `executor: thread`.
+- **exec_filter's −5.46 ms** is a mean of the 16 phase means computed from d3d8on11.log; the device prints no
+  summary. The "4.24 ms and 3.63 ms" spreads are the largest within a label for the frame and for executor busy.
+- **Session 5's phases** ran 27.65–46.40 ms (2264/xikit.log:292,278). The 29.5–45.7 ms said before were the A/B
+  label means.

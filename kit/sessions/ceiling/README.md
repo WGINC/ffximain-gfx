@@ -52,8 +52,8 @@ All figures come from `xikit.log` in the log folders.
 - **T2** (start 1, first A/B). Readbacks run in A (`skip_all_occlusion_readbacks` off) and are skipped in B.
   - The A/B summary gives the frame time of each.
   - Each minute, `occlusion readbacks: N run, M skipped` shows that the readbacks really ran in A and stopped in B.
-    In session 5 none were requested after the first minute (docs/REEVALUATION.md). If that happens again, T2 says
-    nothing, and the count shows it.
+    Whether the game requests them depends on something not known (docs/REEVALUATION.md section 4). Session 5's
+    readback A/B fell in minutes with none. If that happens again, T2 says nothing, and the count shows it.
   - If B is shorter than A by more than the spread between phases of one label, the readback is a limit. The
     asynchronous readback (task 33) is then the next build.
   - If not, its wait is paid elsewhere, and T1 and T3 decide.

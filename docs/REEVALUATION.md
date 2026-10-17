@@ -33,60 +33,131 @@ The friend's "hundreds of fps under Vulkan on Linux" comes from a different mach
 x86 on a different GPU, through a different D3D8 layer. **Not known:** that machine's hardware, which D3D8 layer it
 uses, how its fps is counted, and how its clock is "tied to the fps". Nothing here can be compared with it.
 
-## 3. All the frame-time data (the Port Jeuno plaza, called "Bedau" in the records, unless stated)
+## 3. All the frame-time data, from the raw logs
 
-| Date, run | Device | Speedfix | Frame | Source |
-|---|---|---|---|---|
-| 6 Oct, 10016 | dgVoodoo | none | 19.2 ms (scene not recorded; 18–46 ms over the session) | HISTORY 527 |
-| 6 Oct, 3736 | dgVoodoo | defaults | 18–21 ms up to frame 6000; 64–79 ms from about frame 6600 (the plaza) | HISTORY 611 |
-| 6 Oct, 6156 | dgVoodoo | defaults; A = off | A 70–72 ms, B 66–68 ms | HISTORY 668 |
-| 6 Oct, 2020 (session 3) | dgVoodoo | none | 72.7 ms | HISTORY 750 |
-| 6 Oct, 12764 (session 1) | dgVoodoo | 4 levers, A = everything off | **A 70.6–74.1 ms, B 33.2–40.2 ms (−50%)** | HISTORY 750 |
-| 6 Oct, 12164 (session 4) | dgVoodoo | every lever | first scene (819 draws, place not recorded): p50 17.5–19.4 ms; then 3,450–3,640 draws: 31.5–35 ms | HISTORY 750 |
-| 6 Oct, 2264 (session 5) | dgVoodoo | every lever; per-lever A/B | 29.5–45.7 ms by phase | HISTORY 859 |
-| 13 Oct, 8948 | dgVoodoo | every lever; A/B of 3 levers | 22.7–31.2 ms by phase | HISTORY 1430 |
-| 16 Oct, 2420 (perf60 run 1) | dgVoodoo | every lever | 34.1–34.4 ms | HISTORY 2094 |
-| 16 Oct, 3128 (perf60 run 2) | ours, `thread` | every lever | 34.5 ms (filter off), 29.1 ms (filter on) | HISTORY 2094 |
+Every figure below was read from the owner's log folders by `pipeline/run_ledger.py`, which cites each one by file
+and line. A run is named by its pid, so `2264/xikit.log:213` is `2026-10-06_104841_2264/xikit.log:213`. The logs
+themselves stay out of the repo. Runs marked **HISTORY only** have no log here, so their figures come from HISTORY
+alone.
+
+How each column is known:
+- **Device:**
+  - `4.8.2.134` in the log's `d3d8.dll … version` line is dgVoodoo.
+  - `?` means the DLL has no version resource, which is ours (kit/d3d8on11 has no resource file).
+  - Ours writes its mode to `d3d8on11.log` (line 2, `executor: …`). That file is rewritten at each start
+    (d8_common.cpp:19), so only the last start in a folder keeps it. For every other start, the mode comes from
+    the owner's message or the session's README, named in the row.
+- **Speedfix:** the `settings (start)` line.
+- **Frame:**
+  - "per minute" is speedfix's minute means, after the first minute (loading in).
+  - "p50" is xikit_timing's median per 600 frames.
+  - "phases" are the A/B phase means.
+- **Place:** the owner's word, through HISTORY or a message. No log records the place.
+
+| Date, run | Device | Speedfix | Place | Frame | Source |
+|---|---|---|---|---|---|
+| 6 Oct, 10016 | dgVoodoo (HISTORY 527) | none (HISTORY 527) | not recorded | p50 17.5–42.4 ms; the last row 19.2 ms; the d3dprof figures are HISTORY only | Skink/xikit_timing_10016.csv:3,7,22; its xikit.log is not in the folder |
+| 6 Oct, 6080 | not in the log | defaults: batch, lazy, sse, merge not yet in that build | ends at the combat-test spot (HISTORY 552) | per minute 22.4–40.6 ms | Gonked/xikit.log:4,119–165 |
+| 6 Oct, 3736 | dgVoodoo | defaults | the plaza from about frame 6600 | 18–21 ms, then 64–79 ms | **HISTORY only** (611) |
+| 6 Oct, 6156 | dgVoodoo | defaults; A = off | the plaza | A 70–72, B 66–68 ms | **HISTORY only** (668) |
+| 6 Oct, 12764 (session 1) | dgVoodoo | 4 levers on; A = everything the kit adds off | the plaza (HISTORY 750) | **A phases 70.55–74.12 ms, B phases 33.20–40.15 ms** | 12764/xikit_ab_12764_1.csv:3–10; 12764/xikit.log:112,5 |
+| 6 Oct, 5180 (session 2) | dgVoodoo | batch, lazy, sse, merge off | the plaza (HISTORY 783) | per minute 62.7–66.5 ms | 5180/xikit.log:34,5,51–95 |
+| 6 Oct, 2020 (session 3) | dgVoodoo | none (no speedfix line) | the plaza (HISTORY 750) | the last row 72.7 ms | 2020/xikit_timing_2020.csv:7; 2020/xikit.log:11 |
+| 6 Oct, 12164 (session 4) | dgVoodoo | every lever | 819 draws: place not recorded; then 3,450–3,640 draws | p50 17.5–19.4 ms, then 31.5–35 ms | **HISTORY only** (750) |
+| 6 Oct, 2264 (session 5 part 1) | dgVoodoo | every lever, one at a time off in A/B | the plaza, standing (HISTORY 851) | phases 27.65–46.40 ms; per minute 28.6–39.9 ms | 2264/xikit.log:111,5,292,278,143–384 |
+| 6 Oct, 11952 (session 5 part 2) | dgVoodoo | every lever; profiler on | under session 5's heading; part 2's place not stated | per minute 23.1–35.7 ms | 11952/xikit.log:115,5,147–235 |
+| 6 Oct, 7388 | dgVoodoo | up_ring, skip_shadow_pass on | the plaza (HISTORY 972) | two minutes, 19.6 and 22.6 ms; up_ring phases A 20.28, B 25.55 | 7388/xikit.log:114,5,138,151,140,142 |
+| 10 Oct, 13172 | dgVoodoo | most levers off; occlusion_async A/B | not recorded | per minute 33.2–46.1 ms; about 4,000 readbacks run a minute | 13172/xikit.log:33,5,54–102,55–82 |
+| 13 Oct, 8948 | dgVoodoo | every lever; A/B of 3 | the plaza (HISTORY 1430) | phases 22.70–31.17 ms; per minute 20.0–31.0 ms | 8948/xikit.log:114,6,150,228,146–349 |
+| 13 Oct, 6796 | dgVoodoo | every lever | the plaza, then walking (HISTORY 1489) | per minute 23.1–28.5 ms | 6796/xikit.log:116,6,166–251 |
+| 14 Oct, 3956 | dgVoodoo | none | not recorded (the capture run, HISTORY 1979) | mean 46.7 ms; p50 up to 52.8 ms | 3956/xikit_timing_3956.csv:9; 3956/xikit.log:13 |
+| 14 Oct, 2880 | ours | none | | ended at the start; no frames | 2880/xikit.log:13 |
+| 16 Oct, 5560 (up1) | ours, `direct` (the owner) | none | **the house** (the owner) | p50 32.9–35.4 ms in the steady rows | 5560/xikit_timing_5560.csv:8–21; 5560/xikit.log:13 |
+| 16 Oct, 7608 (up1) | dgVoodoo | none | **the house** | **p50 17.1–17.8 ms** from frame 4200 | 7608/xikit_timing_7608.csv:8–22; 7608/xikit.log:13 |
+| 16 Oct, 5584 (up1) | ours, `remote` (the owner) | none | **the house** | **p50 17.3–17.6 ms** from frame 1200 | 5584/xikit_timing_5584.csv:3–25; 5584/xikit.log:13 |
+| 16 Oct, 12120 (up1) | ours, `thread` (the owner; logs_up1/xikit_logs/d3d8on11.log:2) | none | **the house** | **p50 17.2–17.6 ms** from frame 1200 | 12120/xikit_timing_12120.csv:3–34; 12120/xikit.log:13 |
+| 16 Oct, 2340 (up1) | DXVK (the owner) | none | | crashed: 5 log lines, no frames | 2340/xikit.log |
+| 16 Oct, 3056 | ours, `thread`, profiler on | none | not recorded | mean 38.7 ms (the profiler's cost included; not comparable) | 3056/xikit_timing_3056.csv |
+| 16 Oct, 2420 (perf60 run 1) | dgVoodoo | every lever, precise_pacing A/B | the plaza (perf60 README) | phases 32.88–36.40 ms; per minute 31.9–35.6 ms | 2420/xikit.log:115,6,144,167,151–231 |
+| 16 Oct, 3128 (perf60 run 2) | ours, `thread` (logs_perf60/xikit_logs/d3d8on11.log:2) | every lever | the plaza | exec_filter phases 26.78–36.92 ms; precise_pacing phases 33.80–37.29 ms | logs_perf60/xikit_logs/d3d8on11.log:74,58; 3128/xikit.log:241,217 |
+
+Excluded: `sfh` (pid 32) is native x86 Windows 10 build 19043 (sfh/xikit.log:107), not the owner's machine.
 
 What this table establishes:
-- **Corrected:** "frames are flat at 30–35 ms whatever we do" is wrong. Without speedfix the plaza ran at
-  about 70 ms. The levers halved it (session 1). The two levers that carried most of that were measured singly:
-  `sse_skinning` −14.5 ms and `batch_up_draws`+`lazy_state` −8.2 ms (session 5).
-- Since then, with every lever on, the plaza has run at 23–35 ms a frame, depending on the run. That is 29 to 43 fps.
-- The lightest scene measured with every lever on (session 4, 819 draws) ran at 17.5–19.4 ms (p50). **No scene in
-  any run has been measured at or below 16.7 ms.**
-- The crowd is not controlled. Runs on different days differ by up to 10 ms in the same spot, so only A/Bs within
-  one run are comparisons.
+- **Without speedfix, the plaza ran at about 70 ms**: session 1's A phases, session 2's minutes and session 3.
+  With the levers, session 1's B phases ran at 33–40 ms. Two levers were measured singly: `sse_skinning` −14.5 ms
+  and `batch_up_draws`+`lazy_state` −8.2 ms (section 4).
+- **With every lever on, the plaza's minutes ran at 20–40 ms**, depending on the run. That is 25 to 50 fps.
+  - Run to run in the same spot, the minutes differ by more than 10 ms (8948 against 3128).
+  - The crowd is not controlled, so only A/Bs within one run are comparisons.
+- **Corrected: frames do reach the game's limiter, in a light scene.** In the house on 16 Oct, without speedfix,
+  dgVoodoo, ours `remote` and ours `thread` all held p50 17.1–17.6 ms.
+  - That is the game's own floor. Its limiter allows no frame shorter than 17 ms with whole milliseconds, a tick
+    count of 1 and a scale of 1.0 (read from its code, HISTORY 2047). Those values were measured in perf60
+    (HISTORY 2107).
+  - So in the house, all three wait for the limiter. How far below 17 ms they would go is not measured.
+  - Ours `direct` ran at 33–34 ms in the same place: it is the one mode that did not reach the floor there.
+  - The earlier "no scene measured at or below 16.7 ms" is true only because the floor is 17 ms. That earlier
+    statement did not include these runs, which are in no HISTORY entry; they are named in the owner's message
+    of 16 Oct.
+- Which rows are in the house is the owner's account ("walked to the house and stayed there"); the logs do not
+  record the place. In 7608, rows 4–7 (frames 1200–4200) have p50 28.3–30.5 ms: the walk, by that account (7608/xikit_timing_7608.csv:4–7). In 5584 and
+  12120 every row from frame 1200 is at the floor.
+- Row 3 (frames 600–1200) is at the floor in almost every run: 17.4–17.7 ms, and 16.67 ms with precise_pacing
+  (2420/xikit_timing_2420.csv:3, 3128/xikit_timing_3128.csv:3). What the screen was then is not recorded. The login
+  is likely, but it is not known.
 
 ## 4. Every lever A/B, as measured in the game
 
-| Lever | B − A | Spread within a label | Verdict | Source |
+Every row is speedfix's or xikit's own summary line, except exec_filter. The "spread" is the largest difference
+between phases of one label, printed on the same line.
+
+| Lever | B − A | Spread | Verdict | Source |
 |---|---|---|---|---|
-| everything (session 1) | −36.0 ms | ≤ 7.0 | gain | HISTORY 750 |
-| sse_skinning | −14.51 | 5.96 | gain | session 5 |
-| batch_up_draws + lazy_state | −8.16 | 3.37 | gain | session 5 |
-| exec_filter (ours) | −5.46 | 4.24 | gain; every on phase faster than every off phase | perf60 run 2 |
-| extended_state_cache | −2.53 | 4.25 | within the spread | 13 Oct |
-| skip_all_occlusion_readbacks | −1.31 | 3.98 | **not a test** (below) | session 5 |
-| skip_actor_occlusion | +0.33 | 4.37 | within the spread | session 5 |
-| merge_scenes | +1.17 | 3.48 | within the spread | session 5 |
-| skin_merge | +1.36 | 5.29 | within the spread | 13 Oct |
-| block_cache | +1.43 | 3.94 | within the spread | 13 Oct |
-| precise_pacing | +0.27, +0.88 | 3.5 | no effect: the limiter never waited | perf60 |
-| up_ring | +5.3 (one phase each), with corrupted frames | | reverted | run 7388 |
-| skip_shadow_pass | corrupted frames | | reverted | run 7388 |
+| everything the kit adds (session 1) | −35.98 ms | 6.96 | gain | 12764/xikit.log:208 |
+| sse_skinning | −14.51 | 5.96 | gain | 2264/xikit.log:289 |
+| batch_up_draws + lazy_state | −8.16 | 3.37 | gain | 2264/xikit.log:368 |
+| exec_filter (ours) | −5.46 | 4.24 (frame), 3.63 (executor busy) | gain; every on phase faster than every off phase | logs_perf60/xikit_logs/d3d8on11.log:39–146: 16 phase lines. The −5.46 is the mean of the phase means, computed from them (HISTORY 2124); the device prints no summary |
+| extended_state_cache | −2.53 | 4.25 | within the spread | 8948/xikit.log:238 |
+| skip_all_occlusion_readbacks | −1.31 | 3.98 | **not a test**: no readback was requested while it ran (below) | 2264/xikit.log:213 |
+| skip_actor_occlusion | +0.33 | 4.37 | within the spread | 2264/xikit.log:330 |
+| merge_scenes | +1.17 | 3.48 | within the spread | 2264/xikit.log:251 |
+| skin_merge | +1.36 | 5.29 | within the spread | 8948/xikit.log:203 |
+| block_cache | +1.43 | 3.94 | within the spread | 8948/xikit.log:161 |
+| occlusion_async | +4.18 | 15.14 | within the spread; reverted (HISTORY 1068) | 13172/xikit.log:86 |
+| precise_pacing | +0.27, +0.88 | 3.52, 3.49 | no effect: the limiter did not bind at 31–36 ms (HISTORY 2113) | 2420/xikit.log:168; 3128/xikit.log:242 |
+| up_ring | +5.27 (one phase each: 20.28, 25.55), with corrupted frames | | reverted | 7388/xikit.log:140,142 |
+| skip_shadow_pass | corrupted frames | | reverted | HISTORY 972 |
 
-**Corrected: the readback A/B did not test the readback.** In session 5 the log counts every call to the
-readback through `sf_readback`, skipped or run, in both arms (sf_main.cpp:236; the hook is in place when the switch
-is on at the start). It counted
-158 in the first minute and none after that while standing. So that A/B compared two arms with no readbacks in
-either. I said in conversation that removing the readback "does not remove the time, the wait moves elsewhere".
-That has no source and is withdrawn.
+**The readback A/B did not test the readback.** speedfix logs `occlusion readbacks: N run, M skipped` in a minute
+only when the count is nonzero (sf_main.cpp:600). In session 5 part 1, with the switch on at the start, the minutes
+with readbacks were:
 
-On 16 Oct the samples show the readback's LockRect under 25% of dgVoodoo's render-thread samples and 66.5% of
-ours. That was standing in the same plaza, on the new game build. How many readbacks ran a frame that day is not
-known: the counter exists only when the switch is on at the start, and it was off. Why the readbacks ran on
-16 Oct and not in session 5 is **not known**. The game build, the crowd and `occlusion_stagger=8` all differed.
+| Minute | Readbacks | Actor occlusion queries run | Source |
+|---|---|---|---|
+| 1 (loading in) | 158 | 0 | 2264/xikit.log:135,136 |
+| 16 | 5,062 | 5,605 | 2264/xikit.log:301,302 |
+| 17 | 2,005 | 2,219 | 2264/xikit.log:314,315 |
+| 18 | 7,165 | 7,936 | 2264/xikit.log:327,328 |
+
+The readback A/B (group 1) ran its phases from 10:55:47 to 10:58:47 (2264/xikit.log:118,178,212). Those are
+minutes 7 to 9 (2264/xikit.log:186,198,210), and none of them has a readback line. So neither arm had readbacks. That conclusion stands.
+
+**Corrected: "none later while standing" (HISTORY 863) is wrong.**
+- In part 1, readbacks came back in minutes 16 to 18, the A phases of the skip_actor_occlusion A/B (group 4, from
+  line 290), when actor queries ran.
+- But part 2 (11952), with skip_actor_occlusion on and every actor query skipped, also had readbacks in minutes 7, 8
+  and 10 to 12: 806, 83, 782, 1,790 and 2,602 (11952/xikit.log:192,201,218,227,236; the actor lines below each say
+  0 run).
+- So actor queries are not the only source of readback requests. What makes the game request them is **not
+  known**.
+- Runs with readbacks run: 13172 had about 4,000 a minute (13172/xikit.log:55–82); 7388 had 2,699 in its second
+  minute (7388/xikit.log:152).
+
+On 16 Oct, the samples show the readback's LockRect under 25% of dgVoodoo's render-thread samples and 66.5% of
+ours. That was standing in the plaza on the new game build. How many readbacks ran a frame is not known: the counter
+exists only when the switch is on at the start, and it was off. The ceiling session starts with the switch on, so
+T2's log will count them.
 
 **Not measured, then:** what the frame is with the readbacks removed while they are actually being requested.
 
@@ -174,8 +245,9 @@ With all three results the plan follows from data. Without them, any next lever 
 - More lever A/Bs, until T1 to T3 say where the floor is.
 - The ARM mode as a speed path: phase 0 measured a 3% difference. It can be run once after T3 if T3 says
   rendering is the cost.
-- Going above 60: no scene has reached 60 on this machine (section 3). The game's clock above 60 is a reading of
-  its code, untested (ROADMAP P4).
+- Going above 60: the game's own limiter allows no frame shorter than 17 ms (16.67 ms with precise_pacing). In
+  the house, three devices sat at that limit (section 3). The game's clock above 60 is a reading of its code,
+  untested (ROADMAP P4).
 
 ## 8. Open, unrelated to speed
 

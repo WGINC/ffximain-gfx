@@ -163,6 +163,13 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   - the time inside the device's Present;
   - the kit's own time before it (its checks and swaps, and mods' frame callbacks);
   - the number of functions swapped.
+
+  Across many log folders,
+
+      python3 pipeline/run_ledger.py <folder> [<folder> ...] > ledger.md
+
+  lists every run's settings, per-minute frames, timing rows, A/B phases and summaries, and readback counts,
+  each cited by file and line. It also lists the executor A/B of any `d3d8on11.log`.
 - **The sampling profiler, `sample=1`.** Read at the start. Every `sample_ms` (default 1) a thread of the kit
   suspends the render thread for an instant and records:
   - its EIP;

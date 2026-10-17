@@ -2183,3 +2183,19 @@ The owner asked for everything to be re-read with nothing assumed. Corrections t
   17.5–19.4 ms (p50).
 Never measured, and deciding where 60 can come from: the GPU's time a frame, the game's own CPU time without
 rendering, and the frame with the readbacks really removed. Tests T1–T3 in that document measure them.
+
+## 17 Oct: null_draws and the ceiling session (T1–T3)
+
+- **`null_draws`, a new speedfix lever, for T3.** It is a test, not a speedup.
+  - DrawPrimitive, DrawIndexedPrimitive and their UP forms return D3D_OK without reaching the device. Their
+    signatures come from d3d8.h.
+  - Every other call still reaches the device. Changes held by lazy_state go out at the draw, as before.
+  - It switches live both ways, so `ab_levers` can switch it.
+  - The four draw methods are now always hooked. Even the minimal start hooks 20 methods (was 16).
+  - Tested offline in sf_host's lazy mode: no draw reaches the device, the held state does, the draws come back
+    when it is off, and the statistics line counts the draws not sent.
+- **kit/sessions/ceiling:** two starts on dgVoodoo in the plaza.
+  - Start 1, usual resolution: T2, then T3 (the owner swaps the ini mid-run).
+  - Start 2, low resolution: T2's ini again. Its A phases against start 1's give T1.
+- **Known limit of T3:** the game's own frame limiter (16.67 ms with precise_pacing) is a floor. T3 can show
+  whether the frame without draws reaches it, not how far below it the game would go.

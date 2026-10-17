@@ -90,6 +90,7 @@ static void forget_all(void) {
 
 // ---- figures for the log --------------------------------------------------------------------------------------
 static volatile LONG g_fwd, g_skip, g_upIn, g_upOut, g_upConv, g_foreign, g_forgot_gap;
+static volatile LONG g_nullDrawn;      // null_draws (below): draw calls not sent
 
 // ---- DrawPrimitiveUP batching -----------------------------------------------------------------------------------
 enum { UPBUF = 1 << 20 };
@@ -654,6 +655,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   int outBytes = (int)prims * 3 * (int)stride;
   bool ok = sf_cfg.batch_up && !g_recording && data && stride && stride <= 256 && prims && prims <= maxP &&
             verts_for(t, prims) > 0 && outBytes <= maxB && (t == D3DPT_TRIANGLELIST || may_convert());
+  if (sf_cfg.null_draws) { flush(); g_nullDrawn++; return D3D_OK; }
   if (!ok) { flush(); g_upOut++; return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
   if (g_upPrims && (stride != g_upStride || g_upBytes + outBytes > maxB || (DWORD)g_upPrims + prims > maxP)) flush();
   if (t != D3DPT_TRIANGLELIST) g_upConv++;
@@ -663,12 +665,46 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   return D3D_OK;
 }
 
-// with batch_up_draws, extended_state_cache and lazy_state off at the start, only these are hooked
+// ---- null_draws (a test, not a speedup): the draw calls return D3D_OK without reaching the device -----------------
+// Everything else the game sends still goes through: held changes go out at the draw as they would (lazy_state),
+// so the device sees the same state calls, locks, Clear and Present. Signatures: IDirect3DDevice8 in the DirectX 8
+// headers (d3d8.h). What the game reads back from the frame (the occlusion readback) is wrong under this lever; the
+// session that uses it skips those readbacks in both arms (kit/sessions/ceiling).
+typedef HRESULT (__stdcall *PFN_DIPUP)(void *, D3DPRIMITIVETYPE, UINT, UINT, UINT, const void *, D3DFORMAT, const void *, UINT);
+static inline void draw_enter(int id) {          // what stub_enter does for a draw slot
+  flush();
+  if (g_npl) apply_pending();
+  if (g_motion) mot_count(id);
+}
+static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT start, UINT prims) {
+  if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPr4, S_DP)(d, t, start, prims); }
+  draw_enter(S_DP);
+  if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  return PREV(PFN_DPr4, S_DP)(d, t, start, prims);
+}
+static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT startIdx, UINT prims) {
+  if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims); }
+  draw_enter(S_DIP);
+  if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims);
+}
+static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT prims, const void *idx, D3DFORMAT fmt,
+                                 const void *vtx, UINT stride) {
+  if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DIPUP, S_DIPUP)(d, t, minIdx, nv, prims, idx, fmt, vtx, stride); }
+  draw_enter(S_DIPUP);
+  g_ssV[0] = false; g_ibV = false;               // DrawIndexedPrimitiveUP leaves stream 0 and the indices unset
+  if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  return PREV(PFN_DIPUP, S_DIPUP)(d, t, minIdx, nv, prims, idx, fmt, vtx, stride);
+}
+
+// with batch_up_draws, extended_state_cache and lazy_state off at the start, only these are hooked (the draws for
+// null_draws, which switches live)
 static bool core_slot(int s) {
   switch (s) {
   case S_Reset: case S_Present: case S_BeginScene: case S_EndScene: case S_BeginSB: case S_EndSB: case S_ApplySB:
   case S_CaptureSB: case S_DeleteSB: case S_CreateSB:
   case S_SetRenderState: case S_SetTexture: case S_SetTSS: case S_SetVS: case S_DeleteVS: case 75 /* CreateVertexShader */: return true;
+  case S_DP: case S_DIP: case S_DPUP: case S_DIPUP: return true;
   }
   return false;
 }
@@ -685,7 +721,8 @@ static void *hook_for(int s) {
   case S_SetTransform: return (void *)h_SetTransform; case S_SetViewport: return (void *)h_SetViewport;
   case S_SetMaterial: return (void *)h_SetMaterial; case S_SetLight: return (void *)h_SetLight;
   case S_LightEnable: return (void *)h_LightEnable; case S_SetStream: return (void *)h_SetStream;
-  case S_SetIndices: return (void *)h_SetIndices; case S_DPUP: return (void *)h_DPUP; case 75: return (void *)h_CreateVS;
+  case S_SetIndices: return (void *)h_SetIndices; case S_DPUP: return (void *)h_DPUP; case S_DP: return (void *)h_DP;
+  case S_DIP: return (void *)h_DIP; case S_DIPUP: return (void *)h_DIPUP; case 75: return (void *)h_CreateVS;
   }
   return NULL;
 }
@@ -866,6 +903,8 @@ extern "C" void sf_device_stats(void) {
   if (gap) H->log("speedfix: shadow forgotten %ld times after frames without the hooks (F9, a trace)", gap);
   LONG bk = InterlockedExchange(&g_blkKnown, 0), bf = InterlockedExchange(&g_blkForgot, 0);
   if (sf_cfg.block_cache && bk + bf) H->log("speedfix: block_cache: %ld state blocks applied with their contents known, %ld not (the shadow forgotten)", bk, bf);
+  LONG nd = InterlockedExchange(&g_nullDrawn, 0);
+  if (nd || sf_cfg.null_draws) H->log("speedfix: null_draws: %ld draw calls not sent to the device", nd);
   LONG me = InterlockedExchange(&g_mergedEnds, 0);
   if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
   if (g_motion) mot_log();

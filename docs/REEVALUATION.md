@@ -165,8 +165,8 @@ Each test answers a "not known" from section 5. Each is an A/B within one run, s
 | | | | it barely moves | the GPU's fill is not the limit |
 | T2 | **The readback, really removed.** `skip_all_occlusion_readbacks=1` at the start and `ab_levers=skip_all_occlusion_readbacks`; the log counts readbacks run in both arms | existing code | the frame drops by more than the spread | the asynchronous readback (task 33) is the next build, on dgVoodoo and on ours |
 | | | | it does not drop | the readback's wait was GPU or queue time that the next sync pays instead; T1 and T3 decide |
-| T3 | **The game without rendering.** A new speedfix lever, `null_draws`: the draw calls return without drawing, the readbacks skipped as in T2, everything else as usual | a small lever (to build) | the frame stays above 16.7 ms | 60 is out of reach on this machine whatever the renderer does. Speed then means the game's own CPU work, under x86 emulation |
-| | | | it falls well below 16.7 ms | the rendering path is the cost, and the port's draw reduction is the way to 60 |
+| T3 | **The game without rendering.** A new speedfix lever, `null_draws`: the draw calls return without drawing, the readbacks skipped as in T2, everything else as usual | a small lever (built 17 Oct; session kit/sessions/ceiling) | the frame stays above 16.7 ms | 60 is out of reach on this machine whatever the renderer does. Speed then means the game's own CPU work, under x86 emulation |
+| | | | it falls to 16.7 ms (the game's own limiter is the floor: it cannot show how far below) | the rendering path is the cost, and the port's draw reduction is the way to 60 |
 
 With all three results the plan follows from data. Without them, any next lever is a guess.
 

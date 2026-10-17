@@ -36,6 +36,10 @@ static HRESULT __stdcall d_dpup(void *d, DWORD t, UINT n, const void *data, UINT
   int v = t == 4 ? (int)n * 3 : (int)n + 2;
   rec(72, t, n, stride, 0, data, v * (int)stride); return 0;
 }
+static HRESULT __stdcall d_dp(void *d, DWORD t, UINT start, UINT n) { rec(70, t, start, n, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_dip(void *d, DWORD t, UINT mi, UINT nv, UINT si, UINT n) { rec(71, t, mi, nv, n, 0, 0); return 0; }
+static HRESULT __stdcall d_dipup(void *d, DWORD t, UINT mi, UINT nv, UINT n, const void *ix, DWORD f, const void *v, UINT st) {
+  rec(73, t, nv, n, st, 0, 0); return 0; }
 static HRESULT __stdcall d_clear(void *d, DWORD n, const void *r, DWORD f, DWORD c, float z, DWORD s) { rec(36, n, f, c, 0, 0, 0); return 0; }
 static DWORD g_nvs = 0x101;                      /* shader handles: odd, as D3D8's are (bit 0 tells them from FVFs) */
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD us) {
@@ -76,6 +80,10 @@ static void getrs(DWORD s, DWORD *v) { DEV(51, HRESULT (__stdcall *)(void *, DWO
 static DWORD createvs(const DWORD *decl, const DWORD *fn) { DWORD h = 0; DEV(75, HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))(&g_dev, decl, fn, &h, 0); return h; }
 static void deletevs(DWORD h) { DEV(78, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, h); }
 static void dpup(DWORD t, UINT n, const void *data, UINT stride) { DEV(72, HRESULT (__stdcall *)(void *, DWORD, UINT, const void *, UINT))(&g_dev, t, n, data, stride); }
+static void dp(UINT n) { DEV(70, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT))(&g_dev, 4, 0, n); }
+static void dip(UINT n) { DEV(71, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, UINT))(&g_dev, 4, 0, 3, 0, n); }
+static void dipup(const void *ix, const void *v) {
+  DEV(73, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, const void *, DWORD, const void *, UINT))(&g_dev, 4, 0, 3, 1, ix, 101 /* D3DFMT_INDEX16 */, v, 16); }
 static void beginsb(void) { DEV(52, HRESULT (__stdcall *)(void *))(&g_dev); }
 static DWORD endsb(void) { DWORD t = 0; DEV(53, HRESULT (__stdcall *)(void *, DWORD *))(&g_dev, &t); return t; }
 static void applysb(DWORD t) { DEV(54, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
@@ -185,7 +193,7 @@ int main(int argc, char **argv) {
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
   g_vt[52] = (void *)d_beginsb; g_vt[53] = (void *)d_endsb; g_vt[54] = (void *)d_applysb; g_vt[55] = (void *)d_capturesb;
   g_vt[56] = (void *)d_deletesb; g_vt[57] = (void *)d_createsb;
-  g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
+  g_vt[70] = (void *)d_dp; g_vt[71] = (void *)d_dip; g_vt[73] = (void *)d_dipup; g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
   g_rs[8] = 3; g_rs[9] = 2;                        /* the device's defaults: FILL_SOLID, SHADE_GOURAUD */
@@ -322,6 +330,23 @@ int main(int argc, char **argv) {
     m = g_n; setrs(7, 10);
     check(count(50, m) == 1, "lazy_state=0 while running: a change reaches the device at once");
     end(); present();
+    /* null_draws: the four draw methods return without reaching the device; what lazy_state holds still goes out at
+       them, and Clear and Present still reach it. Off again, the draws reach the device. */
+    { static const WORD ix[3] = {0, 1, 2};
+      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nnull_draws=1\nstats_every=1\n");
+      for (int i = 0; i < 65; i++) present();
+      begin(); m = g_n;
+      setrs(7, 3); dp(1); setrs(7, 4); dip(1); settss(0, 1, 4); dipup(ix, v); setrs(27, 1); dpup(4, 1, v, 16); clear();
+      check(!strcmp(seq(m), "50 50 63 50 36"), "null_draws=1: no draw reaches the device; each held change goes out at its draw; Clear goes out");
+      end(); present();
+      for (int i = 0; i < 30; i++) { Sleep(50); begin(); dp(1); end(); present(); }   /* past a statistics line (each second) */
+      check(log_has("null_draws=1"), "the settings line names null_draws");
+      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nnull_draws=0\n");
+      for (int i = 0; i < 65; i++) present();
+      begin(); m = g_n; dp(1); dip(1); dipup(ix, v); dpup(4, 1, v, 16);
+      check(!strcmp(seq(m), "70 71 73 72"), "null_draws=0 while running: the four draws reach the device again");
+      end(); present();
+      check(log_has("speedfix: null_draws: ") && log_has(" draw calls not sent to the device"), "the statistics line counts the draws not sent"); }
     /* the lever A/B: lazy_state off (A) and on (B), phases of 1 s */
     touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nab_levers=lazy_state, bogus\nab_after=0\nab_phase=1\nab_rounds=1\nab_settle=2\n");
     for (int i = 0; i < 400; i++) { begin(); end(); present(); Sleep(8); }

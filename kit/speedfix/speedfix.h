@@ -34,6 +34,7 @@ struct SfConfig {
                             // instead of forgetting everything (sf_device.cpp)
   int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
                             // (sf_main.cpp): 60.0 fps instead of 58.8
+  int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
 };
 extern SfConfig sf_cfg;
 

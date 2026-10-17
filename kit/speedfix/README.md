@@ -35,6 +35,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
+| `null_draws` | 0 | A test, not a speedup: the draw calls return D3D_OK without reaching the device; nothing is drawn; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
 | `ab_levers`, `ab_after`, `ab_phase`, `ab_rounds`, `ab_settle` | empty, 60, 30, 4, 60 | The lever A/B, no keys: the listed settings off (A) against as set (B) (below) |
@@ -105,6 +106,13 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   - Measure: `xikit.log` each minute, `precise_pacing: N frames timed by the counter; the limiter waited X ms`; and
     the frame A/B (`ab_levers=precise_pacing`), whose mean frame should move from about 17.0 to 16.67 ms. Do not use
     it with `frame_cap_fps` (two pacers).
+- **null_draws: a test of what the frame costs without drawing.** DrawPrimitive, DrawIndexedPrimitive,
+  DrawPrimitiveUP and DrawIndexedPrimitiveUP return D3D_OK without reaching the device (signatures: d3d8.h). Every
+  other call still goes to the device: state changes (held ones go out at the draw as they would), locks, Clear,
+  Present. The game's own work is untouched. What remains is the frame time of the game's CPU work plus the device's
+  cost of everything but drawing. Nothing is drawn, so the screen is not usable while it is on, and the occlusion
+  readback reads an undrawn target: use it with `skip_all_occlusion_readbacks=1` in both arms
+  (`kit/sessions/ceiling`). Live both ways; `xikit.log` each minute: `null_draws: N draw calls not sent`.
 - **sse_skinning: frame time on CPUs the game does not call Intel.** On the owner's M5 MacBook Pro (Windows on ARM in
   Parallels, the game x86-emulated) the render thread spent 13.3% of its samples in the x87 skinning loop of
   0x1002F1D0, and none in its SSE loop (docs/HISTORY.md, run 6156).
@@ -183,7 +191,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`, `null_draws`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.

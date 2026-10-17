@@ -140,6 +140,10 @@ static const char kDefaultIni[] =
   ";   precise (a high-resolution timer, then a spin to the moment): 60.0 frames a second instead of 58.8. Live both\r\n"
   ";   ways; use it without frame_cap_fps\r\n"
   "precise_pacing=0\r\n"
+  "; a test, not a speedup: the draw calls return without drawing (nothing is drawn); the game's own work and every\r\n"
+  ";   other device call stay. Live both ways; use it with skip_all_occlusion_readbacks=1 (what the game reads back\r\n"
+  ";   from an undrawn frame is wrong)\r\n"
+  "null_draws=0\r\n"
   "; seconds between speedfix's statistics lines in xikit.log\r\n"
   "stats_every=60\r\n"
   "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
@@ -164,6 +168,7 @@ static SfConfig read_config(void) {
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
+  c.null_draws = rd("null_draws", 0);
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
@@ -182,9 +187,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws);
   if (c.frame_cap_fps && 60 % c.frame_cap_fps)
     LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
         "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
@@ -447,6 +452,7 @@ static const Lever kLevers[] = {
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
   {"skin_merge", &SfConfig::skin_merge, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
+  {"null_draws", &SfConfig::null_draws, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)

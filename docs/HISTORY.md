@@ -2540,3 +2540,21 @@ Two runs in the plaza, standing still, `ab_levers=skip_all_occlusion_readbacks`:
   and method.
 - Name the fork's inner call sites: read.py takes the game's and the reconstruction's addresses as call sites, not
   speedfix.dll's.
+
+## 18 Oct: a kernel-call counter (d3dprof `kernel_calls=`), to count the D3D8 calls behind Lock2/Unlock2
+
+Run 3464 B put about 20.7 ms of the 33.66 ms frame in kernel calls the sampler named (Lock2 10.2, Unlock2 8.6, waits
+~1.1, others ~0.8). The sampler gives positions, not counts, and cannot say which Direct3D 8 call led to them. The
+kit can now count them directly:
+
+- **What it does:** with `kernel_calls=1` (or `2`), d3dprof patches win32u.dll's x86 system-call stubs in the game's
+  process (exact byte form only; anything else is refused and named in the report) and counts each entry, render
+  thread and other threads. Lock2, Unlock2, WaitForSynchronizationObjectFromCpu and Render are charged to the device
+  method or the vertex/index buffer Lock/Unlock they happen in, per call site (docs/KIT.md).
+- **Known from the tests:** the counting thunk is exact on Wine (3 PeekMessage calls a frame read as 3.00); the
+  attribution is exact under Unicorn, nested calls included.
+- **Not known yet:** whether the owner's win32u.dll (ARM64 Windows 26200, x86 under xtajit) has these stubs in this
+  form. The report's first `# kernel calls:` line says, with the bytes of any it refused.
+- **What it will settle:** how many Lock2/Unlock2 a frame there are, and which game call sites produce them. The
+  13 Oct trace counted about 475-568 VB Unlocks a frame (the largest at 0x1002DD38 / 0x1002DD7F / 0x1002DDB4 in
+  CYyModelDt_SkinAndDrawV2, CPU skinning). Whether those are what makes the Lock2/Unlock2 is what the run measures.

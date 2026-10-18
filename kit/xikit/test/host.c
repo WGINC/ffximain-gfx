@@ -27,7 +27,10 @@ typedef uint8_t (*GammaFn)(void);
 typedef char (__attribute__((thiscall)) *PushRt1Fn)(void *, int, int, int);
 
 static int presents, fails;
-static HRESULT __stdcall fake_present(void *d, const RECT *a, const RECT *b, HWND w, const void *r) { (void)d; (void)a; (void)b; (void)w; (void)r; presents++; return 0; }
+/* three PeekMessage calls a frame inside the device's Present: kernel_calls=2 must count them on the render thread
+   (Wine's win32u NtUserPeekMessage is an x86 system-call stub) */
+static HRESULT __stdcall fake_present(void *d, const RECT *a, const RECT *b, HWND w, const void *r) { (void)d; (void)a; (void)b; (void)w; (void)r; presents++;
+  MSG m; for (int k = 0; k < 3; k++) PeekMessageA(&m, NULL, 0, 0, PM_NOREMOVE); return 0; }
 static void __stdcall other_slot(void) { printf("FAIL: a device method other than Present was called\n"); ExitProcess(3); }
 static void *g_vtbl[97];
 static struct { void **vt; } g_dev = { g_vtbl };
@@ -167,7 +170,7 @@ int main(int argc, char **argv) {
      coverage; the default (untested functions left out) is checked below */
   uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
   touch_ini(ini, abrun ? "[xikit]\nlog_folder=1\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nab=1\nab_after=0\nab_phase=1\nab_rounds=2\nab_settle=3\n"
-                 : profile ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
+                 : profile ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\nkernel_calls=2\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
                  : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
                  : modrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
                  : factrun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
@@ -482,12 +485,16 @@ int main(int argc, char **argv) {
     int before = presents; present(600);
     check(presents == before + 600, "profile=1: Present still reaches the device's own method through both hooks");
     snprintf(name, sizeof name, "d3dprof_%lu.csv", GetCurrentProcessId());
-    csv = fopen(name, "r"); int head = 0, row = 0, ctime = 0, crow = 0;
+    csv = fopen(name, "r"); int head = 0, row = 0, ctime = 0, crow = 0, khook = 0, kpeek = 0, kcol = 0;
     if (csv) {
       while (fgets(line, sizeof line, csv)) {
         if (!strncmp(line, "# d3dprof v2: 600 frames", 24)) head = 1;
         if (!strncmp(line, "# call time: QueryPerformanceCounter", 36)) ctime++;
         if (strstr(line, ",primitives_per_frame,us_per_call,us_per_frame")) ctime++;
+        if (strstr(line, ",us_per_frame,k_Lock2,k_Unlock2,k_WaitForSyncFromCpu,k_Render")) kcol = 1;
+        if (!khook && !strncmp(line, "# kernel", 8)) printf("%s", line);   /* (the first window's: what was hooked and refused) */
+        if (!strncmp(line, "# kernel calls: hooked ", 23) && !strstr(line, "hooked 0 ")) khook = 1;
+        if (!kpeek && !strncmp(line, "# stub NtUserPeekMessage per frame: render thread ", 50)) { printf("%s", line); kpeek = !strncmp(line + 50, "3.00,", 5); }
         /* call_time=1: the Present row carries the time per call and per frame (two numbers after the primitives) */
         if (!strncmp(line, "Present,", 8)) { double a, b, c, d, e; char *p = strstr(line, ",host.exe+0x"); if (p) p = strchr(p + 1, ',');   /* the caller: its module */
           if (p && sscanf(p + 1, "%lf,%lf,%lf,%lf,%lf", &a, &b, &c, &d, &e) == 5 && d >= 0 && e >= 0) crow = 1; }
@@ -498,6 +505,8 @@ int main(int argc, char **argv) {
     }
     check(head, "profile=1: d3dprof wrote its report after 600 frames");
     check(ctime == 2 && crow, "call_time=1: the report has the timer line, the two time columns, and Present's time per call and per frame");
+    check(khook && kcol, "kernel_calls=2: win32u's system-call stubs were hooked and the report has the k_ columns");
+    check(kpeek, "kernel_calls=2: the three PeekMessage calls a frame inside Present are counted on the render thread");
     /* the sampler should find the render thread in game or reconstructed code when it is there: GetColor (swapped)
        called for about half a second, then a window of frames so the samples are written */
     { DWORD t = GetTickCount(); volatile uint32_t sink = 0;

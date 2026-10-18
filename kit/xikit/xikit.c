@@ -54,7 +54,7 @@ void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void
 int d3dprof_trace_write(const char *path, const char *note);
 /* frame capture (kit/d3dprof/fcap.c): one frame with every piece of data its calls use, for kit/fcap/replay.c */
 extern int fcap_enabled; void fcap_arm(void); int fcap_busy(void); unsigned fcap_written(void);
-extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
+extern int d3dprof_call_time, d3dprof_kernel_calls; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot); const char *d3dprof_kc_note(void);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -196,6 +196,11 @@ static const char DEFAULT_INI[] =
   "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
   ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "call_time=0\r\n"
+  "; 1 or 2 (with profile=1): count the process's kernel calls through win32u.dll's system-call stubs (Lock2, Unlock2,\r\n"
+  ";    WaitForSynchronizationObjectFromCpu, Render and other D3DKMT calls; 2: every stub), per frame, and charge the first\r\n"
+  ";    four to the Direct3D call or vertex/index buffer Lock/Unlock they happen in (d3dprof_<pid>.csv, k_ columns and\r\n"
+  ";    '# kernel' lines); takes effect at the next start\r\n"
+  "kernel_calls=0\r\n"
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
@@ -1981,9 +1986,11 @@ static DWORD WINAPI start(LPVOID self) {
   if (g_cfg.profile || g_cfg.trace || fcap_enabled) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
+    d3dprof_kernel_calls = g_cfg.profile ? GetPrivateProfileIntA("xikit", "kernel_calls", 0, g_ini) : 0;
     d3dprof_set_shift(g_shift);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
     if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");
+    if (d3dprof_kernel_calls) klog("kernel_calls=%d: %s", d3dprof_kernel_calls, d3dprof_kc_note());
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);

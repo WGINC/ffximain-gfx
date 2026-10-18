@@ -48,6 +48,10 @@ Time spent inside each D3D call: off by default; `call_time=1` (in xikit.ini wit
 `d3dprof.ini` next to the standalone DLL) adds `us_per_call` and `us_per_frame` per call site (docs/KIT.md, "Where the
 time goes"). Calls made on other threads are counted as `other_thread_calls`, not profiled.
 
+Kernel calls: off by default; `kernel_calls=1` (or `2`: every win32u stub) counts the system calls the process makes
+through win32u.dll's x86 stubs and charges D3DKMT Lock2/Unlock2/WaitForSynchronizationObjectFromCpu/Render to the
+device call or buffer Lock/Unlock they happen in (docs/KIT.md).
+
 ## speedfix: the performance fixes, as a mod of the kit
 
 `speedfix/` is speedfix_hook rewritten as an xikit mod: state cache, UP batching, occlusion stagger and skips, frame

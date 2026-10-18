@@ -245,6 +245,28 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   the reconstructed GetColor name it; with `call_time=1`, the report's time columns and Present's times.
   `test_thunks.py` (Unicorn): a timed call returns to its caller through the stub with the method's pop, EAX and EDX,
   and records exactly one counter interval at its site.
+- **Kernel calls, `kernel_calls=1` or `2`** (with `profile=1`; read at the start; standalone: `[d3dprof]`
+  `kernel_calls=`). Counts the process's entries into the kernel through win32u.dll's x86 system-call stubs, at
+  the stub: each stub whose bytes are exactly `B8 imm32 / BA imm32 / FF D2 / C2 imm16 or C3` gets its first
+  instruction replaced by a jump to a thunk that counts the call (render thread, or other threads) and goes on into
+  the stub. Any other bytes are not touched; the report names them, with their first 8 bytes, as refused (under
+  Wine 9 the D3DKMT ones are `90 90 ...`, not stubs). `1` hooks a list (the D3DKMT calls and three NtUser ones),
+  `2` every export that matches. The first four, NtGdiDdDDILock2, Unlock2, WaitForSynchronizationObjectFromCpu and
+  Render, are also charged to the call they happen in: a device method (through the same return path as
+  `call_time`, so these sites need no timing) or a Lock/Unlock of a vertex/index buffer the game has bound
+  (`VB_Lock`, `VB_Unlock`, `IB_Lock`, `IB_Unlock` rows), exclusive of nested device calls. The report gets
+  `k_Lock2,k_Unlock2,k_WaitForSyncFromCpu,k_Render` per frame per row, a `# kernel <name> per frame` line each
+  (render thread total; inside device calls; inside buffer Lock/Unlock; elsewhere; other threads), and a
+  `# stub <name> per frame` line for every hooked stub that was entered.
+  - **Limits, as built:** a buffer's Lock/Unlock is only seen after the buffer has been bound once
+    (SetStreamSource/SetIndices), so a lock before its first bind counts as "elsewhere". A kernel call made on the
+    render thread outside any device call or wrapped buffer method (dgVoodoo's own work at another time, the game's
+    message loop) is "elsewhere" too. Under xtajit the stubs are x86 code the emulator translates; whether the
+    owner's win32u.dll has this exact form for these names is what the header line says.
+  - **Tested** (Wine, mode `profile`, `kernel_calls=2`): 401 of 421 stubs hooked, the D3DKMT ones refused with
+    their bytes; the host's fake Present calls PeekMessage 3 times, counted as exactly 3.00 a frame on the render
+    thread. `test_thunks.py` (Unicorn): a method that counts 1, calls another method through its thunk (counts 2)
+    and counts 1 more is charged 2 and the inner call 2; a bound VB's Lock that counts 1 is a `VB_Lock` site with 1.
 
 ## What the game runs on (always, in xikit.log)
 

@@ -9,6 +9,7 @@ typedef uint64_t undefined7; typedef uint64_t undefined8;
 typedef unsigned char byte; typedef unsigned char uchar; typedef unsigned short ushort; typedef unsigned int uint;
 typedef unsigned long ulong; typedef long long longlong; typedef unsigned long long ulonglong;
 typedef unsigned short word; typedef uint32_t dword; typedef uint64_t qword;
+typedef unsigned char xi_bool;               // Ghidra's bool: one byte, any value (hx2cpp.ghidra_bool)
 typedef long double float10;                 // x87 80-bit; GCC's long double on i686
 typedef unsigned short wchar16; typedef unsigned int wchar32;
 typedef int32_t int3; typedef uint32_t uint3; typedef int64_t int5; typedef uint64_t uint5; typedef int64_t int6; typedef uint64_t uint6; typedef int64_t int7; typedef uint64_t uint7;   // Ghidra's odd-width integers
@@ -81,3 +82,7 @@ template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uin
 template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
 template<> struct xi_piece_t<8> { typedef uint64_t t; };
 #define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))
+
+// a floating constant by its encoding (GfxExport `/*XI_K:size:bits*/`): the float or double the code loads
+static inline float xi_k4(unsigned long long b) { uint32_t u = (uint32_t)b; float f; __builtin_memcpy(&f, &u, 4); return f; }
+static inline double xi_k8(unsigned long long b) { double d; __builtin_memcpy(&d, &b, 8); return d; }

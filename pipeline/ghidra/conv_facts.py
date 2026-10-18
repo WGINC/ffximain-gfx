@@ -6,14 +6,20 @@ Sources (all whole-DLL facts in data/):
   ecx_use.json    an instruction reads the entry ECX, or the entry ECX reaches a callee that reads it; False: neither
   edx_use.json    the same for EDX (True or an instruction: read; False: not; null: not established)
   purges.json     the function's own `ret N`
+  tail_purges.json no `ret`: every exit tail-jumps at stack depth 0 to targets popping the same N (tail_purges.py)
   entry_regs.json reads of EAX/EBX/ESI/EDI/EBP on entry (a __usercall): no standard convention says that
   fpret.json      the value left in ST0 on return ('float') or none; 'consumes': pops a value the caller left in ST0 (RET st0in)
+  reg_keeps.json  which of EAX/ECX/EDX the function leaves untouched, its callees included (reg_keeps.py)
 
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
   neither read            -> __stdcall if ret N > 0, else __cdecl
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
-  EDX read without ECX, ECX not established, EDX not established without ECX, an entry_regs entry, no purge -> not set (the line says why)
+  EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
+  entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
+  ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
+Kept registers: `0xADDR keeps eax,edx` for every function reg_keeps.json lists (a caller reading the register
+after the call reads its own value from before it; GfxExport gives the callee a prototype model saying so).
 
 Indirect calls (a virtual or COM call, a function pointer), at the call instruction:
   pops            sp_solved.json (the caller's balance solved), vcalls.json (every proven callee's ret N),
@@ -33,7 +39,10 @@ load = lambda f: json.load(open(os.path.join(D, f)))
 
 
 def decide(k, eu, du, pu, er, fp):
-    if k in er: return None, 'usercall: reads %s on entry (entry_regs.json)' % ','.join(sorted(er[k]))
+    regin = []
+    if k in er:
+        if set(er[k]) != {'eax'}: return None, 'usercall: reads %s on entry (entry_regs.json)' % ','.join(sorted(er[k]))
+        regin.append('EAX')
     if k not in pu: return None, 'no ret N (purges.json)'
     if k not in eu or eu[k] is None: return None, 'ECX use not established (ecx_use.json)'
     e, d = bool(eu[k]), du.get(k)
@@ -41,10 +50,11 @@ def decide(k, eu, du, pu, er, fp):
     d = bool(d)           # null with ECX read: __thiscall; an EDX read Ghidra sees stays `in_EDX`, which hx2cpp refuses
     if e and d: cc = '__fastcall'
     elif e: cc = '__thiscall'
-    elif d: return None, 'reads EDX but not ECX: no standard convention'
-    else: cc = '__stdcall' if pu[k] else '__cdecl'
+    else:
+        cc = '__stdcall' if pu[k] else '__cdecl'
+        if d: regin.append('EDX')
     f = fp.get(k.lower())
-    return (cc, pu[k], 'float' if f == 'float' else 'st0in' if f == 'consumes' else '-'), None
+    return (cc, pu[k], 'float' if f == 'float' else 'st0in' if f == 'consumes' else '-', regin), None
 
 
 def icalls():
@@ -73,13 +83,17 @@ def icalls():
 
 def main(out):
     eu, du, pu, er, fp = (load(f) for f in ('ecx_use.json', 'edx_use.json', 'purges.json', 'entry_regs.json', 'fpret.json'))
+    pu.update({k: v['pops'] for k, v in load('tail_purges.json').items() if k not in pu})
     n = {}
     with open(out, 'w') as f:
         for k in sorted(set(eu) | set(pu), key=lambda s: int(s, 16)):
             r, why = decide(k, eu, du, pu, er, fp)
-            f.write('%s %s %d %s\n' % ((k,) + r) if r else '%s - %s\n' % (k, why))
+            f.write('%s %s %d %s\n' % ((k,) + r[:3]) if r else '%s - %s\n' % (k, why))
+            if r and r[3]: f.write('%s regin %s\n' % (k, ','.join(r[3]))); n['regin'] = n.get('regin', 0) + 1
             key = r[0] if r else why.split(':')[0].split(' (')[0]
             n[key] = n.get(key, 0) + 1
+        for k, v in sorted(load('reg_keeps.json').items(), key=lambda kv: int(kv[0], 16)):
+            f.write('%s keeps %s\n' % (k, ','.join(v))); n['keeps'] = n.get('keeps', 0) + 1
         for k, (r, why) in icalls().items():
             f.write('%s icall %s %d %s\n' % ((k,) + r) if r else '%s - icall: %s\n' % (k, why))
             key = 'icall ' + (r[0] if r else why.split(':')[0])

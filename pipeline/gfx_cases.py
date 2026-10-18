@@ -22,6 +22,9 @@ ECX_READ = {k for k, v in (json.load(open(os.path.join(DATADIR, 'ecx_use.json'))
             if isinstance(v, str) and v.startswith('0x')}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
+# tail-jump functions pop what their target's `ret N` pops (tail_purges.py: the jump is at stack depth exactly 0)
+if os.path.exists(os.path.join(DATADIR, 'tail_purges.json')):
+    PURGES.update({k: v['pops'] for k, v in json.load(open(os.path.join(DATADIR, 'tail_purges.json'))).items() if k not in PURGES})
 THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
 # fake Direct3D objects behind globals (and in `this`), per function, each with its source (data/global_com.json)
 GLOBAL_COM = {k: v for k, v in json.load(open(os.path.join(DATADIR, 'global_com.json'))).items() if not k.startswith('_')} \

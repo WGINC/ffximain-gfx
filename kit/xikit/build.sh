@@ -5,6 +5,7 @@
 #   xikit_manifest_<stamp>.txt  manifest_for_build.py, for each other build in builds/ ($FFXI_DLL_<stamp>)
 #   xikit.dll              xikit.c + ../d3dprof/d3dprof.c (XIKIT)
 #   xikit.ini              the default settings
+#   xisamp_arm64.exe, xisamp_x64.exe  the native sampler (../xisamp, sample=2)
 set -euo pipefail
 H="$(cd "$(dirname "$0")" && pwd)"; ROOT="$H/../.."; OUT="$H/dist"; W="$H/build"
 mkdir -p "$OUT" "$W"
@@ -25,6 +26,8 @@ done
 python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" --from-gates | head -1   # the UNRESOLVED call sites, for facts=1
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
     "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
+"$ROOT/kit/xisamp/build.sh" | tail -1                     # the native sampler (sample=2), from the same folder
+cp "$ROOT/kit/xisamp/dist/xisamp_arm64.exe" "$ROOT/kit/xisamp/dist/xisamp_x64.exe" "$OUT/"
 python3 - "$H/xikit.c" "$OUT/xikit.ini" <<'PY'
 import re, sys
 s = open(sys.argv[1]).read()

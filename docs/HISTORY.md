@@ -2371,3 +2371,56 @@ lever on as before except merge_scenes and null_draws; `ab_levers=skip_all_occlu
   skip_all_occlusion_readbacks' saving less the copies, and only if a lock made a probe later does not wait on
   dgVoodoo, which is not known. Its per-call timing (`readback time:`, the longest late read) answers that.
 
+
+## 18 Oct: where the 64-67% and the 29-31% go: what sample=1 can and cannot say, and a native sampler
+
+The question: of the render thread's samples in runs 8452 and 8980 (entry above), what is behind EIP 0x00010002
+(67.4%, 64.2%) and behind the innermost game return address 0x1002A034 (31.1%, 28.7%)?
+
+**Which speedfix ran (from the samples themselves):** every speedfix offset sampled falls on an instruction boundary
+of `ceiling/speedfix.dll` (commit a1cd637, the null_draws ceiling session): 434 of 434 in 8452, 573 of 573 in 8980.
+Kit 35fa886's speedfix.dll matches only 111 of 434. So the speedfix in those runs is the ceiling build, not the kit's.
+
+**Run 8452 (10,088 samples) and 8980 (11,763), by sample=1's self and caller (separate counts, no joint data):**
+- self 0x00010002: 6,798 (67.4%) and 7,552 (64.2%); 0x00010000: 83 in 8452.
+- caller 0x1002A034 (the return from the call to SkinAndDrawV2 at 0x1002A02F in fn 0x1002A000, which skin_merge
+  replaces with speedfix's fork): 3,141 (31.1%) and 3,375 (28.7%).
+- caller 0x10012AFA (Frame_Render, the return from `call 0x10009740`, CDx::EndScene): 1,650 (16.4%) and 1,505 (12.8%);
+  Frame_Render in all 17.65% and 16.36%.
+- fn 0x1002F130 (caller 0x1002F150): 668 and 694. CMoVuElem_Draw (0x10044002): 230 and 772. Cell_DrawQuadBlended
+  2.98% and 4.18%; fn 0x100303B0 2.77%; CDx::SetLight 2.21% (8452).
+- self in speedfix.dll: 434 (4.3%) and 573 (4.9%). By function (8452/8980): ApplySB 53/74, SetTransform 46/66, the fork
+  41/65, xm_flush 13/36, the rest smaller. The fork and xm_flush themselves are about 0.5-1% of the samples, so the
+  29-31% under 0x1002A034 is in what they call (the device: dgVoodoo and below), not in their own code.
+- self USER32 390 and 532; win32u 169; Hook.dll (Windower) 125 (8452).
+
+**What is known and from where:**
+- 0x1002A034 and 0x10012AFA are call sites in the game's code (the analysed build's disassembly, with the kit's
+  rel/shift table).
+- swap=0 in 8452 (0 of 774 reconstructed functions swapped; the 2 swapped are mod targets), so the game's own
+  CDx::EndScene ran. Its own return address inside CDx::EndScene, 0x1000974C, is never found on the stack in the
+  samples whose caller is 0x10012AFA. Why is not established.
+
+**What is not known:**
+- What 0x00010002 is. It is in no image. It equals CONTEXT_i386|CONTEXT_INTEGER, which is an observation, not an
+  explanation. Under x86 emulation on ARM64, a thread's x86 context read from inside the process may not be its
+  position while native code (the emulator, the system's ARM64 code, the driver) runs. That is a possibility only.
+- How the 29-31% and the EndScene share split between dgVoodoo, D3D11, the driver, the emulator and waiting. sample=1
+  runs inside the emulated process and sees only the x86 state, so it cannot answer this.
+
+**The native sampler (kit/xisamp, `sample=2`):** a native 64-bit process (ARM64 on the owner's machine) that xikit
+starts at the first Present. Each sample it suspends the render thread and reads, at the same instant:
+- the x86 context (Wow64GetThreadContext) and the x86 return addresses on its stack;
+- the native context (pc, lr and the ARM64 frame-pointer chain).
+
+It writes histograms per window to `xikit_native_<pid>.csv`. `kit/xisamp/read.py` gives:
+- x86 module and native module, each on its own and jointly;
+- the no-image eips with their native pc and frames, which is the 0x00010002 question;
+- the samples by innermost game call site;
+- for `--focus 0x1002A034 0x10012AFA`, the x86 and native positions under those sites.
+
+What has been tested: the x64 build under 64-bit Wine (`test_xisamp.py`, 11 checks; `test_xikit.py`'s native run).
+The ARM64 build has not run on ARM64. Its native chain is untested.
+
+**Next:** the owner runs the same A/B with `sample=2` (`sample_ms=1`, `sample_window=30`). The two
+`xisamp_*.exe` go next to xikit.dll. The owner sends `xikit_native_<pid>.csv` with xikit.log.

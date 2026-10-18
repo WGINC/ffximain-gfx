@@ -84,6 +84,7 @@ int main(int argc, char **argv) {
   int factrun = argc > 1 && !strcmp(argv[1], "facts");
   int abrun = argc > 1 && !strcmp(argv[1], "ab");
   int realrun = argc > 1 && !strcmp(argv[1], "realdev");
+  int nativerun = argc > 1 && !strcmp(argv[1], "native");
   g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
@@ -170,6 +171,7 @@ int main(int argc, char **argv) {
                  : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
                  : modrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
                  : factrun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
+                 : nativerun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nsample=2\nsample_ms=1\nsample_window=1\n"
                  : caprun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
@@ -382,6 +384,11 @@ int main(int argc, char **argv) {
   csv = fopen(name, "r"); int seen = 0; char line[256];
   if (csv) { while (fgets(line, sizeof line, csv)) if (strstr(line, "0x100A4830,") && strstr(line, ",1,1,1")) seen = 1; fclose(csv); }
   check(seen, "the call count of SetColor is in the report (1 call)");
+  if (nativerun) {         /* sample=2: the game's GetColor for 2.5 s, then time for the sampler's windows (test_xikit.py reads them) */
+    DWORD t = GetTickCount(); volatile uint32_t sink = 0;
+    while (GetTickCount() - t < 2500) { for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); present(1); }
+    Sleep(2500);
+  }
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "swap=0 (ini re-read): the original bytes are back");

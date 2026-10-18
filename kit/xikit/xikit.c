@@ -208,7 +208,10 @@ static const char DEFAULT_INI[] =
   "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\ncapture_follow=16\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
   ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
-  "sample=0\r\nsample_ms=1\r\n"
+  "; 2: the native sampler instead (xisamp_arm64.exe or xisamp_x64.exe from this folder): each sample holds where the x86\r\n"
+  ";    code was and where the machine was natively (the emulator, Windows' ARM64 code, the driver); xikit_native_<pid>.csv\r\n"
+  ";    every sample_window seconds (kit/xisamp/read.py reads it)\r\n"
+  "sample=0\r\nsample_ms=1\r\nsample_window=30\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
   ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
   "facts=0\r\n"
@@ -865,7 +868,7 @@ static void report_timing(void) {
       fclose(f);
     }
   }
-  if (!g_sampling) return;
+  if (g_sampling != 1) return;
   snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   EnterCriticalSection(&g_samplock);
@@ -880,11 +883,37 @@ static void report_timing(void) {
   LeaveCriticalSection(&g_samplock);
   fclose(f);
 }
+/* sample=2: the native sampler (kit/xisamp), a 64-bit process of its own for the machine Windows runs on, started
+   once the render thread is known; it records the x86 position and the native one (on ARM64: the emulator, Windows'
+   own ARM64 code, the driver) of each sample together, in xikit_native_<pid>.csv */
+static int g_native_started, g_sample_window = 30;
+static void start_native_sampler(void) {
+  g_native_started = 1;
+  typedef BOOL (WINAPI *IW2)(HANDLE, USHORT *, USHORT *);
+  IW2 iw2 = (IW2)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process2");
+  USHORT pm = 0, nm = 0;
+  if (!iw2 || !iw2(GetCurrentProcess(), &pm, &nm)) { klog("sample=2: IsWow64Process2 not available: the native machine is not known, no native sampler"); return; }
+  const char *arch = nm == 0xAA64 ? "arm64" : nm == 0x8664 ? "x64" : NULL;
+  if (!arch) { klog("sample=2: no native sampler for machine 0x%X", nm); return; }
+  char exe[MAX_PATH], cmd[2048]; snprintf(exe, sizeof exe, "%s\\xisamp_%s.exe", g_dir, arch);
+  int k = snprintf(cmd, sizeof cmd, "\"%s\" %lu %lu %d %d \"%s\" 0x%X", exe, (unsigned long)GetCurrentProcessId(), (unsigned long)g_render_thread,
+                   g_sample_ms, g_sample_window, g_out, g_rel);
+  for (int i = 0; i < g_shift[0] && k < (int)sizeof cmd - 40; i++)
+    k += snprintf(cmd + k, sizeof cmd - k, " %X:%X:%d", (uint32_t)g_shift[1 + 3 * i], (uint32_t)g_shift[2 + 3 * i], g_shift[3 + 3 * i]);
+  STARTUPINFOA si; PROCESS_INFORMATION pi; memset(&si, 0, sizeof si); si.cb = sizeof si;
+  if (CreateProcessA(exe, cmd, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+    klog("sample=2: native sampler started (%s, pid %lu): the render thread %lu every %d ms, xikit_native_%lu.csv every %d s (kit/xisamp/read.py)",
+         exe, (unsigned long)pi.dwProcessId, (unsigned long)g_render_thread, g_sample_ms, (unsigned long)GetCurrentProcessId(), g_sample_window);
+    CloseHandle(pi.hThread); CloseHandle(pi.hProcess);
+  } else klog("sample=2: could not start %s (error %lu)", exe, GetLastError());
+}
 static void start_sampler(void) {
   g_sampling = GetPrivateProfileIntA("xikit", "sample", 0, g_ini);
   g_sample_ms = GetPrivateProfileIntA("xikit", "sample_ms", 1, g_ini); if (g_sample_ms < 1) g_sample_ms = 1;
+  g_sample_window = GetPrivateProfileIntA("xikit", "sample_window", 30, g_ini); if (g_sample_window < 1) g_sample_window = 30;
   QueryPerformanceFrequency(&g_qpf);
-  if (!g_sampling) return;
+  if (g_sampling == 2) { klog("sample=2: the native sampler starts with the first frame"); return; }
+  if (g_sampling != 1) { g_sampling = 0; return; }
   g_h_self = (Hist *)VirtualAlloc(NULL, 3 * sizeof(Hist), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
   if (!g_h_self) { g_sampling = 0; klog("sample: could not reserve the tables"); return; }
   g_h_caller = g_h_self + 1; g_h_incl = g_h_self + 2;
@@ -979,6 +1008,7 @@ static void ab_frame(double ms) {       /* each frame's time, after Present */
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
+  if (g_sampling == 2 && !g_native_started) start_native_sampler();
   LARGE_INTEGER t0, t1, t2; int mine = GetCurrentThreadId() == g_render_thread;
   QueryPerformanceCounter(&t0);
   if (mine) {

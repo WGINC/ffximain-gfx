@@ -76,5 +76,9 @@ runs d3dprof inside it.
 Each build writes `dist/VERSION.txt`: the source commit, the date, the tree's gate result and every file's
 SHA-256. `xikit.log` repeats its first line, so a log says which kit wrote it.
 
-Test: `xikit/test/test_xikit.py` (32-bit Wine and `numpy`, the real FFXiMain.dll; eight runs, docs/KIT.md, Tests).
+`xisamp/` is the native sampler (`sample=2` in xikit.ini; `xisamp/build.sh`, copied into `xikit/dist/` by its
+build): a 64-bit process that samples the render thread's x86 and native (ARM64) positions together;
+`xisamp/read.py` reads its `xikit_native_<pid>.csv`, `xisamp/test_xisamp.py` tests it under Wine (docs/KIT.md).
+
+Test: `xikit/test/test_xikit.py` (Wine and `numpy`, the real FFXiMain.dll; twelve runs, docs/KIT.md, Tests).
 Is the kit current? `pipeline/tool_drift.py` rebuilds it and compares with `kit/BUILD.lock.json`.

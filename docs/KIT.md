@@ -80,13 +80,15 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eleven times: base,
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs twelve times: base,
 relocated and profile (below); `ab` (the A/B test and the log folder); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
 relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
 needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); `facts`
 (`facts=1`); and `realdev` and `realdev_ours` (14 Oct): a real Direct3D 8 device in the fake one's place, Wine's d3d8
 and then kit/d3d8on11's, in a virtual X server. The kit must hook it, present 200 frames through it and write
-`xikit_timing_<pid>.csv`. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
+`xikit_timing_<pid>.csv`. And `native` (18 Oct): `sample=2` in a Wine prefix with 64-bit Windows. The kit must start
+`xisamp_x64.exe` on the render thread, and its file must show the host's GetColor loop and the Sleep after it, each
+under the host's calls. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -188,6 +190,45 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
     older frame is counted too.
 
   Samples estimate time shares; they do not time each call.
+- **The native sampler, `sample=2`** (kit/xisamp). Read at the start. `sample=1` runs inside the game: on an
+  x86-on-ARM64 machine it sees only the emulated x86 state, and on the owner's machine 64-67% of its samples read
+  EIP 0x00010002, which is in no module (task 34; what that value is has not been established). `sample=2`
+  instead starts `xisamp_arm64.exe` (native ARM64) or `xisamp_x64.exe` (native x64) from the kit folder, chosen by
+  `IsWow64Process2`'s native machine, with the first frame's thread. It is a 64-bit process of its own. Every
+  `sample_ms` it suspends the thread and reads:
+  - the x86 context (`Wow64GetThreadContext`) and 16 KB of the x86 stack;
+  - the native context (`GetThreadContext`: ARM64 Pc, Lr, Fp, Sp; x64 Rip, Rsp) and up to 64 KB of the native
+    stack.
+
+  With the thread running again, it builds:
+  - **the x86 chain:** a scan, as `sample=1`'s, of values in any x86 image that follow a call instruction;
+  - **the native chain** (ARM64): the x29 frame-pointer chain, which the Windows ARM64 ABI requires.
+
+  Each sample is one tuple: (x86 eip, x86 chain, native pc, native lr, native chain). Every `sample_window`
+  seconds (default 30), `xikit_native_<pid>.csv` gets:
+  - the window's local start and end, which line up with A/B phases;
+  - its tuples with counts;
+  - every image in the process, with its machine;
+  - a label for each address: its image and RVA, and the nearest export at or below it. The export is a position
+    only: a module's internal functions have no export.
+
+      python3 kit/xisamp/read.py xikit_native_<pid>.csv [--from HH:MM:SS --to HH:MM:SS] [--focus 0x1002A034]
+
+  shows, as shares of the samples:
+  - the x86 module;
+  - the native module;
+  - the two together;
+  - for x86 eips in no image: their values and their native pc and frames;
+  - time outside the game, by call site (as `sample=1`'s elsewhere);
+  - for each `--focus` call site: its samples split by x86 module!export and native module!export.
+
+  Game addresses are the analysed build's: xikit passes `rel` and the shift table.
+  - **Tested** (`kit/xisamp/test_xisamp.py`, x64 build under 64-bit Wine, a test x86 process with a known chain):
+    every busy sample's x86 chain begins with the three return addresses its disassembly gives;
+    the waits in Windows are found under the right caller; exports label kernel32 addresses; `read.py` reads the
+    file.
+  - **Not tested here:** the ARM64 build. It builds, and the test checks it is an ARM64 image, but there is no ARM64
+    Windows here. Its native frame chain is therefore untested; under Wine the native pc is the x86 eip.
 - **Time inside each Direct3D call, `call_time=1`** (with `profile=1`; read at the start). On the render thread,
   d3dprof's thunk keeps the call's return address on a shadow stack and points it at a return stub, reading
   `QueryPerformanceCounter` last thing before the method runs; the stub reads it first thing after the method

@@ -4,7 +4,8 @@ Tracks the x87 stack depth along every path from entry (MSVC6 code enters with a
 stack). A function returns a float when every reachable `ret` is reached with depth exactly 1.
 Calls to functions already known to return a float push one; the set is grown to a fixpoint.
 Output: {hex(ea): "float"} for float-returning functions, {hex(ea): "none"} for functions proven to
-return with an empty x87 stack.
+return with an empty x87 stack, {hex(ea): "consumes"} for functions that take one value already on the x87 stack
+(their first x87 instruction pops it) and return with none (MSVC __ftol: `fistp`).
 Calls to functions that pop a value they were given (__ftol) pop one.
 Usage: python3 fpret.py game.dll data/func_extents.json out.json [previous.json]   (or IDA's function list)
 previous.json: an earlier result whose `float` verdicts are kept unless now proven `none`.
@@ -100,6 +101,8 @@ def main(game, idaf, out, previous=None):
         if f in fl: continue
         ok, rets = analyse(f, 'rets')
         if ok and rets == {0}: res[hex(f)] = 'none'
+    for f in pop1:
+        if hex(f) not in res: res[hex(f)] = 'consumes'
     # a float function whose float comes from a virtual call is invisible here: keep an earlier
     # `float` verdict unless this analysis proves the function returns with an empty x87 stack
     if previous:

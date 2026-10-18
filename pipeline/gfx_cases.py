@@ -42,7 +42,7 @@ IFACE_RE = re.compile(r'(IDirect3D\w+)\s*\*$')
 def ret_kind(t):
     t = t.strip()
     if t == 'void': return 'void'
-    if t in ('float', 'double', 'long double'): return 'float'
+    if t in ('float', 'double', 'long double', 'float10'): return 'float'      # float10: Ghidra's ST0 (conv_facts.py, fpret)
     if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE'): return 'bool'
     if t in ('__int64', 'unsigned __int64', '_QWORD'): return 'int64'
     if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short'): return 'word'

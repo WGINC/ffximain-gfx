@@ -59,6 +59,13 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
 }
 #define fpatan(y, x) xi_fpatan((y), (x))
 
+// A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
+// the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
+// to lose under every MSVC convention.
+static inline long long xi_call_st0(uint32_t fn, long double x) {
+    long long r; __asm__ volatile("call *%1" : "=A"(r) : "r"(fn), "t"(x) : "st", "ecx", "memory", "cc"); return r;
+}
+
 // An argument slot of a called game function: 4 bytes on the stack, holding the bits of whatever the
 // caller passes (int, pointer or float), exactly as the original pushes them.
 struct XI_ANY {

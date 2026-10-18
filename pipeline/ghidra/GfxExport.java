@@ -108,6 +108,62 @@ public class GfxExport extends GhidraScript {
         return n;
     }
 
+    // a caller that reads EAX (or EDX) as a direct callee left it -- Ghidra's `extraout_` names, a register output
+    // of the call that the caller uses -- reads the callee's register at its `ret`, whatever Ghidra committed as
+    // the callee's return. The callee's return is widened to that register (EAX: undefined4, EDX: EDX:EAX,
+    // undefined8) so the C++ call reads it too; a float return (fpret.json) is never widened. Callers that
+    // read EAX through a callee that never sets it (a bare `ret`) leave that callee untranslatable (`in_EAX`).
+    private int widenReturns(DecompInterface d, List<String> addrs) {
+        Register eax = currentProgram.getRegister("EAX"), edx = currentProgram.getRegister("EDX");
+        Map<Function, Integer> need = new LinkedHashMap<>();
+        for (String line : addrs) {
+            line = line.trim(); if (line.isEmpty()) continue;
+            Function f = getFunctionAt(addr(line));
+            if (f == null) continue;
+            DecompileResults r = d.decompileFunction(f, 60, monitor);
+            if (r == null || !r.decompileCompleted() || r.getHighFunction() == null) continue;
+            Iterator<HighSymbol> it = r.getHighFunction().getLocalSymbolMap().getSymbols();
+            List<HighVariable> hv = new ArrayList<>();
+            while (it.hasNext()) { HighSymbol s = it.next(); if (s.getName().startsWith("extraout_") && s.getHighVariable() != null) hv.add(s.getHighVariable()); }
+            Iterator<PcodeOpAST> ops = r.getHighFunction().getPcodeOps();
+            Set<HighVariable> hs = new HashSet<>(hv);
+            while (ops.hasNext()) {
+                PcodeOpAST op = ops.next();
+                Varnode o = op.getOutput();
+                if (o == null || !o.isRegister() || !hs.contains(o.getHigh())) continue;
+                if (op.getOpcode() != PcodeOp.INDIRECT && op.getOpcode() != PcodeOp.CALL) continue;
+                long off = o.getOffset();
+                int w;
+                if (off >= eax.getOffset() && off < eax.getOffset() + 4) w = 4;
+                else if (off >= edx.getOffset() && off < edx.getOffset() + 4) w = 8;
+                else continue;
+                Instruction in = currentProgram.getListing().getInstructionAt(op.getSeqnum().getTarget());
+                if (in == null || !in.getFlowType().isCall() || in.getFlowType().isComputed() || in.getFlows().length != 1) continue;
+                Function c = getFunctionAt(in.getFlows()[0]);
+                if (c == null || c.isExternal() || c.isThunk()) continue;
+                need.merge(c, w, Math::max);
+            }
+        }
+        int n = 0;
+        for (Map.Entry<Function, Integer> e : need.entrySet()) {
+            Function c = e.getKey();
+            DataType rt = c.getReturnType();
+            if (rt instanceof Float10DataType || rt instanceof AbstractFloatDataType) continue;
+            if (rt.getLength() >= e.getValue() && !(rt instanceof VoidDataType)) continue;
+            DataType t = e.getValue() == 8 ? Undefined8DataType.dataType : Undefined4DataType.dataType;
+            try {
+                if (c.hasCustomVariableStorage()) {
+                    VariableStorage vs = e.getValue() == 8 ? new VariableStorage(currentProgram, edx, eax) : new VariableStorage(currentProgram, eax);
+                    List<Parameter> ps = Arrays.asList(c.getParameters());
+                    c.updateFunction(c.getCallingConventionName(), new ReturnParameterImpl(t, vs, true, currentProgram), ps,
+                        Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.USER_DEFINED);
+                } else c.setReturnType(t, SourceType.USER_DEFINED);
+                n++;
+            } catch (Exception x) { println("return not widened at " + c.getEntryPoint() + ": " + x); }
+        }
+        return n;
+    }
+
     // the decompiled text, line by line as Ghidra prints it, with `/*XI_ICALL:0xCALL*/` in front of the callee
     // expression of each indirect call that has an override, so hx2cpp calls it with that convention. The callee
     // starts at the call's first token after its `=` (its output); a `(` directly before it opens the callee.
@@ -157,8 +213,6 @@ public class GfxExport extends GhidraScript {
         if (p == null) return false;
         try {
             if (!p[1].equals(f.getCallingConventionName())) f.setCallingConvention(p[1]);
-            if (params && p[3].equals("float") && !(f.getReturnType() instanceof Float10DataType))
-                f.setReturnType(Float10DataType.dataType, SourceType.USER_DEFINED);
             if (params && p[3].equals("st0in")) {
                 // fpret.json `consumes`: the code's first x87 instruction pops a value the caller left in ST0
                 // (__ftol). The return keeps the storage Ghidra committed; the one parameter is ST0.
@@ -172,6 +226,37 @@ public class GfxExport extends GhidraScript {
                 return true;
             }
             int purge = Integer.parseInt(p[2]);
+            DataType rt0 = f.getReturnType();
+            if (params && (p[3].equals("float") || rt0 instanceof Float10DataType || rt0 instanceof AbstractFloatDataType)) {
+                // fpret.json `float` (or a float return Ghidra's decompiler inferred where fpret.json has no
+                // verdict): MSVC returns it in ST0. Ghidra's standard storage returns a 10-byte float10
+                // through a hidden pointer, so the storage is custom: the return in ST0, the convention's
+                // registers (this: ECX; fastcall: ECX, EDX) and the stack parameters at their offsets, N/4 of
+                // them for a callee that pops N (purges.json), the decompiler's own for a __cdecl one
+                Register st0 = currentProgram.getRegister("ST0");
+                List<Variable> ps = new ArrayList<>();
+                if (p[1].equals("__thiscall") || p[1].equals("__fastcall"))
+                    ps.add(new ParameterImpl(p[1].equals("__thiscall") ? "this" : "xi_ecx", new PointerDataType(VoidDataType.dataType),
+                        new VariableStorage(currentProgram, currentProgram.getRegister("ECX")), currentProgram));
+                if (p[1].equals("__fastcall"))
+                    ps.add(new ParameterImpl("xi_edx", Undefined4DataType.dataType, new VariableStorage(currentProgram, currentProgram.getRegister("EDX")), currentProgram));
+                List<Parameter> stack = new ArrayList<>();
+                int have = 0;
+                for (Parameter q : f.getParameters()) if (q.isStackVariable() && !q.isAutoParameter() && !q.getName().equals("__return_storage_ptr__")) { stack.add(q); have += Math.max(4, (q.getLength() + 3) & ~3); }
+                if (p[1].equals("__cdecl") || have == purge)
+                    for (Parameter q : stack) ps.add(new ParameterImpl(q.getName(), q.getDataType(), q.getStackOffset(), currentProgram));
+                else
+                    for (int i = 0; i < purge / 4; i++) ps.add(new ParameterImpl("xi_s" + (i + 1), Undefined4DataType.dataType, 4 + 4 * i, currentProgram));
+                DataType rt = p[3].equals("float") || rt0 instanceof Float10DataType ? Float10DataType.dataType : rt0;
+                f.updateFunction(p[1], new ReturnParameterImpl(rt, new VariableStorage(currentProgram, st0), currentProgram),
+                    ps, Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.USER_DEFINED);
+                return true;
+            }
+            if (params && f.hasCustomVariableStorage()) {
+                // a standard convention (conv.txt) places the parameters itself; custom storage left from
+                // committing the decompiler's view can drop the `this` a __thiscall callee reads in ECX
+                f.setCustomVariableStorage(false);
+            }
             if (params && !p[1].equals("__cdecl")) {
                 int have = 0;
                 for (Parameter q : f.getParameters()) if (q.isStackVariable()) have += Math.max(4, (q.getLength() + 3) & ~3);
@@ -292,6 +377,9 @@ public class GfxExport extends GhidraScript {
             if (f != null) ov += overrideIcalls(f);
         }
         println("indirect call prototypes set: " + ov);
+        // repeated: a widened function returns what its own callee left in EAX, so that callee is widened next
+        for (int round = 0, w; round < 8 && (w = widenReturns(d, addrs)) > 0; round++)
+            println("callee returns widened to the register a caller reads: " + w);
         d.dispose(); d = new DecompInterface(); d.setOptions(opt); d.toggleCCode(true); d.toggleSyntaxTree(true); d.openProgram(currentProgram);
         PrintWriter out = new PrintWriter(new FileWriter(a[2]));
         int ok = 0, bad = 0;
@@ -359,7 +447,10 @@ public class GfxExport extends GhidraScript {
                     int purge = g != null ? g.getStackPurgeSize() : 0;
                     objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d}",
                             ta.getOffset(), esc(sig.replaceFirst("\\s*" + java.util.regex.Pattern.quote(nm) + "\\s*\\(", "(")), esc(nm), (purge == Function.UNKNOWN_STACK_DEPTH_CHANGE || purge < 0 ? -1 : purge)));
-                } else if (!(t instanceof ClangVariableToken) && nm.matches("[A-Za-z_][A-Za-z0-9_]*")) {
+                } else if (nm.matches("[A-Za-z_][A-Za-z0-9_]*") && (!(t instanceof ClangVariableToken)
+                        || !(((ClangVariableToken) t).getHighVariable() instanceof HighGlobal))) {
+                    // a variable token with no HighGlobal behind it is an address taken of a symbol (`&g_x`)
+                    if (t instanceof ClangVariableToken && ((ClangVariableToken) t).getHighVariable() != null) continue;
                     // any other token that names a program symbol (PTR_ labels, functions used as values)
                     SymbolIterator it = currentProgram.getSymbolTable().getSymbols(nm);
                     Symbol sy = it.hasNext() ? it.next() : null;
@@ -368,9 +459,13 @@ public class GfxExport extends GhidraScript {
                     if (g != null)
                         objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d}",
                                 sy.getAddress().getOffset(), esc(g.getSignature(true).getPrototypeString(true).replaceFirst("\\s*" + java.util.regex.Pattern.quote(g.getName()) + "\\s*\\(", "(")), esc(nm), (g.getStackPurgeSize() == Function.UNKNOWN_STACK_DEPTH_CHANGE || g.getStackPurgeSize() < 0 ? -1 : g.getStackPurgeSize())));
-                    else
-                        objs.put(nm, String.format("{\"ea\": %d, \"func\": false, \"type\": \"undefined4\", \"printed\": [%s], \"size\": 4, \"is_str\": false}",
-                                sy.getAddress().getOffset(), esc(nm)));
+                    else {
+                        // the data defined at the symbol, if any; otherwise its address is all that is used
+                        Data dd = getDataAt(sy.getAddress());
+                        DataType dt = dd != null ? dd.getDataType() : Undefined4DataType.dataType;
+                        objs.put(nm, String.format("{\"ea\": %d, \"func\": false, \"type\": %s, \"printed\": [%s], \"size\": %d, \"is_str\": %s}",
+                                sy.getAddress().getOffset(), esc(dt.getDisplayName()), esc(nm), Math.max(dt.getLength(), 1), dd != null && dd.hasStringValue() ? "true" : "false"));
+                    }
                 } else if (t instanceof ClangVariableToken) {
                     HighVariable hv = ((ClangVariableToken) t).getHighVariable();
                     if (!(hv instanceof HighGlobal)) continue;

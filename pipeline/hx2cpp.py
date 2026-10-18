@@ -612,12 +612,47 @@ def ghidra_auto_objs(rec, body):
     for m in GHIDRA_AUTO.finditer(body):
         nm, kind, ea = m.group(1), m.group(2), int(m.group(3), 16)
         if nm in objs: continue
-        if kind == 'FUN':
+        if kind == 'FUN' and ea == rec['ea'] and rec.get('type'):
+            # a call to itself: the exporter lists no object for it; the record's own prototype is the callee's
+            objs[nm] = {'ea': ea, 'func': True, 'type': re.sub(r'\b%s\s*\(' % re.escape(rec['name']) if rec.get('name') else r'(?!)', '(', rec['type']),
+                        'printed': [nm], 'purged': None}
+        elif kind == 'FUN':
             objs[nm] = {'ea': ea, 'func': True, 'type': 'undefined4 __cdecl(void)', 'printed': [nm], 'purged': None}
         else:
             objs[nm] = {'ea': ea, 'func': False, 'type': 'undefined4', 'printed': [nm], 'size': 4,
                         'is_str': kind in ('s', 'u')}
+    for m in re.finditer(r'&\s*(LAB_([0-9a-f]{8}))\b', body):    # a code address taken as a value
+        if m.group(1) not in objs:
+            objs[m.group(1)] = {'ea': int(m.group(2), 16), 'func': False, 'type': 'undefined1', 'printed': [m.group(1)],
+                                'size': 1, 'is_str': False}
     return objs
+
+def ghidra_pieces(text):
+    # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
+    # (xi_ghidra.hpp XI_PIECE); x is the postfix expression before the `.`
+    while True:
+        m = re.search(r'\._(\d+)_(\d+)_(?!\w)', text)
+        if not m: return text
+        i = m.start()
+        while True:
+            j = i
+            while j > 0 and text[j - 1].isspace(): j -= 1
+            if j and text[j - 1] in ')]':
+                op, cl = ('(', ')') if text[j - 1] == ')' else ('[', ']')
+                d, k = 0, j - 1
+                while k >= 0:
+                    d += (text[k] == cl) - (text[k] == op)
+                    if d == 0: break
+                    k -= 1
+                i = k
+                if text[k] == '(' and not re.search(r'[\w\])]\s*$', text[:k]): break   # a parenthesised operand
+                continue
+            mm = re.search(r'[A-Za-z_]\w*$', text[:j])
+            if mm:
+                i = mm.start()
+                if i >= 1 and text[i - 1] == '.' or text[max(0, i - 2):i] == '->': i -= 1 if text[i - 1] == '.' else 2; continue
+            break
+        text = text[:i] + 'XI_PIECE(%s, %s, %s)' % (text[i:m.start()], m.group(1), m.group(2)) + text[m.end():]
 
 def call_arg_counts(body, name):
     # number of arguments at each call `name(...)` in the body (top-level commas)
@@ -688,7 +723,8 @@ def translate(rec):
             if o.get('import'):
                 pt, why = ghidra_import_type(nm, o)
                 if pt is None: return None, why
-                syms.append('#define %s (*reinterpret_cast<%s *>(0x%08Xu))' % (tok, pt, oea))
+                syms.append('typedef %s;' % re.sub(r'\((\w+) \*\)', r'(\1 *P_%08X)' % oea, pt, count=1))
+                syms.append('#define %s (*reinterpret_cast<P_%08X *>(0x%08Xu))' % (tok, oea, oea))
             elif rec.get('source') == 'ghidra' and FPRET_ALL.get('0x%x' % oea) == 'consumes':
                 # fpret.json: the callee pops a value the caller leaves in ST0 (__ftol); Ghidra passes it as its
                 # one parameter (GfxExport, `st0in`); EDX:EAX come back as the callee leaves them
@@ -812,6 +848,9 @@ def main(src, outdir):
             for n in rec['x87_locals']:
                 rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
             rec = dict(rec, text=head + brace + rest)
+        if rec.get('source') == 'ghidra':
+            head, brace, rest = rec['text'].partition('\n{')
+            rec = dict(rec, text=head + brace + ghidra_pieces(rest))
         if rec.get('source') == 'ghidra' and rec.get('type'):
             # Ghidra's text omits the calling convention in its signature; the record's type has it
             head, brace, rest = rec['text'].partition('\n{')

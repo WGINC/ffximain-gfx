@@ -75,3 +75,9 @@ struct XI_ANY {
     XI_ANY(double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
     XI_ANY(long double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
 };
+
+// Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)
+template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uint8_t t; };
+template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
+template<> struct xi_piece_t<8> { typedef uint64_t t; };
+#define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))

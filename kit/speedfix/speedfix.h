@@ -16,7 +16,7 @@ struct SfConfig {
   int batch_up;             // merge back-to-back DrawPrimitiveUP calls
   int batch_max_prims;      // 0 = no cap beyond the device's MaxPrimitiveCount
   int batch_max_bytes;      // 0 = no cap beyond the 1 MB buffer
-  int frame_cap_fps;        // 0 = off; at most 60 (sf_game.cpp: why)
+  int frame_cap_fps;        // 0 = off; at most 60 unless uncap (sf_main.cpp: why)
   int occlusion_stagger;    // 4 (the game's), 8, 16
   int skip_actor_occlusion;
   int skip_all_occlusion_readbacks;
@@ -36,6 +36,8 @@ struct SfConfig {
                             // (sf_main.cpp): 60.0 fps instead of 58.8
   int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
   int occlusion_late;       // the occlusion readback answered from the query's previous probe (sf_occlusion.cpp): 1 on, 2 measure only
+  int uncap;                // the game's minimum ticks a frame [g_pCamera+0x30] kept at 0: no 60 fps wait (sf_main.cpp)
+  int frame_step;           // the game's time step: 0 its own, 1 real time in whole ticks, 2 and the fraction where proven
 };
 extern SfConfig sf_cfg;
 

@@ -213,10 +213,91 @@ static int pacing_test(void) {
   return fails ? 1 : 0;
 }
 
+/* uncap and frame_step: the game's own frame code from the wait (0x10012B05) through the step and the frame counter
+   (0x10012CB0), run on a frame object of the test's that is also [g_pCamera] (as Frame_Render's this is); at
+   0x10012CB8 the test returns (lim_end). The getters are called from the test (whole ticks), from the call at 0x10227E58
+   (a call given the fraction: a ret written after it) and through Frame_Render's copy at 0x10011A24 (a ret written at
+   0x10011A3F, its call of _ftol). */
+extern void lim_end(void);
+__asm__(".globl _lim_end\n_lim_end:\n  mov _g_lim_sp, %esp\n  pop %edi\n  pop %esi\n  pop %ebx\n  pop %ebp\n  ret\n");
+typedef float (*Getter)(void);
+static float ring_avg(void) {          /* 0x10012C19..0x10012C39: the sum in floats, then * 0.25; floor and cap as 0x10012C4C.. */
+  float a = 0.0f; const float *r = (const float *)GAME(0x10456964u);
+  for (int i = 0; i < 4; i++) { volatile float t = r[i] + a; a = t; }
+  float f = a * 0.25f; int fl = *(int *)(g_lim + 0x30);
+  if (!(f >= (float)fl)) f = (float)fl;
+  return f > 20.0f ? 20.0f : f;
+}
+typedef struct { double whole, frac, game_ticks, span; int n, zero, nonint, wrong_frac, wrong_inline, game_like; } StepRun;
+static StepRun step_frames(int k, int scene, int nap) {
+  StepRun r = {0}; Getter g0 = (Getter)GAME(0x10014CF0u), g1 = (Getter)GAME(0x10014D20u), site = (Getter)GAME(0x10227E58u);
+  typedef float (*WithEsi)(void *, void *); WithEsi inl = (WithEsi)(void *)call_with_esi;
+  float f0 = *(float *)(g_lim + 0x3C); double t0 = qms();
+  for (int i = 0; i < k; i++) {
+    if (scene) { begin(); end(); }
+    present(); if (nap) Sleep(nap); run_limiter(g_lim);
+    float w = g0(), w1 = g1(), fr = site(), in = inl((void *)GAME(0x10011A24u), g_lim);
+    float game = *(float *)(g_lim + 0x28) < 1.0f ? 1.0f : *(float *)(g_lim + 0x28);
+    r.whole += w; r.frac += fr; r.game_ticks += *(int *)(g_lim + 0x38); r.n++;
+    if (w == 0.0f) r.zero++;
+    if (w != floorf(w) || w1 != w) r.nonint++;
+    if (fr != ring_avg()) r.wrong_frac++;
+    if (in != w) r.wrong_inline++;
+    if (w == game && w1 == game && fr == game && in == game) r.game_like++;
+  }
+  r.game_ticks += *(float *)(g_lim + 0x3C) - f0; r.span = qms() - t0;
+  return r;
+}
+static void step_print(const char *what, StepRun r) {
+  printf("    %s: %d frames, %.1f ms (%.2f ticks by the counter, %.2f the game's [+0x38]); whole %.0f (%d of 0), fraction %.2f; "
+         "%d frames as the game's\n", what, r.n, r.span, r.span * 0.06, r.game_ticks, r.whole, r.zero, r.frac, r.game_like);
+}
+static int step_test(void) {
+  QueryPerformanceFrequency(&g_qf);
+  uint8_t *c = (uint8_t *)GAME(0x10012C3Cu), *ge0 = (uint8_t *)GAME(0x10014CF0u), *ge1 = (uint8_t *)GAME(0x10014D20u), *in = (uint8_t *)GAME(0x10011A24u);
+  check(c[0] == 0xE8 && c + 5 + *(int32_t *)(c + 1) != (uint8_t *)GAME(0x10311C2Cu), "frame_step=2 at the start: the call of _ftol at 10012C3C goes to speedfix");
+  check(ge0[0] == 0xE9 && ge0[5] == 0x90 && ge0[6] == 0xD9 && ge1[0] == 0xE9 && ge1[5] == 0x90, "... the getters 10014CF0 and 10014D20 begin with a jmp to speedfix; nop");
+  check(in[0] == 0xE8 && in[5] == 0xEB && in[6] == 0x14 && in[7] == 0x90 && in[26] == 0x90, "... Frame_Render's copy (10011A24) is call speedfix; jmp short 10011A3F; nops");
+  check(log_has("frame_step: the step's truncation (the call at 10012C3C), the getters 10014CF0 and 10014D20 and Frame_Render's copy (10011A24) now go to speedfix; 14 calls"), "... logged, 14 calls given the fraction");
+  *(uint8_t *)GAME(0x10011A3Fu) = 0xC3; *(uint8_t *)GAME(0x10227E5Du) = 0xC3;
+  step_frames(10, 1, 0);
+  StepRun r = step_frames(120, 1, 0);
+  step_print("frame_step=2, uncap=0 (the game's 60 fps wait)", r);
+  check(r.nonint == 0 && r.wrong_inline == 0, "frame_step=2: the getters and Frame_Render's copy answer whole ticks, the same");
+  check(r.wrong_frac == 0, "frame_step=2: the call at 10227E58 gets the game's average of its last 4 frames, not truncated (floor and cap as the game's)");
+  check(fabs(r.whole - r.game_ticks) < 3.0 && fabs(r.frac - r.game_ticks) < 3.0, "frame_step=2: whole ticks and the fraction add up to the game's own ticks [+0x38] (within 3 over 120 frames)");
+  r = step_frames(4, 0, 0);
+  check(r.game_like >= 2, "frames without the hooks: every answer is the game's max([+0x28], 1)");
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  check(*(int *)(g_lim + 0x30) == 0, "uncap=1: the tick count [+0x30] is 0");
+  check(log_has("uncap: the frame's minimum tick count [+0x30] was 1 (2 is the game's 30 fps, 1 is 60); now 0, no wait"), "... the value it had is logged");
+  r = step_frames(200, 1, 3);
+  step_print("frame_step=1, uncap=1, 3 ms frames", r);
+  check(r.span < 200 * 9.0, "uncap=1: frames shorter than 1/60 s (the game's wait gone)");
+  check(r.nonint == 0 && r.wrong_inline == 0 && r.zero > 20, "frame_step=1: whole ticks, frames of 0 among them");
+  check(fabs(r.whole - r.game_ticks) < 3.0, "frame_step=1: the whole ticks add up to the game's own ticks [+0x38] (within 3 over 200 frames)");
+  check(r.frac == r.whole, "frame_step=1: the call at 10227E58 gets whole ticks too");
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  r = step_frames(100, 1, 3);
+  step_print("frame_step=0, uncap=1 (the game's step with no wait)", r);
+  check(r.game_like == 100 && r.whole == 100, "frame_step=0, uncap=1: the game's answer, one tick every frame");
+  check(r.whole > r.game_ticks * 1.5, "... which is more than the time that passed (faster than real time, as RENDERER.md 3a reads the code)");
+  check(log_has("uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame"), "... and the log says so");
+  touch("speedfix.ini", "[speedfix]\nuncap=0\nframe_step=0\nstats_every=1\n");
+  step_frames(70, 1, 0);
+  check(*(int *)(g_lim + 0x30) == 1, "uncap=0 again: the tick count [+0x30] is 1 again");
+  check(log_has("uncap off: the tick count [+0x30] is 1 again"), "... logged");
+  check(log_has("speedfix: frame_step=1 uncap=1: ") && log_has("(what frame_step 1 and 2 answer) added up to: whole "), "the statistics line compares the step's sum with the counter's time");
+  printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+  return fails ? 1 : 0;
+}
+
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
-  int pacing = argc > 1 && !strcmp(argv[1], "pacing");
+  int pacing = argc > 1 && !strcmp(argv[1], "pacing"), step = argc > 1 && !strcmp(argv[1], "step");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -245,11 +326,15 @@ int main(int argc, char **argv) {
   *(void **)GAME(0x104568FCu) = g_cam;
   *(void **)GAME(0x104566E8u) = g_cpu;                /* +9 = 0: the game found no SSE (as on the owner's machine) */
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
-  if (pacing) {                                       /* pacing_test: the limiter's imports, its objects, its lap */
+  if (pacing || step) {                               /* pacing_test: the limiter's imports, its objects, its lap */
     VirtualProtect((void *)GAME(0x10329000u), 0x2000, PAGE_READWRITE, &old);   /* the imports and the vtable (.rdata) */
     *(void **)GAME(0x10329400u) = (void *)timeGetTime; *(void **)GAME(0x103290F8u) = (void *)Sleep;
     g_lim_entry = (uint32_t)GAME(0x10012B05u); g_lap_orig = (uint32_t)GAME(0x100194F0u);
-    ((void **)GAME(0x1032A118u))[8] = (void *)lim_lap;
+    if (pacing) ((void **)GAME(0x1032A118u))[8] = (void *)lim_lap;
+    else {                                            /* step_test: on to 0x10012CB8, then back (jmp lim_end); g_pCamera */
+      uint8_t *e = (uint8_t *)GAME(0x10012CB8u); int32_t rl = (int32_t)((uint8_t *)lim_end - (e + 5)); e[0] = 0xE9; memcpy(e + 1, &rl, 4);
+      *(void **)GAME(0x104568FCu) = g_lim;
+    }
     *(void **)g_tim = (void *)GAME(0x1032A118u); *(float *)(g_tim + 8) = 1.0f; *(DWORD *)(g_tim + 0xC) = timeGetTime();
     *(void **)(g_lim + 0x1C) = g_tim; *(int *)(g_lim + 0x30) = 1;
   }
@@ -260,6 +345,7 @@ int main(int argc, char **argv) {
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
   else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
   else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
+  else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
@@ -275,10 +361,11 @@ int main(int argc, char **argv) {
     void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
     if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
     int forked = m && m == GetModuleHandleA("speedfix.dll");
-    if (!minimal && !lazy && !blocks && !pacing) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    if (!minimal && !lazy && !blocks && !pacing && !step) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
     else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
   }
   if (pacing) { frames(1); return pacing_test(); }
+  if (step) { frames(1); return step_test(); }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);

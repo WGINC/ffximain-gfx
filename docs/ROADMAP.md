@@ -198,6 +198,17 @@ and 112 functions see a full tick every frame.
     rate. How, and what that does to the game's time, is not known here.
   - A test that would settle it: the tick count set to 0 on a machine that runs above 60, and a clock in the game
     (the Vana'diel clock, an animation, a walk over a known distance) timed against real time.
+- **Going past 60 (18 Oct): speedfix `uncap` and `frame_step`** (docs/RENDERER.md 3a, kit/speedfix/README.md).
+  `uncap=1` sets the tick count to 0 (no wait); `frame_step=1` gives the step's readers whole ticks with the fraction
+  carried, so their time adds up to real time at any frame rate; `frame_step=2` also gives the untruncated step at
+  the 14 sites where `pipeline/frame_step_users.py` follows every use of it to a comparison, a drop or an
+  accumulator. Tested in sf_host on both builds (6A995428, 6AC37846) with the game's own limiter and step code.
+  - Not tested in the running game. Not known: per-frame code that ignores the step (0x1024DE20 is one), what a step
+    of 0 does at the 204 whole sites, and whether the server notices anything.
+  - Most of what the step drives still moves in whole ticks: above 60 fps that motion is no smoother, it just stops
+    running fast.
+  - The test: `uncap=1 frame_step=1` (then 2), the log's `frame_step=` line (the step's sum against the counter),
+    and an in-game clock or a walk over a known distance timed against real time, against `uncap=0 frame_step=0`.
 
 ### P5. Startup and load time
 

@@ -22,7 +22,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `state_cache_reset_each_scene` | 1 | Forget the cache at each BeginScene / EndScene |
 | `batch_up_draws` | 0 | Merge back-to-back DrawPrimitiveUP calls of one stride into one list |
 | `batch_up_max_prims`, `batch_up_max_bytes` | 0 | Caps on one merged draw (0: the device's MaxPrimitiveCount, the 1 MB buffer) |
-| `frame_cap_fps` | 0 | Even frame pacing; at most 60, and 60/30/20/15 keep the game's time exact (below) |
+| `frame_cap_fps` | 0 | Even frame pacing; at most 60 unless `uncap=1` (then 1000); with `frame_step=0`, 60/30/20/15 keep the game's time exact (below) |
 | `occlusion_stagger` | 8 | Each actor's visibility re-tested every 4 (the game's), 8 or 16 frames; live both ways |
 | `skip_actor_occlusion` | 0 | A/B: every actor counts as visible without its occlusion query |
 | `skip_all_occlusion_readbacks` | 0 | A/B: every occlusion query counts as visible without the GPU-to-CPU readback |
@@ -35,6 +35,8 @@ checked against the analysed build, and each change to the game's code checks th
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
+| `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) set to 0 each frame: no 60 fps wait; the old value restored when off; live both ways (below) |
+| `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it (below) |
 | `occlusion_late` | 0 | Lever: 1 = each occlusion probe answered with the object's previous probe (no wait for this frame's picture); 2 = measure only, the game's answers (below) |
 | `null_draws` | 0 | A test, not a speedup: the draw calls return D3D_OK without reaching the device; nothing is drawn; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
@@ -102,11 +104,35 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     assumes 1 and 1.0, which the code's constants do not fix; each statistics line gives both as the last wait read them); and on which thread the limiter runs (the log names
     both threads once). The limiter's position relative to Present is not known either, so the lever counts a frame
     as through the hooks when the frame now or the one just presented went through them.
-  - What it does not do: go above 60. The game's step is `max(step, 1)` ticks (frame_cap_fps, below); what that
-    does above 60 in the running game has not been observed (docs/ROADMAP.md P4).
+  - What it does not do: go above 60. That is `uncap` and `frame_step` (below).
   - Measure: `xikit.log` each minute, `precise_pacing: N frames timed by the counter; the limiter waited X ms`; and
     the frame A/B (`ab_levers=precise_pacing`), whose mean frame should move from about 17.0 to 16.67 ms. Do not use
     it with `frame_cap_fps` (two pacers).
+- **uncap and frame_step: above 60, with the game's time following real time** (docs/RENDERER.md 3a).
+  - `uncap=1` writes 0 to the frame's minimum tick count `[[0x104568FC]+0x30]` each frame (2 is the game's 30 fps,
+    1 its 60). The game's limiter then does not wait. The value found is logged, and written back when `uncap` goes
+    to 0. With `frame_step=0` this is what Windower's `FrameRateDivisor 0` and Ashita's fps addon are documented to
+    do, and the game then advances one tick every frame: at 300 fps in sf_host its step added up to 500% of real time.
+  - `frame_step=1`: the step's truncation (the `_ftol` call at 0x10012C3C) goes to speedfix, which keeps the
+    fraction the game drops and carries it. The getters 0x10014CF0, 0x10014D20 and Frame_Render's inline copy
+    (0x10011A24) answer whole ticks, `trunc(carry + average)`, with the game's floor `[+0x30]` and cap 20, so 0 on
+    most frames above 60. In sf_host at about 300 fps the sum was 100.0-100.7% of the counter's time; at 60 fps,
+    123 ticks against 123.3.
+  - `frame_step=2`: that, and the untruncated average (the game's own, before `_ftol`) at the 14 call sites in 13
+    functions where `pipeline/frame_step_users.py` follows every use of the value to a comparison, a drop or an
+    accumulator (`sf_step_sites.h` lists them). The other 204 get whole ticks: one value per function per frame.
+  - Patched once, at the first frame with `frame_step` on; after that the switch is live both ways (0 answers as
+    the game's). A frame not through the kit's hooks answers as the game's.
+  - Below 60 fps, 1 and 2 also end the under-count of the truncated step (RENDERER 3a's table: 62-99% of real
+    time), so what the step drives moves faster than it does now: at real time.
+  - Not known: code that moves a fixed amount per frame without the step (0x1024DE20 is one; how many there are is
+    not known) runs fast above 60 whatever this does; a step of 0 is new to the 204 whole sites; what the server
+    makes of it. Most motion is still whole ticks, so above 60 it is not smoother, only not fast.
+  - Measure: `xikit.log` each `stats_every`, `frame_step=N uncap=N: F frames, T ms by the counter (X ticks of
+    1/60 s); speedfix's step ... whole W (P%; Z frames of 0), fraction R (P%); the game's own G (P%)`. P near 100%
+    is the step following real time. And in the game, a clock or a walk timed against real time.
+  - Test: `test/test_speedfix.py` mode `step`: the game's limiter and step code run in sf_host, the getters and
+    the inline copy called directly and through the fraction site 0x10227E58.
 - **null_draws: a test of what the frame costs without drawing.** DrawPrimitive, DrawIndexedPrimitive,
   DrawPrimitiveUP and DrawIndexedPrimitiveUP return D3D_OK without reaching the device (signatures: d3d8.h). Every
   other call still goes to the device: state changes (held ones go out at the draw as they would), locks, Clear,
@@ -209,7 +235,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`, `null_draws`, `occlusion_late`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`, `null_draws`, `occlusion_late`, `uncap`, `frame_step`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
@@ -251,11 +277,11 @@ and set it again for another run.
 - **skip_actor_occlusion** is a function hook (`XI_HOOK`) on `Occlusion_QueryScreenRect`. It answers 256 only to the
   two actor call sites, which it tells apart by their return addresses. With its switches off it is gated: PASS against
   the game's function, 38 of 38 instructions covered (`test/test_speedfix.py`).
-- **frame_cap_fps above 60 is refused** (clamped to 60). The game advances its time by `max(step, 1)` ticks of
-  1/60 s per frame (`Camera_GetFrameScale`, docs/RENDERER.md 3a). By that reading, above 60 it would run faster than
-  real time. That reading has not been tested in the running game; the cap stays at 60 until it is.
-  Below 60 the step is truncated to whole ticks: 60, 30, 20 and 15 keep game time equal to real time, and another cap
-  is used but logged.
+- **frame_cap_fps above 60 needs `uncap=1`** (otherwise clamped to 60; with it, up to 1000). The game advances its
+  time by `max(step, 1)` ticks of 1/60 s per frame (`Camera_GetFrameScale`, docs/RENDERER.md 3a), so with
+  `frame_step=0` above 60 what it drives runs faster than real time (logged as a warning). With `frame_step=0` below
+  60 the step is truncated to whole ticks: 60, 30, 20 and 15 keep game time equal to real time, and another cap is
+  used but logged.
 - **Batching:** strips and fans are converted to lists only while FILLMODE is SOLID and SHADEMODE is GOURAUD (read
   from the device when not known). Under point or wireframe fill the converted list repeats shared vertices and edges.
   Under flat shading, which vertex colours each triangle depends on D3D8's numbering, which is not settled here.

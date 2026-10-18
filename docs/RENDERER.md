@@ -184,6 +184,28 @@ What follows from the code:
   stepping in whole ticks only on frames where one has passed (the counter in 1. already does that), or
   interpolating between ticks. Both change what those 112 functions see.
 
+**What speedfix does with it (18 Oct, `uncap` and `frame_step`, kit/speedfix/README.md).**
+- `uncap=1` writes 0 to `[this+0x30]` each frame (the minimum; the game's own setting, RENDERER 3), so the wait
+  ends at once. The value found there is logged and written back when `uncap` is turned off.
+- `frame_step=1` replaces the truncation (the `_ftol` call at 0x10012C3C): from the same ring average, with the
+  game's floor `[this+0x30]` and cap 20, speedfix keeps a carry, as 1. above does, and the getters 0x10014CF0,
+  0x10014D20 and Frame_Render's copy (0x10011A24..0x10011A3E) answer `trunc(carry + average)`. Over many frames those
+  whole ticks add up to the ring averages, so to real time, at any frame rate. Above 60 most frames answer 0.
+- `frame_step=2` is that, plus the untruncated average at 14 call sites in 13 functions. Those are the sites where
+  every path of the returned value, followed through the caller's code, is compared, dropped or added into an
+  accumulator (`pipeline/frame_step_users.py`, `data/frame_step_users.json`, `kit/speedfix/sf_step_sites.h`).
+  The other 204 sites get whole ticks.
+- `[this+0x28]` itself is still the game's (the truncation's result goes there as before), so 0x10456960 and
+  anything reading `+0x28` directly is unchanged. Readers of the field that are not one of the getters or the
+  inline copy have not been enumerated here.
+- Not known:
+  - code that moves a fixed amount per frame without reading the step. One such function is 0x1024DE20; how many
+    there are is not known, and above 60 they run faster than real time whatever the step;
+  - what the value 0 (a frame with no tick) does at each of the 204 sites: the game's own code never produced it
+    (`max(step, 1)`). `frame_step_users.py` found no site where the step is a divisor;
+  - below 60 fps, `frame_step` 1 and 2 remove the under-count of the table above, so what it drives moves faster
+    than it does now (as fast as real time).
+
 ## 4. Coverage gaps that matter for the goals
 
 - **The CMoDX device users.** Before the 4 Oct export, 99 functions outside it used the device (93 through the

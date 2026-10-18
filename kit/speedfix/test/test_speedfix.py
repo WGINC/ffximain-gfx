@@ -1,7 +1,8 @@
 """test_speedfix.py -- the speedfix mod (kit/speedfix) offline:
   1. sf_host.exe under Wine with the real FFXiMain.dll ($FFXI_DLL), the kit (kit/xikit/dist) and speedfix.dll: the
      caches, batching, the thread rule and every game-code change (sf_host.c lists the checks); in 'pacing' mode the
-     game's own frame limiter code runs with precise_pacing on and off;
+     game's own frame limiter code runs with precise_pacing on and off, in 'step' mode it and the game's step code with
+     uncap and frame_step;
   2. the gate on its hook of Occlusion_QueryScreenRect (sdk/fork.py gate-hook): with its switches off it must be the
      game's function.
 
@@ -18,7 +19,7 @@ for f in os.listdir(KIT):                                   # the manifests of o
     if f.startswith('xikit_manifest_'): shutil.copy(os.path.join(KIT, f), d)
 shutil.copy(os.path.join(SF, 'dist', 'speedfix.dll'), d); shutil.copy(os.path.join(H, 'sf_host.exe'), d)
 shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll'))
-for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing'):
+for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step'):
     for f in ('xikit.log', 'speedfix.ini'):
         if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))
     r = subprocess.run(['wine', 'sf_host.exe', mode], cwd=d, capture_output=True, text=True, timeout=900, env=dict(os.environ, WINEDEBUG='-all'))

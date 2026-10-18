@@ -2605,3 +2605,23 @@ Run 14204's 74 frames over 150 ms could not be put on anything: the native sampl
   Not tested: the ARM64 build on ARM64 Windows.
 - Cost: the read takes samples. The `native` test's GetColor loop got 175 to 250 samples with it and 278 and 336
   with the build before it (the test's bound, 300, failed once on that build too; it is now 100).
+
+## 18 Oct: past 60, with the game's time tied to real time (speedfix `uncap`, `frame_step`)
+
+The game waits for at least `[g_pCamera+0x30]` ticks of 1/60 s a frame, and hands its code the step as whole ticks,
+truncated, at least 1 (docs/RENDERER.md 3, 3a). With the minimum at 0 it does not wait, and every frame is a tick.
+- Read from the code for this: the step's computation 0x10012B0B..0x10012CB5 (the ring of 4, its `* 0.25`, the
+  `_ftol` call at 0x10012C3C, the floor `[+0x30]` and cap 20), the getters 0x10014CF0 and 0x10014D20, and
+  Frame_Render's own copy at 0x10011A24.
+- `pipeline/frame_step_users.py` follows the returned value from each of the 218 call sites of the getters: 41 only
+  compare, drop or accumulate it, 177 convert it to an integer, store it, pass it on, or reach code the script does
+  not model. No site divides by it. A function gets the fraction only if all its sites do: 14 sites in 13 functions.
+- speedfix: `uncap` (the minimum to 0, the old value logged and restored), `frame_step=1` (the truncation replaced
+  by whole ticks with the fraction carried), `frame_step=2` (and the untruncated value at the 14 sites).
+- Tested in sf_host under Wine on both builds, the game's limiter and step code running: at 60 fps the whole ticks
+  came to 123 against 123.3 by the counter; at about 300 fps (3 ms frames) speedfix's step added up to 100.0-100.7% of
+  real time and the game's own to 500-502%.
+- The owner's build needed `dist/xikit_manifest_6AC37846.txt` in the test (`FFXI_DLL_6AC37846=... kit/xikit/build.sh`);
+  without it the kit does nothing there and every mode fails.
+- Not tested in the running game. Not known: per-frame code that ignores the step (0x1024DE20 is one), what a step of 0
+  does at the 204 whole sites, and what the server makes of it.

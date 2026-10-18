@@ -1,0 +1,2342 @@
+{
+ "fraction_sites": [
+  "0x1001A9AB",
+  "0x1001B5D4",
+  "0x1001C5AF",
+  "0x100CDF96",
+  "0x1012C179",
+  "0x1012CBCF",
+  "0x10178BD0",
+  "0x10188A54",
+  "0x101EDF4C",
+  "0x101EFA27",
+  "0x10227E58",
+  "0x1024DE98",
+  "0x1024DF4E",
+  "0x1024F6E6"
+ ],
+ "inline": "0x10011A24",
+ "sites": {
+  "0x10005A50": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10005A55 _ftol",
+    "unmodelled 10005A86 callee pop unknown (indirect)",
+    "unmodelled 10005F04 callee pop unknown (indirect)",
+    "unmodelled 10006101 callee pop unknown (indirect)",
+    "unmodelled 10007745 step limit"
+   ],
+   "func": "0x10005A40",
+   "getter": "0x10014CF0"
+  },
+  "0x1000766F": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1000767A dword ptr [edi]"
+   ],
+   "func": "0x10005A40",
+   "getter": "0x10014CF0"
+  },
+  "0x10007BB6": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10007BBB _ftol"
+   ],
+   "func": "0x10007AE0",
+   "getter": "0x10014CF0"
+  },
+  "0x10007D74": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10007D79 _ftol"
+   ],
+   "func": "0x10007AE0",
+   "getter": "0x10014CF0"
+  },
+  "0x10018A10": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10018A15 _ftol",
+    "returned-int 10018A3C "
+   ],
+   "func": "0x10018850",
+   "getter": "0x10014CF0"
+  },
+  "0x10018D0E": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10018D16 _ftol"
+   ],
+   "func": "0x10018D00",
+   "getter": "0x10014CF0"
+  },
+  "0x1001A9AB": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1001A9B7 dword ptr [esi + 0x24]"
+   ],
+   "func": "0x1001A8E0",
+   "getter": "0x10014CF0"
+  },
+  "0x1001B5D4": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1001B607 dword ptr [esi + 0x10]",
+    "accumulator 1001B611 dword ptr [esi + 0x14]",
+    "accumulator 1001B61B dword ptr [esi + 0xc]",
+    "accumulator 1001B662 dword ptr [esi + 0xc]",
+    "accumulator 1001B685 dword ptr [esi + 0x10]",
+    "accumulator 1001B68F dword ptr [esi + 0x14]"
+   ],
+   "func": "0x1001B5D0",
+   "getter": "0x10014CF0"
+  },
+  "0x1001BC9C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 1001BCC2 dword ptr [esi + 0x14b8]",
+    "unmodelled 1001BD2B step limit"
+   ],
+   "func": "0x1001BC80",
+   "getter": "0x10014CF0"
+  },
+  "0x1001C5AF": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1001C5C1 dword ptr [esi + 0x14c8]"
+   ],
+   "func": "0x1001C260",
+   "getter": "0x10014CF0"
+  },
+  "0x1001EEFE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001EF03 _ftol",
+    "unmodelled 1001EFD0 callee pop unknown (indirect)",
+    "unmodelled 1001F00C callee pop unknown (indirect)"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F01F": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1001F036 indirect"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F0F2": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "unmodelled 1001F109 callee pop unknown (indirect)"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F5A2": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001F5A7 _ftol",
+    "unmodelled 1001F5B2 step limit",
+    "unmodelled 1001F60B callee pop unknown (indirect)"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F66B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001F670 _ftol"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F711": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001F716 _ftol"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F82F": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1001F945 1025E230"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F87F": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1001F8A7 1025E230"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F8D5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1001F94F 10015290"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001F91D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1001F94F 10015290"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001FA38": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001FA3D _ftol"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x1001FE7C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1001FE81 _ftol"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x10020148": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1002014D _ftol",
+    "unmodelled 1002077A step limit",
+    "unmodelled 1002077F callee pop unknown (indirect)"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x100205B1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "unmodelled 100205FC step limit"
+   ],
+   "func": "0x1001EE60",
+   "getter": "0x10014CF0"
+  },
+  "0x10021185": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1002118A _ftol"
+   ],
+   "func": "0x10021110",
+   "getter": "0x10014CF0"
+  },
+  "0x100211C1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100211C6 _ftol"
+   ],
+   "func": "0x10021110",
+   "getter": "0x10014CF0"
+  },
+  "0x10021207": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1002120C _ftol"
+   ],
+   "func": "0x10021110",
+   "getter": "0x10014CF0"
+  },
+  "0x10021243": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10021248 _ftol"
+   ],
+   "func": "0x10021110",
+   "getter": "0x10014CF0"
+  },
+  "0x1002198E": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x10021900",
+   "getter": "0x10014CF0"
+  },
+  "0x100219A0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 100219FC dword ptr [esi + 0x7c]",
+    "accumulator 10021A15 dword ptr [esi + 0x7c]",
+    "call-arg 10021ABC 1006BFD0",
+    "int 100219AD _ftol"
+   ],
+   "func": "0x10021900",
+   "getter": "0x10014CF0"
+  },
+  "0x1002AD55": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1002AD84 100276A0",
+    "call-arg 1002ADBD 10026EB0"
+   ],
+   "func": "0x1002AC60",
+   "getter": "0x10014CF0"
+  },
+  "0x10033ED1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 10033EFD 100270A0"
+   ],
+   "func": "0x10033EA0",
+   "getter": "0x10014CF0"
+  },
+  "0x10033FAB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 10033FDA 100270A0"
+   ],
+   "func": "0x10033EA0",
+   "getter": "0x10014CF0"
+  },
+  "0x10035944": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 10035952 dword ptr [esi + 0x38]",
+    "unmodelled 1003598F indirect jmp"
+   ],
+   "func": "0x10035940",
+   "getter": "0x10014CF0"
+  },
+  "0x100368B6": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x100368B0",
+   "getter": "0x10014CF0"
+  },
+  "0x100368CE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100368D9 dword ptr [esi + 0x110]"
+   ],
+   "func": "0x100368B0",
+   "getter": "0x10014CF0"
+  },
+  "0x1003746F": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10037604 _ftol",
+    "returned-int 100374E5 "
+   ],
+   "func": "0x10037400",
+   "getter": "0x10014D20"
+  },
+  "0x100375A0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100375A9 _ftol",
+    "returned-int 100374E5 "
+   ],
+   "func": "0x10037400",
+   "getter": "0x10014D20"
+  },
+  "0x100375FB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10037604 _ftol",
+    "returned-int 100374E5 "
+   ],
+   "func": "0x10037400",
+   "getter": "0x10014D20"
+  },
+  "0x100381D4": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100381FC 100367F0",
+    "call-arg 10038217 indirect",
+    "int 10038223 _ftol",
+    "returned-int 10038256 "
+   ],
+   "func": "0x100381D0",
+   "getter": "0x10014CF0"
+  },
+  "0x10039366": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1003936B _ftol",
+    "unmodelled 10039388 callee pop unknown (indirect)"
+   ],
+   "func": "0x10038E10",
+   "getter": "0x10014CF0"
+  },
+  "0x100478BF": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x10047830",
+   "getter": "0x10014CF0"
+  },
+  "0x100478D7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100478E2 dword ptr [ebx + 0x110]"
+   ],
+   "func": "0x10047830",
+   "getter": "0x10014CF0"
+  },
+  "0x1006A000": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 1006A005 dword ptr [esi + 0xeb0]"
+   ],
+   "func": "0x10069F90",
+   "getter": "0x10014CF0"
+  },
+  "0x10087495": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008749A _ftol",
+    "unmodelled 1008754A step limit"
+   ],
+   "func": "0x10087480",
+   "getter": "0x10014CF0"
+  },
+  "0x10087E99": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10087E9E _ftol",
+    "returned-int 10087EEF "
+   ],
+   "func": "0x10087E80",
+   "getter": "0x10014CF0"
+  },
+  "0x100884CC": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100884D1 _ftol"
+   ],
+   "func": "0x100883E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100884F5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100884FA _ftol",
+    "returned-int 1008850A "
+   ],
+   "func": "0x100883E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100885B1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100885B6 _ftol",
+    "returned-int 10088AD3 "
+   ],
+   "func": "0x100883E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100886B3": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100886B8 _ftol"
+   ],
+   "func": "0x100883E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10088CA7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10088CAC _ftol",
+    "unmodelled 10088D7D callee pop unknown (indirect)"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x10088CD4": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10088CE8 _ftol",
+    "unmodelled 10088D7D callee pop unknown (indirect)"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x10088CF9": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10088CFE _ftol"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x10088E63": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10088E6C _ftol"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x10088ECF": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10088ED8 _ftol",
+    "unmodelled 10088EFE callee pop unknown (indirect)"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x10089061": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10089066 _ftol"
+   ],
+   "func": "0x10088BD0",
+   "getter": "0x10014CF0"
+  },
+  "0x100891FF": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10089204 _ftol"
+   ],
+   "func": "0x10089100",
+   "getter": "0x10014CF0"
+  },
+  "0x10089228": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008922D _ftol",
+    "returned-int 1008923D "
+   ],
+   "func": "0x10089100",
+   "getter": "0x10014CF0"
+  },
+  "0x100892E7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100892EC _ftol",
+    "returned-int 100897E8 "
+   ],
+   "func": "0x10089100",
+   "getter": "0x10014CF0"
+  },
+  "0x100893CB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100893D0 _ftol"
+   ],
+   "func": "0x10089100",
+   "getter": "0x10014CF0"
+  },
+  "0x100898F5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100898FA _ftol",
+    "unmodelled 100899DA callee pop unknown (indirect)"
+   ],
+   "func": "0x10089850",
+   "getter": "0x10014CF0"
+  },
+  "0x10089933": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10089947 _ftol",
+    "unmodelled 100899DA callee pop unknown (indirect)"
+   ],
+   "func": "0x10089850",
+   "getter": "0x10014CF0"
+  },
+  "0x10089958": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008995D _ftol"
+   ],
+   "func": "0x10089850",
+   "getter": "0x10014CF0"
+  },
+  "0x10089AFB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10089B04 _ftol"
+   ],
+   "func": "0x10089850",
+   "getter": "0x10014CF0"
+  },
+  "0x10089B67": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10089B70 _ftol",
+    "unmodelled 10089B96 callee pop unknown (indirect)"
+   ],
+   "func": "0x10089850",
+   "getter": "0x10014CF0"
+  },
+  "0x1008ADD1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008ADD6 _ftol",
+    "returned-int 1008ADFA ",
+    "returned-int 1008AEA4 "
+   ],
+   "func": "0x1008ABE0",
+   "getter": "0x10014CF0"
+  },
+  "0x1008AE39": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008AE3E _ftol",
+    "returned-int 1008AE5E ",
+    "returned-int 1008AEA4 "
+   ],
+   "func": "0x1008ABE0",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D34B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008D350 _ftol"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D383": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D38D dword ptr [edi]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D38F": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D39A dword ptr [esi + 8]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D39D": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D3A8 dword ptr [esi + 0xc]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D3BE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008D3C3 _ftol",
+    "unmodelled 1008D541 callee pop unknown (indirect)",
+    "unmodelled 1008D580 callee pop unknown (100929A0)"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D61D": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D628 dword ptr [esi + 4]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D62B": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D636 dword ptr [esi + 8]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D639": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D644 dword ptr [esi + 0xc]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D647": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D652 dword ptr [esi + 0x14]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D655": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D660 dword ptr [esi + 0x18]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D663": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1008D66E dword ptr [esi + 0x1c]"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008D671": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008D676 _ftol"
+   ],
+   "func": "0x1008CD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1008DAAB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008DAB4 _ftol"
+   ],
+   "func": "0x1008DA00",
+   "getter": "0x10014CF0"
+  },
+  "0x1008EA21": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008EA26 _ftol",
+    "unmodelled 1008ED55 step limit"
+   ],
+   "func": "0x1008E9A0",
+   "getter": "0x10014CF0"
+  },
+  "0x1008ED66": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1008ED6B _ftol",
+    "returned-int 1008ED98 "
+   ],
+   "func": "0x1008E9A0",
+   "getter": "0x10014CF0"
+  },
+  "0x10091AD3": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10091AD8 _ftol",
+    "unmodelled 10091BA5 step limit",
+    "unmodelled 10091D7E callee pop unknown (indirect)",
+    "unmodelled 10092185 callee pop unknown (indirect)",
+    "unmodelled 1009256D callee pop unknown (indirect)"
+   ],
+   "func": "0x1008F740",
+   "getter": "0x10014CF0"
+  },
+  "0x1009670D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10096712 _ftol",
+    "unmodelled 10096AF9 callee pop unknown (10077FB0)",
+    "unmodelled 10096AF9 step limit"
+   ],
+   "func": "0x10096640",
+   "getter": "0x10014CF0"
+  },
+  "0x10097271": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1009727A _ftol",
+    "returned-int 1009710C ",
+    "returned-int 10097294 "
+   ],
+   "func": "0x10096C90",
+   "getter": "0x10014CF0"
+  },
+  "0x1009729C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1009727A _ftol",
+    "returned-int 1009710C ",
+    "returned-int 10097294 "
+   ],
+   "func": "0x10096C90",
+   "getter": "0x10014CF0"
+  },
+  "0x100984D5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100984DA _ftol",
+    "unmodelled 1009855B callee pop unknown (100DD970)"
+   ],
+   "func": "0x100983F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100984F6": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100984FB _ftol",
+    "unmodelled 1009855B callee pop unknown (100DD970)"
+   ],
+   "func": "0x100983F0",
+   "getter": "0x10014CF0"
+  },
+  "0x1009F661": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1009F66A _ftol",
+    "returned-int 1009F78A "
+   ],
+   "func": "0x1009F4C0",
+   "getter": "0x10014CF0"
+  },
+  "0x100A2843": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100A284B _ftol",
+    "unmodelled 100A288D indirect jmp",
+    "unmodelled 100A28AE callee pop unknown (indirect)"
+   ],
+   "func": "0x100A2840",
+   "getter": "0x10014CF0"
+  },
+  "0x100A5194": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100A51B0 10026EB0"
+   ],
+   "func": "0x100A4ED0",
+   "getter": "0x10014CF0"
+  },
+  "0x100A57F9": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100A5804 10086E90"
+   ],
+   "func": "0x100A57F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100A7B8A": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100A7B99 10157CF0"
+   ],
+   "func": "0x100A7B80",
+   "getter": "0x10014CF0"
+  },
+  "0x100A8778": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100A8785 10084600"
+   ],
+   "func": "0x100A8770",
+   "getter": "0x10014CF0"
+  },
+  "0x100A9FC7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 100A9FDE dword ptr [esi + 0x108]",
+    "call-arg 100AA000 100AA4E0",
+    "call-arg 100AA0A8 100AA4E0"
+   ],
+   "func": "0x100A9FC0",
+   "getter": "0x10014CF0"
+  },
+  "0x100AA1F7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 100AA20E dword ptr [esi + 0x108]",
+    "call-arg 100AA24C 10026E90",
+    "call-arg 100AA2B4 10027530"
+   ],
+   "func": "0x100AA1F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100AAB78": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 100AAB91 dword ptr [esi + 0x144]",
+    "call-arg 100AAC11 100AAB30",
+    "call-arg 100AAC1F 10026F20",
+    "call-arg 100AACA4 100AAB30",
+    "call-arg 100AACB2 10026F20",
+    "call-arg 100AAD04 10027530"
+   ],
+   "func": "0x100AAB70",
+   "getter": "0x10014CF0"
+  },
+  "0x100AADF5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 100AAE06 dword ptr [edi + 0x118]",
+    "call-arg 100AAE3E 10026F20",
+    "call-arg 100AAEA2 10026F20"
+   ],
+   "func": "0x100AADF0",
+   "getter": "0x10014CF0"
+  },
+  "0x100AC55D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100AC562 _ftol",
+    "unmodelled 100AC585 callee pop unknown (indirect)"
+   ],
+   "func": "0x100AC4E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100AECC0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100AECC5 _ftol",
+    "returned-int 100AECDF ",
+    "returned-int 100AECFA "
+   ],
+   "func": "0x100AECC0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B035D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100B036E 100AF310",
+    "int 100B0362 _ftol"
+   ],
+   "func": "0x100B0350",
+   "getter": "0x10014CF0"
+  },
+  "0x100B0829": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B0841 dword ptr [edx + esi + 0x3c]"
+   ],
+   "func": "0x100B07F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B08BF": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B08D7 dword ptr [eax + esi + 0x3c]"
+   ],
+   "func": "0x100B0870",
+   "getter": "0x10014CF0"
+  },
+  "0x100B2F4E": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x100B2EA0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B2F9E": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B2FC1 dword ptr [eax + 0x140]"
+   ],
+   "func": "0x100B2EA0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B2FE1": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B3004 dword ptr [eax + 0x148]"
+   ],
+   "func": "0x100B2EA0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B32A8": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x100B31F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B32F0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B3313 dword ptr [eax + 0x140]"
+   ],
+   "func": "0x100B31F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B3333": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B3356 dword ptr [eax + 0x144]"
+   ],
+   "func": "0x100B31F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B3376": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B3399 dword ptr [eax + 0x148]"
+   ],
+   "func": "0x100B31F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100B56F2": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x100B5630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B578B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100B5794 _ftol"
+   ],
+   "func": "0x100B5630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B57FD": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B5820 dword ptr [eax + 0x140]"
+   ],
+   "func": "0x100B5630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B5840": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B585D dword ptr [eax + 0x144]"
+   ],
+   "func": "0x100B5630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B587D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100B58A0 dword ptr [eax + 0x148]"
+   ],
+   "func": "0x100B5630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B76A4": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100B76A9 _ftol",
+    "unmodelled 100B76F1 callee pop unknown (indirect)"
+   ],
+   "func": "0x100B7630",
+   "getter": "0x10014CF0"
+  },
+  "0x100B7725": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100B777B indirect",
+    "float-store 100B7745 dword ptr [eax + 0x178]",
+    "int 100B772A _ftol",
+    "int 100B7762 _ftol"
+   ],
+   "func": "0x100B7630",
+   "getter": "0x10014CF0"
+  },
+  "0x100C3568": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100C3571 _ftol"
+   ],
+   "func": "0x100C3480",
+   "getter": "0x10014CF0"
+  },
+  "0x100C35E9": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 100C35F2 _ftol",
+    "unmodelled 100C37CD callee pop unknown (indirect)",
+    "unmodelled 100C3817 step limit"
+   ],
+   "func": "0x100C3480",
+   "getter": "0x10014CF0"
+  },
+  "0x100C4878": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C490B 100272B0",
+    "call-arg 100C4AE0 10026E90"
+   ],
+   "func": "0x100C47F0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C648E": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 100C6499 dword ptr [esi + 0x8bc]"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C65BA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C65E5 10027120",
+    "call-arg 100C6660 indirect"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C6882": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C6994 100272B0",
+    "call-arg 100C6F61 10081550",
+    "call-arg 100C70F6 10027530"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C6C64": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C6D76 100272B0",
+    "call-arg 100C6E9A 10026E90",
+    "call-arg 100C6F61 10081550",
+    "call-arg 100C70F6 10027530"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C76CA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100C76F0 dword ptr [esi + 0x59c]"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C7F13": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100C7F37 dword ptr [esi + 0x59c]"
+   ],
+   "func": "0x100C63D0",
+   "getter": "0x10014CF0"
+  },
+  "0x100C8AC8": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C8B0D indirect",
+    "call-arg 100C8B4E indirect"
+   ],
+   "func": "0x100C8930",
+   "getter": "0x10014CF0"
+  },
+  "0x100C8AE7": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100C8B0D indirect",
+    "call-arg 100C8B4E indirect"
+   ],
+   "func": "0x100C8930",
+   "getter": "0x10014CF0"
+  },
+  "0x100CAEEA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 100CAEF3 dword ptr [esi + 0x820]"
+   ],
+   "func": "0x100CAE60",
+   "getter": "0x10014CF0"
+  },
+  "0x100CB4ED": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 100CB5CB indirect",
+    "call-arg 100CB856 indirect",
+    "call-arg 100CB8CB indirect",
+    "unmodelled 100CB8AC step limit"
+   ],
+   "func": "0x100CB4E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100CBC68": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 100CBC73 dword ptr [edi + 0x844]"
+   ],
+   "func": "0x100CB4E0",
+   "getter": "0x10014CF0"
+  },
+  "0x100CDF96": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 100CDFA1 dword ptr [esi + 0x8b8]"
+   ],
+   "func": "0x100CDF90",
+   "getter": "0x10014CF0"
+  },
+  "0x101175D5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101175DA _ftol",
+    "int 10117644 _ftol",
+    "int 101176A3 _ftol",
+    "unmodelled 10117789 step limit"
+   ],
+   "func": "0x10117520",
+   "getter": "0x10014CF0"
+  },
+  "0x10117766": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1011776B _ftol",
+    "returned-int 1011779A "
+   ],
+   "func": "0x10117520",
+   "getter": "0x10014CF0"
+  },
+  "0x1011777B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10117780 _ftol",
+    "returned-int 1011779A "
+   ],
+   "func": "0x10117520",
+   "getter": "0x10014CF0"
+  },
+  "0x101177A2": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101177A7 _ftol",
+    "returned-int 1011779A "
+   ],
+   "func": "0x10117520",
+   "getter": "0x10014CF0"
+  },
+  "0x1011966C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10119671 _ftol",
+    "unmodelled 1011983F step limit"
+   ],
+   "func": "0x10119550",
+   "getter": "0x10014CF0"
+  },
+  "0x1011970C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10119711 _ftol",
+    "unmodelled 1011983C step limit"
+   ],
+   "func": "0x10119550",
+   "getter": "0x10014CF0"
+  },
+  "0x10119F31": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10119F36 _ftol",
+    "returned-int 10119F77 "
+   ],
+   "func": "0x10119F20",
+   "getter": "0x10014CF0"
+  },
+  "0x101248DC": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 101248F4 dword ptr [esi + 0x70]",
+    "int 101248E1 _ftol"
+   ],
+   "func": "0x101248A0",
+   "getter": "0x10014CF0"
+  },
+  "0x10124D47": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 10124D62 dword ptr [esi + 0x9c]",
+    "call-arg 10124DF6 10081550",
+    "int 10124D4C _ftol"
+   ],
+   "func": "0x10124BC0",
+   "getter": "0x10014CF0"
+  },
+  "0x101250B0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 101250C8 dword ptr [esi + 0x74]",
+    "call-arg 101250DB 10123A70",
+    "int 101250B5 _ftol"
+   ],
+   "func": "0x10125040",
+   "getter": "0x10014CF0"
+  },
+  "0x101251FE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 10125216 dword ptr [esi + 0x78]",
+    "call-arg 10125274 10239490",
+    "int 10125203 _ftol"
+   ],
+   "func": "0x10125170",
+   "getter": "0x10014CF0"
+  },
+  "0x10125430": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 10125448 dword ptr [esi + 0x48]",
+    "call-arg 101254A2 10123A70",
+    "int 10125435 _ftol"
+   ],
+   "func": "0x10125360",
+   "getter": "0x10014CF0"
+  },
+  "0x10125C00": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 10125C25 dword ptr [esi + 0x7c]",
+    "call-arg 10125CBC 10160C90",
+    "int 10125C05 _ftol"
+   ],
+   "func": "0x10125360",
+   "getter": "0x10014CF0"
+  },
+  "0x101268A9": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101268AE _ftol"
+   ],
+   "func": "0x101268A0",
+   "getter": "0x10014CF0"
+  },
+  "0x1012B7FA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 1012B812 dword ptr [esi + 0x60]",
+    "call-arg 1012B830 10123A70",
+    "int 1012B7FF _ftol"
+   ],
+   "func": "0x1012B4B0",
+   "getter": "0x10014CF0"
+  },
+  "0x1012C179": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1012C181 dword ptr [esi + 0x18]"
+   ],
+   "func": "0x1012C0F0",
+   "getter": "0x10014CF0"
+  },
+  "0x1012C734": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1012C756 _ftol"
+   ],
+   "func": "0x1012C660",
+   "getter": "0x10014CF0"
+  },
+  "0x1012CBCF": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1012CBD7 dword ptr [esi + 0x1c]"
+   ],
+   "func": "0x1012CAE0",
+   "getter": "0x10014CF0"
+  },
+  "0x1012E8EC": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1012E8F1 _ftol",
+    "unmodelled 1012E965 indirect jmp",
+    "unmodelled 1012EA94 step limit"
+   ],
+   "func": "0x1012E880",
+   "getter": "0x10014CF0"
+  },
+  "0x10133ABE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10133AC3 _ftol",
+    "unmodelled 10133C11 callee pop unknown (10150CC0)",
+    "unmodelled 10133C8B callee pop unknown (10152EF0)",
+    "unmodelled 10133D47 step limit",
+    "unmodelled 10133D56 callee pop unknown (1013A320)"
+   ],
+   "func": "0x10133A80",
+   "getter": "0x10014CF0"
+  },
+  "0x101375ED": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101375F2 _ftol"
+   ],
+   "func": "0x101375E0",
+   "getter": "0x10014CF0"
+  },
+  "0x1013A033": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1013A038 _ftol",
+    "returned-int 1013A05D "
+   ],
+   "func": "0x1013A030",
+   "getter": "0x10014CF0"
+  },
+  "0x1013A616": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1013A61B _ftol",
+    "returned-int 1013A6B8 "
+   ],
+   "func": "0x1013A5B0",
+   "getter": "0x10014CF0"
+  },
+  "0x1014CB7B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1014CB80 _ftol",
+    "unmodelled 1014CC11 indirect jmp"
+   ],
+   "func": "0x1014CB70",
+   "getter": "0x10014CF0"
+  },
+  "0x101500EB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101500F0 _ftol"
+   ],
+   "func": "0x10150090",
+   "getter": "0x10014CF0"
+  },
+  "0x10159A6C": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 10159A8A 10193850",
+    "int 10159A71 _ftol"
+   ],
+   "func": "0x10159A20",
+   "getter": "0x10014CF0"
+  },
+  "0x1015DE2B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1015DE3F _ftol",
+    "returned-int 1015DE4F "
+   ],
+   "func": "0x1015DD90",
+   "getter": "0x10014CF0"
+  },
+  "0x1015FF0A": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1015FF0F _ftol",
+    "unmodelled 1015FF6F step limit"
+   ],
+   "func": "0x1015FA00",
+   "getter": "0x10014CF0"
+  },
+  "0x101628E5": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101628EA _ftol",
+    "unmodelled 101629A5 callee pop unknown (indirect)"
+   ],
+   "func": "0x101626E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10162913": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10162918 _ftol",
+    "unmodelled 101629A5 callee pop unknown (indirect)"
+   ],
+   "func": "0x101626E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10162956": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101629A5 indirect",
+    "int 1016295B _ftol",
+    "int 10162972 _ftol"
+   ],
+   "func": "0x101626E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10178BD0": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 10178BE2 dword ptr [0x1065ca2c]"
+   ],
+   "func": "0x10178B30",
+   "getter": "0x10014CF0"
+  },
+  "0x1017A4BB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1017A4E3 101880B0",
+    "float-store 1017A511 dword ptr [esi + 0x158]"
+   ],
+   "func": "0x1017A3F0",
+   "getter": "0x10014CF0"
+  },
+  "0x10188A54": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 10188A5F dword ptr [esi + 0x144]"
+   ],
+   "func": "0x10188A50",
+   "getter": "0x10014CF0"
+  },
+  "0x1018C273": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1018C27E _ftol",
+    "returned-int 1018C28A "
+   ],
+   "func": "0x1018C270",
+   "getter": "0x10014CF0"
+  },
+  "0x1018C293": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1018C29E _ftol"
+   ],
+   "func": "0x1018C290",
+   "getter": "0x10014CF0"
+  },
+  "0x1019EAF2": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "accumulator 1019EB91 dword ptr [esi + 0x44]",
+    "call-arg 1019EB59 1019ED70",
+    "call-arg 1019EB94 1019ED70",
+    "int 1019EAF7 _ftol",
+    "int 1019EB1C _ftol"
+   ],
+   "func": "0x101630C0",
+   "getter": "0x10014CF0"
+  },
+  "0x101CE91B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101CE920 _ftol",
+    "unmodelled 101CE992 callee pop unknown (indirect)"
+   ],
+   "func": "0x101CE900",
+   "getter": "0x10014CF0"
+  },
+  "0x101D4008": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101D400D _ftol",
+    "unmodelled 101D4052 step limit"
+   ],
+   "func": "0x101D3FC0",
+   "getter": "0x10014CF0"
+  },
+  "0x101D54BA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101D54C3 _ftol",
+    "returned-int 101D54F6 ",
+    "returned-int 101D5570 "
+   ],
+   "func": "0x101D5410",
+   "getter": "0x10014CF0"
+  },
+  "0x101D5530": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101D5539 _ftol",
+    "returned-int 101D5570 "
+   ],
+   "func": "0x101D5410",
+   "getter": "0x10014CF0"
+  },
+  "0x101D7AD0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101D7AD5 _ftol"
+   ],
+   "func": "0x101D7AC0",
+   "getter": "0x10014CF0"
+  },
+  "0x101E187B": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101E1880 _ftol"
+   ],
+   "func": "0x101E1850",
+   "getter": "0x10014CF0"
+  },
+  "0x101EDF4C": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 101EDF8A dword ptr [esi + 0xe8]",
+    "accumulator 101EE032 dword ptr [esi + 0xe8]"
+   ],
+   "func": "0x101EDEE0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EEFDA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101EEFED _ftol",
+    "returned-int 101EF005 ",
+    "returned-int 101EF090 "
+   ],
+   "func": "0x101EEF90",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF008": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101EF01D _ftol",
+    "returned-int 101EF090 "
+   ],
+   "func": "0x101EEF90",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF067": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101EF07C _ftol",
+    "returned-int 101EF090 "
+   ],
+   "func": "0x101EEF90",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF1AC": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101EF1D2 10014CF0"
+   ],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF1D2": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF282": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101EF2A5 101EDE30"
+   ],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF334": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101EF3B9 101EDAF0"
+   ],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF3DE": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF541": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF55D": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF570": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF590": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF5AC": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF5BF": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF6FE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101EF711 10014CF0"
+   ],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EF711": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 101EF7CE 101EDAF0",
+    "call-arg 101EF838 101ED9E0",
+    "call-arg 101EF845 10123A70"
+   ],
+   "func": "0x101EF0A0",
+   "getter": "0x10014CF0"
+  },
+  "0x101EFA27": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x101EF990",
+   "getter": "0x10014CF0"
+  },
+  "0x101FB9DC": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101FB9E1 _ftol"
+   ],
+   "func": "0x101FB9C0",
+   "getter": "0x10014CF0"
+  },
+  "0x101FBA03": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 101FBA08 _ftol",
+    "returned-int 101FBA4A "
+   ],
+   "func": "0x101FB9C0",
+   "getter": "0x10014CF0"
+  },
+  "0x102014F6": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 102014FB _ftol"
+   ],
+   "func": "0x102014F0",
+   "getter": "0x10014CF0"
+  },
+  "0x102160A3": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 102160AE _ftol",
+    "unmodelled 102160BB callee pop unknown (103109FC)",
+    "unmodelled 102160ED callee pop unknown (10310AC2)"
+   ],
+   "func": "0x102160A0",
+   "getter": "0x10014CF0"
+  },
+  "0x102164C3": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 102164CE _ftol",
+    "unmodelled 102164DB callee pop unknown (103109E6)"
+   ],
+   "func": "0x102164C0",
+   "getter": "0x10014CF0"
+  },
+  "0x1021F263": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 1021F2B3 dword ptr [esi + 0x24]",
+    "int 1021F26C _ftol",
+    "returned-int 1021F289 "
+   ],
+   "func": "0x1021F240",
+   "getter": "0x10014CF0"
+  },
+  "0x1021F2C0": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "float-store 1021F321 dword ptr [esi + 0x24]",
+    "int 1021F2C9 _ftol",
+    "returned-int 1021F2EF "
+   ],
+   "func": "0x1021F240",
+   "getter": "0x10014CF0"
+  },
+  "0x10220364": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1022036D _ftol"
+   ],
+   "func": "0x10220350",
+   "getter": "0x10014CF0"
+  },
+  "0x10220998": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 10220A9D 1011FB60",
+    "int 102209A1 _ftol",
+    "int 10220A6E _ftol",
+    "int 10220A91 _ftol"
+   ],
+   "func": "0x102203B0",
+   "getter": "0x10014CF0"
+  },
+  "0x10220B14": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 10220BD2 1011FB60",
+    "int 10220B1D _ftol",
+    "int 10220BA3 _ftol",
+    "int 10220BC6 _ftol"
+   ],
+   "func": "0x102203B0",
+   "getter": "0x10014CF0"
+  },
+  "0x10220EA2": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10220EAB _ftol",
+    "returned-int 10220EE2 "
+   ],
+   "func": "0x10220E90",
+   "getter": "0x10014CF0"
+  },
+  "0x10221428": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 10221436 _ftol"
+   ],
+   "func": "0x102213E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10221492": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1022149B _ftol"
+   ],
+   "func": "0x102213E0",
+   "getter": "0x10014CF0"
+  },
+  "0x10227E58": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 10227E63 dword ptr [esi + 0x28c]"
+   ],
+   "func": "0x10227BF0",
+   "getter": "0x10014CF0"
+  },
+  "0x1024C316": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1024C31B _ftol",
+    "int 1024C3B5 _ftol",
+    "int 1024C3C1 _ftol",
+    "returned-int 1024C3CD "
+   ],
+   "func": "0x1024C310",
+   "getter": "0x10014CF0"
+  },
+  "0x1024DE98": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x1024DE20",
+   "getter": "0x10014CF0"
+  },
+  "0x1024DF4E": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [],
+   "func": "0x1024DE20",
+   "getter": "0x10014CF0"
+  },
+  "0x1024E8BE": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1024E8C3 _ftol",
+    "unmodelled 1024E934 step limit"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024EB4D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "int 1024EB52 _ftol",
+    "unmodelled 1024EB76 step limit"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024EBCA": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1024EBEE 1027ABD0"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024EC1F": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1024EC3F 1027ABA0"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024EE6D": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1024EE8D 1027ABD0"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024EECB": {
+   "answer": "whole",
+   "class": "whole",
+   "divisors": [],
+   "ends": [
+    "call-arg 1024EF37 1027B080"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024F019": {
+   "answer": "whole",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1024F029 dword ptr [eax + 0x78]"
+   ],
+   "func": "0x1024E760",
+   "getter": "0x10014CF0"
+  },
+  "0x1024F6E6": {
+   "answer": "fraction",
+   "class": "fraction",
+   "divisors": [],
+   "ends": [
+    "accumulator 1024F701 dword ptr [esi + 0x9c]",
+    "accumulator 1024F716 dword ptr [esi + 0x9c]"
+   ],
+   "func": "0x1024F5E0",
+   "getter": "0x10014CF0"
+  }
+ },
+ "source": "pipeline/frame_step_users.py on the analysed build"
+}

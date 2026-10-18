@@ -35,10 +35,30 @@
 //                        before CreateProcessorInstance (0x1006CB50) chooses the tier and sets g_pProcessor (0x1047CF7C);
 //                        that runs in a load step after the device exists (0x10010D20), so the mod's init, made right
 //                        after the device, is usually in time. Written as one compare-exchange of the aligned dword.
-//   frame_cap_fps        An even frame rate (0 = off), at most 60: the game advances its time by max(step, 1) ticks
+//   frame_cap_fps        An even frame rate (0 = off), at most 60 unless uncap=1: the game advances its time by max(step, 1) ticks
 //                        of 1/60 s per frame (Camera_GetFrameScale, 0x10014CF0; docs/RENDERER.md 3a), so above 60 it
 //                        would run faster than real time. Below 60 the step is truncated to whole ticks, so 60, 30, 20
 //                        and 15 keep game time and real time equal; another value is used but logged.
+//   uncap                The game's frame waits while v < [g_pCamera+0x30] (0x10012B47; v the frame's time in 1/60 s ticks;
+//                        docs/RENDERER.md 3): 1 holds 60 fps, the game's own setter 0x1008A0E0 writes 2 or 4. Under uncap
+//                        the field is written 0 at every Present (the value found is logged when it changes), so there
+//                        is no wait; turned off, the last value found goes back.
+//   frame_step           What the game's frame step answers. The game makes it at 0x10012C3C..0x10012C77:
+//                        min(max(trunc(average of its last 4 v), [+0x30]), 20) into [+0x28], read by the getters
+//                        0x10014CF0 and 0x10014D20 (`max([g_pCamera+0x28], 1.0)`, 218 calls) and Frame_Render's copy at
+//                        0x10011A24. Truncated, it under-counts time below 60 fps (62-99% in the dumps); with [+0x30] 0
+//                        above 60 it is 0, answered as 1: a tick every frame. The call of _ftol at 0x10012C3C (the
+//                        truncation) is re-aimed at sf_avg_thunk, which takes the same value without the truncation
+//                        (floor and cap as the game's) and carries its fraction from frame to frame into whole ticks,
+//                        then runs _ftol: [+0x28] stays the game's. The getters' entries jump to sf_get_thunk0/1 and
+//                        Frame_Render's copy calls sf_inline_thunk; with frame_step=0 (or a frame without the hooks)
+//                        they run the game's code. 1: whole ticks at every call; over time they add up to the game's
+//                        own measure of the frames' time, and above 60 fps some frames have 0 (a value the game never
+//                        answered). 2: as 1, and the calls in sf_step_sites.h (written by pipeline/frame_step_users.py:
+//                        every path of every call in the function ends in an accumulator `x += f(step)`) get the
+//                        fraction. Code that moves something a fixed amount each frame without the step (0x1024DE20
+//                        moves by a fixed amount once the step test passes) still runs once a frame: above 60 fps it is
+//                        faster whatever the step answers, and how much of it there is is not known.
 //   precise_pacing       The game's own frame limiter, timed with the performance counter instead of timeGetTime's
 //                        whole milliseconds. The limiter (in 0x10011A00; esi the limiter object, [esi+0x1C] its timer,
 //                        vtable 0x1032A118) waits in this loop:
@@ -103,8 +123,17 @@ static const char kDefaultIni[] =
   ";   extended_state_cache off at the start, speedfix hooks only the cached setters (less overhead on every other\r\n"
   ";   call); turning either on then takes effect at the next start\r\n"
   "batch_up_draws=0\r\nbatch_up_max_prims=0\r\nbatch_up_max_bytes=0\r\n"
-  "; even frame pacing (0 = off); 60, 30, 20 or 15 keep the game's time exact; more than 60 is not allowed\r\n"
+  "; even frame pacing (0 = off); 60, 30, 20 or 15 keep the game's time exact; more than 60 only with uncap=1\r\n"
   "frame_cap_fps=0\r\n"
+  "; uncap=1: the game's own wait for a minimum of whole 1/60 s ticks a frame (60 fps with 1, 30 with 2) removed:\r\n"
+  ";   its tick count [g_pCamera+0x30] kept at 0. Live both ways\r\n"
+  "uncap=0\r\n"
+  "; the game's time step (Camera_GetFrameScale): 0 = the game's (with uncap=1 that is one tick every frame, so above\r\n"
+  ";   60 fps what it drives runs faster than real time); 1 = real time in whole ticks: the game's own average of its\r\n"
+  ";   last 4 frames, not truncated, its fraction carried to the next frame (frames of 0 ticks above 60 fps); 2 = as 1,\r\n"
+  ";   and the 14 calls proven to only accumulate it get the fraction (data/frame_step_users.json). Below 60 fps 1 and\r\n"
+  ";   2 also stop the game's under-count of time. Patched at the first frame it is on; live both ways after that\r\n"
+  "frame_step=0\r\n"
   "; each actor's visibility re-tested every 4 (the game's), 8 or 16 frames\r\n"
   "occlusion_stagger=8\r\n"
   "; A/B switches: every actor visible without its query; every occlusion query visible without its readback\r\n"
@@ -177,13 +206,14 @@ static SfConfig read_config(void) {
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
+  c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 2) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
   c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
-  if (c.frame_cap_fps > 60) c.frame_cap_fps = 60;
+  if (c.frame_cap_fps > (c.uncap ? 1000 : 60)) c.frame_cap_fps = c.uncap ? 1000 : 60;
   c.occlusion_stagger = c.occlusion_stagger >= 16 ? 16 : c.occlusion_stagger >= 8 ? 8 : 4;
   if (c.texture_compression_value < 0) c.texture_compression_value = 0;
   if (c.texture_compression_value > 15) c.texture_compression_value = 15;
@@ -197,12 +227,15 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d occlusion_late=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d occlusion_late=%d uncap=%d frame_step=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws, c.occlusion_late);
-  if (c.frame_cap_fps && 60 % c.frame_cap_fps)
-    LOG("speedfix: frame_cap_fps=%d is not 60/n: the game truncates its time step to whole 1/60 s ticks, so its time runs "
-        "slower than real time at this cap (60, 30, 20, 15 keep them equal)", c.frame_cap_fps);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws, c.occlusion_late, c.uncap, c.frame_step);
+  if (c.uncap && !c.frame_step)
+    LOG("speedfix: uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame, so above 60 fps what its step "
+        "drives runs faster than real time (frame_step=1 or 2 ties it to real time)");
+  if (c.frame_cap_fps && !c.frame_step && (c.frame_cap_fps > 60 || 60 % c.frame_cap_fps))
+    LOG("speedfix: frame_cap_fps=%d is not 60/n: with frame_step=0 the game's time step is whole 1/60 s ticks, so its time "
+        "does not follow real time at this cap (60, 30, 20, 15 keep them equal; frame_step=1 or 2 at any cap)", c.frame_cap_fps);
 }
 
 // ---------------------------------------------------------------------------------------------- code changes
@@ -385,6 +418,140 @@ static void pp_stats(void) {
                      "already past their moment, %ld Sleep calls as the game's); its tick count [+0x30] %d, its timer's scale [+8] %.4f",
                      f, ms, w, late, s, (int)g_pp_ticks, (double)g_pp_scale);
 }
+// uncap and frame_step (the comment at the top of the file). The step is made once a frame, where the game makes its
+// own: the call of _ftol at 0x10012C3C truncates the ring's average (in [esi+0x2C] and on the x87 stack) into the step.
+#include "sf_step_sites.h"
+extern "C" {
+  volatile int sf_step_mode;                 // what the getters answer this frame: 0 the game's, 1 whole, 2 + the fraction
+  float sf_step_whole, sf_step_frac;         // this frame's step, whole ticks and fractional
+  uintptr_t sf_cam_pp, sf_ftol, sf_get_cont[2], sf_frac_ret[sizeof kStepFractionRet / sizeof kStepFractionRet[0]];
+  int sf_frac_n;
+  extern const float sf_one = 1.0f;
+}
+static double g_st_carry; static bool g_st_have; static uint8_t *g_st_obj;
+static LARGE_INTEGER g_st_qpf; static LONGLONG g_st_last;
+static volatile LONG g_st_frames, g_st_zero; static double g_st_whole, g_st_frac, g_st_game, g_st_ms;
+// the game's step is min(max(trunc(average), [esi+0x30]), 20) (0x10012C3C to 0x10012C77); here, the same without trunc
+extern "C" void __cdecl sf_avg(uint8_t *obj) {
+  float avg = *(float *)(obj + 0x2C); int floor_ = *(int32_t *)(obj + 0x30);
+  double f = avg;
+  if (!(f >= floor_)) f = floor_;                            // (a NaN average: _ftol gives INT_MIN, the floor wins)
+  if (f > 20.0) f = 20.0;
+  double c = g_st_carry + f; int w = (int)c;                 // whole ticks, the fraction carried (as [esi+0x38])
+  g_st_carry = c - w;
+  sf_step_frac = (float)f; sf_step_whole = (float)w; g_st_obj = obj; g_st_have = true;
+  double game = trunc(f) >= 1.0 ? trunc(f) : 1.0;            // what the game's getter answers (avg >= floor >= 0)
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  if (g_st_last) g_st_ms += (now.QuadPart - g_st_last) * 1000.0 / (double)g_st_qpf.QuadPart;
+  g_st_last = now.QuadPart;
+  g_st_frames++; if (!w) g_st_zero++; g_st_whole += w; g_st_frac += f; g_st_game += game;
+}
+// in place of the call of _ftol at 0x10012C3C (ESI the frame object); the x87 stack saved around the C code
+asm(".text\n.globl _sf_avg_thunk\n_sf_avg_thunk:\n"
+    "  pushl %ecx\n  pushl %edx\n  subl $108, %esp\n  fnsave (%esp)\n  pushl %esi\n  call _sf_avg\n  addl $4, %esp\n"
+    "  frstor (%esp)\n  addl $108, %esp\n  popl %edx\n  popl %ecx\n  jmp *_sf_ftol\n");
+// the getters' entries (mov ecx, [g_pCamera]) jump here. Mode 0: the game's code. Otherwise whole ticks, or under 2
+// the fraction for the calls returning to kStepFractionRet. The game's getter changes EAX and ECX; this EAX only.
+asm(".text\n.globl _sf_get_thunk0\n_sf_get_thunk0:\n"
+    "  cmpl $0, _sf_step_mode\n  jne _sf_get_on\n  movl _sf_cam_pp, %ecx\n  movl (%ecx), %ecx\n  jmp *_sf_get_cont\n"
+    ".globl _sf_get_thunk1\n_sf_get_thunk1:\n"
+    "  cmpl $0, _sf_step_mode\n  jne _sf_get_on\n  movl _sf_cam_pp, %ecx\n  movl (%ecx), %ecx\n  jmp *_sf_get_cont+4\n"
+    "_sf_get_on:\n  cmpl $2, _sf_step_mode\n  jne 3f\n  movl (%esp), %eax\n  pushl %ecx\n  movl _sf_frac_n, %ecx\n"
+    "1:\n  decl %ecx\n  js 2f\n  cmpl _sf_frac_ret(,%ecx,4), %eax\n  jne 1b\n  popl %ecx\n  flds _sf_step_frac\n  ret\n"
+    "2:\n  popl %ecx\n3:\n  flds _sf_step_whole\n  ret\n");
+// Frame_Render's own copy (0x10011A24, ESI the frame object) calls this; mode 0 is its code as it was (EAX changed, as
+// its fnstsw did), otherwise whole ticks
+asm(".text\n.globl _sf_inline_thunk\n_sf_inline_thunk:\n"
+    "  cmpl $0, _sf_step_mode\n  jne 1f\n  flds 0x28(%esi)\n  fcomps _sf_one\n  fnstsw %ax\n  testb $5, %ah\n  jp 2f\n"
+    "  flds _sf_one\n  ret\n2:\n  flds 0x28(%esi)\n  ret\n1:\n  flds _sf_step_whole\n  ret\n");
+extern "C" void sf_avg_thunk(void); extern "C" void sf_get_thunk0(void); extern "C" void sf_get_thunk1(void); extern "C" void sf_inline_thunk(void);
+static bool g_st_done, g_st_ok;
+static bool patch(uint8_t *p, const uint8_t *code, int n) {
+  DWORD old;
+  if (!VirtualProtect(p, n, PAGE_EXECUTE_READWRITE, &old)) return false;
+  memcpy(p, code, n);
+  VirtualProtect(p, n, old, &old); FlushInstructionCache(GetCurrentProcess(), p, n);
+  return true;
+}
+static void apply_frame_step(void) {
+  if (g_st_done || !sf_cfg.frame_step) return;
+  g_st_done = true;
+  QueryPerformanceFrequency(&g_st_qpf);
+  uintptr_t cam = XI_GAME(0x104568FCu), one = XI_GAME(0x1032961Cu);
+  // 0x10014CF0 and 0x10014D20: 8B 0D <g_pCamera> D9 41 (mov ecx, [g_pCamera]; fld [ecx+...]): the first 8 bytes become
+  // E9 <thunk> 90 D9 41 in one 8-byte compare-exchange (both entries are 16-aligned), so another thread sees either
+  uint8_t ge[8] = {0x8B, 0x0D, 0, 0, 0, 0, 0xD9, 0x41}, live[27];
+  memcpy(ge + 2, &cam, 4);
+  // 0x10011A24..0x10011A3E: fld [esi+28]; fcomp [1.0]; fnstsw ax; test ah,5; jp +8; fld [1.0]; jmp +3; fld [esi+28]
+  uint8_t ie[27] = {0xD9, 0x46, 0x28, 0xD8, 0x1D, 0, 0, 0, 0, 0xDF, 0xE0, 0xF6, 0xC4, 0x05, 0x7A, 0x08, 0xD9, 0x05, 0, 0, 0, 0,
+                    0xEB, 0x03, 0xD9, 0x46, 0x28};
+  memcpy(ie + 5, &one, 4); memcpy(ie + 18, &one, 4);
+  // 0x10012C3C call 0x10311C2C (_ftol): E8 EB EF 2F 00 in the analysed build; _ftol moves in later builds (xi_shift) and
+  // the caller does not, so the expected rel32 is made from where both are in the running one
+  uint8_t ftol_call[5] = {0xE8}; int32_t frel = (int32_t)(XI_GAME(0x10311C2Cu) - (XI_GAME(0x10012C3Cu) + 5)); memcpy(ftol_call + 1, &frel, 4);
+  for (int k = 0; k < 2; k++) {
+    uint32_t g = k ? 0x10014D20u : 0x10014CF0u;
+    if (!live_bytes(g, ge, 8, live)) { LOG("speedfix: frame_step not applied: the getter at %08X does not begin mov ecx, [g_pCamera]; fld [ecx+..]", g); return; }
+  }
+  if (!live_bytes(0x10011A24u, ie, 27, live)) { LOG("speedfix: frame_step not applied: the bytes at 10011A24 are not Frame_Render's copy of the getter"); return; }
+  if (!live_bytes(0x10012C3Cu, ftol_call, 5, live)) { LOG("speedfix: frame_step not applied: 10012C3C is not the call of _ftol"); return; }
+  sf_cam_pp = cam; sf_ftol = XI_GAME(0x10311C2Cu);
+  sf_get_cont[0] = XI_GAME(0x10014CF6u); sf_get_cont[1] = XI_GAME(0x10014D26u);
+  for (unsigned i = 0; i < sizeof kStepFractionRet / sizeof kStepFractionRet[0]; i++) sf_frac_ret[i] = XI_GAME(kStepFractionRet[i]);
+  sf_frac_n = sizeof kStepFractionRet / sizeof kStepFractionRet[0];
+  // the step's maker first (the getters answer the game's until sf_step_mode is set, after a frame of it)
+  if (!reaim_call(0x10012C3Cu, ftol_call, (void *)sf_avg_thunk, "frame_step")) return;
+  for (int k = 0; k < 2; k++) {
+    uint8_t *p = (uint8_t *)(uintptr_t)XI_GAME(k ? 0x10014D20u : 0x10014CF0u);
+    uintptr_t to = k ? (uintptr_t)sf_get_thunk1 : (uintptr_t)sf_get_thunk0;
+    uint8_t nw[8] = {0xE9, 0, 0, 0, 0, 0x90, 0xD9, 0x41}; int32_t rel = (int32_t)(to - (uintptr_t)(p + 5)); memcpy(nw + 1, &rel, 4);
+    DWORD old; LONGLONG want, expect;
+    memcpy(&want, nw, 8); memcpy(&expect, ge, 8);
+    if (!VirtualProtect(p, 8, PAGE_EXECUTE_READWRITE, &old)) { LOG("speedfix: frame_step: VirtualProtect failed"); return; }
+    LONGLONG prev = InterlockedCompareExchange64((volatile LONGLONG *)p, want, expect);
+    VirtualProtect(p, 8, old, &old); FlushInstructionCache(GetCurrentProcess(), p, 8);
+    if (prev != expect) { LOG("speedfix: frame_step: the getter at %08X changed meanwhile; not applied", k ? 0x10014D20u : 0x10014CF0u); return; }
+  }
+  // Frame_Render's copy: call sf_inline_thunk; jmp short 0x10011A3F (the call of _ftol); nops. Frame_Render calls
+  // Present (docs/RENDERER.md 2) on this thread, so it is not running these bytes now.
+  uint8_t *p = (uint8_t *)(uintptr_t)XI_GAME(0x10011A24u);
+  uint8_t nw[27]; memset(nw, 0x90, sizeof nw);
+  int32_t rel = (int32_t)((uintptr_t)sf_inline_thunk - (uintptr_t)(p + 5));
+  nw[0] = 0xE8; memcpy(nw + 1, &rel, 4); nw[5] = 0xEB; nw[6] = 0x14;
+  if (!patch(p, nw, 27)) { LOG("speedfix: frame_step: VirtualProtect failed at 10011A24"); return; }
+  g_st_ok = true;
+  LOG("speedfix: frame_step: the step's truncation (the call at 10012C3C), the getters 10014CF0 and 10014D20 and Frame_Render's "
+      "copy (10011A24) now go to speedfix; %d calls are given the fraction under frame_step=2", sf_frac_n);
+}
+// each frame (render thread, inside Present): the getters' mode, and the tick count [g_pCamera+0x30] under uncap
+static int g_uc_seen = -1, g_uc_game = -1; static bool g_uc_wrote;
+static void apply_uncap_step(void) {
+  bool live = sf_frame_no - sf_hooks_frame <= 1;
+  sf_step_mode = g_st_ok && g_st_have && live ? sf_cfg.frame_step : 0;
+  uint8_t *obj = *(uint8_t *volatile *)(uintptr_t)XI_GAME(0x104568FCu);
+  if (!obj) return;
+  volatile int32_t *ticks = (volatile int32_t *)(obj + 0x30);
+  if (sf_cfg.uncap && live) {
+    int v = *ticks;
+    if (v != 0) {
+      if (v != g_uc_seen) LOG("speedfix: uncap: the frame's minimum tick count [+0x30] was %d (2 is the game's 30 fps, 1 is 60); now 0, no wait", v);
+      g_uc_seen = g_uc_game = v; *ticks = 0; g_uc_wrote = true;
+    }
+  } else if (g_uc_wrote) {
+    g_uc_wrote = false; g_uc_seen = -1;
+    if (*ticks == 0 && g_uc_game > 0) { *ticks = g_uc_game; LOG("speedfix: uncap off: the tick count [+0x30] is %d again", g_uc_game); }
+  }
+}
+static void st_stats(void) {
+  LONG f = InterlockedExchange(&g_st_frames, 0), z = InterlockedExchange(&g_st_zero, 0);
+  double w = g_st_whole, fr = g_st_frac, gm = g_st_game, ms = g_st_ms; g_st_whole = g_st_frac = g_st_game = g_st_ms = 0;
+  if (!g_st_ok || !f) return;
+  double real = ms * 0.06;
+  LOG("speedfix: frame_step=%d uncap=%d: %ld frames, %.0f ms by the counter (%.1f ticks of 1/60 s); speedfix's step (what frame_step 1 "
+      "and 2 answer) added up to: whole %.0f (%.1f%%; %ld frames of 0), fraction %.1f (%.1f%%); the game's own (what frame_step 0 "
+      "answers) %.0f (%.1f%%)", sf_cfg.frame_step, sf_cfg.uncap, f, ms, real,
+      w, real > 0 ? 100 * w / real : 0.0, z, fr, real > 0 ? 100 * fr / real : 0.0, gm, real > 0 ? 100 * gm / real : 0.0);
+}
 static void apply_sse_skinning(void);
 static void log_cpu_tier(void);
 static void apply_code(void) {                      // render thread, inside Present
@@ -394,6 +561,8 @@ static void apply_code(void) {                      // render thread, inside Pre
   if (!g_readback_done && (sf_cfg.skip_all_occlusion_readbacks || sf_cfg.occlusion_late)) { g_readback_done = true; reaim_call(0x1006C4D7u, kReadbackCall, (void *)sf_readback, sf_cfg.occlusion_late ? "occlusion_late" : "skip_all_occlusion_readbacks"); }
   apply_texture();
   apply_precise_pacing();
+  apply_frame_step();
+  apply_uncap_step();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
   log_cpu_tier();
@@ -464,6 +633,7 @@ static const Lever kLevers[] = {
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
   {"skin_merge", &SfConfig::skin_merge, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
   {"null_draws", &SfConfig::null_draws, 0}, {"occlusion_late", &SfConfig::occlusion_late, 0},
+  {"uncap", &SfConfig::uncap, 0}, {"frame_step", &SfConfig::frame_step, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -614,5 +784,6 @@ extern "C" void sf_frame(void) {
     if (as + ar) LOG("speedfix: actor occlusion queries: %ld run, %ld skipped", ar, as);
     sf_occl_stats();
     pp_stats();
+    st_stats();
   }
 }

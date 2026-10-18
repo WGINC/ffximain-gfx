@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
 #endif
          (unsigned)si.wProcessorArchitecture);
   Exec x;
+  x.snaps = (SnapSlot *)(mem + 4096 + h->size + h->reply_max);   // the snapshot table, after the reply area (d8_link.cpp)
   // tests only: D8ON11_TEST_EXEC_FAIL_INIT=1 makes this executor answer X_INIT with a failure, so that the D3D8 side's
   // fallback to an in-process executor is tested
   if (getenv("D8ON11_TEST_EXEC_FAIL_INIT")) x.fail_init = (int32_t)0x887A0004;   /* DXGI_ERROR_UNSUPPORTED */

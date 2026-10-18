@@ -2228,3 +2228,42 @@ Corrections against this file:
   summary. The "4.24 ms and 3.63 ms" spreads are the largest within a label for the frame and for executor busy.
 - **Session 5's phases** ran 27.65–46.40 ms (2264/xikit.log:292,278). The 29.5–45.7 ms said before were the A/B
   label means.
+
+## 18 Oct: d3d8on11 readback snapshots (X_SNAP), and CopyRects from the back buffer
+
+The owner asked whether anything helps the frames lost to movement and actor loading. Their choice was to answer the
+occlusion readback a frame late (task 33), done in two parts. This entry is the first: the device side, in ours.
+
+**Why ours needed it.** From our code (d8_device.cpp CopyRects, d8_res.cpp LockRect):
+- a lock of a lockable render target staged and mapped at lock time;
+- a copy from the GPU into an image surface was a synchronous X_READBACK.
+
+Either way the game waited for the executor and the GPU. So a lock made a frame later would have waited all the same.
+The reverted occlusion_async (mode 1, image surfaces) could not have saved anything in ours.
+
+**What was built.** README, "Readback snapshots":
+- After each CopyRects into a small lockable render target that is never a render target itself, the executor copies
+  the target to a staging texture.
+- At each Present it maps the finished copies without waiting (D3D11_MAP_FLAG_DO_NOT_WAIT) into a shared slot table.
+- LockRect answers from the slot only when the surface's write count matches the slot's. It is exact, not a heuristic:
+  the only D3D8 methods that write such a surface are CopyRects, being the bound target, and an unlock after a writing
+  lock. The first is counted, the second is excluded (`drawn`), and the third is counted.
+- RING_VERSION 4.
+
+**A bug the new test found.** In ours, CopyRects from the back buffer into an X8R8G8B8 surface copied nothing.
+- The back buffer is B8G8R8A8; an X8R8G8B8 surface is B8G8R8X8.
+- D3D11's CopySubresourceRegion copies only within a type group. D3D8 counts the two as one format.
+- Wine's d3d8 passed the same check.
+- Such a copy is now drawn through two scratch textures (d8_exec.cpp `copy_draw`).
+- Whether the game makes such a copy is not known from here. Its occlusion copy's source is `[[0x1047BFA8]+0xEBC]`, and
+  that surface's format was not established.
+
+**Tests.** test_d3d8on11.py passes in all three modes:
+- `basic`: a copied target reads the copy, then what a lock wrote after it.
+- `frames`: 599 frame-late locks, all reading the frame before's colour. From the snapshot: 599 in `direct`, 569 in
+  `thread` and `remote`. The 30 that read back are frames 1–30, before anything makes the game wait for the executor.
+
+**Not yet known.**
+- Whether the game's lock waits on dgVoodoo when made a frame later. That needs the per-call timing of the speedfix
+  lever, in the owner's run.
+- The lever itself (speedfix `occlusion_late`) is the second part.

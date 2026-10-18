@@ -63,6 +63,27 @@ code that uses Direct3D 11.
 (a buffer's range, a texture level). A lockable render target or the back buffer read back at LockRect waits for the
 executor to reach it, as the game's occlusion readback does on any D3D8.
 
+**Readback snapshots (X_SNAP).** One exception lets a lock skip that wait: a small lockable render target (up to 1 KB,
+the 16x16 occlusion target's size) that is only written by CopyRects.
+- After each such copy the executor copies the target to a staging texture. At each Present it maps the copies the GPU
+  has finished, with D3D11_MAP_FLAG_DO_NOT_WAIT, so it never waits. Each one goes into a slot of a table after the
+  reply area (1024 slots), under a sequence lock.
+- The D3D8 side counts every write to the surface: a copy, or an unlock after a writing lock. A surface ever set as
+  the render target (so draws and Clear write it) never takes a snapshot.
+- LockRect reads the slot only when the slot's count equals the surface's, so the snapshot is the surface as it is
+  now. Otherwise it reads back as before.
+- This is exact because the only D3D8 methods that write a plain render-target surface are CopyRects, being the bound
+  target (Clear and draws), and an unlock after a writing lock.
+- It helps only a lock made after a Present that follows the copy: the game's own readback (0x1006C8B0) locks right
+  after its copy, so it reads back as before. speedfix's `occlusion_late` lever locks a frame later.
+- Every 600 Presents the log gets `readback snapshots` (locks answered from a snapshot, and locks that read back).
+
+**CopyRects from the back buffer.** The back buffer is B8G8R8A8 (DXGI swap chains have no B8G8R8X8), while an
+X8R8G8B8 surface is B8G8R8X8. D3D11's CopySubresourceRegion copies only within a type group, so before 18 Oct a copy
+from the back buffer into an X8R8G8B8 surface silently copied nothing. D3D8 counts the two as one format and allows the
+copy. Such a copy is now drawn instead (d8_exec.cpp `copy_draw`: through two scratch textures, reading exact texels with
+Load). It was found by the new `basic` check below; Wine's d3d8 passed it.
+
 **Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
 area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. Uploads
 never reach that: a texture upload larger than a record may carry goes in bands of whole rows, a buffer's in byte
@@ -249,8 +270,9 @@ Checked, area by area:
 
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`
 with the x86 `d8x.exe`: Wine here runs x86 only):
-- `basic`: 24 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
-  lights, shader handles, Reset, release, a rectangle lock of the target, tweening). All pass on both (tweening on ours
+- `basic`: 25 checks (Clear and read back, a lockable render target, a copied lockable render target read after a
+  write through a lock, textures, buffers, state blocks, transforms, lights, shader handles, Reset, release, a
+  rectangle lock of the target, tweening). All pass on both (tweening on ours
   only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
 - `scenes`: 27 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
   - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements
@@ -317,7 +339,11 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
     KEEP=1 python3 test/test_d3d8on11.py
 
 - `frames`, in each mode: 600 frames of Clear and Present, with a read-back each frame from frame 30, through a 64 KB
-  ring. All must run, and the stats lines must be written. (This test exists because a change made while adding the
+  ring. All must run, and the stats lines must be written. Each frame also locks a 16x16 lockable render target that
+  the frame before copied the back buffer into, then copies this frame's. Every lock must read the frame before's
+  colour, and the `readback snapshots` line must show some answered from a snapshot. On 18 Oct: `direct`, 599 of 599;
+  `thread` and `remote`, 569 (30 read back: frames 1 to 30, when nothing yet makes the game wait for the executor,
+  which then runs up to two frames behind, so the copy has not run when the next frame locks). (This test exists because a change made while adding the
   stats wrote a wrong size into every record header; the scenes, which present a few times, had not shown it. It was
   found and fixed before any commit.)
 - The scenes again in `thread` and `remote` through a 64 KB ring whose counters start at 0xFFFF0100: about 165 KB

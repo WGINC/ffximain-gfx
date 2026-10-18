@@ -18,6 +18,8 @@ struct Link {
   // after a sync record (X_INIT, X_RESIZE, X_READBACK, X_FINISH): wait for its answer
   virtual int32_t answer(std::vector<uint8_t> *reply) = 0;
   virtual const char *name() const = 0;
+  // the snapshot table (d8_proto.h, SnapSlot; SNAP_SLOTS entries), shared with the executor; null: none
+  SnapSlot *snaps = nullptr;
   // writes a record of a struct and data in one call
   void put(uint16_t op, const void *a, uint32_t na, const void *b = nullptr, uint32_t nb = 0) {
     uint8_t *p = begin(op, na + nb); memcpy(p, a, na); if (nb) memcpy(p + na, b, nb); end();
@@ -63,7 +65,8 @@ struct RingHdr {
 };
 static_assert(sizeof(RingHdr) == 64, "the ring header's layout (shared by x86 and ARM64 processes)");
 #define RING_MAGIC 0x52384438u                    /* "8D8R" */
-#define RING_VERSION 3u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION */
+#define RING_VERSION 4u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION; 4: X_SNAP and
+                                                     the snapshot table after the reply area */
 // the executor's side: run records until X_QUIT (remote) or quit is set; `wake` is signalled when data comes,
 // `space` / `replied` signalled by the reader
 struct Exec;

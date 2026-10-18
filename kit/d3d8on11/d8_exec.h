@@ -15,6 +15,7 @@ struct ExecRes {
   uint32_t kind = 0;                               // XT_*, or 3: a buffer, 4: the back buffer
   ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
   ID3D11Buffer *buf = nullptr;
+  ID3D11Texture2D *stage = nullptr;                // X_SNAP's staging copy (a small lockable render target)
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
   std::unordered_map<uint32_t, ID3D11ShaderResourceView *> srv_levels;   // views of some levels: first*256+count
   uint32_t w = 0, h = 0, levels = 1, faces = 1, d3dfmt = 0, index = 0;
@@ -31,6 +32,13 @@ struct Exec {
   int32_t fail_init = 0;                           // tests only (d8x.exe): X_INIT answers this when nonzero
   // X_OPTION OPT_FILTER: a draw skips the Direct3D 11 calls that would set what is already set (Bound, below)
   uint32_t filter = 0;
+  // X_SNAP: the snapshot table (d8_link.cpp gives it) and the copies the GPU may not have finished yet, one per object
+  // (a later X_SNAP of the same object replaces the earlier: its staging copy holds the later contents)
+  SnapSlot *snaps = nullptr;
+  struct SnapPend { uint32_t id, slot, wseq; };
+  std::vector<SnapPend> snap_pend;
+  uint64_t snaps_done = 0;
+  void snap_poll();
   // one record; a sync record's answer goes to hr and reply
   void run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply);
   void shutdown();
@@ -62,5 +70,11 @@ private:
   } memo;
   void forget() { bd = Bound(); }
   ID3D11VertexShader *clr_vs = nullptr; ID3D11PixelShader *clr_ps = nullptr; ID3D11Buffer *clr_cb = nullptr;
+  // X_COPY between formats Direct3D 8 counts as one and Direct3D 11 does not (copy_draw)
+  ID3D11VertexShader *cpy_vs = nullptr; ID3D11PixelShader *cpy_ps = nullptr;
+  struct Scratch { ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11RenderTargetView *rtv = nullptr; UINT w = 0, h = 0; };
+  std::unordered_map<uint32_t, Scratch> cpy_src, cpy_dst;   // per DXGI format
+  Scratch *scratch(std::unordered_map<uint32_t, Scratch> &m, DXGI_FORMAT f, UINT w, UINT h, UINT bind);
+  void copy_draw(ID3D11Texture2D *dt, UINT dsub, UINT x, UINT y, ID3D11Texture2D *st, UINT ssub, const D3D11_BOX &bx);
   void ff_init();
 };

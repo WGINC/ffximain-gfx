@@ -22,7 +22,7 @@ not failed, and that scene is held to the next stage instead:
 The executor's filter (exec_filter=1) is run in each mode too, and must draw exactly what direct mode draws without it.
 
     python3 test_d3d8on11.py          (after build.sh; needs wine, xvfb-run)"""
-import os, shutil, subprocess, sys, tempfile
+import os, re, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); D8 = os.path.join(H, '..')
 bad = 0
 subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-Wno-misleading-indentation', '-o', os.path.join(H, 't8.exe'), os.path.join(H, 't8.c'), '-ld3d8', '-lversion', '-static-libgcc'], check=True)
@@ -343,11 +343,14 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
         what = 'with its executor process ended at frame 30, the game ends (exit code %s), not hangs' % code
     else:
         need = ['executor stats, 600 frames', 'executor filter: 1'] + (['ring stats, 600 frames'] if m != 'direct' else [])
-        ok = code == 0 and 'still running after 600 frames' in out and all(n in t for n in need)
-        what = '600 frames run (exit code %s), the filter on by default, and the stats lines are written' % code
+        snap = re.search(r'readback snapshots, \d+ frames: (\d+) locks .* (\d+) read it back', t)
+        ok = (code == 0 and 'still running after 600 frames' in out and all(n in t for n in need) and
+              'ok: a frame-late lock' in out and snap is not None and int(snap.group(1)) > 0)
+        what = ('600 frames run (exit code %s), the filter on by default, the stats lines are written, and frame-late locks '
+                'of a copied render target read the right colour, some from their snapshot' % code)
     print('%s: %s mode: %s' % ('ok' if ok else 'FAIL', m, what)); bad += not ok
     for l in t.splitlines():
-        if 'stats,' in l or 'executor process ended' in l: print('   ', l)
+        if 'stats,' in l or 'snapshots,' in l or 'executor process ended' in l: print('   ', l)
 # a second thread making objects while this one does too (t8 threads), and 5,000 rounds of objects made and released
 # (t8 churn), in each mode: every check passes, the executor's log has no stream error (an object created twice or
 # destroyed unknown: what ids shared between threads would cause; a counter that is not atomic makes them, checked on

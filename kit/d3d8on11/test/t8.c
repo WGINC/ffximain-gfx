@@ -859,7 +859,13 @@ int main(int argc, char **argv) {
     return 0;
   }
   if (argc > 1 && (!strcmp(argv[1], "frames") || !strcmp(argv[1], "orphan"))) {
-    int kill = !strcmp(argv[1], "orphan");
+    int kill = !strcmp(argv[1], "orphan"), late_bad = 0;
+    /* the occlusion readback done a frame late (d8_proto.h, X_SNAP): each frame locks a 16x16 lockable render target
+       the frame before copied the back buffer into, then copies this frame's; the lock must read the frame before's colour */
+    IDirect3DSurface8 *late = NULL, *lbb = NULL; RECT lr16 = {0, 0, 16, 16}; POINT lp0 = {0, 0};
+    D3DSURFACE_DESC lbd; memset(&lbd, 0, sizeof lbd);
+    IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &lbb); if (lbb) IDirect3DSurface8_GetDesc(lbb, &lbd);
+    IDirect3DDevice8_CreateRenderTarget(d, 16, 16, lbd.Format, D3DMULTISAMPLE_NONE, TRUE, &late);
     for (int f = 0; f < 600; f++) {
       if (f == 30 && kill) {
         int n = 0; HANDLE sn = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); PROCESSENTRY32 pe; pe.dwSize = sizeof pe;
@@ -872,10 +878,19 @@ int main(int argc, char **argv) {
         printf("ended %d executor process(es)\n", n);
       }
       IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000 | (f * 4), 1.0f, 0);
+      if (!kill && f > 0 && late) {
+        D3DLOCKED_RECT q; DWORD px = 0;
+        if (SUCCEEDED(IDirect3DSurface8_LockRect(late, &q, NULL, D3DLOCK_READONLY))) {
+          px = ((DWORD *)((BYTE *)q.pBits + 9 * q.Pitch))[7] & 0xFFFFFF; IDirect3DSurface8_UnlockRect(late); }
+        if (px != (DWORD)((f - 1) * 4)) late_bad++;
+      }
+      if (!kill && late && lbb) IDirect3DDevice8_CopyRects(d, lbb, &lr16, 1, late, &lp0);
       IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
       if (f >= 30) bb_pixel(1, 1);                 /* a read-back: waits for an answer that cannot come */
       printf("presented %d\n", f);
     }
+    if (!kill) check(late && lbb && !late_bad, "a frame-late lock of a copied lockable render target reads the frame before's colour (599 frames)");
+    if (late) IDirect3DSurface8_Release(late); if (lbb) IDirect3DSurface8_Release(lbb);
     printf("still running after 600 frames\n");
     return 0;
   }
@@ -1015,6 +1030,20 @@ int main(int argc, char **argv) {
         px = (a == 0x00FF00 && b == 0x0000FF); IDirect3DSurface8_UnlockRect(rt); }
       check(px == 1, "a lockable render target: a texel written through a rectangle lock is in the target, its neighbour unchanged"); }
     IDirect3DDevice8_SetRenderTarget(d, bb, ds);
+    /* a lockable render target only ever copied into (the occlusion target): copied, presented, written through a lock,
+       presented; the next lock must read the write, not the copy (d8_res.cpp: the write makes the snapshot stale) */
+    { IDirect3DSurface8 *c = NULL; RECT r4 = {0, 0, 16, 16}; POINT p0 = {0, 0}; DWORD a = 0, b2 = 0;
+      D3DSURFACE_DESC bd; memset(&bd, 0, sizeof bd); if (bb) IDirect3DSurface8_GetDesc(bb, &bd);   /* CopyRects: the formats must match */
+      IDirect3DDevice8_CreateRenderTarget(d, 16, 16, bd.Format, D3DMULTISAMPLE_NONE, TRUE, &c);
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF102030, 1.0f, 0);
+      if (c && bb) IDirect3DDevice8_CopyRects(d, bb, &r4, 1, c, &p0);
+      IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
+      if (c && SUCCEEDED(IDirect3DSurface8_LockRect(c, &lr, NULL, D3DLOCK_READONLY))) { a = ((DWORD *)lr.pBits)[5] & 0xFFFFFF; IDirect3DSurface8_UnlockRect(c); }
+      if (c && SUCCEEDED(IDirect3DSurface8_LockRect(c, &lr, NULL, 0))) { ((DWORD *)lr.pBits)[5] = 0xFF405060; IDirect3DSurface8_UnlockRect(c); }
+      IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
+      if (c && SUCCEEDED(IDirect3DSurface8_LockRect(c, &lr, NULL, D3DLOCK_READONLY))) { b2 = ((DWORD *)lr.pBits)[5] & 0xFFFFFF; IDirect3DSurface8_UnlockRect(c); }
+      check(a == 0x102030 && b2 == 0x405060, "a copied lockable render target reads the copy, then what a lock wrote after it");
+      if (c) IDirect3DSurface8_Release(c); }
     if (bb) IDirect3DSurface8_Release(bb); if (ds) IDirect3DSurface8_Release(ds); if (rt) IDirect3DSurface8_Release(rt); }
 
   /* tweening against the reference's formula, "POSITION = POSITION1 * (1.0 - TWEENFACTOR) + POSITION2 * TWEENFACTOR"

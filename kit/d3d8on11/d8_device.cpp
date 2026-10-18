@@ -199,6 +199,12 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
   if (ab.on) ab_frame();
+  if (++snap_frames >= 600) {
+    if (snap_hits + snap_misses)
+      d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
+             "back (the snapshot was not there yet)", snap_frames, snap_hits, snap_misses);
+    snap_frames = snap_hits = snap_misses = 0;
+  }
   return D3D_OK;
 }
 // the executor filter's A/B (exec_ab=1): exec_ab_after seconds after the device is made, phases of exec_ab_phase
@@ -336,6 +342,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
     bool sg = s->kind != SK_IMAGE && s->id, dg = d->kind != SK_IMAGE && d->id;
     if (sg && dg) {                                           // GPU to GPU
       XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
+      d->wseq++;
       if (d->kind == SK_TEXLEVEL && d->pool != D3DPOOL_DEFAULT)
         { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels); called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
@@ -379,13 +386,20 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
       return D3DERR_INVALIDCALL;
     }
   }
+  // a lockable render target written only by copies: the executor copies it to a staging texture now and fills its
+  // snapshot when the GPU is done, so a later LockRect need not wait (d8_proto.h, X_SNAP; d8_res.cpp, Surf::LockRect)
+  if (d->kind == SK_RT && d->lockable && !d->drawn && s->kind != SK_IMAGE &&
+      (size_t)d8_pitch(d->fmt, d->w) * d8_rows(d->fmt, d->h) <= SNAP_BYTES) {
+    if (d->snap < 0) d->snap = snap_take();
+    if (d->snap >= 0) { XSnap q = {d->xref(), (uint32_t)d->snap, d->wseq}; link->put(X_SNAP, &q, sizeof q); }
+  }
   return D3D_OK;
 }
 HRESULT Dev::SetRenderTarget(IDirect3DSurface8 *rt, IDirect3DSurface8 *ds) {
   Surf *r = (Surf *)rt, *z = (Surf *)ds;
   if (r && r->kind != SK_RT && r->kind != SK_BACKBUFFER && !(r->kind == SK_TEXLEVEL && (r->usage & D3DUSAGE_RENDERTARGET))) return D3DERR_INVALIDCALL;
   if (z && z->kind != SK_DS) return D3DERR_INVALIDCALL;
-  if (r) { r->AddRef(); if (curRT) curRT->Release(); curRT = r; }       // D3D8: a NULL target keeps the current one
+  if (r) { r->AddRef(); if (curRT) curRT->Release(); curRT = r; r->drawn = true; }   // D3D8: a NULL target keeps the current one
   if (z) z->AddRef(); if (curDS) curDS->Release(); curDS = z;
   st.vp = {0, 0, curRT->w, curRT->h, 0.0f, 1.0f};                       // D3D8: setting a target resets the viewport
   targets();

@@ -384,7 +384,8 @@ static void free_res(ExecRes &r) {
   for (auto &v : r.srv_levels) if (v.second) v.second->Release();
   r.srv_levels.clear();
   if (r.srv) r.srv->Release(); if (r.dsv) r.dsv->Release(); if (r.tex) r.tex->Release(); if (r.buf) r.buf->Release();
-  r.srv = nullptr; r.dsv = nullptr; r.tex = nullptr; r.buf = nullptr;
+  if (r.stage) r.stage->Release();
+  r.srv = nullptr; r.dsv = nullptr; r.tex = nullptr; r.buf = nullptr; r.stage = nullptr;
 }
 void Exec::release_swap() {
   if (ctx) { ctx->OMSetRenderTargets(0, NULL, NULL); ctx->ClearState(); ctx->Flush(); }
@@ -485,8 +486,95 @@ void Exec::clear_rects(const XClear &c, const XRect *r) {
     ctx->Draw(4, 0);
   }
 }
+// a scratch texture of format f at least w x h, bound as bind (shader input or render target), with its view
+Exec::Scratch *Exec::scratch(std::unordered_map<uint32_t, Scratch> &m, DXGI_FORMAT f, UINT w, UINT h, UINT bind) {
+  Scratch &s = m[(uint32_t)f];
+  if (s.tex && s.w >= w && s.h >= h) return &s;
+  if (s.srv) s.srv->Release(); if (s.rtv) s.rtv->Release(); if (s.tex) s.tex->Release(); s = Scratch();
+  D3D11_TEXTURE2D_DESC td = {}; td.Width = w; td.Height = h; td.MipLevels = 1; td.ArraySize = 1; td.Format = f;
+  td.SampleDesc.Count = 1; td.Usage = D3D11_USAGE_DEFAULT; td.BindFlags = bind;
+  if (FAILED(dev->CreateTexture2D(&td, NULL, &s.tex))) { s.tex = nullptr; return nullptr; }
+  if (bind & D3D11_BIND_SHADER_RESOURCE) dev->CreateShaderResourceView(s.tex, NULL, &s.srv);
+  if (bind & D3D11_BIND_RENDER_TARGET) dev->CreateRenderTargetView(s.tex, NULL, &s.rtv);
+  if ((bind & D3D11_BIND_SHADER_RESOURCE) ? !s.srv : !s.rtv) return nullptr;
+  s.w = w; s.h = h;
+  return &s;
+}
+// X_COPY when the two Direct3D 11 formats are not of one type group, so CopySubresourceRegion may not copy between them
+// (D3D11, ID3D11DeviceContext::CopySubresourceRegion: the resources "must have compatible DXGI formats, which means the
+// formats must be identical or at least from the same type group") while Direct3D 8 counts them as one format: our back
+// buffer is B8G8R8A8 (DXGI swap chains have no B8G8R8X8) and an X8R8G8B8 surface is B8G8R8X8. The texels go through
+// two scratch textures: the source's, copied into (same format) and read with Load (exact texels, no filtering), and the
+// destination's, drawn into and copied out (same format). A B8G8R8X8 view reads alpha as 1; X8 ignores the alpha written.
+void Exec::copy_draw(ID3D11Texture2D *dt, UINT dsub, UINT x, UINT y, ID3D11Texture2D *st, UINT ssub, const D3D11_BOX &bx) {
+  if (!ff || !ff->compile) ff_init();
+  if (!ff || !ff->compile) return;
+  if (!cpy_vs) {
+    const char *src =
+      "Texture2D t : register(t0);\n"
+      "float4 vs(uint id : SV_VertexID) : SV_Position { return float4((id & 1) ? 1 : -1, (id >> 1) ? -1 : 1, 0, 1); }\n"
+      "float4 ps(float4 p : SV_Position) : SV_Target { return t.Load(int3(p.xy, 0)); }\n";
+    ID3DBlob *b = nullptr, *err = nullptr;
+    if (SUCCEEDED(ff->compile(src, strlen(src), "copy", NULL, NULL, "vs", "vs_4_0", 0, 0, &b, &err))) { dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &cpy_vs); b->Release(); }
+    if (err) { d8_log("copy shader: %s", (const char *)err->GetBufferPointer()); err->Release(); err = nullptr; }
+    if (SUCCEEDED(ff->compile(src, strlen(src), "copy", NULL, NULL, "ps", "ps_4_0", 0, 0, &b, &err))) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &cpy_ps); b->Release(); }
+    if (err) { d8_log("copy shader: %s", (const char *)err->GetBufferPointer()); err->Release(); }
+  }
+  if (!cpy_vs || !cpy_ps) return;
+  D3D11_TEXTURE2D_DESC sd, dd; st->GetDesc(&sd); dt->GetDesc(&dd);
+  UINT w = bx.right - bx.left, h = bx.bottom - bx.top;
+  Scratch *a = scratch(cpy_src, sd.Format, w, h, D3D11_BIND_SHADER_RESOURCE), *b = scratch(cpy_dst, dd.Format, w, h, D3D11_BIND_RENDER_TARGET);
+  if (!a || !b) { d8_once("copydraw", "X_COPY between formats of different type groups: a scratch texture could not be made (not copied)"); return; }
+  ctx->CopySubresourceRegion(a->tex, 0, 0, 0, 0, st, ssub, &bx);
+  forget();                                                // the binds below are not the filter's
+  D3D11_BLEND_DESC bd = {}; bd.RenderTarget[0].RenderTargetWriteMask = 0xF;
+  D3D11_DEPTH_STENCIL_DESC ds = {};
+  D3D11_RASTERIZER_DESC rd = {}; rd.FillMode = D3D11_FILL_SOLID; rd.CullMode = D3D11_CULL_NONE; rd.DepthClipEnable = FALSE;
+  ctx->OMSetBlendState(cached(ff->bs, bd, [&](const D3D11_BLEND_DESC *q, ID3D11BlendState **o) { dev->CreateBlendState(q, o); }), NULL, 0xFFFFFFFF);
+  ctx->OMSetDepthStencilState(cached(ff->ds, ds, [&](const D3D11_DEPTH_STENCIL_DESC *q, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(q, o); }), 0);
+  ctx->RSSetState(cached(ff->rs, rd, [&](const D3D11_RASTERIZER_DESC *q, ID3D11RasterizerState **o) { dev->CreateRasterizerState(q, o); }));
+  D3D11_VIEWPORT v = {0, 0, (float)w, (float)h, 0, 1}; ctx->RSSetViewports(1, &v);
+  ctx->OMSetRenderTargets(1, &b->rtv, NULL);
+  ctx->VSSetShader(cpy_vs, NULL, 0); ctx->PSSetShader(cpy_ps, NULL, 0); ctx->IASetInputLayout(NULL);
+  ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+  ctx->PSSetShaderResources(0, 1, &a->srv);
+  ctx->Draw(4, 0);
+  ID3D11ShaderResourceView *none = nullptr; ctx->PSSetShaderResources(0, 1, &none);
+  ctx->OMSetRenderTargets(cur_rtv ? 1 : 0, &cur_rtv, cur_dsv);   // the device's targets again (X_TARGETS set them)
+  D3D11_BOX ob = {0, 0, 0, w, h, 1};
+  ctx->CopySubresourceRegion(dt, dsub, x, y, 0, b->tex, 0, &ob);
+}
+// X_SNAP's copies the GPU has finished, into the snapshot table; never waits (D3D11_MAP_FLAG_DO_NOT_WAIT: a copy still
+// running answers DXGI_ERROR_WAS_STILL_DRAWING and is tried at the next Present)
+void Exec::snap_poll() {
+  for (size_t i = 0; i < snap_pend.size();) {
+    SnapPend q = snap_pend[i];
+    auto it = res.find(q.id);
+    if (it == res.end() || !it->second.stage) { snap_pend.erase(snap_pend.begin() + i); continue; }
+    ExecRes &x = it->second;
+    D3D11_MAPPED_SUBRESOURCE m;
+    HRESULT h = ctx->Map(x.stage, 0, D3D11_MAP_READ, D3D11_MAP_FLAG_DO_NOT_WAIT, &m);
+    if (h == DXGI_ERROR_WAS_STILL_DRAWING) { i++; continue; }
+    snap_pend.erase(snap_pend.begin() + i);
+    if (FAILED(h)) { d8_once("snapmap", "X_SNAP: Map of a staging copy failed: 0x%08lX (first failure)", (unsigned long)h); continue; }
+    UINT pitch = d8_pitch((D3DFORMAT)x.d3dfmt, x.w), rows = d8_rows((D3DFORMAT)x.d3dfmt, x.h);
+    SnapSlot &s = snaps[q.slot];
+    // the sequence lock's writer: odd while the fields change; the fences keep the data between the two stores (ARM64)
+    uint32_t v = __atomic_load_n(&s.ver, __ATOMIC_SEQ_CST);
+    __atomic_store_n(&s.ver, v | 1u, __ATOMIC_SEQ_CST);
+    __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    s.id = q.id; s.wseq = q.wseq; s.bytes = pitch * rows;
+    for (UINT y = 0; y < rows; y++) memcpy(s.data + (size_t)y * pitch, (uint8_t *)m.pData + (size_t)y * m.RowPitch, pitch);
+    __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    __atomic_store_n(&s.ver, (v | 1u) + 1u, __ATOMIC_SEQ_CST);
+    ctx->Unmap(x.stage, 0);
+    snaps_done++;
+  }
+}
 void Exec::shutdown() {
   if (clr_vs) clr_vs->Release(); if (clr_ps) clr_ps->Release(); if (clr_cb) clr_cb->Release(); clr_vs = nullptr; clr_ps = nullptr; clr_cb = nullptr;
+  if (cpy_vs) cpy_vs->Release(); if (cpy_ps) cpy_ps->Release(); cpy_vs = nullptr; cpy_ps = nullptr;
+  for (auto *m : {&cpy_src, &cpy_dst}) { for (auto &e : *m) { if (e.second.srv) e.second.srv->Release(); if (e.second.rtv) e.second.rtv->Release(); if (e.second.tex) e.second.tex->Release(); } m->clear(); }
   // what the D3D8 side never destroyed (the tests expect none but the back buffer once the device is released)
   { size_t n = 0; for (auto &r : res) n += r.second.kind != 4; d8_log("executor shutdown: %u objects still held besides the back buffer", (unsigned)n); }
   release_swap();
@@ -560,6 +648,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto it = res.find(*(const uint32_t *)p);
     if (it == res.end()) d8_once("destroyunknown", "stream error: object %u destroyed but not held (its creation failed, or a stream error)", *(const uint32_t *)p);
     if (it != res.end()) {
+      for (size_t i = 0; i < snap_pend.size(); i++) if (snap_pend[i].id == it->first) { snap_pend.erase(snap_pend.begin() + i); break; }
       for (auto &v : it->second.rtv) if (v.second == cur_rtv) cur_rtv = nullptr;
       if (it->second.dsv == cur_dsv) cur_dsv = nullptr;
       free_res(it->second); res.erase(it);
@@ -602,7 +691,12 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto s = res.find(c.src.id), d = res.find(c.dst.id);
     if (s == res.end() || d == res.end() || !s->second.tex || !d->second.tex) break;
     D3D11_BOX bx = {(UINT)c.left, (UINT)c.top, 0, (UINT)c.right, (UINT)c.bottom, 1};
-    ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
+    D3D11_TEXTURE2D_DESC sd, dd; s->second.tex->GetDesc(&sd); d->second.tex->GetDesc(&dd);
+    // CopyRects requires one D3D8 format and d8_fmt gives each its one DXGI format, so only the back buffer (always
+    // B8G8R8A8, X_INIT) can differ: from an X8R8G8B8 surface's B8G8R8X8, which is not of its type group
+    if (sd.Format != dd.Format)
+      copy_draw(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, s->second.tex, sub_of(s->second, c.src), bx);
+    else ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
     break; }
   case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw)); draws++; break;
   case X_PRESENT: {
@@ -610,6 +704,24 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     HRESULT h = swap ? swap->Present(0, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;
+    if (!snap_pend.empty()) snap_poll();
+    break; }
+  case X_SNAP: {
+    const XSnap &q = *(const XSnap *)p;
+    auto it = res.find(q.dst.id);
+    if (!snaps || q.slot >= SNAP_SLOTS || it == res.end() || !it->second.tex) break;
+    ExecRes &x = it->second;
+    if ((size_t)d8_pitch((D3DFORMAT)x.d3dfmt, x.w) * d8_rows((D3DFORMAT)x.d3dfmt, x.h) > SNAP_BYTES) break;
+    if (!x.stage) {
+      D3D11_TEXTURE2D_DESC td; x.tex->GetDesc(&td);
+      D3D11_TEXTURE2D_DESC sd = {}; sd.Width = x.w; sd.Height = x.h; sd.MipLevels = 1; sd.ArraySize = 1; sd.Format = td.Format;
+      sd.SampleDesc.Count = 1; sd.Usage = D3D11_USAGE_STAGING; sd.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      if (FAILED(dev->CreateTexture2D(&sd, NULL, &x.stage))) { x.stage = nullptr; d8_once("snapstage", "X_SNAP: a staging texture could not be made (snapshots off for it)"); break; }
+    }
+    ctx->CopySubresourceRegion(x.stage, 0, 0, 0, 0, x.tex, sub_of(x, q.dst), NULL);
+    bool had = false;
+    for (auto &e : snap_pend) if (e.id == q.dst.id) { e.slot = q.slot; e.wseq = q.wseq; had = true; break; }
+    if (!had) snap_pend.push_back({q.dst.id, q.slot, q.wseq});
     break; }
   case X_READBACK: {
     const XRef &r = *(const XRef *)p;

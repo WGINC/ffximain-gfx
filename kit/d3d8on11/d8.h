@@ -28,6 +28,9 @@ struct Surf final : public IDirect3DSurface8_Stub {
   uint32_t id = 0;                               // the executor's object: its own (RT, DS, back buffer) or the container's
   std::vector<uint8_t> cpu;                      // image surfaces, and what a lock reads back or writes
   bool locked = false; DWORD lockFlags = 0; RECT lockRect = {0, 0, 0, 0};   // the open lock's flags and rectangle
+  // a lockable render target's snapshot (d8_proto.h, X_SNAP): its slot (-1: none), how many times it has been written,
+  // and whether it was ever a render target (then draws and Clear write it too, and it never takes a snapshot)
+  int snap = -1; uint32_t wseq = 0; bool drawn = false;
   Surf(Dev *d, SurfKind k, UINT w_, UINT h_, D3DFORMAT f, D3DPOOL p, DWORD u);
   ~Surf();
   HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void **);
@@ -182,6 +185,14 @@ struct Dev final : public IDirect3DDevice8_Stub {
   struct AB { int on, after, phase, rounds, settle, filter; double t0, ph0, last, sum, max; int i, frames; } ab = {};
   void ab_frame();
   void destroy_obj(uint32_t id) { if (id && link) link->put(X_DESTROY, &id, 4); }
+  // the snapshot slots (X_SNAP): handed out to lockable render targets as CopyRects first writes them, given back when
+  // the surface goes; locks answered from a snapshot and by a readback, for the stats line
+  std::vector<int> snap_free; int snap_next = 0; uint32_t snap_hits = 0, snap_misses = 0, snap_frames = 0;
+  int snap_take() {
+    if (!link || !link->snaps) return -1;
+    if (!snap_free.empty()) { int s = snap_free.back(); snap_free.pop_back(); return s; }
+    return snap_next < (int)SNAP_SLOTS ? snap_next++ : -1;
+  }
 
   HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void **);
   ULONG STDMETHODCALLTYPE AddRef();

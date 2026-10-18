@@ -212,7 +212,7 @@ static void ring_init(RingHdr *h, uint32_t size, uint32_t reply_max) {
   char v[16]; DWORD n = GetEnvironmentVariableA("D8ON11_RING_START", v, sizeof v);
   if (n > 0 && n < sizeof v) { uint32_t s0 = (uint32_t)strtoul(v, NULL, 16) & ~7u; h->write = h->read = s0; d8_log("ring: counters start at 0x%08X (D8ON11_RING_START)", s0); }
 }
-enum : uint32_t { RING_BYTES = 32u << 20, REPLY_BYTES = 16u << 20 };
+enum : uint32_t { RING_BYTES = 32u << 20, REPLY_BYTES = 16u << 20, SNAP_TABLE = SNAP_SLOTS * (uint32_t)sizeof(SnapSlot) };
 // the ring's size: 32 MB, or D8ON11_RING_KB (a power of two from 64 to 32768; the tests make it small, so that it wraps
 // often). A power of two because positions are counter % size and the counters wrap at 2^32: only a size dividing 2^32
 // keeps the position continuous across that wrap (at 9 MB a frame the counters wrap every few minutes).
@@ -235,9 +235,10 @@ struct ThreadLink : RingLink {
   }
   bool start() {
     uint32_t rb = ring_bytes();
-    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + rb + REPLY_BYTES, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + rb + REPLY_BYTES + SNAP_TABLE, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (!mem) return false;
     h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    snaps = x.snaps = (SnapSlot *)(reply + REPLY_BYTES);
     ring_init(h, rb, REPLY_BYTES);
     wake = CreateEventA(NULL, FALSE, FALSE, NULL); space = CreateEventA(NULL, FALSE, FALSE, NULL); replied = CreateEventA(NULL, FALSE, FALSE, NULL);
     thread = CreateThread(NULL, 0, main, this, 0, NULL);
@@ -257,11 +258,12 @@ struct RemoteLink : RingLink {
     char nm[96]; static LONG n;
     snprintf(nm, sizeof nm, "Local\\d3d8on11_%lu_%ld", (unsigned long)GetCurrentProcessId(), (long)InterlockedIncrement(&n));
     uint32_t rb = ring_bytes();
-    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + rb + REPLY_BYTES, nm);
+    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + rb + REPLY_BYTES + SNAP_TABLE, nm);
     if (!map) return false;
     mem = (uint8_t *)MapViewOfFile(map, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (!mem) return false;
     h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    snaps = (SnapSlot *)(reply + REPLY_BYTES);                 // the executor finds it at the same place (d8x_main.cpp)
     ring_init(h, rb, REPLY_BYTES);
     char e[128];
     snprintf(e, sizeof e, "%s_w", nm); wake = CreateEventA(NULL, FALSE, FALSE, e);
@@ -302,8 +304,11 @@ struct RemoteLink : RingLink {
 struct DirectLink : Link {
   Exec x; std::vector<uint8_t> buf; uint32_t n = 0; uint16_t op = 0; int32_t hr = 0; std::vector<uint8_t> out; ExecStats xs;
   CRITICAL_SECTION lock;
-  DirectLink() { InitializeCriticalSection(&lock); xs.since = qpc_ms(); }
-  ~DirectLink() override { xs.finish(); x.shutdown(); }
+  DirectLink() {
+    InitializeCriticalSection(&lock); xs.since = qpc_ms();
+    snaps = x.snaps = (SnapSlot *)VirtualAlloc(NULL, SNAP_TABLE, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  }
+  ~DirectLink() override { xs.finish(); x.shutdown(); if (snaps) VirtualFree(snaps, 0, MEM_RELEASE); }
   uint8_t *begin(uint16_t o, uint32_t bytes) override { EnterCriticalSection(&lock); op = o; n = bytes; buf.resize(bytes ? bytes : 1); return buf.data(); }
   void end() override {
     out.clear(); hr = 0;

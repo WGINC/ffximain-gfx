@@ -2353,3 +2353,21 @@ named as the cause of the loading stutter.
 **Next, before any of these:** time TexObj_Upload, its D3DX calls and the pump in loading frames (speedfix, with
 spike_ms), so the cost is known per part.
 
+## 18 Oct: the owner's runs 8980 and 8452 (17 Oct, kit 35fa886), skip_all_occlusion_readbacks A/B
+
+Two starts, by the owner's note 1512x949 then 1024x768 (the log does not record the size). Settings in both: every
+lever on as before except merge_scenes and null_draws; `ab_levers=skip_all_occlusion_readbacks`, 8 phases of 30 s.
+- **8980:** A (readbacks run) 46.51 ms, B (skipped) 36.05 ms: -10.47 ms (-22.5%), medians -11.88, p95 -6.05; phases of
+  one label differ by up to 5.80 ms.
+- **8452:** A 43.32 ms, B 32.54 ms: -10.78 ms (-24.9%), medians -10.42, p95 -16.48; spread up to 7.21 ms.
+- In both the difference is larger than the spread between phases of one label, so the readbacks' cost is measured:
+  about 10.5 ms a frame. The A minutes ran 2,734 to 3,223 readbacks in about 541 to 616 frames, about 5 a frame, so
+  about 2 ms a readback (a ratio of the two counts, not a per-call timing).
+- The smaller size was about 3 ms faster in each label; most of the frame time does not scale with the pixel count.
+- Samples (render thread, 1 ms): 64% and 67% at EIP 0x00010002 (task 34, not established). The innermost game return
+  address 0x1002A034 (29% and 31%) is the return from the call to SkinAndDrawV2 (0x1002A02F), which skin_merge replaces
+  with speedfix's fork, so that time is in the fork and what it calls.
+- **What this says about occlusion_late:** it is the reverted occlusion_async's mode 2. Its best case is
+  skip_all_occlusion_readbacks' saving less the copies, and only if a lock made a probe later does not wait on
+  dgVoodoo, which is not known. Its per-call timing (`readback time:`, the longest late read) answers that.
+

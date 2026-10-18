@@ -125,9 +125,11 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     visible/hidden would have flipped.
   - The statistics line times the game's readback, the copy and the late read (mean, and the longest late read).
   - The price: an actor appears or disappears one probe late (up to `occlusion_stagger` frames).
-  - Not known: whether a lock a probe later waits on dgVoodoo. The longest late read answers that. occlusion_async
-    (speedfix_hook) used image surfaces and the owner measured it slower; this uses render targets, and whether that
-    differs on dgVoodoo is not known. In ours (d3d8on11) such a lock is answered from the readback snapshot without a
+  - Not known: whether a lock a probe later waits on dgVoodoo. The longest late read answers that. occlusion_late is
+    the reverted occlusion_async's mode 2 (10 Oct) brought back, with its mode 3 as mode 2. The owner's run 13172
+    measured only its mode 1 (system-memory image surfaces): +4.18 ms with phases differing by 15.14 ms, so no
+    difference either way. Whether a lockable render target behaves differently on dgVoodoo is not known. It cannot
+    beat `skip_all_occlusion_readbacks`, which does no copy and no read. In ours (d3d8on11) such a lock is answered from the readback snapshot without a
     wait.
 - **sse_skinning: frame time on CPUs the game does not call Intel.** On the owner's M5 MacBook Pro (Windows on ARM in
   Parallels, the game x86-emulated) the render thread spent 13.3% of its samples in the x87 skinning loop of

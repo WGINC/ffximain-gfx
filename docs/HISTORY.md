@@ -2255,8 +2255,10 @@ The reverted occlusion_async (mode 1, image surfaces) could not have saved anyth
 - D3D11's CopySubresourceRegion copies only within a type group. D3D8 counts the two as one format.
 - Wine's d3d8 passed the same check.
 - Such a copy is now drawn through two scratch textures (d8_exec.cpp `copy_draw`).
-- Whether the game makes such a copy is not known from here. Its occlusion copy's source is `[[0x1047BFA8]+0xEBC]`, and
-  that surface's format was not established.
+- The game's occlusion copy does not take this path. Its source is level 0 of the box texture `[[0x1047C004]+0xC]`
+  (GetSurfaceLevel, vtable +0x3C, at 0x1006C8CD), not the back buffer; `[[0x1047BFA8]+0xEBC]` is the device
+  (CopyRects, vtable +0x70, at 0x1006C8FD). (Corrected on the same day: this entry first named that pointer as the
+  source.) Whether the game copies from its back buffer anywhere else was not checked.
 
 **Tests.** test_d3d8on11.py passes in all three modes:
 - `basic`: a copied target reads the copy, then what a lock wrote after it.
@@ -2267,3 +2269,38 @@ The reverted occlusion_async (mode 1, image surfaces) could not have saved anyth
 - Whether the game's lock waits on dgVoodoo when made a frame later. That needs the per-call timing of the speedfix
   lever, in the owner's run.
 - The lever itself (speedfix `occlusion_late`) is the second part.
+
+## 18 Oct: speedfix occlusion_late (the occlusion readback answered a frame late)
+
+**From the game's code.** 0x1006C8B0 (`__thiscall(q, flag)`, `ret 4`; its only caller 0x1006C4D7 passes 0):
+- GetSurfaceLevel(0) of the box texture `[[0x1047C004]+0xC]` (0x1006C8CD);
+- CopyRects of it into `[q+4]` on the device `[[0x1047BFA8]+0xEBC]` (0x1006C8FD);
+- LockRect READONLY of `[q+4]` at once (0x1006C91C), and a count of `(dword & 0x80) >> 5` over its 16x16 pixels.
+The lock straight after the copy is what makes the CPU wait for the GPU.
+
+**What was built.** speedfix `occlusion_late` (README, "occlusion_late"), off by default:
+- 1: each query object gets a 16x16 lockable render target of its own, in the format of the game's `[q+4]`. Each probe
+  copies the box picture into it and answers with the count of the picture copied at the object's previous probe,
+  counted exactly as the game counts. A first probe, or a previous picture older than 32 frames, gets the game's own
+  readback. 32 is a chosen bound, not a fact of the game. Reset releases the surfaces first.
+- 2: measure only. Every answer is the game's; the log says how often the late answer would have differed, and how
+  often visible/hidden would have flipped.
+- Either way, each statistics line gives the time in the game's readback, in the copy, and in the late read
+  (mean and longest).
+
+**What it changes in the picture.** An actor that comes into or goes out of view is shown or hidden one probe late.
+With occlusion_stagger=8 a probe is up to 8 frames apart. That is the price; mode 2 measures how often it happens.
+
+**Tests (sf_host.c, Wine).** The game's own readback, run on fake surfaces, answers 0, 256 and 128 for an empty, a full
+and a half-drawn picture. With the lever on: a first probe is the game's (its LockRect); later probes give the
+previous picture's count; the answers are per object; one render target per object; a picture 40 frames old is not
+used; Reset releases both surfaces; mode 2 answers as the game and logs the comparison and the times.
+
+**Not known.**
+- Whether a lock made a probe later waits on dgVoodoo. If the driver stalls on any lock of a GPU-written surface, the
+  late read costs what the game's read cost. The longest late read in the log answers that in the owner's run.
+- In ours (d3d8on11), the readback snapshots answer such a lock without waiting (test_d3d8on11.py, 599 of 599 in
+  `direct`).
+- The time it saves, and whether the one-probe delay shows: `ab_levers=occlusion_late`, and a look while moving
+  through crowds.
+

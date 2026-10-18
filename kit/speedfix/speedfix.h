@@ -35,6 +35,7 @@ struct SfConfig {
   int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
                             // (sf_main.cpp): 60.0 fps instead of 58.8
   int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
+  int occlusion_late;       // the occlusion readback answered from the query's previous probe (sf_occlusion.cpp): 1 on, 2 measure only
 };
 extern SfConfig sf_cfg;
 
@@ -48,6 +49,13 @@ int  sf_hook_query(const XikitHost *host);
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
 extern int sf_skinmerge_installed;
+// sf_occlusion.cpp
+void sf_occl_init(const XikitHost *host);
+int  sf_occl_readback(void *q, int mode);         // the readback answered a probe late (mode 1) or measured (2)
+int  sf_occl_game(void *q, int flag);              // the game's readback 0x1006C8B0, timed
+void sf_occl_reset(void);                         // before Reset: its surfaces released
+void sf_occl_frame(int on);                       // once a frame: whether occlusion_late was on
+void sf_occl_stats(void);
 // sf_device.cpp
 int  sf_device_install(const XikitHost *host);    // the device hooks; only from xikit_mod_init
 void sf_device_config_changed(const SfConfig *before);   // render thread: apply the cache switches safely

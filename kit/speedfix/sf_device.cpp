@@ -323,6 +323,7 @@ static void close_held(void) {
 static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
   close_held();
   flush(); drop_pending(); forget_all();
+  sf_occl_reset();                              // occlusion_late's surfaces (default-pool ones must go before Reset)
   HRESULT hr = PREV(PFN_Reset, S_Reset)(d, pp);
   forget_all(); g_curVS = 1; g_recording = 0; g_recOk = false; blk_drop_all();   // Reset returns the device to its default state
   return hr;

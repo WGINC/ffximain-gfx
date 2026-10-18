@@ -35,6 +35,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
+| `occlusion_late` | 0 | Lever: 1 = each occlusion probe answered with the object's previous probe (no wait for this frame's picture); 2 = measure only, the game's answers (below) |
 | `null_draws` | 0 | A test, not a speedup: the draw calls return D3D_OK without reaching the device; nothing is drawn; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
 | `stats_every` | 60 | Seconds between the statistics lines in xikit.log |
@@ -113,6 +114,21 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   cost of everything but drawing. Nothing is drawn, so the screen is not usable while it is on, and the occlusion
   readback reads an undrawn target: use it with `skip_all_occlusion_readbacks=1` in both arms
   (`kit/sessions/ceiling`). Live both ways; `xikit.log` each minute: `null_draws: N draw calls not sent`.
+- **occlusion_late: the readback's wait.** The game's readback 0x1006C8B0 copies the box picture (level 0 of
+  `[[0x1047C004]+0xC]`) into the query's lockable surface `[q+4]` with CopyRects and locks it straight after
+  (0x1006C8FD, 0x1006C91C). That lock waits for the GPU to draw and copy the picture.
+  - 1: each query object gets a 16x16 lockable render target of its own (the format of `[q+4]`). A probe copies the
+    picture into it and answers with the count of the picture copied at the object's previous probe, counted as the
+    game counts (`(dword & 0x80) >> 5` over 256 pixels). A first probe, or one whose previous picture is older than
+    32 frames, gets the game's readback; 32 is a chosen bound, not a fact of the game. Reset releases the surfaces.
+  - 2: measure only. The game answers; the log counts how often the late answer would have differed, and how often
+    visible/hidden would have flipped.
+  - The statistics line times the game's readback, the copy and the late read (mean, and the longest late read).
+  - The price: an actor appears or disappears one probe late (up to `occlusion_stagger` frames).
+  - Not known: whether a lock a probe later waits on dgVoodoo. The longest late read answers that. occlusion_async
+    (speedfix_hook) used image surfaces and the owner measured it slower; this uses render targets, and whether that
+    differs on dgVoodoo is not known. In ours (d3d8on11) such a lock is answered from the readback snapshot without a
+    wait.
 - **sse_skinning: frame time on CPUs the game does not call Intel.** On the owner's M5 MacBook Pro (Windows on ARM in
   Parallels, the game x86-emulated) the render thread spent 13.3% of its samples in the x87 skinning loop of
   0x1002F1D0, and none in its SSE loop (docs/HISTORY.md, run 6156).
@@ -191,7 +207,7 @@ B - A, the medians and p95, and how much the phases of one label differ among th
 difference must beat). A name that is not a lever, a lever this start's hooks cannot do, or one set to its off value
 is left out and logged. Lever names: `state_cache`, `vertex_shader_cache`, `extended_state_cache`,
 `state_cache_reset_each_scene`, `batch_up_draws`, `lazy_state`, `vs_dedupe`, `occlusion_stagger`,
-`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`, `null_draws`. Several can be
+`skip_actor_occlusion`, `skip_all_occlusion_readbacks`, `frame_cap_fps`, `sse_skinning`, `merge_scenes`, `skin_merge`, `precise_pacing`, `null_draws`, `occlusion_late`. Several can be
 listed together (they go off and on together). Groups separated by `;` run one after another, each its own A/B with
 its own summary, 5 s apart: `ab_levers=sse_skinning; merge_scenes; batch_up_draws, lazy_state`. Empty `ab_levers`
 and set it again for another run.
@@ -268,6 +284,10 @@ and set it again for another run.
     shading;
   - the stagger's arithmetic through the re-aimed call, and the game's own test in a frame without the hooks;
   - the readback skip;
+  - occlusion_late: the game's own readback run on fake 16x16 surfaces (0, 256 and 128 for an empty, full and
+    half-drawn picture); with it on, the first probe is the game's, later ones the previous picture's count, per
+    object, one render target each, a picture 40 frames old not used, Reset releasing the surfaces; mode 2 answers as
+    the game and logs the comparison and the times;
   - the `cpu_tier` and `texture_compression` writes;
   - the kit's `respect_speedfix`;
   - lazy_state: a toggle between two draws never reaches the device, the last change goes out before EndScene,

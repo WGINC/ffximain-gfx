@@ -312,6 +312,19 @@ Every frame slower than `spike_ms` (Present to Present; 0 = off) is written to `
 number. With `profile=1` the resource log (`xikit_resources_<pid>.csv`) has the same frame numbers, the time of each
 creation call and the module that asked for it, so a stutter can be matched with what was created in it.
 
+With `sample=2` as well, the native sampler (kit/xisamp) takes each such frame's own samples:
+- Each sample reads the kit's frame counter while the render thread is stopped. The kit counts a frame in Present,
+  right after it takes the frame's start time, so a sample that reads `v` is in frame `v + 1`, the frame number
+  `xikit_spikes_<pid>.csv` gives.
+- A frame whose samples span `spike_ms` or more by the sampler's clock gets its own block in
+  `xikit_stutters_<pid>.csv`: the frame number, its span in ms, its samples (the same tuples as the windows), the
+  images and the labels. The time the sampler spends writing is left out of the frame it falls in.
+
+      python3 kit/xisamp/read.py xikit_stutters_<pid>.csv [--frames 1460,76] [--min-ms 150]
+
+  shows each stutter frame, longest first: where its samples were, by game function, or by module and export with
+  the innermost game call site under it.
+
 ## An A/B test with no keys (`ab=1`)
 
 `ab=1` measures what the kit adds, the swaps and every mod (speedfix included), against the game without it, in one

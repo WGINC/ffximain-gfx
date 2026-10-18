@@ -14,8 +14,15 @@ state. There, 64-67% of its samples read EIP 0x00010002, an address in no module
 
       python3 read.py xikit_native_<pid>.csv [--from HH:MM:SS --to HH:MM:SS] [--focus 0x1002A034]
 
+  and `xikit_stutters_<pid>.csv` (with `frame=` and `spike=`, which xikit passes when `spike_ms` is set): each
+  frame of `spike_ms` or more with its own samples (docs/KIT.md, "Stutters"):
+
+      python3 read.py xikit_stutters_<pid>.csv [--frames 1460,76] [--min-ms 150]
+
 - `test_xisamp.py`: runs the x64 build under 64-bit Wine against `test/target.exe`, an x86 process with a known call
-  chain. `kit/xikit/test/test_xikit.py`'s `native` run tests the launch from xikit.
+  chain. Its 41st busy frame stalls 400 ms; the test requires that frame, and only it, in the stutter file, with its
+  samples in the stall. `kit/xikit/test/test_xikit.py`'s `native` run tests the launch from xikit, and the stutter
+  file's block for the host's 2.5 s Sleep.
 
 Use: put the two exes in the kit folder, next to `xikit.dll`, and set `sample=2` in `xikit.ini` (`sample_ms`,
 `sample_window`). Not tested here: the ARM64 build on ARM64 Windows. In particular its native frame chain, which no

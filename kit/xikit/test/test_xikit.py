@@ -115,11 +115,20 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         spin = sum(c for w in wins for c, eip, xc, *_ in w.rows if hostcall(w, xc) and (not w.mod(eip) or w.mod(eip)[2].lower() in ('ffximain.dll', 'gfx_recon_ingame.dll')))
         nap = sum(c for w in wins for c, eip, xc, *_ in w.rows if hostcall(w, xc) and w.labels.get(eip, ['', '', ''])[2] in ('NtDelayExecution', 'ZwDelayExecution'))
         rel = [h for h in head if h.startswith('# rel 0x')]
-        ok = spin > 300 and nap > 1000 and rel
+        ok = spin > 100 and nap > 1000 and rel   # (the frame read each sample costs samples: 175 to 336 seen under Wine, the old build included)
         print('%s: %d samples in the GetColor loop and %d in the Sleep after it, each under host.exe\'s calls; header %s' % ('ok' if ok else 'FAIL', spin, nap, rel)); bad += not ok
         r = subprocess.run([sys.executable, os.path.join(H, '..', '..', 'xisamp', 'read.py'), os.path.join(d, nc[0])] if nc else ['false'], capture_output=True, text=True)
         ok = r.returncode == 0 and 'x86: the module the x86 code was in' in r.stdout
         print('\n'.join(r.stdout.splitlines()[:14])); print('%s: read.py reads it' % ('ok' if ok else 'FAIL')); bad += not ok
+        # the stutter file: the frame counter's address is in the header, and the frame that holds the 2.5 s Sleep
+        # (no present while it sleeps) is written with its own samples, most of them in the Sleep
+        st = [f for f in os.listdir(d) if f.startswith('xikit_stutters_')]
+        _, sw = xread.load(os.path.join(d, st[0])) if st else ([], [])
+        big = [w for w in sw if w.ms and w.ms >= 2000]
+        snap = sum(c for w in big for c, eip, *_ in w.rows if w.labels.get(eip, ['', '', ''])[2] in ('NtDelayExecution', 'ZwDelayExecution'))
+        sall = sum(c for w in big for c, *_ in w.rows)
+        ok = 'xikit_stutters' in log and any(h.startswith('# stutters: frame counter at') for h in head) and len(big) == 1 and snap > 0.9 * sall > 0
+        print('%s: the stutter file has the Sleep frame (%s ms) with %d of its %d samples in the Sleep; %d blocks in all' % ('ok' if ok else 'FAIL', big[0].ms if big else '-', snap, sall, len(sw))); bad += not ok
     if mode == 'facts':
         fc = [f for f in os.listdir(d) if f.startswith('xikit_facts_')]
         out = os.path.join(d, 'game_sp.json')

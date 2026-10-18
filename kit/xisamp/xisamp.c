@@ -2,7 +2,7 @@
    Windows) that samples one thread of a 32-bit (x86) process and records, for each sample, both what the x86 code
    was doing and what the machine was doing natively.
 
-     xisamp_<arch>.exe <pid> <tid> <interval_ms> <window_s> <outdir> [<rel> [<lo:hi:shift>...]]
+     xisamp_<arch>.exe <pid> <tid> <interval_ms> <window_s> <outdir> [<rel> [<lo:hi:shift>...] [frame=<hex>] [spike=<ms>]]
 
    xikit (sample=2) starts it with the game's render thread. Per sample, with the thread suspended:
      * the x86 context (Wow64GetThreadContext; NtQueryInformationThread ThreadWow64Context if that fails): Eip, Esp,
@@ -26,7 +26,21 @@
    An 'a' line for each address the window used: its image and RVA, the nearest export at or below it (a position,
    not a claim the code belongs to that export), or, outside any image, its allocation and memory type. Addresses
    are as the process had them; read.py turns FFXiMain.dll addresses into the analysed build's with <rel> and the
-   shift table, which xikit passes on and this writes in the header. It stops when the process ends. */
+   shift table, which xikit passes on and this writes in the header. It stops when the process ends.
+
+   Stutters (frame=<address> spike=<ms>, which xikit passes with sample=2 and spike_ms): <address> is xikit's frame
+   counter (xikit.c g_frame) in the game's process, read with each sample while the thread is suspended. xikit adds 1
+   to it in its Present hook right after taking the time that ends a frame, so a sample that reads v fell in the frame
+   xikit_spikes_<pid>.csv numbers v + 1 (from the time Present v was entered to the time Present v + 1 was). When the
+   value changes, a frame whose samples spanned spike ms or more (this process's clock, from its first sample to the
+   first of the next frame: within one sample interval of the frame) is written to <outdir>\xikit_stutters_<pid>.csv,
+   in the same form as a window, its w line numbering the frame:
+     w,<frame>,<local start>,<local end>,<samples>,<missed>,<x86 ctx failed>,<native ctx failed>,<dropped>,<ms>
+   m lines only when the process's images changed since the last block, a lines only for addresses no earlier
+   block labelled (read.py carries both forward). Writing a block takes the sampler's time (the image table, the
+   exports): no samples are taken meanwhile, and the next frame's span starts after it, so a frame right after a
+   stutter can be missed or shortened. A window's write (every window_s) is left out of the frame in progress the same
+   way, and the window's span starts after it. */
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <mmsystem.h>
@@ -42,7 +56,8 @@
 #define HN 65536                                 /* distinct tuples per window */
 
 typedef struct { uint32_t eip; uint8_t nx; uint8_t nn; uint32_t x[CHAIN]; uint64_t pc, lr, n[CHAIN]; uint32_t count; uint32_t used; } Ent;
-static Ent *g_h; static uint32_t g_hn, g_dropped;
+typedef struct { Ent *h; uint32_t size, n, dropped; } Tab;      /* size: a power of two */
+static Tab g_w, g_f;                             /* the window's; the current frame's (stutters) */
 
 /* ---------------------------------------------------------------- the process's images (VirtualQueryEx) */
 typedef struct { uint64_t base, size; uint16_t machine; char path[MAX_PATH]; uint32_t nexp; uint32_t *erva; char **ename; int exp_read; } Mod;
@@ -138,20 +153,20 @@ static int in_x86_image(uint32_t a) { Mod *m = mod_of(a); return m && m->machine
 
 /* ---------------------------------------------------------------- the histogram */
 static uint64_t mix(uint64_t h, uint64_t v) { h ^= v + 0x9E3779B97F4A7C15ull + (h << 6) + (h >> 2); return h; }
-static void add(const Ent *e) {
+static void add(Tab *t, const Ent *e) {
   uint64_t h = mix(mix(mix(e->eip, e->pc), e->lr), e->nx * 64 + e->nn);
   for (int i = 0; i < e->nx; i++) h = mix(h, e->x[i]);
   for (int i = 0; i < e->nn; i++) h = mix(h, e->n[i]);
-  uint32_t i = (uint32_t)h & (HN - 1);
-  for (uint32_t k = 0; k < HN; k++, i = (i + 1) & (HN - 1)) {
-    Ent *s = &g_h[i];
-    if (!s->used) { *s = *e; s->used = 1; s->count = 1; g_hn++; return; }
+  uint32_t m = t->size - 1, i = (uint32_t)h & m;
+  for (uint32_t k = 0; k < t->size; k++, i = (i + 1) & m) {
+    Ent *s = &t->h[i];
+    if (!s->used) { if (t->n >= t->size * 3 / 4) break; *s = *e; s->used = 1; s->count = 1; t->n++; return; }
     if (s->eip == e->eip && s->pc == e->pc && s->lr == e->lr && s->nx == e->nx && s->nn == e->nn &&
         !memcmp(s->x, e->x, e->nx * 4) && !memcmp(s->n, e->n, e->nn * 8)) { s->count++; return; }
-    if (g_hn >= HN * 3 / 4) break;
   }
-  g_dropped++;
+  t->dropped++;
 }
+static void clear(Tab *t) { memset(t->h, 0, sizeof(Ent) * t->size); t->n = 0; t->dropped = 0; }
 
 /* ---------------------------------------------------------------- the addresses' labels */
 static uint64_t *g_addr; static uint32_t g_naddr, g_caddr;
@@ -175,7 +190,33 @@ static void label(FILE *f, uint64_t a) {
   else fprintf(f, "a,0x%llX,,,,,,unknown,\n", (unsigned long long)a);
 }
 
-/* ---------------------------------------------------------------- the window's file */
+/* ---------------------------------------------------------------- the files */
+static void write_mods(FILE *f) {
+  for (int i = 0; i < g_nmod; i++) fprintf(f, "m,0x%llX,0x%llX,0x%X,%s\n", (unsigned long long)g_mod[i].base, (unsigned long long)g_mod[i].size, g_mod[i].machine, g_mod[i].path);
+}
+static uint64_t *g_seen; static uint32_t g_nseen;   /* the stutter file's labelled addresses (open addressing, 2^20) */
+#define SEENN (1u << 20)
+static int seen_before(uint64_t a) {             /* 1: labelled already (or the set is full: not labelled again) */
+  uint64_t k = a + 1; uint32_t i = (uint32_t)(k * 0x9E3779B97F4A7C15ull >> 44) & (SEENN - 1);
+  for (;; i = (i + 1) & (SEENN - 1)) {
+    if (g_seen[i] == k) return 1;
+    if (!g_seen[i]) { if (g_nseen >= SEENN * 3 / 4) return 1; g_seen[i] = k; g_nseen++; return 0; }
+  }
+}
+static void write_rows(FILE *f, Tab *t, int once) {   /* once: a lines only for addresses not labelled before */
+  g_naddr = 0;
+  for (uint32_t i = 0; i < t->size; i++) {
+    Ent *e = &t->h[i]; if (!e->used) continue;
+    fprintf(f, "s,%u,0x%X,", e->count, e->eip); note(e->eip);
+    for (int k = 0; k < e->nx; k++) { fprintf(f, k ? ";0x%X" : "0x%X", e->x[k]); note(e->x[k]); }
+    fprintf(f, ",0x%llX,0x%llX,", (unsigned long long)e->pc, (unsigned long long)e->lr); note(e->pc); note(e->lr);
+    for (int k = 0; k < e->nn; k++) { fprintf(f, k ? ";0x%llX" : "0x%llX", (unsigned long long)e->n[k]); note(e->n[k]); }
+    fputc('\n', f);
+  }
+  qsort(g_addr, g_naddr, 8, cmpu64);
+  for (uint32_t i = 0; i < g_naddr; i++) if ((!i || g_addr[i] != g_addr[i - 1]) && !(once && seen_before(g_addr[i]))) label(f, g_addr[i]);
+}
+
 static char g_path[MAX_PATH]; static SYSTEMTIME g_t0; static long g_samples, g_missed, g_xfail, g_nfail; static int g_win;
 static void stamp(char *o, size_t n, const SYSTEMTIME *t) { snprintf(o, n, "%04u-%02u-%02u %02u:%02u:%02u.%03u", t->wYear, t->wMonth, t->wDay, t->wHour, t->wMinute, t->wSecond, t->wMilliseconds); }
 static void flush_window(void) {
@@ -183,24 +224,38 @@ static void flush_window(void) {
   scan_mods();
   FILE *f = fopen(g_path, "a");
   if (f) {
-    fprintf(f, "w,%d,%s,%s,%ld,%ld,%ld,%ld,%u\n", g_win, s0, s1, g_samples, g_missed, g_xfail, g_nfail, g_dropped);
-    for (int i = 0; i < g_nmod; i++) fprintf(f, "m,0x%llX,0x%llX,0x%X,%s\n", (unsigned long long)g_mod[i].base, (unsigned long long)g_mod[i].size, g_mod[i].machine, g_mod[i].path);
-    g_naddr = 0;
-    for (uint32_t i = 0; i < HN; i++) {
-      Ent *e = &g_h[i]; if (!e->used) continue;
-      fprintf(f, "s,%u,0x%X,", e->count, e->eip); note(e->eip);
-      for (int k = 0; k < e->nx; k++) { fprintf(f, k ? ";0x%X" : "0x%X", e->x[k]); note(e->x[k]); }
-      fprintf(f, ",0x%llX,0x%llX,", (unsigned long long)e->pc, (unsigned long long)e->lr); note(e->pc); note(e->lr);
-      for (int k = 0; k < e->nn; k++) { fprintf(f, k ? ";0x%llX" : "0x%llX", (unsigned long long)e->n[k]); note(e->n[k]); }
-      fputc('\n', f);
-    }
-    qsort(g_addr, g_naddr, 8, cmpu64);
-    for (uint32_t i = 0; i < g_naddr; i++) if (!i || g_addr[i] != g_addr[i - 1]) label(f, g_addr[i]);
+    fprintf(f, "w,%d,%s,%s,%ld,%ld,%ld,%ld,%u\n", g_win, s0, s1, g_samples, g_missed, g_xfail, g_nfail, g_w.dropped);
+    write_mods(f);
+    write_rows(f, &g_w, 0);
     fclose(f);
   }
-  memset(g_h, 0, sizeof(Ent) * HN); g_hn = 0; g_dropped = 0;
+  clear(&g_w);
   memset(g_pk, 0, sizeof g_pk);                   /* code can be patched (hooks): read the pages again */
   g_samples = g_missed = g_xfail = g_nfail = 0; g_win++; g_t0 = t1;
+}
+
+static char g_spath[MAX_PATH]; static uint32_t g_faddr; static int g_spike_ms;
+static uint64_t g_lastmods;                      /* a hash of the image table last written to the stutter file */
+static long g_fs, g_fmiss, g_fxf, g_fnf; static SYSTEMTIME g_ft0;
+static int flush_frame(uint32_t v, double fms) {    /* the frame whose samples read v: frame v + 1 (see above); 1: written */
+  SYSTEMTIME t1; GetLocalTime(&t1); int wrote = 0;
+  if (fms >= g_spike_ms && g_fs) {
+    wrote = 1;
+    char s0[40], s1[40]; stamp(s0, sizeof s0, &g_ft0); stamp(s1, sizeof s1, &t1);
+    scan_mods();
+    uint64_t mh = 0; for (int i = 0; i < g_nmod; i++) mh = mix(mix(mh, g_mod[i].base), g_mod[i].size);
+    FILE *f = fopen(g_spath, "a");
+    if (f) {
+      fprintf(f, "w,%u,%s,%s,%ld,%ld,%ld,%ld,%u,%.1f\n", v + 1, s0, s1, g_fs, g_fmiss, g_fxf, g_fnf, g_f.dropped, fms);
+      if (mh != g_lastmods) { write_mods(f); g_lastmods = mh; }
+      write_rows(f, &g_f, 1);
+      fclose(f);
+    }
+  }
+  clear(&g_f); g_fs = g_fmiss = g_fxf = g_fnf = 0;
+  if (wrote) GetLocalTime(&t1);
+  g_ft0 = t1;
+  return wrote;
 }
 
 typedef BOOL (WINAPI *W64GTC)(HANDLE, PWOW64_CONTEXT);
@@ -228,11 +283,31 @@ int main(int argc, char **argv) {
 #endif
           pm, nm, g_proc ? "ok" : "failed", g_thr ? "ok" : "failed");
   fprintf(f, "# rel %s; shift", argc > 6 ? argv[6] : "0");
-  for (int i = 7; i < argc; i++) fprintf(f, " %s", argv[i]);
+  for (int i = 7; i < argc; i++) {
+    if (!strncmp(argv[i], "frame=", 6)) g_faddr = strtoul(argv[i] + 6, 0, 16);
+    else if (!strncmp(argv[i], "spike=", 6)) g_spike_ms = atoi(argv[i] + 6);
+    else fprintf(f, " %s", argv[i]);
+  }
   fprintf(f, "\n# w,n,start,end,samples,missed,x86_ctx_failed,native_ctx_failed,dropped | m,base,size,machine,path | s,count,eip,x86_chain,pc,lr,native_chain | a,address,module,rva,export,offset,alloc_base,type,protect\n");
+  int stut = g_faddr && g_spike_ms > 0;
+  if (stut) fprintf(f, "# stutters: frame counter at 0x%X, frames of %d ms or more to xikit_stutters_%lu.csv\n", g_faddr, g_spike_ms, (unsigned long)pid);
   fclose(f);
   if (!g_proc || !g_thr) return 4;
-  g_h = calloc(HN, sizeof(Ent)); if (!g_h) return 5;
+  g_w.size = HN; g_w.h = calloc(HN, sizeof(Ent)); if (!g_w.h) return 5;
+  if (stut) {
+    snprintf(g_spath, sizeof g_spath, "%s\\xikit_stutters_%lu.csv", argv[5], (unsigned long)pid);
+    g_f.size = 8192; g_f.h = calloc(g_f.size, sizeof(Ent)); g_seen = calloc(SEENN, 8);
+    if (!g_f.h || !g_seen) stut = 0;
+    else if ((f = fopen(g_spath, "a"))) {
+      fprintf(f, "# xisamp stutters: pid %lu tid %lu every %d ms; frames of %d ms or more; w,frame,start,end,samples,missed,x86_ctx_failed,native_ctx_failed,dropped,ms (frame as in xikit_spikes)\n",
+              (unsigned long)pid, (unsigned long)tid, ms, g_spike_ms);
+      fprintf(f, "# rel %s; shift", argc > 6 ? argv[6] : "0");
+      for (int i = 7; i < argc; i++) if (strncmp(argv[i], "frame=", 6) && strncmp(argv[i], "spike=", 6)) fprintf(f, " %s", argv[i]);
+      fputc('\n', f); fclose(f);
+    }
+  }
+  LARGE_INTEGER qf, qn; QueryPerformanceFrequency(&qf);
+  uint32_t fv = 0; int fv_ok = 0; LARGE_INTEGER fq0; fq0.QuadPart = 0; GetLocalTime(&g_ft0);
   W64GTC w64gtc = (W64GTC)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "Wow64GetThreadContext");
   NQIT nqit = (NQIT)(void *)GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtQueryInformationThread");
   static uint8_t xs[X86STACK], ns[NSTACK];
@@ -244,15 +319,19 @@ int main(int argc, char **argv) {
   for (;;) {
     Sleep(ms);
     if (WaitForSingleObject(g_proc, 0) == WAIT_OBJECT_0) break;
-    if (GetTickCount() - tw >= (DWORD)win_s * 1000) { flush_window(); tw = GetTickCount(); }
+    if (GetTickCount() - tw >= (DWORD)win_s * 1000) {   /* the write's time is left out of the frame in progress too */
+      LARGE_INTEGER a0, a1; QueryPerformanceCounter(&a0); flush_window(); tw = GetTickCount();
+      QueryPerformanceCounter(&a1); fq0.QuadPart += a1.QuadPart - a0.QuadPart;
+    }
     Ent e; memset(&e, 0, sizeof e);
     WOW64_CONTEXT wc; CONTEXT nc; int xok = 0, nok = 0; uint32_t xn = 0; uint32_t nn = 0; uint64_t sp = 0, fp = 0;
-    if (SuspendThread(g_thr) == (DWORD)-1) { g_missed++; continue; }
+    if (SuspendThread(g_thr) == (DWORD)-1) { g_missed++; g_fmiss++; continue; }
     memset(&wc, 0, sizeof wc); wc.ContextFlags = WOW64_CONTEXT_CONTROL | WOW64_CONTEXT_INTEGER;
     xok = w64gtc && w64gtc(g_thr, &wc);
     if (!xok && nqit) { memset(&wc, 0, sizeof wc); wc.ContextFlags = WOW64_CONTEXT_CONTROL | WOW64_CONTEXT_INTEGER; xok = nqit(g_thr, 29 /* ThreadWow64Context */, &wc, sizeof wc, NULL) >= 0; }
     memset(&nc, 0, sizeof nc); nc.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
     nok = GetThreadContext(g_thr, &nc);
+    uint32_t v = 0; int vok = stut && rd(g_faddr, &v, 4);   /* the frame this sample is in, with the thread stopped */
     if (xok) {
       uint64_t esp = wc.Esp;
       if (esp < xlo || esp >= xhi) { MEMORY_BASIC_INFORMATION mb; xlo = xhi = 0;
@@ -270,9 +349,18 @@ int main(int argc, char **argv) {
       if (fp && sp >= nlo && sp < nhi) { nn = (uint32_t)(nhi - sp < NSTACK ? nhi - sp : NSTACK); if (!rd(sp, ns, nn)) nn = 0; }
     }
     ResumeThread(g_thr);
-    if (!xok) g_xfail++;
-    if (!nok) g_nfail++;
-    if (!xok && !nok) { g_missed++; continue; }
+    if (vok) {
+      QueryPerformanceCounter(&qn);
+      if (!fv_ok) { fv = v; fv_ok = 1; fq0 = qn; clear(&g_f); g_fs = g_fmiss = g_fxf = g_fnf = 0; GetLocalTime(&g_ft0); }
+      else if (v != fv) {     /* the next frame's time starts after the write: the sampler took no samples during it */
+        int w = flush_frame(fv, (double)(qn.QuadPart - fq0.QuadPart) * 1000.0 / (double)qf.QuadPart); fv = v;
+        if (w) QueryPerformanceCounter(&qn);
+        fq0 = qn;
+      }
+    }
+    if (!xok) { g_xfail++; g_fxf++; }
+    if (!nok) { g_nfail++; g_fnf++; }
+    if (!xok && !nok) { g_missed++; g_fmiss++; continue; }
     if (xok) {
       e.eip = wc.Eip;
       for (uint32_t o = 0; o + 4 <= xn && e.nx < CHAIN; o += 4) {
@@ -286,8 +374,10 @@ int main(int argc, char **argv) {
       if (up <= fp) break;
       fp = up;
     }
-    add(&e); g_samples++;
+    add(&g_w, &e); g_samples++;
+    if (vok) { add(&g_f, &e); g_fs++; }
   }
+  if (fv_ok) { QueryPerformanceCounter(&qn); flush_frame(fv, (double)(qn.QuadPart - fq0.QuadPart) * 1000.0 / (double)qf.QuadPart); }
   flush_window();
   return 0;
 }

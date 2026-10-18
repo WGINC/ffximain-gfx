@@ -2591,3 +2591,17 @@ batches cut that, and the Lock2 count, is what the owner's next run measures (`e
 
 **Next:** a stutter needs a per-frame record of where the time went (the game's frame split, not the sampler's
 windows); the batches need the owner's run.
+
+## 18 Oct: the stutters get their own samples (`xikit_stutters_<pid>.csv`)
+
+Run 14204's 74 frames over 150 ms could not be put on anything: the native sampler wrote 30 s windows only.
+- Now each sample also reads the kit's frame counter (`g_frame`) while the render thread is stopped. The kit counts
+  a frame in Present right after taking its start time (xikit.c, `kit_present`), so a sample that reads `v` belongs
+  to frame `v + 1`, numbered as `xikit_spikes_<pid>.csv` numbers it. No clock is shared between the two processes.
+- A frame whose samples span `spike_ms` or more gets its own block (docs/KIT.md, "Stutters"); `read.py` lists each
+  by game function, or by module and export with the innermost game call site.
+- Tested under Wine x64: kit/xisamp/test (a 400 ms stall in frame 41: one block, 399 ms, every sample in the
+  stall) and test_xikit.py `native` (the host's 2.5 s Sleep: one block, 1,399 of its 1,400 samples in the Sleep).
+  Not tested: the ARM64 build on ARM64 Windows.
+- Cost: the read takes samples. The `native` test's GetColor loop got 175 to 250 samples with it and 278 and 336
+  with the build before it (the test's bound, 300, failed once on that build too; it is now 100).

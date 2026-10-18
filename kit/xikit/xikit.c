@@ -905,10 +905,13 @@ static void start_native_sampler(void) {
                    g_sample_ms, g_sample_window, g_out, g_rel);
   for (int i = 0; i < g_shift[0] && k < (int)sizeof cmd - 40; i++)
     k += snprintf(cmd + k, sizeof cmd - k, " %X:%X:%d", (uint32_t)g_shift[1 + 3 * i], (uint32_t)g_shift[2 + 3 * i], g_shift[3 + 3 * i]);
+  /* the stutters: each sample reads g_frame, and frames of spike_ms or more get their own samples (xisamp.c) */
+  if (g_cfg.spike_ms > 0 && k < (int)sizeof cmd - 40) k += snprintf(cmd + k, sizeof cmd - k, " frame=%X spike=%d", (uint32_t)(uintptr_t)&g_frame, g_cfg.spike_ms);
   STARTUPINFOA si; PROCESS_INFORMATION pi; memset(&si, 0, sizeof si); si.cb = sizeof si;
   if (CreateProcessA(exe, cmd, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
-    klog("sample=2: native sampler started (%s, pid %lu): the render thread %lu every %d ms, xikit_native_%lu.csv every %d s (kit/xisamp/read.py)",
-         exe, (unsigned long)pi.dwProcessId, (unsigned long)g_render_thread, g_sample_ms, (unsigned long)GetCurrentProcessId(), g_sample_window);
+    klog("sample=2: native sampler started (%s, pid %lu): the render thread %lu every %d ms, xikit_native_%lu.csv every %d s (kit/xisamp/read.py)%s",
+         exe, (unsigned long)pi.dwProcessId, (unsigned long)g_render_thread, g_sample_ms, (unsigned long)GetCurrentProcessId(), g_sample_window,
+         g_cfg.spike_ms > 0 ? "; frames over spike_ms with their own samples in xikit_stutters_<pid>.csv" : "");
     CloseHandle(pi.hThread); CloseHandle(pi.hProcess);
   } else klog("sample=2: could not start %s (error %lu)", exe, GetLastError());
 }

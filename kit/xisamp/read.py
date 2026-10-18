@@ -1,6 +1,12 @@
 """read.py -- the native sampler's file (xikit_native_<pid>.csv, xisamp.c) as shares of the render thread's time.
 
     python3 read.py xikit_native_1234.csv [--from 21:50:00] [--to 21:55:00] [--focus 0x1002A034 ...] [--top 25]
+    python3 read.py xikit_stutters_1234.csv [--frames 1460 1461 ...] [--min-ms 150] [--top 25]
+
+The stutter file (xisamp.c, frame= spike=) has one block per frame over spike_ms, numbered as xikit_spikes_<pid>.csv
+numbers frames; the same views are then over the frames chosen (--frames, --min-ms), and a "stutters" view lists
+each frame, longest first, with where its samples were (the game function the x86 code was in, or, outside the game
+and the reconstruction, the innermost game/reconstruction call site and the module the x86 code was in).
 
 Each sample holds, from the same instant: where the x86 code was (eip, and the x86 return addresses found on its
 stack) and where the machine was natively (ARM64 pc, lr, and the frame-pointer chain). Views, as shares of the
@@ -37,6 +43,7 @@ class Window:
     def __init__(self, p):
         self.n, self.start, self.end = int(p[1]), p[2], p[3]
         self.samples, self.missed, self.xfail, self.nfail, self.dropped = map(int, p[4:9])
+        self.ms = float(p[9]) if len(p) > 9 else None   # a stutter block: the frame's span by the sampler's clock
         self.mods, self.labels, self.rows = [], {}, []
 
     def mod(self, a):
@@ -51,13 +58,20 @@ def load(path):
         l = l.rstrip('\r\n')
         if l.startswith('#'): head.append(l); continue
         p = l.split(',')
-        if p[0] == 'w': wins.append(Window(p))
+        if p[0] == 'w':
+            wins.append(Window(p))
+            if len(wins) > 1 and wins[-1].ms is not None:   # stutter blocks: images when they change, labels once
+                wins[-1].mods, wins[-1].labels = wins[-2].mods, wins[-2].labels
+                wins[-1].fresh = True
+        elif p[0] == 'm' and wins and getattr(wins[-1], 'fresh', False):
+            wins[-1].mods, wins[-1].fresh = [], False
+            wins[-1].mods.append((int(p[1], 16), int(p[2], 16), int(p[3], 16), ','.join(p[4:])))
         elif not wins: continue
         elif p[0] == 'm': wins[-1].mods.append((int(p[1], 16), int(p[2], 16), int(p[3], 16), ','.join(p[4:])))
         elif p[0] == 's':
             ch = lambda s: [int(x, 16) for x in s.split(';') if x]
             wins[-1].rows.append((int(p[1]), int(p[2], 16), ch(p[3]), int(p[4], 16), int(p[5], 16), ch(p[6])))
-        elif p[0] == 'a': wins[-1].labels[int(p[1], 16)] = p[2:]
+        elif p[0] == 'a': wins[-1].labels[int(p[1], 16)] = p[2:]   # a dict shared with later blocks
     return head, wins
 
 
@@ -106,12 +120,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('file'); ap.add_argument('--from', dest='t0'); ap.add_argument('--to', dest='t1')
     ap.add_argument('--focus', nargs='*', default=[]); ap.add_argument('--top', type=int, default=25)
+    ap.add_argument('--frames', nargs='*', type=int, default=[]); ap.add_argument('--min-ms', type=float, default=0)
     ap.add_argument('--manifest', default=os.path.join(H, '..', 'xikit', 'dist', 'xikit_manifest.txt'))
     ap.add_argument('--extents', default=os.path.join(H, '..', '..', 'data', 'func_extents.json'))
     o = ap.parse_args()
     head, wins = load(o.file)
     nm = Namer(head, Names(o.manifest, o.extents))
     sel = [w for w in wins if (not o.t0 or w.start[11:] >= o.t0) and (not o.t1 or w.start[11:] < o.t1)]
+    stutter = any(w.ms is not None for w in wins)
+    if stutter: sel = [w for w in sel if (not o.frames or w.n in o.frames) and w.ms >= o.min_ms]
     for h in head[:2]: print(h)
     total = sum(c for w in sel for c, *_ in w.rows)
     print('%d windows (%s .. %s), %d samples; missed %d, x86 context failed %d, native context failed %d, dropped (table full) %d' % (
@@ -148,6 +165,19 @@ def main():
                     a, b, d, e = focus[nm.analysed(site)]
                     a[nm.where(w, eip, 1)] += c; b[nm.where(w, pc, 1)] += c; e[stk] += c
                     d['%s  |  %s <- %s' % (nm.where(w, eip, 1), nm.where(w, pc, 1), nm.where(w, lr, 1))] += c
+    if stutter:
+        print('\nstutters: each frame, longest first (ms by the sampler; frame as in xikit_spikes): where its samples were')
+        for w in sorted(sel, key=lambda w: -w.ms)[:o.top]:
+            n = sum(c for c, *_ in w.rows); at = collections.Counter()
+            for c, eip, xc, pc, lr, nc in w.rows:
+                if nm.ours(w, eip): at[nm.where(w, eip, 1)] += c; continue
+                site = next((a for a in xc if nm.ours(w, a)), None)
+                k = nm.where(w, eip, 1)
+                if site is not None:
+                    k = '%s <- %s' % (k, '0x%08X in %s' % (nm.analysed(site), nm.where(w, site, 1)) if w.mod(site)[2].lower() == GAME else nm.where(w, site, 2))
+                at[k] += c
+            print('  frame %d: %.1f ms, %d samples (missed %d, dropped %d)' % (w.n, w.ms, n, w.missed, w.dropped))
+            for k, c in at.most_common(6): print('      %5.1f%%  %s' % (100 * c / max(n, 1), k))
     table('x86: the module the x86 code was in', x86)
     table('native: the module the native code was in', nat)
     table('joint: x86 module | native module', joint)

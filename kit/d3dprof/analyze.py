@@ -66,6 +66,9 @@ def main(path, out=None):
     res, stats = [], collections.Counter()
     for r in rows:
         v = int(r['call_site'], 16); slot = SLOT.get(r['method'])
+        if slot is None:                       # a buffer's Lock/Unlock site (kernel_calls): not a device method
+            stats['buffer Lock/Unlock site (not a device call)'] += 1
+            continue
         if r['caller'] == 'caller of CDx draw wrapper':
             # the draw's requester: a direct call to the CDx wrapper must end at v
             i = next((i for L in (5,) for i in md.disasm(bytes(im.img[v - L - im.base:v - im.base]), v - L)

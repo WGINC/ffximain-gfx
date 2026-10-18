@@ -7,6 +7,7 @@
 // named where used. The picture test (test/test_d3d8on11.py, mode scenes) compares with Wine's d3d8.
 #include "d8_exec.h"
 #include <d3dcompiler.h>
+#include <d3d11_1.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +32,14 @@ struct ExecFF {
   std::unordered_map<std::string, ID3D11RasterizerState *> rs; std::unordered_map<std::string, ID3D11SamplerState *> ss;
   ID3D11Buffer *vcb = nullptr, *pcb = nullptr, *upvb = nullptr, *upib = nullptr;
   UINT upvbPos = 0, upibPos = 0;
-  enum { UPVB = 4 << 20, UPIB = 1 << 20 };
+  enum { UPVB = 8 << 20, UPIB = 2 << 20 };
+  // the batch's constant arenas (Exec::batch): a draw's constants at an offset that is a multiple of 16 constants
+  // (VSSetConstantBuffers1: "pFirstConstant ... must be a multiple of 16 constants"; d3d11_1.h). Only where the
+  // driver reports D3D11_FEATURE_DATA_D3D11_OPTIONS.ConstantBufferOffsetting; NOOVERWRITE on them only where it reports
+  // MapNoOverwriteOnDynamicConstantBuffer (else each flush maps them with DISCARD from offset 0)
+  ID3D11DeviceContext1 *ctx1 = nullptr; bool cbnoov = false;
+  ID3D11Buffer *varena = nullptr, *parena = nullptr; UINT vaPos = 0, paPos = 0;
+  enum { VSLOT = (sizeof(VSConst) + 255) & ~255u, PSLOT = (sizeof(PSConst) + 255) & ~255u, VAR = VSLOT * 4096, PAR = PSLOT * 4096 };
 };
 typedef ExecFF FF;
 template <class K> static std::string kstr(const K &k) { return std::string((const char *)&k, sizeof k); }
@@ -377,6 +385,18 @@ void Exec::ff_init() {
   bd.ByteWidth = (sizeof(PSConst) + 15) & ~15u; dev->CreateBuffer(&bd, NULL, &ff->pcb);
   bd.BindFlags = D3D11_BIND_VERTEX_BUFFER; bd.ByteWidth = FF::UPVB; dev->CreateBuffer(&bd, NULL, &ff->upvb);
   bd.BindFlags = D3D11_BIND_INDEX_BUFFER; bd.ByteWidth = FF::UPIB; dev->CreateBuffer(&bd, NULL, &ff->upib);
+  D3D11_FEATURE_DATA_D3D11_OPTIONS o = {};
+  if (SUCCEEDED(ctx->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&ff->ctx1)) &&
+      SUCCEEDED(dev->CheckFeatureSupport(D3D11_FEATURE_D3D11_OPTIONS, &o, sizeof o)) && o.ConstantBufferOffsetting) {
+    ff->cbnoov = o.MapNoOverwriteOnDynamicConstantBuffer != 0;
+    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER; bd.ByteWidth = FF::VAR;
+    if (FAILED(dev->CreateBuffer(&bd, NULL, &ff->varena))) ff->varena = nullptr;
+    bd.ByteWidth = FF::PAR;
+    if (FAILED(dev->CreateBuffer(&bd, NULL, &ff->parena))) { ff->parena = nullptr; if (ff->varena) ff->varena->Release(); ff->varena = nullptr; }
+  }
+  d8_log("constant buffer offsets: %s (Direct3D 11.1 context %s, ConstantBufferOffsetting %d, MapNoOverwriteOnDynamicConstantBuffer %d)",
+         ff->varena ? "used by batches" : "not available: each draw maps its constants", ff->ctx1 ? "yes" : "no",
+         (int)o.ConstantBufferOffsetting, (int)o.MapNoOverwriteOnDynamicConstantBuffer);
 }
 static void free_res(ExecRes &r) {
   for (auto &v : r.rtv) if (v.second) v.second->Release();
@@ -384,10 +404,12 @@ static void free_res(ExecRes &r) {
   for (auto &v : r.srv_levels) if (v.second) v.second->Release();
   r.srv_levels.clear();
   if (r.srv) r.srv->Release(); if (r.dsv) r.dsv->Release(); if (r.tex) r.tex->Release(); if (r.buf) r.buf->Release();
-  r.srv = nullptr; r.dsv = nullptr; r.tex = nullptr; r.buf = nullptr;
+  if (r.stage) r.stage->Release();
+  r.srv = nullptr; r.dsv = nullptr; r.tex = nullptr; r.buf = nullptr; r.stage = nullptr;
 }
 void Exec::release_swap() {
   if (ctx) { ctx->OMSetRenderTargets(0, NULL, NULL); ctx->ClearState(); ctx->Flush(); }
+  forget();
   cur_rtv = nullptr; cur_dsv = nullptr;
   auto it = res.find(X_BACKBUFFER);
   if (it != res.end()) { free_res(it->second); res.erase(it); }
@@ -461,6 +483,7 @@ void Exec::clear_rects(const XClear &c, const XRect *r) {
     dev->CreateBuffer(&bd, NULL, &clr_cb);
   }
   if (!clr_vs || !clr_ps || !clr_cb) return;
+  forget();                                                // the binds below are not the filter's
   D3D11_BLEND_DESC bd = {}; bd.RenderTarget[0].RenderTargetWriteMask = (c.flags & D3DCLEAR_TARGET) ? 0xF : 0;
   D3D11_DEPTH_STENCIL_DESC dd = {};
   dd.DepthEnable = (c.flags & D3DCLEAR_ZBUFFER) ? TRUE : FALSE; dd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; dd.DepthFunc = D3D11_COMPARISON_ALWAYS;
@@ -483,8 +506,95 @@ void Exec::clear_rects(const XClear &c, const XRect *r) {
     ctx->Draw(4, 0);
   }
 }
+// a scratch texture of format f at least w x h, bound as bind (shader input or render target), with its view
+Exec::Scratch *Exec::scratch(std::unordered_map<uint32_t, Scratch> &m, DXGI_FORMAT f, UINT w, UINT h, UINT bind) {
+  Scratch &s = m[(uint32_t)f];
+  if (s.tex && s.w >= w && s.h >= h) return &s;
+  if (s.srv) s.srv->Release(); if (s.rtv) s.rtv->Release(); if (s.tex) s.tex->Release(); s = Scratch();
+  D3D11_TEXTURE2D_DESC td = {}; td.Width = w; td.Height = h; td.MipLevels = 1; td.ArraySize = 1; td.Format = f;
+  td.SampleDesc.Count = 1; td.Usage = D3D11_USAGE_DEFAULT; td.BindFlags = bind;
+  if (FAILED(dev->CreateTexture2D(&td, NULL, &s.tex))) { s.tex = nullptr; return nullptr; }
+  if (bind & D3D11_BIND_SHADER_RESOURCE) dev->CreateShaderResourceView(s.tex, NULL, &s.srv);
+  if (bind & D3D11_BIND_RENDER_TARGET) dev->CreateRenderTargetView(s.tex, NULL, &s.rtv);
+  if ((bind & D3D11_BIND_SHADER_RESOURCE) ? !s.srv : !s.rtv) return nullptr;
+  s.w = w; s.h = h;
+  return &s;
+}
+// X_COPY when the two Direct3D 11 formats are not of one type group, so CopySubresourceRegion may not copy between them
+// (D3D11, ID3D11DeviceContext::CopySubresourceRegion: the resources "must have compatible DXGI formats, which means the
+// formats must be identical or at least from the same type group") while Direct3D 8 counts them as one format: our back
+// buffer is B8G8R8A8 (DXGI swap chains have no B8G8R8X8) and an X8R8G8B8 surface is B8G8R8X8. The texels go through
+// two scratch textures: the source's, copied into (same format) and read with Load (exact texels, no filtering), and the
+// destination's, drawn into and copied out (same format). A B8G8R8X8 view reads alpha as 1; X8 ignores the alpha written.
+void Exec::copy_draw(ID3D11Texture2D *dt, UINT dsub, UINT x, UINT y, ID3D11Texture2D *st, UINT ssub, const D3D11_BOX &bx) {
+  if (!ff || !ff->compile) ff_init();
+  if (!ff || !ff->compile) return;
+  if (!cpy_vs) {
+    const char *src =
+      "Texture2D t : register(t0);\n"
+      "float4 vs(uint id : SV_VertexID) : SV_Position { return float4((id & 1) ? 1 : -1, (id >> 1) ? -1 : 1, 0, 1); }\n"
+      "float4 ps(float4 p : SV_Position) : SV_Target { return t.Load(int3(p.xy, 0)); }\n";
+    ID3DBlob *b = nullptr, *err = nullptr;
+    if (SUCCEEDED(ff->compile(src, strlen(src), "copy", NULL, NULL, "vs", "vs_4_0", 0, 0, &b, &err))) { dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &cpy_vs); b->Release(); }
+    if (err) { d8_log("copy shader: %s", (const char *)err->GetBufferPointer()); err->Release(); err = nullptr; }
+    if (SUCCEEDED(ff->compile(src, strlen(src), "copy", NULL, NULL, "ps", "ps_4_0", 0, 0, &b, &err))) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &cpy_ps); b->Release(); }
+    if (err) { d8_log("copy shader: %s", (const char *)err->GetBufferPointer()); err->Release(); }
+  }
+  if (!cpy_vs || !cpy_ps) return;
+  D3D11_TEXTURE2D_DESC sd, dd; st->GetDesc(&sd); dt->GetDesc(&dd);
+  UINT w = bx.right - bx.left, h = bx.bottom - bx.top;
+  Scratch *a = scratch(cpy_src, sd.Format, w, h, D3D11_BIND_SHADER_RESOURCE), *b = scratch(cpy_dst, dd.Format, w, h, D3D11_BIND_RENDER_TARGET);
+  if (!a || !b) { d8_once("copydraw", "X_COPY between formats of different type groups: a scratch texture could not be made (not copied)"); return; }
+  ctx->CopySubresourceRegion(a->tex, 0, 0, 0, 0, st, ssub, &bx);
+  forget();                                                // the binds below are not the filter's
+  D3D11_BLEND_DESC bd = {}; bd.RenderTarget[0].RenderTargetWriteMask = 0xF;
+  D3D11_DEPTH_STENCIL_DESC ds = {};
+  D3D11_RASTERIZER_DESC rd = {}; rd.FillMode = D3D11_FILL_SOLID; rd.CullMode = D3D11_CULL_NONE; rd.DepthClipEnable = FALSE;
+  ctx->OMSetBlendState(cached(ff->bs, bd, [&](const D3D11_BLEND_DESC *q, ID3D11BlendState **o) { dev->CreateBlendState(q, o); }), NULL, 0xFFFFFFFF);
+  ctx->OMSetDepthStencilState(cached(ff->ds, ds, [&](const D3D11_DEPTH_STENCIL_DESC *q, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(q, o); }), 0);
+  ctx->RSSetState(cached(ff->rs, rd, [&](const D3D11_RASTERIZER_DESC *q, ID3D11RasterizerState **o) { dev->CreateRasterizerState(q, o); }));
+  D3D11_VIEWPORT v = {0, 0, (float)w, (float)h, 0, 1}; ctx->RSSetViewports(1, &v);
+  ctx->OMSetRenderTargets(1, &b->rtv, NULL);
+  ctx->VSSetShader(cpy_vs, NULL, 0); ctx->PSSetShader(cpy_ps, NULL, 0); ctx->IASetInputLayout(NULL);
+  ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+  ctx->PSSetShaderResources(0, 1, &a->srv);
+  ctx->Draw(4, 0);
+  ID3D11ShaderResourceView *none = nullptr; ctx->PSSetShaderResources(0, 1, &none);
+  ctx->OMSetRenderTargets(cur_rtv ? 1 : 0, &cur_rtv, cur_dsv);   // the device's targets again (X_TARGETS set them)
+  D3D11_BOX ob = {0, 0, 0, w, h, 1};
+  ctx->CopySubresourceRegion(dt, dsub, x, y, 0, b->tex, 0, &ob);
+}
+// X_SNAP's copies the GPU has finished, into the snapshot table; never waits (D3D11_MAP_FLAG_DO_NOT_WAIT: a copy still
+// running answers DXGI_ERROR_WAS_STILL_DRAWING and is tried at the next Present)
+void Exec::snap_poll() {
+  for (size_t i = 0; i < snap_pend.size();) {
+    SnapPend q = snap_pend[i];
+    auto it = res.find(q.id);
+    if (it == res.end() || !it->second.stage) { snap_pend.erase(snap_pend.begin() + i); continue; }
+    ExecRes &x = it->second;
+    D3D11_MAPPED_SUBRESOURCE m;
+    HRESULT h = ctx->Map(x.stage, 0, D3D11_MAP_READ, D3D11_MAP_FLAG_DO_NOT_WAIT, &m);
+    if (h == DXGI_ERROR_WAS_STILL_DRAWING) { i++; continue; }
+    snap_pend.erase(snap_pend.begin() + i);
+    if (FAILED(h)) { d8_once("snapmap", "X_SNAP: Map of a staging copy failed: 0x%08lX (first failure)", (unsigned long)h); continue; }
+    UINT pitch = d8_pitch((D3DFORMAT)x.d3dfmt, x.w), rows = d8_rows((D3DFORMAT)x.d3dfmt, x.h);
+    SnapSlot &s = snaps[q.slot];
+    // the sequence lock's writer: odd while the fields change; the fences keep the data between the two stores (ARM64)
+    uint32_t v = __atomic_load_n(&s.ver, __ATOMIC_SEQ_CST);
+    __atomic_store_n(&s.ver, v | 1u, __ATOMIC_SEQ_CST);
+    __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    s.id = q.id; s.wseq = q.wseq; s.bytes = pitch * rows;
+    for (UINT y = 0; y < rows; y++) memcpy(s.data + (size_t)y * pitch, (uint8_t *)m.pData + (size_t)y * m.RowPitch, pitch);
+    __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    __atomic_store_n(&s.ver, (v | 1u) + 1u, __ATOMIC_SEQ_CST);
+    ctx->Unmap(x.stage, 0);
+    snaps_done++;
+  }
+}
 void Exec::shutdown() {
   if (clr_vs) clr_vs->Release(); if (clr_ps) clr_ps->Release(); if (clr_cb) clr_cb->Release(); clr_vs = nullptr; clr_ps = nullptr; clr_cb = nullptr;
+  if (cpy_vs) cpy_vs->Release(); if (cpy_ps) cpy_ps->Release(); cpy_vs = nullptr; cpy_ps = nullptr;
+  for (auto *m : {&cpy_src, &cpy_dst}) { for (auto &e : *m) { if (e.second.srv) e.second.srv->Release(); if (e.second.rtv) e.second.rtv->Release(); if (e.second.tex) e.second.tex->Release(); } m->clear(); }
   // what the D3D8 side never destroyed (the tests expect none but the back buffer once the device is released)
   { size_t n = 0; for (auto &r : res) n += r.second.kind != 4; d8_log("executor shutdown: %u objects still held besides the back buffer", (unsigned)n); }
   release_swap();
@@ -496,6 +606,7 @@ void Exec::shutdown() {
     for (auto &x : ff->ds) if (x.second) x.second->Release(); for (auto &x : ff->rs) if (x.second) x.second->Release();
     for (auto &x : ff->ss) if (x.second) x.second->Release();
     if (ff->vcb) ff->vcb->Release(); if (ff->pcb) ff->pcb->Release(); if (ff->upvb) ff->upvb->Release(); if (ff->upib) ff->upib->Release();
+    if (ff->varena) ff->varena->Release(); if (ff->parena) ff->parena->Release(); if (ff->ctx1) ff->ctx1->Release();
     delete ff; ff = nullptr;
   }
   if (ctx) ctx->Release(); if (dev) dev->Release(); ctx = nullptr; dev = nullptr;
@@ -518,7 +629,126 @@ ID3D11RenderTargetView *Exec::rtv_of(const XRef &r) {
 }
 static UINT sub_of(const ExecRes &x, const XRef &r) { return D3D11CalcSubresource(r.level, r.face, x.levels); }
 
+static double qpc_ms() {
+  static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
+  LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
+}
+static bool holdable(uint16_t op) {
+  return op != X_INIT && op != X_RESIZE && op != X_READBACK && op != X_FINISH && op != X_PRESENT && op != X_OPTION && op != X_QUIT && op != X_PAD;
+}
+enum { HOLD_MAX = 16384, HOLD_BYTES = 32 << 20 };          // a batch is flushed at this many records or copied bytes
 void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply) {
+  if (batch && holdable(op)) {
+    Held h = {op, n, p, 0};
+    if (copy_held) { h.p = nullptr; h.off = hold.size(); hold.insert(hold.end(), p, p + n); }
+    held.push_back(h);
+    if (held.size() >= HOLD_MAX || hold.size() >= HOLD_BYTES) flush();
+    return;
+  }
+  if (!held.empty()) flush();
+  double t0 = timed ? qpc_ms() : 0;
+  exec(op, p, n, hr, reply, nullptr);
+  if (timed) timed(timed_ctx, op, qpc_ms() - t0);
+}
+// the arenas' room for held[i...]: offsets for each draw's constants and ...UP / inline index data, as many records as
+// fit; then one Map of each arena used, the bytes written, one Unmap. Returns the end of the records planned. A record
+// that does not fit an arena from offset 0 either (a ...UP draw larger than it) gets no offsets: it maps as before.
+size_t Exec::plan(size_t i) {
+  FF *f = ff; size_t N = held.size();
+  const bool cb = f->varena && f->ctx1;
+  struct Ar { ID3D11Buffer *b; UINT cap, *pos; UINT at; bool disc, used; uint8_t *m; } ar[4] = {
+    {f->varena, FF::VAR, &f->vaPos, 0, false, false, nullptr}, {f->parena, FF::PAR, &f->paPos, 0, false, false, nullptr},
+    {f->upvb, FF::UPVB, &f->upvbPos, 0, false, false, nullptr}, {f->upib, FF::UPIB, &f->upibPos, 0, false, false, nullptr}};
+  for (Ar &a : ar) { a.at = *a.pos; if (a.b == f->varena || a.b == f->parena) { if (!f->cbnoov) { a.at = 0; a.disc = true; } } }
+  // a slot of `bytes` aligned to `align`; ~0u when it does not fit (and the arena cannot start again: it already has
+  // this chunk's data)
+  auto take = [&](Ar &a, UINT bytes, UINT align, bool first) -> UINT {
+    if (bytes > a.cap) return ~0u - 1;
+    UINT at = (a.at + align - 1) / align * align;
+    if (at + bytes > a.cap || at == 0) {
+      if (a.used && at + bytes > a.cap) return ~0u;          // the chunk ends here
+      at = 0; a.disc = true;
+    }
+    a.at = at + bytes; a.used = true; return at;
+  };
+  const VSConst *lv = nullptr; const PSConst *lp = nullptr; UINT lvo = 0, lpo = 0;
+  size_t k = i;
+  for (; k < N; k++) {
+    Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u};
+    if (held[k].op != X_DRAW) continue;
+    const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
+    const XDraw &d = *(const XDraw *)p;
+    Ar save[4]; memcpy(save, ar, sizeof ar);
+    bool stop = false;
+    if (cb) {
+      if (filter && lv && !memcmp(lv, &d.vc, sizeof d.vc)) q.vc = lvo;
+      else { UINT o = take(ar[0], FF::VSLOT, 256, k == i); if (o == ~0u) stop = true; else { q.vc = o; lv = &d.vc; lvo = o; } }
+      if (!stop) {
+        if (filter && lp && !memcmp(lp, &d.pc, sizeof d.pc)) q.pc = lpo;
+        else { UINT o = take(ar[1], FF::PSLOT, 256, k == i); if (o == ~0u) stop = true; else { q.pc = o; lp = &d.pc; lpo = o; } }
+      }
+    }
+    if (!stop && (d.kind == XD_UP || d.kind == XD_UP_INDEXED)) {
+      UINT o = take(ar[2], d.up_vbytes, d.up_stride ? d.up_stride : 1, k == i);
+      if (o == ~0u) stop = true; else if (o != ~0u - 1) q.vb = o;
+    }
+    if (!stop && (d.kind == XD_UP_INDEXED || d.kind == XD_INLINE_INDEXED) && (d.kind != XD_UP_INDEXED || q.vb != ~0u)) {
+      UINT o = take(ar[3], d.ibytes, d.i32 ? 4 : 2, k == i);
+      if (o == ~0u) stop = true; else if (o != ~0u - 1) q.ib = o;
+    }
+    if (stop) {                                                // this record starts the next chunk
+      memcpy(ar, save, sizeof ar); q = {~0u, ~0u, ~0u, ~0u};
+      if (k == i) k++;                                         // not expected: a first record fits from offset 0
+      break;
+    }
+  }
+  // map each arena used once
+  for (Ar &a : ar) {
+    if (!a.used) continue;
+    D3D11_MAPPED_SUBRESOURCE ms;
+    if (FAILED(ctx->Map(a.b, 0, a.disc ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE, 0, &ms))) { a.m = nullptr; continue; }
+    a.m = (uint8_t *)ms.pData; arena_maps++;
+  }
+  UINT wv = ~0u, wp = ~0u;
+  for (size_t j = i; j < k; j++) {
+    Prep &q = prep[j];
+    if (held[j].op != X_DRAW) continue;
+    const uint8_t *p = held[j].p ? held[j].p : hold.data() + held[j].off;
+    const XDraw &d = *(const XDraw *)p; const uint8_t *data = p + sizeof(XDraw);
+    if (q.vc != ~0u && !(ar[0].m && ar[1].m)) q.vc = q.pc = ~0u;
+    if (q.vc != ~0u && q.vc != wv) { memcpy(ar[0].m + q.vc, &d.vc, sizeof d.vc); wv = q.vc; }
+    if (q.pc != ~0u && q.pc != wp) { memcpy(ar[1].m + q.pc, &d.pc, sizeof d.pc); wp = q.pc; }
+    if (q.vb != ~0u) { if (ar[2].m) memcpy(ar[2].m + q.vb, data, d.up_vbytes); else q.vb = ~0u; }
+    if (q.ib != ~0u) {
+      if (ar[3].m) memcpy(ar[3].m + q.ib, d.kind == XD_INLINE_INDEXED ? data : data + d.up_vbytes, d.ibytes); else q.ib = ~0u;
+    }
+    if (d.kind == XD_UP_INDEXED && (q.vb == ~0u) != (q.ib == ~0u)) q.vb = q.ib = ~0u;   // both or neither
+  }
+  for (Ar &a : ar) if (a.m) { ctx->Unmap(a.b, 0); }
+  for (Ar &a : ar) if (a.used) *a.pos = a.at;
+  return k;
+}
+void Exec::flush() {
+  if (held.empty()) return;
+  flushes++;
+  prep.resize(held.size());
+  size_t i = 0, N = held.size();
+  while (i < N) {
+    double t0 = timed ? qpc_ms() : 0;
+    size_t k = plan(i);
+    double extra = timed ? qpc_ms() - t0 : 0;
+    for (size_t j = i; j < k; j++) {
+      const Held &h = held[j]; const uint8_t *p = h.p ? h.p : hold.data() + h.off;
+      int32_t hr = 0; double t1 = timed ? qpc_ms() : 0;
+      exec(h.op, p, h.n, &hr, nullptr, &prep[j]);
+      if (timed) { double ms = qpc_ms() - t1; if (h.op == X_DRAW) { ms += extra; extra = 0; } timed(timed_ctx, h.op, ms); }
+    }
+    if (timed && extra > 0) timed(timed_ctx, X_DRAW, extra);   // a chunk without draws: charged as a draw's time
+    i = k;
+  }
+  held.clear(); hold.clear();
+}
+void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply, const Prep *pp) {
   switch (op) {
   case X_INIT: case X_RESIZE: {
     const XInit &x = *(const XInit *)p;
@@ -526,7 +756,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     if (*hr >= 0 && x.ds_format) {                          // the automatic depth surface
       auto old = res.find(x.ds_id); if (old != res.end()) { free_res(old->second); res.erase(old); }
       XTex t = {x.ds_id, XT_DEPTH, x.width, x.height, 1, 1, x.ds_format, D3DUSAGE_DEPTHSTENCIL};
-      int32_t h2 = 0; run(X_TEX, (const uint8_t *)&t, sizeof t, &h2, nullptr);
+      int32_t h2 = 0; exec(X_TEX, (const uint8_t *)&t, sizeof t, &h2, nullptr, nullptr);
     }
     break; }
   case X_TEX: {
@@ -558,9 +788,11 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto it = res.find(*(const uint32_t *)p);
     if (it == res.end()) d8_once("destroyunknown", "stream error: object %u destroyed but not held (its creation failed, or a stream error)", *(const uint32_t *)p);
     if (it != res.end()) {
+      for (size_t i = 0; i < snap_pend.size(); i++) if (snap_pend[i].id == it->first) { snap_pend.erase(snap_pend.begin() + i); break; }
       for (auto &v : it->second.rtv) if (v.second == cur_rtv) cur_rtv = nullptr;
       if (it->second.dsv == cur_dsv) cur_dsv = nullptr;
       free_res(it->second); res.erase(it);
+      forget();                                            // a view or buffer the filter holds may be this object's
     }
     break; }
   case X_UPLOAD_TEX: {
@@ -581,6 +813,7 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto d = t.ds ? res.find(t.ds) : res.end();
     cur_dsv = d != res.end() ? d->second.dsv : nullptr;
     ctx->OMSetRenderTargets(1, &cur_rtv, cur_dsv);
+    forget();                                              // a render target bound as a texture is unbound by D3D11
     break; }
   case X_CLEAR: {
     const XClear &c = *(const XClear *)p;
@@ -598,14 +831,37 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     auto s = res.find(c.src.id), d = res.find(c.dst.id);
     if (s == res.end() || d == res.end() || !s->second.tex || !d->second.tex) break;
     D3D11_BOX bx = {(UINT)c.left, (UINT)c.top, 0, (UINT)c.right, (UINT)c.bottom, 1};
-    ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
+    D3D11_TEXTURE2D_DESC sd, dd; s->second.tex->GetDesc(&sd); d->second.tex->GetDesc(&dd);
+    // CopyRects requires one D3D8 format and d8_fmt gives each its one DXGI format, so only the back buffer (always
+    // B8G8R8A8, X_INIT) can differ: from an X8R8G8B8 surface's B8G8R8X8, which is not of its type group
+    if (sd.Format != dd.Format)
+      copy_draw(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, s->second.tex, sub_of(s->second, c.src), bx);
+    else ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
     break; }
-  case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw)); draws++; break;
+  case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
   case X_PRESENT: {
     drain_debug();
     HRESULT h = swap ? swap->Present(0, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;
+    if (!snap_pend.empty()) snap_poll();
+    break; }
+  case X_SNAP: {
+    const XSnap &q = *(const XSnap *)p;
+    auto it = res.find(q.dst.id);
+    if (!snaps || q.slot >= SNAP_SLOTS || it == res.end() || !it->second.tex) break;
+    ExecRes &x = it->second;
+    if ((size_t)d8_pitch((D3DFORMAT)x.d3dfmt, x.w) * d8_rows((D3DFORMAT)x.d3dfmt, x.h) > SNAP_BYTES) break;
+    if (!x.stage) {
+      D3D11_TEXTURE2D_DESC td; x.tex->GetDesc(&td);
+      D3D11_TEXTURE2D_DESC sd = {}; sd.Width = x.w; sd.Height = x.h; sd.MipLevels = 1; sd.ArraySize = 1; sd.Format = td.Format;
+      sd.SampleDesc.Count = 1; sd.Usage = D3D11_USAGE_STAGING; sd.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      if (FAILED(dev->CreateTexture2D(&sd, NULL, &x.stage))) { x.stage = nullptr; d8_once("snapstage", "X_SNAP: a staging texture could not be made (snapshots off for it)"); break; }
+    }
+    ctx->CopySubresourceRegion(x.stage, 0, 0, 0, 0, x.tex, sub_of(x, q.dst), NULL);
+    bool had = false;
+    for (auto &e : snap_pend) if (e.id == q.dst.id) { e.slot = q.slot; e.wseq = q.wseq; had = true; break; }
+    if (!had) snap_pend.push_back({q.dst.id, q.slot, q.wseq});
     break; }
   case X_READBACK: {
     const XRef &r = *(const XRef *)p;
@@ -630,80 +886,141 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
     st->Release();
     break; }
   case X_FINISH: *hr = D3D_OK; break;
+  case X_OPTION: {
+    const XOption &o = *(const XOption *)p;
+    if (o.key == OPT_FILTER) { filter = o.value; forget(); }
+    if (o.key == OPT_BATCH) { batch = o.value; forget(); }
+    memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
+    break; }
   }
   (void)n;
 }
 
 // ---- a draw -------------------------------------------------------------------------------------------------------------------
-void Exec::draw(const XDraw &d, const uint8_t *data) {
+void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
   if (!ff || !ff->compile) return;
-  std::string vks = kstr(d.vk);
+  // the filter (X_OPTION OPT_FILTER): a key, description or constant block equal to the last draw's reuses what that
+  // draw found or wrote, and a bind equal to what this executor last set (Bound) is not made again. Direct3D 11 keeps
+  // a context's state until it is set again, and a dynamic buffer's contents until it is mapped again, so the context
+  // ends each draw in the same state either way; test_d3d8on11.py compares the pictures with the filter on and off.
+  const bool f = filter != 0;
+  if (f && !bd.valid) { forget(); bd.valid = true; }
   ID3D11VertexShader *vsh = nullptr; ID3D11InputLayout *lay = nullptr;
-  auto vi = ff->vs.find(vks);
-  if (vi == ff->vs.end()) {
-    ID3DBlob *b = compile(ff, gen_vs(d.vk), "vs_4_0");
-    if (b) {
-      dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &vsh);
-      D3D11_INPUT_ELEMENT_DESC ie[16];
-      static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
-      for (int i = 0; i < d.vk.nel; i++)
-        ie[i] = {sn[d.vk.el[i].sem], d.vk.el[i].sem == SE_POST ? 0u : d.vk.el[i].idx, vdxgi(d.vk.el[i].fmt), d.vk.el[i].stream, d.vk.el[i].off, D3D11_INPUT_PER_VERTEX_DATA, 0};
-      if (FAILED(dev->CreateInputLayout(ie, d.vk.nel, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
-      b->Release();
-    }
-    ff->vs[vks] = vsh; ff->il[vks] = lay;
-  } else { vsh = vi->second; lay = ff->il[vks]; }
-  std::string pks = kstr(d.pk);
+  if (f && memo.vk_ok && !memcmp(&memo.vk, &d.vk, sizeof d.vk)) { vsh = memo.vsh; lay = memo.lay; }
+  else {
+    std::string vks = kstr(d.vk);
+    auto vi = ff->vs.find(vks);
+    if (vi == ff->vs.end()) {
+      ID3DBlob *b = compile(ff, gen_vs(d.vk), "vs_4_0");
+      if (b) {
+        dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &vsh);
+        D3D11_INPUT_ELEMENT_DESC ie[16];
+        static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
+        for (int i = 0; i < d.vk.nel; i++)
+          ie[i] = {sn[d.vk.el[i].sem], d.vk.el[i].sem == SE_POST ? 0u : d.vk.el[i].idx, vdxgi(d.vk.el[i].fmt), d.vk.el[i].stream, d.vk.el[i].off, D3D11_INPUT_PER_VERTEX_DATA, 0};
+        if (FAILED(dev->CreateInputLayout(ie, d.vk.nel, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
+        b->Release();
+      }
+      ff->vs[vks] = vsh; ff->il[vks] = lay;
+    } else { vsh = vi->second; lay = ff->il[vks]; }
+    memo.vk = d.vk; memo.vsh = vsh; memo.lay = lay; memo.vk_ok = true;
+  }
   ID3D11PixelShader *psh = nullptr;
-  auto pi = ff->ps.find(pks);
-  if (pi == ff->ps.end()) {
-    ID3DBlob *b = compile(ff, gen_ps(d.pk), "ps_4_0");
-    if (b) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &psh); b->Release(); }
-    ff->ps[pks] = psh;
-  } else psh = pi->second;
+  if (f && memo.pk_ok && !memcmp(&memo.pk, &d.pk, sizeof d.pk)) psh = memo.psh;
+  else {
+    std::string pks = kstr(d.pk);
+    auto pi = ff->ps.find(pks);
+    if (pi == ff->ps.end()) {
+      ID3DBlob *b = compile(ff, gen_ps(d.pk), "ps_4_0");
+      if (b) { dev->CreatePixelShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &psh); b->Release(); }
+      ff->ps[pks] = psh;
+    } else psh = pi->second;
+    memo.pk = d.pk; memo.psh = psh; memo.pk_ok = true;
+  }
   if (!vsh || !psh || !lay) return;
   D3D11_MAPPED_SUBRESOURCE m;
-  if (SUCCEEDED(ctx->Map(ff->vcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.vc, sizeof d.vc); ctx->Unmap(ff->vcb, 0); }
-  if (SUCCEEDED(ctx->Map(ff->pcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.pc, sizeof d.pc); ctx->Unmap(ff->pcb, 0); }
-  ctx->OMSetBlendState(cached(ff->bs, d.blend, [&](const D3D11_BLEND_DESC *x, ID3D11BlendState **o) { dev->CreateBlendState(x, o); }), NULL, 0xFFFFFFFF);
-  ctx->OMSetDepthStencilState(cached(ff->ds, d.depth, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }), d.stencil_ref);
-  ctx->RSSetState(cached(ff->rs, d.raster, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }));
-  ctx->RSSetViewports(1, &d.viewport);
+  const bool arena = pp && pp->vc != ~0u;
+  if (arena) {
+    // the batch wrote this draw's constants into the arenas (Exec::plan); vcb and pcb keep what they had, so memo stays
+    if (!f || pp->vc != bd.vco || pp->pc != bd.pco || bd.cbs) {
+      UINT fv = pp->vc / 16, nv = FF::VSLOT / 16, fp = pp->pc / 16, np = FF::PSLOT / 16;
+      ff->ctx1->VSSetConstantBuffers1(0, 1, &ff->varena, &fv, &nv); ff->ctx1->PSSetConstantBuffers1(0, 1, &ff->parena, &fp, &np);
+      bd.vco = pp->vc; bd.pco = pp->pc; bd.cbs = false;
+    }
+  } else if (!f || !memo.vc_ok || memcmp(&memo.vc, &d.vc, sizeof d.vc)) {
+    memo.vc_ok = false;
+    if (SUCCEEDED(ctx->Map(ff->vcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.vc, sizeof d.vc); ctx->Unmap(ff->vcb, 0); memo.vc = d.vc; memo.vc_ok = true; draw_maps++; }
+  }
+  if (!arena && (!f || !memo.pc_ok || memcmp(&memo.pc, &d.pc, sizeof d.pc))) {
+    memo.pc_ok = false;
+    if (SUCCEEDED(ctx->Map(ff->pcb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, &d.pc, sizeof d.pc); ctx->Unmap(ff->pcb, 0); memo.pc = d.pc; memo.pc_ok = true; draw_maps++; }
+  }
+  ID3D11BlendState *bs; ID3D11DepthStencilState *dss; ID3D11RasterizerState *rs;
+  if (f && memo.bs_ok && !memcmp(&memo.bsd, &d.blend, sizeof d.blend)) bs = memo.bs;
+  else { bs = cached(ff->bs, d.blend, [&](const D3D11_BLEND_DESC *x, ID3D11BlendState **o) { dev->CreateBlendState(x, o); }); memo.bsd = d.blend; memo.bs = bs; memo.bs_ok = true; }
+  if (f && memo.ds_ok && !memcmp(&memo.dsd, &d.depth, sizeof d.depth)) dss = memo.dss;
+  else { dss = cached(ff->ds, d.depth, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }); memo.dsd = d.depth; memo.dss = dss; memo.ds_ok = true; }
+  if (f && memo.rs_ok && !memcmp(&memo.rsd, &d.raster, sizeof d.raster)) rs = memo.rs;
+  else { rs = cached(ff->rs, d.raster, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }); memo.rsd = d.raster; memo.rs = rs; memo.rs_ok = true; }
+  if (!f || bs != bd.bs) { ctx->OMSetBlendState(bs, NULL, 0xFFFFFFFF); bd.bs = bs; }
+  if (!f || dss != bd.dss || d.stencil_ref != bd.sref) { ctx->OMSetDepthStencilState(dss, d.stencil_ref); bd.dss = dss; bd.sref = d.stencil_ref; }
+  if (!f || rs != bd.rs) { ctx->RSSetState(rs); bd.rs = rs; }
+  if (!f || memcmp(&d.viewport, &bd.vp, sizeof bd.vp)) { ctx->RSSetViewports(1, &d.viewport); bd.vp = d.viewport; }
   for (UINT i = 0; i < d.nstages && i < 8; i++) {
     ID3D11ShaderResourceView *srv = nullptr; ID3D11SamplerState *smp = nullptr;
     if (d.stage[i].tex) {
       auto it = res.find(d.stage[i].tex);
       if (it != res.end()) {
-        ExecRes &r = it->second; uint32_t f = d.stage[i].first_level, c = d.stage[i].nlevels;
-        if (f == 0 && (c == 0 || c >= r.levels)) srv = r.srv;
-        else if (r.tex && f < r.levels) {                        // a view of only the levels the stage may read
-          if (c == 0 || f + c > r.levels) c = r.levels - f;
-          ID3D11ShaderResourceView *&v = r.srv_levels[f * 256 + c];
+        ExecRes &r = it->second; uint32_t f0 = d.stage[i].first_level, c = d.stage[i].nlevels;
+        if (f0 == 0 && (c == 0 || c >= r.levels)) srv = r.srv;
+        else if (r.tex && f0 < r.levels) {                       // a view of only the levels the stage may read
+          if (c == 0 || f0 + c > r.levels) c = r.levels - f0;
+          ID3D11ShaderResourceView *&v = r.srv_levels[f0 * 256 + c];
           if (!v) {
             D3D11_SHADER_RESOURCE_VIEW_DESC vd = {}; D3D11_TEXTURE2D_DESC td; r.tex->GetDesc(&td); vd.Format = td.Format;
-            if (r.faces == 6) { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE; vd.TextureCube.MostDetailedMip = f; vd.TextureCube.MipLevels = c; }
-            else { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D; vd.Texture2D.MostDetailedMip = f; vd.Texture2D.MipLevels = c; }
-            if (FAILED(dev->CreateShaderResourceView(r.tex, &vd, &v))) d8_log("a view of levels %u..%u of object %u failed", f, f + c - 1, d.stage[i].tex);
+            if (r.faces == 6) { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE; vd.TextureCube.MostDetailedMip = f0; vd.TextureCube.MipLevels = c; }
+            else { vd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D; vd.Texture2D.MostDetailedMip = f0; vd.Texture2D.MipLevels = c; }
+            if (FAILED(dev->CreateShaderResourceView(r.tex, &vd, &v))) d8_log("a view of levels %u..%u of object %u failed", f0, f0 + c - 1, d.stage[i].tex);
           }
           srv = v;
         }
       }
-      smp = cached(ff->ss, d.stage[i].sampler, [&](const D3D11_SAMPLER_DESC *x, ID3D11SamplerState **o) { dev->CreateSamplerState(x, o); });
+      if (f && memo.ss_ok[i] && !memcmp(&memo.ssd[i], &d.stage[i].sampler, sizeof memo.ssd[i])) smp = memo.ss[i];
+      else {
+        smp = cached(ff->ss, d.stage[i].sampler, [&](const D3D11_SAMPLER_DESC *x, ID3D11SamplerState **o) { dev->CreateSamplerState(x, o); });
+        memo.ssd[i] = d.stage[i].sampler; memo.ss[i] = smp; memo.ss_ok[i] = true;
+      }
     }
-    ctx->PSSetShaderResources(i, 1, &srv); ctx->PSSetSamplers(i, 1, &smp);
+    if (!f || srv != bd.srv[i]) { ctx->PSSetShaderResources(i, 1, &srv); bd.srv[i] = srv; }
+    if (!f || smp != bd.smp[i]) { ctx->PSSetSamplers(i, 1, &smp); bd.smp[i] = smp; }
   }
-  ctx->VSSetShader(vsh, NULL, 0); ctx->PSSetShader(psh, NULL, 0); ctx->IASetInputLayout(lay);
-  ctx->VSSetConstantBuffers(0, 1, &ff->vcb); ctx->PSSetConstantBuffers(0, 1, &ff->pcb);
-  ctx->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)d.topology);
+  if (!f || vsh != bd.vs) { ctx->VSSetShader(vsh, NULL, 0); bd.vs = vsh; }
+  if (!f || psh != bd.ps) { ctx->PSSetShader(psh, NULL, 0); bd.ps = psh; }
+  if (!f || lay != bd.lay) { ctx->IASetInputLayout(lay); bd.lay = lay; }
+  if (!arena && (!f || !bd.cbs)) { ctx->VSSetConstantBuffers(0, 1, &ff->vcb); ctx->PSSetConstantBuffers(0, 1, &ff->pcb); bd.cbs = true; bd.vco = bd.pco = ~0u; }
+  if (!f || d.topology != bd.topo) { ctx->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)d.topology); bd.topo = d.topology; }
+  auto set_vb = [&](UINT i, ID3D11Buffer *b, UINT stride) {
+    if (f && bd.vb[i] == b && bd.stride[i] == stride && bd.voff[i] == 0) return;
+    UINT off = 0; ctx->IASetVertexBuffers(i, 1, &b, &stride, &off); bd.vb[i] = b; bd.stride[i] = stride; bd.voff[i] = 0;
+  };
+  auto set_ib = [&](ID3D11Buffer *b, bool i32) {
+    DXGI_FORMAT fm = i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
+    if (f && bd.ib == b && bd.ifmt == fm) return;
+    ctx->IASetIndexBuffer(b, fm, 0); bd.ib = b; bd.ifmt = fm;
+  };
   if (d.kind == XD_UP || d.kind == XD_UP_INDEXED) {
-    UINT at = 0, stride = d.up_stride, off = 0;
-    if (!ring(ctx, ff->upvb, FF::UPVB, ff->upvbPos, data, d.up_vbytes, stride, &at)) { d8_once("upbig", "a ...UP draw larger than the ring: skipped"); return; }
-    ctx->IASetVertexBuffers(0, 1, &ff->upvb, &stride, &off);
+    UINT at = 0, stride = d.up_stride;
+    if (pp && pp->vb != ~0u) at = pp->vb;
+    else if (!ring(ctx, ff->upvb, FF::UPVB, ff->upvbPos, data, d.up_vbytes, stride, &at)) { d8_once("upbig", "a ...UP draw larger than the ring: skipped"); return; }
+    else draw_maps++;
+    set_vb(0, ff->upvb, stride);
     UINT first = at / stride;
     if (d.kind == XD_UP) { ctx->Draw(d.count, first); return; }
     UINT isz = d.i32 ? 4 : 2, ia;
-    if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data + d.up_vbytes, d.ibytes, isz, &ia)) return;
-    ctx->IASetIndexBuffer(ff->upib, d.i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+    if (pp && pp->ib != ~0u) ia = pp->ib;
+    else if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data + d.up_vbytes, d.ibytes, isz, &ia)) return;
+    else draw_maps++;
+    set_ib(ff->upib, d.i32);
     ctx->DrawIndexed(d.count, ia / isz, (INT)first);
     return;
   }
@@ -711,18 +1028,20 @@ void Exec::draw(const XDraw &d, const uint8_t *data) {
     if (!d.stream[i].buf) continue;
     auto it = res.find(d.stream[i].buf);
     if (it == res.end() || !it->second.buf) { d8_once("nostream", "a draw reads a stream whose buffer is gone (skipped)"); return; }
-    UINT stride = d.stream[i].stride, off = 0; ctx->IASetVertexBuffers(i, 1, &it->second.buf, &stride, &off);
+    set_vb(i, it->second.buf, d.stream[i].stride);
   }
   if (d.kind == XD_DRAW) { ctx->Draw(d.count, d.start); return; }
   if (d.kind == XD_INLINE_INDEXED) {
     UINT isz = d.i32 ? 4 : 2, ia;
-    if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data, d.ibytes, isz, &ia)) return;
-    ctx->IASetIndexBuffer(ff->upib, d.i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+    if (pp && pp->ib != ~0u) ia = pp->ib;
+    else if (!ring(ctx, ff->upib, FF::UPIB, ff->upibPos, data, d.ibytes, isz, &ia)) return;
+    else draw_maps++;
+    set_ib(ff->upib, d.i32);
     ctx->DrawIndexed(d.count, ia / isz, (INT)d.base);
     return;
   }
   auto ib = res.find(d.ib);
   if (ib == res.end() || !ib->second.buf) { d8_once("noib", "an indexed draw whose index buffer is gone (skipped)"); return; }
-  ctx->IASetIndexBuffer(ib->second.buf, d.ib32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, 0);
+  set_ib(ib->second.buf, d.ib32 != 0);
   ctx->DrawIndexed(d.count, d.start, (INT)d.base);
 }

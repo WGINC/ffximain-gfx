@@ -48,6 +48,10 @@ Time spent inside each D3D call: off by default; `call_time=1` (in xikit.ini wit
 `d3dprof.ini` next to the standalone DLL) adds `us_per_call` and `us_per_frame` per call site (docs/KIT.md, "Where the
 time goes"). Calls made on other threads are counted as `other_thread_calls`, not profiled.
 
+Kernel calls: off by default; `kernel_calls=1` (or `2`: every win32u stub) counts the system calls the process makes
+through win32u.dll's x86 stubs and charges D3DKMT Lock2/Unlock2/WaitForSynchronizationObjectFromCpu/Render to the
+device call or buffer Lock/Unlock they happen in (docs/KIT.md).
+
 ## speedfix: the performance fixes, as a mod of the kit
 
 `speedfix/` is speedfix_hook rewritten as an xikit mod: state cache, UP batching, occlusion stagger and skips, frame
@@ -76,5 +80,9 @@ runs d3dprof inside it.
 Each build writes `dist/VERSION.txt`: the source commit, the date, the tree's gate result and every file's
 SHA-256. `xikit.log` repeats its first line, so a log says which kit wrote it.
 
-Test: `xikit/test/test_xikit.py` (32-bit Wine and `numpy`, the real FFXiMain.dll; eight runs, docs/KIT.md, Tests).
+`xisamp/` is the native sampler (`sample=2` in xikit.ini; `xisamp/build.sh`, copied into `xikit/dist/` by its
+build): a 64-bit process that samples the render thread's x86 and native (ARM64) positions together;
+`xisamp/read.py` reads its `xikit_native_<pid>.csv`, `xisamp/test_xisamp.py` tests it under Wine (docs/KIT.md).
+
+Test: `xikit/test/test_xikit.py` (Wine and `numpy`, the real FFXiMain.dll; twelve runs, docs/KIT.md, Tests).
 Is the kit current? `pipeline/tool_drift.py` rebuilds it and compares with `kit/BUILD.lock.json`.

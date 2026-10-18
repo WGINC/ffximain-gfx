@@ -37,9 +37,31 @@ code that uses Direct3D 11.
     it ends while the game runs, the game is ended with a log line: the game's resources live in it.
   - Chosen by `d3d8on11.ini` next to the DLL (`[d3d8on11]` `mode=direct|thread|remote`), or the `D8ON11_MODE`
     environment variable, which wins. The log's second line names the mode in use.
-  - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame) and, in `thread` and `remote`,
+  - Every 600 Presents the log gets `executor stats` (the executor's busy time a frame, split into draws, uploads,
+    Present, readbacks and the rest) and, in `thread` and `remote`,
     `ring stats`: how long the game thread waited for room, for pacing and for answers, and the MB it sent. In
     `remote` mode the executor's line is in `d3d8on11_exec.log`.
+  - The executor filter, `exec_filter=1` in `d3d8on11.ini` (`D8ON11_EXEC_FILTER` wins; default 1 since the owner's run of 16 Oct, `exec_filter=0` turns it off): a draw skips the
+    Direct3D 11 calls that would set what the executor last set (shaders, layout, states, views, samplers, buffers,
+    viewport, topology), the constant-buffer writes whose bytes equal the last, and the key and description lookups
+    of a draw like the one before it. Whatever else sets context state (Clear of rectangles, render targets, a swap
+    chain change, a freed object) makes it forget what it set. The tests check that each mode draws every scene
+    exactly as `direct` without it. `exec_ab=1` measures it in the game: `exec_ab_after` seconds (60) after the start,
+    the filter alternates off, on, on, off for `exec_ab_phase` seconds (30) each, `exec_ab_rounds` times (4), the
+    first `exec_ab_settle` frames (60) of a phase left out; the log gets `executor ab:` lines with the game's frame
+    time and the executor's busy time per phase, then `exec_filter` as set again.
+  - The executor's batches, `exec_batch=1` (`D8ON11_EXEC_BATCH` wins; default 1, `exec_batch=0` turns them off):
+    the executor holds the game's records (draws, binds, states, uploads) and runs them together when it must
+    answer, at Present, when the ring is empty, or when the game waits for room. Before a batch runs it maps each
+    arena once: the vertex and pixel shader constants of every draw in it, its DrawPrimitiveUP vertices and its UP
+    and inline indices. A draw then binds its constants at its offset (`VSSetConstantBuffers1`/`PSSetConstantBuffers1`)
+    instead of a Map of its own. Why: run 14204 (dgVoodoo) counted about 2,102 `NtGdiDdDDILock2` a frame on the
+    render thread, 1,730 inside draws and binds; that each D3D11 Map costs such a pair is inferred, not measured.
+    Constant offsets are used only where the driver reports `ConstantBufferOffsetting`, NOOVERWRITE on the constant
+    arenas only where it reports `MapNoOverwriteOnDynamicConstantBuffer`; the log's `constant buffer offsets:` line
+    says which. Without offsets, constants are mapped per draw as before. The tests check that each mode, filter off
+    and on, draws every scene exactly as `direct` without batches. `exec_ab_lever=batch` makes `exec_ab` alternate
+    the batches instead of the filter; the `executor batches` stats line gives flushes, arena Maps and draw Maps a frame.
   - Diagnostics: `D8ON11_DRIVER=warp` makes the D3D11 device on WARP, Microsoft's software rasterizer, instead of the
     GPU; `D8ON11_DEBUG_LAYER=1` asks for the D3D11 debug layer and writes its messages to the log at each Present
     (Windows needs the optional Graphics Tools feature, or the device is not made). Both log a `D3D11 device:` line.
@@ -52,6 +74,27 @@ code that uses Direct3D 11.
 **Locked data.** Textures and buffers keep a CPU copy that the game writes through Lock. Unlock sends what changed
 (a buffer's range, a texture level). A lockable render target or the back buffer read back at LockRect waits for the
 executor to reach it, as the game's occlusion readback does on any D3D8.
+
+**Readback snapshots (X_SNAP).** One exception lets a lock skip that wait: a small lockable render target (up to 1 KB,
+the 16x16 occlusion target's size) that is only written by CopyRects.
+- After each such copy the executor copies the target to a staging texture. At each Present it maps the copies the GPU
+  has finished, with D3D11_MAP_FLAG_DO_NOT_WAIT, so it never waits. Each one goes into a slot of a table after the
+  reply area (1024 slots), under a sequence lock.
+- The D3D8 side counts every write to the surface: a copy, or an unlock after a writing lock. A surface ever set as
+  the render target (so draws and Clear write it) never takes a snapshot.
+- LockRect reads the slot only when the slot's count equals the surface's, so the snapshot is the surface as it is
+  now. Otherwise it reads back as before.
+- This is exact because the only D3D8 methods that write a plain render-target surface are CopyRects, being the bound
+  target (Clear and draws), and an unlock after a writing lock.
+- It helps only a lock made after a Present that follows the copy: the game's own readback (0x1006C8B0) locks right
+  after its copy, so it reads back as before. speedfix's `occlusion_late` lever locks a frame later.
+- Every 600 Presents the log gets `readback snapshots` (locks answered from a snapshot, and locks that read back).
+
+**CopyRects from the back buffer.** The back buffer is B8G8R8A8 (DXGI swap chains have no B8G8R8X8), while an
+X8R8G8B8 surface is B8G8R8X8. D3D11's CopySubresourceRegion copies only within a type group, so before 18 Oct a copy
+from the back buffer into an X8R8G8B8 surface silently copied nothing. D3D8 counts the two as one format and allows the
+copy. Such a copy is now drawn instead (d8_exec.cpp `copy_draw`: through two scratch textures, reading exact texels with
+Load). It was found by the new `basic` check below; Wine's d3d8 passed it.
 
 **Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
 area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. Uploads
@@ -239,8 +282,9 @@ Checked, area by area:
 
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`
 with the x86 `d8x.exe`: Wine here runs x86 only):
-- `basic`: 24 checks (Clear and read back, a lockable render target, textures, buffers, state blocks, transforms,
-  lights, shader handles, Reset, release, a rectangle lock of the target, tweening). All pass on both (tweening on ours
+- `basic`: 25 checks (Clear and read back, a lockable render target, a copied lockable render target read after a
+  write through a lock, textures, buffers, state blocks, transforms, lights, shader handles, Reset, release, a
+  rectangle lock of the target, tweening). All pass on both (tweening on ours
   only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
 - `scenes`: 27 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
   - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements
@@ -307,7 +351,11 @@ with the x86 `d8x.exe`: Wine here runs x86 only):
     KEEP=1 python3 test/test_d3d8on11.py
 
 - `frames`, in each mode: 600 frames of Clear and Present, with a read-back each frame from frame 30, through a 64 KB
-  ring. All must run, and the stats lines must be written. (This test exists because a change made while adding the
+  ring. All must run, and the stats lines must be written. Each frame also locks a 16x16 lockable render target that
+  the frame before copied the back buffer into, then copies this frame's. Every lock must read the frame before's
+  colour, and the `readback snapshots` line must show some answered from a snapshot. On 18 Oct: `direct`, 599 of 599;
+  `thread` and `remote`, 569 (30 read back: frames 1 to 30, when nothing yet makes the game wait for the executor,
+  which then runs up to two frames behind, so the copy has not run when the next frame locks). (This test exists because a change made while adding the
   stats wrote a wrong size into every record header; the scenes, which present a few times, had not shown it. It was
   found and fixed before any commit.)
 - The scenes again in `thread` and `remote` through a 64 KB ring whose counters start at 0xFFFF0100: about 165 KB

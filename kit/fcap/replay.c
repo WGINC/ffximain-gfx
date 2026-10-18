@@ -5,6 +5,10 @@
        OUT_PREFIX_replay.pic   the back buffer after the frame's calls (the kit's picture format, "XPIC")
        OUT_PREFIX_capture.pic  the picture the capture took in the game (what the game's own d3d8.dll drew)
        stdout                  one line per note of the capture and per call that failed here
+     fcap_replay.exe CAPTURE.fcap OUT_PREFIX N
+       as above, then the frame's calls (and the buffer updates between them) N more times with a Present after each,
+       timed with QueryPerformanceCounter: a benchmark of the device the calls go to. The figures are of this machine
+       and this device (under Wine, of Wine and its renderer), not of the game's machine
 
    Objects are created as the capture describes them; every call goes through the device's vtable with the
    argument words as recorded (so a float such as Clear's Z keeps its bits), object pointers and vertex shader handles
@@ -108,6 +112,21 @@ static void write_pic(const char *path, uint32_t fmt, uint32_t w, uint32_t h, ui
 }
 static LRESULT CALLBACK wp(HWND h, UINT m, WPARAM w, LPARAM l) { return DefWindowProcA(h, m, w, l); }
 
+static void save_picture(const char *prefix) {
+  /* the picture this device drew */
+  IDirect3DSurface8 *bb = NULL, *img = NULL; D3DSURFACE_DESC sd; D3DLOCKED_RECT lr;
+  if (SUCCEEDED(IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &bb)) && SUCCEEDED(IDirect3DSurface8_GetDesc(bb, &sd)) &&
+      SUCCEEDED(IDirect3DDevice8_CreateImageSurface(d, sd.Width, sd.Height, sd.Format, &img)) &&
+      SUCCEEDED(IDirect3DDevice8_CopyRects(d, bb, NULL, 0, img, NULL)) && SUCCEEDED(IDirect3DSurface8_LockRect(img, &lr, NULL, D3DLOCK_READONLY))) {
+    uint32_t rb, rows; fmt_rows(sd.Format, sd.Width, sd.Height, &rb, &rows);
+    uint8_t *tmp = malloc(rb * rows);
+    for (uint32_t y = 0; y < rows; y++) memcpy(tmp + y * rb, (uint8_t *)lr.pBits + (int)y * lr.Pitch, rb);
+    char path[MAX_PATH]; snprintf(path, sizeof path, "%s_replay.pic", prefix);
+    write_pic(path, sd.Format, sd.Width, sd.Height, rb / sd.Width, tmp, rb);
+    free(tmp); IDirect3DSurface8_UnlockRect(img);
+  } else printf("replay: the back buffer could not be read\n");
+  if (img) IDirect3DSurface8_Release(img); if (bb) IDirect3DSurface8_Release(bb);
+}
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   if (argc < 3) { printf("usage: fcap_replay CAPTURE.fcap OUT_PREFIX\n"); return 2; }
@@ -138,12 +157,20 @@ int main(int argc, char **argv) {
   if (sep_ds && SUCCEEDED(IDirect3DDevice8_CreateDepthStencilSurface(d, hd->ds_width, hd->ds_height, (D3DFORMAT)hd->ds_format, D3DMULTISAMPLE_NONE, &sepds))) {}
 
   uint32_t ncalls = 0, nobj = 0; int ended = 0;
-  uint8_t *p = buf + sizeof *hd, *end = buf + size;
+  int reps = argc > 3 ? atoi(argv[3]) : 0, pass = 0;
+  uint8_t *p = buf + sizeof *hd, *end = buf + size, *first_call = NULL;
+  LARGE_INTEGER qf, t0, t1; QueryPerformanceFrequency(&qf);
+  double tsum = 0, tmax = 0, tmin = 1e30;
+  for (;;) {
+  if (pass > 0) QueryPerformanceCounter(&t0);
   while (p + 8 <= end && !ended) {
     uint32_t tag = ((uint32_t *)p)[0], len = ((uint32_t *)p)[1];
     uint8_t *q = p + 8; p = q + len;
     if (p > end) { printf("replay: the capture is cut short\n"); break; }
     uint32_t *u = (uint32_t *)q;
+    if (tag == FC_CALL && !first_call) first_call = q - 8;
+    /* a repeat: only the calls and the buffer updates between them (the objects exist) */
+    if (pass > 0 && tag != FC_CALL && tag != FC_BUFDATA && tag != FC_END) continue;
     switch (tag) {
     case FC_TEX: case FC_CUBE: {
       int cube = tag == FC_CUBE;
@@ -264,19 +291,20 @@ int main(int argc, char **argv) {
     default: printf("replay: unknown record %u\n", tag);
     }
   }
-  /* the picture this device drew */
-  IDirect3DSurface8 *bb = NULL, *img = NULL; D3DSURFACE_DESC sd; D3DLOCKED_RECT lr;
-  if (SUCCEEDED(IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &bb)) && SUCCEEDED(IDirect3DSurface8_GetDesc(bb, &sd)) &&
-      SUCCEEDED(IDirect3DDevice8_CreateImageSurface(d, sd.Width, sd.Height, sd.Format, &img)) &&
-      SUCCEEDED(IDirect3DDevice8_CopyRects(d, bb, NULL, 0, img, NULL)) && SUCCEEDED(IDirect3DSurface8_LockRect(img, &lr, NULL, D3DLOCK_READONLY))) {
-    uint32_t rb, rows; fmt_rows(sd.Format, sd.Width, sd.Height, &rb, &rows);
-    uint8_t *tmp = malloc(rb * rows);
-    for (uint32_t y = 0; y < rows; y++) memcpy(tmp + y * rb, (uint8_t *)lr.pBits + (int)y * lr.Pitch, rb);
-    char path[MAX_PATH]; snprintf(path, sizeof path, "%s_replay.pic", argv[2]);
-    write_pic(path, sd.Format, sd.Width, sd.Height, rb / sd.Width, tmp, rb);
-    free(tmp); IDirect3DSurface8_UnlockRect(img);
-  } else printf("replay: the back buffer could not be read\n");
-  if (img) IDirect3DSurface8_Release(img); if (bb) IDirect3DSurface8_Release(bb);
+  if (pass == 0) save_picture(argv[2]);
+  else {
+    IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
+    QueryPerformanceCounter(&t1);
+    double ms = (double)(t1.QuadPart - t0.QuadPart) * 1000.0 / (double)qf.QuadPart;
+    tsum += ms; if (ms > tmax) tmax = ms; if (ms < tmin) tmin = ms;
+  }
+  if (!ended || !first_call || pass >= reps) break;
+  if (pass == 0) { IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); printf("replay: %u objects, %u calls, %d failures\n", nobj, ncalls, g_fail); }
+  pass++; p = first_call; ended = 0;
+  }
+  if (reps > 0 && pass > 0)
+    printf("replay: %d repeats of the frame's calls with a Present after each: %.3f ms a frame on average, %.3f at least, "
+           "%.3f at most (this machine and device)\n", pass, tsum / pass, tmin, tmax);
   printf("replay: %u objects, %u calls, %d failures%s\n", nobj, ncalls, g_fail, ended ? "" : " (no end record)");
   IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
   IDirect3DDevice8_Release(d); IDirect3D8_Release(d3d);

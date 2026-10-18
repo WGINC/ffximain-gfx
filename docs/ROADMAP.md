@@ -7,6 +7,9 @@ The owner's goals, as stated on 6 Oct:
 
 docs/RENDERER.md, written earlier, phrased the third as "a possible graphical overhaul".
 
+**17 Oct:** docs/REEVALUATION.md re-reads all of the work and data from scratch, corrects what did not hold, and
+sets three tests (T1–T3) that bound what this machine can reach before any further lever work.
+
 This document charts the performance patch step by step, and lists for each goal what it needs and what exists
 already. Every number names its source. Where something has not been measured or established, the text says so.
 
@@ -172,6 +175,40 @@ and 112 functions see a full tick every frame.
   Both change what those 112 functions see, and Frame_Render is flag 4. This comes last, with its own tests.
 - **The under-count below 60 is a correctness issue as well as a performance one.** Fixing it is a separate
   decision for the owner.
+- **Reaching 60 itself (17 Oct):** the limiter (0x10011A00) times frames with timeGetTime's whole milliseconds.
+  With a tick count of 1 and a scale of 1.0 that gives 17 ms frames, 58.8 fps. speedfix's `precise_pacing` times it
+  with the performance counter instead.
+  - The owner's tick count `[[0x104568FC]+0x30]` is 1 and the scale 1.0: speedfix logged both every minute of both
+    16 Oct runs.
+  - The tick count is the setting players change. The game's own setter is 0x1008A0E0, which writes it and the
+    global 0x1035B5E8. Ashita's fps addon finds the setter by a byte pattern (`81EC000100003BC174218B0D`, at
+    0x1008A0EA) and writes `+0x30` of the object the global at +0xC points to. Windower's `FrameRateDivisor`
+    (2 = 30 fps, 1 = 60, 0 = uncapped) is documented as the same setting. That it writes the same field is not
+    established: Windower's code has not been read here.
+  - On the owner's machine the game does not reach the limiter. Frames are 27 to 37 ms through dgVoodoo and through
+    ours, and the limiter waited 0 ms in nearly every minute after the login. `precise_pacing` changed nothing
+    measurable (both A/Bs within their spread). It matters only once frames are shorter than 16.7 ms.
+- **Above 60 (17 Oct, corrected):**
+  - From the code (docs/RENDERER.md 3a): with the tick count at 0 the limiter does not wait, and
+    `Camera_GetFrameScale` returns `max(step, 1)`, so each frame advances its 112 callers by at least one tick.
+  - What that does in the running game has not been observed here. Players run with the setting at 0 (Windower
+    `FrameRateDivisor 0`, Ashita's fps addon). An earlier note here said the game's time "would run at twice real
+    time" at 120 fps as a fact. It is a reading of the code, untested.
+  - The owner's friend reports hundreds of fps under Vulkan on Linux and says he ties the game's clock to the frame
+    rate. How, and what that does to the game's time, is not known here.
+  - A test that would settle it: the tick count set to 0 on a machine that runs above 60, and a clock in the game
+    (the Vana'diel clock, an animation, a walk over a known distance) timed against real time.
+- **Going past 60 (18 Oct): speedfix `uncap` and `frame_step`** (docs/RENDERER.md 3a, kit/speedfix/README.md).
+  `uncap=1` sets the tick count to 0 (no wait); `frame_step=1` gives the step's readers whole ticks with the fraction
+  carried, so their time adds up to real time at any frame rate; `frame_step=2` also gives the untruncated step at
+  the 14 sites where `pipeline/frame_step_users.py` follows every use of it to a comparison, a drop or an
+  accumulator. Tested in sf_host on both builds (6A995428, 6AC37846) with the game's own limiter and step code.
+  - Not tested in the running game. Not known: per-frame code that ignores the step (0x1024DE20 is one), what a step
+    of 0 does at the 204 whole sites, and whether the server notices anything.
+  - Most of what the step drives still moves in whole ticks: above 60 fps that motion is no smoother, it just stops
+    running fast.
+  - The test: `uncap=1 frame_step=1` (then 2), the log's `frame_step=` line (the step's sum against the counter),
+    and an in-game clock or a walk over a known distance timed against real time, against `uncap=0 frame_step=0`.
 
 ### P5. Startup and load time
 

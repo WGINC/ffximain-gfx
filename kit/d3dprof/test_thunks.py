@@ -75,7 +75,7 @@ caller = GAME + 0x1235
 call(72, [4, 2, 0x1000, 20], ret=GAME + 0xCDE2, above=[0] * 3 + [caller])   # 2 params + this + ret = 4 dwords
 sites = {}
 for k in range(8192):
-    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI4x', u.mem_read(sym['_g_sites'] + 40 * k, 40))
+    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI16x4x', u.mem_read(sym['_g_sites'] + 56 * k, 56))   # (then kc[4], padding)
     if used: sites[(site, slot, kind)] = (calls, prims)
 assert sites.get((GAME + 0x9737, 50, 0)) == (1, 0), sites
 assert sites.get((GAME + 0xCDE2, 72, 0)) == (1, 2), sites
@@ -164,10 +164,40 @@ assert u.reg_read(UC_X86_REG_EIP) == TRET and u.reg_read(UC_X86_REG_ESP) == sp +
 assert u.reg_read(UC_X86_REG_EAX) == 0x1003 and u.reg_read(UC_X86_REG_EDX) == 0x1234, 'EAX/EDX not as the method left them'
 assert struct.unpack('<I', u.mem_read(sym['_g_ct_depth'], 4))[0] == 0
 for k in range(8192):
-    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI4x', u.mem_read(sym['_g_sites'] + 40 * k, 40))
+    site, slot, used, kind, calls, red, prims, ticks, timed = struct.unpack('<IHBBIIQQI16x4x', u.mem_read(sym['_g_sites'] + 56 * k, 56))   # (then kc[4], padding)
     if used and site == TRET and slot == 3: break
 else: raise AssertionError('no site for the timed call')
 assert (calls, timed, ticks) == (1, 1, 100), (calls, timed, ticks)
+# kernel calls (kernel_calls=1): what a call's site is charged is read from the attributed counters at entry and at
+# return, less what nested calls took. A fake stub counter KC0 stands for Lock2's; slot 4's method counts 1, calls
+# slot 3 through its thunk (as a mod's hook calling the device would; slot 3 counts 2), then counts 1 more: slot 4's
+# site gets 2, slot 3's 2. A bound VB's Lock that counts 1 is a site of its own (slot 99, VB_Lock) with 1
+KC0 = STUB + 0xF20; u.mem_write(KC0, struct.pack('<I', 0))
+inc = b'\xFF\x05' + struct.pack('<I', KC0)
+M3, M4 = VT + 0xB00, VT + 0xC00
+u.mem_write(M3, inc + inc + b'\xB8\x03\x10\x00\x00\xC2\x04\x00')
+u.mem_write(M4, inc + b'\x68\xEE\xFF\xC0\x00\xB8' + struct.pack('<I', sym['_d3dprof_t3']) + b'\xFF\xD0' + inc + b'\xB8\x04\x10\x00\x00\xC2\x04\x00')
+INNER_RA = M4 + 6 + 5 + 5 + 2
+u.mem_write(sym['_g_next'] + 12, struct.pack('<2I', M3, M4))
+att = sym['_g_kc_att']; u.mem_write(att, struct.pack('<I', KC0)); u.mem_write(sym['_g_kc_on'], struct.pack('<I', 1))
+KRET = GAME + 0x7788; u.mem_write(KRET, b'\xF4')
+sp = STACK - 0x100; u.mem_write(sp, struct.pack('<2I', KRET, 0x55AA0000)); u.reg_write(UC_X86_REG_ESP, sp)
+u.emu_start(sym['_d3dprof_t4'], KRET)
+assert u.reg_read(UC_X86_REG_EAX) == 0x1004 and u.reg_read(UC_X86_REG_ESP) == sp + 8
+assert struct.unpack('<I', u.mem_read(KC0, 4))[0] == 4 and struct.unpack('<I', u.mem_read(sym['_g_ct_depth'], 4))[0] == 0
+u.mem_write(VB + 0x800 + 0x40 * 14, inc + lock); u.mem_write(VBVT + 44, struct.pack('<I', VB + 0x800 + 0x40 * 14))   # (new code at a new address: Unicorn keeps translated blocks)
+LOCK2SITE = GAME + 0x4500
+eax, popped = vcall(lk, [VB, 0, 16, PP, 0], LOCK2SITE)
+assert eax == 0 and popped == 4 + 20, (eax, popped)
+ks = {}
+for k in range(8192):
+    site, slot, used, kind = struct.unpack('<IHBB', u.mem_read(sym['_g_sites'] + 56 * k, 8))
+    calls = struct.unpack('<I', u.mem_read(sym['_g_sites'] + 56 * k + 8, 4))[0]
+    if used: ks[(site, slot, kind)] = (calls,) + struct.unpack('<4I', u.mem_read(sym['_g_sites'] + 56 * k + 36, 16))
+assert ks.get((KRET, 4, 0)) == (1, 2, 0, 0, 0), ks.get((KRET, 4, 0))
+assert ks.get((INNER_RA, 3, 1)) == (1, 2, 0, 0, 0), ks.get((INNER_RA, 3, 1))
+assert ks.get((LOCK2SITE, 99, 0)) == (1, 1, 0, 0, 0), ks.get((LOCK2SITE, 99, 0))
+print('ok: kernel calls: each charged to the call it happened in, exclusive of a nested device call; a VB Lock is a site of its own')
 print('ok: call time: the call came back through the return stub to its caller with the method\'s pop, EAX and EDX; '
       'one interval of the counter recorded at its site')
 print('ok: buffer trace: the bound VB got wrapped Lock/Unlock with the right pops; Unlock recorded its 64 bytes, '

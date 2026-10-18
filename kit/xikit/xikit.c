@@ -54,7 +54,7 @@ void d3dprof_trace_start(int label); void d3dprof_trace_relabel(int label); void
 int d3dprof_trace_write(const char *path, const char *note);
 /* frame capture (kit/d3dprof/fcap.c): one frame with every piece of data its calls use, for kit/fcap/replay.c */
 extern int fcap_enabled; void fcap_arm(void); int fcap_busy(void); unsigned fcap_written(void);
-extern int d3dprof_call_time; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot);
+extern int d3dprof_call_time, d3dprof_kernel_calls; extern uint32_t d3dprof_via_stk[64]; extern volatile uint32_t d3dprof_via_depth; const char *d3dprof_method(int slot); const char *d3dprof_kc_note(void);
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
@@ -196,6 +196,11 @@ static const char DEFAULT_INI[] =
   "; 1 (with profile=1): also the time inside each Direct3D call, per call site, on the render thread (us_per_call in\r\n"
   ";    d3dprof_<pid>.csv); takes effect at the next start\r\n"
   "call_time=0\r\n"
+  "; 1 or 2 (with profile=1): count the process's kernel calls through win32u.dll's system-call stubs (Lock2, Unlock2,\r\n"
+  ";    WaitForSynchronizationObjectFromCpu, Render and other D3DKMT calls; 2: every stub), per frame, and charge the first\r\n"
+  ";    four to the Direct3D call or vertex/index buffer Lock/Unlock they happen in (d3dprof_<pid>.csv, k_ columns and\r\n"
+  ";    '# kernel' lines); takes effect at the next start\r\n"
+  "kernel_calls=0\r\n"
   "; mod DLLs next to xikit.dll, comma-separated (sdk/, docs/SDK.md); loaded at the start; their hooks stay on with\r\n"
   ";    swap=0 and go off with the swaps for F9 and a trace's unswapped frames\r\n"
   "mods=\r\n"
@@ -208,7 +213,10 @@ static const char DEFAULT_INI[] =
   "capture=\r\ncapture_count=1\r\ncapture_after=0\r\ncapture_pages=20000\r\ncapture_follow=16\r\n"
   "; 1: sample the render thread every sample_ms (xikit_samples_<pid>.csv; kit/d3dprof/samples.py reads it); frame timing\r\n"
   ";    (xikit_timing_<pid>.csv) is always written, every report_every frames; takes effect at the next start\r\n"
-  "sample=0\r\nsample_ms=1\r\n"
+  "; 2: the native sampler instead (xisamp_arm64.exe or xisamp_x64.exe from this folder): each sample holds where the x86\r\n"
+  ";    code was and where the machine was natively (the emulator, Windows' ARM64 code, the driver); xikit_native_<pid>.csv\r\n"
+  ";    every sample_window seconds (kit/xisamp/read.py reads it)\r\n"
+  "sample=0\r\nsample_ms=1\r\nsample_window=30\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
   ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
   "facts=0\r\n"
@@ -865,7 +873,7 @@ static void report_timing(void) {
       fclose(f);
     }
   }
-  if (!g_sampling) return;
+  if (g_sampling != 1) return;
   snprintf(path, sizeof path, "%s\\xikit_samples_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
   EnterCriticalSection(&g_samplock);
@@ -880,11 +888,40 @@ static void report_timing(void) {
   LeaveCriticalSection(&g_samplock);
   fclose(f);
 }
+/* sample=2: the native sampler (kit/xisamp), a 64-bit process of its own for the machine Windows runs on, started
+   once the render thread is known; it records the x86 position and the native one (on ARM64: the emulator, Windows'
+   own ARM64 code, the driver) of each sample together, in xikit_native_<pid>.csv */
+static int g_native_started, g_sample_window = 30;
+static void start_native_sampler(void) {
+  g_native_started = 1;
+  typedef BOOL (WINAPI *IW2)(HANDLE, USHORT *, USHORT *);
+  IW2 iw2 = (IW2)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process2");
+  USHORT pm = 0, nm = 0;
+  if (!iw2 || !iw2(GetCurrentProcess(), &pm, &nm)) { klog("sample=2: IsWow64Process2 not available: the native machine is not known, no native sampler"); return; }
+  const char *arch = nm == 0xAA64 ? "arm64" : nm == 0x8664 ? "x64" : NULL;
+  if (!arch) { klog("sample=2: no native sampler for machine 0x%X", nm); return; }
+  char exe[MAX_PATH], cmd[2048]; snprintf(exe, sizeof exe, "%s\\xisamp_%s.exe", g_dir, arch);
+  int k = snprintf(cmd, sizeof cmd, "\"%s\" %lu %lu %d %d \"%s\" 0x%X", exe, (unsigned long)GetCurrentProcessId(), (unsigned long)g_render_thread,
+                   g_sample_ms, g_sample_window, g_out, g_rel);
+  for (int i = 0; i < g_shift[0] && k < (int)sizeof cmd - 40; i++)
+    k += snprintf(cmd + k, sizeof cmd - k, " %X:%X:%d", (uint32_t)g_shift[1 + 3 * i], (uint32_t)g_shift[2 + 3 * i], g_shift[3 + 3 * i]);
+  /* the stutters: each sample reads g_frame, and frames of spike_ms or more get their own samples (xisamp.c) */
+  if (g_cfg.spike_ms > 0 && k < (int)sizeof cmd - 40) k += snprintf(cmd + k, sizeof cmd - k, " frame=%X spike=%d", (uint32_t)(uintptr_t)&g_frame, g_cfg.spike_ms);
+  STARTUPINFOA si; PROCESS_INFORMATION pi; memset(&si, 0, sizeof si); si.cb = sizeof si;
+  if (CreateProcessA(exe, cmd, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+    klog("sample=2: native sampler started (%s, pid %lu): the render thread %lu every %d ms, xikit_native_%lu.csv every %d s (kit/xisamp/read.py)%s",
+         exe, (unsigned long)pi.dwProcessId, (unsigned long)g_render_thread, g_sample_ms, (unsigned long)GetCurrentProcessId(), g_sample_window,
+         g_cfg.spike_ms > 0 ? "; frames over spike_ms with their own samples in xikit_stutters_<pid>.csv" : "");
+    CloseHandle(pi.hThread); CloseHandle(pi.hProcess);
+  } else klog("sample=2: could not start %s (error %lu)", exe, GetLastError());
+}
 static void start_sampler(void) {
   g_sampling = GetPrivateProfileIntA("xikit", "sample", 0, g_ini);
   g_sample_ms = GetPrivateProfileIntA("xikit", "sample_ms", 1, g_ini); if (g_sample_ms < 1) g_sample_ms = 1;
+  g_sample_window = GetPrivateProfileIntA("xikit", "sample_window", 30, g_ini); if (g_sample_window < 1) g_sample_window = 30;
   QueryPerformanceFrequency(&g_qpf);
-  if (!g_sampling) return;
+  if (g_sampling == 2) { klog("sample=2: the native sampler starts with the first frame"); return; }
+  if (g_sampling != 1) { g_sampling = 0; return; }
   g_h_self = (Hist *)VirtualAlloc(NULL, 3 * sizeof(Hist), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
   if (!g_h_self) { g_sampling = 0; klog("sample: could not reserve the tables"); return; }
   g_h_caller = g_h_self + 1; g_h_incl = g_h_self + 2;
@@ -979,6 +1016,7 @@ static void ab_frame(double ms) {       /* each frame's time, after Present */
 
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
+  if (g_sampling == 2 && !g_native_started) start_native_sampler();
   LARGE_INTEGER t0, t1, t2; int mine = GetCurrentThreadId() == g_render_thread;
   QueryPerformanceCounter(&t0);
   if (mine) {
@@ -1951,9 +1989,11 @@ static DWORD WINAPI start(LPVOID self) {
   if (g_cfg.profile || g_cfg.trace || fcap_enabled) {
     char csv[MAX_PATH]; snprintf(csv, sizeof csv, "%s\\d3dprof_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
     d3dprof_call_time = GetPrivateProfileIntA("xikit", "call_time", 0, g_ini);
+    d3dprof_kernel_calls = g_cfg.profile ? GetPrivateProfileIntA("xikit", "kernel_calls", 0, g_ini) : 0;
     d3dprof_set_shift(g_shift);
     d3dprof_attach(dev, g_rel, g_game_lo, g_game_hi, csv);
     if (d3dprof_call_time) klog("call_time=1: d3dprof times each Direct3D call on the render thread");
+    if (d3dprof_kernel_calls) klog("kernel_calls=%d: %s", d3dprof_kernel_calls, d3dprof_kc_note());
     g_trace_attached = g_cfg.trace;      /* (like profile, read at the start only) */
     g_tr_after = GetPrivateProfileIntA("xikit", "trace_after", 0, g_ini); g_tr_every = GetPrivateProfileIntA("xikit", "trace_every", 120, g_ini);
     g_tr_count = GetPrivateProfileIntA("xikit", "trace_count", 3, g_ini);

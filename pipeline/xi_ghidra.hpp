@@ -9,6 +9,7 @@ typedef uint64_t undefined7; typedef uint64_t undefined8;
 typedef unsigned char byte; typedef unsigned char uchar; typedef unsigned short ushort; typedef unsigned int uint;
 typedef unsigned long ulong; typedef long long longlong; typedef unsigned long long ulonglong;
 typedef unsigned short word; typedef uint32_t dword; typedef uint64_t qword;
+typedef unsigned char xi_bool;               // Ghidra's bool: one byte, any value (hx2cpp.ghidra_bool)
 typedef long double float10;                 // x87 80-bit; GCC's long double on i686
 typedef unsigned short wchar16; typedef unsigned int wchar32;
 typedef int32_t int3; typedef uint32_t uint3; typedef int64_t int5; typedef uint64_t uint5; typedef int64_t int6; typedef uint64_t uint6; typedef int64_t int7; typedef uint64_t uint7;   // Ghidra's odd-width integers
@@ -59,6 +60,13 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
 }
 #define fpatan(y, x) xi_fpatan((y), (x))
 
+// A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
+// the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
+// to lose under every MSVC convention.
+static inline long long xi_call_st0(uint32_t fn, long double x) {
+    long long r; __asm__ volatile("call *%1" : "=A"(r) : "r"(fn), "t"(x) : "st", "ecx", "memory", "cc"); return r;
+}
+
 // An argument slot of a called game function: 4 bytes on the stack, holding the bits of whatever the
 // caller passes (int, pointer or float), exactly as the original pushes them.
 struct XI_ANY {
@@ -68,3 +76,13 @@ struct XI_ANY {
     XI_ANY(double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
     XI_ANY(long double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
 };
+
+// Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)
+template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uint8_t t; };
+template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
+template<> struct xi_piece_t<8> { typedef uint64_t t; };
+#define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))
+
+// a floating constant by its encoding (GfxExport `/*XI_K:size:bits*/`): the float or double the code loads
+static inline float xi_k4(unsigned long long b) { uint32_t u = (uint32_t)b; float f; __builtin_memcpy(&f, &u, 4); return f; }
+static inline double xi_k8(unsigned long long b) { double d; __builtin_memcpy(&d, &b, 8); return d; }

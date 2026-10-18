@@ -22,6 +22,9 @@ ECX_READ = {k for k, v in (json.load(open(os.path.join(DATADIR, 'ecx_use.json'))
             if isinstance(v, str) and v.startswith('0x')}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
+# tail-jump functions pop what their target's `ret N` pops (tail_purges.py: the jump is at stack depth exactly 0)
+if os.path.exists(os.path.join(DATADIR, 'tail_purges.json')):
+    PURGES.update({k: v['pops'] for k, v in json.load(open(os.path.join(DATADIR, 'tail_purges.json'))).items() if k not in PURGES})
 THIS_COM = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'this_com.json')))
 # fake Direct3D objects behind globals (and in `this`), per function, each with its source (data/global_com.json)
 GLOBAL_COM = {k: v for k, v in json.load(open(os.path.join(DATADIR, 'global_com.json'))).items() if not k.startswith('_')} \
@@ -42,7 +45,7 @@ IFACE_RE = re.compile(r'(IDirect3D\w+)\s*\*$')
 def ret_kind(t):
     t = t.strip()
     if t == 'void': return 'void'
-    if t in ('float', 'double', 'long double'): return 'float'
+    if t in ('float', 'double', 'long double', 'float10'): return 'float'      # float10: Ghidra's ST0 (conv_facts.py, fpret)
     if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE'): return 'bool'
     if t in ('__int64', 'unsigned __int64', '_QWORD'): return 'int64'
     if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short'): return 'word'

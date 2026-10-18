@@ -28,7 +28,10 @@ enum : uint16_t {
   X_PRESENT,         // (no payload)
   X_READBACK,        // sync: XRef -> the subresource's rows (pitch packed)
   X_FINISH,          // sync: nothing; answered when everything before it has run
-  X_QUIT             // the executor process ends
+  X_QUIT,            // the executor process ends
+  X_OPTION,          // XOption: an executor switch (the A/B of d3d8on11.ini's exec_ab, d8_device.cpp)
+  X_SNAP             // XSnap: a small lockable render target copied now to a staging texture of its own; its rows go
+                     // to the snapshot table (SnapSlot) when a Present finds the GPU done with that copy
 };
 #define X_BACKBUFFER 1u
 
@@ -49,7 +52,19 @@ struct XUpBuf { uint32_t id, offset, length; };
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
 struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
 struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels
+enum : uint32_t { OPT_FILTER = 1, OPT_BATCH = 2 };   // OPT_BATCH: Exec::batch (d8_exec.h)
+struct XOption { uint32_t key, value, settle; };   // settle: frames after it that the executor's phase figures leave out
 struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };
+// The snapshot table: shared memory after the reply area (thread and remote; direct mode has its own). A lockable
+// render target that only CopyRects writes gets a slot; each CopyRects into it is followed by X_SNAP with the
+// surface's write count. The executor fills the slot when Map with D3D11_MAP_FLAG_DO_NOT_WAIT succeeds on the staging
+// copy ("DXGI_ERROR_WAS_STILL_DRAWING" while the GPU is busy with it: D3D11_MAP_FLAG, Direct3D 11 reference), so it
+// never waits. A LockRect whose surface's write count equals the slot's reads the slot instead of X_READBACK: the same
+// bytes, since nothing has written the surface since that copy (d8_res.cpp, Surf::LockRect). A sequence lock: ver is
+// odd while the executor writes.
+struct XSnap { XRef dst; uint32_t slot, wseq; };
+enum : uint32_t { SNAP_SLOTS = 1024, SNAP_BYTES = 1024 };    // 16x16 at 32 bits: the occlusion target (HISTORY, 11 Oct)
+struct SnapSlot { volatile uint32_t ver, id, wseq, bytes; uint8_t data[SNAP_BYTES]; };
 
 // ---- draws: the fixed-function pipeline as generated shaders (d8_ff.cpp decides, d8_exec.cpp draws) ------------------
 enum Sem : uint8_t { SE_POS, SE_POST, SE_NORMAL, SE_COLOR, SE_TEX, SE_PSIZE, SE_WEIGHT };
@@ -110,7 +125,8 @@ struct XDraw {
   uint32_t ibytes, i32;                 // XD_UP_INDEXED / XD_INLINE_INDEXED: index bytes that follow the vertices; 32-bit
 };
 
-static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32, "the stream's layout");
+static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12 &&
+              sizeof(XSnap) == 20 && sizeof(SnapSlot) == 16 + SNAP_BYTES, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
 static_assert(sizeof(XDraw) == 3196 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&

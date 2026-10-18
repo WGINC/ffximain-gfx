@@ -98,7 +98,9 @@ static double g_ct_overhead_us, g_ct_overhead_min_us;   /* two counter reads bac
 enum { K_GAME, K_OTHER, K_WRAPPED };
 static const char *module_of(uint32_t a, char *buf, size_t n);
 static const char *KIND[] = {"FFXiMain", "other module", "caller of CDx draw wrapper"};
-typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims, ticks; uint32_t timed; } Site;
+#define KC_ATTR 4                     /* the kernel calls charged to call sites (kernel calls, below) */
+typedef struct { uint32_t site; uint16_t slot; uint8_t used, kind; uint32_t calls, redundant; uint64_t prims, ticks; uint32_t timed;
+                 uint32_t kc[KC_ATTR]; } Site;
 /* The draws of CDx_DrawPrimitive / CDx_DrawIndexedPrimitive / CDx_DrawPrimitiveUP (0x1000CB20, 0x1000CC00,
    0x1000CD00) are made inside those wrappers. Who asked for the draw is the wrapper's caller. Its return
    address is at a fixed offset from ESP at the method's entry: 4 + the exact stack depth at the call
@@ -119,6 +121,119 @@ static uint64_t g_calls_window, g_draws_window, g_prims_window, g_redundant_wind
 static LARGE_INTEGER g_qpf, g_last_present;
 static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
 
+/* ------------------------------------------------------------------------------------------------ kernel calls
+   d3dprof_kernel_calls (xikit.ini kernel_calls=, d3dprof.ini [d3dprof] kernel_calls=): how many times the process enters
+   the kernel through win32u.dll's system-call stubs (the D3DKMT calls the D3D runtime and the driver's user-mode part
+   make), counted where they are called: the x86 stub itself. 1 hooks the stubs in KC_LIST, 2 every export of win32u.dll
+   that is a stub. A stub is hooked only if its bytes are exactly the x86 system-call stub `B8 imm32 (mov eax, service
+   number) / BA imm32 / FF D2 (call edx) / C2 imm16 or C3`; its first instruction (5 bytes) becomes a jump to a thunk
+   that counts the call (render thread, or any other) and then runs that instruction and goes on into the stub. Any
+   other bytes (another hook, another stub form) are left alone and listed in the report's header as refused.
+   The first KC_ATTR names are also charged to the call they happen in: the device method (through the per-call
+   return path, as call_time) or a vertex/index buffer's Lock/Unlock (the buffers the game binds; they are wrapped as for
+   the trace), exclusive of nested calls, so the sites' counts and "elsewhere on the render thread" add up to the total. */
+int d3dprof_kernel_calls;
+static const char *const KC_LIST[] = {
+  "NtGdiDdDDILock2", "NtGdiDdDDIUnlock2", "NtGdiDdDDIWaitForSynchronizationObjectFromCpu", "NtGdiDdDDIRender",  /* KC_ATTR */
+  "NtGdiDdDDILock", "NtGdiDdDDIUnlock", "NtGdiDdDDIDestroyAllocation2", "NtGdiDdDDIDestroyAllocation",
+  "NtGdiDdDDICreateAllocation", "NtGdiDdDDISignalSynchronizationObjectFromGpu", "NtGdiDdDDIWaitForSynchronizationObjectFromGpu",
+  "NtGdiDdDDISignalSynchronizationObjectFromCpu", "NtGdiDdDDIMakeResident", "NtGdiDdDDIEvict", "NtGdiDdDDIEscape",
+  "NtGdiDdDDISubmitCommand", "NtGdiDdDDIPresent", "NtGdiDdDDIGetDeviceState", "NtGdiDdDDIQueryAdapterInfo",
+  "NtGdiDdDDIReclaimAllocations2", "NtGdiDdDDIOfferAllocations", "NtGdiDdDDISetAllocationPriority",
+  "NtUserPeekMessage", "NtUserGetDC", "NtUserReleaseDC"};
+#define KC_LISTN ((int)(sizeof KC_LIST / sizeof KC_LIST[0]))
+#define KC_MAX 4096
+#define KC_THUNK 40
+typedef struct { const char *name; uint8_t *stub; uint32_t rc, oc, rc0, oc0; } Kc;
+static Kc *g_kc; static int g_nkc, g_kc_on;
+static uint8_t *g_kc_code;
+static uint32_t g_kc_zero;                       /* what an attributed name that is not hooked reads as */
+static volatile uint32_t *g_kc_att[KC_ATTR] = {&g_kc_zero, &g_kc_zero, &g_kc_zero, &g_kc_zero};
+static char g_kc_note[1024];                     /* how many were hooked, and the refused ones with their bytes */
+static const char *const KC_SHORT[KC_ATTR] = {"Lock2", "Unlock2", "WaitForSyncFromCpu", "Render"};
+const char *d3dprof_kc_note(void) { return g_kc_note; }
+static void kc_snap(uint32_t *k) { for (int i = 0; i < KC_ATTR; i++) k[i] = *g_kc_att[i]; }
+
+static int kc_is_stub(const uint8_t *p) {
+  return !IsBadReadPtr(p, 15) && p[0] == 0xB8 && p[5] == 0xBA && p[10] == 0xFF && p[11] == 0xD2 && (p[12] == 0xC2 || p[12] == 0xC3);
+}
+/* the stub's first 5 bytes become `jmp thunk`, in one 8-byte compare-exchange (a thread may be running the stub) */
+static int kc_patch(uint8_t *p, uint8_t *thunk) {
+  uintptr_t a = (uintptr_t)p, q = a & ~(uintptr_t)7; DWORD old;
+  if (a - q > 3 || !VirtualProtect((void *)q, 8, PAGE_EXECUTE_READWRITE, &old)) return 0;
+  LONGLONG cur = *(volatile LONGLONG *)q, nw = cur; uint8_t *b = (uint8_t *)&nw + (a - q);
+  int32_t d = (int32_t)((uintptr_t)thunk - (a + 5));
+  b[0] = 0xE9; memcpy(b + 1, &d, 4);
+  int ok = InterlockedCompareExchange64((volatile LONGLONG *)q, nw, cur) == cur;
+  VirtualProtect((void *)q, 8, old, &old); FlushInstructionCache(GetCurrentProcess(), (void *)q, 8);
+  return ok;
+}
+static void kc_hook(const char *name, uint8_t *p) {
+  if (g_nkc >= KC_MAX) return;
+  for (int i = 0; i < g_nkc; i++) if (g_kc[i].stub == p) return;          /* (two names, one stub) */
+  if (!kc_is_stub(p)) {
+    size_t n = strlen(g_kc_note);
+    if (n + 80 < sizeof g_kc_note) {
+      snprintf(g_kc_note + n, sizeof g_kc_note - n, "; refused %s (", name);
+      for (int j = 0; j < 8 && !IsBadReadPtr(p + j, 1); j++) { n = strlen(g_kc_note); snprintf(g_kc_note + n, sizeof g_kc_note - n, j ? " %02X" : "%02X", p[j]); }
+      n = strlen(g_kc_note); snprintf(g_kc_note + n, sizeof g_kc_note - n, ")");
+    }
+    return;
+  }
+  Kc *k = &g_kc[g_nkc]; uint8_t *c = g_kc_code + KC_THUNK * g_nkc;
+  uint32_t th = (uint32_t)(uintptr_t)&g_thread, rc = (uint32_t)(uintptr_t)&k->rc, oc = (uint32_t)(uintptr_t)&k->oc;
+  int32_t back = (int32_t)((uintptr_t)(p + 5) - (uintptr_t)(c + 39));
+  /* mov eax, fs:[0x24] (the x86 TEB's thread id); cmp eax, [g_thread]; jne +8; inc dword [rc]; jmp +7;
+     lock inc dword [oc]; mov eax, <the stub's imm32>; jmp stub+5 */
+  c[0] = 0x64; c[1] = 0xA1; c[2] = 0x24; c[3] = c[4] = c[5] = 0;
+  c[6] = 0x3B; c[7] = 0x05; memcpy(c + 8, &th, 4);
+  c[12] = 0x75; c[13] = 0x08;
+  c[14] = 0xFF; c[15] = 0x05; memcpy(c + 16, &rc, 4);
+  c[20] = 0xEB; c[21] = 0x07;
+  c[22] = 0xF0; c[23] = 0xFF; c[24] = 0x05; memcpy(c + 25, &oc, 4);
+  memcpy(c + 29, p, 5);
+  c[34] = 0xE9; memcpy(c + 35, &back, 4); c[39] = 0xCC;
+  k->name = name; k->stub = p;
+  FlushInstructionCache(GetCurrentProcess(), c, KC_THUNK);
+  if (!kc_patch(p, c)) {
+    size_t n = strlen(g_kc_note);
+    snprintf(g_kc_note + n, sizeof g_kc_note - n, "; could not write %s", name);
+    return;
+  }
+  for (int i = 0; i < KC_ATTR; i++) if (!strcmp(name, KC_LIST[i])) g_kc_att[i] = &k->rc;
+  g_nkc++;
+}
+static void kc_install(int mode) {
+  HMODULE w = GetModuleHandleA("win32u.dll");
+  if (!w) { snprintf(g_kc_note, sizeof g_kc_note, "win32u.dll is not loaded: nothing hooked"); return; }
+  g_kc = (Kc *)VirtualAlloc(NULL, KC_MAX * sizeof(Kc), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  g_kc_code = (uint8_t *)VirtualAlloc(NULL, KC_MAX * KC_THUNK, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+  if (!g_kc || !g_kc_code) { snprintf(g_kc_note, sizeof g_kc_note, "no memory for the thunks: nothing hooked"); return; }
+  uint8_t *b = (uint8_t *)w; IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)(b + ((IMAGE_DOS_HEADER *)b)->e_lfanew);
+  IMAGE_DATA_DIRECTORY dd = nt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT];
+  IMAGE_EXPORT_DIRECTORY *ex = (IMAGE_EXPORT_DIRECTORY *)(b + dd.VirtualAddress);
+  uint32_t *fn = (uint32_t *)(b + ex->AddressOfFunctions), *nm = (uint32_t *)(b + ex->AddressOfNames);
+  uint16_t *ord = (uint16_t *)(b + ex->AddressOfNameOrdinals);
+  int asked = 0;
+  if (mode == 2) {
+    for (int l = 0; l < KC_LISTN; l++)                                   /* the attributed ones first, then the rest */
+      for (DWORD i = 0; i < ex->NumberOfNames; i++)
+        if (!strcmp((const char *)(b + nm[i]), KC_LIST[l])) { asked++; kc_hook(KC_LIST[l], b + fn[ord[i]]); break; }
+    for (DWORD i = 0; i < ex->NumberOfNames; i++) {
+      uint8_t *p = b + fn[ord[i]];
+      if (fn[ord[i]] >= dd.VirtualAddress && fn[ord[i]] < dd.VirtualAddress + dd.Size) continue;   /* a forwarder */
+      if (kc_is_stub(p)) { asked++; kc_hook((const char *)(b + nm[i]), p); }
+    }
+  } else
+    for (int l = 0; l < KC_LISTN; l++)
+      for (DWORD i = 0; i < ex->NumberOfNames; i++)
+        if (!strcmp((const char *)(b + nm[i]), KC_LIST[l])) { asked++; kc_hook(KC_LIST[l], b + fn[ord[i]]); break; }
+  char head[96]; snprintf(head, sizeof head, "hooked %d of %d %s", g_nkc, asked, mode == 2 ? "stubs" : "listed names found in win32u.dll");
+  size_t hn = strlen(head), tn = strlen(g_kc_note);
+  if (hn + tn + 1 < sizeof g_kc_note) { memmove(g_kc_note + hn, g_kc_note, tn + 1); memcpy(g_kc_note, head, hn); }
+  g_kc_on = 1;
+}
+
 
 /* ------------------------------------------------------------------------------------------------ call trace
    A record of every call the render thread makes through the device, for a few frames: slot, call site (as in the
@@ -129,6 +244,12 @@ static double g_ms_sum, g_ms_max, g_ms_min = 1e9;
    hashed: their contents are written through a locked pointer, not through a device call. */
 #define SLOT_VB_UNLOCK 97                /* buffer records (below): not device methods */
 #define SLOT_IB_UNLOCK 98
+#define SLOT_VB_LOCK 99                  /* (profile sites only: kernel calls made inside a buffer's Lock) */
+#define SLOT_IB_LOCK 100
+static const char *slot_name(int slot) {
+  return slot < NSLOTS ? NAMES[slot] : slot == SLOT_VB_UNLOCK ? "VB_Unlock" : slot == SLOT_IB_UNLOCK ? "IB_Unlock"
+       : slot == SLOT_VB_LOCK ? "VB_Lock" : "IB_Lock";
+}
 static const uint8_t NPARAM[NSLOTS] = {2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 3, 1, 2, 1, 4, 3, 1, 2, 1, 7, 8, 6, 5, 5, 6, 5, 4, 5, 2, 1, 2, 1, 1, 0, 0, 6, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 2, 2, 3, 3, 1, 3, 2, 2, 1, 1, 3, 5, 4, 8, 5, 4, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 1};
 typedef struct { uint8_t label, np; uint16_t slot; uint32_t frame, site, a[6], h; } Rec;
 #define TRACE_MAX 1500000           /* records (40 bytes each); a busy scene makes 35000 calls a frame. Fewer if the address space has no room: */
@@ -206,7 +327,7 @@ int d3dprof_trace_write(const char *path, const char *note) {
   for (uint32_t i = 0; i < g_ntrace; i++) {
     Rec *r = &g_trace[i];
     fprintf(f, "%u %u %u %s 0x%08X %u", r->label, r->frame, r->slot,
-            r->slot < NSLOTS ? NAMES[r->slot] : r->slot == SLOT_VB_UNLOCK ? "VB_Unlock" : "IB_Unlock", r->site, r->np);
+            slot_name(r->slot), r->site, r->np);
     for (int k = 0; k < r->np && k < 6; k++) fprintf(f, " %08X", r->a[k]);
     fprintf(f, " %08X", r->h);
     if (g_blen && g_blen[i]) { fputs(" d=", f); for (uint32_t k = 0; k < g_blen[i]; k++) fprintf(f, "%02X", g_bytes[g_boff[i] + k]); }
@@ -247,6 +368,20 @@ static Pending g_pend[NPEND];
 static int bc_of(void **vp) { for (int i = 0; i < g_nbc; i++) if (vp == (void **)g_bc_copy[i]) return i; return -1; }
 static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DWORD flags);
 static HRESULT __stdcall buf_unlock(void *self);
+static Site *site_of(uint32_t site, int slot, int kind);
+static void kc_charge(Site *s, const uint32_t *k0, const uint32_t *kch);
+/* kernel_calls: a wrapped buffer's Lock or Unlock on the render thread is a profile site of its own (calls and the
+   kernel calls made inside it), at the caller's address like a device call */
+static int kc_buf_begin(uint32_t *k0) {
+  if (!g_kc_on || GetCurrentThreadId() != g_thread) return 0;
+  kc_snap(k0); return 1;
+}
+static void kc_buf_end(const uint32_t *k0, uint32_t ra, int slot) {
+  int game = ra >= g_lo && ra < g_hi;
+  Site *st = site_of(game ? an(ra) : ra, slot, game ? K_GAME : K_OTHER);
+  if (st) st->calls++;
+  kc_charge(st, k0, NULL);
+}
 static void hook_buf(void *obj, int kind) {
   if (!obj || IsBadReadPtr(obj, 4)) return;
   void **vp = *(void ***)obj;
@@ -273,7 +408,9 @@ static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DW
   uint32_t ra = RETADDR();
   int i = bc_of(*(void ***)self);
   if (i < 0) return E_FAIL;                         /* cannot happen: only objects given this vtable copy get here */
+  uint32_t k0[KC_ATTR]; int kc = kc_buf_begin(k0);
   HRESULT hr = ((LockFn)g_bc_orig[i][11])(self, off, size, pp, flags);
+  if (kc) kc_buf_end(k0, ra, g_bc_kind[i] ? SLOT_IB_LOCK : SLOT_VB_LOCK);
   if (g_trace_label >= 0 && hr >= 0 && pp && *pp && GetCurrentThreadId() == g_thread) {
     if (size == 0) {                                /* the whole buffer from off: the size is in the description */
       uint32_t d[8] = {0};
@@ -289,6 +426,7 @@ static HRESULT __stdcall buf_lock(void *self, UINT off, UINT size, BYTE **pp, DW
   return hr;
 }
 static HRESULT __stdcall buf_unlock(void *self) {
+  uint32_t ra = RETADDR();
   int i = bc_of(*(void ***)self);
   if (i < 0) return E_FAIL;
   uint32_t h = ((uint32_t)(uintptr_t)self >> 4) & (NPEND - 1);
@@ -311,7 +449,10 @@ static HRESULT __stdcall buf_unlock(void *self) {
     }
     break;
   }
-  return ((UnlockFn)g_bc_orig[i][12])(self);
+  uint32_t k0[KC_ATTR]; int kc = kc_buf_begin(k0);
+  HRESULT hr = ((UnlockFn)g_bc_orig[i][12])(self);
+  if (kc) kc_buf_end(k0, ra, g_bc_kind[i] ? SLOT_IB_UNLOCK : SLOT_VB_UNLOCK);
+  return hr;
 }
 
 static void trace_call(int slot, uint32_t *a, uint32_t site) {
@@ -375,19 +516,48 @@ static void report(void) {
   if (d3dprof_call_time)
     fprintf(f, "# call time: QueryPerformanceCounter at %.0f Hz around each call on the render thread; timer overhead per "
                "call (two counter reads back to back, measured at start, not subtracted): mean %.3f us, least %.3f us\n", (double)g_qpf.QuadPart, g_ct_overhead_us, g_ct_overhead_min_us);
-  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame%s\n",
+  if (g_kc_on) {
+    /* the attributed names on the render thread per frame: all of them, inside device calls, inside buffer
+       Lock/Unlock, and the rest (outside both: made before a device call or by code that is not one); then every
+       hooked stub that was entered in this window, render thread and other threads */
+    uint64_t in_dev[KC_ATTR] = {0}, in_buf[KC_ATTR] = {0};
+    for (uint32_t i = 0; i < MAXSITES; i++) {
+      Site *s = &g_sites[i];
+      if (!s->used) continue;
+      for (int k = 0; k < KC_ATTR; k++) { if (s->slot < NSLOTS) in_dev[k] += s->kc[k]; else in_buf[k] += s->kc[k]; }
+    }
+    fprintf(f, "# kernel calls: %s\n", g_kc_note);
+    for (int k = 0; k < KC_ATTR; k++) {
+      Kc *c = NULL;
+      for (int j = 0; j < g_nkc; j++) if (&g_kc[j].rc == g_kc_att[k]) c = &g_kc[j];
+      if (!c) { fprintf(f, "# kernel %s: not hooked\n", KC_LIST[k]); continue; }
+      uint32_t r = c->rc - c->rc0;
+      fprintf(f, "# kernel %s per frame: render thread %.1f (in device calls %.1f, in buffer Lock/Unlock %.1f, elsewhere %.1f); "
+                 "other threads %.1f\n", KC_LIST[k], r / n, in_dev[k] / n, in_buf[k] / n,
+              ((double)r - (double)in_dev[k] - (double)in_buf[k]) / n, (c->oc - c->oc0) / n);
+    }
+    for (int j = 0; j < g_nkc; j++) {
+      Kc *c = &g_kc[j]; uint32_t r = c->rc - c->rc0, o = c->oc - c->oc0;
+      if (r || o) fprintf(f, "# stub %s per frame: render thread %.2f, other threads %.2f\n", c->name, r / n, o / n);
+      c->rc0 += r; c->oc0 += o;
+    }
+  }
+  fprintf(f, "method,call_site,caller,calls_per_frame,redundant_per_frame,primitives_per_frame%s",
           d3dprof_call_time ? ",us_per_call,us_per_frame" : "");
+  if (g_kc_on) for (int k = 0; k < KC_ATTR; k++) fprintf(f, ",k_%s", KC_SHORT[k]);   /* per frame */
+  fputc('\n', f);
   for (uint32_t i = 0; i < MAXSITES; i++) {
     Site *s = &g_sites[i];
     if (!s->used) continue;
     char mod[MAX_PATH]; const char *kind = KIND[s->kind];
     if (s->kind == K_OTHER) kind = module_of(s->site, mod, sizeof mod);       /* (an other-module site is its raw address) */
-    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", NAMES[s->slot], s->site, kind,
+    fprintf(f, "%s,0x%08X,%s,%.3f,%.3f,%.1f", slot_name(s->slot), s->site, kind,
             s->calls / n, s->redundant / n, s->prims / n);
     if (d3dprof_call_time) {
       double us = g_qpf.QuadPart ? s->ticks * 1e6 / (double)g_qpf.QuadPart : 0;
       if (s->timed) fprintf(f, ",%.3f,%.3f", us / s->timed, us / n); else fputs(",,", f);
     }
+    if (g_kc_on) for (int k = 0; k < KC_ATTR; k++) fprintf(f, ",%.2f", s->kc[k] / n);
     fputc('\n', f);
   }
   fclose(f);
@@ -411,14 +581,26 @@ uint32_t d3dprof_via_stk[64]; volatile uint32_t d3dprof_via_depth;
    the caller's stack changes, and the method's own `ret N` has already popped its arguments. The return path is
    integer code only (the x87 stack is not touched). The site is looked up again at return (report() may have
    started a new window in between). Calls deeper than 64 on the shadow stack are counted but not timed. */
-typedef struct { uint32_t ret, site; uint16_t slot; uint8_t kind; LARGE_INTEGER t0; } Pending_call;
+/* With kernel_calls the same return path counts the kernel calls made inside the call: the attributed counters are
+   read at entry and at return, and what nested calls (a mod's hook calling the device) took is charged to them, not
+   twice. */
+typedef struct { uint32_t ret, site; uint16_t slot; uint8_t kind; LARGE_INTEGER t0; uint32_t k0[KC_ATTR], kch[KC_ATTR]; } Pending_call;
 static Pending_call g_ct[64]; static uint32_t g_ct_depth, g_ct_untimed;
 extern void d3dprof_ret_stub(void);
+/* charge the kernel calls since k0 (less what nested calls took, kch) to a site; the enclosing call, if any, is told */
+static void kc_charge(Site *s, const uint32_t *k0, const uint32_t *kch) {
+  for (int i = 0; i < KC_ATTR; i++) {
+    uint32_t d = *g_kc_att[i] - k0[i];
+    if (s) s->kc[i] += d - (kch ? kch[i] : 0);
+    if (g_ct_depth) g_ct[g_ct_depth - 1].kch[i] += d;
+  }
+}
 uint32_t __cdecl d3dprof_return(void) {
-  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  LARGE_INTEGER now; if (d3dprof_call_time) QueryPerformanceCounter(&now);
   Pending_call *c = &g_ct[--g_ct_depth];
   Site *s = site_of(c->site, c->slot, c->kind);
-  if (s) { s->ticks += (uint64_t)(now.QuadPart - c->t0.QuadPart); s->timed++; }
+  if (s && d3dprof_call_time) { s->ticks += (uint64_t)(now.QuadPart - c->t0.QuadPart); s->timed++; }
+  if (g_kc_on) kc_charge(s, c->k0, c->kch);
   return c->ret;
 }
 const char *d3dprof_method(int slot) { return slot >= 0 && slot < NSLOTS ? NAMES[slot] : NULL; }
@@ -473,12 +655,13 @@ void *__cdecl d3dprof_record(int slot, uint32_t *a) {
     }
     g_last_present = now;
   }
-  if (d3dprof_call_time) {
+  if (d3dprof_call_time || g_kc_on) {
     if (g_ct_depth < 64) {
       Pending_call *c = &g_ct[g_ct_depth++];
       c->ret = a[0]; c->site = ret; c->slot = (uint16_t)slot; c->kind = (uint8_t)(game ? K_GAME : K_OTHER);
       a[0] = (uint32_t)(uintptr_t)d3dprof_ret_stub;
-      QueryPerformanceCounter(&c->t0);
+      if (g_kc_on) { kc_snap(c->k0); memset(c->kch, 0, sizeof c->kch); }
+      if (d3dprof_call_time) QueryPerformanceCounter(&c->t0);
     } else g_ct_untimed++;
   }
   return g_next[slot];
@@ -697,6 +880,13 @@ static void measure_overhead(void) {      /* two counter reads back to back, 100
   g_ct_overhead_min_us = g_qpf.QuadPart ? best * 1e6 / (double)g_qpf.QuadPart : 0;
 }
 
+/* kernel_calls on: hook the stubs, and wrap the buffers the game binds from now on so their Lock/Unlock are sites */
+static void kc_start(void) {
+  if (d3dprof_kernel_calls <= 0) return;
+  kc_install(d3dprof_kernel_calls >= 2 ? 2 : 1);
+  g_hookbufs = 1;
+}
+
 static void set_next(void) {
   for (int k = 0; k < NSLOTS; k++) g_next[k] = g_orig[k];
   g_next[20] = (void *)w_tex; g_next[21] = (void *)w_vol; g_next[22] = (void *)w_cube; g_next[23] = (void *)w_vb; g_next[24] = (void *)w_ib;
@@ -713,6 +903,7 @@ void d3dprof_attach(void **dev, uint32_t rel, uint32_t lo, uint32_t hi, const ch
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;
+  kc_start();
   uint32_t ts = 0;
   if (lo && !IsBadReadPtr((void *)(uintptr_t)lo, 0x400)) {
     IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)(uintptr_t)(lo + ((IMAGE_DOS_HEADER *)(uintptr_t)lo)->e_lfanew);
@@ -749,10 +940,13 @@ static DWORD WINAPI start(LPVOID self) {
   /* d3dprof.ini next to the DLL, [d3dprof] call_time=1: time each call (xikit sets it from its own ini) */
   char ini[MAX_PATH]; snprintf(ini, sizeof ini, "%sd3dprof.ini", path);
   d3dprof_call_time = GetPrivateProfileIntA("d3dprof", "call_time", 0, ini);
+  d3dprof_kernel_calls = GetPrivateProfileIntA("d3dprof", "kernel_calls", 0, ini);   /* (above, kernel calls) */
   QueryPerformanceFrequency(&g_qpf); forget_state(); if (d3dprof_call_time) measure_overhead();
   g_orig = (void **)*dev; set_next(); resources_init();
   for (int k = 0; k < NSLOTS; k++) g_vt[k] = THUNKS[k];
   *(void ***)dev = g_vt;                             /* this object only; the driver's vtable is untouched */
+  kc_start();
+  if (g_kc_on) { char kn[1100]; snprintf(kn, sizeof kn, "kernel calls: %s", g_kc_note); log_line(kn); }
   char msg[160]; snprintf(msg, sizeof msg, "hooked: FFXiMain.dll at %p, device %p, its vtable %p", game, dev, g_orig);
   log_line(msg);
   return 0;

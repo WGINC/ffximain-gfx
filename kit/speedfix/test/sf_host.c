@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
+#include <stdlib.h>
 
 #define G_PCDX 0x1045666Cu
 static uint32_t rel;
@@ -35,12 +37,40 @@ static HRESULT __stdcall d_dpup(void *d, DWORD t, UINT n, const void *data, UINT
   int v = t == 4 ? (int)n * 3 : (int)n + 2;
   rec(72, t, n, stride, 0, data, v * (int)stride); return 0;
 }
+static HRESULT __stdcall d_dp(void *d, DWORD t, UINT start, UINT n) { rec(70, t, start, n, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_dip(void *d, DWORD t, UINT mi, UINT nv, UINT si, UINT n) { rec(71, t, mi, nv, n, 0, 0); return 0; }
+static HRESULT __stdcall d_dipup(void *d, DWORD t, UINT mi, UINT nv, UINT n, const void *ix, DWORD f, const void *v, UINT st) {
+  rec(73, t, nv, n, st, 0, 0); return 0; }
 static HRESULT __stdcall d_clear(void *d, DWORD n, const void *r, DWORD f, DWORD c, float z, DWORD s) { rec(36, n, f, c, 0, 0, 0); return 0; }
 static DWORD g_nvs = 0x101;                      /* shader handles: odd, as D3D8's are (bit 0 tells them from FVFs) */
 static HRESULT __stdcall d_createvs(void *d, const DWORD *decl, const DWORD *fn, DWORD *h, DWORD us) {
   *h = g_nvs; g_nvs += 2; rec(75, *h, (uint32_t)(uintptr_t)fn, us, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletevs(void *d, DWORD h) { rec(78, h, 0, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) { rec(28, 0, 0, 0, 0, 0, 0); return 0; }
+/* fake 16x16 surfaces for the occlusion readback (occlusion_late): CopyRects copies their pixels, LockRect gives them */
+typedef struct { void **vt; uint32_t px[256]; DWORD pool; LONG refs; } FSurf;
+static void *g_svt[11];
+static FSurf g_boxSurf, g_gameSurf;             /* the box texture's level 0; the game's lockable target at [mng+0x18] */
+static LONG g_nRT, g_nSurfRelease, g_nLock;
+static ULONG __stdcall s_addref(FSurf *s) { return ++s->refs; }
+static ULONG __stdcall s_release(FSurf *s) { if (s != &g_boxSurf && s != &g_gameSurf) g_nSurfRelease++; return --s->refs; }
+static HRESULT __stdcall s_getdesc(FSurf *s, uint32_t *d) { memset(d, 0, 32); d[0] = 21; d[1] = 1; d[3] = s->pool; d[6] = 16; d[7] = 16; return 0; }
+typedef struct { INT Pitch; void *pBits; } FLock;
+static HRESULT __stdcall s_lock(FSurf *s, FLock *lr, const RECT *r, DWORD f) { g_nLock++; lr->Pitch = 64; lr->pBits = s->px; return 0; }
+static HRESULT __stdcall s_unlock(FSurf *s) { return 0; }
+static FSurf *new_surf(DWORD pool) { FSurf *s = (FSurf *)calloc(1, sizeof *s); s->vt = g_svt; s->pool = pool; s->refs = 1; return s; }
+static HRESULT __stdcall d_creatert(void *d, UINT w, UINT h, DWORD f, DWORD ms, BOOL lk, FSurf **o) { g_nRT++; *o = new_surf(0); return 0; }
+static HRESULT __stdcall d_reset(void *d, void *pp) { rec(14, 0, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_copyrects(void *d, void *s, const void *r, UINT n, void *t, const void *p) {
+  rec(28, 0, 0, 0, 0, 0, 0);
+  if (s && t && *(void ***)s == g_svt && *(void ***)t == g_svt) memcpy(((FSurf *)t)->px, ((FSurf *)s)->px, 1024);
+  return 0;
+}
+static HRESULT __stdcall x_getsurflevel(void *t, UINT l, FSurf **o) { g_boxSurf.refs++; *o = &g_boxSurf; return 0; }
+static void *g_xvt[17]; static struct { void **vt; } g_boxTex = { g_xvt };
+static uint8_t g_mng[0x40], g_modx[0xF00];
+static void picture(int kind) {                 /* 0: nothing drawn, 1: all drawn, 2: the top half drawn */
+  for (int i = 0; i < 256; i++) g_boxSurf.px[i] = kind == 1 || (kind == 2 && i < 128) ? 0xFFFFFFFFu : 0xFF000000u;
+}
 /* state blocks: tokens counted up; what reaches the device is recorded like any other call */
 static DWORD g_ntok = 1;
 static HRESULT __stdcall d_beginsb(void *d) { rec(52, 0, 0, 0, 0, 0, 0); return 0; }
@@ -75,6 +105,10 @@ static void getrs(DWORD s, DWORD *v) { DEV(51, HRESULT (__stdcall *)(void *, DWO
 static DWORD createvs(const DWORD *decl, const DWORD *fn) { DWORD h = 0; DEV(75, HRESULT (__stdcall *)(void *, const DWORD *, const DWORD *, DWORD *, DWORD))(&g_dev, decl, fn, &h, 0); return h; }
 static void deletevs(DWORD h) { DEV(78, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, h); }
 static void dpup(DWORD t, UINT n, const void *data, UINT stride) { DEV(72, HRESULT (__stdcall *)(void *, DWORD, UINT, const void *, UINT))(&g_dev, t, n, data, stride); }
+static void dp(UINT n) { DEV(70, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT))(&g_dev, 4, 0, n); }
+static void dip(UINT n) { DEV(71, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, UINT))(&g_dev, 4, 0, 3, 0, n); }
+static void dipup(const void *ix, const void *v) {
+  DEV(73, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, const void *, DWORD, const void *, UINT))(&g_dev, 4, 0, 3, 1, ix, 101 /* D3DFMT_INDEX16 */, v, 16); }
 static void beginsb(void) { DEV(52, HRESULT (__stdcall *)(void *))(&g_dev); }
 static DWORD endsb(void) { DWORD t = 0; DEV(53, HRESULT (__stdcall *)(void *, DWORD *))(&g_dev, &t); return t; }
 static void applysb(DWORD t) { DEV(54, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
@@ -94,6 +128,15 @@ static int log_has(const char *what) {
   static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
   return strstr(b, what) != NULL;
 }
+/* how many "speedfix: readback time:" lines xikit.log has; the last one's frames with occlusion_late on and frames with
+   every readback skipped go to *on and *skip */
+static int rb_lines(long *on, long *skip) {
+  FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
+  static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
+  int c = 0; char *l = NULL, *p = b; while ((p = strstr(p, "speedfix: readback time:"))) { l = p++; c++; }
+  if (l && (l = strstr(l, "with it on ("))) sscanf(l, "with it on (%ld frames); %ld frames with every readback skipped", on, skip);
+  return c;
+}
 static void touch(const char *path, const char *body) { Sleep(30); FILE *f = fopen(path, "w"); fputs(body, f); fclose(f); }
 
 /* the stagger's call: ESI = the actor (0x100CC584 `mov edi, [esi+0x9F0]`) */
@@ -105,9 +148,156 @@ static uint8_t g_cam[0x40];        /* [0x104568FC] -> +0x34: the frame counter (
 
 static DWORD WINAPI other_thread(LPVOID u) { setrs(7, 1); return 0; }
 
+/* precise_pacing: the game's own limiter code, 0x10012B05 to the lap call at 0x10012BF5, run on a limiter object of the
+   test's (esi; [esi+0x1C] a timer with the game's vtable 0x1032A118). The DLL is mapped without its imports, so the
+   two the code reaches are filled in (timeGetTime 0x10329400, Sleep 0x103290F8). The lap (slot 8, 0x1032A138) goes
+   to lim_lap, which runs the game's lap (0x100194F0) and returns to the test instead of to 0x10012BF8. */
+static uint8_t g_lim[0x40], g_tim[0x20];
+uint32_t g_lim_sp, g_lim_entry, g_lap_orig;
+extern void run_limiter(void *obj);
+extern void lim_lap(void);
+__asm__(".globl _run_limiter\n_run_limiter:\n  push %ebp\n  push %ebx\n  push %esi\n  push %edi\n  mov 20(%esp), %esi\n"
+        "  mov %esp, _g_lim_sp\n  sub $0x40, %esp\n  xor %ebx, %ebx\n  jmp *_g_lim_entry\n"
+        ".globl _lim_lap\n_lim_lap:\n  call *_g_lap_orig\n  mov _g_lim_sp, %esp\n  pop %edi\n  pop %esi\n  pop %ebx\n  pop %ebp\n  ret\n");
+static LARGE_INTEGER g_qf;
+static double qms(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart * 1000.0 / (double)g_qf.QuadPart; }
+static int cmp_dbl(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
+/* k frames of the limiter, each after a frame through the hooks (scene) or not; the periods between the limiter's
+   returns, their median and mean, and the game's ticks over them ([esi+0x38] each frame, the fraction [esi+0x3C]).
+   g_whole: the frames after the first whose time, as the rate at 0x10012BCE stored it ([t+4] = 1000 / ms), is a whole
+   number of ms, 17 or more: the game's own timing (timeGetTime) and wait */
+static int g_whole;
+static double lim_frames(int k, int scene, double *mean, double *ticks, double *span) {
+  static double d[512]; double t0 = qms(), prev = t0, sum = 0; float f0 = *(float *)(g_lim + 0x3C); int tk = 0; g_whole = 0;
+  for (int i = 0; i < k && i < 512; i++) {
+    if (scene) { begin(); end(); }
+    present(); run_limiter(g_lim);
+    double t = qms(); d[i] = t - prev; prev = t; sum += d[i]; tk += *(int *)(g_lim + 0x38);
+    double e = 1000.0 / *(float *)(g_tim + 4); if (i && e > 16.5 && fabs(e - floor(e + 0.5)) < 1e-3) g_whole++;
+  }
+  *mean = sum / k; *ticks = tk + *(float *)(g_lim + 0x3C) - f0; *span = prev - t0;
+  qsort(d, k, sizeof d[0], cmp_dbl); return d[k / 2];
+}
+static int pacing_test(void) {
+  QueryPerformanceFrequency(&g_qf);
+  uint8_t *code = (uint8_t *)GAME(0x10012B05u);
+  void **vt = (void **)GAME(0x1032A118u);
+  check(vt[9] != (void *)GAME(0x10019550u), "precise_pacing=1 at the start: the timer's rate entry (1032A13C) no longer holds 10019550");
+  check(code[0] == 0xBD && code[5] == 0x90, "... and 10012B05 is mov ebp, imm32; nop (the wait thunk) instead of mov ebp, [Sleep]");
+  check(log_has("precise_pacing: the frame limiter's wait (10012B05) and its timer's rate entry (1032A13C) now go to speedfix"), "... logged");
+  /* another caller of the rate (this test, by its return address) gets the game's function: 1000 / whole ms */
+  { typedef float (__attribute__((thiscall)) *Rate)(void *); *(int *)(g_tim + 0xC) = (int)timeGetTime() - 40;
+    DWORD a = timeGetTime(); float r = ((Rate)vt[9])(g_tim); DWORD b = timeGetTime();
+    int lo = (int)(a - *(DWORD *)(g_tim + 0xC)), hi = (int)(b - *(DWORD *)(g_tim + 0xC)); int ok = 0;
+    for (int e = lo; e <= hi; e++) ok |= r == (float)(1000.0 / e) && *(float *)(g_tim + 4) == r;
+    check(ok, "another caller of the timer's rate runs the game's function (1000 / whole ms since the lap, stored at +4)"); }
+  double mean, ticks, span, med;
+  lim_frames(10, 1, &mean, &ticks, &span);           /* the counter's first base */
+  med = lim_frames(240, 1, &mean, &ticks, &span);
+  printf("    on: median %.3f ms, mean %.3f ms; game ticks %.3f over %.1f ms (%.3f by the counter)\n", med, mean, ticks, span, span * 0.06);
+  check(fabs(med - 1000.0 / 60) < 0.05 && fabs(mean - 1000.0 / 60) < 0.3, "precise_pacing=1: the game's limiter paces at 16.667 ms (median within 0.05, mean within 0.3)");
+  check(fabs(ticks - span * 0.06) < 0.1, "precise_pacing=1: the game's ticks add up to the counter's time (within 0.1 tick over 240 frames)");
+  check(g_whole < 5, "precise_pacing=1: the frames' times are the counter's, not whole ms (fewer than 5 of 240 whole by chance)");
+  med = lim_frames(12, 0, &mean, &ticks, &span);
+  printf("    on, frames without the hooks: median %.3f ms; %d of 11 timed in whole ms\n", med, g_whole);
+  check(g_whole == 11, "precise_pacing=1, frames without the hooks (after the first, whose frame before went through them): the game's own whole-ms timing and wait");
+  touch("speedfix.ini", "[speedfix]\nprecise_pacing=0\nstats_every=1\n");
+  lim_frames(70, 1, &mean, &ticks, &span);
+  med = lim_frames(120, 1, &mean, &ticks, &span);
+  printf("    off: median %.3f ms, mean %.3f ms; game ticks %.3f over %.1f ms (%.3f by the counter)\n", med, mean, ticks, span, span * 0.06);
+  check(g_whole == 119 && mean > 16.9, "precise_pacing=0 again: the game's own timing, every frame whole ms and 17 or more (58.8 fps)");
+  check(fabs(ticks - span * 0.06) < 1.0, "precise_pacing=0: the game's ticks still add up to the time (within a tick)");
+  check(log_has("precise_pacing: ") && log_has(" frames timed by the counter"), "the statistics line counts the frames the counter timed");
+  check(log_has("its tick count [+0x30] 1, its timer's scale [+8] 1.0000"), "... and names the limiter's tick count and its timer's scale (this host's: 1, 1.0)");
+  printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+  return fails ? 1 : 0;
+}
+
+/* uncap and frame_step: the game's own frame code from the wait (0x10012B05) through the step and the frame counter
+   (0x10012CB0), run on a frame object of the test's that is also [g_pCamera] (as Frame_Render's this is); at
+   0x10012CB8 the test returns (lim_end). The getters are called from the test (whole ticks), from the call at 0x10227E58
+   (a call given the fraction: a ret written after it) and through Frame_Render's copy at 0x10011A24 (a ret written at
+   0x10011A3F, its call of _ftol). */
+extern void lim_end(void);
+__asm__(".globl _lim_end\n_lim_end:\n  mov _g_lim_sp, %esp\n  pop %edi\n  pop %esi\n  pop %ebx\n  pop %ebp\n  ret\n");
+typedef float (*Getter)(void);
+static float ring_avg(void) {          /* 0x10012C19..0x10012C39: the sum in floats, then * 0.25; floor and cap as 0x10012C4C.. */
+  float a = 0.0f; const float *r = (const float *)GAME(0x10456964u);
+  for (int i = 0; i < 4; i++) { volatile float t = r[i] + a; a = t; }
+  float f = a * 0.25f; int fl = *(int *)(g_lim + 0x30);
+  if (!(f >= (float)fl)) f = (float)fl;
+  return f > 20.0f ? 20.0f : f;
+}
+typedef struct { double whole, frac, game_ticks, span; int n, zero, nonint, wrong_frac, wrong_inline, game_like; } StepRun;
+static StepRun step_frames(int k, int scene, int nap) {
+  StepRun r = {0}; Getter g0 = (Getter)GAME(0x10014CF0u), g1 = (Getter)GAME(0x10014D20u), site = (Getter)GAME(0x10227E58u);
+  typedef float (*WithEsi)(void *, void *); WithEsi inl = (WithEsi)(void *)call_with_esi;
+  float f0 = *(float *)(g_lim + 0x3C); double t0 = qms();
+  for (int i = 0; i < k; i++) {
+    if (scene) { begin(); end(); }
+    present(); if (nap) Sleep(nap); run_limiter(g_lim);
+    float w = g0(), w1 = g1(), fr = site(), in = inl((void *)GAME(0x10011A24u), g_lim);
+    float game = *(float *)(g_lim + 0x28) < 1.0f ? 1.0f : *(float *)(g_lim + 0x28);
+    r.whole += w; r.frac += fr; r.game_ticks += *(int *)(g_lim + 0x38); r.n++;
+    if (w == 0.0f) r.zero++;
+    if (w != floorf(w) || w1 != w) r.nonint++;
+    if (fr != ring_avg()) r.wrong_frac++;
+    if (in != w) r.wrong_inline++;
+    if (w == game && w1 == game && fr == game && in == game) r.game_like++;
+  }
+  r.game_ticks += *(float *)(g_lim + 0x3C) - f0; r.span = qms() - t0;
+  return r;
+}
+static void step_print(const char *what, StepRun r) {
+  printf("    %s: %d frames, %.1f ms (%.2f ticks by the counter, %.2f the game's [+0x38]); whole %.0f (%d of 0), fraction %.2f; "
+         "%d frames as the game's\n", what, r.n, r.span, r.span * 0.06, r.game_ticks, r.whole, r.zero, r.frac, r.game_like);
+}
+static int step_test(void) {
+  QueryPerformanceFrequency(&g_qf);
+  uint8_t *c = (uint8_t *)GAME(0x10012C3Cu), *ge0 = (uint8_t *)GAME(0x10014CF0u), *ge1 = (uint8_t *)GAME(0x10014D20u), *in = (uint8_t *)GAME(0x10011A24u);
+  check(c[0] == 0xE8 && c + 5 + *(int32_t *)(c + 1) != (uint8_t *)GAME(0x10311C2Cu), "frame_step=2 at the start: the call of _ftol at 10012C3C goes to speedfix");
+  check(ge0[0] == 0xE9 && ge0[5] == 0x90 && ge0[6] == 0xD9 && ge1[0] == 0xE9 && ge1[5] == 0x90, "... the getters 10014CF0 and 10014D20 begin with a jmp to speedfix; nop");
+  check(in[0] == 0xE8 && in[5] == 0xEB && in[6] == 0x14 && in[7] == 0x90 && in[26] == 0x90, "... Frame_Render's copy (10011A24) is call speedfix; jmp short 10011A3F; nops");
+  check(log_has("frame_step: the step's truncation (the call at 10012C3C), the getters 10014CF0 and 10014D20 and Frame_Render's copy (10011A24) now go to speedfix; 14 calls"), "... logged, 14 calls given the fraction");
+  *(uint8_t *)GAME(0x10011A3Fu) = 0xC3; *(uint8_t *)GAME(0x10227E5Du) = 0xC3;
+  step_frames(10, 1, 0);
+  StepRun r = step_frames(120, 1, 0);
+  step_print("frame_step=2, uncap=0 (the game's 60 fps wait)", r);
+  check(r.nonint == 0 && r.wrong_inline == 0, "frame_step=2: the getters and Frame_Render's copy answer whole ticks, the same");
+  check(r.wrong_frac == 0, "frame_step=2: the call at 10227E58 gets the game's average of its last 4 frames, not truncated (floor and cap as the game's)");
+  check(fabs(r.whole - r.game_ticks) < 3.0 && fabs(r.frac - r.game_ticks) < 3.0, "frame_step=2: whole ticks and the fraction add up to the game's own ticks [+0x38] (within 3 over 120 frames)");
+  r = step_frames(4, 0, 0);
+  check(r.game_like >= 2, "frames without the hooks: every answer is the game's max([+0x28], 1)");
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  check(*(int *)(g_lim + 0x30) == 0, "uncap=1: the tick count [+0x30] is 0");
+  check(log_has("uncap: the frame's minimum tick count [+0x30] was 1 (2 is the game's 30 fps, 1 is 60); now 0, no wait"), "... the value it had is logged");
+  r = step_frames(200, 1, 3);
+  step_print("frame_step=1, uncap=1, 3 ms frames", r);
+  check(r.span < 200 * 9.0, "uncap=1: frames shorter than 1/60 s (the game's wait gone)");
+  check(r.nonint == 0 && r.wrong_inline == 0 && r.zero > 20, "frame_step=1: whole ticks, frames of 0 among them");
+  check(fabs(r.whole - r.game_ticks) < 3.0, "frame_step=1: the whole ticks add up to the game's own ticks [+0x38] (within 3 over 200 frames)");
+  check(r.frac == r.whole, "frame_step=1: the call at 10227E58 gets whole ticks too");
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  r = step_frames(100, 1, 3);
+  step_print("frame_step=0, uncap=1 (the game's step with no wait)", r);
+  check(r.game_like == 100 && r.whole == 100, "frame_step=0, uncap=1: the game's answer, one tick every frame");
+  check(r.whole > r.game_ticks * 1.5, "... which is more than the time that passed (faster than real time, as RENDERER.md 3a reads the code)");
+  check(log_has("uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame"), "... and the log says so");
+  touch("speedfix.ini", "[speedfix]\nuncap=0\nframe_step=0\nstats_every=1\n");
+  step_frames(70, 1, 0);
+  check(*(int *)(g_lim + 0x30) == 1, "uncap=0 again: the tick count [+0x30] is 1 again");
+  check(log_has("uncap off: the tick count [+0x30] is 1 again"), "... logged");
+  check(log_has("speedfix: frame_step=1 uncap=1: ") && log_has("(what frame_step 1 and 2 answer) added up to: whole "), "the statistics line compares the step's sum with the counter's time");
+  printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+  return fails ? 1 : 0;
+}
+
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
+  int pacing = argc > 1 && !strcmp(argv[1], "pacing"), step = argc > 1 && !strcmp(argv[1], "step");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -115,10 +305,18 @@ int main(int argc, char **argv) {
   for (int k = 0; k < 97; k++) g_vt[k] = (void *)d_other;
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
   g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
+  g_vt[14] = (void *)d_reset; g_vt[25] = (void *)d_creatert;
+  for (int k = 0; k < 11; k++) g_svt[k] = (void *)d_other;
+  g_svt[1] = (void *)s_addref; g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_getdesc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
+  for (int k = 0; k < 17; k++) g_xvt[k] = (void *)d_other;
+  g_xvt[15] = (void *)x_getsurflevel;
+  g_boxSurf.vt = g_gameSurf.vt = g_svt; g_boxSurf.refs = g_gameSurf.refs = 1;
+  *(void **)(g_mng + 0xC) = &g_boxTex; *(void **)(g_mng + 0x18) = &g_gameSurf;
+  *(void **)(g_modx + 0xEBC) = &g_dev;
   g_vt[50] = (void *)d_setrs; g_vt[51] = (void *)d_getrs; g_vt[61] = (void *)d_settex; g_vt[63] = (void *)d_settss;
   g_vt[52] = (void *)d_beginsb; g_vt[53] = (void *)d_endsb; g_vt[54] = (void *)d_applysb; g_vt[55] = (void *)d_capturesb;
   g_vt[56] = (void *)d_deletesb; g_vt[57] = (void *)d_createsb;
-  g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
+  g_vt[70] = (void *)d_dp; g_vt[71] = (void *)d_dip; g_vt[73] = (void *)d_dipup; g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
   g_rs[8] = 3; g_rs[9] = 2;                        /* the device's defaults: FILL_SOLID, SHADE_GOURAUD */
@@ -128,12 +326,26 @@ int main(int argc, char **argv) {
   *(void **)GAME(0x104568FCu) = g_cam;
   *(void **)GAME(0x104566E8u) = g_cpu;                /* +9 = 0: the game found no SSE (as on the owner's machine) */
   uint32_t tex_before = *(uint32_t *)GAME(0x10456AD0u), tier_before = *(uint32_t *)GAME(0x1006CDDCu);
+  if (pacing || step) {                               /* pacing_test: the limiter's imports, its objects, its lap */
+    VirtualProtect((void *)GAME(0x10329000u), 0x2000, PAGE_READWRITE, &old);   /* the imports and the vtable (.rdata) */
+    *(void **)GAME(0x10329400u) = (void *)timeGetTime; *(void **)GAME(0x103290F8u) = (void *)Sleep;
+    g_lim_entry = (uint32_t)GAME(0x10012B05u); g_lap_orig = (uint32_t)GAME(0x100194F0u);
+    if (pacing) ((void **)GAME(0x1032A118u))[8] = (void *)lim_lap;
+    else {                                            /* step_test: on to 0x10012CB8, then back (jmp lim_end); g_pCamera */
+      uint8_t *e = (uint8_t *)GAME(0x10012CB8u); int32_t rl = (int32_t)((uint8_t *)lim_end - (e + 5)); e[0] = 0xE9; memcpy(e + 1, &rl, 4);
+      *(void **)GAME(0x104568FCu) = g_lim;
+    }
+    *(void **)g_tim = (void *)GAME(0x1032A118u); *(float *)(g_tim + 8) = 1.0f; *(DWORD *)(g_tim + 0xC) = timeGetTime();
+    *(void **)(g_lim + 0x1C) = g_tim; *(int *)(g_lim + 0x30) = 1;
+  }
   touch("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nmods=speedfix.dll\n");
   DeleteFileA("speedfix.ini");
   /* the full run starts with batching on (every device method hooked); the minimal run with the defaults (only the
      cached setters and the methods around their state hooked) */
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
   else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
+  else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
+  else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
@@ -149,9 +361,11 @@ int main(int argc, char **argv) {
     void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
     if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
     int forked = m && m == GetModuleHandleA("speedfix.dll");
-    if (!minimal && !lazy && !blocks) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    if (!minimal && !lazy && !blocks && !pacing && !step) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
     else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
   }
+  if (pacing) { frames(1); return pacing_test(); }
+  if (step) { frames(1); return step_test(); }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);
@@ -245,6 +459,23 @@ int main(int argc, char **argv) {
     m = g_n; setrs(7, 10);
     check(count(50, m) == 1, "lazy_state=0 while running: a change reaches the device at once");
     end(); present();
+    /* null_draws: the four draw methods return without reaching the device; what lazy_state holds still goes out at
+       them, and Clear and Present still reach it. Off again, the draws reach the device. */
+    { static const WORD ix[3] = {0, 1, 2};
+      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nnull_draws=1\nstats_every=1\n");
+      for (int i = 0; i < 65; i++) present();
+      begin(); m = g_n;
+      setrs(7, 3); dp(1); setrs(7, 4); dip(1); settss(0, 1, 4); dipup(ix, v); setrs(27, 1); dpup(4, 1, v, 16); clear();
+      check(!strcmp(seq(m), "50 50 63 50 36"), "null_draws=1: no draw reaches the device; each held change goes out at its draw; Clear goes out");
+      end(); present();
+      for (int i = 0; i < 30; i++) { Sleep(50); begin(); dp(1); end(); present(); }   /* past a statistics line (each second) */
+      check(log_has("null_draws=1"), "the settings line names null_draws");
+      touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nnull_draws=0\n");
+      for (int i = 0; i < 65; i++) present();
+      begin(); m = g_n; dp(1); dip(1); dipup(ix, v); dpup(4, 1, v, 16);
+      check(!strcmp(seq(m), "70 71 73 72"), "null_draws=0 while running: the four draws reach the device again");
+      end(); present();
+      check(log_has("speedfix: null_draws: ") && log_has(" draw calls not sent to the device"), "the statistics line counts the draws not sent"); }
     /* the lever A/B: lazy_state off (A) and on (B), phases of 1 s */
     touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\nab_levers=lazy_state, bogus\nab_after=0\nab_phase=1\nab_rounds=1\nab_settle=2\n");
     for (int i = 0; i < 400; i++) { begin(); end(); present(); Sleep(8); }
@@ -323,6 +554,60 @@ int main(int argc, char **argv) {
   check(call_target(0x1006C4D7u) != (void *)GAME(0x1006C8B0u), "skip_all_occlusion_readbacks=1: the readback call goes to speedfix");
   { typedef int (__attribute__((thiscall)) *Rb)(void *, int); Rb rb = (Rb)call_target(0x1006C4D7u);
     begin(); check(rb((void *)0x1234, 0) == 256, "... and answers 256 (fully visible) without the game's readback"); end(); present(); }
+  /* occlusion_late: the game's own readback (0x1006C8B0, run here on fake surfaces) gives the truth for each picture;
+     the late path must give the previous probe's, per query object, counted the same way */
+  { typedef int (__attribute__((thiscall)) *Rb)(void *, int); Rb rb = (Rb)call_target(0x1006C4D7u);
+    *(void **)GAME(0x1047C004u) = g_mng; *(void **)GAME(0x1047BFA8u) = g_modx;
+    struct { short w[2]; void *s; } q1 = {{0, 0}, &g_gameSurf}, q2 = {{0, 0}, &g_gameSurf};
+    int truth[3];
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\n"); frames(65);
+    begin(); for (int k = 0; k < 3; k++) { picture(k); truth[k] = rb(&q1, 0); } end(); present();
+    printf("info: the game's readback answers %d (nothing drawn), %d (all), %d (top half)\n", truth[0], truth[1], truth[2]);
+    check(truth[0] == 0 && truth[1] == 256 && truth[2] > 0 && truth[2] < 256, "the game's own readback runs on the fake surfaces: 0, 256 and a part");
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nstats_every=1\n"); frames(65);
+    LONG locks0 = g_nLock;
+    begin();
+    picture(1); int a1 = rb(&q1, 0);           /* no previous picture: the game's answer (256), this one queued */
+    LONG locks1 = g_nLock;
+    picture(0); int a2 = rb(&q1, 0);           /* the previous picture's answer (256) */
+    picture(2); int a3 = rb(&q1, 0);           /* 0 */
+    picture(1); int a4 = rb(&q1, 0);           /* the top half's, as the game counts it */
+    picture(0); int b1 = rb(&q2, 0);           /* another object: no previous of its own: the game's 0 */
+    picture(0); int a5 = rb(&q1, 0);           /* q1's previous (all drawn), not q2's */
+    end(); present();
+    check(a1 == 256 && locks1 - locks0 == 1, "occlusion_late=1: a first probe is answered by the game's readback (its LockRect)");
+    check(a2 == 256 && a3 == 0 && a4 == truth[2], "... later probes answer the previous probe's picture, counted exactly as the game counts (the half picture: the game's value)");
+    check(b1 == 0 && a5 == 256, "... per query object: a second object starts with the game's answer, and the first keeps its own previous picture");
+    check(g_nRT == 2, "... each object's copy goes to a lockable render target of its own (CreateRenderTarget, two objects)");
+    frames(40);                                  /* older than OL_MAX_AGE (32 frames) */
+    begin(); picture(2); int s1 = rb(&q1, 0); end(); present();
+    check(s1 == truth[2], "... a previous picture older than 32 frames is not used: the game's answer for this frame's picture");
+    LONG rel0 = g_nSurfRelease;
+    DEV(14, HRESULT (__stdcall *)(void *, void *))(&g_dev, 0);
+    check(g_nSurfRelease - rel0 == 2, "... Reset releases its surfaces first (both)");
+    begin(); picture(1); int r1 = rb(&q1, 0); end(); present();
+    check(r1 == 256 && g_nRT == 3, "... after Reset: the game's answer, and a new surface");
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=2\nstats_every=1\n"); frames(65);
+    begin(); picture(1); int t1 = rb(&q1, 0); picture(0); int t2 = rb(&q1, 0); picture(2); int t3 = rb(&q1, 0); end(); present();
+    check(t1 == 256 && t2 == 0 && t3 == truth[2], "occlusion_late=2 (measure only): every answer is the game's");
+    for (int i = 0; i < 300 && !log_has("occlusion_late=2: of"); i++) { frames(1); Sleep(10); }   /* stats_every=1: once a second */
+    check(log_has("occlusion_late=2: of") && log_has("the late answer differed from the game's in"),
+          "... how often the late answer would have differed from the game's is logged");
+    check(log_has("speedfix: readback time: the game's readback") && log_has("its late read") && log_has("occlusion_late: its surfaces: 16x16 lockable render targets, format 21"),
+          "... the time in the game's readback and in its copy and late read is logged, and its surfaces' format");
+    /* a frame with every readback skipped is in neither per-frame figure (the owner's run 3464 divided by them) */
+    long fon = 0, fskip = 0;
+    for (int k = 0; k < 5 && fskip <= 0; k++) {   /* a second's statistics can end between the two settings: again */
+      touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nstats_every=1\n"); frames(65);
+      long x, y; int before = rb_lines(&x, &y);
+      begin(); rb(&q1, 0); end(); present();
+      touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nstats_every=1\n"); frames(65);
+      for (int i = 0; i < 300 && rb_lines(&fon, &fskip) == before; i++) { frames(1); Sleep(10); }
+    }
+    check(fskip > 0, "... frames with every readback skipped are counted apart, not as frames that ran the game's readback");
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\n"); frames(65);
+    *(void **)GAME(0x1047C004u) = 0; *(void **)GAME(0x1047BFA8u) = 0;
+  }
   /* sse_skinning: off (the default) leaves the game's SSE flag; on sets it (the CPU under Wine reports SSE); off again
      puts the game's value back */
   check(g_cpu[9] == 0, "sse_skinning=0: the game's SSE flag (CPU object +9) left at 0");

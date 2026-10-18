@@ -5,6 +5,7 @@
 // executes draws through generated shaders (d8_ff.cpp).
 #include "d8.h"
 #include <string>
+#include <stdlib.h>
 
 static DWORD fbits(float f) { DWORD d; memcpy(&d, &f, 4); return d; }
 static void identity(D3DMATRIX *m) { memset(m, 0, sizeof *m); m->_11 = m->_22 = m->_33 = m->_44 = 1; }
@@ -25,6 +26,32 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   if (!link && strcmp(mode, "direct")) { d8_log("mode %s could not start: thread instead", mode); link = link_make("thread"); }
   if (!link) link = link_make("direct");
   d8_log("executor: %s", link->name());
+  // exec_filter=1: the executor skips the Direct3D 11 calls that set what is already set (d8_exec.cpp, Exec::draw);
+  // D8ON11_EXEC_FILTER overrides it. The default is 1: the owner's exec_ab run of 16 Oct (docs/HISTORY.md, 17 Oct),
+  // every phase with it faster than every phase without. exec_ab=1: the A/B below, from the setting's value
+  ab.filter = (int)GetPrivateProfileIntA("d3d8on11", "exec_filter", 1, ini);
+  ne = GetEnvironmentVariableA("D8ON11_EXEC_FILTER", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) ab.filter = atoi(env);
+  // exec_batch=1: the executor holds records and runs them together, one Map of each large buffer per batch instead of
+  // Maps by each draw (d8_exec.h, Exec::batch); D8ON11_EXEC_BATCH overrides it
+  ab.batch = (int)GetPrivateProfileIntA("d3d8on11", "exec_batch", 1, ini);
+  ne = GetEnvironmentVariableA("D8ON11_EXEC_BATCH", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) ab.batch = atoi(env);
+  // exec_ab_lever: which switch the A/B turns, filter (exec_filter) or batch (exec_batch)
+  { char lv[16]; GetPrivateProfileStringA("d3d8on11", "exec_ab_lever", "filter", lv, sizeof lv, ini); ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : OPT_FILTER; }
+  ab.on = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab", 0, ini);
+  ab.after = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_after", 60, ini);
+  ab.phase = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_phase", 30, ini);
+  ab.rounds = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_rounds", 4, ini);
+  ab.settle = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_settle", 60, ini);
+  if (ab.phase < 1) ab.phase = 1; if (ab.settle < 1) ab.settle = 1; if (ab.rounds < 1) ab.rounds = 1; if (ab.after < 0) ab.after = 0;
+  ab.i = -1;
+  { XOption o = {OPT_FILTER, (uint32_t)(ab.filter != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  { XOption o = {OPT_BATCH, (uint32_t)(ab.batch != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  d8_log("executor filter: %d, batch: %d%s", ab.filter != 0, ab.batch != 0,
+         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
+  if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
+                    "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase, ab.settle);
   HRESULT hr = make_swap(false);
   if (FAILED(hr) && strcmp(link->name(), "thread") && strcmp(link->name(), "direct")) {
     // the executor process could not make the device or the swap chain (d3d8on11_exec.log says why): in-process instead
@@ -180,7 +207,43 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (notReset) return D3DERR_DEVICELOST;
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
+  if (ab.on) ab_frame();
+  if (++snap_frames >= 600) {
+    if (snap_hits + snap_misses)
+      d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
+             "back (the snapshot was not there yet)", snap_frames, snap_hits, snap_misses);
+    snap_frames = snap_hits = snap_misses = 0;
+  }
   return D3D_OK;
+}
+// the executor filter's A/B (exec_ab=1): exec_ab_after seconds after the device is made, phases of exec_ab_phase
+// seconds in the order off, on, on, off, exec_ab_rounds times, then exec_filter's value again. Each switch is an
+// X_OPTION; the executor logs its busy time per phase ("executor ab", in d3d8on11_exec.log in remote mode), and this
+// side the game's frame time from Present to Present, leaving out the first exec_ab_settle frames of each phase.
+static double now_ms() {
+  static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
+  LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
+}
+void Dev::ab_frame() {
+  double t = now_ms();
+  if (!ab.t0) { ab.t0 = t; ab.last = t; return; }
+  double dt = t - ab.last; ab.last = t;
+  int n = 4 * ab.rounds;
+  if (ab.i >= n) return;
+  if (ab.i >= 0 && ++ab.frames > ab.settle) { ab.sum += dt; if (dt > ab.max) ab.max = dt; }
+  bool next = ab.i < 0 ? t - ab.t0 >= ab.after * 1000.0 : t - ab.ph0 >= ab.phase * 1000.0;
+  if (!next) return;
+  if (ab.i >= 0) {
+    int v = (ab.i % 4 == 1 || ab.i % 4 == 2), k = ab.frames - ab.settle;
+    if (k > 0) d8_log("executor ab: phase %d, %s=%d, %d frames: the game's frame %.3f ms on average (%.1f fps), %.3f at most",
+                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
+  }
+  ab.i++; ab.ph0 = t; ab.frames = 0; ab.sum = 0; ab.max = 0;
+  XOption o = {ab.key, 0, (uint32_t)ab.settle};
+  if (ab.i < n) o.value = (ab.i % 4 == 1 || ab.i % 4 == 2);
+  else if (ab.key == OPT_BATCH) { o.value = ab.batch != 0; d8_log("executor ab: done; batch=%u from now on (exec_batch)", o.value); }
+  else { o.value = ab.filter != 0; d8_log("executor ab: done; filter=%u from now on (exec_filter)", o.value); }
+  link->put(X_OPTION, &o, sizeof o);
 }
 HRESULT Dev::GetBackBuffer(UINT i, D3DBACKBUFFER_TYPE, IDirect3DSurface8 **o) {
   if (i || !o || !backbuf) return D3DERR_INVALIDCALL;
@@ -289,6 +352,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
     bool sg = s->kind != SK_IMAGE && s->id, dg = d->kind != SK_IMAGE && d->id;
     if (sg && dg) {                                           // GPU to GPU
       XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
+      d->wseq++;
       if (d->kind == SK_TEXLEVEL && d->pool != D3DPOOL_DEFAULT)
         { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels); called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
@@ -332,13 +396,20 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
       return D3DERR_INVALIDCALL;
     }
   }
+  // a lockable render target written only by copies: the executor copies it to a staging texture now and fills its
+  // snapshot when the GPU is done, so a later LockRect need not wait (d8_proto.h, X_SNAP; d8_res.cpp, Surf::LockRect)
+  if (d->kind == SK_RT && d->lockable && !d->drawn && s->kind != SK_IMAGE &&
+      (size_t)d8_pitch(d->fmt, d->w) * d8_rows(d->fmt, d->h) <= SNAP_BYTES) {
+    if (d->snap < 0) d->snap = snap_take();
+    if (d->snap >= 0) { XSnap q = {d->xref(), (uint32_t)d->snap, d->wseq}; link->put(X_SNAP, &q, sizeof q); }
+  }
   return D3D_OK;
 }
 HRESULT Dev::SetRenderTarget(IDirect3DSurface8 *rt, IDirect3DSurface8 *ds) {
   Surf *r = (Surf *)rt, *z = (Surf *)ds;
   if (r && r->kind != SK_RT && r->kind != SK_BACKBUFFER && !(r->kind == SK_TEXLEVEL && (r->usage & D3DUSAGE_RENDERTARGET))) return D3DERR_INVALIDCALL;
   if (z && z->kind != SK_DS) return D3DERR_INVALIDCALL;
-  if (r) { r->AddRef(); if (curRT) curRT->Release(); curRT = r; }       // D3D8: a NULL target keeps the current one
+  if (r) { r->AddRef(); if (curRT) curRT->Release(); curRT = r; r->drawn = true; }   // D3D8: a NULL target keeps the current one
   if (z) z->AddRef(); if (curDS) curDS->Release(); curDS = z;
   st.vp = {0, 0, curRT->w, curRT->h, 0.0f, 1.0f};                       // D3D8: setting a target resets the viewport
   targets();

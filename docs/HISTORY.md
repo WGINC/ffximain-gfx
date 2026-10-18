@@ -2041,3 +2041,587 @@ not pure, was measured; the lists are the runtime's data, not the driver's). Onl
 Ours now creates all three types from these lists. `t8 sbtypes` through ours, direct mode, against the runtime: every
 row that both measure agrees; 9 rows are not measured on ours (its pixel shaders and shader constants are not
 implemented; the game uses neither). test_d3d8on11.py stage 4 runs this comparison.
+
+## 17 Oct: toward 60 fps: the game's limiter paced by the counter, and the executor filter measured offline
+
+**The limiter, from the game's code.** Read by disassembly of FFXiMain.dll, with the imports named by pefile:
+- The frame limiter is 0x10011A00, called from 0x10001B74. Its loop calls `Sleep(1)` (import 0x103290F8) while
+  60 / (scale x rate) is below the tick count `[limiter+0x30]`.
+- The rate is the timer's vtable 0x1032A118 slot 9, 0x10019550. It computes 1000 / (timeGetTime (import 0x10329400)
+  - `[t+0x1C]` - `[t+0xC]`), counting 0 ms as 1, and stores the result at `[t+4]`.
+- The lap is slot 8, 0x100194F0. The scale is `[t+8]` (0x10019230).
+- The limiter's second loop runs only on a NaN.
+- With whole milliseconds, a tick count of 1 and a scale of 1.0, no frame is shorter than 17 ms: 58.8 fps. The tick
+  count and scale in the owner's game are not established.
+
+**speedfix `precise_pacing`** (off by default):
+- The rate entry, for the limiter's three calls (by return address), uses QueryPerformanceCounter from the last
+  frame's start.
+- The wait at 0x10012B05 sleeps on a high-resolution waitable timer and then spins to the moment.
+- Other callers of the rate, and frames not through the hooks, get the game's code.
+- Which thread runs the limiter, and where it sits relative to Present, are not established. The log names the
+  threads, and the tick count and scale, as the last wait read them.
+- Tested in sf_host (Wine) on the game's own limiter code (0x10012B05 to the lap call):
+  - On: median 16.674 ms, ticks adding up to the counter's time.
+  - Off: every frame whole ms and 17 or more.
+- It does not go above 60. The step is `max(step,1)` ticks, so the game's time would run fast. docs/ROADMAP.md P4
+  says what going above 60 needs. Nothing here explains the hundreds of fps reported under Vulkan on Linux.
+
+**The executor filter (d3d8on11 `exec_filter`), offline.**
+- Setup: the owner's three 16 Oct frame captures (`2026-10-16_201622_3056`), each replayed 20 times with a
+  Present after each.
+- Configurations: through Wine's d3d8 and through ours (`direct` and `thread`, filter off and on), two rounds in
+  reverse order.
+- Machine: this container, Wine with Mesa llvmpipe. These are not figures for the owner's machine. Part of capture
+  0's runs overlapped the speedfix tests.
+- The executor's stats line is now also written at shutdown, so short runs get one.
+- Results, executor draw time a frame (mean of the six runs per configuration):
+
+| Mode | filter=0 | filter=1 |
+|---|---|---|
+| direct | 24.9 ms | 17.1 ms |
+| thread | 31.6 ms | 20.9 ms |
+
+- Filter on was lower in all 12 paired runs.
+- Present dominates the executor's time here (286 to 354 ms of llvmpipe rasterising), so whole-frame times
+  (ours 302 to 380 ms, Wine's 243 to 308 ms) say nothing about the filter. They also say nothing about a GPU.
+
+**Not known yet:**
+- Whether either measure moves the owner's frame rate.
+- `kit/sessions/perf60` measures both in the game (run 1 on dgVoodoo, `precise_pacing`'s A/B; run 2 on ours,
+  `exec_ab`, then `precise_pacing`'s A/B), with render-thread samples throughout.
+
+## 17 Oct: the owner's perf60 runs (16 Oct, received 17 Oct)
+
+Two runs at the Port Jeuno plaza, standing. Both used kit 35fa886 with the perf60 speedfix, on build 6AC37846.
+- Run 1, process 2420: dgVoodoo 4.8.2.134.
+- Run 2, process 3128: ours, in `thread` mode.
+
+The machine is a native ARM64 CPU with the game emulated as x86, under the Parallels display driver (prl_umdd10).
+Two things differed between the runs:
+- The cpu tier: run 1 had the SSE tier. In run 2 the game had already chosen x87 before speedfix loaded.
+- The crowd: it was not controlled.
+
+So the runs are not compared with each other. Each A/B compares phases within one run.
+
+**The divisor (tick count) and scale:** `[limiter+0x30]` was 1 and `[timer+8]` 1.0 in every minute of both runs.
+The limiter and the frame callback ran on the same thread (4056; 1716).
+
+**`precise_pacing`: no measurable effect, and why.**
+- Run 1: A 34.09 ms, B 34.36 ms (+0.8%). Phases of one label differ by up to 3.52 ms.
+- Run 2: A 35.00 ms, B 35.88 ms (+2.5%). Phases of one label differ by up to 3.49 ms.
+- The cause, from the log: the frames never reached the limiter's wait. After the first minute (the login), the
+  limiter waited 0 ms in every minute of run 1. In run 2 it waited 0 to 1.3 s a minute, 140 to 226 waits among
+  about 1,850 frames.
+- Frames were 31 to 36 ms, so the 16.7 ms limit never applied. The lever stays off by default and waits until
+  frames are shorter than 16.7 ms.
+
+**`exec_filter` (ours): faster in every phase.** 16 phases of 30 s, 8 each way, the first 60 frames of each left
+out (d3d8on11.log, `executor ab:`):
+
+| | filter off (8 phases) | filter on (8 phases) | on − off |
+|---|---|---|---|
+| The game's frame, mean of phases | 34.54 ms (32.93 to 36.92) | 29.07 ms (26.78 to 31.02) | −5.46 ms (−15.8%) |
+| Executor busy a frame | 33.52 ms (31.98 to 35.60) | 26.83 ms (24.87 to 28.50) | −6.69 ms (−20.0%) |
+| of which draws | 15.78 | 9.54 | −6.24 |
+| uploads | 3.68 | 3.70 | |
+| Present | 0.12 | 0.12 | |
+| other | 13.90 | 13.40 | |
+
+- The slowest phase with the filter on was faster than the fastest phase with it off, for both measures.
+- The difference exceeds the spread within either label (4.24 ms and 3.63 ms at most), so it meets the rule set
+  before the run (kit/sessions/perf60/README.md). `exec_filter` now defaults to 1 (d8_device.cpp). The tests run the
+  unfiltered baseline with `D8ON11_EXEC_FILTER=0`, and check that the filter is on when nothing sets it.
+- Switching the filter cannot leave stale state: an X_OPTION makes the executor forget what it set
+  (d8_exec.cpp:639).
+
+**Where ours spends its frame** (ring and executor stats, 600-frame lines):
+- The executor is busy 92 to 97% of the time. It is the bottleneck on this machine.
+- The game thread waits 15 to 24 ms a frame "for answers": the synchronous calls (X_READBACK, X_FINISH,
+  X_INIT, X_RESIZE). It waits 0 ms for room and 0 ms for pacing.
+- The render-thread samples agree. 66.5% of them are under the occlusion readback 0x1006C8B0, at its LockRect
+  (return address 0x1006C91F, IDirect3DSurface8::LockRect, vtable +0x24).
+- The executor's "other" (13 to 15 ms a frame) is every record that is not a draw, an upload or Present. That
+  includes X_READBACK, which waits for the GPU. How much of it is the readback is not established. The stats now
+  give readbacks their own figure (d8_link.cpp, `readbacks`).
+
+**Where dgVoodoo's frame goes** (run 1, samples of the last 600 frames, 10,463 at 1 ms; the time spent in other
+modules, by the game function that called there):
+- the occlusion readback's LockRect (0x1006C91F): 25.0%;
+- SkinAndDrawV2's call (0x1002A034, the forked copy in speedfix): 18.6%;
+- EndScene: 16.6%. This is Frame_Render's call to 0x10009740 at return 0x10012AFA, which calls device vtable
+  +0x8C, slot 35, IDirect3DDevice8::EndScene;
+- Gfx_SetStreamSourceCached (0x1002F150): 3.5%;
+- Cell_DrawQuadBlended: 2.9%.
+
+As in the 13 Oct run, 74 to 77% of samples report EIP 0x00010002 (task 34, not established).
+
+**The exploding vertices on new actors:**
+- The owner reports them "after a bit, not at the beginning". The logs do not record when, or in which run.
+- The A/Bs switched only:
+  - `precise_pacing`: the limiter's wait and rate entry. These do not touch vertices.
+  - `exec_filter`, in run 2 only. Switching it resets its shadow.
+- `vs_dedupe` (read again): it shares only fixed-function shaders (no function) whose declaration tokens and usage
+  are identical.
+- Not ruled out, as on 13 Oct:
+  - sse_skinning, which was switched on live in both runs ("the game's SSE flag is 0");
+  - cpu_tier: SSE in run 1, x87 in run 2;
+  - skin_merge and the other levers;
+  - the machine.
+- Which run showed them decides one of these. If run 2 did, the SSE math tier is ruled out, because run 2 ran x87.
+
+## 17 Oct: re-evaluation from scratch (docs/REEVALUATION.md)
+
+The owner asked for everything to be re-read with nothing assumed. Corrections that came out of it:
+- "Frames are flat at 30–35 ms whatever the levers" (said in conversation) is wrong. The plaza ran at about 70 ms
+  without speedfix. The levers took it to about 34 ms (session 1); `sse_skinning` and `batch_up_draws`+`lazy_state`
+  were measured singly at −14.5 and −8.2 ms.
+- Session 5's `skip_all_occlusion_readbacks` A/B did not test the readback: its own count says none were requested
+  after the first minute. "Removing the readback moves the wait elsewhere" (said in conversation) has no source and
+  is withdrawn. On 16 Oct the readback was under 25% (dgVoodoo) and 66.5% (ours) of render-thread samples.
+- No scene in any run has been measured at or below 16.7 ms. The lightest, 819 draws with every lever on, ran at
+  17.5–19.4 ms (p50).
+Never measured, and deciding where 60 can come from: the GPU's time a frame, the game's own CPU time without
+rendering, and the frame with the readbacks really removed. Tests T1–T3 in that document measure them.
+
+## 17 Oct: null_draws and the ceiling session (T1–T3)
+
+- **`null_draws`, a new speedfix lever, for T3.** It is a test, not a speedup.
+  - DrawPrimitive, DrawIndexedPrimitive and their UP forms return D3D_OK without reaching the device. Their
+    signatures come from d3d8.h.
+  - Every other call still reaches the device. Changes held by lazy_state go out at the draw, as before.
+  - It switches live both ways, so `ab_levers` can switch it.
+  - The four draw methods are now always hooked. Even the minimal start hooks 20 methods (was 16).
+  - Tested offline in sf_host's lazy mode: no draw reaches the device, the held state does, the draws come back
+    when it is off, and the statistics line counts the draws not sent.
+- **kit/sessions/ceiling:** two starts on dgVoodoo in the plaza.
+  - Start 1, usual resolution: T2, then T3 (the owner swaps the ini mid-run).
+  - Start 2, low resolution: T2's ini again. Its A phases against start 1's give T1.
+- **Known limit of T3:** the game's own frame limiter (16.67 ms with precise_pacing) is a floor. T3 can show
+  whether the frame without draws reaches it, not how far below it the game would go.
+
+## 17 Oct: the run ledger, and what it corrects
+
+`pipeline/run_ledger.py DIR ...` reads every `xikit.log`, timing, spike and A/B CSV and `d3d8on11.log` under the
+given folders. It writes each run's settings, minutes, phases, A/B summaries and readback counts, each cited by file
+and line. It was run over every log folder the owner has sent. docs/REEVALUATION.md sections 3 and 4 are now built
+from it. Four runs there have no log here and are marked as HISTORY only: 3736, 6156, 12164, and 10016's d3dprof
+figures.
+
+Corrections against this file:
+- **Readbacks in session 5** (above, "158 in the first minute… none later while standing still") is wrong.
+  - Part 1 (2264) had 5,062, 2,005 and 7,165 in minutes 16 to 18 (2264/xikit.log:301,314,327). Those were the A
+    phases of the skip_actor_occlusion A/B, when actor queries ran.
+  - Part 2 (11952) had 83 to 2,602 in five later minutes with every actor query skipped
+    (11952/xikit.log:192–236).
+  - What makes the game request readbacks is not known.
+  - The readback A/B itself still did not test the readback: its phases fell in minutes 7 to 9, which have none.
+- **The house runs of 16 Oct (logs_up1)** were in no entry.
+  - Their modes come from the owner's message: direct, dgVoodoo, remote, thread, DXVK.
+  - In the house, without speedfix, dgVoodoo (7608), ours `remote` (5584) and ours `thread` (12120) held p50
+    17.1–17.6 ms. That is the game's limiter floor of 17 ms (above, "The limiter, from the game's code").
+  - Ours `direct` (5560) ran at 33–35 ms there.
+  - DXVK (2340) crashed after 5 log lines.
+  - So "no scene at or below 16.7 ms" holds only because the floor is 17 ms.
+  - The `thread` attribution of logs_up1's d3d8on11.log is confirmed by its line 2, `executor: thread`.
+- **exec_filter's −5.46 ms** is a mean of the 16 phase means computed from d3d8on11.log; the device prints no
+  summary. The "4.24 ms and 3.63 ms" spreads are the largest within a label for the frame and for executor busy.
+- **Session 5's phases** ran 27.65–46.40 ms (2264/xikit.log:292,278). The 29.5–45.7 ms said before were the A/B
+  label means.
+
+## 18 Oct: d3d8on11 readback snapshots (X_SNAP), and CopyRects from the back buffer
+
+The owner asked whether anything helps the frames lost to movement and actor loading. Their choice was to answer the
+occlusion readback a frame late (task 33), done in two parts. This entry is the first: the device side, in ours.
+
+**Why ours needed it.** From our code (d8_device.cpp CopyRects, d8_res.cpp LockRect):
+- a lock of a lockable render target staged and mapped at lock time;
+- a copy from the GPU into an image surface was a synchronous X_READBACK.
+
+Either way the game waited for the executor and the GPU. So a lock made a frame later would have waited all the same.
+The reverted occlusion_async (mode 1, image surfaces) could not have saved anything in ours.
+
+**What was built.** README, "Readback snapshots":
+- After each CopyRects into a small lockable render target that is never a render target itself, the executor copies
+  the target to a staging texture.
+- At each Present it maps the finished copies without waiting (D3D11_MAP_FLAG_DO_NOT_WAIT) into a shared slot table.
+- LockRect answers from the slot only when the surface's write count matches the slot's. It is exact, not a heuristic:
+  the only D3D8 methods that write such a surface are CopyRects, being the bound target, and an unlock after a writing
+  lock. The first is counted, the second is excluded (`drawn`), and the third is counted.
+- RING_VERSION 4.
+
+**A bug the new test found.** In ours, CopyRects from the back buffer into an X8R8G8B8 surface copied nothing.
+- The back buffer is B8G8R8A8; an X8R8G8B8 surface is B8G8R8X8.
+- D3D11's CopySubresourceRegion copies only within a type group. D3D8 counts the two as one format.
+- Wine's d3d8 passed the same check.
+- Such a copy is now drawn through two scratch textures (d8_exec.cpp `copy_draw`).
+- The game's occlusion copy does not take this path. Its source is level 0 of the box texture `[[0x1047C004]+0xC]`
+  (GetSurfaceLevel, vtable +0x3C, at 0x1006C8CD), not the back buffer; `[[0x1047BFA8]+0xEBC]` is the device
+  (CopyRects, vtable +0x70, at 0x1006C8FD). (Corrected on the same day: this entry first named that pointer as the
+  source.) Whether the game copies from its back buffer anywhere else was not checked.
+
+**Tests.** test_d3d8on11.py passes in all three modes:
+- `basic`: a copied target reads the copy, then what a lock wrote after it.
+- `frames`: 599 frame-late locks, all reading the frame before's colour. From the snapshot: 599 in `direct`, 569 in
+  `thread` and `remote`. The 30 that read back are frames 1–30, before anything makes the game wait for the executor.
+
+**Not yet known.**
+- Whether the game's lock waits on dgVoodoo when made a frame later. That needs the per-call timing of the speedfix
+  lever, in the owner's run.
+- The lever itself (speedfix `occlusion_late`) is the second part.
+
+## 18 Oct: speedfix occlusion_late (the occlusion readback answered a frame late)
+
+**From the game's code.** 0x1006C8B0 (`__thiscall(q, flag)`, `ret 4`; its only caller 0x1006C4D7 passes 0):
+- GetSurfaceLevel(0) of the box texture `[[0x1047C004]+0xC]` (0x1006C8CD);
+- CopyRects of it into `[q+4]` on the device `[[0x1047BFA8]+0xEBC]` (0x1006C8FD);
+- LockRect READONLY of `[q+4]` at once (0x1006C91C), and a count of `(dword & 0x80) >> 5` over its 16x16 pixels.
+The lock straight after the copy is what makes the CPU wait for the GPU.
+
+**What was built.** speedfix `occlusion_late` (README, "occlusion_late"), off by default:
+- 1: each query object gets a 16x16 lockable render target of its own, in the format of the game's `[q+4]`. Each probe
+  copies the box picture into it and answers with the count of the picture copied at the object's previous probe,
+  counted exactly as the game counts. A first probe, or a previous picture older than 32 frames, gets the game's own
+  readback. 32 is a chosen bound, not a fact of the game. Reset releases the surfaces first.
+- 2: measure only. Every answer is the game's; the log says how often the late answer would have differed, and how
+  often visible/hidden would have flipped.
+- Either way, each statistics line gives the time in the game's readback, in the copy, and in the late read
+  (mean and longest).
+
+**What it changes in the picture.** An actor that comes into or goes out of view is shown or hidden one probe late.
+With occlusion_stagger=8 a probe is up to 8 frames apart. That is the price; mode 2 measures how often it happens.
+
+**Tests (sf_host.c, Wine).** The game's own readback, run on fake surfaces, answers 0, 256 and 128 for an empty, a full
+and a half-drawn picture. With the lever on: a first probe is the game's (its LockRect); later probes give the
+previous picture's count; the answers are per object; one render target per object; a picture 40 frames old is not
+used; Reset releases both surfaces; mode 2 answers as the game and logs the comparison and the times.
+
+**Not known.**
+- Whether a lock made a probe later waits on dgVoodoo. If the driver stalls on any lock of a GPU-written surface, the
+  late read costs what the game's read cost. The longest late read in the log answers that in the owner's run.
+- In ours (d3d8on11), the readback snapshots answer such a lock without waiting (test_d3d8on11.py, 599 of 599 in
+  `direct`).
+- The time it saves, and whether the one-probe delay shows: `ab_levers=occlusion_late`, and a look while moving
+  through crowds.
+
+## 18 Oct: texture loading off the render thread? What the code says
+
+The owner asked whether decoding could move off the render thread, ideally onto the GPU without blocking.
+
+**What runs, from the game's code** (tree/src/unit_100399D0_TexObj.cpp, gate PASS; D3DX names from docs/RESIDUE.md,
+matched by bytes in d3dx8tex.obj, the D3DX statically linked into FFXiMain):
+- TexObj_Create (0x10039A80) makes the final texture with D3DXCreateTexture (0x102D2FB9), pool 1 (MANAGED). Its format:
+  - DXT1 (16-bit source) or DXT3 (24/32-bit) when the texture's class `([+44] >> 4) & 0xF` is 0, or above
+    g_cfgTextureCompression (0x10456AD0), or 10 with the map-compression setting 0; the format is first checked with
+    D3DXCheckTextureRequirements (0x102D2F40);
+  - otherwise A1R5G5B5 (16) or A8R8G8B8 (24, 32).
+  - The game's value of the setting was 0 in the test host; speedfix's texture_compression sets 15, so with it only
+    classes 0 and (map compression 0) 10 are made DXT.
+- TexObj_Upload (0x10039E50), for a texture not stored compressed:
+  - makes a temporary texture (D3DXCreateTexture, all levels, MANAGED: A1R5G5B5, R8G8B8 or A8R8G8B8);
+  - locks it and decodes the file's pixels into it in the game's own loop: 4- and 8-bit palette lookups, 16/24/32-bit
+    repacking, rows flipped;
+  - copies level 0 into the final texture with D3DXLoadSurfaceFromSurface (0x102D4515), filter 1 (D3DX_FILTER_NONE);
+    into a DXT texture that copy is D3DX's DXT compression, on the CPU;
+  - makes each further level from the one before with D3DXLoadSurfaceFromSurface, filter 5 (D3DX_FILTER_BOX); for a
+    DXT texture each level is decompressed, filtered and compressed again, on the CPU.
+- A texture stored compressed (`[+41]` bit 0x80) is loaded with D3DXLoadSurfaceFromMemory (0x102D2868) and its FOURCC
+  from 0x10351C94; its levels are then made as above.
+- TexMgr_UploadPump (0x1003ABB0) makes at most 21 a frame (HISTORY, 10 Oct).
+
+**What is measured:** CreateTexture 148 us a call through dgVoodoo; 12,460 of 14,450 creations a session on the render
+thread (the owner's two captures). **Not measured:** the time in the decode loop, in D3DX's conversions and DXT
+compression, in file reading, and in model setup, during a loading frame. Without that split, no part of it can be
+named as the cause of the loading stutter.
+
+**What can and cannot move, and where:**
+- Under dgVoodoo: the D3D8 calls must stay on the device's thread (the game's device is used from the render thread;
+  whether it was made with D3DCREATE_MULTITHREADED was not checked). Direct3D 8 has no compute shaders, and a DXT
+  texture cannot be drawn into, so a GPU decode there would need the texture changed to a DEFAULT-pool render target,
+  which Reset loses. Not proposed.
+- The CPU work (the decode loop and D3DX) could run on a worker thread only if the game asked for textures ahead of
+  needing them. It does not: the pump calls TexObj_Create inline and uses `[+64]` after it.
+- In ours (d3d8on11, `thread` mode): CreateTexture and each level's upload are already ring records run by the executor
+  thread (d8_res.cpp: X_TEX, `upload_tex`), so the GPU-side creation does not wait. Two exact (lossless) changes are
+  possible there:
+  - the temporary texture is only read back by D3DX on the CPU and never drawn, yet ours makes it on the GPU and
+    uploads it; a managed texture's GPU copy could be made at its first use instead;
+  - the palette lookup and repacking are integer table lookups, so a GPU version (a compute shader in the executor)
+    gives the same bytes. D3DX's DXT encoder and box filter are not reproduced exactly by a GPU encoder, so moving
+    those would change the picture; keeping such textures uncompressed (texture_compression) avoids them instead.
+
+**Next, before any of these:** time TexObj_Upload, its D3DX calls and the pump in loading frames (speedfix, with
+spike_ms), so the cost is known per part.
+
+## 18 Oct: the owner's runs 8980 and 8452 (17 Oct, kit 35fa886), skip_all_occlusion_readbacks A/B
+
+Two starts, by the owner's note 1512x949 then 1024x768 (the log does not record the size). Settings in both: every
+lever on as before except merge_scenes and null_draws; `ab_levers=skip_all_occlusion_readbacks`, 8 phases of 30 s.
+- **8980:** A (readbacks run) 46.51 ms, B (skipped) 36.05 ms: -10.47 ms (-22.5%), medians -11.88, p95 -6.05; phases of
+  one label differ by up to 5.80 ms.
+- **8452:** A 43.32 ms, B 32.54 ms: -10.78 ms (-24.9%), medians -10.42, p95 -16.48; spread up to 7.21 ms.
+- In both the difference is larger than the spread between phases of one label, so the readbacks' cost is measured:
+  about 10.5 ms a frame. The A minutes ran 2,734 to 3,223 readbacks in about 541 to 616 frames, about 5 a frame, so
+  about 2 ms a readback (a ratio of the two counts, not a per-call timing).
+- The smaller size was about 3 ms faster in each label; most of the frame time does not scale with the pixel count.
+- Samples (render thread, 1 ms): 64% and 67% at EIP 0x00010002 (task 34, not established). The innermost game return
+  address 0x1002A034 (29% and 31%) is the return from the call to SkinAndDrawV2 (0x1002A02F), which skin_merge replaces
+  with speedfix's fork, so that time is in the fork and what it calls.
+- **What this says about occlusion_late:** it is the reverted occlusion_async's mode 2. Its best case is
+  skip_all_occlusion_readbacks' saving less the copies, and only if a lock made a probe later does not wait on
+  dgVoodoo, which is not known. Its per-call timing (`readback time:`, the longest late read) answers that.
+
+
+## 18 Oct: where the 64-67% and the 29-31% go: what sample=1 can and cannot say, and a native sampler
+
+The question: of the render thread's samples in runs 8452 and 8980 (entry above), what is behind EIP 0x00010002
+(67.4%, 64.2%) and behind the innermost game return address 0x1002A034 (31.1%, 28.7%)?
+
+**Which speedfix ran (from the samples themselves):** every speedfix offset sampled falls on an instruction boundary
+of `ceiling/speedfix.dll` (commit a1cd637, the null_draws ceiling session): 434 of 434 in 8452, 573 of 573 in 8980.
+Kit 35fa886's speedfix.dll matches only 111 of 434. So the speedfix in those runs is the ceiling build, not the kit's.
+
+**Run 8452 (10,088 samples) and 8980 (11,763), by sample=1's self and caller (separate counts, no joint data):**
+- self 0x00010002: 6,798 (67.4%) and 7,552 (64.2%); 0x00010000: 83 in 8452.
+- caller 0x1002A034 (the return from the call to SkinAndDrawV2 at 0x1002A02F in fn 0x1002A000, which skin_merge
+  replaces with speedfix's fork): 3,141 (31.1%) and 3,375 (28.7%).
+- caller 0x10012AFA (Frame_Render, the return from `call 0x10009740`, CDx::EndScene): 1,650 (16.4%) and 1,505 (12.8%);
+  Frame_Render in all 17.65% and 16.36%.
+- fn 0x1002F130 (caller 0x1002F150): 668 and 694. CMoVuElem_Draw (0x10044002): 230 and 772. Cell_DrawQuadBlended
+  2.98% and 4.18%; fn 0x100303B0 2.77%; CDx::SetLight 2.21% (8452).
+- self in speedfix.dll: 434 (4.3%) and 573 (4.9%). By function (8452/8980): ApplySB 53/74, SetTransform 46/66, the fork
+  41/65, xm_flush 13/36, the rest smaller. The fork and xm_flush themselves are about 0.5-1% of the samples, so the
+  29-31% under 0x1002A034 is in what they call (the device: dgVoodoo and below), not in their own code.
+- self USER32 390 and 532; win32u 169; Hook.dll (Windower) 125 (8452).
+
+**What is known and from where:**
+- 0x1002A034 and 0x10012AFA are call sites in the game's code (the analysed build's disassembly, with the kit's
+  rel/shift table).
+- swap=0 in 8452 (0 of 774 reconstructed functions swapped; the 2 swapped are mod targets), so the game's own
+  CDx::EndScene ran. Its own return address inside CDx::EndScene, 0x1000974C, is never found on the stack in the
+  samples whose caller is 0x10012AFA. Why is not established.
+
+**What is not known:**
+- What 0x00010002 is. It is in no image. It equals CONTEXT_i386|CONTEXT_INTEGER, which is an observation, not an
+  explanation. Under x86 emulation on ARM64, a thread's x86 context read from inside the process may not be its
+  position while native code (the emulator, the system's ARM64 code, the driver) runs. That is a possibility only.
+- How the 29-31% and the EndScene share split between dgVoodoo, D3D11, the driver, the emulator and waiting. sample=1
+  runs inside the emulated process and sees only the x86 state, so it cannot answer this.
+
+**The native sampler (kit/xisamp, `sample=2`):** a native 64-bit process (ARM64 on the owner's machine) that xikit
+starts at the first Present. Each sample it suspends the render thread and reads, at the same instant:
+- the x86 context (Wow64GetThreadContext) and the x86 return addresses on its stack;
+- the native context (pc, lr and the ARM64 frame-pointer chain).
+
+It writes histograms per window to `xikit_native_<pid>.csv`. `kit/xisamp/read.py` gives:
+- x86 module and native module, each on its own and jointly;
+- the no-image eips with their native pc and frames, which is the 0x00010002 question;
+- the samples by innermost game call site;
+- for `--focus 0x1002A034 0x10012AFA`, the x86 and native positions under those sites.
+
+What has been tested: the x64 build under 64-bit Wine (`test_xisamp.py`, 11 checks; `test_xikit.py`'s native run).
+The ARM64 build has not run on ARM64. Its native chain is untested.
+
+**Next:** the owner runs the same A/B with `sample=2` (`sample_ms=1`, `sample_window=30`). The two
+`xisamp_*.exe` go next to xikit.dll. The owner sends `xikit_native_<pid>.csv` with xikit.log.
+
+
+## 18 Oct: the owner's sample=2 runs 3464 and 14180 (17 Oct, kit 736e74a): the time is in three kernel calls
+
+Two runs in the plaza, standing still, `ab_levers=skip_all_occlusion_readbacks`:
+- **3464:** the kit as sent: skin_merge=1, occlusion_late=0, 8 phases. The tier in use was SSE.
+- **14180:** skin_merge=0, occlusion_late=1, 2 phases (ab_rounds=1, so no measure of the noise). The tier in use was
+  x87: cpu_tier's log line says "the game has already chosen its math tier".
+
+**Frame times (speedfix's A/B lines):**
+- 3464: A 43.51 ms, B 33.48 ms, B − A −10.03 ms. The phases of one label differ by up to 2.54 ms. 8452 (no
+  sampler) gave 43.32/32.54, so the sampler's own cost does not show in the frame time.
+- 14180: A 44.78 ms, B 25.78 ms, −19.00 ms. A ran occlusion_late (skip off), B skipped every readback.
+
+**The sampler (xikit_native_<pid>.csv):**
+- 132,515 samples in 3464's A/B (23:04:19–23:08:19) and 32,728 in 14180's. No failed reads.
+- The rate was about 550 a second, not the 1,000 asked for.
+
+**0x00010002 is not a position.**
+- Wow64GetThreadContext, read from the other process at the same instant as the native context, gives eip 0x10002 in
+  99.8–99.9% of the samples (and 0x10000 in the rest) in every window of both runs.
+- So under xtajit the x86 EIP field does not say where the thread is. The x86 return addresses on its stack (ESP is
+  valid) and the native pc do. sample=1's 64–67% at 0x00010002 was the whole thread, not one place.
+
+**Which kernel calls (from the samples, with a check):**
+- The innermost x86 return address into win32u.dll is the system-call stub the x86 code called. It is named by
+  win32u's export table, read on the owner's machine (the file's `a` records).
+- The native pc for each stub sits in one wow64win.dll thunk:
+  - NtGdiDdDDILock2 at wow64win+0x3004;
+  - NtGdiDdDDIUnlock2 at +0x35D4;
+  - NtGdiDdDDIWaitForSynchronizationObjectFromCpu at +0x3634.
+- Native module machines (`m` records):
+  - wow64win.dll, wow64.dll and xtajit.dll are ARM64 (0xAA64), in System32.
+  - d3d11, prl_umdd10, gdi32 and ntdll are loaded from SyChpe32 (CHPE).
+  - D3D8.dll is dgVoodoo's x86 build, in PlayOnlineViewer.
+- `kit/xisamp/read.py` now prints this view (the `syscalls` tables). Its call-site table counts a sample only when
+  its native pc is in wow64win.dll or ntdll.dll, so a stale return address on the stack is not counted.
+
+**Shares of the render thread's samples, native pc inside the call (read.py, by window):**
+
+| window | frame (ms) | WaitForSync…FromCpu | Lock2 | Unlock2 |
+|---|---|---|---|---|
+| 3464 A, phases 4–5 (23:05:49–23:06:49) | ~43.8 | 26.52% | 22.07% | 18.39% |
+| 3464 B, phases 6–7 (23:06:49–23:07:49) | ~33.7 | ~0 | 29.63% | 24.89% |
+| 14180 A (occlusion_late) | 44.78 | 27.66% | 20.34% | 16.98% |
+| 14180 B (skipped) | 25.78 | ~0 | 26.52% | 23.04% |
+
+**The sync wait is the readback, and its cost per frame now agrees two ways:**
+- In 3464 A, the wait's samples are under the game's readback LockRect (return 0x1006C91F): 26.54%.
+- 26.5% × 43.8 ms is about 11.6 ms a frame.
+- speedfix's own timing (QPC around the call) agrees. The minute 23:04:19–23:05:19 had 3,360 readbacks at a mean of
+  2,374 µs, which is 7.98 s, in the A phase's 707 frames (647 counted plus the 60 left out). That is 11.3 ms per A
+  frame.
+- So the "4.909 ms a frame" in that log line was wrong. It divided by every frame of the minute, including the
+  B phase's 918, which ran no readback. That is fixed here: a frame with every readback skipped is now counted apart
+  (sf_occlusion.cpp, sf_occl_frame; test: sf_host.c).
+- The A − B of about 10 ms is therefore the readback's own wait (about 4.75 calls a frame, about 2.4 ms each), not
+  twice it as it seemed.
+- These are two independent measures, the sampler's share and speedfix's timing. Their agreement is also the one
+  check that the sampler's shares are proportional to time. Suspending a thread at a kernel call and at translated
+  code may not take the same time, and the file has no per-sample time to test that otherwise.
+
+**occlusion_late does not remove the wait (14180):**
+- Its late read, the LockRect of a copy made a probe earlier, waits in the same kernel call. 27.66% × 44.78 ms is
+  about 12.4 ms a frame.
+- speedfix's timing agrees: 3,730 late reads at a mean of 2,154.9 µs is 8.04 s in A's 661 frames, 12.2 ms a frame.
+  The log line's "4.513 ms a frame (1830 frames)" had the same divisor error.
+- Those samples' x86 stacks run win32u <- speedfix.dll <- ... <- 0x1006C4DC, the call speedfix redirects. Their
+  innermost game address, 0x1000A258 (fn 0x1000A230, which calls slot 61 of the object at [this+0xC] with (0, 0), SetTexture(0, NULL) if that is the device (MinGW d3d8.h), then
+  0x1000A2B0), is under speedfix's frames. It is the readback's caller chain or a stale slot, not the waiting call.
+- Through dgVoodoo on this machine, a lock of a render-target copy waits about as long a probe later as at once.
+  Whether that wait is for the GPU or for the driver is not established.
+
+**Lock2 + Unlock2: about 18 ms a frame in 3464, A and B alike:**
+- A: (22.07 + 18.39)% × 43.8 ≈ 17.7 ms. B: (29.63 + 24.89)% × 33.7 ≈ 18.4 ms.
+- Removing the readbacks leaves them unchanged.
+- In 14180 B: (26.52 + 23.04)% × 25.78 ≈ 12.8 ms.
+- By call site in 3464 B (native pc in the call):
+  - 0x1002A034 (skin_merge's fork of SkinAndDrawV2): Lock2 13.14%, Unlock2 8.56%;
+  - 0x10012AFA (Frame_Render's call to CDx::EndScene): 5.98% and 6.78%;
+  - 0x1002F150: 2.73% and 2.22%;
+  - CMoVuElem_Draw: 2.46% and 1.64%;
+  - 0x10030831: Unlock2 1.92%;
+  - CDx::SetLight: Lock2 1.05%;
+  - the rest under 1% each.
+- In 14180 (no fork) the game's own SkinAndDrawV2 sites (0x1002E74B, 0x1002DD03, 0x1002DD38, 0x1002DD7F, 0x1002DDB4,
+  0x1002E78A) sum to about 14% in B.
+
+**What is known:**
+- D3DKMTLock2 and D3DKMTUnlock2 (the D3DKMT interface in the WDK headers) lock and unlock a video-memory
+  allocation through the kernel.
+- On this machine the D3D11 path under dgVoodoo makes them often enough to take about half of the render thread's
+  time. The sampler cannot count calls.
+
+**What is not known:**
+- Which Direct3D 8 calls lead to them. Lock/Unlock of the game's dynamic vertex and index buffers is the obvious
+  candidate, but that is not established. The x86 frames between the game's call site and win32u are in D3D8.dll
+  (dgVoodoo), d3d11.dll and prl_umdd10.dll, and are positions only (no symbols).
+- How many there are a frame.
+- Why SetLight and EndScene sites show them.
+- Whether the fork makes more of them than the game's own SkinAndDrawV2. 3464 (fork, SSE) and 14180 (no fork, x87)
+  differ in two levers and in the phase count.
+
+**The exploding vertices:**
+- The owner turned skin_merge off for 14180 and saw none.
+- 14180 also ran the x87 tier, where 3464 ran SSE (the cpu_tier log line). From this run alone they cannot be put on
+  skin_merge rather than the SSE math tier.
+- To settle it: a run with cpu_tier as in 3464 (the game choosing SSE) and skin_merge=0. Or, if they show again,
+  skin_merge switched alone. skin_merge takes effect at the next start, so that means two starts with only that line
+  changed.
+
+**Next:**
+- Count the D3D8 calls that lead to Lock2/Unlock2: d3dprof `call_time=1` gives the time and count per call site
+  and method.
+- Name the fork's inner call sites: read.py takes the game's and the reconstruction's addresses as call sites, not
+  speedfix.dll's.
+
+## 18 Oct: a kernel-call counter (d3dprof `kernel_calls=`), to count the D3D8 calls behind Lock2/Unlock2
+
+Run 3464 B put about 20.7 ms of the 33.66 ms frame in kernel calls the sampler named (Lock2 10.2, Unlock2 8.6, waits
+~1.1, others ~0.8). The sampler gives positions, not counts, and cannot say which Direct3D 8 call led to them. The
+kit can now count them directly:
+
+- **What it does:** with `kernel_calls=1` (or `2`), d3dprof patches win32u.dll's x86 system-call stubs in the game's
+  process (exact byte form only; anything else is refused and named in the report) and counts each entry, render
+  thread and other threads. Lock2, Unlock2, WaitForSynchronizationObjectFromCpu and Render are charged to the device
+  method or the vertex/index buffer Lock/Unlock they happen in, per call site (docs/KIT.md).
+- **Known from the tests:** the counting thunk is exact on Wine (3 PeekMessage calls a frame read as 3.00); the
+  attribution is exact under Unicorn, nested calls included.
+- **Not known yet:** whether the owner's win32u.dll (ARM64 Windows 26200, x86 under xtajit) has these stubs in this
+  form. The report's first `# kernel calls:` line says, with the bytes of any it refused.
+- **What it will settle:** how many Lock2/Unlock2 a frame there are, and which game call sites produce them. The
+  13 Oct trace counted about 475-568 VB Unlocks a frame (the largest at 0x1002DD38 / 0x1002DD7F / 0x1002DDB4 in
+  CYyModelDt_SkinAndDrawV2, CPU skinning). Whether those are what makes the Lock2/Unlock2 is what the run measures.
+
+## 18 Oct: run 14204 (dgVoodoo, `kernel_calls=1`): where the Lock2/Unlock2 come from; the stutters
+
+**Measured** (d3dprof_14204.csv, the last 600-frame window: frame 35.1 ms mean, 29.3 min, 376.1 max):
+- 2,102.3 `NtGdiDdDDILock2` and as many `Unlock2` a frame, all on the render thread: 1,730.1 inside device calls,
+  372.0 inside the game's vertex-buffer Lock/Unlock, 0.2 elsewhere. No `WaitForSynchronizationObjectFromCpu`.
+- By method, Lock2 a frame (calls a frame): DrawPrimitive 809.5 (2,377.6), DrawIndexedPrimitive 507.1 (1,164.3),
+  VB_Lock 372.0 (372.0), SetTexture 175.9 (1,139.5), DrawPrimitiveUP 100.1 (155.2), SetRenderState 88.5 (2,136.7).
+  The largest buffer pair is the skinning VB at 0x1002DD7F / 0x1002DE3F, 84.5 a frame each.
+- Not measured: the time of each kernel call. Run 3464 put about 18.8 ms a frame in Lock2+Unlock2 by sampling; with
+  about 4,200 calls that is about 4.5 µs each, an inference from two different runs. That a dgVoodoo draw's Lock2
+  is a D3D11 Map of a dynamic buffer (its constants or UP data) is also inference: the frames between are in
+  dgVoodoo's D3D8.dll, d3d11.dll and prl_umdd10.dll, without symbols.
+
+**What was done about it (ours):** the batched executor (`exec_batch`, kit/d3d8on11/README.md): one Map per arena per
+batch for the shader constants and the UP vertex and index data of every draw in it, the draws binding their
+constants at an offset. In ours, the 17 Oct thread-mode runs had the executor busy 92-97% of the frame. Whether the
+batches cut that, and the Lock2 count, is what the owner's next run measures (`exec_ab_lever=batch`, with
+`kernel_calls=1`).
+
+**The stutters** (xikit_spikes_14204.csv, xikit_timing_14204.csv): 1,689 of about 9,600 frames over 50 ms; 74 over
+150 ms; the worst 3,078.8 ms (frame 1460, with 1459 and 1461 at 482.8 and 547.7) and 1,496.7 ms (frame 76).
+- Resource creation is not what they are: 59 of the 74 frames over 150 ms create nothing; the 15 that do spent
+  23.4 ms in all in creation calls. The largest creations are at frame 0 (a 2048x4096 texture, 234 ms; xikit's own).
+- What they are is not known. The native sampler aggregates 30 s windows, so it cannot be put on a frame. Most of
+  the frames over 50 ms (1,425 of the 1,689 are 50-80 ms) are the slow stretches the timing windows show (p50 of
+  16.7 to 69.8 ms by window), not single hitches.
+- The speedfix A/B (group 1, skip_all_occlusion_readbacks) is confounded: the phases' means run from 29.2 to 80.8 ms
+  with no order by lever, so the owner moved during it. The game's readback took 3.4-4.3 ms a call, 4.0-8.1 ms a
+  frame when run.
+
+**Next:** a stutter needs a per-frame record of where the time went (the game's frame split, not the sampler's
+windows); the batches need the owner's run.
+
+## 18 Oct: the stutters get their own samples (`xikit_stutters_<pid>.csv`)
+
+Run 14204's 74 frames over 150 ms could not be put on anything: the native sampler wrote 30 s windows only.
+- Now each sample also reads the kit's frame counter (`g_frame`) while the render thread is stopped. The kit counts
+  a frame in Present right after taking its start time (xikit.c, `kit_present`), so a sample that reads `v` belongs
+  to frame `v + 1`, numbered as `xikit_spikes_<pid>.csv` numbers it. No clock is shared between the two processes.
+- A frame whose samples span `spike_ms` or more gets its own block (docs/KIT.md, "Stutters"); `read.py` lists each
+  by game function, or by module and export with the innermost game call site.
+- Tested under Wine x64: kit/xisamp/test (a 400 ms stall in frame 41: one block, 399 ms, every sample in the
+  stall) and test_xikit.py `native` (the host's 2.5 s Sleep: one block, 1,399 of its 1,400 samples in the Sleep).
+  Not tested: the ARM64 build on ARM64 Windows.
+- Cost: the read takes samples. The `native` test's GetColor loop got 175 to 250 samples with it and 278 and 336
+  with the build before it (the test's bound, 300, failed once on that build too; it is now 100).
+
+## 18 Oct: past 60, with the game's time tied to real time (speedfix `uncap`, `frame_step`)
+
+The game waits for at least `[g_pCamera+0x30]` ticks of 1/60 s a frame, and hands its code the step as whole ticks,
+truncated, at least 1 (docs/RENDERER.md 3, 3a). With the minimum at 0 it does not wait, and every frame is a tick.
+- Read from the code for this: the step's computation 0x10012B0B..0x10012CB5 (the ring of 4, its `* 0.25`, the
+  `_ftol` call at 0x10012C3C, the floor `[+0x30]` and cap 20), the getters 0x10014CF0 and 0x10014D20, and
+  Frame_Render's own copy at 0x10011A24.
+- `pipeline/frame_step_users.py` follows the returned value from each of the 218 call sites of the getters: 41 only
+  compare, drop or accumulate it, 177 convert it to an integer, store it, pass it on, or reach code the script does
+  not model. No site divides by it. A function gets the fraction only if all its sites do: 14 sites in 13 functions.
+- speedfix: `uncap` (the minimum to 0, the old value logged and restored), `frame_step=1` (the truncation replaced
+  by whole ticks with the fraction carried), `frame_step=2` (and the untruncated value at the 14 sites).
+- Tested in sf_host under Wine on both builds, the game's limiter and step code running: at 60 fps the whole ticks
+  came to 123 against 123.3 by the counter; at about 300 fps (3 ms frames) speedfix's step added up to 100.0-100.7% of
+  real time and the game's own to 500-502%.
+- The owner's build needed `dist/xikit_manifest_6AC37846.txt` in the test (`FFXI_DLL_6AC37846=... kit/xikit/build.sh`);
+  without it the kit does nothing there and every mode fails.
+- Not tested in the running game. Not known: per-frame code that ignores the step (0x1024DE20 is one), what a step of 0
+  does at the 204 whole sites, and what the server makes of it.

@@ -27,7 +27,7 @@ same_export() {
   echo "run.sh: $EXP is not the export runs/$RUN/raw was translated from ($(cut -d' ' -f1 "$W/raw/export.sha1")); pass that one" >&2; exit 1
 }
 gate2() {  # gate2 DLL CASES OUTPREFIX: a work queue of small chunks, $JOBS workers (default: one per core)
-  python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" --cache > "$3.log" 2>&1
+  python3 "$P/gate_some.py" "$(dirname "$3")" all --dll "$1" --cases "$2" --out "$(basename "$3")" --jobs "${JOBS:-$(nproc)}" > "$3.log" 2>&1
 }
 case "$1" in
   test)          # the translator rules and the stack solver: fixed expectations, then the solver's self-test

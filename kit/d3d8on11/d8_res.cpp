@@ -118,7 +118,10 @@ HRESULT CubeTex::UnlockRect(D3DCUBEMAP_FACES f, UINT l) { return c.unlock((UINT)
 // ---- surfaces -----------------------------------------------------------------------------------------------------------
 Surf::Surf(Dev *d, SurfKind k, UINT w_, UINT h_, D3DFORMAT f, D3DPOOL p, DWORD u)
     : dev(d), kind(k), w(w_), h(h_), fmt(f), pool(p), usage(u) {}
-Surf::~Surf() { if (kind == SK_RT || kind == SK_DS) dev->destroy_obj(id); }   // (the back buffer is the swap chain's)
+Surf::~Surf() {
+  if (kind == SK_RT || kind == SK_DS) dev->destroy_obj(id);   // (the back buffer is the swap chain's)
+  if (snap >= 0) dev->snap_free.push_back(snap);               // its id is not reused, so the slot's old contents never match
+}
 HRESULT Surf::QueryInterface(REFIID r, void **o) {
   if (IsEqualGUID(r, IID_IUnknown) || IsEqualGUID(r, IID_IDirect3DSurface8)) { *o = this; AddRef(); return S_OK; }
   *o = NULL; return E_NOINTERFACE;
@@ -153,6 +156,20 @@ static bool read_back(Surf *s) {
   memcpy(s->cpu.data(), out.data(), out.size() < s->cpu.size() ? out.size() : s->cpu.size());
   return true;
 }
+// a copied render target's snapshot (X_SNAP), if it holds the surface as it is now: the slot's write count is the
+// surface's, so no copy, draw (never: `drawn`) or write-back has changed it since the copy the snapshot was taken of
+static bool read_snap(Surf *s) {
+  if (s->snap < 0 || s->drawn || !s->dev->link->snaps) return false;
+  SnapSlot &q = s->dev->link->snaps[s->snap];
+  UINT pitch = d8_pitch(s->fmt, s->w), rows = d8_rows(s->fmt, s->h);
+  uint32_t v = __atomic_load_n(&q.ver, __ATOMIC_SEQ_CST);
+  if ((v & 1u) || q.id != s->id || q.wseq != s->wseq || q.bytes != pitch * rows) { s->dev->snap_misses++; return false; }
+  std::vector<uint8_t> got(q.data, q.data + (size_t)pitch * rows);
+  __atomic_thread_fence(__ATOMIC_SEQ_CST);                 // the sequence lock's reader: the data before ver again
+  if (__atomic_load_n(&q.ver, __ATOMIC_SEQ_CST) != v) { s->dev->snap_misses++; return false; }
+  s->cpu.swap(got); s->dev->snap_hits++;
+  return true;
+}
 HRESULT Surf::LockRect(D3DLOCKED_RECT *lr, const RECT *r, DWORD flags) {
   if (!lr || locked) return D3DERR_INVALIDCALL;
   if (kind == SK_TEXLEVEL) {
@@ -166,7 +183,7 @@ HRESULT Surf::LockRect(D3DLOCKED_RECT *lr, const RECT *r, DWORD flags) {
   if (kind == SK_DS) { d8_notimpl("LockRect of a depth-stencil surface"); return D3DERR_INVALIDCALL; }
   if ((kind == SK_RT && !lockable)) { d8_notimpl("LockRect of a render target made not lockable"); return D3DERR_INVALIDCALL; }
   if (kind == SK_RT || kind == SK_BACKBUFFER) {
-    if (!read_back(this)) return D3DERR_INVALIDCALL;
+    if (!(kind == SK_RT && read_snap(this)) && !read_back(this)) return D3DERR_INVALIDCALL;
   } else if (cpu.empty()) cpu.assign((size_t)d8_pitch(fmt, w) * d8_rows(fmt, h), 0);
   UINT pitch = d8_pitch(fmt, w); size_t off = 0;
   if (r) { FmtInfo fi = d8_fmt(fmt); off = fi.block ? (size_t)(r->top / 4) * pitch + (r->left / 4) * fi.block : (size_t)r->top * pitch + r->left * (fi.bpp / 8); }
@@ -184,6 +201,7 @@ HRESULT Surf::UnlockRect() {
   }
   // a render target or the back buffer locked for writing: what was written goes back to it (its rows of the lock)
   if ((kind == SK_RT || kind == SK_BACKBUFFER) && id && !(lockFlags & D3DLOCK_READONLY)) {
+    wseq++;                                                     // written: an older snapshot no longer holds it
     UINT pitch = d8_pitch(fmt, w), rb = d8_pitch(fmt, (UINT)(lockRect.right - lockRect.left)), rows = (UINT)(lockRect.bottom - lockRect.top);
     std::vector<uint8_t> out((size_t)rb * rows);
     for (UINT y = 0; y < rows; y++) memcpy(&out[(size_t)y * rb], &cpu[(size_t)(lockRect.top + y) * pitch + d8_pitch(fmt, (UINT)lockRect.left)], rb);

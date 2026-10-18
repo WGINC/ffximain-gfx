@@ -538,6 +538,10 @@ def deleting_dtor_this(body):
 
 _PURGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'purges.json')
 PURGES = json.load(open(_PURGE_PATH)) if os.path.exists(_PURGE_PATH) else {}
+# a function with no `ret` that tail-jumps at stack depth 0 pops what its target's `ret N` pops (tail_purges.py)
+_TAIL_PATH = os.path.join(os.path.dirname(_PURGE_PATH), 'tail_purges.json')
+if os.path.exists(_TAIL_PATH):
+    PURGES.update({k: v['pops'] for k, v in json.load(open(_TAIL_PATH)).items() if k not in PURGES})
 
 def callee_pops_fix(o, pt):
     # a callee IDA sees as `jmp [ptr]` (the D3DX CPU-dispatch thunks, e.g. D3DXMatrixMultiply at 0x102D6F03)
@@ -551,9 +555,57 @@ def ghidra_fix_convention(rec):
     # stdcall that pops nothing is cdecl; cdecl that pops is stdcall
     real = PURGES.get('0x%08X' % rec['ea'])
     t, cc = rec.get('type', ''), rec.get('cc', '__cdecl')
+    if cc == '__thiscall' and rec.get('args') and rec['args'][0][0] == 'this' and not re.search(r'\(\s*\w[\w\s*]*\bthis\b', t):
+        # a prototype string leaves out Ghidra's automatic `this` (ECX); the record's parameter list has it
+        t = re.sub(r'\(\s*(void)?\s*\)\s*$', '(%s this)' % rec['args'][0][1], t) if re.search(r'\(\s*(void)?\s*\)\s*$', t) \
+            else re.sub(r'\(', '(%s this, ' % rec['args'][0][1], t, count=1)
     if real == 0 and '__stdcall' in t: t, cc = t.replace('__stdcall', '__cdecl'), '__cdecl'
     elif real and '__cdecl' in t: t, cc = t.replace('__cdecl', '__stdcall'), '__stdcall'
     return dict(rec, type=t, cc=cc)
+
+ICALL_MARK = re.compile(r'/\*XI_ICALL:(0x[0-9A-F]+)\*/')
+
+def _balanced(text, i):
+    # index just past the bracket group opening at text[i]
+    depth = 0
+    for j in range(i, len(text)):
+        if text[j] in '([': depth += 1
+        elif text[j] in ')]':
+            depth -= 1
+            if not depth: return j + 1
+    return None
+
+def ghidra_icalls(rec):
+    # an indirect call GfxExport.java marked `/*XI_ICALL:0xCALL*/callee(args)`: called with the convention and
+    # stack arguments rec['icalls'] holds (conv_facts.py: ecx_this_sites / sp_solved / vcalls / com_calls / real_sp)
+    text, icalls = rec['text'], rec.get('icalls') or {}
+    if rec.get('icalls_unmarked'): return None, 'indirect calls with an established convention could not be marked in the text'
+    while True:
+        m = ICALL_MARK.search(text)
+        if not m: return text, None
+        cc, n, ret = icalls.get(m.group(1), (None, 0, '-'))
+        i = m.end()
+        if text[i] == '(': j = _balanced(text, i)
+        else:
+            mm = re.match(r'[A-Za-z_]\w*', text[i:]); j = i + mm.end() if mm else None
+        while j is not None and j < len(text) and text[j].isspace(): j += 1
+        if j is None or text[j] != '(': return None, 'indirect call %s: callee expression not parsed' % m.group(1)
+        k = _balanced(text, j)
+        args, depth, cur = [], 0, ''
+        for c in text[j + 1:k - 1]:
+            if c in '([': depth += 1
+            elif c in ')]': depth -= 1
+            if c == ',' and depth == 0: args.append(cur); cur = ''
+            else: cur += c
+        if cur.strip(): args.append(cur)
+        want = n + (1 if cc == '__thiscall' else 0)
+        if cc is None or len(args) != want:
+            return None, 'indirect call %s: %d arguments in the text, %s %d established' % (m.group(1), len(args), cc, want)
+        params = (['void *'] if cc == '__thiscall' else []) + ['XI_ANY'] * n
+        if cc == '__thiscall': args[0] = '(void *)(%s)' % args[0].strip()
+        call = '((%s (%s *)(%s))(%s))(%s)' % ('float10' if ret == 'float' else 'int', cc, ', '.join(params) or 'void',
+                                             text[i:j], ','.join(args))
+        text = text[:m.start()] + call + text[k:]
 
 GHIDRA_AUTO = re.compile(r'\b((DAT|PTR|FUN|s|u|UNK|BYTE|WORD|DWORD)_(?:\w*?_)?([0-9a-f]{8}))\b')
 
@@ -564,12 +616,64 @@ def ghidra_auto_objs(rec, body):
     for m in GHIDRA_AUTO.finditer(body):
         nm, kind, ea = m.group(1), m.group(2), int(m.group(3), 16)
         if nm in objs: continue
-        if kind == 'FUN':
+        if kind == 'FUN' and ea == rec['ea'] and rec.get('type'):
+            # a call to itself: the exporter lists no object for it; the record's own prototype is the callee's
+            objs[nm] = {'ea': ea, 'func': True, 'type': re.sub(r'\b%s\s*\(' % re.escape(rec['name']) if rec.get('name') else r'(?!)', '(', rec['type']),
+                        'printed': [nm], 'purged': None}
+        elif kind == 'FUN':
             objs[nm] = {'ea': ea, 'func': True, 'type': 'undefined4 __cdecl(void)', 'printed': [nm], 'purged': None}
         else:
             objs[nm] = {'ea': ea, 'func': False, 'type': 'undefined4', 'printed': [nm], 'size': 4,
                         'is_str': kind in ('s', 'u')}
+    for m in re.finditer(r'&\s*(LAB_([0-9a-f]{8}))\b', body):    # a code address taken as a value
+        if m.group(1) not in objs:
+            objs[m.group(1)] = {'ea': int(m.group(2), 16), 'func': False, 'type': 'undefined1', 'printed': [m.group(1)],
+                                'size': 1, 'is_str': False}
     return objs
+
+K_MARK = re.compile(r'/\*XI_K:(4|8):([0-9A-F]+)\*/(-?(?:\d+\.\d*(?:e[+-]?\d+)?|\d+e[+-]?\d+|\d+|INFINITY|NAN))')
+BARE_FLOAT = re.compile(r'(?<![\w.])\d+(?:\.\d*(?:e[+-]?\d+)?|e[+-]?\d+)(?![\w.])')
+
+def ghidra_consts(text):
+    # a floating constant GfxExport marked `/*XI_K:size:bits*/value`: its own encoding (xi_k4 / xi_k8), not the
+    # double C++ reads from Ghidra's printed value; a floating literal left without its width is refused
+    text = K_MARK.sub(lambda m: 'xi_k%s(0x%sull)' % (m.group(1), m.group(2)), text)
+    rest = re.sub(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'', '""', text)
+    m = BARE_FLOAT.search(rest)
+    return (None, 'floating constant %s without its width' % m.group(0)) if m else (text, None)
+
+def ghidra_bool(text):
+    # Ghidra's `bool` is a 1-byte type and its `(bool)x` a change of type, not of value: `cmp cl, al` against a
+    # sete result compares the whole byte (0x10227C09). C++'s bool would turn 2 into 1, so it is a plain byte.
+    parts = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', text)
+    return ''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts))
+
+def ghidra_pieces(text):
+    # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
+    # (xi_ghidra.hpp XI_PIECE); x is the postfix expression before the `.`
+    while True:
+        m = re.search(r'\._(\d+)_(\d+)_(?!\w)', text)
+        if not m: return text
+        i = m.start()
+        while True:
+            j = i
+            while j > 0 and text[j - 1].isspace(): j -= 1
+            if j and text[j - 1] in ')]':
+                op, cl = ('(', ')') if text[j - 1] == ')' else ('[', ']')
+                d, k = 0, j - 1
+                while k >= 0:
+                    d += (text[k] == cl) - (text[k] == op)
+                    if d == 0: break
+                    k -= 1
+                i = k
+                if text[k] == '(' and not re.search(r'[\w\])]\s*$', text[:k]): break   # a parenthesised operand
+                continue
+            mm = re.search(r'[A-Za-z_]\w*$', text[:j])
+            if mm:
+                i = mm.start()
+                if i >= 1 and text[i - 1] == '.' or text[max(0, i - 2):i] == '->': i -= 1 if text[i - 1] == '.' else 2; continue
+            break
+        text = text[:i] + 'XI_PIECE(%s, %s, %s)' % (text[i:m.start()], m.group(1), m.group(2)) + text[m.end():]
 
 def call_arg_counts(body, name):
     # number of arguments at each call `name(...)` in the body (top-level commas)
@@ -585,6 +689,62 @@ def call_arg_counts(body, name):
             i += 1
         out.append(0 if empty else n)
     return out
+
+IMPORT_NARGS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_nargs.json')))
+
+def ghidra_import_type(name, o):
+    # a call through an import table slot: the Windows SDK's declared prototype (GfxExport applies Ghidra's
+    # windows_vs12_32.gdt by name), its argument count checked against IDA's SDK prototypes (import_nargs.json)
+    if not o.get('import_proto'): return None, 'import %s: no SDK prototype' % name
+    m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', SPOILS.sub('', o['type']), re.S)
+    if not m: return None, 'import %s: prototype not parsed: %s' % (name, o['type'])
+    ret, cc, params = m.group(1).strip() or 'int', m.group(2) or '__cdecl', m.group(3).strip()
+    if '...' in params: return None, 'import %s: variadic' % name
+    n = 0 if params in ('', 'void') else params.count(',') + 1
+    if IMPORT_NARGS.get(name) is not None and IMPORT_NARGS[name] != n:
+        return None, 'import %s: SDK prototype has %d arguments, import_nargs.json %d' % (name, n, IMPORT_NARGS[name])
+    if ret != 'void': ret = 'uint32_t'           # every value returned in EAX; the caller's text casts it
+    return '%s (%s *)(%s)' % (ret, cc, ', '.join(['XI_ANY'] * n)), None
+
+CC_REGS = {'__thiscall': ['ECX'], '__fastcall': ['ECX', 'EDX']}
+
+def extra_regs(cc, storage):
+    # parameters in registers the convention itself does not pass (an EAX or EDX input GfxExport gave a
+    # callee that leaves the register as it found it); "other" storage is not expressible either
+    own = CC_REGS.get(cc, [])
+    return [(i, r) for i, r in enumerate(storage or []) if r != 'stack' and (i >= len(own) or own[i] != r)]
+
+def ghidra_reg_call(name, o, body, tok):
+    # a call to a callee that takes a register its convention does not cover: an asm call that loads EAX, ECX,
+    # EDX as the callee's storage says, pushes the stack arguments, and pops them itself when the callee does not
+    # (its `ret N`, purges.json). The callee returns EDX:EAX; ESI/EDI/EBX/EBP are callee-saved in the game's code.
+    m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', SPOILS.sub('', o['type']), re.S)
+    ret = (m.group(1).strip() if m else 'int') or 'int'
+    if re.search(r'float|double', ret): return None, 'callee %s returns in ST0 and takes a register input' % name
+    st = o.get('storage') or []
+    regs = [r for r in st if r != 'stack']
+    if any(r not in ('EAX', 'ECX', 'EDX') for r in regs) or len(set(regs)) != len(regs):
+        return None, 'callee %s takes parameters in %s' % (name, ', '.join(regs))
+    real = PURGES.get('0x%08X' % o['ea'])
+    purge = real if real is not None else (o['purged'] if o.get('purged') is not None and o['purged'] >= 0 else None)
+    if purge is None: return None, 'callee %s takes a register input and its pop count is unknown' % name
+    nstack = purge // 4 if purge else max(call_arg_counts(body, name) or [0]) - len(regs)
+    n = len(regs) + max(nstack, 0)
+    where = list(st) + ['stack'] * (n - len(st))
+    if len(where) != n: return None, 'callee %s: %d parameters for %d arguments' % (name, len(st), n)
+    fn = 'xi_cr_%08X' % o['ea']
+    args = ', '.join('XI_ANY a%d' % i for i in range(n))
+    stk = [i for i, w in enumerate(where) if w == 'stack']
+    rv = {r: 'a%d.bits' % i for i, r in enumerate(where) if r != 'stack'}
+    lines = ['static inline unsigned long long %s(%s) {' % (fn, args),
+             '    uint32_t xs[%d] = {%s}; uint32_t ra = %s, rc = %s, rd = %s;' % (max(len(stk), 1), ', '.join('a%d.bits' % i for i in stk) or '0',
+                 rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0')),
+             '    __asm__ volatile(' + ''.join('"pushl %d(%%%%esi)\\n\\t"' % (4 * k) for k in reversed(range(len(stk))))
+             + '"call *%%edi\\n\\t"' + ('"addl $%d, %%%%esp\\n\\t"' % (4 * len(stk)) if stk and not purge else ''),
+             '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' % o['ea'],
+             '    return ((unsigned long long)rd << 32) | ra;', '}',
+             '#define %s %s' % (tok, fn)]
+    return lines, None
 
 def ghidra_ptr_type(name, o, body):
     # Ghidra's committed prototypes can disagree with its call sites (a callee's unused parameters are
@@ -617,14 +777,30 @@ def translate(rec):
     body = ctree_signs(rec, '{' + body)          # on Hex-Rays' own text, before any name is replaced
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
+    if rec.get('source') == 'ghidra' and extra_regs(rec.get('cc'), rec.get('storage')):
+        return None, 'entry takes %s in a register its convention does not pass' % ', '.join(r for i, r in extra_regs(rec.get('cc'), rec.get('storage')))
     for nm, o in rec.get('objs', {}).items():
         oea = o['ea']
         if o['func']:
-            pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
-            if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
-            pt = callee_pops_fix(o, pt)
             tok = 'F_%08X' % oea
-            syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
+            if o.get('import'):
+                pt, why = ghidra_import_type(nm, o)
+                if pt is None: return None, why
+                syms.append('typedef %s;' % re.sub(r'\((\w+) \*\)', r'(\1 *P_%08X)' % oea, pt, count=1))
+                syms.append('#define %s (*reinterpret_cast<P_%08X *>(0x%08Xu))' % (tok, oea, oea))
+            elif rec.get('source') == 'ghidra' and FPRET_ALL.get('0x%x' % oea) == 'consumes':
+                # fpret.json: the callee pops a value the caller leaves in ST0 (__ftol); Ghidra passes it as its
+                # one parameter (GfxExport, `st0in`); EDX:EAX come back as the callee leaves them
+                syms.append('#define %s(x) xi_call_st0(0x%08Xu, (x))' % (tok, oea))
+            elif rec.get('source') == 'ghidra' and extra_regs(re.search(CC_RE, o['type']).group(0) if re.search(CC_RE, o['type']) else '__cdecl', o.get('storage')):
+                lines, why = ghidra_reg_call(nm, o, body, tok)
+                if lines is None: return None, why
+                syms.extend(lines)
+            else:
+                pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
+                if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
+                pt = callee_pops_fix(o, pt)
+                syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
             tok = 'G_%08X' % oea
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
@@ -687,6 +863,11 @@ CONSTRUCTS = {k: v for k, v in json.load(open(os.path.join(os.path.dirname(os.pa
 D3DX81 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'd3dx', 'd3dx81_manifest.json')))
 BAD2 = re.compile(r'__usercall|__userpurge|JUMPOUT|__asm|BUG\(\)|__halt|(?<![A-Z])_UNKNOWN\b(?!\s*\*)|MEMORY\[|'
                   r'__readfsdword|__writefsdword|__outbyte|__inbyte|__CFSHL__|__SEH_|__try|__except|\bretaddr\b')
+# Ghidra's names for a value its prototype does not carry: a register read on entry (in_ECX), one a callee left
+# (extraout_EDX), a register kept across the function (unaff_ESI), a stack slot past the parameters (in_stack_..).
+# Compiled as written these are uninitialised locals; the translation refuses them instead (conv_facts.py sets
+# the conventions the game's code establishes before decompiling, so what is left is not expressible as typed).
+GHIDRA_REG = re.compile(r'\b(?:in|unaff|extraout)_\w+')
 LIB_TEXT = re.compile(r'\b(CD3DX\w*|Iostream_init|type_info|std::\w+|exception)\b')
 
 def types_header():
@@ -718,8 +899,28 @@ def main(src, outdir):
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
         rec = hx_patches.apply(rec)
+        if rec.get('source') == 'ghidra' and GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
+            meta['%08X' % ea] = {'status': 'skipped', 'why': 'register or stack input Ghidra could not tie to a parameter: '
+                                 + ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))}; continue
         if rec.get('source') == 'ghidra':
             rec = ghidra_fix_convention(rec)
+        if rec.get('source') == 'ghidra':
+            t, why = ghidra_icalls(rec)
+            if t is None:
+                meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
+            rec = dict(rec, text=t)
+        if rec.get('source') == 'ghidra' and rec.get('x87_locals'):
+            # locals that hold an x87 register value (GfxExport.x87Locals): the precision of ST, not of float
+            head, brace, rest = rec['text'].partition('\n{')
+            for n in rec['x87_locals']:
+                rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
+            rec = dict(rec, text=head + brace + rest)
+        if rec.get('source') == 'ghidra':
+            head, brace, rest = rec['text'].partition('\n{')
+            rest, why = ghidra_consts(rest)
+            if rest is None:
+                meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
+            rec = dict(rec, text=head + brace + ghidra_pieces(rest))
         if rec.get('source') == 'ghidra' and rec.get('type'):
             # Ghidra's text omits the calling convention in its signature; the record's type has it
             head, brace, rest = rec['text'].partition('\n{')
@@ -728,6 +929,8 @@ def main(src, outdir):
         r, why = translate(rec)
         if r is None:
             meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
+        if rec.get('source') == 'ghidra':
+            r = dict(r, syms=[ghidra_bool(x) for x in r['syms']], code=ghidra_bool(r['code']))
         with open(os.path.join(outdir, 'fn_%08X.cpp' % ea), 'w') as f:
             f.write(PRELUDE + ('#include "xi_ghidra.hpp"\n' if rec.get('source') == 'ghidra' else '')
                     + '\n'.join(r['syms']) + '\n\n' + r['code'] + '\n')

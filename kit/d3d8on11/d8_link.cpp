@@ -24,25 +24,92 @@ static double qpc_ms() {
   static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
 }
-// the executor's side of the stats: the time spent running records, per frame
+// the executor's side of the stats: the time spent running records, per frame, split by kind (draws; texture and
+// buffer uploads; Present, which is IDXGISwapChain::Present and so includes any wait the swap chain makes; readbacks
+// (X_READBACK, which waits for the GPU to finish the copy it reads); the rest).
+// An X_OPTION (the A/B, d8_device.cpp) ends a phase: its figures are logged under the option's previous value and
+// added to that value's totals, leaving out the first `settle` frames after each switch.
 struct ExecStats {
-  double busy = 0, since = 0; uint32_t frames = 0, records = 0;
+  enum { K_DRAW, K_UPLOAD, K_PRESENT, K_READBACK, K_OTHER, NK };
+  double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
+  Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
+  static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
+  void attach(Exec *e) { x = e; e->timed = hook; e->timed_ctx = this; }
+  // the A/B: the phase now running, its option value, frames still to leave out, totals per value (0 and 1)
+  bool ab = false; uint32_t key = OPT_FILTER, value = 0, settle = 0, phase = 0, pframes = 0; double pbusy[NK] = {}, tbusy[2][NK] = {}; uint32_t tframes[2] = {};
+  static int kind(uint16_t op) {
+    return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT :
+           op == X_READBACK ? K_READBACK : K_OTHER;
+  }
+  const char *kname() const { return key == OPT_BATCH ? "batch" : "filter"; }
+  static double sum(const double *b) { double s = 0; for (int k = 0; k < NK; k++) s += b[k]; return s; }
+  void phase_end() {
+    if (!ab) return;
+    if (pframes) {
+      uint32_t v = value ? 1 : 0;
+      d8_log("executor ab: phase %u, %s=%u, %u frames: busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, "
+             "readbacks %.3f, other %.3f)", phase, kname(), value, pframes, sum(pbusy) / pframes, pbusy[0] / pframes, pbusy[1] / pframes,
+             pbusy[2] / pframes, pbusy[3] / pframes, pbusy[4] / pframes);
+      for (int k = 0; k < NK; k++) tbusy[v][k] += pbusy[k];
+      tframes[v] += pframes;
+      for (int i = 0; i < 2; i++) if (tframes[i])
+        d8_log("executor ab: so far %s=%d: %u frames, busy %.3f ms a frame (draws %.3f, uploads %.3f, Present %.3f, "
+               "readbacks %.3f, other %.3f)", kname(), i, tframes[i], sum(tbusy[i]) / tframes[i], tbusy[i][0] / tframes[i],
+               tbusy[i][1] / tframes[i], tbusy[i][2] / tframes[i], tbusy[i][3] / tframes[i], tbusy[i][4] / tframes[i]);
+    }
+    for (int k = 0; k < NK; k++) pbusy[k] = 0;
+    pframes = 0;
+  }
+  void option(const uint8_t *p) {
+    const XOption &o = *(const XOption *)p;
+    if (!o.settle && !ab) return;                         // a setting at the start, not the A/B's
+    phase_end();
+    key = o.key;
+    if (ab || o.settle) { ab = true; phase++; }
+    value = o.value; settle = o.settle;
+  }
   void ran(uint16_t op, double ms) {
-    busy += ms; records++;
-    if (op != X_PRESENT || ++frames < STATS_EVERY) return;
+    int k = kind(op);
+    busy[k] += ms; records++;
+    if (ab && !settle) pbusy[k] += ms;
+    if (op != X_PRESENT) return;
+    if (ab) { if (settle) settle--; else pframes++; }
+    if (++frames < STATS_EVERY) return;
+    report();
+  }
+  // the stats line for the frames since the last one; also at shutdown (finish), so that a run shorter than
+  // STATS_EVERY Presents (a replay) still gets one, and the A/B's last phase is logged
+  void finish() { phase_end(); if (frames) report(); }
+  void report() {
     double now = qpc_ms(), span = since ? now - since : 0;
-    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time), %u records a frame", frames, busy / frames,
-           span > 0 ? 100.0 * busy / span : 0.0, records / frames);
-    busy = 0; frames = records = 0; since = now;
+    d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time; draws %.3f, uploads %.3f, Present %.3f, "
+           "readbacks %.3f, other %.3f), %u records a frame", frames, sum(busy) / frames, span > 0 ? 100.0 * sum(busy) / span : 0.0,
+           busy[0] / frames, busy[1] / frames, busy[2] / frames, busy[3] / frames, busy[4] / frames, records / frames);
+    if (x) {
+      // Maps a frame: of the arenas (one each per flush, Exec::plan) and by draws themselves (constants, ...UP data)
+      d8_log("executor batches, %u frames: batch=%u, %.1f flushes, %.1f arena Maps, %.1f draw Maps a frame", frames, x->batch,
+             (double)(x->flushes - x0[0]) / frames, (double)(x->arena_maps - x0[1]) / frames, (double)(x->draw_maps - x0[2]) / frames);
+      x0[0] = x->flushes; x0[1] = x->arena_maps; x0[2] = x->draw_maps;
+    }
+    for (int i = 0; i < NK; i++) busy[i] = 0;
+    frames = records = 0; since = now;
   }
 };
 
 // ---- the reader (the executor's side) -----------------------------------------------------------------------------
 void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wake, HANDLE space, HANDLE replied, HANDLE parent) {
-  std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms();
+  std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms(); xs.attach(x);
+  struct Finish { ExecStats &s; ~Finish() { s.finish(); } } fin{xs};   // every return below logs the last figures
+  // r: the next record; h->read: the first byte the writer may not reuse. While the executor holds records (Exec::batch)
+  // their bytes stay in the ring: h->read stays at the first held one, and moves when they have run. They run when the
+  // ring is empty, when the writer waits for room, or at the next record that is not held (Exec::run)
+  uint32_t r = h->read;
+  auto release = [&]() { st(&h->read, r); if (ld(&h->writer_waiting)) SetEvent(space); };
   for (;;) {
-    uint32_t r = h->read, w = ld(&h->write);
+    uint32_t w = ld(&h->write);
+    if (r != w && x->holding() && ld(&h->writer_waiting)) { x->flush(); release(); }
     if (r == w) {
+      if (x->holding()) { x->flush(); release(); continue; }
       st(&h->reader_sleeping, 1);
       if (ld(&h->write) == r) {
         if (ld(&h->quit)) return;
@@ -58,12 +125,11 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
 #ifdef D8_TRACE
     d8_log("R r=%u w=%u op=%u bytes=%u", r, w, hd->op, hd->bytes);
 #endif
-    if (hd->op == X_QUIT) { st(&h->read, r + need); return; }
+    if (hd->op == X_QUIT) { x->flush(); st(&h->read, r + need); return; }
     if (hd->op != X_PAD) {
       int32_t hr = 0; out.clear();
-      double t0 = qpc_ms();
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
-      xs.ran(hd->op, qpc_ms() - t0);
+      if (hd->op == X_OPTION) xs.option((const uint8_t *)(hd + 1));
       if (is_sync(hd->op)) {
         uint32_t n = (uint32_t)out.size();
         if (n > h->reply_max) { d8_log("a reply of %u bytes is larger than the reply area (%u): cut", n, h->reply_max); n = h->reply_max; }
@@ -74,8 +140,8 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
       }
       if (hd->op == X_PRESENT) { st(&h->presents_done, ld(&h->presents_done) + 1); SetEvent(replied); }
     }
-    st(&h->read, r + need);
-    if (ld(&h->writer_waiting)) SetEvent(space);
+    r += need;
+    if (!x->holding()) release();
   }
 }
 
@@ -162,7 +228,7 @@ static void ring_init(RingHdr *h, uint32_t size, uint32_t reply_max) {
   char v[16]; DWORD n = GetEnvironmentVariableA("D8ON11_RING_START", v, sizeof v);
   if (n > 0 && n < sizeof v) { uint32_t s0 = (uint32_t)strtoul(v, NULL, 16) & ~7u; h->write = h->read = s0; d8_log("ring: counters start at 0x%08X (D8ON11_RING_START)", s0); }
 }
-enum : uint32_t { RING_BYTES = 32u << 20, REPLY_BYTES = 16u << 20 };
+enum : uint32_t { RING_BYTES = 32u << 20, REPLY_BYTES = 16u << 20, SNAP_TABLE = SNAP_SLOTS * (uint32_t)sizeof(SnapSlot) };
 // the ring's size: 32 MB, or D8ON11_RING_KB (a power of two from 64 to 32768; the tests make it small, so that it wraps
 // often). A power of two because positions are counter % size and the counters wrap at 2^32: only a size dividing 2^32
 // keeps the position continuous across that wrap (at 9 MB a frame the counters wrap every few minutes).
@@ -185,9 +251,10 @@ struct ThreadLink : RingLink {
   }
   bool start() {
     uint32_t rb = ring_bytes();
-    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + rb + REPLY_BYTES, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    mem = (uint8_t *)VirtualAlloc(NULL, 4096 + rb + REPLY_BYTES + SNAP_TABLE, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (!mem) return false;
     h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    snaps = x.snaps = (SnapSlot *)(reply + REPLY_BYTES);
     ring_init(h, rb, REPLY_BYTES);
     wake = CreateEventA(NULL, FALSE, FALSE, NULL); space = CreateEventA(NULL, FALSE, FALSE, NULL); replied = CreateEventA(NULL, FALSE, FALSE, NULL);
     thread = CreateThread(NULL, 0, main, this, 0, NULL);
@@ -207,11 +274,12 @@ struct RemoteLink : RingLink {
     char nm[96]; static LONG n;
     snprintf(nm, sizeof nm, "Local\\d3d8on11_%lu_%ld", (unsigned long)GetCurrentProcessId(), (long)InterlockedIncrement(&n));
     uint32_t rb = ring_bytes();
-    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + rb + REPLY_BYTES, nm);
+    map = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 4096 + rb + REPLY_BYTES + SNAP_TABLE, nm);
     if (!map) return false;
     mem = (uint8_t *)MapViewOfFile(map, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (!mem) return false;
     h = (RingHdr *)mem; data = mem + 4096; reply = data + rb;
+    snaps = (SnapSlot *)(reply + REPLY_BYTES);                 // the executor finds it at the same place (d8x_main.cpp)
     ring_init(h, rb, REPLY_BYTES);
     char e[128];
     snprintf(e, sizeof e, "%s_w", nm); wake = CreateEventA(NULL, FALSE, FALSE, e);
@@ -252,14 +320,16 @@ struct RemoteLink : RingLink {
 struct DirectLink : Link {
   Exec x; std::vector<uint8_t> buf; uint32_t n = 0; uint16_t op = 0; int32_t hr = 0; std::vector<uint8_t> out; ExecStats xs;
   CRITICAL_SECTION lock;
-  DirectLink() { InitializeCriticalSection(&lock); xs.since = qpc_ms(); }
-  ~DirectLink() override { x.shutdown(); }
+  DirectLink() {
+    InitializeCriticalSection(&lock); xs.since = qpc_ms(); xs.attach(&x); x.copy_held = true;
+    snaps = x.snaps = (SnapSlot *)VirtualAlloc(NULL, SNAP_TABLE, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  }
+  ~DirectLink() override { x.flush(); xs.finish(); x.shutdown(); if (snaps) VirtualFree(snaps, 0, MEM_RELEASE); }
   uint8_t *begin(uint16_t o, uint32_t bytes) override { EnterCriticalSection(&lock); op = o; n = bytes; buf.resize(bytes ? bytes : 1); return buf.data(); }
   void end() override {
     out.clear(); hr = 0;
-    double t0 = qpc_ms();
     x.run(op, buf.data(), n, &hr, &out);
-    xs.ran(op, qpc_ms() - t0);
+    if (op == X_OPTION) xs.option(buf.data());
     if (!is_sync(op)) LeaveCriticalSection(&lock);
   }
   int32_t answer(std::vector<uint8_t> *o) override { if (o) *o = out; int32_t r = hr; LeaveCriticalSection(&lock); return r; }

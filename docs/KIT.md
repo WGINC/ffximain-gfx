@@ -80,13 +80,15 @@ The manifest also carries flags that leave a function out by default, each with 
 ## Tests (`kit/xikit/test/test_xikit.py`, Wine, the real FFXiMain.dll)
 
 `host.exe` (`test/host.c`) maps FFXiMain.dll without running it (`DONT_RESOLVE_DLL_REFERENCES`), gives it a
-fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs eleven times: base,
+fake CDx and device, loads `xikit.dll` from `dist/` and plays the render thread. It runs twelve times: base,
 relocated and profile (below); `ab` (the A/B test and the log folder); `mod` and `modrel`, with a mod (`test/mod_test.cpp`) at the analysed base and
 relocated (docs/SDK.md, Limits); `reload` (`mod_reload=1`); `capture` (the capture replayed through the gate, which
 needs the gate's build of the tree, `tree/build/gfx_recon.dll`: the test builds it when missing); `facts`
 (`facts=1`); and `realdev` and `realdev_ours` (14 Oct): a real Direct3D 8 device in the fake one's place, Wine's d3d8
 and then kit/d3d8on11's, in a virtual X server. The kit must hook it, present 200 frames through it and write
-`xikit_timing_<pid>.csv`. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
+`xikit_timing_<pid>.csv`. And `native` (18 Oct): `sample=2` in a Wine prefix with 64-bit Windows. The kit must start
+`xisamp_x64.exe` on the render thread, and its file must show the host's GetColor loop and the Sleep after it, each
+under the host's calls. `MODES="..."` runs only the runs named. The picture comparison needs `numpy`. Last full run: 6 Oct, Wine 9.0, 194 checks, all ok. The first three:
 
 - **base**: the game DLL at 0x10000000;
 - **relocated**: 0x10000000 reserved first, so the DLL is mapped elsewhere (0x009A0000 under Wine). Wine does
@@ -163,6 +165,13 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   - the time inside the device's Present;
   - the kit's own time before it (its checks and swaps, and mods' frame callbacks);
   - the number of functions swapped.
+
+  Across many log folders,
+
+      python3 pipeline/run_ledger.py <folder> [<folder> ...] > ledger.md
+
+  lists every run's settings, per-minute frames, timing rows, A/B phases and summaries, and readback counts,
+  each cited by file and line. It also lists the executor A/B of any `d3d8on11.log`.
 - **The sampling profiler, `sample=1`.** Read at the start. Every `sample_ms` (default 1) a thread of the kit
   suspends the render thread for an instant and records:
   - its EIP;
@@ -181,6 +190,48 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
     older frame is counted too.
 
   Samples estimate time shares; they do not time each call.
+- **The native sampler, `sample=2`** (kit/xisamp). Read at the start. `sample=1` runs inside the game: on an
+  x86-on-ARM64 machine it sees only the emulated x86 state, and on the owner's machine 64-67% of its samples read
+  EIP 0x00010002, which is in no module (task 34; what that value is has not been established). `sample=2`
+  instead starts `xisamp_arm64.exe` (native ARM64) or `xisamp_x64.exe` (native x64) from the kit folder, chosen by
+  `IsWow64Process2`'s native machine, with the first frame's thread. It is a 64-bit process of its own. Every
+  `sample_ms` it suspends the thread and reads:
+  - the x86 context (`Wow64GetThreadContext`) and 16 KB of the x86 stack;
+  - the native context (`GetThreadContext`: ARM64 Pc, Lr, Fp, Sp; x64 Rip, Rsp) and up to 64 KB of the native
+    stack.
+
+  With the thread running again, it builds:
+  - **the x86 chain:** a scan, as `sample=1`'s, of values in any x86 image that follow a call instruction;
+  - **the native chain** (ARM64): the x29 frame-pointer chain, which the Windows ARM64 ABI requires.
+
+  Each sample is one tuple: (x86 eip, x86 chain, native pc, native lr, native chain). Every `sample_window`
+  seconds (default 30), `xikit_native_<pid>.csv` gets:
+  - the window's local start and end, which line up with A/B phases;
+  - its tuples with counts;
+  - every image in the process, with its machine;
+  - a label for each address: its image and RVA, and the nearest export at or below it. The export is a position
+    only: a module's internal functions have no export.
+
+      python3 kit/xisamp/read.py xikit_native_<pid>.csv [--from HH:MM:SS --to HH:MM:SS] [--focus 0x1002A034]
+
+  shows, as shares of the samples:
+  - the x86 module;
+  - the native module;
+  - the two together;
+  - for x86 eips in no image: their values and their native pc and frames;
+  - time outside the game, by call site (as `sample=1`'s elsewhere);
+  - the system-call stub: the innermost x86 return address into win32u.dll or ntdll.dll, named by its export (the
+    stub the x86 code called), paired with the native pc (a stub's samples should sit in one wow64 thunk), and by
+    call site, counting only samples whose native pc is in wow64win.dll or ntdll.dll;
+  - for each `--focus` call site: its samples split by x86 module!export, native module!export and stub.
+
+  Game addresses are the analysed build's: xikit passes `rel` and the shift table.
+  - **Tested** (`kit/xisamp/test_xisamp.py`, x64 build under 64-bit Wine, a test x86 process with a known chain):
+    every busy sample's x86 chain begins with the three return addresses its disassembly gives;
+    the waits in Windows are found under the right caller; exports label kernel32 addresses; `read.py` reads the
+    file.
+  - **Not tested here:** the ARM64 build. It builds, and the test checks it is an ARM64 image, but there is no ARM64
+    Windows here. Its native frame chain is therefore untested; under Wine the native pc is the x86 eip.
 - **Time inside each Direct3D call, `call_time=1`** (with `profile=1`; read at the start). On the render thread,
   d3dprof's thunk keeps the call's return address on a shadow stack and points it at a return stub, reading
   `QueryPerformanceCounter` last thing before the method runs; the stub reads it first thing after the method
@@ -194,6 +245,28 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   the reconstructed GetColor name it; with `call_time=1`, the report's time columns and Present's times.
   `test_thunks.py` (Unicorn): a timed call returns to its caller through the stub with the method's pop, EAX and EDX,
   and records exactly one counter interval at its site.
+- **Kernel calls, `kernel_calls=1` or `2`** (with `profile=1`; read at the start; standalone: `[d3dprof]`
+  `kernel_calls=`). Counts the process's entries into the kernel through win32u.dll's x86 system-call stubs, at
+  the stub: each stub whose bytes are exactly `B8 imm32 / BA imm32 / FF D2 / C2 imm16 or C3` gets its first
+  instruction replaced by a jump to a thunk that counts the call (render thread, or other threads) and goes on into
+  the stub. Any other bytes are not touched; the report names them, with their first 8 bytes, as refused (under
+  Wine 9 the D3DKMT ones are `90 90 ...`, not stubs). `1` hooks a list (the D3DKMT calls and three NtUser ones),
+  `2` every export that matches. The first four, NtGdiDdDDILock2, Unlock2, WaitForSynchronizationObjectFromCpu and
+  Render, are also charged to the call they happen in: a device method (through the same return path as
+  `call_time`, so these sites need no timing) or a Lock/Unlock of a vertex/index buffer the game has bound
+  (`VB_Lock`, `VB_Unlock`, `IB_Lock`, `IB_Unlock` rows), exclusive of nested device calls. The report gets
+  `k_Lock2,k_Unlock2,k_WaitForSyncFromCpu,k_Render` per frame per row, a `# kernel <name> per frame` line each
+  (render thread total; inside device calls; inside buffer Lock/Unlock; elsewhere; other threads), and a
+  `# stub <name> per frame` line for every hooked stub that was entered.
+  - **Limits, as built:** a buffer's Lock/Unlock is only seen after the buffer has been bound once
+    (SetStreamSource/SetIndices), so a lock before its first bind counts as "elsewhere". A kernel call made on the
+    render thread outside any device call or wrapped buffer method (dgVoodoo's own work at another time, the game's
+    message loop) is "elsewhere" too. Under xtajit the stubs are x86 code the emulator translates; whether the
+    owner's win32u.dll has this exact form for these names is what the header line says.
+  - **Tested** (Wine, mode `profile`, `kernel_calls=2`): 401 of 421 stubs hooked, the D3DKMT ones refused with
+    their bytes; the host's fake Present calls PeekMessage 3 times, counted as exactly 3.00 a frame on the render
+    thread. `test_thunks.py` (Unicorn): a method that counts 1, calls another method through its thunk (counts 2)
+    and counts 1 more is charged 2 and the inner call 2; a bound VB's Lock that counts 1 is a `VB_Lock` site with 1.
 
 ## What the game runs on (always, in xikit.log)
 
@@ -238,6 +311,19 @@ answers, `xikit_reload_now.txt`). `log_folder=0` writes next to `xikit.dll` as b
 Every frame slower than `spike_ms` (Present to Present; 0 = off) is written to `xikit_spikes_<pid>.csv` with its frame
 number. With `profile=1` the resource log (`xikit_resources_<pid>.csv`) has the same frame numbers, the time of each
 creation call and the module that asked for it, so a stutter can be matched with what was created in it.
+
+With `sample=2` as well, the native sampler (kit/xisamp) takes each such frame's own samples:
+- Each sample reads the kit's frame counter while the render thread is stopped. The kit counts a frame in Present,
+  right after it takes the frame's start time, so a sample that reads `v` is in frame `v + 1`, the frame number
+  `xikit_spikes_<pid>.csv` gives.
+- A frame whose samples span `spike_ms` or more by the sampler's clock gets its own block in
+  `xikit_stutters_<pid>.csv`: the frame number, its span in ms, its samples (the same tuples as the windows), the
+  images and the labels. The time the sampler spends writing is left out of the frame it falls in.
+
+      python3 kit/xisamp/read.py xikit_stutters_<pid>.csv [--frames 1460,76] [--min-ms 150]
+
+  shows each stutter frame, longest first: where its samples were, by game function, or by module and export with
+  the innermost game call site under it.
 
 ## An A/B test with no keys (`ab=1`)
 

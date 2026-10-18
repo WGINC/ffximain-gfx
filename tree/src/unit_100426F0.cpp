@@ -236,7 +236,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       orig::_atexit(XI_CODE(unknown_libname_47));
     }
     orig::StateBlock_ApplyRSTSS(CMoDist_vf18_stateBlock, (int)CMoDist_vf18_renderStates, (int)CMoDist_vf18_textureStageStates);
-    orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+    orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
     (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
@@ -302,7 +302,7 @@ XI_API _DWORD * __thiscall fn_100426F0(float *self_)
       CMoDist_vf18_stateBlock2,
       (int)CMoDist_vf18_renderStates2,
       (int)CMoDist_vf18_textureStageStates2);
-    orig::sub_10043F40((int *)g_pDynVB_FVF142, 0, 4, 6, 0, -1);
+    orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF142, 0, 4, 6, 0, -1);
     result =(_DWORD*)(&(*(void * *)((char *)g_pProcessor + 0x0)));
     v58 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
     (*(int *)((char *)g_pProcessor + 0xA90)) = v58;

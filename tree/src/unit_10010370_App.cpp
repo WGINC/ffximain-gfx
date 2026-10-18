@@ -204,7 +204,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
         orig::sub_10152F80();
         if ( orig::sub_10153C10(v5) != 0 )
         {
-          orig::sub_10029A50();
+          orig::CreateSharedVertexBuffers();
           orig::CreateProcessorInstance();
           byte_1047D13D = 1;
           v6 = orig::Mem_AllocDefault(3428);

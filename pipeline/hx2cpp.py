@@ -550,6 +550,33 @@ def callee_pops_fix(o, pt):
         return pt.replace('__cdecl', '__stdcall', 1)
     return pt
 
+
+def ghidra_prepare(rec):
+    """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
+    tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
+    if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
+        return None, 'skipped', 'register or stack input Ghidra could not tie to a parameter: ' + \
+            ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))
+    rec = ghidra_fix_convention(rec)
+    t, why = ghidra_icalls(rec)
+    if t is None: return None, 'untranslatable', why
+    rec = dict(rec, text=t)
+    if rec.get('x87_locals'):
+        # locals that hold an x87 register value (GfxExport.x87Locals): the precision of ST, not of float
+        head, brace, rest = rec['text'].partition('\n{')
+        for n in rec['x87_locals']:
+            rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
+        rec = dict(rec, text=head + brace + rest)
+    head, brace, rest = rec['text'].partition('\n{')
+    rest, why = ghidra_consts(rest)
+    if rest is None: return None, 'untranslatable', why
+    rec = dict(rec, text=head + brace + ghidra_pieces(rest))
+    if rec.get('type'):
+        # Ghidra's text omits the calling convention in its signature; the record's type has it
+        head, brace, rest = rec['text'].partition('\n{')
+        rec = dict(rec, text='\n'.join(l for l in head.splitlines() if l.startswith('//')) + '\n' + rec['type'] + brace + rest)
+    return rec, None, None
+
 def ghidra_fix_convention(rec):
     # Ghidra's calling convention for the function itself, checked against its real `ret N`:
     # stdcall that pops nothing is cdecl; cdecl that pops is stdcall
@@ -899,32 +926,10 @@ def main(src, outdir):
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
         rec = hx_patches.apply(rec)
-        if rec.get('source') == 'ghidra' and GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
-            meta['%08X' % ea] = {'status': 'skipped', 'why': 'register or stack input Ghidra could not tie to a parameter: '
-                                 + ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))}; continue
         if rec.get('source') == 'ghidra':
-            rec = ghidra_fix_convention(rec)
-        if rec.get('source') == 'ghidra':
-            t, why = ghidra_icalls(rec)
-            if t is None:
-                meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
-            rec = dict(rec, text=t)
-        if rec.get('source') == 'ghidra' and rec.get('x87_locals'):
-            # locals that hold an x87 register value (GfxExport.x87Locals): the precision of ST, not of float
-            head, brace, rest = rec['text'].partition('\n{')
-            for n in rec['x87_locals']:
-                rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
-            rec = dict(rec, text=head + brace + rest)
-        if rec.get('source') == 'ghidra':
-            head, brace, rest = rec['text'].partition('\n{')
-            rest, why = ghidra_consts(rest)
-            if rest is None:
-                meta['%08X' % ea] = {'status': 'untranslatable', 'why': why}; continue
-            rec = dict(rec, text=head + brace + ghidra_pieces(rest))
-        if rec.get('source') == 'ghidra' and rec.get('type'):
-            # Ghidra's text omits the calling convention in its signature; the record's type has it
-            head, brace, rest = rec['text'].partition('\n{')
-            rec = dict(rec, text='\n'.join(l for l in head.splitlines() if l.startswith('//')) + '\n' + rec['type'] + brace + rest)
+            rec, status, why = ghidra_prepare(rec)
+            if rec is None:
+                meta['%08X' % ea] = {'status': status, 'why': why}; continue
         rec = dict(rec, text=SPOILS.sub('', rec['text']))
         r, why = translate(rec)
         if r is None:

@@ -27,7 +27,7 @@ corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 217 files) | **774** of the tree's 777: PASS on fuzz and all four dumps |
+| **Verified in the clean tree, as built** (`tree/`, 217 files) | **776** of the tree's 779: 774 PASS on fuzz and all four dumps; the step getters 0x10014CF0 and 0x10014D20 (Ghidra route, 18 Oct) PASS on fuzz, 10 of 10 instructions covered, not yet gated on the dumps |
 | In the tree, not verified (`// NOT VERIFIED`) | 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs) |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |

@@ -1,0 +1,9 @@
+{
+ "calls": [
+  {"may": "change", "call": "0x1000D3F0", "args": [0]},
+  {"may": "drop", "call": "Sleep"}
+ ],
+ "memory": [],
+ "return": false,
+ "_why": "frame_step: Frame_Render's own read of the step at its top (0x10011A24) passes speedfix's whole ticks, not max([this+0x28], 1.0), as the argument after `this` of j_CEnv_UpdateDualTargetMode (0x1000D3F0, __thiscall). uncap: the wait for the floor [this+0x30] reads it as 0, so the waiting loop's Sleep calls are not made. Calls and writes inside the wait and the step (0x10012B05..0x10012CB5) are not yet reached by any gate trial: the timer's virtual calls there (0x10012B28, 0x10012B86, 0x10012B91, 0x10012BCB, 0x10012BF5) have no fact yet, and xikit facts=1 measures them"
+}

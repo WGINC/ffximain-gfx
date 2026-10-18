@@ -478,6 +478,20 @@
 "symbol": "fn_100141C0",
 "unit": "unit_10011A00_Post"
 },
+"0x10014cf0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "Camera_GetFrameScale",
+"unit": "unit_10014350_Camera"
+},
+"0x10014d20": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_10014D20",
+"unit": "unit_10014350_Camera"
+},
 "0x10015510": {
 "class": null,
 "method": null,

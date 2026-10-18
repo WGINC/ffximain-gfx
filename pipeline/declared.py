@@ -11,7 +11,8 @@ A declaration file (JSON):
      "return": false}
 
   calls    a call is named as the gate logs it: a Direct3D method "Interface::Method" (data/com_spec.json, the D3D8
-           headers' order) or a game function's analysed address (a stubbed callee). Argument indices count the
+           headers' order), a game function's analysed address (a stubbed callee), or an import by its name
+           ("Sleep": the gate's trap for that import in the run, bind_imports). Argument indices count the
            method's parameters after `this` from 0, as the SDK documents them; "this" names the object.
            drop    the original makes the call, the change does not
            add     the change makes a call the original does not
@@ -51,7 +52,16 @@ def target_of(name):
         if slot is None: raise ValueError('declared call %s: %s has no method %s' % (name, iface, meth))
         return 0xC0000000 | (IFACES.index(iface) << 8) | slot
     if re.fullmatch(r'0x[0-9A-Fa-f]+', name): return int(name, 16)
-    raise ValueError('declared call %s: neither Interface::Method nor an address' % name)
+    if re.fullmatch(r'[A-Za-z_]\w*', name): return None          # an import by name (bind_imports)
+    raise ValueError('declared call %s: neither Interface::Method, an address nor an import name' % name)
+
+
+def bind_imports(decl, trap_names):
+    """an import declared by name (`"call": "Sleep"`) is the trap address(es) the gate gave that import in this run
+    (trap_names: address -> 'module!Name' or 'Name'); a name the run has no import of matches nothing"""
+    for d in decl['calls']:
+        if d['target'] is None:
+            d['targets'] = {a for a, n in trap_names.items() if n.split('!')[-1] == d['call']}
 
 
 def name_of(t):
@@ -104,7 +114,7 @@ def align(ca, cb):
 def _covers(d, kind, x, y):
     if d['may'] != kind: return False
     c = x if kind != 'add' else y
-    if c[0] != d['target'] or not _where(d, c): return False
+    if (c[0] not in d.get('targets', ()) if d['target'] is None else c[0] != d['target']) or not _where(d, c): return False
     if kind == 'change' and d['args'] is not None:
         n = max(len(x[2]), len(y[2]))
         diff = (['this'] if x[1] != y[1] else []) + [k for k in range(n) if _val(x, k) != _val(y, k)]

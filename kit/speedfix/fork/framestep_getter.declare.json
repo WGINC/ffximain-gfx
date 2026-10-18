@@ -1,0 +1,6 @@
+{
+ "calls": [],
+ "memory": [],
+ "return": true,
+ "_why": "frame_step: the getter answers speedfix's step (whole ticks, or under frame_step=2 the fraction at the listed call sites) instead of max([g_pCamera+0x28], 1.0); it reads and writes nothing else"
+}

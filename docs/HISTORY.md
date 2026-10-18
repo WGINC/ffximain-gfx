@@ -2625,3 +2625,57 @@ truncated, at least 1 (docs/RENDERER.md 3, 3a). With the minimum at 0 it does no
   without it the kit does nothing there and every mode fails.
 - Not tested in the running game. Not known: per-frame code that ignores the step (0x1024DE20 is one), what a step of 0
   does at the 204 whole sites, and what the server makes of it.
+
+## 18 Oct: the tree's selection by the frame; frame_step and uncap as edits to verified code
+
+The owner's direction: the tree's selection should follow the frame, not only the device; and a change like
+frame_step should be made in the C++ as an edit to verified code, so the gate confirms that everything not meant to
+change still matches the game.
+- `pipeline/frame_set.py` (`data/frame_set.json`): the functions a frame is known to run, each with its evidence.
+  - Static reach from CApp::RunMainLoop (0x10001520) gives at least 4,984 functions (4,765 game code, 219 D3DX),
+    270 of them in the tree. It follows direct calls, tail jumps and the proven virtual calls.
+  - 1,929 indirect calls in 484 functions have no proof and are not followed, so this is a lower bound.
+  - SkinAndDrawV2 is found only through the samples. Static reach finds only 60 of the 113 functions with
+    frame_step sites.
+- The Ghidra route now goes end to end:
+  - `pipeline/ghidra/export.sh` runs the export, and `hx2clean.py` takes comma lists of exports and gates.
+    Ghidra records share the translator's preparation (`hx2cpp.ghidra_prepare`), and units with a Ghidra
+    function include `xi_ghidra.hpp`.
+  - `tree/source.json` names `data/exports/ghidra_export.jsonl` by SHA-1, with the raw gate
+    `verification/gate_raw_ghidra.jsonl`. `verify_all.py` regenerates the tree from both exports:
+    `tree-regen` differing [], build `failed: none`.
+  - Regenerating found the committed tree out of step with its sources. Callees had been renamed in the tree
+    only, and `xi_shift`/`xi_code` lived only in `tree/include`. The fix copies them back into
+    `clean_support/` (`xi_decomp.hpp`, `rt.c`). `same_code.py --ignore-names`: 778 identical, 0 different.
+  - The first two functions added by this route are the step getters 0x10014CF0 (Camera_GetFrameScale) and
+    0x10014D20: raw PASS 100/100, clean PASS 100 with 10 of 10 instructions covered.
+  - They are fuzz only: the four dumps are not in this container.
+  - The tree has 779 functions, 776 PASS.
+- speedfix's `uncap` and `frame_step` are now gated forks of three tree functions, and the patches (asm thunks,
+  writes to `[+0x30]`) are removed:
+  - The forks are `kit/speedfix/fork/Frame_Render.fork.cpp`, `Camera_GetFrameScale.fork.cpp` and
+    `fn_10014D20.fork.cpp`.
+  - In Frame_Render's fork, uncap reads the floor `[this+0x30]` as 0 at its four reads; the field is not written.
+  - With frame_step on, the fork makes the step untruncated (floor and cap of 20 as the game's), carries the
+    fraction, and answers the whole part. It does so at its own copy (0x10011A24, passed to 0x1000D3F0) and in
+    the getters' forks; frame_step=2 also answers the fraction at the 14 sites.
+  - Switches off: each fork PASSes the gate with no declarations (Frame_Render 68 returned, 24 UNRESOLVED,
+    8 faults; the getters 100).
+  - Switches on: each PASSes with every difference declared. Frame_Render's declared changed call of 0x1000D3F0
+    was seen in 50 trials, the getters' declared return in 100.
+  - The declarations may now name an import (`"call": "Sleep"`, `declared.bind_imports`): with the floor at 0
+    the wait's Sleep is not called.
+  - Test: `kit/speedfix/test/test_framestep.py` ALL OK; `test_speedfix.py` ALL OK in all 6 modes.
+    - At 60 fps, the step made from the game's ring average after the game's own wait and step code added up
+      to 123 whole ticks, against the game's 123.24.
+    - With the floor at 0 and 3 ms frames: 39 against 37.92 ticks of real time, 161 frames of 0.
+- Not known yet: the gate's fuzzed trials stop UNRESOLVED at the wait's first timer call (0x10012B28). That call
+  and 0x10012B86, 0x10012B91, 0x10012BCB and 0x10012BF5 are virtual calls on the timer at `[this+0x1c]` (vtable
+  0x1032A118) with no measured facts. So the gate has not run the step code; sf_host has. Needed: a `facts=1`
+  session for those sites, and a `capture=Frame_Render` session to give the gate real inputs
+  (`test_framestep.py CAPTURES=dir`).
+- `kit/BUILD.lock.json` was rewritten. speedfix, the in-game DLL and its manifest changed with their sources.
+  probe11 (x86, arm64), d8x_arm64 and xisamp (x64, arm64) had no source change and still differ from the lock.
+  Built twice here at the same path they are identical (only the PDB path enters the timestamp and GUID). The
+  hashes in the lock came from earlier containers, and those binaries are not in the repository, so the cause
+  is not known.

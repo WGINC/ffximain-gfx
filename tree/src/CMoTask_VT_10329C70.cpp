@@ -23,7 +23,7 @@ char CMoTask_VT_10329C70::vf8()
     if ( v1 == 1 )
     {
       orig::sub_10069EE0((float *)g_pResourceMng);
-      orig::sub_100441C0((_DWORD *)g_pMoCamera);
+      orig::CameraCache_CacheViewProjection((_DWORD *)g_pMoCamera);
       orig::sub_1006A180(g_pResourceMng, 0, 0, 0, 0);
       return 0;
     }

@@ -225,6 +225,8 @@ inline ::xikit::fn<decltype(&::App_StepGameState7)> App_StepGameState7() { retur
 inline ::xikit::fn<decltype(&::App_StepGameState8)> App_StepGameState8() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState8)> >(XI_GAME(0x10014030u)); }
 inline ::xikit::fn<decltype(&::App_StepGameState9)> App_StepGameState9() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState9)> >(XI_GAME(0x10014120u)); }
 inline ::xikit::fn<decltype(&::fn_100141C0)> fn_100141C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100141C0)> >(XI_GAME(0x100141C0u)); }
+inline ::xikit::fn<decltype(&::Camera_GetFrameScale)> Camera_GetFrameScale() { return reinterpret_cast< ::xikit::fn<decltype(&::Camera_GetFrameScale)> >(XI_GAME(0x10014CF0u)); }
+inline ::xikit::fn<decltype(&::fn_10014D20)> fn_10014D20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014D20)> >(XI_GAME(0x10014D20u)); }
 inline ::xikit::fn<decltype(&::Camera_ApplyViewProjection)> Camera_ApplyViewProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::Camera_ApplyViewProjection)> >(XI_GAME(0x10015510u)); }
 inline ::xikit::fn<decltype(&::App_WinMain)> App_WinMain() { return reinterpret_cast< ::xikit::fn<decltype(&::App_WinMain)> >(XI_GAME(0x100157E0u)); }
 inline ::xikit::fn<decltype(&::App_CreateRendererAndApp)> App_CreateRendererAndApp() { return reinterpret_cast< ::xikit::fn<decltype(&::App_CreateRendererAndApp)> >(XI_GAME(0x100161B0u)); }
@@ -1008,6 +1010,8 @@ constexpr unsigned App_StepGameState7 = 4, App_StepGameState7_TRAMP = 1;  // "Ap
 constexpr unsigned App_StepGameState8 = 4, App_StepGameState8_TRAMP = 1;  // "App_StepGameState8" 0x10014030
 constexpr unsigned App_StepGameState9 = 0, App_StepGameState9_TRAMP = 1;  // "App_StepGameState9" 0x10014120
 constexpr unsigned fn_100141C0 = 0, fn_100141C0_TRAMP = 1;  // "fn_100141C0" 0x100141C0
+constexpr unsigned Camera_GetFrameScale = 4, Camera_GetFrameScale_TRAMP = 1;  // "Camera_GetFrameScale" 0x10014CF0
+constexpr unsigned fn_10014D20 = 4, fn_10014D20_TRAMP = 1;  // "fn_10014D20" 0x10014D20
 constexpr unsigned Camera_ApplyViewProjection = 0, Camera_ApplyViewProjection_TRAMP = 1;  // "Camera_ApplyViewProjection" 0x10015510
 constexpr unsigned App_WinMain = 4, App_WinMain_TRAMP = 1;  // "App_WinMain" 0x100157E0
 constexpr unsigned App_CreateRendererAndApp = 4, App_CreateRendererAndApp_TRAMP = 1;  // "App_CreateRendererAndApp" 0x100161B0

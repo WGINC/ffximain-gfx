@@ -158,7 +158,14 @@ def main():
     got = hashlib.sha1(open(texp, 'rb').read()).hexdigest() if os.path.getsize(texp) else None
     report('tree-source', got == src['export_sha1'], export_commit=src['export_commit'], sha1=got,
            same_as_committed_export=got == hashlib.sha1(open(EXP, 'rb').read()).hexdigest())
-    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (texp, src['raw_gate'], t))
+    # the Ghidra route's exports (functions the IDA export does not hold), each checked by SHA-1, appended after it
+    gexp, ggate = [], []
+    for g in src.get('ghidra_exports', []):
+        gs = hashlib.sha1(open(os.path.join(ROOT, g['path']), 'rb').read()).hexdigest()
+        report('tree-source:' + g['path'], gs == g['sha1'], sha1=gs, expected=g['sha1'])
+        gexp.append(os.path.join(ROOT, g['path']))
+    if src.get('ghidra_raw_gate'): ggate.append(src['ghidra_raw_gate'])
+    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):

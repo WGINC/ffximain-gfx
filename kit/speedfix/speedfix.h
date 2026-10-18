@@ -49,8 +49,10 @@ void sf_frame(void);
 uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the running game (XI_GAME, build translation)
 int  sf_hook_query(const XikitHost *host);
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
+int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
 extern int sf_skinmerge_installed;
+extern int sf_framestep_installed;
 // sf_occlusion.cpp
 void sf_occl_init(const XikitHost *host);
 int  sf_occl_readback(void *q, int mode);         // the readback answered a probe late (mode 1) or measured (2)

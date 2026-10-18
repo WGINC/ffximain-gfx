@@ -2304,3 +2304,52 @@ used; Reset releases both surfaces; mode 2 answers as the game and logs the comp
 - The time it saves, and whether the one-probe delay shows: `ab_levers=occlusion_late`, and a look while moving
   through crowds.
 
+## 18 Oct: texture loading off the render thread? What the code says
+
+The owner asked whether decoding could move off the render thread, ideally onto the GPU without blocking.
+
+**What runs, from the game's code** (tree/src/unit_100399D0_TexObj.cpp, gate PASS; D3DX names from docs/RESIDUE.md,
+matched by bytes in d3dx8tex.obj, the D3DX statically linked into FFXiMain):
+- TexObj_Create (0x10039A80) makes the final texture with D3DXCreateTexture (0x102D2FB9), pool 1 (MANAGED). Its format:
+  - DXT1 (16-bit source) or DXT3 (24/32-bit) when the texture's class `([+44] >> 4) & 0xF` is 0, or above
+    g_cfgTextureCompression (0x10456AD0), or 10 with the map-compression setting 0; the format is first checked with
+    D3DXCheckTextureRequirements (0x102D2F40);
+  - otherwise A1R5G5B5 (16) or A8R8G8B8 (24, 32).
+  - The game's value of the setting was 0 in the test host; speedfix's texture_compression sets 15, so with it only
+    classes 0 and (map compression 0) 10 are made DXT.
+- TexObj_Upload (0x10039E50), for a texture not stored compressed:
+  - makes a temporary texture (D3DXCreateTexture, all levels, MANAGED: A1R5G5B5, R8G8B8 or A8R8G8B8);
+  - locks it and decodes the file's pixels into it in the game's own loop: 4- and 8-bit palette lookups, 16/24/32-bit
+    repacking, rows flipped;
+  - copies level 0 into the final texture with D3DXLoadSurfaceFromSurface (0x102D4515), filter 1 (D3DX_FILTER_NONE);
+    into a DXT texture that copy is D3DX's DXT compression, on the CPU;
+  - makes each further level from the one before with D3DXLoadSurfaceFromSurface, filter 5 (D3DX_FILTER_BOX); for a
+    DXT texture each level is decompressed, filtered and compressed again, on the CPU.
+- A texture stored compressed (`[+41]` bit 0x80) is loaded with D3DXLoadSurfaceFromMemory (0x102D2868) and its FOURCC
+  from 0x10351C94; its levels are then made as above.
+- TexMgr_UploadPump (0x1003ABB0) makes at most 21 a frame (HISTORY, 10 Oct).
+
+**What is measured:** CreateTexture 148 us a call through dgVoodoo; 12,460 of 14,450 creations a session on the render
+thread (the owner's two captures). **Not measured:** the time in the decode loop, in D3DX's conversions and DXT
+compression, in file reading, and in model setup, during a loading frame. Without that split, no part of it can be
+named as the cause of the loading stutter.
+
+**What can and cannot move, and where:**
+- Under dgVoodoo: the D3D8 calls must stay on the device's thread (the game's device is used from the render thread;
+  whether it was made with D3DCREATE_MULTITHREADED was not checked). Direct3D 8 has no compute shaders, and a DXT
+  texture cannot be drawn into, so a GPU decode there would need the texture changed to a DEFAULT-pool render target,
+  which Reset loses. Not proposed.
+- The CPU work (the decode loop and D3DX) could run on a worker thread only if the game asked for textures ahead of
+  needing them. It does not: the pump calls TexObj_Create inline and uses `[+64]` after it.
+- In ours (d3d8on11, `thread` mode): CreateTexture and each level's upload are already ring records run by the executor
+  thread (d8_res.cpp: X_TEX, `upload_tex`), so the GPU-side creation does not wait. Two exact (lossless) changes are
+  possible there:
+  - the temporary texture is only read back by D3DX on the CPU and never drawn, yet ours makes it on the GPU and
+    uploads it; a managed texture's GPU copy could be made at its first use instead;
+  - the palette lookup and repacking are integer table lookups, so a GPU version (a compute shader in the executor)
+    gives the same bytes. D3DX's DXT encoder and box filter are not reproduced exactly by a GPU encoder, so moving
+    those would change the picture; keeping such textures uncompressed (texture_compression) avoids them instead.
+
+**Next, before any of these:** time TexObj_Upload, its D3DX calls and the pump in loading frames (speedfix, with
+spike_ms), so the cost is known per part.
+

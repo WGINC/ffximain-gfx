@@ -2424,3 +2424,119 @@ The ARM64 build has not run on ARM64. Its native chain is untested.
 
 **Next:** the owner runs the same A/B with `sample=2` (`sample_ms=1`, `sample_window=30`). The two
 `xisamp_*.exe` go next to xikit.dll. The owner sends `xikit_native_<pid>.csv` with xikit.log.
+
+
+## 18 Oct: the owner's sample=2 runs 3464 and 14180 (17 Oct, kit 736e74a): the time is in three kernel calls
+
+Two runs in the plaza, standing still, `ab_levers=skip_all_occlusion_readbacks`:
+- **3464:** the kit as sent: skin_merge=1, occlusion_late=0, 8 phases. The tier in use was SSE.
+- **14180:** skin_merge=0, occlusion_late=1, 2 phases (ab_rounds=1, so no measure of the noise). The tier in use was
+  x87: cpu_tier's log line says "the game has already chosen its math tier".
+
+**Frame times (speedfix's A/B lines):**
+- 3464: A 43.51 ms, B 33.48 ms, B − A −10.03 ms. The phases of one label differ by up to 2.54 ms. 8452 (no
+  sampler) gave 43.32/32.54, so the sampler's own cost does not show in the frame time.
+- 14180: A 44.78 ms, B 25.78 ms, −19.00 ms. A ran occlusion_late (skip off), B skipped every readback.
+
+**The sampler (xikit_native_<pid>.csv):**
+- 132,515 samples in 3464's A/B (23:04:19–23:08:19) and 32,728 in 14180's. No failed reads.
+- The rate was about 550 a second, not the 1,000 asked for.
+
+**0x00010002 is not a position.**
+- Wow64GetThreadContext, read from the other process at the same instant as the native context, gives eip 0x10002 in
+  99.8–99.9% of the samples (and 0x10000 in the rest) in every window of both runs.
+- So under xtajit the x86 EIP field does not say where the thread is. The x86 return addresses on its stack (ESP is
+  valid) and the native pc do. sample=1's 64–67% at 0x00010002 was the whole thread, not one place.
+
+**Which kernel calls (from the samples, with a check):**
+- The innermost x86 return address into win32u.dll is the system-call stub the x86 code called. It is named by
+  win32u's export table, read on the owner's machine (the file's `a` records).
+- The native pc for each stub sits in one wow64win.dll thunk:
+  - NtGdiDdDDILock2 at wow64win+0x3004;
+  - NtGdiDdDDIUnlock2 at +0x35D4;
+  - NtGdiDdDDIWaitForSynchronizationObjectFromCpu at +0x3634.
+- Native module machines (`m` records):
+  - wow64win.dll, wow64.dll and xtajit.dll are ARM64 (0xAA64), in System32.
+  - d3d11, prl_umdd10, gdi32 and ntdll are loaded from SyChpe32 (CHPE).
+  - D3D8.dll is dgVoodoo's x86 build, in PlayOnlineViewer.
+- `kit/xisamp/read.py` now prints this view (the `syscalls` tables). Its call-site table counts a sample only when
+  its native pc is in wow64win.dll or ntdll.dll, so a stale return address on the stack is not counted.
+
+**Shares of the render thread's samples, native pc inside the call (read.py, by window):**
+
+| window | frame (ms) | WaitForSync…FromCpu | Lock2 | Unlock2 |
+|---|---|---|---|---|
+| 3464 A, phases 4–5 (23:05:49–23:06:49) | ~43.8 | 26.52% | 22.07% | 18.39% |
+| 3464 B, phases 6–7 (23:06:49–23:07:49) | ~33.7 | ~0 | 29.63% | 24.89% |
+| 14180 A (occlusion_late) | 44.78 | 27.66% | 20.34% | 16.98% |
+| 14180 B (skipped) | 25.78 | ~0 | 26.52% | 23.04% |
+
+**The sync wait is the readback, and its cost per frame now agrees two ways:**
+- In 3464 A, the wait's samples are under the game's readback LockRect (return 0x1006C91F): 26.54%.
+- 26.5% × 43.8 ms is about 11.6 ms a frame.
+- speedfix's own timing (QPC around the call) agrees. The minute 23:04:19–23:05:19 had 3,360 readbacks at a mean of
+  2,374 µs, which is 7.98 s, in the A phase's 707 frames (647 counted plus the 60 left out). That is 11.3 ms per A
+  frame.
+- So the "4.909 ms a frame" in that log line was wrong. It divided by every frame of the minute, including the
+  B phase's 918, which ran no readback. That is fixed here: a frame with every readback skipped is now counted apart
+  (sf_occlusion.cpp, sf_occl_frame; test: sf_host.c).
+- The A − B of about 10 ms is therefore the readback's own wait (about 4.75 calls a frame, about 2.4 ms each), not
+  twice it as it seemed.
+- These are two independent measures, the sampler's share and speedfix's timing. Their agreement is also the one
+  check that the sampler's shares are proportional to time. Suspending a thread at a kernel call and at translated
+  code may not take the same time, and the file has no per-sample time to test that otherwise.
+
+**occlusion_late does not remove the wait (14180):**
+- Its late read, the LockRect of a copy made a probe earlier, waits in the same kernel call. 27.66% × 44.78 ms is
+  about 12.4 ms a frame.
+- speedfix's timing agrees: 3,730 late reads at a mean of 2,154.9 µs is 8.04 s in A's 661 frames, 12.2 ms a frame.
+  The log line's "4.513 ms a frame (1830 frames)" had the same divisor error.
+- Those samples' x86 stacks run win32u <- speedfix.dll <- ... <- 0x1006C4DC, the call speedfix redirects. Their
+  innermost game address, 0x1000A258 (fn 0x1000A230, which calls slot 61 of the object at [this+0xC] with (0, 0), SetTexture(0, NULL) if that is the device (MinGW d3d8.h), then
+  0x1000A2B0), is under speedfix's frames. It is the readback's caller chain or a stale slot, not the waiting call.
+- Through dgVoodoo on this machine, a lock of a render-target copy waits about as long a probe later as at once.
+  Whether that wait is for the GPU or for the driver is not established.
+
+**Lock2 + Unlock2: about 18 ms a frame in 3464, A and B alike:**
+- A: (22.07 + 18.39)% × 43.8 ≈ 17.7 ms. B: (29.63 + 24.89)% × 33.7 ≈ 18.4 ms.
+- Removing the readbacks leaves them unchanged.
+- In 14180 B: (26.52 + 23.04)% × 25.78 ≈ 12.8 ms.
+- By call site in 3464 B (native pc in the call):
+  - 0x1002A034 (skin_merge's fork of SkinAndDrawV2): Lock2 13.14%, Unlock2 8.56%;
+  - 0x10012AFA (Frame_Render's call to CDx::EndScene): 5.98% and 6.78%;
+  - 0x1002F150: 2.73% and 2.22%;
+  - CMoVuElem_Draw: 2.46% and 1.64%;
+  - 0x10030831: Unlock2 1.92%;
+  - CDx::SetLight: Lock2 1.05%;
+  - the rest under 1% each.
+- In 14180 (no fork) the game's own SkinAndDrawV2 sites (0x1002E74B, 0x1002DD03, 0x1002DD38, 0x1002DD7F, 0x1002DDB4,
+  0x1002E78A) sum to about 14% in B.
+
+**What is known:**
+- D3DKMTLock2 and D3DKMTUnlock2 (the D3DKMT interface in the WDK headers) lock and unlock a video-memory
+  allocation through the kernel.
+- On this machine the D3D11 path under dgVoodoo makes them often enough to take about half of the render thread's
+  time. The sampler cannot count calls.
+
+**What is not known:**
+- Which Direct3D 8 calls lead to them. Lock/Unlock of the game's dynamic vertex and index buffers is the obvious
+  candidate, but that is not established. The x86 frames between the game's call site and win32u are in D3D8.dll
+  (dgVoodoo), d3d11.dll and prl_umdd10.dll, and are positions only (no symbols).
+- How many there are a frame.
+- Why SetLight and EndScene sites show them.
+- Whether the fork makes more of them than the game's own SkinAndDrawV2. 3464 (fork, SSE) and 14180 (no fork, x87)
+  differ in two levers and in the phase count.
+
+**The exploding vertices:**
+- The owner turned skin_merge off for 14180 and saw none.
+- 14180 also ran the x87 tier, where 3464 ran SSE (the cpu_tier log line). From this run alone they cannot be put on
+  skin_merge rather than the SSE math tier.
+- To settle it: a run with cpu_tier as in 3464 (the game choosing SSE) and skin_merge=0. Or, if they show again,
+  skin_merge switched alone. skin_merge takes effect at the next start, so that means two starts with only that line
+  changed.
+
+**Next:**
+- Count the D3D8 calls that lead to Lock2/Unlock2: d3dprof `call_time=1` gives the time and count per call site
+  and method.
+- Name the fork's inner call sites: read.py takes the game's and the reconstruction's addresses as call sites, not
+  speedfix.dll's.

@@ -46,7 +46,7 @@ static int g_used;
 static volatile LONG g_nLate, g_nSync, g_nCopyFail, g_nSame, g_nDiffer, g_nVisFlip;
 // timing (QueryPerformanceCounter ticks), render thread only: the game's readback, this file's copy and its read;
 // frames counted apart for the lever on and off, so each figure is also given per frame of its own label
-static LONGLONG g_tGame, g_tCopy, g_tRead, g_tReadMax; static LONG g_nGame, g_nCopy, g_nRead, g_framesOn, g_framesOff;
+static LONGLONG g_tGame, g_tCopy, g_tRead, g_tReadMax; static LONG g_nGame, g_nCopy, g_nRead, g_framesOn, g_framesOff, g_framesSkip;
 static inline LONGLONG qpc(void) { LARGE_INTEGER t; QueryPerformanceCounter(&t); return t.QuadPart; }
 typedef int (__thiscall *ReadbackFn)(void *, int);
 // the game's readback, timed (sf_main.cpp calls it for every readback speedfix does not answer itself)
@@ -56,7 +56,8 @@ extern "C" int sf_occl_game(void *q, int flag) {
   g_tGame += qpc() - t; g_nGame++;
   return r;
 }
-extern "C" void sf_occl_frame(int on) { if (on) g_framesOn++; else g_framesOff++; }
+// a frame with skip_all_occlusion_readbacks on runs no readback, so it is in neither per-frame figure
+extern "C" void sf_occl_frame(int on) { if (on < 0) g_framesSkip++; else if (on) g_framesOn++; else g_framesOff++; }
 extern "C" void sf_occl_init(const XikitHost *host) { H = host; }
 
 static void release_slot(OlSlot *e) {
@@ -166,11 +167,11 @@ extern "C" void sf_occl_stats(void) {
   if (g_nGame + g_nCopy + g_nRead)
     H->log("speedfix: readback time: the game's readback %ld calls, mean %.1f us, %.3f ms a frame with occlusion_late off (%ld frames); "
            "occlusion_late's copy %ld, mean %.1f us; its late read %ld, mean %.1f us, longest %.1f us; the two %.3f ms a frame "
-           "with it on (%ld frames)",
+           "with it on (%ld frames); %ld frames with every readback skipped, in neither",
            g_nGame, g_nGame ? g_tGame * us / g_nGame : 0.0, g_framesOff ? g_tGame * us / 1000.0 / g_framesOff : 0.0, g_framesOff,
            g_nCopy, g_nCopy ? g_tCopy * us / g_nCopy : 0.0, g_nRead, g_nRead ? g_tRead * us / g_nRead : 0.0, g_tReadMax * us,
-           g_framesOn ? (g_tCopy + g_tRead) * us / 1000.0 / g_framesOn : 0.0, g_framesOn);
-  g_tGame = g_tCopy = g_tRead = g_tReadMax = 0; g_nGame = g_nCopy = g_nRead = g_framesOn = g_framesOff = 0;
+           g_framesOn ? (g_tCopy + g_tRead) * us / 1000.0 / g_framesOn : 0.0, g_framesOn, g_framesSkip);
+  g_tGame = g_tCopy = g_tRead = g_tReadMax = 0; g_nGame = g_nCopy = g_nRead = g_framesOn = g_framesOff = g_framesSkip = 0;
   LONG a = InterlockedExchange(&g_nLate, 0), s = InterlockedExchange(&g_nSync, 0), f = InterlockedExchange(&g_nCopyFail, 0);
   LONG same = InterlockedExchange(&g_nSame, 0), dif = InterlockedExchange(&g_nDiffer, 0), flip = InterlockedExchange(&g_nVisFlip, 0);
   if (a + s + f) H->log("speedfix: occlusion_late: %ld answered from the previous probe, %ld by the game's readback (first or stale), "

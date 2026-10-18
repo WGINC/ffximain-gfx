@@ -128,6 +128,15 @@ static int log_has(const char *what) {
   static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
   return strstr(b, what) != NULL;
 }
+/* how many "speedfix: readback time:" lines xikit.log has; the last one's frames with occlusion_late on and frames with
+   every readback skipped go to *on and *skip */
+static int rb_lines(long *on, long *skip) {
+  FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
+  static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
+  int c = 0; char *l = NULL, *p = b; while ((p = strstr(p, "speedfix: readback time:"))) { l = p++; c++; }
+  if (l && (l = strstr(l, "with it on ("))) sscanf(l, "with it on (%ld frames); %ld frames with every readback skipped", on, skip);
+  return c;
+}
 static void touch(const char *path, const char *body) { Sleep(30); FILE *f = fopen(path, "w"); fputs(body, f); fclose(f); }
 
 /* the stagger's call: ESI = the actor (0x100CC584 `mov edi, [esi+0x9F0]`) */
@@ -499,6 +508,16 @@ int main(int argc, char **argv) {
           "... how often the late answer would have differed from the game's is logged");
     check(log_has("speedfix: readback time: the game's readback") && log_has("its late read") && log_has("occlusion_late: its surfaces: 16x16 lockable render targets, format 21"),
           "... the time in the game's readback and in its copy and late read is logged, and its surfaces' format");
+    /* a frame with every readback skipped is in neither per-frame figure (the owner's run 3464 divided by them) */
+    long fon = 0, fskip = 0;
+    for (int k = 0; k < 5 && fskip <= 0; k++) {   /* a second's statistics can end between the two settings: again */
+      touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nstats_every=1\n"); frames(65);
+      long x, y; int before = rb_lines(&x, &y);
+      begin(); rb(&q1, 0); end(); present();
+      touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nstats_every=1\n"); frames(65);
+      for (int i = 0; i < 300 && rb_lines(&fon, &fskip) == before; i++) { frames(1); Sleep(10); }
+    }
+    check(fskip > 0, "... frames with every readback skipped are counted apart, not as frames that ran the game's readback");
     touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\n"); frames(65);
     *(void **)GAME(0x1047C004u) = 0; *(void **)GAME(0x1047BFA8u) = 0;
   }

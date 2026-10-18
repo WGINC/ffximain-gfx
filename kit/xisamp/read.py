@@ -12,8 +12,13 @@ samples in the windows chosen (--from/--to: local times, compared with each wind
              native pc (module!nearest export) and the native frames' modules;
   elsewhere  samples whose eip is outside the game and the reconstruction, by the innermost game or reconstruction
              return address on the x86 stack (the call site that went there; xikit sample=1's "caller");
+  syscalls   the innermost x86 return address into win32u.dll or ntdll.dll (module!export: the system-call stub the
+             x86 code called; the native pc is then in its wow64 thunk or the kernel call), with the native module
+             paired with it as a check (a stub's samples should sit in one thunk), then stub by call site counting
+             only samples whose native pc is in wow64win.dll or ntdll.dll (inside the call, not a stale return
+             address left on the stack while other code runs);
   focus      for each --focus call site (analysed address, as the elsewhere view prints it): its samples split by
-             x86 module!export, then native module!export.
+             x86 module!export, then native module!export, then the system-call stub.
 Names: a game address is the analysed build's (the header's rel and shift table) with its function (samples.py's
 Names: the manifest and data/func_extents.json); another image's address is module+rva and the nearest export at or
 below it -- a position, not the function's name (a module's internal functions have no export). The x86 return
@@ -25,6 +30,7 @@ sys.path.insert(0, os.path.join(H, '..', 'd3dprof'))
 from samples import Names   # noqa: E402
 
 GAME, RECON = 'ffximain.dll', 'gfx_recon_ingame.dll'
+STUBS, INCALL = ('win32u.dll', 'ntdll.dll'), ('wow64win.dll', 'ntdll.dll')
 
 
 class Window:
@@ -119,7 +125,8 @@ def main():
         for k, n in ctr.most_common(top): print('%s%s  %s' % (indent, pct(n), k))
 
     x86, nat, joint, noimg_eip, noimg_pc, noimg_frames, caller = (collections.Counter() for _ in range(7))
-    focus = {int(f, 16): (collections.Counter(), collections.Counter(), collections.Counter()) for f in o.focus}
+    stubs, stub_pc, stub_site = collections.Counter(), collections.Counter(), collections.Counter()
+    focus = {int(f, 16): tuple(collections.Counter() for _ in range(4)) for f in o.focus}
     for w in sel:
         for c, eip, xc, pc, lr, nc in w.rows:
             xm, pm = nm.where(w, eip, 0), nm.where(w, pc, 0)
@@ -128,14 +135,18 @@ def main():
                 noimg_eip['eip 0x%08X' % eip] += c
                 noimg_pc[nm.where(w, pc, 2)] += c
                 noimg_frames[' <- '.join([nm.where(w, pc, 1), nm.where(w, lr, 1)] + [nm.where(w, a, 1) for a in nc[:6]])] += c
+            st = next((a for a in xc if w.mod(a) and w.mod(a)[2].lower() in STUBS), None)
+            stk = nm.where(w, st, 1) if st is not None else '(no win32u/ntdll return address)'
+            stubs[stk] += c; stub_pc['%s  |  %s' % (stk, nm.where(w, pc, 2) if st is not None else nm.where(w, pc, 0))] += c
             if not nm.ours(w, eip):
                 site = next((a for a in xc if nm.ours(w, a)), None)
                 if site is None: caller['(no game or reconstruction return address found)'] += c; continue
                 key = nm.where(w, site, 2) if w.mod(site)[2].lower() != GAME else '0x%08X in %s' % (nm.analysed(site), nm.where(w, site, 1))
                 caller[key] += c
+                if st is not None and nm.where(w, pc, 0).lower() in INCALL: stub_site['%s  |  %s' % (key, stk)] += c
                 if w.mod(site)[2].lower() == GAME and nm.analysed(site) in focus:
-                    a, b, d = focus[nm.analysed(site)]
-                    a[nm.where(w, eip, 1)] += c; b[nm.where(w, pc, 1)] += c
+                    a, b, d, e = focus[nm.analysed(site)]
+                    a[nm.where(w, eip, 1)] += c; b[nm.where(w, pc, 1)] += c; e[stk] += c
                     d['%s  |  %s <- %s' % (nm.where(w, eip, 1), nm.where(w, pc, 1), nm.where(w, lr, 1))] += c
     table('x86: the module the x86 code was in', x86)
     table('native: the module the native code was in', nat)
@@ -145,12 +156,16 @@ def main():
         table('no image: their native pc (module+rva!nearest export+offset)', noimg_pc)
         table('no image: their native frames (pc <- lr <- the fp chain), by module!export', noimg_frames)
     table('elsewhere: x86 eip outside the game and reconstruction, by the innermost game/reconstruction call site', caller)
-    for f, (a, b, d) in focus.items():
+    table('syscalls: the innermost x86 return address into win32u.dll/ntdll.dll (the stub called)', stubs)
+    table('syscalls: stub | native pc (a stub\'s samples in one wow64 thunk is the check)', stub_pc)
+    table('syscalls: call site | stub, native pc in wow64win.dll/ntdll.dll', stub_site)
+    for f, (a, b, d, e) in focus.items():
         n = sum(a.values())
         print('\nfocus 0x%08X: %s' % (f, pct(n)))
         table('  x86 eip (module!export)', a, indent='    ')
         table('  native pc (module!export)', b, indent='    ')
         table('  joint: x86 | native pc <- lr', d, indent='    ')
+        table('  system-call stub', e, indent='    ')
 
 
 if __name__ == '__main__':

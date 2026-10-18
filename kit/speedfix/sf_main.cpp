@@ -603,7 +603,7 @@ extern "C" void sf_frame(void) {
   if (n % 60 == 1) ab_read();
   ab_control();
   apply_code();
-  sf_occl_frame(sf_cfg.occlusion_late && sf_hooks_live());
+  sf_occl_frame(sf_cfg.skip_all_occlusion_readbacks && sf_hooks_live() ? -1 : sf_cfg.occlusion_late && sf_hooks_live());
   sf_device_frame();
   if (GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
     last_stats = GetTickCount();

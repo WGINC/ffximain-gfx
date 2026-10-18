@@ -220,7 +220,10 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
   - the two together;
   - for x86 eips in no image: their values and their native pc and frames;
   - time outside the game, by call site (as `sample=1`'s elsewhere);
-  - for each `--focus` call site: its samples split by x86 module!export and native module!export.
+  - the system-call stub: the innermost x86 return address into win32u.dll or ntdll.dll, named by its export (the
+    stub the x86 code called), paired with the native pc (a stub's samples should sit in one wow64 thunk), and by
+    call site, counting only samples whose native pc is in wow64win.dll or ntdll.dll;
+  - for each `--focus` call site: its samples split by x86 module!export, native module!export and stub.
 
   Game addresses are the analysed build's: xikit passes `rel` and the shift table.
   - **Tested** (`kit/xisamp/test_xisamp.py`, x64 build under 64-bit Wine, a test x86 process with a known chain):

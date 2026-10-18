@@ -54,7 +54,7 @@ void sf_occl_init(const XikitHost *host);
 int  sf_occl_readback(void *q, int mode);         // the readback answered a probe late (mode 1) or measured (2)
 int  sf_occl_game(void *q, int flag);              // the game's readback 0x1006C8B0, timed
 void sf_occl_reset(void);                         // before Reset: its surfaces released
-void sf_occl_frame(int on);                       // once a frame: whether occlusion_late was on
+void sf_occl_frame(int on);                       // once a frame: occlusion_late on (1), off (0), or every readback skipped (-1)
 void sf_occl_stats(void);
 // sf_device.cpp
 int  sf_device_install(const XikitHost *host);    // the device hooks; only from xikit_mod_init

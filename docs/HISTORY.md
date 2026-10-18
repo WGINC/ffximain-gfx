@@ -2558,3 +2558,36 @@ kit can now count them directly:
 - **What it will settle:** how many Lock2/Unlock2 a frame there are, and which game call sites produce them. The
   13 Oct trace counted about 475-568 VB Unlocks a frame (the largest at 0x1002DD38 / 0x1002DD7F / 0x1002DDB4 in
   CYyModelDt_SkinAndDrawV2, CPU skinning). Whether those are what makes the Lock2/Unlock2 is what the run measures.
+
+## 18 Oct: run 14204 (dgVoodoo, `kernel_calls=1`): where the Lock2/Unlock2 come from; the stutters
+
+**Measured** (d3dprof_14204.csv, the last 600-frame window: frame 35.1 ms mean, 29.3 min, 376.1 max):
+- 2,102.3 `NtGdiDdDDILock2` and as many `Unlock2` a frame, all on the render thread: 1,730.1 inside device calls,
+  372.0 inside the game's vertex-buffer Lock/Unlock, 0.2 elsewhere. No `WaitForSynchronizationObjectFromCpu`.
+- By method, Lock2 a frame (calls a frame): DrawPrimitive 809.5 (2,377.6), DrawIndexedPrimitive 507.1 (1,164.3),
+  VB_Lock 372.0 (372.0), SetTexture 175.9 (1,139.5), DrawPrimitiveUP 100.1 (155.2), SetRenderState 88.5 (2,136.7).
+  The largest buffer pair is the skinning VB at 0x1002DD7F / 0x1002DE3F, 84.5 a frame each.
+- Not measured: the time of each kernel call. Run 3464 put about 18.8 ms a frame in Lock2+Unlock2 by sampling; with
+  about 4,200 calls that is about 4.5 µs each, an inference from two different runs. That a dgVoodoo draw's Lock2
+  is a D3D11 Map of a dynamic buffer (its constants or UP data) is also inference: the frames between are in
+  dgVoodoo's D3D8.dll, d3d11.dll and prl_umdd10.dll, without symbols.
+
+**What was done about it (ours):** the batched executor (`exec_batch`, kit/d3d8on11/README.md): one Map per arena per
+batch for the shader constants and the UP vertex and index data of every draw in it, the draws binding their
+constants at an offset. In ours, the 17 Oct thread-mode runs had the executor busy 92-97% of the frame. Whether the
+batches cut that, and the Lock2 count, is what the owner's next run measures (`exec_ab_lever=batch`, with
+`kernel_calls=1`).
+
+**The stutters** (xikit_spikes_14204.csv, xikit_timing_14204.csv): 1,689 of about 9,600 frames over 50 ms; 74 over
+150 ms; the worst 3,078.8 ms (frame 1460, with 1459 and 1461 at 482.8 and 547.7) and 1,496.7 ms (frame 76).
+- Resource creation is not what they are: 59 of the 74 frames over 150 ms create nothing; the 15 that do spent
+  23.4 ms in all in creation calls. The largest creations are at frame 0 (a 2048x4096 texture, 234 ms; xikit's own).
+- What they are is not known. The native sampler aggregates 30 s windows, so it cannot be put on a frame. Most of
+  the frames over 50 ms (1,425 of the 1,689 are 50-80 ms) are the slow stretches the timing windows show (p50 of
+  16.7 to 69.8 ms by window), not single hitches.
+- The speedfix A/B (group 1, skip_all_occlusion_readbacks) is confounded: the phases' means run from 29.2 to 80.8 ms
+  with no order by lever, so the owner moved during it. The game's readback took 3.4-4.3 ms a call, 4.0-8.1 ms a
+  frame when run.
+
+**Next:** a stutter needs a per-frame record of where the time went (the game's frame split, not the sampler's
+windows); the batches need the owner's run.

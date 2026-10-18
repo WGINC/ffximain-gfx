@@ -50,6 +50,18 @@ code that uses Direct3D 11.
     the filter alternates off, on, on, off for `exec_ab_phase` seconds (30) each, `exec_ab_rounds` times (4), the
     first `exec_ab_settle` frames (60) of a phase left out; the log gets `executor ab:` lines with the game's frame
     time and the executor's busy time per phase, then `exec_filter` as set again.
+  - The executor's batches, `exec_batch=1` (`D8ON11_EXEC_BATCH` wins; default 1, `exec_batch=0` turns them off):
+    the executor holds the game's records (draws, binds, states, uploads) and runs them together when it must
+    answer, at Present, when the ring is empty, or when the game waits for room. Before a batch runs it maps each
+    arena once: the vertex and pixel shader constants of every draw in it, its DrawPrimitiveUP vertices and its UP
+    and inline indices. A draw then binds its constants at its offset (`VSSetConstantBuffers1`/`PSSetConstantBuffers1`)
+    instead of a Map of its own. Why: run 14204 (dgVoodoo) counted about 2,102 `NtGdiDdDDILock2` a frame on the
+    render thread, 1,730 inside draws and binds; that each D3D11 Map costs such a pair is inferred, not measured.
+    Constant offsets are used only where the driver reports `ConstantBufferOffsetting`, NOOVERWRITE on the constant
+    arenas only where it reports `MapNoOverwriteOnDynamicConstantBuffer`; the log's `constant buffer offsets:` line
+    says which. Without offsets, constants are mapped per draw as before. The tests check that each mode, filter off
+    and on, draws every scene exactly as `direct` without batches. `exec_ab_lever=batch` makes `exec_ab` alternate
+    the batches instead of the filter; the `executor batches` stats line gives flushes, arena Maps and draw Maps a frame.
   - Diagnostics: `D8ON11_DRIVER=warp` makes the D3D11 device on WARP, Microsoft's software rasterizer, instead of the
     GPU; `D8ON11_DEBUG_LAYER=1` asks for the D3D11 debug layer and writes its messages to the log at each Present
     (Windows needs the optional Graphics Tools feature, or the device is not made). Both log a `D3D11 device:` line.

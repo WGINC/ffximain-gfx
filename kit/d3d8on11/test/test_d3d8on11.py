@@ -33,6 +33,8 @@ shutil.copy(os.path.join(D8, 'dist', 'd3d8.dll'), ours); shutil.copy(os.path.joi
 MODES = os.environ.get('MODES', 'direct thread remote').split()
 # the scenes are drawn without the executor filter (its default is 1, d8_device.cpp) unless a check asks for it
 os.environ['D8ON11_EXEC_FILTER'] = '0'
+# ... and without the executor's batches (exec_batch, default 1), unless a check asks for them
+os.environ['D8ON11_EXEC_BATCH'] = '0'
 
 
 def run(where, mode, override, xmode=None, extra=None):
@@ -128,6 +130,17 @@ for m in MODES:
     print('%s: %s mode with the executor filter drew exactly what %s mode drew without it (%d scenes)' % ('ok' if same else 'FAIL', m, first[0], len(sf)))
     for n in sorted(set(sf) | set(first[1])):
         if sf.get(n) != first[1].get(n): print('  differs: %s' % n)
+# the executor's batches (exec_batch, D8ON11_EXEC_BATCH: records held and run together, constants and ...UP data
+# written with one Map of each arena) must draw exactly what it draws without them, in each mode, with the filter off
+# and on
+for m in MODES:
+    if not first: break
+    for fl in ('0', '1'):
+        sf = scenes(ours, True, m, {'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': fl})
+        same = sf == first[1]; bad += not same
+        print('%s: %s mode with batches (filter %s) drew exactly what %s mode drew without them (%d scenes)' % ('ok' if same else 'FAIL', m, fl, first[0], len(sf)))
+        for n in sorted(set(sf) | set(first[1])):
+            if sf.get(n) != first[1].get(n): print('  differs: %s' % n)
 # 4. Microsoft's DirectX 8.1 runtime with its reference device (D3DDEVTYPE_REF), against ours in direct mode
 REF_TOL = 3
 REF_SKIP = {'zbias': 'the reference device does not report D3DPRASTERCAPS_ZBIAS (RasterCaps 0x00772199) and ignores it',
@@ -331,7 +344,7 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
     for f in os.listdir(ours):
         if f.endswith('.log'): os.remove(os.path.join(ours, f))
     env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE=m, D8ON11_RING_KB='64')
-    env.pop('D8ON11_EXEC_FILTER')                 # with nothing set, the filter must be on
+    env.pop('D8ON11_EXEC_FILTER'); env.pop('D8ON11_EXEC_BATCH')   # with nothing set, the filter and the batches must be on
     try:
         r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', run_], cwd=ours,
                            capture_output=True, text=True, timeout=300, env=env)
@@ -342,11 +355,11 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
         ok = code == 3 and 'ended 1 executor' in out and 'the executor process ended' in t
         what = 'with its executor process ended at frame 30, the game ends (exit code %s), not hangs' % code
     else:
-        need = ['executor stats, 600 frames', 'executor filter: 1'] + (['ring stats, 600 frames'] if m != 'direct' else [])
+        need = ['executor stats, 600 frames', 'executor filter: 1, batch: 1'] + (['ring stats, 600 frames'] if m != 'direct' else [])
         snap = re.search(r'readback snapshots, \d+ frames: (\d+) locks .* (\d+) read it back', t)
         ok = (code == 0 and 'still running after 600 frames' in out and all(n in t for n in need) and
               'ok: a frame-late lock' in out and snap is not None and int(snap.group(1)) > 0)
-        what = ('600 frames run (exit code %s), the filter on by default, the stats lines are written, and frame-late locks '
+        what = ('600 frames run (exit code %s), the filter and batches on by default, the stats lines are written, and frame-late locks '
                 'of a copied render target read the right colour, some from their snapshot' % code)
     print('%s: %s mode: %s' % ('ok' if ok else 'FAIL', m, what)); bad += not ok
     for l in t.splitlines():

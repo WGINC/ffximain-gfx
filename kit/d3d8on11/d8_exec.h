@@ -41,12 +41,34 @@ struct Exec {
   void snap_poll();
   // one record; a sync record's answer goes to hr and reply
   void run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply);
+  // X_OPTION OPT_BATCH (1: on): records other than X_INIT, X_RESIZE, X_READBACK, X_FINISH, X_PRESENT and X_OPTION are
+  // held, not run, until one of those comes or the transport calls flush(). A flush writes the held draws' constants
+  // and ...UP / inline index data into large dynamic buffers (the arenas) with one Map of each, then runs the records
+  // in their order; a draw binds its constants at an offset (ID3D11DeviceContext1::VSSetConstantBuffers1, where the
+  // driver reports ConstantBufferOffsetting) instead of mapping a buffer of its own. Direct3D 11 runs a context's
+  // commands in the order they are made, so the records run in the same order as without it and the picture is the
+  // same (test_d3d8on11.py compares). Why: on the owner's machine each Map is a Lock2 and an Unlock2 system call
+  // (docs/HISTORY.md, 18 Oct, run 14204: the counts, and their cost, which is inferred).
+  // A held record's bytes must stay where they are until the flush: the ring's reader does not free them before
+  // (d8_link.cpp); copy_held (direct mode, whose buffer is reused) makes this executor copy them.
+  uint32_t batch = 0; bool copy_held = false;
+  bool holding() const { return !held.empty(); }
+  void flush();
+  // the time each record took to run, for the stats (d8_link.cpp); a flush's own work counts as the draws'
+  void (*timed)(void *, uint16_t, double) = nullptr; void *timed_ctx = nullptr;
+  uint64_t flushes = 0, arena_maps = 0, draw_maps = 0;   // for the stats: flushes, Maps of the arenas, Maps by a draw
   void shutdown();
 private:
+  struct Held { uint16_t op; uint32_t n; const uint8_t *p; size_t off; };
+  std::vector<Held> held; std::vector<uint8_t> hold;
+  struct Prep { uint32_t vc, pc, vb, ib; };                // byte offsets into the arenas; ~0u: none (the draw maps)
+  std::vector<Prep> prep;
+  size_t plan(size_t i);
+  void exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply, const Prep *pp);
   int32_t init(const XInit &x, bool resize);
   void release_swap();
   ID3D11RenderTargetView *rtv_of(const XRef &r);
-  void draw(const XDraw &d, const uint8_t *data);
+  void draw(const XDraw &d, const uint8_t *data, const Prep *pp);
   void clear_rects(const XClear &c, const XRect *r);
   // what this executor last set on the context, for the filter. Every member is what a draw sets; anything else that
   // sets context state (clear_rects, X_TARGETS, release_swap's ClearState) calls forget(). Also the last keys and
@@ -56,7 +78,7 @@ private:
     bool valid = false;
     ID3D11VertexShader *vs = nullptr; ID3D11PixelShader *ps = nullptr; ID3D11InputLayout *lay = nullptr;
     ID3D11BlendState *bs = nullptr; ID3D11DepthStencilState *dss = nullptr; UINT sref = 0; ID3D11RasterizerState *rs = nullptr;
-    D3D11_VIEWPORT vp = {}; UINT topo = 0; bool cbs = false;
+    D3D11_VIEWPORT vp = {}; UINT topo = 0; bool cbs = false; UINT vco = ~0u, pco = ~0u;   // vco, pco: the arenas' offsets bound
     ID3D11ShaderResourceView *srv[8] = {}; ID3D11SamplerState *smp[8] = {};
     ID3D11Buffer *vb[16] = {}; UINT stride[16] = {}, voff[16] = {};
     ID3D11Buffer *ib = nullptr; DXGI_FORMAT ifmt = DXGI_FORMAT_UNKNOWN;

@@ -32,6 +32,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ab.filter = (int)GetPrivateProfileIntA("d3d8on11", "exec_filter", 1, ini);
   ne = GetEnvironmentVariableA("D8ON11_EXEC_FILTER", env, sizeof env);
   if (ne > 0 && ne < sizeof env) ab.filter = atoi(env);
+  // exec_batch=1: the executor holds records and runs them together, one Map of each large buffer per batch instead of
+  // Maps by each draw (d8_exec.h, Exec::batch); D8ON11_EXEC_BATCH overrides it
+  ab.batch = (int)GetPrivateProfileIntA("d3d8on11", "exec_batch", 1, ini);
+  ne = GetEnvironmentVariableA("D8ON11_EXEC_BATCH", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) ab.batch = atoi(env);
+  // exec_ab_lever: which switch the A/B turns, filter (exec_filter) or batch (exec_batch)
+  { char lv[16]; GetPrivateProfileStringA("d3d8on11", "exec_ab_lever", "filter", lv, sizeof lv, ini); ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : OPT_FILTER; }
   ab.on = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab", 0, ini);
   ab.after = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_after", 60, ini);
   ab.phase = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_phase", 30, ini);
@@ -40,7 +47,9 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   if (ab.phase < 1) ab.phase = 1; if (ab.settle < 1) ab.settle = 1; if (ab.rounds < 1) ab.rounds = 1; if (ab.after < 0) ab.after = 0;
   ab.i = -1;
   { XOption o = {OPT_FILTER, (uint32_t)(ab.filter != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
-  d8_log("executor filter: %d%s", ab.filter != 0, ab.on ? "; its A/B is on (exec_ab)" : "");
+  { XOption o = {OPT_BATCH, (uint32_t)(ab.batch != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  d8_log("executor filter: %d, batch: %d%s", ab.filter != 0, ab.batch != 0,
+         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
   if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
                     "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase, ab.settle);
   HRESULT hr = make_swap(false);
@@ -226,12 +235,13 @@ void Dev::ab_frame() {
   if (!next) return;
   if (ab.i >= 0) {
     int v = (ab.i % 4 == 1 || ab.i % 4 == 2), k = ab.frames - ab.settle;
-    if (k > 0) d8_log("executor ab: phase %d, filter=%d, %d frames: the game's frame %.3f ms on average (%.1f fps), %.3f at most",
-                      ab.i + 1, v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
+    if (k > 0) d8_log("executor ab: phase %d, %s=%d, %d frames: the game's frame %.3f ms on average (%.1f fps), %.3f at most",
+                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
   }
   ab.i++; ab.ph0 = t; ab.frames = 0; ab.sum = 0; ab.max = 0;
-  XOption o = {OPT_FILTER, 0, (uint32_t)ab.settle};
+  XOption o = {ab.key, 0, (uint32_t)ab.settle};
   if (ab.i < n) o.value = (ab.i % 4 == 1 || ab.i % 4 == 2);
+  else if (ab.key == OPT_BATCH) { o.value = ab.batch != 0; d8_log("executor ab: done; batch=%u from now on (exec_batch)", o.value); }
   else { o.value = ab.filter != 0; d8_log("executor ab: done; filter=%u from now on (exec_filter)", o.value); }
   link->put(X_OPTION, &o, sizeof o);
 }

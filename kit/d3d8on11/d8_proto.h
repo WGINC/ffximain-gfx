@@ -52,7 +52,7 @@ struct XUpBuf { uint32_t id, offset, length; };
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
 struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
 struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels
-enum : uint32_t { OPT_FILTER = 1 };
+enum : uint32_t { OPT_FILTER = 1, OPT_BATCH = 2 };   // OPT_BATCH: Exec::batch (d8_exec.h)
 struct XOption { uint32_t key, value, settle; };   // settle: frames after it that the executor's phase figures leave out
 struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };
 // The snapshot table: shared memory after the reply area (thread and remote; direct mode has its own). A lockable

@@ -182,7 +182,7 @@ struct Dev final : public IDirect3DDevice8_Stub {
   void defaults();
   void targets();                                // the current render target and depth surface to the executor
   // the executor's filter (d3d8on11.ini exec_filter) and its A/B (exec_ab: d8_device.cpp, Dev::ab_frame)
-  struct AB { int on, after, phase, rounds, settle, filter; double t0, ph0, last, sum, max; int i, frames; } ab = {};
+  struct AB { int on, after, phase, rounds, settle, filter, batch; uint32_t key; double t0, ph0, last, sum, max; int i, frames; } ab = {};
   void ab_frame();
   void destroy_obj(uint32_t id) { if (id && link) link->put(X_DESTROY, &id, 4); }
   // the snapshot slots (X_SNAP): handed out to lockable render targets as CopyRects first writes them, given back when

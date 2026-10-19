@@ -35,8 +35,8 @@ checked against the analysed build, and each change to the game's code checks th
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
-| `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) read as 0 by speedfix's gated fork of Frame_Render: no 60 fps wait; the game's value is not written; read at start (below) |
-| `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it; gated forks of verified code, read at start (below) |
+| `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) read as 0 by speedfix's gated fork of Frame_Render: no 60 fps wait; the game's value is not written; forked at the start when this or `frame_step` is on there, then live (below) |
+| `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it; gated forks of verified code, made at the start when this or `uncap` is on there, then live (below) |
 | `occlusion_late` | 0 | Lever: 1 = each occlusion probe answered with the object's previous probe (no wait for this frame's picture); 2 = measure only, the game's answers (below) |
 | `null_draws` | 0 | A test, not a speedup: the draw calls return D3D_OK without reaching the device; nothing is drawn; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
@@ -124,8 +124,9 @@ and what each lever does about it. Each is off by default; the lever A/B measure
   - `frame_step=2`: that, and the untruncated step at the 14 call sites in 13 functions where
     `pipeline/frame_step_users.py` follows every use of the value to a comparison, a drop or an accumulator
     (`sf_step_sites.h`; each getter's fork answers by its return address). The other 204 sites get whole ticks.
-  - The keys are read at start (an ini change takes effect at the next start). While on, they are live: a frame not
-    through the kit's hooks runs the forks with the switches off, which is the game's function.
+  - The forks are made at the start when either key is on there; after that both keys are live both ways (with both
+    off at the start, turning one on takes effect at the next start). A frame not through the kit's hooks runs the
+    forks with the switches off, which is the game's function.
   - Below 60 fps, 1 and 2 also end the under-count of the truncated step (RENDERER 3a's table: 62-99% of real
     time), so what the step drives moves faster than it does now: at real time.
   - What the gate has and has not checked: the fuzzed trials never reach the wait's timer calls (0x10012B28,

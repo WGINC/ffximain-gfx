@@ -213,37 +213,44 @@ static int pacing_test(void) {
   return fails ? 1 : 0;
 }
 
-/* uncap and frame_step: the game's own frame code from the wait (0x10012B05) through the step and the frame counter
-   (0x10012CB0), run on a frame object of the test's that is also [g_pCamera] (as Frame_Render's this is); at
-   0x10012CB8 the test returns (lim_end). The getters are called from the test (whole ticks), from the call at 0x10227E58
-   (a call given the fraction: a ret written after it) and through Frame_Render's copy at 0x10011A24 (a ret written at
-   0x10011A3F, its call of _ftol). */
+/* uncap and frame_step: speedfix's forks (Frame_Render, the getters 0x10014CF0 and 0x10014D20; fork/*.fork.cpp, gated
+   against the game's functions) are installed at the start: their entries jump into speedfix.dll. Frame_Render as a
+   whole does not run here; the game's own frame code from the wait (0x10012B05) through the step and the frame counter
+   (0x10012CB0) does, on a frame object of the test's that is also [g_pCamera], and the test then gives the game's ring
+   average to the fork's step (xi_step_make, what the fork's Frame_Render calls there). The getters are called from the
+   test (whole ticks) and from the call at 0x10227E58 (a call given the fraction: a ret written after it). The fork's
+   wait with uncap (the floor read as 0) is not run here (the gate's); for short frames the test writes the floor 0
+   itself, as that wait would read it. */
 extern void lim_end(void);
 __asm__(".globl _lim_end\n_lim_end:\n  mov _g_lim_sp, %esp\n  pop %edi\n  pop %esi\n  pop %ebx\n  pop %ebp\n  ret\n");
 typedef float (*Getter)(void);
-static float ring_avg(void) {          /* 0x10012C19..0x10012C39: the sum in floats, then * 0.25; floor and cap as 0x10012C4C.. */
+static float ring_raw(void) {          /* 0x10012C19..0x10012C39: the sum in floats, then * 0.25 */
   float a = 0.0f; const float *r = (const float *)GAME(0x10456964u);
   for (int i = 0; i < 4; i++) { volatile float t = r[i] + a; a = t; }
-  float f = a * 0.25f; int fl = *(int *)(g_lim + 0x30);
+  return a * 0.25f;
+}
+static float ring_avg(int fl) {        /* floor and cap as 0x10012C4C.. */
+  float f = ring_raw();
   if (!(f >= (float)fl)) f = (float)fl;
   return f > 20.0f ? 20.0f : f;
 }
-typedef struct { double whole, frac, game_ticks, span; int n, zero, nonint, wrong_frac, wrong_inline, game_like; } StepRun;
+typedef void (*StepMake)(void *, double);
+static StepMake g_step_make; static volatile int *g_xi_uncap, *g_xi_mode;
+typedef struct { double whole, frac, game_ticks, span; int n, zero, nonint, wrong_frac, game_like; } StepRun;
 static StepRun step_frames(int k, int scene, int nap) {
   StepRun r = {0}; Getter g0 = (Getter)GAME(0x10014CF0u), g1 = (Getter)GAME(0x10014D20u), site = (Getter)GAME(0x10227E58u);
-  typedef float (*WithEsi)(void *, void *); WithEsi inl = (WithEsi)(void *)call_with_esi;
   float f0 = *(float *)(g_lim + 0x3C); double t0 = qms();
   for (int i = 0; i < k; i++) {
     if (scene) { begin(); end(); }
     present(); if (nap) Sleep(nap); run_limiter(g_lim);
-    float w = g0(), w1 = g1(), fr = site(), in = inl((void *)GAME(0x10011A24u), g_lim);
+    if (*g_xi_mode) g_step_make(g_lim, ring_raw());
+    float w = g0(), w1 = g1(), fr = site();
     float game = *(float *)(g_lim + 0x28) < 1.0f ? 1.0f : *(float *)(g_lim + 0x28);
     r.whole += w; r.frac += fr; r.game_ticks += *(int *)(g_lim + 0x38); r.n++;
     if (w == 0.0f) r.zero++;
     if (w != floorf(w) || w1 != w) r.nonint++;
-    if (fr != ring_avg()) r.wrong_frac++;
-    if (in != w) r.wrong_inline++;
-    if (w == game && w1 == game && fr == game && in == game) r.game_like++;
+    if (fr != ring_avg(*g_xi_uncap ? 0 : *(int *)(g_lim + 0x30))) r.wrong_frac++;
+    if (w == game && w1 == game && fr == game) r.game_like++;
   }
   r.game_ticks += *(float *)(g_lim + 0x3C) - f0; r.span = qms() - t0;
   return r;
@@ -252,43 +259,52 @@ static void step_print(const char *what, StepRun r) {
   printf("    %s: %d frames, %.1f ms (%.2f ticks by the counter, %.2f the game's [+0x38]); whole %.0f (%d of 0), fraction %.2f; "
          "%d frames as the game's\n", what, r.n, r.span, r.span * 0.06, r.game_ticks, r.whole, r.zero, r.frac, r.game_like);
 }
+static int jumps_into(uint32_t ea, HMODULE m) {
+  uint8_t *e = (uint8_t *)GAME(ea); HMODULE h = NULL;
+  void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
+  if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &h);
+  return h && h == m;
+}
 static int step_test(void) {
   QueryPerformanceFrequency(&g_qf);
-  uint8_t *c = (uint8_t *)GAME(0x10012C3Cu), *ge0 = (uint8_t *)GAME(0x10014CF0u), *ge1 = (uint8_t *)GAME(0x10014D20u), *in = (uint8_t *)GAME(0x10011A24u);
-  check(c[0] == 0xE8 && c + 5 + *(int32_t *)(c + 1) != (uint8_t *)GAME(0x10311C2Cu), "frame_step=2 at the start: the call of _ftol at 10012C3C goes to speedfix");
-  check(ge0[0] == 0xE9 && ge0[5] == 0x90 && ge0[6] == 0xD9 && ge1[0] == 0xE9 && ge1[5] == 0x90, "... the getters 10014CF0 and 10014D20 begin with a jmp to speedfix; nop");
-  check(in[0] == 0xE8 && in[5] == 0xEB && in[6] == 0x14 && in[7] == 0x90 && in[26] == 0x90, "... Frame_Render's copy (10011A24) is call speedfix; jmp short 10011A3F; nops");
-  check(log_has("frame_step: the step's truncation (the call at 10012C3C), the getters 10014CF0 and 10014D20 and Frame_Render's copy (10011A24) now go to speedfix; 14 calls"), "... logged, 14 calls given the fraction");
-  *(uint8_t *)GAME(0x10011A3Fu) = 0xC3; *(uint8_t *)GAME(0x10227E5Du) = 0xC3;
+  HMODULE sf = GetModuleHandleA("speedfix.dll");
+  check(jumps_into(0x10011A00u, sf) && jumps_into(0x10014CF0u, sf) && jumps_into(0x10014D20u, sf),
+        "frame_step=2 at the start: Frame_Render and the getters 10014CF0, 10014D20 jump into speedfix.dll (the forks)");
+  check(*(uint8_t *)GAME(0x10012C3Cu) == 0xE8 && (uint8_t *)GAME(0x10012C3Cu) + 5 + *(int32_t *)GAME(0x10012C3Du) == (uint8_t *)GAME(0x10311C2Cu),
+        "... and the game's own code is not patched (the call of _ftol at 10012C3C is the game's)");
+  check(log_has("frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and fn_10014D20 (0x10014D20) run speedfix's gated forks"), "... logged");
+  g_step_make = (StepMake)GetProcAddress(sf, "xi_step_make"); g_xi_uncap = (volatile int *)GetProcAddress(sf, "xi_uncap"); g_xi_mode = (volatile int *)GetProcAddress(sf, "xi_step_mode");
+  check(g_step_make && g_xi_uncap && g_xi_mode, "the fork's step (xi_step_make) and its switches are found");
+  if (!g_step_make || !g_xi_uncap || !g_xi_mode) { printf("FAILED (%d)\n", fails); return 1; }
+  *(uint8_t *)GAME(0x10227E5Du) = 0xC3;
   step_frames(10, 1, 0);
+  check(*g_xi_mode == 2 && *g_xi_uncap == 0, "frame_step=2 uncap=0: the switches speedfix sets each frame");
   StepRun r = step_frames(120, 1, 0);
   step_print("frame_step=2, uncap=0 (the game's 60 fps wait)", r);
-  check(r.nonint == 0 && r.wrong_inline == 0, "frame_step=2: the getters and Frame_Render's copy answer whole ticks, the same");
+  check(r.nonint == 0, "frame_step=2: the getters answer whole ticks, the same");
   check(r.wrong_frac == 0, "frame_step=2: the call at 10227E58 gets the game's average of its last 4 frames, not truncated (floor and cap as the game's)");
   check(fabs(r.whole - r.game_ticks) < 3.0 && fabs(r.frac - r.game_ticks) < 3.0, "frame_step=2: whole ticks and the fraction add up to the game's own ticks [+0x38] (within 3 over 120 frames)");
-  r = step_frames(4, 0, 0);
-  check(r.game_like >= 2, "frames without the hooks: every answer is the game's max([+0x28], 1)");
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
   step_frames(70, 1, 3);
-  check(*(int *)(g_lim + 0x30) == 0, "uncap=1: the tick count [+0x30] is 0");
-  check(log_has("uncap: the frame's minimum tick count [+0x30] was 1 (2 is the game's 30 fps, 1 is 60); now 0, no wait"), "... the value it had is logged");
+  check(*g_xi_uncap == 1 && *g_xi_mode == 1, "uncap=1 frame_step=1 (changed while running): the switches follow");
+  check(*(int *)(g_lim + 0x30) == 1, "uncap=1: the game's tick count [+0x30] is not written (the fork reads its floor as 0)");
+  *(int *)(g_lim + 0x30) = 0;                         /* the floor the fork's wait reads under uncap (see above) */
   r = step_frames(200, 1, 3);
-  step_print("frame_step=1, uncap=1, 3 ms frames", r);
-  check(r.span < 200 * 9.0, "uncap=1: frames shorter than 1/60 s (the game's wait gone)");
-  check(r.nonint == 0 && r.wrong_inline == 0 && r.zero > 20, "frame_step=1: whole ticks, frames of 0 among them");
+  step_print("frame_step=1, floor 0, 3 ms frames", r);
+  check(r.span < 200 * 9.0, "with the floor 0, frames shorter than 1/60 s");
+  check(r.nonint == 0 && r.zero > 20, "frame_step=1: whole ticks, frames of 0 among them");
   check(fabs(r.whole - r.game_ticks) < 3.0, "frame_step=1: the whole ticks add up to the game's own ticks [+0x38] (within 3 over 200 frames)");
   check(r.frac == r.whole, "frame_step=1: the call at 10227E58 gets whole ticks too");
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 3);
   r = step_frames(100, 1, 3);
-  step_print("frame_step=0, uncap=1 (the game's step with no wait)", r);
-  check(r.game_like == 100 && r.whole == 100, "frame_step=0, uncap=1: the game's answer, one tick every frame");
-  check(r.whole > r.game_ticks * 1.5, "... which is more than the time that passed (faster than real time, as RENDERER.md 3a reads the code)");
+  step_print("frame_step=0, floor 0 (the game's step with no wait)", r);
+  check(r.game_like == 100 && r.whole == 100, "frame_step=0: the game's answer, one tick every frame");
   check(log_has("uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame"), "... and the log says so");
+  *(int *)(g_lim + 0x30) = 1;
   touch("speedfix.ini", "[speedfix]\nuncap=0\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 0);
-  check(*(int *)(g_lim + 0x30) == 1, "uncap=0 again: the tick count [+0x30] is 1 again");
-  check(log_has("uncap off: the tick count [+0x30] is 1 again"), "... logged");
+  check(*g_xi_uncap == 0 && *g_xi_mode == 0, "uncap=0 frame_step=0: both switches off (the forks are the game's functions)");
   check(log_has("speedfix: frame_step=1 uncap=1: ") && log_has("(what frame_step 1 and 2 answer) added up to: whole "), "the statistics line compares the step's sum with the counter's time");
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;

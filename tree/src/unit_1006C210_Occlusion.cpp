@@ -78,7 +78,7 @@ XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0,
     a2 = 1065353214;
   *(float *)&a4 = (float)(16 * v15 / (v24 - v22));
   *(float *)&a3 = (float)(16 * v14 / (v23 - a1));
-  orig::sub_1006C530((int)&a1, a2, a3, a4, a5, a6, a7, a8, 0);
+  orig::DrawScreenProbe((int)&a1, a2, a3, a4, a5, a6, a7, a8, 0);
   v16 = orig::sub_1006C8B0(self_, 0);
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),

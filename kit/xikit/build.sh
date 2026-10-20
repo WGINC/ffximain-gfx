@@ -23,7 +23,9 @@ for b in "$H"/builds/*.json; do
   if [ -n "${!var:-}" ]; then python3 "$H/manifest_for_build.py" "$OUT/xikit_manifest.txt" "$b" "${!var}" "$OUT/xikit_manifest_$st.txt"
   else echo "build $st: \$$var not set, no manifest for it"; rm -f "$OUT/xikit_manifest_$st.txt"; fi
 done
-python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" --from-gates | head -1   # the UNRESOLVED call sites, for facts=1
+# the UNRESOLVED call sites, for facts=1: those of the committed gate records, and Frame_Render's timer calls in its
+# wait, where speedfix's frame_step fork gate stops UNRESOLVED (kit/speedfix/test/test_framestep.py)
+python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" 0x10012B28 0x10012B86 0x10012B91 0x10012BCB 0x10012BF5 --from-gates | head -1
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
     "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
 "$ROOT/kit/xisamp/build.sh" | tail -1                     # the native sampler (sample=2), from the same folder

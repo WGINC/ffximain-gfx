@@ -1826,7 +1826,7 @@ LABEL_246:
         {
           v835[0] = v251;
           orig::sub_1005E110(v835, 0);
-          orig::sub_100538E0((int)v239, v835[0]);
+          orig::YmGenerater_Stop((int)v239, v835[0]);
         }
         return 0;
       }
@@ -2397,7 +2397,7 @@ LABEL_793:
       if ( !orig::sub_1005E0B0((int)(v265 + 12)) && orig::sub_100539E0(v265) )
       {
         v267 = (int **)orig::sub_1005E140((_DWORD *)(LODWORD(v266) + 4), &v873);
-        orig::sub_100538E0((int)v265, *v267);
+        orig::YmGenerater_Stop((int)v265, *v267);
         return 0;
       }
       v268 = (int *)orig::CMoGeneratorClone_CreateInstance((_DWORD *)LODWORD(v266), nullptr, nullptr, 1);

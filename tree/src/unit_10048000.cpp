@@ -126,7 +126,7 @@ XI_API void __thiscall fn_1004E720(_DWORD *self_, int a2)
               {
                 v11 = *(_WORD *)(v10 + 214);
                 if ( orig::sub_100539E0((_DWORD *)*v9) )
-                  orig::sub_100538E0(v10, nullptr);
+                  orig::YmGenerater_Stop(v10, nullptr);
                 *(_WORD *)(v10 + 214) = (__int64)(*(float *)(g_pResourceMng + 3760) + 1.0);
                 *(_DWORD *)(v10 + 204) = 0;
                 orig::sub_10053370(v10);

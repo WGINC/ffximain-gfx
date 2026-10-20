@@ -158,7 +158,7 @@ char CXi471011C8_VT_1032B478::RebuildBlendWeights()
     {
       do
       {
-        result = orig::sub_10043F40((int *)g_pDynVB_FVF42, v26, v3 - 2, 5, 0, -1);
+        result = orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF42, v26, v3 - 2, 5, 0, -1);
         v26 += v3;
         --v7;
       }

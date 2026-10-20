@@ -238,6 +238,11 @@
   "sha1": "d8fc5e34d52441338c770b47028134dc7ce2eac8",
   "same_as_committed_export": true
  },
+ "tree-source:data/exports/ghidra_export.jsonl": {
+  "ok": true,
+  "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
+  "expected": "4b647e4554f35ee40b3a57d11eb54cd6288bb752"
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
@@ -246,68 +251,7 @@
   ]
  },
  "tree-gate": {
-  "ok": false,
-  "functions": 777,
-  "gates": {
-   "fuzz": {
-    "PASS": 772,
-    "FAIL": 1,
-    "INCONCLUSIVE": 2,
-    "UNRESOLVED": 2
-   },
-   "town": {
-    "PASS": 773,
-    "FAIL": 1,
-    "INCONCLUSIVE": 2,
-    "UNRESOLVED": 1
-   },
-   "town2": {
-    "PASS": 773,
-    "FAIL": 1,
-    "INCONCLUSIVE": 2,
-    "UNRESOLVED": 1
-   },
-   "combat": {
-    "PASS": 773,
-    "FAIL": 1,
-    "INCONCLUSIVE": 2,
-    "UNRESOLVED": 1
-   },
-   "zonetoinn": {
-    "PASS": 773,
-    "FAIL": 1,
-    "INCONCLUSIVE": 2,
-    "UNRESOLVED": 1
-   }
-  },
-  "not_passing": {
-   "0x10016320": {
-    "fuzz": "INCONCLUSIVE",
-    "town": "INCONCLUSIVE",
-    "town2": "INCONCLUSIVE",
-    "combat": "INCONCLUSIVE",
-    "zonetoinn": "INCONCLUSIVE"
-   },
-   "0x10038E10": {
-    "fuzz": "FAIL",
-    "town": "FAIL",
-    "town2": "FAIL",
-    "combat": "FAIL",
-    "zonetoinn": "FAIL"
-   },
-   "0x1006B3B0": {
-    "fuzz": "INCONCLUSIVE",
-    "town": "INCONCLUSIVE",
-    "town2": "INCONCLUSIVE",
-    "combat": "INCONCLUSIVE",
-    "zonetoinn": "INCONCLUSIVE"
-   }
-  },
-  "live": [
-   "town",
-   "town2",
-   "combat",
-   "zonetoinn"
-  ]
+  "ok": null,
+  "skipped": "--quick"
  }
 }

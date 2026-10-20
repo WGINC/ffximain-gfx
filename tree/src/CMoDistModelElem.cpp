@@ -88,7 +88,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     }
     v28 = this->field_36;
     v9 = orig::sub_1003FCF0((char *)self);
-    return orig::sub_10043F40(*((int **)v9 + 1), 0, v28, 4, 0, -1);
+    return orig::VertexBatch_BindAndDraw(*((int **)v9 + 1), 0, v28, 4, 0, -1);
   }
   if ( (CMoDistModelElem_DrawMesh_staticGuards & 4) == 0 )
   {
@@ -144,9 +144,9 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
         v29 = *(float *)(a3 + 324);
         v27 = *(float *)(a3 + 320);
         v17 = (int *)orig::sub_1003FCF0((char *)self);
-        orig::sub_10075700(v17, 1, v27, v29, v30);
+        orig::TextureHolder_BindWarped(v17, 1, v27, v29, v30);
       }
-      orig::sub_10043F40((int *)g_pDynVB_FVF152, v14, *(unsigned __int16 *)&v16[2 * v15], 4, 0, -1);
+      orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, *(unsigned __int16 *)&v16[2 * v15], 4, 0, -1);
       v18 = *(_WORD *)&v16[2 * v15++];
       v14 += v18 + 2 * v18;
     }
@@ -171,13 +171,13 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     {
       if ( v19 != 0 || !orig::sub_1003FCB0(self) )
       {
-        orig::sub_10043F40((int *)g_pDynVB_FVF152, v14, this->field_36 - v14 / 3, 4, 0, -1);
+        orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, this->field_36 - v14 / 3, 4, 0, -1);
       }
       else
       {
         v20 = this->field_36 - v14 / 3 - 1;
         if ( v20 > 0 )
-          orig::sub_10043F40((int *)g_pDynVB_FVF152, v14 + 3, v20, 4, 0, -1);
+          orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14 + 3, v20, 4, 0, -1);
       }
     }
     else
@@ -191,7 +191,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
           {
             v25 = v21 - 1;
             v22 = orig::sub_1003FCF0((char *)self);
-            orig::sub_10043F40(*((int **)v22 + 1), v14 + 3, v25, 4, 0, -1);
+            orig::VertexBatch_BindAndDraw(*((int **)v22 + 1), v14 + 3, v25, 4, 0, -1);
           }
           v7 = a3;
           goto LABEL_49;
@@ -200,7 +200,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
       }
       v26 = *(unsigned __int16 *)&orig::sub_1003FCE0((char *)self)[2 * v15];
       v24 = orig::sub_1003FCF0((char *)self);
-      orig::sub_10043F40(*((int **)v24 + 1), v14, v26, 4, 0, -1);
+      orig::VertexBatch_BindAndDraw(*((int **)v24 + 1), v14, v26, 4, 0, -1);
     }
   }
 LABEL_49:
@@ -286,7 +286,7 @@ XI_API int __thiscall fn_100431B0(void *self_)
     60,
     g_scratchValue);
   orig::RegisterWithProcessor((int)self_);
-  orig::sub_10183490((float *)g_pZoneMap, (float *)self_ + 40, *((_DWORD *)self_ + 65));
+  orig::XiZone_DrawModelAtMatrix((float *)g_pZoneMap, (float *)self_ + 40, *((_DWORD *)self_ + 65));
   return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
            *(_DWORD *)(g_pResourceMng + 3772),
            0,

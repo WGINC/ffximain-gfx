@@ -245,7 +245,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
       while ( v13 < g_cubeMapTargetHeight + 1 );
     }
     orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
-    orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
+    orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
     (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
       *(_DWORD *)(g_pResourceMng + 3772),
       27,
@@ -374,7 +374,7 @@ LABEL_13:
     *(_DWORD *)(g_pResourceMng + 3772),
     0,
     v10);
-  orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+  orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
   (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),
     27,
@@ -703,5 +703,5 @@ XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
     1,
     4,
     1);
-  return orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+  return orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
 }

@@ -1095,7 +1095,7 @@ def run_case(m, case, trials, seed):
     decl = None
     if case.get('declared') is not None:
         import declared as DC
-        decl = DC.load(case['declared'])
+        decl = DC.load(case['declared']); DC.bind_imports(decl, getattr(m, 'trap_names', {}))
     m.keyed = decl is not None; declared_seen, declared_trials = {}, 0
     # every global this case overwrites is restored afterwards, so cases sharing an emulator never
     # see each other's fuzzed pointers (diffemu_fixed never restored them)

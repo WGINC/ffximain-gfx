@@ -198,7 +198,8 @@ Build it like any source of the mod: `build_mod.sh my_mod.dll my_mod.cpp mymod/C
    "return": false}
   ```
 
-  - A call is named by its Direct3D method (`Interface::Method`) or by the analysed address of a game function.
+  - A call is named by its Direct3D method (`Interface::Method`), by the analysed address of a game function, or
+    by the name of an import the function calls (`"call": "Sleep"`; matched to the import's slots in the run).
   - Arguments are numbered from 0 after `this`.
   - `where` limits a declaration to calls with those argument values.
   - Stack cleanup and the callee-saved registers can never differ.

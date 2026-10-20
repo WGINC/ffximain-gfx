@@ -698,7 +698,7 @@ XI_API int __thiscall fn_100472F0(_WORD *a1, __int16 a4)
     orig::fn_1006AD90((exception *)Fn100472F0_stateBlock);
     orig::_atexit(XI_CODE(unknown_libname_54));
   }
-  orig::sub_1006AF00(Fn100472F0_stateBlock, Fn100472F0_renderStates);
+  orig::StateBlockHolder_ApplyRenderStates(Fn100472F0_stateBlock, Fn100472F0_renderStates);
   if ( *((_BYTE *)g_pZoneMap + 234904) == 0 )
     return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
              *(_DWORD *)(g_pResourceMng + 3772),

@@ -1,12 +1,12 @@
 # FFXiMain.dll graphics code: clean C++ (build 2026-09-03)
 
-Reconstructed from Hex-Rays output and verified function by function against the original in an
+Reconstructed from Hex-Rays output (and, for functions the IDA export does not hold, Ghidra's: `tree/source.json`) and verified function by function against the original in an
 emulator (see `../docs/METHOD.md`). Every function carries:
 
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(777 functions: 774 PASS; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
+(779 functions: 776 PASS; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

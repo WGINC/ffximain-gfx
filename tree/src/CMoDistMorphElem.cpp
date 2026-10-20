@@ -52,7 +52,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
       96);
   }
   if ( a7 == 0 )
-    orig::sub_10075700((int *)(v7 + 64), 0, *(float *)(a2 + 320), *(float *)(a2 + 324), *(float *)(a2 + 328));
+    orig::TextureHolder_BindWarped((int *)(v7 + 64), 0, *(float *)(a2 + 320), *(float *)(a2 + 324), *(float *)(a2 + 328));
   v8 = C;
   if ( C == nullptr )
     v8 = orig::CMoDistMorphElem_ComputeMorphHandle(v7, a4, a5);
@@ -167,7 +167,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
     (*(int *)((char *)g_pProcessor + 0xA90)) = v30;
     ((float * *)((char *)v29 + 0xA10))[v30] = v28;
   }
-  result = orig::sub_10043F40((int *)g_pDynVB_FVF152, 0, *(unsigned __int16 *)(v7 + 58), 4, 0, -1);
+  result = orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, 0, *(unsigned __int16 *)(v7 + 58), 4, 0, -1);
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, ((float *)((char *)g_pProcessor + 0x810)));
@@ -464,7 +464,7 @@ char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a
     CMoDistMorphElem_ValidateMorphData_stateBlock,
     (int)CMoDistMorphElem_ValidateMorphData_renderStates,
     (int)CMoDistMorphElem_ValidateMorphData_textureStageStates);
-  orig::sub_10043F40((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+  orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
   orig::sub_1006A0E0(g_pResourceMng, 0, 0);
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),

@@ -437,7 +437,7 @@ LABEL_17:
                   }
                   else
                   {
-                    orig::sub_1017C9C0(self_, v43, v26, v24);
+                    orig::XiZone_DrawElement(self_, v43, v26, v24);
                   }
                 }
                 ++v25;
@@ -486,7 +486,7 @@ LABEL_17:
                 }
                 else
                 {
-                  orig::sub_1017C9C0(self_, v43, i, v24);
+                  orig::XiZone_DrawElement(self_, v43, i, v24);
                 }
               }
               i += 364;
@@ -512,7 +512,7 @@ LABEL_17:
           {
             do
             {
-              orig::sub_1017C9C0(self_, v34[1], *v34, v34[2]);
+              orig::XiZone_DrawElement(self_, v34[1], *v34, v34[2]);
               ++v32;
               v34 += 3;
             }

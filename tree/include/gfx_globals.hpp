@@ -879,6 +879,8 @@ typedef __int16 word_104568F8_t;
 #define word_104568F8 XI_EA(word_104568F8_t, 0x104568F8u)
 typedef std::codecvt_base * g_pCamera_t;
 #define g_pCamera XI_EA(g_pCamera_t, 0x104568FCu)
+typedef int g_pCamera_as_s32_t;
+#define g_pCamera_as_s32 XI_EA(g_pCamera_as_s32_t, 0x104568FCu)
 typedef int Code_t;
 #define Code XI_EA(Code_t, 0x10456900u)
 typedef int g_modelsDrawnThisFrame_t;

@@ -28,6 +28,8 @@ XI_API char __thiscall App_StepGameState7(_WORD *self_);  // 0x10013F10
 XI_API char __thiscall App_StepGameState8(_WORD *self_);  // 0x10014030
 XI_API bool __cdecl App_StepGameState9(void);  // 0x10014120
 XI_API char __thiscall fn_100141C0(_WORD *self_);  // 0x100141C0
+XI_API long double __cdecl Camera_GetFrameScale(void);  // 0x10014CF0
+XI_API long double __cdecl fn_10014D20(void);  // 0x10014D20
 XI_API void __cdecl Camera_ApplyViewProjection(void);  // 0x10015510
 XI_API int __cdecl App_WinMain(int a1, int a2);  // 0x100157E0
 XI_API char __cdecl App_CreateRendererAndApp(void);  // 0x100161B0

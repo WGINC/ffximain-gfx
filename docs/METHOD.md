@@ -219,8 +219,16 @@ graphics code (`data/gfx_extension.json`):
 - tier 3 (162): one graphics helper, mostly game logic.
 
 They can be exported with `ida_gfx.select_extension('data/gfx_extension.json')` and `export_step`, or headless
-with Ghidra (`pipeline/ghidra/GfxExport.java`). The translator accepts Ghidra's C through `xi_ghidra.hpp`, but
-the pipeline does not yet take Ghidra input end to end.
+with Ghidra (`pipeline/ghidra/GfxExport.java`, run by `pipeline/ghidra/export.sh`). The Ghidra route goes end to
+end: export, `run.sh translate|cases|gate`, then `regen_clean.sh` with the IDA export and the Ghidra export as a
+comma list (the first record for an address wins); `tree/source.json` names both exports by SHA-1 and both raw
+gates, and `verify_all.py` regenerates the tree from them. The first two functions in the tree by this route are
+the step getters 0x10014CF0 and 0x10014D20 (18 Oct).
+
+The frame, not the device: `pipeline/frame_set.py` lists the functions a frame is known to run (static reach from
+CApp::RunMainLoop through direct calls, tail jumps and proven virtual calls, plus the sampler's evidence), each with
+its evidence; `data/frame_set.json`. It is a lower bound: 1,929 indirect calls in 484 functions have no proof and are
+not followed.
 
 The statically linked D3DX 8.1 code (`data/d3dx/`) was identified by `libmatch.py`: every function of
 `d3dx8.lib` from the DirectX 8.1 SDK byte-compared, with relocation sites masked, against the image. 825

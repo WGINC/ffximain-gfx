@@ -35,8 +35,8 @@ checked against the analysed build, and each change to the game's code checks th
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
 | `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
-| `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) set to 0 each frame: no 60 fps wait; the old value restored when off; live both ways (below) |
-| `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it (below) |
+| `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) read as 0 by speedfix's gated fork of Frame_Render: no 60 fps wait; the game's value is not written; forked at the start when this or `frame_step` is on there, then live (below) |
+| `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it; gated forks of verified code, made at the start when this or `uncap` is on there, then live (below) |
 | `occlusion_late` | 0 | Lever: 1 = each occlusion probe answered with the object's previous probe (no wait for this frame's picture); 2 = measure only, the game's answers (below) |
 | `null_draws` | 0 | A test, not a speedup: the draw calls return D3D_OK without reaching the device; nothing is drawn; live both ways (below) |
 | `motion_stats` | 0 | At the start: each statistics line also splits frame time and per-frame work by camera still / moving (below) |
@@ -109,30 +109,39 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     the frame A/B (`ab_levers=precise_pacing`), whose mean frame should move from about 17.0 to 16.67 ms. Do not use
     it with `frame_cap_fps` (two pacers).
 - **uncap and frame_step: above 60, with the game's time following real time** (docs/RENDERER.md 3a).
-  - `uncap=1` writes 0 to the frame's minimum tick count `[[0x104568FC]+0x30]` each frame (2 is the game's 30 fps,
-    1 its 60). The game's limiter then does not wait. The value found is logged, and written back when `uncap` goes
-    to 0. With `frame_step=0` this is what Windower's `FrameRateDivisor 0` and Ashita's fps addon are documented to
-    do, and the game then advances one tick every frame: at 300 fps in sf_host its step added up to 500% of real time.
-  - `frame_step=1`: the step's truncation (the `_ftol` call at 0x10012C3C) goes to speedfix, which keeps the
-    fraction the game drops and carries it. The getters 0x10014CF0, 0x10014D20 and Frame_Render's inline copy
-    (0x10011A24) answer whole ticks, `trunc(carry + average)`, with the game's floor `[+0x30]` and cap 20, so 0 on
-    most frames above 60. In sf_host at about 300 fps the sum was 100.0-100.7% of the counter's time; at 60 fps,
-    123 ticks against 123.3.
-  - `frame_step=2`: that, and the untruncated average (the game's own, before `_ftol`) at the 14 call sites in 13
-    functions where `pipeline/frame_step_users.py` follows every use of the value to a comparison, a drop or an
-    accumulator (`sf_step_sites.h` lists them). The other 204 get whole ticks: one value per function per frame.
-  - Patched once, at the first frame with `frame_step` on; after that the switch is live both ways (0 answers as
-    the game's). A frame not through the kit's hooks answers as the game's.
+  - How it is made: as edits to verified code. With either key on, speedfix forks three functions of the verified
+    tree (`fork/Frame_Render.fork.cpp`, `fork/Camera_GetFrameScale.fork.cpp`, `fork/fn_10014D20.fork.cpp`, made by
+    `sdk/fork.py new`). Each was gated both ways: with the switches off it is the game's function (fork.py gate, no
+    declarations); with them on, every difference from the game's is one its declaration names
+    (`fork/framestep.declare.json`, `fork/framestep_getter.declare.json`). No game byte is patched for these keys.
+  - `uncap=1`: Frame_Render's fork reads the frame's minimum tick count (`[this+0x30]`, 1 at 60 fps, 2 at 30) as 0,
+    in the wait and in the step, so the frame does not wait. The game's `[+0x30]` itself is not written. With
+    `frame_step=0` the game then advances one tick every frame (what Windower's `FrameRateDivisor 0` and Ashita's fps
+    addon are documented to do): at 300 fps in sf_host its step added up to 500% of real time.
+  - `frame_step=1`: the fork computes the step without the game's truncation (the `_ftol` at 0x10012C3C), with the
+    same floor and cap of 20, adds it to a carry, and the getters' forks and Frame_Render's own copy at the top
+    (0x10011A24, passed to 0x1000D3F0) answer the whole part: 0 on most frames above 60. `[+0x28]` stays the game's.
+  - `frame_step=2`: that, and the untruncated step at the 14 call sites in 13 functions where
+    `pipeline/frame_step_users.py` follows every use of the value to a comparison, a drop or an accumulator
+    (`sf_step_sites.h`; each getter's fork answers by its return address). The other 204 sites get whole ticks.
+  - The forks are made at the start when either key is on there; after that both keys are live both ways (with both
+    off at the start, turning one on takes effect at the next start). A frame not through the kit's hooks runs the
+    forks with the switches off, which is the game's function.
   - Below 60 fps, 1 and 2 also end the under-count of the truncated step (RENDERER 3a's table: 62-99% of real
     time), so what the step drives moves faster than it does now: at real time.
+  - What the gate has and has not checked: the fuzzed trials never reach the wait's timer calls (0x10012B28,
+    0x10012B86, 0x10012B91, 0x10012BCB, 0x10012BF5: virtual calls with no measured pop facts), so they stop there
+    UNRESOLVED and the step code itself is checked by sf_host (below), not yet by the gate. A `facts=1` session gives
+    those facts, and a `capture=Frame_Render` session gives real inputs (`test/test_framestep.py CAPTURES=dir`).
   - Not known: code that moves a fixed amount per frame without the step (0x1024DE20 is one; how many there are is
     not known) runs fast above 60 whatever this does; a step of 0 is new to the 204 whole sites; what the server
     makes of it. Most motion is still whole ticks, so above 60 it is not smoother, only not fast.
   - Measure: `xikit.log` each `stats_every`, `frame_step=N uncap=N: F frames, T ms by the counter (X ticks of
     1/60 s); speedfix's step ... whole W (P%; Z frames of 0), fraction R (P%); the game's own G (P%)`. P near 100%
     is the step following real time. And in the game, a clock or a walk timed against real time.
-  - Test: `test/test_speedfix.py` mode `step`: the game's limiter and step code run in sf_host, the getters and
-    the inline copy called directly and through the fraction site 0x10227E58.
+  - Test: `test/test_framestep.py` (the three forks gated off and on); `test/test_speedfix.py` mode `step` (the
+    game's own wait and step code 0x10012B05..0x10012CB8 run in sf_host, the fork's step made from the game's ring
+    average, and the getters called directly and through the fraction site 0x10227E58).
 - **null_draws: a test of what the frame costs without drawing.** DrawPrimitive, DrawIndexedPrimitive,
   DrawPrimitiveUP and DrawIndexedPrimitiveUP return D3D_OK without reaching the device (signatures: d3d8.h). Every
   other call still goes to the device: state changes (held ones go out at the draw as they would), locks, Clear,

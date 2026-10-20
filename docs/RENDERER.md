@@ -185,10 +185,13 @@ What follows from the code:
   interpolating between ticks. Both change what those 112 functions see.
 
 **What speedfix does with it (18 Oct, `uncap` and `frame_step`, kit/speedfix/README.md).**
-- `uncap=1` writes 0 to `[this+0x30]` each frame (the minimum; the game's own setting, RENDERER 3), so the wait
-  ends at once. The value found there is logged and written back when `uncap` is turned off.
+- Both are edits to verified code: speedfix runs gated forks of Frame_Render, 0x10014CF0 and 0x10014D20 made from
+  the tree (kit/speedfix/fork/; with the switches off each passed the gate as the game's function, with them on
+  every difference is a declared one). No game byte is patched for them.
+- `uncap=1`: the fork reads `[this+0x30]` (the minimum; the game's own setting, RENDERER 3) as 0, so the wait
+  ends at once. The field itself is not written.
 - `frame_step=1` replaces the truncation (the `_ftol` call at 0x10012C3C): from the same ring average, with the
-  game's floor `[this+0x30]` and cap 20, speedfix keeps a carry, as 1. above does, and the getters 0x10014CF0,
+  game's floor `[this+0x30]` and cap 20, the fork keeps a carry, as 1. above does, and the getters 0x10014CF0,
   0x10014D20 and Frame_Render's copy (0x10011A24..0x10011A3E) answer `trunc(carry + average)`. Over many frames those
   whole ticks add up to the ring averages, so to real time, at any frame rate. Above 60 most frames answer 0.
 - `frame_step=2` is that, plus the untruncated average at 14 call sites in 13 functions. Those are the sites where

@@ -282,10 +282,10 @@ void CMoD3mSpecularElem::vf18()
             v40 = (int *)v25;
             do
             {
-              orig::sub_10075700(v40, this->field_1BC, this->field_140, this->field_144, this->field_148);
+              orig::TextureHolder_BindWarped(v40, this->field_1BC, this->field_140, this->field_144, this->field_148);
               v33 = *(unsigned __int16 *)&v24[2 * v26];
               v27 = orig::sub_1003FCF0(v39);
-              orig::sub_10043F40(*((int **)v27 + 1), v23, v33, 4, 0, -1);
+              orig::VertexBatch_BindAndDraw(*((int **)v27 + 1), v23, v33, 4, 0, -1);
               v28 = *(_WORD *)&v24[2 * v26++];
               v23 += v28 + 2 * v28;
               v40 += 4;
@@ -303,7 +303,7 @@ void CMoD3mSpecularElem::vf18()
             orig::StateBlock_ApplyTSS(Fn100412B0_stateBlock, (int)Fn100412B0_textureStageStates);
             v34 = *(unsigned __int16 *)(v38 + 54) - v23 / 3;
             v29 = orig::sub_1003FCF0(v39);
-            orig::sub_10043F40(*((int **)v29 + 1), v23, v34, 4, 0, -1);
+            orig::VertexBatch_BindAndDraw(*((int **)v29 + 1), v23, v34, 4, 0, -1);
           }
           (*(void (__stdcall **)(void *, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
             *(void **)(g_pResourceMng + 3772),
@@ -382,7 +382,7 @@ void CMoD3mSpecularElem::vf18()
           }
           v32 = *(unsigned __int16 *)(v38 + 54);
           v13 = orig::sub_1003FCF0(v3);
-          orig::sub_10043F40(*((int **)v13 + 1), 0, v32, 4, 0, -1);
+          orig::VertexBatch_BindAndDraw(*((int **)v13 + 1), 0, v32, 4, 0, -1);
         }
         v30 = g_pProcessor;
         v31 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;

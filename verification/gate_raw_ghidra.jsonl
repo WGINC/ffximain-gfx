@@ -1,0 +1,2 @@
+{"name": "FUN_10014cf0 0x10014CF0", "original": "0x10014CF0", "candidate": "xi_10014CF0", "trials": 100, "original_outcomes": {"return": 100}, "mismatches": 0, "d3d_calls_checked": 0, "verdict": "PASS", "first_mismatch": null, "x87_rounded_trials": 0, "unresolved": {}}
+{"name": "FUN_10014d20 0x10014D20", "original": "0x10014D20", "candidate": "xi_10014D20", "trials": 100, "original_outcomes": {"return": 100}, "mismatches": 0, "d3d_calls_checked": 0, "verdict": "PASS", "first_mismatch": null, "x87_rounded_trials": 0, "unresolved": {}}

@@ -26,6 +26,7 @@ here regenerates it.
 | `com_calls.json` | D3D8 calls on a proven object, with the header's pop | `com_calls.py` |
 | `real_sp.json` | Stack depth measured running real code | `real_sp.py` |
 | `game_sp.json` | What a callee pops at call sites the gate could not settle, measured in the running game (xikit `facts=1`); recorded only where every observed call agreed (not re-derivable: an observation) | `fact_sites.py ingest` |
+| `frame_set.json` | The functions a frame runs, each with its evidence kept apart: `static` (reached from CApp::RunMainLoop by direct calls, tail jumps and proven vcalls), `self` and `stack` (the owner's sampler runs 12764, 11952, 6156); in tree or D3DX; the count of unproven indirect calls in each. A lower bound | `frame_set.py` |
 | `com_vtables.json` | Which D3D8 interface a Direct3D 8 implementation's vtable is: the vtable of objects the device's Create methods returned in the running game (the header declares each out parameter's interface; xikit `profile=1` or `trace=1`, `xikit_vtables_<pid>.csv`), with its entries; the gate uses a record only when a captured vtable's entries match it exactly (not re-derivable: an observation) | `com_vtables.py ingest` |
 | `callsite_args.json` | Each call's type as the IDB declares it (`typed`) or Hex-Rays made up (`cast`) | `callsites.py` |
 | `callsite_audit.json` | All sources side by side for every indirect call | `callsite_audit.py` |

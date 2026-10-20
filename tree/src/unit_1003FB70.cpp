@@ -61,7 +61,7 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
   if ( *((_BYTE *)self_ + 364) == 100 )
   {
     orig::RegisterWithProcessor((int)self_);
-    orig::sub_10183760(
+    orig::XiZone_DrawEffectElementModel(
       (float *)g_pZoneMap,
       (float *)self_ + 40,
       *((_DWORD *)self_ + 65),
@@ -71,7 +71,7 @@ XI_API void __thiscall CMoElemFamily_SharedEarlyExit(void * self_)
   else
   {
     orig::RegisterWithProcessor((int)self_);
-    orig::sub_10183760(
+    orig::XiZone_DrawEffectElementModel(
       (float *)g_pZoneMap,
       (float *)self_ + 40,
       *((_DWORD *)self_ + 65),

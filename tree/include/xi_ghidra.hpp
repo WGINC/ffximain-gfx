@@ -4,11 +4,32 @@
 #include <stdint.h>
 
 typedef unsigned char undefined; typedef unsigned char undefined1; typedef uint16_t undefined2;
-typedef uint32_t undefined3; typedef uint32_t undefined4; typedef uint64_t undefined5; typedef uint64_t undefined6;
+typedef uint32_t undefined3; typedef uint64_t undefined5; typedef uint64_t undefined6;
 typedef uint64_t undefined7; typedef uint64_t undefined8;
 typedef unsigned char byte; typedef unsigned char uchar; typedef unsigned short ushort; typedef unsigned int uint;
 typedef unsigned long ulong; typedef long long longlong; typedef unsigned long long ulonglong;
 typedef unsigned short word; typedef uint32_t dword; typedef uint64_t qword;
+// Ghidra's undefined4: four bytes of no type. A value of another type copied into it keeps its bits (a float stays
+// the float's encoding: Ghidra's COPY), where a C++ uint32_t would convert the float's value; integers and pointers
+// convert as they would to uint32_t; reading it gives the uint32_t.
+struct undefined4 {
+    uint32_t v;
+    undefined4() = default;
+#define XI_U4_INT(t) undefined4(t x) : v((uint32_t)x) {}
+    XI_U4_INT(bool) XI_U4_INT(char) XI_U4_INT(signed char) XI_U4_INT(unsigned char) XI_U4_INT(short) XI_U4_INT(unsigned short)
+    XI_U4_INT(int) XI_U4_INT(unsigned) XI_U4_INT(long) XI_U4_INT(unsigned long) XI_U4_INT(long long) XI_U4_INT(unsigned long long)
+#undef XI_U4_INT
+    template <class T> undefined4(T *p) : v((uint32_t)(uintptr_t)p) {}
+    undefined4(float f) { __builtin_memcpy(&v, &f, 4); }
+    undefined4(double) = delete;             // eight bytes do not copy into four: no fact says which four
+    operator uint32_t() const { return v; }
+    template <class T> explicit operator T *() const { return (T *)(uintptr_t)v; }
+#define XI_U4_OP(op) template <class T> undefined4 &operator op##=(T x) { v op##= x; return *this; }
+    XI_U4_OP(+) XI_U4_OP(-) XI_U4_OP(*) XI_U4_OP(/) XI_U4_OP(%) XI_U4_OP(&) XI_U4_OP(|) XI_U4_OP(^) XI_U4_OP(<<) XI_U4_OP(>>)
+#undef XI_U4_OP
+    undefined4 &operator++() { ++v; return *this; } undefined4 &operator--() { --v; return *this; }
+    uint32_t operator++(int) { return v++; } uint32_t operator--(int) { return v--; }
+};
 typedef unsigned char xi_bool;               // Ghidra's bool: one byte, any value (hx2cpp.ghidra_bool)
 typedef long double float10;                 // x87 80-bit; GCC's long double on i686
 typedef unsigned short wchar16; typedef unsigned int wchar32;
@@ -82,6 +103,10 @@ template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uin
 template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
 template<> struct xi_piece_t<8> { typedef uint64_t t; };
 #define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))
+template<int S> struct xi_spiece_t; template<> struct xi_spiece_t<1> { typedef int8_t t; };
+template<> struct xi_spiece_t<2> { typedef int16_t t; }; template<> struct xi_spiece_t<4> { typedef int32_t t; };
+template<> struct xi_spiece_t<8> { typedef int64_t t; };
+#define XI_PIECE_S(x, o, s) (*reinterpret_cast<xi_spiece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))   // a signed piece
 
 // a floating constant by its encoding (GfxExport `/*XI_K:size:bits*/`): the float or double the code loads
 static inline float xi_k4(unsigned long long b) { uint32_t u = (uint32_t)b; float f; __builtin_memcpy(&f, &u, 4); return f; }

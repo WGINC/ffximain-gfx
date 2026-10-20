@@ -81,11 +81,37 @@ public class GfxExport extends GhidraScript {
     // `0xADDR regin EAX,EDX`: registers the function's code reads on entry beyond its convention's (entry_regs.json,
     // edx_use.json); `0xADDR keeps ecx,edx`: registers it leaves untouched, its callees included (reg_keeps.json)
     private Map<Long, String[]> regin = new HashMap<>(), keeps = new HashMap<>();
+    // `0xADDR varargs N`: the IDB declares it variadic with N fixed parameters (cdecl: it pops 0)
+    private Map<Long, Integer> varargs = new HashMap<>();
+
+    // a variadic callee: its N fixed parameters (the committed ones, else undefined4) then `...`, so the
+    // decompiler gives each call the arguments its own pushes hold
+    private int applyVarargs() {
+        int n = 0;
+        for (Map.Entry<Long, Integer> e : varargs.entrySet()) {
+            Function f = getFunctionAt(currentProgram.getAddressFactory().getDefaultAddressSpace().getAddress(e.getKey()));
+            if (f == null) continue;
+            try {
+                List<Variable> ps = new ArrayList<>();
+                Parameter[] have = f.getParameters();
+                for (int i = 0; i < e.getValue(); i++)
+                    ps.add(i < have.length && have[i].isStackVariable() ? new ParameterImpl(have[i].getName(), have[i].getDataType(), currentProgram)
+                                                                         : new ParameterImpl("xi_s" + (i + 1), Undefined4DataType.dataType, currentProgram));
+                f.setCustomVariableStorage(false);
+                f.setCallingConvention("__cdecl");
+                f.replaceParameters(ps, Function.FunctionUpdateType.DYNAMIC_STORAGE_ALL_PARAMS, true, SourceType.USER_DEFINED);
+                f.setVarArgs(true);
+                n++;
+            } catch (Exception x) { println("varargs not set at " + f.getEntryPoint() + ": " + x); }
+        }
+        return n;
+    }
 
     private void loadConv(String path) throws Exception {
         for (String l : Files.readAllLines(Paths.get(path))) {
             String[] p = l.trim().split("\\s+");
             if (p.length == 3 && p[1].equals("regin")) regin.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
+            else if (p.length == 3 && p[1].equals("varargs")) varargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
             else if (p.length == 3 && p[1].equals("keeps")) keeps.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 5 && p[1].equals("icall")) icall.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
             else if (p.length == 4 && !p[1].equals("-")) conv.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
@@ -216,6 +242,28 @@ public class GfxExport extends GhidraScript {
             at.merge(j, m, (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
+        // a piece `x._O_S_`: its sign from the piece varnode's own type (the varnode of size S the `.` token's op
+        // reads or writes), `/*XI_PS:1*/` signed or `/*XI_PS:0*/` unsigned; none when the op's varnodes disagree
+        for (int j = 0; j < all.size(); j++) {
+            if (!all.get(j).getText().matches("_\\d+_\\d+_")) continue;
+            int sz = Integer.parseInt(all.get(j).getText().split("_")[2]);
+            int k = j - 1;
+            while (k >= 0 && all.get(k).getText().isEmpty()) k--;
+            if (k < 0 || !all.get(k).getText().equals(".") || all.get(k).getPcodeOp() == null) continue;
+            PcodeOp op = all.get(k).getPcodeOp();
+            Set<Boolean> sg = new HashSet<>();
+            List<Varnode> vs = new ArrayList<>(Arrays.asList(op.getInputs()));
+            if (op.getOutput() != null) vs.add(op.getOutput());
+            for (Varnode v : vs) {
+                if (v.isConstant() || v.getSize() != sz || v.getHigh() == null) continue;
+                DataType dt = v.getHigh().getDataType();
+                if (dt instanceof TypeDef) dt = ((TypeDef) dt).getBaseDataType();
+                sg.add(dt instanceof AbstractIntegerDataType && ((AbstractIntegerDataType) dt).isSigned());
+            }
+            if (sg.size() != 1) continue;
+            at.merge(j, sg.contains(true) ? "/*XI_PS:1*/" : "/*XI_PS:0*/", (x, y) -> x + y);
+            marked.putIfAbsent("", "");
+        }
         StringBuilder b = new StringBuilder();
         int i = 0;
         for (ClangLine ln : lines) {
@@ -323,6 +371,21 @@ public class GfxExport extends GhidraScript {
     private static final Set<Integer> FOPS = new HashSet<>(Arrays.asList(PcodeOp.FLOAT_ADD, PcodeOp.FLOAT_SUB,
         PcodeOp.FLOAT_MULT, PcodeOp.FLOAT_DIV, PcodeOp.FLOAT_NEG, PcodeOp.FLOAT_ABS, PcodeOp.FLOAT_SQRT,
         PcodeOp.FLOAT_INT2FLOAT, PcodeOp.FLOAT_FLOAT2FLOAT, PcodeOp.FLOAT_CEIL, PcodeOp.FLOAT_FLOOR, PcodeOp.FLOAT_ROUND));
+
+    // the decompiler's locals in the stack frame: [name, offset from the entry ESP, size], from each symbol's storage
+    private String stackLocals(HighFunction h) {
+        StringBuilder b = new StringBuilder("[");
+        Iterator<HighSymbol> it = h.getLocalSymbolMap().getSymbols();
+        while (it.hasNext()) {
+            HighSymbol sy = it.next();
+            if (sy.isParameter()) continue;
+            VariableStorage st = sy.getStorage();
+            if (st == null || !st.isStackStorage()) continue;
+            if (b.length() > 1) b.append(", ");
+            b.append("[").append(esc(sy.getName())).append(", ").append(st.getStackOffset()).append(", ").append(sy.getSize()).append("]");
+        }
+        return b.append("]").toString();
+    }
 
     private List<String> x87Locals(Function f, HighFunction h) {
         List<String> out = new ArrayList<>();
@@ -541,6 +604,7 @@ public class GfxExport extends GhidraScript {
         }
         println("indirect call prototypes set: " + ov);
         // repeated: a widened function returns what its own callee left in EAX, so that callee is widened next
+        println("variadic prototypes set: " + applyVarargs());
         println("register inputs added: " + registerInputs(fixSig));
         println("kept-register prototype models set: " + keepModels(fixSig));
         d.dispose(); d = new DecompInterface(); d.setOptions(opt); d.toggleCCode(true); d.toggleSyntaxTree(true); d.openProgram(currentProgram);
@@ -668,9 +732,9 @@ public class GfxExport extends GhidraScript {
             StringBuilder xb = new StringBuilder("[");
             for (String n : x87Locals(f, r.getHighFunction())) { if (xb.length() > 1) xb.append(", "); xb.append(esc(n)); }
             xb.append("]");
-            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
+            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"stack_locals\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
                     ea.getOffset(), esc(f.getName()), esc(f.getSignature(true).getPrototypeString(true)), esc(text), ob, ab,
-                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx))+", ""));
+                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, stackLocals(r.getHighFunction()), storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx))+", ""));
             ok++;
         }
         out.close();

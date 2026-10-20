@@ -10,6 +10,7 @@ Sources (all whole-DLL facts in data/):
   entry_regs.json reads of EAX/EBX/ESI/EDI/EBP on entry (a __usercall): no standard convention says that
   fpret.json      the value left in ST0 on return ('float') or none; 'consumes': pops a value the caller left in ST0 (RET st0in)
   reg_keeps.json  which of EAX/ECX/EDX the function leaves untouched, its callees included (reg_keeps.py)
+  exports/gfx_export.jsonl  the IDB's typed prototypes: a variadic one (`...`) for a function that pops 0
 
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
@@ -18,6 +19,8 @@ Rules (nothing else is decided):
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
   ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
+Variadic: `0xADDR varargs N` (N fixed parameters, the IDB's declared prototype; only where ret N pops 0, as a
+caller-cleanup variadic call must), so Ghidra reads each call's own pushes past the fixed ones.
 Kept registers: `0xADDR keeps eax,edx` for every function reg_keeps.json lists (a caller reading the register
 after the call reads its own value from before it; GfxExport gives the callee a prototype model saying so).
 
@@ -57,6 +60,20 @@ def decide(k, eu, du, pu, er, fp):
     return (cc, pu[k], 'float' if f == 'float' else 'st0in' if f == 'consumes' else '-', regin), None
 
 
+def variadic():
+    """{0xADDR: fixed parameter count} for the non-import functions the IDB declares with `...`"""
+    out = {}
+    for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
+        r = json.loads(l)
+        ts = [(r['ea'], r.get('type') or '')] + [(o['ea'], o.get('type') or '') for o in r.get('objs', {}).values()
+                                                  if o.get('func') and not o.get('import')]
+        for ea, t in ts:
+            if '...' not in t: continue
+            ps = [x for x in t[t.index('(') + 1:t.rindex(')')].split(',') if x.strip()]
+            out['0x%08X' % ea] = len(ps) - 1
+    return out
+
+
 def icalls():
     pops = {}
     for f in ('sp_solved.json', 'vcalls.json', 'com_calls.json'):
@@ -92,6 +109,9 @@ def main(out):
             if r and r[3]: f.write('%s regin %s\n' % (k, ','.join(r[3]))); n['regin'] = n.get('regin', 0) + 1
             key = r[0] if r else why.split(':')[0].split(' (')[0]
             n[key] = n.get(key, 0) + 1
+        for k, nfix in sorted(variadic().items(), key=lambda kv: int(kv[0], 16)):
+            if pu.get(k) != 0: continue
+            f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1
         for k, v in sorted(load('reg_keeps.json').items(), key=lambda kv: int(kv[0], 16)):
             f.write('%s keeps %s\n' % (k, ','.join(v))); n['keeps'] = n.get('keeps', 0) + 1
         for k, (r, why) in icalls().items():

@@ -567,6 +567,9 @@ def ghidra_prepare(rec):
         for n in rec['x87_locals']:
             rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
         rec = dict(rec, text=head + brace + rest)
+    if rec.get('stack_locals'):
+        head, brace, rest = rec['text'].partition('\n{')
+        rec = dict(rec, text=head + brace + ghidra_frame(rest, rec['stack_locals']))
     head, brace, rest = rec['text'].partition('\n{')
     rest, why = ghidra_consts(rest)
     if rest is None: return None, 'untranslatable', why
@@ -677,9 +680,10 @@ def ghidra_bool(text):
 
 def ghidra_pieces(text):
     # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
-    # (xi_ghidra.hpp XI_PIECE); x is the postfix expression before the `.`
+    # (xi_ghidra.hpp XI_PIECE, XI_PIECE_S when GfxExport marks the piece's own type signed); x is the postfix
+    # expression before the `.`
     while True:
-        m = re.search(r'\._(\d+)_(\d+)_(?!\w)', text)
+        m = re.search(r'\.(?:/\*XI_PS:(\d)\*/)?_(\d+)_(\d+)_(?!\w)', text)
         if not m: return text
         i = m.start()
         while True:
@@ -700,7 +704,27 @@ def ghidra_pieces(text):
                 i = mm.start()
                 if i >= 1 and text[i - 1] == '.' or text[max(0, i - 2):i] == '->': i -= 1 if text[i - 1] == '.' else 2; continue
             break
-        text = text[:i] + 'XI_PIECE(%s, %s, %s)' % (text[i:m.start()], m.group(1), m.group(2)) + text[m.end():]
+        sg = 'XI_PIECE_S' if m.group(1) == '1' else 'XI_PIECE'   # GfxExport's /*XI_PS*/: the piece varnode's sign
+        text = text[:i] + '%s(%s, %s, %s)' % (sg, text[i:m.start()], m.group(2), m.group(3)) + text[m.end():]
+
+def ghidra_frame(rest, locs):
+    # the stack locals of a function with a stack array, laid out as the code lays them out: one buffer, each
+    # local a reference at its stack offset (GfxExport `stack_locals`, from each symbol's storage). Ghidra splits
+    # one buffer into pieces (Mat4_PostMultiply's 64 bytes are local_40[4] and local_30[12]) and the code indexes
+    # across them; as separate C++ objects the compiler may place them anywhere.
+    decl = {}
+    for n, off, sz in locs:
+        m = re.search(r'^([ \t]*)([A-Za-z_][\w ]*?)\s*(\**)\s*%s((?:\s*\[\d+\])*);[ \t]*$' % re.escape(n), rest, re.M)
+        if m: decl[n] = (m, off, sz)
+    if not any(m.group(4) for m, off, sz in decl.values()): return rest
+    lo = min(off for m, off, sz in decl.values()); hi = max(off + sz for m, off, sz in decl.values())
+    first = min(m.start() for m, off, sz in decl.values())
+    for n, (m, off, sz) in sorted(decl.items(), key=lambda x: -x[1][0].start()):
+        ind, t, st, dims = m.group(1), m.group(2).strip() + ' ' + m.group(3), m.group(3), re.sub(r'\s+', '', m.group(4))
+        if dims: r = '%s%s (&%s)%s = *reinterpret_cast<%s (*)%s>(xi_frame + %d);' % (ind, t, n, dims, t, dims, off - lo)
+        else: r = '%s%s &%s = *reinterpret_cast<%s *>(xi_frame + %d);' % (ind, t, n, t, off - lo)
+        rest = rest[:m.start()] + r + rest[m.end():]
+    return rest[:first] + '  char xi_frame[%d] __attribute__((aligned(4)));\n' % (hi - lo) + rest[first:]
 
 def call_arg_counts(body, name):
     # number of arguments at each call `name(...)` in the body (top-level commas)
@@ -833,6 +857,8 @@ def translate(rec):
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
             if re.sub(r'^(struct\s+)?(std::)?', '', ot.strip()) in OPAQUE:
                 ot = 'char[1]'   # a FLIRT runtime type (layout unknown) on a game object: use it as its address
+            if rec.get('source') == 'ghidra':   # a global undefined4 is storage the text addresses as any pointer type
+                ot = re.sub(r'^undefined4\b', 'uint32_t', ot.strip())
             syms.append(typedef_for('T_%08X' % oea, ot))
             syms.append('#define %s XI_EA(T_%08X, 0x%08Xu)' % (tok, oea, oea))
         forms = set(o.get('printed', [nm])) | {nm}

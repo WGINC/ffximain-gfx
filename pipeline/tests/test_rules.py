@@ -266,48 +266,6 @@ class EcxUse(unittest.TestCase):
         self.assertTrue(self.run_paths('8908'))       # mov [eax], ecx: the upper bytes are the input on one path
 
 
-class CallerReads(unittest.TestCase):
-    """caller_reads.access: the EAX bytes one instruction reads and writes"""
-    def acc(self, hexbytes):
-        import caller_reads as C
-        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
-        return C.access(next(md.disasm(bytes.fromhex(hexbytes), 0x1000)))
-
-    def test_set_and_clear_are_writes(self):
-        self.assertEqual(self.acc('83C8FF'), (set(), {0, 1, 2, 3}))       # or eax, -1
-        self.assertEqual(self.acc('33C0'), (set(), {0, 1, 2, 3}))         # xor eax, eax
-        self.assertEqual(self.acc('83E000'), (set(), {0, 1, 2, 3}))       # and eax, 0
-
-    def test_and_reads_the_kept_bytes(self):
-        self.assertEqual(self.acc('25FF000000')[0], {0})                  # and eax, 0xFF
-        self.assertEqual(self.acc('2500FF0000')[0], {1})                  # and eax, 0xFF00
-        self.assertEqual(self.acc('83C801')[0], {0, 1, 2, 3})             # or eax, 1: reads all
-
-    def test_sbb_self_and_test_mask(self):
-        self.assertEqual(self.acc('1BC0'), (set(), {0, 1, 2, 3}))         # sbb eax, eax: -CF whatever eax held
-        self.assertEqual(self.acc('A9FF000000')[0], {0})                  # test eax, 0xFF
-
-    def ex(self, hexbytes):
-        import caller_reads as C
-        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
-        i = next(md.disasm(bytes.fromhex(hexbytes), 0x1000))
-        return C.examined(i, C.access(i)[0])
-
-    def test_examined(self):
-        self.assertEqual(self.ex('50'), set())                            # push eax: a copy
-        self.assertEqual(self.ex('8BC8'), set())                          # mov ecx, eax: a copy
-        self.assertEqual(self.ex('48'), set())                            # dec eax: upward
-        self.assertEqual(self.ex('8D1440'), set())                        # lea edx, [eax+eax*2]: no access
-        self.assertEqual(self.ex('F3AB'), set())                          # rep stosd: a copy
-        self.assertEqual(self.ex('3BC2'), {0, 1, 2, 3})                   # cmp eax, edx
-        self.assertEqual(self.ex('D1E8'), set())                          # shr eax, 1: its bits often masked next
-        self.assertEqual(self.ex('3D00100000'), {0, 1, 2, 3})             # cmp eax, 0x1000
-        self.assertEqual(self.ex('8B30'), {0, 1, 2, 3})                   # mov esi, [eax]: an address
-        self.assertEqual(self.ex('33C0'), set())                          # xor eax, eax: no read at all
-
-
 class RegparmEntry(unittest.TestCase):
     """hx2cpp.regparm_entry: a register input becomes GCC regparm with the convention's own pop rule"""
     def test_thiscall_with_eax(self):
@@ -484,3 +442,47 @@ class FloatLiteral(unittest.TestCase):
     def test_not_shortest_when_inexact(self):
         self.assertEqual(self.lit(0x3EA2FABE), '0.318319261074066162109375f')   # not 0.31831926f
         self.assertIsNone(self.lit(0x3FB999999999999A, 8))                       # 0.1: its exact value is too long
+
+
+class ByteFlow(unittest.TestCase):
+    """byte_flow.step: the value's bits through the registers, from entry EAX; (examined, escaped, EAX bytes kept)"""
+    CASES = [
+        ('the DX-only store (0x10071E90)', '668b41188d500131c281e2ff7f000031c266895118', [], [], [2, 3]),
+        ('a bitfield read', '8a4630c1e80483e00783f803', [], [], []),
+        ('a short pushed: its upper bytes escape', '668b0750', [], [2, 3], [2, 3]),
+        ('a compare', '3d00100000', [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]),
+        ('an address', '8b4804', [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]),
+        ('a flag read after arithmetic', '480f84f91f0000', [0, 1, 2, 3], [0, 1, 2, 3], []),
+        ('sbb r, r', '19c0', [], [], []),
+        ('test with an immediate', 'a9ff000000', [0], [0], [0, 1, 2, 3]),
+        ('a byte moved down, compared', 'c1e8083c01', [1], [1], []),
+        ('a constant mask in a register (0x103239F8)', '668b4206bfff07000089c1c1e90421f90fb7d985db', [], [], [2, 3]),
+    ]
+
+    def run_code(self, hexbytes, strict=False):
+        import byte_flow as B
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        st, ex, es = B.entry_state(), set(), set()
+        for i in md.disasm(bytes.fromhex(hexbytes), 0x1000):
+            if i.mnemonic.startswith('j'):                       # a conditional jump reads the flags
+                ex |= st.flags; es |= st.flags; continue
+            st, e, s = B.step(i, st, strict); ex |= e; es |= s
+        kept = [k for k in range(4) if (st.p('eax')[k] >> (8 * k)) & 0xFF]
+        return sorted(ex), sorted(es), kept
+
+    def test_cases(self):
+        for name, code, ex, es, kept in self.CASES:
+            self.assertEqual(self.run_code(code), (ex, es, kept), name)
+
+    def test_join_keeps_unchanged_or_absent(self):
+        import byte_flow as B
+        a = B.entry_state(); b = B.State({})                        # one path: AH unchanged; the other: overwritten
+        j = B.join(a, b)
+        self.assertEqual([x for x in j.c('eax')], [0, 0, 0, 0])      # never "changed"
+        self.assertEqual(j.p('eax')[1], 0xFF00)
+
+    def test_unknown_mask_strict(self):
+        code = '89c1230e21d985c9'                                   # mov ecx, eax; and ecx, [esi]; and ecx, ebx; test ecx, ecx
+        self.assertEqual(self.run_code(code)[0], [0, 1, 2, 3])
+        self.assertEqual(self.run_code(code, strict=True)[0], [])

@@ -322,6 +322,15 @@ class GhidraIndexAndAdd(unittest.TestCase):
         self.assertEqual(H.ghidra_byte_adds('q = &g /*XI_BA:2*/+ i;'), 'q = ((uint16_t *)&g) + i;')
 
 
+class BitCasts(unittest.TestCase):
+    # p-code CAST between floating and non-floating keeps the bits; the definition and the cast are one CAST
+    def test_written_and_printed_cast(self):
+        self.assertEqual(H.ghidra_bitcasts('/*XI_BC:2*/f = /*XI_BC:3*/(float)p[0x16];')[0], 'f = xi_castbits<float>(p[0x16]);')
+
+    def test_written_without_type(self):
+        self.assertIsNone(H.ghidra_bitcasts('/*XI_BC:2*/f = g(x);')[0])
+
+
 class Thunk(unittest.TestCase):
     # a function that is one `jmp T`: a call to T with its own parameters
     def test_thunk_body(self):

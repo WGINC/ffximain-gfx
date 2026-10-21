@@ -301,13 +301,7 @@ public class GfxExport extends GhidraScript {
                 Varnode in = op.getInput(0), o = op.getOutput();
                 if (in.getHigh() == null || o.getHigh() == null || in.getSize() != o.getSize()) continue;
                 if ((in.getHigh().getDataType() instanceof AbstractFloatDataType) == (o.getHigh().getDataType() instanceof AbstractFloatDataType)) continue;
-                Set<PcodeOp> sub = new HashSet<>(); Deque<Varnode> q = new ArrayDeque<>(); q.add(in);
-                while (!q.isEmpty() && sub.size() < 64) {
-                    PcodeOp d = q.poll().getDef();
-                    if (d == null || d.getOpcode() == PcodeOp.MULTIEQUAL || !sub.add(d)) continue;
-                    for (Varnode x : d.getInputs()) q.add(x);
-                }
-                casts.add(op); under.put(op, sub);
+                casts.add(op); under.put(op, operandOps(in));
                 // printed once per use of its output (an implicit output is printed where it is used: NAN(x) and
                 // the comparison both print the cast)
                 prints.put(op, Math.max(printedUses(o, 0), 1));
@@ -328,13 +322,7 @@ public class GfxExport extends GhidraScript {
                 for (Varnode in : op.getInputs()) {
                     if (in.isConstant() || in.getHigh() == null || in.getHigh().getDataType() instanceof AbstractFloatDataType) continue;
                     if (in.getSize() != 4 && in.getSize() != 8) continue;
-                    Set<PcodeOp> sub = new HashSet<>(); Deque<Varnode> q = new ArrayDeque<>(); q.add(in);
-                    while (!q.isEmpty() && sub.size() < 64) {
-                        PcodeOp d = q.poll().getDef();
-                        if (d == null || d.getOpcode() == PcodeOp.MULTIEQUAL || !sub.add(d)) continue;
-                        for (Varnode x : d.getInputs()) q.add(x);
-                    }
-                    implied.add(new Object[] {op, in, sub});
+                    implied.add(new Object[] {op, in, operandOps(in)});
                 }
             }
         }
@@ -345,13 +333,22 @@ public class GfxExport extends GhidraScript {
             if (k >= all.size() || !all.get(k).getText().equals(")") || ty.toString().trim().isEmpty()) continue;
             String type = ty.toString().replaceAll("\\s+", " ").trim();
             int u = k + 1;
-            while (u < all.size() && all.get(u).getPcodeOp() == null && !(all.get(u) instanceof ClangVariableToken && ((ClangVariableToken) all.get(u)).getVarnode() != null)) u++;
+            boolean between = false;     // another printed cast between this one and its operand's first token
+            while (u < all.size() && all.get(u).getPcodeOp() == null && !(all.get(u) instanceof ClangVariableToken && ((ClangVariableToken) all.get(u)).getVarnode() != null)) {
+                if (all.get(u) instanceof ClangTypeToken) between = true;
+                u++;
+            }
             if (u >= all.size()) continue;
             PcodeOp uop = all.get(u).getPcodeOp();
             Varnode uv = all.get(u) instanceof ClangVariableToken ? ((ClangVariableToken) all.get(u)).getVarnode() : null;
             PcodeOp hit = null;
             for (PcodeOp c : casts) {
                 boolean mine = uop == c || under.get(c).contains(uop) || (uv != null && uv.getHigh() != null && uv.getHigh() == c.getInput(0).getHigh());
+                // with a cast between, this one stands on the CAST's input only where that input is a conversion's
+                // output (the cast between is the conversion: `(uint)(float)(float10)x`); else the cast between is
+                // the one on the operand (`(float)(float10)*(float *)p`: the CAST is not printed here)
+                if (mine && between) { PcodeOp d0 = c.getInput(0).getDef(); int o0 = d0 == null ? -1 : d0.getOpcode();
+                    mine = o0 == PcodeOp.FLOAT_FLOAT2FLOAT || o0 == PcodeOp.FLOAT_INT2FLOAT || o0 == PcodeOp.FLOAT_TRUNC; }
                 if (mine && c.getOutput().getHigh().getDataType().getDisplayName().replaceAll("\\s+", " ").equals(type)) { hit = c; break; }
             }
             if (hit == null) {
@@ -362,15 +359,17 @@ public class GfxExport extends GhidraScript {
                     PcodeOp fop = (PcodeOp) ic[0]; Varnode in = (Varnode) ic[1];
                     @SuppressWarnings("unchecked") Set<PcodeOp> sub = (Set<PcodeOp>) ic[2];
                     boolean mine = (uop != null && sub.contains(uop)) || (uop == fop && uv != null && uv.getHigh() != null && uv.getHigh() == in.getHigh());
-                    if (!mine) continue;
+                    if (!mine || between) continue;
                     if ((in.getSize() == 4 && type.equals("float")) || (in.getSize() == 8 && type.equals("double"))) { imp = true; break; }
                 }
                 if (!imp) continue;
+                if (System.getenv("XI_DEBUG_BC") != null) println("BC3 implied at token " + j + " type " + type + " uop " + uop);
                 at.merge(j, "/*XI_BC:3*/", (x, y) -> x.contains(y) ? x : x + y);
                 marked.putIfAbsent("", "");
                 continue;
             }
             if (prints.merge(hit, -1, Integer::sum) <= 0) casts.remove(hit);
+            if (System.getenv("XI_DEBUG_BC") != null) println("BC3 cast at token " + j + " type " + type + " hit " + hit + " uop " + uop + " uv " + uv);
             at.merge(j, "/*XI_BC:3*/", (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
@@ -482,6 +481,21 @@ public class GfxExport extends GhidraScript {
             b.append('\n');
         }
         return b.toString();
+    }
+
+    // the ops of the expression printed for v: its defining op and, through their inputs, the ops printed inside it,
+    // stopping at calls (their arguments are printed inside the call's parentheses, not as v's first tokens;
+    // conversions printed as casts are the `between` case where the casts are matched)
+    private Set<PcodeOp> operandOps(Varnode v) {
+        Set<PcodeOp> sub = new HashSet<>(); Deque<Varnode> q = new ArrayDeque<>(); q.add(v);
+        while (!q.isEmpty() && sub.size() < 64) {
+            PcodeOp d = q.poll().getDef();
+            if (d == null || d.getOpcode() == PcodeOp.MULTIEQUAL || !sub.add(d)) continue;
+            int oc = d.getOpcode();
+            if (oc == PcodeOp.CALL || oc == PcodeOp.CALLIND || oc == PcodeOp.CALLOTHER) continue;
+            for (Varnode x : d.getInputs()) q.add(x);
+        }
+        return sub;
     }
 
     // how many times the expression defining v is printed: once per use, and where a use's own output is implicit (a

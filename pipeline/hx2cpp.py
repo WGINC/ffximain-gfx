@@ -791,6 +791,8 @@ def ghidra_bitcasts(text):
         while k < len(out) and not (out[k] == ';' and depth == 0):
             depth += (out[k] in '([') - (out[k] in ')]'); k += 1
         out = out[:m.start()] + '%s = xi_castbits<%s>(%s)' % (m.group(1), m.group(2).strip(), out[m.end():k].strip()) + out[k:]
+    # `/*XI_BC:2*/v = xi_castbits<T>(...)`: the same CAST, its printed cast already made a bit copy by XI_BC:3
+    out = re.sub(r'/\*XI_BC:2\*/(\s*[A-Za-z_]\w*\s*=\s*xi_castbits<)', r'\1', out)
     if '/*XI_BC:2*/' in out:
         return None, 'a value written through p-code CAST (bits kept) with no printed type: ' + \
             re.search(r'/\*XI_BC:2\*/\s*(\w+)', out).group(1)

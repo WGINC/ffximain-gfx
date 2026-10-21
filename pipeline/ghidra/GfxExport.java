@@ -402,9 +402,28 @@ public class GfxExport extends GhidraScript {
         for (int j = 0; j < all.size(); j++) {
             ClangToken t = all.get(j);
             PcodeOp op = t.getPcodeOp();
+            if (op == null && t.getText().equals("[")) {
+                // a subscript whose index is an expression: no token carries the PTRADD; the base's last token carries
+                // the op defining the base (`(&DAT_x)[i * 6]`: the PTRSUB), whose output the PTRADD reads
+                int k = j - 1;
+                while (k >= 0 && (all.get(k).getText().trim().isEmpty() || all.get(k).getText().equals(")"))) k--;
+                PcodeOp bop = k >= 0 ? all.get(k).getPcodeOp() : null;
+                Varnode bv = bop != null ? bop.getOutput() : null;
+                PcodeOp pa = null; int n = 0;
+                if (bv != null) for (Iterator<PcodeOp> it = bv.getDescendants(); it.hasNext(); ) {
+                    PcodeOp dsc = it.next();
+                    if (dsc.getOpcode() == PcodeOp.PTRADD && dsc.getInput(0) == bv) { pa = dsc; n++; }
+                }
+                if (n != 1) continue;
+                boolean carried = false;                 // a token inside the brackets carries it: the case below
+                for (int q = j + 1; q < all.size() && !all.get(q).getText().equals("]"); q++) if (all.get(q).getPcodeOp() == pa) carried = true;
+                if (carried) continue;
+                op = pa; t = all.get(j + 1 < all.size() ? j + 1 : j);
+            }
             if (op == null || op.getOpcode() != PcodeOp.PTRADD || op.getNumInputs() < 3 || !op.getInput(2).isConstant()) continue;
             int at0;
             if (t instanceof ClangOpToken && t.getText().equals("+")) at0 = j;
+            else if (all.get(j).getText().equals("[")) at0 = -j - 1;
             else {
                 int k = j - 1;
                 while (k >= 0 && all.get(k).getText().trim().isEmpty()) k--;

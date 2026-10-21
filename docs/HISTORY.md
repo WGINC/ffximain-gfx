@@ -2922,3 +2922,40 @@ PASS with the frame-step switches on (`test_framestep.py`, CAPTURES=...):
 The replay runs the analysed build's code on 6AC37846's memory. That is sound here because the builds' data
 sections do not move: the kit's manifest maps only code ranges, 0x10232A90-0x10329000, inside `.text`.
 Frame_Render lies outside them.
+
+## 21 Oct: names from the PS2 build
+
+The owner supplied INSTALL.ELF, a PS2 executable that is not stripped (Metrowerks MIPS C 2.4.1.01):
+- 19,013 code symbols with mangled signatures, and its relocation table;
+- no DWARF: `ps2_types.json` in DancingMad still has the types.
+
+They also supplied 23 stripped PS2 builds, from 2002 to 2016, which carry no names. Neither the ELF nor the
+builds are in either repository; point `PS2_ELF` at a local copy.
+
+**Reading the ELF.** `pipeline/ps2_elf.py` reads the functions and the relocations:
+- `R_MIPS_26`: every direct call;
+- `HI16`/`LO16` pairs: every data address;
+- `R_MIPS_32`: pointers stored in data;
+- `R_MIPS_LITERAL`: literal-pool constants, relative to `$gp` (taken from `.reginfo`).
+
+**Matching.** `pipeline/ps2_match.py` matches a PC function to a PS2 one only on evidence both binaries hold, and
+writes `data/ps2_matches.json`. Each match records its evidence and DancingMad's confidence word:
+- a literal unique to one function on each side, or a whole literal set: `confirmed`;
+- unique float constants, or call-graph position: `candidate`.
+
+The inferred kinds never pair C runtime code: the two runtimes are different code that share only names. The
+result is 195 matches.
+- **The frame.** Little of the PC frame is shared code. The PC draws through Direct3D and the PS2 through GS and
+  VU.
+- **Agreement.** Nine matched functions already carried the PS2 symbol's exact name in `runs/ghidra/names.json`.
+  Where that list got them is not recorded.
+- **Disagreements.** Six DancingMad names differ from their PS2 match on a confirmed literal. They are listed for
+  review in DancingMad's `docs/CROSSCHECK.md` §7.
+
+**Class names.** Both builds keep runtime-class descriptors, `{name, size, base}`. The PC's descriptors hold its
+own class names (`CMoSchedularTask` where the PS2 has `YmSchedulerTask`), so the tree's class names already come
+from the binary. A PS2 class whose name, with a leading `C`, is a PC descriptor name is spelt as the PC spells
+it: 7 such pairs (`XiActor` → `CXiActor`).
+
+**In the tree.** `hx2clean.py` names a function from its PS2 match only where neither the IDB, DancingMad nor
+this repository's review names it. The same applies to the names of the callees it refers to.

@@ -303,6 +303,17 @@ class RegparmEntry(unittest.TestCase):
         a, why = H.regparm_entry(0x0BADF00F, '__stdcall', 'int a, undefined4 xi_eax', ['stack', 'EAX'])
         self.assertIsNone(a)
 
+
+class Ps2Demangle(unittest.TestCase):
+    """ps2_match.demangle: CodeWarrior (cfront-style) names to (class, method)"""
+    def test_names(self):
+        import ps2_match as M
+        self.assertEqual(M.demangle('ExecuteTag__15YmSchedulerTaskFP12YmSchCodeTag'), ('YmSchedulerTask', 'ExecuteTag'))
+        self.assertEqual(M.demangle('__ct__8CTkMouseFv'), ('CTkMouse', 'Constructor'))
+        self.assertEqual(M.demangle('OnMove__Q211YmSoundElem18YmVolumeChangeTaskFv'), ('YmSoundElem::YmVolumeChangeTask', 'OnMove'))
+        self.assertEqual(M.demangle('IsEvent__FUc'), (None, 'IsEvent'))
+        self.assertIsNone(M.demangle('ReqEventInfo'))
+
 class PartialRegs(unittest.TestCase):
     """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
     are run over values that exercise every bit of every part"""

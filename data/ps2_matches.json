@@ -1,0 +1,2754 @@
+{
+ "0x10017630": {
+  "ps2": "setPolUrl__FPvi",
+  "ps2_addr": "0x001CADA0",
+  "kind": "calls",
+  "evidence": [
+   "the only unmatched callee between callee 0x10311FF1 and the end, on both sides, of the matched pair 0x100DBB50 = setDataFileParam__6NT_SYSFPv"
+  ],
+  "ps2_class": null,
+  "ps2_method": "setPolUrl",
+  "name": "setPolUrl",
+  "confidence": "candidate"
+ },
+ "0x10017D90": {
+  "ps2": "XiErrMsgGetErrCode__Fi",
+  "ps2_addr": "0x002315A0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u540d'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "XiErrMsgGetErrCode",
+  "name": "XiErrMsgGetErrCode",
+  "confidence": "confirmed"
+ },
+ "0x1001AD00": {
+  "ps2": "AppendSync__15KzMotionQueListFP8YmModResffiffff",
+  "ps2_addr": "0x00143310",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30e2\u30fc\u30b7\u30e7\u30f3\u30ad\u30e5\u30fc\u306e\u30e1\u30e2\u30ea\u304c\u78ba\u4fdd\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\\n'",
+   "unique literal '\u30e2\u30fc\u30b7\u30e7\u30f3\u30ea\u30bd\u30fc\u30b9\u30cf\u30f3\u30c9\u30eb\u304cNULL\u3067\u3059\u3002\\n'"
+  ],
+  "ps2_class": "KzMotionQueList",
+  "ps2_method": "AppendSync",
+  "name": "KzMotionQueList_AppendSync",
+  "confidence": "confirmed"
+ },
+ "0x1001EE60": {
+  "ps2": "Follow__15YmCameraManagerFP7XiActor",
+  "ps2_addr": "0x0024B4E0",
+  "kind": "floats",
+  "evidence": [
+   "5 float constants no other function uses on either side: 0.012000000104308128, 0.1066666692495346, 7.199999809265137, 8.600000381469727, 242.0"
+  ],
+  "ps2_class": "YmCameraManager",
+  "ps2_method": "Follow",
+  "name": "YmCameraManager_Follow",
+  "confidence": "candidate"
+ },
+ "0x10020BA0": {
+  "ps2": "GetOwnViewCamera__15YmCameraManagerFP7XiActorPfPf",
+  "ps2_addr": "0x0024D0F0",
+  "kind": "floats",
+  "evidence": [
+   "2 float constants no other function uses on either side: -1.600000023841858, 0.9100000262260437"
+  ],
+  "ps2_class": "YmCameraManager",
+  "ps2_method": "GetOwnViewCamera",
+  "name": "YmCameraManager_GetOwnViewCamera",
+  "confidence": "candidate"
+ },
+ "0x10022120": {
+  "ps2": "GetScale__5KzCibFi",
+  "ps2_addr": "0x003206C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30b5\u30a4\u30ba\u756a\u53f7\u304c\u5909\u3067\u3059\u3002\uff33\u30b5\u30a4\u30ba\u3092\u6307\u5b9a\u3057\u307e\u3059\u3002\\n'"
+  ],
+  "ps2_class": "KzCib",
+  "ps2_method": "GetScale",
+  "name": "KzCib_GetScale",
+  "confidence": "confirmed"
+ },
+ "0x10057FB0": {
+  "ps2": "ExecuteTag__15YmSchedulerTaskFP12YmSchCodeTag",
+  "ps2_addr": "0x002BE500",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30ab\u30a6\u30f3\u30bf\u30fc\u30b9\u30b1\u30b8\u30e5\u30fc\u30e9\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002[%s:%s]\\n'",
+   "unique literal '\u6b8b\u50cf\u7528\u30e1\u30e2\u30ea\u306e\u78ba\u4fdd\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002\\n'"
+  ],
+  "ps2_class": "YmSchedulerTask",
+  "ps2_method": "ExecuteTag",
+  "name": "YmSchedulerTask_ExecuteTag",
+  "confidence": "confirmed"
+ },
+ "0x10076AB0": {
+  "ps2": "preprocessArg__FPcPci",
+  "ps2_addr": "0x00210250",
+  "kind": "neighbours",
+  "evidence": [
+   "calls 0x10087070 = IsEvent__FUc",
+   "calls 0x10312050 = strncpy"
+  ],
+  "ps2_class": null,
+  "ps2_method": "preprocessArg",
+  "name": "preprocessArg",
+  "confidence": "candidate"
+ },
+ "0x10076FF0": {
+  "ps2": "getNounFromPronoun__FPcc",
+  "ps2_addr": "0x0020F800",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s%d/%s%d'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "getNounFromPronoun",
+  "name": "getNounFromPronoun",
+  "confidence": "confirmed"
+ },
+ "0x10078170": {
+  "ps2": "cmdf_COM_VER__FPcPci",
+  "ps2_addr": "0x002119C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'version %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_VER",
+  "name": "cmdf_COM_VER",
+  "confidence": "confirmed"
+ },
+ "0x100785A0": {
+  "ps2": "cmdf_COM_CHAT_TALK__FPcPci",
+  "ps2_addr": "0x00211CB0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '>>%s : %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_CHAT_TALK",
+  "name": "cmdf_COM_CHAT_TALK",
+  "confidence": "confirmed"
+ },
+ "0x10078720": {
+  "ps2": "cmdf_COM_CHAT_PARTY__FPcPci",
+  "ps2_addr": "0x00211E60",
+  "kind": "string",
+  "evidence": [
+   "unique literal '(%s) %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_CHAT_PARTY",
+  "name": "cmdf_COM_CHAT_PARTY",
+  "confidence": "confirmed"
+ },
+ "0x10079420": {
+  "ps2": "cmdf_COM_SWITCH_PROPOSAL__FPcPci",
+  "ps2_addr": "0x002121C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'linkshell'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_SWITCH_PROPOSAL",
+  "name": "cmdf_COM_SWITCH_PROPOSAL",
+  "confidence": "confirmed"
+ },
+ "0x10079810": {
+  "ps2": "cmdf_COM_VOLUNTEER__FPcPci",
+  "ps2_addr": "0x00212570",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s T1 %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_VOLUNTEER",
+  "name": "cmdf_COM_VOLUNTEER",
+  "confidence": "confirmed"
+ },
+ "0x1007A1C0": {
+  "ps2": "SeekIdByString__FPcc",
+  "ps2_addr": "0x00210F50",
+  "kind": "string",
+  "evidence": [
+   "unique literal '<lastst>'",
+   "unique literal '<scan>'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "SeekIdByString",
+  "name": "SeekIdByString",
+  "confidence": "confirmed"
+ },
+ "0x1007C6C0": {
+  "ps2": "cmdf_COM_BLACK_LIST__FPcPci",
+  "ps2_addr": "0x00215020",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'delete'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_BLACK_LIST",
+  "name": "cmdf_COM_BLACK_LIST",
+  "confidence": "confirmed"
+ },
+ "0x1007FF30": {
+  "ps2": "cmdf_COM_EMOTE_ACTION_common__FPcPci",
+  "ps2_addr": "0x002172F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'motion'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_EMOTE_ACTION_common",
+  "name": "cmdf_COM_EMOTE_ACTION_common",
+  "confidence": "confirmed"
+ },
+ "0x10080830": {
+  "ps2": "cmdf_COM_CHATMODE__FPcPci",
+  "ps2_addr": "0x00217F00",
+  "kind": "string",
+  "evidence": [
+   "unique literal '(chatmode : %s)'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "cmdf_COM_CHATMODE",
+  "name": "cmdf_COM_CHATMODE",
+  "confidence": "confirmed"
+ },
+ "0x10081BA0": {
+  "ps2": "Init__7XiActorFv",
+  "ps2_addr": "0x0016FC70",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'roro-thomashi'"
+  ],
+  "ps2_class": "XiActor",
+  "ps2_method": "Init",
+  "name": "XiActor_Init",
+  "confidence": "confirmed"
+ },
+ "0x10084400": {
+  "ps2": "GetType__7XiActorFv",
+  "ps2_addr": "0x00171D60",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x10057FB0 = ExecuteTag__15YmSchedulerTaskFP12YmSchCodeTag",
+   "called by 0x100CD540 = SetMotion__15XiSkeletonActorFP14YmResourceFileUiffiffiiff",
+   "called by 0x100D2220 = ReadTpcEventMotionRes__15XiSkeletonActorFi",
+   "called by 0x100D2F60 = SetUp__15XiSkeletonActorFi"
+  ],
+  "ps2_class": "XiActor",
+  "ps2_method": "GetType",
+  "name": "XiActor_GetType",
+  "confidence": "candidate"
+ },
+ "0x10085060": {
+  "ps2": "StartGeneraters__7XiActorFP14YmResourceFile",
+  "ps2_addr": "0x001724C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30ad\u30e3\u30e9\u306b\u30b8\u30a7\u30cd\u30ec\u30fc\u30bf\u8a70\u3081\u3059\u304e'"
+  ],
+  "ps2_class": "XiActor",
+  "ps2_method": "StartGeneraters",
+  "name": "XiActor_StartGeneraters",
+  "confidence": "confirmed"
+ },
+ "0x10087070": {
+  "ps2": "IsEvent__FUc",
+  "ps2_addr": "0x00173A30",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x101AE010 = CanUseShortcut__10FsShortcutF16FS_SHORTCUTLEVEL",
+   "called by 0x101D3380 = ChangeMode__8YkMyroomFi",
+   "called by 0x101F23A0 = Open__9YkWndItemFP13YkWndItemCtrl"
+  ],
+  "ps2_class": null,
+  "ps2_method": "IsEvent",
+  "name": "IsEvent",
+  "confidence": "candidate"
+ },
+ "0x100955D0": {
+  "ps2": "CallMotd__Fv",
+  "ps2_addr": "0x00180E50",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/servmes'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "CallMotd",
+  "name": "CallMotd",
+  "confidence": "confirmed"
+ },
+ "0x10098610": {
+  "ps2": "RecvGmScitem__FP7GC_ZONEP19GP_GAME_PACKET_HEADP16GP_SERV_GMSCITEM",
+  "ps2_addr": "0x00183980",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Num%003d:%s'",
+   "unique literal 'UserName:%s UniqueNo:%d'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvGmScitem",
+  "name": "RecvGmScitem",
+  "confidence": "confirmed"
+ },
+ "0x100A8490": {
+  "ps2": "GetDirId_Div8__14XiControlActorFfPf",
+  "ps2_addr": "0x00191050",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u65b9\u5411\u304c\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\\n'"
+  ],
+  "ps2_class": "XiControlActor",
+  "ps2_method": "GetDirId_Div8",
+  "name": "XiControlActor_GetDirId_Div8",
+  "confidence": "confirmed"
+ },
+ "0x100A9F40": {
+  "ps2": "SetTarget__14XiControlActorFP7XiActor",
+  "ps2_addr": "0x001927A0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/target %d'"
+  ],
+  "ps2_class": "XiControlActor",
+  "ps2_method": "SetTarget",
+  "name": "XiControlActor_SetTarget",
+  "confidence": "confirmed"
+ },
+ "0x100AD550": {
+  "ps2": "ReqEventInfo",
+  "ps2_addr": "0x002007C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'EventInfo:CSTAT=%s,SSTAT=%s,UC=%d,EF=%d,Slock=%d,ETask=%s\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "ReqEventInfo",
+  "name": "ReqEventInfo",
+  "confidence": "confirmed"
+ },
+ "0x100AE2D0": {
+  "ps2": "_EventMessReadCallBack__FPciPv",
+  "ps2_addr": "0x002038F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR!:Read Error EventMessageData\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "_EventMessReadCallBack",
+  "name": "_EventMessReadCallBack",
+  "confidence": "confirmed"
+ },
+ "0x100AEC20": {
+  "ps2": "_EventDataReadCallBack__FPciPv",
+  "ps2_addr": "0x00203890",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR!:Read Error EventData\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "_EventDataReadCallBack",
+  "name": "_EventDataReadCallBack",
+  "confidence": "confirmed"
+ },
+ "0x100B0510": {
+  "ps2": "ExecProg__7XiEventFs",
+  "ps2_addr": "0x0020AC30",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'gosub\u306e\u4e0a\u9650\u3092\u8d85\u3048\u307e\u3057\u305f\\n'"
+  ],
+  "ps2_class": "XiEvent",
+  "ps2_method": "ExecProg",
+  "name": "XiEvent_ExecProg",
+  "confidence": "confirmed"
+ },
+ "0x100B84B0": {
+  "ps2": "CodeGETWEATER__7XiEventFv",
+  "ps2_addr": "0x0020A3A0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR!:Weather file ga nee! [%d]'"
+  ],
+  "ps2_class": "XiEvent",
+  "ps2_method": "CodeGETWEATER",
+  "name": "XiEvent_CodeGETWEATER",
+  "confidence": "confirmed"
+ },
+ "0x100CD540": {
+  "ps2": "SetMotion__15XiSkeletonActorFP14YmResourceFileUiffiffiiff",
+  "ps2_addr": "0x0019A080",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30ec\u30a4\u30e4\u30fc\u6307\u5b9a\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002%x\\n'"
+  ],
+  "ps2_class": "XiSkeletonActor",
+  "ps2_method": "SetMotion",
+  "name": "XiSkeletonActor_SetMotion",
+  "confidence": "confirmed"
+ },
+ "0x100CF210": {
+  "ps2": "SetModel__15XiSkeletonActorFP10YmResource",
+  "ps2_addr": "0x0019B4B0",
+  "kind": "neighbours",
+  "evidence": [
+   "calls 0x10022120 = GetScale__5KzCibFi",
+   "calls 0x10085060 = StartGeneraters__7XiActorFP14YmResourceFile"
+  ],
+  "ps2_class": "XiSkeletonActor",
+  "ps2_method": "SetModel",
+  "name": "XiSkeletonActor_SetModel",
+  "confidence": "candidate"
+ },
+ "0x100D2220": {
+  "ps2": "ReadTpcEventMotionRes__15XiSkeletonActorFi",
+  "ps2_addr": "0x0019DC40",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u305d\u3093\u306a\u30a4\u30d9\u30f3\u30c8\u30e2\u30fc\u30b7\u30e7\u30f3\u30d5\u30a1\u30a4\u30eb\u306f\u3042\u308a\u307e\u305b\u3093\u3002:%s[%d]\\n'"
+  ],
+  "ps2_class": "XiSkeletonActor",
+  "ps2_method": "ReadTpcEventMotionRes",
+  "name": "XiSkeletonActor_ReadTpcEventMotionRes",
+  "confidence": "confirmed"
+ },
+ "0x100D2F10": {
+  "ps2": "GetEmotionSchResId__15XiSkeletonActorFi",
+  "ps2_addr": "0x0019E5D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u6307\u5b9a\u306e\u30a8\u30e2\u30fc\u30b7\u30e7\u30f3\u756a\u53f7\u306e\u30b9\u30b1\u30b8\u30e5\u30fc\u30e9\u306f\u3042\u308a\u307e\u305b\u3093\u3002\\n'"
+  ],
+  "ps2_class": "XiSkeletonActor",
+  "ps2_method": "GetEmotionSchResId",
+  "name": "XiSkeletonActor_GetEmotionSchResId",
+  "confidence": "confirmed"
+ },
+ "0x100D2F60": {
+  "ps2": "SetUp__15XiSkeletonActorFi",
+  "ps2_addr": "0x0019E630",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\uff27\uff32\uff30\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002:%x(cate:%d race:%d)\\n'",
+   "unique literal '\u7a2e\u65cf\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002\\n'",
+   "unique literal '\u7a2e\u65cf\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002(\u91e3\u308a\u7aff\u30a2\u30af\u30bf\u30fc\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u4e2d\u3067\u3059)\\n'"
+  ],
+  "ps2_class": "XiSkeletonActor",
+  "ps2_method": "SetUp",
+  "name": "XiSkeletonActor_SetUp",
+  "confidence": "confirmed"
+ },
+ "0x100D8250": {
+  "ps2": "err_print",
+  "ps2_addr": "0x003586B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s(%d):%s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "err_print",
+  "name": "err_print",
+  "confidence": "confirmed"
+ },
+ "0x100DBB50": {
+  "ps2": "setDataFileParam__6NT_SYSFPv",
+  "ps2_addr": "0x001F21E0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'http://wh000.pol.com/polapps/s/ffxi.tactics?a=%s&b=%s&c=%d&d=%d&e=%d&f=%d&g=%d&h=%d&i=%d&j=%d&k=%d&l=%d&m=%d&n=%d&x=%d&y=%d&z=%d'",
+   "unique literal 'http://wh000.pol.com/polapps/s/ffxi.tactics?a=1'"
+  ],
+  "ps2_class": "NT_SYS",
+  "ps2_method": "setDataFileParam",
+  "name": "NT_SYS_setDataFileParam",
+  "confidence": "confirmed"
+ },
+ "0x100E2060": {
+  "ps2": "gcStepRecvReply__FP18FFWCaCacheCommStepP19FFWCaCacheQueryCommP11GC_MAIN_SYS",
+  "ps2_addr": "0x0023D990",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'DONE(%d/%d): %d'",
+   "unique literal 'ITEM:%u - %u/%u'",
+   "unique literal 'MSG:%u - %s'",
+   "unique literal 'PRICE:%u %s -> %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcStepRecvReply",
+  "name": "gcStepRecvReply",
+  "confidence": "confirmed"
+ },
+ "0x100E3220": {
+  "ps2": "gcCacheGetInstallTime",
+  "ps2_addr": "0x00240610",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ffxiusr.sys'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcCacheGetInstallTime",
+  "name": "gcCacheGetInstallTime",
+  "confidence": "confirmed"
+ },
+ "0x100E37A0": {
+  "ps2": "RecvStdChat__FP7GC_ZONEP19GP_GAME_PACKET_HEADP16GP_SERV_CHAT_STD",
+  "ps2_addr": "0x00224AF0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s%s %s\\n'",
+   "unique literal '%s%s>> %s\\n'",
+   "unique literal '(%s%s) %s\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvStdChat",
+  "name": "RecvStdChat",
+  "confidence": "confirmed"
+ },
+ "0x100E7BD0": {
+  "ps2": "gcFriendPolDbTableUseStart",
+  "ps2_addr": "0x002B99E0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%sprof_pol.pib'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcFriendPolDbTableUseStart",
+  "name": "gcFriendPolDbTableUseStart",
+  "confidence": "confirmed"
+ },
+ "0x100E7EE0": {
+  "ps2": "gcFriendPolDbFormUseStart",
+  "ps2_addr": "0x002B9CF0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%sprof_pol.pfb'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcFriendPolDbFormUseStart",
+  "name": "gcFriendPolDbFormUseStart",
+  "confidence": "confirmed"
+ },
+ "0x100E8650": {
+  "ps2": "ReqChar__FPUc",
+  "ps2_addr": "0x001CAAC0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'serv input[%s]'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "ReqChar",
+  "name": "ReqChar",
+  "confidence": "confirmed"
+ },
+ "0x100E88C0": {
+  "ps2": "RecvGmCommand__FP7GC_ZONEP19GP_GAME_PACKET_HEADP17GP_SERV_GMCOMMAND",
+  "ps2_addr": "0x001CAB80",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s---\\n%s'",
+   "unique literal '-- GM Client Command Help -----'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvGmCommand",
+  "name": "RecvGmCommand",
+  "confidence": "confirmed"
+ },
+ "0x100ED7E0": {
+  "ps2": "gcLoginProc",
+  "ps2_addr": "0x001F2B20",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ffxi00.pol.com'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcLoginProc",
+  "name": "gcLoginProc",
+  "confidence": "confirmed"
+ },
+ "0x100F8FF0": {
+  "ps2": "RecvProc__FP7GC_ZONEP19GP_GAME_PACKET_HEADP19GP_SERV_SWITCH_PROC",
+  "ps2_addr": "0x0039C7B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal ' %d[%d]'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvProc",
+  "name": "RecvProc",
+  "confidence": "confirmed"
+ },
+ "0x100FB660": {
+  "ps2": "RecvLogIn__FP7GC_ZONEP19GP_GAME_PACKET_HEADP13GP_SERV_LOGIN",
+  "ps2_addr": "0x001656D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '=== Area: %d ==='"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvLogIn",
+  "name": "RecvLogIn",
+  "confidence": "confirmed"
+ },
+ "0x100FBD40": {
+  "ps2": "RecvMessage__FP7GC_ZONEP19GP_GAME_PACKET_HEADP15GP_SERV_MESSAGE",
+  "ps2_addr": "0x001670E0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'CasUniqueNo'",
+   "unique literal 'TarUniqueNo'",
+   "unique literal 'string2'",
+   "unique literal 'string3'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "RecvMessage",
+  "name": "RecvMessage",
+  "confidence": "confirmed"
+ },
+ "0x100FBEB0": {
+  "ps2": "gcZonePingTime",
+  "ps2_addr": "0x00163B60",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Ver[%s](%3.0f %3.0f %3.0f)\\n'",
+   "unique literal 'net...MyIP[%s]\\n'",
+   "unique literal 'net...no init..\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "gcZonePingTime",
+  "name": "gcZonePingTime",
+  "confidence": "confirmed"
+ },
+ "0x10102340": {
+  "ps2": "ntGameInit",
+  "ps2_addr": "0x00168410",
+  "kind": "string",
+  "evidence": [
+   "unique literal '-POLCON'",
+   "unique literal '-centerip'",
+   "unique literal '-centerport'",
+   "unique literal '-clinum'",
+   "unique literal '-cliport'",
+   "unique literal '-debug'",
+   "unique literal '-debugport'",
+   "unique literal '-globaluniqueno'",
+   "unique literal '-mapblksize'",
+   "unique literal '-mapno'",
+   "unique literal '-nohitck'",
+   "unique literal '-npcnum'",
+   "unique literal '-pcnum'",
+   "unique literal '-petnum'",
+   "unique literal '-processid'",
+   "unique literal '-recvt'",
+   "unique literal '-rtimeout'",
+   "unique literal '-sendt'",
+   "unique literal '-startflg'",
+   "unique literal '-stoptimer'",
+   "unique literal '-timeout'",
+   "unique literal '-uniqueno'",
+   "unique literal '-worldip'",
+   "unique literal '-worldno'",
+   "unique literal '-worldport'",
+   "unique literal '-zoneno'",
+   "unique literal '172.16.90.214'",
+   "unique literal '172.22.100.101'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "ntGameInit",
+  "name": "ntGameInit",
+  "confidence": "confirmed"
+ },
+ "0x1010C990": {
+  "ps2": "DoFileParse__13FDtFileParserFv",
+  "ps2_addr": "0x002E6610",
+  "kind": "string",
+  "evidence": [
+   "unique literal '#FDtBIN1'"
+  ],
+  "ps2_class": "FDtFileParser",
+  "ps2_method": "DoFileParse",
+  "name": "FDtFileParser_DoFileParse",
+  "confidence": "confirmed"
+ },
+ "0x10110180": {
+  "ps2": "writeSection__7FDtLinkCFR13FDtFileWriter",
+  "ps2_addr": "0x002EB2F0",
+  "kind": "neighbours",
+  "evidence": [
+   "calls 0x10112780 = writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCc",
+   "calls 0x10112810 = writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCcUl",
+   "calls 0x10112880 = writeLine__9FDtObjectCFR13FDtFileWriteriPCcUlUlUl"
+  ],
+  "ps2_class": "FDtLink",
+  "ps2_method": "writeSection",
+  "name": "FDtLink_writeSection",
+  "confidence": "candidate"
+ },
+ "0x10110970": {
+  "ps2": "ParseLine__7FDtSlotFUcPC8GNStringUsR8GNString",
+  "ps2_addr": "0x002EC310",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'Disable', 'SUBSLOT'"
+  ],
+  "ps2_class": "FDtSlot",
+  "ps2_method": "ParseLine",
+  "name": "FDtSlot_ParseLine",
+  "confidence": "confirmed"
+ },
+ "0x10110C30": {
+  "ps2": "writeSection__10FDtSubSlotCFR13FDtFileWriter",
+  "ps2_addr": "0x002EC700",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Enable'"
+  ],
+  "ps2_class": "FDtSubSlot",
+  "ps2_method": "writeSection",
+  "name": "FDtSubSlot_writeSection",
+  "confidence": "confirmed"
+ },
+ "0x10110F00": {
+  "ps2": "writeCommonSection__7FDtNodeCFR13FDtFileWriter",
+  "ps2_addr": "0x002ED5E0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'HEADER', 'IGNORE'"
+  ],
+  "ps2_class": "FDtNode",
+  "ps2_method": "writeCommonSection",
+  "name": "FDtNode_writeCommonSection",
+  "confidence": "confirmed"
+ },
+ "0x10112780": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCc",
+  "ps2_addr": "0x002F00D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s %s\\n'"
+  ],
+  "ps2_class": "FDtObject",
+  "ps2_method": "writeLine",
+  "name": "FDtObject_writeLine",
+  "confidence": "confirmed"
+ },
+ "0x10112810": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCcUl",
+  "ps2_addr": "0x002F0180",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s %s %d\\n'"
+  ],
+  "ps2_class": "FDtObject",
+  "ps2_method": "writeLine",
+  "name": "FDtObject_writeLine",
+  "confidence": "confirmed"
+ },
+ "0x10112880": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcUlUlUl",
+  "ps2_addr": "0x002F0220",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s %d %d %d\\n'"
+  ],
+  "ps2_class": "FDtObject",
+  "ps2_method": "writeLine",
+  "name": "FDtObject_writeLine",
+  "confidence": "confirmed"
+ },
+ "0x10113D30": {
+  "ps2": "__ct__20FDtXiErrorReportCtrlFv",
+  "ps2_addr": "0x002F1F40",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'err%03d.bin', 'lb%03d.bin'"
+  ],
+  "ps2_class": "FDtXiErrorReportCtrl",
+  "ps2_method": "Constructor",
+  "name": "FDtXiErrorReportCtrl_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x10114B60": {
+  "ps2": "FDtXiInit",
+  "ps2_addr": "0x002F3020",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'GMCALL'",
+   "unique literal 'GMREPORT'",
+   "unique literal 'GMTIME'",
+   "unique literal 'HARASSMENT'",
+   "unique literal 'INFIELD'",
+   "unique literal 'LOGOUT'",
+   "unique literal 'NOTICE'",
+   "unique literal 'PLATFORM'",
+   "unique literal 'POLEXIT'",
+   "unique literal 'RESCUE'",
+   "unique literal 'VERSION'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FDtXiInit",
+  "name": "FDtXiInit",
+  "confidence": "confirmed"
+ },
+ "0x10114D00": {
+  "ps2": "FDtGetVersionCB__FPvPCcPCcR8GNString",
+  "ps2_addr": "0x002F11F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'S%08x/C%08x/'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FDtGetVersionCB",
+  "name": "FDtGetVersionCB",
+  "confidence": "confirmed"
+ },
+ "0x10115020": {
+  "ps2": "FDtGmNoticeProc__Fv",
+  "ps2_addr": "0x002F0EA0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'DEF DATASET %04u%02u%02u%02u\\n'",
+   "unique literal 'gmNotice.siz'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FDtGmNoticeProc",
+  "name": "FDtGmNoticeProc",
+  "confidence": "confirmed"
+ },
+ "0x10118900": {
+  "ps2": "GetButtonLocate__15CTkMenuCtrlDataFR6TKRECTi",
+  "ps2_addr": "0x001DD050",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x1012D8C0 = OnDrawPrimitive__12CTkDbAccountFv",
+   "called by 0x1019F1E0 = OnDrawPrimitive__12FsFepPaletteFv"
+  ],
+  "ps2_class": "CTkMenuCtrlData",
+  "ps2_method": "GetButtonLocate",
+  "name": "CTkMenuCtrlData_GetButtonLocate",
+  "confidence": "candidate"
+ },
+ "0x10120450": {
+  "ps2": "FindMenuShapeFile__F1",
+  "ps2_addr": "0x001CB780",
+  "kind": "calls",
+  "evidence": [
+   "the only unmatched callee between the start and the end, on both sides, of the matched pair 0x101B9690 = init__12FsTinyStringFv"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FindMenuShapeFile",
+  "name": "FindMenuShapeFile",
+  "confidence": "candidate"
+ },
+ "0x10123970": {
+  "ps2": "GetAnalogKey__FUi7KEYTYPE",
+  "ps2_addr": "0x00228A00",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x1001EE60 = Follow__15YmCameraManagerFP7XiActor",
+   "called by 0x10020BA0 = GetOwnViewCamera__15YmCameraManagerFP7XiActorPfPf",
+   "called by 0x101EF0A0 = OnDrawCalc__10YkWndImageFc"
+  ],
+  "ps2_class": null,
+  "ps2_method": "GetAnalogKey",
+  "name": "GetAnalogKey",
+  "confidence": "candidate"
+ },
+ "0x10124440": {
+  "ps2": "__ct__8CTkMouseFv",
+  "ps2_addr": "0x0021EA90",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'anc     anc_scro'"
+  ],
+  "ps2_class": "CTkMouse",
+  "ps2_method": "Constructor",
+  "name": "CTkMouse_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x10124700": {
+  "ps2": "SetMousePoint__8CTkMouseFR8tagPOINTf",
+  "ps2_addr": "0x0021EDF0",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x10124440 = __ct__8CTkMouseFv",
+   "called by 0x101EF0A0 = OnDrawCalc__10YkWndImageFc"
+  ],
+  "ps2_class": "CTkMouse",
+  "ps2_method": "SetMousePoint",
+  "name": "CTkMouse_SetMousePoint",
+  "confidence": "candidate"
+ },
+ "0x10127990": {
+  "ps2": "GetCallNum__FPCcP13TK_DATAHEDDER",
+  "ps2_addr": "0x001D7990",
+  "kind": "string",
+  "evidence": [
+   "unique literal '7100<call0>'",
+   "unique literal '<call>'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "GetCallNum",
+  "name": "GetCallNum",
+  "confidence": "confirmed"
+ },
+ "0x1012AB00": {
+  "ps2": "Open__14CTkMagicSelectFv",
+  "ps2_addr": "0x002394D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    magselec'"
+  ],
+  "ps2_class": "CTkMagicSelect",
+  "ps2_method": "Open",
+  "name": "CTkMagicSelect_Open",
+  "confidence": "confirmed"
+ },
+ "0x1012BCA0": {
+  "ps2": "StepoutCallBack__FPvc",
+  "ps2_addr": "0x0023A080",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/dismount'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "StepoutCallBack",
+  "name": "StepoutCallBack",
+  "confidence": "confirmed"
+ },
+ "0x1012D8C0": {
+  "ps2": "OnDrawPrimitive__12CTkDbAccountFv",
+  "ps2_addr": "0x002F8750",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'BlodeCast:'",
+   "unique literal 'EtherIP:'",
+   "unique literal 'Gateway:'",
+   "unique literal 'POL-ID:'",
+   "unique literal 'Password:'",
+   "unique literal 'ServerIP:'",
+   "unique literal 'ServerPort:'",
+   "unique literal 'SubnetMask:'",
+   "unique literal '\u6c7a\\u3000\u5b9a'"
+  ],
+  "ps2_class": "CTkDbAccount",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "CTkDbAccount_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1012EFF0": {
+  "ps2": "RequestEnterDeliveryMode__11CTkDeliveryFv",
+  "ps2_addr": "0x002CBA80",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    delivery'",
+   "unique literal 'menu    stringdl'"
+  ],
+  "ps2_class": "CTkDelivery",
+  "ps2_method": "RequestEnterDeliveryMode",
+  "name": "CTkDelivery_RequestEnterDeliveryMode",
+  "confidence": "confirmed"
+ },
+ "0x10133130": {
+  "ps2": "OpenEquip__8CTkEquipFv",
+  "ps2_addr": "0x00234180",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    equip   '"
+  ],
+  "ps2_class": "CTkEquip",
+  "ps2_method": "OpenEquip",
+  "name": "CTkEquip_OpenEquip",
+  "confidence": "confirmed"
+ },
+ "0x10133A80": {
+  "ps2": "OnDrawCalc__10CTkInspectFc",
+  "ps2_addr": "0x00234860",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\uff1f\\u3000\uff1f\\u3000\uff1f'"
+  ],
+  "ps2_class": "CTkInspect",
+  "ps2_method": "OnDrawCalc",
+  "name": "CTkInspect_OnDrawCalc",
+  "confidence": "confirmed"
+ },
+ "0x10134760": {
+  "ps2": "CloseWindows__10CTkInspectFv",
+  "ps2_addr": "0x00234FB0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    inspect ', 'menu    iteminfo'"
+  ],
+  "ps2_class": "CTkInspect",
+  "ps2_method": "CloseWindows",
+  "name": "CTkInspect_CloseWindows",
+  "confidence": "confirmed"
+ },
+ "0x10139DC0": {
+  "ps2": "HandOverStart__11CTkHandOverFRC7CHAR_ID",
+  "ps2_addr": "0x002E1B10",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    handover'"
+  ],
+  "ps2_class": "CTkHandOver",
+  "ps2_method": "HandOverStart",
+  "name": "CTkHandOver_HandOverStart",
+  "confidence": "confirmed"
+ },
+ "0x1013F060": {
+  "ps2": "OpenLoot__7CTkLootFv",
+  "ps2_addr": "0x002DFB70",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    loot    '"
+  ],
+  "ps2_class": "CTkLoot",
+  "ps2_method": "OpenLoot",
+  "name": "CTkLoot_OpenLoot",
+  "confidence": "confirmed"
+ },
+ "0x1013F9E0": {
+  "ps2": "ShootCallBack__FP10CTkXiActorP7CHAR_ID",
+  "ps2_addr": "0x00307350",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/shoot'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "ShootCallBack",
+  "name": "ShootCallBack",
+  "confidence": "confirmed"
+ },
+ "0x1014CE80": {
+  "ps2": "RequestEnterPostMode__7CTkPostFv",
+  "ps2_addr": "0x002CE060",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    post1   '",
+   "unique literal 'menu    post2   '"
+  ],
+  "ps2_class": "CTkPost",
+  "ps2_method": "RequestEnterPostMode",
+  "name": "CTkPost_RequestEnterPostMode",
+  "confidence": "confirmed"
+ },
+ "0x10151CB0": {
+  "ps2": "RequestEnterTradeMode__8CTkTradeFv",
+  "ps2_addr": "0x0025B6E0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    gift    ', 'menu    money   ', 'menu    trade   '"
+  ],
+  "ps2_class": "CTkTrade",
+  "ps2_method": "RequestEnterTradeMode",
+  "name": "CTkTrade_RequestEnterTradeMode",
+  "confidence": "confirmed"
+ },
+ "0x10151D90": {
+  "ps2": "RequestExitTradeMode__8CTkTradeFv",
+  "ps2_addr": "0x0025B920",
+  "kind": "strings",
+  "evidence": [
+   "the same 5 literals, a set no other function holds on either side: 'menu    gift    ', 'menu    itemctrl', 'menu    money   ', 'menu    moneyctr', 'menu    trade   '"
+  ],
+  "ps2_class": "CTkTrade",
+  "ps2_method": "RequestExitTradeMode",
+  "name": "CTkTrade_RequestExitTradeMode",
+  "confidence": "confirmed"
+ },
+ "0x101874F0": {
+  "ps2": "SetWeather__6XiAreaFUi10XiDateTime10XiDateTime",
+  "ps2_addr": "0x003A4ED0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'area\u30ea\u30bd\u30fc\u30b9\u304c\u306a\u3044\u306e\u3067\u5929\u6c17\u3082\u306a\u3044\u3067\u3059\\n'"
+  ],
+  "ps2_class": "XiArea",
+  "ps2_method": "SetWeather",
+  "name": "XiArea_SetWeather",
+  "confidence": "confirmed"
+ },
+ "0x1018E1D0": {
+  "ps2": "load__9FsLogPageFPc",
+  "ps2_addr": "0x0039CB00",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'log files.'"
+  ],
+  "ps2_class": "FsLogPage",
+  "ps2_method": "load",
+  "name": "FsLogPage_load",
+  "confidence": "confirmed"
+ },
+ "0x1018F550": {
+  "ps2": "OnDrawPrimitive__15FsCandidateMenuFv",
+  "ps2_addr": "0x002E0890",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s%c%s'"
+  ],
+  "ps2_class": "FsCandidateMenu",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "FsCandidateMenu_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x10190980": {
+  "ps2": "openCSK__10FsCSKLogicF12FS_INPUTSTEP",
+  "ps2_addr": "0x0022A320",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    keypad2'",
+   "unique literal 'menu    keypad3  '"
+  ],
+  "ps2_class": "FsCSKLogic",
+  "ps2_method": "openCSK",
+  "name": "FsCSKLogic_openCSK",
+  "confidence": "confirmed"
+ },
+ "0x10190B50": {
+  "ps2": "closeCSK__10FsCSKLogicFv",
+  "ps2_addr": "0x0022A4E0",
+  "kind": "strings",
+  "evidence": [
+   "the same 5 literals, a set no other function holds on either side: 'menu    feppalle', 'menu    inline  ', 'menu    keypad2 ', 'menu    keypad3 ', 'menu    keyselec'"
+  ],
+  "ps2_class": "FsCSKLogic",
+  "ps2_method": "closeCSK",
+  "name": "FsCSKLogic_closeCSK",
+  "confidence": "confirmed"
+ },
+ "0x101911F0": {
+  "ps2": "_handleToolButton__10FsCSKLogicF15fsCSKToolButton",
+  "ps2_addr": "0x0022B000",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Impossible error for compact soft keyboard.\\n'"
+  ],
+  "ps2_class": "FsCSKLogic",
+  "ps2_method": "_handleToolButton",
+  "name": "FsCSKLogic__handleToolButton",
+  "confidence": "confirmed"
+ },
+ "0x10193830": {
+  "ps2": "SetConfig__F9FS_CONFIGi",
+  "ps2_addr": "0x003636C0",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x1001EE60 = Follow__15YmCameraManagerFP7XiActor",
+   "called by 0x101B00B0 = _handleKeyboardInputs__14FsPs2TextInputFcccc"
+  ],
+  "ps2_class": null,
+  "ps2_method": "SetConfig",
+  "name": "SetConfig",
+  "confidence": "candidate"
+ },
+ "0x10193BF0": {
+  "ps2": "__ct__8FsConfigFv",
+  "ps2_addr": "0x00363930",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'GOPN1_AO'",
+   "unique literal 'GOPN1_HF'",
+   "unique literal 'LPOL1_SS'",
+   "unique literal 'LSKF1JHT'",
+   "unique literal 'LSKF1JRK'",
+   "unique literal 'LSKF1JTK'",
+   "unique literal 'LSKF1PKD'",
+   "unique literal 'LSKF1PST'"
+  ],
+  "ps2_class": "FsConfig",
+  "ps2_method": "Constructor",
+  "name": "FsConfig_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x10196770": {
+  "ps2": "OnKeyDown__16FsMainConfigMenuFss",
+  "ps2_addr": "0x00365E20",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    conf4   '",
+   "unique literal 'menu    conftxtc'"
+  ],
+  "ps2_class": "FsMainConfigMenu",
+  "ps2_method": "OnKeyDown",
+  "name": "FsMainConfigMenu_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101984F0": {
+  "ps2": "OnKeyDown__21FsTextColorConfigMenuFss",
+  "ps2_addr": "0x00368270",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    confyn  ', 'menu    textcol1', 'menu    textcol2'"
+  ],
+  "ps2_class": "FsTextColorConfigMenu",
+  "ps2_method": "OnKeyDown",
+  "name": "FsTextColorConfigMenu_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x10198800": {
+  "ps2": "OnKeyDown__23FsTextColorCategoryMenuFss",
+  "ps2_addr": "0x00368660",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    textcol1', 'menu    textcol2', 'menu    textcol3'"
+  ],
+  "ps2_class": "FsTextColorCategoryMenu",
+  "ps2_method": "OnKeyDown",
+  "name": "FsTextColorCategoryMenu_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1019DFF0": {
+  "ps2": "OnDrawPrimitive__10FsIBarMenuFv",
+  "ps2_addr": "0x0034C620",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    installp', 'menu    installu'"
+  ],
+  "ps2_class": "FsIBarMenu",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "FsIBarMenu_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1019F1E0": {
+  "ps2": "OnDrawPrimitive__12FsFepPaletteFv",
+  "ps2_addr": "0x0035AFB0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    keypad  ', 'menu    keypad2 ', 'menu    keypad3 '"
+  ],
+  "ps2_class": "FsFepPalette",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "FsFepPalette_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1019FD50": {
+  "ps2": "handleFileEvent__19FsFileThreadManagerF11FsFileEvent",
+  "ps2_addr": "0x002D4FC0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'File read done: %s\\n'",
+   "unique literal 'File readex done: %s\\n'",
+   "unique literal 'File requested(READ): %s\\n'",
+   "unique literal 'File requested(READEX): %s\\n'"
+  ],
+  "ps2_class": "FsFileThreadManager",
+  "ps2_method": "handleFileEvent",
+  "name": "FsFileThreadManager_handleFileEvent",
+  "confidence": "confirmed"
+ },
+ "0x101A1FE0": {
+  "ps2": "loadCallback__16FsMacroContainerF13FS_LOADRESULTPv",
+  "ps2_addr": "0x0034E0E0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'AnonSW'",
+   "unique literal 'Entice'",
+   "unique literal 'InviteSW'",
+   "unique literal 'JoinPT'",
+   "unique literal 'LeftAns'",
+   "unique literal 'NameSW'",
+   "unique literal 'Nominate'",
+   "unique literal 'PartyAdd'",
+   "unique literal 'RightAns'",
+   "unique literal 'SoloPlay'"
+  ],
+  "ps2_class": "FsMacroContainer",
+  "ps2_method": "loadCallback",
+  "name": "FsMacroContainer_loadCallback",
+  "confidence": "confirmed"
+ },
+ "0x101AB6A0": {
+  "ps2": "FsGameServerStart__Fv",
+  "ps2_addr": "0x001FE480",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'server registration of configs failed.\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FsGameServerStart",
+  "name": "FsGameServerStart",
+  "confidence": "confirmed"
+ },
+ "0x101AD290": {
+  "ps2": "__ct__11FsPreParserFP11FsTextInput",
+  "ps2_addr": "0x0030CBD0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/linkshell'",
+   "unique literal '/party'",
+   "unique literal '/shout'"
+  ],
+  "ps2_class": "FsPreParser",
+  "ps2_method": "Constructor",
+  "name": "FsPreParser_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x101ADC30": {
+  "ps2": "_setHeader__11FsPreParserFPc12FS_CMD_INDEX",
+  "ps2_addr": "0x0030D4B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '//worldmes '",
+   "unique literal '/emote '",
+   "unique literal '/message '"
+  ],
+  "ps2_class": "FsPreParser",
+  "ps2_method": "_setHeader",
+  "name": "FsPreParser__setHeader",
+  "confidence": "confirmed"
+ },
+ "0x101AE010": {
+  "ps2": "CanUseShortcut__10FsShortcutF16FS_SHORTCUTLEVEL",
+  "ps2_addr": "0x00311EA0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    mcr1pall', 'menu    mcr2pall', 'menu    playermo'"
+  ],
+  "ps2_class": "FsShortcut",
+  "ps2_method": "CanUseShortcut",
+  "name": "FsShortcut_CanUseShortcut",
+  "confidence": "confirmed"
+ },
+ "0x101AE140": {
+  "ps2": "__ct__17FsShortcutManagerFv",
+  "ps2_addr": "0x003120B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/attack'",
+   "unique literal '/shoot <t>'"
+  ],
+  "ps2_class": "FsShortcutManager",
+  "ps2_method": "Constructor",
+  "name": "FsShortcutManager_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x101AE8E0": {
+  "ps2": "DoReply__17FsShortcutManagerFPCc",
+  "ps2_addr": "0x00312B30",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s %s %s'"
+  ],
+  "ps2_class": "FsShortcutManager",
+  "ps2_method": "DoReply",
+  "name": "FsShortcutManager_DoReply",
+  "confidence": "confirmed"
+ },
+ "0x101B00B0": {
+  "ps2": "_handleKeyboardInputs__14FsPs2TextInputFcccc",
+  "ps2_addr": "0x001ED230",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u5019\u88dc\u30ea\u30b9\u30c8\u4eee'"
+  ],
+  "ps2_class": "FsPs2TextInput",
+  "ps2_method": "_handleKeyboardInputs",
+  "name": "FsPs2TextInput__handleKeyboardInputs",
+  "confidence": "confirmed"
+ },
+ "0x101B4450": {
+  "ps2": "FsSjisToAscii__Fi",
+  "ps2_addr": "0x001EFDD0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\\u3000\u3002\u300c\u300d\u3001\u30fb\u30f2\u30a1\u30a3\u30a5\u30a7\u30a9\u30e3\u30e5\u30e7\u30c3\u30fc\u30a2\u30a4\u30a6\u30a8\u30aa\u30ab\u30ad\u30af\u30b1\u30b3\u30b5\u30b7\u30b9\u30bb\u30bd\u30bf\u30c1\u30c4\u30c6\u30c8\u30ca\u30cb\u30cc\u30cd\u30ce\u30cf\u30d2\u30d5\u30d8\u30db\u30de\u30df\u30e0\u30e1\u30e2\u30e4\u30e6\u30e8\u30e9\u30ea\u30eb\u30ec\u30ed\u30ef\u30f3\u309b\u309c\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000'",
+   "unique literal '\\u3000\uff01\u201d\uff03\uff04\uff05\uff06\u2019\uff08\uff09\uff0a\uff0b\uff0c\uff0d\uff0e\uff0f\uff10\uff11\uff12\uff13\uff14\uff15\uff16\uff17\uff18\uff19\uff1a\uff1b\uff1c\uff1d\uff1e\uff1f\uff20\uff21\uff22\uff23\uff24\uff25\uff26\uff27\uff28\uff29\uff2a\uff2b\uff2c\uff2d\uff2e\uff2f\uff30\uff31\uff32\uff33\uff34\uff35\uff36\uff37\uff38\uff39\uff3a\uff3b\uff3c\uff3d\uff3e\uff3f\u2018\uff41\uff42\uff43\uff44\uff45\uff46\uff47\uff48\uff49\uff4a\uff4b\uff4c\uff4d\uff4e\uff4f\uff50\uff51\uff52\uff53\uff54\uff55\uff56\uff57\uff58\uff59\uff5a\uff5b\uff5c\uff5d\uff5e\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\u3002\u300c\u300d\u3001\u30fb\u3092\u3041\u3043\u3045\u3047\u3049\u3083\u3085\u3087\u3063\u30fc\u3042\u3044\u3046\u3048\u304a\u304b\u304d\u304f\u3051\u3053\u3055\u3057\u3059\u305b\u305d\u305f\u3061\u3064\u3066\u3068\u306a\u306b\u306c\u306d\u306e\u306f\u3072\u3075\u3078\u307b\u307e\u307f\u3080\u3081\u3082\u3084\u3086\u3088\u3089\u308a\u308b\u308c\u308d\u308f\u3093\u309b\u309c\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000\\u3000'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "FsSjisToAscii",
+  "name": "FsSjisToAscii",
+  "confidence": "confirmed"
+ },
+ "0x101B5210": {
+  "ps2": "init__11FsTextInputFv",
+  "ps2_addr": "0x001E7220",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR(FSTEXTINPUT): word completion could not be loaded.\\n'"
+  ],
+  "ps2_class": "FsTextInput",
+  "ps2_method": "init",
+  "name": "FsTextInput_init",
+  "confidence": "confirmed"
+ },
+ "0x101B5370": {
+  "ps2": "onSoftKeyEvent__11FsTextInputFUiUiUi",
+  "ps2_addr": "0x001E73F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR(FSTEXTINPUT): softkey sent an invalid argument.\\n'"
+  ],
+  "ps2_class": "FsTextInput",
+  "ps2_method": "onSoftKeyEvent",
+  "name": "FsTextInput_onSoftKeyEvent",
+  "confidence": "confirmed"
+ },
+ "0x101B5470": {
+  "ps2": "getDisplayString__11FsTextInputFPci",
+  "ps2_addr": "0x001E7570",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'CAUTION(FSTEXTINPUT): text input not loaded.\\n'"
+  ],
+  "ps2_class": "FsTextInput",
+  "ps2_method": "getDisplayString",
+  "name": "FsTextInput_getDisplayString",
+  "confidence": "confirmed"
+ },
+ "0x101B5BC0": {
+  "ps2": "copyDecidedString__11FsTextInputFPci",
+  "ps2_addr": "0x001E80F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'ERROR(FSTEXTINPUT): Tried to copyDecidedString() without data.\\n'"
+  ],
+  "ps2_class": "FsTextInput",
+  "ps2_method": "copyDecidedString",
+  "name": "FsTextInput_copyDecidedString",
+  "confidence": "confirmed"
+ },
+ "0x101B7FD0": {
+  "ps2": "OnDrawPrimitive__18FsTextInputDisplayFv",
+  "ps2_addr": "0x0023CAA0",
+  "kind": "string",
+  "evidence": [
+   "unique literal \"Shouldn't happen.  FsTextInputDisplay().OnDrawPrimitive() error.\\n\""
+  ],
+  "ps2_class": "FsTextInputDisplay",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "FsTextInputDisplay_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x101B9690": {
+  "ps2": "init__12FsTinyStringFv",
+  "ps2_addr": "0x00358E80",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    mcralpha'"
+  ],
+  "ps2_class": "FsTinyString",
+  "ps2_method": "init",
+  "name": "FsTinyString_init",
+  "confidence": "confirmed"
+ },
+ "0x101BAAC0": {
+  "ps2": "loadData__14FsWordCategoryFR17FS_CATEGORYHEADERPci",
+  "ps2_addr": "0x00254520",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'category data for word completion.'",
+   "unique literal 'sorted category data for word completion.'"
+  ],
+  "ps2_class": "FsWordCategory",
+  "ps2_method": "loadData",
+  "name": "FsWordCategory_loadData",
+  "confidence": "confirmed"
+ },
+ "0x101BBE60": {
+  "ps2": "getEntryList__16FsWordCompletionFP11FsWordEntryPi",
+  "ps2_addr": "0x00253210",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u30a8\u30e9\u30fc'",
+   "unique literal '\u30e1\u30e2\u30ea\u30fc\u30a8\u30e9\u30fc'"
+  ],
+  "ps2_class": "FsWordCompletion",
+  "ps2_method": "getEntryList",
+  "name": "FsWordCompletion_getEntryList",
+  "confidence": "confirmed"
+ },
+ "0x101BC100": {
+  "ps2": "lookUp__16FsWordCompletionF5FS_IDPci",
+  "ps2_addr": "0x00253500",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u8f9e\u66f8\u304c\u8aad\u307f\u8fbc\u307e\u308c\u3066\u307e\u305b\u3093\u3002'"
+  ],
+  "ps2_class": "FsWordCompletion",
+  "ps2_method": "lookUp",
+  "name": "FsWordCompletion_lookUp",
+  "confidence": "confirmed"
+ },
+ "0x101BC520": {
+  "ps2": "_prepareAllData__16FsWordCompletionF11FS_LANGUAGE",
+  "ps2_addr": "0x00253820",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u691c\u7d22\u30c7\u30fc\u30bf\u3001\u88dc\u5b8c'"
+  ],
+  "ps2_class": "FsWordCompletion",
+  "ps2_method": "_prepareAllData",
+  "name": "FsWordCompletion__prepareAllData",
+  "confidence": "confirmed"
+ },
+ "0x101BC9E0": {
+  "ps2": "__ct__8FsMemoryFi",
+  "ps2_addr": "0x00253E50",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\u8f9e\u66f8\u7528'"
+  ],
+  "ps2_class": "FsMemory",
+  "ps2_method": "Constructor",
+  "name": "FsMemory_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x101C3400": {
+  "ps2": "_readNumFile__10XiFileImplFv",
+  "ps2_addr": "0x002D21B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/FTABLE.DAT'",
+   "unique literal '/ROM%d/FTABLE%d.DAT'",
+   "unique literal '/ROM%d/VTABLE%d.DAT'",
+   "unique literal '/VTABLE.DAT'",
+   "unique literal 'temp buffer'",
+   "unique literal 'temp version buffer'",
+   "unique literal 'version file'"
+  ],
+  "ps2_class": "XiFileImpl",
+  "ps2_method": "_readNumFile",
+  "name": "XiFileImpl__readNumFile",
+  "confidence": "confirmed"
+ },
+ "0x101C3900": {
+  "ps2": "_readCdvdNumFile__10XiFileImplFv",
+  "ps2_addr": "0x002D2600",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\\\\CDTABLE.DAT'"
+  ],
+  "ps2_class": "XiFileImpl",
+  "ps2_method": "_readCdvdNumFile",
+  "name": "XiFileImpl__readCdvdNumFile",
+  "confidence": "confirmed"
+ },
+ "0x101C3A90": {
+  "ps2": "_getFileName__10XiFileImplFiPPc",
+  "ps2_addr": "0x002D27F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/ROM%d/%d/%d.DAT'",
+   "unique literal '/ROM/%d/%d.DAT'",
+   "unique literal '\\\\CDROM\\\\%d\\\\%d.DAT'",
+   "unique literal '\\\\\\\\exodus\\\\projbeta'"
+  ],
+  "ps2_class": "XiFileImpl",
+  "ps2_method": "_getFileName",
+  "name": "XiFileImpl__getFileName",
+  "confidence": "confirmed"
+ },
+ "0x101C43A0": {
+  "ps2": "_addNameFile__10XiFileImplFPCc",
+  "ps2_addr": "0x002D3410",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Dat File'"
+  ],
+  "ps2_class": "XiFileImpl",
+  "ps2_method": "_addNameFile",
+  "name": "XiFileImpl__addNameFile",
+  "confidence": "confirmed"
+ },
+ "0x101C8950": {
+  "ps2": "YkCommonInit__Fv",
+  "ps2_addr": "0x00398550",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'anc     anc_equi'",
+   "unique literal 'anc     anc_l   '",
+   "unique literal 'anc     anc_regi'",
+   "unique literal 'anc     anc_scan'",
+   "unique literal 'anc     kaipage '",
+   "unique literal 'menu    contents'",
+   "unique literal 'menu    hpcol   '",
+   "unique literal 'menu    numctrl '",
+   "unique literal 'menu    pname   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "YkCommonInit",
+  "name": "YkCommonInit",
+  "confidence": "confirmed"
+ },
+ "0x101C93C0": {
+  "ps2": "DrawTime__12CTkSubWindowFv",
+  "ps2_addr": "0x00320210",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%d:%02d:%02d'"
+  ],
+  "ps2_class": "CTkSubWindow",
+  "ps2_method": "DrawTime",
+  "name": "CTkSubWindow_DrawTime",
+  "confidence": "confirmed"
+ },
+ "0x101CFA00": {
+  "ps2": "CutColor__6YkJpegFPUi",
+  "ps2_addr": "0x002FEE10",
+  "kind": "floats",
+  "evidence": [
+   "6 float constants no other function uses on either side: 0.08130999654531479, 0.11400000005960464, 0.29899999499320984, 0.33125999569892883, 0.4186899960041046, 0.5870000123977661"
+  ],
+  "ps2_class": "YkJpeg",
+  "ps2_method": "CutColor",
+  "name": "YkJpeg_CutColor",
+  "confidence": "candidate"
+ },
+ "0x101D11C0": {
+  "ps2": "YkInit__Fv",
+  "ps2_addr": "0x0030FB00",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    comyn   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "YkInit",
+  "name": "YkInit",
+  "confidence": "confirmed"
+ },
+ "0x101D22D0": {
+  "ps2": "YkChangeDebugByStr__FPc",
+  "ps2_addr": "0x00310570",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'dictionary'",
+   "unique literal 'itemcheck'",
+   "unique literal 'language'",
+   "unique literal 'localtime'",
+   "unique literal 'userfile'",
+   "unique literal 'userfill'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "YkChangeDebugByStr",
+  "name": "YkChangeDebugByStr",
+  "confidence": "confirmed"
+ },
+ "0x101D2CC0": {
+  "ps2": "__ct__8YkMyroomFi",
+  "ps2_addr": "0x00300900",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Door: Back to Town'"
+  ],
+  "ps2_class": "YkMyroom",
+  "ps2_method": "Constructor",
+  "name": "YkMyroom_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x101D3380": {
+  "ps2": "ChangeMode__8YkMyroomFi",
+  "ps2_addr": "0x00301050",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    roommenu'"
+  ],
+  "ps2_class": "YkMyroom",
+  "ps2_method": "ChangeMode",
+  "name": "YkMyroom_ChangeMode",
+  "confidence": "confirmed"
+ },
+ "0x101D4080": {
+  "ps2": "SetCamera__8YkMyroomFP10CTkXiActorff",
+  "ps2_addr": "0x00301BB0",
+  "kind": "floats",
+  "evidence": [
+   "2 float constants no other function uses on either side: -5.199999809265137, 5.199999809265137"
+  ],
+  "ps2_class": "YkMyroom",
+  "ps2_method": "SetCamera",
+  "name": "YkMyroom_SetCamera",
+  "confidence": "candidate"
+ },
+ "0x101D6040": {
+  "ps2": "TargetActionTk__FP10CTkXiActor",
+  "ps2_addr": "0x00303430",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    mogdoor '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "TargetActionTk",
+  "name": "TargetActionTk",
+  "confidence": "confirmed"
+ },
+ "0x101D6110": {
+  "ps2": "OpenMyroomMenu__Fc",
+  "ps2_addr": "0x003035A0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    mogext  ', 'menu    myroom  ', 'menu    rmlo1   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "OpenMyroomMenu",
+  "name": "OpenMyroomMenu",
+  "confidence": "confirmed"
+ },
+ "0x101D82C0": {
+  "ps2": "CloseWindow__16YkWndAuctionItemFv",
+  "ps2_addr": "0x0039E8D0",
+  "kind": "strings",
+  "evidence": [
+   "the same 5 literals, a set no other function holds on either side: 'menu    armsort ', 'menu    auc3    ', 'menu    auc4    ', 'menu    auclist ', 'menu    wepsort '"
+  ],
+  "ps2_class": "YkWndAuctionItem",
+  "ps2_method": "CloseWindow",
+  "name": "YkWndAuctionItem_CloseWindow",
+  "confidence": "confirmed"
+ },
+ "0x101D8580": {
+  "ps2": "OnKeyOK__16YkWndAuctionItemFs",
+  "ps2_addr": "0x0039EDD0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    auc3    ', 'menu    auc4    '"
+  ],
+  "ps2_class": "YkWndAuctionItem",
+  "ps2_method": "OnKeyOK",
+  "name": "YkWndAuctionItem_OnKeyOK",
+  "confidence": "confirmed"
+ },
+ "0x101D88D0": {
+  "ps2": "CloseWindow__19YkWndAuctionHistoryFv",
+  "ps2_addr": "0x0039F1B0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    auc3    ', 'menu    auchisto'"
+  ],
+  "ps2_class": "YkWndAuctionHistory",
+  "ps2_method": "CloseWindow",
+  "name": "YkWndAuctionHistory_CloseWindow",
+  "confidence": "confirmed"
+ },
+ "0x101D9330": {
+  "ps2": "OnKeyDown__18YkWndAuctionMarketFss",
+  "ps2_addr": "0x0039FBB0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    armsort ', 'menu    money   ', 'menu    wepsort '"
+  ],
+  "ps2_class": "YkWndAuctionMarket",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndAuctionMarket_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101DA770": {
+  "ps2": "OnOK__15YkWndAuctionSubFs",
+  "ps2_addr": "0x003A1CA0",
+  "kind": "strings",
+  "evidence": [
+   "the same 6 literals, a set no other function holds on either side: 'menu    aucarmor', 'menu    aucfood ', 'menu    aucitem ', 'menu    aucmagic', 'menu    aucmater', 'menu    aucweapo'"
+  ],
+  "ps2_class": "YkWndAuctionSub",
+  "ps2_method": "OnOK",
+  "name": "YkWndAuctionSub_OnOK",
+  "confidence": "confirmed"
+ },
+ "0x101DC880": {
+  "ps2": "Open__9YkWndBankFP13YkWndItemCtrl",
+  "ps2_addr": "0x003630D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    bank    '"
+  ],
+  "ps2_class": "YkWndBank",
+  "ps2_method": "Open",
+  "name": "YkWndBank_Open",
+  "confidence": "confirmed"
+ },
+ "0x101DD780": {
+  "ps2": "DecodePrint__17YkWndBazarMessageFPUcP14FFWCaReplyInfo",
+  "ps2_addr": "0x00376550",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%s (\uff1f\\u3000\uff1f\\u3000\uff1f):'",
+   "unique literal '??????:'"
+  ],
+  "ps2_class": "YkWndBazarMessage",
+  "ps2_method": "DecodePrint",
+  "name": "YkWndBazarMessage_DecodePrint",
+  "confidence": "confirmed"
+ },
+ "0x101DEF70": {
+  "ps2": "CloseBlack__14YkWndBlackMainFv",
+  "ps2_addr": "0x00310C30",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    blklist ', 'menu    blkmain '"
+  ],
+  "ps2_class": "YkWndBlackMain",
+  "ps2_method": "CloseBlack",
+  "name": "YkWndBlackMain_CloseBlack",
+  "confidence": "confirmed"
+ },
+ "0x101E0940": {
+  "ps2": "Recv__12YkWndCombineFP15_GP_COMBINE_ANS",
+  "ps2_addr": "0x00360730",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    trddummy'"
+  ],
+  "ps2_class": "YkWndCombine",
+  "ps2_method": "Recv",
+  "name": "YkWndCombine_Recv",
+  "confidence": "confirmed"
+ },
+ "0x101E3B40": {
+  "ps2": "MakeList__14YkWndClinkItemFv",
+  "ps2_addr": "0x00382C80",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Broken'"
+  ],
+  "ps2_class": "YkWndClinkItem",
+  "ps2_method": "MakeList",
+  "name": "YkWndClinkItem_MakeList",
+  "confidence": "confirmed"
+ },
+ "0x101E4570": {
+  "ps2": "CloseClinkItem__14YkWndClinkItemFv",
+  "ps2_addr": "0x00383B80",
+  "kind": "strings",
+  "evidence": [
+   "the same 7 literals, a set no other function holds on either side: 'menu    link1   ', 'menu    link13  ', 'menu    link2   ', 'menu    link3   ', 'menu    link4   ', 'menu    link5   ', 'menu    link6   '"
+  ],
+  "ps2_class": "YkWndClinkItem",
+  "ps2_method": "CloseClinkItem",
+  "name": "YkWndClinkItem_CloseClinkItem",
+  "confidence": "confirmed"
+ },
+ "0x101E5030": {
+  "ps2": "CloseWindow__14YkWndClinkListFv",
+  "ps2_addr": "0x003849C0",
+  "kind": "strings",
+  "evidence": [
+   "the same 5 literals, a set no other function holds on either side: 'menu    link10  ', 'menu    link12  ', 'menu    link7   ', 'menu    link8   ', 'menu    link9   '"
+  ],
+  "ps2_class": "YkWndClinkList",
+  "ps2_method": "CloseWindow",
+  "name": "YkWndClinkList_CloseWindow",
+  "confidence": "confirmed"
+ },
+ "0x101E5490": {
+  "ps2": "OnKeyDown__14YkWndClinkNameFss",
+  "ps2_addr": "0x00384F50",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    link11  ', 'menu    link6   '"
+  ],
+  "ps2_class": "YkWndClinkName",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndClinkName_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101E61B0": {
+  "ps2": "OnKeyDown__20YkWndClinkItemMenu1AFss",
+  "ps2_addr": "0x00385B40",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    link1   ', 'menu    link11  ', 'menu    link6   '"
+  ],
+  "ps2_class": "YkWndClinkItemMenu1A",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndClinkItemMenu1A_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101EB040": {
+  "ps2": "MakeList__15YkWndFriendMainFc",
+  "ps2_addr": "0x00389550",
+  "kind": "string",
+  "evidence": [
+   "unique literal '[Hidden]'"
+  ],
+  "ps2_class": "YkWndFriendMain",
+  "ps2_method": "MakeList",
+  "name": "YkWndFriendMain_MakeList",
+  "confidence": "confirmed"
+ },
+ "0x101EB600": {
+  "ps2": "OnDestroy__15YkWndFriendMainFv",
+  "ps2_addr": "0x0038A0B0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    flmes   ', 'menu    titlehan'"
+  ],
+  "ps2_class": "YkWndFriendMain",
+  "ps2_method": "OnDestroy",
+  "name": "YkWndFriendMain_OnDestroy",
+  "confidence": "confirmed"
+ },
+ "0x101EB660": {
+  "ps2": "OpenFriend__15YkWndFriendMainFc",
+  "ps2_addr": "0x0038A180",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    friend  '"
+  ],
+  "ps2_class": "YkWndFriendMain",
+  "ps2_method": "OpenFriend",
+  "name": "YkWndFriendMain_OpenFriend",
+  "confidence": "confirmed"
+ },
+ "0x101EB9D0": {
+  "ps2": "OnKeyDown__19YkWndFriendMenuMessFss",
+  "ps2_addr": "0x0038A730",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: '%s %s ', 'menu    flmes   '"
+  ],
+  "ps2_class": "YkWndFriendMenuMess",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndFriendMenuMess_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101EBC80": {
+  "ps2": "OnKeyDown__19YkWndFriendMenuMainFss",
+  "ps2_addr": "0x0038AB30",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    olstat  '"
+  ],
+  "ps2_class": "YkWndFriendMenuMain",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndFriendMenuMain_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101ED810": {
+  "ps2": "RecvGuildOpen__14YkWndGuildMainFP7GC_ZONEP19GP_GAME_PACKET_HEADP14_GP_GUILD_OPEN",
+  "ps2_addr": "0x00371F60",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    guildsho'"
+  ],
+  "ps2_class": "YkWndGuildMain",
+  "ps2_method": "RecvGuildOpen",
+  "name": "YkWndGuildMain_RecvGuildOpen",
+  "confidence": "confirmed"
+ },
+ "0x101EF0A0": {
+  "ps2": "OnDrawCalc__10YkWndImageFc",
+  "ps2_addr": "0x0030AC10",
+  "kind": "floats",
+  "evidence": [
+   "3 float constants no other function uses on either side: 0.003000000026077032, 0.07999999821186066, 4.5"
+  ],
+  "ps2_class": "YkWndImage",
+  "ps2_method": "OnDrawCalc",
+  "name": "YkWndImage_OnDrawCalc",
+  "confidence": "candidate"
+ },
+ "0x101F23A0": {
+  "ps2": "Open__9YkWndItemFP13YkWndItemCtrl",
+  "ps2_addr": "0x00373B80",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    inventor'"
+  ],
+  "ps2_class": "YkWndItem",
+  "ps2_method": "Open",
+  "name": "YkWndItem_Open",
+  "confidence": "confirmed"
+ },
+ "0x101FC070": {
+  "ps2": "OnKeyDown__12YkWndMapListFss",
+  "ps2_addr": "0x0038F940",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    mapv2   ', 'menu    mapv3   '"
+  ],
+  "ps2_class": "YkWndMapList",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndMapList_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x101FF3E0": {
+  "ps2": "OnKeyDown__12YkWndMessageFss",
+  "ps2_addr": "0x003910F0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: '%s <%s>', 'menu    msgline '"
+  ],
+  "ps2_class": "YkWndMessage",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndMessage_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x10200BE0": {
+  "ps2": "Open__16YkWndMessageListFUli",
+  "ps2_addr": "0x003931C0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    msglist ', 'menu    titlehan'"
+  ],
+  "ps2_class": "YkWndMessageList",
+  "ps2_method": "Open",
+  "name": "YkWndMessageList_Open",
+  "confidence": "confirmed"
+ },
+ "0x10200C90": {
+  "ps2": "Close__16YkWndMessageListFv",
+  "ps2_addr": "0x003932D0",
+  "kind": "strings",
+  "evidence": [
+   "the same 4 literals, a set no other function holds on either side: 'menu    mes1rcv ', 'menu    mes2frnd', 'menu    msglist ', 'menu    titlehan'"
+  ],
+  "ps2_class": "YkWndMessageList",
+  "ps2_method": "Close",
+  "name": "YkWndMessageList_Close",
+  "confidence": "confirmed"
+ },
+ "0x10200DE0": {
+  "ps2": "YkRecvCallBack__FPvUs15FFPolMsg_STATUSUsPC18FFPolMsg_MsgStruct",
+  "ps2_addr": "0x003927B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'From: %s'",
+   "unique literal 'Message: %s'",
+   "unique literal 'Title: %s'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "YkRecvCallBack",
+  "name": "YkRecvCallBack",
+  "confidence": "confirmed"
+ },
+ "0x102016E0": {
+  "ps2": "OpenPartyMenu__Fv",
+  "ps2_addr": "0x003935C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    prty1   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "OpenPartyMenu",
+  "name": "OpenPartyMenu",
+  "confidence": "confirmed"
+ },
+ "0x10205ED0": {
+  "ps2": "OnOK__17YkWndPartyLeader1Fs",
+  "ps2_addr": "0x00397570",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    prty4   ', 'menu    prty8   '"
+  ],
+  "ps2_class": "YkWndPartyLeader1",
+  "ps2_method": "OnOK",
+  "name": "YkWndPartyLeader1_OnOK",
+  "confidence": "confirmed"
+ },
+ "0x10206540": {
+  "ps2": "Open__11YkWndPasswdFPFPvPc_vPv",
+  "ps2_addr": "0x0035E160",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    passinpu'"
+  ],
+  "ps2_class": "YkWndPasswd",
+  "ps2_method": "Open",
+  "name": "YkWndPasswd_Open",
+  "confidence": "confirmed"
+ },
+ "0x1020D5E0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuRankFss",
+  "ps2_addr": "0x00380D00",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scsibori', 'menu    searchle'"
+  ],
+  "ps2_class": "YkWndSearchMenuRank",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuRank_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020D670": {
+  "ps2": "OnKeyDown__18YkWndSearchMenuJobFss",
+  "ps2_addr": "0x00380DB0",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scsibori', 'menu    searchjo'"
+  ],
+  "ps2_class": "YkWndSearchMenuJob",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuJob_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020D6E0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuLandFss",
+  "ps2_addr": "0x00380E60",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scsibori', 'menu    searchna'"
+  ],
+  "ps2_class": "YkWndSearchMenuLand",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuLand_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020D750": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuRaceFss",
+  "ps2_addr": "0x00380F20",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scsibori', 'menu    searchra'"
+  ],
+  "ps2_class": "YkWndSearchMenuRace",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuRace_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020D7F0": {
+  "ps2": "OnKeyDown__22YkWndSearchMenuCommentFss",
+  "ps2_addr": "0x00381030",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    comgenre', 'menu    comment ', 'menu    scsibori'"
+  ],
+  "ps2_class": "YkWndSearchMenuComment",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuComment_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020DD50": {
+  "ps2": "OnKeyDown__17YkWndSearchMenuLvFss",
+  "ps2_addr": "0x00381340",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scchar  ', 'menu    scsibori'"
+  ],
+  "ps2_class": "YkWndSearchMenuLv",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuLv_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1020E3A0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuNameFss",
+  "ps2_addr": "0x00381820",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    scname  ', 'menu    scsibori'"
+  ],
+  "ps2_class": "YkWndSearchMenuName",
+  "ps2_method": "OnKeyDown",
+  "name": "YkWndSearchMenuName_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x10210310": {
+  "ps2": "__ct__9YkWndShopFv",
+  "ps2_addr": "0x0036F8A0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    shopbuy '",
+   "unique literal 'menu    shopsell'"
+  ],
+  "ps2_class": "YkWndShop",
+  "ps2_method": "Constructor",
+  "name": "YkWndShop_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x10210CA0": {
+  "ps2": "RecvShopOpen__13YkWndShopMainFP7GC_ZONEP19GP_GAME_PACKET_HEADP17GP_SERV_SHOP_OPEN",
+  "ps2_addr": "0x003705C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    shopmain'"
+  ],
+  "ps2_class": "YkWndShopMain",
+  "ps2_method": "RecvShopOpen",
+  "name": "YkWndShopMain_RecvShopOpen",
+  "confidence": "confirmed"
+ },
+ "0x102197F0": {
+  "ps2": "beginFinalOperation__11FaqWndMainWFP14FDtFFXiBrowser",
+  "ps2_addr": "0x003268B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'EXEC.LOGOUT'",
+   "unique literal 'EXEC.POLEXIT'",
+   "unique literal 'EXEC.RESCUE'",
+   "unique literal 'GMREPORT.GMCALL'",
+   "unique literal 'GMREPORT.NOTICE'"
+  ],
+  "ps2_class": "FaqWndMainW",
+  "ps2_method": "beginFinalOperation",
+  "name": "FaqWndMainW_beginFinalOperation",
+  "confidence": "confirmed"
+ },
+ "0x1021AD50": {
+  "ps2": "onFileViewDraw__11FaqWndMainWFv",
+  "ps2_addr": "0x003286C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '%02d/%02d %02d:%02d:%02d (%04x,%d)'"
+  ],
+  "ps2_class": "FaqWndMainW",
+  "ps2_method": "onFileViewDraw",
+  "name": "FaqWndMainW_onFileViewDraw",
+  "confidence": "confirmed"
+ },
+ "0x10221300": {
+  "ps2": "ResetLoadMes__9KaHelpMesFUi",
+  "ps2_addr": "0x0032A950",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x10200C90 = Close__16YkWndMessageListFv",
+   "called by 0x10200DE0 = YkRecvCallBack__FPvUs15FFPolMsg_STATUSUsPC18FFPolMsg_MsgStruct",
+   "called by 0x1022AAA0 = OnKeyDown__12KaMenuEvitemFss",
+   "called by 0x10230230 = OnKeyDown__11KaMenuQuestFss"
+  ],
+  "ps2_class": "KaHelpMes",
+  "ps2_method": "ResetLoadMes",
+  "name": "KaHelpMes_ResetLoadMes",
+  "confidence": "candidate"
+ },
+ "0x10224EF0": {
+  "ps2": "UseCallBack__FP10CTkXiActorP7CHAR_ID",
+  "ps2_addr": "0x00357A90",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/jobability \"%s\" %d'",
+   "unique literal '/weaponskill \"%s\" %d'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "UseCallBack",
+  "name": "UseCallBack",
+  "confidence": "confirmed"
+ },
+ "0x1022AAA0": {
+  "ps2": "OnKeyDown__12KaMenuEvitemFss",
+  "ps2_addr": "0x003438C0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    evitem01'"
+  ],
+  "ps2_class": "KaMenuEvitem",
+  "ps2_method": "OnKeyDown",
+  "name": "KaMenuEvitem_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1022B220": {
+  "ps2": "KaMenuMagicOpenMenu__Fic",
+  "ps2_addr": "0x00354650",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    magic   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "KaMenuMagicOpenMenu",
+  "name": "KaMenuMagicOpenMenu",
+  "confidence": "confirmed"
+ },
+ "0x1022D140": {
+  "ps2": "CastCallBack__FP10CTkXiActorP7CHAR_ID",
+  "ps2_addr": "0x00355DE0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '/magic \"%s\" %d'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "CastCallBack",
+  "name": "CastCallBack",
+  "confidence": "confirmed"
+ },
+ "0x10230230": {
+  "ps2": "OnKeyDown__11KaMenuQuestFss",
+  "ps2_addr": "0x0032C050",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    quest01 '"
+  ],
+  "ps2_class": "KaMenuQuest",
+  "ps2_method": "OnKeyDown",
+  "name": "KaMenuQuest_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x102352F0": {
+  "ps2": "Create_Galka_Names__FPc",
+  "ps2_addr": "0x003313D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'Error: Selected adj file not in range 0<%d<%d \\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "Create_Galka_Names",
+  "name": "Create_Galka_Names",
+  "confidence": "confirmed"
+ },
+ "0x10237580": {
+  "ps2": "DispRace__11CIwRaceMenuFi",
+  "ps2_addr": "0x003347E0",
+  "kind": "strings",
+  "evidence": [
+   "the same 8 literals, a set no other function holds on either side: 'menu    race1   ', 'menu    race2   ', 'menu    race3   ', 'menu    race4   ', 'menu    race5   ', 'menu    race6   ', 'menu    race7   ', 'menu    race8   '"
+  ],
+  "ps2_class": "CIwRaceMenu",
+  "ps2_method": "DispRace",
+  "name": "CIwRaceMenu_DispRace",
+  "confidence": "confirmed"
+ },
+ "0x10238F30": {
+  "ps2": "OnKeyDown__11CIwTownMenuFss",
+  "ps2_addr": "0x003360C0",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    nation1 ', 'menu    nation2 ', 'menu    nation3 '"
+  ],
+  "ps2_class": "CIwTownMenu",
+  "ps2_method": "OnKeyDown",
+  "name": "CIwTownMenu_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1023AC40": {
+  "ps2": "clearmenuall__Fv",
+  "ps2_addr": "0x00336720",
+  "kind": "strings",
+  "evidence": [
+   "the same 21 literals, a set no other function holds on either side: 'menu    chdummy ', 'menu    chmkface', 'menu    chmkhair', 'menu    chmkjobs', 'menu    chmkname', 'menu    chmkpass', 'menu    chmkrace', 'menu    chmkserv', 'menu    chmksize', 'menu    chmktown', 'menu    nation1 ', 'menu    nation2 ', 'menu    nation3 ', 'menu    race1   ', 'menu    race2   ', 'menu    race3   ', 'menu    race4   ', 'menu    race5   ', 'menu    race6   ', 'menu    race7   ', 'menu    race8   '"
+  ],
+  "ps2_class": null,
+  "ps2_method": "clearmenuall",
+  "name": "clearmenuall",
+  "confidence": "confirmed"
+ },
+ "0x1023E400": {
+  "ps2": "IwConfirmConst__Fv",
+  "ps2_addr": "0x003421D0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    ptc9dele'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "IwConfirmConst",
+  "name": "IwConfirmConst",
+  "confidence": "confirmed"
+ },
+ "0x1023E7E0": {
+  "ps2": "PatchStartProc__Fv",
+  "ps2_addr": "0x00342510",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'menu    ptc10che'",
+   "unique literal 'menu    ptc1prog'",
+   "unique literal 'menu    ptc2warn'",
+   "unique literal 'menu    ptc3bar1'",
+   "unique literal 'menu    ptc4bar2'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "PatchStartProc",
+  "name": "PatchStartProc",
+  "confidence": "confirmed"
+ },
+ "0x1023E830": {
+  "ps2": "__ct__9CIwHnListFv",
+  "ps2_addr": "0x003444F0",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'testhandle'"
+  ],
+  "ps2_class": "CIwHnList",
+  "ps2_method": "Constructor",
+  "name": "CIwHnList_Constructor",
+  "confidence": "confirmed"
+ },
+ "0x10241250": {
+  "ps2": "OnDrawPrimitive__12CIwPatchSub4Fv",
+  "ps2_addr": "0x0032A230",
+  "kind": "string",
+  "evidence": [
+   "unique literal '\\u3000\\u3000\\u3000\\u3000%s'"
+  ],
+  "ps2_class": "CIwPatchSub4",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "CIwPatchSub4_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x10241E00": {
+  "ps2": "OnDrawPrimitive__13CIwSelectMenuFv",
+  "ps2_addr": "0x00339E20",
+  "kind": "string",
+  "evidence": [
+   "unique literal '(%d more character can be made.)'",
+   "unique literal '(%d more characters can be made.)'",
+   "unique literal 'No. of characters registered: %2d'",
+   "unique literal 'No. of content IDs purchased: %2d'"
+  ],
+  "ps2_class": "CIwSelectMenu",
+  "ps2_method": "OnDrawPrimitive",
+  "name": "CIwSelectMenu_OnDrawPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1024C530": {
+  "ps2": "OnInitialUpdatePrimitive__15JkJobChangeRootFv",
+  "ps2_addr": "0x0037C270",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    joblevel', 'menu    partywin'"
+  ],
+  "ps2_class": "JkJobChangeRoot",
+  "ps2_method": "OnInitialUpdatePrimitive",
+  "name": "JkJobChangeRoot_OnInitialUpdatePrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1024C680": {
+  "ps2": "OnDestroyPrimitive__15JkJobChangeRootFv",
+  "ps2_addr": "0x0037C480",
+  "kind": "strings",
+  "evidence": [
+   "the same 3 literals, a set no other function holds on either side: 'menu    jobchang', 'menu    joblevel', 'menu    partywin'"
+  ],
+  "ps2_class": "JkJobChangeRoot",
+  "ps2_method": "OnDestroyPrimitive",
+  "name": "JkJobChangeRoot_OnDestroyPrimitive",
+  "confidence": "confirmed"
+ },
+ "0x1024C710": {
+  "ps2": "OnKeyDown__15JkJobChangeRootFss",
+  "ps2_addr": "0x0037C530",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    jobchang', 'menu    targetwi'"
+  ],
+  "ps2_class": "JkJobChangeRoot",
+  "ps2_method": "OnKeyDown",
+  "name": "JkJobChangeRoot_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1024C9F0": {
+  "ps2": "OnKeyDown__15JkJobChangeKindFss",
+  "ps2_addr": "0x0037CA90",
+  "kind": "strings",
+  "evidence": [
+   "the same 2 literals, a set no other function holds on either side: 'menu    jobchang', 'menu    joblevel'"
+  ],
+  "ps2_class": "JkJobChangeKind",
+  "ps2_method": "OnKeyDown",
+  "name": "JkJobChangeKind_OnKeyDown",
+  "confidence": "confirmed"
+ },
+ "0x1024CC30": {
+  "ps2": "_JkJobChangeInit__Fv",
+  "ps2_addr": "0x0037CC00",
+  "kind": "string",
+  "evidence": [
+   "unique literal '  myroomInfo = %p\\n'",
+   "unique literal '  raceNdx    = %d\\n'",
+   "unique literal 'gcMyroomDancerGet() failed\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "_JkJobChangeInit",
+  "name": "_JkJobChangeInit",
+  "confidence": "confirmed"
+ },
+ "0x10251500": {
+  "ps2": "Update__8StDancerFv",
+  "ps2_addr": "0x0035F8B0",
+  "kind": "string",
+  "evidence": [
+   "unique literal '### Error! _dancerInit() failed\\n'"
+  ],
+  "ps2_class": "StDancer",
+  "ps2_method": "Update",
+  "name": "StDancer_Update",
+  "confidence": "confirmed"
+ },
+ "0x10251890": {
+  "ps2": "SetJobLock__8StDancerFi",
+  "ps2_addr": "0x0035FEC0",
+  "kind": "neighbours",
+  "evidence": [
+   "called by 0x1024C710 = OnKeyDown__15JkJobChangeRootFss",
+   "called by 0x10251500 = Update__8StDancerFv"
+  ],
+  "ps2_class": "StDancer",
+  "ps2_method": "SetJobLock",
+  "name": "StDancer_SetJobLock",
+  "confidence": "candidate"
+ },
+ "0x10251A80": {
+  "ps2": "_dancerInit__8StDancerFv",
+  "ps2_addr": "0x00360140",
+  "kind": "string",
+  "evidence": [
+   "unique literal '  mainPool   : 0x%08X bytes\\n'",
+   "unique literal '  workPool   : 0x%08X bytes @ 0x%08x\\n'",
+   "unique literal 'MainMem'",
+   "unique literal 'WorkMem'",
+   "unique literal 'memTotal     = 0x%08X bytes\\n'"
+  ],
+  "ps2_class": "StDancer",
+  "ps2_method": "_dancerInit",
+  "name": "StDancer__dancerInit",
+  "confidence": "confirmed"
+ },
+ "0x1026BE54": {
+  "ps2": "ntTcpClient__FPv",
+  "ps2_addr": "0x001D4970",
+  "kind": "string",
+  "evidence": [
+   "unique literal 'client connection timeout\\n'",
+   "unique literal 'connection refused\\n'",
+   "unique literal 'connection succeed\\n'"
+  ],
+  "ps2_class": null,
+  "ps2_method": "ntTcpClient",
+  "name": "ntTcpClient",
+  "confidence": "confirmed"
+ },
+ "_conflicts": [
+  {
+   "pc": "0x10107340",
+   "ps2": "FFWCaBuildFormatedString",
+   "strings": [
+    "[DUMMY]"
+   ]
+  },
+  {
+   "pc": "0x10107370",
+   "ps2": "FFWCaBuildFormatedString",
+   "strings": [
+    "[ANONYMOUS]",
+    "LS(%u)"
+   ]
+  },
+  {
+   "pc": "0x10140400",
+   "ps2": "OnKeyDown__11CTkMenuWindFss",
+   "strings": [
+    "menu    mgcmenu ",
+    "menu    searchma"
+   ]
+  },
+  {
+   "pc": "0x10145460",
+   "ps2": "OnKeyDown__9CTkMyRoomFss",
+   "strings": [
+    "/layout",
+    "/garden"
+   ]
+  },
+  {
+   "pc": "0x10145BC0",
+   "ps2": "OnKeyDown__9CTkMyRoomFss",
+   "strings": [
+    "/mailbox"
+   ]
+  },
+  {
+   "pc": "0x10148D00",
+   "ps2": "OnKeyDown__9CTkSocialFss",
+   "strings": [
+    "/playtime"
+   ]
+  },
+  {
+   "pc": "0x1014E7B0",
+   "ps2": "OnKeyDown__9CTkSocialFss",
+   "strings": [
+    "/keyitem",
+    "/clock",
+    "menu    bazaar  ",
+    "/quest"
+   ]
+  },
+  {
+   "pc": "0x101BA220",
+   "ps2": "sqPlayOnlineGetFileName",
+   "strings": [
+    "entryz.dic"
+   ]
+  },
+  {
+   "pc": "0x101BA220",
+   "ps2": "loadNameDict__8FsVulgarFv",
+   "strings": [
+    "VulgarName"
+   ]
+  },
+  {
+   "pc": "0x101BA390",
+   "ps2": "sqPlayOnlineGetFileName",
+   "strings": [
+    "vulgar2.dic"
+   ]
+  },
+  {
+   "pc": "0x101BA390",
+   "ps2": "setConfig__8FsVulgarFi",
+   "strings": [
+    "Vulgar"
+   ]
+  },
+  {
+   "pc": "0x101EBDC0",
+   "ps2": "OnKeyDown__11CTkMenuWindFss",
+   "strings": [
+    "menu    flistmai"
+   ]
+  },
+  {
+   "pc": "0x1023FBD0",
+   "ps2": "HnMenuProc__Fi",
+   "strings": [
+    "menu    hncansel",
+    "menu    hnnaming",
+    "menu    hnhead",
+    "menu    hnwarnin",
+    "menu    hnyesno"
+   ]
+  },
+  {
+   "pc": "0x1023FDC0",
+   "ps2": "HnMenuProc__Fi",
+   "strings": [
+    "menu    hn2exist",
+    "menu    hn1blank",
+    "menu    hn1exist",
+    "menu    hn3exist",
+    "menu    hn2blank",
+    "menu    hn3blank"
+   ]
+  }
+ ],
+ "_pc_classes": [
+  "ActorTechLoadPollingTask",
+  "CAcc",
+  "CAcc2",
+  "CApp",
+  "CAtelIdleTask",
+  "CDx",
+  "CEnv",
+  "CMoActorColorDriveTask",
+  "CMoActorRotationDriveTask",
+  "CMoAttachments",
+  "CMoCamera",
+  "CMoCameraTask",
+  "CMoCelestial",
+  "CMoD3aElem",
+  "CMoD3aLightmapElem",
+  "CMoD3mSpecularElem",
+  "CMoDX",
+  "CMoDisintegrateProgElem",
+  "CMoDist",
+  "CMoDistModelElem",
+  "CMoDistMorphElem",
+  "CMoDistRingElem",
+  "CMoDxStatusMng",
+  "CMoElem",
+  "CMoGeneratorClone",
+  "CMoLfdElem",
+  "CMoLockColorDriveTask",
+  "CMoLockLookAtDriveTask",
+  "CMoNullProgElem",
+  "CMoOT",
+  "CMoOcclusionMng",
+  "CMoOtTask",
+  "CMoPathDriveActorTask",
+  "CMoPathObject",
+  "CMoPointLightProgElem",
+  "CMoProcessor",
+  "CMoRabRes",
+  "CMoResource",
+  "CMoResourceMng",
+  "CMoSchedularTask",
+  "CMoSkeletonElem",
+  "CMoSphRes",
+  "CMoSpline",
+  "CMoTask",
+  "CMoTaskMng",
+  "CMoVuAnmElem",
+  "CMoVuDist",
+  "CMoVuLineProgElem",
+  "CShader",
+  "CTsZoneMap",
+  "CXiActor",
+  "CXiActorDraw",
+  "CXiActorNameDraw",
+  "CXiAtelActor",
+  "CXiCollisionActor",
+  "CXiControlActor",
+  "CXiDancerActor",
+  "CXiDollActor",
+  "CXiGeomActor",
+  "CXiMannequinActor",
+  "CXiMovie",
+  "CXiOpening",
+  "CXiSkeletonActor",
+  "CXiSkeletonActorRes",
+  "CXiSklFurnitureActor",
+  "CXiTimer",
+  "CXiTimerHigh",
+  "CXiTimerLow",
+  "CYyAfterImage",
+  "CYyBlendQue",
+  "CYyCamMng2",
+  "CYyDataMcb",
+  "CYyDelayDeleteTask",
+  "CYyElemMcb",
+  "CYyElemMemory",
+  "CYyElemObject",
+  "CYyExMcb",
+  "CYyExMemory",
+  "CYyExObject",
+  "CYyIcon",
+  "CYyLoadMcb",
+  "CYyLoadMemory",
+  "CYyLoadObject",
+  "CYyLowerMemory",
+  "CYyLowerObject",
+  "CYyMcb",
+  "CYyMenuMcb",
+  "CYyMenuMemory",
+  "CYyMenuObject",
+  "CYyModel",
+  "CYyModelBase",
+  "CYyModelDt",
+  "CYyMotionQue",
+  "CYyMotionQueList",
+  "CYyMoveBlendQue",
+  "CYyMusicLoadTask",
+  "CYyNode",
+  "CYyObject",
+  "CYyOs2VtxBuffer",
+  "CYyOsmTask",
+  "CYyOsmTaskXform",
+  "CYyQue",
+  "CYyResfList",
+  "CYySepRes",
+  "CYySkl",
+  "CYySoundElem",
+  "CYyTex",
+  "CYyTexBase",
+  "CYyTexMng",
+  "CYyUpperMemory",
+  "CYyUpperObject",
+  "CYyVb",
+  "CYyVbMng",
+  "CYyWorkMemory",
+  "CYyWorkObject",
+  "XiActorTimerTask",
+  "XiCapture",
+  "XiChocoboActor2",
+  "XiDoorActor",
+  "XiFurnitureActor",
+  "XiLiftActor",
+  "XiModelActor",
+  "XiPng",
+  "XiSkeletonActor2",
+  "XiZone",
+  "YkAlbum",
+  "YkBitmap",
+  "YkDiary",
+  "YkFurniture",
+  "YkJpeg",
+  "YkJpgBit",
+  "YkMyroom",
+  "YkSoldier",
+  "YkZip",
+  "YmCombineWeather"
+ ]
+}

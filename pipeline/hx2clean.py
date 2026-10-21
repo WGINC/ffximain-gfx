@@ -28,6 +28,7 @@ import hx2cpp
 import partial_regs
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
+PS2_NAMES = {}
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
          'unsigned __int16': 2, '_DWORD': 4, 'int': 4, 'float': 4, 'unsigned int': 4, '__int32': 4,
          'double': 8, '__int64': 8, '_QWORD': 8}
@@ -297,6 +298,23 @@ def declared_names(r):
     names |= set(re.findall(r'^\s+[^;=()]*?[\s\*&](\w+)(?:\[[^\]]*\])*; // ', decls, re.M))
     return names
 
+def ps2_names():
+    """{ea: name} from data/ps2_matches.json (ps2_match.py: each PC function matched to the PS2 build's named one, with its
+    evidence and DancingMad's confidence word), spelt Class_Method. A PS2 class whose name with a leading C is a PC
+    runtime-class descriptor's name (XiActor: the PC's CXiActor) is spelt as the PC names it."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'ps2_matches.json')
+    if not os.path.exists(path): return {}
+    m = json.load(open(path)); pcls = set(m.get('_pc_classes', []))
+    out = {}
+    for k, v in m.items():
+        if k.startswith('_'): continue
+        cls = v.get('ps2_class')
+        if cls and 'C' + cls in pcls: cls = 'C' + cls
+        nm = ('%s_%s' % (cls.replace('::', '_'), v['ps2_method'])) if cls else v['ps2_method']
+        if re.match(r'^[A-Za-z_]\w*$', nm): out[int(k, 16)] = nm
+    return out
+
+
 def canonicalise_names(R, pending):
     # A record exported before an IDB rename still prints the old name, so one address can carry
     # two names across records. Every referenced object gets one name: the reviewed name from
@@ -313,6 +331,8 @@ def canonicalise_names(R, pending):
     # the most common name; a tie goes to the first in sort order (a Counter's order is the order records were read)
     top = lambda c: sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
     canon = {ea: top(seen_ida.get(ea) or c) for ea, c in seen.items()}
+    for ea, nm in PS2_NAMES.items():                # the PS2 build's name, where the IDB has none
+        canon.setdefault(ea, nm)
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
     local = {'self', 'this'} | set().union(*(declared_names(r) for r in R.values()))
     for r in R.values():
@@ -339,6 +359,7 @@ def canonicalise_names(R, pending):
 # ------------------------------------------------------------------ main
 def main(exp, gate, manf, incdir, outdir):
     R = {}
+    PS2_NAMES.update(ps2_names())
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     # EXP and GATE may each be a comma-separated list: the IDA export first, then Ghidra exports (GfxExport.java) of
     # functions it does not hold; a later record of an address already read is ignored
@@ -384,6 +405,8 @@ def main(exp, gate, manf, incdir, outdir):
         dmn = _dm.get(hex(r['ea']))
         if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
             r['name'] = dmn[0]                       # DancingMad's newer name (Sep 2026 update)
+        if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
+            r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
         R[r['ea']] = r
     canonicalise_names(R, json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'names_pending_idb.json'))))
     passed = set()

@@ -2820,3 +2820,39 @@ lost, and all now compile.
 - **The original faults on every fuzzed trial** (most other INCONCLUSIVEs). These need captured inputs, and
   `capture=` takes only tree functions.
 - **The rest:** individual cases not yet read.
+
+## 21 Oct (later): frameset6, `in_EAX` that no code sees, and the tree with the frame set
+
+**Runs:**
+- **frameset6** (the per-use XI_BC:3 rule): 3,507 PASS, 63 FAIL.
+- **frameset6b** (frameset6's export, translated again with every translator rule): 3,552 PASS, 64 FAIL,
+  38 INCONCLUSIVE, 10 UNRESOLVED.
+  - Against frameset5, one function was lost: 0x10086900, where the "cast between" rule now leaves
+    `(float)((int)fVar6 + 2)` unmarked.
+  - A wrongly placed marker costs a PASS or a compile, never a false PASS: the gate judges every result.
+
+**`in_EAX`:**
+- data/eax_entry_unseen.json comes from caller_reads.py and lists 10,882 functions. In each, the function and its
+  callees read none of EAX's entry value, and no caller reads the bytes it can hand back unchanged.
+- hx2cpp starts `in_EAX` at 0 there. Of frameset5's 145 skips for `in_EAX` alone, 50 qualify and 44 pass.
+- The other 95 read entry EAX, or hand it to a caller that reads it. The C++ cannot express that without a
+  parameter the game's code does not declare: a design decision for the owner.
+
+**The tree with the frame set:**
+- The earlier two-hour builds were a header-order failure: every file stopped at its first include and wrote
+  hundreds of thousands of errors. After the fixes in 521470e, the tree builds from:
+  - the committed IDA export and Ghidra export, with their gates;
+  - frameset6's export, with its gate.
+- The result is 4,109 functions in 419 files, which compile in about 30 seconds. The committed tree regenerates
+  unchanged but for three headers (xi_ghidra_shared.hpp is new).
+- Its clean gate needs about 18 s a function on 4 workers, about 5 hours; the raw gate's cache does not apply to
+  a new DLL. It runs detached (scratchpad runner, gate_rest.sh), round after round over what has no verdict yet.
+
+**Compile failures found in frameset6** (fixed for the next export):
+- 3-byte pieces (`XI_PIECE(x, 1, 3)`);
+- x87 `fsin`/`fcos`;
+- Ghidra goto labels (`LAB_...`) bound as globals;
+- `__fastcall` callees with one register parameter, whose callers were decompiled passing only ECX.
+
+A callee with no `ret N` (no definitive argument count) whose call Ghidra printed with fewer arguments stays a
+compile failure: there is no source for the count.

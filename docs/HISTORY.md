@@ -2959,3 +2959,13 @@ it: 7 such pairs (`XiActor` → `CXiActor`).
 
 **In the tree.** `hx2clean.py` names a function from its PS2 match only where neither the IDB, DancingMad nor
 this repository's review names it. The same applies to the names of the callees it refers to.
+
+**The 23 stripped PS2 builds (2002–2016) were measured as a bridge and left out.** Of the 3,860 literals unique to
+one PC function, 370 appear anywhere in INSTALL.ELF. A stripped build adds:
+- 4 to 7 more for the 2002–2003 builds;
+- up to 140 for the 2016 build. These lead to 84 PC functions still unmatched, 82 of them with placeholder names.
+
+The 84 are an upper bound, and a loose one. A literal INSTALL.ELF lacks means the function is newer than it,
+with no named counterpart, or that it changed since. In the second case the step between the two PS2 builds is
+code likeness across years of changes. A name that rests on that is weaker than `candidate`. An unstripped later
+build would change this.

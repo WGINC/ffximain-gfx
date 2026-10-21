@@ -2752,3 +2752,71 @@ is not a function start. Every one of the 124 ends at a code-referenced address.
 Only gfx_cases reads the slot lists: it stubs each slot's function for the fuzzed `this`. Rebuilding
 frameset4's cases changed 28 of them, all by dropping stubs for functions of the next table. The 26 that compile
 were re-gated, and none changed verdict.
+
+## 21 Oct: frameset4's FAIL classes, each from the code or the decompiler's own p-code
+
+frameset4's 188 functions that did not pass were re-exported and gated after each rule below. These were the
+fs4fix runs. They went from 0 PASS to 96 PASS of 198, with the 10 frameset5 lost added. None that passed was
+lost, and all now compile.
+
+**New facts, each from the game's code:**
+- **`caller_reads.py`** (data/caller_reads.json): the bytes of EAX that a function's callers read after it
+  returns. A function counts only when every reference to it is a direct call or tail jump, with no address
+  taken anywhere. Calls inside the caller are followed with each callee's own entry reads and kept bytes, and
+  `ret` passes to the caller's callers; all of this runs to a fixpoint.
+  - Results: 12,219 functions have all callers known. Of these, 4,857 have results no caller reads, 604 have only
+    AL read, and 46 only AX.
+  - Frame_Render comes out as 1 (AL), which agrees with the earlier reading by hand.
+  - The gate compares only those bytes. When none are read, EAX is not compared.
+- **`arg_reads.py`** (data/arg_reads.json): the bytes of each stack argument a function reads, from sp_solve's
+  exact depths.
+  - A function is left out when an argument's address is taken, ESP or EBP is copied, a depth is not exact, or it
+    leaves by a jump to another function.
+  - Stub argument masks use it. A caller that pushes a byte argument in a dword with leftover upper bytes then
+    compares equal (0xDDDDDD79 against 0x79).
+
+**Translator and export:**
+- **Thunks.** A function that is one `jmp T` (5 bytes, from the image) becomes a call to T with its own
+  parameters. Ghidra inlines T's body there. 275 functions in the image are thunks; in the frame set, 3 FAIL
+  became PASS and 6 newly PASS.
+- **ST0 returns where no convention is decided** (conv_facts `fret`, from fpret.json). For example, 0x10122E20
+  pushes 1, calls a float function and returns its ST0. Ghidra had made it void.
+- **PTRADD element sizes** (`XI_BA:N` before `+`, `XI_PA:N` before `[`). Ghidra prints PTRADD(base, i, N) as
+  `base + i` or `base[i]`, whatever base points to. Most often the base is `&DAT_x` typed undefined4, with N = 1:
+  C++ then scaled the index by 4.
+  - Facts that settled it (a debug token dump):
+    - the base is an implicit PTRSUB of the global's address, whose own high type is `undefined *`;
+    - the export types the global from defined data only, and GhidraScript.getDataAt gives null where nothing is
+      defined;
+    - in a subscript with an expression index, no token carries the PTRADD; it is found from the base's PTRSUB
+      output.
+  - In this set, 44 FAIL became PASS from the byte offsets alone.
+- **XI_BC:3, implied casts.** A p-code floating op reading a non-floating varnode reads its bits; there is no
+  CAST op (0x100817F0: `fld dword ptr [eax+0x8c]` under FLOAT_LESSEQUAL).
+- **XI_BC:3, one CAST printed several times.** An implicit output is printed at each use, and through chains of
+  implicit outputs: `NAN(x)` and the comparison both print the cast. The first count let marks land on the wrong
+  casts, which frameset5 showed as 10 functions no longer compiling. The rule is now:
+  - the operand search stops at calls;
+  - with another printed cast between this one and the operand, this one is the CAST's only where the CAST's input
+    is a conversion's output.
+- **XI_BC:2** with a right side XI_BC:3 has already made a bit copy is the same CAST. This fixed 8 functions that
+  were untranslatable.
+
+**Other fixes:**
+- **entry_regs:** a switch's targets come from vcall_resolve.succs. 0x1004E720 and 0x1004A980 had been taken to
+  read the registers they save, since their pops sit behind a switch. That made them "usercall", so the callers'
+  ECX (`this`) was never set.
+- **The kit:** `facts_frame` (kit/sessions/facts_frame). Sent as facts_frame_73c9ed9.zip.
+
+**frameset5** (4,765 functions, every rule up to the per-use count): 3,490 PASS (frameset4: 3,422), 65 FAIL (140),
+38 INCONCLUSIVE, 10 UNRESOLVED. The 10 that passed in frameset4 and did not compile here are fixed above.
+
+**What the remaining FAILs and INCONCLUSIVEs are, as far as known:**
+- **Out-parameters written by a stubbed callee.** 0x101A0680 passes `&local_4` to 0x101BE470, then passes
+  local_4 on. A stub does not write it, so each side reads leftover stack: the original its entry ECX (the `push
+  ecx` that made the slot), the reconstruction 0. The fuzz gate cannot decide these; the callee would have to run.
+- **The original reaches an import on every trial** (11 INCONCLUSIVE). The gate ends a run at an import.
+  Answering imports would need each one's convention, which data/import_nargs.json does not record.
+- **The original faults on every fuzzed trial** (most other INCONCLUSIVEs). These need captured inputs, and
+  `capture=` takes only tree functions.
+- **The rest:** individual cases not yet read.

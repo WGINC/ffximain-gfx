@@ -128,7 +128,8 @@ def main(exp, metaf, protof, out):
     meta = json.load(open(metaf)); protos = json.load(open(protof))
     cases = []
     for line in open(exp):
-        r = hx_patches.fix_types(ghidra_record(json.loads(line))); key = '%08X' % r['ea']
+        r = ghidra_record(json.loads(line)); key = '%08X' % r['ea']
+        if r.get('source') != 'ghidra': r = hx_patches.fix_types(r)    # IDA prototype corrections (hx2cpp the same)
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']
@@ -176,7 +177,7 @@ def main(exp, metaf, protof, out):
                     nargs = CDECL_ARGS['0x%08X' % ea]
                 elif cc == 'cdecl' and '0x%08X' % ea in CDECL_LOW:
                     nargs = CDECL_LOW['0x%08X' % ea]
-                if cc == 'cdecl' and ea in hx_patches.type_fixes():  # a corrected prototype (each with its evidence)
+                if cc == 'cdecl' and ea in hx_patches.type_fixes() and r.get('source') != 'ghidra':  # a corrected IDA prototype (each with its evidence)
                     ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
                     nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past

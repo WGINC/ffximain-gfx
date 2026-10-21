@@ -640,7 +640,11 @@ def main(exp, gate, manf, incdir, outdir):
                 if dm: forms.add(dm)
             if o['func'] and o['ea'] in R and R[o['ea']].get('name'):
                 forms.add(R[o['ea']]['name'])          # a callee the text names by its own record's name (sub_X)
-            if o['func'] and not o.get('import'):
+            if o['func'] and r.get('ghidra') and hx2cpp.FPRET_ALL.get('0x%x' % o['ea']) == 'consumes':
+                # fpret.json: the callee pops a value the caller leaves in ST0 (__ftol); called as the raw translation
+                # calls it (hx2cpp: xi_call_st0), not through a stack-argument wrapper
+                tok = 'XI_CALL_ST0(0x%08Xu)' % o['ea']
+            elif o['func'] and not o.get('import'):
                 tok = 'orig::' + oname(nm, o['ea'], ftype_of(ea, o, nm))
             elif o.get('import'):
                 tok = gnames[o['ea']]                  # the pointer at the import table slot

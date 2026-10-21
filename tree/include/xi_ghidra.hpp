@@ -75,6 +75,8 @@ static inline long double xi_fcos(long double x) { long double r; __asm__("fcos"
 static inline long long xi_call_st0(uint32_t fn, long double x) {
     long long r; __asm__ volatile("call *%1" : "=A"(r) : "r"(fn), "t"(x) : "st", "ecx", "memory", "cc"); return r;
 }
+// the clean tree's form (hx2clean.py): the game function at ea, through XI_GAME (rebased in the in-game build)
+#define XI_CALL_ST0(ea) [](long double x_) { return xi_call_st0((uint32_t)XI_GAME(ea), x_); }
 
 
 // Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)

@@ -255,6 +255,27 @@ public class GfxExport extends GhidraScript {
             at.merge(j, m, (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
+        // a variable read through p-code CAST between a floating type and a non-floating one of the same size: CAST
+        // keeps the bits, where the C cast Ghidra prints for it converts the value (a stack slot the code uses as a
+        // float and as a loop counter, 0x1008F740 `(int)fStack_30`); `/*XI_BC:1*/` in front of the variable
+        for (int j = 0; j < all.size(); j++) {
+            ClangToken t = all.get(j);
+            if (!(t instanceof ClangVariableToken)) continue;
+            PcodeOp op = t.getPcodeOp();
+            if (op == null || op.getOpcode() != PcodeOp.CAST || op.getOutput() == null) continue;
+            Varnode in = op.getInput(0), o = op.getOutput();
+            // the variable the cast reads (a token is also tied to the op that defines it, `v = (float)expr;`)
+            // `/*XI_BC:2*/` instead where the variable is the one the cast defines (`v = (float)(int)*(short *)p;`, its
+            // bits read back as `(int)v`: 0x101EF0A0), whose printed `(T)` is the outermost cast after the `=`
+            Varnode tv = ((ClangVariableToken) t).getVarnode();
+            if (tv == null || tv.getHigh() == null || in.getHigh() == null || o.getHigh() == null || in.getSize() != o.getSize()) continue;
+            String mk = tv.getHigh() == in.getHigh() ? "/*XI_BC:1*/" : tv.getHigh() == o.getHigh() ? "/*XI_BC:2*/" : null;
+            if (mk == null) continue;
+            boolean fi = in.getHigh().getDataType() instanceof AbstractFloatDataType, fo = o.getHigh().getDataType() instanceof AbstractFloatDataType;
+            if (fi == fo) continue;
+            at.merge(j, mk, (x, y) -> x + y);
+            marked.putIfAbsent("", "");
+        }
         // a piece `x._O_S_`: its sign from the piece varnode's own type (the varnode of size S the `.` token's op
         // reads or writes), `/*XI_PS:1*/` signed or `/*XI_PS:0*/` unsigned; none when the op's varnodes disagree
         for (int j = 0; j < all.size(); j++) {

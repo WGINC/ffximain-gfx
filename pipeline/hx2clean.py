@@ -321,7 +321,8 @@ def main(exp, gate, manf, incdir, outdir):
               if o.get('func') and re.match(r'^[A-Za-z_]\w*$', nm) and not nm.startswith(('sub_', 'j_sub_', 'nullsub_'))}
     for r in recs:
         if r['ea'] in R: continue
-        r = hx_patches.apply(r)
+        if r.get('source') != 'ghidra':     # corrections to Hex-Rays' text and IDA's prototypes (hx2cpp the same)
+            r = hx_patches.apply(r)
         if r.get('source') == 'ghidra':
             # the same preparation as the raw translation (hx2cpp.ghidra_prepare); its names: the IDB's, else fn_
             r, status, why = hx2cpp.ghidra_prepare(r)

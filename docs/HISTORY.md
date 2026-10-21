@@ -2679,3 +2679,54 @@ change still matches the game.
   Built twice here at the same path they are identical (only the PDB path enters the timestamp and GUID). The
   hashes in the lock came from earlier containers, and those binaries are not in the repository, so the cause
   is not known.
+
+## 20-21 Oct: the Ghidra route's rules, measured on 311 functions, then run on the frame set
+
+Each rule below comes from a fact in the game's code or in Ghidra's own p-code, and each was kept only if the
+311-function sample lost no PASS against every earlier run. The sample went from 178 to 205 PASS.
+- **Stack layout.** In a function with a stack array, every stack local is a reference into one buffer at its
+  Ghidra storage offset, reaching up to the entry ESP. Ghidra splits one buffer into pieces the code indexes
+  across: Mat4_PostMultiply's 64 bytes are local_40[4] and local_30[12], and 0x101D7AC0 zeroes 0x15 dwords
+  from a local with 24 bytes declared.
+- **Bit-level operations.** Ghidra's `undefined4` keeps a float's bits (p-code COPY), and SUBnm takes bytes
+  (SUBPIECE).
+  - A piece `x._O_S_` has the sign of its own varnode's type (`/*XI_PS*/`).
+  - A variable read or written through p-code CAST between a float type and a non-float type keeps its bits
+    (`/*XI_BC:1*/`, `/*XI_BC:2*/`). Ghidra prints CAST like a converting C cast. An example is a stack slot the
+    code uses as a float and as a loop counter (0x1008F740, 0x101EF0A0).
+  - A CAST of a whole expression is not marked yet. Ghidra ties no op to a cast's tokens (0x1006CA20).
+- **Arguments.** A cdecl function's stack arguments are the slots its code reads (`cargs`, cdecl_args.json,
+  exact counts only). Variadic functions get their fixed parameters from the IDB's declared prototypes.
+  - Parameter lists are rebuilt slot by slot, keeping the decompiler's typed parameter where one starts at the
+    slot.
+  - `replaceParameters` must use FORMAL_PARAMS. With ALL_PARAMS, Ghidra took a `__thiscall` function's first
+    listed parameter for `this` and dropped it.
+- **Returns.** Return widening keys on the p-code, a register output of the call the caller reads, not on the
+  `extraout_` name. 0x1015B580 passes Mem_AllocDefault's EAX on as `this_01`.
+- **Functions.** 23 of the 311 had no instructions: the export had made functions on bytes never disassembled,
+  so their calls had no references and their callees no conventions. They are now disassembled first. A direct
+  call target gets a function only where conv.txt has its convention: one made without it got a convention
+  Ghidra inferred, and a wrong pop moved the caller's stack depths.
+- **SSE.** A function whose own code does SSE float arithmetic and no x87 arithmetic is compiled with
+  `target("sse,fpmath=sse")` (0x1006F0A0).
+- **Gate.** A callee's `ret N` comes before the decompiler's pop count, which Ghidra reports as -1 for an
+  unresolved function. Ghidra's 1- and 2-byte return names map like IDA's.
+- **Hand corrections.** hx_patches (corrections to Hex-Rays text and IDA prototypes) no longer apply to Ghidra
+  records.
+
+The frame set (4,765 game-code functions of data/frame_set.json) as one export: 24 minutes of Ghidra, 4,764
+decompiled.
+- 3,911 were translated and 3,600 compile; 461 were skipped and 16 are untranslatable.
+- Of the 460 skipped for an input Ghidra could not tie to a parameter, 147 are `in_EAX` alone. In 0x10001E70
+  this is real: the NULL path returns before `xor eax, eax`, so the upper bytes of its byte result are the
+  caller's EAX. A caller's EAX passed in cascades through callers, as export 15 showed, so these wait on a
+  rule.
+
+Not known, and needed from a run:
+- What `[0x1066941C]` holds (set in Dancer_InitDevice from `[[0x103D3CBC]+8]`, CDx). Every call through it
+  (0x10282470, 0x10297EC0, 0x10290B60's callee) has no proven pop or register effect. A `facts=1` session at
+  those sites would establish them.
+- The tree gate measured here: 772 PASS of 779 on fuzz, with 0x100CBDE0 and 0x100412B0 FAIL and 0x10003890
+  and 0x100CB4E0 UNRESOLVED. That is besides the three tree/README.md lists. A tree built from 79ded91, before
+  this work, gives the same result, so the README's 776 is not reproduced in this container; why is not
+  known.

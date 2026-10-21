@@ -573,6 +573,8 @@ def ghidra_prepare(rec):
     head, brace, rest = rec['text'].partition('\n{')
     rest, why = ghidra_consts(rest)
     if rest is None: return None, 'untranslatable', why
+    rest, why = ghidra_bitcasts(rest)
+    if rest is None: return None, 'untranslatable', why
     rec = dict(rec, text=head + brace + ghidra_pieces(rest))
     if rec.get('type'):
         # Ghidra's text omits the calling convention in its signature; the record's type has it
@@ -677,6 +679,28 @@ def ghidra_bool(text):
     # sete result compares the whole byte (0x10227C09). C++'s bool would turn 2 into 1, so it is a plain byte.
     parts = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', text)
     return ''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts))
+
+def ghidra_bitcasts(text):
+    # GfxExport `/*XI_BC:1*/v`: v is read through p-code CAST between a floating and a non-floating type, which keeps
+    # the bits; the C cast Ghidra prints in front, `(T)v`, would convert the value. Without a printed cast the
+    # type the bits become is not in the text: (None, why).
+    out = re.sub(r'\(\s*([A-Za-z_][\w ]*?\s*\**)\s*\)\s*/\*XI_BC:1\*/\s*([A-Za-z_]\w*)',
+                 lambda m: 'xi_castbits<%s>(%s)' % (m.group(1).strip(), m.group(2)), text)
+    # `/*XI_BC:2*/v = (T)rest;`: v is what the cast defines, the whole right side
+    while True:
+        m = re.search(r'/\*XI_BC:2\*/\s*([A-Za-z_]\w*)\s*=\s*\(\s*([A-Za-z_][\w ]*?\s*\**)\s*\)', out)
+        if not m: break
+        depth, k = 0, m.end()
+        while k < len(out) and not (out[k] == ';' and depth == 0):
+            depth += (out[k] in '([') - (out[k] in ')]'); k += 1
+        out = out[:m.start()] + '%s = xi_castbits<%s>(%s)' % (m.group(1), m.group(2).strip(), out[m.end():k].strip()) + out[k:]
+    if '/*XI_BC:2*/' in out:
+        return None, 'a value written through p-code CAST (bits kept) with no printed type: ' + \
+            re.search(r'/\*XI_BC:2\*/\s*(\w+)', out).group(1)
+    if '/*XI_BC:1*/' in out:
+        return None, 'a value read through p-code CAST (bits kept) with no printed type: ' + \
+            re.search(r'/\*XI_BC:1\*/\s*(\w+)', out).group(1)
+    return out, None
 
 def ghidra_pieces(text):
     # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
@@ -956,7 +980,8 @@ def main(src, outdir):
                 meta['%08X' % ea] = {'status': 'skipped', 'why': 'unsupported construct ' + (m.group(0) if m else rec.get('skip', '?'))}; continue
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
-        rec = hx_patches.apply(rec)
+        if rec.get('source') != 'ghidra':   # corrections to Hex-Rays' text and IDA's prototypes
+            rec = hx_patches.apply(rec)
         if rec.get('source') == 'ghidra':
             rec, status, why = ghidra_prepare(rec)
             if rec is None:

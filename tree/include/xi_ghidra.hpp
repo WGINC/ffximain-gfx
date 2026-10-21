@@ -46,6 +46,8 @@ typedef void *pointer; typedef void *addr;
 #define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT26(h, l) ((uint64_t)(((uint64_t)(uint16_t)(h) << 48) | ((uint64_t)(l) & 0xFFFFFFFFFFFFull)))
 #define CONCAT17(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 56) | ((uint64_t)(l) & 0xFFFFFFFFFFFFFFull)))
+// p-code CAST between a floating and a non-floating type of one size: the same bits (GfxExport `/*XI_BC*/`)
+template <class To, class From> static inline To xi_castbits(From f) { static_assert(sizeof(To) == sizeof(From), "xi_castbits: one size"); To t; __builtin_memcpy(&t, &f, sizeof(t)); return t; }
 // SUBnm is p-code SUBPIECE, the bytes of x: a floating x gives its encoding, not its value converted
 template <class T> static inline uint32_t xi_b32(T x) { return (uint32_t)x; }
 static inline uint32_t xi_b32(float x) { uint32_t u; __builtin_memcpy(&u, &x, 4); return u; }

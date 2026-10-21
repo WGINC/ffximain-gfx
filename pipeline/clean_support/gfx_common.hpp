@@ -4,6 +4,7 @@
 #include "xi_d3d8.hpp"        // Direct3D 8 enums + interfaces (dev->SetRenderState(...))
 #include "gfx_types.hpp"      // game types from the IDB not defined as classes here
 #include "xi_compat_win.hpp"  // Windows handle typedefs used in signatures
+#include "xi_ghidra_shared.hpp"  // Ghidra's undefinedN types and XI_ANY, for the Ghidra route's functions
 #ifndef XI_API
 #define XI_API
 #endif

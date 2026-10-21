@@ -60,7 +60,29 @@ def split_params(args):
     if cur.strip(): parts.append(cur.strip())
     return [] if parts == ['void'] else parts
 
+# Ghidra's type names, as xi_ghidra.hpp defines them, spelt in plain C++ for the shared headers (gfx_globals.hpp,
+# gfx_orig.hpp), which do not include xi_ghidra.hpp (`code`, `word`, `addr` could be a Hex-Rays local's name). The
+# undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit.
+_GHIDRA_PLAIN = {'byte': 'uint8_t', 'uchar': 'uint8_t', 'ushort': 'uint16_t', 'word': 'uint16_t',
+                 'uint': 'uint32_t', 'dword': 'uint32_t', 'ulong': 'uint32_t', 'longlong': 'int64_t',
+                 'ulonglong': 'uint64_t', 'qword': 'uint64_t', 'float10': 'long double', 'xi_bool': 'uint8_t',
+                 'int3': 'int32_t', 'uint3': 'uint32_t', 'wchar16': 'uint16_t', 'wchar32': 'uint32_t', 'code': 'void',
+                 'pointer': 'void *', 'addr': 'void *'}
+
+
+CXX_KEYWORDS = {'default', 'case', 'switch', 'new', 'delete', 'this', 'class', 'struct', 'union', 'enum', 'template',
+                'typename', 'operator', 'friend', 'virtual', 'public', 'private', 'protected', 'namespace', 'using',
+                'register', 'auto', 'static', 'const', 'volatile', 'inline', 'extern', 'signed', 'unsigned', 'return',
+                'goto', 'do', 'while', 'for', 'if', 'else', 'break', 'continue', 'sizeof', 'typedef', 'try', 'catch',
+                'throw', 'bool', 'true', 'false', 'char', 'short', 'int', 'long', 'float', 'double', 'void', 'asm'}
+
+
+def plain_type(t):
+    return re.sub(r'\b(%s)\b' % '|'.join(sorted(_GHIDRA_PLAIN, key=len, reverse=True)), lambda m: _GHIDRA_PLAIN[m.group(1)], t)
+
+
 def orig_wrapper(name, ea, ftype):
+    ftype = plain_type(ftype)
     ftype = re.sub(r'^([^()]*)\(\s*(__\w+\s*)?\*\s*\)\s*\(', r'\1 \2(', ftype)   # IDA's `R (*)(args)`: the function type
     ftype = hx2cpp.fnptr_return(ftype)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ftype, re.S)
@@ -259,7 +281,9 @@ def rewrite_members(body, self_type, cls, layout_fields):
         if c == cls: body = re.sub(r'\bself->%s\b' % re.escape(v[1]), 'this->' + v[1], body)
     return body
 
-PLACEHOLDER = re.compile(r'^(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}$')
+# IDA's placeholder names, and Ghidra's (FUN_, DAT_, LAB_, PTR_, ... with lower-case hex): never the canonical name
+PLACEHOLDER = re.compile(r'^(?:(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}'
+                         r'|(FUN|DAT|LAB|PTR|thunk_FUN|switchD|caseD|s|u|_DAT|BYTE|WORD|DWORD|QWORD)_[0-9a-fA-F_]+)$')
 
 
 def declared_names(r):
@@ -312,13 +336,33 @@ def main(exp, gate, manf, incdir, outdir):
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     # EXP and GATE may each be a comma-separated list: the IDA export first, then Ghidra exports (GfxExport.java) of
     # functions it does not hold; a later record of an address already read is ignored
-    recs = []
-    for e in exp.split(','):
+    # each export's own gate (GATE in the same order as EXP): an address held by several exports takes the record of
+    # the first export whose gate passed it (else the first record), so a function passed only by the Ghidra route
+    # is not built from an IDA record its gate did not pass
+    gates = gate.split(',')
+    passed_in = []
+    for gf in gates:
+        ps = set()
+        for l in open(gf):
+            g = json.loads(l)
+            if g.get('verdict') == 'PASS': ps.add(int(g['original'], 16))
+        passed_in.append(ps)
+    recs, first = [], {}
+    for i, e in enumerate(exp.split(',')):
         for l in open(e):
-            recs.append(json.loads(re.sub(r"\s*__spoils<[^>]*>", "", l)))   # callee-preserves-register notes: Hex-Rays only
+            r = json.loads(re.sub(r"\s*__spoils<[^>]*>", "", l))   # callee-preserves-register notes: Hex-Rays only
+            recs.append(r); first.setdefault(r['ea'], (i, len(recs) - 1))
+            if i < len(passed_in) and r['ea'] in passed_in[i] and not (first[r['ea']][0] < len(passed_in)
+                                                                         and r['ea'] in passed_in[first[r['ea']][0]]):
+                first[r['ea']] = (i, len(recs) - 1)
+    chosen = {k for _, k in first.values()}
+    allrecs, recs = recs, [r for k, r in enumerate(recs) if k in chosen]
     # the IDB's names of functions the IDA export holds only as callees (its records' objects)
-    idb_fn = {o['ea']: nm for r in recs if r.get('source') != 'ghidra' for nm, o in (r.get('objs') or {}).items()
+    idb_fn = {o['ea']: nm for r in allrecs if r.get('source') != 'ghidra' for nm, o in (r.get('objs') or {}).items()
               if o.get('func') and re.match(r'^[A-Za-z_]\w*$', nm) and not nm.startswith(('sub_', 'j_sub_', 'nullsub_'))}
+    for r in allrecs:                               # and of the functions it holds as records itself
+        if r.get('source') != 'ghidra' and re.match(r'^[A-Za-z_]\w*$', r['name']) and not r['name'].startswith(('sub_', 'j_sub_', 'nullsub_')):
+            idb_fn.setdefault(r['ea'], r['name'])
     for r in recs:
         if r['ea'] in R: continue
         if r.get('source') != 'ghidra':     # corrections to Hex-Rays' text and IDA's prototypes (hx2cpp the same)
@@ -490,15 +534,54 @@ def main(exp, gate, manf, incdir, outdir):
         return t.strip()
     SUFFIX = {'_BYTE': 'u8', 'unsigned __int8': 'u8', 'char': 's8', '__int8': 's8', '_WORD': 'u16', 'unsigned __int16': 'u16',
               '__int16': 's16', '_DWORD': 'u32', 'unsigned int': 'u32', 'int': 's32', 'float': 'f32', 'double': 'f64'}
+    # a name two game functions carry (operator_delete: 0x101907D0 and 0x10311BB0) is spelt with its address
+    _name_eas = collections.defaultdict(set)
     for ea in passed:
         for nm, o in R[ea].get('objs', {}).items():
+            if o['func']: _name_eas[nm].add(o['ea'])
+    # records can type one callee differently (IDA's prototype in one, the Ghidra route's in another): each was gated
+    # with its own, so each prototype gets its own wrapper; the most common one the plain name, the others _vN
+    _ftypes = collections.defaultdict(collections.Counter)
+    def ftype_of(ea, o, nm=''):
+        # a Ghidra record's callee: typed as the raw translation types it (hx2cpp.ghidra_ptr_type: `this` first for a
+        # __thiscall, the stack slots the callee's `ret N` or the call sites give, each an XI_ANY)
+        if not R[ea].get('ghidra'): return o['type'].strip()
+        body = R[ea]['text'].partition('\n{')[2]
+        # the call sites as the text prints them: the object's names and the callee record's own name
+        names = {nm} | set(o.get('printed') or []) | ({R[o['ea']]['name']} if o['ea'] in R else set())
+        pts = [hx2cpp.ghidra_ptr_type(n, o, body) for n in sorted(names)]
+        pt = max(pts, key=lambda t: (t.count(','), 'XI_ANY' in t))
+        return re.sub(r'\((__\w+) \*\)', r'\1', pt, count=1)
+    for ea in passed:
+        for nm, o in R[ea].get('objs', {}).items():
+            if o['func'] and not o.get('import'): _ftypes[o['ea']][ftype_of(ea, o, nm)] += 1
+    _fvar = {}
+    for fea, cnt in _ftypes.items():
+        for k, t in enumerate(sorted(cnt, key=lambda t: (-cnt[t], t))): _fvar[(fea, t)] = k
+    def oname(nm, fea, ftype=None):
+        base = 'fn_%08X' % fea if not re.match(r'^[A-Za-z_]\w*$', nm) or nm in CXX_KEYWORDS else \
+            nm if len(_name_eas.get(nm, ())) <= 1 else '%s_%08X' % (nm, fea)
+        k = _fvar.get((fea, ftype.strip())) if ftype else 0
+        return base if not k else '%s_v%d' % (base, k)
+    for ea in passed:
+        for nm, o in R[ea].get('objs', {}).items():
+            if o['func'] and o.get('import'):
+                # a Ghidra import: its address is the import table slot, which holds the function's address; bound
+                # as a pointer at the slot (as the IDA records bind it), called through it
+                pt, _why = hx2cpp.ghidra_import_type(nm, o)          # as the raw translation types it
+                if pt is None: continue
+                globs.setdefault(o['ea'], (nm, dict(o, func=False, type=pt)))
+                gtypes.setdefault(o['ea'], collections.Counter())[pt] += 1
+                continue
             if o['func']:
-                w = orig_wrapper('fn_%08X' % o['ea'] if not re.match(r'^[A-Za-z_]\w*$', nm) else nm, o['ea'], o['type'])
+                ft = ftype_of(ea, o, nm)
+                on = oname(nm, o['ea'], ft)
+                w = orig_wrapper(on, o['ea'], ft)
                 # keyed by (address, name): a record exported before a rename still refers to the
                 # old name, so both names get a wrapper to the same address
-                if w: origs[(o['ea'], nm)] = (nm, w)
+                if w: origs[(o['ea'], on)] = (on, w)
                 if w and re.match(r'^(float|double|long double)\s*(__\w+\s*)?\(', o['type'].strip()):   # not `float *`
-                    fwrap[nm] = (o['ea'], o['type'])
+                    fwrap[on] = (o['ea'], ft)
             else:
                 globs.setdefault(o['ea'], (nm, o))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
@@ -520,7 +603,7 @@ def main(exp, gate, manf, incdir, outdir):
         f.write('// gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.\n#pragma once\n#include "gfx_common.hpp"\n')
         for ea in sorted(globs):
             nm, o = globs[ea]
-            gn = nm if re.match(r'^[A-Za-z_]\w*$', nm) else 'g_%08X' % ea
+            gn = nm if re.match(r'^[A-Za-z_]\w*$', nm) and nm not in CXX_KEYWORDS else 'g_%08X' % ea
             gnames[ea] = gn; RESERVED.add(gn)
             from hx2cpp import typedef_for
             # functions disagree on a global's type when they read it at different widths (Hex-Rays
@@ -530,10 +613,10 @@ def main(exp, gate, manf, incdir, outdir):
             cnt = gtypes[ea]
             canon = sorted(cnt, key=lambda x: (-cnt[x], -WIDTH.get(x, 4)))[0]
             gcanon[ea] = canon
-            f.write(typedef_for('%s_t' % gn, canon) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (gn, gn, ea))
+            f.write(typedef_for('%s_t' % gn, plain_type(canon)) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (gn, gn, ea))
             for k, other in enumerate(sorted(x for x in cnt if x != canon)):
                 vn = '%s_as_%s' % (gn, SUFFIX.get(other, 'v%d' % k)); gvariant[(ea, other)] = vn
-                f.write(typedef_for('%s_t' % vn, other) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (vn, vn, ea))
+                f.write(typedef_for('%s_t' % vn, plain_type(other)) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (vn, vn, ea))
 
     per_file = collections.defaultdict(list); decls = collections.defaultdict(list); report = {}
     for ea, (cls, meth, why) in sorted(place.items()):
@@ -553,9 +636,12 @@ def main(exp, gate, manf, incdir, outdir):
                 if re.match(r'^_\w+$', p): forms.add(p[1:])   # IDA '__strlwr' is printed '_strlwr'
                 dm = demangle(p)
                 if dm: forms.add(dm)
-            if o['func']:
-                if o['ea'] == ea and cls: tok = 'orig::' + (nm if re.match(r'^[A-Za-z_]\w*$', nm) else 'fn_%08X' % o['ea'])
-                else: tok = 'orig::' + (nm if re.match(r'^[A-Za-z_]\w*$', nm) else 'fn_%08X' % o['ea'])
+            if o['func'] and o['ea'] in R and R[o['ea']].get('name'):
+                forms.add(R[o['ea']]['name'])          # a callee the text names by its own record's name (sub_X)
+            if o['func'] and not o.get('import'):
+                tok = 'orig::' + oname(nm, o['ea'], ftype_of(ea, o, nm))
+            elif o.get('import'):
+                tok = gnames[o['ea']]                  # the pointer at the import table slot
             else:
                 tok = gvariant.get((o['ea'], gtype_of(o)), gnames[o['ea']])
             for p in forms: reps.append((p, tok))
@@ -582,7 +668,7 @@ def main(exp, gate, manf, incdir, outdir):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is
             # spelt in plain types, since the shared headers do not include xi_ghidra.hpp
             body = hx2cpp.ghidra_bool(body)
-            sig = re.sub(r'\bbool\b', 'unsigned char', re.sub(r'\bfloat10\b', 'long double', sig))
+            sig = plain_type(re.sub(r'\bbool\b', 'unsigned char', re.sub(r'\bfloat10\b', 'long double', sig)))
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
         ret, body = hx2cpp.drop_float_return(ea, ret, body)

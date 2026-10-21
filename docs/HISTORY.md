@@ -3011,3 +3011,20 @@ it is that comparison.
 - **Result:** 60 rewrites, for example `(!NAN(a) && !NAN(b)) && a < b != (a == b)` becomes `a <= b`.
 - **What remains:** most of the 377 NAN() uses left build the FPU status word itself, in functions that return it
   in EAX.
+
+**Two facts for class placement:**
+- **`pipeline/reg_saved.py`** (`data/reg_saved.json`): which of EBX, ESI, EDI and EBP each function hands back as
+  it found them. Registers and stack slots are tracked symbolically, keyed by `sp_solve`'s exact depths, and the
+  facts are solved to a greatest fixpoint over calls. Imports keep all four, as Microsoft's documented x86
+  conventions require. 14,460 functions are decided, 8,921 of them restoring all four; 6,950 are undecided.
+- **`pipeline/this_flow.py`** (`data/this_flow.json`): ECX at every direct call, relative to the caller's own entry
+  ECX (`own`, `own+K`, or `global G`). It covers 12,966 call sites into 4,021 callees.
+
+**What they settle for the tree is small.** Of the 1,194 free `__thiscall` functions with raw `this + offset`
+accesses:
+- 759 have no call site whose ECX is known: they are reached through vtables or pointers;
+- most of the rest get the `this` of callers that have no class either;
+- run to a fixpoint, the rule "every caller hands on its own `this`, and every caller is a method of X" places about
+  21 more.
+
+Their class has no definitive source. Link order would suggest one, but a `.cpp` file can define several classes.

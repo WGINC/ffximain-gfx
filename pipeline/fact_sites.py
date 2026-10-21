@@ -5,8 +5,9 @@ A call the gate reaches with no definitive pop count (an UNRESOLVED verdict name
 unknown") is measured where it is certain: the game's own code, running. The kit patches the call so that it runs
 from a copy that records ESP just before the call and just after it returns, and where it went.
 
-    python3 fact_sites.py sites OUT.txt [--from-gates] [ADDR ...]       (uses $FFXI_DLL)
-        the sites, from the committed gate records' UNRESOLVED calls (--from-gates) and/or given addresses, with
+    python3 fact_sites.py sites OUT.txt [--from-gates] [--from-file data/facts_wanted.json] [ADDR ...]   (uses $FFXI_DLL)
+        the sites, from the committed gate records' UNRESOLVED calls (--from-gates), facts_wanted.py's list
+        (--from-file) and/or given addresses, with
         the patch region of each; written for the kit (kit/xikit/dist/xikit_facts.txt)
     python3 fact_sites.py ingest xikit_facts_<pid>.csv [...] [--out data/game_sp.json]
         observations to facts: a site's pop count is recorded only when every observed call agrees
@@ -67,6 +68,8 @@ def sites(o):
     pieces.sort(); starts = [p[0] for p in pieces]
     want = gate_sites() if o.from_gates else {}
     for a in o.addrs: want.setdefault(int(a, 16), 'given')
+    if o.from_file:                                 # data/facts_wanted.json (facts_wanted.py): {site: why}
+        for a, why in json.load(open(o.from_file)).items(): want.setdefault(int(a, 16), why)
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     lines, refused = [], {}
     for site, why_from in sorted(want.items()):
@@ -127,7 +130,7 @@ def ingest(o):
 
 def main():
     ap = argparse.ArgumentParser(); sp = ap.add_subparsers(dest='cmd', required=True)
-    a = sp.add_parser('sites'); a.add_argument('out'); a.add_argument('addrs', nargs='*'); a.add_argument('--from-gates', action='store_true')
+    a = sp.add_parser('sites'); a.add_argument('out'); a.add_argument('addrs', nargs='*'); a.add_argument('--from-gates', action='store_true'); a.add_argument('--from-file')
     b = sp.add_parser('ingest'); b.add_argument('files', nargs='+'); b.add_argument('--out', default=os.path.join(ROOT, 'data', 'game_sp.json'))
     o = ap.parse_args()
     sites(o) if o.cmd == 'sites' else ingest(o)

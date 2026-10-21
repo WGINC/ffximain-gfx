@@ -7,6 +7,7 @@ DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 # what each callee can really return (ret_kinds.py): stubs answer within that range
 RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_kinds.json')) else {}
+RET_WIDTH = json.load(open(os.path.join(DATADIR, 'ret_width.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_width.json')) else {}
 # calls whose x87 result the original caller consumes (fp_callsites.py): their stubs push a value
 FPRET = json.load(open(os.path.join(DATADIR, 'fpret.json')))
 FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.path.exists(os.path.join(DATADIR, 'fp_callsites.json')) else {}
@@ -138,6 +139,11 @@ def main(exp, metaf, protof, out):
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],
              'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret'])}
         if c['returns'] == 'float' and FPRET.get('0x%x' % r['ea']) == 'none': c['returns'] = 'void'   # see hx2cpp
+        # the bytes of EAX the function's own code sets on every path (ret_width.py): the rest is its caller's
+        # leftover, which the reconstruction cannot have; compared only where the code sets them (narrows, never widens)
+        w = RET_WIDTH.get('0x%08X' % r['ea'])
+        if w == 1 and c['returns'] in ('int', 'word'): c['returns'] = 'bool'
+        elif w == 2 and c['returns'] == 'int': c['returns'] = 'word'
         if c['returns'] == 'float': c['fret'] = 'float' if r['ret'].strip() == 'float' else 'double' if r['ret'].strip() == 'double' else 'ldouble'
         stack_args = args[1:] if conv == 'thiscall' else args
         if conv == 'thiscall':

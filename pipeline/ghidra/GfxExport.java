@@ -85,6 +85,10 @@ public class GfxExport extends GhidraScript {
     private Map<Long, Integer> varargs = new HashMap<>();
     // `0xADDR cargs N`: a caller-cleanup function reads N argument slots on every path (data/cdecl_args.json)
     private Map<Long, Integer> cargs = new HashMap<>();
+    // `0xADDR spops N`: the stack argument bytes from the code (`ret N`, or a cdecl function's read slots) of a
+    // function whose convention is not decided (its ECX or EDX use not established)
+    private Map<Long, Integer> spops = new HashMap<>();
+    private Map<Long, String> spopsKind = new HashMap<>();   // "ret" (callee-cleanup: `ret N`) or "reads" (caller-cleanup)
 
     // a variadic callee: its N fixed parameters (the committed ones, else undefined4) then `...`, so the
     // decompiler gives each call the arguments its own pushes hold
@@ -114,6 +118,7 @@ public class GfxExport extends GhidraScript {
             String[] p = l.trim().split("\\s+");
             if (p.length == 3 && p[1].equals("regin")) regin.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 3 && p[1].equals("varargs")) varargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
+            else if (p.length == 4 && p[1].equals("spops")) { long a = Long.parseLong(p[0].replace("0x", ""), 16); spops.put(a, Integer.parseInt(p[2])); spopsKind.put(a, p[3]); }
             else if (p.length == 3 && p[1].equals("cargs")) cargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
             else if (p.length == 3 && p[1].equals("keeps")) keeps.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 5 && p[1].equals("icall")) icall.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
@@ -276,6 +281,69 @@ public class GfxExport extends GhidraScript {
             at.merge(j, mk, (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
+        // a C cast `(T)expr` Ghidra prints for p-code CAST between a floating and a non-floating type of one size,
+        // whatever its operand (0x10002EC0 `(float)(&DAT_1034f4a0)[param_1 * 2]`: a table of floats typed undefined4):
+        // CAST keeps the bits. A cast's tokens carry no op, so it is matched to its CAST by its operand: the first
+        // token after the `)` whose op lies in the CAST input's defining expression (or reads that varnode), and
+        // the printed type, which must be the CAST output's. `/*XI_BC:3*/` in front of the cast's `(`.
+        List<PcodeOp> casts = new ArrayList<>();
+        Map<PcodeOp, Set<PcodeOp>> under = new HashMap<>();
+        if (root instanceof ClangFunction && ((ClangFunction) root).getHighFunction() != null) {
+            Iterator<PcodeOpAST> it = ((ClangFunction) root).getHighFunction().getPcodeOps();
+            while (it.hasNext()) {
+                PcodeOp op = it.next();
+                if (op.getOpcode() != PcodeOp.CAST || op.getOutput() == null) continue;
+                Varnode in = op.getInput(0), o = op.getOutput();
+                if (in.getHigh() == null || o.getHigh() == null || in.getSize() != o.getSize()) continue;
+                if ((in.getHigh().getDataType() instanceof AbstractFloatDataType) == (o.getHigh().getDataType() instanceof AbstractFloatDataType)) continue;
+                Set<PcodeOp> sub = new HashSet<>(); Deque<Varnode> q = new ArrayDeque<>(); q.add(in);
+                while (!q.isEmpty() && sub.size() < 64) {
+                    PcodeOp d = q.poll().getDef();
+                    if (d == null || d.getOpcode() == PcodeOp.MULTIEQUAL || !sub.add(d)) continue;
+                    for (Varnode x : d.getInputs()) q.add(x);
+                }
+                casts.add(op); under.put(op, sub);
+            }
+        }
+        for (int j = 0; j < all.size() && !casts.isEmpty(); j++) {
+            if (!all.get(j).getText().equals("(") || all.get(j) instanceof ClangOpToken) continue;
+            int k = j + 1; StringBuilder ty = new StringBuilder();
+            while (k < all.size() && (all.get(k) instanceof ClangTypeToken || all.get(k).getText().trim().isEmpty() || all.get(k).getText().trim().matches("\\*+"))) { ty.append(all.get(k).getText()); k++; }
+            if (k >= all.size() || !all.get(k).getText().equals(")") || ty.toString().trim().isEmpty()) continue;
+            String type = ty.toString().replaceAll("\\s+", " ").trim();
+            int u = k + 1;
+            while (u < all.size() && all.get(u).getPcodeOp() == null && !(all.get(u) instanceof ClangVariableToken && ((ClangVariableToken) all.get(u)).getVarnode() != null)) u++;
+            if (u >= all.size()) continue;
+            PcodeOp uop = all.get(u).getPcodeOp();
+            Varnode uv = all.get(u) instanceof ClangVariableToken ? ((ClangVariableToken) all.get(u)).getVarnode() : null;
+            PcodeOp hit = null;
+            for (PcodeOp c : casts) {
+                boolean mine = uop == c || under.get(c).contains(uop) || (uv != null && uv.getHigh() != null && uv.getHigh() == c.getInput(0).getHigh());
+                if (mine && c.getOutput().getHigh().getDataType().getDisplayName().replaceAll("\\s+", " ").equals(type)) { hit = c; break; }
+            }
+            if (hit == null) continue;
+            casts.remove(hit);
+            at.merge(j, "/*XI_BC:3*/", (x, y) -> x + y);
+            marked.putIfAbsent("", "");
+        }
+        // `p + n` printed for p-code INT_ADD (bytes) where p is a pointer to something wider than a byte: C++ would
+        // scale n by the pointee (`*(int *)(&DAT_10389518 + param_2 * 4)`, DAT typed undefined4: the code reads
+        // [eax*4 + 0x10389518], 0x1024D4B5); `/*XI_BA:1*/` in front of the `+`
+        for (int j = 0; j < all.size(); j++) {
+            ClangToken t = all.get(j);
+            if (!(t instanceof ClangOpToken) || !t.getText().equals("+")) continue;
+            PcodeOp op = t.getPcodeOp();
+            if (op == null || op.getOpcode() != PcodeOp.INT_ADD) continue;
+            Varnode a0 = op.getInput(0);
+            if (a0 == null || a0.getHigh() == null) continue;
+            DataType dt = a0.getHigh().getDataType();
+            if (dt instanceof TypeDef) dt = ((TypeDef) dt).getBaseDataType();
+            if (!(dt instanceof Pointer)) continue;
+            DataType to = ((Pointer) dt).getDataType();
+            if (to == null || to.getLength() <= 1) continue;
+            at.merge(j, "/*XI_BA:1*/", (x, y) -> x + y);
+            marked.putIfAbsent("", "");
+        }
         // a piece `x._O_S_`: its sign from the piece varnode's own type (the varnode of size S the `.` token's op
         // reads or writes), `/*XI_PS:1*/` signed or `/*XI_PS:0*/` unsigned; none when the op's varnodes disagree
         for (int j = 0; j < all.size(); j++) {
@@ -378,38 +446,41 @@ public class GfxExport extends GhidraScript {
                 // committing the decompiler's view can drop the `this` a __thiscall callee reads in ECX
                 f.setCustomVariableStorage(false);
             }
-            if (params && sbytes >= 0) {
-                int have = 0;
-                for (Parameter q : f.getParameters()) if (q.isStackVariable()) have += Math.max(4, (q.getLength() + 3) & ~3);
-                if (have != sbytes) {
-                    // slot by slot up to the code's count: the decompiler's own parameter where one starts at the slot
-                    // (its type: a signed compare on an undefined4 prints with no cast, 0x10281440), else undefined4
-                    List<Variable> keep = new ArrayList<>();
-                    Map<Integer, Parameter> at = new HashMap<>();
-                    for (Parameter q : f.getParameters()) {
-                        if (q.isAutoParameter()) continue;
-                        if (!q.isStackVariable()) keep.add(q);
-                        else at.put(q.getStackOffset(), q);
-                    }
-                    Set<String> names = new HashSet<>();
-                    for (Parameter q : at.values()) names.add(q.getName());
-                    for (int o = 4; o < 4 + sbytes; ) {
-                        Parameter q = at.get(o);
-                        int len = q == null ? 4 : Math.max(4, (q.getLength() + 3) & ~3);
-                        if (q != null && o + len <= 4 + sbytes) { keep.add(new ParameterImpl(q.getName(), q.getDataType(), currentProgram)); o += len; continue; }
-                        String n = "xi_s" + ((o - 4) / 4 + 1);
-                        while (names.contains(n)) n += "_";
-                        keep.add(new ParameterImpl(n, Undefined4DataType.dataType, currentProgram)); o += 4;
-                    }
-                    String want = keep.toString();
-                    f.replaceParameters(keep, Function.FunctionUpdateType.DYNAMIC_STORAGE_FORMAL_PARAMS, true, SourceType.USER_DEFINED);   // formal: the list holds no auto `this`
-                    int got = 0;
-                    for (Parameter q : f.getParameters()) if (q.isStackVariable()) got += Math.max(4, (q.getLength() + 3) & ~3);
-                    if (got != sbytes) println("parameters not as set at " + f.getEntryPoint() + ": wanted " + want + ", got " + Arrays.toString(f.getParameters()));
-                }
-            }
+            if (params && sbytes >= 0) setStackSlots(f, sbytes);
             return true;
         } catch (Exception e) { println("convention not set at " + f.getEntryPoint() + ": " + e); return false; }
+    }
+
+    // the stack parameters made up to the code's byte count: unchanged when they already add up to it; else slot by
+    // slot, the decompiler's own parameter where one starts at the slot (its type: a signed compare on an undefined4
+    // prints with no cast, 0x10281440), else undefined4
+    private void setStackSlots(Function f, int sbytes) throws Exception {
+        int have = 0;
+        for (Parameter q : f.getParameters()) if (q.isStackVariable()) have += Math.max(4, (q.getLength() + 3) & ~3);
+        if (have != sbytes) {
+            List<Variable> keep = new ArrayList<>();
+            Map<Integer, Parameter> at = new HashMap<>();
+            for (Parameter q : f.getParameters()) {
+                if (q.isAutoParameter()) continue;
+                if (!q.isStackVariable()) keep.add(q);
+                else at.put(q.getStackOffset(), q);
+            }
+            Set<String> names = new HashSet<>();
+            for (Parameter q : at.values()) names.add(q.getName());
+            for (int o = 4; o < 4 + sbytes; ) {
+                Parameter q = at.get(o);
+                int len = q == null ? 4 : Math.max(4, (q.getLength() + 3) & ~3);
+                if (q != null && o + len <= 4 + sbytes) { keep.add(new ParameterImpl(q.getName(), q.getDataType(), currentProgram)); o += len; continue; }
+                String n = "xi_s" + ((o - 4) / 4 + 1);
+                while (names.contains(n)) n += "_";
+                keep.add(new ParameterImpl(n, Undefined4DataType.dataType, currentProgram)); o += 4;
+            }
+            String want = keep.toString();
+            f.replaceParameters(keep, Function.FunctionUpdateType.DYNAMIC_STORAGE_FORMAL_PARAMS, true, SourceType.USER_DEFINED);   // formal: the list holds no auto `this`
+            int got = 0;
+            for (Parameter q : f.getParameters()) if (q.isStackVariable()) got += Math.max(4, (q.getLength() + 3) & ~3);
+            if (got != sbytes) println("parameters not as set at " + f.getEntryPoint() + ": wanted " + want + ", got " + Arrays.toString(f.getParameters()));
+        }
     }
 
     // the Windows SDK's declared prototypes, as Ghidra ships them compiled from the SDK headers, applied by
@@ -676,6 +747,24 @@ public class GfxExport extends GhidraScript {
         }
         println("signatures committed: " + committed + " of " + fixSig.size());
         for (Function f : fixSig) applyConv(f, true);     // the commit may have replaced them
+        // no convention decided, but the stack argument bytes known from the code: those, with the decompiler's
+        // convention (pops > 0 on __cdecl made __stdcall, 0 on __stdcall made __cdecl); a register it reads that
+        // the convention does not pass stays `in_ECX`/`in_EDX`, which hx2cpp refuses
+        int sp = 0;
+        for (Function f : fixSig) {
+            Integer n = spops.get(f.getEntryPoint().getOffset());
+            if (n == null || conv.containsKey(f.getEntryPoint().getOffset())) continue;
+            try {
+                if (f.hasCustomVariableStorage()) f.setCustomVariableStorage(false);
+                String cc = f.getCallingConventionName();
+                boolean callee = spopsKind.get(f.getEntryPoint().getOffset()).equals("ret");
+                if (callee && n > 0 && !"__thiscall".equals(cc) && !"__fastcall".equals(cc)) f.setCallingConvention("__stdcall");
+                if (!callee && "__stdcall".equals(cc)) f.setCallingConvention("__cdecl");
+                setStackSlots(f, n);
+                sp++;
+            } catch (Exception e) { println("stack parameters not set at " + f.getEntryPoint() + ": " + e); }
+        }
+        println("stack parameters from the code where no convention is decided: " + sp);
         // A stack argument is a 4-byte slot the caller fills with a 4-byte push; a narrower inferred parameter
         // (the decompiler typed it from the callee reading only its low bytes) would make the C++ caller pass a
         // zero- or sign-extended value where the game pushes the whole register. Parameter types here are all

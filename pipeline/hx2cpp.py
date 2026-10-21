@@ -573,8 +573,10 @@ def ghidra_prepare(rec):
     head, brace, rest = rec['text'].partition('\n{')
     rest, why = ghidra_consts(rest)
     if rest is None: return None, 'untranslatable', why
+    rest = ghidra_pieces(rest)                    # (before the casts: their operands are then plain C++)
     rest, why = ghidra_bitcasts(rest)
     if rest is None: return None, 'untranslatable', why
+    rest = ghidra_byte_adds(rest)
     rec = dict(rec, text=head + brace + ghidra_pieces(rest))
     if rec.get('type'):
         # Ghidra's text omits the calling convention in its signature; the record's type has it
@@ -680,10 +682,63 @@ def ghidra_bool(text):
     parts = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', text)
     return ''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts))
 
+_GTYPE = re.compile(r'\(\s*((?:unsigned |signed |const |struct )*[A-Za-z_]\w*(?:\s*\*)*)\s*\)')
+
+
+def _cast_operand_end(text, i):
+    """the end of the operand of a C cast whose `)` ends just before i: a cast-expression (prefix operators and
+    casts, a primary -- a name, a number, a string, a parenthesised group -- then postfix [..] (..) . -> ++ --)"""
+    n = len(text)
+    def blank(i):                                     # spaces and comments (markers)
+        while True:
+            while i < n and text[i].isspace(): i += 1
+            if text.startswith('/*', i) and text.find('*/', i) > 0: i = text.find('*/', i) + 2; continue
+            return i
+    while True:
+        i = blank(i)
+        if text.startswith(('++', '--'), i): i += 2; continue
+        if i < n and text[i] in '-!~*&+': i += 1; continue
+        m = _GTYPE.match(text, i)
+        if m and re.match(r'\s*[\w(&*\-!~]', text[m.end():]): i = m.end(); continue     # another cast
+        break
+    if i >= n: return None
+    if text[i] == '(':
+        i = _balanced(text, i)
+        if i is None: return None
+    elif text[i] == '"':
+        m = re.match(r'"(?:\\.|[^"\\])*"', text[i:]); i += m.end() if m else 1
+    else:
+        m = re.match(r'[A-Za-z_]\w*|0x[0-9A-Fa-f]+|\d+(?:\.\d*)?(?:[eE][-+]?\d+)?', text[i:])
+        if not m: return None
+        i += m.end()
+    while i < n:
+        j = blank(i)
+        if j < n and text[j] in '[(':
+            k = _balanced(text, j)
+            if k is None: return None
+            i = k; continue
+        m = re.match(r'(?:\.|->)\s*[A-Za-z_]\w*|\+\+|--', text[j:])
+        if m and not text.startswith(('++ ', '-- '), j) or (m and text[j:j + 2] not in ('++', '--')):
+            i = j + m.end(); continue
+        break
+    return i
+
+
 def ghidra_bitcasts(text):
     # GfxExport `/*XI_BC:1*/v`: v is read through p-code CAST between a floating and a non-floating type, which keeps
     # the bits; the C cast Ghidra prints in front, `(T)v`, would convert the value. Without a printed cast the
     # type the bits become is not in the text: (None, why).
+    # `/*XI_BC:3*/(T)operand`: a cast Ghidra prints for p-code CAST, whatever the operand (GfxExport); the
+    # variable markers inside it are part of the same CAST
+    while True:
+        m = re.search(r'/\*XI_BC:3\*/\s*' + _GTYPE.pattern, text)
+        if not m: break
+        e = _cast_operand_end(text, m.end())
+        if e is None: return None, 'a cast Ghidra prints for p-code CAST (bits kept): its operand not parsed'
+        operand = text[m.end():e].strip().replace('/*XI_BC:1*/', '')
+        text = text[:m.start()] + 'xi_castbits<%s>(%s)' % (m.group(1).strip(), operand) + text[e:]
+    if '/*XI_BC:3*/' in text:
+        return None, 'a cast Ghidra prints for p-code CAST (bits kept): no cast type after its marker'
     out = re.sub(r'\(\s*([A-Za-z_][\w ]*?\s*\**)\s*\)\s*/\*XI_BC:1\*/\s*([A-Za-z_]\w*)',
                  lambda m: 'xi_castbits<%s>(%s)' % (m.group(1).strip(), m.group(2)), text)
     # `/*XI_BC:2*/v = (T)rest;`: v is what the cast defines, the whole right side
@@ -701,6 +756,13 @@ def ghidra_bitcasts(text):
         return None, 'a value read through p-code CAST (bits kept) with no printed type: ' + \
             re.search(r'/\*XI_BC:1\*/\s*(\w+)', out).group(1)
     return out, None
+
+def ghidra_byte_adds(text):
+    # GfxExport `/*XI_BA:1*/+`: p-code INT_ADD on a pointer to something wider than a byte (a byte offset, where C++
+    # scales by the pointee): an `&name` operand before it becomes a byte pointer; the cast Ghidra prints around the
+    # sum gives the type back. Any other left operand is left as printed (the marker dropped).
+    text = re.sub(r'(&\s*[A-Za-z_]\w*)\s*/\*XI_BA:1\*/\s*\+', r'((char *)\1) +', text)
+    return text.replace('/*XI_BA:1*/', '')
 
 def ghidra_pieces(text):
     # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
@@ -732,15 +794,18 @@ def ghidra_pieces(text):
         text = text[:i] + '%s(%s, %s, %s)' % (sg, text[i:m.start()], m.group(2), m.group(3)) + text[m.end():]
 
 def ghidra_frame(rest, locs):
-    # the stack locals of a function with a stack array, laid out as the code lays them out: one buffer, each
-    # local a reference at its stack offset (GfxExport `stack_locals`, from each symbol's storage). Ghidra splits
+    # the stack locals of a function with a stack array or an address-taken stack local, laid out as the code
+    # lays them out: one buffer, each local a reference at its stack offset (GfxExport `stack_locals`, from each symbol's storage). Ghidra splits
     # one buffer into pieces (Mat4_PostMultiply's 64 bytes are local_40[4] and local_30[12]) and the code indexes
     # across them; as separate C++ objects the compiler may place them anywhere.
     decl = {}
     for n, off, sz in locs:
         m = re.search(r'^([ \t]*)([A-Za-z_][\w ]*?)\s*(\**)\s*%s((?:\s*\[\d+\])*);[ \t]*$' % re.escape(n), rest, re.M)
         if m: decl[n] = (m, off, sz)
-    if not any(m.group(4) for m, off, sz in decl.values()): return rest
+    # a stack array, or a stack local whose address the code takes (a callee may read past it: 0x1000A3B0 passes
+    # &local_90 with a size of 0x1C to 0x1000CD00, and Ghidra split those 28 bytes into separate locals)
+    taken = any(re.search(r'&\s*%s\b' % re.escape(n), rest) for n in decl)
+    if not taken and not any(m.group(4) for m, off, sz in decl.values()): return rest
     # up to the entry ESP (offset 0): the frame is everything from the lowest local to the return address, and the
     # code may reach bytes no declared local covers (0x101D7AC0 zeroes 0x15 dwords from local_54, 24 bytes declared)
     lo = min(off for m, off, sz in decl.values()); hi = max([0] + [off + sz for m, off, sz in decl.values()])

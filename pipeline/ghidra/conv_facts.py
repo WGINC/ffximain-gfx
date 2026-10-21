@@ -116,6 +116,15 @@ def main(out):
             r, why = decide(k, eu, du, pu, er, fp)
             if not r or r[0] != '__cdecl': continue
             f.write('%s cargs %d\n' % (k, ca[k])); n['cargs'] = n.get('cargs', 0) + 1
+        # no convention decided (ECX or EDX use not established), the stack bytes known: `ret N`, or for one that
+        # pops 0 the slots it reads (exact)
+        for k in sorted(set(pu), key=lambda s: int(s, 16)):
+            r, why = decide(k, eu, du, pu, er, fp)
+            if r or not why.startswith(('ECX use not established', 'EDX use not established')): continue
+            if pu[k]: f.write('%s spops %d ret\n' % (k, pu[k]))
+            elif k in ca: f.write('%s spops %d reads\n' % (k, 4 * ca[k]))
+            else: continue
+            n['spops'] = n.get('spops', 0) + 1
         for k, nfix in sorted(va.items(), key=lambda kv: int(kv[0], 16)):
             if pu.get(k) != 0: continue
             f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1

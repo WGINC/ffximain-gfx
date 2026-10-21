@@ -148,5 +148,11 @@
   "type": "int __thiscall(void *self)",
   "why": "DynVB_Unlock: the IDB types it __cdecl(), but it reads its entry ECX (0x100441A8 `mov ecx,[eax+ecx+4]`, after a call that leaves ECX untouched). Every caller loads ECX from a g_pDynVB_* global just before the call.",
   "evidence": "disasm 0x100441A0..; data/ecx_use.json 0x100441A0; callers `mov ecx,[0x1047BBA8]; call 0x100441A0`."
+ },
+ "0x10011A00": {
+  "type": "unsigned __int8 __thiscall(void *self)",
+  "code_return": true,
+  "why": "Frame_Render returns a byte. The IDB types the return int, so the gate compared all of EAX: on the path that calls GammaRamp_ApplyIfChanged (0x10012ED8) before `mov al, [esi+0xA]` (0x10012EDD), EAX's upper bytes are that call's return, which Hex-Rays' text does not keep (it keeps g_pCDx), and no caller reads them.",
+  "evidence": "Its only caller is the direct call at 0x10001B74 in App_RenderFrameMaskedFPU (every function in data/func_extents.json decoded; no dword in the image holds 0x10011A00). There `test al, al` at 0x10001B7F reads AL, and both paths then call _controlfp (0x10311C7A, at 0x10001B83 and 0x10001B8F) before anything reads EAX again: 0x10001B8B `xor al, al` and 0x10001BA6 `mov al, 1` write it. Found when the measured timer facts (xikit facts=1, Maeto run; data/game_sp.json 0x10012B28, 0x10012BCB, 0x10012BF5) let the gate's trials reach that path."
  }
 }

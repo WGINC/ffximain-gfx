@@ -19,7 +19,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_);  // 0x10003B60
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8);  // 0x10003D70
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_);  // 0x10007EF0
 XI_API char __thiscall App_InitScene(int self_, int a4);  // 0x10010D20
-XI_API int __thiscall Frame_Render(void *self_);  // 0x10011A00
+XI_API unsigned __int8 __thiscall Frame_Render(void * self_);  // 0x10011A00
 XI_API int __cdecl Post_Afterimage(void);  // 0x10012F40
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_);  // 0x100132B0
 XI_API char __thiscall App_StepGameState5Connect(int self_, int a2);  // 0x10013AD0

@@ -122,6 +122,23 @@ def _live_state():
     return _LIVE[0]
 
 
+_CS = None
+_NO_ST0 = {'fld', 'fild', 'fbld', 'fldz', 'fld1', 'fldpi', 'fldl2e', 'fldl2t', 'fldlg2', 'fldln2', 'fldcw', 'fnstcw', 'fstcw',
+           'fninit', 'finit', 'fnclex', 'fclex', 'fwait', 'wait', 'ffree', 'fincstp', 'fdecstp', 'fnstsw', 'fstsw', 'fnop',
+           'fnstenv', 'fstenv', 'fldenv', 'fnsave', 'fsave', 'frstor'}
+
+
+def _reads_st0(uc, a):
+    """the x87 instruction at a reads ST(0) (any x87 instruction but those that only load, or touch control state)"""
+    global _CS
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    if _CS is None: _CS = Cs(CS_ARCH_X86, CS_MODE_32)
+    try: code = bytes(uc.mem_read(a, 16))
+    except Exception: return False
+    i = next(_CS.disasm(code, a, 1), None)
+    return i is not None and i.mnemonic.startswith('f') and i.mnemonic not in _NO_ST0
+
+
 class GfxMachine(G.Machine):
     def __init__(self, game_dll, recon_dll, stubs=None, overlays=()):
         super().__init__(game_dll, recon_dll, stubs, overlays)
@@ -560,6 +577,13 @@ class GfxMachine(G.Machine):
             pops, this_, nlog = slot & 31, (slot >> 5) & 1, (slot >> 6) - 1
             n = max(pops, nlog, 0)
             vals = struct.unpack('<%dI' % (1 + n), uc.mem_read(esp, 4 * (1 + n)))
+            # its x87 result read where it returns (`fst`, `fcomp`, ... on ST0: 0x10012CC8 after Frame_Render's call
+            # through [[this+0x20]+0x28]): the trap has no float to give, and each side would read what its own x87
+            # stack held. The target is unknown, so the run stops as unresolved, naming the site.
+            if _reads_st0(uc, vals[0]):
+                self.stop_reason = 'unresolved'
+                self.stop_detail = 'virtual call on a fuzzed object returning to 0x%08X: target unknown, its x87 result read' % vals[0]
+                uc.emu_stop(); return
             ecx = _stackref(uc.reg_read(UC_X86_REG_ECX)) if this_ else 0       # a stack-`this` call leaves ECX undefined
             self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)]))); self._keyed(self.calls[-1])
             for a in vals[1:1 + (nlog if nlog >= 0 else pops)]:

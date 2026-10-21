@@ -33,7 +33,7 @@ XI_API void __thiscall fn_100AB750(void * self_, undefined4 param_1, undefined4 
     orig::FUN_100ab9a0(self_,(void *)((int)self_ + 0xa0c),param_1,param_2,param_3);
     return;
   }
-  pvVar1 = (void *)(&ActerBuffPtr)[param_4];
+  pvVar1 = (void *)(&ActerBuffPtr_as_v0)[param_4];
   *(void **)((int)self_ + 0x70) = pvVar1;
   *(uint *)((int)pvVar1 + 0x74) = param_4;
   *(uint *)((int)pvVar1 + 0x78) = uVar2 ^ (uVar2 ^ param_4) & 0xffffff;

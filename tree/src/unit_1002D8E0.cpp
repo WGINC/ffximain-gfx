@@ -16,10 +16,10 @@ XI_API void __thiscall fn_1002D8F0(void * self_)
   *(int *)((int)self_ + 0x4e) = (int)self_ + *(int *)((int)self_ + 0x4e) * 2 + 0x30;
   *(int *)((int)self_ + 0x54) = (int)self_ + *(int *)((int)self_ + 0x54) * 2 + 0x30;
   if ((*(byte *)((int)self_ + 0x34) & 2) == 0) {
-    uVar2 = orig::Mem_AllocFromArea(0x9e,4);
+    uVar2 = orig::Mem_AllocFromArea_v1(0x9e,4);
     pvVar1 = (void *)uVar2;
-    orig::CMoTask_ResetFields(pvVar1);
-    g_resourcesDirty = 1;
+    orig::CMoTask_ResetFields_v1(pvVar1);
+    g_resourcesDirty_as_v0 = 1;
     if (pvVar1 != (void *)0x0) {
       pvVar1 = orig::CYyOs2VtxBuffer_Constructor(pvVar1,*(undefined4 *)((int)self_ + 0x14));
       if (pvVar1 != (void *)0x0) {

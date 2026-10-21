@@ -8,7 +8,7 @@ XI_API undefined4 __cdecl Mem_AllocDefault(int param_1)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::Mem_AllocFromArea(param_1,4);
+  uVar1 = orig::Mem_AllocFromArea_v1(param_1,4);
   return (int)uVar1;
 }
 

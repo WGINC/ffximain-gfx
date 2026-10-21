@@ -18,7 +18,7 @@ XI_API void __cdecl fn_100A5E10(int * param_1)
   if ((*g_pSceneState_as_v0 != 0x40) && (param_1 != (int *)0x0)) {
     if (XiControlActor_isFirstPersonView != '\0') {
       piVar5 = param_1;
-      pvVar1 = (void *)orig::Camera_GetField50();
+      pvVar1 = (void *)orig::Camera_GetField50_v1();
       orig::FUN_10021110(pvVar1,piVar5);
       orig::FUN_100a5ef0(param_1);
       return;
@@ -28,15 +28,15 @@ XI_API void __cdecl fn_100A5E10(int * param_1)
       uVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x330))))((void *)(param_1));
       if ((char)uVar2 != '\0') {
         orig::FUN_1025e090(afStack_18);
-        iVar3 = orig::Camera_GetField50();
+        iVar3 = orig::Camera_GetField50_v1();
         orig::Vec3_Add_10026FA0_v1(afStack_c,afStack_18,(float *)(iVar3 + 0x50));
         pfVar4 = afStack_c;
-        pvVar1 = (void *)orig::Camera_GetField50();
-        orig::FUN_1001e760_v1(pvVar1,pfVar4);
+        pvVar1 = (void *)orig::Camera_GetField50_v1();
+        orig::FUN_1001e760(pvVar1,pfVar4);
       }
     }
     piVar5 = param_1;
-    pvVar1 = (void *)orig::Camera_GetField50();
+    pvVar1 = (void *)orig::Camera_GetField50_v1();
     orig::FUN_1001ee60(pvVar1,piVar5);
     orig::FUN_100a5ef0(param_1);
   }
@@ -66,7 +66,7 @@ XI_API void __thiscall fn_100A5EF0(void * self_)
   int iVar2;
   undefined8 uVar3;
   
-  if (((*(char *)(g_pCamera + 8) == '\0') || (iVar2 = *(int *)((int)self_ + 0x70), iVar2 == 0)) ||
+  if (((*(char *)(g_pCamera_as_s32 + 8) == '\0') || (iVar2 = *(int *)((int)self_ + 0x70), iVar2 == 0)) ||
      (((*(uint *)(iVar2 + 0x120) >> 7 & 1) == 0 && ((*(uint *)(iVar2 + 300) >> 0xd & 1) == 0)))) {
     uVar3 = orig::FUN_10123a70(0x3f,0x1c,1,-1);
     if ((char)uVar3 != '\0') {
@@ -126,7 +126,7 @@ XI_API void __thiscall fn_100A5EF0(void * self_)
     if ((char)uVar3 != '\0') {
       orig::FUN_100a8cc0(CONCAT31((int3)((ulonglong)uVar3 >> 0x28),XiControlActor_isFirstPersonView == '\0'));
       if (XiControlActor_isFirstPersonView == '\0') {
-        iVar2 = orig::Settings_GetValue(0x49);
+        iVar2 = orig::Settings_GetValue_v1(0x49);
         orig::FUN_10015290((float)(float10)iVar2);
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x344))))((void *)(self_),0);
       }

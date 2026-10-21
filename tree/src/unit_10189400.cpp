@@ -80,7 +80,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
     orig::fn_10027990_v1(local_40);
     orig::FUN_10032fe0(local_50,local_40);
-    orig::Mat4_TransformPointInPlace(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_70 * (float10)xi_k4(0x42FE0000ull));
     *(char *)((int)self_ + 0x30) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_6c * (float10)xi_k4(0x42FE0000ull));
@@ -97,7 +97,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     orig::FUN_100274b0(&local_60);
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
     orig::FUN_10032fe0(local_50,local_40);
-    orig::Mat4_TransformPointInPlace(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_70 * (float10)xi_k4(0x42FE0000ull));
     *(char *)((int)self_ + 0x10) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_6c * (float10)xi_k4(0x42FE0000ull));
@@ -192,7 +192,7 @@ LAB_10189c18:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Zone_GetClock(int * param_1)
 {
-  if ((*(char *)(g_pCamera + 9) != '\0') && (-1 < *(int *)(g_pXiZone_as_s32 + 0x1c8))) {
+  if ((*(char *)(g_pCamera_as_s32 + 9) != '\0') && (-1 < *(int *)(g_pXiZone_as_s32 + 0x1c8))) {
     *param_1 = *(int *)(g_pXiZone_as_s32 + 0x1c8);
     return;
   }
@@ -235,8 +235,8 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
       iVar5 = *(int *)*piVar1;
     }
     orig::FUN_100742a0(local_1c);
-    orig::ResourceIter_FindFirst(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
-    pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
+    pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
     if (pvVar2 != (void *)0x0) {
       do {
         piVar1 = *(int **)((int)pvVar2 + 0x28);
@@ -271,7 +271,7 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
           }
         }
 LAB_10189de4:
-        pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+        pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
       } while (pvVar2 != (void *)0x0);
       if (local_38 != (void *)0x0) goto LAB_10189e17;
     }
@@ -311,8 +311,8 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
   this_00 = (void *)0x0;
   pvVar4 = (void *)0x0;
   orig::FUN_100742a0(local_1c);
-  orig::ResourceIter_FindFirst(local_1c,iVar1,0x2f,0,0xffffffff);
-  pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+  orig::ResourceIter_FindFirst_v1(local_1c,iVar1,0x2f,0,0xffffffff);
+  pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
   if (pvVar2 != (void *)0x0) {
     do {
       this_00 = pvVar2;
@@ -328,7 +328,7 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
           pvVar4 = this_00;
         }
       }
-      pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+      pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
     } while (pvVar2 != (void *)0x0);
     if (pvVar4 != (void *)0x0) {
       return pvVar4;
@@ -376,8 +376,8 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
       iVar5 = *(int *)*piVar1;
     }
     orig::FUN_100742a0(local_1c);
-    orig::ResourceIter_FindFirst(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
-    pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
+    pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
     if (pvVar2 != (void *)0x0) {
       do {
         piVar1 = *(int **)((int)pvVar2 + 0x28);
@@ -422,7 +422,7 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
           }
         }
 LAB_1018a0a6:
-        pvVar2 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+        pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
       } while (pvVar2 != (void *)0x0);
       if (local_40 != (void *)0x0) goto LAB_1018a0d9;
     }
@@ -466,8 +466,8 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
   pvVar3 = (void *)0x0;
   pvVar4 = (void *)0x0;
   orig::FUN_100742a0(local_1c);
-  orig::ResourceIter_FindFirst(local_1c,iVar1,0x2f,0,0xffffffff);
-  this_00 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+  orig::ResourceIter_FindFirst_v1(local_1c,iVar1,0x2f,0,0xffffffff);
+  this_00 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
   if (this_00 != (void *)0x0) {
     do {
       iVar1 = local_40;
@@ -490,7 +490,7 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
           pvVar3 = this_00;
         }
       }
-      this_00 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+      this_00 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
     } while (this_00 != (void *)0x0);
     if (pvVar3 != (void *)0x0) {
       return pvVar3;
@@ -634,8 +634,8 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
       (piVar1 = *(int **)((int)self_ + 0x2c), piVar1 != (int *)0x0)) &&
      ((*piVar1 != 0 && (piVar3 != piVar1)))) {
     orig::FUN_10189c60(&local_1c);
-    orig::unknown_libname_158(&local_18);
-    orig::unknown_libname_158(&local_20);
+    orig::unknown_libname_158_v1(&local_18);
+    orig::unknown_libname_158_v1(&local_20);
     piVar3 = (int *)orig::FUN_10072180((void *)**(undefined4 **)((int)self_ + 0x2c),&local_8);
     orig::FUN_1018bc40(&local_18,*piVar3);
     piVar3 = (int *)orig::FUN_10072180((void *)**(undefined4 **)((int)self_ + 0x30),&local_8);
@@ -658,8 +658,8 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
   if (*(int *)((int)self_ + 0x24) != 0) {
     if (*(int *)((int)self_ + 0x28) == *(int *)((int)self_ + 0x24)) goto LAB_1018a595;
     orig::FUN_10189c60(&local_1c);
-    orig::unknown_libname_158(&local_18);
-    orig::unknown_libname_158(&local_20);
+    orig::unknown_libname_158_v1(&local_18);
+    orig::unknown_libname_158_v1(&local_20);
     piVar3 = (int *)orig::FUN_10072180(*(void **)((int)self_ + 0x24),&local_8);
     orig::FUN_1018bc40(&local_18,*piVar3);
     piVar3 = (int *)orig::FUN_10072180(*(void **)((int)self_ + 0x28),&local_8);
@@ -688,8 +688,8 @@ LAB_1018a595:
       local_c = (uint *)((int)this_00 + 0x30);
       uVar4 = orig::FUN_1018aeb0(local_c,local_8);
       *(undefined4 *)((int)self_ + 0x20) = uVar4;
-      orig::unknown_libname_158(&local_1c);
-      orig::unknown_libname_158(&local_20);
+      orig::unknown_libname_158_v1(&local_1c);
+      orig::unknown_libname_158_v1(&local_20);
       piVar3 = (int *)orig::FUN_10072180(this_00,&local_10);
       iVar2 = *piVar3;
       piVar3 = (int *)orig::FUN_10072180(this_01,&local_18);

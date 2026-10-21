@@ -18,7 +18,7 @@ XI_API char __thiscall fn_100538E0(int self_, int *a2)
   v10 = 0;
   if ( (*(_BYTE *)(self_ + 26) & 2) == 0 )
   {
-    orig::CMoResource_AddRefChain_v1(self_);
+    orig::CMoResource_AddRefChain(self_);
     for ( i = *(_DWORD *)(self_ + 172); i != 0; i = *(_DWORD *)(self_ + 172) )
       (*(void (__thiscall **)(int, int))(*(_DWORD *)i + 24))(i, 1);
     if ( (*(_BYTE *)(self_ + 26) & 4) != 0 )
@@ -28,7 +28,7 @@ XI_API char __thiscall fn_100538E0(int self_, int *a2)
       {
         *(_DWORD *)(v6 + 356) = 0;
         *(_DWORD *)(self_ + 248) = 0;
-        orig::CMoResource_ReleaseChain_v1(self_, v4);
+        orig::CMoResource_ReleaseChain(self_, v4);
       }
     }
     if ( a2 != nullptr )
@@ -52,7 +52,7 @@ XI_API char __thiscall fn_100538E0(int self_, int *a2)
       if ( v9 != 0 )
         (*(void (__thiscall **)(int, int))(*(_DWORD *)v9 + 24))(v9, 1);
     }
-    orig::CMoResource_ReleaseChain_v1(self_, v4);
+    orig::CMoResource_ReleaseChain(self_, v4);
     return v10;
   }
   return result;
@@ -92,7 +92,7 @@ XI_API undefined4 __thiscall fn_10053A00(void * self_, int param_1, int param_2,
   undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 5);
   
   local_21 = 0;
-  uVar10 = orig::CYyObject_IsKindOf(self_,0x1032b108);
+  uVar10 = orig::CYyObject_IsKindOf_v1(self_,0x1032b108);
   local_20 = self_;
   if ((char)uVar10 != '\0') {
     if (*(uint **)((int)self_ + 0x28) == (uint *)0x0) {
@@ -110,7 +110,7 @@ LAB_10053b91:
       do {
         do {
           do {
-            pvVar4 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+            pvVar4 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
             pvVar5 = (void *)0x0;
             if (pvVar4 == (void *)0x0) goto LAB_10053c65;
           } while ((*(byte *)((int)pvVar4 + 0x1a) >> 2 & 1) == 0);
@@ -122,14 +122,14 @@ LAB_10053b91:
           }
         } while (pvVar5 != local_20);
         if ((char)param_3 == '\0') {
-          orig::CMoResource_AddRefChain(pvVar4);
-          orig::YmGenerater_Stop(pvVar4,param_4);
-          orig::CMoResource_ReleaseChain(pvVar4);
+          orig::CMoResource_AddRefChain_v1(pvVar4);
+          orig::YmGenerater_Stop_v1(pvVar4,param_4);
+          orig::CMoResource_ReleaseChain_v1(pvVar4);
           local_21 = 1;
-          orig::MoRes_FreeIfUnreferenced(*(int **)((int)pvVar4 + 0x14));
+          orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)pvVar4 + 0x14));
           goto LAB_10053b91;
         }
-        orig::FUN_10053890_v1(pvVar4,0);
+        orig::FUN_10053890(pvVar4,0);
         bVar7 = NAN((float10)*(float *)((int)pvVar4 + 0xd0)) || NAN((float10)xi_k4(0x0ull));
       } while (((bVar7 != (bVar7 || (float10)*(float *)((int)pvVar4 + 0xd0) == (float10)xi_k4(0x0ull))) ||
                ((NAN((float10)*(float *)((int)pvVar4 + 0xd0)) ||
@@ -137,7 +137,7 @@ LAB_10053b91:
                 (float10)*(float *)((int)pvVar4 + 0xd0) <= (float10)*(float *)((int)pvVar4 + 200)))
               || (*(undefined4 *)((int)pvVar4 + 200) = *(undefined4 *)((int)pvVar4 + 0xd0),
                  (*(ushort *)((int)pvVar4 + 0x18) & 0x7fff) != 0));
-      orig::MoRes_FreeIfUnreferenced(*(int **)((int)pvVar4 + 0x14));
+      orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)pvVar4 + 0x14));
     } while( true );
   }
   do {
@@ -154,17 +154,17 @@ LAB_10053b50:
       this_00 = (int *)this_00[0xb];
       goto LAB_10053a50;
     }
-    uVar10 = orig::CYyObject_IsKindOf(pvVar4,0x1032b108);
+    uVar10 = orig::CYyObject_IsKindOf_v1(pvVar4,0x1032b108);
     pvVar5 = (void *)uVar10;
     if ((char)uVar10 == '\0') goto LAB_10053b50;
     if (pvVar4 == self_) {
       if ((char)param_3 == '\0') {
         local_21 = 1;
-        pvVar5 = (void *)orig::YmGenerater_Stop(self_,param_4);
+        pvVar5 = (void *)orig::YmGenerater_Stop_v1(self_,param_4);
         this_00 = (int *)this_00[0xb];
       }
       else {
-        orig::FUN_10053890_v1(self_,0);
+        orig::FUN_10053890(self_,0);
         fVar9 = (float10)*(float *)((int)self_ + 0xd0);
         fVar3 = (float10)*(float *)((int)self_ + 200);
         uVar1 = (ushort)((NAN(fVar9) || NAN(fVar3)) || fVar9 < fVar3);
@@ -191,7 +191,7 @@ LAB_10053b50:
       if (pvVar5 != (void *)param_2) goto LAB_10053b50;
     }
     if ((char)param_3 != '\0') {
-      uVar6 = orig::FUN_10053890_v1(pvVar4,0);
+      uVar6 = orig::FUN_10053890(pvVar4,0);
       fVar9 = (float10)*(float *)((int)pvVar4 + 0xd0);
       fVar3 = (float10)xi_k4(0x0ull);
       bVar7 = NAN(fVar9) || NAN(fVar3);
@@ -210,12 +210,12 @@ LAB_10053b50:
          (*(ushort *)((int)pvVar4 + 0x18) & 0x7fff) == 0)) goto LAB_10053b75;
       goto LAB_10053b50;
     }
-    orig::CMoResource_AddRefChain(pvVar4);
-    orig::YmGenerater_Stop(pvVar4,param_4);
-    orig::CMoResource_ReleaseChain(pvVar4);
+    orig::CMoResource_AddRefChain_v1(pvVar4);
+    orig::YmGenerater_Stop_v1(pvVar4,param_4);
+    orig::CMoResource_ReleaseChain_v1(pvVar4);
     local_21 = 1;
 LAB_10053b75:
-    pvVar5 = (void *)orig::MoRes_FreeIfUnreferenced(*(int **)((int)pvVar4 + 0x14));
+    pvVar5 = (void *)orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)pvVar4 + 0x14));
   } while( true );
 }
 

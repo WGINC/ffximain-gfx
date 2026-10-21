@@ -79,7 +79,7 @@ XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigne
   int *v10;
   int v11;
   int v12;
-  v7 = orig::sub_10043DE0_v1();
+  v7 = orig::sub_10043DE0();
   v8 = self_ + 8 * v7;
   result = v8[1];
   if ( result != 0 )
@@ -235,7 +235,7 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   else
     v1 = 0;
   orig::TexRef_ResolveByName((char *)&g_cubemapSpecName, v1);
-  v2 = orig::Mem_AllocDefault_v1(16);
+  v2 = orig::Mem_AllocDefault(16);
   if ( v2 != nullptr )
     g_pMoAccumTarget = (int)orig::CAcc_Constructor(v2);
   else
@@ -244,27 +244,27 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   *(_DWORD *)(g_pMoAccumTarget + 4) = orig::CMoDX_CreateTexture((_DWORD ***)g_pResourceMng, 0x100u, 0x100u, &v9);
   *(_DWORD *)(g_pMoAccumTarget + 8) = v9;
   *(_DWORD *)(g_pMoAccumTarget + 12) = orig::CDx_CreateDepthSurfaceLikeMain(g_pCDx, 0x100u, 0x100u);
-  v3 = (char *)orig::Allocator_Generic_v1(0x48u);
+  v3 = (char *)orig::Allocator_Generic(0x48u);
   if ( v3 != nullptr )
     g_pDynVB_FVF42 = (int)orig::DynVB_Constructor(v3);
   else
     g_pDynVB_FVF42 = 0;
-  v4 = (char *)orig::Allocator_Generic_v1(0x48u);
+  v4 = (char *)orig::Allocator_Generic(0x48u);
   if ( v4 != nullptr )
     g_pDynVB_FVF44 = (int)orig::DynVB_Constructor(v4);
   else
     g_pDynVB_FVF44 = 0;
-  v5 = (char *)orig::Allocator_Generic_v1(0x48u);
+  v5 = (char *)orig::Allocator_Generic(0x48u);
   if ( v5 != nullptr )
     g_pDynVB_FVF144 = (int)orig::DynVB_Constructor(v5);
   else
     g_pDynVB_FVF144 = 0;
-  v6 = (char *)orig::Allocator_Generic_v1(0x48u);
+  v6 = (char *)orig::Allocator_Generic(0x48u);
   if ( v6 != nullptr )
     g_pDynVB_FVF142 = (int)orig::DynVB_Constructor(v6);
   else
     g_pDynVB_FVF142 = 0;
-  v7 = (char *)orig::Allocator_Generic_v1(0x48u);
+  v7 = (char *)orig::Allocator_Generic(0x48u);
   if ( v7 != nullptr )
     g_pDynVB_FVF152 = (int)orig::DynVB_Constructor(v7);
   else
@@ -274,7 +274,7 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   orig::DynVB_Create((_DWORD *)g_pDynVB_FVF144, 4096, 0x144u, 1);
   orig::DynVB_Create((_DWORD *)g_pDynVB_FVF142, 4096, 0x142u, 1);
   orig::DynVB_Create((_DWORD *)g_pDynVB_FVF152, 0x2000, 0x152u, 1);
-  result = orig::Mem_AllocDefault_v1(208);
+  result = orig::Mem_AllocDefault(208);
   if ( result != nullptr )
   {
     *result = &CYyObject_vtbl_ambiguous2;
@@ -324,40 +324,40 @@ XI_API void __cdecl fn_100446A0(int param_1)
   
   if (param_1 != 0) {
     orig::FUN_100742a0(local_38);
-    orig::ResourceIter_FindFirst(local_38,param_1,5,0,0xffffffff);
-    pvVar1 = (void *)orig::ResourceIter_FindNext(local_38,0);
+    orig::ResourceIter_FindFirst_v1(local_38,param_1,5,0,0xffffffff);
+    pvVar1 = (void *)orig::ResourceIter_FindNext_v1(local_38,0);
     if (pvVar1 != (void *)0x0) {
 LAB_100446e6:
       do {
         orig::FUN_10074310(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
         do {
           do {
-            self_ = (void *)orig::ResourceIter_FindNext(local_1c,0);
+            self_ = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
             if (self_ == (void *)0x0) {
-              orig::YmGenerater_Stop(pvVar1,(undefined4 *)0x0);
-              orig::FUN_10053890_v1(pvVar1,1);
-              pvVar1 = (void *)orig::ResourceIter_FindNext(local_38,0);
+              orig::YmGenerater_Stop_v1(pvVar1,(undefined4 *)0x0);
+              orig::FUN_10053890(pvVar1,1);
+              pvVar1 = (void *)orig::ResourceIter_FindNext_v1(local_38,0);
               if (pvVar1 == (void *)0x0) goto LAB_10044784;
               goto LAB_100446e6;
             }
           } while (((*(byte *)((int)self_ + 0x1a) >> 2 & 1) == 0) ||
                   (*(int *)((int)self_ + 0x28) != *(int *)((int)pvVar1 + 0x14)));
-          orig::CMoResource_AddRefChain(self_);
-          orig::YmGenerater_Stop(self_,(undefined4 *)0x0);
-          orig::CMoResource_ReleaseChain(self_);
+          orig::CMoResource_AddRefChain_v1(self_);
+          orig::YmGenerater_Stop_v1(self_,(undefined4 *)0x0);
+          orig::CMoResource_ReleaseChain_v1(self_);
         } while ((*(ushort *)((int)self_ + 0x18) & 0x7fff) != 0);
-        orig::MoRes_FreeIfUnreferenced(*(int **)((int)self_ + 0x14));
+        orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)self_ + 0x14));
       } while( true );
     }
 LAB_10044784:
-    orig::ResourceIter_FindFirst(local_38,param_1,7,0,0xffffffff);
+    orig::ResourceIter_FindFirst_v1(local_38,param_1,7,0,0xffffffff);
 joined_r0x1004479a:
     if (local_24 != 0) {
 LAB_100447a1:
       pvVar1 = *(void **)(dword_1047D140 + 0xd50);
       do {
         if (pvVar1 == (void *)0x0) {
-          orig::ResourceIter_FindNext(local_38,0);
+          orig::ResourceIter_FindNext_v1(local_38,0);
           goto joined_r0x1004479a;
         }
         if (*(int *)((int)pvVar1 + 0x1c) == 0x4d730000) {

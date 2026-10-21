@@ -97,7 +97,7 @@ XI_API void __cdecl fn_1021BB90(void)
   undefined8 uVar1;
   
   if (DAT_106646a0 == (void *)0x0) {
-    uVar1 = orig::Allocator_Generic(0x37c);
+    uVar1 = orig::Allocator_Generic_v1(0x37c);
     if ((void *)uVar1 != (void *)0x0) {
       DAT_106646a0 = orig::FUN_102175c0((void *)uVar1);
       orig::FUN_102174f0();
@@ -415,7 +415,7 @@ XI_API uint32_t __thiscall fn_1021C5B0(void * self_, undefined2 * param_1, undef
   
   bVar1 = (byte)param_2;
   uVar6 = 0;
-  if (DAT_104dfd98 != 0) {
+  if (dword_104DFD98_as_s32 != 0) {
     param_2 = 0;
     *(undefined1 *)(bVar1 + 0x1368 + (int)self_) = 0;
     do {
@@ -462,7 +462,7 @@ XI_API undefined4 __thiscall fn_1021C7E0(void * self_, undefined4 param_1, int p
   undefined4 *puVar11;
   
   iVar7 = 0;
-  if (DAT_104dfd98 != 0) {
+  if (dword_104DFD98_as_s32 != 0) {
     *(undefined4 *)((int)self_ + 0x10) = param_1;
     *(int *)((int)self_ + 0xc) = param_2;
     if ((char)param_4 == '\0') {

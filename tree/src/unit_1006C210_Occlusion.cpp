@@ -281,7 +281,7 @@ XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
   
   iVar3 = 0;
   do {
-    uVar1 = orig::FUN_1006ca20_v1(xi_castbits<float>(*param_1));
+    uVar1 = orig::FUN_1006ca20(xi_castbits<float>(*param_1));
     uVar2 = (uint3)((uint)uVar1 >> 8);
     if ((char)uVar1 == '\0') {
       return (uint)uVar2 << 8;

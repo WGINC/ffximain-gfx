@@ -19,7 +19,7 @@ char CYyOs2VtxBuffer::CreateBuffersStep(int a2)
   switch ( this->createStep )
   {
     case 0u:
-      v4 = orig::Mem_AllocObject_v1(2 * v3, 4);
+      v4 = orig::Mem_AllocObject(2 * v3, 4);
       this->pIndices = (unsigned int)v4;
       if ( v4 == nullptr )
         goto LABEL_14;
@@ -65,7 +65,7 @@ LABEL_11:
 LABEL_14:
         if ( this->pIndices != 0 )
         {
-          orig::Mem_FreeObject_v1(this->pIndices);
+          orig::Mem_FreeObject(this->pIndices);
           this->pIndices = 0;
         }
         v8 = this->field_40;
@@ -124,7 +124,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
   _DWORD *v3;
-  orig::CMoTask_Constructor_v1((_DWORD *)self);
+  orig::CMoTask_Constructor((_DWORD *)self);
   at<uint32_t>(this, 0x0) = &CYyOs2VtxBuffer_vtbl;
   this->field_38 = 0;
   this->field_34 = a2;
@@ -167,7 +167,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   (*(CMoTask_vtbl * *)((char *)this + 0x0)) = (CMoTask_vtbl *)&CYyOs2VtxBuffer_vtbl;
   if ( v2 != 0 )
   {
-    orig::Mem_FreeObject_v1(v2);
+    orig::Mem_FreeObject(v2);
     this->pIndices = 0;
   }
   v3 = this->field_40;
@@ -198,14 +198,14 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   this->field_69 = 0;
   if ( v5 != 0 )
   {
-    orig::Mem_FreeObject_v1(v5);
+    orig::Mem_FreeObject(v5);
     this->field_6A = 0;
   }
   v6 = this->field_72;
   this->field_6E = 0;
   if ( v6 != 0 )
   {
-    orig::Mem_FreeObject_v1(v6);
+    orig::Mem_FreeObject(v6);
     this->field_72 = 0;
   }
   this->field_76 = 0;
@@ -218,7 +218,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
     g_os2VtxBufferSlots[i] = 0;
   if ( this->field_7A != 0 )
   {
-    orig::Mem_FreeObject_v1(this->field_7A);
+    orig::Mem_FreeObject(this->field_7A);
     this->field_7A = 0;
   }
   return orig::CMoTask_Destructor(this);

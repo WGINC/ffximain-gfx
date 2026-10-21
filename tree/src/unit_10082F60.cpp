@@ -59,18 +59,18 @@ XI_API undefined4 __stdcall fn_10082FB0(undefined4 * param_1, undefined4 * param
   undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 16);
   
   orig::fn_10027990_v1(local_40);
-  orig::Vec3_Copy(&local_50,param_1);
+  orig::Vec3_Copy_v1(&local_50,param_1);
   local_44 = xi_k4(0x3F800000ull);
   puVar2 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-  orig::Mat4_Copy(local_40,puVar2);
-  orig::Mat4_TransformPointInPlace(local_40,&local_50);
+  orig::Mat4_Copy_v1(local_40,puVar2);
+  orig::Mat4_TransformPointInPlace_v1(local_40,&local_50);
   if ((!NAN((float10)local_48) && !NAN((float10)xi_k4(0x0ull))) && (float10)xi_k4(0x0ull) <= (float10)local_48) {
     orig::nullsub_1();
     return 0;
   }
-  orig::Vec3_Copy(&local_50,param_1);
+  orig::Vec3_Copy_v1(&local_50,param_1);
   iVar3 = orig::Camera_GetMatrix154Ptr_v1();
-  orig::Mat4_PostMultiply(local_40,iVar3);
+  orig::Mat4_PostMultiply_v1(local_40,iVar3);
   uVar4 = orig::Mat4_TransformCoordInPlace_v1(local_40,&local_50);
   fVar7 = (float10)local_44;
   fVar1 = (float10)xi_k4(0x3F800000ull);

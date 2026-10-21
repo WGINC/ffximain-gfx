@@ -49,8 +49,8 @@ XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
         iVar2 = iVar2 + -1;
       } while (iVar2 != 0);
     }
-    orig::sqFree(*(int *)(param_1 + 0x20),s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x266);
-    orig::sqFree(*(int *)(param_1 + 0x24),s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x267);
+    orig::sqFree_v1(*(int *)(param_1 + 0x20),s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x266);
+    orig::sqFree_v1(*(int *)(param_1 + 0x24),s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x267);
     *(undefined4 *)(param_1 + 0x28) = 0;
   }
   if (0 < param_2) {
@@ -87,8 +87,8 @@ XI_API int __cdecl fn_1027C980(int param_1, int param_2)
   if ((-1 < param_2) && (param_2 < *(int *)(param_1 + 0x28))) {
     return *(int *)(param_1 + 0x20) + param_2 * 0xf8;
   }
-  orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x3b4);
-  orig::sqDebugPrintf_v1(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(undefined4 *)(param_1 + 0x28))
+  orig::sqDebugPrintf_v2(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x3b4);
+  orig::sqDebugPrintf_v2(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(undefined4 *)(param_1 + 0x28))
   ;
   return 0;
 }

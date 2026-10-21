@@ -45,12 +45,12 @@ void __thiscall CXiAtelActor::UnlinkCasterAttachments(void * self, void * param_
       if (pvVar3 != (void *)0x0) {
         *(undefined4 *)((int)pvVar3 + 0x2c) = *(undefined4 *)((int)pvVar2 + 0x2c);
         *(undefined4 *)((int)param_1 + 0x2c) = 0;
-        orig::CMoAttachments_ClearCaster(param_1,0);
+        orig::CMoAttachments_ClearCaster_v1(param_1,0);
         return;
       }
       *(undefined4 *)((int)self + 0x68) = *(undefined4 *)((int)pvVar2 + 0x2c);
       *(undefined4 *)((int)param_1 + 0x2c) = 0;
-      orig::CMoAttachments_ClearCaster(param_1,0);
+      orig::CMoAttachments_ClearCaster_v1(param_1,0);
     }
   }
   return;
@@ -78,12 +78,12 @@ void __thiscall CXiAtelActor::UnlinkTargetAttachments(void * self, void * param_
       if (pvVar3 != (void *)0x0) {
         *(undefined4 *)((int)pvVar3 + 0x30) = *(undefined4 *)((int)pvVar2 + 0x30);
         *(undefined4 *)((int)param_1 + 0x30) = 0;
-        orig::CMoAttachments_ClearTarget(param_1,0);
+        orig::CMoAttachments_ClearTarget_v1(param_1,0);
         return;
       }
       *(undefined4 *)((int)self + 0x6c) = *(undefined4 *)((int)pvVar2 + 0x30);
       *(undefined4 *)((int)param_1 + 0x30) = 0;
-      orig::CMoAttachments_ClearTarget(param_1,0);
+      orig::CMoAttachments_ClearTarget_v1(param_1,0);
     }
   }
   return;
@@ -256,7 +256,7 @@ XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, un
             }
             else
             {
-              orig::ShapeMng_GetFontGlyph(g_shapeMng_as_v0, v21, (int)v51, v20, &v69[v19 + 72], &v69[v19 + 108]);
+              orig::ShapeMng_GetFontGlyph(g_shapeMng, v21, (int)v51, v20, &v69[v19 + 72], &v69[v19 + 108]);
               if ( v19 == 0 )
                 goto LABEL_31;
               if ( v21 < 0x8Eu || v21 > 0xA8u )
@@ -369,7 +369,7 @@ LABEL_50:
             }
             while ( (int)v32 < (int)XI_GAME(0x10358314u) );
             v55 = a4;
-            if ( orig::ShapeMng_BindFontTexture(g_shapeMng_as_v0, *((unsigned __int8 *)&v67[3] + v25), &v55, &a5) == 0 )
+            if ( orig::ShapeMng_BindFontTexture(g_shapeMng, *((unsigned __int8 *)&v67[3] + v25), &v55, &a5) == 0 )
               goto LABEL_63;
             v37 = a5;
             if ( v55 == a5 )
@@ -570,7 +570,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
               case 0xD4u:
                 *((_BYTE *)&v49[3] + v14) = -83;
                 orig::ShapeMng_GetFontGlyph(
-                  g_shapeMng_as_v0,
+                  g_shapeMng,
                   0xADu,
                   (int)v16,
                   v15,
@@ -584,7 +584,7 @@ XI_API void __cdecl fn_10086900(_DWORD *a1, const char *a2, float a3)
 LABEL_25:
                 *((_BYTE *)&v49[3] + v14) = -83;
                 orig::ShapeMng_GetFontGlyph(
-                  g_shapeMng_as_v0,
+                  g_shapeMng,
                   0xADu,
                   (int)v16,
                   v15,
@@ -659,7 +659,7 @@ LABEL_28:
             v34 = *((unsigned __int8 *)&v49[3] + v19);
             v38 = -2139062144;
             ViewportWidth = -2139062144;
-            if ( orig::ShapeMng_BindFontTexture(g_shapeMng_as_v0, v34, &v38, &ViewportWidth) == 0 )
+            if ( orig::ShapeMng_BindFontTexture(g_shapeMng, v34, &v38, &ViewportWidth) == 0 )
               break;
             v30 = ViewportWidth;
             if ( v38 == ViewportWidth )

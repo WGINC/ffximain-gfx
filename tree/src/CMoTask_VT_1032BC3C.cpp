@@ -11,7 +11,7 @@ char CMoTask_VT_1032BC3C::vf8()
   at<float>(this, 0x74) = v1;
   if ( !(v1 < 0.0) )
   {
-    orig::sub_1003B6D0_v1(&at<float>(this, 0x34));
+    orig::sub_1003B6D0(&at<float>(this, 0x34));
     return 0;
   }
   else

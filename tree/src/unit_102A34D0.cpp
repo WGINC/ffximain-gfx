@@ -17,7 +17,7 @@ XI_API void __cdecl fn_102A34D0(int param_1)
   local_8 = *(undefined4 *)(param_1 + 0x1c);
   local_4 = (float)((float10)xi_k4(0x3F800000ull) - (float10)*(float *)(param_1 + 0x30));
   orig::sqgxColor_v1(&local_10);
-  orig::sqgxAmbient(*(float *)(param_1 + 0x20));
+  orig::sqgxAmbient_v1(*(float *)(param_1 + 0x20));
   orig::FUN_102833a0(*(float *)(param_1 + 0x24));
   orig::FUN_102833c0(*(undefined4 *)(param_1 + 0x28),*(float *)(param_1 + 0x2c),
                (uint)*(byte *)(param_1 + 0x34));

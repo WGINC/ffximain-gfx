@@ -50,7 +50,7 @@ XI_API void __thiscall fn_10069F90(void * self_)
   *(double *)((int)self_ + 0xeb4) =
        (double)((float10)*(float *)((int)self_ + 0xeac) * (float10)xi_k4(0x42700000ull) +
                (float10)*(double *)((int)self_ + 0xeb4));
-  fVar3 = orig::Camera_GetFrameScale();
+  fVar3 = orig::Camera_GetFrameScale_v1();
   *(float *)((int)self_ + 0xeb0) = (float)fVar3;
   return;
 }

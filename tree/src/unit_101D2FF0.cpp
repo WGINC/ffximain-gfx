@@ -24,8 +24,8 @@ XI_API void __thiscall fn_101D30B0(void * self_)
 XI_API undefined4 __thiscall fn_101D30F0(void * self_)
 {
   if ((*(ushort *)((int)self_ + 0x7e6) != 0) &&
-     ((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x7e6)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x7e6)] + 0xa0);
+     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x7e6)] != 0)) {
+    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x7e6)] + 0xa0);
   }
   return 0;
 }
@@ -35,8 +35,8 @@ XI_API undefined4 __thiscall fn_101D30F0(void * self_)
 XI_API void __thiscall fn_101D31B0(void * self_)
 {
   if (*(undefined4 **)((int)self_ + 8) != (undefined4 *)0x0) {
-    orig::CMoResource_ReleaseChain((void *)**(undefined4 **)((int)self_ + 8));
-    orig::ResHandle_FreeIfUnreferenced((undefined4 *)((int)self_ + 8));
+    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self_ + 8));
+    orig::ResHandle_FreeIfUnreferenced_v1((undefined4 *)((int)self_ + 8));
     *(undefined4 *)((int)self_ + 8) = 0;
   }
   return;
@@ -97,7 +97,7 @@ XI_API void __thiscall fn_101D3FC0(void * self_, int * param_1)
     if ((short)param_1 < 0) {
       param_1 = (int *)0x64;
     }
-    st0 = orig::Camera_GetFrameScale();
+    st0 = orig::Camera_GetFrameScale_v1();
     lVar4 = XI_CALL_ST0(0x10311C2Cu)(st0);
     cVar3 = *(char *)((int)self_ + 0x858) + (char)lVar4;
     *(char *)((int)self_ + 0x858) = cVar3;

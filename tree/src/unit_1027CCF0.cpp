@@ -29,8 +29,8 @@ XI_API void __cdecl fn_1027CD30(int param_1, int param_2, float * param_3, undef
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   orig::thunk_FUN_1027ebd0(local_8c + 3);
   while( true ) {
-    orig::sqMatrix4_10280140(local_40,(float *)(iVar1 + 0x1c),local_8c + 3);
-    orig::M4fSet(local_8c + 3,local_40);
+    orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_8c + 3);
+    orig::M4fSet_v1(local_8c + 3,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
     iVar1 = orig::FUN_1027c900(param_1,param_2);
@@ -39,7 +39,7 @@ XI_API void __cdecl fn_1027CD30(int param_1, int param_2, float * param_3, undef
   local_8c[0] = xi_k4(0x0ull);
   local_8c[1] = xi_k4(0x0ull);
   local_8c[2] = xi_k4(0x0ull);
-  orig::M4fTransform(param_3,local_8c + 3,local_8c);
+  orig::M4fTransform_v1(param_3,local_8c + 3,local_8c);
   orig::FUN_1027a8a0(param_4,local_8c + 3);
   return;
 }
@@ -57,13 +57,13 @@ XI_API void __cdecl fn_1027CFD0(int param_1, int param_2, float * param_3, float
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   orig::thunk_FUN_1027ebd0(local_80);
   while( true ) {
-    orig::sqMatrix4_10280140(local_40,(float *)(iVar1 + 0x1c),local_80);
-    orig::M4fSet(local_80,local_40);
+    orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_80);
+    orig::M4fSet_v1(local_80,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
     iVar1 = orig::FUN_1027c900(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
-  orig::M4fTransform(param_4,local_80,param_3);
+  orig::M4fTransform_v1(param_4,local_80,param_3);
   return;
 }

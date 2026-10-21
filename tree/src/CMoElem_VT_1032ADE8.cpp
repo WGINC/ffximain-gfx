@@ -27,7 +27,7 @@ void CMoElem_VT_1032ADE8::vf18()
     v3 = *v2;
   else
     v3 = 0;
-  v4 = (_DWORD *)orig::sub_1003B700_v1((_DWORD *)(v3 + 48));
+  v4 = (_DWORD *)orig::sub_1003B700((_DWORD *)(v3 + 48));
   if ( v4 != nullptr )
   {
     v7 = 1.0;
@@ -69,7 +69,7 @@ XI_API undefined8 __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
   *(undefined2 *)((int)self_ + 0x176) = 0x1a8;
   *puVar1 = 0;
   if ((param_1 != 0) && (*(void **)(param_1 + 100) != (void *)0x0)) {
-    uVar4 = orig::CYyObject_IsKindOf(*(void **)(param_1 + 100),0x1032b7f8);
+    uVar4 = orig::CYyObject_IsKindOf_v1(*(void **)(param_1 + 100),0x1032b7f8);
     uVar3 = (undefined4)((ulonglong)uVar4 >> 0x20);
     if ((char)uVar4 != '\0') {
       iVar2 = *(int *)(param_1 + 100);
@@ -80,7 +80,7 @@ XI_API undefined8 __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
         *(undefined4 *)((int)self_ + 0x194) = uVar3;
         return CONCAT44(uVar3,self_);
       }
-      orig::_sprintf(puVar1,&aD_4,*(undefined4 *)(iVar2 + 0xa8));
+      orig::_sprintf_v1(puVar1,&aD_4,*(undefined4 *)(iVar2 + 0xa8));
       uVar3 = *(undefined4 *)(iVar2 + 0xa4);
       *(undefined4 *)((int)self_ + 0x194) = uVar3;
     }

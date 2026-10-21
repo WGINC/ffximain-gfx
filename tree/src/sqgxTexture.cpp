@@ -31,7 +31,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
   {
     if ( g_counter_109A261C == 512 )
     {
-      orig::sqDebugPrintf_v2(aErrorSqgxtextu);
+      orig::sqDebugPrintf(aErrorSqgxtextu);
       return -1;
     }
     v8 = 10 * v5;
@@ -67,7 +67,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
   }
   else
   {
-    orig::sqDebugPrintf_v2(aCreatingTextur);
+    orig::sqDebugPrintf(aCreatingTextur);
     if ( g_pDancerDevice->lpVtbl->CreateTexture(
            g_pDancerDevice,
            g_sqgxTex_width[10 * v5],
@@ -77,7 +77,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
            (D3DFORMAT)g_sqgxTex_format[10 * v5],
            D3DPOOL_DEFAULT,
            &a3) != 0 )
-      orig::sqDebugPrintf_v2(aError);
+      orig::sqDebugPrintf(aError);
     (&g_sqgxTex_texture)[10 * v5] = a3;
   }
   g_sqgxTex_paletteSlot[10 * v5] = -2;
@@ -89,7 +89,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102819C0(int param_1)
 {
-  ((uint8_t *)((&g_sqgxPaletteUsed)))[param_1] = 0;
+  ((uint8_t *)((&g_sqgxPaletteUsed_as_v0)))[param_1] = 0;
   return;
 }
 
@@ -103,11 +103,11 @@ XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
   _BYTE v7[1024];
   for ( i = 1; i < 256; ++i )
   {
-    if ( g_sqgxPaletteUsed_as_v0[i] == 0 )
+    if ( g_sqgxPaletteUsed[i] == 0 )
       break;
   }
   v4 = 0;
-  g_sqgxPaletteUsed_as_v0[i] = 1;
+  g_sqgxPaletteUsed[i] = 1;
   v5 = (_BYTE *)(a3 + 2);
   do
   {
@@ -171,7 +171,7 @@ XI_API void __cdecl sqgxTextureSet(int param_1)
 {
   if (param_1 != *(int *)(g_pSqgxContext_as_s32 + 0x8b0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4)) {
     *(int *)(g_pSqgxContext_as_s32 + 0x8b0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
-    g_sqgxRenderStateDirty = 1;
+    g_sqgxRenderStateDirty_as_v0 = 1;
   }
   return;
 }
@@ -181,7 +181,7 @@ XI_API void __cdecl sqgxTextureSet(int param_1)
 XI_API void __cdecl sqgxTextureDecal(undefined4 param_1)
 {
   *(undefined4 *)(g_pSqgxContext_as_s32 + 0x8c0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
-  g_sqgxRenderStateDirty = 1;
+  g_sqgxRenderStateDirty_as_v0 = 1;
   return;
 }
 
@@ -191,7 +191,7 @@ XI_API void __cdecl sqgxTextureClamp(undefined4 param_1)
 {
   *(undefined4 *)(g_pSqgxContext_as_s32 + 0x8c8 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
   *(undefined4 *)(g_pSqgxContext_as_s32 + 0x8d0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
-  g_sqgxRenderStateDirty = 1;
+  g_sqgxRenderStateDirty_as_v0 = 1;
   return;
 }
 
@@ -221,8 +221,8 @@ XI_API int __cdecl sqgxTextureUpdate(void)
   unsigned int v2;
   int v3;
   int v4;
-  result = g_sqgxRenderStateDirty_as_s32;
-  if ( g_sqgxRenderStateDirty_as_s32 != 0 )
+  result = g_sqgxRenderStateDirty;
+  if ( g_sqgxRenderStateDirty != 0 )
   {
     v1 = g_pSqgxContext;
     v2 = 0;
@@ -286,7 +286,7 @@ LABEL_13:
     }
 LABEL_22:
     result = g_pDancerDevice->SetTextureStageState(v1[710] + 1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-    g_sqgxRenderStateDirty_as_s32 = 0;
+    g_sqgxRenderStateDirty = 0;
   }
   return result;
 }

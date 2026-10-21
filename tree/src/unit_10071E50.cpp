@@ -39,7 +39,7 @@ XI_API undefined4 __thiscall WeatherRes_GetTimeKey(void * self_, undefined4 * pa
   
   uVar1 = *(uint *)((int)self_ + 0x20);
   local_4 = uVar1;
-  orig::unknown_libname_158(&local_8);
+  orig::unknown_libname_158_v1(&local_8);
   orig::FUN_1018bf50(&local_8,((uVar1 >> 8 & 0xff) - 0x210) + (uVar1 & 0xff) * 10);
   orig::FUN_1018bf00(&local_8,((uVar1 >> 0x18) - 0x210) + (local_4 >> 0x10 & 0xff) * 10);
   *param_1 = local_8;

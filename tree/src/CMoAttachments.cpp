@@ -46,9 +46,9 @@ int CMoAttachments::vf006()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 {
-  orig::ReleaseSubObjectIfPresent_v1(this);
+  orig::ReleaseSubObjectIfPresent(this);
   if ( (a2 & 1) != 0 )
-    orig::operator_delete_10311BB0_v1(this);
+    orig::operator_delete_10311BB0(this);
   return(_DWORD*)(&(*(CMoAttachments_vtbl * *)((char *)this + 0x0)));
 }
 
@@ -164,7 +164,7 @@ XI_API int __thiscall fn_1003B8B0(void * self_)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -173,7 +173,7 @@ XI_API int __thiscall fn_1003B8B0(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
@@ -194,7 +194,7 @@ XI_API int __thiscall fn_1003B900(void * self_)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -203,7 +203,7 @@ XI_API int __thiscall fn_1003B900(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
@@ -310,8 +310,8 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
   v8 = ((float * *)((char *)g_pProcessor + 0xA10))[v7];
   (*(int *)((char *)g_pProcessor + 0xA90)) = v7 + 1;
   v55 = v8;
-  v9 = (float *)orig::sub_1003B6D0_v1((_DWORD *)self_);
-  v10 = (int *)orig::sub_1003B700_v1((_DWORD *)self_);
+  v9 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
+  v10 = (int *)orig::sub_1003B700((_DWORD *)self_);
   if ( v9 == nullptr || (v11 = orig::sub_100845E0(v9)) == 0 )
     v11 = (int)v10;
   v12 = *(_DWORD *)(self_ + 4);
@@ -371,24 +371,24 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
       if ( v9 == nullptr )
         goto LABEL_63;
       v30 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
-      v31 = orig::sub_1003B6D0_v1((_DWORD *)self_);
+      v31 = orig::sub_1003B6D0((_DWORD *)self_);
       orig::sub_1003BD90((int)a2, v30, v31);
       break;
     case 0xAu:
       if ( v10 == nullptr )
         goto LABEL_63;
-      v32 = orig::sub_1003B700_v1((_DWORD *)self_);
+      v32 = orig::sub_1003B700((_DWORD *)self_);
       orig::sub_1003BD90((int)a2, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v32);
       break;
     case 0xBu:
       if ( v9 == nullptr )
         goto LABEL_56;
       v33 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
-      v34 = orig::sub_1003B6D0_v1((_DWORD *)self_);
+      v34 = orig::sub_1003B6D0((_DWORD *)self_);
       orig::sub_1003BD90(v54, v33, v34);
       v35 = ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6);
-      v49 = (int *)orig::sub_1003B700_v1((_DWORD *)self_);
-      v36 = (float *)orig::sub_1003B6D0_v1((_DWORD *)self_);
+      v49 = (int *)orig::sub_1003B700((_DWORD *)self_);
+      v36 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, v35, v36, v49, 0);
       v51 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
       (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
@@ -404,10 +404,10 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
     case 0xCu:
       if ( v10 == nullptr )
         goto LABEL_56;
-      v39 = orig::sub_1003B700_v1((_DWORD *)self_);
+      v39 = orig::sub_1003B700((_DWORD *)self_);
       orig::sub_1003BD90(v54, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v39);
-      v50 = (int *)orig::sub_1003B6D0_v1((_DWORD *)self_);
-      v40 = (float *)orig::sub_1003B700_v1((_DWORD *)self_);
+      v50 = (int *)orig::sub_1003B6D0((_DWORD *)self_);
+      v40 = (float *)orig::sub_1003B700((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, v40, v50, 0);
       v19 = a2;
       v52 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));

@@ -122,12 +122,12 @@ XI_API _DWORD * __cdecl sqgxDlistEnd(void)
   v0[9] = v9;
   v5 = g_pSqgxContext[643];
   if ( v5 != 0 )
-    orig::sqFree_v1(v5, aCDevDancerModu_30, 107);
+    orig::sqFree(v5, aCDevDancerModu_30, 107);
   g_pSqgxContext[643] = 0;
   g_pSqgxContext[642] = 0;
   v6 = g_pSqgxContext[645];
   if ( v6 != 0 )
-    orig::sqFree_v1(v6, aCDevDancerModu_30, 112);
+    orig::sqFree(v6, aCDevDancerModu_30, 112);
   g_pSqgxContext[645] = 0;
   g_pSqgxContext[644] = 0;
   return v0;

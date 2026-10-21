@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1001E760(void * self_, undefined4 * param_1)
 {
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x44),param_1);
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x44),param_1);
   return;
 }
 
@@ -21,7 +21,7 @@ XI_API void __thiscall fn_1001E780(void * self_, float * param_1)
   orig::Vec3_Sub_v1(local_10,param_1,(float *)((int)self_ + 0x44));
   fVar1 = orig::FUN_10027600(local_10);
   if ((!NAN(fVar1) && !NAN((float10)xi_k4(0x0ull))) && (float10)xi_k4(0x0ull) < fVar1) {
-    orig::Vec3_Copy((undefined4 *)((int)self_ + 0x50),param_1);
+    orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x50),param_1);
   }
   return;
 }
@@ -112,8 +112,8 @@ XI_API undefined4 __thiscall fn_10021AE0(void * self_)
 XI_API int __thiscall fn_10021B70(void * self_)
 {
   orig::FUN_10021c10(self_);
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x60),(undefined4 *)((int)self_ + 0x44));
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x6c),(undefined4 *)((int)self_ + 0x50));
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x60),(undefined4 *)((int)self_ + 0x44));
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x6c),(undefined4 *)((int)self_ + 0x50));
   *(undefined4 *)((int)self_ + 0x78) = *(undefined4 *)((int)self_ + 0x5c);
   return (int)self_ + 4;
 }
@@ -137,7 +137,7 @@ XI_API int __thiscall fn_10021C10(void * self_)
   undefined1  (&local_80)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 64);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 128);
   
-  orig::Vec3_Copy(local_90,(float *)((int)self_ + 0x50));
+  orig::Vec3_Copy_v1(local_90,(float *)((int)self_ + 0x50));
   pfVar1 = (float *)((int)self_ + 0x44);
   orig::Vec3_Sub_v1(&local_c0,(float *)((int)self_ + 0x50),pfVar1);
   orig::fn_10027990_v1(local_80);
@@ -145,10 +145,10 @@ XI_API int __thiscall fn_10021C10(void * self_)
   fVar4 = xi_castbits<float10>(fpatan(-(float10)local_c0,-(float10)local_b8));
   local_a8 = *(float *)((int)self_ + 0x5c);
   local_ac = (float)fVar4;
-  orig::Mat4_PostRotateZ(local_80,local_a8);
-  orig::Mat4_PostRotateY(local_80,local_ac);
-  orig::Mat4_PostRotateX(local_80,xi_k4(0x0ull));
-  orig::Vec3_Copy(local_a0,(undefined4 *)((int)self_ + 0xa8));
+  orig::Mat4_PostRotateZ_v1(local_80,local_a8);
+  orig::Mat4_PostRotateY_v1(local_80,local_ac);
+  orig::Mat4_PostRotateX_v1(local_80,xi_k4(0x0ull));
+  orig::Vec3_Copy_v1(local_a0,(undefined4 *)((int)self_ + 0xa8));
   orig::Mat4_TransformNormalInPlace_v1(local_80,local_a0);
   orig::FUN_100274b0(&local_c0);
   bVar3 = NAN((float10)*(float *)((int)self_ + 0x7c)) || NAN((float10)xi_k4(0x0ull));
@@ -161,7 +161,7 @@ XI_API int __thiscall fn_10021C10(void * self_)
   orig::fn_102D7FF9_v1(local_40,pfVar1,local_90,local_a0);
   uVar2 = orig::FUN_1006ca60(local_40);
   if ((char)uVar2 != '\0') {
-    orig::Mat4_Copy((void *)((int)self_ + 4),local_40);
+    orig::Mat4_Copy_v1((void *)((int)self_ + 4),local_40);
   }
   orig::nullsub_1();
   return (int)self_ + 4;

@@ -11,7 +11,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
   {
     if ( a1 == 1 )
     {
-      orig::sqgxSetZWrite_v1(0);
+      orig::sqgxZMask(0);
       orig::sqgxFBMask(255, 255, 255, 255);
       g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
@@ -27,14 +27,14 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
     result = a1 - 2;
     if ( a1 != 2 )
       return result;
-    orig::sqgxSetZWrite_v1(1);
+    orig::sqgxZMask(1);
     orig::sqgxFBMask(0, 0, 0, 0);
     g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
     g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
   }
   else
   {
-    orig::sqgxSetZWrite_v1(0);
+    orig::sqgxZMask(0);
     orig::sqgxFBMask(255, 255, 255, 255);
     g_pDancerDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
     g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
@@ -67,7 +67,7 @@ XI_API int __cdecl sqgxShadowStencilEnable(int a1)
   }
   else
   {
-    orig::sqgxSetZWrite_v1(1);
+    orig::sqgxZMask(1);
     return g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
   }
 }
@@ -86,9 +86,9 @@ XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
       D3DPOOL_DEFAULT,
       (IDirect3DVertexBuffer8 **)(g_pSqgxContext + 79));
   if ( g_pDancerDevice->SetStreamSource(0, (IDirect3DVertexBuffer8 *)g_pSqgxContext[79], 12u) != 0 )
-    orig::sqDebugPrintf_v2(aErrorInSetStre);
+    orig::sqDebugPrintf(aErrorInSetStre);
   if ( g_pDancerDevice->SetVertexShader(2u) != 0 )
-    orig::sqDebugPrintf_v2(aErrorInSetVert);
+    orig::sqDebugPrintf(aErrorInSetVert);
   return (*(int (__stdcall **)(int, _DWORD, _DWORD, int *, int))(*(_DWORD *)g_pSqgxContext[79] + 44))(
            g_pSqgxContext[79],
            0,

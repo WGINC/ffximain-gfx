@@ -19,11 +19,11 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
     g_sceneFadeMaskRT = -1;
   }
   if (*(int *)(param_1 + 0x14) != 0) {
-    orig::sqFree(*(int *)(param_1 + 0x18),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x5d);
+    orig::sqFree_v1(*(int *)(param_1 + 0x18),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x5d);
   }
   if (*(int *)(param_1 + 0x20) != 0) {
-    orig::sqFree(*(int *)(param_1 + 0x24),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x5f);
-    orig::sqFree(*(int *)(param_1 + 0x28),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x60);
+    orig::sqFree_v1(*(int *)(param_1 + 0x24),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x5f);
+    orig::sqFree_v1(*(int *)(param_1 + 0x28),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x60);
   }
   piVar2 = (int *)(param_1 + 0x44);
   if (*piVar2 != 0) {
@@ -44,7 +44,7 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
               }
               iVar6 = *(int *)(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) + 0x14 + iVar3);
               if (iVar6 != 0) {
-                orig::sqFree(iVar6,s_C__dev_dancer_modules_sqScene_sr_103ba694,0x6b);
+                orig::sqFree_v1(iVar6,s_C__dev_dancer_modules_sqScene_sr_103ba694,0x6b);
                 *(undefined4 *)(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) + 0x14 + iVar3) = 0;
               }
               iVar6 = *(int *)(iVar1 + 0x48);
@@ -52,9 +52,9 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
               iVar3 = iVar3 + 0x90;
             } while (iVar4 < *(int *)(iVar5 + 4 + iVar6));
           }
-          orig::sqFree(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5),
+          orig::sqFree_v1(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5),
                  s_C__dev_dancer_modules_sqScene_sr_103ba694,0x6f);
-          orig::sqFree(*(int *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5),
+          orig::sqFree_v1(*(int *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5),
                  s_C__dev_dancer_modules_sqScene_sr_103ba694,0x70);
           *(undefined4 *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) = 0;
           *(undefined4 *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5) = 0;
@@ -63,7 +63,7 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
         iVar5 = iVar5 + 0x2c;
       } while (param_1 < *(int *)(iVar1 + 0x44));
     }
-    orig::sqFree(*(int *)(iVar1 + 0x48),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x75);
+    orig::sqFree_v1(*(int *)(iVar1 + 0x48),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x75);
   }
   if (*(int *)(iVar1 + 0x34) != 0) {
     iVar5 = 0;
@@ -72,13 +72,13 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
       do {
         iVar3 = *(int *)(iVar1 + 0x40) + iVar6;
         if (*(int *)(iVar3 + 4) != 0) {
-          orig::sqFree(*(int *)(iVar3 + 8),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x7a);
+          orig::sqFree_v1(*(int *)(iVar3 + 8),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x7a);
         }
         iVar5 = iVar5 + 1;
         iVar6 = iVar6 + 0x30;
       } while (iVar5 < *(int *)(iVar1 + 0x34));
     }
-    orig::sqFree(*(int *)(iVar1 + 0x40),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x7d);
+    orig::sqFree_v1(*(int *)(iVar1 + 0x40),s_C__dev_dancer_modules_sqScene_sr_103ba694,0x7d);
   }
   return;
 }
@@ -353,7 +353,7 @@ XI_API void __cdecl fn_1028F4A0(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028F4C0(undefined4 param_1, int * param_2)
 {
-  orig::sqgxMatrixShape((undefined4 *)param_2[1]);
+  orig::sqgxMatrixShape_v1((undefined4 *)param_2[1]);
   orig::FUN_102a1f20((int *)param_2[6],param_2);
   return;
 }
@@ -572,7 +572,7 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
         v8 = g_sceneRT[0];
         if ( g_sceneRT[0] == 0 )
         {
-          v8 = orig::sqgxTextureAdd_v1(1024, 512, (IDirect3DTexture8 *)3, nullptr);
+          v8 = orig::sqgxTextureAdd(1024, 512, (IDirect3DTexture8 *)3, nullptr);
           g_sceneRT[0] = v8;
         }
         orig::sqgxTextureDraw(v8, 1);
@@ -582,7 +582,7 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
           v9 = g_sceneRT1;
           if ( g_sceneRT1 == 0 )
           {
-            v9 = orig::sqgxTextureAdd_v1(1024, 512, (IDirect3DTexture8 *)3, nullptr);
+            v9 = orig::sqgxTextureAdd(1024, 512, (IDirect3DTexture8 *)3, nullptr);
             g_sceneRT1 = v9;
           }
           orig::sqgxTextureDraw(v9, 1);
@@ -602,13 +602,13 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
         {
           --v31;
           orig::sqgxTextureDraw(g_sceneRT[v10], 1);
-          orig::sqrdCamera_Apply_v1(a1a);
-          orig::sqgxMatrixCamera_v1(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
+          orig::sqrdCamera_Apply(a1a);
+          orig::sqgxMatrixCamera(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
           if ( *(_BYTE *)(a1 + 44) != 0 && *(_DWORD *)(a1 + 52) != 0 )
             orig::sqsnSceneLayerDrawShadowed((_DWORD *)a1, v11);
           else
             orig::sqsnSceneLayerDraw((_DWORD *)a1, v11);
-          orig::sqgxTextureSet_v1(g_sceneRT[v10]);
+          orig::sqgxTextureSet(g_sceneRT[v10]);
           v10 = 1 - v10;
           if ( v31 != 0 )
           {
@@ -626,15 +626,15 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
       }
       while ( (int)(v11) < (int)(*(_DWORD *)(a1 + 68)) );
     }
-    orig::sqrdCamera_Apply_v1(a1a);
-    orig::sqgxMatrixCamera_v1(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
+    orig::sqrdCamera_Apply(a1a);
+    orig::sqgxMatrixCamera(*(_DWORD **)(*(_DWORD *)(a1 + 24) + 12 * *(_DWORD *)(a1 + 28) + 4));
     if ( *(float *)(a1 + 56) < 1.0 )
     {
       orig::sqgxTextureGetSize(g_pSqgxContext[554], &v34, &v33);
       v14 = g_sceneFadeMaskRT;
       if ( g_sceneFadeMaskRT == -1 )
       {
-        v14 = orig::sqgxTextureAdd_v1(v34, v33, (IDirect3DTexture8 *)4, nullptr);
+        v14 = orig::sqgxTextureAdd(v34, v33, (IDirect3DTexture8 *)4, nullptr);
         g_sceneFadeMaskRT = v14;
       }
       v32 = g_pSqgxContext[554];
@@ -648,12 +648,12 @@ XI_API void __cdecl sqsnSceneDraw(int a1)
       orig::sqgxTextureStencilClear(0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
-      orig::sqgxTextureDecal_v1(1);
+      orig::sqgxTextureDecal(1);
       orig::sqgxTextureClamp(1);
-      orig::sqgxBlendOff_v1();
+      orig::sqgxBlendOff();
       orig::sqgxZTest(0);
       orig::sqgxZTest(1);
-      orig::sqgxBlendOff_v1();
+      orig::sqgxBlendOff();
     }
     v15 = 0;
     if ( *(int *)(a1 + 68) > 0 )
@@ -712,7 +712,7 @@ LABEL_51:
 LABEL_54:
     if ( *(float *)(a1 + 56) < 1.0 )
     {
-      orig::sqgxTextureSet_v1(g_sceneFadeMaskRT);
+      orig::sqgxTextureSet(g_sceneFadeMaskRT);
       orig::sqgxTextureDraw(v32, 1);
       v30 = *(_DWORD *)(a1 + 56);
       v35 = 1065353216;
@@ -720,8 +720,8 @@ LABEL_54:
       v37 = 1065353216;
       v38 = v30;
       orig::sqgxColor(&v35);
-      orig::sqgxBlendTrsp_Candidate_v1();
-      orig::sqgxTextureDecal_v1(2);
+      orig::sqgxBlendTrsp();
+      orig::sqgxTextureDecal(2);
       orig::sqgxTextureClamp(1);
       orig::sqgxZTest(0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILREF, 0);
@@ -729,7 +729,7 @@ LABEL_54:
       orig::sqgxSprite(0, 0, v34, v33, 0, 0, v34, v33, 0);
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
       orig::sqgxZTest(1);
-      orig::sqgxBlendOff_v1();
+      orig::sqgxBlendOff();
     }
   }
 }
@@ -750,8 +750,8 @@ XI_API void __cdecl sqsnSceneLayerDraw(int * param_1, int param_2)
   iVar4 = 0;
   local_4 = 0;
   iVar5 = param_2 * 0x2c;
-  orig::sqrdCamera_Apply(*(int *)(param_1[6] + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
-  orig::sqgxMatrixCamera(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
+  orig::sqrdCamera_Apply_v1(*(int *)(param_1[6] + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
+  orig::sqgxMatrixCamera_v1(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
   iVar3 = param_1[0x12];
   if (0 < *(int *)(iVar3 + 4 + iVar5)) {
     do {
@@ -817,8 +817,8 @@ XI_API void __cdecl fn_1028FF80(int param_1)
   orig::sqgxZTest_v1(0);
   iVar1 = *(int *)(g_pSqgxContext_as_s32 + 0x89c);
   orig::sqgxTextureDraw_v1(*(int *)(param_1 + 0x60),0);
-  orig::sqgxTextureSet(iVar1);
-  orig::sqgxTextureDecal(1);
+  orig::sqgxTextureSet_v1(iVar1);
+  orig::sqgxTextureDecal_v1(1);
   orig::sqgxSprite_v1(0,0,0x100,0x100,0,0,-1,-1);
   orig::sqgxTextureDraw_v1(iVar1,1);
   orig::sqgxZTest_v1(1);
@@ -843,8 +843,8 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
   local_8 = 0;
   iVar5 = param_2 * 0x2c;
   iVar1 = *(int *)(param_1[6] + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc);
-  orig::sqrdCamera_Apply(iVar1);
-  orig::sqgxMatrixCamera(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
+  orig::sqrdCamera_Apply_v1(iVar1);
+  orig::sqgxMatrixCamera_v1(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
   if (*(int *)(param_1[0x12] + 4 + iVar5) != 0) {
     iVar6 = 0;
     if (0 < param_1[0xd]) {
@@ -922,8 +922,8 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
                               *(int *)(iVar6 + 0x28));
               if ((((char)piVar7[7] != '\0') && (piVar7[0x11] != 0)) &&
                  (iVar6 = orig::FUN_102a2160((int)piVar7,iVar4), iVar6 != 0)) {
-                orig::sqrdCamera_Apply(iVar1);
-                orig::sqgxMatrixCamera(*(undefined4 **)
+                orig::sqrdCamera_Apply_v1(iVar1);
+                orig::sqgxMatrixCamera_v1(*(undefined4 **)
                                   (piVar3[6] + 4 + *(int *)(piVar3[0x12] + 8 + iVar5) * 0xc));
                 orig::FUN_102a2c00((int)piVar3,piVar7,iVar4,0);
               }
@@ -1029,7 +1029,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
   float  (&afStack_7d0)[500] = *reinterpret_cast<float  (*)[500]>(xi_frame + 156);
   
   iVar5 = param_2 * 0x2c;
-  orig::sqgxMatrixCamera(*(undefined4 **)
+  orig::sqgxMatrixCamera_v1(*(undefined4 **)
                     (*(int *)(param_1 + 0x18) + 4 +
                     *(int *)(iVar5 + 8 + *(int *)(param_1 + 0x48)) * 0xc));
   iVar2 = *(int *)(param_1 + 0x48);
@@ -1038,12 +1038,12 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
     iVar4 = 0;
     do {
       orig::FUN_1028dbb0((float *)(*(int *)(*(int *)(iVar5 + iVar2 + 0x28) + iVar4) + 0x14),local_85c);
-      orig::sqgxMatrixShape(*(undefined4 **)
+      orig::sqgxMatrixShape_v1(*(undefined4 **)
                        (*(int *)(iVar5 + 0x28 + *(int *)(param_1 + 0x48)) + 4 + iVar4));
-      orig::sqMatrix4_10280140(local_850,(float *)(g_pSqgxContext_as_s32 + 0x1c8),
+      orig::sqMatrix4_10280140_v1(local_850,(float *)(g_pSqgxContext_as_s32 + 0x1c8),
                          (float *)(g_pSqgxContext_as_s32 + 0x208));
-      orig::M4fTranspose(local_810,local_850);
-      orig::M4fTransform(local_868,local_810,local_85c);
+      orig::M4fTranspose_v1(local_810,local_850);
+      orig::M4fTransform_v1(local_868,local_810,local_85c);
       iVar2 = *(int *)(param_1 + 0x48);
       iVar1 = *(int *)(iVar5 + 4 + iVar2);
       afStack_7d0[iVar3] = (float)-(float10)local_860;
@@ -1108,7 +1108,7 @@ XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param
       *(undefined4 **)(param_1 + 0x18) = puVar1;
     }
     else {
-      orig::sqDebugPrintf(s_Error__sqsnScenePreallocate___ca_103baae0);
+      orig::sqDebugPrintf_v1(s_Error__sqsnScenePreallocate___ca_103baae0);
     }
   }
   if (0 < param_3) {
@@ -1117,14 +1117,14 @@ XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param
       *(undefined4 **)(param_1 + 0x24) = puVar1;
     }
     else {
-      orig::sqDebugPrintf(s_Error__sqsnScenePreallocate___ca_103baa98);
+      orig::sqDebugPrintf_v1(s_Error__sqsnScenePreallocate___ca_103baa98);
     }
     if (*(int *)(param_1 + 0x28) == 0) {
       puVar1 = orig::FUN_10275d80(1,param_3,s_C__dev_dancer_modules_sqScene_sr_103ba694,0x7e6);
       *(undefined4 **)(param_1 + 0x28) = puVar1;
     }
     else {
-      orig::sqDebugPrintf(s_Error__sqsnScenePreallocate___ca_103baa50);
+      orig::sqDebugPrintf_v1(s_Error__sqsnScenePreallocate___ca_103baa50);
     }
   }
   if (0 < param_4) {
@@ -1143,7 +1143,7 @@ XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param
       }
     }
     else {
-      orig::sqDebugPrintf(s_Error__sqsnScenePreallocate___ca_103baa10);
+      orig::sqDebugPrintf_v1(s_Error__sqsnScenePreallocate___ca_103baa10);
     }
   }
   if (0 < param_5) {
@@ -1171,7 +1171,7 @@ XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param
       }
     }
     else {
-      orig::sqDebugPrintf(s_Error__sqsnScenePreallocate___ca_103ba9c8);
+      orig::sqDebugPrintf_v1(s_Error__sqsnScenePreallocate___ca_103ba9c8);
     }
   }
   return;
@@ -1193,7 +1193,7 @@ XI_API void __cdecl fn_102907C0(int param_1, int param_2, int param_3)
       *(undefined4 **)(iVar1 + 0x24) = puVar2;
       return;
     }
-    orig::sqDebugPrintf(s_Error__sqsnSceneLayerPreallocate_103bab28);
+    orig::sqDebugPrintf_v1(s_Error__sqsnSceneLayerPreallocate_103bab28);
   }
   return;
 }
@@ -1212,7 +1212,7 @@ XI_API void __cdecl fn_10290840(int param_1, int param_2, int param_3)
       *(undefined4 **)(iVar2 + 8) = puVar1;
       return;
     }
-    orig::sqDebugPrintf(s_Error__sqsnSceneShadowPeallocate_103bab70);
+    orig::sqDebugPrintf_v1(s_Error__sqsnSceneShadowPeallocate_103bab70);
   }
   return;
 }

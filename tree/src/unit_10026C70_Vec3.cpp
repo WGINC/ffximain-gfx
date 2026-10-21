@@ -166,7 +166,7 @@ XI_API void __cdecl fn_10027340(float * param_1, float * param_2, float * param_
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10027510(float * param_1, undefined4 * param_2)
 {
-  orig::Vec3_Copy(param_1,param_2);
+  orig::Vec3_Copy_v1(param_1,param_2);
   orig::FUN_100274b0(param_1);
   return;
 }
@@ -186,7 +186,7 @@ XI_API void __cdecl fn_10027550(undefined4 * param_1, float * param_2, float * p
                    (float10)param_3[2] * (float10)*param_2);
   local_4 = (float)((float10)*param_2 * (float10)param_3[1] -
                    (float10)*param_3 * (float10)param_2[1]);
-  orig::Vec3_Copy(param_1,&local_c);
+  orig::Vec3_Copy_v1(param_1,&local_c);
   return;
 }
 
@@ -215,8 +215,8 @@ XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
   orig::CDx_GetTransformCached(g_pCDx, 256, v2);
   orig::CDx_GetTransformCached(g_pCDx, 2, v4);
   orig::CDx_GetTransformCached(g_pCDx, 3, v3);
-  orig::Mat4_PostMultiply_v1((int)v2, (int)v4);
-  orig::Mat4_PostMultiply_v1((int)v2, (int)v3);
+  orig::Mat4_PostMultiply((int)v2, (int)v4);
+  orig::Mat4_PostMultiply((int)v2, (int)v3);
   orig::Vec4_Copy(a1, a2);
   orig::Mat4_TransformCoordInPlace(v2, a1);
   orig::nullsub_1();
@@ -236,9 +236,9 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
   orig::fn_10027990((Iostream_init *)v3);
   orig::CDx_GetTransformCached(g_pCDx, 256, v2);
   orig::CDx_GetTransformCached(g_pCDx, 2, v3);
-  orig::Mat4_PostMultiply_v1((int)v2, (int)v3);
+  orig::Mat4_PostMultiply((int)v2, (int)v3);
   orig::Vec4_Copy(a1, a2);
-  orig::Mat4_TransformVec4InPlace_v1(v2, a1);
+  orig::Mat4_TransformVec4InPlace(v2, a1);
   orig::nullsub_1();
   orig::nullsub_1();
 }
@@ -365,7 +365,7 @@ XI_API void __thiscall Mat4_PostScale(void * self_, undefined4 * param_1)
   local_2c = param_1[1];
   local_18 = param_1[2];
   local_4 = param_1[3];
-  orig::Mat4_PostMultiply(self_,(int)local_40);
+  orig::Mat4_PostMultiply_v1(self_,(int)local_40);
   return;
 }
 
@@ -479,7 +479,7 @@ XI_API void __thiscall Mat4_PostMultiply(void * self_, int param_1)
     pfVar1 = pfVar2;
     iVar3 = iVar4;
   } while (iVar4 < 4);
-  orig::Mat4_Copy(self_,local_40);
+  orig::Mat4_Copy_v1(self_,local_40);
   return;
 }
 
@@ -521,7 +521,7 @@ XI_API void __thiscall Mat4_PreMultiply(void * self_, float * param_1)
     pfVar1 = pfVar2;
     iVar3 = iVar4;
   } while (iVar4 < 4);
-  orig::Mat4_Copy(self_,local_40);
+  orig::Mat4_Copy_v1(self_,local_40);
   return;
 }
 
@@ -534,7 +534,7 @@ XI_API undefined4 __thiscall Mat4_TransformVec4InPlace(void * self_, undefined4 
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   
   orig::Vec4_Copy_v1(local_10,param_1);
-  uVar1 = orig::FUN_10028170_v1(self_,(float *)param_1,local_10);
+  uVar1 = orig::FUN_10028170(self_,(float *)param_1,local_10);
   return uVar1;
 }
 
@@ -568,7 +568,7 @@ XI_API void __thiscall Mat4_TransformPointInPlace(void * self_, float * param_1)
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
-  orig::Vec3_Copy(local_c,param_1);
+  orig::Vec3_Copy_v1(local_c,param_1);
   orig::FUN_10028230(self_,param_1,local_c);
   return;
 }
@@ -599,8 +599,8 @@ XI_API void __thiscall Mat4_TransformNormalInPlace(void * self_, undefined4 * pa
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
-  orig::Vec3_Copy(local_c,param_1);
-  orig::Mat4_TransformNormal(self_,(float *)param_1,local_c);
+  orig::Vec3_Copy_v1(local_c,param_1);
+  orig::Mat4_TransformNormal_v1(self_,(float *)param_1,local_c);
   return;
 }
 
@@ -631,7 +631,7 @@ XI_API undefined4 __thiscall Mat4_TransformCoordInPlace(void * self_, float * pa
   float10 fVar5;
   float10 fVar6;
   
-  uVar2 = orig::Mat4_TransformVec4InPlace(self_,param_1);
+  uVar2 = orig::Mat4_TransformVec4InPlace_v1(self_,param_1);
   fVar5 = (float10)param_1[3];
   fVar1 = (float10)xi_k4(0x0ull);
   bVar3 = NAN(fVar5) || NAN(fVar1);
@@ -691,12 +691,12 @@ XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
     puVar6 = puVar6 + 1;
     iVar5 = iVar5 + -1;
   } while (iVar5 != 0);
-  orig::Mat4_TransformVec4InPlace(local_40,&local_50);
+  orig::Mat4_TransformVec4InPlace_v1(local_40,&local_50);
   local_10 = (float)-(float10)local_50;
   local_c = (float)-(float10)local_4c;
   local_8 = (float)-(float10)local_48;
   local_4 = 0x3f800000;
-  uVar2 = orig::Mat4_Copy(self_,local_40);
+  uVar2 = orig::Mat4_Copy_v1(self_,local_40);
   return uVar2;
 }
 
@@ -709,10 +709,10 @@ XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
   
   if ((DAT_10456fa8 & 1) == 0) {
     DAT_10456fa8 = DAT_10456fa8 | 1;
-    DAT_10456fac = &CYyObject_vtbl_ambiguous0;
+    DAT_10456fac = &CYyObject_vtbl_ambiguous0_as_v0;
     orig::_atexit_v1(&DAT_100286a0);
   }
-  uVar2 = orig::Mem_AllocFromArea(param_1 + 4,param_2);
+  uVar2 = orig::Mem_AllocFromArea_v1(param_1 + 4,param_2);
   puVar1 = (undefined4 *)uVar2;
   if (puVar1 == (undefined4 *)0x0) {
     return (undefined4 *)0x0;
@@ -729,12 +729,12 @@ XI_API undefined8 __cdecl Mem_AllocWithFallback(int param_1, int param_2)
   undefined8 uVar2;
   undefined8 uVar3;
   
-  uVar2 = orig::Mem_AllocFromArea(param_1,param_2);
+  uVar2 = orig::Mem_AllocFromArea_v1(param_1,param_2);
   if (((int)uVar2 == 0) && ((param_2 == 2 || (param_2 == 3)))) {
-    uVar2 = orig::Mem_AllocFromArea(param_1,0);
+    uVar2 = orig::Mem_AllocFromArea_v1(param_1,0);
     uVar1 = (undefined4)((ulonglong)uVar2 >> 0x20);
     if ((int)uVar2 == 0) {
-      uVar3 = orig::_exit_0(0x7d2);
+      uVar3 = orig::_exit_0_v1(0x7d2);
       uVar1 = (undefined4)((ulonglong)uVar3 >> 0x20);
     }
     uVar2 = CONCAT44(uVar1,(int)uVar2);
@@ -791,7 +791,7 @@ XI_API undefined8 __cdecl fn_10028850(int param_1, int param_2, int param_3)
     uVar5 = 0x20;
   }
   while ((*(int *)(param_2 + 4) != 0 ||
-         (iVar3 = orig::MemBlock_GetSize((void *)param_2), uVar4 = DAT_104570e0_as_v0,
+         (iVar3 = orig::MemBlock_GetSize_v1((void *)param_2), uVar4 = DAT_104570e0_as_v0,
          iVar3 < (int)(uVar5 + 0x20)))) {
     param_2 = *(int *)(param_2 + 0x10);
     if (param_2 == param_3) {
@@ -855,7 +855,7 @@ XI_API undefined8 __cdecl fn_10028930(int param_1, undefined4 param_2, void * pa
     }
     param_3 = *(void **)((int)param_3 + 0x14);
   } while ((*(int *)((int)param_3 + 4) != 0) ||
-          (iVar3 = orig::MemBlock_GetSize(param_3), iVar2 = DAT_104570e0, iVar3 < (int)(uVar6 + 0x20)));
+          (iVar3 = orig::MemBlock_GetSize_v1(param_3), iVar2 = DAT_104570e0, iVar3 < (int)(uVar6 + 0x20)));
   iVar3 = *(int *)((int)param_3 + 8);
   iVar4 = iVar3 - uVar6;
   pvVar5 = (void *)(iVar4 + -0x20);

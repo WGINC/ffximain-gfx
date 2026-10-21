@@ -85,7 +85,7 @@ XI_API void * __thiscall fn_1012D450(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1012E180(void * self_)
 {
-  orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng,*(int *)((int)self_ + 8),1);
+  orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng_as_v0,*(int *)((int)self_ + 8),1);
   return;
 }
 
@@ -122,7 +122,7 @@ XI_API void * __thiscall fn_1012E360(void * self_)
   *(undefined4 *)((int)self_ + 0x1e8) = 0;
   *(undefined4 *)((int)self_ + 0x1ec) = 0;
   if (DAT_1057819c == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(4);
+    uVar3 = orig::Allocator_Generic_v1(4);
     DAT_1057819c = (undefined4 *)uVar3;
     if (DAT_1057819c != (undefined4 *)0x0) {
       *DAT_1057819c = &PTR_LAB_10333580;
@@ -238,7 +238,7 @@ XI_API void * __thiscall fn_10131940(void * self_)
   } while (iVar2 != 0);
   *(undefined ***)self_ = &PTR_FUN_10333728;
   if (DAT_105781b0 == (int *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     DAT_105781b0 = (int *)uVar3;
     if (DAT_105781b0 == (int *)0x0) {
       DAT_105781b0 = (int *)0x0;
@@ -263,7 +263,7 @@ XI_API void * __thiscall fn_10133310(void * self_)
   *(undefined1 *)((int)self_ + 0x14f) = 0xff;
   *(undefined4 *)((int)self_ + 0x150) = 0;
   if (DAT_105781b4 == (undefined4 *)0x0) {
-    uVar1 = orig::Allocator_Generic(0x14);
+    uVar1 = orig::Allocator_Generic_v1(0x14);
     DAT_105781b4 = (undefined4 *)uVar1;
     if (DAT_105781b4 != (undefined4 *)0x0) {
       *DAT_105781b4 = &PTR_LAB_10333778;
@@ -328,11 +328,11 @@ XI_API undefined4 __thiscall fn_10136870(void * self_, undefined4 param_1, undef
   *(undefined1 *)((int)self_ + 0x48) = (undefined1)param_1;
   if ((short)param_2 < 0) {
     XI_PIECE_S(param_2, 0, 2) =
-         -0xb0 - (short)((((int)(short)g_screenRectBottomRight_as_v1 - (int)(short)g_screenRectTopLeft_as_v1) *
+         -0xb0 - (short)((((int)(short)g_screenRectBottomRight_as_v0 - (int)(short)g_screenRectTopLeft_as_v0) *
                          (int)(short)param_2) / 100);
   }
   if ((short)param_3 < 0) {
-    param_3 = -0x20 - (((int)XI_PIECE_S(g_screenRectBottomRight_as_v1, 2, 2) - (int)XI_PIECE_S(g_screenRectTopLeft_as_v1, 2, 2)) *
+    param_3 = -0x20 - (((int)XI_PIECE_S(g_screenRectBottomRight_as_v0, 2, 2) - (int)XI_PIECE_S(g_screenRectTopLeft_as_v0, 2, 2)) *
                       (int)(short)param_3) / 100;
   }
   *(short *)((int)self_ + 0x4a) = (short)param_2;
@@ -528,7 +528,7 @@ XI_API void * __thiscall fn_10139840(void * self_)
   *(undefined1 *)((int)self_ + 0xc) = 1;
   *(undefined ***)self_ = &PTR_FUN_10333cb0;
   if (DAT_105781f4 == (undefined4 *)0x0) {
-    uVar1 = orig::Allocator_Generic(4);
+    uVar1 = orig::Allocator_Generic_v1(4);
     DAT_105781f4 = (undefined4 *)uVar1;
     if (DAT_105781f4 != (undefined4 *)0x0) {
       *DAT_105781f4 = &PTR_LAB_10333c48;
@@ -597,7 +597,7 @@ XI_API int __thiscall fn_1013A030(void * self_)
   float10 st0;
   longlong lVar3;
   
-  st0 = orig::Camera_GetFrameScale();
+  st0 = orig::Camera_GetFrameScale_v1();
   lVar3 = XI_CALL_ST0(0x10311C2Cu)(st0);
   uVar2 = *(int *)((int)self_ + 0x14) + (int)(short)lVar3;
   *(uint *)((int)self_ + 0x14) = uVar2;
@@ -628,13 +628,13 @@ XI_API undefined4 __thiscall fn_1013A070(void * self_)
   int iVar3;
   
   uVar1 = 0;
-  if ((g_pTkHelp != (void *)0x0) && (uVar1 = 0, g_pTkTitle != (void *)0x0)) {
+  if ((g_pTkHelp_as_v0 != (void *)0x0) && (uVar1 = 0, g_pTkTitle != (void *)0x0)) {
     uVar1 = orig::FUN_1013a060();
     if ((char)uVar1 == '\0') {
       if (*(char *)((int)self_ + 0x18) != '\0') {
         return CONCAT31((int3)(uVar1 >> 8),1);
       }
-      uVar2 = orig::FUN_1013a470(g_pTkHelp);
+      uVar2 = orig::FUN_1013a470(g_pTkHelp_as_v0);
       if ((char)uVar2 != '\0') {
         uVar2 = orig::FUN_10150d60(g_pTkTitle);
         if ((char)uVar2 != '\0') {
@@ -654,9 +654,9 @@ XI_API void __thiscall fn_1013A100(void * self_)
 {
   if (*(char *)((int)self_ + 0x18) != '\0') {
     orig::thunk_FUN_10150ce0(g_pTkTitle,0,3);
-    orig::FUN_1013a320(g_pTkHelp,0,3);
+    orig::FUN_1013a320(g_pTkHelp_as_v0,0,3);
     orig::FUN_10221680((void *)((int)g_pTkTitle + 0xa4));
-    orig::FUN_10221680((void *)((int)g_pTkHelp + 0x20));
+    orig::FUN_10221680((void *)((int)g_pTkHelp_as_v0 + 0x20));
     *(undefined1 *)((int)self_ + 0x18) = 0;
   }
   *(undefined4 *)((int)self_ + 0xc) = 0x5a;
@@ -707,8 +707,8 @@ XI_API void __thiscall fn_1013A350(void * self_)
   short  &local_4 = *reinterpret_cast<short  *>(xi_frame + 4);
   undefined2  &local_2 = *reinterpret_cast<undefined2  *>(xi_frame + 6);
   
-  orig::Gfx_SetAdditiveBlend();
-  orig::Font_BindGlyphTexture(g_pFontGlyphs);
+  orig::Gfx_SetAdditiveBlend_v1();
+  orig::Font_BindGlyphTexture_v1(g_pFontGlyphs);
   pvVar1 = g_pFontGlyphs;
   *(undefined4 *)((int)g_pFontGlyphs + 100) = 0x80808080;
   *(undefined4 *)((int)pvVar1 + 0x48) = 0x80808080;
@@ -885,7 +885,7 @@ XI_API void * __thiscall fn_1013FBE0(void * self_)
   *(undefined1 *)((int)self_ + 0xc) = 1;
   *(undefined ***)self_ = &PTR_FUN_10333ff0;
   *(undefined4 *)((int)self_ + 0x14) = 0;
-  piVar1 = (int *)orig::ShapeMng_FindShape(&g_shapeMng,s_menu_windowps_1036ffb4);
+  piVar1 = (int *)orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_menu_windowps_1036ffb4);
   if (piVar1 != (int *)0x0) {
     *(undefined4 *)((int)self_ + 0x18) = *(undefined4 *)(*piVar1 + 0x5c);
     *(undefined4 *)((int)self_ + 0x1c) = *(undefined4 *)(*piVar1 + 0xb0);
@@ -939,7 +939,7 @@ XI_API void * __thiscall fn_10140E70(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10141AD0(void * self_)
 {
-  orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng,*(int *)((int)self_ + 8),1);
+  orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng_as_v0,*(int *)((int)self_ + 8),1);
   return;
 }
 
@@ -1031,7 +1031,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
   *(undefined4 *)((int)self_ + 0x18) = 0;
   *(undefined1 *)((int)self_ + 0x16) = 0;
   if (DAT_105782bc == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782bc = (undefined4 *)0x0;
@@ -1046,7 +1046,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782c0 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x38);
+    uVar2 = orig::Allocator_Generic_v1(0x38);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782c0 = (undefined4 *)0x0;
@@ -1064,7 +1064,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782c4 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x14);
+    uVar2 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782c4 = (undefined4 *)0x0;
@@ -1079,7 +1079,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782b8 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x2c);
+    uVar2 = orig::Allocator_Generic_v1(0x2c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782b8 = (undefined4 *)0x0;
@@ -1094,7 +1094,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782c8 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782c8 = (undefined4 *)0x0;
@@ -1109,7 +1109,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782cc == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105782cc = (undefined4 *)0x0;
@@ -1121,7 +1121,7 @@ XI_API void * __thiscall fn_10144D60(void * self_)
     }
   }
   if (DAT_105782d0 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 != (undefined4 *)0x0) {
       orig::FUN_10144f40(puVar1);
@@ -1165,7 +1165,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
   *(undefined1 *)((int)self_ + 0x1f) = 0;
   *(undefined ***)self_ = &PTR_FUN_10334928;
   if (DAT_105783e0 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x1c);
+    uVar2 = orig::Allocator_Generic_v1(0x1c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105783e0 = (undefined4 *)0x0;
@@ -1180,7 +1180,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783e8 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x28);
+    uVar2 = orig::Allocator_Generic_v1(0x28);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_105783e8 = (void *)0x0;
     }
@@ -1189,7 +1189,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783ec == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x8c);
+    uVar2 = orig::Allocator_Generic_v1(0x8c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105783ec = (undefined4 *)0x0;
@@ -1206,7 +1206,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783f0 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x60);
+    uVar2 = orig::Allocator_Generic_v1(0x60);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105783f0 = (undefined4 *)0x0;
@@ -1223,7 +1223,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783f4 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x20);
+    uVar2 = orig::Allocator_Generic_v1(0x20);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_105783f4 = (void *)0x0;
     }
@@ -1232,7 +1232,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783f8 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x20);
+    uVar2 = orig::Allocator_Generic_v1(0x20);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_105783f8 = (void *)0x0;
     }
@@ -1241,7 +1241,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_105783fc == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x5c);
+    uVar2 = orig::Allocator_Generic_v1(0x5c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_105783fc = (undefined4 *)0x0;
@@ -1258,7 +1258,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578400 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x84);
+    uVar2 = orig::Allocator_Generic_v1(0x84);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578400 = (undefined4 *)0x0;
@@ -1275,7 +1275,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578404 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x1c);
+    uVar2 = orig::Allocator_Generic_v1(0x1c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578404 = (undefined4 *)0x0;
@@ -1287,7 +1287,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578408 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x6c);
+    uVar2 = orig::Allocator_Generic_v1(0x6c);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10578408 = (void *)0x0;
     }
@@ -1296,7 +1296,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_1057840c == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x14);
+    uVar2 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_1057840c = (undefined4 *)0x0;
@@ -1311,7 +1311,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578410 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578410 = (undefined4 *)0x0;
@@ -1327,7 +1327,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578414 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x18);
+    uVar2 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578414 = (undefined4 *)0x0;
@@ -1342,7 +1342,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578418 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x28);
+    uVar2 = orig::Allocator_Generic_v1(0x28);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578418 = (undefined4 *)0x0;
@@ -1354,7 +1354,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_1057841c == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x24);
+    uVar2 = orig::Allocator_Generic_v1(0x24);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_1057841c = (undefined4 *)0x0;
@@ -1367,7 +1367,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578424 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x1c);
+    uVar2 = orig::Allocator_Generic_v1(0x1c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578424 = (undefined4 *)0x0;
@@ -1380,7 +1380,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578420 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x5c);
+    uVar2 = orig::Allocator_Generic_v1(0x5c);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10578420 = (void *)0x0;
     }
@@ -1389,7 +1389,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578428 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x24);
+    uVar2 = orig::Allocator_Generic_v1(0x24);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10578428 = (void *)0x0;
     }
@@ -1398,7 +1398,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_1057842c == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(100);
+    uVar2 = orig::Allocator_Generic_v1(100);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_1057842c = (void *)0x0;
     }
@@ -1407,7 +1407,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10621900 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x28);
+    uVar2 = orig::Allocator_Generic_v1(0x28);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10621900 = (void *)0x0;
     }
@@ -1416,7 +1416,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578430 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x14);
+    uVar2 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578430 = (undefined4 *)0x0;
@@ -1428,7 +1428,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578438 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x44);
+    uVar2 = orig::Allocator_Generic_v1(0x44);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10578438 = (void *)0x0;
     }
@@ -1437,7 +1437,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_1057843c == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x58);
+    uVar2 = orig::Allocator_Generic_v1(0x58);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_1057843c = (void *)0x0;
     }
@@ -1446,7 +1446,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578440 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x5c);
+    uVar2 = orig::Allocator_Generic_v1(0x5c);
     if ((void *)uVar2 == (void *)0x0) {
       DAT_10578440 = (void *)0x0;
     }
@@ -1455,7 +1455,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578444 == (undefined4 *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x1c);
+    uVar2 = orig::Allocator_Generic_v1(0x1c);
     puVar1 = (undefined4 *)uVar2;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10578444 = (undefined4 *)0x0;
@@ -1468,7 +1468,7 @@ XI_API void * __thiscall fn_10146340(void * self_)
     }
   }
   if (DAT_10578448 == (void *)0x0) {
-    uVar2 = orig::Allocator_Generic(0x24);
+    uVar2 = orig::Allocator_Generic_v1(0x24);
     if ((void *)uVar2 != (void *)0x0) {
       DAT_10578448 = orig::FUN_101615e0((void *)uVar2);
       return self_;
@@ -1688,7 +1688,7 @@ XI_API void * __thiscall fn_1014C750(void * self_)
   *(undefined4 *)((int)self_ + 0x20) = 0;
   *(undefined4 *)((int)self_ + 0x24) = 0;
   if (DAT_10578454 == (undefined4 *)0x0) {
-    uVar1 = orig::Allocator_Generic(4);
+    uVar1 = orig::Allocator_Generic_v1(4);
     DAT_10578454 = (undefined4 *)uVar1;
     if (DAT_10578454 != (undefined4 *)0x0) {
       *DAT_10578454 = &PTR_LAB_10334c98;
@@ -1848,7 +1848,7 @@ XI_API void * __thiscall fn_1014EDC0(void * self_)
   *(undefined ***)self_ = &PTR_FUN_10334e58;
   *(undefined1 *)((int)self_ + 0x14) = 1;
   *(undefined4 *)((int)self_ + 0x18) = 0;
-  uVar2 = orig::ShapeMng_FindShape(&g_shapeMng,aMenuKeytops3);
+  uVar2 = orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,aMenuKeytops3);
   *(undefined4 *)((int)self_ + 0x1c) = uVar2;
   *(undefined4 *)((int)self_ + 0x20) = 0;
   *(undefined4 *)((int)self_ + 0x24) = 0;
@@ -1907,7 +1907,7 @@ XI_API void * __thiscall fn_1014F840(void * self_)
   *(undefined2 *)((int)self_ + 0x1a) = 0;
   *(undefined ***)self_ = &PTR_FUN_10334eb8;
   *(undefined4 *)((int)self_ + 0x28) = 0;
-  piVar2 = (int *)orig::ShapeMng_FindShape(&g_shapeMng,s_menu_windowps_1036ffb4);
+  piVar2 = (int *)orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_menu_windowps_1036ffb4);
   if (piVar2 != (int *)0x0) {
     psVar3 = &DAT_10371b6c;
     puVar6 = (undefined4 *)((int)self_ + 0x38);
@@ -1992,10 +1992,10 @@ XI_API void __thiscall fn_10150090(void * self_, undefined4 xi_s1)
     if (iVar5 == 0) {
       *(undefined2 *)((int)self_ + 0xbe) = 0;
       *(undefined2 *)((int)self_ + 0xbc) = 0;
-      orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng,*(int *)((int)self_ + 8),1);
+      orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng_as_v0,*(int *)((int)self_ + 8),1);
       return;
     }
-    st0 = orig::Camera_GetFrameScale();
+    st0 = orig::Camera_GetFrameScale_v1();
     lVar6 = XI_CALL_ST0(0x10311C2Cu)(st0);
     cVar3 = *(char *)((int)self_ + 0xbb) - (char)lVar6;
     *(char *)((int)self_ + 0xbb) = cVar3;
@@ -2035,7 +2035,7 @@ XI_API void __thiscall fn_10150A30(void * self_, char * param_1)
     *(undefined4 *)((int)self_ + 0x48) = 0;
     return;
   }
-  orig::_strncpy((char *)((int)self_ + 0x14),param_1,0x31);
+  orig::_strncpy_v1((char *)((int)self_ + 0x14),param_1,0x31);
   *(undefined4 *)((int)self_ + 0x48) = 0;
   return;
 }
@@ -2123,7 +2123,7 @@ XI_API void * __thiscall fn_10151040(void * self_)
   *(undefined4 *)((int)self_ + 0x78) = 0;
   *(undefined4 *)((int)self_ + 0xc4) = 0;
   if (DAT_10578488 == (undefined4 *)0x0) {
-    uVar1 = orig::Allocator_Generic(4);
+    uVar1 = orig::Allocator_Generic_v1(4);
     DAT_10578488 = (undefined4 *)uVar1;
     if (DAT_10578488 != (undefined4 *)0x0) {
       *DAT_10578488 = &PTR_LAB_10334ff8;
@@ -2243,13 +2243,13 @@ XI_API undefined4 __cdecl fn_10152FF0(int param_1, int param_2)
   void *pvVar1;
   uint uVar2;
   
-  _Size = orig::FileMng_ResolveOrExit(g_pFileMng,param_2);
+  _Size = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_2);
   uVar2 = _Size;
   if (-1 < (int)_Size) {
-    pvVar1 = orig::_malloc_0(_Size);
+    pvVar1 = orig::_malloc_0_v1(_Size);
     uVar2 = 0;
     if (pvVar1 != (void *)0x0) {
-      uVar2 = orig::FUN_101c4740(g_pFileMng,param_2,pvVar1,_Size,0);
+      uVar2 = orig::FUN_101c4740(g_pFileMng_as_v1,param_2,pvVar1,_Size,0);
       if (-1 < (int)uVar2) {
         (&DAT_10578548)[param_1] = pvVar1;
         return CONCAT31((int3)((uint)param_1 >> 8),1);
@@ -2561,12 +2561,12 @@ XI_API undefined4 __cdecl fn_10153EF0(undefined4 param_1, int param_2)
   xi_bool bVar8;
   undefined8 uVar9;
   
-  uVar2 = orig::FileMng_ResolveOrExit(g_pFileMng,param_2);
+  uVar2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_2);
   uVar4 = uVar2;
   if (-1 < (int)uVar2) {
-    uVar9 = orig::Allocator_Generic(uVar2);
+    uVar9 = orig::Allocator_Generic_v1(uVar2);
     pbVar3 = (byte *)uVar9;
-    uVar4 = orig::FUN_101c4740(g_pFileMng,param_2,pbVar3,uVar2,0);
+    uVar4 = orig::FUN_101c4740(g_pFileMng_as_v1,param_2,pbVar3,uVar2,0);
     if (-1 < (int)uVar4) {
       pbVar5 = orig::FUN_10257830();
       pbVar7 = pbVar3;
@@ -2672,7 +2672,7 @@ XI_API undefined1 * __thiscall fn_10154550(void * self_, int param_1)
   undefined1 *puVar1;
   
   if (param_1 < 0) {
-    return &Read;
+    return &Read_as_v0;
   }
   puVar1 = (undefined1 *)orig::FUN_1022edf0(param_1);
   return puVar1;
@@ -2705,13 +2705,13 @@ XI_API char __thiscall fn_10154570(void * self_)
   local_1c = '\0';
   iVar2 = orig::FUN_1025b560(0x3f);
   orig::FUN_10257860(local_10);
-  uVar3 = orig::FileMng_ResolveOrExit(g_pFileMng,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
   if (-1 < (int)uVar3) {
-    uVar15 = orig::Allocator_Generic(uVar3);
+    uVar15 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (byte *)uVar15;
-    iVar2 = orig::FUN_101c4740(g_pFileMng,iVar2,pbVar4,uVar3,0);
+    iVar2 = orig::FUN_101c4740(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
     if (iVar2 < 0) {
-      orig::operator_delete_10311BB0(pbVar4);
+      orig::operator_delete_10311BB0_v1(pbVar4);
     }
     else {
       pbVar5 = orig::FUN_10257830();
@@ -2748,10 +2748,10 @@ LAB_10154614:
           uVar6 = orig::FUN_10257af0(local_10);
           *(undefined4 *)self_ = uVar6;
           iVar11 = orig::FUN_10257af0(local_10);
-          uVar15 = orig::Allocator_Generic(iVar11 * 2);
+          uVar15 = orig::Allocator_Generic_v1(iVar11 * 2);
           *(int *)((int)self_ + 4) = (int)uVar15;
           iVar11 = orig::FUN_10257af0(local_10);
-          uVar15 = orig::Allocator_Generic(iVar11 * 0xc + 4);
+          uVar15 = orig::Allocator_Generic_v1(iVar11 * 0xc + 4);
           local_20 = (int *)uVar15;
           if (local_20 == (int *)0x0) {
             local_20 = (int *)0x0;
@@ -2807,13 +2807,13 @@ LAB_10154614:
                 iVar2 = iVar2 + -1;
               } while (iVar2 != 0);
             }
-            orig::operator_delete_10311BB0(local_20 + -1);
+            orig::operator_delete_10311BB0_v1(local_20 + -1);
           }
         }
         local_1c = '\x01';
       }
       else {
-        orig::operator_delete_10311BB0(pbVar4);
+        orig::operator_delete_10311BB0_v1(pbVar4);
       }
     }
   }
@@ -2830,7 +2830,7 @@ LAB_10154614:
 XI_API void __thiscall fn_10154840(void * self_)
 {
   *(undefined4 *)((int)self_ + 0x78) = 0;
-  orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 0x7c));
+  orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x7c));
   *(undefined4 *)((int)self_ + 0x7c) = 0;
   return;
 }
@@ -2849,7 +2849,7 @@ XI_API void __thiscall fn_10154860(void * self_)
     uVar1 = *(undefined4 *)((int)self_ + 0x84);
     xi_s2 = *(undefined4 *)((int)self_ + 0x7c);
     xi_s1 = orig::FUN_1025b560(0x3f);
-    uVar1 = orig::FUN_101c4a10(g_pFileMng,xi_s1,xi_s2,uVar1);
+    uVar1 = orig::FUN_101c4a10(g_pFileMng_as_v1,xi_s1,xi_s2,uVar1);
     bVar2 = (char)uVar1 == '\0';
   }
   else {
@@ -2922,7 +2922,7 @@ XI_API undefined4 __thiscall fn_10154DB0(void * self_)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 4));
+  uVar1 = orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
   return (int)uVar1;
 }
 
@@ -2978,7 +2978,7 @@ XI_API void __thiscall fn_10154E30(void * self_, undefined4 param_1, undefined4 
     pcVar7 = pcVar7 + 1;
   } while (cVar1 != '\0');
   uVar5 = ~uVar5;
-  uVar8 = orig::Allocator_Generic(uVar5 + uVar4 + uVar3);
+  uVar8 = orig::Allocator_Generic_v1(uVar5 + uVar4 + uVar3);
   *(char **)((int)self_ + 4) = (char *)uVar8;
   pcVar7 = (char *)uVar8;
   for (uVar6 = uVar3 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
@@ -3040,8 +3040,8 @@ XI_API void __thiscall fn_10154F30(void * self_)
 XI_API void __thiscall fn_10154F60(void * self_)
 {
   *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined1 **)((int)self_ + 8) = &Read;
-  *(undefined1 **)((int)self_ + 0xc) = &Read;
+  *(undefined1 **)((int)self_ + 8) = &Read_as_v0;
+  *(undefined1 **)((int)self_ + 0xc) = &Read_as_v0;
   *(undefined4 *)((int)self_ + 0x10) = 0;
   *(undefined ***)self_ = &PTR_FUN_10335138;
   return;
@@ -3064,7 +3064,7 @@ XI_API undefined4 __thiscall fn_10155140(void * self_)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 4));
+  uVar1 = orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
   *(undefined4 *)((int)self_ + 4) = 0;
   return (int)uVar1;
 }
@@ -3126,7 +3126,7 @@ XI_API void __thiscall fn_101551C0(void * self_, int param_1, char * param_2, ch
   if (uStack_8 == 1) {
     uStack_8 = 0;
   }
-  uVar9 = orig::Allocator_Generic(uStack_8 + uVar5 + uVar4);
+  uVar9 = orig::Allocator_Generic_v1(uStack_8 + uVar5 + uVar4);
   *(char **)((int)self_ + 4) = (char *)uVar9;
   pcVar8 = (char *)uVar9;
   for (uVar6 = uVar4 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
@@ -3191,7 +3191,7 @@ XI_API undefined4 __thiscall fn_10155360(void * self_)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 4));
+  uVar1 = orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
   return (int)uVar1;
 }
 
@@ -3248,7 +3248,7 @@ XI_API void __thiscall fn_10155400(void * self_, undefined4 param_1, undefined4 
     pcVar7 = pcVar7 + 1;
   } while (cVar1 != '\0');
   uVar5 = ~uVar5;
-  uVar8 = orig::Allocator_Generic(uVar5 + uVar4 + uVar3);
+  uVar8 = orig::Allocator_Generic_v1(uVar5 + uVar4 + uVar3);
   *(char **)((int)self_ + 4) = (char *)uVar8;
   pcVar7 = (char *)uVar8;
   for (uVar6 = uVar3 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
@@ -3302,7 +3302,7 @@ XI_API undefined4 __thiscall fn_10155540(void * self_)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 4));
+  uVar1 = orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
   return (int)uVar1;
 }
 
@@ -3337,7 +3337,7 @@ XI_API void __thiscall fn_101555B0(void * self_, char * param_1)
     pcVar4 = pcVar4 + 1;
   } while (cVar1 != '\0');
   uVar2 = ~uVar2;
-  uVar5 = orig::Allocator_Generic(uVar2);
+  uVar5 = orig::Allocator_Generic_v1(uVar2);
   *(char **)((int)self_ + 4) = (char *)uVar5;
   pcVar4 = (char *)uVar5;
   for (uVar3 = uVar2 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
@@ -3803,7 +3803,7 @@ XI_API void __thiscall fn_10156E00(void * self_)
   orig::FUN_10257ba0((void *)((int)self_ + 0x810),(int)self_ + 0x820,0x40);
   uVar2 = orig::FUN_10257c70((void *)((int)self_ + 0x810));
   *(uint *)((int)self_ + 0x86c) = uVar2;
-  uVar3 = orig::Allocator_Generic(uVar2);
+  uVar3 = orig::Allocator_Generic_v1(uVar2);
   *(int *)((int)self_ + 0x870) = (int)uVar3;
   *(undefined4 *)((int)self_ + 0x874) = 0xffffffff;
   return;
@@ -3833,7 +3833,7 @@ XI_API void __thiscall fn_10157610(void * self_)
 XI_API void __thiscall fn_10157620(void * self_)
 {
   *(undefined2 *)((int)self_ + 0x68) = 0;
-  orig::FUN_1015e850(&g_menuMng,0);
+  orig::FUN_1015e850(&g_menuMng_as_v0,0);
   return;
 }
 
@@ -3874,7 +3874,7 @@ XI_API undefined4 __thiscall fn_10157660(void * self_, uint32_t param_1)
     if (*(char *)((int)self_ + 0x22) == '\x01') {
       return uVar2;
     }
-    uVar5 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+    uVar5 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
     iVar3 = orig::FUN_101598a0(self_);
     if ((int)uVar5 == 0) {
       return iVar3;
@@ -3897,7 +3897,7 @@ XI_API undefined4 __cdecl fn_101576F0(void)
   uint uVar2;
   undefined8 uVar3;
   
-  uVar3 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar3 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   uVar2 = 0;
   if (((((int)uVar3 != 0) && (iVar1 = *(int *)((int)uVar3 + 0x70), uVar2 = 0, iVar1 != 0)) &&
       (uVar2 = *(uint *)(iVar1 + 0x170), uVar2 != 2)) && (uVar2 != 3)) {
@@ -3913,9 +3913,9 @@ XI_API void __thiscall fn_10157720(void * self_, int param_1, int param_2)
   int iVar1;
   
   *(float *)((int)self_ + 0x8c) =
-       (float)(((float10)param_1 - (float10)(int)(short)g_screenRectBottomRight_as_v1 * (float10)xi_k4(0x3F000000ull)) /
-              ((float10)(int)(short)g_screenRectBottomRight_as_v1 * (float10)xi_k4(0x3F000000ull)));
-  iVar1 = (int)XI_PIECE_S(g_screenRectBottomRight_as_v1, 2, 2);
+       (float)(((float10)param_1 - (float10)(int)(short)g_screenRectBottomRight_as_v0 * (float10)xi_k4(0x3F000000ull)) /
+              ((float10)(int)(short)g_screenRectBottomRight_as_v0 * (float10)xi_k4(0x3F000000ull)));
+  iVar1 = (int)XI_PIECE_S(g_screenRectBottomRight_as_v0, 2, 2);
   *(undefined1 *)((int)self_ + 0x55) = 1;
   *(float *)((int)self_ + 0x90) =
        (float)(((float10)param_2 - (float10)iVar1 * (float10)xi_k4(0x3F000000ull)) / ((float10)iVar1 * (float10)xi_k4(0x3F000000ull)))
@@ -4050,7 +4050,7 @@ XI_API void __thiscall fn_101579C0(void * self_)
   uVar2 = *(undefined1 *)((int)self_ + 0x55);
   *(undefined1 *)((int)self_ + 0x55) = 0;
   *(undefined1 *)((int)self_ + 0x56) = 0;
-  uVar4 = orig::FUN_1015dce0(&g_menuMng);
+  uVar4 = orig::FUN_1015dce0(&g_menuMng_as_v0);
   if ((char)uVar4 == '\0') {
     uVar7 = orig::FUN_10123a70(0x3e,0x24,1,-1);
     if ((char)uVar7 == '\x01') {
@@ -4077,7 +4077,7 @@ XI_API void __thiscall fn_101579C0(void * self_)
       if ((char)uVar7 != '\x01') {
         uVar6 = orig::FUN_10157fa0(self_);
         if ((char)uVar6 != '\x01') {
-          uVar6 = orig::FUN_1015dce0(&g_menuMng);
+          uVar6 = orig::FUN_1015dce0(&g_menuMng_as_v0);
           if ((char)uVar6 != '\x01') {
             if ((char)uVar4 == '\x01') {
               orig::FUN_10157660(self_,0);
@@ -4182,10 +4182,10 @@ XI_API char __thiscall fn_10157C60(void * self_, int param_1, undefined4 param_2
   if ((char)uVar1 == '\0') {
     return '\0';
   }
-  if ((&ActerBuffPtr)[param_1] == 0) {
+  if ((&ActerBuffPtr_as_v0)[param_1] == 0) {
     return '\0';
   }
-  uVar2 = orig::FUN_10157b40(self_,*(int *)((&ActerBuffPtr)[param_1] + 0xa0),param_3,param_4);
+  uVar2 = orig::FUN_10157b40(self_,*(int *)((&ActerBuffPtr_as_v0)[param_1] + 0xa0),param_3,param_4);
   return (char)uVar2;
 }
 
@@ -4198,7 +4198,7 @@ XI_API undefined4 __cdecl fn_10157D20(void)
   int *piVar3;
   undefined **ppuVar4;
   
-  iVar1 = orig::FUN_10160c90(&g_menuMng);
+  iVar1 = orig::FUN_10160c90(&g_menuMng_as_v0);
   uVar2 = (uint3)((uint)iVar1 >> 8);
   if (iVar1 == 0) {
 LAB_10157d2e:
@@ -4227,11 +4227,11 @@ XI_API undefined4 __cdecl fn_10157D60(void)
   int iVar4;
   undefined8 uVar5;
   
-  uVar5 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar5 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   if (((int)uVar5 != 0) && (self_ = *(void **)((int)uVar5 + 0x70), self_ != (void *)0x0)) {
     iVar4 = 0;
     do {
-      iVar1 = (&ActerBuffPtr)[iVar4];
+      iVar1 = (&ActerBuffPtr_as_v0)[iVar4];
       if (iVar1 != 0) {
         if ((*(uint *)(iVar1 + 0x120) >> 0xd & 1) == 0) {
           uVar3 = orig::FUN_1008e8d0(self_,iVar1);
@@ -4242,13 +4242,13 @@ XI_API undefined4 __cdecl fn_10157D60(void)
 LAB_10157daa:
           bVar2 = true;
         }
-        iVar1 = (&ActerBuffPtr)[iVar4];
+        iVar1 = (&ActerBuffPtr_as_v0)[iVar4];
         if ((((*(int *)((int)self_ + 0x78) == *(int *)(iVar1 + 0x188)) && (bVar2)) &&
             ((*(uint *)(iVar1 + 0x130) >> 7 & 1) == 0)) &&
            ((((*(uint *)(iVar1 + 0x128) >> 4 & 1) == 0 && (*(int *)(iVar1 + 0x170) != 2)) &&
             ((*(int *)(iVar1 + 0x170) != 3 && (((byte)(*(uint *)(iVar1 + 0x120) >> 9) & 1) == 1)))))
            ) {
-          return (&ActerBuffPtr)[iVar4];
+          return (&ActerBuffPtr_as_v0)[iVar4];
         }
       }
       iVar4 = iVar4 + 1;
@@ -4283,18 +4283,18 @@ XI_API void __thiscall fn_10157E20(void * self_)
     if (*(short *)((int)self_ + 0x68) == 0) goto LAB_10157e96;
   }
   uVar1 = orig::FUN_10157d20();
-  if (((char)uVar1 != '\0') || (iVar2 = orig::FUN_1015edb0(&g_menuMng), (char)iVar2 == '\0')) {
+  if (((char)uVar1 != '\0') || (iVar2 = orig::FUN_1015edb0(&g_menuMng_as_v0), (char)iVar2 == '\0')) {
     *(undefined2 *)((int)self_ + 0x68) = 0;
     return;
   }
 LAB_10157e96:
   uVar3 = orig::FUN_10123a70(0x3e,0xf,1,-1);
   if ((((char)uVar3 == '\x01') || (uVar3 = orig::FUN_10087070(0), (char)uVar3 != '\0')) ||
-     ((*(char *)(g_pCursor + 0x4e) != '\0' &&
+     ((*(char *)(g_pCursor_as_s32 + 0x4e) != '\0' &&
       (uVar3 = orig::FUN_10123a70(0x3e,0x8c,1,-1), (char)uVar3 == '\x01')))) {
     if (*(short *)((int)self_ + 0x68) != 0) {
       *(undefined2 *)((int)self_ + 0x68) = 0;
-      orig::FUN_1015e830(&g_menuMng,0);
+      orig::FUN_1015e830(&g_menuMng_as_v0,0);
       orig::FUN_10123ea0();
     }
     return;
@@ -4315,14 +4315,14 @@ LAB_10157e96:
     *(undefined2 *)((int)self_ + 0x68) = 0;
   }
   if (*(short *)((int)self_ + 0x68) == 1) {
-    orig::FUN_1015dbb0(&g_menuMng,DAT_1062193c,1);
+    orig::FUN_1015dbb0(&g_menuMng_as_v0,DAT_1062193c,1);
     return;
   }
   if (*(short *)((int)self_ + 0x68) == 2) {
-    orig::FUN_1015dbb0(&g_menuMng,DAT_106671b8_as_s32,1);
+    orig::FUN_1015dbb0(&g_menuMng_as_v0,DAT_106671b8_as_s32,1);
     return;
   }
-  orig::FUN_1015e850(&g_menuMng,0);
+  orig::FUN_1015e850(&g_menuMng_as_v0,0);
   return;
 }
 
@@ -4346,14 +4346,14 @@ XI_API undefined4 __thiscall fn_10157FA0(void * self_)
   bVar2 = false;
   uVar10 = orig::FUN_10123a70(0x3f,0x44,1,-1);
   if ((char)uVar10 == '\x01') {
-    uVar10 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+    uVar10 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
     if ((((int)uVar10 != 0) && (iVar3 = *(int *)((int)uVar10 + 0x70), iVar3 != 0)) &&
        ((*(int *)(iVar3 + 0x170) == 0x21 ||
         ((self_ == (void *)0x0 || (*(char *)((int)self_ + 0x20) == '\0')))))) {
       bVar2 = true;
     }
   }
-  iVar3 = orig::Settings_GetValue(0x46);
+  iVar3 = orig::Settings_GetValue_v1(0x46);
   uVar4 = 0;
   if (iVar3 != 0) {
     fVar7 = orig::FUN_10123970(0x3f,5);
@@ -4375,7 +4375,7 @@ XI_API undefined4 __thiscall fn_10157FA0(void * self_)
         goto LAB_10158151;
       }
     }
-    uVar10 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+    uVar10 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
     uVar4 = (uint)uVar10;
     if ((uVar4 != 0) && (*(char *)((int)self_ + 0x57) == '\0')) {
       piVar1 = (int *)(uVar4 + 0x70);
@@ -4386,11 +4386,11 @@ XI_API undefined4 __thiscall fn_10157FA0(void * self_)
         switch(iVar3) {
         case 7:
         case 0x21:
-          orig::_sprintf_v1(local_80,s__s__s_10358098,s__heal_1036e3a4,&DAT_1034f488);
+          orig::_sprintf_v2(local_80,s__s__s_10358098,s__heal_1036e3a4,&DAT_1034f488);
           iVar3 = orig::CommandCalc(local_80,0);
           return CONCAT31((int3)((uint)iVar3 >> 8),1);
         case 0x2f:
-          orig::_sprintf_v1(local_80,s__s__s_10358098,&DAT_10372138,&DAT_1034f488);
+          orig::_sprintf_v2(local_80,s__s__s_10358098,&DAT_10372138,&DAT_1034f488);
           iVar3 = orig::CommandCalc(local_80,0);
           return CONCAT31((int3)((uint)iVar3 >> 8),1);
         case 0x3f:
@@ -4414,7 +4414,7 @@ XI_API undefined4 __thiscall fn_10157FA0(void * self_)
         case 0x51:
         case 0x52:
         case 0x53:
-          orig::_sprintf_v1(local_80,s__s__s_10358098,s__sitchair_1037212c,&DAT_1034f488);
+          orig::_sprintf_v2(local_80,s__s__s_10358098,s__sitchair_1037212c,&DAT_1034f488);
           iVar3 = orig::CommandCalc(local_80,0);
           return CONCAT31((int3)((uint)iVar3 >> 8),1);
         }
@@ -4457,13 +4457,13 @@ XI_API void __thiscall fn_101581E0(void * self_)
   if (g_pTargetMng != (void *)0x0) {
     orig::FUN_101598a0(g_pTargetMng);
   }
-  uVar2 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar2 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   iVar1 = 0;
   if ((int)uVar2 != 0) {
     iVar1 = *(int *)((int)uVar2 + 0x70);
   }
-  if (((*(int *)((int)self_ + 0xb8) != 0) && ((&ActerBuffPtr)[*(int *)((int)self_ + 0xb8)] != 0)) &&
-     (*(int *)((&ActerBuffPtr)[*(int *)((int)self_ + 0xb8)] + 0xa0) == 0)) {
+  if (((*(int *)((int)self_ + 0xb8) != 0) && ((&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 0xb8)] != 0)) &&
+     (*(int *)((&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 0xb8)] + 0xa0) == 0)) {
     *(undefined1 *)((int)self_ + 0x9c) = 0;
     *(undefined4 *)((int)self_ + 0xb8) = 0;
     *(undefined4 *)((int)self_ + 0xbc) = 0;
@@ -4509,7 +4509,7 @@ XI_API void __thiscall fn_101582F0(void * self_)
     uVar4 = orig::FUN_101578b0(self_);
     iVar5 = orig::FUN_101578c0(self_);
     if ((((*(int *)((int)self_ + 0xd0) == 0) || (*(char *)((int)self_ + 0x22) != '\0')) ||
-        (iVar6 = orig::Settings_GetValue(0xc0), iVar6 != 1)) ||
+        (iVar6 = orig::Settings_GetValue_v1(0xc0), iVar6 != 1)) ||
        (((iVar5 == 0 || ((char)uVar1 == '\0')) || ((char)uVar3 == '\0')))) {
       uVar7 = 0;
     }
@@ -4538,7 +4538,7 @@ XI_API void __thiscall fn_101583F0(void * self_)
     uVar1 = orig::FUN_101578d0(self_);
     uVar2 = orig::FUN_101578e0(self_);
     if ((((*(int *)((int)self_ + 0xd0) == 0) || (*(char *)((int)self_ + 0x22) == '\0')) ||
-        ((char)uVar1 == '\0')) || (iVar3 = orig::Settings_GetValue(0xc0), iVar3 != 1)) {
+        ((char)uVar1 == '\0')) || (iVar3 = orig::Settings_GetValue_v1(0xc0), iVar3 != 1)) {
       uVar4 = 0;
     }
     else {
@@ -4581,8 +4581,8 @@ XI_API undefined4 __thiscall fn_10158480(void * self_)
     if (cVar2 != '\x01') goto LAB_101584fb;
   }
   if ((*(char *)((int)self_ + 0x59) == '\0') && (*(int *)((int)self_ + 0xc4) == 0)) {
-    orig::FUN_1015f3e0(&g_menuMng,0x10);
-    orig::FUN_1015ef20(&g_menuMng);
+    orig::FUN_1015f3e0(&g_menuMng_as_v0,0x10);
+    orig::FUN_1015ef20(&g_menuMng_as_v0);
     orig::FUN_10157660(self_,0);
     orig::FUN_10158510(self_);
   }
@@ -4663,12 +4663,12 @@ XI_API void __thiscall fn_101585F0(void * self_)
       return;
     }
     uVar2 = orig::FUN_1025e050();
-    if (((char)uVar2 != '\0') && (*(char *)(g_pCursor + 0x4d) == '\x05')) {
+    if (((char)uVar2 != '\0') && (*(char *)(g_pCursor_as_s32 + 0x4d) == '\x05')) {
       orig::FUN_10158b40(self_,iVar1);
       return;
     }
     uVar2 = orig::FUN_1025e050();
-    if (((char)uVar2 == '\0') && (*(char *)(g_pCursor + 0x4d) == '\x04')) {
+    if (((char)uVar2 == '\0') && (*(char *)(g_pCursor_as_s32 + 0x4d) == '\x04')) {
       orig::FUN_10158b40(self_,iVar1);
       return;
     }
@@ -4680,7 +4680,7 @@ XI_API void __thiscall fn_101585F0(void * self_)
           (*(int *)((int)self_ + 0xc4) == 0)))) {
         uVar2 = orig::FUN_10097d50();
         if ((char)uVar2 == '\0') {
-          orig::MenuMng_OpenByName(&g_menuMng,s_menu_playermo_1036f5b4,1,1);
+          orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_playermo_1036f5b4,1,1);
           if ((*(int *)(DAT_10578170 + 8) != 0) &&
              (*(char *)(*(int *)(DAT_10578170 + 8) + 0x6e) == '\0')) {
             orig::FUN_10037e30();
@@ -4688,7 +4688,7 @@ XI_API void __thiscall fn_101585F0(void * self_)
           }
         }
         else {
-          orig::MenuMng_OpenByName(&g_menuMng,s_menu_mp_pmode_1036f840,1,1);
+          orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mp_pmode_1036f840,1,1);
           if ((*(int *)(DAT_10578250 + 8) != 0) &&
              (*(char *)(*(int *)(DAT_10578250 + 8) + 0x6e) == '\0')) {
             orig::FUN_10037e30();
@@ -4799,7 +4799,7 @@ XI_API undefined4 __thiscall fn_10158C40(void * self_, undefined4 param_1)
   }
   uVar3 = 0;
   if ((*(uint *)((int)self_ + 0x60) & 0x200) != 0) {
-    uVar4 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+    uVar4 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
     uVar3 = (undefined4)uVar4;
   }
   return uVar3;
@@ -4899,7 +4899,7 @@ XI_API void __thiscall fn_10158DB0(void * self_, undefined4 param_1)
     *(undefined4 *)((int)self_ + 0xcc) = 0;
     *(undefined4 *)((int)self_ + 0xd0) = 0;
     if (this_00 == (void *)0x0) {
-      pcVar3 = &Read;
+      pcVar3 = &Read_as_v0;
     }
     else if (*(short *)((int)this_00 + 0x210) == 0) {
       pcVar3 = (char *)((int)this_00 + 0x7c);
@@ -4932,11 +4932,11 @@ XI_API void __thiscall fn_10158DB0(void * self_, undefined4 param_1)
     if (iVar5 != 0) {
       bVar1 = false;
       if ((*(ushort *)(iVar5 + 0x1fa) != 0) &&
-         (this_00 == (void *)(&ActerBuffPtr)[*(ushort *)(iVar5 + 0x1fa)])) {
+         (this_00 == (void *)(&ActerBuffPtr_as_v0)[*(ushort *)(iVar5 + 0x1fa)])) {
         bVar1 = true;
       }
       if (((*(ushort *)(iVar5 + 0x2a0) != 0) &&
-          (this_00 == (void *)(&ActerBuffPtr)[*(ushort *)(iVar5 + 0x2a0)])) &&
+          (this_00 == (void *)(&ActerBuffPtr_as_v0)[*(ushort *)(iVar5 + 0x2a0)])) &&
          ((*(uint *)(iVar5 + 0x130) >> 0x13 & 1) != 0)) {
         bVar1 = true;
       }
@@ -4959,11 +4959,11 @@ XI_API void __thiscall fn_10158DB0(void * self_, undefined4 param_1)
   }
   uVar7 = orig::FUN_10097d50();
   if ((char)uVar7 == '\0') {
-    orig::MenuMng_OpenByName(&g_menuMng,s_menu_playermo_1036f5b4,1,1);
+    orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_playermo_1036f5b4,1,1);
     iVar5 = *(int *)(DAT_10578170 + 8);
   }
   else {
-    orig::MenuMng_OpenByName(&g_menuMng,s_menu_mp_pmode_1036f840,1,1);
+    orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mp_pmode_1036f840,1,1);
     iVar5 = *(int *)(DAT_10578250 + 8);
   }
   if ((iVar5 != 0) && (*(char *)(iVar5 + 0x6e) == '\0')) {
@@ -5012,13 +5012,13 @@ XI_API void __thiscall fn_101590C0(void * self_, int * param_1)
   undefined8 uVar4;
   
   iVar1 = orig::FUN_101598b0(self_);
-  uVar3 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar3 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   if (*(char *)((int)DAT_10578478 + 0x65) == '\0') {
     if (param_1 == (int *)0x0) {
       orig::FUN_10150a30(DAT_10578478,(char *)0x0);
       uVar4 = orig::FUN_1011ba40(DAT_10578478);
       if ((char)uVar4 == '\x01') {
-        orig::FUN_1015e910(&g_menuMng,s_menu_targetwi_1035bad8);
+        orig::FUN_1015e910(&g_menuMng_as_v0,s_menu_targetwi_1035bad8);
       }
     }
     else {
@@ -5031,12 +5031,12 @@ XI_API void __thiscall fn_101590C0(void * self_, int * param_1)
       }
       uVar4 = orig::FUN_1011ba40(DAT_10578478);
       if ((char)uVar4 == '\0') {
-        orig::MenuMng_OpenByName(&g_menuMng,s_menu_targetwi_1035bad8,1,1);
+        orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_targetwi_1035bad8,1,1);
       }
     }
   }
   if ((int)uVar3 != 0) {
-    orig::FUN_100814f0(&XiControlActor_userControlTarget,(int)param_1);
+    orig::FUN_100814f0(&XiControlActor_userControlTarget_as_v0,(int)param_1);
   }
   return;
 }
@@ -5305,7 +5305,7 @@ XI_API undefined4 __thiscall fn_10159780(void * self_)
   piVar1 = orig::FUN_10159de0(self_);
   if (piVar1 != (int *)0x0) {
     if (*(char *)((int)self_ + 0x21) == '\0') {
-      piVar1 = (int *)(&ActerBuffPtr)[*piVar1];
+      piVar1 = (int *)(&ActerBuffPtr_as_v0)[*piVar1];
       *(int **)((int)self_ + 8) = piVar1;
       if (piVar1 != (int *)0x0) {
         *(int *)((int)self_ + 0xc) = piVar1[0x28];
@@ -5352,7 +5352,7 @@ XI_API void __thiscall fn_10159830(void * self_, char * param_1, int * param_2)
   int iVar1;
   int iVar2;
   
-  orig::_strncpy((char *)((int)self_ + 0x9c),param_1,0x18);
+  orig::_strncpy_v1((char *)((int)self_ + 0x9c),param_1,0x18);
   *(undefined1 *)((int)self_ + 0xb4) = 0;
   iVar1 = *param_2;
   *(int *)((int)self_ + 0xb8) = iVar1;
@@ -5400,7 +5400,7 @@ XI_API undefined4 __thiscall fn_101598C0(void * self_, float param_1)
   undefined4 uVar2;
   undefined8 uVar3;
   
-  uVar3 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar3 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   if ((int)uVar3 == 0) {
     return (uint)(uint3)((ulonglong)uVar3 >> 8) << 8;
   }
@@ -5486,9 +5486,9 @@ XI_API undefined4 __thiscall fn_10159A20(void * self_, float * param_1)
       *(undefined4 *)((int)self_ + 0x18) = uVar1;
     }
   }
-  fVar6 = orig::Camera_GetFrameScale();
+  fVar6 = orig::Camera_GetFrameScale_v1();
   lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-  iVar4 = orig::Settings_GetValue(0xc4);
+  iVar4 = orig::Settings_GetValue_v1(0xc4);
   fVar6 = (float10)iVar4 * (float10)(float)(float10)(int)(short)lVar7 * (float10)xi_k4(0x3C23D70Aull);
   *param_1 = (float)(fVar6 * (float10)*param_1);
   param_1[2] = (float)(fVar6 * (float10)param_1[2]);
@@ -5521,22 +5521,22 @@ XI_API void __stdcall fn_10159B10(float * param_1)
   char xi_frame[64] __attribute__((aligned(4)));
   undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 0);
   
-  iVar5 = orig::Camera_GetField50();
-  iVar6 = orig::Camera_GetField50();
+  iVar5 = orig::Camera_GetField50_v1();
+  iVar6 = orig::Camera_GetField50_v1();
   fVar1 = *(float *)(iVar5 + 0x50);
   fVar2 = *(float *)(iVar6 + 0x44);
-  orig::Camera_GetField50();
-  orig::Camera_GetField50();
-  iVar5 = orig::Camera_GetField50();
-  iVar6 = orig::Camera_GetField50();
+  orig::Camera_GetField50_v1();
+  orig::Camera_GetField50_v1();
+  iVar5 = orig::Camera_GetField50_v1();
+  iVar6 = orig::Camera_GetField50_v1();
   fVar3 = *(float *)(iVar5 + 0x58);
   fVar4 = *(float *)(iVar6 + 0x4c);
   orig::fn_10027990_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   fVar7 = xi_castbits<float10>(fpatan((float10)(float)((float10)fVar1 - (float10)fVar2),
                           (float10)(float)((float10)fVar3 - (float10)fVar4)));
-  orig::Mat4_PostRotateY(local_40,(float)fVar7);
-  orig::Mat4_TransformPointInPlace(local_40,param_1);
+  orig::Mat4_PostRotateY_v1(local_40,(float)fVar7);
+  orig::Mat4_TransformPointInPlace_v1(local_40,param_1);
   orig::nullsub_1();
   return;
 }
@@ -5906,8 +5906,8 @@ XI_API void __cdecl fn_1015D7F0(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined1 __cdecl fn_1015D860(void)
 {
-  orig::FUN_1015d9a0(&g_menuMng);
-  orig::FUN_1015eea0(&g_menuMng,0);
+  orig::FUN_1015d9a0(&g_menuMng_as_v0);
+  orig::FUN_1015eea0(&g_menuMng_as_v0,0);
   return 1;
 }
 
@@ -5915,7 +5915,7 @@ XI_API undefined1 __cdecl fn_1015D860(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined1 __cdecl fn_1015D880(void)
 {
-  orig::FUN_1015eea0(&g_menuMng,1);
+  orig::FUN_1015eea0(&g_menuMng_as_v0,1);
   return 1;
 }
 
@@ -6099,7 +6099,7 @@ XI_API int __thiscall fn_1015DD00(void * self_, undefined4 param_1)
   if ((char)uVar1 == '\0') {
     iVar2 = orig::FUN_1015edb0(self_);
     if (((char)iVar2 != '\0') && (uVar1 = orig::FUN_10160700(self_), (char)uVar1 == '\0')) {
-      iVar2 = orig::FUN_10118260_v1(*(void **)((int)self_ + 0x54),param_1);
+      iVar2 = orig::FUN_10118260(*(void **)((int)self_ + 0x54),param_1);
       if (iVar2 == 0) {
         return 0;
       }
@@ -6124,19 +6124,19 @@ XI_API void __thiscall fn_1015DD90(void * self_)
   uint  &local_8 = *reinterpret_cast<uint  *>(xi_frame + 0);
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
   
-  if (g_pCursor != 0) {
-    local_8 = *(uint *)(g_pCursor + 4);
-    local_4 = *(undefined4 *)(g_pCursor + 8);
+  if (g_pCursor_as_s32 != 0) {
+    local_8 = *(uint *)(g_pCursor_as_s32 + 4);
+    local_4 = *(undefined4 *)(g_pCursor_as_s32 + 8);
   }
   iVar1 = orig::FUN_1015edb0(self_);
-  if ((((char)iVar1 != '\0') && (*(char *)(g_pCursor + 0x4d) == '\x02')) &&
+  if ((((char)iVar1 != '\0') && (*(char *)(g_pCursor_as_s32 + 0x4d) == '\x02')) &&
      (*(void **)((int)self_ + 0x54) != (void *)0x0)) {
-    uVar2 = orig::FUN_10118c10_v1(*(void **)((int)self_ + 0x54),&local_8);
+    uVar2 = orig::FUN_10118c10(*(void **)((int)self_ + 0x54),&local_8);
     if ((char)uVar2 != '\0') {
       iVar1 = orig::FUN_10118cb0(*(void **)((int)self_ + 0x54),(int *)&local_8,0);
       if (0 < (short)iVar1) {
         if (*(short *)((int)*(void **)((int)self_ + 0x54) + 0x4c) != (short)iVar1) {
-          orig::FUN_10118db0_v1(*(void **)((int)self_ + 0x54),iVar1,0);
+          orig::FUN_10118db0(*(void **)((int)self_ + 0x54),iVar1,0);
           orig::FUN_1015dd00(self_,9);
           return;
         }
@@ -6144,7 +6144,7 @@ XI_API void __thiscall fn_1015DD90(void * self_)
           orig::FUN_1015dd00(self_,0x1d);
           return;
         }
-        fVar3 = orig::Camera_GetFrameScale();
+        fVar3 = orig::Camera_GetFrameScale_v1();
         local_8 = (uint)*(short *)((int)self_ + 0xb0);
         lVar4 = XI_CALL_ST0(0x10311C2Cu)(fVar3 + (float10)(int)local_8);
         *(short *)((int)self_ + 0xb0) = (short)lVar4;
@@ -6163,15 +6163,15 @@ XI_API void __thiscall fn_1015DE50(void * self_)
   int  &local_8 = *reinterpret_cast<int  *>(xi_frame + 0);
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
   
-  if (g_pCursor != 0) {
-    local_8 = *(int *)(g_pCursor + 4);
-    local_4 = *(undefined4 *)(g_pCursor + 8);
+  if (g_pCursor_as_s32 != 0) {
+    local_8 = *(int *)(g_pCursor_as_s32 + 4);
+    local_4 = *(undefined4 *)(g_pCursor_as_s32 + 8);
   }
-  if (((*(void **)((int)self_ + 0x54) != (void *)0x0) && (*(char *)(g_pCursor + 0x4d) == '\x02')) &&
-     (*(char *)(g_pCursor + 0x86) == '\0')) {
+  if (((*(void **)((int)self_ + 0x54) != (void *)0x0) && (*(char *)(g_pCursor_as_s32 + 0x4d) == '\x02')) &&
+     (*(char *)(g_pCursor_as_s32 + 0x86) == '\0')) {
     uVar1 = orig::FUN_10118cb0(*(void **)((int)self_ + 0x54),&local_8,0);
     if ((short)uVar1 < 1) {
-      if (*(char *)(g_pCursor + 0x87) == '\0') {
+      if (*(char *)(g_pCursor_as_s32 + 0x87) == '\0') {
         orig::YmSePlayBeep();
       }
     }
@@ -6196,7 +6196,7 @@ XI_API int __thiscall fn_1015DEE0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1015DEF0(void * self_)
 {
-  if ((*(int *)((int)self_ + 0x54) != 0) && (*(char *)(g_pCursor + 0x4d) == '\x02')) {
+  if ((*(int *)((int)self_ + 0x54) != 0) && (*(char *)(g_pCursor_as_s32 + 0x4d) == '\x02')) {
     orig::FUN_1015dd00(self_,6);
   }
   return;
@@ -6421,7 +6421,7 @@ XI_API void __thiscall fn_1015E8A0(void * self_, int param_1)
       *(undefined4 *)((int)self_ + 0x58) = 0;
     }
     orig::FUN_10117460((void *)this_00);
-    orig::operator_delete_10311BB0((LPVOID)this_00);
+    orig::operator_delete_10311BB0_v1((LPVOID)this_00);
   }
   return;
 }
@@ -6547,7 +6547,7 @@ XI_API undefined4 __stdcall fn_1015EC50(char * param_1)
   char xi_frame[4] __attribute__((aligned(4)));
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 0);
   
-  local_4 = orig::FUN_10126500(&g_menuMng);
+  local_4 = orig::FUN_10126500(&g_menuMng_as_v0);
   do {
     if (local_4 == 0) {
       return 0;
@@ -6569,7 +6569,7 @@ XI_API undefined4 __stdcall fn_1015ECC0(uint32_t param_1)
   char xi_frame[4] __attribute__((aligned(4)));
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 0);
   
-  local_4 = orig::FUN_10126500(&g_menuMng);
+  local_4 = orig::FUN_10126500(&g_menuMng_as_v0);
   do {
     if (local_4 == 0) {
       return 0;
@@ -6590,7 +6590,7 @@ XI_API undefined4 __stdcall fn_1015ED10(undefined4 param_1, uint32_t param_2, un
   char xi_frame[4] __attribute__((aligned(4)));
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 0);
   
-  local_4 = orig::FUN_10126500(&g_menuMng);
+  local_4 = orig::FUN_10126500(&g_menuMng_as_v0);
   do {
     if (local_4 == 0) {
       return 0;
@@ -6674,7 +6674,7 @@ XI_API undefined4 __cdecl fn_1015EE40(void)
      (*(int *)(g_pTargetMng_as_v1 + 0xc4) == 0)) {
     uVar1 = orig::FUN_101b5c90(DAT_10662d40);
     if (((char)uVar1 == '\0') && ((g_C_106631D4_as_v0 == 0 || (uVar1 = g_C_106631D4_as_v0, *(short *)(g_C_106631D4_as_v0 + 0x1c) == 0)))) {
-      uVar1 = orig::MenuMng_OpenByName(&g_menuMng,s_menu_menuwind_10371b4c,1,0);
+      uVar1 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_menuwind_10371b4c,1,0);
       return CONCAT31((int3)(uVar1 >> 8),1);
     }
   }
@@ -6774,7 +6774,7 @@ XI_API void __thiscall fn_1015F3E0(void * self_, uint32_t param_1)
             uVar3 = orig::FUN_10097d50();
             if ((char)uVar3 != '\0') {
 LAB_1015f576:
-              orig::MenuMng_OpenByName(self_,puVar4 + -9,1,1);
+              orig::MenuMng_OpenByName_v1(self_,puVar4 + -9,1,1);
             }
           }
         }
@@ -6799,7 +6799,7 @@ LAB_1015f5bc:
         orig::FUN_1015e910(self_,puVar4 + -9);
       }
       if (((param_1 & 4) != 0) && ((char)*puVar4 < '\0')) {
-        orig::MenuMng_OpenByName(self_,puVar4 + -9,1,0);
+        orig::MenuMng_OpenByName_v1(self_,puVar4 + -9,1,0);
       }
       puVar1 = puVar4 + 2;
       puVar4 = puVar4 + 0xb;
@@ -6943,7 +6943,7 @@ XI_API int __cdecl fn_1015F980(int param_1)
   int iVar1;
   
   if (param_1 == 0) {
-    iVar1 = orig::Settings_GetValue(0xb4);
+    iVar1 = orig::Settings_GetValue_v1(0xb4);
     if (iVar1 == 2) {
       return 0;
     }
@@ -7023,8 +7023,8 @@ XI_API void __thiscall fn_10160440(void * self_, undefined4 * param_1, int param
   
   this_00 = (undefined4 *)((int)self_ + 0xb8);
   if (*(undefined4 **)((int)self_ + 0xb8) != (undefined4 *)0x0) {
-    orig::CMoResource_ReleaseChain((void *)**(undefined4 **)((int)self_ + 0xb8));
-    orig::ResHandle_FreeIfUnreferenced(this_00);
+    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self_ + 0xb8));
+    orig::ResHandle_FreeIfUnreferenced_v1(this_00);
     *this_00 = 0;
   }
   if (g_pTextureMng_as_s32 != 0) {
@@ -7035,7 +7035,7 @@ XI_API void __thiscall fn_10160440(void * self_, undefined4 * param_1, int param
   if (g_pTextureMng_as_s32 != 0) {
     *(undefined1 *)(g_pTextureMng_as_s32 + 0x10) = 0;
   }
-  orig::FUN_10120950(&g_shapeMng);
+  orig::FUN_10120950(&g_shapeMng_as_v0);
   *param_1 = *this_00;
   return;
 }
@@ -7096,7 +7096,7 @@ XI_API void __cdecl fn_101609C0(void)
   if (*(undefined1 **)(DAT_10664520_as_s32 + 0x14) == &LAB_101608b0) {
     *(undefined1 *)(DAT_10664520_as_s32 + 0x3a) = 0;
     *(undefined4 *)(iVar1 + 0x14) = 0;
-    orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng,*(int *)(iVar1 + 8),1);
+    orig::CTkMenuMng_DestroyDrawMenu(&g_menuMng_as_v0,*(int *)(iVar1 + 8),1);
   }
   return;
 }
@@ -7208,17 +7208,17 @@ XI_API void __thiscall fn_10161990(void * self_)
     sStack_6 = 0;
     uStack_4 = 0;
     uStack_2 = 0;
-    iVar4 = orig::Settings_GetValue(0xb4);
+    iVar4 = orig::Settings_GetValue_v1(0xb4);
     iVar5 = orig::FUN_1014ff70();
     this_00 = *(void **)(DAT_10578474 + 0x5c + (iVar5 + (uint)(iVar4 != 0) * 9) * 4);
     orig::CTkMenuCtrlData_GetWindowLocate(*(void **)((int)self_ + 8),(undefined4 *)&sStack_8);
     sVar1 = *(short *)((int)self_ + 0x32);
-    sVar3 = (short)g_screenRectTopLeft;
-    sVar2 = (short)g_screenRectBottomRight;
-    fVar6 = orig::MenuMng_GetOffsetX(&g_menuMng,0);
+    sVar3 = (short)g_screenRectTopLeft_as_v1;
+    sVar2 = (short)g_screenRectBottomRight_as_v1;
+    fVar6 = orig::MenuMng_GetOffsetX_v1(&g_menuMng_as_v0,0);
     lVar7 = XI_CALL_ST0(0x10311C2Cu)(((((float10)xi_k4(0x3F800000ull) - fVar6) *
-                     (float10)(int)(short)((short)g_screenRectBottomRight -
-                                          (short)g_screenRectTopLeft) - (float10)xi_k4(0x44000000ull)) -
+                     (float10)(int)(short)((short)g_screenRectBottomRight_as_v1 -
+                                          (short)g_screenRectTopLeft_as_v1) - (float10)xi_k4(0x44000000ull)) -
                    (float10)(((int)(short)(sVar2 - sVar3) - (int)sVar1) + -0xa0)) +
                    (float10)(int)sStack_8);
     sStack_8 = (short)lVar7;
@@ -7274,12 +7274,12 @@ XI_API void __thiscall fn_10161D60(void * self_)
     this_00 = *(void **)(DAT_10578474 + 0xa4);
     orig::CTkMenuCtrlData_GetWindowLocate(*(void **)((int)self_ + 8),(undefined4 *)&sStack_8);
     sVar1 = *(short *)((int)self_ + 0x32);
-    sVar3 = (short)g_screenRectTopLeft;
-    sVar2 = (short)g_screenRectBottomRight;
-    fVar4 = orig::MenuMng_GetOffsetX(&g_menuMng,0);
+    sVar3 = (short)g_screenRectTopLeft_as_v1;
+    sVar2 = (short)g_screenRectBottomRight_as_v1;
+    fVar4 = orig::MenuMng_GetOffsetX_v1(&g_menuMng_as_v0,0);
     lVar5 = XI_CALL_ST0(0x10311C2Cu)(((((float10)xi_k4(0x3F800000ull) - fVar4) *
-                     (float10)(int)(short)((short)g_screenRectBottomRight -
-                                          (short)g_screenRectTopLeft) - (float10)xi_k4(0x44000000ull)) -
+                     (float10)(int)(short)((short)g_screenRectBottomRight_as_v1 -
+                                          (short)g_screenRectTopLeft_as_v1) - (float10)xi_k4(0x44000000ull)) -
                    (float10)(((int)(short)(sVar2 - sVar3) - (int)sVar1) + -0xa0)) +
                    (float10)(int)sStack_8);
     sStack_8 = (short)lVar5;
@@ -7325,9 +7325,9 @@ XI_API void * __thiscall fn_10161ED0(void * self_, undefined4 param_1)
   *(undefined1 *)((int)self_ + 0x4c) = 0;
   *(undefined1 *)((int)self_ + 0x4d) = 1;
   *(short *)((int)self_ + 0x32) =
-       ((short)g_screenRectBottomRight - (short)g_screenRectTopLeft) + -0xa0;
-  uVar2 = g_screenRectBottomRight;
-  uVar1 = g_screenRectTopLeft;
+       ((short)g_screenRectBottomRight_as_v1 - (short)g_screenRectTopLeft_as_v1) + -0xa0;
+  uVar2 = g_screenRectBottomRight_as_v1;
+  uVar1 = g_screenRectTopLeft_as_v1;
   *(undefined1 *)((int)self_ + 0x5a) = 0;
   *(undefined2 *)((int)self_ + 0x56) = 0;
   *(undefined1 *)((int)self_ + 0x31) = 4;
@@ -7385,8 +7385,8 @@ XI_API int __cdecl Gfx_ApplyViewport1904(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_101620D0(void)
 {
-  orig::Gfx_SetAdditiveBlend();
-  orig::Font_BindGlyphTexture(g_pFontGlyphs);
+  orig::Gfx_SetAdditiveBlend_v1();
+  orig::Font_BindGlyphTexture_v1(g_pFontGlyphs);
   return;
 }
 

@@ -35,13 +35,13 @@ XI_API void __thiscall fn_10003710(void * self_)
   
   if (*(char *)((int)self_ + 4) != '\0') {
     if (*(int *)((int)self_ + 8) == 0) {
-      uVar4 = orig::Allocator_Generic(0x4800);
+      uVar4 = orig::Allocator_Generic_v1(0x4800);
       *(int *)((int)self_ + 0xc) = (int)uVar4;
-      uVar4 = orig::Allocator_Generic(0x9000);
+      uVar4 = orig::Allocator_Generic_v1(0x9000);
       *(int *)((int)self_ + 0x10) = (int)uVar4;
-      uVar4 = orig::Allocator_Generic(0x240000);
+      uVar4 = orig::Allocator_Generic_v1(0x240000);
       *(int *)((int)self_ + 0x14) = (int)uVar4;
-      uVar4 = orig::Allocator_Generic(0x2400);
+      uVar4 = orig::Allocator_Generic_v1(0x2400);
       *(int *)((int)self_ + 0x18) = (int)uVar4;
       puVar3 = *(undefined4 **)((int)self_ + 0x14);
       for (iVar1 = 0x90000; iVar1 != 0; iVar1 = iVar1 + -1) {
@@ -86,7 +86,7 @@ XI_API void __thiscall fn_100037D0(void * self_, uint32_t * param_1, float param
     *(float *)(*param_1 * 0x10 + 8 + *(int *)((int)self_ + 0x10)) = (float)(float10)param_4;
     *(float *)(*param_1 * 0x10 + 0xc + *(int *)((int)self_ + 0x10)) = (float)(float10)param_5;
     _Dest = (char *)(*param_1 * 0x400 + *(int *)((int)self_ + 0x14));
-    orig::_strncpy(_Dest,param_6,0x400);
+    orig::_strncpy_v1(_Dest,param_6,0x400);
     _Dest[0x3ff] = '\0';
     *(undefined4 *)(*(int *)((int)self_ + 0x18) + *param_1 * 4) = param_7;
   }
@@ -175,7 +175,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
   orig::fn_10027990((Iostream_init *)v27);
   memset(v24, 0, sizeof(v24));
   v25 = 1065353216;
-  if ( orig::ShapeMng_BindFontTexture(g_shapeMng_as_v0, 0xFFFFFFFF, nullptr, nullptr) != 0 )
+  if ( orig::ShapeMng_BindFontTexture(g_shapeMng, 0xFFFFFFFF, nullptr, nullptr) != 0 )
   {
     orig::Mat4_SetIdentity(v27);
     orig::Mat4_SetTranslation(v27, a1);
@@ -207,7 +207,7 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
         }
         else
         {
-          orig::ShapeMng_GetFontGlyph(g_shapeMng_as_v0, v8, (int)v7, v6, nullptr, nullptr);
+          orig::ShapeMng_GetFontGlyph(g_shapeMng, v8, (int)v7, v6, nullptr, nullptr);
           v3 = v21;
         }
         ++v5;

@@ -43,7 +43,7 @@ XI_API undefined4 __thiscall fn_1001B5D0(void * self_)
   float10 fVar6;
   float10 fVar7;
   
-  fVar4 = orig::Camera_GetFrameScale();
+  fVar4 = orig::Camera_GetFrameScale_v1();
   fVar1 = (float)fVar4;
   cVar2 = *(char *)((int)self_ + 8);
   if (cVar2 == '\x01') {

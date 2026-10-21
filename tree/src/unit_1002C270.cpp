@@ -70,7 +70,7 @@ XI_API undefined4 __thiscall fn_1002C400(void * self_, int param_1, int param_2,
       local_c = (float)(float10)*(float *)((int)self_ + 0x2c);
       local_8 = (float)(float10)*(float *)((int)self_ + 0x28);
       local_4 = 0x3f800000;
-      orig::Vec3_MulInPlace(local_20,local_20 + 4);
+      orig::Vec3_MulInPlace_v1(local_20,local_20 + 4);
       uVar1 = orig::Vec3_AddInPlace_v1(param_3,local_20);
       return CONCAT31((int3)((uint)uVar1 >> 8),1);
     }

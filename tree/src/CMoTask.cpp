@@ -141,8 +141,8 @@ undefined4 __thiscall CMoTask::ResetFields(void * self)
   *(undefined4 *)((int)self + 4) = 0;
   *(undefined4 *)((int)self + 0x18) = 0;
   *(undefined4 *)((int)self + 0x1c) = 0;
-  *(undefined1 *)((int)self + 0x20) = g_resourcesDirty;
-  g_resourcesDirty = 0;
+  *(undefined1 *)((int)self + 0x20) = g_resourcesDirty_as_v0;
+  g_resourcesDirty_as_v0 = 0;
   *(undefined4 *)((int)self + 0x14) = 0;
   *(undefined2 *)((int)self + 0x22) = 0;
   *(undefined4 *)((int)self + 0x10) = 0;

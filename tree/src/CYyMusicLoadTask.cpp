@@ -38,12 +38,12 @@ XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
   
   if (DAT_10463944 != param_1) {
     DAT_10463944 = param_1;
-    uVar1 = orig::Mem_AllocFromArea(0x5c,4);
+    uVar1 = orig::Mem_AllocFromArea_v1(0x5c,4);
     self_ = (int *)uVar1;
-    orig::CMoTask_ResetFields(self_);
-    g_resourcesDirty = 1;
+    orig::CMoTask_ResetFields_v1(self_);
+    g_resourcesDirty_as_v0 = 1;
     if (self_ != (int *)0x0) {
-      orig::CMoTask_Constructor(self_);
+      orig::CMoTask_Constructor_v1(self_);
       *self_ = (int)&PTR_CYyMusicLoadTask_GetRuntimeClass_1032a990;
       if (DAT_10463948 != (int *)0x0) {
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
@@ -59,7 +59,7 @@ XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
       *(undefined1 *)(self_ + 0x15) = 0;
       self_[0x13] = 0x1e;
       self_[0xe] = 0;
-      orig::CMoTask_RegisterWithMng(5);
+      orig::CMoTask_RegisterWithMng_v1(5);
     }
   }
   return;

@@ -20,18 +20,18 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
     orig::FUN_1029bd40(*(float *)(param_1 + 0x58));
     orig::FUN_1029bcd0(param_1 + 0x5c);
     if (*(int *)(param_1 + 0x50) == 0) {
-      orig::sqgxTextureSet(-1);
+      orig::sqgxTextureSet_v1(-1);
     }
     else {
       iVar3 = *(int *)(*(int *)(param_1 + 0x50) + 0x1c);
       iVar2 = *(int *)(iVar3 + 0x24);
       if ((((iVar2 == 2) || (iVar2 == 4)) || (*(int *)(iVar3 + 0x30) == 4)) &&
          ((*(byte *)(param_1 + 0x164) & 1) != 0)) {
-        orig::sqgxBlendTrsp_Candidate();
+        orig::sqgxBlendTrsp_v1();
       }
       orig::sqgxTextureClamp_v1(*(undefined4 *)(param_1 + 0x168));
-      orig::sqgxTextureDecal(0);
-      orig::sqgxTextureSet(*(int *)(*(int *)(param_1 + 0x50) + 0x14));
+      orig::sqgxTextureDecal_v1(0);
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x50) + 0x14));
       orig::sqgxTextureSetPalette(*(int *)(*(int *)(param_1 + 0x50) + 0x18));
       uVar4 = 0x40004;
     }
@@ -44,10 +44,10 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
     else {
       uVar4 = CONCAT22(uVar5,CONCAT11(0x40,(char)uVar4));
     }
-    orig::sqgxContext_SelectShaderMode(uVar4,0);
-    orig::sqDrawableDraw(*param_2);
-    orig::sqgxPassAdd(1);
-    orig::sqgxSetZWrite(0);
+    orig::sqgxShader_v1(uVar4,0);
+    orig::sqDrawableDraw_v1(*param_2);
+    orig::sqgxPassAdd_v1(1);
+    orig::sqgxZMask_v1(0);
     if ((*(int *)(param_1 + 0x54) != 0) &&
        ((!NAN((float10)*(float *)(param_1 + 0x160)) && !NAN((float10)xi_k8(0x3F50624DD2F1A9FCull))) &&
         (float10)xi_k8(0x3F50624DD2F1A9FCull) < (float10)*(float *)(param_1 + 0x160))) {
@@ -58,7 +58,7 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
       else {
         orig::sqgxBlendAddDestAlpha();
       }
-      orig::sqgxTextureSet(*(int *)(*(int *)(param_1 + 0x54) + 0x14));
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x54) + 0x14));
       orig::sqgxTextureSetPalette(*(int *)(*(int *)(param_1 + 0x54) + 0x18));
       uVar4 = 0x10;
       if ((*(uint *)(param_1 + 0x4c) & 2) == 0) {
@@ -69,12 +69,12 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
       else {
         uVar4 = 0x4010;
       }
-      orig::sqgxContext_SelectShaderMode(uVar4,0);
-      orig::sqDrawableDraw(*param_2);
+      orig::sqgxShader_v1(uVar4,0);
+      orig::sqDrawableDraw_v1(*param_2);
     }
-    orig::sqgxBlendOff();
-    orig::sqgxPassAdd(-1);
-    orig::sqgxSetZWrite(1);
+    orig::sqgxBlendOff_v1();
+    orig::sqgxPassAdd_v1(-1);
+    orig::sqgxZMask_v1(1);
   }
   return;
 }
@@ -93,9 +93,9 @@ XI_API int __cdecl sqsdSampling_BakeOntoShape(int param_1, int param_2)
   else {
     uVar3 = 0x40004;
   }
-  orig::sqgxContext_SelectShaderMode(uVar3,0);
+  orig::sqgxShader_v1(uVar3,0);
   orig::FUN_1029b5c0();
-  orig::sqDrawableDraw(param_2);
+  orig::sqDrawableDraw_v1(param_2);
   puVar1 = orig::FUN_1029b620();
   puVar2 = orig::FUN_102a2000();
   puVar2[0x11] = puVar1;

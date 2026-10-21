@@ -10,11 +10,11 @@ XI_API void __thiscall fn_1003B690(void * self_)
   
   uVar1 = orig::FUN_1003b6d0(self_);
   if ((int)uVar1 != 0) {
-    orig::CMoAttachments_ClearCaster(self_,1);
+    orig::CMoAttachments_ClearCaster_v1(self_,1);
   }
   uVar1 = orig::FUN_1003b700(self_);
   if ((int)uVar1 != 0) {
-    orig::CMoAttachments_ClearTarget(self_,1);
+    orig::CMoAttachments_ClearTarget_v1(self_,1);
   }
   orig::CMoAttachments_Reset_v1(self_);
   return;

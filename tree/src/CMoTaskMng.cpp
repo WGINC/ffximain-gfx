@@ -39,18 +39,18 @@ XI_API void __thiscall fn_10074BA0(void * self_)
   int *piVar4;
   
   this_00 = (void *)((int)self_ + 4);
-  orig::CMoTask_ResetFields(this_00);
+  orig::CMoTask_ResetFields_v1(this_00);
   *(int *)((int)self_ + 0x10) = (int)self_ + 0x38;
   iVar2 = 0x3e;
   pvVar3 = this_00;
   do {
-    orig::CMoTask_ResetFields((void *)((int)pvVar3 + 0x34));
+    orig::CMoTask_ResetFields_v1((void *)((int)pvVar3 + 0x34));
     *(void **)((int)pvVar3 + 0x3c) = pvVar3;
     *(int *)((int)pvVar3 + 0x40) = (int)pvVar3 + 0x68;
     iVar2 = iVar2 + -1;
     pvVar3 = (void *)((int)pvVar3 + 0x34);
   } while (iVar2 != 0);
-  orig::CMoTask_ResetFields((void *)((int)self_ + 0xcd0));
+  orig::CMoTask_ResetFields_v1((void *)((int)self_ + 0xcd0));
   *(int *)((int)self_ + 0xcd8) = (int)self_ + 0xc9c;
   *(void **)((int)self_ + 0xd58) = this_00;
   *(undefined4 *)((int)self_ + 0xd54) = 0;

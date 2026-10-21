@@ -10,28 +10,28 @@ XI_API void __thiscall MeshResourceMng_LoadSystemResources(void * self_, undefin
   int *piVar2;
   undefined8 uVar3;
   
-  piVar2 = (int *)orig::FUN_10072fd0_v1(self_,&param_1,param_1);
+  piVar2 = (int *)orig::FUN_10072fd0(self_,&param_1,param_1);
   puVar1 = (undefined4 *)*piVar2;
   *(undefined4 **)((int)self_ + 0x40008) = puVar1;
   if (puVar1 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain((void *)*puVar1);
+    orig::CMoResource_AddRefChain_v1((void *)*puVar1);
     orig::FUN_10071e50();
   }
-  piVar2 = (int *)orig::FUN_100731b0_v1(self_,&param_1,(undefined4 *)0x1b);
+  piVar2 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0x1b);
   DAT_1047d118 = (undefined4 *)*piVar2;
   if (DAT_1047d118 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain((void *)*DAT_1047d118);
-    uVar3 = orig::CMoResource_FindByTypeAndId((void *)*DAT_1047d118,&param_1,7,0x766d6164);
+    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d118);
+    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x766d6164);
     DAT_1047d108 = *(undefined4 *)uVar3;
-    uVar3 = orig::CMoResource_FindByTypeAndId((void *)*DAT_1047d118,&param_1,7,0x7673696d);
+    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x7673696d);
     DAT_1047d120 = *(undefined4 *)uVar3;
-    uVar3 = orig::CMoResource_FindByTypeAndId((void *)*DAT_1047d118,&param_1,7,0x76727563);
+    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x76727563);
     DAT_1047d11c = *(undefined4 *)uVar3;
   }
-  piVar2 = (int *)orig::FUN_100731b0_v1(self_,&param_1,(undefined4 *)0xce07);
+  piVar2 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0xce07);
   DAT_1047d104 = (undefined4 *)*piVar2;
   if (DAT_1047d104 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain((void *)*DAT_1047d104);
+    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d104);
   }
   return;
 }
@@ -67,15 +67,15 @@ XI_API undefined4 * __stdcall fn_100730E0(undefined4 * param_1, int param_2)
     if (self_ == (void *)0x0) {
       uVar3 = orig::FUN_10074f30(dword_1047D140_as_v1,iVar1,0x4d727400);
       if ((int)uVar3 == 0) {
-        uVar3 = orig::Mem_AllocFromArea(0x49,4);
+        uVar3 = orig::Mem_AllocFromArea_v1(0x49,4);
         this_00 = (undefined4 *)uVar3;
-        orig::CMoTask_ResetFields(this_00);
-        g_resourcesDirty = 1;
+        orig::CMoTask_ResetFields_v1(this_00);
+        g_resourcesDirty_as_v0 = 1;
         if (this_00 == (undefined4 *)0x0) {
           this_00 = (undefined4 *)0x0;
         }
         else {
-          orig::CMoTask_Constructor(this_00);
+          orig::CMoTask_Constructor_v1(this_00);
           *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
           this_00[0xe] = 0;
           *(undefined4 *)((int)this_00 + 0x45) = 0;

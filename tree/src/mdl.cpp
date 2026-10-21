@@ -20,7 +20,7 @@ XI_API void __cdecl mdl_1026E900(void)
         iVar2 = iVar2 + -1;
       } while (iVar2 != 0);
     }
-    orig::sqFree(DAT_1099aedc,s_C__dev_dancer_tools_mdlview_src__103b17c0,0x63a);
+    orig::sqFree_v1(DAT_1099aedc,s_C__dev_dancer_tools_mdlview_src__103b17c0,0x63a);
     DAT_1099aedc = 0;
     DAT_1099aed8 = 0;
   }
@@ -40,7 +40,7 @@ XI_API void __cdecl mdl_1026E900(void)
     } while (-1 < iVar2);
   }
   if (DAT_1099aed0 != 0) {
-    orig::sqFree(DAT_1099aed0,s_C__dev_dancer_tools_mdlview_src__103b17c0,0x653);
+    orig::sqFree_v1(DAT_1099aed0,s_C__dev_dancer_tools_mdlview_src__103b17c0,0x653);
     DAT_1099aed0 = 0;
     DAT_1099aecc = 0;
     DAT_1099aec8 = 0;
@@ -437,8 +437,8 @@ XI_API undefined4 __cdecl fn_1026FF80(int param_1, float * param_2)
       do {
         iVar4 = *(int *)(*(int *)(iVar1 + 0x4c) + iVar3 * 4);
         pfVar2 = *(float **)(*(int *)(iVar1 + 0x50) + iVar3 * 4);
-        orig::M4fTransform(local_20,pfVar2,(float *)(iVar4 + 0x14));
-        orig::M4fTransform(local_10,pfVar2,(float *)(iVar4 + 0x20));
+        orig::M4fTransform_v1(local_20,pfVar2,(float *)(iVar4 + 0x14));
+        orig::M4fTransform_v1(local_10,pfVar2,(float *)(iVar4 + 0x20));
         iVar4 = 3;
         pfVar2 = param_2;
         do {
@@ -615,7 +615,7 @@ XI_API void __cdecl fn_10270690(int param_1)
   iVar2 = *(int *)(DAT_1099aed0 + 0xa4 + param_1 * 0xac);
   iVar1 = DAT_1099aed0 + param_1 * 0xac;
   if (iVar2 != 0) {
-    orig::sqFree(iVar2,s_C__dev_dancer_tools_mdlview_src__103b17c0,0xe83);
+    orig::sqFree_v1(iVar2,s_C__dev_dancer_tools_mdlview_src__103b17c0,0xe83);
     *(undefined4 *)(iVar1 + 0xa4) = 0;
   }
   *(undefined4 *)(iVar1 + 0x8c) = 0;

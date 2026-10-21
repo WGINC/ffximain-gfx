@@ -99,12 +99,9 @@
   "n_differing": 0
  },
  "facts:reg_kept_audit.json": {
-  "ok": false,
-  "differing": [
-   "_summary",
-   "sites"
-  ],
-  "n_differing": 2
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "facts:entry_regs.json": {
   "ok": true,

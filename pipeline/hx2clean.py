@@ -282,7 +282,7 @@ def rewrite_members(body, self_type, cls, layout_fields):
     return body
 
 # IDA's placeholder names, and Ghidra's (FUN_, DAT_, LAB_, PTR_, ... with lower-case hex): never the canonical name
-PLACEHOLDER = re.compile(r'^(?:(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}'
+PLACEHOLDER = re.compile(r'^(?:_?(sub|dword|word|byte|flt|dbl|qword|unk|off|stru)_[0-9A-F]{8}'
                          r'|(FUN|DAT|LAB|PTR|thunk_FUN|switchD|caseD|s|u|_DAT|BYTE|WORD|DWORD|QWORD)_[0-9a-fA-F_]+)$')
 
 
@@ -302,11 +302,15 @@ def canonicalise_names(R, pending):
     # two names across records. Every referenced object gets one name: the reviewed name from
     # names_pending_idb.json (not yet in the IDB), else the IDB's real name, else the placeholder.
     # Only references are renamed; a record's own name drives class placement and is left alone.
-    seen = collections.defaultdict(collections.Counter)
+    # the IDB's names are the IDA records' (a Ghidra record prints the names of the Ghidra project, which can lag
+    # or differ): a name an IDA record uses wins, the Ghidra records' names count only where no IDA record has one
+    seen, seen_ida = collections.defaultdict(collections.Counter), collections.defaultdict(collections.Counter)
     for r in R.values():
         for nm, o in r['objs'].items():
-            if not PLACEHOLDER.match(nm): seen[o['ea']][nm] += 1
-    canon = {ea: c.most_common(1)[0][0] for ea, c in seen.items()}
+            if not PLACEHOLDER.match(nm):
+                seen[o['ea']][nm] += 1
+                if not r.get('ghidra'): seen_ida[o['ea']][nm] += 1
+    canon = {ea: (seen_ida.get(ea) or c).most_common(1)[0][0] for ea, c in seen.items()}
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
     local = {'self', 'this'} | set().union(*(declared_names(r) for r in R.values()))
     for r in R.values():
@@ -351,6 +355,7 @@ def main(exp, gate, manf, incdir, outdir):
     for i, e in enumerate(exp.split(',')):
         for l in open(e):
             r = json.loads(re.sub(r"\s*__spoils<[^>]*>", "", l))   # callee-preserves-register notes: Hex-Rays only
+            r['_exp'] = i                               # which export (its order: the IDA export first)
             recs.append(r); first.setdefault(r['ea'], (i, len(recs) - 1))
             if i < len(passed_in) and r['ea'] in passed_in[i] and not (first[r['ea']][0] < len(passed_in)
                                                                          and r['ea'] in passed_in[first[r['ea']][0]]):
@@ -369,10 +374,10 @@ def main(exp, gate, manf, incdir, outdir):
             r = hx_patches.apply(r)
         if r.get('source') == 'ghidra':
             # the same preparation as the raw translation (hx2cpp.ghidra_prepare); its names: the IDB's, else fn_
-            r, status, why = hx2cpp.ghidra_prepare(r)
+            _exp = r['_exp']; r, status, why = hx2cpp.ghidra_prepare(r)
             if r is None: continue
             r = dict(r, objs=hx2cpp.ghidra_auto_objs(r, r['text'].partition('\n{')[2]),
-                     name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True)
+                     name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True, _exp=_exp)
             r['text'] = re.sub(r'\bFUN_%08x\b' % r['ea'], r['name'], r['text'])
         dmn = _dm.get(hex(r['ea']))
         if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
@@ -554,7 +559,11 @@ def main(exp, gate, manf, incdir, outdir):
     os.makedirs(os.path.join(outdir, 'include'), exist_ok=True)
     os.makedirs(os.path.join(outdir, 'src'), exist_ok=True)
     # symbol bindings for everything referenced
-    origs, globs, gtypes = {}, {}, {}
+    origs, globs, gtypes, gtier = {}, {}, {}, {}
+    _gfrom = {}
+    def gset(gea, v, t):
+        """a global's name: from a record of the first export that uses it (then the first name in sort order)"""
+        if gea not in globs or (t, v[0]) < _gfrom[gea]: globs[gea] = v; _gfrom[gea] = (t, v[0])
     fwrap, voidv = {}, {}
     def void_float_calls(ea, body):
         # a float callee whose result this caller never reads (hx2cpp.unconsumed_fp_calls): the call
@@ -585,17 +594,25 @@ def main(exp, gate, manf, incdir, outdir):
             if o['func']: _name_eas[nm].add(o['ea'])
     # records can type one callee differently (IDA's prototype in one, the Ghidra route's in another): each was gated
     # with its own, so each prototype gets its own wrapper; the most common one the plain name, the others _vN
-    _ftypes = collections.defaultdict(collections.Counter)
+    def obase(nm, fea):
+        return 'fn_%08X' % fea if not re.match(r'^[A-Za-z_]\w*$', nm) or nm in CXX_KEYWORDS else \
+            nm if len(_name_eas.get(nm, ())) <= 1 else '%s_%08X' % (nm, fea)
+    _ftypes, _ftier = collections.defaultdict(collections.Counter), collections.defaultdict(dict)
     for ea in passed:
         for nm, o in R[ea].get('objs', {}).items():
-            if o['func'] and not o.get('import'): _ftypes[o['ea']][ftype_of(ea, o, nm)] += 1
+            if o['func'] and not o.get('import'):
+                _k, _t = (o['ea'], obase(nm, o['ea'])), ftype_of(ea, o, nm)
+                _ftypes[_k][_t] += 1
+                _ftier[_k][_t] = min(_ftier[_k].get(_t, 99), R[ea].get('_exp', 0))
+    # numbered among the prototypes one name carries (IDA's sub_X and Ghidra's FUN_x are different names of one
+    # address), those of the first export that uses it first, so a name's wrappers keep their spelling when a
+    # later export's records are added
     _fvar = {}
-    for fea, cnt in _ftypes.items():
-        for k, t in enumerate(sorted(cnt, key=lambda t: (-cnt[t], t))): _fvar[(fea, t)] = k
+    for kb, cnt in _ftypes.items():
+        for k, t in enumerate(sorted(cnt, key=lambda t: (_ftier[kb][t], -cnt[t], t))): _fvar[kb + (t,)] = k
     def oname(nm, fea, ftype=None):
-        base = 'fn_%08X' % fea if not re.match(r'^[A-Za-z_]\w*$', nm) or nm in CXX_KEYWORDS else \
-            nm if len(_name_eas.get(nm, ())) <= 1 else '%s_%08X' % (nm, fea)
-        k = _fvar.get((fea, ftype.strip())) if ftype else 0
+        base = obase(nm, fea)
+        k = _fvar.get((fea, base, ftype.strip())) if ftype else 0
         return base if not k else '%s_v%d' % (base, k)
     for ea in passed:
         for nm, o in R[ea].get('objs', {}).items():
@@ -604,8 +621,9 @@ def main(exp, gate, manf, incdir, outdir):
                 # as a pointer at the slot (as the IDA records bind it), called through it
                 pt, _why = hx2cpp.ghidra_import_type(nm, o)          # as the raw translation types it
                 if pt is None: continue
-                globs.setdefault(o['ea'], (nm, dict(o, func=False, type=pt)))
+                gset(o['ea'], (nm, dict(o, func=False, type=pt)), R[ea].get('_exp', 0))
                 gtypes.setdefault(o['ea'], collections.Counter())[pt] += 1
+                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[pt] += 1
                 continue
             if o['func']:
                 ft = ftype_of(ea, o, nm)
@@ -619,8 +637,9 @@ def main(exp, gate, manf, incdir, outdir):
             else:
                 if R[ea].get('ghidra') and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), R[ea]['text']):
                     continue                            # a goto target of the body (LAB_...), not a global
-                globs.setdefault(o['ea'], (nm, o))
+                gset(o['ea'], (nm, o), R[ea].get('_exp', 0))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
+                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o)] += 1
     with open(os.path.join(outdir, 'include', 'gfx_orig.hpp'), 'w') as f:
         f.write('// gfx_orig.hpp -- calls into the game\'s own code (not reconstructed here), by address.\n'
                 '#pragma once\n#include "gfx_common.hpp"\n#define XI_ORIG static inline __attribute__((always_inline))\nnamespace orig {\n')
@@ -646,11 +665,14 @@ def main(exp, gate, manf, incdir, outdir):
             # types each use): the most common type gets the plain name, every other gets its own
             # name at the same address (`unk_104571D8_as_u8`), so each function reads exactly as wide
             # as the original did
-            cnt = gtypes[ea]
-            canon = sorted(cnt, key=lambda x: (-cnt[x], -WIDTH.get(x, 4)))[0]
+            # the plain name's type: the most common among the records of the first export that uses the global, so
+            # a later export's records (the frame set's) do not change the spelling the earlier ones were built with
+            cnt = gtypes[ea]; c0 = gtier[ea][min(gtier[ea])]
+            canon = sorted(c0, key=lambda x: (-c0[x], -WIDTH.get(x, 4)))[0]
             gcanon[ea] = canon
             f.write(typedef_for('%s_t' % gn, plain_type(canon)) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (gn, gn, ea))
-            for k, other in enumerate(sorted(x for x in cnt if x != canon)):
+            tier = {x: min(t for t, c in gtier[ea].items() if x in c) for x in cnt}
+            for k, other in enumerate(sorted((x for x in cnt if x != canon), key=lambda x: (tier[x], x))):
                 vn = '%s_as_%s' % (gn, SUFFIX.get(other, 'v%d' % k)); gvariant[(ea, other)] = vn
                 f.write(typedef_for('%s_t' % vn, plain_type(other)) + '\n#define %s XI_EA(%s_t, 0x%08Xu)\n' % (vn, vn, ea))
 

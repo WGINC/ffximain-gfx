@@ -205,9 +205,9 @@ XI_API void __thiscall fn_10044F10(int self_)
   else if ( (v2 & 0x20000) != 0 )
   {
     v5 = *(_DWORD **)(self_ + 252);
-    if ( v5 != nullptr && *v5 != 0 && orig::sub_100473F0_v1((int **)self_) != 0 )
+    if ( v5 != nullptr && *v5 != 0 && orig::sub_100473F0((int **)self_) != 0 )
     {
-      v6 = (_DWORD *)orig::sub_100473F0_v1((int **)self_);
+      v6 = (_DWORD *)orig::sub_100473F0((int **)self_);
       v22 = v6[12];
       v23 = v6[13];
       v24 = v6[14];
@@ -342,7 +342,7 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
   if ((((*(byte *)((int)self_ + 0x10c) & 1) == 0) ||
       (uVar1 = *(uint *)((int)self_ + 0x10c), (uVar1 & 0x1c0) != 0)) &&
      ((uVar1 = *(uint *)((int)self_ + 0x10c), (uVar1 >> 2 & 1) == 0 || ((uVar1 >> 3 & 1) == 0)))) {
-    iVar4 = orig::FUN_10045c50_v1(self_);
+    iVar4 = orig::FUN_10045c50(self_);
     uVar1 = *(uint *)((int)self_ + 0x10c);
     if ((uVar1 >> 2 & 1) == 0) {
       if ((uVar1 >> 0x11 & 1) == 0) {
@@ -521,21 +521,21 @@ XI_API void __thiscall fn_10046070(void * self_)
       fVar12 = (float10)xi_k4(0x3F800000ull) - fVar12 * (float10)xi_k4(0x3D000000ull);
       fVar12 = fVar12 * fVar12 * fVar12 * (float10)c_flt_0_03 *
                (float10)*(float *)((int)self_ + 0x128);
-      fStack_48 = (float)((float10)*(float *)(g_pCamera + 0x2dc) - fVar12);
-      fStack_4c = (float)((float10)*(float *)(g_pCamera + 0x2e0) - fVar12);
-      fVar12 = xi_castbits<float10>(fpatan((float10)xi_k8(0x4068000000000000ull),(float10)*(float *)(g_pCamera + 0x2f4)));
+      fStack_48 = (float)((float10)*(float *)(g_pCamera_as_s32 + 0x2dc) - fVar12);
+      fStack_4c = (float)((float10)*(float *)(g_pCamera_as_s32 + 0x2e0) - fVar12);
+      fVar12 = xi_castbits<float10>(fpatan((float10)xi_k8(0x4068000000000000ull),(float10)*(float *)(g_pCamera_as_s32 + 0x2f4)));
       fVar5 = (float)(fVar12 + fVar12);
       if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
         fStack_48 = (float)((float10)fStack_48 + (float10)*(float *)(g_pZoneMap_as_s32 + 0x39594));
         fStack_4c = (float)((float10)*(float *)(g_pZoneMap_as_s32 + 0x39594) + (float10)fStack_4c);
       }
       a1 = *(int **)(g_pResourceMng + 0xebc);
-      fVar12 = (float10)*(float *)(g_pCamera + 0x2f0) * (float10)*(float *)(g_pCamera + 0x2e8);
+      fVar12 = (float10)*(float *)(g_pCamera_as_s32 + 0x2f0) * (float10)*(float *)(g_pCamera_as_s32 + 0x2e8);
       local_44 = fVar5;
 LAB_100462ff:
       bVar2 = true;
       iVar6 = *a1;
-      a3 = orig::D3DXMatrixPerspectiveFovLH_static
+      a3 = orig::D3DXMatrixPerspectiveFovLH_static_v1
                      (pfVar1,fVar5,(float)((float10)xi_k4(0x3F800000ull) / fVar12),fStack_48,fStack_4c);
       ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar6 + 0x94))))(a1,3,a3);
     }
@@ -550,11 +550,11 @@ LAB_100462ff:
     if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
       fVar12 = (float10)*(float *)(g_pZoneMap_as_s32 + 0x39594);
     }
-    local_44 = *(float *)(g_pCamera + 0x2dc);
+    local_44 = *(float *)(g_pCamera_as_s32 + 0x2dc);
     a1 = *(int **)(g_pResourceMng + 0xebc);
-    fStack_4c = (float)((float10)*(float *)(g_pCamera + 0x2e0) + fVar12);
+    fStack_4c = (float)((float10)*(float *)(g_pCamera_as_s32 + 0x2e0) + fVar12);
     fStack_48 = (float)((float10)local_44 + fVar12);
-    fVar12 = (float10)*(float *)(g_pCamera + 0x2f0) * (float10)*(float *)(g_pCamera + 0x2e8);
+    fVar12 = (float10)*(float *)(g_pCamera_as_s32 + 0x2f0) * (float10)*(float *)(g_pCamera_as_s32 + 0x2e8);
     goto LAB_100462ff;
   }
   ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x48))))((void *)(self_));
@@ -585,7 +585,7 @@ XI_API void __cdecl fn_10046380(void)
   byte bStack_5;
   
   orig::XiZone_GetFog_v1(g_pXiZone,&g_zoneFogOut1_as_v0,&g_zoneFogOut2_as_v0,&g_zoneFogOut3_as_v0,0,0);
-  puVar5 = &Fn100467E0_material;
+  puVar5 = &Fn100467E0_material_as_v0;
   for (iVar4 = 0x11; iVar4 != 0; iVar4 = iVar4 + -1) {
     *puVar5 = 0;
     puVar5 = puVar5 + 1;
@@ -593,7 +593,7 @@ XI_API void __cdecl fn_10046380(void)
   _DAT_1047bc34 = 0x3f800000;
   _DAT_1047bc30 = 0x3f800000;
   DAT_1047bc2c = 0x3f800000;
-  Fn100467E0_material = 0x3f800000;
+  Fn100467E0_material_as_v0 = 0x3f800000;
   _DAT_1047bc44 = 0x3f333333;
   _DAT_1047bc40 = 0x3f333333;
   _DAT_1047bc3c = 0x3f333333;

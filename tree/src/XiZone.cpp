@@ -65,7 +65,7 @@ XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
   float10 fVar5;
   float10 fVar6;
   
-  fVar5 = orig::Camera_GetFrameScale();
+  fVar5 = orig::Camera_GetFrameScale_v1();
   fVar5 = (float10)*(float *)((int)self_ + 0x144) - fVar5;
   *(float *)((int)self_ + 0x144) = (float)fVar5;
   bVar3 = NAN(fVar5) || NAN((float10)xi_k4(0x0ull));
@@ -194,7 +194,7 @@ void __cdecl XiZone::GetInstance()
   void *self;
   
   if (g_pXiZone == (void *)0x0) {
-    self = (void *)orig::Mem_AllocDefault(0x1dc);
+    self = (void *)orig::Mem_AllocDefault_v1(0x1dc);
     if (self != (void *)0x0) {
       g_pXiZone = orig::FUN_1018b170(self);
       return;
@@ -209,7 +209,7 @@ void __cdecl XiZone::GetInstance()
 void * __thiscall XiZone::Constructor(void * self)
 {
   orig::FUN_10187380(self);
-  orig::unknown_libname_158((void *)((int)self + 0x1c8));
+  orig::unknown_libname_158_v1((void *)((int)self + 0x1c8));
   *(undefined ***)self = &PTR_LAB_10336838;
   DAT_1065cb08 = 0;
   *(undefined4 *)((int)self + 0x1c4) = 0;
@@ -277,7 +277,7 @@ void * __thiscall XiZone::Constructor(void * self)
   DAT_1065cabb = 0x80;
   _DAT_1065cabc = 0;
   orig::FUN_101880c0(self,&DAT_1065ca58_as_v0);
-  orig::FUN_1018bae0_v1(self,0);
+  orig::FUN_1018bae0(self,0);
   return self;
 }
 
@@ -315,9 +315,9 @@ XI_API void __thiscall fn_1018B620(void * self_)
   *(undefined2 *)((int)self_ + 0x1cc) = 0;
   orig::FUN_10178f70(g_pZoneMap);
   *(undefined4 *)((int)self_ + 0x1ac) = 0;
-  iVar1 = g_pCamera;
-  if (g_pCamera != 0) {
-    *(undefined4 *)(g_pCamera + 0x330) = 0x3f800000;
+  iVar1 = g_pCamera_as_s32;
+  if (g_pCamera_as_s32 != 0) {
+    *(undefined4 *)(g_pCamera_as_s32 + 0x330) = 0x3f800000;
     *(undefined1 *)(iVar1 + 0x32e) = 0x80;
     *(undefined1 *)(iVar1 + 0x32d) = 0x80;
     *(undefined1 *)(iVar1 + 0x32c) = 0x80;
@@ -367,7 +367,7 @@ XI_API long double __thiscall fn_1018B8F0(void * self_, undefined4 param_2)
   undefined4 local_4;
   
   local_4 = xi_k4(0x42C80000ull);
-  fVar2 = orig::FUN_101892b0_v1(self_,param_2);
+  fVar2 = orig::FUN_101892b0(self_,param_2);
   if (*(int *)((int)self_ + 0x1c) != 0) {
     fVar3 = orig::FUN_10187020(self_);
     local_4 = (float)fVar3;
@@ -416,7 +416,7 @@ void __thiscall XiZone::GetDirLight(void * self, undefined4 param_1, undefined4 
       this_00 = self;
     }
   }
-  orig::FUN_10188ca0_v1(this_00,param_1,param_2);
+  orig::FUN_10188ca0(this_00,param_1,param_2);
   return;
 }
 
@@ -450,6 +450,6 @@ void __thiscall XiZone::GetFog(void * self, undefined4 param_1, undefined4 param
       this_00 = self;
     }
   }
-  orig::FUN_10189120_v1(this_00,param_1,param_2,param_3,param_4);
+  orig::FUN_10189120(this_00,param_1,param_2,param_3,param_4);
   return;
 }

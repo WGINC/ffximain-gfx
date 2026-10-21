@@ -6,8 +6,8 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_SetStreamSourceCached(int param_1, undefined4 param_2, undefined4 param_3)
 {
-  *(undefined4 *)(((char *)&g_streamSourceVB) + param_1 * 4) = param_2;
-  *(undefined4 *)(((char *)&g_streamSourceStride) + param_1 * 4) = param_3;
+  *(undefined4 *)(((char *)&g_streamSourceVB_as_v0) + param_1 * 4) = param_2;
+  *(undefined4 *)(((char *)&g_streamSourceStride_as_v0) + param_1 * 4) = param_3;
   orig::Gfx_ApplyCachedStreamSource(param_1);
   return;
 }
@@ -17,9 +17,9 @@ XI_API void __cdecl Gfx_SetStreamSourceCached(int param_1, undefined4 param_2, u
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 {
   IDirect3DVertexBuffer8 *v1;
-  v1 = (IDirect3DVertexBuffer8 *)g_streamSourceVB_as_v0[a1];
+  v1 = (IDirect3DVertexBuffer8 *)g_streamSourceVB[a1];
   if ( v1 != nullptr )
-    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a1, v1, g_streamSourceStride_as_v0[a1]);
+    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a1, v1, g_streamSourceStride[a1]);
   else
     return 0;
 }
@@ -87,7 +87,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
       iVar21 = iVar15 + (uint)**(ushort **)((int)self_ + 0x42) * 4;
       pfVar22 = *(float **)(iVar18 + 0x6e);
       pfVar23 = pfVar22 + (uint)**(ushort **)((int)self_ + 0x42) * 6;
-      if (dword_1045B774_as_v1 == (int *)0x0) {
+      if (dword_1045B774_as_v0 == (int *)0x0) {
         pfVar27 = *(float **)(iVar18 + 0x8e);
         pfVar11 = *(float **)(iVar18 + 0x96);
         pfVar9 = *(float **)(iVar18 + 0x92);
@@ -95,7 +95,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
         uVar19 = 0xffffffff;
         pfVar29 = *(float **)(iVar18 + 0x9a);
         iVar30 = 0;
-        if ((short)dword_1045B618_as_v1 != 0) {
+        if ((short)dword_1045B618_as_v0 != 0) {
           iVar31 = 0;
           pfVar14 = pfVar22;
           do {
@@ -117,23 +117,23 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
               }
             }
             orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar10 * 0x40),pfVar27,pfVar14);
-            orig::Mat4_TransformNormal((void *)(g_boneWeightMatrixTableCur + iVar13 * 4),pfVar9,pfVar14 + 3);
+            orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + iVar13 * 4),pfVar9,pfVar14 + 3);
             pfVar27 = pfVar27 + 3;
             pfVar9 = pfVar9 + 3;
             if ((*(byte *)((int)self_ + 0x34) & 1) != 0) {
               pfVar7 = (float *)(*(int *)(iVar18 + 0x76) + iVar31);
               orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar7);
-              orig::Mat4_TransformNormal((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar7 + 3);
+              orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar7 + 3);
               pfVar11 = pfVar11 + 3;
               pfVar29 = pfVar29 + 3;
             }
             iVar31 = iVar31 + 0x18;
             pfVar14 = pfVar14 + 6;
             iVar30 = iVar30 + 1;
-          } while (iVar30 < (int)(dword_1045B618_as_v1 & 0xffff));
+          } while (iVar30 < (int)(dword_1045B618_as_v0 & 0xffff));
         }
         iVar30 = 0;
-        if (XI_PIECE(dword_1045B618_as_v1, 2, 2) != 0) {
+        if (XI_PIECE(dword_1045B618_as_v0, 2, 2) != 0) {
           pfVar14 = pfVar23 + 5;
           pfVar7 = pfVar9;
           do {
@@ -227,7 +227,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                                (float10)fVar2 * (float10)pfVar14[6] +
                                (float10)fVar3 * (float10)pfVar14[8]);
             if ((*(byte *)((int)self_ + 0x34) & 1) != 0) {
-              pfVar7 = (float *)(*(int *)(iVar18 + 0x76) + (dword_1045B618_as_v1 & 0xffff) * 0x18 +
+              pfVar7 = (float *)(*(int *)(iVar18 + 0x76) + (dword_1045B618_as_v0 & 0xffff) * 0x18 +
                                  (-0x14 - (int)pfVar23) + (int)pfVar14);
               fVar24 = (float10)*(float *)(g_boneWeightMatrixTableCur + uVar20 * 4);
               fVar25 = (float10)*(float *)(g_boneWeightMatrixTableCur + 0x10 + uVar20 * 4);
@@ -295,14 +295,14 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
             iVar30 = iVar30 + 1;
             pfVar14 = pfVar14 + 0xe;
             pfVar7 = pfVar9;
-          } while (iVar30 < (int)(dword_1045B618_as_v1 >> 0x10));
+          } while (iVar30 < (int)(dword_1045B618_as_v0 >> 0x10));
         }
         iVar30 = 0;
         pfVar14 = pfVar11;
         if (0 < *(int *)(iVar18 + 0x60)) {
           do {
             uVar10 = (uint)*(ushort *)(*(int *)(iVar18 + 0x5c) + iVar30 * 2);
-            if (uVar10 < (dword_1045B618_as_v1 & 0xffff)) {
+            if (uVar10 < (dword_1045B618_as_v0 & 0xffff)) {
               uVar4 = *(ushort *)(iVar15 + uVar10 * 4);
               if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
                 uVar16 = uVar4 & 0x7f;
@@ -323,7 +323,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
               iVar13 = uVar10 * 0x18;
               orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar16 * 0x40),pfVar27,pfVar22 + uVar10 * 6);
               pfVar7 = pfVar14;
-              orig::Mat4_TransformNormal
+              orig::Mat4_TransformNormal_v1
                         ((void *)(g_boneWeightMatrixTableCur + iVar31 * 4),pfVar9,pfVar22 + uVar10 * 6 + 3);
               pfVar27 = pfVar27 + 3;
               pfVar28 = pfVar9 + 3;
@@ -331,14 +331,14 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
               if ((*(byte *)((int)self_ + 0x34) & 1) != 0) {
                 pfVar9 = (float *)(*(int *)(iVar18 + 0x76) + iVar13);
                 orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar9);
-                orig::Mat4_TransformNormal((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar9 + 3);
+                orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar9 + 3);
                 pfVar14 = pfVar11 + 3;
                 pfVar29 = pfVar29 + 3;
                 pfVar7 = pfVar11 + 3;
               }
             }
             else {
-              iVar13 = uVar10 - (dword_1045B618_as_v1 & 0xffff);
+              iVar13 = uVar10 - (dword_1045B618_as_v0 & 0xffff);
               iVar31 = *(int *)((int)self_ + 0x3c);
               if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
                 uVar4 = *(ushort *)(iVar21 + iVar13 * 4);
@@ -433,7 +433,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                                  fVar26 * (float10)pfVar23[iVar13 * 0xe + 0xc]);
               pfVar7 = pfVar14;
               if ((*(byte *)((int)self_ + 0x34) & 1) != 0) {
-                pfVar11 = (float *)(*(int *)(iVar18 + 0x76) + (dword_1045B618_as_v1 & 0xffff) * 0x18 +
+                pfVar11 = (float *)(*(int *)(iVar18 + 0x76) + (dword_1045B618_as_v0 & 0xffff) * 0x18 +
                                    iVar13 * 0x38);
                 fVar24 = (float10)*(float *)(g_boneWeightMatrixTableCur + uVar20 * 4);
                 fVar25 = (float10)*(float *)(g_boneWeightMatrixTableCur + 0x10 + uVar20 * 4);
@@ -509,12 +509,12 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
         return;
       }
       local_14 = &PTR_LAB_1032a7dc;
-      local_8 = (float *)(*(int *)(iVar18 + 0x60) + (dword_1045B618_as_v1 >> 0x10) +
-                         (dword_1045B618_as_v1 & 0xffff));
+      local_8 = (float *)(*(int *)(iVar18 + 0x60) + (dword_1045B618_as_v0 >> 0x10) +
+                         (dword_1045B618_as_v0 & 0xffff));
       local_c = xi_k4(0x0ull);
       local_10 = self_;
-      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*dword_1045B774_as_v1 + 0x1c))))((void *)(dword_1045B774_as_v1),&local_14);
-      orig::FUN_10030fb0(dword_1045B774_as_v1);
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*dword_1045B774_as_v0 + 0x1c))))((void *)(dword_1045B774_as_v0),&local_14);
+      orig::FUN_10030fb0(dword_1045B774_as_v0);
       return;
     }
   }
@@ -527,7 +527,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
     local_c = *(float *)(iVar15 + 0x6e);
     local_18 = (float *)0x0;
     local_8 = (float *)(xi_castbits<int>(local_c) + (uint)**(ushort **)((int)self_ + 0x42) * 0x18);
-    if ((short)dword_1045B618_as_v1 != 0) {
+    if ((short)dword_1045B618_as_v0 != 0) {
       iVar30 = *(int *)(iVar15 + 0x92) - (int)pfVar23;
       iVar31 = *(int *)(iVar15 + 0x9a) - (int)pfVar23;
       iVar13 = *(int *)(iVar15 + 0x96) - (int)pfVar23;
@@ -554,13 +554,13 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
         local_18 = (float *)((int)local_18 + 1);
         pfVar23 = pfVar23 + 3;
         iVar18 = iVar18 + 0x18;
-      } while ((int)local_18 < (int)(dword_1045B618_as_v1 & 0xffff));
+      } while ((int)local_18 < (int)(dword_1045B618_as_v0 & 0xffff));
     }
-    iVar18 = (dword_1045B618_as_v1 & 0xffff) * 0xc;
+    iVar18 = (dword_1045B618_as_v0 & 0xffff) * 0xc;
     pfVar23 = (float *)(*(int *)(iVar15 + 0x8e) + iVar18);
     local_18 = (float *)0x0;
     uVar4 = 0;
-    if (XI_PIECE(dword_1045B618_as_v1, 2, 2) != 0) {
+    if (XI_PIECE(dword_1045B618_as_v0, 2, 2) != 0) {
       iVar31 = (*(int *)(iVar15 + 0x92) + iVar18) - (int)pfVar23;
       iVar30 = (*(int *)(iVar15 + 0x9a) + iVar18) - (int)pfVar23;
       local_14 = (undefined **)0x0;
@@ -594,17 +594,17 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                      (float *)((int)pfVar23 + iVar31));
         orig::FUN_10030a40((float *)(g_boneWeightMatrixTableCur + uVar19 * 4),
                      (float *)(g_boneWeightMatrixTableCur + (int)local_18 * 4),
-                     (float *)(*(int *)(iVar15 + 0x76) + (dword_1045B618_as_v1 & 0xffff) * 0x18 +
+                     (float *)(*(int *)(iVar15 + 0x76) + (dword_1045B618_as_v0 & 0xffff) * 0x18 +
                               (int)local_14),(float *)((int)pfVar23 + iVar18),
                      (float *)((int)pfVar23 + iVar30));
         local_18 = (float *)((int)pfVar22 + 1);
         local_14 = local_14 + 0xe;
         pfVar23 = pfVar23 + 3;
-        uVar4 = XI_PIECE(dword_1045B618_as_v1, 2, 2);
-      } while ((int)local_18 < (int)(uint)XI_PIECE(dword_1045B618_as_v1, 2, 2));
+        uVar4 = XI_PIECE(dword_1045B618_as_v0, 2, 2);
+      } while ((int)local_18 < (int)(uint)XI_PIECE(dword_1045B618_as_v0, 2, 2));
     }
     local_14 = (undefined **)0x0;
-    iVar18 = ((uint)uVar4 + (dword_1045B618_as_v1 & 0xffff)) * 0xc;
+    iVar18 = ((uint)uVar4 + (dword_1045B618_as_v0 & 0xffff)) * 0xc;
     pfVar23 = (float *)(*(int *)(iVar15 + 0x8e) + iVar18);
     if (0 < *(int *)(iVar15 + 0x60)) {
       iVar30 = (*(int *)(iVar15 + 0x92) + iVar18) - (int)pfVar23;
@@ -612,7 +612,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
       iVar18 = (*(int *)(iVar15 + 0x96) + iVar18) - (int)pfVar23;
       do {
         uVar20 = (uint)*(ushort *)(*(int *)(iVar15 + 0x5c) + (int)local_14 * 2);
-        if (uVar20 < (dword_1045B618_as_v1 & 0xffff)) {
+        if (uVar20 < (dword_1045B618_as_v0 & 0xffff)) {
           uVar4 = *(ushort *)((int)local_10 + uVar20 * 4);
           if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
             uVar19 = uVar4 & 0x7f;
@@ -632,7 +632,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
         }
         else {
           iVar13 = *(int *)((int)self_ + 0x3c);
-          iVar12 = uVar20 - (dword_1045B618_as_v1 & 0xffff);
+          iVar12 = uVar20 - (dword_1045B618_as_v0 & 0xffff);
           if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
             uVar4 = *(ushort *)(iVar21 + iVar12 * 4);
             uVar19 = uVar4 & 0x7f;
@@ -655,7 +655,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                        (float *)((int)pfVar23 + iVar30));
           orig::FUN_10030a40((float *)(g_boneWeightMatrixTableCur + uVar10 * 4),
                        (float *)(g_boneWeightMatrixTableCur + (int)local_18 * 4),
-                       (float *)(iVar12 * 0x38 + (dword_1045B618_as_v1 & 0xffff) * 0x18 +
+                       (float *)(iVar12 * 0x38 + (dword_1045B618_as_v0 & 0xffff) * 0x18 +
                                 *(int *)(iVar15 + 0x76)),(float *)((int)pfVar23 + iVar18),
                        (float *)((int)pfVar23 + iVar31));
         }
@@ -673,7 +673,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
   local_8 = pfVar23 + (uint)**(ushort **)((int)self_ + 0x42) * 6;
   pfVar22 = *(float **)((int)local_14 + 0x8e);
   local_10 = pvVar17;
-  if ((short)dword_1045B618_as_v1 != 0) {
+  if ((short)dword_1045B618_as_v0 != 0) {
     iVar15 = *(int *)((int)local_14 + 0x92) - (int)pfVar22;
     local_18 = pfVar23;
     do {
@@ -686,13 +686,13 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
       local_18 = local_18 + 6;
       iVar21 = iVar21 + 1;
       pfVar22 = pfVar22 + 3;
-    } while (iVar21 < (int)(dword_1045B618_as_v1 & 0xffff));
+    } while (iVar21 < (int)(dword_1045B618_as_v0 & 0xffff));
   }
-  iVar21 = (dword_1045B618_as_v1 & 0xffff) * 0xc;
+  iVar21 = (dword_1045B618_as_v0 & 0xffff) * 0xc;
   pfVar22 = (float *)(*(int *)((int)local_14 + 0x8e) + iVar21);
   iVar15 = 0;
   uVar4 = 0;
-  if (XI_PIECE(dword_1045B618_as_v1, 2, 2) != 0) {
+  if (XI_PIECE(dword_1045B618_as_v0, 2, 2) != 0) {
     iVar21 = (*(int *)((int)local_14 + 0x92) + iVar21) - (int)pfVar22;
     local_18 = local_8;
     do {
@@ -715,17 +715,17 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
       local_18 = local_18 + 0xe;
       iVar15 = iVar15 + 1;
       pfVar22 = pfVar22 + 3;
-      uVar4 = XI_PIECE(dword_1045B618_as_v1, 2, 2);
-    } while (iVar15 < (int)(uint)XI_PIECE(dword_1045B618_as_v1, 2, 2));
+      uVar4 = XI_PIECE(dword_1045B618_as_v0, 2, 2);
+    } while (iVar15 < (int)(uint)XI_PIECE(dword_1045B618_as_v0, 2, 2));
   }
   local_10 = (void *)0x0;
-  iVar21 = ((uint)uVar4 + (dword_1045B618_as_v1 & 0xffff)) * 0xc;
+  iVar21 = ((uint)uVar4 + (dword_1045B618_as_v0 & 0xffff)) * 0xc;
   local_18 = (float *)(*(int *)((int)local_14 + 0x8e) + iVar21);
   if (0 < (int)local_14[0x18]) {
     iVar21 = (*(int *)((int)local_14 + 0x92) + iVar21) - (int)local_18;
     do {
       uVar20 = (uint)*(ushort *)(local_14[0x17] + (int)local_10 * 2);
-      if (uVar20 < (dword_1045B618_as_v1 & 0xffff)) {
+      if (uVar20 < (dword_1045B618_as_v0 & 0xffff)) {
         uVar19 = *(ushort *)(xi_castbits<int>(local_c) + uVar20 * 4) & 0x7f;
         if (*(char *)((int)self_ + 0x32) < '\0') {
           uVar19 = (uint)*(ushort *)(*(int *)((int)self_ + 0x3c) + uVar19 * 2);
@@ -734,7 +734,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                      (float *)((int)local_18 + iVar21));
       }
       else {
-        iVar15 = uVar20 - (dword_1045B618_as_v1 & 0xffff);
+        iVar15 = uVar20 - (dword_1045B618_as_v0 & 0xffff);
         uVar20 = (uint)*(byte *)((int)pvVar17 + iVar15 * 4);
         if (*(char *)((int)self_ + 0x32) < '\0') {
           uVar20 = (uint)*(ushort *)(*(int *)((int)self_ + 0x3c) + (uVar20 & 0x7f) * 2);
@@ -791,7 +791,7 @@ XI_API void __thiscall fn_100303B0(void * self_)
   iVar7 = *(int *)(iVar6 + 0x6e);
   uStack_18 = 0;
   iVar2 = iVar7 + (uint)**(ushort **)((int)self_ + 0x42) * 0x18;
-  if ((short)dword_1045B618 != 0) {
+  if ((short)dword_1045B618_as_v1 != 0) {
     iVar8 = *(int *)(iVar6 + 0x92) - (int)pfVar18;
     iVar9 = *(int *)(iVar6 + 0x9a) - (int)pfVar18;
     iVar10 = *(int *)(iVar6 + 0x96) - (int)pfVar18;
@@ -816,13 +816,13 @@ XI_API void __thiscall fn_100303B0(void * self_)
       uStack_18 = uStack_18 + 1;
       pfVar18 = pfVar18 + 3;
       iVar16 = iVar16 + 0x18;
-    } while ((int)uStack_18 < (int)(dword_1045B618 & 0xffff));
+    } while ((int)uStack_18 < (int)(dword_1045B618_as_v1 & 0xffff));
   }
-  iVar16 = (dword_1045B618 & 0xffff) * 0xc;
+  iVar16 = (dword_1045B618_as_v1 & 0xffff) * 0xc;
   pfVar18 = (float *)(*(int *)(iVar6 + 0x8e) + iVar16);
   uStack_18 = 0;
   uVar3 = 0;
-  if (XI_PIECE(dword_1045B618, 2, 2) != 0) {
+  if (XI_PIECE(dword_1045B618_as_v1, 2, 2) != 0) {
     iVar9 = (*(int *)(iVar6 + 0x92) + iVar16) - (int)pfVar18;
     iVar8 = (*(int *)(iVar6 + 0x9a) + iVar16) - (int)pfVar18;
     iStack_14 = 0;
@@ -854,16 +854,16 @@ XI_API void __thiscall fn_100303B0(void * self_)
                    (float *)(g_boneWeightMatrixTableCur + uVar14 * 0x40),(float *)(iStack_14 + iVar2),pfVar18,
                    (float *)((int)pfVar18 + iVar9));
       orig::FUN_10030a40((float *)(g_boneWeightMatrixTableCur + uVar17 * 4),(float *)(g_boneWeightMatrixTableCur + uStack_18 * 4),
-                   (float *)(*(int *)(iVar6 + 0x76) + (dword_1045B618 & 0xffff) * 0x18 + iStack_14),
+                   (float *)(*(int *)(iVar6 + 0x76) + (dword_1045B618_as_v1 & 0xffff) * 0x18 + iStack_14),
                    (float *)((int)pfVar18 + iVar16),(float *)((int)pfVar18 + iVar8));
       uStack_18 = uVar11 + 1;
       iStack_14 = iStack_14 + 0x38;
       pfVar18 = pfVar18 + 3;
-      uVar3 = XI_PIECE(dword_1045B618, 2, 2);
-    } while ((int)uStack_18 < (int)(uint)XI_PIECE(dword_1045B618, 2, 2));
+      uVar3 = XI_PIECE(dword_1045B618_as_v1, 2, 2);
+    } while ((int)uStack_18 < (int)(uint)XI_PIECE(dword_1045B618_as_v1, 2, 2));
   }
   iStack_14 = 0;
-  iVar16 = ((uint)uVar3 + (dword_1045B618 & 0xffff)) * 0xc;
+  iVar16 = ((uint)uVar3 + (dword_1045B618_as_v1 & 0xffff)) * 0xc;
   pfVar18 = (float *)(*(int *)(iVar6 + 0x8e) + iVar16);
   if (0 < *(int *)(iVar6 + 0x60)) {
     iVar8 = (*(int *)(iVar6 + 0x92) + iVar16) - (int)pfVar18;
@@ -871,7 +871,7 @@ XI_API void __thiscall fn_100303B0(void * self_)
     iVar16 = (*(int *)(iVar6 + 0x96) + iVar16) - (int)pfVar18;
     do {
       uVar11 = (uint)*(ushort *)(*(int *)(iVar6 + 0x5c) + iStack_14 * 2);
-      if (uVar11 < (dword_1045B618 & 0xffff)) {
+      if (uVar11 < (dword_1045B618_as_v1 & 0xffff)) {
         uVar3 = *(ushort *)(iVar5 + uVar11 * 4);
         if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
           uVar15 = uVar3 & 0x7f;
@@ -889,7 +889,7 @@ XI_API void __thiscall fn_100303B0(void * self_)
       }
       else {
         iVar10 = *(int *)((int)self_ + 0x3c);
-        iVar12 = uVar11 - (dword_1045B618 & 0xffff);
+        iVar12 = uVar11 - (dword_1045B618_as_v1 & 0xffff);
         if ((*(ushort *)((int)self_ + 0x32) & 0x80) == 0) {
           uVar3 = *(ushort *)(iVar1 + iVar12 * 4);
           uVar15 = uVar3 & 0x7f;
@@ -911,7 +911,7 @@ XI_API void __thiscall fn_100303B0(void * self_)
                      pfVar18,(float *)((int)pfVar18 + iVar8));
         orig::FUN_10030a40((float *)(g_boneWeightMatrixTableCur + uStack_38 * 4),
                      (float *)(g_boneWeightMatrixTableCur + uStack_18 * 4),
-                     (float *)(iVar12 * 0x38 + (dword_1045B618 & 0xffff) * 0x18 +
+                     (float *)(iVar12 * 0x38 + (dword_1045B618_as_v1 & 0xffff) * 0x18 +
                               *(int *)(iVar6 + 0x76)),(float *)((int)pfVar18 + iVar16),
                      (float *)((int)pfVar18 + iVar9));
       }

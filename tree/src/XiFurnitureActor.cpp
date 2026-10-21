@@ -25,7 +25,7 @@ XI_API void __cdecl fn_100C3E70(void * param_1)
       uVar1 = *(ushort *)((int)pvVar2 + 0x74);
       orig::FUN_1008a7b0(pvVar2);
       orig::thunk_sub_10028AA0_v1((int)pvVar2);
-      (&ActerBuffPtr)[uVar1] = 0;
+      (&ActerBuffPtr_as_v0)[uVar1] = 0;
     }
   }
   return;

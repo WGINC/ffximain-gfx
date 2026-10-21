@@ -99,6 +99,6 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
     }
     return (int)puVar5;
   }
-  orig::sqDebugPrintf_v1(s_____Error__PlaybackChannel_versi_103b7bf4,local_20,3);
+  orig::sqDebugPrintf_v2(s_____Error__PlaybackChannel_versi_103b7bf4,local_20,3);
   return 0;
 }

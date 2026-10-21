@@ -13,7 +13,7 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
   undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
   
   if (DAT_104637e8 == (undefined4 *)0x0) {
-    uVar1 = orig::CMoResource_FindByTypeAndId
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
                       ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
                        0x31303030);
     DAT_104637e8 = (undefined4 *)*(int *)uVar1;
@@ -40,7 +40,7 @@ XI_API void __cdecl fn_10037D70(void)
   undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
   
   if (DAT_1046279c == (undefined4 *)0x0) {
-    uVar1 = orig::CMoResource_FindByTypeAndId
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
                       ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
                        0x39303030);
     DAT_1046279c = (undefined4 *)*(int *)uVar1;
@@ -67,7 +67,7 @@ XI_API void __cdecl fn_10037E30(void)
   undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
   
   if (DAT_104627cc == (undefined4 *)0x0) {
-    uVar1 = orig::CMoResource_FindByTypeAndId
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
                       ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
                        0x31313030);
     DAT_104627cc = (undefined4 *)*(int *)uVar1;
@@ -94,7 +94,7 @@ XI_API void __cdecl fn_10037E90(void)
   undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
   
   if (DAT_10462690 == (undefined4 *)0x0) {
-    uVar1 = orig::CMoResource_FindByTypeAndId
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
                       ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
                        0x33313030);
     DAT_10462690 = (undefined4 *)*(int *)uVar1;
@@ -120,15 +120,15 @@ XI_API void __cdecl fn_100380F0(uint32_t param_1, undefined4 param_2, undefined4
   longlong lVar2;
   
   if (DAT_10463938 == (undefined4 *)0x0) {
-    uVar1 = orig::Mem_AllocFromArea(0x40,4);
+    uVar1 = orig::Mem_AllocFromArea_v1(0x40,4);
     this_00 = (undefined4 *)uVar1;
-    orig::CMoTask_ResetFields(this_00);
-    g_resourcesDirty = 1;
+    orig::CMoTask_ResetFields_v1(this_00);
+    g_resourcesDirty_as_v0 = 1;
     if (this_00 != (undefined4 *)0x0) {
-      orig::CMoTask_Constructor(this_00);
+      orig::CMoTask_Constructor_v1(this_00);
       *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032a9bc;
       DAT_10463938 = this_00;
-      uVar1 = orig::CMoResource_FindByTypeAndId
+      uVar1 = orig::CMoResource_FindByTypeAndId_v1
                         ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),&param_1,0x3d,
                          (param_1 & 0xff00 | param_1 << 0x10 | param_1 >> 0x10 & 0xff) << 8 |
                          param_1 >> 0x18);
@@ -167,11 +167,11 @@ XI_API void __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined
   uint uVar3;
   
   if ((char)param_4 != '\0') {
-    (&dword_10463950)[dword_1047B950] = 3;
+    (&dword_10463950_as_v0)[dword_1047B950] = 3;
     (&DAT_10463951)[dword_1047B950] = (char)param_4;
     dword_1047B950 = dword_1047B950 + 2;
   }
-  *(undefined4 *)(&dword_10463950 + dword_1047B950) = param_2;
+  *(undefined4 *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
   *(undefined4 *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
   pcVar2 = param_1;
   do {
@@ -201,7 +201,7 @@ XI_API int __cdecl Font_DrawPass(void)
   unsigned __int8 *v3;
   char v4;
   float v6;
-  orig::Font_BindGlyphTexture_v1((int)g_pFontGlyphs);
+  orig::Font_BindGlyphTexture((int)g_pFontGlyphs);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 2u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 2u);
@@ -215,9 +215,9 @@ XI_API int __cdecl Font_DrawPass(void)
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
-  v0 = &dword_10463950_as_s32;
-  *((_BYTE *)&dword_10463950_as_s32 + dword_1047B950) = 2;
-  if ( (_BYTE)dword_10463950_as_s32 != 2 )
+  v0 = &dword_10463950;
+  *((_BYTE *)&dword_10463950 + dword_1047B950) = 2;
+  if ( (_BYTE)dword_10463950 != 2 )
   {
     do
     {

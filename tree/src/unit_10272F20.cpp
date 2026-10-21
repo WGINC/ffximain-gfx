@@ -27,7 +27,7 @@ XI_API void __cdecl fn_102733B0(int param_1)
   float10 fVar3;
   
   iVar2 = DAT_1099b0f4;
-  fVar3 = (float10)_DAT_1099b138_as_f32;
+  fVar3 = (float10)DAT_1099b138_as_f32;
   fVar1 = (float10)xi_k4(0x0ull);
   DAT_1099b12c_as_s32 = DAT_1099b0f4;
   DAT_1099b0f4 = param_1;
@@ -42,7 +42,7 @@ XI_API void __cdecl fn_102733B0(int param_1)
     return;
   }
   _DAT_1099b134 = 0;
-  _DAT_1099b0d8 = _DAT_1099b0d8 | 0x100;
+  DAT_1099b0d8 = DAT_1099b0d8 | 0x100;
   orig::FUN_10273490(6,(int)(((char *)&DAT_1099b1d0) + iVar2 * 0x34),(int)(((char *)&DAT_1099b33c) + iVar2 * 0x7c));
   orig::FUN_1028f4a0(0x1099b13c,DAT_1099b1cc);
   iVar2 = 0;
@@ -74,7 +74,7 @@ XI_API void __cdecl fn_10273490(int param_1, int param_2, int param_3)
     *(undefined4 *)(((char *)&DAT_1099b200) + iVar1) = *(undefined4 *)(param_2 + 0x30);
   }
   if (param_3 != 0) {
-    orig::M4fSet((undefined4 *)(((char *)&DAT_1099b358) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
+    orig::M4fSet_v1((undefined4 *)(((char *)&DAT_1099b358) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
     orig::FUN_10274650(&DAT_1099b398 + param_1 * 0x1f,(undefined4 *)(param_3 + 0x5c));
     orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099b3a4) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x68));
     (&DAT_1099b3b4)[param_1 * 0x1f] = *(undefined4 *)(param_3 + 0x78);
@@ -88,7 +88,7 @@ XI_API void __cdecl fn_10273490(int param_1, int param_2, int param_3)
 XI_API void __cdecl fn_102736D0(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
-    *param_1 = &_DAT_1099b138;
+    *param_1 = &DAT_1099b138;
   }
   return;
 }

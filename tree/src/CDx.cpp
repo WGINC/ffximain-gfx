@@ -346,7 +346,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
         break;
       case 4:
       case 5:
-        HwCursorSlot = orig::Cursor_GetHwCursorSlot(g_pCursor_as_v0);
+        HwCursorSlot = orig::Cursor_GetHwCursorSlot(g_pCursor);
         break;
       default:
         break;
@@ -527,7 +527,7 @@ int CDx::PushRenderTarget(int a2, int a3, int a4)
   __int16 v5[2];
   v5[0] = 0;
   v5[1] = 0;
-  return orig::CDx_PushRenderTargetTexture_v1(this, a2, a3, a4, v5, v5, 1, 1);
+  return orig::CDx_PushRenderTargetTexture(this, a2, a3, a4, v5, v5, 1, 1);
 }
 
 // FUNCTION: FFXIMAIN 0x10009EA0  (unit CDx: between 0x10009E20 (name CDx_PushRenderTarget) and 0x10009F20 (name CDx_PushRenderTargetTexture), both within 4 KB)
@@ -538,7 +538,7 @@ XI_API void __thiscall fn_10009EA0(void * self_, int * param_1, undefined4 xi_s2
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
   
   local_4 = 0;
-  orig::CDx_PushRenderTargetTexture(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,1,0);
+  orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,1,0);
   return;
 }
 
@@ -550,7 +550,7 @@ XI_API void __thiscall fn_10009EE0(void * self_, int * param_1, undefined4 xi_s2
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
   
   local_4 = 0;
-  orig::CDx_PushRenderTargetTexture(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,0,0);
+  orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,0,0);
   return;
 }
 
@@ -572,7 +572,7 @@ int CDx::SetTexture(int a2, int a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
   (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(*at<_DWORD *>(this, 0xC) + 244))(at<_DWORD *>(this, 0xC), 0, 0);
-  return orig::CDx_PopRenderTarget_v1((int)self, a2, a3, 1, 1);
+  return orig::CDx_PopRenderTarget((int)self, a2, a3, 1, 1);
 }
 
 // FUNCTION: FFXIMAIN 0x1000A200  (unit CDx: between 0x1000A1D0 (name CDx_SetTexture) and 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth), both within 4 KB)
@@ -580,7 +580,7 @@ int CDx::SetTexture(int a2, int a3)
 XI_API void __thiscall fn_1000A200(void * self_, undefined4 xi_s1, undefined4 xi_s2)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xf4))))(*(int **)((int)self_ + 0xc),0,0);
-  orig::CDx_PopRenderTarget(self_,xi_s1,xi_s2,1,0);
+  orig::CDx_PopRenderTarget_v1(self_,xi_s1,xi_s2,1,0);
   return;
 }
 
@@ -589,7 +589,7 @@ XI_API void __thiscall fn_1000A200(void * self_, undefined4 xi_s1, undefined4 xi
 XI_API void __thiscall fn_1000A230(void * self_, undefined4 xi_s1, undefined4 xi_s2)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xf4))))(*(int **)((int)self_ + 0xc),0,0);
-  orig::CDx_PopRenderTarget(self_,xi_s1,xi_s2,0,1);
+  orig::CDx_PopRenderTarget_v1(self_,xi_s1,xi_s2,0,1);
   return;
 }
 
@@ -597,7 +597,7 @@ XI_API void __thiscall fn_1000A230(void * self_, undefined4 xi_s1, undefined4 xi
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CDx::PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
-  orig::CDx_PopRenderTarget(self,xi_s1,xi_s2,1,1);
+  orig::CDx_PopRenderTarget_v1(self,xi_s1,xi_s2,1,1);
   return;
 }
 

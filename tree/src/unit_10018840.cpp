@@ -39,12 +39,12 @@ XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
     }
     puVar1 = (undefined4 *)0xdb67;
   }
-  piVar2 = (int *)orig::FUN_100731b0_v1(g_pMeshResourceMng_as_v1,&param_1,puVar1);
+  piVar2 = (int *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_1,puVar1);
   puVar1 = (undefined4 *)*piVar2;
   *(undefined4 **)((int)self_ + 4) = puVar1;
   if (puVar1 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain((void *)*puVar1);
-    uVar3 = orig::ShapeMng_FindShape(&g_shapeMng,s_screens_subtites_10350fd8);
+    orig::CMoResource_AddRefChain_v1((void *)*puVar1);
+    uVar3 = orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_screens_subtites_10350fd8);
     *(undefined4 *)((int)self_ + 8) = uVar3;
   }
   orig::OpeningSubtitle_Reset_v1(self_);
@@ -86,10 +86,10 @@ XI_API void __thiscall fn_10018B50(void * self_)
       uVar6 = 0;
       uVar5 = 0x80808080;
       this_00 = *(void **)(**(int **)((int)self_ + 8) + iVar2 * 4);
-      iVar2 = (short)(XI_PIECE_S(g_screenRectBottomRight_as_v1, 2, 2) - XI_PIECE_S(g_screenRectTopLeft_as_v1, 2, 2)) * 400;
+      iVar2 = (short)(XI_PIECE_S(g_screenRectBottomRight_as_v0, 2, 2) - XI_PIECE_S(g_screenRectTopLeft_as_v0, 2, 2)) * 400;
       iVar2 = (int)(iVar2 + (iVar2 >> 0x1f & 0x1ffU)) >> 9;
-      lVar4 = XI_CALL_ST0(0x10311C2Cu)((float10)((int)(short)((short)g_screenRectBottomRight_as_v1 -
-                                           (short)g_screenRectTopLeft_as_v1) / 2) -
+      lVar4 = XI_CALL_ST0(0x10311C2Cu)((float10)((int)(short)((short)g_screenRectBottomRight_as_v0 -
+                                           (short)g_screenRectTopLeft_as_v0) / 2) -
                      (float10)((int)*(short *)((int)this_00 + 0x22) -
                               (int)*(short *)((int)this_00 + 0x20)) * (float10)xi_k4(0x3F000000ull));
       orig::FUN_1011fb60(this_00,(int)lVar4,iVar2,uVar5,uVar6,iVar7);

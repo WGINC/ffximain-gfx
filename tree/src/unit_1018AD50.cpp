@@ -45,7 +45,7 @@ XI_API void __thiscall fn_1018ADA0(void * self_)
   
   xi_s1 = *(uint **)((int)self_ + 0x20);
   if ((xi_s1 != (uint *)0x0) && ((*xi_s1 >> 2 & 1) != 0)) {
-    orig::Mem_FreeObject(xi_s1);
+    orig::Mem_FreeObject_v1(xi_s1);
   }
   *(undefined4 *)((int)self_ + 0x20) = 0;
   return;
@@ -112,7 +112,7 @@ XI_API undefined4 __stdcall fn_1018AEB0(undefined4 xi_s1, undefined4 xi_s2)
 {
   uint *puVar1;
   
-  puVar1 =(uint*)(orig::Mem_AllocObject(0xac,2));
+  puVar1 =(uint*)(orig::Mem_AllocObject_v1(0xac,2));
   if (puVar1 != (uint *)0x0) {
     *puVar1 = *puVar1 | 4;
   }

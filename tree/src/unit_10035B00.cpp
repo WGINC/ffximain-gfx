@@ -9,14 +9,14 @@ XI_API void __cdecl fn_10035D40(undefined4 param_1, int param_2)
   void *pvVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea(0x48,4);
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
   pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields(pvVar1);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
     pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,2);
     if (pvVar1 != (void *)0x0) {
-      orig::CMoTask_RegisterWithMng(5);
+      orig::CMoTask_RegisterWithMng_v1(5);
     }
   }
   return;
@@ -29,14 +29,14 @@ XI_API void __cdecl fn_10035D90(undefined4 param_1, int param_2)
   void *pvVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea(0x48,4);
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
   pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields(pvVar1);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
     pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,1);
     if (pvVar1 != (void *)0x0) {
-      orig::CMoTask_RegisterWithMng(5);
+      orig::CMoTask_RegisterWithMng_v1(5);
     }
   }
   return;
@@ -49,14 +49,14 @@ XI_API void __cdecl fn_10035DE0(undefined4 param_1, int param_2)
   void *pvVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea(0x48,4);
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
   pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields(pvVar1);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
     pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,4);
     if (pvVar1 != (void *)0x0) {
-      orig::CMoTask_RegisterWithMng(5);
+      orig::CMoTask_RegisterWithMng_v1(5);
     }
   }
   return;
@@ -84,7 +84,7 @@ XI_API void __cdecl MoTask_KillAllGlobalSlots(undefined4 param_1)
   }
   orig::FUN_10036020(param_1);
   orig::FUN_10035f80(param_1);
-  orig::MoTask_KillGlobalSlot1(param_1);
+  orig::MoTask_KillGlobalSlot1_v1(param_1);
   orig::FUN_100360c0(param_1);
   return;
 }
@@ -212,7 +212,7 @@ XI_API void __cdecl fn_10036170(int param_1)
   
   if (param_1 == 0) {
     if (DAT_10463914 != (void *)0x0) {
-      orig::FUN_10036b90_v1(DAT_10463914,DAT_10463910);
+      orig::FUN_10036b90(DAT_10463914,DAT_10463910);
       DAT_10463914 = (void *)param_1;
       return;
     }
@@ -367,11 +367,11 @@ XI_API undefined4 __thiscall fn_100364E0(void * self_)
   }
   if (DAT_104638f5 != '\0') {
     if (*(int *)((int)self_ + 0x19c) != 0) {
-      orig::Vec3_Copy((undefined4 *)((int)self_ + 0x54),(undefined4 *)((int)self_ + 0x1a0));
+      orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x54),(undefined4 *)((int)self_ + 0x1a0));
     }
     if (((*(int **)((int)self_ + 0xfc) == (int *)0x0) || (**(int **)((int)self_ + 0xfc) == 0)) ||
        (iVar3 = orig::FUN_100473f0(self_), iVar3 == 0)) {
-      orig::Vec3_Copy(local_1c,(undefined4 *)((int)self_ + 0x54));
+      orig::Vec3_Copy_v1(local_1c,(undefined4 *)((int)self_ + 0x54));
     }
     else {
       iVar3 = (int)self_ + 0x54;
@@ -523,11 +523,11 @@ XI_API undefined4 __thiscall fn_100368B0(void * self_)
   float  &fStack_c = *reinterpret_cast<float  *>(xi_frame + 4);
   float  &fStack_8 = *reinterpret_cast<float  *>(xi_frame + 8);
   
-  fVar6 = orig::Camera_GetFrameScale();
+  fVar6 = orig::Camera_GetFrameScale_v1();
   fVar6 = (float10)*(float *)((int)self_ + 0x110) - fVar6;
   bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x3F800000ull));
   if ((bVar5 || fVar6 < (float10)xi_k4(0x3F800000ull)) != bVar5) {
-    fVar6 = orig::Camera_GetFrameScale();
+    fVar6 = orig::Camera_GetFrameScale_v1();
     *(float *)((int)self_ + 0x110) = (float)(fVar6 + (float10)xi_k4(0x3F800000ull));
   }
   if (*(int *)((int)self_ + 0xfc) != 0) {
@@ -539,13 +539,13 @@ XI_API undefined4 __thiscall fn_100368B0(void * self_)
   *(undefined4 *)((int)self_ + 0x138) = 0;
   uVar4 = 0;
   if (*(int *)((int)self_ + 0x198) != 0) {
-    iVar3 = orig::Camera_GetField50();
+    iVar3 = orig::Camera_GetField50_v1();
     orig::FUN_10056160((void *)(*(int *)((int)self_ + 0x198) + 0x30),&fStack_10,iVar3 + 0x60);
-    iVar3 = orig::Camera_GetField50();
+    iVar3 = orig::Camera_GetField50_v1();
     fStack_10 = (float)((float10)fStack_10 + (float10)*(float *)(iVar3 + 0x60));
-    iVar3 = orig::Camera_GetField50();
+    iVar3 = orig::Camera_GetField50_v1();
     fStack_c = (float)((float10)fStack_c + (float10)*(float *)(iVar3 + 100));
-    uVar4 = orig::Camera_GetField50();
+    uVar4 = orig::Camera_GetField50_v1();
     fVar1 = *(float *)(uVar4 + 0x68);
     *(float *)((int)self_ + 0x54) = fStack_10;
     *(float *)((int)self_ + 0x58) = fStack_c;

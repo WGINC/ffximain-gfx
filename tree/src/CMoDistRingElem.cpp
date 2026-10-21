@@ -53,7 +53,7 @@ void CMoDistRingElem::AllocRingGeometry()
   _BYTE v38[16];
   a2 = 2 * (char)this->field_1B4 + 2;
   v35 = a2 * (char)this->field_1B5;
-  v2 = (float *)orig::Allocator_Generic_v1(36 * v35);
+  v2 = (float *)orig::Allocator_Generic(36 * v35);
   v3 = (char)this->field_1B5;
   v4 = 0;
   a3 = (int)v2;
@@ -156,7 +156,7 @@ void CMoDistRingElem::AllocRingGeometry()
       while ( v20 != 0 );
       v19 = (char *)a3;
     }
-    orig::operator_delete_10311BB0_v1(v19);
+    orig::operator_delete_10311BB0(v19);
   }
 }
 

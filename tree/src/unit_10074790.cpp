@@ -55,17 +55,17 @@ XI_API undefined4 * __thiscall fn_10074920(void * self_, uint32_t param_1)
   undefined4 *puVar3;
   undefined8 uVar4;
   
-  byte_1047D13D = 1;
-  uVar4 = orig::Mem_AllocFromArea(param_1,4);
-  g_resourcesDirty = 1;
+  byte_1047D13D_as_v0 = 1;
+  uVar4 = orig::Mem_AllocFromArea_v1(param_1,4);
+  g_resourcesDirty_as_v0 = 1;
   if ((void *)uVar4 == (void *)0x0) {
     a1 = (undefined4 *)0x0;
   }
   else {
-    uVar4 = orig::CMoTask_Constructor((void *)uVar4);
+    uVar4 = orig::CMoTask_Constructor_v1((void *)uVar4);
     a1 = (undefined4 *)uVar4;
   }
-  byte_1047D13D = 0;
+  byte_1047D13D_as_v0 = 0;
   puVar2 = self_;
   puVar3 = a1;
   for (uVar1 = param_1 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {

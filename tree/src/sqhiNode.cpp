@@ -32,7 +32,7 @@ XI_API void __cdecl fn_10291BA0(undefined4 * param_1)
   orig::FUN_1027ebd0(param_1 + 9);
   *(undefined1 *)(param_1 + 0x1d) = 0xff;
   orig::FUN_1027eb00_v1(param_1 + 0x1e);
-  orig::M4fSet(param_1 + 0x2e,param_1 + 9);
+  orig::M4fSet_v1(param_1 + 0x2e,param_1 + 9);
   return;
 }
 

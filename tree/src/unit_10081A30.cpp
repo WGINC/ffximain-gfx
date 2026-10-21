@@ -24,16 +24,16 @@ XI_API void __cdecl fn_10081A30(void)
 XI_API void __cdecl Actor_ResetDrawLists(void)
 {
   g_pActorDrawListHead_as_v1 = 0;
-  orig::FUN_100814f0(&g_targetActorHandle,0);
+  orig::FUN_100814f0(&g_targetActorHandle_as_v0,0);
   g_actorUpdateBucketCountA_as_v0 = 0;
   g_actorUpdateBucketCountB_as_v0 = 0;
   DAT_1048a35c = 0;
   DAT_1048a36c = 0;
   DAT_1048a360 = 0;
   DAT_1048a370 = 0;
-  g_actorSerialCounter = 0;
-  g_actorUpdateCounter = 0;
-  g_actorUpdateInterval = 0x32;
+  g_actorSerialCounter_as_v0 = 0;
+  g_actorUpdateCounter_as_v0 = 0;
+  g_actorUpdateInterval_as_v0 = 0x32;
   _DAT_1048a364 = 0;
   _DAT_1048a374 = 0;
   return;
@@ -76,7 +76,7 @@ XI_API void __thiscall fn_10081BA0(void * self_)
   puVar2 = (undefined4 *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
   orig::Vec4_Copy_v1(puVar2,puVar5);
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x268))))((void *)(self_),0);
-  if (*(char *)(g_pCamera + 9) == '\0') {
+  if (*(char *)(g_pCamera_as_s32 + 9) == '\0') {
     pcVar3 = s_roro_thomashi_1035821c;
     do {
       cVar1 = *pcVar3;
@@ -85,7 +85,7 @@ XI_API void __thiscall fn_10081BA0(void * self_)
     } while (cVar1 != '\0');
   }
   else {
-    pcVar3 = &Read;
+    pcVar3 = &Read_as_v0;
     do {
       cVar1 = *pcVar3;
       pcVar3[(int)self_ + -0x103d3bcc] = cVar1;
@@ -111,7 +111,7 @@ XI_API void __thiscall fn_10081BA0(void * self_)
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x290))))((void *)(self_),0);
   orig::FUN_10081ae0(self_);
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x350))))((void *)(self_),0);
-  if (*(char *)(g_pCamera + 9) == '\0') {
+  if (*(char *)(g_pCamera_as_s32 + 9) == '\0') {
     iVar4 = orig::FUN_10082bf0();
     *(int *)((int)self_ + 0x74) = iVar4;
   }
@@ -124,7 +124,7 @@ XI_API void __thiscall fn_10081BA0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_10081CF0(void * self_)
 {
-  orig::CMoTask_Constructor(self_);
+  orig::CMoTask_Constructor_v1(self_);
   orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x5c));
   *(undefined ***)self_ = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
   orig::CXiActor_Init(self_);

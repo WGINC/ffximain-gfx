@@ -33,11 +33,11 @@ XI_API undefined4 __thiscall fn_100C4B50(void * self_, undefined4 param_1, void 
   
   orig::Mat4_SetIdentity_v1(param_2);
   iVar1 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
-  orig::Mat4_PostRotateZ(param_2,*(float *)(iVar1 + 8));
+  orig::Mat4_PostRotateZ_v1(param_2,*(float *)(iVar1 + 8));
   iVar1 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
-  orig::Mat4_PostRotateY(param_2,*(float *)(iVar1 + 4));
+  orig::Mat4_PostRotateY_v1(param_2,*(float *)(iVar1 + 4));
   pfVar2 = (float *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
-  orig::Mat4_PostRotateX(param_2,*pfVar2);
+  orig::Mat4_PostRotateX_v1(param_2,*pfVar2);
   puVar3 = (undefined4 *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1bc))))((void *)(self_));
   uVar4 = orig::Mat4_SetTranslation_v1(param_2,puVar3);
   return CONCAT31((int3)((uint)uVar4 >> 8),1);
@@ -67,9 +67,9 @@ XI_API void __thiscall fn_100C4C20(void * self_)
     *(undefined2 *)((int)self_ + 0x69c) = 0;
     *(undefined4 *)((int)self_ + 0x5e0) = uVar1;
     orig::Mat4_SetIdentity_v1(this_00);
-    orig::Mat4_PostRotateZ(this_00,pfVar3[2]);
-    orig::Mat4_PostRotateY(this_00,pfVar3[1]);
-    orig::Mat4_PostRotateX(this_00,*pfVar3);
+    orig::Mat4_PostRotateZ_v1(this_00,pfVar3[2]);
+    orig::Mat4_PostRotateY_v1(this_00,pfVar3[1]);
+    orig::Mat4_PostRotateX_v1(this_00,*pfVar3);
     orig::Mat4_SetTranslation_v1(this_00,puVar2);
     if (*(int *)((int)self_ + 0x774) == 0) {
       orig::ModelActor_Draw(g_pZoneMap,(int)self_ + 0x5c8,*(undefined4 *)((int)self_ + 0x770));

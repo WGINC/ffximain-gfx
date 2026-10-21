@@ -20,10 +20,10 @@ void __cdecl CXiActorDraw::UpdateDrawList()
   int *piVar1;
   xi_bool bVar2;
   
-  g_actorUpdateCounter = 0;
-  g_actorUpdateInterval = orig::Settings_GetValue(0x3c);
+  g_actorUpdateCounter_as_v0 = 0;
+  g_actorUpdateInterval_as_v0 = orig::Settings_GetValue_v1(0x3c);
   _DAT_1048a324 = 0;
-  this_00 = g_pActorDrawListHead;
+  this_00 = g_pActorDrawListHead_as_v0;
   do {
     if (this_00 == (int *)0x0) {
       return;
@@ -66,9 +66,9 @@ LAB_10082e90:
         piVar1 = self;
         if (this_00[0x16] != 0) {
           *(int **)(this_00[0x16] + 0x54) = self;
-          piVar1 = g_pActorDrawListHead;
+          piVar1 = g_pActorDrawListHead_as_v0;
         }
-        g_pActorDrawListHead = piVar1;
+        g_pActorDrawListHead_as_v0 = piVar1;
         piVar1 = self + 0x15;
         if (self[0x15] != 0) {
           *(int **)(self[0x15] + 0x58) = this_00;

@@ -84,13 +84,13 @@ XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undef
   uVar2 = 0;
   if (psVar1 != (short *)0x0) {
     orig::Mat4_SetIdentity_v1(local_40);
-    orig::Mat4_PostRotateX(local_40,*(float *)(psVar1 + 1));
-    orig::Mat4_PostRotateY(local_40,*(float *)(psVar1 + 3));
-    orig::Mat4_PostRotateZ(local_40,*(float *)(psVar1 + 5));
+    orig::Mat4_PostRotateX_v1(local_40,*(float *)(psVar1 + 1));
+    orig::Mat4_PostRotateY_v1(local_40,*(float *)(psVar1 + 3));
+    orig::Mat4_PostRotateZ_v1(local_40,*(float *)(psVar1 + 5));
     orig::FUN_1002a890((int)psVar1,local_4c);
     orig::Mat4_SetTranslation_v1(local_40,local_4c);
-    orig::Mat4_PostMultiply(local_40,*psVar1 * 0x40 + *(int *)((int)self_ + 0x14));
-    uVar2 = orig::Mat4_TransformVec4InPlace(local_40,param_2);
+    orig::Mat4_PostMultiply_v1(local_40,*psVar1 * 0x40 + *(int *)((int)self_ + 0x14));
+    uVar2 = orig::Mat4_TransformVec4InPlace_v1(local_40,param_2);
   }
   orig::nullsub_1();
   return uVar2;
@@ -100,7 +100,7 @@ XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undef
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall fn_1002A890(int param_1, undefined4 * param_2)
 {
-  orig::Vec3_Copy(param_2,(undefined4 *)(param_1 + 0xe));
+  orig::Vec3_Copy_v1(param_2,(undefined4 *)(param_1 + 0xe));
   return;
 }
 

@@ -16,7 +16,7 @@ unsigned char __thiscall CXiControlActor::AmIControlActor(void * self)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar1 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   return (void *)uVar1 == self;
 }
 
@@ -62,7 +62,7 @@ XI_API void __thiscall fn_100A5770(void * self_, undefined4 * param_1)
     if ((int)uVar1 < 0) {
       uVar1 = (uVar1 - 1 | 0xfffffffc) + 1;
     }
-    orig::Vec3_Copy((undefined4 *)((int)self_ + (uVar1 + 1) * 0xc),param_1);
+    orig::Vec3_Copy_v1((undefined4 *)((int)self_ + (uVar1 + 1) * 0xc),param_1);
     iVar2 = iVar2 + -1;
     *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + 1;
   } while (iVar2 != 0);
@@ -172,7 +172,7 @@ XI_API void * __thiscall fn_100A89E0(void * self_)
     }
     puVar3 = puVar3 + 0x1a;
   } while (iVar4 != 0);
-  uVar6 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar6 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   if ((void *)uVar6 == self_) {
     orig::FUN_100a5770(&DAT_10487f1c,(undefined4 *)((int)self_ + 0xd4));
   }

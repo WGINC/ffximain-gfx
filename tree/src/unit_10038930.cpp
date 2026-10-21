@@ -66,7 +66,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
   int result;
   unsigned __int8 v3;
   int v4[28];
-  result = orig::Settings_GetValue_v1(200);
+  result = orig::Settings_GetValue(200);
   if ( result != 0
     && (result = *((_DWORD *)self_ + 1)) != 0
     && (result = g_sceneCaptureTex, g_sceneCaptureTex != 0)
@@ -200,7 +200,7 @@ XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
   bool xi_fpu_unord = false;
 
   v1 = self_;
-  result = orig::Settings_GetValue_v1(200);
+  result = orig::Settings_GetValue(200);
   if ( result == 0
     || (result = v1[1]) == 0
     || (v3 = *(_DWORD *)result, result = g_sceneCaptureTex, g_sceneCaptureTex == 0)
@@ -323,7 +323,7 @@ LABEL_21:
     }
     while ( v4 < v5 );
   }
-  v1[2] += (__int64)orig::Camera_GetFrameScale_v1();
+  v1[2] += (__int64)orig::Camera_GetFrameScale();
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);

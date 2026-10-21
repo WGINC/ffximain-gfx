@@ -107,7 +107,7 @@ XI_API int __cdecl fn_1007A440(int param_1, int param_2, int param_3)
   if (((((-1 < param_1) && (param_1 < 0x900)) && (-1 < param_2)) &&
       ((param_2 < 0x901 && (param_1 <= param_2)))) && (param_3 != 0)) {
     if (param_1 < param_2) {
-      while ((local_4 = (void *)(&ActerBuffPtr)[param_1], local_4 == (void *)0x0 ||
+      while ((local_4 = (void *)(&ActerBuffPtr_as_v0)[param_1], local_4 == (void *)0x0 ||
              (iVar1 = orig::FUN_1008b380(local_4,param_3), iVar1 == 0))) {
         param_1 = param_1 + 1;
         if (param_2 <= param_1) {
@@ -164,7 +164,7 @@ XI_API int __cdecl fn_1007A4C0(char * param_1, uint32_t param_2, int param_3, in
     }
     local_5 = 0;
     if (param_3 < param_4) {
-      while ((((((self_ = (void *)(&ActerBuffPtr)[param_3], self_ == (void *)0x0 ||
+      while ((((((self_ = (void *)(&ActerBuffPtr_as_v0)[param_3], self_ == (void *)0x0 ||
                  (local_20 = (int)self_ + 0x74, local_20 == 0)) ||
                 ((*(int *)((int)self_ + 0x78) == 0 ||
                  (((*(uint *)((int)self_ + 0x124) >> 0xc & 1) != 0 ||
@@ -202,13 +202,13 @@ XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param
   if (DAT_10485f7a == 0) {
     return -param_3;
   }
-  if ((&ActerBuffPtr)[DAT_10485f7a] == 0) {
+  if ((&ActerBuffPtr_as_v0)[DAT_10485f7a] == 0) {
     return -param_3;
   }
   uVar1 = orig::FUN_1007cf80();
   if ((char)uVar1 == '\0') {
     *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
-    iVar3 = *(int *)((&ActerBuffPtr)[DAT_10485f7a] + 0x170);
+    iVar3 = *(int *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0x170);
     if (((iVar3 != 0) && (iVar3 != 0x21)) && (iVar3 != 7)) {
       return 0;
     }
@@ -306,8 +306,8 @@ XI_API undefined4 __cdecl fn_10080C70(char * param_1)
   int *piVar1;
   
   piVar1 = orig::SeekIdByString(param_1,1,0,0);
-  if ((piVar1 != (int *)0x0) && ((&ActerBuffPtr)[*piVar1] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr)[*piVar1] + 0xa0);
+  if ((piVar1 != (int *)0x0) && ((&ActerBuffPtr_as_v0)[*piVar1] != 0)) {
+    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*piVar1] + 0xa0);
   }
   return 0;
 }
@@ -327,7 +327,7 @@ XI_API undefined4 __cdecl fn_10080D20(int param_1)
     uVar2 = DAT_10357bb8;
     do {
       if (((short)uVar2 == 0x32) && (*(short *)(param_1 + 0x14) == 0x32)) {
-        uVar4 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+        uVar4 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
         xi_entry_eax = (uint)uVar4;
         if (((xi_entry_eax != 0) && (xi_entry_eax = *(uint *)(xi_entry_eax + 0x70), xi_entry_eax != 0)) &&
            ((xi_entry_eax = *(uint *)(xi_entry_eax + 0x170), xi_entry_eax == 0x21 || (xi_entry_eax == 7)))) break;
@@ -421,7 +421,7 @@ XI_API undefined4 __thiscall fn_10081600(void * self_)
   char xi_frame[12] __attribute__((aligned(4)));
   undefined1  (&local_c)[12] = *reinterpret_cast<undefined1  (*)[12]>(xi_frame + 0);
   
-  iVar2 = (&ActerBuffPtr)[*(int *)((int)self_ + 4)];
+  iVar2 = (&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 4)];
   if ((iVar2 != 0) && (*(char *)((int)self_ + 0xb) != '\x04')) {
     if (((*(uint *)(iVar2 + 0x120) >> 9 & 1) != 0) &&
        (*(int *)(iVar2 + 0x78) == *(int *)((int)self_ + 8))) {
@@ -429,13 +429,13 @@ XI_API undefined4 __thiscall fn_10081600(void * self_)
     }
     iVar2 = 0;
     do {
-      iVar1 = (&ActerBuffPtr)[iVar2];
+      iVar1 = (&ActerBuffPtr_as_v0)[iVar2];
       if ((((iVar1 != 0) && ((*(uint *)(iVar1 + 0x120) >> 9 & 1) != 0)) &&
           (*(int *)(iVar1 + 0x78) != 0x4000000)) &&
          (*(int *)(iVar1 + 0x78) == *(int *)((int)self_ + 8))) {
-        orig::FUN_10081530(self_,*(undefined4 *)((&ActerBuffPtr)[iVar2] + 0x74),
-                     *(undefined4 *)((&ActerBuffPtr)[iVar2] + 0x78));
-        return *(undefined4 *)((&ActerBuffPtr)[*(int *)((int)self_ + 4)] + 0xa0);
+        orig::FUN_10081530(self_,*(undefined4 *)((&ActerBuffPtr_as_v0)[iVar2] + 0x74),
+                     *(undefined4 *)((&ActerBuffPtr_as_v0)[iVar2] + 0x78));
+        return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 4)] + 0xa0);
       }
       iVar2 = iVar2 + 1;
     } while (iVar2 < 0x900);

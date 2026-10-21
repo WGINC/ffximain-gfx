@@ -47,7 +47,7 @@ void __thiscall CYyMotionQue::ComputeFrameAdvance(void * self, int * param_1, in
   this_00 = (undefined4 *)((int)self + 0x34);
   if ((*(int *)((int)self + 0x34) != 0) &&
      (uVar3 = orig::ResourceHandle_IsResident_v1(this_00), (char)uVar3 != '\0')) {
-    iVar4 = orig::ResourceHandle_Deref((undefined4 *)*this_00);
+    iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00);
     uVar3 = *(undefined4 *)((int)self + 0x24);
     fStack_c = (float)(float10)(int)*(short *)(iVar4 + 0x34);
     if ((!NAN((float10)*(float *)((int)self + 0x38)) && !NAN((float10)xi_k4(0x0ull))) &&
@@ -55,15 +55,15 @@ void __thiscall CYyMotionQue::ComputeFrameAdvance(void * self, int * param_1, in
       fStack_c = *(float *)((int)self + 0x38);
     }
     if (-1 < *(int *)((int)self + 0x2c)) {
-      iVar4 = orig::ResourceHandle_Deref((undefined4 *)*this_00);
+      iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00);
       fVar1 = *(float *)(iVar4 + 0x36);
       fVar2 = *(float *)((int)self + 0x28);
       bVar5 = NAN((float10)fStack_c) || NAN((float10)xi_k4(0x40000000ull));
       if ((bVar5 == (bVar5 || (float10)fStack_c == (float10)xi_k4(0x40000000ull))) ||
-         (iVar4 = orig::ResourceHandle_Deref((undefined4 *)*this_00),
+         (iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00),
          fVar6 = (float10)*(float *)(iVar4 + 0x36) * (float10)xi_k4(0x3F000000ull),
          bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x3F000000ull)), bVar5 == (bVar5 || fVar6 == (float10)xi_k4(0x3F000000ull)))) {
-        fVar6 = orig::Camera_GetFrameScale();
+        fVar6 = orig::Camera_GetFrameScale_v1();
         fVar6 = fVar6 * (float10)(float)((float10)fVar1 * (float10)xi_k4(0x3F000000ull) * (float10)fVar2) +
                 (float10)*(float *)((int)self + 0x24);
       }
@@ -164,7 +164,7 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
     uVar1 = orig::ResourceHandle_IsResident_v1((undefined4 *)((int)self + 0x34));
     if ((char)uVar1 != '\0') {
       uVar1 = *(undefined4 *)((int)self + 0x24);
-      this_00 = (void *)orig::ResourceHandle_Deref(*(undefined4 **)((int)self + 0x34));
+      this_00 = (void *)orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 0x34));
       orig::FUN_10019a50(this_00,param_1,uVar1,uStack_4,param_3);
     }
   }

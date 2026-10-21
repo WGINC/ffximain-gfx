@@ -117,7 +117,7 @@ XI_API void __cdecl fn_1026E590(undefined4 param_1)
       uVar2 = orig::FUN_102857d0(*piVar4);
       if ((char)uVar2 != '\0') {
         if (piVar4[-10] < 0) {
-          orig::scnCameraGetInfo(-1,&local_8,&local_4);
+          orig::scnCameraGetInfo_v1(-1,&local_8,&local_4);
           iVar5 = *piVar4;
           if ((*(int *)(iVar5 + 0x20) == local_8) || (*(int *)(iVar5 + 0x20) == local_4))
           goto LAB_1026e662;

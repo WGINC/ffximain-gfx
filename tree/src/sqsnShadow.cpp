@@ -37,7 +37,7 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
   {
     if ( *v6 != 655369 )
     {
-      orig::sqDebugPrintf_v2(aShadowVolumesO);
+      orig::sqDebugPrintf(aShadowVolumesO);
       return;
     }
   }
@@ -46,7 +46,7 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
     v6 = *(_DWORD **)a2;
     if ( **(_DWORD **)a2 != 655369 )
     {
-      orig::sqDebugPrintf_v2(aShadowVolumesO_0);
+      orig::sqDebugPrintf(aShadowVolumesO_0);
       return;
     }
   }
@@ -74,7 +74,7 @@ XI_API void __cdecl sqsnShadowVolumeDraw(int a1, int a2, int a3)
     v22[11] = 0.0;
     v20 = v12;
   }
-  orig::M4fTransform_v1((float *)v21, v22, &v18);
+  orig::M4fTransform((float *)v21, v22, &v18);
   v13 = v6[13];
   if ( v13 != 0 )
     v13 = *(_DWORD *)(v13 + 84);

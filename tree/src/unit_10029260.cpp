@@ -87,7 +87,7 @@ XI_API int __stdcall Mem_DrawHeapUsageBar(int a1, int a2, int a3, int a4, int a5
         v14 = 1073741952;
       }
       a2a = 1.0 / a5a;
-      a4a = (double)orig::MemBlock_GetSize_v1(v5) * a2a * 512.0 + a4a;
+      a4a = (double)orig::MemBlock_GetSize(v5) * a2a * 512.0 + a4a;
       v13[0] = a4a;
       v9[0] = a4a;
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 68u);

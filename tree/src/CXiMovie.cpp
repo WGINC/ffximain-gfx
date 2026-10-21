@@ -82,7 +82,7 @@ XI_API undefined4 __cdecl fn_1021D3D0(undefined4 param_1)
   iVar1 = orig::FUN_10311fde(param_1,&DAT_1034f2d0);
   if (iVar1 != 0) {
     orig::FUN_10311f30(iVar1);
-    self_ = (void *)orig::Mem_AllocDefault(0x28);
+    self_ = (void *)orig::Mem_AllocDefault_v1(0x28);
     if (self_ == (void *)0x0) {
       g_pMovie_as_v0 = (void *)0x0;
     }

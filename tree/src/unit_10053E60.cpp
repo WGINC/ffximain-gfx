@@ -30,7 +30,7 @@ XI_API void __thiscall fn_10054220(void * self_)
     else {
       this_00 = (void *)**(undefined4 **)((int)self_ + 0x38);
     }
-    uVar2 = orig::FUN_100496f0_v1(this_00,0);
+    uVar2 = orig::FUN_100496f0(this_00,0);
     if ((char)uVar2 != '\0') {
       *(undefined1 *)((int)self_ + 0x3c) = 1;
       if (*(int **)((int)self_ + 0x38) == (int *)0x0) {
@@ -49,10 +49,10 @@ XI_API void __thiscall fn_10054220(void * self_)
         }
         if ((*(byte *)(iVar3 + 0x1a) >> 2 & 1) != 0) {
           if (*(int **)((int)self_ + 0x38) != (int *)0x0) {
-            orig::MoRes_FreeIfUnreferenced(*(int **)(**(int **)((int)self_ + 0x38) + 0x14));
+            orig::MoRes_FreeIfUnreferenced_v1(*(int **)(**(int **)((int)self_ + 0x38) + 0x14));
             return;
           }
-          orig::MoRes_FreeIfUnreferenced(unk_14);
+          orig::MoRes_FreeIfUnreferenced_v1(unk_14);
         }
       }
     }

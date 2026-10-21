@@ -19,7 +19,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SHADEMODE, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 1u);
-    orig::Mat4_Copy_v1(v6, a4);
+    orig::Mat4_Copy(v6, a4);
     if ( (g_projTexFactor & 0xFF000000) != 0x80000000 )
     {
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
@@ -461,11 +461,11 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
   v7[2] = 1065353216;
   orig::CDx_GetTransformCached(g_pCDx, 256, v10);
   orig::CDx_GetTransformCached(g_pCDx, 2, v8);
-  orig::Mat4_InvertOrthonormal_v1((int *)v8);
+  orig::Mat4_InvertOrthonormal((int *)v8);
   v6[0] = 0.0;
   v6[1] = 0.0;
   v6[2] = -4.0;
-  orig::Mat4_TransformPointInPlace_v1(v8, v6);
+  orig::Mat4_TransformPointInPlace(v8, v6);
   orig::Mat4_SetScale(v9, v7);
   orig::Mat4_SetTranslation(v9, v6);
   orig::CDx_SetTransform(g_pCDx, 256, v9);

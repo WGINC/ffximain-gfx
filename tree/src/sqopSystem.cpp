@@ -59,7 +59,7 @@ XI_API void __cdecl fn_102896A0(undefined4 * param_1)
         iVar1 = iVar1 + 0x10;
       } while (iVar2 < (int)param_1[7]);
     }
-    orig::sqFree(param_1[9],s_C__dev_dancer_modules_sqOpcode_s_103b9484,0x97);
+    orig::sqFree_v1(param_1[9],s_C__dev_dancer_modules_sqOpcode_s_103b9484,0x97);
   }
   orig::FUN_10289620(param_1);
   return;

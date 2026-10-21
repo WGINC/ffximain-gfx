@@ -136,7 +136,7 @@ XI_API void __thiscall fn_101D0880(void * self_)
     *(undefined4 *)((int)self_ + 8) = 0;
   }
   if (*(LPVOID *)((int)self_ + 4) != (LPVOID)0x0) {
-    orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 4));
+    orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
     *(undefined4 *)((int)self_ + 4) = 0;
   }
   return;

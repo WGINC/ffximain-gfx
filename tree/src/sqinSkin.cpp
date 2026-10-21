@@ -193,18 +193,18 @@ XI_API void __cdecl fn_1029A450(int param_1)
         iVar8 = orig::FUN_10275090();
         DAT_109a2830 = DAT_109a2830 + (iVar8 - iVar6);
         iVar6 = orig::FUN_10275090();
-        orig::sqMatrix4_10280140(local_40,local_80,*(float **)(*(int *)(param_1 + 0x24) + 0x14));
+        orig::sqMatrix4_10280140_v1(local_40,local_80,*(float **)(*(int *)(param_1 + 0x24) + 0x14));
         iVar8 = orig::FUN_10275090();
         DAT_109a2834 = DAT_109a2834 + (iVar8 - iVar6);
         iVar6 = orig::FUN_10275090();
-        orig::M4fSet((undefined4 *)(iVar5 + 0x5c),local_40);
+        orig::M4fSet_v1((undefined4 *)(iVar5 + 0x5c),local_40);
         iVar8 = orig::FUN_10275090();
         DAT_109a2838 = DAT_109a2838 + (iVar8 - iVar6);
         iVar6 = orig::FUN_10275090();
         iVar8 = orig::FUN_10275090();
         DAT_109a283c = DAT_109a283c + (iVar8 - iVar6);
         if (*(int *)(iVar5 + 0x3c) != 0) {
-          orig::sqFree(*(int *)(iVar5 + 0x3c),s_C__dev_dancer_modules_sqSkin_src_103bc310,0x249);
+          orig::sqFree_v1(*(int *)(iVar5 + 0x3c),s_C__dev_dancer_modules_sqSkin_src_103bc310,0x249);
           *(undefined4 *)(iVar5 + 0x3c) = 0;
         }
         local_9c = local_9c + 1;
@@ -212,7 +212,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
     }
     if (((*(byte *)(*(int *)(param_1 + 0x24) + 0x34) & 4) != 0) &&
        (iVar9 = *(int *)(*(int *)(param_1 + 0x24) + 0x14), iVar9 != 0)) {
-      orig::sqFree(iVar9,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x250);
+      orig::sqFree_v1(iVar9,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x250);
       *(undefined4 *)(*(int *)(param_1 + 0x24) + 0x14) = 0;
     }
     *(float **)(*(int *)(param_1 + 0x24) + 0x14) = pfVar4;

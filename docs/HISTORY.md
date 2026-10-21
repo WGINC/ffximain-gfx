@@ -2893,3 +2893,15 @@ The other 776 agree between the two runs.
 in 67 functions; before, it listed 28 sites in 3. 64 of those functions are new to the tree, and all are from the
 Ghidra route. Ghidra follows a register kept across a call itself: 0x1021BC30 uses `self_` where the original
 reuses EDX after `call 0x1021BC20`. Their gate PASS judges each translation as printed.
+
+**Names kept stable across exports** (found when the speedfix forks stopped compiling against the promoted tree):
+- A global's name and plain type now come from the records of the first export that uses it. Before, they came
+  from the most common type over all records, so `g_pCamera` turned from a pointer into `int` and `_as_s32`
+  vanished.
+- A callee's `_vN` wrapper variants are numbered first by that same export, then by count; before, `sub_1025B560`
+  became `sub_1025B560_v1`.
+- `canonicalise_names` prefers a name the IDA records use over the Ghidra project's.
+- The placeholder pattern now covers a leading underscore (`_dword_X`).
+
+Of the 779 functions the tree held before, three gained a `// NOT VERIFIED` line. Six others changed, and only
+in that `operator_delete` is now spelt `operator_delete_10311BB0`, because 0x101907D0 carries the name too.

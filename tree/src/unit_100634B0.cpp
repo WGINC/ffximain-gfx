@@ -21,15 +21,15 @@ XI_API void __thiscall fn_100634B0(void * self_, int param_1, uint32_t param_2, 
   puVar2 = (undefined4 *)((int)self_ + 0xc);
   do {
     if ((param_2 & 1 << ((byte)iVar3 & 0x1f)) != 0) {
-      puVar1 = orig::Mem_AllocObject(iVar4 * 4,4);
+      puVar1 = orig::Mem_AllocObject_v1(iVar4 * 4,4);
       *puVar2 = puVar1;
     }
     iVar3 = iVar3 + 1;
     puVar2 = puVar2 + 1;
   } while (iVar3 < 3);
-  puVar2 = orig::Mem_AllocObject(iVar4 * 4 + -4,4);
+  puVar2 = orig::Mem_AllocObject_v1(iVar4 * 4 + -4,4);
   *(undefined4 **)((int)self_ + 0x18) = puVar2;
-  puVar2 = orig::Mem_AllocObject(iVar4 * 0x40 + -0xb4,4);
+  puVar2 = orig::Mem_AllocObject_v1(iVar4 * 0x40 + -0xb4,4);
   *(undefined4 **)((int)self_ + 0x20) = puVar2;
   *(undefined4 **)((int)self_ + 0x1c) = puVar2 + 3;
   return;
@@ -46,18 +46,18 @@ XI_API void __thiscall fn_10063550(void * self_)
   piVar2 = (int *)((int)self_ + 0xc);
   do {
     if (*piVar2 != 0) {
-      orig::Mem_FreeObject(*piVar2);
+      orig::Mem_FreeObject_v1(*piVar2);
       *piVar2 = 0;
     }
     piVar2 = piVar2 + 1;
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
   if (*(int *)((int)self_ + 0x20) != 0) {
-    orig::Mem_FreeObject(*(int *)((int)self_ + 0x20));
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x20));
     *(undefined4 *)((int)self_ + 0x20) = 0;
   }
   if (*(int *)((int)self_ + 0x18) != 0) {
-    orig::Mem_FreeObject(*(int *)((int)self_ + 0x18));
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x18));
     *(undefined4 *)((int)self_ + 0x18) = 0;
   }
   return;
@@ -187,7 +187,7 @@ XI_API undefined4 __thiscall fn_10063B80(void * self_)
   int *local_4;
   
   if (*(int *)((int)self_ + 4) == 0) {
-    pvVar2 = (void *)orig::Mem_AllocDefault(0x28);
+    pvVar2 = (void *)orig::Mem_AllocDefault_v1(0x28);
     if (pvVar2 == (void *)0x0) {
       pvVar2 = (void *)0x0;
     }
@@ -206,11 +206,11 @@ XI_API undefined4 __thiscall fn_10063B80(void * self_)
         local_4 = local_4 + 1;
         piVar5 = piVar5 + 1;
         piVar4 = piVar4 + 1;
-        piVar3 = orig::FUN_10063b50_v1(self_,iVar6);
+        piVar3 = orig::FUN_10063b50(self_,iVar6);
         *piVar4 = *piVar3;
-        piVar3 = orig::FUN_10063b50_v1(self_,iVar6);
+        piVar3 = orig::FUN_10063b50(self_,iVar6);
         *piVar5 = piVar3[1];
-        piVar3 = orig::FUN_10063b50_v1(self_,iVar6);
+        piVar3 = orig::FUN_10063b50(self_,iVar6);
         *local_4 = piVar3[2];
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)self_);

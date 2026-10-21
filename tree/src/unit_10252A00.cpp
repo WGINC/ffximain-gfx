@@ -27,11 +27,11 @@ XI_API undefined4 __cdecl fn_10252A40(uint32_t * param_1)
   undefined4 uVar2;
   
   if (((*param_1 & 1) != 0) && (uVar1 = param_1[1], -1 < (int)uVar1)) {
-    uVar2 = orig::FUN_101c4a30(g_pFileMng,uVar1);
+    uVar2 = orig::FUN_101c4a30(g_pFileMng_as_v1,uVar1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }
-    uVar2 = orig::FUN_101c4a30(g_pFileMng,uVar1 + 1);
+    uVar2 = orig::FUN_101c4a30(g_pFileMng_as_v1,uVar1 + 1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }

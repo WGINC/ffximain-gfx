@@ -148,7 +148,7 @@ XI_API void __thiscall StDancer_Update(void * self_)
 XI_API void __thiscall Dancer_WorldEnd(void * self_, undefined4 param_1)
 {
   if ((*(byte *)((int)self_ + 4) & 4) != 0) {
-    byte_10669420 = 1;
+    byte_10669420_as_v0 = 1;
     orig::FUN_10250190(0x10669158,param_1);
   }
   return;
@@ -290,7 +290,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   int (&v9)[272] = *reinterpret_cast<int (*)[272]>(xi_frame + 0x1C);
 
   *self_ = 11534336;
-  v2 = orig::Mem_AllocObject_v1(11534352, 0);
+  v2 = orig::Mem_AllocObject(11534352, 0);
   v3 = ((unsigned int)v2 + 15) & 0xFFFFFFF0;
   g_dancerMemBlock = (int)v2;
   if ( v3 != 0 )
@@ -316,14 +316,14 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
     (*(void (__stdcall **)(int, int *))(*(_DWORD *)g_pSqgxContext[575] + 32))(g_pSqgxContext[575], &v8);
     if ( v9[3] > 0x200u )
     {
-      orig::sqgxTextureAdd_v1(2, 2, (IDirect3DTexture8 *)4, nullptr);
-      orig::sqgxTextureAdd_v1(2, 2, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(2, 2, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(2, 2, (IDirect3DTexture8 *)4, nullptr);
       orig::sqgxTextureAddZ(2, 2, 3);
     }
     else
     {
-      orig::sqgxTextureAdd_v1(v9[3], v9[4], (IDirect3DTexture8 *)4, nullptr);
-      orig::sqgxTextureAdd_v1(xRight, yBottom, (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(v9[3], v9[4], (IDirect3DTexture8 *)4, nullptr);
+      orig::sqgxTextureAdd(xRight, yBottom, (IDirect3DTexture8 *)4, nullptr);
       orig::sqgxTextureAddZ(v9[3], v9[4], 3);
     }
     g_This_10669418->GetAdapterIdentifier(0, 2u, &v9[5]);
@@ -355,7 +355,7 @@ XI_API undefined4 __cdecl fn_10251CE0(void)
   orig::FUN_10285740(&g_pSqgxContext_as_v1);
   if (g_dancerMainMemBase != 0) {
     g_dancerMainMemSize_as_v0 = 0;
-    orig::Mem_FreeObject(g_dancerMemBlock_as_v0);
+    orig::Mem_FreeObject_v1(g_dancerMemBlock_as_v0);
     g_dancerMemBlock_as_v0 = 0;
     g_dancerMainMemBase = 0;
   }

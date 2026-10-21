@@ -305,7 +305,7 @@ XI_API int * __cdecl sqgxShader(int a1, int a2)
   if ( (result[2 * result[710] + 648] & 0x40) != 0 )
   {
     orig::sqgxTextureClamp(1);
-    orig::sqgxTextureDecal_v1(1);
+    orig::sqgxTextureDecal(1);
     v11 = &g_pSqgxContext[g_pSqgxContext[710] + 653];
     *v11 |= 2u;
     result = g_pSqgxContext;
@@ -313,7 +313,7 @@ XI_API int * __cdecl sqgxShader(int a1, int a2)
   if ( (result[2 * result[710] + 648] & 0x20000000) != 0 )
   {
     orig::sqgxTextureClamp(1);
-    orig::sqgxTextureDecal_v1(1);
+    orig::sqgxTextureDecal(1);
     v12 = &g_pSqgxContext[g_pSqgxContext[710] + 653];
     *v12 |= 4u;
     result = g_pSqgxContext;
@@ -332,7 +332,7 @@ XI_API int * __cdecl sqgxShader(int a1, int a2)
   }
   if ( (result[2 * result[710] + 648] & 8) != 0 )
   {
-    orig::sqgxTextureDecal_v1(1);
+    orig::sqgxTextureDecal(1);
     orig::sqgxTextureClamp(0);
     v15 = &g_pSqgxContext[g_pSqgxContext[710] + 653];
     *v15 |= 4u;
@@ -355,7 +355,7 @@ XI_API int * __cdecl sqgxShader(int a1, int a2)
   if ( (result[2 * v18 + 648] & 0x10) != 0 )
   {
     result[v18 + 653] |= 0xCu;
-    orig::sqgxTextureDecal_v1(0);
+    orig::sqgxTextureDecal(0);
     orig::sqgxTextureClamp(1);
     result = g_pSqgxContext;
   }

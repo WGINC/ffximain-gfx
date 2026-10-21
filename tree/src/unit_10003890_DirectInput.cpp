@@ -39,12 +39,12 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
     if ( *(_DWORD *)(*(self_ + 3) + v3 + 4) != -1 )
     {
       orig::Mat4_SetIdentity(self_v);
-      orig::Mat4_PostRotateY_v1(self_v, *(float *)(v2 + *(self_ + 4) + 12));
+      orig::Mat4_PostRotateY(self_v, *(float *)(v2 + *(self_ + 4) + 12));
       orig::Mat4_SetTranslation(self_v, (_DWORD *)(v2 + *(self_ + 4)));
       orig::CDx_SetTransform(g_pCDx, 256, self_v);
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
       orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&g_debugAxisLineVerts, 16);
-      v4 = ActerBuffPtr_as_v0[*(_DWORD *)(*(self_ + 3) + v3)];
+      v4 = ActerBuffPtr[*(_DWORD *)(*(self_ + 3) + v3)];
       if ( v4 != 0 && (*(_DWORD *)(v4 + 288) & 0x200) != 0 )
       {
         v5 = *(_DWORD *)(v4 + 160);
@@ -258,12 +258,12 @@ LAB_10007a18:
       *(byte *)(iVar5 + 0x114) = bVar1;
       *(undefined1 *)(bVar4 + 0x14 + iVar5 + (uint)bVar1) = 0;
     }
-    orig::FUN_1015dd50(&g_menuMng,param_1);
+    orig::FUN_1015dd50(&g_menuMng_as_v0,param_1);
     return;
   }
   if (param_1 != 8) {
     if (param_1 == 0xd) {
-      orig::FUN_1015dd70(&g_menuMng,0xd);
+      orig::FUN_1015dd70(&g_menuMng_as_v0,0xd);
       iVar5 = -1;
       pcVar10 = (char *)(DAT_10578490 + 0x14);
       do {
@@ -356,7 +356,7 @@ LAB_10007a18:
     *(char *)(iVar5 + 0x114) = cVar3;
   }
 LAB_100079f4:
-  orig::FUN_1015dd70(&g_menuMng,8);
+  orig::FUN_1015dd70(&g_menuMng_as_v0,8);
   return;
 }
 
@@ -681,7 +681,7 @@ XI_API undefined4 __thiscall fn_10008830(void * self_, uint32_t param_1)
   }
   iVar1 = *(int *)((int)self_ + 0xc94);
   if ((iVar1 == 0) && (iVar1 = *(int *)((int)self_ + 0x8dc), iVar1 == 0)) {
-    return CONCAT31((int3)((uint)g_pCursor >> 8),*(int *)(g_pCursor + 0x60) != 0);
+    return CONCAT31((int3)((uint)g_pCursor_as_s32 >> 8),*(int *)(g_pCursor_as_s32 + 0x60) != 0);
   }
   return CONCAT31((int3)((uint)iVar1 >> 8),1);
 }

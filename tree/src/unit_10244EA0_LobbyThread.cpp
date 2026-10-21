@@ -36,7 +36,7 @@ XI_API undefined4 __cdecl LobbyThread_Start(undefined4 param_1)
 {
   void *self_;
   
-  self_ = (void *)orig::Mem_AllocDefault(0x2c);
+  self_ = (void *)orig::Mem_AllocDefault_v1(0x2c);
   if (self_ == (void *)0x0) {
     DAT_10669098 = (void *)0x0;
   }
@@ -85,8 +85,8 @@ XI_API void __cdecl fn_10245BB0(void)
     orig::FUN_1018b620(g_pXiZone);
     orig::FUN_10014cb0();
     orig::FUN_1018b130();
-    orig::CYyCamMng2_CreateGlobal();
-    orig::Actor_ResetDrawLists();
+    orig::CYyCamMng2_CreateGlobal_v1();
+    orig::Actor_ResetDrawLists_v1();
     return;
   }
   return;
@@ -283,7 +283,7 @@ XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, un
   undefined8 uVar7;
   
   uVar3 = 0xffffffff;
-  uVar7 = orig::Allocator_Generic(0x30);
+  uVar7 = orig::Allocator_Generic_v1(0x30);
   pcVar1 = (char *)uVar7;
   if (pcVar1 != (char *)0x0) {
     pcVar4 = pcVar1;
@@ -317,7 +317,7 @@ XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, un
       uVar3 = 0x400;
     }
     orig::FUN_1024c060(7,param_1,param_2 & 0x7f,param_3,0,0,0,0);
-    orig::operator_delete_10311BB0(pcVar1);
+    orig::operator_delete_10311BB0_v1(pcVar1);
   }
   return uVar3;
 }
@@ -339,12 +339,12 @@ XI_API uint32_t __stdcall fn_102465E0(uint32_t param_1, uint32_t param_2, undefi
   pcVar5 = (char *)(DAT_10669108 + 4);
   if (*pcVar5 != '\0') {
     param_1 = param_1 & 0x3ff;
-    uVar7 = orig::Allocator_Generic(0x104);
+    uVar7 = orig::Allocator_Generic_v1(0x104);
     piVar3 = (int *)uVar7;
     if (piVar3 != (int *)0x0) {
       iVar6 = 0;
       do {
-        uVar7 = orig::Allocator_Generic(0x104);
+        uVar7 = orig::Allocator_Generic_v1(0x104);
         auStack_40[iVar6] = (int)uVar7;
         iVar6 = iVar6 + 1;
       } while (iVar6 < 0x10);
@@ -352,7 +352,7 @@ XI_API uint32_t __stdcall fn_102465E0(uint32_t param_1, uint32_t param_2, undefi
       while( true ) {
         puVar2 = (undefined1 *)auStack_40[iVar6];
         if (puVar2 != (undefined1 *)0x0) {
-          orig::_sprintf_v1(puVar2,s__s_music_3_3u_bgw_103888dc,pcVar5,param_1);
+          orig::_sprintf_v2(puVar2,s__s_music_3_3u_bgw_103888dc,pcVar5,param_1);
         }
         iVar4 = orig::FUN_10311fde(puVar2,&DAT_1034f2d0);
         if (iVar4 != 0) break;
@@ -372,11 +372,11 @@ LAB_10246691:
         orig::FUN_10311f30(iVar4);
         orig::FUN_1024c060(7,piVar3,param_2 & 0x7f,param_3,0,0,0,0);
       }
-      orig::operator_delete_10311BB0(piVar3);
+      orig::operator_delete_10311BB0_v1(piVar3);
       iVar6 = 0;
       do {
         if ((LPVOID)auStack_40[iVar6] != (LPVOID)0x0) {
-          orig::operator_delete_10311BB0((LPVOID)auStack_40[iVar6]);
+          orig::operator_delete_10311BB0_v1((LPVOID)auStack_40[iVar6]);
         }
         iVar6 = iVar6 + 1;
       } while (iVar6 < 0x10);
@@ -505,7 +505,7 @@ XI_API void * __thiscall fn_1024C210(void * self_)
     puVar2 = puVar2 + 1;
   }
   if (DAT_10669144 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     if ((void *)uVar3 != (void *)0x0) {
       DAT_10669144 = orig::FUN_1024c930((void *)uVar3);
       return self_;
@@ -548,7 +548,7 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
   a1[8] = -1;
   a1[16] = 30;
   a1[9] = -1;
-  a1[10] = orig::sub_10275090_v1();
+  a1[10] = orig::sub_10275090();
   a1[11] = 0;
   a1[12] = 0;
   a1[13] = 0;

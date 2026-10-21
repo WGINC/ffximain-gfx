@@ -21,7 +21,7 @@ XI_API void __cdecl fn_102894E0(int param_1, int param_2, uint32_t param_3)
         if (uVar3 == param_3) {
           iVar2 = orig::FUN_1027c980(param_2,uVar1);
           if (iVar2 == 0) {
-            orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolveSkelRef_103b9444,uVar3,uVar1);
+            orig::sqDebugPrintf_v2(s_____Error__sqmdDMBResolveSkelRef_103b9444,uVar3,uVar1);
             *(undefined4 *)(*(int *)(param_1 + 0x50) + iVar4 * 4) = 0;
           }
           else {

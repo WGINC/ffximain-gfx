@@ -9,7 +9,7 @@ XI_API int * __cdecl fn_100191D0(void)
   void *self_;
   int *this_00;
   
-  self_ = (void *)orig::Mem_AllocDefault(0x20);
+  self_ = (void *)orig::Mem_AllocDefault_v1(0x20);
   if (self_ != (void *)0x0) {
     this_00 = orig::FUN_10019490(self_);
     if (this_00 != (int *)0x0) {

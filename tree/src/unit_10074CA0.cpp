@@ -34,7 +34,7 @@ XI_API int __thiscall fn_10074DF0(void * self_, undefined4 param_1)
   
   this_00 = *(void **)((int)self_ + 0xd58);
   *(undefined4 *)((int)self_ + 0xd58) = *(undefined4 *)((int)this_00 + 0xc);
-  orig::CMoTask_ResetFields(this_00);
+  orig::CMoTask_ResetFields_v1(this_00);
   *(undefined4 *)((int)this_00 + 8) = *(undefined4 *)((int)self_ + 0xd54);
   iVar1 = *(int *)((int)self_ + 0xd54);
   if (iVar1 == *(int *)((int)self_ + 0xd4c)) {
@@ -349,7 +349,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
   }
   if ( *self_ != 0 )
   {
-    v3 = orig::Mem_AllocDefault_v1(16);
+    v3 = orig::Mem_AllocDefault(16);
     if ( v3 != nullptr )
       g_pCubeMapTarget = (int)orig::CAcc_Constructor(v3);
     else
@@ -1257,7 +1257,7 @@ XI_API void __cdecl fn_10077CF0(int * param_1)
   if (param_1 != (int *)0x0) {
     DAT_1047d49c = *param_1;
     _DAT_1047d4a0 = param_1[1];
-    iVar2 = (&ActerBuffPtr)[*param_1];
+    iVar2 = (&ActerBuffPtr_as_v0)[*param_1];
     if (iVar2 == 0) {
       orig::FUN_10077d70();
       return;
@@ -1281,8 +1281,8 @@ XI_API void __cdecl fn_10077CF0(int * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl fn_10077D40(void)
 {
-  if (((DAT_1047d49c != 0) && ((&ActerBuffPtr)[DAT_1047d49c] != 0)) &&
-     (*(int *)((&ActerBuffPtr)[DAT_1047d49c] + 0xa0) != 0)) {
+  if (((DAT_1047d49c != 0) && ((&ActerBuffPtr_as_v0)[DAT_1047d49c] != 0)) &&
+     (*(int *)((&ActerBuffPtr_as_v0)[DAT_1047d49c] + 0xa0) != 0)) {
     return(undefined4*)(&DAT_1047d49c);
   }
   return (undefined4 *)0x0;
@@ -1308,7 +1308,7 @@ XI_API undefined4 __cdecl fn_10077D80(void)
   char xi_frame[24] __attribute__((aligned(4)));
   int  (&aiStack_18)[6] = *reinterpret_cast<int  (*)[6]>(xi_frame + 0);
   
-  if ((DAT_10485f7a != 0) && ((&ActerBuffPtr)[DAT_10485f7a] != 0)) {
+  if ((DAT_10485f7a != 0) && ((&ActerBuffPtr_as_v0)[DAT_10485f7a] != 0)) {
     iVar4 = 0;
     iVar2 = orig::FUN_100e8b80(0);
     while (iVar2 != 0) {
@@ -1318,14 +1318,14 @@ XI_API undefined4 __cdecl fn_10077D80(void)
     }
     iVar2 = 0;
     do {
-      iVar1 = (&ActerBuffPtr)[iVar2];
+      iVar1 = (&ActerBuffPtr_as_v0)[iVar2];
       if ((iVar1 != 0) && (*(int *)(iVar1 + 0xa0) != 0)) {
         iVar3 = 0;
         if (0 < iVar4) {
           do {
             if ((((*(int *)(iVar1 + 0x188) == aiStack_18[iVar3]) && (iVar1 != 0)) &&
                 (*(int *)(iVar1 + 0x170) != 2)) && (*(int *)(iVar1 + 0x170) != 3)) {
-              return (&ActerBuffPtr)[iVar2];
+              return (&ActerBuffPtr_as_v0)[iVar2];
             }
             iVar3 = iVar3 + 1;
           } while (iVar3 < iVar4);
@@ -1350,7 +1350,7 @@ XI_API undefined4 __cdecl fn_10077E30(undefined4 param_1, undefined4 xi_s2)
   local_404[1] = 0;
   local_404[2] = 0;
   uVar1 = orig::FUN_10314942(local_400,param_1,&xi_s2);
-  orig::ChatLog_AddMessage(g_pTkMsgWinData_as_v1,local_400,local_404,0,1,0);
+  orig::ChatLog_AddMessage_v1(g_pTkMsgWinData_as_v1,local_400,local_404,0,1,0);
   return uVar1;
 }
 
@@ -1384,15 +1384,15 @@ LAB_1007800b:
   uVar4 = orig::FUN_100fc2e0();
   if ((short)uVar4 != 0) {
     uVar5 = orig::FUN_100fc2e0();
-    if ((&ActerBuffPtr)[uVar5 & 0xffff] != 0) {
+    if ((&ActerBuffPtr_as_v0)[uVar5 & 0xffff] != 0) {
       uVar5 = orig::FUN_100fc2e0();
-      iVar1 = (&ActerBuffPtr)[uVar5 & 0xffff];
+      iVar1 = (&ActerBuffPtr_as_v0)[uVar5 & 0xffff];
       uVar5 = orig::FUN_100fc2e0();
-      iVar2 = (&ActerBuffPtr)[uVar5 & 0xffff];
+      iVar2 = (&ActerBuffPtr_as_v0)[uVar5 & 0xffff];
       uVar5 = orig::FUN_100fc2e0();
-      iVar3 = (&ActerBuffPtr)[uVar5 & 0xffff];
+      iVar3 = (&ActerBuffPtr_as_v0)[uVar5 & 0xffff];
       uVar5 = orig::FUN_100fc2e0();
-      orig::FUN_100fc0f0(*(undefined4 *)((&ActerBuffPtr)[uVar5 & 0xffff] + 4),*(float *)(iVar3 + 8),
+      orig::FUN_100fc0f0(*(undefined4 *)((&ActerBuffPtr_as_v0)[uVar5 & 0xffff] + 4),*(float *)(iVar3 + 8),
                    *(float *)(iVar2 + 0xc),*(float *)(iVar1 + 0x18));
     }
   }

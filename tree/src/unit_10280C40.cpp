@@ -10,9 +10,9 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
   undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
   
-  orig::sqgxTextureDecal(1);
-  orig::sqgxSetZWrite(0);
-  orig::sqgxTextureUpdate();
+  orig::sqgxTextureDecal_v1(1);
+  orig::sqgxZMask_v1(0);
+  orig::sqgxTextureUpdate_v1();
   orig::sqgxTextureGetSize_v1(*(int *)(g_pSqgxContext_as_s32 + 0x8b0),&local_4,&local_8);
   if (0 < param_1) {
     do {
@@ -21,10 +21,10 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
       param_1 = param_1 + -1;
     } while (param_1 != 0);
   }
-  orig::sqgxSetZWrite(1);
-  orig::sqgxBlendOff();
-  orig::sqgxTextureSet(-1);
-  orig::sqgxTextureDecal(0);
+  orig::sqgxZMask_v1(1);
+  orig::sqgxBlendOff_v1();
+  orig::sqgxTextureSet_v1(-1);
+  orig::sqgxTextureDecal_v1(0);
   return;
 }
 
@@ -32,7 +32,7 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl ___setargv_3(void)
 {
-  g_sqgxRenderStateDirty = 1;
+  g_sqgxRenderStateDirty_as_v0 = 1;
   return;
 }
 
@@ -68,7 +68,7 @@ XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
          (D3DFORMAT)g_sqgxTex_format[10 * a1],
          D3DPOOL_MANAGED,
          &v14) != 0 )
-    orig::sqDebugPrintf_v2(aErrorCouldNotL);
+    orig::sqDebugPrintf(aErrorCouldNotL);
   v14->LockRect(0, (D3DLOCKED_RECT *)v15, nullptr, 0);
   v4 = g_sqgxTex_kind[10 * a1];
   if ( v4 == 3 )
@@ -158,7 +158,7 @@ XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
   {
     if ( g_counter_109A261C == 512 )
     {
-      orig::sqDebugPrintf_v2(aErrorSqgxtextu);
+      orig::sqDebugPrintf(aErrorSqgxtextu);
       return -1;
     }
     v6 = 10 * v3;
@@ -194,7 +194,7 @@ XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
            (D3DFORMAT)v10,
            D3DMULTISAMPLE_NONE,
            (IDirect3DSurface8 **)&g_sqgxTex_surface[v6]) == -2005530516 )
-      orig::sqDebugPrintf_v2(aErrorCouldNotA);
+      orig::sqDebugPrintf(aErrorCouldNotA);
   }
   return v3;
 }

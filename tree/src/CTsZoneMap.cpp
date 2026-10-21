@@ -57,15 +57,15 @@ XI_API void __thiscall ZoneMap_SetOverlayProjection(void * self_)
   char xi_frame[64] __attribute__((aligned(4)));
   float  (&afStack_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 0);
   
-  fVar1 = *(float *)(g_pCamera + 0x2f4);
-  fVar2 = *(float *)(g_pCamera + 0x2e8);
-  fVar3 = *(float *)(g_pCamera + 0x2dc);
-  fVar4 = *(float *)(g_pCamera + 0x2e0);
+  fVar1 = *(float *)(g_pCamera_as_s32 + 0x2f4);
+  fVar2 = *(float *)(g_pCamera_as_s32 + 0x2e8);
+  fVar3 = *(float *)(g_pCamera_as_s32 + 0x2dc);
+  fVar4 = *(float *)(g_pCamera_as_s32 + 0x2e0);
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pCDx_as_s32 + 0xc) + 200))))(*(int **)(g_pCDx_as_s32 + 0xc),0x2f,0);
   fVar5 = xi_castbits<float10>(fpatan((float10)xi_k8(0x4068000000000000ull),(float10)fVar1));
-  orig::D3DXMatrixPerspectiveFovLH_static
+  orig::D3DXMatrixPerspectiveFovLH_static_v1
             (afStack_40,(float)(fVar5 + fVar5),
-             (float)((float10)xi_k4(0x3F800000ull) / ((float10)fVar2 * (float10)*(float *)(g_pCamera + 0x2f0))),
+             (float)((float10)xi_k4(0x3F800000ull) / ((float10)fVar2 * (float10)*(float *)(g_pCamera_as_s32 + 0x2f0))),
              (float)((float10)fVar3 + (float10)*(float *)((int)self_ + 0x39590)),
              (float)((float10)fVar4 + (float10)*(float *)((int)self_ + 0x39590)));
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pCDx_as_s32 + 0xc) + 0x94))))(*(int **)(g_pCDx_as_s32 + 0xc),3,afStack_40);
@@ -214,7 +214,7 @@ XI_API void * __thiscall fn_10177D00(void * self_)
   int iVar1;
   undefined4 *puVar2;
   
-  orig::CMoTask_Constructor(self_);
+  orig::CMoTask_Constructor_v1(self_);
   iVar1 = 2;
   this_00 = (void *)((int)self_ + 0xa4);
   do {
@@ -324,7 +324,7 @@ XI_API void * __thiscall fn_10177D00(void * self_)
   _DAT_10621c74 = 0;
   _DAT_10621c78 = 0;
   *(undefined4 *)((int)self_ + 0x394a4) = 1;
-  orig::FUN_10177fa0_v1(self_);
+  orig::FUN_10177fa0(self_);
   *(undefined1 *)((int)self_ + 0x39598) = 1;
   *(undefined4 *)((int)self_ + 0x39590) = 0x399d4952;
   *(undefined4 *)((int)self_ + 0x39594) = 0x399d4952;
@@ -471,10 +471,10 @@ void __thiscall CTsZoneMap::UpdateViewerPosition(void * self)
   
   uVar1 = orig::FUN_1016c150((void *)((int)self + 0x178));
   *(undefined4 *)((int)self + 0x3912c) = uVar1;
-  iVar2 = orig::Camera_GetField50();
+  iVar2 = orig::Camera_GetField50_v1();
   if (iVar2 != 0) {
-    iVar2 = orig::Camera_GetField50();
-    orig::Vec3_Copy(&local_c,(undefined4 *)(iVar2 + 0x44));
+    iVar2 = orig::Camera_GetField50_v1();
+    orig::Vec3_Copy_v1(&local_c,(undefined4 *)(iVar2 + 0x44));
     *(undefined4 *)((int)self + 0x38d4c) = local_c;
     *(undefined4 *)((int)self + 0x38d50) = local_8;
     *(undefined4 *)((int)self + 0x38d54) = local_4;

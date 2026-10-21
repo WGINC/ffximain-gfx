@@ -25,11 +25,11 @@ XI_API void __thiscall fn_10037020(void * self_, undefined4 * param_1, undefined
   int iVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Mem_AllocWithFallback(0x2ed,3);
+  uVar2 = orig::Mem_AllocWithFallback_v1(0x2ed,3);
   if ((void *)uVar2 != (void *)0x0) {
     iVar1 = orig::FUN_100369f0((void *)uVar2);
     if (iVar1 != 0) {
-      orig::CMoResource_AddRefChain(self_);
+      orig::CMoResource_AddRefChain_v1(self_);
       *(undefined4 *)(iVar1 + 0x104) = *(undefined4 *)((int)self_ + 0x14);
       *(undefined4 *)(iVar1 + 0x54) = *param_1;
       *(undefined4 *)(iVar1 + 0x58) = param_1[1];

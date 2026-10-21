@@ -334,7 +334,7 @@ void CMoDistModelElem::BuildDistortedMesh()
     {
       v23 = 3 * *(unsigned __int16 *)(v21 + 54);
       orig::DynVB_Reserve((void *)g_pDynVB_FVF152, v23);
-      v5 = orig::Mem_AllocObject_v1(36 * v23, 4);
+      v5 = orig::Mem_AllocObject(36 * v23, 4);
       v6 = *(char ***)((unsigned __int8 *)((char *)this + 0x104));
       if ( v6 != nullptr )
         v7 = *v6;
@@ -375,7 +375,7 @@ void CMoDistModelElem::BuildDistortedMesh()
         if ( v15 != nullptr )
           qmemcpy(v15, v5, 36 * v23);
         orig::DynVB_Unlock((void *)g_pDynVB_FVF152);
-        orig::Mem_FreeObject_v1((int)v5);
+        orig::Mem_FreeObject((int)v5);
         if ( a1 != 0 )
         {
           v16 = *(void ***)((unsigned __int8 *)((char *)this + 0x104));
@@ -387,7 +387,7 @@ void CMoDistModelElem::BuildDistortedMesh()
       }
       else
       {
-        orig::Mem_FreeObject_v1((int)v5);
+        orig::Mem_FreeObject((int)v5);
       }
       v17 = g_pProcessor;
       v18 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;

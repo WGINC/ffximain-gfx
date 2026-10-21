@@ -92,16 +92,16 @@ LABEL_31:
       orig::Mat4_SetIdentity(v27);
       orig::Mat4_SetScale(v27, &v20);
       orig::Mat4_SetTranslation(v27, &v22);
-      orig::Mat4_PostMultiply_v1((int)g_envMapTexMatrix, (int)v27);
+      orig::Mat4_PostMultiply((int)g_envMapTexMatrix, (int)v27);
       orig::sub_10026210(dword_104574B0, dword_10457268, dword_10457100, dword_104570F8);
       orig::nullsub_1();
     }
     if ( g_projTexEnabled != 0 )
     {
-      orig::Mat4_Copy_v1(g_projTexMatrix, g_matrix_7468);
+      orig::Mat4_Copy(g_projTexMatrix, g_matrix_7468);
       v20 = __PAIR64__(dword_1045726C, g_lightTable_End);
       v21 = 0;
-      orig::Mat4_TransformPointInPlace_v1((float *)g_projTexMatrix, (float *)&v20);
+      orig::Mat4_TransformPointInPlace((float *)g_projTexMatrix, (float *)&v20);
       v22 = 1056964608;
       v23 = -1090519040;
       v24 = 1056964608;
@@ -112,7 +112,7 @@ LABEL_31:
       orig::Mat4_SetIdentity(v27);
       orig::Mat4_SetScale(v27, &v22);
       orig::Mat4_SetTranslation(v27, v25);
-      orig::Mat4_PostMultiply_v1((int)g_projTexMatrix, (int)v27);
+      orig::Mat4_PostMultiply((int)g_projTexMatrix, (int)v27);
       orig::sub_10026F50(flt_10457528, (float *)&v20);
       v13 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
       if ( v13 != 0 )
@@ -123,7 +123,7 @@ LABEL_31:
     {
       orig::Mat4_SetTranslation(g_matrix_7270, (_DWORD *)(self + 52));
       orig::CDx_SetTransform(g_pCDx, 256, g_matrix_7270);
-      orig::Mat4_Copy_v1(g_offscreenWorldMatrix, g_matrix_7270);
+      orig::Mat4_Copy(g_offscreenWorldMatrix, g_matrix_7270);
     }
     orig::CDx_SetDefaultRenderState(g_pCDx);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
@@ -357,7 +357,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
   result = (_BYTE *)this->field_4;
   if ( result != nullptr )
   {
-    v7 = *(unsigned __int16 *)(g_pSharedSkeleton_as_v0[0] + 50);
+    v7 = *(unsigned __int16 *)(g_pSharedSkeleton[0] + 50);
     v19 = (unsigned __int16)v7;
     if ( a3 != 0 )
     {
@@ -366,9 +366,9 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
       {
         v8 = 1;
         if ( a4 != -1 )
-          g_boneTouched_as_v0[a4] = 1;
+          g_boneTouched[a4] = 1;
         if ( a5 != -1 )
-          g_boneTouched_as_v0[a5] = 1;
+          g_boneTouched[a5] = 1;
         result = a6;
         if ( a6 != nullptr )
         {
@@ -378,31 +378,31 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
           {
             if ( *v9 != 0xFF )
             {
-              orig::Mat4_Copy_v1(
+              orig::Mat4_Copy(
                 (_DWORD *)(g_boneWeightMatrixTable + ((char)*v9 << 6)),
                 (_DWORD *)(g_boneWeightMatrixTable + ((char)*(v9 - 2) << 6)));
-              g_boneTouched_as_v0[(char)*v9] = 1;
+              g_boneTouched[(char)*v9] = 1;
             }
             ++v9;
             result = &v9[v10];
           }
           while ( (int)&v9[v10] < 2 );
         }
-        v20 = (unsigned __int8 *)(g_pSharedSkeleton_as_v0[0] + 82);
+        v20 = (unsigned __int8 *)(g_pSharedSkeleton[0] + 82);
         if ( v7 > 1 )
         {
           v11 = 64;
           v12 = (float *)&g_poseScratch_bone1;
           do
           {
-            if ( g_boneTouched_as_v0[v8] == 0 )
+            if ( g_boneTouched[v8] == 0 )
             {
               v13 = *v20;
               orig::Mat4_SetScale((_DWORD *)(v11 + g_boneWeightMatrixTable), (_DWORD *)v12 + 7);
               orig::BoneXform_PostMultiplyInto(v12, v11 + g_boneWeightMatrixTable);
               orig::Mat4_SetTranslation((_DWORD *)(v11 + g_boneWeightMatrixTable), (_DWORD *)v12 + 4);
-              orig::Mat4_PostMultiply_v1(v11 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v13 << 6));
-              g_boneTouched_as_v0[v8] = 1;
+              orig::Mat4_PostMultiply(v11 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v13 << 6));
+              g_boneTouched[v8] = 1;
             }
             v12 += 13;
             ++v8;
@@ -422,16 +422,16 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
         do
         {
           if ( *v14 != 0xFF )
-            orig::Vec3_MulInPlace_v1((float *)(52 * (char)*(v14 - 2) + (int)XI_GAME(0x1045F04Cu)), (float *)(52 * (char)*v14 + (int)XI_GAME(0x1045F04Cu)));
+            orig::Vec3_MulInPlace((float *)(52 * (char)*(v14 - 2) + (int)XI_GAME(0x1045F04Cu)), (float *)(52 * (char)*v14 + (int)XI_GAME(0x1045F04Cu)));
           ++v14;
         }
         while ( (int)&v14[-2 - (_DWORD)a6] < 2 );
       }
-      orig::Mat4_SetScale((_DWORD *)g_boneWeightMatrixTable, g_poseScale_as_v0);
-      orig::BoneXform_PostMultiplyInto(g_poseScratch_as_v0, g_boneWeightMatrixTable);
-      orig::Mat4_SetTranslation((_DWORD *)g_boneWeightMatrixTable, g_poseTranslation_as_v0);
-      result = (_BYTE *)orig::Mat4_PostMultiply_v1(g_boneWeightMatrixTable, a2);
-      v15 = (unsigned __int8 *)(g_pSharedSkeleton_as_v0[0] + 82);
+      orig::Mat4_SetScale((_DWORD *)g_boneWeightMatrixTable, g_poseScale);
+      orig::BoneXform_PostMultiplyInto(g_poseScratch, g_boneWeightMatrixTable);
+      orig::Mat4_SetTranslation((_DWORD *)g_boneWeightMatrixTable, g_poseTranslation);
+      result = (_BYTE *)orig::Mat4_PostMultiply(g_boneWeightMatrixTable, a2);
+      v15 = (unsigned __int8 *)(g_pSharedSkeleton[0] + 82);
       if ( v7 > 1 )
       {
         v16 = 64;
@@ -443,7 +443,7 @@ _BYTE * CXiSkeletonActor::PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6)
           orig::Mat4_SetScale((_DWORD *)(v16 + g_boneWeightMatrixTable), (_DWORD *)v17 + 7);
           orig::BoneXform_PostMultiplyInto(v17, v16 + g_boneWeightMatrixTable);
           orig::Mat4_SetTranslation((_DWORD *)(v16 + g_boneWeightMatrixTable), (_DWORD *)v17 + 4);
-          orig::Mat4_PostMultiply_v1(v16 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v18 << 6));
+          orig::Mat4_PostMultiply(v16 + g_boneWeightMatrixTable, g_boneWeightMatrixTable + (v18 << 6));
           v15 += 30;
           v17 += 13;
           v16 += 64;
@@ -554,7 +554,7 @@ char CXiSkeletonActor::SetField79C(char a2)
 bool CXiSkeletonActor::IsReadComplete()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  return orig::CXiSkeletonActor_IsReadCompleteBody_v1(self);
+  return orig::CXiSkeletonActor_IsReadCompleteBody(self);
 }
 
 // FUNCTION: FFXIMAIN 0x100A47F0  (placed by tree manifest)
@@ -955,7 +955,7 @@ int CXiSkeletonActor::Constructor_1Arg(int a2)
   at<uint32_t>(this, 0x0) = &CXiSkeletonActor_vtbl_ambiguous0;
   orig::CXiSkeletonActor_Init((int *)self);
   this->field_8C4 = a2;
-  v3 = (_DWORD *)(orig::Camera_GetField50_v1() + 80);
+  v3 = (_DWORD *)(orig::Camera_GetField50() + 80);
   orig::Vec4_Copy((_DWORD *)(self + 1532), v3);
   this->field_608 = 1065353216;
   orig::Vec4_Copy((_DWORD *)(self + 2520), v3);
@@ -971,7 +971,7 @@ int CXiSkeletonActor::Constructor_1Arg(int a2)
   {
     this->constrain = 1;
   }
-  orig::CMoTask_RegisterWithMng_v1((void *)self, 4);
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
   orig::Net_SendPacket00COnce();
   return self;
 }
@@ -1024,7 +1024,7 @@ int CXiSkeletonActor::Constructor_2Arg(_DWORD *a2, int a3)
   {
     this->constrain = 1;
   }
-  orig::CMoTask_RegisterWithMng_v1((void *)self, 4);
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
   if ( orig::Net_SendPacket00COnce() )
     orig::CXiSkeletonActor_LoadSkeletonResource((_DWORD *)self, -1);
   return self;
@@ -1073,7 +1073,7 @@ int CXiSkeletonActor::Constructor_3Arg(_DWORD *a2, int a3, int a4)
   {
     this->constrain = 1;
   }
-  orig::CMoTask_RegisterWithMng_v1((void *)self, 4);
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
   orig::Net_SendPacket00COnce();
   return self;
 }
@@ -1111,7 +1111,7 @@ int CXiSkeletonActor::Constructor_4Arg(_DWORD *a2, int a3, int a4, int a5)
   orig::Actor_SetSlotTableEntry(1u, (int)XI_CODE(TargetActor_SlotHandler1));
   orig::Actor_SetSlotTableEntry(0, (int)XI_CODE(TargetActor_SlotHandler0));
   orig::Actor_SetSlotTableEntry(4u, (int)XI_CODE(TargetActor_SlotHandler4));
-  orig::CMoTask_RegisterWithMng_v1((void *)self, 4);
+  orig::CMoTask_RegisterWithMng((void *)self, 4);
   orig::Net_SendPacket00COnce();
   return self;
 }
@@ -1254,7 +1254,7 @@ char CXiSkeletonActor::DestructorBody()
   if ( v3 != nullptr && *v3 != 0 )
   {
     v4 = *v3;
-    orig::CMoResource_ReleaseChain_v1(*v3, v1);
+    orig::CMoResource_ReleaseChain(*v3, v1);
     orig::CMoGeneratorClone_Kill(v4);
     this->field_764 = 0;
   }
@@ -1262,7 +1262,7 @@ char CXiSkeletonActor::DestructorBody()
   if ( v5 != nullptr && *v5 != 0 )
   {
     v6 = *v5;
-    orig::CMoResource_ReleaseChain_v1(*v5, v1);
+    orig::CMoResource_ReleaseChain(*v5, v1);
     orig::CMoGeneratorClone_Kill(v6);
     this->field_814 = 0;
   }
@@ -1271,11 +1271,11 @@ char CXiSkeletonActor::DestructorBody()
   v8 = *(int **)(self + 2148);
   if ( v8 != nullptr && *v8 != 0 )
   {
-    orig::CMoResource_ReleaseChain_v1(*v8, v7);
-    orig::ResHandle_FreeIfUnreferenced_v1((int **)(self + 2148));
+    orig::CMoResource_ReleaseChain(*v8, v7);
+    orig::ResHandle_FreeIfUnreferenced((int **)(self + 2148));
   }
-  if ( orig::ActorHandle_Resolve_v1(g_targetActorHandle_as_v0) == self && this->field_F9 == 0 )
-    orig::sub_10157660_v1((int)g_pTargetMng, 0);
+  if ( orig::ActorHandle_Resolve(g_targetActorHandle) == self && this->field_F9 == 0 )
+    orig::sub_10157660((int)g_pTargetMng, 0);
   v9 = this->bucketA;
   v10 = g_actorUpdateBucketCountA[v9];
   if ( v10 != 0 )
@@ -1381,7 +1381,7 @@ int CXiSkeletonActor::Init()
   this->field_84C = c_skelActorInit_84C;
   this->field_850 = c_skelActorInit_850;
   this->field_854 = -1082130432;
-  orig::Vec3_Copy_v1(self + 523, c_skelActorInit_82C);
+  orig::Vec3_Copy(self + 523, c_skelActorInit_82C);
   this->field_828 = 0;
   v5 = (float *)(self + 17);
   at<int32_t>(this, 0x61C) = c_skelActorInit_61C;
@@ -1525,14 +1525,14 @@ int CXiSkeletonActor::Init()
   at<uint8_t>(this, 0xB2) = v41;
   this->hiddenFlagByte = 1;
   at<int32_t>(this, 0x7A4) = -1;
-  orig::sub_100814F0_v1((int)(self + 490), 0);
+  orig::sub_100814F0((int)(self + 490), 0);
   this->field_7B4 = c_skelActorInit_7B4;
   this->field_7B8 = c_skelActorInit_7B8;
   this->field_7BC = c_skelActorInit_7BC;
   this->field_7C0 = c_skelActorInit_7C0;
   (*(void (__thiscall **)(int *))(*self + 84))(self);
   v42 = 1;
-  this->updateSerial = g_actorSerialCounter_as_s32++;
+  this->updateSerial = g_actorSerialCounter++;
   v43 = 0;
   this->visibleSampleCount = 1;
   v44 = 0;
@@ -1901,7 +1901,7 @@ int CXiSkeletonActor::OnMove()
     v6 = 0;
     v7 = v4 == 0.0;
     if ( ((__int16)(((v5 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v7 || xi_fpu_unord) ? 0x4000 : 0)) & 0x100) == 0 )
-      this->field_8BC = this->field_8BC - orig::Camera_GetFrameScale_v1();
+      this->field_8BC = this->field_8BC - orig::Camera_GetFrameScale();
   }
   v8 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
   orig::Vec4_Copy(v293, v8);
@@ -1984,11 +1984,11 @@ LABEL_23:
              || (v46 = orig::CXiActor_GetModelField170(self), orig::CXiActor_ModelTest956A0(self, v46)))
             || (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 816))(self) == 0 )
           {
-            orig::Vec3_Copy_v1(&v286, (_DWORD *)self + 57);
+            orig::Vec3_Copy(&v286, (_DWORD *)self + 57);
             *(float *)&v272 = 0.125;
-            if ( orig::sub_10087060_v1() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
+            if ( orig::sub_10087060() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
               *(float *)&v272 = (double)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) * 0x1.47ae140000000p-10;
-            FrameScale = orig::Camera_GetFrameScale_v1();
+            FrameScale = orig::Camera_GetFrameScale();
             v268 = FrameScale;
             (xi_fpu_unord = __builtin_isunordered(FrameScale, 0.0), v49 = FrameScale < 0.0);
             v50 = 0;
@@ -2058,15 +2058,15 @@ LABEL_23:
             goto LABEL_137;
           }
           if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0
-            && (orig::Vec3_Copy_v1(&v289, (_DWORD *)self + 365),
-                orig::Vec3_Copy_v1(v292, &v273),
-                orig::sub_100274B0_v1(&v289),
-                orig::sub_100274B0_v1(v292),
+            && (orig::Vec3_Copy(&v289, (_DWORD *)self + 365),
+                orig::Vec3_Copy(v292, &v273),
+                orig::sub_100274B0(&v289),
+                orig::sub_100274B0(v292),
                 v290 = 0.0,
                 v292[1] = 0.0,
-                orig::sub_10027530_v1(&v289, v292) < 0.0) )
+                orig::sub_10027530(&v289, v292) < 0.0) )
           {
-            orig::Vec3_Copy_v1(&v286, (_DWORD *)self + 57);
+            orig::Vec3_Copy(&v286, (_DWORD *)self + 57);
             v84 = v291;
             v85 = v289;
           }
@@ -2075,9 +2075,9 @@ LABEL_23:
             if ( !(*(float *)&a1 < 0.0) )
               v86 = v275 * v275 + *(float *)&v273 * *(float *)&v273;
             else
-              v86 = orig::sub_10027530_v1((float *)&v273, (float *)&v273);
+              v86 = orig::sub_10027530((float *)&v273, (float *)&v273);
             *(float *)&v272 = sqrt(v86);
-            orig::Vec3_Copy_v1(&v286, (_DWORD *)self + 57);
+            orig::Vec3_Copy(&v286, (_DWORD *)self + 57);
             v87 = at<unsigned __int16 *>(this, 0x70);
             if ( v87 != nullptr && orig::Entity_GetIndexedPtr(v87) != 0 )
               goto LABEL_94;
@@ -2110,9 +2110,9 @@ LABEL_23:
           v287 = -atan2(v84, v85);
 LABEL_94:
           *(float *)&v272 = 0.125;
-          if ( orig::sub_10087060_v1() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
+          if ( orig::sub_10087060() && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) != 0 )
             *(float *)&v272 = (double)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 316))(self) * 0x1.47ae140000000p-10;
-          v106 = orig::Camera_GetFrameScale_v1();
+          v106 = orig::Camera_GetFrameScale();
           v269 = v106;
           (xi_fpu_unord = __builtin_isunordered(v106, 0.0), v108 = v106 < 0.0);
           v109 = 0;
@@ -2212,7 +2212,7 @@ LABEL_94:
 LABEL_137:
           if ( this->field_7A4 != -1 )
           {
-            v160 = (float *)orig::ActorHandle_Resolve_v1((_DWORD *)self + 490);
+            v160 = (float *)orig::ActorHandle_Resolve((_DWORD *)self + 490);
             v161 = v160;
             if ( self == v160 || v160 == nullptr )
             {
@@ -2233,8 +2233,8 @@ LABEL_137:
               orig::fn_10027990((Iostream_init *)&selfa);
               orig::Mat4_SetIdentity(&selfa);
               v163 = (*(int (__thiscall **)(float *))(*(_DWORD *)v161 + 448))(v161);
-              orig::Mat4_PostRotateY_v1(&selfa, *(float *)(v163 + 4));
-              orig::sub_10028230_v1((float *)&selfa, &v289, (float *)self + 493);
+              orig::Mat4_PostRotateY(&selfa, *(float *)(v163 + 4));
+              orig::sub_10028230((float *)&selfa, &v289, (float *)self + 493);
               orig::Vec3_AddInPlace(&v283, &v289);
               v164 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
               orig::Vec3_Sub((float *)&v273, &v283, v164);
@@ -2263,18 +2263,18 @@ LABEL_137:
               orig::nullsub_1();
             }
           }
-          if ( sqrt(orig::sub_10027530_v1((float *)&v273, (float *)&v273)) < 0x1.47ae140000000p-7 )
+          if ( sqrt(orig::sub_10027530((float *)&v273, (float *)&v273)) < 0x1.47ae140000000p-7 )
           {
             v175 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
             orig::Vec3_AddInPlace(v175, (float *)&v273);
-            orig::Vec3_Copy_v1(&v273, CXiSkeletonActor_OnMove_static_A37C);
+            orig::Vec3_Copy(&v273, CXiSkeletonActor_OnMove_static_A37C);
           }
           v176 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
           orig::Vec3_AddInPlace(v176, (float *)&v273);
           if ( this->field_B4 == 0 || (v272 = at<_DWORD **>(this, 0xB4), !orig::ResourceHandle_IsResident(&v272)) )
           {
 LABEL_226:
-            orig::Vec3_Copy_v1((_DWORD *)self + 426, &v273);
+            orig::Vec3_Copy((_DWORD *)self + 426, &v273);
             if ( this->field_B4 != 0 )
             {
               v272 = at<_DWORD **>(this, 0xB4);
@@ -2301,7 +2301,7 @@ LABEL_226:
                 && (*(unsigned __int8 (__thiscall **)(int))(*(_DWORD *)v194 + 484))(v194) != 0 )
               {
                 v272 = at<_DWORD **>(this, 0x59C);
-                v196 = orig::Camera_GetFrameScale_v1() * 0.03125 + *(float *)&v272;
+                v196 = orig::Camera_GetFrameScale() * 0.03125 + *(float *)&v272;
                 (xi_fpu_unord = __builtin_isunordered(v196, 1.0), v197 = v196 < 1.0);
                 v198 = 0;
                 v199 = v196 == 1.0;
@@ -2378,7 +2378,7 @@ LABEL_226:
               v270 = v270 - 0x1.921cac0000000p+2;
             if ( v270 < -0x1.921cac0000000p+1 )
               v270 = v270 + 0x1.921cac0000000p+2;
-            orig::Mat4_PostRotateY_v1(&v299, v270);
+            orig::Mat4_PostRotateY(&v299, v270);
             v210 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
             orig::Mat4_SetTranslation(&v299, v210);
             v211 = (*(int (__thiscall **)(void *, _DWORD))(*(_DWORD *)self + 968))(self, 0);
@@ -2437,7 +2437,7 @@ LABEL_226:
               v221 = v301;
               for ( i = 8; i != 0; --i )
               {
-                orig::Mat4_TransformPointInPlace_v1((float *)&v299, v218);
+                orig::Mat4_TransformPointInPlace((float *)&v299, v218);
                 v218[3] = 1.0;
                 orig::sub_10028170((float *)&selfa, v221 - 2, v218);
                 (xi_fpu_unord = __builtin_isunordered(v271, (double)*v221), v224 = v271 < (double)*v221);
@@ -2522,10 +2522,10 @@ LABEL_298:
                     goto LABEL_308;
                 }
                 else if ( XiControlActor_isFirstPersonView == 0
-                       || ((v251 = this->field_768, orig::ActorHandle_Resolve_v1(g_targetActorHandle_as_v0) != v251)
+                       || ((v251 = this->field_768, orig::ActorHandle_Resolve(g_targetActorHandle) != v251)
                         || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 844))(self) == 0
                         && (*(int (__thiscall **)(void *))(*(_DWORD *)self + 856))(self) == 0)
-                       && ((v252 = this->field_768, orig::ActorHandle_Resolve_v1(g_targetActorHandle_as_v0) != v252)
+                       && ((v252 = this->field_768, orig::ActorHandle_Resolve(g_targetActorHandle) != v252)
                         || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 876))(self) == 0) )
                 {
 LABEL_308:
@@ -2570,7 +2570,7 @@ LABEL_331:
                   }
                   v254 = at<_WORD *>(this, 0x70);
                   if ( v254 != nullptr
-                    && (orig::sub_1008E130_v1(v254) && (*(_DWORD *)(this->pModelInfo + 300) & 0x40000000) == 0
+                    && (orig::sub_1008E130(v254) && (*(_DWORD *)(this->pModelInfo + 300) & 0x40000000) == 0
                      || orig::sub_10084670(self)
                      || (*(_DWORD *)(this->pModelInfo + 300) & 0x400000) != 0) )
                   {
@@ -2651,7 +2651,7 @@ LABEL_331:
                       orig::Skel_OffsetAllTranslations((int *)(v263 + 8), (float *)&v273, 0);
                     }
                   }
-                  if ( *((_BYTE *)g_pCamera_as_v0 + 8) != 0
+                  if ( *((_BYTE *)g_pCamera + 8) != 0
                     && (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
                   {
                     orig::sub_100A5E10((int)self);
@@ -2659,7 +2659,7 @@ LABEL_331:
                   goto LABEL_367;
                 }
                 Float2DC = this->field_59C;
-                v253 = Float2DC - orig::Camera_GetFrameScale_v1() * 0.0625;
+                v253 = Float2DC - orig::Camera_GetFrameScale() * 0.0625;
                 if ( v253 < 0.0 )
                   v253 = 0.0;
                 this->field_59C = v253;
@@ -2683,7 +2683,7 @@ LABEL_331:
             orig::nullsub_1();
             orig::fn_10027990((Iostream_init *)&selfa);
             orig::CDx_GetTransformCached(g_pCDx, 2, &selfa);
-            orig::sub_10028230_v1((float *)&selfa, v294, (float *)self + 383);
+            orig::sub_10028230((float *)&selfa, v294, (float *)self + 383);
             goto LABEL_298;
           }
           v177 = 0;
@@ -2880,9 +2880,9 @@ LABEL_207:
         }
       }
       v12 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-      orig::Vec3_Copy_v1(&v283, v12);
-      orig::Vec3_Copy_v1(&v286, (_DWORD *)self + 369);
-      v13 = orig::Camera_GetFrameScale_v1();
+      orig::Vec3_Copy(&v283, v12);
+      orig::Vec3_Copy(&v286, (_DWORD *)self + 369);
+      v13 = orig::Camera_GetFrameScale();
       v267 = v13;
       (xi_fpu_unord = __builtin_isunordered(v13, 0.0), v15 = v13 < 0.0);
       v16 = 0;
@@ -3094,7 +3094,7 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   g_projTexEnabled = 0;
   byte_104570F0 = 0;
   orig::CDx_SetTransform(g_pCDx, 256, g_identityWorldMatrix);
-  orig::Mat4_Copy_v1(g_offscreenWorldMatrix, g_identityWorldMatrix);
+  orig::Mat4_Copy(g_offscreenWorldMatrix, g_identityWorldMatrix);
   orig::Actor_SelectNearestLights(self);
   v7 = this->field_664;
   (xi_fpu_unord = __builtin_isunordered(v7, 0x1.99999a0000000p-1), v8 = v7 < 0x1.99999a0000000p-1);
@@ -3113,7 +3113,7 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
   v96 = ((unsigned int)(__int64)(128.0 * v13) << 24) | this->color & 0xFFFFFF;
   if ( v13 < 0x1.a36e2e0000000p-14 )
     goto LABEL_105;
-  word_1045B814_as_s16 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 992))(self);
+  word_1045B814 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 992))(self);
   if ( *((_DWORD *)g_pXiZone + 109) == 33
     && ((*(int (__thiscall **)(void *))(*(_DWORD *)self + 536))(self) == 8
      || (*(int (__thiscall **)(void *))(*(_DWORD *)self + 536))(self) == 9) )
@@ -3124,7 +3124,7 @@ void CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate()
     goto LABEL_64;
   if ( g_shadowSetting == 1 )
     goto LABEL_64;
-  v84 = (float *)(orig::Camera_GetField50_v1() + 68);
+  v84 = (float *)(orig::Camera_GetField50() + 68);
   v17 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
   orig::Vec3_Sub(&v107, v17, v84);
   if ( v108 < -2.0 )
@@ -3239,7 +3239,7 @@ LABEL_50:
   }
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 1028))(self) != 0 )
   {
-    orig::Vec3_Copy_v1(&v107, &PerActor_FourBucketStaggeredUpdate_static_A32C);
+    orig::Vec3_Copy(&v107, &PerActor_FourBucketStaggeredUpdate_static_A32C);
   }
   else if ( *(_DWORD *)g_nearestLight == 1 )
   {
@@ -3254,7 +3254,7 @@ LABEL_50:
   }
   orig::Shadow_SmoothLightDirection((float *)self + 431, &v107);
   v24 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
-  orig::Vec3_Copy_v1(&g_lightLookAtTarget, v24);
+  orig::Vec3_Copy(&g_lightLookAtTarget, v24);
   orig::Vec3_Sub((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget, (float *)self + 436);
   orig::fn_102D7FF9(
     g_lightViewMatrix,
@@ -3262,7 +3262,7 @@ LABEL_50:
     (float *)&g_lightLookAtTarget,
     (float *)&g_lightLookAtUp);
   orig::fn_10027990((Iostream_init *)v113);
-  orig::Mat4_TransformNormal_v1(g_lightViewMatrix, v114, (float *)self + 582);
+  orig::Mat4_TransformNormal(g_lightViewMatrix, v114, (float *)self + 582);
   orig::Vec4_Copy(&v98, v114);
   orig::Vec4_Copy(&v103, v114);
   v25 = (float *)&v115;
@@ -3270,8 +3270,8 @@ LABEL_50:
   ViewportHeight = 7;
   do
   {
-    orig::Mat4_TransformNormal_v1(g_lightViewMatrix, v25, v26);
-    orig::Vec3_Copy_v1(&v110, v25);
+    orig::Mat4_TransformNormal(g_lightViewMatrix, v25, v26);
+    orig::Vec3_Copy(&v110, v25);
     if ( !(v98 < (double)v110) )
       v98 = v110;
     if ( !(v99 < (double)v111) )
@@ -3314,8 +3314,8 @@ LABEL_50:
   }
   if ( v36 < 0x1.47ae140000000p-7 )
     v36 = 0x1.47ae140000000p-7;
-  *(float *)&_dword_1045B810 = v36;
-  v85 = *(float *)&_dword_1045B810 * -12.0;
+  *(float *)&dword_1045B810 = v36;
+  v85 = *(float *)&dword_1045B810 * -12.0;
   orig::Vec3_Scale((float *)&g_lightLookAtEye, (float *)self + 436, v85);
   orig::Vec3_AddInPlace((float *)&g_lightLookAtEye, (float *)&g_lightLookAtTarget);
   orig::fn_102D7FF9(
@@ -3467,7 +3467,7 @@ LABEL_185:
       orig::Mat4_BuildScale((_DWORD *)self + 614, v112);
       if ( this->field_5F8 != 0 )
       {
-        orig::Mat4_Copy_v1((_DWORD *)self + 614, at<_DWORD *>(this, 0x5F8));
+        orig::Mat4_Copy((_DWORD *)self + 614, at<_DWORD *>(this, 0x5F8));
       }
       else
       {
@@ -3482,15 +3482,15 @@ LABEL_185:
           v71 = (char *)self + 2456;
           if ( HasNonzeroField150or158 )
           {
-            orig::Mat4_PostRotateZ_v1(v71, v100);
-            orig::Mat4_PostRotateY_v1((char *)self + 2456, v99);
-            orig::Mat4_PostRotateX_v1((char *)self + 2456, v98);
+            orig::Mat4_PostRotateZ(v71, v100);
+            orig::Mat4_PostRotateY((char *)self + 2456, v99);
+            orig::Mat4_PostRotateX((char *)self + 2456, v98);
           }
           else
           {
-            orig::Mat4_PostRotateX_v1(v71, v98);
-            orig::Mat4_PostRotateY_v1((char *)self + 2456, v99);
-            orig::Mat4_PostRotateZ_v1((char *)self + 2456, v100);
+            orig::Mat4_PostRotateX(v71, v98);
+            orig::Mat4_PostRotateY((char *)self + 2456, v99);
+            orig::Mat4_PostRotateZ((char *)self + 2456, v100);
           }
         }
         else
@@ -3500,10 +3500,10 @@ LABEL_185:
         v72 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
         orig::Vec3_Add_10026FA0(&v103, v72, (float *)self + 387);
         v105 = 1065353216;
-        orig::Mat4_SetRow3_v1((_DWORD *)self + 614, &v103);
+        orig::Mat4_SetRow3((_DWORD *)self + 614, &v103);
       }
       byte_10457538 = 0;
-      orig::Vec3_Copy_v1(&v98, (_DWORD *)self + 530);
+      orig::Vec3_Copy(&v98, (_DWORD *)self + 530);
       v73 = at<uint32_t>(this, 0x0);
       v101 = *(float *)(v106 + 188);
       if ( (*(unsigned __int8 (__thiscall **)(void *))(v73 + 772))(self) != 0 || v87 == 1 )
@@ -3511,10 +3511,10 @@ LABEL_185:
         v83 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
         v77 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
         orig::CXiSkeletonActor_DrawModel((int)self + 1652, self, (__int16 *)self + 1228, (int)v112, v77, v83, (int)&v98, v96);
-        ++g_actorUpdateCounter_as_s32;
+        ++g_actorUpdateCounter;
         goto LABEL_210;
       }
-      if ( ++g_actorUpdateCounter_as_s32 >= g_actorUpdateInterval_as_s32 && v92 == 0 )
+      if ( ++g_actorUpdateCounter >= g_actorUpdateInterval && v92 == 0 )
       {
         v74 = this->field_768;
         if ( v74 != 0 && *(_DWORD *)(v74 + 1700) == 4 )
@@ -3611,7 +3611,7 @@ LABEL_128:
   orig::Mat4_BuildScale((_DWORD *)self + 614, v112);
   if ( this->field_5F8 != 0 )
   {
-    orig::Mat4_Copy_v1((_DWORD *)self + 614, at<_DWORD *>(this, 0x5F8));
+    orig::Mat4_Copy((_DWORD *)self + 614, at<_DWORD *>(this, 0x5F8));
   }
   else
   {
@@ -3622,9 +3622,9 @@ LABEL_128:
     {
       v58 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
       orig::Vec3_Add_10026FA0(&v98, v58, (float *)self + 395);
-      orig::Mat4_PostRotateX_v1((char *)self + 2456, v98);
-      orig::Mat4_PostRotateY_v1((char *)self + 2456, v99);
-      orig::Mat4_PostRotateZ_v1((char *)self + 2456, v100);
+      orig::Mat4_PostRotateX((char *)self + 2456, v98);
+      orig::Mat4_PostRotateY((char *)self + 2456, v99);
+      orig::Mat4_PostRotateZ((char *)self + 2456, v100);
     }
     else
     {
@@ -3633,9 +3633,9 @@ LABEL_128:
     v59 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
     orig::Vec3_Add_10026FA0(&v103, v59, (float *)self + 387);
     v105 = 1065353216;
-    orig::Mat4_SetRow3_v1((_DWORD *)self + 614, &v103);
+    orig::Mat4_SetRow3((_DWORD *)self + 614, &v103);
   }
-  orig::Vec3_Copy_v1(&v98, (_DWORD *)self + 530);
+  orig::Vec3_Copy(&v98, (_DWORD *)self + 530);
   v101 = *(float *)(v3 + 188);
   if ( v101 == -1.0 || v101 == 0.0 )
     orig::CXiSkeletonActor_AnimateModels(
@@ -3736,7 +3736,7 @@ char * CXiSkeletonActor::SetMotion(int *a2, float a3)
   if ( *(_DWORD *)result != 0 )
   {
     Field44Addr = orig::CYyModel_GetField44Addr(v4);
-    return (char *)orig::CYyMotionQue_SetSlotMotion_v1(
+    return (char *)orig::CYyMotionQue_SetSlotMotion(
                      (int *)(*(_DWORD *)Field44Addr + 36),
                      (_DWORD *)self,
                      a2,
@@ -3761,7 +3761,7 @@ XI_API void __thiscall fn_100CD4E0(void * self_, undefined4 param_1, undefined4 
   piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
   if (*piVar1 != 0) {
     piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
-    orig::CYyMotionQue_SetSlotMotion
+    orig::CYyMotionQue_SetSlotMotion_v1
               ((void *)(*piVar1 + 0x24),self_,param_1,param_2,param_3,param_4,param_5,param_6,param_7
                ,0,0);
   }
@@ -3802,7 +3802,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
     else {
       iVar5 = *param_1;
     }
-    orig::ResourceIter_FindFirst(local_38,iVar5,0x2b,param_2 & 0xffffff,0xffffff);
+    orig::ResourceIter_FindFirst_v1(local_38,iVar5,0x2b,param_2 & 0xffffff,0xffffff);
     while (local_24 != 0) {
       piVar1 = *(int **)(local_24 + 0x14);
       local_3e = *(undefined1 *)(*piVar1 + 0x23);
@@ -3822,7 +3822,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
             piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
             if (*piVar6 != 0) {
               piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
-              orig::CYyMotionQue_SetSlotMotion
+              orig::CYyMotionQue_SetSlotMotion_v1
                         ((void *)(*piVar6 + 0x24),self_,piVar1,param_3,param_4,param_5,param_6,
                          param_7,iVar2,param_10,param_11);
             }
@@ -3843,7 +3843,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
       else {
         orig::nullsub_13_v2(&DAT_1035f850,*(undefined4 *)(*piVar1 + 0x20));
       }
-      orig::ResourceIter_FindNext(local_38,0);
+      orig::ResourceIter_FindNext_v1(local_38,0);
     }
     pvVar4 = orig::CMoResource_GetParent_v1((void *)*param_1);
     if ((pvVar4 == (void *)0x0) || (pvVar4 == (void *)*param_1)) break;
@@ -3859,7 +3859,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
       else {
         iVar5 = *param_1;
       }
-      orig::ResourceIter_FindFirst(local_1c,iVar5,0x2b,0x316e7572,0xffffffff);
+      orig::ResourceIter_FindFirst_v1(local_1c,iVar5,0x2b,0x316e7572,0xffffffff);
       while (local_8 != 0) {
         piVar1 = *(int **)(local_8 + 0x14);
         local_3e = *(undefined1 *)(*piVar1 + 0x23);
@@ -3881,7 +3881,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
               piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
               if (*piVar6 != 0) {
                 piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
-                orig::CYyMotionQue_SetSlotMotion
+                orig::CYyMotionQue_SetSlotMotion_v1
                           ((void *)(*piVar6 + 0x24),self_,piVar1,param_3,
                            (float)((float10)param_4 * (float10)xi_k4(0x3ECCCCCDull)),param_5,param_6,param_7,1,
                            param_10,param_11);
@@ -3903,7 +3903,7 @@ XI_API undefined4 __thiscall fn_100CD540(void * self_, int * param_1, uint32_t p
         else {
           orig::nullsub_13_v2(&DAT_1035f850,*(undefined4 *)(*piVar1 + 0x20));
         }
-        orig::ResourceIter_FindNext(local_1c,0);
+        orig::ResourceIter_FindNext_v1(local_1c,0);
       }
       pvVar4 = orig::CMoResource_GetParent_v1((void *)*param_1);
       if ((pvVar4 == (void *)0x0) || (pvVar4 == (void *)*param_1)) break;
@@ -3926,7 +3926,7 @@ XI_API void __thiscall fn_100CDF90(void * self_)
   int * &local_8 = *reinterpret_cast<int * *>(xi_frame + 0);
   undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
   
-  fVar4 = orig::Camera_GetFrameScale();
+  fVar4 = orig::Camera_GetFrameScale_v1();
   fVar4 = (float10)*(float *)((int)self_ + 0x8b8) - fVar4;
   *(float *)((int)self_ + 0x8b8) = (float)fVar4;
   bVar3 = NAN(fVar4) || NAN((float10)xi_k4(0x0ull));
@@ -3935,7 +3935,7 @@ XI_API void __thiscall fn_100CDF90(void * self_)
     local_8 = (int *)(iVar1 % 0x1e0);
     *(float *)((int)self_ + 0x8b8) = (float)(float10)(int)local_8;
     if (*(char *)((int)self_ + 0x8aa) == '\0') {
-      uVar2 = orig::CXiSkeletonActor_IsReadCompleteBody(self_);
+      uVar2 = orig::CXiSkeletonActor_IsReadCompleteBody_v1(self_);
       if ((char)uVar2 != '\0') {
         DAT_1048a38c_as_v0 = 0;
         local_8 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x1e0))))((void *)(self_),&local_4);
@@ -3949,10 +3949,10 @@ XI_API void __thiscall fn_100CDF90(void * self_)
             else {
               iVar1 = *local_8;
             }
-            local_8 = (int *)orig::CMoResource_FindInScope(&local_4,iVar1,0x2b,0x33657965);
+            local_8 = (int *)orig::CMoResource_FindInScope_v1(&local_4,iVar1,0x2b,0x33657965);
             local_8 = (int *)*local_8;
             if (local_8 != (int *)0x0) {
-              orig::FUN_100cd4e0_v1(self_,local_8,0x3f800000,0x3f800000,1,0x3f800000,0x3f800000,3);
+              orig::FUN_100cd4e0(self_,local_8,0x3f800000,0x3f800000,1,0x3f800000,0x3f800000,3);
             }
           }
         }
@@ -4026,7 +4026,7 @@ _DWORD * CXiSkeletonActor::ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, in
           v14 = *v13;
         else
           v14 = 0;
-        orig::ResourceIter_FindFirst_v1(v31, v14, v10, a4, a5);
+        orig::ResourceIter_FindFirst(v31, v14, v10, a4, a5);
         for ( j = v32; v32 != 0; j = v32 )
         {
           if ( v30 == a6 )
@@ -4048,7 +4048,7 @@ LABEL_16:
           {
             ++v30;
           }
-          orig::ResourceIter_FindNext_v1(v31, 0);
+          orig::ResourceIter_FindNext(v31, 0);
         }
         Parent = orig::CMoResource_GetParent(*a1);
         if ( Parent == nullptr )
@@ -4082,7 +4082,7 @@ LABEL_16:
         v23 = *v22;
       else
         v23 = 0;
-      orig::ResourceIter_FindFirst_v1(v31, v23, v10, v19, a5);
+      orig::ResourceIter_FindFirst(v31, v23, v10, v19, a5);
       for ( j = v32; v32 != 0; j = v32 )
       {
         if ( v30 == a6 )
@@ -4096,7 +4096,7 @@ LABEL_16:
         {
           ++v30;
         }
-        orig::ResourceIter_FindNext_v1(v31, 0);
+        orig::ResourceIter_FindNext(v31, 0);
       }
       v24 = orig::CMoResource_GetParent((_DWORD *)*v22);
       if ( v24 == nullptr || v24 == (_DWORD *)*v22 )
@@ -4119,7 +4119,7 @@ LABEL_16:
         v27 = *v26;
       else
         v27 = 0;
-      orig::ResourceIter_FindFirst_v1(v31, v27, v10, a4, a5);
+      orig::ResourceIter_FindFirst(v31, v27, v10, a4, a5);
       for ( j = v32; v32 != 0; j = v32 )
       {
         if ( v30 == a6 )
@@ -4133,7 +4133,7 @@ LABEL_16:
         {
           ++v30;
         }
-        orig::ResourceIter_FindNext_v1(v31, 0);
+        orig::ResourceIter_FindNext(v31, 0);
       }
       v28 = orig::CMoResource_GetParent((_DWORD *)*v26);
       if ( v28 == nullptr || v28 == (_DWORD *)*v26 )
@@ -4218,7 +4218,7 @@ LABEL_18:
     {
       a1 = v14;
       v15 = v14 != nullptr ? (int)*v14 : 0;
-      orig::ResourceIter_FindFirst_v1(v21, v15, a3, v6, -1);
+      orig::ResourceIter_FindFirst(v21, v15, a3, v6, -1);
       if ( v22 != 0 )
         break;
       Parent = orig::CMoResource_GetParent(*a1);
@@ -4325,7 +4325,7 @@ LABEL_20:
     {
       a1 = v16;
       v17 = v16 != nullptr ? (int)*v16 : 0;
-      orig::ResourceIter_FindFirst_v1(v24, v17, v8, 0, -1);
+      orig::ResourceIter_FindFirst(v24, v17, v8, 0, -1);
       v18 = v25;
       if ( v25 != 0 )
         break;
@@ -4342,7 +4342,7 @@ LABEL_14:
     while ( a5 != v6 )
     {
       ++v6;
-      orig::ResourceIter_FindNext_v1(v24, 0);
+      orig::ResourceIter_FindNext(v24, 0);
       v18 = v25;
       if ( v25 == 0 )
         goto LABEL_14;
@@ -4356,7 +4356,7 @@ LABEL_23:
       || !orig::ResourceHandle_IsResident(&a1)
       || a1 == nullptr
       || *a1 == nullptr
-      || (orig::ResourceIter_FindFirst_v1(v24, (int)*a1, v8, 0, -1), v18 = v25, v25 == 0) )
+      || (orig::ResourceIter_FindFirst(v24, (int)*a1, v8, 0, -1), v18 = v25, v25 == 0) )
     {
 LABEL_30:
       *a2 = 0;
@@ -4365,7 +4365,7 @@ LABEL_30:
     while ( a5 != v6 )
     {
       ++v6;
-      orig::ResourceIter_FindNext_v1(v24, 0);
+      orig::ResourceIter_FindNext(v24, 0);
       v18 = v25;
       if ( v25 == 0 )
         goto LABEL_30;
@@ -4435,11 +4435,11 @@ int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
                     v15 = *v14;
                   else
                     v15 = nullptr;
-                  orig::ResourceIter_FindFirst_v1(v21, (int)v15, v6, 0, -1);
+                  orig::ResourceIter_FindFirst(v21, (int)v15, v6, 0, -1);
                   while ( v22 != 0 )
                   {
                     ++v4;
-                    orig::ResourceIter_FindNext_v1(v21, 0);
+                    orig::ResourceIter_FindNext(v21, 0);
                   }
                   Parent = orig::CMoResource_GetParent(*a1);
                   if ( Parent == nullptr )
@@ -4465,11 +4465,11 @@ int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
   a1 = *(_DWORD ***)(*(int (__thiscall **)(char *, int *))(*(_DWORD *)v3 + 480))(v3, &a2);
   if ( a1 != nullptr && orig::ResourceHandle_IsResident(&a1) && a1 != nullptr && *a1 != nullptr )
   {
-    orig::ResourceIter_FindFirst_v1(v21, (int)*a1, v6, 0, -1);
+    orig::ResourceIter_FindFirst(v21, (int)*a1, v6, 0, -1);
     while ( v22 != 0 )
     {
       ++v4;
-      orig::ResourceIter_FindNext_v1(v21, 0);
+      orig::ResourceIter_FindNext(v21, 0);
     }
   }
   return v4;
@@ -4490,7 +4490,7 @@ char CXiSkeletonActor::SetAttack(int a2, int a3, int a4, char *Source)
   (*(void (__thiscall **)(void *, int, int, _DWORD))(*(_DWORD *)self + 664))(self, a2, a3, 0);
   BYTE2(a3) = 0;
   LOWORD(a3) = 20;
-  return orig::ChatLog_AddMessage_v1(g_pTkMsgWinData, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
+  return orig::ChatLog_AddMessage(g_pTkMsgWinData, Source, (unsigned __int8 *)&a3, 0, 1, nullptr);
 }
 
 // FUNCTION: FFXIMAIN 0x100CEE40  (placed by IDB name)
@@ -4514,7 +4514,7 @@ char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
   {
     v13 = (int)a4;
     v11 = a3;
-    v6 = (int *)orig::ResourceHandle_Deref_v1(a2);
+    v6 = (int *)orig::ResourceHandle_Deref(a2);
     orig::Scheduler_Execute(v6, self, v11, 0, v13);
     return 1;
   }
@@ -4526,7 +4526,7 @@ char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
     {
       v14 = (int)a4;
       v12 = a3;
-      v9 = (int *)orig::ResourceHandle_Deref_v1(v8);
+      v9 = (int *)orig::ResourceHandle_Deref(v8);
       orig::Scheduler_Execute(v9, self, v12, 0, v14);
       return 1;
     }
@@ -4536,7 +4536,7 @@ char CXiSkeletonActor::SetAction(int a2, _DWORD *a3, void *a4)
       if ( a4 != nullptr )
       {
         orig::CXiSchStatus_Destructor((int)a4);
-        orig::operator_delete_10311BB0_v1(v10);
+        orig::operator_delete_10311BB0(v10);
       }
       return 0;
     }
@@ -4574,7 +4574,7 @@ XI_API undefined8 __thiscall fn_100CF100(void * self_, undefined4 xi_s1)
       if (iVar1 != 1) goto LAB_100cf141;
       uVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 800))))((void *)(self_));
       if ((short)uVar2 == 0) goto LAB_100cf141;
-      uVar3 = orig::FUN_100d6240_v1(self_,piVar4);
+      uVar3 = orig::FUN_100d6240(self_,piVar4);
       if ((char)uVar3 != '\0') goto LAB_100cf141;
       uVar5 = orig::FUN_100d5fe0(self_,(int)piVar4);
     }
@@ -4652,8 +4652,8 @@ char CXiSkeletonActor::SetModel(int a2)
   int &v47 = *reinterpret_cast<int *>(xi_frame + 0x28);
 
   v2 = (int *)a2;
-  v4 = orig::ResourceHandle_Deref_v1(a2);
-  orig::CMoResource_FindInScope_v1(&a1, v4, 41, 0);
+  v4 = orig::ResourceHandle_Deref(a2);
+  orig::CMoResource_FindInScope(&a1, v4, 41, 0);
   if ( a1 != nullptr )
   {
     ModelBase = (int *)orig::CYyModel_CreateModelBase((_DWORD *)(self + 1652));
@@ -4661,25 +4661,25 @@ char CXiSkeletonActor::SetModel(int a2)
     if ( ModelBase == nullptr )
       return (char)ModelBase;
     orig::CYyModelBase_SetResourceAndRebuild(ModelBase, (int)a1);
-    orig::CMoResource_AddRefChain_v1((int)*a1);
+    orig::CMoResource_AddRefChain((int)*a1);
     if ( v2 != nullptr )
       v7 = *v2;
     else
       v7 = 0;
-    orig::ResourceIter_FindFirst_v1(v46, v7, 42, 0, -1);
+    orig::ResourceIter_FindFirst(v46, v7, 42, 0, -1);
     for ( i = v47; v47 != 0; i = v47 )
     {
       a1 = *(_DWORD ***)(i + 20);
       orig::CYyModelBase_AddPartFromResource(v6, (int)a1);
-      orig::CMoResource_AddRefChain_v1((int)*a1);
-      orig::ResourceIter_FindNext_v1(v46, 0);
+      orig::CMoResource_AddRefChain((int)*a1);
+      orig::ResourceIter_FindNext(v46, 0);
     }
     LOBYTE(a2) = (*(int (__thiscall **)(int))(*(_DWORD *)self + 856))(self) != 0;
     if ( v2 != nullptr )
       v9 = *v2;
     else
       v9 = 0;
-    orig::ResourceIter_FindFirst_v1(v46, v9, 69, 0, -1);
+    orig::ResourceIter_FindFirst(v46, v9, 69, 0, -1);
     for ( j = v47; v47 != 0; j = v47 )
     {
       v11 = j;
@@ -4763,7 +4763,7 @@ LABEL_20:
         orig::Actor_SetPair1C((_DWORD *)(self + 2168), (_DWORD *)(v11 + 56));
       }
 LABEL_67:
-      orig::ResourceIter_FindNext_v1(v46, 0);
+      orig::ResourceIter_FindNext(v46, 0);
     }
     if ( (*(int (__thiscall **)(int))(*(_DWORD *)self + 844))(self) != 0
       || (*(int (__thiscall **)(int))(*(_DWORD *)self + 856))(self) != 0 )
@@ -4865,7 +4865,7 @@ LABEL_93:
           if ( Instance != 0 )
           {
             *(_DWORD *)(Instance + 100) = self;
-            orig::CMoResource_AddRefChain_v1(Instance);
+            orig::CMoResource_AddRefChain(Instance);
             this->field_814 = *(_DWORD *)(v43 + 20);
           }
         }
@@ -4899,12 +4899,12 @@ XI_API void __thiscall fn_100CFA50(void * self_, int * param_1, void * param_2)
   else {
     iVar2 = *param_1;
   }
-  orig::ResourceIter_FindFirst(local_1c,iVar2,0x2a,0,0xffffffff);
+  orig::ResourceIter_FindFirst_v1(local_1c,iVar2,0x2a,0,0xffffffff);
   while (local_8 != 0) {
     puVar1 = *(undefined4 **)(local_8 + 0x14);
     orig::CYyModelBase_AddPartFromResource_v1(param_2,puVar1);
-    orig::CMoResource_AddRefChain((void *)*puVar1);
-    orig::ResourceIter_FindNext(local_1c,0);
+    orig::CMoResource_AddRefChain_v1((void *)*puVar1);
+    orig::ResourceIter_FindNext_v1(local_1c,0);
   }
   if (((byte)*(undefined4 *)(*param_1 + 0x24) & 0x7f) == 1) {
     orig::CXiActor_SpawnResourceGenerators_v1(self_,param_1);
@@ -5000,10 +5000,10 @@ char CXiSkeletonActor::Slot244_Unknown(int a2, int a3, int a4)
   orig::fn_10027990((Iostream_init *)self_v);
   orig::Mat4_SetIdentity(self_v);
   v5 = (*(int (__thiscall **)(void *))(*(_DWORD *)self + 448))(self);
-  orig::Mat4_PostRotateY_v1(self_v, *(float *)(v5 + 4));
+  orig::Mat4_PostRotateY(self_v, *(float *)(v5 + 4));
   v6 = (_DWORD *)(*(int (__thiscall **)(void *))(*(_DWORD *)self + 444))(self);
   orig::Mat4_SetTranslation(self_v, v6);
-  orig::Mat4_PostMultiply_v1((int)self_v, a4);
+  orig::Mat4_PostMultiply((int)self_v, a4);
   v7 = (float *)(*(int (__thiscall **)(void *, _DWORD))(*(_DWORD *)self + 968))(self, 0);
   if ( v7 != nullptr )
   {
@@ -5204,7 +5204,7 @@ void CXiSkeletonActor::OnDrawName()
   v2 = (unsigned __int16 *)at<int32_t>(this, 0x70);
   if ( (XiControlActor_isFirstPersonView == 0
      || v2 == nullptr
-     || (v3 = orig::ActorHandle_Resolve_v1(g_targetActorHandle_as_v0)) == 0
+     || (v3 = orig::ActorHandle_Resolve(g_targetActorHandle)) == 0
      || (unsigned __int16 *)orig::Entity_GetIndexedPtr(*(unsigned __int16 **)(v3 + 112)) != v2)
     && (*(unsigned __int8 (__thiscall **)(int *))(*self + 608))(self) == 0
     && !orig::CXiActor_TestModelFlag128_8(self)
@@ -5236,7 +5236,7 @@ LABEL_14:
         case 4:
           if ( (*(_DWORD *)(v4 + 120) & 0xFF000000) != 0 )
             break;
-          v7 = orig::sub_101CC4F0_v1();
+          v7 = orig::sub_101CC4F0();
           if ( v7 == 0 )
             break;
           v6 = *(_DWORD *)(v7 + 120) == *(_DWORD *)(v4 + 120);
@@ -5259,10 +5259,10 @@ LABEL_23:
         this->posHandle = v8;
       }
       v9 = (const char *)(*(int (__thiscall **)(int *))(*self + 204))(self);
-      orig::_sprintf_v4(Buffer, aS, v9);
+      orig::_sprintf(Buffer, aS, v9);
       orig::CXiSkeletonActor_DrawNameIfVisible(self, v13, Buffer, v11, v12, this->field_7C);
       v10 = (const char *)(*(int (__thiscall **)(int *))(*self + 208))(self);
-      orig::_sprintf_v4(Buffer, aS, v10);
+      orig::_sprintf(Buffer, aS, v10);
       orig::CXiSkeletonActor_DrawName2IfVisible(self, v13, Buffer, v11);
     }
     else
@@ -5333,7 +5333,7 @@ char __stdcall CXiSkeletonActor::ProjectToScreen(int a1, int a2, int a3)
 void __thiscall CXiSkeletonActor::DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5)
 {
   if (*(short *)((int)self + 0xb2) == 0) {
-    orig::Actor_DrawWorldText(param_1,param_2,param_3,param_4,param_5);
+    orig::Actor_DrawWorldText_v1(param_1,param_2,param_3,param_4,param_5);
   }
   return;
 }
@@ -5634,7 +5634,7 @@ char CXiSkeletonActor::LoadSkeletonSync(int arg0)
     }
     if ( v6 == 0 )
       goto LABEL_15;
-    v9 = orig::Allocator_Generic_v1(0x18u);
+    v9 = orig::Allocator_Generic(0x18u);
     v10 = v9;
     if ( v9 != nullptr )
     {
@@ -5644,7 +5644,7 @@ char CXiSkeletonActor::LoadSkeletonSync(int arg0)
       *v10 = v11;
       *v10 = this->updateSerial;
       v10[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
-      orig::sub_100814F0_v1((int)(v10 + 1), v6);
+      orig::sub_100814F0((int)(v10 + 1), v6);
       v10[4] = self;
       orig::sub_100710F0((int *)&a1, (int)XI_CODE(sub_100D4100), (int)v10, (_DWORD *)self, nullptr);
 LABEL_15:
@@ -5727,7 +5727,7 @@ LABEL_17:
             }
             else if ( v108 != 0 )
             {
-              v22 = orig::Allocator_Generic_v1(0x20u);
+              v22 = orig::Allocator_Generic(0x20u);
               v23 = v22;
               if ( v22 != nullptr )
               {
@@ -5739,7 +5739,7 @@ LABEL_17:
                 v25 = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
                 v26 = v108;
                 v23[5] = v25;
-                orig::sub_100814F0_v1((int)(v23 + 1), v26);
+                orig::sub_100814F0((int)(v23 + 1), v26);
                 v23[4] = self;
                 v23[6] = v13;
                 v23[7] = v21;
@@ -5767,7 +5767,7 @@ LABEL_41:
       goto LABEL_47;
     if ( v28 != 0 )
     {
-      v31 = orig::Allocator_Generic_v1(0x18u);
+      v31 = orig::Allocator_Generic(0x18u);
       v32 = v31;
       if ( v31 != nullptr )
       {
@@ -5777,7 +5777,7 @@ LABEL_41:
         *v32 = v33;
         *v32 = this->updateSerial;
         v32[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
-        orig::sub_100814F0_v1((int)(v32 + 1), v28);
+        orig::sub_100814F0((int)(v32 + 1), v28);
         v32[4] = self;
 LABEL_195:
         orig::sub_100710F0((int *)&a1, (int)XI_CODE(sub_100D4220), (int)v32, (_DWORD *)self, nullptr);
@@ -5813,7 +5813,7 @@ LABEL_197:
     {
       if ( v34 == 0 )
         return 1;
-      v37 = orig::Allocator_Generic_v1(0x18u);
+      v37 = orig::Allocator_Generic(0x18u);
       v32 = v37;
       if ( v37 == nullptr )
         goto LABEL_197;
@@ -5838,7 +5838,7 @@ LABEL_47:
       goto LABEL_47;
     if ( v39 != 0 )
     {
-      v42 = orig::Allocator_Generic_v1(0x18u);
+      v42 = orig::Allocator_Generic(0x18u);
       v32 = v42;
       if ( v42 != nullptr )
       {
@@ -5848,7 +5848,7 @@ LABEL_47:
         *v32 = v43;
         *v32 = this->updateSerial;
         v32[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
-        orig::sub_100814F0_v1((int)(v32 + 1), v39);
+        orig::sub_100814F0((int)(v32 + 1), v39);
         v32[4] = self;
         goto LABEL_195;
       }
@@ -5869,7 +5869,7 @@ LABEL_47:
       goto LABEL_47;
     if ( v34 == 0 )
       return 1;
-    v37 = orig::Allocator_Generic_v1(0x18u);
+    v37 = orig::Allocator_Generic(0x18u);
     v32 = v37;
     if ( v37 == nullptr )
       goto LABEL_197;
@@ -5880,7 +5880,7 @@ LABEL_58:
     *v32 = v38;
     *v32 = this->updateSerial;
     v32[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
-    orig::sub_100814F0_v1((int)(v32 + 1), v34);
+    orig::sub_100814F0((int)(v32 + 1), v34);
     v32[4] = self;
     goto LABEL_195;
   }
@@ -5904,7 +5904,7 @@ LABEL_83:
     {
       if ( v49 != 0 )
       {
-        v53 = orig::Allocator_Generic_v1(0x18u);
+        v53 = orig::Allocator_Generic(0x18u);
         v32 = v53;
         if ( v53 != nullptr )
         {
@@ -5913,7 +5913,7 @@ LABEL_83:
           v32[5] = 0;
           *v32 = this->updateSerial;
           v32[5] = (*(int (__thiscall **)(int))(*(_DWORD *)self + 840))(self);
-          orig::sub_100814F0_v1((int)(v32 + 1), v49);
+          orig::sub_100814F0((int)(v32 + 1), v49);
           v32[4] = self;
           goto LABEL_195;
         }
@@ -5954,14 +5954,14 @@ LABEL_83:
       }
       else
       {
-        v55 = orig::Allocator_Generic_v1(0x20u);
+        v55 = orig::Allocator_Generic(0x20u);
         v56 = v55;
         if ( v55 == nullptr )
           goto LABEL_197;
         orig::ActorHandle_Constructor((int)(v55 + 1));
         *v56 = this->updateSerial;
         v56[5] = 0;
-        orig::sub_100814F0_v1((int)(v56 + 1), self);
+        orig::sub_100814F0((int)(v56 + 1), self);
         v56[7] = v108;
         v56[4] = 0;
         v56[6] = v54;
@@ -5985,14 +5985,14 @@ LABEL_97:
       }
       else
       {
-        v74 = orig::Allocator_Generic_v1(0x18u);
+        v74 = orig::Allocator_Generic(0x18u);
         v75 = v74;
         if ( v74 == nullptr )
           goto LABEL_197;
         orig::ActorHandle_Constructor((int)(v74 + 1));
         *v75 = this->updateSerial;
         v75[5] = 0;
-        orig::sub_100814F0_v1((int)(v75 + 1), self);
+        orig::sub_100814F0((int)(v75 + 1), self);
         v75[4] = 0;
         orig::sub_100710F0((int *)&a1, (int)XI_CODE(sub_100D4100), (int)v75, (_DWORD *)self, nullptr);
       }
@@ -6101,14 +6101,14 @@ LABEL_154:
               }
               else
               {
-                v89 = orig::Allocator_Generic_v1(0x20u);
+                v89 = orig::Allocator_Generic(0x20u);
                 v90 = v89;
                 if ( v89 != nullptr )
                 {
                   orig::ActorHandle_Constructor((int)(v89 + 1));
                   *v90 = this->updateSerial;
                   v90[5] = 0;
-                  orig::sub_100814F0_v1((int)(v90 + 1), self);
+                  orig::sub_100814F0((int)(v90 + 1), self);
                   v90[4] = 0;
                   v90[6] = v78;
                   v90[7] = v88;
@@ -6156,14 +6156,14 @@ LABEL_172:
           orig::sub_100D0B50(self, (int *)a1, v92, *(_DWORD **)(self + 2540), 1);
           return 1;
         }
-        v94 = orig::Allocator_Generic_v1(0x20u);
+        v94 = orig::Allocator_Generic(0x20u);
         v95 = v94;
         if ( v94 != nullptr )
         {
           orig::ActorHandle_Constructor((int)(v94 + 1));
           *v95 = this->updateSerial;
           v95[5] = 0;
-          orig::sub_100814F0_v1((int)(v95 + 1), self);
+          orig::sub_100814F0((int)(v95 + 1), self);
           v96 = v108;
           v95[4] = 0;
           v95[6] = v92;
@@ -6190,14 +6190,14 @@ LABEL_186:
       a1 = (_DWORD **)*orig::sub_100730E0(&v115, v97);
       if ( orig::ResourceHandle_IsResident(&a1) )
         goto LABEL_47;
-      v99 = orig::Allocator_Generic_v1(0x18u);
+      v99 = orig::Allocator_Generic(0x18u);
       v32 = v99;
       if ( v99 == nullptr )
         goto LABEL_197;
       orig::ActorHandle_Constructor((int)(v99 + 1));
       *v32 = this->updateSerial;
       v32[5] = 0;
-      orig::sub_100814F0_v1((int)(v32 + 1), self);
+      orig::sub_100814F0((int)(v32 + 1), self);
       v32[4] = 0;
       goto LABEL_195;
     case 8:
@@ -6216,14 +6216,14 @@ LABEL_186:
       }
       else
       {
-        v59 = orig::Allocator_Generic_v1(0x18u);
+        v59 = orig::Allocator_Generic(0x18u);
         v60 = v59;
         if ( v59 == nullptr )
           goto LABEL_197;
         orig::ActorHandle_Constructor((int)(v59 + 1));
         *v60 = this->updateSerial;
         v60[5] = 0;
-        orig::sub_100814F0_v1((int)(v60 + 1), self);
+        orig::sub_100814F0((int)(v60 + 1), self);
         v60[4] = 0;
         orig::sub_100710F0((int *)&a1, (int)XI_CODE(sub_100D4100), (int)v60, (_DWORD *)self, nullptr);
       }
@@ -6299,14 +6299,14 @@ LABEL_131:
       }
       else
       {
-        v72 = orig::Allocator_Generic_v1(0x20u);
+        v72 = orig::Allocator_Generic(0x20u);
         v73 = v72;
         if ( v72 != nullptr )
         {
           orig::ActorHandle_Constructor((int)(v72 + 1));
           *v73 = this->updateSerial;
           v73[5] = 0;
-          orig::sub_100814F0_v1((int)(v73 + 1), self);
+          orig::sub_100814F0((int)(v73 + 1), self);
           v73[4] = 0;
           v73[6] = v63;
           v73[7] = v71;
@@ -6347,9 +6347,9 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
   }
   else
   {
-    v6 = orig::Mem_AllocFromArea_v1(72, 4);
-    orig::CMoTask_ResetFields_v1((int)v6);
-    g_resourcesDirty_as_s8 = 1;
+    v6 = orig::Mem_AllocFromArea(72, 4);
+    orig::CMoTask_ResetFields((int)v6);
+    g_resourcesDirty = 1;
     if ( v6 != nullptr )
       v7 = orig::CXiSkeletonActorRes_Constructor(v6, (int)self, (int)XI_CODE(CXiSkeletonActor_OnSkeletonLoaded));
     else
@@ -6383,7 +6383,7 @@ XI_API int __thiscall fn_100D4410(void * self_, undefined4 param_1, undefined4 p
 {
   void *pvVar1;
   
-  pvVar1 = (void *)orig::Mem_AllocDefault(0x24);
+  pvVar1 = (void *)orig::Mem_AllocDefault_v1(0x24);
   if (pvVar1 != (void *)0x0) {
     pvVar1 = (void *)orig::FUN_1001b710(pvVar1);
     if (pvVar1 != (void *)0x0) {
@@ -6731,7 +6731,7 @@ void CXiSkeletonActor::KillAllGenerater()
   if ( v3 != nullptr && *v3 != 0 )
   {
     v4 = *v3;
-    orig::CMoResource_ReleaseChain_v1(*v3, v1);
+    orig::CMoResource_ReleaseChain(*v3, v1);
     orig::CMoGeneratorClone_Kill(v4);
     this->field_764 = 0;
   }
@@ -6739,7 +6739,7 @@ void CXiSkeletonActor::KillAllGenerater()
   if ( v5 != nullptr && *v5 != 0 )
   {
     v6 = *v5;
-    orig::CMoResource_ReleaseChain_v1(*v5, v1);
+    orig::CMoResource_ReleaseChain(*v5, v1);
     orig::CMoGeneratorClone_Kill(v6);
     this->field_814 = 0;
   }

@@ -88,12 +88,12 @@ XI_API void __cdecl fn_1001C930(int *a1)
         v6 = 4 * v4;
         do
         {
-          orig::Vec3_Copy_v1(v5 - 3, &v23[v6 + 16]);
+          orig::Vec3_Copy(v5 - 3, &v23[v6 + 16]);
           v7 = (__int64)*(float *)&a1[v6 + 658]
              | (((__int64)*(float *)&a1[v6 + 657]
                | (((unsigned int)(__int64)*(float *)&a1[v6 + 656] | ((__int64)*(float *)&a1[v6 + 659] << 8)) << 8)) << 8);
           *v5 = v7;
-          orig::Vec3_Copy_v1(v5 + 1, &a1[v6 + 16]);
+          orig::Vec3_Copy(v5 + 1, &a1[v6 + 16]);
           v5[4] = v7;
           v8 = v17 - 1;
           v5 += 8;
@@ -124,11 +124,11 @@ XI_API void __cdecl fn_1001C930(int *a1)
         v10 = 4 * (a1[1322] - 1 + (a1[1322] - 1 < 0 ? 0x50 : 0));
         do
         {
-          orig::Vec3_Copy_v1(v9 - 3, &v23[v10 + 16]);
+          orig::Vec3_Copy(v9 - 3, &v23[v10 + 16]);
           *v9 = (__int64)*(float *)&a1[v10 + 658]
               | (((__int64)*(float *)&a1[v10 + 657]
                 | (((unsigned int)(__int64)*(float *)&a1[v10 + 656] | ((__int64)*(float *)&a1[v10 + 659] << 8)) << 8)) << 8);
-          orig::Vec3_Copy_v1(v9 + 1, &a1[v10 + 336]);
+          orig::Vec3_Copy(v9 + 1, &a1[v10 + 336]);
           v9[4] = (__int64)*(float *)&a1[v10 + 978]
                 | (((__int64)*(float *)&a1[v10 + 977]
                   | (((unsigned int)(__int64)*(float *)&a1[v10 + 976] | ((__int64)*(float *)&a1[v10 + 979] << 8)) << 8)) << 8);
@@ -160,11 +160,11 @@ XI_API void __cdecl fn_1001C930(int *a1)
         v14 = 4 * v12;
         do
         {
-          orig::Vec3_Copy_v1(v13 - 3, &a1[v14 + 16]);
+          orig::Vec3_Copy(v13 - 3, &a1[v14 + 16]);
           *v13 = (__int64)*(float *)&a1[v14 + 658]
                | (((__int64)*(float *)&a1[v14 + 657]
                  | (((unsigned int)(__int64)*(float *)&a1[v14 + 656] | ((__int64)*(float *)&a1[v14 + 659] << 8)) << 8)) << 8);
-          orig::Vec3_Copy_v1(v13 + 1, &a1[v14 + 336]);
+          orig::Vec3_Copy(v13 + 1, &a1[v14 + 336]);
           v13[4] = (__int64)*(float *)&a1[v14 + 978]
                  | (((__int64)*(float *)&a1[v14 + 977]
                    | (((unsigned int)(__int64)*(float *)&a1[v14 + 976] | ((__int64)*(float *)&a1[v14 + 979] << 8)) << 8)) << 8);

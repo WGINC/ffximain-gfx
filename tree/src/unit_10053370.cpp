@@ -28,15 +28,15 @@ XI_API void __thiscall fn_10053370(void * self_)
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
     *(undefined4 *)((int)self_ + 0xa8) = 0;
   }
-  uVar1 = orig::Mem_AllocFromArea(0x3d,4);
+  uVar1 = orig::Mem_AllocFromArea_v1(0x3d,4);
   this_01 = (undefined4 *)uVar1;
-  orig::CMoTask_ResetFields(this_01);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(this_01);
+  g_resourcesDirty_as_v0 = 1;
   if (this_01 == (undefined4 *)0x0) {
     this_01 = (undefined4 *)0x0;
   }
   else {
-    orig::CMoTask_Constructor(this_01);
+    orig::CMoTask_Constructor_v1(this_01);
     *this_01 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
     *(undefined1 *)(this_01 + 0xf) = 0;
   }

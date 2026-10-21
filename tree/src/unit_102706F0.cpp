@@ -14,7 +14,7 @@ XI_API undefined4 __cdecl fn_10270B60(void)
   undefined4 *puVar6;
   int *piStack_4;
   
-  _DAT_1099b0d8_as_v1 = 1;
+  DAT_1099b0d8_as_v1 = 1;
   DAT_1099b0dc = 0x1c0;
   _DAT_1099b0e0 = 0x180;
   DAT_1099b0e4 = 0;
@@ -42,7 +42,7 @@ XI_API undefined4 __cdecl fn_10270B60(void)
   DAT_1099b12c = 0;
   DAT_1099b130 = 0;
   _DAT_1099b134 = 0;
-  _DAT_1099b138 = 0;
+  DAT_1099b138 = 0;
   orig::FUN_1028e350((undefined4 *)&DAT_1099b13c);
   DAT_1099b168 = 0;
   _DAT_1099b16c = 0x100;
@@ -144,15 +144,15 @@ XI_API void __cdecl fn_10270F30(undefined4 param_1)
   float *pfVar2;
   float *pfVar3;
   
-  if ((_DAT_1099b0d8 & 8) != 0) {
+  if ((DAT_1099b0d8 & 8) != 0) {
     orig::FUN_10271030(param_1);
     orig::FUN_102715f0(param_1);
-    _DAT_1099b0d8 = _DAT_1099b0d8 & 0xfffffff7;
+    DAT_1099b0d8 = DAT_1099b0d8 & 0xfffffff7;
   }
-  if ((_DAT_1099b0d8 & 0x100) != 0) {
+  if ((DAT_1099b0d8 & 0x100) != 0) {
     orig::FUN_10273560(param_1);
   }
-  _DAT_1099b0d8 = _DAT_1099b0d8 & 0xffffff0f;
+  DAT_1099b0d8 = DAT_1099b0d8 & 0xffffff0f;
   orig::FUN_1026e590(param_1);
   iVar1 = DAT_1099b0f4;
   pfVar2 = (float *)&DAT_1099bf88;
@@ -178,16 +178,16 @@ XI_API void __cdecl fn_10271030(undefined4 param_1)
   uint uVar1;
   byte bVar2;
   
-  if ((_DAT_1099b0d8 & 0x200) != 0) {
+  if ((DAT_1099b0d8 & 0x200) != 0) {
     orig::FUN_102712e0(DAT_1099b0e8_as_s32,DAT_1099b0f0_as_s32,DAT_1099b0e4,DAT_1099b0ec_as_s32,param_1);
     return;
   }
-  bVar2 = (_DAT_1099b0d8 & 0x40) != 0;
-  if ((char)_DAT_1099b0d8 < '\0') {
+  bVar2 = (DAT_1099b0d8 & 0x40) != 0;
+  if ((char)DAT_1099b0d8 < '\0') {
     bVar2 = bVar2 | 2;
   }
   uVar1 = (uint)bVar2;
-  if ((_DAT_1099b0d8 & 0x20) == 0) {
+  if ((DAT_1099b0d8 & 0x20) == 0) {
     if (uVar1 == 0) {
       return;
     }
@@ -206,8 +206,8 @@ XI_API void __cdecl fn_102715F0(undefined4 param_1)
 {
   byte bVar1;
   
-  bVar1 = (_DAT_1099b0d8_as_v0 & 0x10) != 0;
-  if ((_DAT_1099b0d8_as_v0 & 0x20) != 0) {
+  bVar1 = (DAT_1099b0d8_as_v0 & 0x10) != 0;
+  if ((DAT_1099b0d8_as_v0 & 0x20) != 0) {
     bVar1 = bVar1 | 2;
   }
   if (bVar1 != 0) {
@@ -282,7 +282,7 @@ XI_API void __cdecl scnFini(void)
     orig::FUN_10285740(&DAT_1099ccf8);
   }
   orig::FUN_1028e1b0(0x1099b13c);
-  _DAT_1099b0d8 = _DAT_1099b0d8 & 0xfffffffe;
+  DAT_1099b0d8 = DAT_1099b0d8 & 0xfffffffe;
   return;
 }
 
@@ -291,14 +291,14 @@ XI_API void __cdecl scnFini(void)
 XI_API void __cdecl fn_10271B90(uint32_t param_1, int param_2)
 {
   if (param_2 == -1) {
-    _DAT_1099b0d8 = _DAT_1099b0d8 ^ param_1;
+    DAT_1099b0d8 = DAT_1099b0d8 ^ param_1;
     return;
   }
   if (param_2 != 0) {
-    _DAT_1099b0d8 = _DAT_1099b0d8 | param_1;
+    DAT_1099b0d8 = DAT_1099b0d8 | param_1;
     return;
   }
-  _DAT_1099b0d8 = _DAT_1099b0d8 & ~param_1;
+  DAT_1099b0d8 = DAT_1099b0d8 & ~param_1;
   return;
 }
 
@@ -309,7 +309,7 @@ XI_API void __cdecl fn_10271C30(int param_1, int param_2, int param_3)
   (&DAT_1099b0e4)[param_1] = param_2;
   (&DAT_1099b0ec)[param_1] = param_3;
   if ((param_2 != 0) || (param_3 != 0)) {
-    _DAT_1099b0d8 = _DAT_1099b0d8 | 8;
+    DAT_1099b0d8 = DAT_1099b0d8 | 8;
   }
   return;
 }
@@ -385,7 +385,7 @@ XI_API void __cdecl fn_10271D70(int param_1)
                (&DAT_103b1c20)[param_1 * 9],(&DAT_103b1c24)[param_1 * 9],
                (&DAT_103b1c28)[param_1 * 9],(&DAT_103b1c2c)[param_1 * 9],
                (&DAT_103b1c30)[param_1 * 9]);
-  if ((_DAT_1099b0d8 & 0x200) != 0) {
+  if ((DAT_1099b0d8 & 0x200) != 0) {
     orig::FUN_102712e0(0,0,0,0,1);
     orig::FUN_102712e0(0,0,0,0,1);
   }
@@ -398,7 +398,7 @@ XI_API void __cdecl fn_10271D70(int param_1)
 XI_API void __cdecl scnGetFlags(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
-    *param_1 = _DAT_1099b0d8_as_v1;
+    *param_1 = DAT_1099b0d8_as_v1;
   }
   return;
 }
@@ -608,7 +608,7 @@ XI_API void __cdecl fn_10272880(int param_1, int param_2, int param_3)
     (&DAT_1099bbcc)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x30);
   }
   if (param_3 != 0) {
-    orig::M4fSet((undefined4 *)(((char *)&DAT_1099bcd0) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
+    orig::M4fSet_v1((undefined4 *)(((char *)&DAT_1099bcd0) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
     orig::FUN_10274650(&DAT_1099bd10 + param_1 * 0x1f,(undefined4 *)(param_3 + 0x5c));
     orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099bd1c) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x68));
     (&DAT_1099bd2c)[param_1 * 0x1f] = *(undefined4 *)(param_3 + 0x78);

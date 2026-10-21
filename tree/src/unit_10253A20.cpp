@@ -202,7 +202,7 @@ XI_API undefined4 * __cdecl fn_10257670(undefined4 * param_1, uint32_t * param_2
     *param_2 = 0;
     return (undefined4 *)0x0;
   }
-  uVar14 = orig::Allocator_Generic(uVar2);
+  uVar14 = orig::Allocator_Generic_v1(uVar2);
   puVar3 = (undefined4 *)uVar14;
   puVar10 = param_1;
   puVar12 = puVar3;
@@ -341,7 +341,7 @@ XI_API void __thiscall fn_10257840(void * self_)
 XI_API void __thiscall fn_10257850(void * self_)
 {
   if (*(LPVOID *)self_ != (LPVOID)0x0) {
-    orig::operator_delete_10311BB0(*(LPVOID *)self_);
+    orig::operator_delete_10311BB0_v1(*(LPVOID *)self_);
   }
   return;
 }
@@ -656,7 +656,7 @@ XI_API undefined * __cdecl fn_10258150(int param_1, int param_2, int param_3, in
   }
   if (param_4 != 1) {
     if (param_4 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     return ppuVar1[param_2 * 4 + 2];
   }
@@ -681,7 +681,7 @@ XI_API int __cdecl fn_102581D0(char * param_1)
     }
     iVar3 = orig::FUN_10257ff0(pcVar1);
     if (iVar3 != 0) break;
-    iVar3 = orig::Sjis_GetCharByteLen(pcVar1);
+    iVar3 = orig::Sjis_GetCharByteLen_v1(pcVar1);
     iVar4 = iVar4 + iVar3;
     cVar2 = param_1[iVar4];
     pcVar1 = param_1 + iVar4;
@@ -731,7 +731,7 @@ XI_API undefined4 __cdecl fn_10258990(char * param_1)
     pcVar2 = &DAT_10389ec0;
     pcVar3 = &DAT_10389ec1;
     do {
-      iVar1 = orig::Sjis_GetCharByteLen(pcVar2);
+      iVar1 = orig::Sjis_GetCharByteLen_v1(pcVar2);
       if (iVar1 == 1) {
         if (*param_1 == *pcVar2) {
           return 1;
@@ -788,7 +788,7 @@ XI_API undefined * __cdecl fn_10258D00(int param_1, undefined * * param_2, int p
   if (param_4 == 2) {
     return ppuVar1[(int)param_2 * 4 + 2];
   }
-  return &Read;
+  return &Read_as_v0;
 }
 
 // FUNCTION: FFXIMAIN 0x10258D70  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
@@ -815,7 +815,7 @@ XI_API char * __cdecl fn_10258D70(int param_1, int param_2, int param_3, int par
   }
   if (param_4 != 0) {
     if (param_4 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     return (&PTR_s_einiges_10389f58)[param_2 * 4];
   }
@@ -854,7 +854,7 @@ XI_API undefined * __cdecl fn_10258E50(int param_1, int param_2, undefined * * p
   if (param_5 == 2) {
     return ppuVar1[(int)param_3 * 4 + 2];
   }
-  return &Read;
+  return &Read_as_v0;
 }
 
 // FUNCTION: FFXIMAIN 0x10258ED0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
@@ -866,7 +866,7 @@ XI_API undefined1 * __cdecl fn_10258ED0(int param_1)
   }
   if (param_1 != 1) {
     if (param_1 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     return(undefined1*)(&DAT_10387c0c);
   }
@@ -894,13 +894,13 @@ XI_API undefined * __cdecl fn_10258F00(int param_1, int param_2, int param_3)
           return(undefined*)(&DAT_1038a280);
         }
         if (param_3 != 2) {
-          return &Read;
+          return &Read_as_v0;
         }
       }
       return(undefined*)(&DAT_1038a284);
     }
   }
-  return &Read;
+  return &Read_as_v0;
 }
 
 // FUNCTION: FFXIMAIN 0x10258F60  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
@@ -917,7 +917,7 @@ XI_API undefined * __cdecl fn_10258F60(int param_1, int param_2, int param_3)
       return(undefined*)(&DAT_1038a28c);
     }
   }
-  return &Read;
+  return &Read_as_v0;
 }
 
 // FUNCTION: FFXIMAIN 0x102590E0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
@@ -982,7 +982,7 @@ XI_API void __thiscall fn_10259180(void * self_, undefined4 param_1)
   undefined4 *puVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Allocator_Generic(0x14);
+  uVar2 = orig::Allocator_Generic_v1(0x14);
   puVar1 = (undefined4 *)uVar2;
   if (puVar1 == (undefined4 *)0x0) {
     puVar1 = (undefined4 *)0x0;
@@ -1011,7 +1011,7 @@ XI_API void __thiscall fn_102593F0(void * self_, char * param_1)
   xi_bool bVar5;
   undefined8 uVar6;
   
-  uVar6 = orig::Allocator_Generic(0x18);
+  uVar6 = orig::Allocator_Generic_v1(0x18);
   puVar1 = (undefined4 *)uVar6;
   puVar2 = (undefined4 *)0x0;
   if (puVar1 != (undefined4 *)0x0) {
@@ -1024,7 +1024,7 @@ XI_API void __thiscall fn_102593F0(void * self_, char * param_1)
   }
   iVar3 = 2;
   bVar5 = true;
-  pcVar4 = (char *)&c_strSpace;
+  pcVar4 = (char *)&c_strSpace_as_v0;
   do {
     if (iVar3 == 0) break;
     iVar3 = iVar3 + -1;
@@ -1050,7 +1050,7 @@ XI_API void __thiscall fn_10259460(void * self_, int param_1, int param_2, int *
   undefined4 *puVar4;
   undefined8 uVar5;
   
-  uVar5 = orig::Allocator_Generic(0x38);
+  uVar5 = orig::Allocator_Generic_v1(0x38);
   puVar4 = (undefined4 *)uVar5;
   if (puVar4 == (undefined4 *)0x0) {
     puVar4 = (undefined4 *)0x0;
@@ -1311,7 +1311,7 @@ LAB_10259b89:
       orig::FUN_1018d250(local_18);
       break;
     case 7:
-      orig::FUN_1018d440((void *)param_1,&c_strSpace);
+      orig::FUN_1018d440((void *)param_1,&c_strSpace_as_v0);
       break;
     case 8:
       orig::FUN_1018d450((void *)param_1,(void *)(iVar2 + 0xc));
@@ -1357,7 +1357,7 @@ XI_API undefined1 * __cdecl fn_1025A5A0(int param_1, int param_2, int param_3)
   
   if (param_1 != 1) {
     if (param_1 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     if (param_2 != 0) {
       puVar1 = (undefined1 *)orig::FUN_10257950(&DAT_10669454,6);
@@ -1402,7 +1402,7 @@ XI_API undefined1 * __cdecl fn_1025A610(int param_1, int param_2, int param_3)
   }
   if (param_1 != 1) {
     if (param_1 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     if (param_2 != 0) {
       puVar1 = (undefined1 *)orig::FUN_10257950(&DAT_10669454,0x14);
@@ -1434,7 +1434,7 @@ XI_API undefined1 * __cdecl fn_1025A6C0(int param_1, int param_2)
   undefined1 *puVar1;
   
   if (param_1 != 0) {
-    return &Read;
+    return &Read_as_v0;
   }
   puVar1 =(undefined1*)(&DAT_1038a378);
   if (param_2 == 0) {
@@ -1455,7 +1455,7 @@ XI_API undefined1 * __cdecl fn_1025A6F0(int param_1)
   }
   if (param_1 != 1) {
     if (param_1 != 2) {
-      return &Read;
+      return &Read_as_v0;
     }
     puVar1 = (undefined1 *)orig::FUN_10257950(&DAT_10669454,0xb);
     return puVar1;
@@ -1508,7 +1508,7 @@ XI_API undefined1 * __cdecl fn_1025A760(int param_1, int param_2, int param_3, i
     return PTR_DAT_1038a304;
   }
   if (param_1 != 3) {
-    return &Read;
+    return &Read_as_v0;
   }
   if (param_2 != 0) {
     return PTR_DAT_1038a318;
@@ -1604,7 +1604,7 @@ XI_API undefined4 __cdecl fn_1025A8C0(char * param_1)
       return 0;
     }
     pcVar1 = pcVar3 + iVar5;
-    iVar4 = orig::Sjis_GetCharByteLen(pcVar1);
+    iVar4 = orig::Sjis_GetCharByteLen_v1(pcVar1);
     if (iVar4 == 1) {
       if (*param_1 == *pcVar1) {
         return 1;
@@ -1664,8 +1664,8 @@ XI_API uint32_t __thiscall fn_1025A930(void * self_, char * param_1)
   }
   iVar1 = orig::FUN_1011db40(pcVar6);
   if (iVar1 == 0) {
-    sVar3 = orig::Sjis_GetCharByteLen(pcVar6);
-    orig::_strncpy((char *)&param_1,pcVar6,sVar3);
+    sVar3 = orig::Sjis_GetCharByteLen_v1(pcVar6);
+    orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
   }
   else {
     sVar3 = orig::FUN_1011dcc0((undefined1 *)&param_1,pcVar6);
@@ -1682,8 +1682,8 @@ XI_API uint32_t __thiscall fn_1025A930(void * self_, char * param_1)
       pcVar6 = pcVar6 + 1;
       iVar1 = orig::FUN_1011db40(pcVar6);
       if (iVar1 == 0) {
-        sVar3 = orig::Sjis_GetCharByteLen(pcVar6);
-        orig::_strncpy((char *)&param_1,pcVar6,sVar3);
+        sVar3 = orig::Sjis_GetCharByteLen_v1(pcVar6);
+        orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
       }
       else {
         sVar3 = orig::FUN_1011dcc0((undefined1 *)&param_1,pcVar6);
@@ -1768,7 +1768,7 @@ XI_API undefined4 __thiscall fn_1025AAA0(void * self_, int param_1)
           if (bVar3) {
             puVar7 = orig::FUN_1025a6f0(local_8);
             orig::FUN_1018d440((void *)param_1,puVar7);
-            orig::FUN_1018d440((void *)param_1,&c_strSpace);
+            orig::FUN_1018d440((void *)param_1,&c_strSpace_as_v0);
           }
           puVar5 =(undefined*)(&DAT_1038a364);
           goto LAB_1025ae00;
@@ -1785,7 +1785,7 @@ XI_API undefined4 __thiscall fn_1025AAA0(void * self_, int param_1)
           }
           puVar7 = orig::FUN_1025a6f0(local_8);
           orig::FUN_1018d440((void *)param_1,puVar7);
-          orig::FUN_1018d440((void *)param_1,&c_strSpace);
+          orig::FUN_1018d440((void *)param_1,&c_strSpace_as_v0);
         }
         puVar7 = orig::FUN_1025a5a0(*(int *)(pcVar1 + 0xc),
                               (uint)(*(int *)(*(int *)(pcVar1 + 0x10) + 0xc) == 4),
@@ -1880,7 +1880,7 @@ LAB_1025ac2c:
       }
       break;
     case 8:
-      orig::FUN_1018d440((void *)param_1,&c_strSpace);
+      orig::FUN_1018d440((void *)param_1,&c_strSpace_as_v0);
       break;
     case 9:
       orig::FUN_1018d450((void *)param_1,pcVar1 + 0xc);
@@ -1904,7 +1904,7 @@ XI_API void __thiscall fn_1025AEF0(void * self_, char * param_1)
   iVar1 = 2;
   bVar5 = true;
   pcVar2 = param_1;
-  pcVar4 = (char *)&c_strSpace;
+  pcVar4 = (char *)&c_strSpace_as_v0;
   do {
     if (iVar1 == 0) break;
     iVar1 = iVar1 + -1;
@@ -1913,7 +1913,7 @@ XI_API void __thiscall fn_1025AEF0(void * self_, char * param_1)
     pcVar4 = pcVar4 + 1;
   } while (bVar5);
   if (bVar5) {
-    uVar6 = orig::Allocator_Generic(0x18);
+    uVar6 = orig::Allocator_Generic_v1(0x18);
     puVar3 = (undefined4 *)uVar6;
     if (puVar3 == (undefined4 *)0x0) {
       puVar3 = (undefined4 *)0x0;
@@ -1929,7 +1929,7 @@ XI_API void __thiscall fn_1025AEF0(void * self_, char * param_1)
     }
   }
   else {
-    uVar6 = orig::Allocator_Generic(0x18);
+    uVar6 = orig::Allocator_Generic_v1(0x18);
     puVar3 = (undefined4 *)uVar6;
     if (puVar3 == (undefined4 *)0x0) {
       puVar3 = (undefined4 *)0x0;
@@ -1961,7 +1961,7 @@ XI_API void __thiscall fn_1025AFB0(void * self_, undefined4 param_1, int param_2
     orig::FUN_1025aa90(self_);
     return;
   }
-  uVar2 = orig::Allocator_Generic(0x28);
+  uVar2 = orig::Allocator_Generic_v1(0x28);
   puVar1 = (undefined4 *)uVar2;
   if (puVar1 != (undefined4 *)0x0) {
     puVar1[5] = param_4;
@@ -2014,7 +2014,7 @@ XI_API void __thiscall fn_1025B1E0(void * self_, undefined4 param_1)
   undefined4 *puVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Allocator_Generic(0x14);
+  uVar2 = orig::Allocator_Generic_v1(0x14);
   puVar1 = (undefined4 *)uVar2;
   if (puVar1 == (undefined4 *)0x0) {
     puVar1 = (undefined4 *)0x0;
@@ -2084,7 +2084,7 @@ XI_API int __cdecl fn_1025B5E0(undefined1 * param_1, uint32_t param_2, int param
       local_4 = local_4 + 1;
     }
     else {
-      uVar1 = orig::Sjis_GetCharByteLen((undefined1 *)(local_4 + param_3));
+      uVar1 = orig::Sjis_GetCharByteLen_v1((undefined1 *)(local_4 + param_3));
       if ((param_2 != 0) && (param_2 <= uVar1 + iVar3)) {
         param_1[iVar3] = 0;
         param_1[iVar3] = 0;
@@ -2129,7 +2129,7 @@ XI_API int __cdecl fn_1025B680(int param_1, uint32_t param_2)
         uVar2 = uVar2 + 1;
       }
       else {
-        iVar1 = orig::Sjis_GetCharByteLen((undefined1 *)(uVar2 + param_1));
+        iVar1 = orig::Sjis_GetCharByteLen_v1((undefined1 *)(uVar2 + param_1));
         uVar2 = uVar2 + iVar1;
         iVar3 = iVar3 + iVar1;
       }
@@ -2186,14 +2186,14 @@ XI_API int __cdecl fn_1025B6C0(int param_1, uint32_t param_2, char * param_3, ui
         pbVar1 = (byte *)(param_3 + uVar13);
         iVar9 = orig::FUN_1025be20((char *)pbVar1);
         if (iVar9 != 0) {
-          iVar9 = orig::Sjis_GetCharByteLen(param_3 + uVar13);
+          iVar9 = orig::Sjis_GetCharByteLen_v1(param_3 + uVar13);
           uStack_18 = iVar9 + uVar13;
           bVar5 = (byte)param_6;
           break;
         }
         bVar5 = *pbVar1;
         param_6 = (uint)bVar5;
-        iVar9 = orig::Sjis_GetCharByteLen(pbVar1);
+        iVar9 = orig::Sjis_GetCharByteLen_v1(pbVar1);
         uVar13 = uVar13 + iVar9;
       } while (uVar13 < uVar8);
     }
@@ -2216,11 +2216,11 @@ XI_API int __cdecl fn_1025B6C0(int param_1, uint32_t param_2, char * param_3, ui
         do {
           iVar9 = orig::FUN_1025be20(param_3 + uVar13);
           if (iVar9 != 0) {
-            iVar9 = orig::Sjis_GetCharByteLen(param_3 + uVar13);
+            iVar9 = orig::Sjis_GetCharByteLen_v1(param_3 + uVar13);
             uStack_18 = iVar9 + uVar13;
             goto LAB_1025b871;
           }
-          iVar9 = orig::Sjis_GetCharByteLen(param_3 + uVar13);
+          iVar9 = orig::Sjis_GetCharByteLen_v1(param_3 + uVar13);
           uVar13 = uVar13 + iVar9;
         } while (uVar13 < uVar8);
       }
@@ -2251,7 +2251,7 @@ LAB_1025b871:
           if (uVar8 != 0) {
             do {
               uStack_18 = uVar14;
-              iVar9 = orig::Sjis_GetCharByteLen(param_3 + uStack_18);
+              iVar9 = orig::Sjis_GetCharByteLen_v1(param_3 + uStack_18);
               uVar14 = uStack_18 + iVar9;
             } while (uStack_18 + iVar9 < uVar8);
           }
@@ -2442,7 +2442,7 @@ XI_API int __cdecl fn_1025BDE0(char * param_1, int param_2)
     if (param_1[iVar3] == '\x15') {
       return iVar3;
     }
-    iVar2 = orig::Sjis_GetCharByteLen(param_1 + iVar3);
+    iVar2 = orig::Sjis_GetCharByteLen_v1(param_1 + iVar3);
     iVar3 = iVar3 + iVar2;
     cVar1 = param_1[iVar3];
   }
@@ -2488,7 +2488,7 @@ XI_API int __cdecl fn_1025C0F0(int param_1, int param_2, undefined1 * param_3)
     return 0;
   }
   uVar1 = orig::FUN_1025bfb0((byte *)param_1,param_2,param_3);
-  iVar2 = orig::Sjis_GetCharByteLen(param_3);
+  iVar2 = orig::Sjis_GetCharByteLen_v1(param_3);
   sVar3 = orig::FUN_1011de80((char *)(uVar1 + param_1),param_2 - uVar1,param_3 + iVar2);
   return sVar3 + uVar1;
 }

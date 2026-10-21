@@ -110,7 +110,7 @@ void CMoD3mSpecularElem::vf18()
   {
     if ( this->field_179 != 0 )
     {
-      orig::CMoElemFamily_SharedEarlyExit_v1((void *)self);
+      orig::CMoElemFamily_SharedEarlyExit((void *)self);
     }
     else
     {

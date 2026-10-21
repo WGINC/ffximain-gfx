@@ -90,7 +90,7 @@ LABEL_26:
   v23 = pDevice->CreateVertexBuffer(v9, a3, a4, (D3DPOOL)a5, (IDirect3DVertexBuffer8 **)a6);
   if ( v23 < 0 )
     return v23;
-  v19 = orig::Mem_AllocDefault_v1(32);
+  v19 = orig::Mem_AllocDefault(32);
   if ( v19 == nullptr )
     return -1;
   v20 = orig::CYyVb_Constructor(v19, v9, a3, a4, a5, *a6);

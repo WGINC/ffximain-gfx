@@ -41,8 +41,8 @@ XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t
         if (local_1c == 0) {
           piVar1 = (int *)param_1[5];
           if ((piVar1 != (int *)0x0) && (*piVar1 != 0)) {
-            orig::_sprintf((undefined1 *)local_10,&DAT_10350958,local_14);
-            uVar9 = orig::CMoResource_FindByTypeAndId((void *)*piVar1,&param_4,0x3d,local_10[0]);
+            orig::_sprintf_v1((undefined1 *)local_10,&DAT_10350958,local_14);
+            uVar9 = orig::CMoResource_FindByTypeAndId_v1((void *)*piVar1,&param_4,0x3d,local_10[0]);
             if (((undefined4 *)*(int *)uVar9 != (undefined4 *)0x0) &&
                (self_ = *(void **)*(int *)uVar9, self_ != (void *)0x0)) {
               iVar5 = 5;
@@ -61,7 +61,7 @@ XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t
                 param_2 = param_2 + 1;
                 goto LAB_10252e08;
               }
-              orig::FUN_10037020_v1(self_,puVar3,0x40400000,0x41a00000,0x44000000,0x42800000,0,0,0x7f);
+              orig::FUN_10037020(self_,puVar3,0x40400000,0x41a00000,0x44000000,0x42800000,0,0,0x7f);
             }
           }
           param_2 = param_2 + 1;
@@ -139,8 +139,8 @@ XI_API undefined4 __cdecl StTrigger_RegisterCallbacks(int param_1, uint32_t para
   
   *(uint *)(param_1 + 0xc) = param_3;
   *(uint *)(param_1 + 0x10) = param_2;
-  orig::FUN_101c4820(g_pFileMng,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
-  iVar1 = orig::FUN_101c4820(g_pFileMng,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
+  orig::FUN_101c4820(g_pFileMng_as_v1,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
+  iVar1 = orig::FUN_101c4820(g_pFileMng_as_v1,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
   if (iVar1 < 0) {
     orig::nullsub_13_v2(s_____Error__Trigger_file_not_foun_10389c6c,param_2);
     return 0xffffffff;

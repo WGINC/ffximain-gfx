@@ -175,41 +175,41 @@ XI_API void * __thiscall App_Constructor(void * self_)
   *(undefined4 *)((int)self_ + 0x4c) = 0;
   g_pTextureMng_as_v1 = 0;
   g_pVbMng_as_v0 = 0;
-  dword_1045B774 = 0;
+  dword_1045B774_as_v1 = 0;
   dword_1047D140_as_v0 = 0;
   g_pMeshResourceMng_as_v0 = 0;
-  _dword_1047BFFC = 0;
-  dword_104E1BF4 = 0;
+  dword_1047BFFC_as_v0 = 0;
+  dword_104E1BF4_as_v0 = 0;
   g_pTkMsgWinData_as_v0 = 0;
   dword_1057815C_as_v0 = 0;
-  dword_10578160 = 0;
+  dword_10578160_as_v0 = 0;
   DAT_1045690c_as_v1 = 0;
-  dword_1047D688 = 0;
-  dword_1047D68C = 0;
+  dword_1047D688_as_v0 = 0;
+  dword_1047D68C_as_v0 = 0;
   g_pXiCapture_as_v0 = 0;
   g_pObj_Vtbl10329F8C_as_v0 = 0;
   *(undefined1 *)((int)self_ + 0xb) = (undefined1)g_cfg0000_as_v0;
   *(undefined4 *)((int)self_ + 0x50) = 0;
   g_afterimageState_as_v0 = 0;
-  g_afterimageBufferState = 0;
-  g_afterimagePhase = 0;
+  g_afterimageBufferState_as_v0 = 0;
+  g_afterimagePhase_as_v0 = 0;
   g_afterimageTex_as_v0 = 0;
-  g_afterimageHalfTex = 0;
+  g_afterimageHalfTex_as_v0 = 0;
   g_afterimageDepth_as_v0 = 0;
-  dword_1045691C = 0;
+  dword_1045691C_as_v0 = 0;
   g_feedbackBufferIndex_as_v0 = 0;
-  g_feedbackBufferState = 0;
-  g_feedbackActive = 0;
+  g_feedbackBufferState_as_v0 = 0;
+  g_feedbackActive_as_v0 = 0;
   g_feedbackTexHalfRes_as_v0 = 0;
-  g_halfScreenTex = 0;
+  g_halfScreenTex_as_v0 = 0;
   g_feedbackDepth_as_v0 = 0;
-  dword_10456944 = 0;
-  XI_PIECE(g_screenFadeLevel, 0, 1) = 0x80;
+  dword_10456944_as_v0 = 0;
+  XI_PIECE(g_screenFadeLevel_as_v0, 0, 1) = 0x80;
   *(undefined4 *)((int)self_ + 0x2e4) = 0x3f800000;
   *(undefined4 *)((int)self_ + 0x2e8) = 0x3f4a7efa;
   *(undefined4 *)((int)self_ + 0x2ec) = 0x3f800000;
   *(undefined4 *)((int)self_ + 0x2f0) = 0x3f800000;
-  orig::Mat4_SetIdentity_v1(&g_frameWorldMatrix);
+  orig::Mat4_SetIdentity_v1(&g_frameWorldMatrix_as_v0);
   return self_;
 }
 
@@ -312,7 +312,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
     *(_DWORD *)g_pSceneState = 112;
     dword_1047D140 = 0;
     g_pMeshResourceMng = 0;
-    _dword_1047BFFC_as_s32 = 0;
+    dword_1047BFFC = 0;
     g_pZoneMap = nullptr;
     *(_WORD *)(self_ + 16) = *(_WORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x15C));
     *(_WORD *)(self_ + 18) = *(_WORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x160));
@@ -323,7 +323,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
     *(_WORD *)(self_ + 24) = i;
     *(_WORD *)(self_ + 26) = v42;
     orig::sub_10015360(0);
-    v43 = orig::sub_100156A0_v1(*(unsigned __int16 *)(self_ + 16), *(unsigned __int16 *)(self_ + 18), &i, &v55);
+    v43 = orig::sub_100156A0(*(unsigned __int16 *)(self_ + 16), *(unsigned __int16 *)(self_ + 18), &i, &v55);
     orig::sub_100153A0(*(float *)&i, v55);
     orig::sub_10002E60(v43);
     orig::CDx_SetClearParams(g_pCDx, 3, 0x80000000, 1065353216, 0);
@@ -391,12 +391,12 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
             *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)));
           orig::sub_1000A390(g_pCDx, 3, *(_DWORD *)(self_ + 776), 1065353216, 0);
           orig::CDx_SetTexture(g_pCDx, 0, 0);
-          dword_10456944_as_u32 = 0;
-          g_halfScreenTex_as_s32 = (int)orig::CDx_CreateTexture(
+          dword_10456944 = 0;
+          g_halfScreenTex = (int)orig::CDx_CreateTexture(
                                    g_pCDx,
                                    *(_WORD *)(self_ + 24) >> 1,
                                    *(_WORD *)(self_ + 26) >> 1,
-                                   &dword_10456944_as_u32,
+                                   &dword_10456944,
                                    1,
                                    0);
         }
@@ -444,8 +444,8 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
         {
           orig::CreateSharedVertexBuffers();
           orig::CreateProcessorInstance();
-          byte_1047D13D_as_s8 = 1;
-          v6 = orig::Mem_AllocDefault_v1(3428);
+          byte_1047D13D = 1;
+          v6 = orig::Mem_AllocDefault(3428);
           v7 = v6;
           if ( v6 == nullptr )
           {
@@ -453,19 +453,19 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
             orig::CDx_EndScene(g_pCDx);
             return 0;
           }
-          *v6 = (int)&CYyObject_vtbl_ambiguous0_as_v0;
+          *v6 = (int)&CYyObject_vtbl_ambiguous0;
           v8 = v6 + 1;
           for ( i = 64; i != 0; --i )
           {
-            orig::CMoTask_Constructor_v1(v8);
+            orig::CMoTask_Constructor(v8);
             v8 += 13;
           }
           *v7 = (int)&CMoTaskMng_vtbl;
           orig::sub_10074BA0(v7);
           dword_1047D140 = (int)v7;
-          byte_1047D13D_as_s8 = 0;
+          byte_1047D13D = 0;
           orig::unknown_libname_61();
-          v9 = orig::Mem_AllocDefault_v1(262160);
+          v9 = orig::Mem_AllocDefault(262160);
           v10 = (int)v9;
           if ( v9 == nullptr )
           {
@@ -476,21 +476,21 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           *v9 = &CMoResourceMng_vtbl;
           orig::sub_10072DB0(v9);
           g_pMeshResourceMng = v10;
-          v12 = orig::Mem_AllocFromArea_v1(56, 4);
-          orig::CMoTask_ResetFields_v1((int)v12);
-          g_resourcesDirty_as_s8 = 1;
+          v12 = orig::Mem_AllocFromArea(56, 4);
+          orig::CMoTask_ResetFields((int)v12);
+          g_resourcesDirty = 1;
           if ( v12 == nullptr )
           {
-            _dword_1047BFFC_as_s32 = 0;
+            dword_1047BFFC = 0;
             orig::CDx_EndScene(g_pCDx);
             return 0;
           }
-          orig::CMoTask_Constructor_v1(v12);
+          orig::CMoTask_Constructor(v12);
           v12[13] = 0;
           *v12 = &CMoTask_vtbl_ambiguous0;
-          _dword_1047BFFC_as_s32 = (int)v12;
-          orig::CMoTask_RegisterWithMng_v1(v12, 8);
-          v13 =(_WORD*)(orig::Mem_AllocDefault_v1(20));
+          dword_1047BFFC = (int)v12;
+          orig::CMoTask_RegisterWithMng(v12, 8);
+          v13 =(_WORD*)(orig::Mem_AllocDefault(20));
           if ( v13 == nullptr )
           {
             g_pTextureMng = nullptr;
@@ -501,7 +501,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
           g_pTextureMng = v14;
           if ( v14 != nullptr )
           {
-            v15 = orig::Mem_AllocDefault_v1(12);
+            v15 = orig::Mem_AllocDefault(12);
             if ( v15 == nullptr )
             {
               g_pVbMng = 0;
@@ -511,46 +511,46 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
             g_pVbMng = (int)orig::sub_1003B080(v15);
             if ( g_pVbMng != 0 )
             {
-              dword_1045B774_as_s32 = 0;
-              v16 = orig::sub_1025B560_v1(90);
+              dword_1045B774 = 0;
+              v16 = orig::sub_1025B560(90);
               g_appMeshResA = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v56, v16);
-              v17 = orig::sub_1025B560_v1(91);
+              v17 = orig::sub_1025B560(91);
               g_appMeshResB = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v57, v17);
               v18 = *(_DWORD *)(g_pSceneState + 8);
               if ( *(char *)(g_pSceneState + 24) < 0 && (v18 == 2 || v18 == 3) || v18 != 0 )
                 orig::nullsub_49(1);
               else
                 orig::nullsub_49(0);
-              v19 = orig::sub_1025B560_v1(0);
+              v19 = orig::sub_1025B560(0);
               v20 = (int *)*orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &v58, v19);
               g_appMeshResC = (int)v20;
               if ( v20 != nullptr )
-                orig::CMoResource_AddRefChain_v1(*v20);
+                orig::CMoResource_AddRefChain(*v20);
               if ( g_appMeshResA != 0 )
-                orig::CMoResource_AddRefChain_v1(*(_DWORD *)g_appMeshResA);
+                orig::CMoResource_AddRefChain(*(_DWORD *)g_appMeshResA);
               if ( g_appMeshResB != 0 )
-                orig::CMoResource_AddRefChain_v1(*(_DWORD *)g_appMeshResB);
-              orig::sub_10160440((int)g_menuMng_as_v0, v21, &v59, 0);
+                orig::CMoResource_AddRefChain(*(_DWORD *)g_appMeshResB);
+              orig::sub_10160440((int)g_menuMng, v21, &v59, 0);
               v22 = (int *)*orig::sub_10072FD0((_DWORD *)g_pMeshResourceMng, &v60, 39551);
               g_appMeshRes_39551 = (int)v22;
               if ( v22 != nullptr )
-                orig::CMoResource_AddRefChain_v1(*v22);
+                orig::CMoResource_AddRefChain(*v22);
               v23 = (int *)*orig::sub_10072FD0((_DWORD *)g_pMeshResourceMng, &v61, 39560);
               g_appMeshRes_39560 = (int)v23;
               if ( v23 != nullptr )
-                orig::CMoResource_AddRefChain_v1(*v23);
-              v24 = orig::Allocator_Generic_v1(4u);
+                orig::CMoResource_AddRefChain(*v23);
+              v24 = orig::Allocator_Generic(4u);
               if ( v24 == nullptr )
               {
-                dword_104E1BF4_as_s32 = 0;
+                dword_104E1BF4 = 0;
                 orig::CDx_EndScene(g_pCDx);
                 return 0;
               }
-              dword_104E1BF4_as_s32 = orig::unknown_libname_88(v24);
-              if ( dword_104E1BF4_as_s32 != 0 )
+              dword_104E1BF4 = orig::unknown_libname_88(v24);
+              if ( dword_104E1BF4 != 0 )
               {
                 orig::sub_1011C8B0();
-                v25 = orig::Allocator_Generic_v1(0x64058u);
+                v25 = orig::Allocator_Generic(0x64058u);
                 if ( v25 == nullptr )
                 {
                   g_pTkMsgWinData = 0;
@@ -561,7 +561,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                 g_pTkMsgWinData = (int)v26;
                 if ( v26 != nullptr )
                 {
-                  v27 = orig::Allocator_Generic_v1(0x64058u);
+                  v27 = orig::Allocator_Generic(0x64058u);
                   if ( v27 == nullptr )
                   {
                     dword_1057815C = 0;
@@ -571,20 +571,20 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                   dword_1057815C = (int)orig::sub_10127190(v27);
                   if ( dword_1057815C != 0 )
                   {
-                    v28 = orig::Allocator_Generic_v1(0x7Cu);
+                    v28 = orig::Allocator_Generic(0x7Cu);
                     if ( v28 == nullptr )
                     {
-                      dword_10578160_as_s32 = 0;
+                      dword_10578160 = 0;
                       orig::CDx_EndScene(g_pCDx);
                       return 0;
                     }
                     v29 = orig::sub_10127EE0(v28);
-                    dword_10578160_as_s32 = (int)v29;
+                    dword_10578160 = (int)v29;
                     if ( v29 != nullptr )
                     {
-                      v30 = orig::Mem_AllocFromArea_v1(234932, 4);
-                      orig::CMoTask_ResetFields_v1((int)v30);
-                      g_resourcesDirty_as_s8 = 1;
+                      v30 = orig::Mem_AllocFromArea(234932, 4);
+                      orig::CMoTask_ResetFields((int)v30);
+                      g_resourcesDirty = 1;
                       if ( v30 == nullptr )
                       {
                         g_pZoneMap = nullptr;
@@ -595,19 +595,19 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                       g_pZoneMap = v31;
                       if ( v31 != nullptr )
                       {
-                        orig::CMoTask_RegisterWithMng_v1(v31, 5);
+                        orig::CMoTask_RegisterWithMng(v31, 5);
                         orig::sub_101671D0();
                         orig::sub_101A8D40();
                         orig::sub_101A8B50();
                         orig::sub_101B8E70();
                         orig::sub_101AB080();
                         orig::sub_101AB0D0();
-                        v32 = orig::Allocator_Generic_v1(0x84u);
+                        v32 = orig::Allocator_Generic(0x84u);
                         if ( v32 != nullptr )
                           g_pFontGlyphs = (void *)orig::sub_1011BA90((int)v32);
                         else
                           g_pFontGlyphs = nullptr;
-                        v33 = orig::Allocator_Generic_v1(0x258u);
+                        v33 = orig::Allocator_Generic(0x258u);
                         if ( v33 != nullptr )
                         {
                           v33[130] = 0;
@@ -645,7 +645,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         orig::sub_101A8D60();
                         orig::YkInit();
                         orig::sub_1021BB90();
-                        v34 = orig::Allocator_Generic_v1(0x20u);
+                        v34 = orig::Allocator_Generic(0x20u);
                         if ( v34 != nullptr )
                           g_pDebugOverlay = orig::sub_100035F0((int)v34);
                         else
@@ -653,33 +653,33 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         orig::sub_102217A0();
                         orig::sub_1025E0B0();
                         orig::sub_1025E0C0();
-                        v35 = orig::Mem_AllocFromArea_v1(52, 4);
-                        orig::CMoTask_ResetFields_v1((int)v35);
-                        g_resourcesDirty_as_s8 = 1;
+                        v35 = orig::Mem_AllocFromArea(52, 4);
+                        orig::CMoTask_ResetFields((int)v35);
+                        g_resourcesDirty = 1;
                         if ( v35 == nullptr )
                         {
-                          dword_1047D688_as_s32 = 0;
+                          dword_1047D688 = 0;
                           orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
-                        orig::CMoTask_Constructor_v1(v35);
+                        orig::CMoTask_Constructor(v35);
                         *v35 = &CXiActorDraw_vtbl;
-                        dword_1047D688_as_s32 = (int)v35;
-                        orig::CMoTask_RegisterWithMng_v1(v35, 6);
-                        v36 = orig::Mem_AllocFromArea_v1(52, 4);
-                        orig::CMoTask_ResetFields_v1((int)v36);
-                        g_resourcesDirty_as_s8 = 1;
+                        dword_1047D688 = (int)v35;
+                        orig::CMoTask_RegisterWithMng(v35, 6);
+                        v36 = orig::Mem_AllocFromArea(52, 4);
+                        orig::CMoTask_ResetFields((int)v36);
+                        g_resourcesDirty = 1;
                         if ( v36 == nullptr )
                         {
-                          dword_1047D68C_as_s32 = 0;
+                          dword_1047D68C = 0;
                           orig::CDx_EndScene(g_pCDx);
                           return 0;
                         }
-                        orig::CMoTask_Constructor_v1(v36);
+                        orig::CMoTask_Constructor(v36);
                         *v36 = &CXiActorNameDraw_vtbl;
-                        dword_1047D68C_as_s32 = (int)v36;
-                        orig::CMoTask_RegisterWithMng_v1(v36, 12);
-                        v37 = (exception *)orig::Mem_AllocDefault_v1(24);
+                        dword_1047D68C = (int)v36;
+                        orig::CMoTask_RegisterWithMng(v36, 12);
+                        v37 = (exception *)orig::Mem_AllocDefault(24);
                         if ( v37 == nullptr )
                         {
                           g_pXiCapture = nullptr;
@@ -689,7 +689,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         g_pXiCapture = orig::fn_10017BB0(v37);
                         if ( g_pXiCapture != nullptr )
                         {
-                          v38 = orig::Allocator_Generic_v1(0x19Cu);
+                          v38 = orig::Allocator_Generic(0x19Cu);
                           if ( v38 != nullptr )
                           {
                             v39 = orig::sub_10018430(v38);
@@ -704,7 +704,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                           {
                             g_pObj_Vtbl10329F8C = 0;
                           }
-                          v40 = orig::Allocator_Generic_v1(4u);
+                          v40 = orig::Allocator_Generic(4u);
                           if ( v40 != nullptr )
                             g_pObj_Vtbl1033CE34 = (int)orig::sub_102532E0(v40);
                           else

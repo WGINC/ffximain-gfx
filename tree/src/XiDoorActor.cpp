@@ -73,7 +73,7 @@ XI_API char __thiscall fn_100AC4E0(void * self_)
   *(undefined4 *)((int)self_ + 0x5e0) = 0x3f800000;
   *(byte *)((int)self_ + 0xb2) = *(byte *)((int)self_ + 0xb2) & 0xfe;
   if (0 < *(int *)((int)self_ + 0x87c)) {
-    st0 = orig::Camera_GetFrameScale();
+    st0 = orig::Camera_GetFrameScale_v1();
     lVar3 = XI_CALL_ST0(0x10311C2Cu)(st0);
     iVar2 = *(int *)((int)self_ + 0x87c) - (int)lVar3;
     *(int *)((int)self_ + 0x87c) = iVar2;
@@ -137,30 +137,30 @@ XI_API void __thiscall fn_100AC5A0(void * self_)
     orig::fn_10027990_v1(auStack_80);
     orig::fn_10027990_v1(auStack_40);
     puVar2 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-    orig::Mat4_Copy(auStack_80,puVar2);
+    orig::Mat4_Copy_v1(auStack_80,puVar2);
     puVar2 = (undefined4 *)orig::Camera_GetMatrix154Ptr_v1();
-    orig::Mat4_Copy(auStack_40,puVar2);
+    orig::Mat4_Copy_v1(auStack_40,puVar2);
     orig::FUN_10028230(auStack_80,afStack_90,(float *)((int)self_ + 0xd4));
     if (*(int *)((int)g_pXiZone + 0x1c) == 0) {
       if ((!NAN((float10)fStack_88) && !NAN((float10)xi_k4(0x42C80000ull))) && (float10)xi_k4(0x42C80000ull) < (float10)fStack_88)
       goto LAB_100ac65c;
     }
     else {
-      fVar6 = orig::FUN_1018b8f0_v1(g_pXiZone,0);
+      fVar6 = orig::FUN_1018b8f0(g_pXiZone,0);
       bVar5 = NAN(fVar6) || NAN((float10)fStack_88);
       if ((bVar5 || fVar6 < (float10)fStack_88) != bVar5) goto LAB_100ac65c;
     }
     if (bVar3 == 0) {
       orig::Mat4_SetIdentity_v1(auStack_d0);
       orig::Mat4_SetTranslation_v1(auStack_d0,(float *)((int)self_ + 0xd4));
-      orig::Mat4_PostMultiply(auStack_d0,(int)auStack_80);
-      orig::Mat4_PostMultiply(auStack_d0,(int)auStack_40);
-      orig::FUN_10028370_v1(auStack_d0,&fStack_100,(float *)&DAT_1035bd98);
+      orig::Mat4_PostMultiply_v1(auStack_d0,(int)auStack_80);
+      orig::Mat4_PostMultiply_v1(auStack_d0,(int)auStack_40);
+      orig::FUN_10028370(auStack_d0,&fStack_100,(float *)&DAT_1035bd98);
       orig::Gfx_NdcToScreen_v1(&fStack_100);
       orig::Vec4_Copy_v1(&fStack_f0,&fStack_100);
       pfVar4 = (float *)&DAT_1035bda8;
       do {
-        orig::FUN_10028370_v1(auStack_d0,&fStack_114,pfVar4);
+        orig::FUN_10028370(auStack_d0,&fStack_114,pfVar4);
         orig::Gfx_NdcToScreen_v1(&fStack_114);
         if ((!NAN((float10)fStack_100) && !NAN((float10)fStack_114)) &&
             (float10)fStack_114 < (float10)fStack_100) {

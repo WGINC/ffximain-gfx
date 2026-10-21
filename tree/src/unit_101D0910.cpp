@@ -132,10 +132,10 @@ XI_API undefined4 __cdecl fn_101D0AB0(void)
   undefined4 uVar2;
   
   piVar1 = (int *)0x0;
-  if ((DAT_104dfd98 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
-    piVar1 = (int *)orig::FUN_10160700(&g_menuMng);
+  if ((dword_104DFD98_as_s32 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
+    piVar1 = (int *)orig::FUN_10160700(&g_menuMng_as_v0);
     if (((char)piVar1 != '\0') && (piVar1 = *(int **)(dword_10663888 + 8), piVar1 == (int *)0x0)) {
-      word_10663178 = 2;
+      word_10663178_as_v0 = 2;
       uVar2 = orig::FUN_10037fb0();
       DAT_106218ea = 1;
       return CONCAT31((int3)((uint)uVar2 >> 8),1);
@@ -154,17 +154,17 @@ XI_API char __cdecl CopyrightText_Draw(void)
   char *v4;
   float v5;
   float v6;
-  v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)((_BYTE)DAT_104dfd98_as_v2) << 0));
-  if ( DAT_104dfd98_as_v2 != nullptr )
+  v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)((_BYTE)dword_104DFD98) << 0));
+  if ( dword_104DFD98 != nullptr )
   {
     v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(g_pSceneState) << 0));
     if ( *(_DWORD *)g_pSceneState == 96 )
     {
-      v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10160700_v1(g_menuMng_as_v0)) << 0));
+      v0 = (int)(((uint32_t)(v0) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(orig::sub_10160700(g_menuMng)) << 0));
       if ( (_BYTE)v0 != 0 )
       {
         v0 = *(_DWORD *)(dword_10663888 + 8);
-        if ( v0 == 0 && word_10663178_as_s16 != 0 )
+        if ( v0 == 0 && word_10663178 != 0 )
         {
           v6 = (double)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2) * 0.0009765625;
           v5 = (double)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 3) * 0.0009765625;
@@ -173,9 +173,9 @@ XI_API char __cdecl CopyrightText_Draw(void)
             v6 = 1.0;
             v5 = 1.0;
           }
-          v1 = HIWORD(g_screenRectBottomRight_as_s32) - HIWORD(g_screenRectTopLeft_as_s32);
-          v2 = g_screenRectBottomRight_as_s32 - g_screenRectTopLeft_as_s32;
-          v4 = orig::sub_101D0C40((void *)g_screenRectTopLeft_as_s32);
+          v1 = HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft);
+          v2 = g_screenRectBottomRight - g_screenRectTopLeft;
+          v4 = orig::sub_101D0C40((void *)g_screenRectTopLeft);
           LOBYTE(v0) = orig::sub_101C9B50(
                          (__int64)((double)v2 - v6 * 16.0),
                          (__int64)((double)v1 - v5 * 30.0),
@@ -196,7 +196,7 @@ XI_API char __cdecl CopyrightText_Draw(void)
 XI_API undefined * __cdecl fn_101D0C40(void)
 {
   orig::FUN_101c8d70();
-  orig::_sprintf(&DAT_10663078,s__c_SQUARE_ENIX_1037e88c,0x83);
+  orig::_sprintf_v1(&DAT_10663078,s__c_SQUARE_ENIX_1037e88c,0x83);
   return(undefined*)(&DAT_10663078);
 }
 
@@ -211,14 +211,14 @@ XI_API undefined4 __cdecl fn_101D1060(void * param_1, uint32_t param_2, uint32_t
   undefined8 uVar5;
   
   bVar4 = false;
-  uVar5 = orig::Allocator_Generic(param_2 * param_3 * 4);
+  uVar5 = orig::Allocator_Generic_v1(param_2 * param_3 * 4);
   pvVar1 = (LPVOID)uVar5;
   uVar3 = 0;
   if (pvVar1 != (LPVOID)0x0) {
     orig::FUN_101cb770(pvVar1,param_2,param_3);
     iVar2 = orig::FUN_101d0600(param_1,param_2,param_3,(int)pvVar1,0x5a);
     bVar4 = iVar2 == 0;
-    uVar5 = orig::operator_delete_10311BB0(pvVar1);
+    uVar5 = orig::operator_delete_10311BB0_v1(pvVar1);
     uVar3 = (undefined4)uVar5;
   }
   return CONCAT31((int3)((uint)uVar3 >> 8),bVar4);
@@ -233,8 +233,8 @@ XI_API undefined4 __cdecl fn_101D10C0(int param_1, undefined4 param_2)
   
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
-     && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::FUN_101c49a0(g_pFileMng,param_2,*(undefined4 *)(param_1 + 4),uVar2,0);
+     && (dword_104DFD98_as_s32 != 0)) {
+    iVar1 = orig::FUN_101c49a0(g_pFileMng_as_v1,param_2,*(undefined4 *)(param_1 + 4),uVar2,0);
     uVar2 = CONCAT31((int3)((uint)iVar1 >> 8),1);
     if (-1 < iVar1) {
       return uVar2;
@@ -252,8 +252,8 @@ XI_API undefined4 __cdecl fn_101D1180(int param_1, undefined4 param_2)
   
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
-     && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::FUN_101c4950(g_pFileMng,param_2,*(undefined4 *)(param_1 + 4),uVar2,0);
+     && (dword_104DFD98_as_s32 != 0)) {
+    iVar1 = orig::FUN_101c4950(g_pFileMng_as_v1,param_2,*(undefined4 *)(param_1 + 4),uVar2,0);
     uVar2 = CONCAT31((int3)((uint)iVar1 >> 8),1);
     if (-1 < iVar1) {
       return uVar2;
@@ -273,7 +273,7 @@ XI_API void __cdecl YkInit(void)
   
   orig::YkCommonInit();
   if (dword_10663888_as_v0 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0xa54);
+    uVar3 = orig::Allocator_Generic_v1(0xa54);
     if ((void *)uVar3 == (void *)0x0) {
       dword_10663888_as_v0 = (void *)0x0;
     }
@@ -282,7 +282,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663648 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x178);
+    uVar3 = orig::Allocator_Generic_v1(0x178);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663648 = (void *)0x0;
     }
@@ -291,7 +291,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663520 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x7c);
+    uVar3 = orig::Allocator_Generic_v1(0x7c);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663520 = (void *)0x0;
     }
@@ -300,7 +300,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663524 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x898);
+    uVar3 = orig::Allocator_Generic_v1(0x898);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663524 = (void *)0x0;
     }
@@ -309,7 +309,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663684 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0xac);
+    uVar3 = orig::Allocator_Generic_v1(0xac);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663684 = (void *)0x0;
     }
@@ -318,7 +318,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663494 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x5c);
+    uVar3 = orig::Allocator_Generic_v1(0x5c);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663494 = (void *)0x0;
     }
@@ -327,7 +327,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664494 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x928);
+    uVar3 = orig::Allocator_Generic_v1(0x928);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10664494 = (void *)0x0;
     }
@@ -336,7 +336,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663acc == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x7c);
+    uVar3 = orig::Allocator_Generic_v1(0x7c);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10663acc = (undefined4 *)0x0;
@@ -356,7 +356,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663ab8 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x210);
+    uVar3 = orig::Allocator_Generic_v1(0x210);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663ab8 = (void *)0x0;
     }
@@ -365,7 +365,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664520 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x44);
+    uVar3 = orig::Allocator_Generic_v1(0x44);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10664520 = (void *)0x0;
     }
@@ -374,7 +374,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664524 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x44);
+    uVar3 = orig::Allocator_Generic_v1(0x44);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10664524 = (void *)0x0;
     }
@@ -385,7 +385,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664404 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x3c);
+    uVar3 = orig::Allocator_Generic_v1(0x3c);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10664404 = (undefined4 *)0x0;
@@ -402,7 +402,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_106634ac == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x78);
+    uVar3 = orig::Allocator_Generic_v1(0x78);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_106634ac = (void *)0x0;
     }
@@ -411,7 +411,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663468 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x74);
+    uVar3 = orig::Allocator_Generic_v1(0x74);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663468 = (void *)0x0;
     }
@@ -420,7 +420,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663740 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x9c);
+    uVar3 = orig::Allocator_Generic_v1(0x9c);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663740 = (void *)0x0;
     }
@@ -429,7 +429,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664508 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x58);
+    uVar3 = orig::Allocator_Generic_v1(0x58);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10664508 = (void *)0x0;
     }
@@ -438,7 +438,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663480 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663480 = (void *)0x0;
     }
@@ -447,7 +447,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_106636ac == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x24);
+    uVar3 = orig::Allocator_Generic_v1(0x24);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_106636ac = (void *)0x0;
     }
@@ -456,7 +456,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663400 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x24);
+    uVar3 = orig::Allocator_Generic_v1(0x24);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663400 = (void *)0x0;
     }
@@ -465,7 +465,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664444 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(100);
+    uVar3 = orig::Allocator_Generic_v1(100);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10664444 = (void *)0x0;
     }
@@ -474,7 +474,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066369c == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x5c);
+    uVar3 = orig::Allocator_Generic_v1(0x5c);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_1066369c = (void *)0x0;
     }
@@ -483,7 +483,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066349c == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0xa0);
+    uVar3 = orig::Allocator_Generic_v1(0xa0);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_1066349c = (void *)0x0;
     }
@@ -492,7 +492,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066442c == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x30);
+    uVar3 = orig::Allocator_Generic_v1(0x30);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_1066442c = (void *)0x0;
     }
@@ -501,7 +501,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066443c == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x88);
+    uVar3 = orig::Allocator_Generic_v1(0x88);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_1066443c = (void *)0x0;
     }
@@ -510,7 +510,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663aac == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x118);
+    uVar3 = orig::Allocator_Generic_v1(0x118);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663aac = (void *)0x0;
     }
@@ -519,7 +519,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663698 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10663698 = (undefined4 *)0x0;
@@ -534,7 +534,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663784 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x18);
+    uVar3 = orig::Allocator_Generic_v1(0x18);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663784 = (void *)0x0;
     }
@@ -543,7 +543,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10663788 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x18);
+    uVar3 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10663788 = (undefined4 *)0x0;
@@ -558,7 +558,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066378c == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x18);
+    uVar3 = orig::Allocator_Generic_v1(0x18);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_1066378c = (undefined4 *)0x0;
@@ -573,7 +573,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664408 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10664408 = (undefined4 *)0x0;
@@ -588,7 +588,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066440c == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_1066440c = (undefined4 *)0x0;
@@ -603,7 +603,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664410 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10664410 = (undefined4 *)0x0;
@@ -618,7 +618,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664414 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10664414 = (undefined4 *)0x0;
@@ -633,7 +633,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664418 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_10664418 = (undefined4 *)0x0;
@@ -648,7 +648,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_1066441c == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_1066441c = (undefined4 *)0x0;
@@ -663,7 +663,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664420 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x10);
+    uVar3 = orig::Allocator_Generic_v1(0x10);
     DAT_10664420 = (undefined4 *)uVar3;
     if (DAT_10664420 == (undefined4 *)0x0) {
       DAT_10664420 = (undefined4 *)0x0;
@@ -677,7 +677,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664428 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0xc);
+    uVar3 = orig::Allocator_Generic_v1(0xc);
     DAT_10664428 = (undefined4 *)uVar3;
     if (DAT_10664428 == (undefined4 *)0x0) {
       DAT_10664428 = (undefined4 *)0x0;
@@ -689,7 +689,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_10664424 == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0xc);
+    uVar3 = orig::Allocator_Generic_v1(0xc);
     DAT_10664424 = (undefined4 *)uVar3;
     if (DAT_10664424 == (undefined4 *)0x0) {
       DAT_10664424 = (undefined4 *)0x0;
@@ -702,7 +702,7 @@ XI_API void __cdecl YkInit(void)
   }
   orig::FUN_102017a0();
   if (DAT_10663180 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x68);
+    uVar3 = orig::Allocator_Generic_v1(0x68);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663180 = (void *)0x0;
     }
@@ -714,7 +714,7 @@ XI_API void __cdecl YkInit(void)
   iVar2 = orig::FUN_1025b560(0x21);
   orig::FUN_101c8380(DAT_10663180,iVar2);
   if (DAT_10663184 == (void *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x68);
+    uVar3 = orig::Allocator_Generic_v1(0x68);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663184 = (void *)0x0;
     }
@@ -725,7 +725,7 @@ XI_API void __cdecl YkInit(void)
   orig::FUN_101c8290(DAT_10663184,0x10);
   orig::FUN_101c8380(DAT_10663184,0xd8b1);
   if (DAT_106634bc == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 == (undefined4 *)0x0) {
       DAT_106634bc = (undefined4 *)0x0;
@@ -740,7 +740,7 @@ XI_API void __cdecl YkInit(void)
     }
   }
   if (DAT_106634cc == (undefined4 *)0x0) {
-    uVar3 = orig::Allocator_Generic(0x14);
+    uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 != (undefined4 *)0x0) {
       orig::FUN_10126320(puVar1 + 1);

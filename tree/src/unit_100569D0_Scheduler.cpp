@@ -19,10 +19,10 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
   void *pvVar2;
   undefined8 uVar3;
   
-  uVar3 = orig::Mem_AllocFromArea(0x14a,4);
+  uVar3 = orig::Mem_AllocFromArea_v1(0x14a,4);
   pvVar2 = (void *)uVar3;
-  orig::CMoTask_ResetFields(pvVar2);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(pvVar2);
+  g_resourcesDirty_as_v0 = 1;
   if (pvVar2 == (void *)0x0) {
     pvVar2 = (void *)0x0;
   }
@@ -40,10 +40,10 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
   }
   *(undefined4 *)((int)pvVar2 + 0x1c) = 0x4d730000;
   if (param_1 != 0) {
-    orig::FUN_10062830_v1(pvVar2,param_1);
+    orig::FUN_10062830(pvVar2,param_1);
   }
   if (param_2 != 0) {
-    orig::FUN_10062880_v1(pvVar2,param_2);
+    orig::FUN_10062880(pvVar2,param_2);
   }
   *(undefined4 *)((int)pvVar2 + 0x94) = 0;
   *(undefined4 *)((int)pvVar2 + 0x98) = 0;

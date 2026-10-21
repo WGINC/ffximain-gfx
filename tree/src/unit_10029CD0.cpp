@@ -13,10 +13,10 @@ XI_API void __thiscall CYyModelDtBase_Destructor(void * self_)
   *(undefined ***)self_ = &PTR_CYyModelDt_GetRuntimeClass_1032a6e0;
   if (*(undefined4 **)((int)self_ + 8) != (undefined4 *)0x0) {
     local_4 = self_;
-    orig::CMoResource_ReleaseChain((void *)**(undefined4 **)((int)self_ + 8));
+    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self_ + 8));
   }
   local_4 = *(void **)((int)self_ + 8);
-  orig::ResHandle_FreeIfUnreferenced(&local_4);
+  orig::ResHandle_FreeIfUnreferenced_v1(&local_4);
   this_00 = *(int **)((int)self_ + 4);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);

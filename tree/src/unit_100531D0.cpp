@@ -16,7 +16,7 @@ XI_API void __thiscall SharedConditionalStateReset(void * self_)
   if (((*(byte *)((int)self_ + 0xdc) & 1) != 0) || ((*(uint *)((int)self_ + 0xd8) & 0x800) != 0)) {
     uVar1 = orig::FUN_100539e0(self_);
     if ((char)uVar1 != '\0') {
-      orig::YmGenerater_Stop(self_,(undefined4 *)0x0);
+      orig::YmGenerater_Stop_v1(self_,(undefined4 *)0x0);
       uVar2 = (*(byte *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint *)((int)self_ + 0x34) & 0xf);
       if ((uVar2 != 0x14) && (((uVar2 != 0 && (uVar2 < 0xe)) || (0xf < uVar2)))) {
         uVar1 = 0;
@@ -46,15 +46,15 @@ XI_API void __thiscall SharedConditionalStateReset(void * self_)
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
     *(undefined4 *)((int)self_ + 0xa8) = 0;
   }
-  uVar4 = orig::Mem_AllocFromArea(0x3d,4);
+  uVar4 = orig::Mem_AllocFromArea_v1(0x3d,4);
   puVar5 = (undefined4 *)uVar4;
-  orig::CMoTask_ResetFields(puVar5);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(puVar5);
+  g_resourcesDirty_as_v0 = 1;
   if (puVar5 == (undefined4 *)0x0) {
     puVar5 = (undefined4 *)0x0;
   }
   else {
-    orig::CMoTask_Constructor(puVar5);
+    orig::CMoTask_Constructor_v1(puVar5);
     *puVar5 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
     *(undefined1 *)(puVar5 + 0xf) = 0;
   }
@@ -63,10 +63,10 @@ XI_API void __thiscall SharedConditionalStateReset(void * self_)
   puVar5[0xe] = *(undefined4 *)((int)self_ + 0x14);
   puVar5[6] = *(undefined4 *)((int)self_ + 0x14);
   puVar5[7] = 0x4d670000;
-  orig::FUN_10053e60_v1(self_);
+  orig::FUN_10053e60(self_);
   uVar2 = (*(byte *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint *)((int)self_ + 0x34) & 0xf);
   if ((uVar2 != 0x14) && (((uVar2 != 0 && (uVar2 < 0xe)) || (0xf < uVar2)))) {
-    orig::CMoTask_RegisterWithMng(9);
+    orig::CMoTask_RegisterWithMng_v1(9);
     return;
   }
   orig::FUN_10074a00();

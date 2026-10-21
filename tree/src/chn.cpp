@@ -35,7 +35,7 @@ XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
   uVar2 = orig::FUN_102960a0(param_2,0);
   fVar4 = orig::FUN_10284f20(param_2);
   *(float *)(uVar2 + 0x24) = (float)fVar4;
-  orig::_strncpy((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
+  orig::_strncpy_v1((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
   param_1[0x29] = *(uint *)(uVar2 + 0x20);
   fVar4 = orig::FUN_1028d990(uVar2);
   param_1[0x2a] = xi_castbits<uint>((float)fVar4);

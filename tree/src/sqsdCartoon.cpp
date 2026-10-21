@@ -13,15 +13,15 @@ XI_API void __cdecl fn_102997A0(int param_1, int * param_2)
   }
   orig::FUN_102a34d0(param_1 + 0x14);
   orig::FUN_10298c50(*(int *)(param_1 + 0x50));
-  orig::sqgxContext_SelectShaderMode(0x10000,0);
-  orig::sqDrawableDraw(*param_2);
-  orig::sqgxPassAdd(2);
+  orig::sqgxShader_v1(0x10000,0);
+  orig::sqDrawableDraw_v1(*param_2);
+  orig::sqgxPassAdd_v1(2);
   orig::sqgxBlendSub();
   orig::FUN_10298c50(*(int *)(param_1 + 0x4c));
-  orig::sqgxContext_SelectShaderMode(0x800000,0);
-  orig::sqDrawableDraw(*param_2);
-  orig::sqgxPassAdd(-2);
-  orig::sqgxBlendOff();
+  orig::sqgxShader_v1(0x800000,0);
+  orig::sqDrawableDraw_v1(*param_2);
+  orig::sqgxPassAdd_v1(-2);
+  orig::sqgxBlendOff_v1();
   return;
 }
 
@@ -29,6 +29,6 @@ XI_API void __cdecl fn_102997A0(int param_1, int * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqsdCartoon_BakeOntoShape_Stub(void)
 {
-  orig::sqDebugPrintf(s_warning_not_implemented_yet_103bc04c);
+  orig::sqDebugPrintf_v1(s_warning_not_implemented_yet_103bc04c);
   return 0;
 }

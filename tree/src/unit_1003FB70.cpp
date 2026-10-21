@@ -36,7 +36,7 @@ XI_API int __thiscall fn_1003FCF0(void * self_)
   bVar1 = *(byte *)((int)self_ + 0x30) & 0xf;
   if (4 < bVar1) {
     if (bVar1 < 7) {
-      iVar2 = orig::FUN_1003fce0_v1(self_);
+      iVar2 = orig::FUN_1003fce0(self_);
       uVar3 = (uint)*(byte *)((int)self_ + 0x35) + (uint)*(byte *)((int)self_ + 0x34);
       if ((uVar3 & 3) != 0) {
         return iVar2 + 6 + (uVar3 - (uVar3 & 3)) * 2;
@@ -44,7 +44,7 @@ XI_API int __thiscall fn_1003FCF0(void * self_)
       return iVar2 + uVar3 * 2;
     }
     if (bVar1 == 7) {
-      iVar2 = orig::FUN_1003fce0_v1(self_);
+      iVar2 = orig::FUN_1003fce0(self_);
       if (*(byte *)((int)self_ + 0x34) == 0) {
         return iVar2;
       }
@@ -67,7 +67,7 @@ XI_API int __thiscall MoElem_GetVertexData(void * self_)
   
   bVar1 = *(byte *)((int)self_ + 0x30) & 0xf;
   if ((4 < bVar1) && (bVar1 < 8)) {
-    iVar2 = orig::FUN_1003fcf0_v1(self_);
+    iVar2 = orig::FUN_1003fcf0(self_);
     return iVar2 + (uint)*(byte *)((int)self_ + 0x34) * 0x10;
   }
   return (int)self_ + 0x80;
@@ -93,7 +93,7 @@ XI_API void __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2
   undefined4 *puVar11;
   undefined4 local_8;
   
-  iVar1 = orig::FUN_1003fcf0_v1(self_);
+  iVar1 = orig::FUN_1003fcf0(self_);
   if (*(int *)(iVar1 + 4) != 0) {
     if (*(char *)(param_2 + 0x16c) == 'D') {
       uVar2 = *param_1;
@@ -131,7 +131,7 @@ XI_API void __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2
       uVar10 = 0;
       uVar9 = 4;
       uVar8 = 0;
-      iVar1 = orig::FUN_1003fcf0_v1(self_);
+      iVar1 = orig::FUN_1003fcf0(self_);
       orig::VertexBatch_BindAndDraw_v1(*(void **)(iVar1 + 4),uVar8,uVar2,uVar9,uVar10,xi_s5);
       return;
     }
@@ -168,8 +168,8 @@ XI_API void __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2
       *(int *)(g_pProcessor_as_s32 + 0xa90) = iVar4;
       *(undefined4 **)(iVar1 + 0xa10 + iVar4 * 4) = puVar11;
     }
-    iVar1 = orig::FUN_1003fce0_v1(self_);
-    this_00 = (void *)orig::FUN_1003fcf0_v1(self_);
+    iVar1 = orig::FUN_1003fce0(self_);
+    this_00 = (void *)orig::FUN_1003fcf0(self_);
     if (*(char *)(param_2 + 0x16c) == 'I') {
       if ((Fn10040220_staticGuards & 0x10) == 0) {
         Fn10040220_staticGuards = Fn10040220_staticGuards | 0x10;
@@ -194,7 +194,7 @@ XI_API void __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2
         uVar2 = (uint)*(ushort *)(iVar1 + iVar5 * 2);
         uVar8 = 4;
         iVar7 = iVar4;
-        iVar3 = orig::FUN_1003fcf0_v1(self_);
+        iVar3 = orig::FUN_1003fcf0(self_);
         orig::VertexBatch_BindAndDraw_v1(*(void **)(iVar3 + 4),iVar7,uVar2,uVar8,uVar9,uVar10);
         this_00 = (void *)((int)this_00 + 0x10);
         iVar7 = iVar5 * 2;
@@ -213,7 +213,7 @@ XI_API void __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2
       uVar9 = 0;
       uVar8 = 4;
       iVar5 = (uint)*(ushort *)((int)self_ + 0x36) - iVar4 / 3;
-      iVar1 = orig::FUN_1003fcf0_v1(self_);
+      iVar1 = orig::FUN_1003fcf0(self_);
       orig::VertexBatch_BindAndDraw_v1(*(void **)(iVar1 + 4),iVar4,iVar5,uVar8,uVar9,uVar10);
     }
     if ((*(byte *)(param_2 + 0x17b) & 3) != 0) {
@@ -242,12 +242,12 @@ XI_API void __thiscall fn_10040BA0(void * self_)
       iVar1 = **(int **)((int)self_ + 0xfc);
     }
     if ((*(char *)(iVar1 + 0xde) < '\0') &&
-       (fVar3 = orig::FUN_10002d80_v1(), bVar2 = NAN(fVar3) || NAN((float10)xi_k4(0x0ull)),
+       (fVar3 = orig::FUN_10002d80(), bVar2 = NAN(fVar3) || NAN((float10)xi_k4(0x0ull)),
        bVar2 != (bVar2 || fVar3 == (float10)xi_k4(0x0ull)))) {
       return;
     }
     if (*(char *)((int)self_ + 0x179) != '\0') {
-      orig::CMoElemFamily_SharedEarlyExit(self_);
+      orig::CMoElemFamily_SharedEarlyExit_v1(self_);
       return;
     }
     if (*(undefined4 **)((int)self_ + 0x104) != (undefined4 *)0x0) {

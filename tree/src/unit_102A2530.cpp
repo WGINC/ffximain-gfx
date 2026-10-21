@@ -37,16 +37,16 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
     v3 = (int *)(*(_DWORD *)(a1 + 64) + 48 * a2);
     v4 = *(float **)(*(_DWORD *)(a1 + 36) + 12 * *v3);
     orig::sqsnScene_1028F5F0(a1, *v3, 1);
-    orig::sqgxTextureSet_v1(-1);
+    orig::sqgxTextureSet(-1);
     *(float *)&v23 = 1.0 - v4[7];
     *(float *)&v22 = 1.0 - v4[6];
     v21 = 1.0 - v4[5];
     orig::PackVec4((int)v24, v21, v22, v23, 1065353216);
-    orig::sqgxAmbient_v1(1.0);
+    orig::sqgxAmbient(1.0);
     orig::sqgxBlendMul();
     orig::sqgxColor(v24);
-    orig::sqgxPassAdd_v1(4);
-    orig::sqgxSetZWrite_v1(0);
+    orig::sqgxPassAdd(4);
+    orig::sqgxZMask(0);
     orig::sqgxZTest(0);
     v6 = *(float *)(a1 + 56);
     (xi_fpu_unord = __builtin_isunordered(v6, 0.9999), v7 = v6 < 0.9999);
@@ -70,9 +70,9 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
       if ( v14 != 0 )
       {
         v26 = *v15;
-        orig::sqgxContext_SelectShaderMode_v1(0x80000000, 0);
-        orig::sqgxMatrixShape_v1(*(_DWORD **)(*(_DWORD *)(*(_DWORD *)(a1 + 72) + v12 + 40) + v11 + 4));
-        orig::sqDrawableDraw_v1(v26);
+        orig::sqgxShader(0x80000000, 0);
+        orig::sqgxMatrixShape(*(_DWORD **)(*(_DWORD *)(*(_DWORD *)(a1 + 72) + v12 + 40) + v11 + 4));
+        orig::sqDrawableDraw(v26);
         v10 = i;
       }
       ++v10;
@@ -86,9 +86,9 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
     else
       g_pDancerDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
     orig::sqgxAlphaDstTest(0, 0);
-    orig::sqgxPassAdd_v1(-4);
-    orig::sqgxBlendOff_v1();
-    orig::sqgxSetZWrite_v1(1);
+    orig::sqgxPassAdd(-4);
+    orig::sqgxBlendOff();
+    orig::sqgxZMask(1);
     orig::sqgxZTest(1);
   }
 }
@@ -126,7 +126,7 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
   local_4 = 0x3f800000;
   iVar2 = *(int *)(g_pSqgxContext_as_s32 + 0x89c);
   if (DAT_103bd524 == -1) {
-    DAT_103bd524 = orig::sqgxTextureAdd(*(int *)(param_1 + 0x30),*(int *)(param_1 + 0x30),4,0);
+    DAT_103bd524 = orig::sqgxTextureAdd_v1(*(int *)(param_1 + 0x30),*(int *)(param_1 + 0x30),4,0);
   }
   piVar5[3] = DAT_103bd524;
   orig::sqgxColor_v1(&local_20);
@@ -134,9 +134,9 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
   orig::sqgxTextureClear_v1(&local_10,0);
   iVar6 = *(int *)(*(int *)(param_1 + 0x18) + *(int *)(param_1 + 0x1c) * 0xc);
   orig::sqgxPerspective(*(float *)(iVar4 + 0x24),*(float *)(iVar6 + 0x18),*(float *)(iVar6 + 0x1c));
-  orig::sqgxMatrixCamera(*(undefined4 **)(iVar1 * 0xc + 4 + *(int *)(param_1 + 0x24)));
-  orig::sqgxContext_SelectShaderMode(0,0);
-  orig::sqgxSetZWrite(0);
+  orig::sqgxMatrixCamera_v1(*(undefined4 **)(iVar1 * 0xc + 4 + *(int *)(param_1 + 0x24)));
+  orig::sqgxShader_v1(0,0);
+  orig::sqgxZMask_v1(0);
   orig::sqgxZTest_v1(0);
   param_2 = 0;
   if (0 < piVar5[1]) {
@@ -146,15 +146,15 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
       iVar6 = ((int)uVar3 >> 0x10) * 0x2c;
       iVar1 = *(int *)(*(int *)(param_1 + 0x48) + 0x28 + iVar6);
       if (*(char *)(iVar1 + 0x1d + iVar4) != '\0') {
-        orig::sqgxMatrixShape(*(undefined4 **)(iVar1 + iVar4 + 4));
+        orig::sqgxMatrixShape_v1(*(undefined4 **)(iVar1 + iVar4 + 4));
         orig::sqgxColor_v1(&local_20);
         orig::sqgxColorUpdate_v1();
-        orig::sqDrawableDraw(*(int *)(*(int *)(*(int *)(param_1 + 0x48) + 0x28 + iVar6) + iVar4));
+        orig::sqDrawableDraw_v1(*(int *)(*(int *)(*(int *)(param_1 + 0x48) + 0x28 + iVar6) + iVar4));
       }
       param_2 = param_2 + 1;
     } while (param_2 < piVar5[1]);
   }
-  orig::sqgxSetZWrite(1);
+  orig::sqgxZMask_v1(1);
   orig::sqgxZTest_v1(1);
   orig::sqgxTextureDraw_v1(iVar2,1);
   return;
@@ -164,7 +164,7 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A2A30(int param_1, int param_2)
 {
-  orig::sqgxTextureSet(*(int *)(*(int *)(param_1 + 0x40) + 0xc + param_2 * 0x30));
+  orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x40) + 0xc + param_2 * 0x30));
   return;
 }
 
@@ -186,7 +186,7 @@ XI_API void __cdecl fn_102A2A50(undefined4 param_1, int param_2, int param_3)
       piVar2 = piVar2 + 1;
     } while (iVar1 < *(int *)(param_3 + 0x44));
   }
-  orig::sqDebugPrintf(s_ERROR__shadow_group_does_not_cas_103bd604);
+  orig::sqDebugPrintf_v1(s_ERROR__shadow_group_does_not_cas_103bd604);
   return;
 }
 
@@ -205,16 +205,16 @@ XI_API void __cdecl fn_102A2C00(int param_1, int * param_2, int param_3, int par
     orig::FUN_102a2a30(param_1,param_3);
   }
   orig::sqgxBlendZeroSrcAlpha();
-  orig::sqgxPassAdd(0x14);
-  orig::sqgxSetZWrite(0);
-  orig::sqgxMatrixShape((undefined4 *)param_2[1]);
+  orig::sqgxPassAdd_v1(0x14);
+  orig::sqgxZMask_v1(0);
+  orig::sqgxMatrixShape_v1((undefined4 *)param_2[1]);
   orig::FUN_102972d0(*(float *)(*(int *)(*(int *)(param_1 + 0x24) + *(int *)(iVar1 + param_3 * 0x30) * 0xc
                                   ) + 0x24));
-  orig::sqgxContext_SelectShaderMode(0x20000000,0);
-  orig::sqDrawableDraw(*param_2);
-  orig::sqgxTextureSet(-1);
-  orig::sqgxBlendOff();
-  orig::sqgxPassAdd(-0x14);
-  orig::sqgxSetZWrite(1);
+  orig::sqgxShader_v1(0x20000000,0);
+  orig::sqDrawableDraw_v1(*param_2);
+  orig::sqgxTextureSet_v1(-1);
+  orig::sqgxBlendOff_v1();
+  orig::sqgxPassAdd_v1(-0x14);
+  orig::sqgxZMask_v1(1);
   return;
 }

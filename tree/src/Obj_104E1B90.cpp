@@ -19,12 +19,12 @@ int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5
   g_textCursorX = a1;
   a6 = a3;
   g_textCursorY = a2;
-  orig::Gfx_SetAdditiveBlend_v1();
-  orig::Font_BindGlyphTexture_v1((int)self);
+  orig::Gfx_SetAdditiveBlend();
+  orig::Font_BindGlyphTexture((int)self);
   v11 = 0;
   while ( (a4 == 0 || v11 < a4) && *(_BYTE *)(v11 + a3) != 0 && *(_BYTE *)a6 != 0 )
   {
-    v11 += orig::Sjis_GetCharByteLen_v1((unsigned __int8 *)(v11 + a3));
+    v11 += orig::Sjis_GetCharByteLen((unsigned __int8 *)(v11 + a3));
     Char = orig::Font_DecodeNextChar((unsigned __int8 **)&a6);
     if ( Char == 135 )
     {

@@ -125,7 +125,7 @@ XI_API void __cdecl fn_102A9FB0(int param_1, int param_2)
     }
     *(undefined4 **)(param_1 + 0x54 + param_2 * 4) = puVar3;
     *(undefined4 *)(param_1 + 0x18 + param_2 * 4) = 1;
-    orig::sqFree(iVar1,s_C__dev_dancer_modules_sqBase_src_103be750,0x2a4);
+    orig::sqFree_v1(iVar1,s_C__dev_dancer_modules_sqBase_src_103be750,0x2a4);
   }
   return;
 }

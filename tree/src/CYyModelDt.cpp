@@ -100,7 +100,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                             v28,
                             &v32,
                             4096) != 0 )
-                    Sleep_as_v0(0);
+                    Sleep(0);
                 }
                 else
                 {
@@ -110,7 +110,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                             v28,
                             &v32,
                             0x2000) != 0 )
-                    Sleep_as_v0(0);
+                    Sleep(0);
                   g_stripVertexCursor = 0;
                 }
                 v36 = (unsigned __int16)orig::CYyModelDt_ExpandTriStrip(
@@ -119,7 +119,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                                           (unsigned __int16 *)(v7 + 4),
                                           v32);
                 while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7154 + 48))(g_vertexBuffer_7154) != 0 )
-                  Sleep_as_v0(0);
+                  Sleep(0);
                 orig::CYyModelDt_SetVertexShader(274);
                 (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource(
                   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
@@ -172,7 +172,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                            4096) != 0 )
                     {
                       do
-                        Sleep_as_v0(0);
+                        Sleep(0);
                       while ( (*(int (__stdcall **)(int, int, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7150 + 44))(
                                 g_vertexBuffer_7150,
                                 32 * g_lineVertexCursor,
@@ -191,7 +191,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                            0x2000) != 0 )
                     {
                       do
-                        Sleep_as_v0(0);
+                        Sleep(0);
                       while ( (*(int (__stdcall **)(int, _DWORD, int, _DWORD **, int))(*(_DWORD *)g_vertexBuffer_7150
                                                                                      + 44))(
                                 g_vertexBuffer_7150,
@@ -204,7 +204,7 @@ char CYyModelDt::PrepareRenderState(int a2, int arg4, int a3, int a5, int a6)
                   }
                   v35 = (unsigned __int16)orig::CYyModelDt_ExpandTriList(self_v, v23, (unsigned __int16 *)(v7 + 4), (int)v32);
                   while ( (*(int (__stdcall **)(int))(*(_DWORD *)g_vertexBuffer_7150 + 48))(g_vertexBuffer_7150) != 0 )
-                    Sleep_as_v0(0);
+                    Sleep(0);
                   orig::CYyModelDt_SetVertexShader(274);
                   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource(
                     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
@@ -410,7 +410,7 @@ char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6,
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   _BYTE *v7;
-  v7 = (_BYTE *)orig::ResourceHandle_Deref_v1(this->field_8);
+  v7 = (_BYTE *)orig::ResourceHandle_Deref(this->field_8);
   return orig::CYyModelDt_PrepareRenderState(v7, a2, a3, a4, a5, (int)self);
 }
 
@@ -420,7 +420,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
   void *v6;
-  v6 = (void *)orig::ResourceHandle_Deref_v1(this->field_8);
+  v6 = (void *)orig::ResourceHandle_Deref(this->field_8);
   return orig::CYyModelDt_PrepareRenderStateSimple(v6, a2, a3, a4, (int)self);
 }
 
@@ -431,7 +431,7 @@ __int16 CYyModelDt::GetElementCount()
   int v1;
   int v2;
   v1 = this->field_8;
-  if ( v1 != 0 && (v2 = orig::ResourceHandle_Deref_v1(v1)) != 0 )
+  if ( v1 != 0 && (v2 = orig::ResourceHandle_Deref(v1)) != 0 )
     return *(_WORD *)(v2 + 64);
   else
     return 0;
@@ -448,7 +448,7 @@ int CYyModelDt::MarkReferencedBones(int a2)
   v2 = this->field_8;
   if ( v2 == 0 )
     return 0;
-  v3 = orig::ResourceHandle_Deref_v1(v2);
+  v3 = orig::ResourceHandle_Deref(v2);
   if ( v3 == 0 )
     return 0;
   for ( i = 0;
@@ -484,7 +484,7 @@ void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 pa
 {
   void *this_00;
   
-  this_00 = (void *)orig::ResourceHandle_Deref(*(undefined4 **)((int)self + 8));
+  this_00 = (void *)orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 8));
   orig::CYyModelDt_SkinAndDrawV2(this_00,param_1,param_2,param_3,param_4,param_5,param_6);
   return;
 }
@@ -493,7 +493,7 @@ void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelDt::PrepareRenderStateV2SimpleEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
-  orig::ResourceHandle_Deref(*(undefined4 **)((int)self + 8));
+  orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 8));
   orig::FUN_10030bd0(param_1,param_2,param_3,param_4,param_5);
   return;
 }
@@ -540,7 +540,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
   v30 = v8;
   *a7 = 0;
   v32 = *(_WORD **)(self + 54);
-  dword_1045B618_as_s32 = **(_DWORD **)(self + 66);
+  dword_1045B618 = **(_DWORD **)(self + 66);
   v9 = 0;
   v29 = false;
   v10 = at<uint32_t>(this, 0x5E);
@@ -567,7 +567,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
               12 * *(_DWORD *)(v10 + 88),
               v10 + 142,
               0x2000) != 0 )
-      Sleep_as_v0(0);
+      Sleep(0);
     *(_DWORD *)(v10 + 146) = 0;
     while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 72) + 44))(
               *(_DWORD *)(v10 + 72),
@@ -575,19 +575,19 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
               12 * *(_DWORD *)(v10 + 88),
               v10 + 146,
               0x2000) != 0 )
-      Sleep_as_v0(0);
+      Sleep(0);
     if ( (this->field_34 & 1) != 0 )
     {
       if ( *(_DWORD *)(v10 + 80) == 0 || *(_DWORD *)(v10 + 84) == 0 )
       {
         while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 68) + 48))(*(_DWORD *)(v10 + 68)) != 0 )
-          Sleep_as_v0(0);
+          Sleep(0);
         while ( 1 )
         {
           v11 = (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 72) + 48))(*(_DWORD *)(v10 + 72));
           if ( v11 == 0 )
             break;
-          Sleep_as_v0(0);
+          Sleep(0);
         }
         return v11;
       }
@@ -597,7 +597,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
                 12 * *(_DWORD *)(v10 + 88),
                 v10 + 150,
                 0x2000) != 0 )
-        Sleep_as_v0(0);
+        Sleep(0);
       *(_DWORD *)(v10 + 154) = 0;
       while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 84) + 44))(
                 *(_DWORD *)(v10 + 84),
@@ -605,20 +605,20 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
                 12 * *(_DWORD *)(v10 + 88),
                 v10 + 154,
                 0x2000) != 0 )
-        Sleep_as_v0(0);
+        Sleep(0);
     }
     orig::Model_SkinVerticesCpu((char *)self);
     *(_BYTE *)(a3 + 184) = 1;
     while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 68) + 48))(*(_DWORD *)(v10 + 68)) != 0 )
-      Sleep_as_v0(0);
+      Sleep(0);
     while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 72) + 48))(*(_DWORD *)(v10 + 72)) != 0 )
-      Sleep_as_v0(0);
+      Sleep(0);
     if ( (this->field_34 & 1) != 0 )
     {
       while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 80) + 48))(*(_DWORD *)(v10 + 80)) != 0 )
-        Sleep_as_v0(0);
+        Sleep(0);
       while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 84) + 48))(*(_DWORD *)(v10 + 84)) != 0 )
-        Sleep_as_v0(0);
+        Sleep(0);
     }
   }
   a1 = 0;
@@ -701,7 +701,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
                 g_pCDx,
                 5,
                 0,
-                *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                 v9,
                 v26);
               ++g_modelDrawCallCount;
@@ -714,7 +714,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
                   g_pCDx,
                   5,
                   0,
-                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                   v9,
                   v26);
                 g_modelPrimitiveCount += v26;
@@ -736,7 +736,7 @@ LABEL_125:
                     g_pCDx,
                     5,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -748,7 +748,7 @@ LABEL_125:
                       g_pCDx,
                       5,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;
@@ -771,7 +771,7 @@ LABEL_125:
                     g_pCDx,
                     5,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -783,7 +783,7 @@ LABEL_125:
                       g_pCDx,
                       5,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;
@@ -806,7 +806,7 @@ LABEL_125:
                     g_pCDx,
                     5,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -818,7 +818,7 @@ LABEL_125:
                       g_pCDx,
                       5,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;
@@ -872,7 +872,7 @@ LABEL_125:
                   g_pCDx,
                   4,
                   0,
-                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                  *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                   v9,
                   v26);
                 g_modelPrimitiveCount += v26;
@@ -885,7 +885,7 @@ LABEL_125:
                     g_pCDx,
                     4,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     v9,
                     v26);
                   g_modelPrimitiveCount += v26;
@@ -911,7 +911,7 @@ LABEL_125:
                     g_pCDx,
                     4,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -923,7 +923,7 @@ LABEL_125:
                       g_pCDx,
                       4,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;
@@ -946,7 +946,7 @@ LABEL_125:
                     g_pCDx,
                     4,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -958,7 +958,7 @@ LABEL_125:
                       g_pCDx,
                       4,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;
@@ -981,7 +981,7 @@ LABEL_125:
                     g_pCDx,
                     4,
                     0,
-                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                    *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
@@ -993,7 +993,7 @@ LABEL_125:
                       g_pCDx,
                       4,
                       0,
-                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618_as_s32 + HIWORD(dword_1045B618_as_s32),
+                      *(_DWORD *)(v10 + 96) + (unsigned __int16)dword_1045B618 + HIWORD(dword_1045B618),
                       a4,
                       v26);
                     ++g_modelDrawCallCount;

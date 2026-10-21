@@ -17,15 +17,15 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
       param_1[4] = 0;
       param_1[5] = 0;
       if (uVar1 != 0) {
-        uVar1 = orig::sqFree(uVar1,s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc1);
+        uVar1 = orig::sqFree_v1(uVar1,s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc1);
         param_1[6] = uVar1;
       }
       if (param_1[7] != 0) {
-        uVar1 = orig::sqFree(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc5);
+        uVar1 = orig::sqFree_v1(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc5);
         param_1[7] = uVar1;
       }
       if (param_1[8] != 0) {
-        uVar1 = orig::sqFree(param_1[8],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc9);
+        uVar1 = orig::sqFree_v1(param_1[8],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xc9);
         param_1[8] = uVar1;
       }
     }
@@ -38,12 +38,12 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
     param_1[5] = 0;
     if (param_1[6] != 0) {
       orig::nullsub_13_v2(s_StModelItemClear_A___called_with_10389aa4,param_1[6]);
-      uVar1 = orig::sqFree(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xa9);
+      uVar1 = orig::sqFree_v1(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xa9);
       param_1[6] = uVar1;
     }
     if (param_1[7] != 0) {
       orig::nullsub_13_v2(s_StModelItemClear_A___called_with_10389a3c,param_1[7]);
-      uVar1 = orig::sqFree(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xae);
+      uVar1 = orig::sqFree_v1(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xae);
       param_1[7] = uVar1;
     }
     if (param_1[8] != 0) {

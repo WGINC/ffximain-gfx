@@ -226,12 +226,12 @@ XI_API undefined4 __thiscall fn_10167340(void * self_)
   undefined8 uVar10;
   
   iVar2 = orig::FUN_1025b560(0x14);
-  uVar3 = orig::FileMng_ResolveOrExit(g_pFileMng,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
   uVar5 = uVar3;
   if (-1 < (int)uVar3) {
-    uVar10 = orig::Allocator_Generic(uVar3);
+    uVar10 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (byte *)uVar10;
-    uVar5 = orig::FUN_101c4740(g_pFileMng,iVar2,pbVar4,uVar3,0);
+    uVar5 = orig::FUN_101c4740(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
     if (-1 < (int)uVar5) {
       pbVar6 = orig::FUN_10257830();
       pbVar8 = pbVar4;
@@ -335,13 +335,13 @@ XI_API void __thiscall fn_10167950(void * self_)
   undefined4 *puVar2;
   
   if (*(int *)((int)self_ + 0x14) != 0) {
-    orig::Mem_FreeObject(*(int *)((int)self_ + 0x14));
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x14));
   }
   if (*(int *)((int)self_ + 0x1c) != 0) {
-    orig::Mem_FreeObject(*(int *)((int)self_ + 0x1c));
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x1c));
   }
   if (*(int *)((int)self_ + 0x24) != 0) {
-    orig::Mem_FreeObject(*(int *)((int)self_ + 0x24));
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x24));
   }
   puVar2 = (undefined4 *)((int)self_ + 8);
   for (iVar1 = 0x1b; iVar1 != 0; iVar1 = iVar1 + -1) {
@@ -1800,12 +1800,12 @@ XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * 
             local_34 = iVar12;
           } while (iVar12 <= local_9c);
         }
-        uVar9 = orig::FUN_10193890_v1(6);
+        uVar9 = orig::FUN_10193890(6);
         if ((((char)uVar9 == '\0') && (g_C_106631D4 != 0)) && (uVar9 = orig::FUN_101d5fe0(), (char)uVar9 == '\0')) {
           uVar18 = orig::FUN_10085240();
           this_00 = (void *)uVar18;
           while (uVar9 = 0, this_00 != (void *)0x0) {
-            uVar18 = orig::CYyObject_IsKindOf(this_00,0x10330684);
+            uVar18 = orig::CYyObject_IsKindOf_v1(this_00,0x10330684);
             if ((((char)uVar18 != '\0') && (this_00 != (void *)0x0)) &&
                ((iVar12 = orig::FUN_100c4bc0(this_00,local_20,local_10), iVar12 != 0 &&
                 (uVar9 = orig::FUN_1016c5d0(self_,&local_bc,iVar12,local_20,local_10,param_1,param_2,
@@ -2389,7 +2389,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
         this_01 = local_d4;
         this_00 = (void *)uVar19;
         while (this_00 != (void *)0x0) {
-          uVar19 = orig::CYyObject_IsKindOf(this_00,0x10330684);
+          uVar19 = orig::CYyObject_IsKindOf_v1(this_00,0x10330684);
           if ((((char)uVar19 != '\0') && (this_00 != (void *)0x0)) &&
              ((iVar11 = orig::FUN_100c4bc0(this_00,&local_38,local_10),
               bVar16 = NAN((float10)local_34) || NAN((float10)xi_k4(0xBDCCCCCDull)),
@@ -2805,7 +2805,7 @@ LABEL_18:
     v20[53] = 0;
   else
     *((float *)v20 + 53) = sqrt(v34) * 0.5;
-  v35 = orig::Mem_AllocObject_v1(36 * v29, 4);
+  v35 = orig::Mem_AllocObject(36 * v29, 4);
   v20[24] = v35;
   v119 = v35;
   if ( *((_DWORD *)g_pZoneMap + 58662) != 0 && a5 != 0 )
@@ -2858,7 +2858,7 @@ LABEL_18:
       v121 = (int *)(v40 + v20[1]);
       v41 = *v121;
       *v119 = *v121;
-      v42 = orig::Mem_AllocObject_v1(192 * v41, 4);
+      v42 = orig::Mem_AllocObject(192 * v41, 4);
       v119[1] = (int)v42;
       qmemcpy(v119 + 2, v121 + 1, 0x18u);
       v43 = v42;
@@ -3304,7 +3304,7 @@ XI_API void __thiscall fn_10170CD0(void * self_, undefined4 * param_1)
               piVar5 = piVar5 + 0x30;
             } while (local_10 < *piVar4);
           }
-          orig::Mem_FreeObject(piVar4[1]);
+          orig::Mem_FreeObject_v1(piVar4[1]);
           piVar4[1] = 0;
         }
         local_c = local_c + 1;
@@ -3312,10 +3312,10 @@ XI_API void __thiscall fn_10170CD0(void * self_, undefined4 * param_1)
       } while (local_c < (int)local_8[0x11]);
     }
     if (local_8[0x18] != 0) {
-      orig::Mem_FreeObject(local_8[0x18]);
+      orig::Mem_FreeObject_v1(local_8[0x18]);
       local_8[0x18] = 0;
     }
-    orig::Mem_FreeObject(local_8);
+    orig::Mem_FreeObject_v1(local_8);
   } while (param_1 == (undefined4 *)0x0);
   if (puVar2 == (undefined4 *)0x0) {
     *(undefined4 **)((int)self_ + 4) = puVar1;
@@ -3381,9 +3381,9 @@ XI_API void * __thiscall fn_101718E0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10174770(void * self_)
 {
-  g_dbgBoxList = 0;
+  g_dbgBoxList_as_v0 = 0;
   DAT_10621a0c = 0;
-  dword_10621A10 = 0;
+  dword_10621A10_as_v0 = 0;
   *(undefined4 *)((int)self_ + 0xc) = 0;
   *(undefined4 *)((int)self_ + 0x10) = 0;
   *(undefined4 *)((int)self_ + 4) = 0;
@@ -3608,14 +3608,14 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
   g_upVerts_1AB8_v5_diffuse = -2147418368;
   g_upVerts_1AB8_v6_diffuse = -2147418368;
   g_upVerts_1AB8_v7_diffuse = -2147418368;
-  result = dword_10621A10_as_s32;
+  result = dword_10621A10;
   g_upVerts_1AB8_v6_z = -1090519040;
   v13 = 1056964608;
   v14 = -1090519040;
   g_upVerts_1AB8_v7_x = -1090519040;
   g_upVerts_1AB8_v7_y = 1056964608;
   g_upVerts_1AB8_v7_z = -1090519040;
-  if ( dword_10621A10_as_s32 != 0 )
+  if ( dword_10621A10 != 0 )
   {
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
@@ -3628,7 +3628,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
     result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
-    for ( i = (_DWORD *)g_dbgBoxList_as_s32; i != nullptr; i = (_DWORD *)*i )
+    for ( i = (_DWORD *)g_dbgBoxList; i != nullptr; i = (_DWORD *)*i )
     {
       result = i[2];
       v2 = (_DWORD *)(i[1] + 64);
@@ -3700,7 +3700,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
         while ( v16 < v7 );
       }
     }
-    for ( j = (_DWORD *)g_dbgBoxList_as_s32; j != nullptr; j = (_DWORD *)*j )
+    for ( j = (_DWORD *)g_dbgBoxList; j != nullptr; j = (_DWORD *)*j )
     {
       result = j[3];
       v9 = (int *)(j[1] + 64);
@@ -3716,7 +3716,7 @@ XI_API int __cdecl Dbg_DrawOrientedBoxes(void)
             v13 = v9[1];
             v14 = v9[2];
             v15 = 1065353216;
-            orig::Actor_DrawWorldText_v1(&v12, v11, 1.0, 0x80808000, -2139062144);
+            orig::Actor_DrawWorldText(&v12, v11, 1.0, 0x80808000, -2139062144);
           }
           result = j[4];
           ++v10;

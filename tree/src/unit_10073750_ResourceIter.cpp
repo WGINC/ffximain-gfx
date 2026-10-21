@@ -60,11 +60,11 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
         else {
           pvVar1 = (void *)**(undefined4 **)((int)this_00 + 8);
         }
-        orig::CMoResource_Destroy(this_00);
+        orig::CMoResource_Destroy_v1(this_00);
         this_00 = pvVar1;
       }
     }
-    param_1 = (int *)orig::CMoResource_Destroy(self_);
+    param_1 = (int *)orig::CMoResource_Destroy_v1(self_);
   }
   return param_1;
 }
@@ -158,7 +158,7 @@ XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
       this_00 = (void *)**(undefined4 **)((int)this_00 + 0x10);
     }
   }
-  uVar3 = orig::MoRes_FreeIfUnreferenced(piVar1);
+  uVar3 = orig::MoRes_FreeIfUnreferenced_v1(piVar1);
   return CONCAT31((int3)((uint)uVar3 >> 8),1);
 }
 

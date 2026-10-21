@@ -184,15 +184,15 @@ XI_API int * __cdecl fn_10083750(float * param_1, uint32_t param_2, uint32_t par
   float  &fStack_4c = *reinterpret_cast<float  *>(xi_frame + 48);
   undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 60);
   
-  iVar2 = orig::Camera_GetField50();
+  iVar2 = orig::Camera_GetField50_v1();
   if (iVar2 != 0) {
-    iVar2 = orig::Camera_GetField50();
-    orig::Vec3_Copy(local_6c,(undefined4 *)(iVar2 + 0x44));
+    iVar2 = orig::Camera_GetField50_v1();
+    orig::Vec3_Copy_v1(local_6c,(undefined4 *)(iVar2 + 0x44));
     orig::fn_10027990_v1(local_40);
     puVar3 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-    orig::Mat4_Copy(local_40,puVar3);
+    orig::Mat4_Copy_v1(local_40,puVar3);
     iVar2 = orig::Camera_GetMatrix154Ptr_v1();
-    orig::Mat4_PostMultiply(local_40,iVar2);
+    orig::Mat4_PostMultiply_v1(local_40,iVar2);
     local_74 = (int *)0x0;
     local_7c = xi_k4(0x4E6E6B28ull);
     local_70 = orig::FUN_101cc510();
@@ -267,7 +267,7 @@ XI_API int * __cdecl fn_10083B40(int * param_1, uint32_t param_2, float param_3)
   fVar2 = param_3;
   orig::fn_10027990_v1(local_40);
   puVar3 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-  orig::Mat4_Copy(local_40,puVar3);
+  orig::Mat4_Copy_v1(local_40,puVar3);
   pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
   orig::FUN_10028230(local_40,afStack_50,pfVar4);
   bVar7 = NAN((float10)fStack_48) || NAN((float10)xi_k4(0x0ull));
@@ -353,7 +353,7 @@ XI_API int * __cdecl fn_10083D00(int * param_1, uint32_t param_2, float param_3)
   fVar2 = param_3;
   orig::fn_10027990_v1(local_40);
   puVar3 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-  orig::Mat4_Copy(local_40,puVar3);
+  orig::Mat4_Copy_v1(local_40,puVar3);
   pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
   orig::FUN_10028230(local_40,afStack_50,pfVar4);
   bVar7 = NAN((float10)fStack_48) || NAN((float10)xi_k4(0x0ull));
@@ -464,7 +464,7 @@ XI_API int * __cdecl fn_10083F20(uint32_t param_1, uint32_t param_2, int param_3
   float  (&afStack_4c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 12);
   undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 24);
   
-  uVar13 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar13 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   piVar3 = (int *)uVar13;
   if (piVar3 == (int *)0x0) {
     return (int *)0x0;
@@ -472,10 +472,10 @@ XI_API int * __cdecl fn_10083F20(uint32_t param_1, uint32_t param_2, int param_3
   orig::fn_10027990_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   iVar4 = (**(code **)(*piVar3 + 0x1c0))();
-  orig::Mat4_PostRotateY(local_40,*(float *)(iVar4 + 4));
+  orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar4 + 4));
   puVar5 = (undefined4 *)(**(code **)(*piVar3 + 0x1bc))();
-  orig::Mat4_SetRow3(local_40,puVar5);
-  orig::Mat4_InvertOrthonormal(local_40);
+  orig::Mat4_SetRow3_v1(local_40,puVar5);
+  orig::Mat4_InvertOrthonormal_v1(local_40);
   piStack_54 = (int *)0x0;
   fStack_58 = xi_k4(0x451C4000ull);
   iVar4 = orig::FUN_101cc510();
@@ -786,8 +786,8 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * para
     else {
       iVar1 = *param_1;
     }
-    orig::ResourceIter_FindFirst(auStack_21c,iVar1,5,0,0xffffffff);
-    this_00 = (void *)orig::ResourceIter_FindNext(auStack_21c,0);
+    orig::ResourceIter_FindFirst_v1(auStack_21c,iVar1,5,0,0xffffffff);
+    this_00 = (void *)orig::ResourceIter_FindNext_v1(auStack_21c,0);
     while (this_00 != (void *)0x0) {
       if ((*(byte *)((int)this_00 + 0x1a) >> 2 & 1) == 0) {
         switch((*(byte *)((int)this_00 + 0x36) & 1) * 0x10 + -1 +
@@ -811,7 +811,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * para
           }
         }
       }
-      this_00 = (void *)orig::ResourceIter_FindNext(auStack_21c,0);
+      this_00 = (void *)orig::ResourceIter_FindNext_v1(auStack_21c,0);
     }
     iVar1 = 0;
     if (param_1 == (undefined4 *)0x0) {
@@ -820,8 +820,8 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * para
     else {
       iVar2 = *param_1;
     }
-    orig::ResourceIter_FindFirst(auStack_238,iVar2,5,0,0xffffffff);
-    iVar2 = orig::ResourceIter_FindNext(auStack_238,0);
+    orig::ResourceIter_FindFirst_v1(auStack_238,iVar2,5,0,0xffffffff);
+    iVar2 = orig::ResourceIter_FindNext_v1(auStack_238,0);
     if (iVar2 != 0) {
       do {
         if ((*(byte *)(iVar2 + 0x1a) >> 2 & 1) == 0) {
@@ -850,7 +850,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * para
             }
           }
         }
-        iVar2 = orig::ResourceIter_FindNext(auStack_238,0);
+        iVar2 = orig::ResourceIter_FindNext_v1(auStack_238,0);
       } while (iVar2 != 0);
 joined_r0x100851b9:
       for (; iVar1 != 0; iVar1 = iVar1 + -1) {

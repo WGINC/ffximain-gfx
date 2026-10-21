@@ -11,18 +11,18 @@ XI_API undefined4 __cdecl fn_100142B0(void)
   undefined4 uVar2;
   undefined8 uVar3;
   
-  orig::FUN_1015e910(&g_menuMng,aMenuChdummy);
+  orig::FUN_1015e910(&g_menuMng_as_v0,aMenuChdummy);
   *g_pSceneState_as_v1 = 0x60;
   orig::FUN_101ab730();
-  uVar3 = orig::Mem_AllocFromArea(0x34,4);
+  uVar3 = orig::Mem_AllocFromArea_v1(0x34,4);
   self_ = (undefined4 *)uVar3;
-  uVar1 = orig::CMoTask_ResetFields(self_);
-  g_resourcesDirty = 1;
+  uVar1 = orig::CMoTask_ResetFields_v1(self_);
+  g_resourcesDirty_as_v0 = 1;
   if (self_ != (undefined4 *)0x0) {
-    orig::CMoTask_Constructor(self_);
+    orig::CMoTask_Constructor_v1(self_);
     *self_ = &PTR_CAtelIdleTask_GetRuntimeClass_10329cfc;
     DAT_1045690c = self_;
-    uVar2 = orig::CMoTask_RegisterWithMng(0xd);
+    uVar2 = orig::CMoTask_RegisterWithMng_v1(0xd);
     orig::App_AdvanceSeqStep_v1(g_pCamera_as_v2);
     return CONCAT31((int3)((uint)uVar2 >> 8),1);
   }

@@ -26,7 +26,7 @@ XI_API void __thiscall fn_10055300(void * self_, int param_1, float param_2, flo
   *(float *)((int)self_ + 0x10) = param_3;
   *(float *)((int)self_ + 0x14) =
        (float)((float10)(param_1 + 1) / (float10)(float)(fVar4 - (float10)param_2));
-  puVar2 = orig::Mem_AllocObject((param_1 + 1) * 0x20,4);
+  puVar2 = orig::Mem_AllocObject_v1((param_1 + 1) * 0x20,4);
   *(undefined4 **)((int)self_ + 4) = puVar2;
   orig::FUN_100554b0(self_);
   iVar1 = *(int *)((int)self_ + 8);

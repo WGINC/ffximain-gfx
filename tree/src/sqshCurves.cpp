@@ -63,7 +63,7 @@ XI_API void __cdecl fn_102AD990(int param_1)
       } while (iVar3 != 0);
     }
     if (*(int *)(param_1 + 0x50) != 0) {
-      orig::sqFree(*(int *)(param_1 + 0x50),s_C__dev_dancer_modules_sqShape_sr_103bef68,0x1dd);
+      orig::sqFree_v1(*(int *)(param_1 + 0x50),s_C__dev_dancer_modules_sqShape_sr_103bef68,0x1dd);
     }
     puVar1 = orig::FUN_10275d40(iVar4,4,s_C__dev_dancer_modules_sqShape_sr_103bef68,0x1df);
     *(undefined4 **)(param_1 + 0x50) = puVar1;

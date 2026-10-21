@@ -24,26 +24,26 @@ XI_API void __cdecl fn_102B2CA0(int param_1, int * param_2)
   *(undefined4 *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x1044) = *(undefined4 *)(param_1 + 0x3c);
   *(undefined4 *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x103c) = *(undefined4 *)(param_1 + 0x40);
   orig::sqgxColor_v1(&local_10);
-  orig::sqgxAmbient(*(float *)(param_1 + 0x34));
+  orig::sqgxAmbient_v1(*(float *)(param_1 + 0x34));
   orig::FUN_102833a0(*(float *)(param_1 + 0x38));
   orig::FUN_102833c0(0,xi_k4(0x0ull),0);
-  orig::sqgxTextureDecal(0);
+  orig::sqgxTextureDecal_v1(0);
   orig::FUN_102a34d0(param_1 + 0x14);
   if (*(int *)(param_1 + 0x50) == 0) {
-    orig::sqgxContext_SelectShaderMode(2,0);
+    orig::sqgxShader_v1(2,0);
   }
   else {
     orig::FUN_10298c50(*(int *)(param_1 + 0x50));
-    orig::sqgxTextureUpdate();
-    orig::sqgxContext_SelectShaderMode(6,0);
+    orig::sqgxTextureUpdate_v1();
+    orig::sqgxShader_v1(6,0);
   }
-  orig::sqDrawableDraw(*param_2);
+  orig::sqDrawableDraw_v1(*param_2);
   orig::sqgxBlendAdd();
   orig::sqgxPass(2000);
-  orig::sqgxContext_SelectShaderMode(0x2000000,0);
-  orig::sqDrawableDraw(*param_2);
+  orig::sqgxShader_v1(0x2000000,0);
+  orig::sqDrawableDraw_v1(*param_2);
   orig::sqgxPass(0);
-  orig::sqgxBlendOff();
-  orig::sqgxTextureDecal(0);
+  orig::sqgxBlendOff_v1();
+  orig::sqgxTextureDecal_v1(0);
   return;
 }

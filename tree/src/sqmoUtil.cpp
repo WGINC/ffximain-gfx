@@ -9,9 +9,9 @@ XI_API void __cdecl fn_1027D650(int param_1, int param_2, int param_3, undefined
   int iVar1;
   
   if ((param_3 < 0) || (param_2 <= param_3)) {
-    orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqMotion_s_103b4584,0x21e
+    orig::sqDebugPrintf_v2(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqMotion_s_103b4584,0x21e
                  );
-    orig::sqDebugPrintf_v1(s_entry__d_out_of_range__d_103b45b4,param_3,param_2);
+    orig::sqDebugPrintf_v2(s_entry__d_out_of_range__d_103b45b4,param_3,param_2);
   }
   else {
     iVar1 = 0;

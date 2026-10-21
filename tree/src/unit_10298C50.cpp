@@ -7,11 +7,11 @@
 XI_API void __cdecl fn_10298C50(int param_1)
 {
   if (param_1 != 0) {
-    orig::sqgxTextureSet(*(int *)(param_1 + 0x14));
+    orig::sqgxTextureSet_v1(*(int *)(param_1 + 0x14));
     orig::sqgxTextureSetPalette(*(int *)(param_1 + 0x18));
     return;
   }
-  orig::sqgxTextureSet(-1);
+  orig::sqgxTextureSet_v1(-1);
   orig::sqgxTextureSetPalette(-1);
   return;
 }
@@ -34,7 +34,7 @@ XI_API int __cdecl fn_10298E10(int param_1, undefined4 param_2, undefined4 param
   puVar1[9] = 4;
   puVar2[7] = puVar1;
   if (DAT_103bbde0 != '\0') {
-    iVar4 = orig::sqgxTextureAdd(param_1,param_1,4,puVar1[10]);
+    iVar4 = orig::sqgxTextureAdd_v1(param_1,param_1,4,puVar1[10]);
     puVar2[5] = iVar4;
   }
   puVar2[8] = puVar2[8] | 4;

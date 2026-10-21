@@ -42,7 +42,7 @@ XI_API void __thiscall fn_101787C0(void * self_)
         iVar5 = iVar2 + 0x144f7;
       }
       puVar4 = (undefined4 *)orig::FUN_10178dd0(iVar5);
-      puVar4 = (undefined4 *)orig::FUN_10072fd0_v1(g_pMeshResourceMng_as_v1,&local_4,puVar4);
+      puVar4 = (undefined4 *)orig::FUN_10072fd0(g_pMeshResourceMng_as_v1,&local_4,puVar4);
       if ((int *)*puVar4 == (int *)0x0) {
         iVar5 = 0;
       }
@@ -52,7 +52,7 @@ XI_API void __thiscall fn_101787C0(void * self_)
       piVar1[0x15] = iVar5;
       *(undefined4 *)((int)self_ + 0x54) = 0;
       if ((void *)piVar1[0x15] != (void *)0x0) {
-        uVar6 = orig::CMoResource_AddRefChain((void *)piVar1[0x15]);
+        uVar6 = orig::CMoResource_AddRefChain_v1((void *)piVar1[0x15]);
         iVar5 = (int)uVar6;
       }
       uVar3 = orig::FUN_100fc680(1,CONCAT22((short)((uint)iVar5 >> 0x10),*(undefined2 *)((int)self_ + 0x48)
@@ -174,7 +174,7 @@ XI_API uint32_t __thiscall fn_10178B30(void * self_)
       pfVar5 = pfVar5 + 1;
       pfVar7 = pfVar7 + 1;
     }
-    fVar9 = orig::Camera_GetFrameScale();
+    fVar9 = orig::Camera_GetFrameScale_v1();
     fVar9 = fVar9 * (float10)_DAT_10376ff0 + (float10)DAT_1065ca2c;
     DAT_1065ca2c = (float)fVar9;
     if ((!NAN(fVar9) && !NAN((float10)xi_k4(0x3F800000ull))) && (float10)xi_k4(0x3F800000ull) < fVar9) {
@@ -336,7 +336,7 @@ XI_API undefined4 __thiscall fn_1017B110(void * self_, int param_1)
   piVar2 = (int *)((int)self_ + param_1 * 0x78 + 0x60);
   if (*(int *)((int)self_ + param_1 * 0x78 + 0x60) != 0) {
     if (piVar2[10] != 0) {
-      orig::Mem_FreeObject(piVar2[10]);
+      orig::Mem_FreeObject_v1(piVar2[10]);
       piVar2[10] = 0;
     }
     this_00 = (int *)piVar2[0xf];
@@ -349,13 +349,13 @@ XI_API undefined4 __thiscall fn_1017B110(void * self_, int param_1)
     orig::FUN_1017a690(piVar2[0x19]);
     if (piVar2[0x15] != 0) {
       orig::FUN_100446a0(piVar2[0x15]);
-      orig::CMoResource_ReleaseChain((void *)piVar2[0x15]);
-      orig::MoRes_FreeIfUnreferenced(*(int **)(piVar2[0x15] + 0x14));
+      orig::CMoResource_ReleaseChain_v1((void *)piVar2[0x15]);
+      orig::MoRes_FreeIfUnreferenced_v1(*(int **)(piVar2[0x15] + 0x14));
       piVar2[0x15] = 0;
     }
     if ((*(int *)((int)self_ + 0x39498) != 0) && ((void *)piVar2[0x16] != (void *)0x0)) {
-      orig::CMoResource_ReleaseChain((void *)piVar2[0x16]);
-      orig::MoRes_FreeIfUnreferenced(*(int **)(piVar2[0x16] + 0x14));
+      orig::CMoResource_ReleaseChain_v1((void *)piVar2[0x16]);
+      orig::MoRes_FreeIfUnreferenced_v1(*(int **)(piVar2[0x16] + 0x14));
       piVar2[0x16] = 0;
     }
     for (iVar1 = 0x1e; iVar1 != 0; iVar1 = iVar1 + -1) {
@@ -404,8 +404,8 @@ XI_API void __thiscall ZoneMap_TeardownStep(void * self_)
   *(undefined4 *)((int)self_ + 0x38e1c) = 0x3f800000;
   orig::FUN_10167950((void *)((int)self_ + 0x178));
   if (*(void **)((int)self_ + 0x174) != (void *)0x0) {
-    orig::CMoResource_ReleaseChain(*(void **)((int)self_ + 0x174));
-    orig::MoRes_FreeIfUnreferenced(*(int **)(*(int *)((int)self_ + 0x174) + 0x14));
+    orig::CMoResource_ReleaseChain_v1(*(void **)((int)self_ + 0x174));
+    orig::MoRes_FreeIfUnreferenced_v1(*(int **)(*(int *)((int)self_ + 0x174) + 0x14));
     *(undefined4 *)((int)self_ + 0x174) = 0;
   }
   *(undefined2 *)((int)self_ + 0x34) = 1;
@@ -681,13 +681,13 @@ LABEL_17:
       *(float *)&(*(unsigned int *)((char *)self_ + 0x39420)) = v15;
       (*(float *)((char *)self_ + 0x39424)) = v15 * v15;
       (*(float *)((char *)self_ + 0x39428)) = orig::sub_101892B0(g_pXiZone, 0);
-      v16 = 512.0 / *((float *)g_pCamera_as_v0 + 188);
+      v16 = 512.0 / *((float *)g_pCamera + 188);
       v17 = *(float *)&(*(unsigned int *)((char *)self_ + 0x355B4));
       v37 = *(float *)&(*(unsigned int *)((char *)self_ + 0x39420));
       *(float *)&(*(unsigned int *)((char *)self_ + 0x355B0)) = v16;
       v18 = *(float *)&(*(unsigned int *)((char *)self_ + 0x355B0));
       *(float *)&(*(unsigned int *)((char *)self_ + 0x164)) = v16 * 0.5;
-      orig::sub_10182490((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)), v18, v17, *((float *)g_pCamera_as_v0 + 189), 0.2, v37);
+      orig::sub_10182490((float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)), v18, v17, *((float *)g_pCamera + 189), 0.2, v37);
       orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38D9C)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38E5C)));
       qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38FDC)), pOut, 64);
       orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38D9C)), (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38DDC)));
@@ -704,8 +704,8 @@ LABEL_17:
       orig::D3DXMatrixMultiply_Dispatch(pOut, (float *)&(*(unsigned __int8 *)((char *)self_ + 0x38F5C)), pM2);
       qmemcpy(&(*(unsigned __int8 *)((char *)self_ + 0x38F9C)), pOut, 64);
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), ((unsigned __int8 *)((char *)self_ + 0x3913C)));
-      Field50 = orig::Camera_GetField50_v1();
-      orig::Vec3_Copy_v1(&(*(float *)((char *)self_ + 0x390F0)), (_DWORD *)(Field50 + 68));
+      Field50 = orig::Camera_GetField50();
+      orig::Vec3_Copy(&(*(float *)((char *)self_ + 0x390F0)), (_DWORD *)(Field50 + 68));
       v22 = (*(unsigned int *)((char *)self_ + 0x3912C));
       (*(unsigned int *)((char *)self_ + 0x3911C)) = 0;
       (*(unsigned int *)((char *)self_ + 0x3944C)) = 0;
@@ -5356,7 +5356,7 @@ XI_API void __stdcall fn_10186DD0(int * param_1)
       } while (iVar1 < param_1[0x1a]);
     }
     if ((LPVOID)param_1[0x1b] != (LPVOID)0x0) {
-      orig::operator_delete_10311BB0((LPVOID)param_1[0x1b]);
+      orig::operator_delete_10311BB0_v1((LPVOID)param_1[0x1b]);
       param_1[0x1b] = 0;
       param_1[0x1a] = 0;
       param_1[0x1c] = 0;
@@ -5748,9 +5748,9 @@ XI_API void __thiscall fn_101880C0(void * self_, undefined4 * param_1)
   orig::FUN_10014e00((int)lVar4,uVar2,uVar1);
   orig::FUN_10014e80(*(float *)(*(int *)((int)self_ + 0x18) + 0x3c));
   orig::FUN_10014e60(*(float *)(*(int *)((int)self_ + 0x18) + 0x40));
-  fVar3 = orig::FUN_10186ff0_v1(self_);
+  fVar3 = orig::FUN_10186ff0(self_);
   orig::FUN_10014eb0((float)fVar3);
-  fVar3 = orig::FUN_10186fe0_v1(self_);
+  fVar3 = orig::FUN_10186fe0(self_);
   orig::FUN_10014ed0((float)fVar3);
   orig::FUN_10188190(self_,*(byte **)((int)self_ + 0x18));
   return;

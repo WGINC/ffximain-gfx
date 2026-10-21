@@ -17,7 +17,7 @@ XI_API void __thiscall fn_10068590(void * self_, undefined4 * param_1, undefined
   undefined4 uVar1;
   
   if (*(int *)((int)self_ + 4) == 4) {
-    orig::operator_delete_10311BB0(*(LPVOID *)self_);
+    orig::operator_delete_10311BB0_v1(*(LPVOID *)self_);
     *(undefined4 *)((int)self_ + 4) = 0;
   }
   uVar1 = *param_1;

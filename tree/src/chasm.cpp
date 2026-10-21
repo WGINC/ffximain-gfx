@@ -11,7 +11,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
   
   if ((*param_1 & 1) != 0) {
     if (*(int *)(param_1 + 0x10) != 0) {
-      orig::sqFree(*(int *)(param_1 + 0x10),s_C__dev_dancer_tools_mdlview_src__103b24f4,0x78);
+      orig::sqFree_v1(*(int *)(param_1 + 0x10),s_C__dev_dancer_tools_mdlview_src__103b24f4,0x78);
       param_1[0x10] = 0;
       param_1[0x11] = 0;
       param_1[0x12] = 0;
@@ -40,7 +40,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
           iVar2 = iVar2 + 0xd8;
         } while (iVar1 < *(int *)(param_1 + 0x18));
       }
-      orig::sqFree(*(int *)(param_1 + 0x20),s_C__dev_dancer_tools_mdlview_src__103b24f4,0x86);
+      orig::sqFree_v1(*(int *)(param_1 + 0x20),s_C__dev_dancer_tools_mdlview_src__103b24f4,0x86);
       param_1[0x20] = 0;
       param_1[0x21] = 0;
       param_1[0x22] = 0;

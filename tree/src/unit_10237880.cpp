@@ -12,7 +12,7 @@ XI_API void * __thiscall fn_102380A0(void * self_)
   undefined8 uVar4;
   
   orig::FUN_10126320((void *)((int)self_ + 4));
-  pcVar2 = &Read;
+  pcVar2 = &Read_as_v0;
   *(undefined2 *)((int)self_ + 0xe) = 0xffff;
   *(undefined4 *)((int)self_ + 8) = 0;
   *(undefined1 *)((int)self_ + 0xc) = 1;
@@ -25,9 +25,9 @@ XI_API void * __thiscall fn_102380A0(void * self_)
     pcVar2[(int)self_ + -0x103d3c70] = cVar1;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
-  uVar4 = orig::Allocator_Generic(0x6b4);
+  uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,2,0xf,self_,&LAB_10238130,&Read,0x14a,0xf,0x114);
+    pvVar3 = orig::FUN_101c5be0((void *)uVar4,2,0xf,self_,&LAB_10238130,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x30) = pvVar3;
     return self_;
   }
@@ -43,7 +43,7 @@ XI_API void * __thiscall fn_102388C0(void * self_)
   char *pcVar2;
   
   orig::FUN_10126320((void *)((int)self_ + 4));
-  pcVar2 = &Read;
+  pcVar2 = &Read_as_v0;
   *(undefined2 *)((int)self_ + 0xe) = 0xffff;
   *(undefined4 *)((int)self_ + 8) = 0;
   *(undefined1 *)((int)self_ + 0xc) = 1;
@@ -71,7 +71,7 @@ XI_API void * __thiscall fn_10238B30(void * self_)
   undefined8 uVar4;
   
   orig::FUN_10126320((void *)((int)self_ + 4));
-  pcVar2 = &Read;
+  pcVar2 = &Read_as_v0;
   *(undefined2 *)((int)self_ + 0xe) = 0xffff;
   *(undefined4 *)((int)self_ + 8) = 0;
   *(undefined1 *)((int)self_ + 0xc) = 1;
@@ -86,9 +86,9 @@ XI_API void * __thiscall fn_10238B30(void * self_)
     pcVar2[(int)self_ + -0x103d3c6c] = cVar1;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
-  uVar4 = orig::Allocator_Generic(0x6b4);
+  uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,0xb,10,self_,&LAB_10238bc0,&Read,0x14a,0xf,0x114);
+    pvVar3 = orig::FUN_101c5be0((void *)uVar4,0xb,10,self_,&LAB_10238bc0,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x38) = pvVar3;
     return self_;
   }
@@ -164,15 +164,15 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
       v5 = 2 * v4;
       if ( (int)(2 * v4) > 8 )
         v5 = 8;
-      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape_v1(g_shapeMng_as_v0, aMenuKeytops3) + 4 * ((self_->field_28 >> 2) % 5) + 660);
-      *(float *)&v10 = orig::MenuMng_GetOffsetX_v1((float *)g_menuMng_as_v0, 1) * 0.5;
-      v7 = orig::MenuMng_GetOffsetY((float *)g_menuMng_as_v0, 1) * 0.5;
+      v6 = *(_DWORD *)(*(_DWORD *)orig::ShapeMng_FindShape(g_shapeMng, aMenuKeytops3) + 4 * ((self_->field_28 >> 2) % 5) + 660);
+      *(float *)&v10 = orig::MenuMng_GetOffsetX((float *)g_menuMng, 1) * 0.5;
+      v7 = orig::MenuMng_GetOffsetY((float *)g_menuMng, 1) * 0.5;
       return (char *)orig::Shape_DrawScaled(
                        v6,
-                       (__int64)((double)(__int16)(g_screenRectBottomRight_as_s32 - g_screenRectTopLeft_as_s32)
+                       (__int64)((double)(__int16)(g_screenRectBottomRight - g_screenRectTopLeft)
                                * (1.0 - *(float *)&v10)
                                - 234.0),
-                       (__int64)((double)(__int16)(HIWORD(g_screenRectBottomRight_as_s32) - HIWORD(g_screenRectTopLeft_as_s32))
+                       (__int64)((double)(__int16)(HIWORD(g_screenRectBottomRight) - HIWORD(g_screenRectTopLeft))
                                * (1.0 - v7)
                                - 48.0)
                      - v5
@@ -190,14 +190,14 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
     result = (char *)self_->field_34;
     if ( result != nullptr )
     {
-      result = (char *)*orig::CMoResource_FindByTypeAndId_v1(*(_DWORD **)result, &v10, 49, 0);
+      result = (char *)*orig::CMoResource_FindByTypeAndId(*(_DWORD **)result, &v10, 49, 0);
       if ( result != nullptr )
       {
-        result = orig::ShapeMng_FindShape_v1(g_shapeMng_as_v0, (char *)(*(_DWORD *)result + 48));
+        result = orig::ShapeMng_FindShape(g_shapeMng, (char *)(*(_DWORD *)result + 48));
         v3 = **(_DWORD **)result;
         if ( v3 != 0 )
         {
-          orig::MenuMng_GetUiScale(g_menuMng_as_v0, (float *)&v9, &v8);
+          orig::MenuMng_GetUiScale(g_menuMng, (float *)&v9, &v8);
           (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
           (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
           orig::Shape_DrawScaled(
@@ -319,7 +319,7 @@ XI_API void * __thiscall fn_1023F890(void * self_)
   undefined8 uVar4;
   
   orig::FUN_10126320((void *)((int)self_ + 4));
-  pcVar2 = &Read;
+  pcVar2 = &Read_as_v0;
   *(undefined2 *)((int)self_ + 0xe) = 0xffff;
   *(undefined4 *)((int)self_ + 8) = 0;
   *(undefined1 *)((int)self_ + 0xc) = 1;
@@ -332,9 +332,9 @@ XI_API void * __thiscall fn_1023F890(void * self_)
   } while (cVar1 != '\0');
   *(undefined4 *)((int)self_ + 0x28) = 0;
   *(undefined4 *)((int)self_ + 0x2c) = 0;
-  uVar4 = orig::Allocator_Generic(0x6b4);
+  uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,3,0xf,self_,&LAB_1023f920,&Read,0x14a,0xf,0x114);
+    pvVar3 = orig::FUN_101c5be0((void *)uVar4,3,0xf,self_,&LAB_1023f920,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x34) = pvVar3;
     return self_;
   }

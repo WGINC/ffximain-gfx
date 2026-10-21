@@ -29,10 +29,10 @@ void __thiscall CMoGeneratorClone_VT_1032B114::Destructor(void * self)
   do {
     orig::FUN_10074310(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
     do {
-      iVar1 = orig::ResourceIter_FindNext(local_1c,0);
+      iVar1 = orig::ResourceIter_FindNext_v1(local_1c,0);
       if (iVar1 == 0) {
         orig::FUN_1003b690(this_00);
-        orig::YmGenerater_Stop(self,(undefined4 *)0x0);
+        orig::YmGenerater_Stop_v1(self,(undefined4 *)0x0);
         if (*(int **)((int)self + 0xa8) != (int *)0x0) {
           (**(code **)(**(int **)((int)self + 0xa8) + 0x18))(1);
           *(undefined4 *)((int)self + 0xa8) = 0;
@@ -41,12 +41,12 @@ void __thiscall CMoGeneratorClone_VT_1032B114::Destructor(void * self)
           orig::Mem_FreeWithHeader12_v1(*(int *)((int)self + 0xa4));
           *(undefined4 *)((int)self + 0xa4) = 0;
         }
-        orig::ReleaseSubObjectIfPresent(this_00);
+        orig::ReleaseSubObjectIfPresent_v1(this_00);
         orig::CMoResource_Destructor_v1(self);
         return;
       }
     } while (((*(byte *)(iVar1 + 0x1a) >> 2 & 1) == 0) ||
             (*(int *)(iVar1 + 0x28) != *(int *)((int)self + 0x14)));
-    orig::MoRes_FreeIfUnreferenced(*(int **)(iVar1 + 0x14));
+    orig::MoRes_FreeIfUnreferenced_v1(*(int **)(iVar1 + 0x14));
   } while( true );
 }

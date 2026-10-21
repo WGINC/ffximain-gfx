@@ -316,12 +316,12 @@ XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_
   if (bVar9) {
     param_4 = -param_4;
   }
-  uVar10 = orig::Allocator_Generic(0xa00000);
+  uVar10 = orig::Allocator_Generic_v1(0xa00000);
   *(int *)((int)self_ + 4) = (int)uVar10;
   if ((int)uVar10 == 0) {
     return 1;
   }
-  pvVar2 = (void *)orig::Mem_AllocDefault(0x14);
+  pvVar2 = (void *)orig::Mem_AllocDefault_v1(0x14);
   if (pvVar2 == (void *)0x0) {
     pvVar2 = (void *)0x0;
   }
@@ -399,7 +399,7 @@ XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_
 XI_API undefined * __cdecl fn_101D05E0(void)
 {
   orig::FUN_101c8d70();
-  orig::_sprintf_v3(&DAT_10662f78,s__C__SQUARE_ENIX_1037e878);
+  orig::_sprintf_v4(&DAT_10662f78,s__C__SQUARE_ENIX_1037e878);
   return(undefined*)(&DAT_10662f78);
 }
 

@@ -49,23 +49,23 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   }
   orig::FUN_102a34d0((int)(param_1 + 5));
   if (param_1[0x18] == 0) {
-    orig::sqgxContext_SelectShaderMode(uVar5 | 2,0);
+    orig::sqgxShader_v1(uVar5 | 2,0);
   }
   else {
-    orig::sqgxTextureSet(*(int *)(param_1[0x18] + 0x14));
+    orig::sqgxTextureSet_v1(*(int *)(param_1[0x18] + 0x14));
     orig::sqgxTextureSetPalette(*(int *)(param_1[0x18] + 0x18));
-    orig::sqgxTextureDecal(0);
-    orig::sqgxContext_SelectShaderMode(uVar5 | 6,0);
+    orig::sqgxTextureDecal_v1(0);
+    orig::sqgxShader_v1(uVar5 | 6,0);
     iVar4 = *(int *)(*(int *)(param_1[0x18] + 0x1c) + 0x24);
     if (((iVar4 == 2) || (iVar4 == 4)) || (*(int *)(*(int *)(param_1[0x18] + 0x1c) + 0x30) == 4)) {
-      orig::sqgxBlendTrsp_Candidate();
+      orig::sqgxBlendTrsp_v1();
     }
   }
   if (param_1[0x15] != 0) {
     orig::sqgxSetAlphaTest(1,0x5f);
   }
   orig::FUN_102a3770();
-  orig::sqgxTextureDecal(0);
+  orig::sqgxTextureDecal_v1(0);
   orig::FUN_102827d0();
   if (param_1[0x19] == 0) {
     local_c = (float)((float10)xi_castbits<float>(param_1[10]) * (float10)xi_castbits<float>(param_1[0xd]));
@@ -87,8 +87,8 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
     iVar4 = orig::FUN_10298e10(0x80,param_1[0x10],&local_c,&local_18,&local_24);
     param_1[0x19] = iVar4;
   }
-  orig::sqgxContext_SelectShaderMode(uVar5 | 0x100000,0);
-  orig::sqgxTextureSet(*(int *)(param_1[0x19] + 0x14));
+  orig::sqgxShader_v1(uVar5 | 0x100000,0);
+  orig::sqgxTextureSet_v1(*(int *)(param_1[0x19] + 0x14));
   orig::sqgxTextureSetPalette(-1);
   iVar4 = param_1[0x16];
   if (iVar4 == 0) {
@@ -104,11 +104,11 @@ LAB_102995bf:
   }
   orig::FUN_1029c460(uVar6);
 LAB_102995c9:
-  orig::sqDrawableDraw(*param_2);
+  orig::sqDrawableDraw_v1(*param_2);
   if (param_1[0x15] != 0) {
     orig::sqgxSetAlphaTest(0,0);
   }
-  orig::sqgxBlendOff();
+  orig::sqgxBlendOff_v1();
   orig::FUN_102a3760();
   return;
 }
@@ -133,7 +133,7 @@ XI_API int * __cdecl sqsdAniso_BakeOntoShape(int param_1, int * param_2)
     else {
       uVar6 = 0x100006;
     }
-    orig::sqgxContext_SelectShaderMode(uVar6,0);
+    orig::sqgxShader_v1(uVar6,0);
     if ((*(int *)(param_1 + 0x58) != 0) && (*(int *)(iVar1 + 100) == 0)) {
       orig::FUN_102912f0((int)param_2);
     }
@@ -150,7 +150,7 @@ XI_API int * __cdecl sqsdAniso_BakeOntoShape(int param_1, int * param_2)
     uVar6 = *(undefined4 *)(iVar1 + 100);
     *(undefined4 *)(iVar1 + 100) = uVar5;
     orig::FUN_1029b5c0();
-    orig::sqDrawableDraw((int)param_2);
+    orig::sqDrawableDraw_v1((int)param_2);
     puVar3 = orig::FUN_1029b620();
     orig::FUN_102a3760();
     *(undefined4 *)(iVar1 + 100) = uVar6;

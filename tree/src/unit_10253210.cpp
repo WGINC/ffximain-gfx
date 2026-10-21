@@ -15,8 +15,8 @@ XI_API undefined4 __cdecl fn_10253210(uint32_t * param_1)
     param_1[1] = 0;
     param_1[2] = 0;
     if ((undefined4 *)*self_ != (undefined4 *)0x0) {
-      orig::CMoResource_ReleaseChain(*(void **)*self_);
-      orig::ResHandle_FreeIfUnreferenced(self_);
+      orig::CMoResource_ReleaseChain_v1(*(void **)*self_);
+      orig::ResHandle_FreeIfUnreferenced_v1(self_);
       *self_ = 0;
     }
     orig::FUN_102896a0(param_1 + 6);
@@ -73,7 +73,7 @@ XI_API void __stdcall fn_10253360(int param_1)
     ppuVar2 =(undefined**)(&PTR_s_info00_bin_10389d08 + param_1 * 5);
     if (((uint8_t *)((&DAT_10389d0d)))[param_1 * 0x14] != '\0') {
       if (*(int *)(((char *)&DAT_10389d14) + iVar1) == 0) {
-        uVar6 = orig::Allocator_Generic(*(int *)(((char *)&DAT_10389d10) + iVar1) + 1);
+        uVar6 = orig::Allocator_Generic_v1(*(int *)(((char *)&DAT_10389d10) + iVar1) + 1);
         puVar3 = (undefined4 *)uVar6;
         *(undefined4 **)(((char *)&DAT_10389d14) + iVar1) = puVar3;
         if (puVar3 != (undefined4 *)0x0) {
@@ -88,21 +88,21 @@ XI_API void __stdcall fn_10253360(int param_1)
           }
         }
       }
-      if (((g_pFileMng != (void *)0x0) && (((uint8_t *)((&DAT_10389d0c)))[iVar1] != '\0')) &&
+      if (((g_pFileMng_as_v1 != (void *)0x0) && (((uint8_t *)((&DAT_10389d0c)))[iVar1] != '\0')) &&
          (*(int *)(((char *)&DAT_10389d14) + iVar1) != 0)) {
         orig::FUN_101be260(local_20);
-        iVar4 = orig::FUN_101c4bf0(g_pFileMng,*ppuVar2,local_20);
+        iVar4 = orig::FUN_101c4bf0(g_pFileMng_as_v1,*ppuVar2,local_20);
         if (-1 < iVar4) {
-          iVar4 = orig::FUN_101c47b0(g_pFileMng,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
+          iVar4 = orig::FUN_101c47b0(g_pFileMng_as_v1,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
                                *(undefined4 *)(((char *)&DAT_10389d10) + iVar1),0);
           if (-1 < iVar4) {
-            orig::FUN_101c49f0(g_pFileMng,*ppuVar2);
+            orig::FUN_101c49f0(g_pFileMng_as_v1,*ppuVar2);
           }
           ((uint8_t *)((&DAT_10389d0c)))[iVar1] = 0;
           orig::FUN_101be2a0(local_20);
           return;
         }
-        orig::operator_delete_10311BB0(*(LPVOID *)(((char *)&DAT_10389d14) + iVar1));
+        orig::operator_delete_10311BB0_v1(*(LPVOID *)(((char *)&DAT_10389d14) + iVar1));
         *(undefined4 *)(((char *)&DAT_10389d14) + iVar1) = 0;
         orig::FUN_101be2a0(local_20);
       }

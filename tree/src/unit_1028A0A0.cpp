@@ -8,7 +8,7 @@ XI_API void __cdecl fn_1028A0B0(int param_1)
 {
   if (0 < param_1) {
     do {
-      orig::sqDebugPrintf(&c_strSpace);
+      orig::sqDebugPrintf_v1(&c_strSpace_as_v0);
       param_1 = param_1 + -1;
     } while (param_1 != 0);
   }

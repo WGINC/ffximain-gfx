@@ -39,9 +39,9 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
         v5 = (double)at<int32_t>(this, 0x8);
         if ( g_windowMode != 0 )
         {
-          v10 = v4 / (double)((__int16)g_screenRectBottomRight_as_s32 - (__int16)g_screenRectTopLeft_as_s32);
+          v10 = v4 / (double)((__int16)g_screenRectBottomRight - (__int16)g_screenRectTopLeft);
           v13 = v5;
-          v11 = v13 / (double)(SHIWORD(g_screenRectBottomRight_as_s32) - SHIWORD(g_screenRectTopLeft_as_s32));
+          v11 = v13 / (double)(SHIWORD(g_screenRectBottomRight) - SHIWORD(g_screenRectTopLeft));
           GetWindowRect(*((HWND *)g_pApp + 6), &Rect);
           SystemMetrics = GetSystemMetrics(32);
           v15 = SystemMetrics;
@@ -112,7 +112,7 @@ void Obj_104E1D4C::Cursor_Draw()
         orig::CDx_ShowCursor(g_pCDx, 0);
       orig::fn_10027990((Iostream_init *)self_v);
       orig::Mat4_SetIdentity(self_v);
-      orig::Mat4_PostRotateZ_v1(self_v, *(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
+      orig::Mat4_PostRotateZ(self_v, *(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
       v4 = this->shapeIndex;
       v5[3] = 0.0;
       v5[0] = (float)c_cursorDefs_b12[32 * v4];

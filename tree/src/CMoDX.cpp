@@ -84,20 +84,20 @@ _DWORD * CMoDX::CreateAndInitSystem()
   CMoOcclusionMng_vtbl **v6;
   void *v8;
   v8 = self;
-  v1 = orig::Mem_AllocDefault_v1(7884);
+  v1 = orig::Mem_AllocDefault(7884);
   if ( v1 != nullptr )
     *v1 = &CMoDX_vtbl;
   else
     v1 = nullptr;
   g_pResourceMng = (int)v1;
   orig::CMoDX_Initialize((int)v1, (int)g_pCDx);
-  v2 = orig::Mem_AllocDefault_v1(1192);
+  v2 = orig::Mem_AllocDefault(1192);
   if ( v2 != nullptr )
     g_pVbPool = (int)orig::VBPool_Constructor(v2);
   else
     g_pVbPool = 0;
   orig::MeshResourceMng_LoadSystemResources(g_pMeshResourceMng, 0);
-  v3 = (int *)*orig::CMoResource_FindByTypeAndId_v1(**(_DWORD ***)(g_pMeshResourceMng + 262152), &v8, 7, 1668248176);
+  v3 = (int *)*orig::CMoResource_FindByTypeAndId(**(_DWORD ***)(g_pMeshResourceMng + 262152), &v8, 7, 1668248176);
   if ( v3 != nullptr )
   {
     v4 = *v3;
@@ -105,14 +105,14 @@ _DWORD * CMoDX::CreateAndInitSystem()
       **(_BYTE **)(v4 + 116) = 0x80;
   }
   orig::Mo_InitSharedRenderResources();
-  v5 = orig::Mem_AllocDefault_v1(16);
+  v5 = orig::Mem_AllocDefault(16);
   if ( v5 != nullptr )
     g_pDxStatusMng = (int)orig::CMoDxStatusMng_Constructor((int)v5);
   else
     g_pDxStatusMng = 0;
   orig::Gfx_InitCubeMapTextures();
   orig::sub_100555D0();
-  v6 = (CMoOcclusionMng_vtbl **)orig::Mem_AllocDefault_v1(28);
+  v6 = (CMoOcclusionMng_vtbl **)orig::Mem_AllocDefault(28);
   if ( v6 != nullptr )
   {
     g_pOcclusionMng = (int)orig::CMoOcclusionMng_Constructor(v6);

@@ -24,15 +24,15 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
   orig::FUN_10032a40(&local_60);
   if (*(int *)((int)self_ + 4) != 0) {
     iVar5 = 0;
-    uVar1 = *(ushort *)(g_pSharedSkeleton + 0x32);
+    uVar1 = *(ushort *)(g_pSharedSkeleton_as_s32 + 0x32);
     if (uVar1 != 0) {
-      puVar6 = (undefined4 *)(g_pSharedSkeleton + 0x3a);
+      puVar6 = (undefined4 *)(g_pSharedSkeleton_as_s32 + 0x3a);
       do {
         local_60 = xi_castbits<float>(puVar6[-1]);
         local_5c = *puVar6;
         local_58 = puVar6[1];
         local_54 = puVar6[2];
-        this_00 = &g_poseScratch + iVar5 * 0xd;
+        this_00 = &g_poseScratch_as_v0 + iVar5 * 0xd;
         puVar4 = (undefined4 *)orig::FUN_10032b50(this_00,local_50,&local_60);
         *this_00 = *puVar4;
         (&DAT_1045f034)[iVar5 * 0xd] = puVar4[1];
@@ -42,8 +42,8 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         orig::FUN_10032da0(this_00);
         fVar2 = xi_castbits<float>(puVar6[4]);
         fVar3 = xi_castbits<float>(puVar6[5]);
-        (&g_poseTranslation)[iVar5 * 0xd] =
-             (float)((float10)xi_castbits<float>(puVar6[3]) + (float10)xi_castbits<float>((&g_poseTranslation)[iVar5 * 0xd]));
+        (&g_poseTranslation_as_v0)[iVar5 * 0xd] =
+             (float)((float10)xi_castbits<float>(puVar6[3]) + (float10)xi_castbits<float>((&g_poseTranslation_as_v0)[iVar5 * 0xd]));
         (&DAT_1045f044)[iVar5 * 0xd] =
              (float)((float10)fVar2 + (float10)xi_castbits<float>((&DAT_1045f044)[iVar5 * 0xd]));
         (&DAT_1045f048)[iVar5 * 0xd] =
@@ -51,8 +51,8 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         if (iVar5 == 0) {
           orig::fn_10027990_v1(local_40);
           orig::Mat4_SetIdentity_v1(local_40);
-          orig::Mat4_PostRotateY(local_40,xi_k4(0x4096CBE4ull));
-          orig::Mat4_TransformPointInPlace(local_40,(float *)&g_poseTranslation);
+          orig::Mat4_PostRotateY_v1(local_40,xi_k4(0x4096CBE4ull));
+          orig::Mat4_TransformPointInPlace_v1(local_40,(float *)&g_poseTranslation_as_v0);
           orig::nullsub_1();
         }
         puVar6 = (undefined4 *)((int)puVar6 + 0x1e);
@@ -83,19 +83,19 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
   
   iVar4 = 0;
   if (*(int *)((int)self_ + 4) != 0) {
-    uVar7 = (uint)*(ushort *)(g_pSharedSkeleton + 0x32);
+    uVar7 = (uint)*(ushort *)(g_pSharedSkeleton_as_s32 + 0x32);
     if (param_2 == 0) {
       param_2 = uVar7 - 1;
     }
-    local_48 = (byte *)(g_pSharedSkeleton + 0x34);
+    local_48 = (byte *)(g_pSharedSkeleton_as_s32 + 0x34);
     if (param_3 == 0) {
       if (param_4 != 0) {
         pcVar6 = (char *)(param_4 + 2);
         do {
           if (*pcVar6 != -1) {
-            (&g_boneTouched)[*pcVar6] = 0;
-            orig::Vec3_MulInPlace((float *)(((char *)&g_poseScale) + pcVar6[-2] * 0x34),
-                            (float *)(((char *)&g_poseScale) + *pcVar6 * 0x34));
+            (&g_boneTouched_as_v0)[*pcVar6] = 0;
+            orig::Vec3_MulInPlace_v1((float *)(((char *)&g_poseScale_as_v0) + pcVar6[-2] * 0x34),
+                            (float *)(((char *)&g_poseScale_as_v0) + *pcVar6 * 0x34));
           }
           pcVar6 = pcVar6 + 1;
         } while ((int)(pcVar6 + (-2 - param_4)) < 2);
@@ -105,23 +105,23 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
         do {
           uVar2 = (uint)*local_48;
           if (iVar5 == 0) {
-            orig::Vec3_Copy((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale);
-            orig::FUN_10032fe0(&g_poseScratch,g_boneWeightMatrixTable_as_v0);
-            orig::Mat4_SetTranslation_v1(g_boneWeightMatrixTable_as_v0,&g_poseTranslation);
-            orig::Mat4_PostMultiply(g_boneWeightMatrixTable_as_v0,param_1);
+            orig::Vec3_Copy_v1((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale_as_v0);
+            orig::FUN_10032fe0(&g_poseScratch_as_v0,g_boneWeightMatrixTable_as_v0);
+            orig::Mat4_SetTranslation_v1(g_boneWeightMatrixTable_as_v0,&g_poseTranslation_as_v0);
+            orig::Mat4_PostMultiply_v1(g_boneWeightMatrixTable_as_v0,param_1);
           }
-          else if ((&g_boneTouched)[uVar2] == 0) {
-            (&g_boneTouched)[iVar5] = 0;
+          else if ((&g_boneTouched_as_v0)[uVar2] == 0) {
+            (&g_boneTouched_as_v0)[iVar5] = 0;
           }
           else {
             orig::FUN_10027340((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
                          (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34),
-                         (float *)(((char *)&g_poseScale) + iVar5 * 0x34));
-            orig::FUN_10032fe0(&g_poseScratch + iVar5 * 0xd,g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10);
+                         (float *)(((char *)&g_poseScale_as_v0) + iVar5 * 0x34));
+            orig::FUN_10032fe0(&g_poseScratch_as_v0 + iVar5 * 0xd,g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10);
             orig::FUN_10027340(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10 + 0xc,
-                         (float *)(&g_poseTranslation + iVar5 * 0xd),
+                         (float *)(&g_poseTranslation_as_v0 + iVar5 * 0xd),
                          (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34));
-            orig::Mat4_PostMultiply(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10,
+            orig::Mat4_PostMultiply_v1(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10,
                               (int)(g_boneWeightMatrixTable_as_v0 + uVar2 * 0x10));
           }
           local_48 = local_48 + 0x1e;
@@ -131,7 +131,7 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
       iVar4 = param_2;
       if (iVar5 < (int)uVar7) {
         iVar4 = 0;
-        puVar9 = &g_boneTouched + iVar5;
+        puVar9 = &g_boneTouched_as_v0 + iVar5;
         for (iVar3 = uVar7 - iVar5; iVar3 != 0; iVar3 = iVar3 + -1) {
           *puVar9 = 0;
           puVar9 = puVar9 + 1;
@@ -144,8 +144,8 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
         do {
           pfVar8 = g_boneWeightMatrixTable_as_v0;
           if (*pcVar6 != -1) {
-            (&g_boneTouched)[*pcVar6] = 1;
-            orig::Mat4_Copy(pfVar8 + *pcVar6 * 0x10,pfVar8 + pcVar6[-2] * 0x10);
+            (&g_boneTouched_as_v0)[*pcVar6] = 1;
+            orig::Mat4_Copy_v1(pfVar8 + *pcVar6 * 0x10,pfVar8 + pcVar6[-2] * 0x10);
           }
           pcVar6 = pcVar6 + 1;
         } while ((int)(pcVar6 + (-2 - param_4)) < 2);
@@ -157,14 +157,14 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
         pfVar8 = (float *)&DAT_1045f058;
         do {
           bVar1 = *local_48;
-          if ((pfVar8 != (float *)&DAT_1045f058) && ((&g_boneTouched)[param_4] == 0)) {
+          if ((pfVar8 != (float *)&DAT_1045f058) && ((&g_boneTouched_as_v0)[param_4] == 0)) {
             orig::FUN_10027340(pfVar8,(float *)(((char *)&DAT_1045f058) + (uint)bVar1 * 0x34),pfVar8 + -3);
             orig::FUN_10032fe0(pfVar8 + -10,(float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4));
             orig::FUN_10027340((float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4 + 0x30),pfVar8 + -6,
                          (float *)(((char *)&DAT_1045f058) + (uint)bVar1 * 0x34));
-            orig::Mat4_PostMultiply((void *)((int)g_boneWeightMatrixTable_as_v0 + iVar4),
+            orig::Mat4_PostMultiply_v1((void *)((int)g_boneWeightMatrixTable_as_v0 + iVar4),
                               (int)(g_boneWeightMatrixTable_as_v0 + (uint)bVar1 * 0x10));
-            (&g_boneTouched)[param_4] = 1;
+            (&g_boneTouched_as_v0)[param_4] = 1;
           }
           local_48 = local_48 + 0x1e;
           param_4 = param_4 + 1;
@@ -182,12 +182,12 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
         if (-1 < param_2) {
           do {
             if (iVar5 == 0) {
-              orig::Vec3_Copy((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale);
+              orig::Vec3_Copy_v1((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale_as_v0);
             }
             else {
               orig::FUN_10027340((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
                            (float *)(((char *)&DAT_1045f058) + (uint)*local_48 * 0x34),
-                           (float *)(((char *)&g_poseScale) + iVar5 * 0x34));
+                           (float *)(((char *)&g_poseScale_as_v0) + iVar5 * 0x34));
             }
             orig::fn_10027990_v1(local_40);
             orig::Mat4_SetScale_v1(local_40,(undefined4 *)(((char *)&DAT_1045f058) + iVar5 * 0x34));
@@ -214,23 +214,23 @@ XI_API void __stdcall Skel_ComposeFromBone(uint8_t * param_1)
   float *pfVar4;
   int iVar5;
   
-  uVar1 = *(ushort *)(g_pSharedSkeleton + 0x32);
+  uVar1 = *(ushort *)(g_pSharedSkeleton_as_s32 + 0x32);
   if ((int)param_1 < (int)(uint)uVar1) {
     iVar5 = (int)param_1 << 6;
     pfVar4 = (float *)(((char *)&DAT_1045f058) + (int)param_1 * 0x34);
     pbVar3 = param_1;
-    param_1 = (byte *)(g_pSharedSkeleton + 0x34 + (int)param_1 * 0x1e);
+    param_1 = (byte *)(g_pSharedSkeleton_as_s32 + 0x34 + (int)param_1 * 0x1e);
     do {
       uVar2 = (uint)*param_1;
-      if ((&g_boneTouched)[(int)pbVar3] == 0) {
+      if ((&g_boneTouched_as_v0)[(int)pbVar3] == 0) {
         orig::FUN_10027340(pfVar4,(float *)(((char *)&DAT_1045f058) + uVar2 * 0x34),pfVar4 + -3);
       }
       orig::FUN_10032fe0(pfVar4 + -10,(float *)(iVar5 + g_boneWeightMatrixTable));
       orig::FUN_10027340((float *)(iVar5 + 0x30 + g_boneWeightMatrixTable),pfVar4 + -6,
                    (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34));
-      orig::Mat4_PostMultiply((void *)(iVar5 + g_boneWeightMatrixTable),
+      orig::Mat4_PostMultiply_v1((void *)(iVar5 + g_boneWeightMatrixTable),
                         uVar2 * 0x40 + g_boneWeightMatrixTable);
-      (&g_boneTouched)[(int)pbVar3] = 1;
+      (&g_boneTouched_as_v0)[(int)pbVar3] = 1;
       param_1 = param_1 + 0x1e;
       pbVar3 = pbVar3 + 1;
       pfVar4 = pfVar4 + 0xd;
@@ -249,9 +249,9 @@ XI_API void __thiscall Skel_OffsetAllTranslations(void * self_, float * param_1,
   
   if ((*(int *)((int)self_ + 4) != 0) && (*(int *)((int)self_ + 0xc) != 0)) {
     g_boneWeightMatrixTable = *(int *)((int)self_ + 0xc);
-    g_pSharedSkeleton = orig::ResourceHandle_Deref(*(undefined4 **)((int)self_ + 4));
+    g_pSharedSkeleton_as_s32 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
     if (param_2 == 0) {
-      param_2 = *(ushort *)(g_pSharedSkeleton + 0x32) - 1;
+      param_2 = *(ushort *)(g_pSharedSkeleton_as_s32 + 0x32) - 1;
     }
     if (-1 < param_2) {
       iVar2 = param_2 + 1;
@@ -297,7 +297,7 @@ XI_API int __thiscall fn_10035210(void * self_)
   if (*(int *)((int)self_ + 4) != 0) {
     uVar1 = orig::ResourceHandle_IsResident_v1((undefined4 *)((int)self_ + 4));
     if ((char)uVar1 != '\0') {
-      iVar2 = orig::ResourceHandle_Deref(*(undefined4 **)((int)self_ + 4));
+      iVar2 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
       return iVar2 + 0x34 + (uint)*(ushort *)(iVar2 + 0x32) * 0x1e;
     }
   }
@@ -323,7 +323,7 @@ XI_API int __thiscall fn_10035270(void * self_, int param_1)
 {
   ushort *puVar1;
   
-  puVar1 = orig::FUN_10035250_v1(self_);
+  puVar1 = orig::FUN_10035250(self_);
   if (puVar1 == (ushort *)0x0) {
     return 0;
   }
@@ -339,7 +339,7 @@ XI_API undefined4 __thiscall fn_100352A0(void * self_)
   int iVar3;
   
   if ((*(int *)((int)self_ + 4) != 0) && (*(int *)((int)self_ + 0x14) != 0)) {
-    iVar2 = orig::ResourceHandle_Deref(*(undefined4 **)((int)self_ + 4));
+    iVar2 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
     uVar1 = *(ushort *)(iVar2 + 0x32);
     iVar3 = 0;
     iVar2 = iVar3;
@@ -364,7 +364,7 @@ XI_API void __thiscall fn_100352F0(void * self_)
   uint uVar2;
   int iVar3;
   
-  iVar3 = orig::ResourceHandle_Deref(*(undefined4 **)((int)self_ + 4));
+  iVar3 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
   uVar1 = *(ushort *)(iVar3 + 0x32);
   uVar2 = (uint)uVar1;
   while (uVar2 = uVar2 - 1, -1 < (int)uVar2) {

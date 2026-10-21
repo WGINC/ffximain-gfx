@@ -50,7 +50,7 @@ XI_API void * __thiscall fn_101C8070(void * self_)
 XI_API void __thiscall fn_101C80A0(void * self_)
 {
   *(undefined4 *)((int)self_ + 0x50) = 0xffffffff;
-  orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 0x54));
+  orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x54));
   *(undefined4 *)((int)self_ + 0x54) = 0;
   *(undefined4 *)((int)self_ + 0x58) = 0;
   return;
@@ -67,7 +67,7 @@ XI_API undefined4 __thiscall fn_101C80C0(void * self_, int param_1)
   
   orig::FUN_101c80a0(self_);
   iVar1 = param_1;
-  iVar2 = orig::FUN_101c4740(g_pFileMng,param_1,(int)self_ + 0x10,0x40,0);
+  iVar2 = orig::FUN_101c4740(g_pFileMng_as_v1,param_1,(int)self_ + 0x10,0x40,0);
   if (iVar2 == 0) {
     return 0;
   }
@@ -77,7 +77,7 @@ XI_API undefined4 __thiscall fn_101C80C0(void * self_, int param_1)
   uVar3 = orig::FUN_10257c80(self_,&param_1,0);
   *(uint *)((int)self_ + 0x58) = uVar3;
   if (*(int *)((int)self_ + 0x54) == 0) {
-    uVar4 = orig::Allocator_Generic(uVar3);
+    uVar4 = orig::Allocator_Generic_v1(uVar3);
     *(int *)((int)self_ + 0x54) = (int)uVar4;
   }
   *(undefined4 *)((int)self_ + 0x50) = 0xffffffff;
@@ -108,7 +108,7 @@ XI_API void __thiscall fn_101C8290(void * self_, int param_1)
   undefined8 uVar6;
   
   pvVar1 = *(LPVOID *)((int)self_ + 8);
-  uVar6 = orig::Allocator_Generic(param_1 * 0x1c);
+  uVar6 = orig::Allocator_Generic_v1(param_1 * 0x1c);
   iVar3 = 0;
   *(int *)((int)self_ + 8) = (int)uVar6;
   if (pvVar1 != (LPVOID)0x0) {
@@ -131,7 +131,7 @@ XI_API void __thiscall fn_101C8290(void * self_, int param_1)
         puVar4 = puVar4 + 7;
       } while (iVar5 != 0);
     }
-    orig::operator_delete_10311BB0(pvVar1);
+    orig::operator_delete_10311BB0_v1(pvVar1);
   }
   *(int *)((int)self_ + 4) = param_1;
   if (iVar3 < param_1) {
@@ -161,9 +161,9 @@ XI_API undefined4 __thiscall fn_101C8380(void * self_, int param_1)
   undefined8 uVar5;
   
   orig::FUN_101c5a30((void *)((int)self_ + 0xc),param_1);
-  uVar1 = orig::FileMng_ResolveOrExit(g_pFileMng,param_1);
+  uVar1 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_1);
   if (0x3f < uVar1) {
-    iVar2 = orig::FUN_101c4740(g_pFileMng,param_1,(int)self_ + 0x18,0x40,0);
+    iVar2 = orig::FUN_101c4740(g_pFileMng_as_v1,param_1,(int)self_ + 0x18,0x40,0);
     if (iVar2 != 0) {
       this_00 = (void *)((int)self_ + 0x58);
       orig::FUN_10257ba0(this_00,(int)self_ + 0x18,0x40);
@@ -172,11 +172,11 @@ XI_API undefined4 __thiscall fn_101C8380(void * self_, int param_1)
       }
       uVar1 = orig::FUN_10257bc0(this_00);
       if (uVar1 != 0) {
-        uVar5 = orig::Allocator_Generic(uVar1);
+        uVar5 = orig::Allocator_Generic_v1(uVar1);
         pvVar3 = (LPVOID)uVar5;
-        iVar2 = orig::FUN_101c4740(g_pFileMng,param_1,pvVar3,uVar1,0x40);
+        iVar2 = orig::FUN_101c4740(g_pFileMng_as_v1,param_1,pvVar3,uVar1,0x40);
         if (iVar2 == 0) {
-          orig::operator_delete_10311BB0(pvVar3);
+          orig::operator_delete_10311BB0_v1(pvVar3);
           return 0;
         }
         orig::FUN_10257bd0(this_00,pvVar3);
@@ -715,8 +715,8 @@ XI_API undefined4 __cdecl fn_101CC070(undefined4 param_1)
   }
   uVar1 = CONCAT31(uVar2,(char)param_1);
   if (((char)param_1 != '\0') &&
-     (uVar1 = DAT_104dfd98_as_v0, (*(byte *)(DAT_104dfd98_as_v0 + 0x40dac) & 0x40) != 0)) {
-    return CONCAT31((int3)(DAT_104dfd98_as_v0 >> 8),1);
+     (uVar1 = dword_104DFD98_as_v1, (*(byte *)(dword_104DFD98_as_v1 + 0x40dac) & 0x40) != 0)) {
+    return CONCAT31((int3)(dword_104DFD98_as_v1 >> 8),1);
   }
   return uVar1 & 0xffffff00;
 }
@@ -781,7 +781,7 @@ XI_API undefined4 __cdecl fn_101CC510(void)
 XI_API undefined4 __cdecl fn_101CC520(int param_1)
 {
   if ((param_1 != 0) && (*(ushort *)(param_1 + 0x1fa) != 0)) {
-    return (&ActerBuffPtr)[*(ushort *)(param_1 + 0x1fa)];
+    return (&ActerBuffPtr_as_v0)[*(ushort *)(param_1 + 0x1fa)];
   }
   return 0;
 }
@@ -803,7 +803,7 @@ XI_API undefined4 __cdecl fn_101CC550(void)
 XI_API undefined4 __cdecl fn_101CC560(int param_1)
 {
   if ((param_1 != 0) && (*(ushort *)(param_1 + 0x2a0) != 0)) {
-    return (&ActerBuffPtr)[*(ushort *)(param_1 + 0x2a0)];
+    return (&ActerBuffPtr_as_v0)[*(ushort *)(param_1 + 0x2a0)];
   }
   return 0;
 }

@@ -27,7 +27,7 @@ XI_API undefined8 __thiscall fn_10062770(void * self_)
   uVar2 = orig::FUN_1003b6d0((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
-    uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+    uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
     uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
@@ -37,7 +37,7 @@ XI_API undefined8 __thiscall fn_10062770(void * self_)
         uVar2 = orig::FUN_1003b6d0((void *)((int)self_ + 0x34));
         return uVar2;
       }
-      uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+      uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
       uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
       cVar1 = (char)uVar3;
     }
@@ -57,7 +57,7 @@ XI_API undefined8 __thiscall fn_100627D0(void * self_)
   uVar2 = orig::FUN_1003b700((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
-    uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+    uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
     uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
@@ -67,7 +67,7 @@ XI_API undefined8 __thiscall fn_100627D0(void * self_)
         uVar2 = orig::FUN_1003b700((void *)((int)self_ + 0x34));
         return uVar2;
       }
-      uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+      uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
       uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
       cVar1 = (char)uVar3;
     }
@@ -128,11 +128,11 @@ XI_API undefined8 __cdecl fn_10062E20(undefined4 * param_1, undefined4 param_2, 
   undefined4 *puVar3;
   undefined8 uVar4;
   
-  puVar3 = (undefined4 *)orig::FUN_100731b0_v1(g_pMeshResourceMng_as_v1,&param_1,param_1);
+  puVar3 = (undefined4 *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_1,param_1);
   piVar2 = (int *)*puVar3;
   pbVar1 = (byte *)(*piVar2 + 0x1a);
   *pbVar1 = *pbVar1 | 0x10;
-  uVar4 = orig::CMoResource_FindByTypeAndId((void *)*piVar2,&param_1,7,param_2);
+  uVar4 = orig::CMoResource_FindByTypeAndId_v1((void *)*piVar2,&param_1,7,param_2);
   puVar3 = (undefined4 *)*(int *)uVar4;
   uVar4 = CONCAT44((int)((ulonglong)uVar4 >> 0x20),puVar3);
   if (puVar3 != (undefined4 *)0x0) {
@@ -152,7 +152,7 @@ XI_API undefined8 __cdecl fn_10062E80(undefined4 param_1, undefined4 param_2, in
   puVar1 = (undefined4 *)*(int *)uVar2;
   uVar2 = CONCAT44((int)((ulonglong)uVar2 >> 0x20),puVar1);
   if (puVar1 != (undefined4 *)0x0) {
-    uVar2 = orig::CMoResource_FindByTypeAndId((void *)*puVar1,&param_1,7,param_2);
+    uVar2 = orig::CMoResource_FindByTypeAndId_v1((void *)*puVar1,&param_1,7,param_2);
     puVar1 = (undefined4 *)*(int *)uVar2;
     uVar2 = CONCAT44((int)((ulonglong)uVar2 >> 0x20),puVar1);
     if (puVar1 != (undefined4 *)0x0) {

@@ -100,7 +100,7 @@ XI_API void * __thiscall fn_10039830(void * self_)
   *(uint *)((int)self_ + 0x2c) = *(uint *)((int)self_ + 0x2c) & 0xfffffe00;
   iVar1 = DAT_1047b96c;
   DAT_1047b96c = DAT_1047b96c + 1;
-  orig::_sprintf(&DAT_10351c89,&DAT_10351cbc,iVar1);
+  orig::_sprintf_v1(&DAT_10351c89,&DAT_10351cbc,iVar1);
   orig::CYyTexBase_SetName_v1(self_,(undefined4 *)&DAT_10351c84);
   return self_;
 }

@@ -22,7 +22,7 @@ undefined4 __cdecl CYyCamMng2::CreateGlobal()
   void *self;
   undefined4 uVar1;
   
-  self = (void *)orig::Mem_AllocDefault(0x118);
+  self = (void *)orig::Mem_AllocDefault_v1(0x118);
   if (self == (void *)0x0) {
     DAT_10456d6c = (void *)0x0;
   }
@@ -52,8 +52,8 @@ XI_API long double __cdecl fn_1001E4D0(void)
   int iVar2;
   float10 fVar3;
   
-  iVar1 = orig::Camera_GetField50();
-  iVar2 = orig::Camera_GetField50();
+  iVar1 = orig::Camera_GetField50_v1();
+  iVar2 = orig::Camera_GetField50_v1();
   fVar3 = xi_castbits<float10>(fpatan(-(float10)*(float *)(iVar2 + 0x2c),(float10)*(float *)(iVar1 + 0x24)));
   return fVar3;
 }
@@ -65,14 +65,14 @@ XI_API void __thiscall fn_1001E4F0(void * self_)
   undefined4 *puVar1;
   
   puVar1 = (undefined4 *)((int)self_ + 0x44);
-  orig::Vec3_Copy(puVar1,(undefined4 *)&DAT_1035122c);
+  orig::Vec3_Copy_v1(puVar1,(undefined4 *)&DAT_1035122c);
   orig::FUN_10015290(0x43af0000);
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x50),puVar1);
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x50),puVar1);
   *(float *)((int)self_ + 0x58) = (float)((float10)*(float *)((int)self_ + 0x58) + (float10)xi_k4(0x3F800000ull));
   *(undefined4 *)((int)self_ + 0x5c) = 0;
   orig::FUN_10026e50((float *)((int)self_ + 0xa8),xi_k4(0x0ull),xi_k4(0xBF800000ull),xi_k4(0x0ull));
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x6c),(undefined4 *)((int)self_ + 0x50));
-  orig::Vec3_Copy((undefined4 *)((int)self_ + 0x60),puVar1);
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x6c),(undefined4 *)((int)self_ + 0x50));
+  orig::Vec3_Copy_v1((undefined4 *)((int)self_ + 0x60),puVar1);
   *(undefined4 *)((int)self_ + 0x78) = *(undefined4 *)((int)self_ + 0x5c);
   *(undefined4 *)((int)self_ + 0x84) = 0;
   *(undefined4 *)((int)self_ + 0x80) = 0;
@@ -98,7 +98,7 @@ XI_API void __thiscall fn_1001E590(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_1001E600(void * self_)
 {
-  *(undefined ***)self_ = &CYyObject_vtbl_ambiguous0;
+  *(undefined ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::fn_10027990_v1((void *)((int)self_ + 4));
   *(undefined1 *)((int)self_ + 0xf0) = 0;
   *(undefined ***)self_ = &PTR_CYyCamMng2_GetRuntimeClass_1032a37c;

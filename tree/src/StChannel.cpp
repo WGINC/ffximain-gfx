@@ -65,7 +65,7 @@ XI_API undefined4 __cdecl fn_10251180(uint32_t * param_1)
   undefined4 uVar1;
   
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[1])) {
-    uVar1 = orig::FUN_101c4a30(g_pFileMng,param_1[1]);
+    uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[1]);
     if ((char)uVar1 != '\0') {
       *param_1 = *param_1 | 0x20;
     }
@@ -144,7 +144,7 @@ XI_API undefined4 __cdecl StChannelItemClear(uint32_t * param_1)
     return 0;
   }
   if ((uVar1 & 4) != 0) {
-    uVar1 = orig::sqFree(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389748,0x16f);
+    uVar1 = orig::sqFree_v1(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389748,0x16f);
     param_1[6] = uVar1;
   }
   *param_1 = *param_1 & 0xffffffe1;

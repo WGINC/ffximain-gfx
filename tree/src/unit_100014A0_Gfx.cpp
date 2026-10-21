@@ -17,8 +17,8 @@ XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
     return uVar1 & 0xffffff00;
   }
   uVar1 = orig::FUN_10311c7a(uVar1,0x8001f);
-  if (g_pGameMode != (undefined *)0x0) {
-    uVar1 = orig::FUN_100daf30(g_pGameMode);
+  if (g_pGameMode_as_v0 != (undefined *)0x0) {
+    uVar1 = orig::FUN_100daf30(g_pGameMode_as_v0);
   }
   return CONCAT31((int3)(uVar1 >> 8),1);
 }
@@ -30,7 +30,7 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
   uint uVar1;
   undefined8 uVar2;
   
-  uVar2 = orig::Allocator_Generic(0xdc4);
+  uVar2 = orig::Allocator_Generic_v1(0xdc4);
   if ((void *)uVar2 == (void *)0x0) {
     g_pAppInputState_as_v0 = (void *)0x0;
     uVar1 = 0;
@@ -56,7 +56,7 @@ XI_API void __cdecl fn_10001D90(undefined4 param_1)
   char xi_frame[8] __attribute__((aligned(4)));
   int  (&local_8)[2] = *reinterpret_cast<int  (*)[2]>(xi_frame + 0);
   
-  iVar1 = orig::FUN_1015edb0(&g_menuMng);
+  iVar1 = orig::FUN_1015edb0(&g_menuMng_as_v0);
   if ((char)iVar1 != '\0') {
     local_8[0] = 0;
     local_8[1] = 0;
@@ -99,7 +99,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
       cVar1 = *pcVar2;
       pcVar2 = pcVar2 + 1;
     } while (cVar1 != '\0');
-    uVar9 = orig::Allocator_Generic(~uVar3 + ~uVar4);
+    uVar9 = orig::Allocator_Generic_v1(~uVar3 + ~uVar4);
     pcVar2 = (char *)uVar9;
     pcVar5 = DAT_103d3c88;
     pcVar7 = pcVar2;
@@ -122,7 +122,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
       cVar1 = *pcVar5;
       pcVar5 = pcVar7;
     } while (cVar1 != '\0');
-    *(undefined2 *)(pcVar7 + -1) = c_strSpace;
+    *(undefined2 *)(pcVar7 + -1) = c_strSpace_as_v0;
     uVar3 = 0xffffffff;
     do {
       pcVar5 = param_1;
@@ -157,7 +157,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
     }
     xi_entry_eax = 0;
     if (DAT_103d3c88 != (char *)0x0) {
-      uVar9 = orig::operator_delete_10311BB0(DAT_103d3c88);
+      uVar9 = orig::operator_delete_10311BB0_v1(DAT_103d3c88);
       xi_entry_eax = (undefined4)uVar9;
     }
   }
@@ -605,7 +605,7 @@ XI_API void __cdecl fn_10002E80(undefined4 param_1)
   fVar1 = orig::FUN_10002ee0(param_1);
   fVar2 = (float)fVar1;
   fVar1 = orig::FUN_10002ec0(param_1);
-  orig::FUN_100153a0_v1((float)fVar1,fVar2);
+  orig::FUN_100153a0((float)fVar1,fVar2);
   return;
 }
 
@@ -640,7 +640,7 @@ XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5
   int v9;
   char v11;
   v11 = 0;
-  v5 = orig::Allocator_Generic_v1(0x478u);
+  v5 = orig::Allocator_Generic(0x478u);
   if ( v5 != nullptr )
   {
     v6 = (D3DHolder *)orig::D3DHolder_Constructor(v5);
@@ -728,7 +728,7 @@ XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char 
     *(_DWORD *)(self_ + 64) = v9;
     if ( v9 != 0 )
     {
-      v10 = orig::Allocator_Generic_v1(16 * v9);
+      v10 = orig::Allocator_Generic(16 * v9);
       *(_DWORD *)(self_ + 68) = v10;
       if ( v10 != nullptr )
       {

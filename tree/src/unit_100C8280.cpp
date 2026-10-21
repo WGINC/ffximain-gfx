@@ -32,13 +32,13 @@ XI_API uint32_t __thiscall fn_100C8280(void * self_)
   local_70[7] = xi_k4(0x3F800000ull);
   orig::fn_10027990_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
-  orig::Mat4_PostRotateX(local_40,*(float *)((int)self_ + 0x61c));
-  orig::Mat4_PostRotateY(local_40,*(float *)((int)self_ + 0x620));
-  orig::Mat4_PostRotateZ(local_40,*(float *)((int)self_ + 0x624));
+  orig::Mat4_PostRotateX_v1(local_40,*(float *)((int)self_ + 0x61c));
+  orig::Mat4_PostRotateY_v1(local_40,*(float *)((int)self_ + 0x620));
+  orig::Mat4_PostRotateZ_v1(local_40,*(float *)((int)self_ + 0x624));
   pfVar1 = (float *)((int)self_ + 0x5fc);
   orig::Mat4_SetTranslation_v1(local_40,pfVar1);
-  orig::Mat4_TransformPointInPlace(local_40,local_70);
-  orig::Mat4_TransformPointInPlace(local_40,local_70 + 4);
+  orig::Mat4_TransformPointInPlace_v1(local_40,local_70);
+  orig::Mat4_TransformPointInPlace_v1(local_40,local_70 + 4);
   uVar4 = orig::FUN_10181590(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
   if ((char)uVar4 != '\0') {
     *pfVar1 = (float)(((float10)local_70[8] - (float10)local_70[0]) + (float10)*pfVar1);
@@ -157,7 +157,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
   bool xi_fpu_unord = false;
 
   v1 = self_;
-  v2 = orig::Camera_GetFrameScale_v1() * 0x1.99999a0000000p-2;
+  v2 = orig::Camera_GetFrameScale() * 0x1.99999a0000000p-2;
   v82 = v2;
   (xi_fpu_unord = __builtin_isunordered(v2, 1.0), v4 = v2 < 1.0);
   v5 = 0;
@@ -194,7 +194,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       *((_DWORD *)v9 + 22) = *((_DWORD *)v9 + 152);
       v10 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self_ + 444))(self_);
       orig::Vec3_Sub(v97, (float *)v9 + 12, v10);
-      orig::sub_10027340_v1(v96, v97, v97);
+      orig::sub_10027340(v96, v97, v97);
       v11 = v96[2] + v96[1] + v96[0];
       v13 = sqrt(v11);
       (xi_fpu_unord = __builtin_isunordered(v13, *((float *)v9 + 18)), v14 = v13 < *((float *)v9 + 18));
@@ -318,7 +318,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
         *(_DWORD *)v30 = 3;
         v33 = (float *)(*(int (__thiscall **)(void *))(*(_DWORD *)self_ + 444))(self_);
         orig::Vec3_Sub(v30 + 16, v33, v30 + 13);
-        orig::sub_100274B0_v1(v30 + 16);
+        orig::sub_100274B0(v30 + 16);
         orig::fn_100272B0((int)(v30 + 1), *(float *)((char *)&v92 + v31));
       }
     }
@@ -368,7 +368,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
   orig::XiZone_GetFog(g_pXiZone, &v85, (float *)&v87, (float *)&v86, v36, v41);
   v42 = (void *)orig::sub_10157CF0(g_pTargetMng);
   if ( v42 == nullptr )
-    v42 = (void *)orig::sub_10081600((int)XiControlActor_userControlTarget_as_v0);
+    v42 = (void *)orig::sub_10081600((int)XiControlActor_userControlTarget);
   if ( v42 == self_ || (*((_DWORD *)self_ + 34) & 0x200) != 0 )
   {
     v44 = *((_DWORD *)self_ + 528);
@@ -444,7 +444,7 @@ XI_API int __thiscall Actor_SelectNearestLights(void *self_)
       if ( ((__int16)(((v72 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v74 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
         v90 = 255.0;
       v85 = (__int64)*(float *)&v88 | (((__int64)v89 | ((unsigned int)(__int64)v90 << 8)) << 8);
-      v75 = *((float *)self_ + 529) - orig::Camera_GetFrameScale_v1();
+      v75 = *((float *)self_ + 529) - orig::Camera_GetFrameScale();
       *((float *)self_ + 529) = v75;
       if ( v75 < 0.0 )
       {

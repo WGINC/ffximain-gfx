@@ -45,9 +45,9 @@ void __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
       orig::FUN_10040220(this_00,&g_scratchValue_as_v1,(int)self);
     }
     else {
-      orig::CMoElemFamily_SharedEarlyExit(self);
+      orig::CMoElemFamily_SharedEarlyExit_v1(self);
     }
-    puVar2 = (undefined4 *)orig::FUN_10044c40_v1(self,local_c);
+    puVar2 = (undefined4 *)orig::FUN_10044c40(self,local_c);
     local_18 = *puVar2;
     local_14 = puVar2[1];
     local_10 = puVar2[2];
@@ -57,7 +57,7 @@ void __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
     orig::YmElem_RestoreDevice(self,0xffff);
     orig::FUN_1006a450(g_pResourceMng_as_v0);
     orig::CMoDX_PopViewMatrix_v1(g_pResourceMng_as_v0);
-    orig::FUN_1006a0e0_v1(g_pResourceMng_as_v0,0,0);
+    orig::FUN_1006a0e0(g_pResourceMng_as_v0,0,0);
     uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x3c))))((void *)(self));
     orig::YmElem_SetupDevice(self,uVar3);
     orig::EndEffectOffscreenPass(&local_18,&local_24);

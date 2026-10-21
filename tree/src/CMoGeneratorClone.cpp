@@ -57,8 +57,8 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   this->field_DC = 0;
   this->field_B0 = 0;
   this->field_EC = self + 96 + v3;
-  orig::CMoAttachments_ClearCaster_v1((_DWORD *)(self + 48), 0);
-  orig::CMoAttachments_ClearTarget_v1((_DWORD *)v5, 0);
+  orig::CMoAttachments_ClearCaster((_DWORD *)(self + 48), 0);
+  orig::CMoAttachments_ClearTarget((_DWORD *)v5, 0);
   this->field_78 = 1065353216;
   this->field_7C = 1065353216;
   this->field_80 = 1065353216;
@@ -171,7 +171,7 @@ void __thiscall CMoGeneratorClone::UnlinkElemListA(void * self, int param_1)
   if (*(int *)(param_1 + 0x150) != 0) {
     *(undefined4 *)(*(int *)(param_1 + 0x150) + 0x14c) = *(undefined4 *)(param_1 + 0x14c);
   }
-  orig::CMoResource_ReleaseChain(self);
+  orig::CMoResource_ReleaseChain_v1(self);
   return;
 }
 
@@ -237,7 +237,7 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
     }
     iVar1 = *(int *)((int)self + 0xe4);
     local_4 = self;
-    uVar8 = orig::CMoResource_FindByTypeAndId(self,&local_4,iVar5,*(undefined4 *)(iVar1 + 0xc));
+    uVar8 = orig::CMoResource_FindByTypeAndId_v1(self,&local_4,iVar5,*(undefined4 *)(iVar1 + 0xc));
     iVar2 = *(int *)uVar8;
     *(int *)(iVar1 + 8) = iVar2;
     if ((iVar2 == 0) && (iVar5 == 0x1f)) {
@@ -245,7 +245,7 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
       piVar6 = *(int **)((int)self + 0x14);
       do {
         if ((piVar6 == (int *)0x0) || ((void *)*piVar6 == (void *)0x0)) break;
-        uVar8 = orig::CMoResource_FindByTypeAndId
+        uVar8 = orig::CMoResource_FindByTypeAndId_v1
                           ((void *)*piVar6,&local_4,0x2e,
                            *(undefined4 *)(*(int *)((int)self + 0xe4) + 0xc));
         piVar3 = (int *)*(int *)uVar8;
@@ -362,14 +362,14 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
   int v8;
   int i;
   int v11;
-  v5 = orig::Mem_AllocWithFallback_v1(252, 1);
+  v5 = orig::Mem_AllocWithFallback(252, 1);
   v6 = (int)v5;
   byte_1047D12C = 1;
   if ( v5 != nullptr )
   {
     orig::CMoGeneratorClone_VT_1032B114_Constructor((int)v5);
-    *(_DWORD *)v6 = &CMoGeneratorClone_vtbl_as_v0;
-    *(_DWORD *)(v6 + 48) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
+    *(_DWORD *)v6 = &CMoGeneratorClone_vtbl;
+    *(_DWORD *)(v6 + 48) = &mixin_of_CMoGeneratorClone_0x1032B680;
     *(_DWORD *)(v6 + 240) = 0;
     *(_DWORD *)(v6 + 248) = 0;
   }
@@ -408,7 +408,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
     if ( *(_BYTE *)i == 4 )
     {
       if ( *(_DWORD *)(i + 4) == 0 )
-        *(_DWORD *)(i + 4) = *orig::CMoResource_FindByTypeAndId_v1(self, &a2, 25, *(_DWORD *)(i + 8));
+        *(_DWORD *)(i + 4) = *orig::CMoResource_FindByTypeAndId(self, &a2, 25, *(_DWORD *)(i + 8));
       a4 = this->flags & 0x1FF;
       *(float *)(i + 16) = (float)a4;
     }
@@ -442,9 +442,9 @@ int CMoGeneratorClone::InitDefaultParams()
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
-  *(undefined ***)self = &CMoGeneratorClone_vtbl;
-  *(undefined4 *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680;
-  orig::YmGenerater_Stop(self,(undefined4 *)0x0);
+  *(undefined ***)self = &CMoGeneratorClone_vtbl_as_v0;
+  *(undefined4 *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
+  orig::YmGenerater_Stop_v1(self,(undefined4 *)0x0);
   orig::FUN_1003b690((undefined4 *)((int)self + 0x30));
   if (*(int **)((int)self + 0xa8) != (int *)0x0) {
     (**(code **)(**(int **)((int)self + 0xa8) + 0x18))(1);
@@ -453,7 +453,7 @@ void __thiscall CMoGeneratorClone::Destructor(void * self)
   if (*(int *)((int)self + 0xf8) != 0) {
     *(undefined4 *)(*(int *)((int)self + 0xf8) + 0x164) = 0;
   }
-  orig::NodePool_ReleaseNode(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
+  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
   orig::CMoGeneratorClone_VT_1032B114_Destructor_v1(self);
   return;
 }

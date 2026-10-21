@@ -13,7 +13,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
     orig::nullsub_13_v1(s_Thread_Num_Over___10351c70);
     return;
   }
-  uVar1 = orig::Allocator_Generic(0x10);
+  uVar1 = orig::Allocator_Generic_v1(0x10);
   if ((void *)uVar1 != (void *)0x0) {
     this_00 = (void *)orig::FUN_100395d0((void *)uVar1);
     if (this_00 != (void *)0x0) {

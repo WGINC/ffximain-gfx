@@ -17,7 +17,7 @@ XI_API void * __thiscall fn_10029D30(void * self_)
   int iVar1;
   void *this_00;
   
-  *(undefined ***)self_ = &CYyObject_vtbl_ambiguous0;
+  *(undefined ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::FUN_10034230((void *)((int)self_ + 8));
   this_00 = (void *)((int)self_ + 0x24);
   iVar1 = 7;
@@ -59,7 +59,7 @@ void __thiscall CYyModelBase::Destructor(void * self)
   
   *(undefined ***)self = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
   if (*(undefined4 **)((int)self + 0xc) != (undefined4 *)0x0) {
-    orig::CMoResource_ReleaseChain((void *)**(undefined4 **)((int)self + 0xc));
+    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self + 0xc));
   }
   piVar1 = *(int **)((int)self + 4);
   if (piVar1 != (int *)0x0) {
@@ -115,9 +115,9 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
   undefined4 *this_01;
   
   this_01 = (undefined4 *)0x0;
-  iVar1 = orig::ResourceHandle_Deref(param_1);
+  iVar1 = orig::ResourceHandle_Deref_v1(param_1);
   if ((*(byte *)(iVar1 + 0x32) & 0x7f) == 0) {
-    this_01 = (undefined4 *)orig::Mem_AllocDefault(0x3c);
+    this_01 = (undefined4 *)orig::Mem_AllocDefault_v1(0x3c);
     if (this_01 == (undefined4 *)0x0) {
       return (undefined4 *)0x0;
     }
@@ -125,7 +125,7 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
     *this_01 = &PTR_CYyModelDt_GetRuntimeClass_1032a72c;
   }
   else if ((*(byte *)(iVar1 + 0x32) & 0x7f) == 1) {
-    this_00 = (void *)orig::Mem_AllocDefault(0x1c8);
+    this_00 = (void *)orig::Mem_AllocDefault_v1(0x1c8);
     if ((this_00 == (void *)0x0) || (this_01 = orig::FUN_10025010(this_00), this_01 == (undefined4 *)0x0))
     {
       return (undefined4 *)0x0;

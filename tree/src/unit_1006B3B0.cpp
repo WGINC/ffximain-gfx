@@ -15,7 +15,7 @@ XI_API int __cdecl fn_1006B3B0(void)
   if ( Fn1006B3B0_static_C008 != 0 )
   {
     orig::OcclusionQuery_Release((int *)Fn1006B3B0_static_C008);
-    orig::operator_delete_10311BB0_v1(v0);
+    orig::operator_delete_10311BB0(v0);
     Fn1006B3B0_static_C008 = 0;
   }
   if ( dword_1047BC94 != 0 )
@@ -196,6 +196,6 @@ XI_API int __cdecl Mem_AllocWithHeader12(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::Mem_AllocObject(param_1 + 0xc,param_2);
+  puVar1 = orig::Mem_AllocObject_v1(param_1 + 0xc,param_2);
   return (int)(puVar1 + 3);
 }

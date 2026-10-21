@@ -66,13 +66,13 @@ XI_API long double __thiscall fn_1003C7D0(void * self_, uint8_t * param_2, float
   float10 fVar6;
   
   bVar4 = 0;
-  if (((*param_2 & 2) == 0) && (iVar1 = orig::FUN_1003b8b0_v1(self_), iVar1 != 0)) {
-    piVar2 = (int *)orig::FUN_1003b8b0_v1(self_);
+  if (((*param_2 & 2) == 0) && (iVar1 = orig::FUN_1003b8b0(self_), iVar1 != 0)) {
+    piVar2 = (int *)orig::FUN_1003b8b0(self_);
     uVar3 = ((int (__thiscall *)(void *))((**(code **)(*piVar2 + 0x304))))((void *)(piVar2));
     bVar4 = (byte)uVar3;
   }
-  if (((*param_2 & 4) == 0) && (iVar1 = orig::FUN_1003b900_v1(self_), iVar1 != 0)) {
-    piVar2 = (int *)orig::FUN_1003b900_v1(self_);
+  if (((*param_2 & 4) == 0) && (iVar1 = orig::FUN_1003b900(self_), iVar1 != 0)) {
+    piVar2 = (int *)orig::FUN_1003b900(self_);
     uVar3 = ((int (__thiscall *)(void *))((**(code **)(*piVar2 + 0x304))))((void *)(piVar2));
     bVar4 = bVar4 | (byte)uVar3;
   }

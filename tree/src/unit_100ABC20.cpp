@@ -10,7 +10,7 @@ XI_API void * __thiscall fn_100ABC20(void * self_, char * param_1, int param_2)
   int iVar2;
   undefined2 *puVar3;
   
-  orig::_strncpy(self_,param_1,0xf);
+  orig::_strncpy_v1(self_,param_1,0xf);
   iVar2 = 0;
   *(undefined1 *)((int)self_ + 0xf) = 0;
   *(undefined2 *)((int)self_ + 0x22) = *(undefined2 *)(param_2 + 0x12);

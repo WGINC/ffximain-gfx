@@ -35,20 +35,20 @@ XI_API void __thiscall fn_1018ABF0(void * self_)
     *(undefined4 *)(iVar2 + 0x20) = 0;
   }
   bVar1 = false;
-  orig::ResourceIter_FindFirst(local_1c,*(int *)(*(int *)((int)self_ + 4) + 0x14),1,0,0xffffffff);
-  iVar2 = orig::ResourceIter_FindNext(local_1c,0);
+  orig::ResourceIter_FindFirst_v1(local_1c,*(int *)(*(int *)((int)self_ + 4) + 0x14),1,0,0xffffffff);
+  iVar2 = orig::ResourceIter_FindNext_v1(local_1c,0);
   do {
     if (iVar2 == 0) {
 LAB_1018ac60:
       do {
         orig::FUN_10074310(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
         do {
-          pvVar3 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+          pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
           if (pvVar3 == (void *)0x0) {
             do {
-              orig::ResourceIter_FindFirst(local_1c,*(int *)((int)self_ + 0xc),5,0,0xffffffff);
+              orig::ResourceIter_FindFirst_v1(local_1c,*(int *)((int)self_ + 0xc),5,0,0xffffffff);
               do {
-                pvVar3 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+                pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
                 if (pvVar3 == (void *)0x0) {
                   if (*(int *)((int)*(void **)((int)self_ + 4) + 0x18) == *(int *)((int)self_ + 0x20))
                   {
@@ -62,11 +62,11 @@ LAB_1018ac60:
                   else {
                     *(undefined4 *)((int)pvVar3 + 8) = *(undefined4 *)((int)self_ + 8);
                   }
-                  orig::ResourceIter_FindFirst(local_1c,*(int *)((int)self_ + 0xc),7,0,0xffffffff);
-                  pvVar3 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+                  orig::ResourceIter_FindFirst_v1(local_1c,*(int *)((int)self_ + 0xc),7,0,0xffffffff);
+                  pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
                   while (pvVar3 != (void *)0x0) {
-                    orig::FUN_10056eb0_v1(pvVar3);
-                    pvVar3 = (void *)orig::ResourceIter_FindNext(local_1c,0);
+                    orig::FUN_10056eb0(pvVar3);
+                    pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
                   }
                   return;
                 }
@@ -84,6 +84,6 @@ LAB_1018ac60:
       bVar1 = true;
       goto LAB_1018ac60;
     }
-    iVar2 = orig::ResourceIter_FindNext(local_1c,0);
+    iVar2 = orig::ResourceIter_FindNext_v1(local_1c,0);
   } while( true );
 }

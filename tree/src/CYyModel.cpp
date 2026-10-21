@@ -14,7 +14,7 @@ char ** __cdecl CYyModel::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModel::Constructor(void * self)
 {
-  *(undefined ***)self = &CYyObject_vtbl_ambiguous0;
+  *(undefined ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::FUN_10033710((void *)((int)self + 0x48));
   orig::FUN_1001d170((void *)((int)self + 0x74));
   orig::FUN_10025bf0((void *)((int)self + 0x8c));
@@ -75,7 +75,7 @@ undefined4 __thiscall CYyModel::CreateModelBase(void * self)
 {
   void *pvVar1;
   
-  pvVar1 = (void *)orig::Mem_AllocDefault(200);
+  pvVar1 = (void *)orig::Mem_AllocDefault_v1(200);
   if (pvVar1 != (void *)0x0) {
     pvVar1 = orig::FUN_10029d30(pvVar1);
     if (pvVar1 != (void *)0x0) {

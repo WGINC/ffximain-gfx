@@ -19,7 +19,7 @@ XI_API undefined4 __cdecl fn_10083430(void * param_1, int param_2, uint32_t para
   undefined8 uVar10;
   int local_8;
   
-  uVar10 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar10 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   pvVar2 = (void *)uVar10;
   uVar3 = orig::CXiActor_IsModelMissingOrFlag2000_v1(param_1);
   bVar7 = (char)uVar3 == '\x01';
@@ -40,14 +40,14 @@ XI_API undefined4 __cdecl fn_10083430(void * param_1, int param_2, uint32_t para
        ((uVar3 = orig::FUN_101cc220((int)self_), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
       return uVar3 & 0xffffff00;
     }
-    iVar4 = orig::Settings_GetValue(0x97);
+    iVar4 = orig::Settings_GetValue_v1(0x97);
     if (((((iVar4 != 0) && ((*(uint *)((int)self_ + 0x1d0) & 0x100) != 0)) &&
          (uVar3 = *(uint *)((int)self_ + 300), (uVar3 >> 0xd & 1) != 0)) &&
         (((uVar3 >> 0x1e & 1) == 0 && (-1 < (int)uVar3)))) &&
        ((uVar3 = orig::FUN_101cc220((int)self_), (char)uVar3 == '\0' && ((void *)param_2 != self_)))) {
       return uVar3 & 0xffffff00;
     }
-    iVar4 = orig::Settings_GetValue(0xaa);
+    iVar4 = orig::Settings_GetValue_v1(0xaa);
     if (((iVar4 != 0) && ((*(uint *)((int)self_ + 300) >> 0x16 & 1) != 0)) &&
        ((*(byte *)((int)self_ + 0x1d0) & 0xc) == 0)) {
       return (*(uint *)((int)self_ + 300) >> 0x1e) << 8;
@@ -105,19 +105,19 @@ XI_API int * __cdecl fn_10083620(uint32_t param_1, uint32_t param_2)
   float  (&afStack_4c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 8);
   undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 20);
   
-  uVar7 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   if ((int)uVar7 == 0) {
     return (int *)0x0;
   }
   orig::fn_10027990_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
-  uVar7 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   iVar1 = (**(code **)(*(int *)uVar7 + 0x1c0))();
-  orig::Mat4_PostRotateY(local_40,*(float *)(iVar1 + 4));
-  uVar7 = orig::ActorHandle_Resolve(&g_targetActorHandle);
+  orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar1 + 4));
+  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   puVar2 = (undefined4 *)(**(code **)(*(int *)uVar7 + 0x1bc))();
-  orig::Mat4_SetRow3(local_40,puVar2);
-  orig::Mat4_InvertOrthonormal(local_40);
+  orig::Mat4_SetRow3_v1(local_40,puVar2);
+  orig::Mat4_InvertOrthonormal_v1(local_40);
   piStack_50 = (int *)0x0;
   fStack_54 = xi_k4(0x451C4000ull);
   iVar1 = orig::FUN_101cc510();

@@ -7,8 +7,8 @@
 XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
 {
   if ((*(ushort *)((int)self_ + 0x54) != 0) &&
-     ((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x54)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x54)] + 0xa0);
+     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x54)] != 0)) {
+    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x54)] + 0xa0);
   }
   return 0;
 }
@@ -18,8 +18,8 @@ XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
 XI_API undefined4 __thiscall fn_101CDA00(void * self_)
 {
   if ((*(ushort *)((int)self_ + 0x56) != 0) &&
-     ((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x56)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x56)] + 0xa0);
+     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x56)] != 0)) {
+    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x56)] + 0xa0);
   }
   return 0;
 }
@@ -29,8 +29,8 @@ XI_API undefined4 __thiscall fn_101CDA00(void * self_)
 XI_API undefined4 __thiscall fn_101CDA30(void * self_)
 {
   if ((*(ushort *)((int)self_ + 0x5a) != 0) &&
-     ((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x5a)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr)[*(ushort *)((int)self_ + 0x5a)] + 0xa0);
+     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x5a)] != 0)) {
+    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x5a)] + 0xa0);
   }
   return 0;
 }

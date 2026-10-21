@@ -11,11 +11,11 @@ XI_API undefined4 __cdecl fn_10253160(uint32_t * param_1)
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[4])) {
     param_1[1] = 0;
     param_1[2] = 0;
-    uVar1 = orig::FUN_101c4a30(g_pFileMng,param_1[3]);
+    uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[3]);
     if ((char)uVar1 != '\0') {
       *param_1 = *param_1 | 0x10;
     }
-    uVar1 = orig::FUN_101c4a30(g_pFileMng,param_1[4]);
+    uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[4]);
     if ((char)uVar1 != '\0') {
       *param_1 = *param_1 | 0x10;
     }

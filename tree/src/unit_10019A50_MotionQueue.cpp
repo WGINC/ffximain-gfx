@@ -411,7 +411,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
   }
   uVar8 = 0;
   if (DAT_10462430 != 0) {
-    puVar7 = &g_poseTranslation;
+    puVar7 = &g_poseTranslation_as_v0;
     do {
       uVar4 = DAT_10456d30;
       puVar7[-4] = DAT_10456d2c;
@@ -420,8 +420,8 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
       uVar4 = DAT_10456d38;
       puVar7[-2] = uVar3;
       puVar7[-1] = uVar4;
-      orig::Vec3_Copy(puVar7,(undefined4 *)&DAT_10456d3c);
-      orig::Vec3_Copy(puVar7 + 3,(undefined4 *)&DAT_1035109c);
+      orig::Vec3_Copy_v1(puVar7,(undefined4 *)&DAT_10456d3c);
+      orig::Vec3_Copy_v1(puVar7 + 3,(undefined4 *)&DAT_1035109c);
       uVar8 = uVar8 + 1;
       puVar7 = puVar7 + 0xd;
     } while (uVar8 < DAT_10462430);
@@ -441,7 +441,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
     uVar8 = DAT_10462430;
     do {
       if (*(int *)((int)this_00 + 4) != 0) {
-        orig::CYyMotionQue_SampleInto(this_00,iVar6,&g_poseScratch);
+        orig::CYyMotionQue_SampleInto(this_00,iVar6,&g_poseScratch_as_v0);
         uVar5 = 0;
         uVar8 = DAT_10462430;
         if (DAT_10462430 != 0) {
@@ -480,17 +480,17 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
             uVar4 = CONCAT31((int3)((uint)DAT_1045f028 >> 8),bVar1);
             if (((char)bVar1 < '\0') && ((bVar1 & 0x3f) != 0)) {
               puVar7 = (undefined4 *)
-                       orig::Quat_NLerp((undefined4 *)((int)&g_poseScratch + iVar6),local_10,
+                       orig::Quat_NLerp((undefined4 *)((int)&g_poseScratch_as_v0 + iVar6),local_10,
                                   (float *)(((char *)&DAT_1045b820) + iVar6),fVar2);
-              *(undefined4 *)((int)&g_poseScratch + iVar6) = *puVar7;
+              *(undefined4 *)((int)&g_poseScratch_as_v0 + iVar6) = *puVar7;
               *(undefined4 *)((int)&DAT_1045f034 + iVar6) = puVar7[1];
               *(undefined4 *)((int)&DAT_1045f038 + iVar6) = puVar7[2];
               *(undefined4 *)((int)&DAT_1045f03c + iVar6) = puVar7[3];
               orig::FUN_10032a70();
-              orig::Vec3_Lerp((float *)((int)&g_poseTranslation + iVar6),(float *)(((char *)&DAT_1045b830) + iVar6),
-                        (float *)((int)&g_poseTranslation + iVar6),fVar2);
-              uVar4 = orig::Vec3_Lerp((float *)(((char *)&g_poseScale) + iVar6),(float *)(((char *)&DAT_1045b83c) + iVar6),
-                                (float *)(((char *)&g_poseScale) + iVar6),fVar2);
+              orig::Vec3_Lerp((float *)((int)&g_poseTranslation_as_v0 + iVar6),(float *)(((char *)&DAT_1045b830) + iVar6),
+                        (float *)((int)&g_poseTranslation_as_v0 + iVar6),fVar2);
+              uVar4 = orig::Vec3_Lerp((float *)(((char *)&g_poseScale_as_v0) + iVar6),(float *)(((char *)&DAT_1045b83c) + iVar6),
+                                (float *)(((char *)&g_poseScale_as_v0) + iVar6),fVar2);
               uVar8 = DAT_10462430;
             }
             uVar5 = uVar5 + 1;

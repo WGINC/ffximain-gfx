@@ -69,22 +69,22 @@ XI_API int * __cdecl sqsdGeneric_BakeOntoShape(int param_1, int * param_2)
   
   uVar4 = 0;
   if ((*param_2 == 0xa0009) && (param_2[0x14] != 0)) {
-    orig::sqDebugPrintf(s_WARNING__Spherigon_object_cannot_103bad58);
+    orig::sqDebugPrintf_v1(s_WARNING__Spherigon_object_cannot_103bad58);
     return param_2;
   }
   iVar1 = param_2[0xd];
   if ((*(int *)(param_1 + 0x98) != 0) && (uVar4 = 2, *(int *)(iVar1 + 0x58) == 0)) {
-    orig::sqDebugPrintf(s_ERROR__model_is_missing_vertex_n_103bad30);
+    orig::sqDebugPrintf_v1(s_ERROR__model_is_missing_vertex_n_103bad30);
   }
   if ((*(int *)(param_1 + 0x4c) != 0) && (uVar4 = uVar4 | 4, *(int *)(iVar1 + 0x5c) == 0)) {
-    orig::sqDebugPrintf(s_ERROR__model_is_missing_vertex_u_103bad0c);
+    orig::sqDebugPrintf_v1(s_ERROR__model_is_missing_vertex_u_103bad0c);
   }
   if ((*(int *)(param_1 + 0xa8) != 0) && (uVar4 = uVar4 | 1, *(int *)(iVar1 + 0x60) == 0)) {
-    orig::sqDebugPrintf(s_ERROR__model_is_missing_vertex_c_103bace4);
+    orig::sqDebugPrintf_v1(s_ERROR__model_is_missing_vertex_c_103bace4);
   }
-  orig::sqgxContext_SelectShaderMode(uVar4,0);
+  orig::sqgxShader_v1(uVar4,0);
   orig::FUN_1029b5c0();
-  orig::sqDrawableDraw((int)param_2);
+  orig::sqDrawableDraw_v1((int)param_2);
   puVar2 = orig::FUN_1029b620();
   orig::FUN_102a3760();
   piVar3 =(int*)(orig::FUN_102a2000());

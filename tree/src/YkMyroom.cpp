@@ -11,29 +11,29 @@ XI_API void __thiscall fn_101D2F00(void * self_)
   orig::FUN_101d30b0(self_);
   orig::FUN_101594d0(g_pTargetMng,0);
   if (DAT_106631dc != (undefined4 *)0x0) {
-    orig::FUN_1015e8a0(&g_menuMng,DAT_106631dc[2]);
+    orig::FUN_1015e8a0(&g_menuMng_as_v0,DAT_106631dc[2]);
     if (DAT_106631dc != (undefined4 *)0x0) {
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)*DAT_106631dc)))((void *)(DAT_106631dc),1);
       DAT_106631dc = (undefined4 *)0x0;
     }
   }
   if (DAT_106631e0 != (undefined4 *)0x0) {
-    orig::FUN_1015e8a0(&g_menuMng,DAT_106631e0[2]);
+    orig::FUN_1015e8a0(&g_menuMng_as_v0,DAT_106631e0[2]);
     if (DAT_106631e0 != (undefined4 *)0x0) {
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)*DAT_106631e0)))((void *)(DAT_106631e0),1);
       DAT_106631e0 = (undefined4 *)0x0;
     }
   }
   if (DAT_106631e4 != (undefined4 *)0x0) {
-    orig::FUN_1015e8a0(&g_menuMng,DAT_106631e4[2]);
+    orig::FUN_1015e8a0(&g_menuMng_as_v0,DAT_106631e4[2]);
     if (DAT_106631e4 != (undefined4 *)0x0) {
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)*DAT_106631e4)))((void *)(DAT_106631e4),1);
       DAT_106631e4 = (undefined4 *)0x0;
     }
   }
-  orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 0x14));
+  orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x14));
   orig::FUN_101d31b0(self_);
   orig::thunk_FUN_10150ce0(g_pTkTitle,0,0);
-  orig::FUN_1013a320(g_pTkHelp,0,0);
+  orig::FUN_1013a320(g_pTkHelp_as_v0,0,0);
   return;
 }

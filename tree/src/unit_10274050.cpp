@@ -33,7 +33,7 @@ XI_API int __cdecl fn_102741F0(int param_1, int param_2)
         iVar2 = iVar2 + 1;
       } while (iVar2 < *(int *)(param_1 + 0x18));
     }
-    orig::sqDebugPrintf_v1(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
+    orig::sqDebugPrintf_v2(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
     orig::FUN_10273e80(param_1,*(int *)(param_1 + 4),0);
     orig::FUN_10273e80(param_1,param_2,1);
   }

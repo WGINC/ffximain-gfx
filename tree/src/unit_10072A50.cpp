@@ -24,7 +24,7 @@ XI_API void __thiscall fn_10072A70(void * self_)
         return;
       }
       DAT_1047d138_as_s32 = DAT_1047d138_as_s32 + 1;
-      uVar5 = orig::Allocator_Generic(0x20);
+      uVar5 = orig::Allocator_Generic_v1(0x20);
       if ((void *)uVar5 == (void *)0x0) {
         xi_s2 = (void *)0x0;
       }
@@ -33,7 +33,7 @@ XI_API void __thiscall fn_10072A70(void * self_)
       }
       *(void **)((int)self_ + 0x45) = xi_s2;
       if ((xi_s2 != (void *)0x0) &&
-         (iVar4 = orig::FUN_101c4bc0(g_pFileMng,*(undefined4 *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
+         (iVar4 = orig::FUN_101c4bc0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
         *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
         return;
       }
@@ -43,25 +43,25 @@ LAB_10072c0c:
   }
   else {
     if (iVar4 == 1) {
-      uVar2 = orig::FUN_101c4ad0(g_pFileMng,*(undefined4 *)((int)self_ + 0x34));
+      uVar2 = orig::FUN_101c4ad0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34));
       if ((char)uVar2 != '\0') {
         return;
       }
       if (*(char *)((int)self_ + 0x3c) == '\0') {
         xi_s3 = *(uint *)(*(int *)((int)self_ + 0x45) + 4);
         if (0 < (int)xi_s3) {
-          uVar5 = orig::Allocator_Generic(xi_s3);
+          uVar5 = orig::Allocator_Generic_v1(xi_s3);
           iVar4 = (int)uVar5;
           *(int *)((int)self_ + 0x38) = iVar4;
           if ((iVar4 != 0) &&
-             (iVar4 = orig::FUN_101c46d0(g_pFileMng,*(undefined4 *)((int)self_ + 0x34),iVar4,xi_s3,0),
+             (iVar4 = orig::FUN_101c46d0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),iVar4,xi_s3,0),
              -1 < iVar4)) {
             *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
             return;
           }
         }
         if (*(uint **)((int)self_ + 0x3d) != (uint *)0x0) {
-          orig::NodePool_ReleaseNode(g_pMeshResourceMng_as_v1,*(uint **)((int)self_ + 0x3d));
+          orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self_ + 0x3d));
         }
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
         return;
@@ -69,7 +69,7 @@ LAB_10072c0c:
       goto LAB_10072c0c;
     }
     if (iVar4 == 2) {
-      uVar2 = orig::FUN_101c4a10(g_pFileMng,*(undefined4 *)((int)self_ + 0x34),0,0);
+      uVar2 = orig::FUN_101c4a10(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),0,0);
       if ((char)uVar2 != '\0') {
         return;
       }
@@ -95,7 +95,7 @@ LAB_10072c0c:
     }
   }
   if (puVar1 != (uint *)0x0) {
-    orig::NodePool_ReleaseNode(g_pMeshResourceMng_as_v1,puVar1);
+    orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,puVar1);
   }
 LAB_10072c21:
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
@@ -114,7 +114,7 @@ XI_API undefined8 __thiscall fn_10072C30(void * self_, undefined4 * param_1, und
   *(undefined4 *)((int)self_ + 0x34) = param_2;
   *(undefined4 *)((int)self_ + 0x18) = param_2;
   *(undefined4 *)((int)self_ + 0x1c) = 0x4d727400;
-  orig::CMoTask_RegisterWithMng(0);
+  orig::CMoTask_RegisterWithMng_v1(0);
   uVar2 = orig::FUN_10074110(g_pMeshResourceMng_as_v1,&param_2);
   uVar1 = *(undefined4 *)uVar2;
   *(undefined4 *)((int)self_ + 0x3d) = uVar1;

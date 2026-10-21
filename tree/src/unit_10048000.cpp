@@ -116,7 +116,7 @@ XI_API void __thiscall fn_10048220(void * self_)
         uVar5 = puVar2[2];
         puVar1 = local_f0;
 LAB_100483c4:
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,puVar1,0x19,uVar5);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,0x19,uVar5);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
@@ -222,139 +222,139 @@ LAB_100483bd:
     switch(*puVar2 & 0xff) {
     case 0x21:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_fc,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_fc,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x22:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_d8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x23:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_d4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x24:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_28,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_28,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x25:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_dc,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_dc,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x26:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_48,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_48,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x27:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_88,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_88,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x28:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x29:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_80,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_80,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2a:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_40,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_40,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2b:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_78,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_78,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_20,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_20,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2d:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_70,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_70,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2e:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_bc,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_bc,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x2f:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_b4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x33:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_ac,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_ac,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x34:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_a4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x35:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_9c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_9c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x36:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_94,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_94,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x37:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_8c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_8c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x38:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_84,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_84,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x39:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_7c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_7c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x3c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_110,5,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_110,5,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
@@ -362,7 +362,7 @@ LAB_100483bd:
     case 0x53:
     case 0x6a:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_118,5,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_118,5,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
@@ -373,31 +373,31 @@ LAB_100483bd:
         puVar1 = local_f8;
         uVar4 = 0x3e;
 LAB_1004845e:
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,puVar1,uVar4,uVar5);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,uVar4,uVar5);
         puVar2[1] = *(uint *)uVar3;
       }
       goto LAB_1004846b;
     case 0x50:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_24,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_24,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x51:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_1c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_1c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x52:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_e8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x54:
       if (puVar2[4] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_100,0x3e,puVar2[5]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_100,0x3e,puVar2[5]);
         puVar2[4] = *(uint *)uVar3;
       }
       uVar5 = puVar2[2];
@@ -411,259 +411,259 @@ LAB_1004846b:
       break;
     case 0x55:
       if ((puVar2[4] != 0) && (puVar2[5] == 0)) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_120,10,puVar2[4]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_120,10,puVar2[4]);
         puVar2[5] = *(uint *)uVar3;
       }
       break;
     case 0x59:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_74,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_74,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5a:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_6c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_6c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5b:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_64,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_64,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_5c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_5c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5d:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_54,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_54,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5e:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_4c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_4c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x5f:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_44,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_44,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x60:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_60,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_60,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x61:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_b8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x62:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_30,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_30,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 99:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_b0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 100:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_c8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x65:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_10,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_10,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x66:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_c0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x68:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_58,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_58,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x69:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_3c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_3c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x6b:
       if (puVar2[2] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_124,0x4a,puVar2[1]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_124,0x4a,puVar2[1]);
         puVar2[2] = *(uint *)uVar3;
       }
       break;
     case 0x6c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_a8,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a8,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x6d:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_18,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_18,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x6e:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_a0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x6f:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_50,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_50,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x70:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_98,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_98,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x74:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x75:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_38,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_38,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x76:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_11c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_11c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x77:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_104,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_104,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x78:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_f4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_f4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x7c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_cc,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_cc,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x7d:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_c4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x80:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_d0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x81:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_68,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_68,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x82:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_2c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_2c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x83:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_10c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_10c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x84:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_ec,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_ec,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x85:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_114,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_114,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x8b:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_90,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_90,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x8c:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_14,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_14,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x8d:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_c,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x93:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_34,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_34,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x95:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_e0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x96:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_e4,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e4,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       break;
     case 0x97:
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_f0,0x19,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_f0,0x19,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
     }
@@ -678,17 +678,17 @@ LAB_1004846b:
   while (puVar2 != (uint *)0x0) {
     if ((*puVar2 & 0xff) == 0x47) {
       if (puVar2[3] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_e8,10,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e8,10,puVar2[2]);
         puVar2[3] = *(uint *)uVar3;
       }
     }
     else if ((*puVar2 & 0xff) == 0x65) {
       if (puVar2[1] == 0) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_120,7,puVar2[2]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_120,7,puVar2[2]);
         puVar2[1] = *(uint *)uVar3;
       }
       if ((puVar2[1] != 0) && (puVar2[2] == 0)) {
-        uVar3 = orig::CMoResource_FindByTypeAndId(self_,local_124,5,puVar2[1]);
+        uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_124,5,puVar2[1]);
         puVar2[2] = *(uint *)uVar3;
       }
     }
@@ -717,7 +717,7 @@ LAB_1004846b:
       puVar1 = local_120;
       uVar4 = 7;
 LAB_1004907c:
-      uVar3 = orig::CMoResource_FindByTypeAndId(self_,puVar1,uVar4,uVar5);
+      uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,uVar4,uVar5);
       puVar2[1] = *(uint *)uVar3;
     }
     if ((char)*puVar2 == '\0') {
@@ -1039,8 +1039,8 @@ XI_API void __thiscall fn_1004E720(_DWORD *self_, int a2)
               if ( *v9 != 0 )
               {
                 v11 = *(_WORD *)(v10 + 214);
-                if ( orig::sub_100539E0_v1((_DWORD *)*v9) )
-                  orig::YmGenerater_Stop_v1(v10, nullptr);
+                if ( orig::sub_100539E0((_DWORD *)*v9) )
+                  orig::YmGenerater_Stop(v10, nullptr);
                 *(_WORD *)(v10 + 214) = (__int64)(*(float *)(g_pResourceMng + 3760) + 1.0);
                 *(_DWORD *)(v10 + 204) = 0;
                 orig::sub_10053370(v10);
@@ -1057,8 +1057,8 @@ XI_API void __thiscall fn_1004E720(_DWORD *self_, int a2)
             {
               v13 = *v12;
               v14 = self_ + 12;
-              v16 = (_DWORD *)orig::sub_1003B700_v1(self_ + 12);
-              v15 = (_DWORD *)orig::sub_1003B6D0_v1(v14);
+              v16 = (_DWORD *)orig::sub_1003B700(self_ + 12);
+              v15 = (_DWORD *)orig::sub_1003B6D0(v14);
               orig::Scheduler_Execute(v13, v15, v16, 0, 0);
             }
             break;
@@ -1364,7 +1364,7 @@ XI_API undefined8 __cdecl fn_10052A60(int param_1, int param_2)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::Mem_AllocWithFallback(param_1 + param_2 * 4,3);
+  uVar1 = orig::Mem_AllocWithFallback_v1(param_1 + param_2 * 4,3);
   return uVar1;
 }
 

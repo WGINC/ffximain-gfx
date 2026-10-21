@@ -28,7 +28,7 @@ XI_API void * __thiscall fn_10057270(void * self_, undefined4 param_1, undefined
   undefined4 *puVar1;
   int iVar2;
   
-  orig::CMoTask_Constructor(self_);
+  orig::CMoTask_Constructor_v1(self_);
   orig::FUN_1003b540((undefined4 *)((int)self_ + 0x34));
   orig::FUN_10055640((void *)((int)self_ + 0xb4));
   puVar1 = (undefined4 *)((int)self_ + 0xc0);
@@ -127,7 +127,7 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   if (*(void **)((int)self + 0x90) != (void *)0x0) {
     orig::FUN_1018cea0(*(void **)((int)self + 0x90));
   }
-  orig::CMoResource_ReleaseChain((void *)**(undefined4 **)((int)self + 0x80));
+  orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self + 0x80));
   if (*(code **)((int)self + 0xac) != (code *)0x0) {
     (**(code **)((int)self + 0xac))(self,*(undefined4 *)((int)self + 0xb0));
   }
@@ -136,11 +136,11 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   iVar1 = 0x10;
   do {
     this_01 = (void *)((int)this_01 + -8);
-    orig::FUN_100683d0_v1(this_01);
+    orig::FUN_100683d0(this_01);
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
   orig::FUN_10055650((void *)((int)self + 0xb4));
-  orig::ReleaseSubObjectIfPresent(this_00);
+  orig::ReleaseSubObjectIfPresent_v1(this_00);
   orig::CMoTask_Destructor_v1(self);
   return;
 }
@@ -152,7 +152,7 @@ XI_API void __thiscall fn_10057CC0(void * self_, short * param_1)
   if (param_1 != (short *)0x0) {
     *(short **)((int)self_ + 0x90) = param_1;
     *param_1 = *param_1 + 1;
-    orig::FUN_100684f0_v1((void *)((int)self_ + 0xc0),0);
+    orig::FUN_100684f0((void *)((int)self_ + 0xc0),0);
     return;
   }
   return;
@@ -1240,7 +1240,7 @@ int CMoSchedularTask::Interpret()
         }
         v835[0] = *(int **)(this->field_88 + 8);
         v216 = (_DWORD *)orig::sub_1005E500((char *)self + 128);
-        v217 = orig::CMoResource_FindByTypeAndId_v1(v216, &v859, 5, (int)v835[0]);
+        v217 = orig::CMoResource_FindByTypeAndId(v216, &v859, 5, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v909, *v217);
         result = orig::sub_1005E130((void *)(this->field_88 + 12));
         if ( result == 0 )
@@ -1255,12 +1255,12 @@ int CMoSchedularTask::Interpret()
           goto LABEL_212;
         }
       }
-      else if ( orig::CYyObject_IsKindOf_v1((int (__thiscall ***)(_DWORD))v218, (int)&CYySepRes_classdesc) != 0 )
+      else if ( orig::CYyObject_IsKindOf((int (__thiscall ***)(_DWORD))v218, (int)&CYySepRes_classdesc) != 0 )
       {
         v219 = orig::sub_1005E650(v218);
         goto LABEL_211;
       }
-      v219 = orig::sub_100539E0_v1(v214);
+      v219 = orig::sub_100539E0(v214);
 LABEL_211:
       v220 = v219;
 LABEL_212:
@@ -1287,10 +1287,10 @@ LABEL_212:
           orig::sub_1005E110(v835, 0);
           v778 = orig::sub_10057BF0(self);
           v225 = orig::sub_10057BE0(self);
-          orig::sub_10053A00_v1((int)v214, v225, v778, 1, v835[0]);
+          orig::sub_10053A00((int)v214, v225, v778, 1, v835[0]);
         }
         v226 = orig::sub_1005E510(self);
-        Value = orig::Settings_GetValue_v1(146);
+        Value = orig::Settings_GetValue(146);
         v228 = Value;
         if ( v226 != 0 && Value != 0 )
         {
@@ -1307,7 +1307,7 @@ LABEL_212:
           return 0;
         if ( orig::sub_1005E0B0((int)(v214 + 12)) )
           orig::sub_1005E0F0((_DWORD *)Instance + 12, (int)self);
-        if ( orig::sub_100539E0_v1(v214) )
+        if ( orig::sub_100539E0(v214) )
           return 0;
         if ( orig::sub_1005E190(Instance) )
           return 0;
@@ -1357,7 +1357,7 @@ LABEL_212:
           v168 = *v167;
         else
           v168 = nullptr;
-        *(_DWORD *)(this->field_88 + 12) = *orig::CMoResource_FindByTypeAndId_v1(v168, &v899, 7, *(_DWORD *)(v2 + 8));
+        *(_DWORD *)(this->field_88 + 12) = *orig::CMoResource_FindByTypeAndId(v168, &v899, 7, *(_DWORD *)(v2 + 8));
         v169 = this->field_88;
         v170 = *(int ***)(v169 + 12);
         if ( v170 == nullptr )
@@ -1403,7 +1403,7 @@ LABEL_212:
       {
         v835[0] = *(int **)(this->field_88 + 8);
         v275 = (_DWORD *)orig::sub_1005E500((char *)self + 128);
-        v276 = orig::CMoResource_FindByTypeAndId_v1(v275, &v877, 6, (int)v835[0]);
+        v276 = orig::CMoResource_FindByTypeAndId(v275, &v877, 6, (int)v835[0]);
         v277 = orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v953, *v276);
         orig::sub_10052870(&v839, &v879, *v277);
         if ( !orig::ResourceHandle_IsResident(&v839) )
@@ -1447,7 +1447,7 @@ LABEL_212:
         }
         v837 = 0.0;
         if ( orig::sub_1004E3B0(v840, 0) )
-          v837 = COERCE_FLOAT(orig::ResourceHandle_Deref_v1(v840[0]));
+          v837 = COERCE_FLOAT(orig::ResourceHandle_Deref(v840[0]));
         *(float *)&v838 = orig::sub_1005E590((int)self);
         if ( orig::sub_1005E130(v840) == 0
           || ((xi_fpu_unord = __builtin_isunordered(*(float *)&v838, 0x1.47ae140000000p-7), v621 = *(float *)&v838 < 0x1.47ae140000000p-7),
@@ -1505,7 +1505,7 @@ LABEL_212:
           v626 = 0;
         v835[0] = *(int **)(v614 + 8);
         v627 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v628 = orig::CMoResource_FindByTypeAndId_v1(v627, &v876, 43, (int)v835[0]);
+        v628 = orig::CMoResource_FindByTypeAndId(v627, &v876, 43, (int)v835[0]);
         v629 = orig::sub_10052870(v840, &v878, *v628);
         if ( orig::sub_1005E130(v629) == 0 )
         {
@@ -1513,7 +1513,7 @@ LABEL_212:
           v835[0] = *(int **)(this->field_88 + 8);
           v631 = (void *)(*(int (__thiscall **)(int, char *))(*(_DWORD *)v630 + 480))(v630, v882);
           v632 = (_DWORD *)orig::sub_10052890(v631);
-          v633 = orig::CMoResource_FindByTypeAndId_v1(v632, &v880, 43, (int)v835[0]);
+          v633 = orig::CMoResource_FindByTypeAndId(v632, &v880, 43, (int)v835[0]);
           orig::sub_10052870(v840, &v884, *v633);
         }
         if ( !orig::sub_1004E3B0(v840, 0) )
@@ -1530,7 +1530,7 @@ LABEL_212:
         v831 = v637;
         v796 = (float)v636;
         v771 = v635 & 0x7F;
-        v638 = orig::ResourceHandle_Deref_v1(v840[0]);
+        v638 = orig::ResourceHandle_Deref(v840[0]);
         v639 = orig::sub_1005E660(v638);
         *(float *)v841 = v639 + v639;
         v640 = orig::sub_1005E590((int)self);
@@ -1552,7 +1552,7 @@ LABEL_212:
       v835[0] = *(int **)(this->field_88 + 8);
       v645 = (void *)(*(int (__thiscall **)(int, char *))(*(_DWORD *)v644 + 480))(v644, v890);
       v646 = (_DWORD *)orig::sub_10052890(v645);
-      v647 = orig::CMoResource_FindByTypeAndId_v1(v646, &v888, 43, (int)v835[0]);
+      v647 = orig::CMoResource_FindByTypeAndId(v646, &v888, 43, (int)v835[0]);
       orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v892, *v647);
       v648 = orig::sub_1005E280(at<_DWORD *>(this, 0x88), &v894);
       v649 = orig::sub_10052870(&v837, &v896, *v648);
@@ -1570,7 +1570,7 @@ LABEL_212:
       v832 = v653;
       v797 = (float)v652;
       v772 = v651 & 0x7F;
-      v654 = orig::ResourceHandle_Deref_v1(SLODWORD(v837));
+      v654 = orig::ResourceHandle_Deref(SLODWORD(v837));
       v655 = orig::sub_1005E660(v654);
       *(float *)v841 = v655 + v655;
       v656 = orig::sub_1005E590((int)self);
@@ -1608,7 +1608,7 @@ LABEL_212:
       if ( v203 == 0 )
       {
         v204 = orig::sub_1003B900((_DWORD *)self + 13);
-        if ( orig::CYyObject_IsKindOf_v1(v204, (int)&CXiSkeletonActor_classdesc) == 0 )
+        if ( orig::CYyObject_IsKindOf(v204, (int)&CXiSkeletonActor_classdesc) == 0 )
           return 0;
         v205 = this->field_88;
         v835[0] = nullptr;
@@ -1621,7 +1621,7 @@ LABEL_212:
           v835[0] = *(int **)(this->field_88 + 8);
           v208 = orig::sub_1005E150((_DWORD *)g_pMeshResourceMng, &v857);
           v209 = (_DWORD *)orig::sub_10052890(v208);
-          v210 = orig::CMoResource_FindByTypeAndId_v1(v209, &v907, 7, (int)v835[0]);
+          v210 = orig::CMoResource_FindByTypeAndId(v209, &v907, 7, (int)v835[0]);
           v203 = orig::sub_1004E3C0(v210);
           if ( v203 == 0 )
             return 0;
@@ -1662,9 +1662,9 @@ LABEL_212:
       return 0;
     case 0xEu:
       v835[0] = nullptr;
-      v100 = (float *)orig::Mem_AllocFromArea_v1(80, 4);
-      orig::CMoTask_ResetFields_v1((int)v100);
-      g_resourcesDirty_as_s8 = 1;
+      v100 = (float *)orig::Mem_AllocFromArea(80, 4);
+      orig::CMoTask_ResetFields((int)v100);
+      g_resourcesDirty = 1;
       if ( v100 == nullptr )
         return 0;
       v101 = this->field_88;
@@ -1680,9 +1680,9 @@ LABEL_212:
       dword_1047BF20 = (int)v100;
       v100[14] = v102;
       v100[13] = v102;
-      v100[18] = *((float *)g_pCamera_as_v0 + 204);
+      v100[18] = *((float *)g_pCamera + 204);
       *((_DWORD *)v100 + 19) = v103;
-      v104 = *((_DWORD **)g_pCamera_as_v0 + 203);
+      v104 = *((_DWORD **)g_pCamera + 203);
       v100[15] = *(float *)(v101 + 8);
       v105 = *(unsigned __int8 *)(v101 + 8);
       v836 = v104;
@@ -1693,14 +1693,14 @@ LABEL_212:
       return 0;
     case 0xFu:
       v835[0] = nullptr;
-      v106 = orig::Mem_AllocFromArea_v1(76, 4);
-      orig::CMoTask_ResetFields_v1((int)v106);
-      g_resourcesDirty_as_s8 = 1;
+      v106 = orig::Mem_AllocFromArea(76, 4);
+      orig::CMoTask_ResetFields((int)v106);
+      g_resourcesDirty = 1;
       if ( v106 == nullptr )
         return 0;
       v107 = this->field_88;
       v836 = (_DWORD *)(__int64)((double)*(__int16 *)(v107 + 6) * this->field_9C);
-      orig::CMoTask_Constructor_v1(v106);
+      orig::CMoTask_Constructor(v106);
       *v106 = &CMoTask_vtbl_ambiguous7;
       v106[18] = 15;
       *((_BYTE *)v106 + 70) = *(_BYTE *)(v107 + 8);
@@ -1711,7 +1711,7 @@ LABEL_212:
         (*(void (__thiscall **)(int, int))(*(_DWORD *)dword_1047BF28 + 24))(dword_1047BF28, 1);
       dword_1047BF28 = (int)v106;
       v108 = *((unsigned __int8 *)v106 + 70);
-      v838 = *((int *)g_pCamera_as_v0 + 200);
+      v838 = *((int *)g_pCamera + 200);
       v110 = HIBYTE(v838);
       v109 = v838;
       v111 = (double)(int)v836 - 1.0;
@@ -1729,9 +1729,9 @@ LABEL_212:
       return 0;
     case 0x10u:
       v835[0] = nullptr;
-      v96 = (float *)orig::Mem_AllocFromArea_v1(60, 4);
-      orig::CMoTask_ResetFields_v1((int)v96);
-      g_resourcesDirty_as_s8 = 1;
+      v96 = (float *)orig::Mem_AllocFromArea(60, 4);
+      orig::CMoTask_ResetFields((int)v96);
+      g_resourcesDirty = 1;
       if ( v96 == nullptr )
         return 0;
       v836 = (_DWORD *)(__int64)((double)*(__int16 *)(this->field_88 + 6) * this->field_9C);
@@ -1745,10 +1745,10 @@ LABEL_212:
       g_afterimageTex[0] = (int)orig::CDx_CreateTexture(g_pCDx, ViewportWidth >> 1, v757, g_afterimageDepth, 1, 0);
       if ( g_pEnv[6] != 0 )
       {
-        dword_1045691C_as_u32 = 0;
+        dword_1045691C = 0;
         v758 = (unsigned __int16)orig::Camera_GetViewportHeight() >> 1;
         v98 = orig::Camera_GetViewportWidth();
-        g_afterimageHalfTex_as_s32 = (int)orig::CDx_CreateTexture(g_pCDx, v98 >> 1, v758, &dword_1045691C_as_u32, 1, 0);
+        g_afterimageHalfTex = (int)orig::CDx_CreateTexture(g_pCDx, v98 >> 1, v758, &dword_1045691C, 1, 0);
       }
       if ( g_afterimageTex[0] != 0 )
       {
@@ -1810,10 +1810,10 @@ LABEL_212:
         if ( orig::sub_10062770(self) == 0 )
           return 0;
         v835[0] = nullptr;
-        v75 = orig::sub_1003B6D0_v1((_DWORD *)self + 13);
-        v76 = orig::Mem_AllocFromArea_v1(1088, 4);
-        orig::CMoTask_ResetFields_v1((int)v76);
-        g_resourcesDirty_as_s8 = 1;
+        v75 = orig::sub_1003B6D0((_DWORD *)self + 13);
+        v76 = orig::Mem_AllocFromArea(1088, 4);
+        orig::CMoTask_ResetFields((int)v76);
+        g_resourcesDirty = 1;
         if ( v76 != nullptr )
         {
           v835[0] = nullptr;
@@ -1824,10 +1824,10 @@ LABEL_212:
       if ( orig::sub_100627D0(self) == 0 )
         return 0;
       v835[0] = nullptr;
-      v79 = orig::sub_1003B700_v1((_DWORD *)self + 13);
-      v80 = orig::Mem_AllocFromArea_v1(1088, 4);
-      orig::CMoTask_ResetFields_v1((int)v80);
-      g_resourcesDirty_as_s8 = 1;
+      v79 = orig::sub_1003B700((_DWORD *)self + 13);
+      v80 = orig::Mem_AllocFromArea(1088, 4);
+      orig::CMoTask_ResetFields((int)v80);
+      g_resourcesDirty = 1;
       if ( v80 != nullptr )
       {
         v835[0] = nullptr;
@@ -1835,27 +1835,27 @@ LABEL_212:
       }
       goto LABEL_101;
     case 0x17u:
-      if ( orig::sub_1003B6D0_v1((_DWORD *)self + 13) == 0 )
+      if ( orig::sub_1003B6D0((_DWORD *)self + 13) == 0 )
         return 0;
-      v88 = (int (__thiscall ***)(_DWORD))orig::sub_1003B6D0_v1((_DWORD *)self + 13);
-      if ( orig::CYyObject_IsKindOf_v1(v88, (int)&CXiDollActor_classdesc) == 0 )
+      v88 = (int (__thiscall ***)(_DWORD))orig::sub_1003B6D0((_DWORD *)self + 13);
+      if ( orig::CYyObject_IsKindOf(v88, (int)&CXiDollActor_classdesc) == 0 )
         return 0;
-      v89 = orig::sub_1003B6D0_v1((_DWORD *)self + 13);
-      v90 = (_DWORD *)orig::sub_1003B6D0_v1((_DWORD *)(v89 + 196));
+      v89 = orig::sub_1003B6D0((_DWORD *)self + 13);
+      v90 = (_DWORD *)orig::sub_1003B6D0((_DWORD *)(v89 + 196));
       orig::sub_10062D50((int (__thiscall **)(_DWORD))self, v89, v90, 1);
-      v91 = (_DWORD *)orig::sub_1003B6D0_v1((_DWORD *)(v89 + 196));
+      v91 = (_DWORD *)orig::sub_1003B6D0((_DWORD *)(v89 + 196));
       orig::sub_10062830((int *)self, v91);
       return 0;
     case 0x18u:
-      if ( orig::sub_1003B700_v1((_DWORD *)self + 13) == 0 )
+      if ( orig::sub_1003B700((_DWORD *)self + 13) == 0 )
         return 0;
-      v92 = (int (__thiscall ***)(_DWORD))orig::sub_1003B700_v1((_DWORD *)self + 13);
-      if ( orig::CYyObject_IsKindOf_v1(v92, (int)&CXiDollActor_classdesc) == 0 )
+      v92 = (int (__thiscall ***)(_DWORD))orig::sub_1003B700((_DWORD *)self + 13);
+      if ( orig::CYyObject_IsKindOf(v92, (int)&CXiDollActor_classdesc) == 0 )
         return 0;
-      v93 = orig::sub_1003B700_v1((_DWORD *)self + 13);
-      v94 = (_DWORD *)orig::sub_1003B6D0_v1((_DWORD *)(v93 + 196));
+      v93 = orig::sub_1003B700((_DWORD *)self + 13);
+      v94 = (_DWORD *)orig::sub_1003B6D0((_DWORD *)(v93 + 196));
       orig::sub_10062D50((int (__thiscall **)(_DWORD))self, v93, v94, 0);
-      v95 = (_DWORD *)orig::sub_1003B6D0_v1((_DWORD *)(v93 + 196));
+      v95 = (_DWORD *)orig::sub_1003B6D0((_DWORD *)(v93 + 196));
       orig::sub_10062880((int *)self, v95);
       return 0;
     case 0x19u:
@@ -1870,7 +1870,7 @@ LABEL_212:
         *(_DWORD *)(this->field_88 + 8),
         v47,
         1852399981,
-        &Read_as_v0,
+        &Read,
         0);
       return 0;
     case 0x1Au:
@@ -1892,7 +1892,7 @@ LABEL_212:
       v845[2] = v9[8];
       v845[3] = 1.0;
       orig::Vec4_Copy((_DWORD *)v7 + 13, v845);
-      orig::sub_100A57C0_v1(v7, v845);
+      orig::sub_100A57C0(v7, v845);
       orig::Vec4_Copy((_DWORD *)v7 + 369, v845);
       orig::Vec4_Copy((_DWORD *)v7 + 383, v845);
       *((_DWORD *)v7 + 386) = 1065353216;
@@ -1980,39 +1980,39 @@ LABEL_212:
       if ( orig::sub_100627D0(self) == 0 )
         return 0;
       v835[0] = nullptr;
-      v54 = orig::Mem_AllocFromArea_v1(136, 4);
-      orig::CMoTask_ResetFields_v1((int)v54);
-      g_resourcesDirty_as_s8 = 1;
+      v54 = orig::Mem_AllocFromArea(136, 4);
+      orig::CMoTask_ResetFields((int)v54);
+      g_resourcesDirty = 1;
       if ( v54 == nullptr )
         return 0;
       v55 = orig::sub_1005E590((int)self);
-      orig::sub_1018BBC0_v1((int *)v841, (__int64)v55);
+      orig::sub_1018BBC0((int *)v841, (__int64)v55);
       v56 = (_DWORD *)orig::sub_100627D0(self);
       v57 = orig::sub_1005E4F0((char *)self + 128);
       v58 = orig::sub_100528A0((void *)(v57 + 32));
-      orig::CMoTask_Constructor_v1(v54);
-      orig::sub_1003B540_v1(v54 + 13);
+      orig::CMoTask_Constructor(v54);
+      orig::sub_1003B540(v54 + 13);
       *v54 = &CMoTask_vtbl_ambiguous10;
       v54[13] = &CMoAttachments_vtbl_ambiguous5;
-      orig::unknown_libname_158_v1(&v837);
-      orig::unknown_libname_158_v1(&v838);
-      v59 = orig::ntGameTimeGet_v1();
+      orig::unknown_libname_158(&v837);
+      orig::unknown_libname_158(&v838);
+      v59 = orig::ntGameTimeGet();
       orig::sub_1018BBE0((unsigned int *)&v838, 60 * v59);
       if ( (int)(v56[383]) >= (int)(v838) )
         v835[0] = *(int **)orig::sub_1005E070(v56 + 383, &v840[1], v838);
       else
         v835[0] = nullptr;
-      orig::sub_1018BC40_v1((int *)&v837, (int)v835[0]);
+      orig::sub_1018BC40((int *)&v837, (int)v835[0]);
       orig::CMoAttachments_SetCaster(v54 + 13, v56);
       orig::CMoAttachments_SetTarget(v54 + 13, nullptr);
       v836 = (_DWORD *)(SLODWORD(v837) / 25);
       v60 = (double)(SLODWORD(v837) / 25);
       *((float *)v54 + 29) = v60;
       *((float *)v54 + 30) = v60;
-      v61 = (float *)orig::sub_1003B6D0_v1(v54 + 13);
+      v61 = (float *)orig::sub_1003B6D0(v54 + 13);
       *((float *)v54 + 31) = orig::sub_100C3BD0(v61);
       v54[33] = orig::sub_100C3CE0(v58);
-      v62 = (float *)orig::sub_1003B6D0_v1(v54 + 13);
+      v62 = (float *)orig::sub_1003B6D0(v54 + 13);
       *((float *)v54 + 32) = orig::sub_100C3BC0(v62, v54[33]);
       return 0;
     case 0x1Eu:
@@ -2026,7 +2026,7 @@ LABEL_212:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v240 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v241 = orig::CMoResource_FindByTypeAndId_v1(v240, &v865, 5, (int)v835[0]);
+        v241 = orig::CMoResource_FindByTypeAndId(v240, &v865, 5, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v935, *v241);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
@@ -2038,7 +2038,7 @@ LABEL_212:
       else
       {
         v242 = (int (__thiscall ***)(_DWORD))orig::CMoGeneratorClone_ResolveTarget(v239);
-        IsKindOf = orig::CYyObject_IsKindOf_v1(v242, (int)&CYySepRes_classdesc);
+        IsKindOf = orig::CYyObject_IsKindOf(v242, (int)&CYySepRes_classdesc);
         v244 = v239;
         if ( IsKindOf != 0 )
         {
@@ -2047,7 +2047,7 @@ LABEL_212:
           goto LABEL_246;
         }
       }
-      v246 = orig::sub_100539E0_v1(v244);
+      v246 = orig::sub_100539E0(v244);
 LABEL_246:
       v247 = v246;
       if ( !orig::sub_1005E0B0((int)(v239 + 12)) && v247 != 0 )
@@ -2061,7 +2061,7 @@ LABEL_246:
         {
           v835[0] = v251;
           orig::sub_1005E110(v835, 0);
-          orig::YmGenerater_Stop_v1((int)v239, v835[0]);
+          orig::YmGenerater_Stop((int)v239, v835[0]);
         }
         return 0;
       }
@@ -2080,7 +2080,7 @@ LABEL_246:
           orig::sub_1005E110(v835, 0);
           v779 = orig::sub_10057BF0(self);
           v250 = orig::sub_10057BE0(self);
-          orig::sub_10053A00_v1((int)v239, v250, v779, 0, v835[0]);
+          orig::sub_10053A00((int)v239, v250, v779, 0, v835[0]);
         }
         return 0;
       }
@@ -2112,10 +2112,10 @@ LABEL_246:
         if ( orig::sub_10062770(self) == 0 )
           return 0;
         v835[0] = nullptr;
-        v75 = orig::sub_1003B6D0_v1((_DWORD *)self + 13);
-        v76 = orig::Mem_AllocFromArea_v1(1088, 4);
-        orig::CMoTask_ResetFields_v1((int)v76);
-        g_resourcesDirty_as_s8 = 1;
+        v75 = orig::sub_1003B6D0((_DWORD *)self + 13);
+        v76 = orig::Mem_AllocFromArea(1088, 4);
+        orig::CMoTask_ResetFields((int)v76);
+        g_resourcesDirty = 1;
         if ( v76 != nullptr )
         {
           v835[0] = (int *)1;
@@ -2133,10 +2133,10 @@ LABEL_96:
       if ( orig::sub_100627D0(self) == 0 )
         return 0;
       v835[0] = nullptr;
-      v79 = orig::sub_1003B700_v1((_DWORD *)self + 13);
-      v80 = orig::Mem_AllocFromArea_v1(1088, 4);
-      orig::CMoTask_ResetFields_v1((int)v80);
-      g_resourcesDirty_as_s8 = 1;
+      v79 = orig::sub_1003B700((_DWORD *)self + 13);
+      v80 = orig::Mem_AllocFromArea(1088, 4);
+      orig::CMoTask_ResetFields((int)v80);
+      g_resourcesDirty = 1;
       if ( v80 != nullptr )
       {
         v835[0] = (int *)1;
@@ -2204,7 +2204,7 @@ LABEL_329:
       {
         v835[0] = *(int **)(this->field_88 + 8);
         v598 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v599 = orig::CMoResource_FindByTypeAndId_v1(v598, &v858, 62, (int)v835[0]);
+        v599 = orig::CMoResource_FindByTypeAndId(v598, &v858, 62, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v860, *v599);
       }
       v600 = this->field_88;
@@ -2212,7 +2212,7 @@ LABEL_329:
       {
         v835[0] = *(int **)(v600 + 20);
         v601 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v602 = orig::CMoResource_FindByTypeAndId_v1(v601, &v862, 25, (int)v835[0]);
+        v602 = orig::CMoResource_FindByTypeAndId(v601, &v862, 25, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 32), &v864, *v602);
       }
       if ( orig::sub_1005E1F0(at<_DWORD *>(this, 0x88)) == 38 )
@@ -2228,7 +2228,7 @@ LABEL_700:
           break;
         v606 = (int (__thiscall ***)(_DWORD))(*(int (__thiscall **)(int))(*(_DWORD *)i + 24))(i);
         v607 = v606;
-        if ( v606 != nullptr && orig::CYyObject_IsKindOf_v1(v606, (int)&CMoPathDriveActorTask_classdesc) != 0 )
+        if ( v606 != nullptr && orig::CYyObject_IsKindOf(v606, (int)&CMoPathDriveActorTask_classdesc) != 0 )
         {
           ((void (__thiscall *)(int (__thiscall ***)(_DWORD), int))(*v607)[6])(v607, 1);
           goto LABEL_700;
@@ -2433,7 +2433,7 @@ LABEL_326:
           if ( *v178 != 0 )
             break;
         }
-        v180 = orig::CMoResource_FindByTypeAndId_v1(*this->field_80, &v952, 7, *(_DWORD *)(v177 + 8));
+        v180 = orig::CMoResource_FindByTypeAndId(*this->field_80, &v952, 7, *(_DWORD *)(v177 + 8));
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v957, *v180);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
@@ -2513,7 +2513,7 @@ LABEL_813:
         goto LABEL_820;
       v835[0] = *(int **)(this->field_88 + 8);
       v732 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-      v733 = orig::CMoResource_FindByTypeAndId_v1(v732, &v918, 7, (int)v835[0]);
+      v733 = orig::CMoResource_FindByTypeAndId(v732, &v918, 7, (int)v835[0]);
       orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v920, *v733);
       if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
         goto LABEL_827;
@@ -2614,14 +2614,14 @@ LABEL_793:
       {
         v835[0] = *(int **)(this->field_88 + 8);
         v261 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v262 = orig::CMoResource_FindByTypeAndId_v1(v261, &v869, 5, (int)v835[0]);
+        v262 = orig::CMoResource_FindByTypeAndId(v261, &v869, 5, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v947, *v262);
       }
       if ( orig::sub_1005E120((_DWORD *)(this->field_88 + 20), 0) )
       {
         v835[0] = *(int **)(this->field_88 + 16);
         v263 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v264 = orig::CMoResource_FindByTypeAndId_v1(v263, &v871, 5, (int)v835[0]);
+        v264 = orig::CMoResource_FindByTypeAndId(v263, &v871, 5, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 20), &v915, *v264);
       }
       v265 = (_DWORD *)orig::sub_1004E3C0((void *)(this->field_88 + 12));
@@ -2629,10 +2629,10 @@ LABEL_793:
         return 0;
       v266 = COERCE_FLOAT(orig::sub_1004E3C0((void *)(this->field_88 + 20)));
       *(float *)&v836 = v266;
-      if ( !orig::sub_1005E0B0((int)(v265 + 12)) && orig::sub_100539E0_v1(v265) )
+      if ( !orig::sub_1005E0B0((int)(v265 + 12)) && orig::sub_100539E0(v265) )
       {
         v267 = (int **)orig::sub_1005E140((_DWORD *)(LODWORD(v266) + 4), &v873);
-        orig::YmGenerater_Stop_v1((int)v265, *v267);
+        orig::YmGenerater_Stop((int)v265, *v267);
         return 0;
       }
       v268 = (int *)orig::CMoGeneratorClone_CreateInstance((_DWORD *)LODWORD(v266), nullptr, nullptr, 1);
@@ -2647,9 +2647,9 @@ LABEL_793:
       v835[0] = *(int **)orig::sub_1005E140(v268 + 1, &v937);
       v781 = orig::sub_10057BF0(self);
       v270 = orig::sub_10057BE0(self);
-      if ( orig::sub_10053A00_v1((int)v265, v270, v781, 0, v835[0]) != 0 )
+      if ( orig::sub_10053A00((int)v265, v270, v781, 0, v835[0]) != 0 )
         return 0;
-      if ( orig::sub_100539E0_v1(v836) )
+      if ( orig::sub_100539E0(v836) )
         orig::sub_100496F0((int)v268, 0);
       orig::CMoGeneratorClone_Kill((int)v268);
       return 0;
@@ -2666,7 +2666,7 @@ LABEL_793:
       v487 =(_DWORD*)(v486);
       if ( v486 == nullptr )
         return 0;
-      if ( orig::CYyObject_IsKindOf_v1(v486, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v486, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v488 = orig::sub_1005E040(136);
       if ( v488 == nullptr )
@@ -2679,7 +2679,7 @@ LABEL_793:
       v487 =(_DWORD*)(v490);
       if ( v490 == nullptr )
         return 0;
-      if ( orig::CYyObject_IsKindOf_v1(v490, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v490, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v488 = orig::sub_1005E040(136);
       if ( v488 == nullptr )
@@ -2696,7 +2696,7 @@ LABEL_549:
       if ( orig::sub_10062770(self) == 0 )
         return 0;
       v415 = (int (__thiscall ***)(_DWORD))orig::sub_10062770(self);
-      if ( orig::CYyObject_IsKindOf_v1(v415, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v415, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v416 = orig::sub_1005E040(136);
       if ( v416 == nullptr )
@@ -2711,7 +2711,7 @@ LABEL_549:
       if ( orig::sub_100627D0(self) == 0 )
         return 0;
       v418 = (int (__thiscall ***)(_DWORD))orig::sub_100627D0(self);
-      if ( orig::CYyObject_IsKindOf_v1(v418, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v418, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v419 = orig::sub_1005E040(136);
       if ( v419 == nullptr )
@@ -2729,7 +2729,7 @@ LABEL_573:
       else
         v430 = (int (__thiscall ***)(_DWORD))orig::sub_100627D0(self);
       v431 =(_DWORD*)(v430);
-      if ( orig::CYyObject_IsKindOf_v1(v430, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v430, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v432 = orig::sub_1005E040(132);
       if ( v432 == nullptr )
@@ -2745,14 +2745,14 @@ LABEL_573:
       return 0;
     case 0x51u:
       v835[0] = nullptr;
-      v117 = orig::Mem_AllocFromArea_v1(76, 4);
-      orig::CMoTask_ResetFields_v1((int)v117);
-      g_resourcesDirty_as_s8 = 1;
+      v117 = orig::Mem_AllocFromArea(76, 4);
+      orig::CMoTask_ResetFields((int)v117);
+      g_resourcesDirty = 1;
       if ( v117 == nullptr )
         return 0;
       v118 = this->field_88;
       v836 = (_DWORD *)(__int64)((double)*(__int16 *)(v118 + 6) * this->field_9C);
-      orig::CMoTask_Constructor_v1(v117);
+      orig::CMoTask_Constructor(v117);
       *v117 = &CMoTask_vtbl_ambiguous7;
       v117[18] = 81;
       *((_BYTE *)v117 + 70) = *(_BYTE *)(v118 + 8);
@@ -2763,7 +2763,7 @@ LABEL_573:
         (*(void (__thiscall **)(int, int))(*(_DWORD *)dword_1047BF2C + 24))(dword_1047BF2C, 1);
       dword_1047BF2C = (int)v117;
       v119 = *((unsigned __int8 *)v117 + 70);
-      v838 = *((int *)g_pCamera_as_v0 + 199);
+      v838 = *((int *)g_pCamera + 199);
       v121 = HIBYTE(v838);
       v120 = v838;
       v122 = (double)(int)v836 - 1.0;
@@ -2782,39 +2782,39 @@ LABEL_573:
     case 0x52u:
       this->field_140 = 1;
       v839 = (_DWORD **)dword_1065CB18;
-      orig::unknown_libname_158_v1(&v840[1]);
-      orig::unknown_libname_158_v1(v840);
-      orig::sub_1018BC40_v1(&v840[1], *(_DWORD *)(this->field_88 + 8));
-      orig::sub_1018BC40_v1(v840, *(_DWORD *)(this->field_88 + 12));
+      orig::unknown_libname_158(&v840[1]);
+      orig::unknown_libname_158(v840);
+      orig::sub_1018BC40(&v840[1], *(_DWORD *)(this->field_88 + 8));
+      orig::sub_1018BC40(v840, *(_DWORD *)(this->field_88 + 12));
       if ( v840[1] == v840[0] )
       {
-        orig::sub_1018BBC0_v1((int *)&v836, 5184000);
-        orig::sub_1018BC40_v1(v840, (int)v836 + v840[0]);
+        orig::sub_1018BBC0((int *)&v836, 5184000);
+        orig::sub_1018BC40(v840, (int)v836 + v840[0]);
       }
-      orig::sub_1018BC40_v1((int *)&v839, (int)v839 - v840[1]);
-      orig::sub_1018BC40_v1(v840, v840[0] - v840[1]);
+      orig::sub_1018BC40((int *)&v839, (int)v839 - v840[1]);
+      orig::sub_1018BC40(v840, v840[0] - v840[1]);
       if ( v840[0] < 0 )
       {
-        orig::sub_1018BBC0_v1((int *)&v836, 5184000);
-        orig::sub_1018BC40_v1(v840, (int)v836 + v840[0]);
+        orig::sub_1018BBC0((int *)&v836, 5184000);
+        orig::sub_1018BC40(v840, (int)v836 + v840[0]);
       }
       v48 = (int)v839;
       if ( (int)v839 < 0 )
       {
-        orig::sub_1018BBC0_v1((int *)&v836, 5184000);
-        orig::sub_1018BC40_v1((int *)&v839, (int)v836 + (_DWORD)v839);
+        orig::sub_1018BBC0((int *)&v836, 5184000);
+        orig::sub_1018BC40((int *)&v839, (int)v836 + (_DWORD)v839);
         v48 = (int)v839;
       }
       if ( v48 < v840[0] )
       {
         v49 = *(_DWORD *)(this->field_88 + 16);
-        orig::sub_1018BBC0_v1(&v838, v48 % v49);
+        orig::sub_1018BBC0(&v838, v48 % v49);
         if ( (int)(v838) >= (int)(*(_DWORD *)(this->field_88 + 20)) )
         {
-          orig::unknown_libname_158_v1(&v837);
-          orig::sub_1018BBC0_v1((int *)&v836, (int)v839 + *(_DWORD *)(this->field_88 + 20));
-          orig::sub_1018BC40_v1((int *)&v837, (int)v836);
-          orig::sub_1018BC40_v1((int *)&v837, SLODWORD(v837) % v49);
+          orig::unknown_libname_158(&v837);
+          orig::sub_1018BBC0((int *)&v836, (int)v839 + *(_DWORD *)(this->field_88 + 20));
+          orig::sub_1018BC40((int *)&v837, (int)v836);
+          orig::sub_1018BC40((int *)&v837, SLODWORD(v837) % v49);
           if ( (int)(SLODWORD(v837)) >= (int)(*(_DWORD *)(this->field_88 + 20)) )
           {
 LABEL_62:
@@ -2845,8 +2845,8 @@ LABEL_61:
         v52 = nullptr;
         goto LABEL_61;
       }
-      orig::sub_1018BBC0_v1((int *)&v837, 5184000);
-      orig::sub_1018BC40_v1((int *)&v837, LODWORD(v837) - (_DWORD)v839);
+      orig::sub_1018BBC0((int *)&v837, 5184000);
+      orig::sub_1018BC40((int *)&v837, LODWORD(v837) - (_DWORD)v839);
       this->field_98 = (float)SLODWORD(v837);
       return 2;
     case 0x53u:
@@ -2947,7 +2947,7 @@ LABEL_498:
             if ( ((*(int (__thiscall **)(_DWORD *))(*v448 + 164))(v448) & 3) != 0 )
               v453 = (((*(int (__thiscall **)(_DWORD *))(*v448 + 164))(v448) & 3) + 48) | v453 & 0xFFFFFF00;
             v454 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-            v455 = orig::CMoResource_FindByTypeAndId_v1(v454, &v925, 61, v453);
+            v455 = orig::CMoResource_FindByTypeAndId(v454, &v925, 61, v453);
             orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v893, *v455);
             if ( orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
             {
@@ -2957,7 +2957,7 @@ LABEL_498:
           }
           v835[0] = *(int **)(this->field_88 + 8);
           v456 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-          v457 = orig::CMoResource_FindByTypeAndId_v1(v456, &v954, 61, (int)v835[0]);
+          v457 = orig::CMoResource_FindByTypeAndId(v456, &v954, 61, (int)v835[0]);
           orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v895, *v457);
           if ( orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
             goto LABEL_498;
@@ -2987,13 +2987,13 @@ LABEL_560:
         {
           v835[0] = *(int **)(v496 + 8);
           v497 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-          v498 = orig::CMoResource_FindByTypeAndId_v1(v497, &v850, 10, (int)v835[0]);
+          v498 = orig::CMoResource_FindByTypeAndId(v497, &v850, 10, (int)v835[0]);
           orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v852, *v498);
         }
       }
       if ( orig::sub_1005E130((void *)(this->field_88 + 12)) == 0 )
         return 0;
-      if ( orig::CYyObject_IsKindOf_v1(v495, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v495, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       v499 = orig::sub_1005E040(124);
       if ( v499 == nullptr )
@@ -3053,7 +3053,7 @@ LABEL_303:
       if ( v191 == nullptr )
       {
         v192 = orig::sub_1003B8B0((_DWORD *)self + 13);
-        if ( orig::CYyObject_IsKindOf_v1(v192, (int)&CXiSkeletonActor_classdesc) == 0 )
+        if ( orig::CYyObject_IsKindOf(v192, (int)&CXiSkeletonActor_classdesc) == 0 )
           return 0;
         v193 = this->field_88;
         v835[0] = nullptr;
@@ -3066,7 +3066,7 @@ LABEL_303:
           v835[0] = *(int **)(this->field_88 + 8);
           v196 = orig::sub_1005E150((_DWORD *)g_pMeshResourceMng, &v853);
           v197 = (_DWORD *)orig::sub_10052890(v196);
-          v198 = orig::CMoResource_FindByTypeAndId_v1(v197, &v905, 7, (int)v835[0]);
+          v198 = orig::CMoResource_FindByTypeAndId(v197, &v905, 7, (int)v835[0]);
           v191 = (int *)orig::sub_1004E3C0(v198);
           if ( v191 == nullptr )
             return 0;
@@ -3087,15 +3087,15 @@ LABEL_303:
       return 0;
     case 0x58u:
       orig::sub_10021280((int)a1, (int)a2);
-      Field50 = (_DWORD *)orig::Camera_GetField50_v1();
+      Field50 = (_DWORD *)orig::Camera_GetField50();
       orig::sub_1001E760(Field50, a1);
-      v163 = orig::Camera_GetField50_v1();
+      v163 = orig::Camera_GetField50();
       orig::sub_1001E780(v163, a2);
-      *(_DWORD *)(orig::Camera_GetField50_v1() + 92) = 0;
+      *(_DWORD *)(orig::Camera_GetField50() + 92) = 0;
       *(float *)&v838 = 280.0;
       if ( XiControlActor_isFirstPersonView == 0 )
         *(float *)&v838 = 350.0;
-      orig::sub_10015290_v1(v838);
+      orig::sub_10015290(v838);
       return 0;
     case 0x59u:
       if ( orig::sub_10062770(self) == 0 )
@@ -3202,7 +3202,7 @@ LABEL_361:
         v835[0] = (int *)self;
         v818 = v836;
         v786 = v337;
-        v342 = orig::ResourceHandle_Deref_v1(v838);
+        v342 = orig::ResourceHandle_Deref(v838);
 LABEL_363:
         orig::sub_10056BB0(v342, v786, v818, (int)v835[0]);
         return 0;
@@ -3245,7 +3245,7 @@ LABEL_826:
         orig::sub_10074A30((int)self);
 LABEL_827:
         v737 = orig::sub_1005E1D0(at<_DWORD *>(this, 0x88));
-        orig::sub_10062DE0_v1((int)self, v737);
+        orig::sub_10062DE0((int)self, v737);
         return 2;
       }
       else
@@ -3357,7 +3357,7 @@ LABEL_370:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v235 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v236 = orig::CMoResource_FindByTypeAndId_v1(v235, &v955, 7, (int)v835[0]);
+        v236 = orig::CMoResource_FindByTypeAndId(v235, &v955, 7, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v863, *v236);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
@@ -3373,13 +3373,13 @@ LABEL_370:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v464 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v465 = orig::CMoResource_FindByTypeAndId_v1(v464, &v897, 61, (int)v835[0]);
+        v465 = orig::CMoResource_FindByTypeAndId(v464, &v897, 61, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v943, *v465);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           goto LABEL_520;
       }
       v466 = orig::sub_1005E620() * 127.0;
-      v835[0] = (int *)orig::sub_10036F00_v1(v463, 64, (__int64)v466);
+      v835[0] = (int *)orig::sub_10036F00(v463, 64, (__int64)v466);
       goto LABEL_527;
     case 0x62u:
       v390 = orig::sub_1005E040(120);
@@ -3439,18 +3439,18 @@ LABEL_370:
         v661[34] = v662;
         v661[34] = orig::sub_1005E1D0(v662);
         v663 = orig::sub_1005E1D0(at<_DWORD *>(this, 0x88));
-        orig::sub_10062DE0_v1((int)self, v663);
+        orig::sub_10062DE0((int)self, v663);
         v664 = (_BYTE *)orig::sub_1003DE40(this->field_88);
-        orig::sub_10062DE0_v1((int)self, v664);
+        orig::sub_10062DE0((int)self, v664);
         if ( orig::sub_1005E1F0(at<_DWORD *>(this, 0x88)) != 103 )
           return orig::CMoSchedularTask_Interpret(self);
       }
       else
       {
         v665 = orig::sub_1005E1D0(at<_DWORD *>(this, 0x88));
-        orig::sub_10062DE0_v1((int)self, v665);
+        orig::sub_10062DE0((int)self, v665);
         v666 = (_BYTE *)orig::sub_1003DE40(this->field_88);
-        orig::sub_10062DE0_v1((int)self, v666);
+        orig::sub_10062DE0((int)self, v666);
         if ( orig::sub_1005E1F0(at<_DWORD *>(this, 0x88)) != 103 )
           return orig::CMoSchedularTask_Interpret(self);
         v667 = orig::sub_10074920(self, 0x14Au);
@@ -3459,9 +3459,9 @@ LABEL_370:
         v667[34] = orig::sub_1005E1D0(v668);
       }
       v669 = orig::sub_1005E1D0(at<_DWORD *>(this, 0x88));
-      orig::sub_10062DE0_v1((int)self, v669);
+      orig::sub_10062DE0((int)self, v669);
       v670 = (_BYTE *)orig::sub_1003DE40(this->field_88);
-      orig::sub_10062DE0_v1((int)self, v670);
+      orig::sub_10062DE0((int)self, v670);
       return orig::CMoSchedularTask_Interpret(self);
     case 0x67u:
     case 0x6Au:
@@ -3649,14 +3649,14 @@ LABEL_787:
       {
         v835[0] = *(int **)(this->field_88 + 8);
         v252 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v253 = orig::CMoResource_FindByTypeAndId_v1(v252, &v867, 5, (int)v835[0]);
+        v253 = orig::CMoResource_FindByTypeAndId(v252, &v867, 5, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v913, *v253);
       }
       v254 = (_DWORD *)orig::sub_1004E3C0((void *)(this->field_88 + 12));
       v255 = v254;
       if ( v254 == nullptr )
         return 0;
-      if ( !orig::sub_100539E0_v1(v254) )
+      if ( !orig::sub_100539E0(v254) )
         return 0;
       v256 = orig::sub_1005E180(v255);
       v257 = (int)v256;
@@ -3682,14 +3682,14 @@ LABEL_787:
       return 0;
     case 0x72u:
       v835[0] = nullptr;
-      v128 = orig::Mem_AllocFromArea_v1(76, 4);
-      orig::CMoTask_ResetFields_v1((int)v128);
-      g_resourcesDirty_as_s8 = 1;
+      v128 = orig::Mem_AllocFromArea(76, 4);
+      orig::CMoTask_ResetFields((int)v128);
+      g_resourcesDirty = 1;
       if ( v128 == nullptr )
         return 0;
       v129 = this->field_88;
       v836 = (_DWORD *)(__int64)((double)*(__int16 *)(v129 + 6) * this->field_9C);
-      orig::CMoTask_Constructor_v1(v128);
+      orig::CMoTask_Constructor(v128);
       *v128 = &CMoTask_vtbl_ambiguous7;
       v128[18] = 114;
       *((_BYTE *)v128 + 70) = *(_BYTE *)(v129 + 8);
@@ -3700,7 +3700,7 @@ LABEL_787:
         (*(void (__thiscall **)(int, int))(*(_DWORD *)dword_1047BF30 + 24))(dword_1047BF30, 1);
       dword_1047BF30 = (int)v128;
       v130 = *((unsigned __int8 *)v128 + 70);
-      v838 = *((int *)g_pCamera_as_v0 + 202);
+      v838 = *((int *)g_pCamera + 202);
       v132 = HIBYTE(v838);
       v131 = v838;
       v133 = (double)(int)v836 - 1.0;
@@ -3795,7 +3795,7 @@ LABEL_427:
       if ( !orig::sub_1004E3B0(&v837, 0) )
         return 0;
       v820 = v841[0];
-      v387 = orig::ResourceHandle_Deref_v1(SLODWORD(v837));
+      v387 = orig::ResourceHandle_Deref(SLODWORD(v837));
       orig::sub_10056BB0(v387, v380, v820, (int)self);
       orig::sub_1005E7A0(v380, v385);
       return 0;
@@ -3849,17 +3849,17 @@ LABEL_427:
     case 0x7Cu:
       if ( g_pXiZone == nullptr )
         return 0;
-      orig::unknown_libname_158_v1(&v837);
-      orig::sub_1018BC40_v1((int *)&v837, *(__int16 *)(this->field_88 + 6));
+      orig::unknown_libname_158(&v837);
+      orig::sub_1018BC40((int *)&v837, *(__int16 *)(this->field_88 + 6));
       v835[0] = (int *)&v837;
-      orig::sub_1018BBC0_v1((int *)v835, 0);
+      orig::sub_1018BBC0((int *)v835, 0);
       orig::sub_101874F0((int *)g_pXiZone, *(_DWORD *)(this->field_88 + 8), SLODWORD(v837), (int)v835[0]);
       return 0;
     case 0x7Du:
       orig::sub_1018C210(*(_DWORD *)(v2 + 8));
       return 0;
     case 0x7Eu:
-      orig::CMoResource_FindByTypeAndId_v1(*this->field_80, &v836, 47, *(_DWORD *)(v2 + 8));
+      orig::CMoResource_FindByTypeAndId(*this->field_80, &v836, 47, *(_DWORD *)(v2 + 8));
       if ( *(float *)&v836 == 0.0 || *v836 == 0 )
         return 0;
       orig::sub_1018B010((const void *)(*v836 + 48));
@@ -3897,9 +3897,9 @@ LABEL_427:
       }
       v835[0] = nullptr;
       byte_1047BF18 = 1;
-      v147 = orig::Mem_AllocFromArea_v1(96, 4);
-      orig::CMoTask_ResetFields_v1((int)v147);
-      g_resourcesDirty_as_s8 = 1;
+      v147 = orig::Mem_AllocFromArea(96, 4);
+      orig::CMoTask_ResetFields((int)v147);
+      g_resourcesDirty = 1;
       if ( v147 == nullptr )
         return 0;
       v148 = this->field_88;
@@ -3938,9 +3938,9 @@ LABEL_427:
       return 0;
     case 0x83u:
       v835[0] = nullptr;
-      v139 = orig::Mem_AllocFromArea_v1(96, 4);
-      orig::CMoTask_ResetFields_v1((int)v139);
-      g_resourcesDirty_as_s8 = 1;
+      v139 = orig::Mem_AllocFromArea(96, 4);
+      orig::CMoTask_ResetFields((int)v139);
+      g_resourcesDirty = 1;
       if ( v139 == nullptr )
         return 0;
       v140 = CMoSchedularTask_Interpret_static_BCF0;
@@ -3994,7 +3994,7 @@ LABEL_427:
       v835[0] = (int *)self;
       v818 = v836;
       v786 = v354;
-      v342 = orig::ResourceHandle_Deref_v1(SLODWORD(v837));
+      v342 = orig::ResourceHandle_Deref(SLODWORD(v837));
       goto LABEL_363;
     case 0x86u:
       v185 =(_DWORD*)((char *)self + 52);
@@ -4049,7 +4049,7 @@ LABEL_427:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v468 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v469 = orig::CMoResource_FindByTypeAndId_v1(v468, &v929, 61, (int)v835[0]);
+        v469 = orig::CMoResource_FindByTypeAndId(v468, &v929, 61, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v901, *v469);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
         {
@@ -4060,7 +4060,7 @@ LABEL_520:
         }
       }
       v470 = orig::sub_1005E620() * 127.0;
-      CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00_v1(
+      CMoSchedularTask_Interpret_static_BCC4[*(_DWORD *)(this->field_88 + 32)] = orig::sub_10036F00(
                                                                                            v463,
                                                                                            64,
                                                                                            (__int64)v470);
@@ -4081,7 +4081,7 @@ LABEL_527:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v474 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v475 = orig::CMoResource_FindByTypeAndId_v1(v474, &v903, 61, (int)v835[0]);
+        v475 = orig::CMoResource_FindByTypeAndId(v474, &v903, 61, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v931, *v475);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
@@ -4207,10 +4207,10 @@ LABEL_527:
         if ( orig::sub_10062770(self) == 0 )
           return 0;
         v835[0] = nullptr;
-        v75 = orig::sub_1003B6D0_v1((_DWORD *)self + 13);
-        v83 = orig::Mem_AllocFromArea_v1(1088, 4);
-        orig::CMoTask_ResetFields_v1((int)v83);
-        g_resourcesDirty_as_s8 = 1;
+        v75 = orig::sub_1003B6D0((_DWORD *)self + 13);
+        v83 = orig::Mem_AllocFromArea(1088, 4);
+        orig::CMoTask_ResetFields((int)v83);
+        g_resourcesDirty = 1;
         if ( v83 == nullptr )
           return 0;
         v84 = (_DWORD *)orig::sub_10062770(self);
@@ -4228,10 +4228,10 @@ LABEL_97:
         if ( orig::sub_100627D0(self) == 0 )
           return 0;
         v835[0] = nullptr;
-        v79 = orig::sub_1003B700_v1((_DWORD *)self + 13);
-        v85 = orig::Mem_AllocFromArea_v1(1088, 4);
-        orig::CMoTask_ResetFields_v1((int)v85);
-        g_resourcesDirty_as_s8 = 1;
+        v79 = orig::sub_1003B700((_DWORD *)self + 13);
+        v85 = orig::Mem_AllocFromArea(1088, 4);
+        orig::CMoTask_ResetFields((int)v85);
+        g_resourcesDirty = 1;
         if ( v85 == nullptr )
           return 0;
         v86 = (_DWORD *)orig::sub_100627D0(self);
@@ -4408,10 +4408,10 @@ LABEL_475:
       v657 = orig::sub_101880B0(g_pXiZone);
       v658 = orig::sub_1018BB20(g_pXiZone, v657);
       orig::sub_1018BAE0(g_pXiZone, *(_DWORD *)(this->field_88 + 8));
-      orig::unknown_libname_158_v1(&v838);
-      orig::unknown_libname_158_v1(&v836);
+      orig::unknown_libname_158(&v838);
+      orig::unknown_libname_158(&v836);
       orig::sub_1018BBE0((unsigned int *)&v838, 0);
-      orig::sub_1018BC40_v1((int *)&v836, (__int64)(*(float *)(this->field_88 + 12) * 3600.0));
+      orig::sub_1018BC40((int *)&v836, (__int64)(*(float *)(this->field_88 + 12) * 3600.0));
       v835[0] = v836;
       v833 = v838;
       v659 = orig::sub_1018BB10(g_pXiZone, v658);
@@ -4426,7 +4426,7 @@ LABEL_475:
           break;
         v835[0] = *(int **)(this->field_88 + 8);
         v280 = (_DWORD *)orig::sub_1005E4F0((char *)self + 128);
-        v281 = orig::CMoResource_FindByTypeAndId_v1(v280, &v881, 6, (int)v835[0]);
+        v281 = orig::CMoResource_FindByTypeAndId(v280, &v881, 6, (int)v835[0]);
         orig::sub_10052870((_DWORD *)(this->field_88 + 12), &v939, *v281);
         if ( !orig::sub_1004E3B0((_DWORD *)(this->field_88 + 12), 0) )
           return 0;
@@ -4496,7 +4496,7 @@ LABEL_496:
     case 0xBAu:
       LOBYTE(v841[0]) = *(_DWORD *)(v2 + 8) != 0;
       v412 = (int (__thiscall ***)(_DWORD))orig::sub_10062770(self);
-      if ( orig::CYyObject_IsKindOf_v1(v412, (int)&CXiSkeletonActor_classdesc) == 0 )
+      if ( orig::CYyObject_IsKindOf(v412, (int)&CXiSkeletonActor_classdesc) == 0 )
         return 0;
       orig::sub_100D5430(v412, (char)v841[0]);
       return 0;
@@ -4581,7 +4581,7 @@ LABEL_496:
         v838);
       return 0;
     case 0xC0u:
-      orig::sub_1018BC40_v1((int *)g_pXiZone + 114, *(_DWORD *)(v2 + 8));
+      orig::sub_1018BC40((int *)g_pXiZone + 114, *(_DWORD *)(v2 + 8));
       return 0;
     case 0xC1u:
       v563 = orig::sub_10062770(self);

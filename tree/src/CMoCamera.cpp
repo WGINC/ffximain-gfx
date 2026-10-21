@@ -63,7 +63,7 @@ __int16 CMoCamera::GetLinkedObject(_DWORD *a2)
   if ( *a2 == 6 )
   {
     a2 = (_DWORD *)this->field_14;
-    return orig::ResHandle_FreeIfUnreferenced_v1(&a2);
+    return orig::ResHandle_FreeIfUnreferenced(&a2);
   }
   return result;
 }

@@ -249,7 +249,7 @@ XI_API void __thiscall fn_102612D0(void * self_)
   pvStack_c = ExceptionList;
   local_4 = 0;
   ExceptionList = &pvStack_c;
-  orig::operator_delete_10311BB0(*(LPVOID *)((int)self_ + 0x3c));
+  orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x3c));
   a1 = *(int **)((int)self_ + 0x18);
   if (a1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);

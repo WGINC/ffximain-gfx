@@ -17,18 +17,18 @@ char CApp::RunMainLoop()
   if ( orig::CDx_Initialize(g_pCDx) != 0 && orig::App_CreateInputSystem(*((HINSTANCE *)self + 5)) != 0 )
   {
     GetWindowRect(*((HWND *)self + 6), (LPRECT)self + 2);
-    v2 = (char *)orig::Allocator_Generic_v1(0x33Cu);
+    v2 = (char *)orig::Allocator_Generic(0x33Cu);
     if ( v2 != nullptr )
     {
       v3 = orig::App_Constructor(v2);
-      g_pCamera_as_v0 = (std::codecvt_base *)v3;
+      g_pCamera = (std::codecvt_base *)v3;
       if ( v3 != nullptr )
       {
         orig::App_SetSeqStep(v3, 0);
         do
         {
           v5 = 0;
-          if ( orig::App_InitScene((int)g_pCamera_as_v0, (int)&v5) == 0 )
+          if ( orig::App_InitScene((int)g_pCamera, (int)&v5) == 0 )
             goto LABEL_23;
         }
         while ( v5 != 1 );
@@ -65,17 +65,17 @@ LABEL_21:
             if ( Msg.message != 257 || Msg.wParam != 44 )
               goto LABEL_21;
 LABEL_17:
-            orig::CApp_CopyTextToClipboard((HWND *)self, &Read_as_v0);
+            orig::CApp_CopyTextToClipboard((HWND *)self, &Read);
           }
         }
       }
     }
     else
     {
-      g_pCamera_as_v0 = nullptr;
+      g_pCamera = nullptr;
     }
   }
 LABEL_23:
   this->field_1D = 0;
-  return orig::sub_10014C10(g_pCamera_as_v0);
+  return orig::sub_10014C10(g_pCamera);
 }

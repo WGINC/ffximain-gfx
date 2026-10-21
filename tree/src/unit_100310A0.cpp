@@ -236,8 +236,8 @@ XI_API undefined4 __thiscall Quat_NLerp(void * self_, float * param_1, float * p
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100336B0(void)
 {
-  Fn10033710_targetTex = 0;
-  dword_1045B81C = g_translucentTarget_as_v0;
+  Fn10033710_targetTex_as_v1 = 0;
+  dword_1045B81C_as_v0 = g_translucentTarget_as_v0;
   if (g_translucentTarget_as_v0 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*g_translucentTarget_as_v0 + 4))))(g_translucentTarget_as_v0);
   }
@@ -248,13 +248,13 @@ XI_API void __cdecl fn_100336B0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100336D0(void)
 {
-  if (Fn10033710_targetTex_as_v1 != (int *)0x0) {
-    ((int (__stdcall *)(XI_ANY))((**(code **)(*Fn10033710_targetTex_as_v1 + 8))))(Fn10033710_targetTex_as_v1);
-    Fn10033710_targetTex_as_v1 = (int *)0x0;
+  if (Fn10033710_targetTex_as_v0 != (int *)0x0) {
+    ((int (__stdcall *)(XI_ANY))((**(code **)(*Fn10033710_targetTex_as_v0 + 8))))(Fn10033710_targetTex_as_v0);
+    Fn10033710_targetTex_as_v0 = (int *)0x0;
   }
-  if (dword_1045B81C != (int *)0x0) {
-    ((int (__stdcall *)(XI_ANY))((**(code **)(*dword_1045B81C + 8))))(dword_1045B81C);
-    dword_1045B81C = (int *)0x0;
+  if (dword_1045B81C_as_v0 != (int *)0x0) {
+    ((int (__stdcall *)(XI_ANY))((**(code **)(*dword_1045B81C_as_v0 + 8))))(dword_1045B81C_as_v0);
+    dword_1045B81C_as_v0 = (int *)0x0;
   }
   return;
 }
@@ -268,28 +268,28 @@ XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
   int v4;
   unsigned __int16 ViewportHeight;
   *self_ = &Vtbl_1032A844;
-  Texture = (_DWORD *)Fn10033710_targetTex_as_s32;
-  if ( Fn10033710_targetTex_as_s32 != 0
+  Texture = (_DWORD *)Fn10033710_targetTex;
+  if ( Fn10033710_targetTex != 0
     || (ViewportHeight = orig::Camera_GetViewportHeight(),
         ViewportWidth = orig::Camera_GetViewportWidth(),
-        Texture = orig::CDx_CreateTexture(g_pCDx, ViewportWidth, ViewportHeight, &dword_1045B81C_as_u32, 1, 0),
-        Fn10033710_targetTex_as_s32 = (int)Texture,
+        Texture = orig::CDx_CreateTexture(g_pCDx, ViewportWidth, ViewportHeight, &dword_1045B81C, 1, 0),
+        Fn10033710_targetTex = (int)Texture,
         Texture != nullptr) )
   {
     (*(void (__stdcall **)(_DWORD *))(*Texture + 4))(Texture);
-    Texture = (_DWORD *)Fn10033710_targetTex_as_s32;
+    Texture = (_DWORD *)Fn10033710_targetTex;
   }
   *(self_ + 2) = Texture;
-  v4 = dword_1045B81C_as_u32;
-  if ( dword_1045B81C_as_u32 != 0 )
+  v4 = dword_1045B81C;
+  if ( dword_1045B81C != 0 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)dword_1045B81C_as_u32 + 4))(dword_1045B81C_as_u32);
-    v4 = dword_1045B81C_as_u32;
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)dword_1045B81C + 4))(dword_1045B81C);
+    v4 = dword_1045B81C;
   }
   *(self_ + 3) = v4;
   orig::sub_10026E00(self_ + 5);
   orig::sub_10026E00(self_ + 8);
-  _dword_1045B810 = 1065353216;
+  dword_1045B810 = 1065353216;
   *((_BYTE *)self_ + 4) = 0;
   return self_;
 }
@@ -331,7 +331,7 @@ XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 0);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SHADEMODE, 1u);
-    orig::D3DXMatrixPerspectiveFovLH_static_v1((int)v5, 0.19634955, 1.0, 0.1, 65535.0);
+    orig::D3DXMatrixPerspectiveFovLH_static((int)v5, 0.19634955, 1.0, 0.1, 65535.0);
     orig::CDx_SetTransform(g_pCDx, 3, v5);
     orig::CDx_SetTransform(g_pCDx, 2, g_lightViewMatrix);
     orig::CDx_SetTransform(g_pCDx, 256, g_offscreenWorldMatrix);
@@ -432,9 +432,9 @@ XI_API undefined4 __thiscall fn_10033DA0(void * self_, float * param_1)
   uVar1 = CONCAT22((short)((uint)xi_entry_eax >> 0x10),g_actorShadowMode_as_v0);
   if (g_actorShadowMode_as_v0 < 3) {
     if (g_actorShadowMode_as_v0 == 2) {
-      if (word_1045B814 != 1) {
+      if (word_1045B814_as_v0 != 1) {
         uVar1 = orig::XiZone_DrawGroundShadowQuad(g_pZoneMap,param_1,
-                             (float)((float10)_dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)),
+                             (float)((float10)dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)),
                              (int)self_ + 0x14);
         return CONCAT31((int3)((uint)uVar1 >> 8),1);
       }
@@ -446,21 +446,21 @@ XI_API undefined4 __thiscall fn_10033DA0(void * self_, float * param_1)
           return 0;
         }
         uVar1 = orig::XiZone_DrawDecalOnTriangles(g_pZoneMap,param_1,(int)self_ + 0x14,*(int *)((int)self_ + 8),
-                             (float)((float10)_dword_1045B810_as_f32 * (float10)xi_k4(0x4019999Aull)));
+                             (float)((float10)dword_1045B810_as_f32 * (float10)xi_k4(0x4019999Aull)));
         *(undefined1 *)((int)self_ + 4) = 0;
         return CONCAT31((int3)((uint)uVar1 >> 8),1);
       }
     }
-    else if (word_1045B814 != 1) {
+    else if (word_1045B814_as_v0 != 1) {
       bVar2 = NAN((float10)g_shadowCasterDistance) || NAN((float10)xi_k4(0x41A00000ull));
       if ((bVar2 || (float10)g_shadowCasterDistance < (float10)xi_k4(0x41A00000ull)) != bVar2) {
         uVar1 = orig::CTsZoneMap_DrawProjectedShadow
                           (g_pZoneMap,param_1,
-                           (float)((float10)_dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)));
+                           (float)((float10)dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)));
         return CONCAT31((int3)((uint)uVar1 >> 8),1);
       }
       uVar1 = orig::XiZone_DrawGroundShadowQuad(g_pZoneMap,param_1,
-                           (float)((float10)_dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)),(int)self_ + 0x14)
+                           (float)((float10)dword_1045B810_as_f32 * (float10)xi_k4(0x3EAAAAABull)),(int)self_ + 0x14)
       ;
     }
   }

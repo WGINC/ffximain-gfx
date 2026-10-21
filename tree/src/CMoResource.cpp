@@ -68,8 +68,8 @@ unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 void __thiscall CMoResource::Destructor(void * self)
 {
   *(undefined ***)self = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
-  orig::CMoResource_Destroy(self);
-  orig::NodePool_ReleaseNode(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
+  orig::CMoResource_Destroy_v1(self);
+  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
   return;
 }
 

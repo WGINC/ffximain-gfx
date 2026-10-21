@@ -9,7 +9,7 @@ XI_API undefined4 __thiscall fn_100250F0(void * self_, int param_1)
   int iVar1;
   undefined4 *puVar2;
   
-  puVar2 = orig::Mem_AllocObject(((*(ushort **)(param_1 + 0x42))[1] + 1 +
+  puVar2 = orig::Mem_AllocObject_v1(((*(ushort **)(param_1 + 0x42))[1] + 1 +
                            (uint)**(ushort **)(param_1 + 0x42)) * 0x3c,4);
   *(undefined4 **)((int)self_ + 0x40) = puVar2;
   if (puVar2 == (undefined4 *)0x0) {

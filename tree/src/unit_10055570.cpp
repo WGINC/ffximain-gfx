@@ -8,7 +8,7 @@ XI_API undefined8 __thiscall fn_10055570(void * self_)
 {
   undefined8 uVar1;
   
-  uVar1 = orig::CMoTask_Constructor(self_);
+  uVar1 = orig::CMoTask_Constructor_v1(self_);
   orig::LinkNode_Init_v1((void *)((int)self_ + 0x34));
   *(undefined ***)self_ = &CMoOtTask_vtbl_ambiguous1_as_v0;
   *(undefined1 **)((int)self_ + 0x3c) =(undefined1*)(&LAB_100555a0);
@@ -22,7 +22,7 @@ XI_API void __cdecl fn_100555D0(void)
 {
   void *self_;
   
-  self_ = (void *)orig::Mem_AllocDefault(0x18);
+  self_ = (void *)orig::Mem_AllocDefault_v1(0x18);
   if (self_ == (void *)0x0) {
     dword_1047BC94_as_v0 = (void *)0x0;
   }

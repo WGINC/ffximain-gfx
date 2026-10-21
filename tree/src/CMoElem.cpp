@@ -109,7 +109,7 @@ undefined8 __thiscall CMoElem::Constructor(void * self)
   
   uVar1 = orig::FUN_10055570(self);
   orig::OcclusionQuery_Init_v1((void *)((int)self + 0x17f));
-  *(undefined ***)self = &CMoElem_vtbl_ambiguous3;
+  *(undefined ***)self = &CMoElem_vtbl_ambiguous3_as_v0;
   *(undefined2 *)((int)self + 0x176) = 0x194;
   *(undefined4 *)((int)self + 0x164) = 0;
   *(undefined4 *)((int)self + 0xfc) = 0;
@@ -161,7 +161,7 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   int v7;
   int *v8;
   int v9;
-  *self = (int)&CMoElem_vtbl_ambiguous3_as_v0;
+  *self = (int)&CMoElem_vtbl_ambiguous3;
   v2 = --g_countdown_1047BC6C;
   v3 = (int *)this->field_FC;
   if ( v3 != nullptr )
@@ -182,25 +182,25 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   if ( v4 != 0 )
   {
     orig::CMoGeneratorClone_UnlinkElemListA((_DWORD *)v4, (int)self);
-    orig::CMoResource_ReleaseChain_v1(v4, v7);
+    orig::CMoResource_ReleaseChain(v4, v7);
   }
   v8 = (int *)this->field_164;
   if ( v8 != nullptr )
   {
     v9 = *v8;
-    orig::CMoResource_ReleaseChain_v1(*v8, v2);
+    orig::CMoResource_ReleaseChain(*v8, v2);
     *(_DWORD *)(v9 + 248) = 0;
     this->field_164 = 0;
     if ( (*(_WORD *)(v9 + 24) & 0x7FFF) == 0 )
     {
-      orig::MoRes_FreeIfUnreferenced_v1(*(int **)(v9 + 20));
-      orig::NodePool_ReleaseNode_v1((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v9 + 20));
+      orig::MoRes_FreeIfUnreferenced(*(int **)(v9 + 20));
+      orig::NodePool_ReleaseNode((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v9 + 20));
     }
   }
   if ( v4 != 0 && (*(_BYTE *)(v4 + 26) & 4) != 0 && (*(_WORD *)(v4 + 24) & 0x7FFF) == 0 )
   {
-    orig::MoRes_FreeIfUnreferenced_v1(*(int **)(v4 + 20));
-    orig::NodePool_ReleaseNode_v1((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
+    orig::MoRes_FreeIfUnreferenced(*(int **)(v4 + 20));
+    orig::NodePool_ReleaseNode((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
   }
   if ( this->field_108 != 0 )
   {
@@ -425,7 +425,7 @@ XI_API undefined4 __thiscall fn_100458F0(void * self_)
   uVar1 = (uint)((NAN((float10)*(float *)((int)self_ + 0x138)) || NAN((float10)xi_k4(0x3C23D70Aull))) ||
                 (float10)*(float *)((int)self_ + 0x138) < (float10)xi_k4(0x3C23D70Aull));
   if (uVar1 == 0) {
-    uVar2 = orig::FUN_100555b0_v1(self_,(float)(float10)*(float *)((int)self_ + 300));
+    uVar2 = orig::FUN_100555b0(self_,(float)(float10)*(float *)((int)self_ + 300));
     return uVar2;
   }
   *(undefined4 *)((int)self_ + 0x138) = 0x3f800000;
@@ -697,12 +697,12 @@ LABEL_9:
     v8 = false;
     if ( v7 != nullptr && *v7 != 0 )
       v8 = (*(_BYTE *)(*v7 + 223) & 2) != 0;
-    if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::sub_100473F0_v1(v2) != 0 )
+    if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::sub_100473F0(v2) != 0 )
     {
       v9 = (*(int *)((char *)g_pProcessor + 0xA90));
       v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
       (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
-      qmemcpy(v10, (const void *)orig::sub_100473F0_v1((int **)v35), 0x40u);
+      qmemcpy(v10, (const void *)orig::sub_100473F0((int **)v35), 0x40u);
       (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
@@ -856,12 +856,12 @@ LABEL_9:
     (*(void (__stdcall **)(int *, int, float *))(v21 + 152))(v20, 3, v38);
     qmemcpy((char *)g_pZoneMap + 234832, v38, 64);
     v22 = *((float *)g_pZoneMap + 58725);
-    v33 = *((float *)g_pCamera_as_v0 + 184) + v22;
-    v32 = *((float *)g_pCamera_as_v0 + 183) + v22;
-    v31 = 1.0 / (*((float *)g_pCamera_as_v0 + 186) * *((float *)g_pCamera_as_v0 + 188));
-    v23 = atan2(192.0, *((float *)g_pCamera_as_v0 + 189));
+    v33 = *((float *)g_pCamera + 184) + v22;
+    v32 = *((float *)g_pCamera + 183) + v22;
+    v31 = 1.0 / (*((float *)g_pCamera + 186) * *((float *)g_pCamera + 188));
+    v23 = atan2(192.0, *((float *)g_pCamera + 189));
     v30 = v23 + v23;
-    orig::D3DXMatrixPerspectiveFovLH_static_v1((int)&v36, v30, v31, v32, v33);
+    orig::D3DXMatrixPerspectiveFovLH_static((int)&v36, v30, v31, v32, v33);
     (*(void (__stdcall **)(_DWORD, int, int *))(**(_DWORD **)(g_pResourceMng + 3772) + 148))(
       *(_DWORD *)(g_pResourceMng + 3772),
       3,
@@ -954,7 +954,7 @@ LABEL_9:
     else
       orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, 0);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, v35);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &Fn100467E0_material_as_s32);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &Fn100467E0_material);
   }
   if ( (Fn100467E0_staticGuards & 1) == 0 )
   {

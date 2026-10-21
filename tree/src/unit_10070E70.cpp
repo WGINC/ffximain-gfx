@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_10070F40(void * self_)
 {
-  orig::CMoTask_Constructor(self_);
+  orig::CMoTask_Constructor_v1(self_);
   *(undefined ***)self_ = &PTR_CMoTask_GetRuntimeClass_variant12_1032c490;
   *(undefined4 *)((int)self_ + 0x3c) = 0;
   return self_;

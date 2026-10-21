@@ -137,7 +137,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
     }
   }
   orig::DynVB_Unlock((void *)g_pDynVB_FVF152);
-  orig::Mem_FreeObject_v1((int)v8);
+  orig::Mem_FreeObject((int)v8);
   if ( (CMoDistMorphElem_ApplyMorph_staticGuards & 1) == 0 )
   {
     CMoDistMorphElem_ApplyMorph_staticGuards |= 1u;
@@ -222,7 +222,7 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
   v5 = at<uint16_t>(this, 0x34);
   if ( v5 > v4 )
     v4 = v5;
-  v30 = orig::Mem_AllocObject_v1(36 * v4, 4);
+  v30 = orig::Mem_AllocObject(36 * v4, 4);
   v6 = 0;
   v7 = 0.0;
   v8 = (char)(2 * this->field_32) >> 1;

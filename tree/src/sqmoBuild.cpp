@@ -17,7 +17,7 @@ XI_API int __cdecl fn_102851C0(undefined4 * param_1, int param_2)
   iVar7 = param_2;
   puVar4 = orig::FUN_1028a0f0(&param_2,4,1,param_1,param_2);
   if (param_2 != 4) {
-    orig::sqDebugPrintf_v1(s_____Error__FrameChannel_version_m_103b7b08,param_2,4);
+    orig::sqDebugPrintf_v2(s_____Error__FrameChannel_version_m_103b7b08,param_2,4);
     return 0;
   }
   puVar5 = orig::FUN_10293f80();
@@ -63,7 +63,7 @@ XI_API int __cdecl fn_102852E0(undefined4 * param_1, int param_2)
   iVar2 = param_2;
   puVar3 = orig::FUN_1028a0f0(&param_2,4,1,param_1,param_2);
   if (param_2 != 3) {
-    orig::sqDebugPrintf_v1(s_____Error__KeyChannel_version_mi_103b7b44,param_2,3);
+    orig::sqDebugPrintf_v2(s_____Error__KeyChannel_version_mi_103b7b44,param_2,3);
     return 0;
   }
   puVar4 = orig::FUN_102957b0();

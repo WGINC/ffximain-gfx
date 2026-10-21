@@ -10,7 +10,7 @@ XI_API void __thiscall fn_10070F90(void * self_, undefined4 param_1, undefined4 
   *(undefined4 *)((int)self_ + 0x38) = param_2;
   *(undefined4 *)((int)self_ + 0x3c) = param_3;
   *(undefined1 *)((int)self_ + 0x40) = (undefined1)param_4;
-  orig::CMoTask_RegisterWithMng(0);
+  orig::CMoTask_RegisterWithMng_v1(0);
   return;
 }
 
@@ -20,7 +20,7 @@ XI_API undefined4 __thiscall ResHandle_FreeIfUnreferenced(void * self_)
 {
   undefined4 uVar1;
   
-  uVar1 = orig::MoRes_FreeIfUnreferenced(*(int **)self_);
+  uVar1 = orig::MoRes_FreeIfUnreferenced_v1(*(int **)self_);
   return uVar1;
 }
 
@@ -55,10 +55,10 @@ XI_API undefined4 __thiscall fn_100710F0(void * self_, undefined4 param_1, undef
   undefined4 *this_00;
   undefined8 uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea(0x84,4);
+  uVar2 = orig::Mem_AllocFromArea_v1(0x84,4);
   this_00 = (undefined4 *)uVar2;
-  orig::CMoTask_ResetFields(this_00);
-  g_resourcesDirty = 1;
+  orig::CMoTask_ResetFields_v1(this_00);
+  g_resourcesDirty_as_v0 = 1;
   if (this_00 == (undefined4 *)0x0) {
     this_00 = (undefined4 *)0x0;
   }

@@ -38,7 +38,7 @@ XI_API undefined4 __cdecl fn_102999A0(int param_1, int param_2)
   local_20 = (float)(fVar3 * (float10)*(float *)(param_1 + 0x54));
   local_1c[0] = (float)(float10)(int)local_30;
   orig::FUN_10283970(&local_28);
-  uVar2 = orig::sqgxContext_SelectShaderMode(0x400000,0);
+  uVar2 = orig::sqgxShader_v1(0x400000,0);
   return CONCAT31((int3)((uint)uVar2 >> 8),0xff);
 }
 
@@ -56,7 +56,7 @@ XI_API int * __cdecl sqsdGlow_BakeOntoShape(int param_1, int * param_2)
       return param_2;
     }
     orig::FUN_1029b5c0();
-    orig::sqDrawableDraw((int)param_2);
+    orig::sqDrawableDraw_v1((int)param_2);
     puVar2 = orig::FUN_1029b620();
     piVar3 =(int*)(orig::FUN_102a2000());
     piVar3[0x11] = (int)puVar2;

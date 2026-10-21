@@ -224,7 +224,11 @@ def main(exp, metaf, protof, out):
                                         'masks': stub_masks(ea, o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
                 ei = EAX_INPUTS.get('0x%08X' % ea)
-                if ei and ei['reads']: stubs['0x%08X' % ea]['eax_reads'] = mask_of(ei['reads'])
+                # the entry EAX bytes the callee is seen to read are compared like an argument; those it is only
+                # assumed to read (code caller_reads does not follow) are compared apart (diffemu_gfx: unresolved)
+                if ei and ei.get('reads_seen', ei['reads']): stubs['0x%08X' % ea]['eax_reads'] = mask_of(ei.get('reads_seen', ei['reads']))
+                if ei and set(ei['reads']) - set(ei.get('reads_seen', ei['reads'])):
+                    stubs['0x%08X' % ea]['eax_may'] = mask_of(sorted(set(ei['reads']) - set(ei['reads_seen'])))
                 if ei and ei['hands_back']: stubs['0x%08X' % ea]['eax_keeps'] = mask_of(ei['hands_back'])
                 # a callee whose result is 8 bytes (EDX:EAX; Ghidra widens a return where a caller reads the EDX the
                 # call left): its EDX is a result too, drawn like its EAX

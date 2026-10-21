@@ -22,8 +22,10 @@ known:
     declares a 4-byte result (data/import_returns.json): that call writes all of EAX. So does a call to,
     or a jump to, a thunk that is one `jmp dword ptr [import slot]`, and such a jump itself (a tail call to the
     import: the bytes still held reach the function's own `ret`).
-  * A call through a pointer, an indirect jump the code does not bound, or a jump out of the function counts as
-    reading every byte still held: what it reads is not followed.
+  * A virtual call vcall_resolve.py settles (data/vcalls.json) reads what any of its targets reads and keeps what
+    any of them keeps (its reads seen: what every target is seen to read).
+  * Any other call through a pointer, an indirect jump the code does not bound, or a jump out of the function
+    counts as reading every byte still held: what it reads is not followed.
 
     FFXI_DLL=... python3 caller_reads.py [--reg edx] OUT.json [ENTRY.json [INPUTS.json SITES.json]]
 
@@ -43,7 +45,12 @@ reconstruction may start such a function with any value in EAX.
 INPUTS.json (data/eax_inputs.json): the functions in which the value EAX holds at entry IS seen, the opposite
 case: {"0xFUNC": {"reads": [entry bytes the function or its callees read], "hands_back": [bytes it can return
 unchanged that a caller reads; all it can return unchanged when its callers are not all known], "callers_known":
-bool}}. That value is an input of the function as much as a parameter is: its reconstruction takes it.
+bool, "reads_seen": [the bytes of "reads" an instruction examines (COPIES, UPWARD, SHIFTS below), in the function or a
+direct callee]}}. "reads" also counts code the walk does not follow as reading (a call through a pointer, a jump it
+cannot bound, and where a copy of the bytes goes: `push eax` after `mov ax, ...` hands a short argument on with
+two bytes no code is shown to look at): the safe side for what a reconstruction must pass, but no evidence of a
+read; "reads_seen" is that evidence.
+That value is an input of the function as much as a parameter is: its reconstruction takes it.
 
 SITES.json (data/eax_kept_sites.json): the direct calls after which the caller reads a byte the callee may hand
 back unchanged from its own entry EAX: {"0xCALL": {"caller", "callee", "bytes"}}. At such a site the caller's EAX
@@ -58,6 +65,30 @@ import vcall_resolve as V
 BYTES = {'al': {0}, 'ah': {1}, 'ax': {0, 1}, 'eax': {0, 1, 2, 3}}
 PARTS = {'eax': BYTES, 'edx': {'dl': {0}, 'dh': {1}, 'dx': {0, 1}, 'edx': {0, 1, 2, 3}}}
 ALL = frozenset({0, 1, 2, 3})
+# reads_seen: the instructions that examine the bytes they read. A copy moves them without looking at them; an
+# "upward" operation (Intel SDM: add, adc, sub, sbb, inc, dec, neg, not, and, or, xor, shl, lea) makes each result
+# byte from the operand bytes at or below it, so a byte reaches only the same or higher bytes of its destination:
+# neither shows the byte to matter, and where the result goes is followed no further (in EAX itself: still held).
+# A shift or rotate down brings upper bits into lower ones, but what it brings is often masked off next (MSVC's
+# bitfield read: `mov al, [x]; shr eax, 4; and eax, 7`): whether a bit survives is a question of bits, not followed
+# here, so it shows no read either. What does: comparing or testing (cmp, test, bt), multiplying or dividing, and
+# using the bytes as an address (a memory operand's base or index).
+COPIES = ('mov', 'movzx', 'movsx', 'push', 'pushal', 'xchg', 'stosb', 'stosw', 'stosd')
+UPWARD = ('add', 'adc', 'sub', 'sbb', 'inc', 'dec', 'neg', 'not', 'and', 'or', 'xor', 'shl', 'sal', 'lea')
+SHIFTS = ('shr', 'sar', 'ror', 'rol', 'rcr', 'rcl', 'shrd', 'shld')
+
+
+def examined(i, r):
+    """the bytes of r (EAX bytes the instruction reads) that it examines (above)"""
+    addr = set()
+    for o in i.operands:
+        if o.type == X86_OP_MEM:
+            for x in (o.mem.base, o.mem.index):
+                if x and i.reg_name(x) in BYTES: addr |= BYTES[i.reg_name(x)]
+    m = i.mnemonic.split()[-1]                                     # `rep stosd`: the operation is stosd
+    if m == 'lea': return set()                                    # an address computed, never used as one
+    if m in COPIES or m in UPWARD or m in SHIFTS: return r & addr
+    return r
 
 
 def access(i):
@@ -66,16 +97,17 @@ def access(i):
     except Exception: return set(ALL), set()
     rd = {i.reg_name(r) for r in rd}; wr = {i.reg_name(r) for r in wr}
     o = i.operands
-    if i.mnemonic in ('xor', 'sub') and len(o) == 2 and o[0].type == o[1].type == 1 and o[0].reg == o[1].reg:
+    # `xor`/`sub r, r` give 0 and `sbb r, r` gives -CF whatever r held (Intel SDM, SBB: dest - (src + CF)): writes only
+    if i.mnemonic in ('xor', 'sub', 'sbb') and len(o) == 2 and o[0].type == o[1].type == 1 and o[0].reg == o[1].reg:
         rd = set()
     # `or r, -1` / `and r, 0`: every bit of r is set or cleared whatever it held (Intel SDM, OR / AND): a write only
     if i.mnemonic in ('or', 'and') and len(o) == 2 and o[0].type == 1 and o[1].type == 2:
         full = (1 << (8 * o[0].size)) - 1
         if (o[1].imm & full) == (full if i.mnemonic == 'or' else 0): rd = {x for x in rd if x != i.reg_name(o[0].reg)}
     r = set().union(*[BYTES[x] for x in rd if x in BYTES]); w = set().union(*[BYTES[x] for x in wr if x in BYTES])
-    # `and r, imm`: a byte of r whose immediate byte is 0 comes out 0 whatever it held, so only the bytes the
-    # immediate keeps are read (Intel SDM, AND; flags are computed from the result)
-    if i.mnemonic == 'and' and len(o) == 2 and o[0].type == 1 and o[1].type == 2 and i.reg_name(o[0].reg) in BYTES:
+    # `and`/`test r, imm`: a byte of r whose immediate byte is 0 comes out 0 whatever it held, so only the bytes the
+    # immediate keeps are read (Intel SDM, AND, TEST; flags are computed from the result)
+    if i.mnemonic in ('and', 'test') and len(o) == 2 and o[0].type == 1 and o[1].type == 2 and i.reg_name(o[0].reg) in BYTES:
         bs = sorted(BYTES[i.reg_name(o[0].reg)])
         r -= {b for k, b in enumerate(bs) if not (o[1].imm >> (8 * k)) & 0xFF}
     return r, w
@@ -121,11 +153,17 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
         # the bytes still held after a call of the import in `slot`: none where the SDK declares a 4-byte EAX result
         return frozenset() if BYTES is PARTS['eax'] and (IR.get(iat[slot]) or {}).get('size') == 4 else lv
     eread = {f: frozenset() for f in starts}; keep = {f: frozenset() for f in starts}   # grow to a fixpoint
+    VCALLS = {k: v for k, v in json.load(open(os.path.join(P, '..', 'data', 'vcalls.json'))).items() if not k.startswith('_')}
+    edef = {f: frozenset() for f in starts}                         # entry bytes an instruction is seen to read
 
-    def walk(f, a, live, at_ret):
+    def walk(f, a, live, at_ret, seen_only=False):
         """(bytes of `live` read on the paths from a in f, bytes still held at a `ret`); at_ret(f, held)
-        gives the bytes a `ret` counts as read"""
+        gives the bytes a `ret` counts as read. seen_only: count only reads an instruction makes (here or in a
+        direct callee, edef): code the walk does not follow (a call through a pointer, a jump it cannot bound or
+        out of the function) adds nothing"""
         ins = code[f]
+        rd = edef if seen_only else eread
+        def unk(lv): return frozenset() if seen_only else lv
         if f not in labels: labels[f] = S.labels_of(ins)
         got, kept, seen, work = set(), set(), set(), [(a, frozenset(live))]
         while work:
@@ -133,18 +171,28 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
             if (x, lv) in seen or not lv: continue
             seen.add((x, lv))
             i = ins.get(x)
-            if i is None: got |= lv; continue
+            if i is None: got |= unk(lv); continue
             m, o = i.mnemonic, i.operands
             if m == 'call':
                 t = o[0]
                 if t.type == X86_OP_MEM and not t.mem.base and not t.mem.index and (t.mem.disp & 0xFFFFFFFF) in iat:
                     lv = after_import(t.mem.disp & 0xFFFFFFFF, lv)
                 elif t.type == X86_OP_IMM and t.imm in starts:
-                    got |= lv & eread[t.imm]; lv = lv & keep[t.imm]
+                    got |= lv & rd[t.imm]; lv = lv & keep[t.imm]
                 elif t.type == X86_OP_IMM and import_thunk(t.imm) is not None: lv = after_import(import_thunk(t.imm), lv)
-                else: got |= lv; continue
+                elif '0x%08X' % x in VCALLS and all(int(v, 16) in starts for v in VCALLS['0x%08X' % x]['targets']):
+                    # a virtual call vcall_resolve.py settles: one of its targets runs. May-reads: what any of
+                    # them reads; reads seen: what every one of them is seen to read; kept: what any can keep
+                    ts = [int(v, 16) for v in VCALLS['0x%08X' % x]['targets']]
+                    got |= lv & (frozenset.intersection(*[edef[v] for v in ts]) if seen_only else frozenset().union(*[eread[v] for v in ts]))
+                    lv = lv & frozenset().union(*[keep[v] for v in ts])
+                else: got |= unk(lv); continue
                 work.append((x + i.size, lv)); continue
             r, w = access(i)
+            if seen_only:
+                if m in UPWARD and o and o[0].type == 1 and i.reg_name(o[0].reg) in BYTES:
+                    w = w - r                                      # in place: a byte read and written is still held, changed
+                r = examined(i, r)
             got |= lv & r; lv = lv - w
             if not lv: continue
             if m.startswith('ret'):
@@ -157,15 +205,15 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
             if m == 'jmp' and o and o[0].type == X86_OP_IMM and o[0].imm not in ins:
                 t = o[0].imm
                 if t in starts:                                    # a tail call: G's reads, then G's return is f's
-                    got |= lv & eread[t]; lv = lv & keep[t]
+                    got |= lv & rd[t]; lv = lv & keep[t]
                     kept |= lv; got |= at_ret(f, lv)
-                else: got |= lv
+                else: got |= unk(lv)
                 continue
             nx = V.succs(im, ins, x, i, labels[f])
-            if nx is None: got |= lv; continue
+            if nx is None: got |= unk(lv); continue
             for n in nx:
                 if n in ins: work.append((n, lv))
-                else: got |= lv
+                else: got |= unk(lv)
         return frozenset(got), frozenset(kept)
 
     while True:                                                    # entry reads and kept bytes of every function
@@ -175,6 +223,14 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
             if g != eread[f] or k != keep[f]: eread[f] = eread[f] | g; keep[f] = keep[f] | k; changed += 1
         print('entry/keep round: %d changed' % changed)
         if not changed: break
+    while True:                                                    # the reads seen, over the final keep
+        changed = 0
+        for f in starts:
+            g = walk(f, f, ALL, lambda f_, held: set(), seen_only=True)[0]
+            if not g <= edef[f]: edef[f] = edef[f] | g; changed += 1
+        print('seen-read round: %d changed' % changed)
+        if not changed: break
+    assert all(edef[f] <= eread[f] for f in starts), 'a read seen that the may-walk does not count'
 
     reads = {f: frozenset() for f in sites if f not in taken}         # grows to a fixpoint
     known = set(reads)
@@ -209,7 +265,8 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
         for f in sorted(starts):
             hb = keep[f] & (reads[f] if f in known else ALL)
             if eread[f] or hb:
-                inp['0x%08X' % f] = {'reads': sorted(eread[f]), 'hands_back': sorted(hb), 'callers_known': f in known}
+                inp['0x%08X' % f] = {'reads': sorted(eread[f]), 'reads_seen': sorted(edef[f]), 'hands_back': sorted(hb),
+                                     'callers_known': f in known}
         json.dump(inp, open(inputs_out, 'w'), indent=0, sort_keys=True)
         st = {}
         for f in sorted(starts):

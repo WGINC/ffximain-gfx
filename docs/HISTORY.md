@@ -3050,3 +3050,12 @@ in `pipeline/tests/msvc/`.
   condition, `if ((d = a * b) <= 0.0f)`. No option and no other spelling of the comparison gave it.
 
 The compilers stay out of the repository.
+
+**Does the front end matter for matching? Measured, on this corpus: no.** The SP6 CRT's own sources were each
+compiled with SP5's and SP6's front end. Both used the Processor Pack's `c2.dll`, the same headers and the same
+options. Every code section of the two objects was compared byte for byte, relocations included:
+- `/O2`: 1,234 functions, 0 differ;
+- `/O2 /GX` (the C++ files, exception handling on): 752 functions, 0 differ;
+- every file one front end compiled, the other compiled too.
+
+What this shows is that corpus. It does not cover every construct the game's source may use.

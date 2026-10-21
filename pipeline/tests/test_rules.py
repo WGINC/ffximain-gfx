@@ -284,6 +284,29 @@ class CallerReads(unittest.TestCase):
         self.assertEqual(self.acc('2500FF0000')[0], {1})                  # and eax, 0xFF00
         self.assertEqual(self.acc('83C801')[0], {0, 1, 2, 3})             # or eax, 1: reads all
 
+    def test_sbb_self_and_test_mask(self):
+        self.assertEqual(self.acc('1BC0'), (set(), {0, 1, 2, 3}))         # sbb eax, eax: -CF whatever eax held
+        self.assertEqual(self.acc('A9FF000000')[0], {0})                  # test eax, 0xFF
+
+    def ex(self, hexbytes):
+        import caller_reads as C
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        i = next(md.disasm(bytes.fromhex(hexbytes), 0x1000))
+        return C.examined(i, C.access(i)[0])
+
+    def test_examined(self):
+        self.assertEqual(self.ex('50'), set())                            # push eax: a copy
+        self.assertEqual(self.ex('8BC8'), set())                          # mov ecx, eax: a copy
+        self.assertEqual(self.ex('48'), set())                            # dec eax: upward
+        self.assertEqual(self.ex('8D1440'), set())                        # lea edx, [eax+eax*2]: no access
+        self.assertEqual(self.ex('F3AB'), set())                          # rep stosd: a copy
+        self.assertEqual(self.ex('3BC2'), {0, 1, 2, 3})                   # cmp eax, edx
+        self.assertEqual(self.ex('D1E8'), set())                          # shr eax, 1: its bits often masked next
+        self.assertEqual(self.ex('3D00100000'), {0, 1, 2, 3})             # cmp eax, 0x1000
+        self.assertEqual(self.ex('8B30'), {0, 1, 2, 3})                   # mov esi, [eax]: an address
+        self.assertEqual(self.ex('33C0'), set())                          # xor eax, eax: no read at all
+
 
 class RegparmEntry(unittest.TestCase):
     """hx2cpp.regparm_entry: a register input becomes GCC regparm with the convention's own pop rule"""

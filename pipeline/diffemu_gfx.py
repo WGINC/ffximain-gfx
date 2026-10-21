@@ -525,6 +525,9 @@ class GfxMachine(G.Machine):
             logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
         eax_in = uc.reg_read(UC_X86_REG_EAX)
         if spec.get('eax_reads'): logged += (_stackref(eax_in & spec['eax_reads']),)
+        # bytes the callee is only assumed to read (eax_inputs.json "reads" past "reads_seen": code caller_reads does
+        # not follow): kept apart, a difference in them is not a difference shown (the gate's trial is unresolved)
+        if spec.get('eax_may'): self.eax_unk.append((addr, _stackref(eax_in & spec['eax_may'])))
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -1191,6 +1194,14 @@ def run_case(m, case, trials, seed):
                 declared_trials += bool(seen)
         if cov is not None and b is not None and a.status not in ('fault', 'limit', 'unresolved'):
             cov |= ran
+        if not why and b is not None and a.status not in ('fault', 'limit', 'unresolved') and a.eax_unk != b.eax_unk:
+            # the runs agree on everything compared, but a callee got a different entry EAX in bytes it is only
+            # assumed to read: whether that is a difference is not known, so the trial is not counted as a pass
+            n_ = next((i for i, (x, y) in enumerate(zip(a.eax_unk, b.eax_unk)) if x != y), min(len(a.eax_unk), len(b.eax_unk)))
+            c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
+            k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
+            unresolved[k_] = unresolved.get(k_, 0) + 1
+            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1
         if why:
             fails += 1
             if first_fail is None:

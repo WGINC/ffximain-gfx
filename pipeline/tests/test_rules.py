@@ -314,6 +314,32 @@ class Ps2Demangle(unittest.TestCase):
         self.assertEqual(M.demangle('IsEvent__FUc'), (None, 'IsEvent'))
         self.assertIsNone(M.demangle('ReqEventInfo'))
 
+
+class FcmpSimplify(unittest.TestCase):
+    """fcmp_simplify.equivalent: NaN-test spellings to the one comparison with the same IEEE truth table"""
+    def test_forms(self):
+        import fcmp_simplify as F
+        self.assertEqual(F.equivalent('(!NAN(a) && !NAN(b)) && a < b != (a == b)'), 'a <= b')
+        self.assertEqual(F.equivalent('NAN(a) || NAN(b) || a < b'), '!(a >= b)')
+        self.assertEqual(F.equivalent('!NAN(a) && !NAN(b) && a == b'), 'a == b')
+
+    def test_not_one_comparison(self):
+        import fcmp_simplify as F
+        self.assertIsNone(F.equivalent('NAN(a) || NAN(b)'))                  # unordered: no single comparison
+        self.assertIsNone(F.equivalent('!NAN(f(a)) && f(a) < b'))            # a call: evaluated once, not twice
+
+    def test_runs_the_table_in_c(self):
+        # the six states evaluated by the compiler, not by this file's model of C
+        import fcmp_simplify as F, subprocess, tempfile, os
+        src = '#include <math.h>\n#include <stdio.h>\n#define NAN_(x) ((x) != (x))\nint main(){double v[][2]={{1,2},{2,2},{3,2},{NAN,2},{2,NAN},{NAN,NAN}};int bad=0;\nfor(int i=0;i<6;i++){double a=v[i][0],b=v[i][1];\n'
+        for e in ['(!NAN_(a) && !NAN_(b)) && a < b != (a == b)', 'NAN_(a) || NAN_(b) || a < b', '!NAN_(a) && !NAN_(b) && a == b']:
+            r = F.equivalent(e.replace('NAN_', 'NAN'))
+            src += 'if ((%s) != (%s)) bad++;\n' % (e, r)
+        src += '}printf("%d", bad);return 0;}\n'
+        d = tempfile.mkdtemp(); open(os.path.join(d, 't.c'), 'w').write(src)
+        subprocess.run(['gcc', '-O2', os.path.join(d, 't.c'), '-o', os.path.join(d, 't')], check=True)
+        self.assertEqual(subprocess.run([os.path.join(d, 't')], capture_output=True, text=True).stdout, '0')
+
 class PartialRegs(unittest.TestCase):
     """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
     are run over values that exercise every bit of every part"""

@@ -14,6 +14,9 @@ function's (or the file's) text is put back. Nothing here relies on the gate.
     with undefined4 in its bodies replaced by a probe, the same struct with those two conversions deleted; a
     function whose lines fail keeps undefined4. (GCC's register choices can change with a type's spelling alone,
     so identical machine code would be a stricter test than equal meaning; it is not used.)
+  * `fcmp`: a floating comparison spelt out over NAN() tests written as the one C comparison it is
+    (fcmp_simplify.py): its truth table over the six IEEE states, computed for each rewrite, is the proof; the
+    operands must have no side effects; the file must compile.
   * `params`: a parameter named as the PS2 debug build names it (data/ps2_dwarf_funcs.json: the matched PS2
     function's DWARF formal parameters, `this` aside), where the PC function has exactly as many parameters. The
     proof is that the rename is a renaming only: the file preprocessed after it, with each new name mapped back to
@@ -128,7 +131,8 @@ def rule_macros(head, body):
     return head, outside_literals(body, expand_macros)
 
 
-PROOF = {'types': 'compiles', 'floats': 'compiles', 'macros': 'preprocessed', 'undefined4': 'probe', 'params': 'alpha'}
+PROOF = {'types': 'compiles', 'floats': 'compiles', 'macros': 'preprocessed', 'undefined4': 'probe', 'params': 'alpha',
+         'fcmp': 'compiles'}
 _DW = {}
 
 
@@ -166,8 +170,13 @@ def rule_params(head, body, ea=None):
     return outside_literals(head, f), outside_literals(body, f)
 
 
+def rule_fcmp(head, body):
+    import fcmp_simplify
+    return head, outside_literals(body, lambda t: fcmp_simplify.simplify(t)[0])
+
+
 RULES = [('types', rule_types), ('floats', rule_floats), ('macros', rule_macros), ('undefined4', rule_undefined4),
-         ('params', rule_params)]
+         ('fcmp', rule_fcmp), ('params', rule_params)]
 PROBE = ('''struct xi_u4_probe {          // source_shape.py: undefined4 with the float conversions deleted
     uint32_t v;
     xi_u4_probe() = default;

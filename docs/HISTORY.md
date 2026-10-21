@@ -2999,3 +2999,15 @@ repository; point `PS2_DEBUG_ELF` at a local copy.
   the stub had left as each side happened to have it.
 - `conv_facts.py` gives EAX as an input to the 312 functions in `eax_inputs.json` whose calling convention is not
   decided.
+
+**Source shape, the `fcmp` rule** (`pipeline/fcmp_simplify.py`). The translation spells an x87 compare as NAN() tests
+combined with `<`, `==`, `!=`, `&&` and `||`, which is exact but long. A C comparison of two floats is already
+exact on NaN. So an expression over NAN(a), NAN(b) and comparisons of a with b is a function of six states: less,
+equal, greater, a NaN, b NaN, both NaN. Where its truth table equals that of one comparison, or of its negation,
+it is that comparison.
+- **Proof:** the truth table is computed for each rewrite. A rule test also evaluates the forms in compiled C over
+  the six states.
+- **Purity:** the operands must have no side effects, since the original evaluates them more than once.
+- **Result:** 60 rewrites, for example `(!NAN(a) && !NAN(b)) && a < b != (a == b)` becomes `a <= b`.
+- **What remains:** most of the 377 NAN() uses left build the FPU status word itself, in functions that return it
+  in EAX.

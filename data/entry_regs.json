@@ -21,16 +21,6 @@
 "esi": "0x10018856 push esi",
 "edi": "0x10018859 push edi"
 },
-"0x1004A980": {
-"ebx": "0x1004A98B push ebx",
-"ebp": "0x1004A993 push ebp",
-"esi": "0x1004A99A push esi"
-},
-"0x1004E720": {
-"ebx": "0x1004E723 push ebx",
-"ebp": "0x1004E728 push ebp",
-"esi": "0x1004E729 push esi"
-},
 "0x1004E8D0": {
 "ebx": "0x1004E8DB push ebx",
 "ebp": "0x1004E8DC push ebp",
@@ -565,16 +555,16 @@
 "ebp": "0x102E68F7 mov edi, dword ptr [ebp + 8]"
 },
 "0x102E7401": {
-"edi": "0x102E7407 pushal ",
 "ebx": "0x102E7407 pushal ",
-"ebp": "0x102E7407 pushal ",
-"esi": "0x102E7407 pushal "
+"edi": "0x102E7407 pushal ",
+"esi": "0x102E7407 pushal ",
+"ebp": "0x102E7407 pushal "
 },
 "0x102E74BF": {
-"edi": "0x102E74CA pushal ",
+"eax": "0x102E74CA pushal ",
 "ebx": "0x102E74CA pushal ",
-"esi": "0x102E74CA pushal ",
-"eax": "0x102E74CA pushal "
+"edi": "0x102E74CA pushal ",
+"esi": "0x102E74CA pushal "
 },
 "0x102E74F7": {
 "ebp": "0x102E7508 mov dword ptr [ebp - 0x10], esp"
@@ -1140,15 +1130,15 @@
 "eax": "0x10B87CD6 and eax, 0xd8d4885"
 },
 "0x10B9EF40": {
-"esi": "0x10B9EF40 add byte ptr [esi], al",
 "eax": "0x10B9EF40 add byte ptr [esi], al",
+"esi": "0x10B9EF40 add byte ptr [esi], al",
 "ebx": "0x10B9EF45 inc dword ptr [ebx - 0x74acef14]"
 },
 "0x10BE4AEB": {
-"edi": "0x10BE4AEB pushal ",
-"ebx": "0x10BE4AEB pushal ",
 "ebp": "0x10BE4AEB pushal ",
+"eax": "0x10BE4AEB pushal ",
 "esi": "0x10BE4AEB pushal ",
-"eax": "0x10BE4AEB pushal "
+"edi": "0x10BE4AEB pushal ",
+"ebx": "0x10BE4AEB pushal "
 }
 }

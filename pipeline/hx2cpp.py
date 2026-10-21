@@ -803,8 +803,11 @@ def ghidra_byte_adds(text):
     # GfxExport `/*XI_BA:1*/+`: p-code INT_ADD on a pointer to something wider than a byte (a byte offset, where C++
     # scales by the pointee): an `&name` operand before it becomes a byte pointer; the cast Ghidra prints around the
     # sum gives the type back. Any other left operand is left as printed (the marker dropped).
-    text = re.sub(r'(&\s*[A-Za-z_]\w*)\s*/\*XI_BA:1\*/\s*\+', r'((char *)\1) +', text)
-    return text.replace('/*XI_BA:1*/', '')
+    # `/*XI_BA:N*/` (N 2, 4, 8): p-code PTRADD of N-byte elements on a base pointing to something of another size
+    W = {'1': 'char', '2': 'uint16_t', '4': 'uint32_t', '8': 'uint64_t'}
+    text = re.sub(r'(&\s*[A-Za-z_]\w*)\s*/\*XI_BA:([1248])\*/\s*\+', lambda m: '((%s *)%s) +' % (W[m.group(2)], m.group(1)), text)
+    text = re.sub(r'(\(\s*&\s*[A-Za-z_]\w*\s*\))\s*/\*XI_BA:([1248])\*/\s*\+', lambda m: '((%s *)%s) +' % (W[m.group(2)], m.group(1)), text)
+    return re.sub(r'/\*XI_BA:[1248]\*/', '', text)
 
 def ghidra_ptradds(text):
     # GfxExport `base/*XI_PA:N*/[i]`: p-code PTRADD with element size N where the printed base points to something of

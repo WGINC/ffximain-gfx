@@ -318,6 +318,8 @@ class GhidraIndexAndAdd(unittest.TestCase):
 
     def test_byte_add(self):
         self.assertEqual(H.ghidra_byte_adds('g((int *)(&DAT_1 /*XI_BA:1*/+ i * 0x38));'), 'g((int *)(((char *)&DAT_1) + i * 0x38));')
+        self.assertEqual(H.ghidra_byte_adds('*(int *)(&g /*XI_BA:1*/+ p * 4) = x;'), '*(int *)(((char *)&g) + p * 4) = x;')
+        self.assertEqual(H.ghidra_byte_adds('q = &g /*XI_BA:2*/+ i;'), 'q = ((uint16_t *)&g) + i;')
 
 
 class Thunk(unittest.TestCase):

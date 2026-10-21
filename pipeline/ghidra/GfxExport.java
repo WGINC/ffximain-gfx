@@ -291,6 +291,7 @@ public class GfxExport extends GhidraScript {
         // the printed type, which must be the CAST output's. `/*XI_BC:3*/` in front of the cast's `(`.
         List<PcodeOp> casts = new ArrayList<>();
         Map<PcodeOp, Set<PcodeOp>> under = new HashMap<>();
+        Map<PcodeOp, Integer> prints = new HashMap<>();
         if (root instanceof ClangFunction && ((ClangFunction) root).getHighFunction() != null) {
             Iterator<PcodeOpAST> it = ((ClangFunction) root).getHighFunction().getPcodeOps();
             while (it.hasNext()) {
@@ -306,6 +307,11 @@ public class GfxExport extends GhidraScript {
                     for (Varnode x : d.getInputs()) q.add(x);
                 }
                 casts.add(op); under.put(op, sub);
+                // printed once per use of its output (an implicit output is printed where it is used: NAN(x) and
+                // the comparison both print the cast)
+                int uses = 0;
+                for (Iterator<PcodeOp> d = o.getDescendants(); d.hasNext(); d.next()) uses++;
+                prints.put(op, Math.max(uses, 1));
             }
         }
         for (int j = 0; j < all.size() && !casts.isEmpty(); j++) {
@@ -325,7 +331,7 @@ public class GfxExport extends GhidraScript {
                 if (mine && c.getOutput().getHigh().getDataType().getDisplayName().replaceAll("\\s+", " ").equals(type)) { hit = c; break; }
             }
             if (hit == null) continue;
-            casts.remove(hit);
+            if (prints.merge(hit, -1, Integer::sum) <= 0) casts.remove(hit);
             at.merge(j, "/*XI_BC:3*/", (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
@@ -338,58 +344,50 @@ public class GfxExport extends GhidraScript {
             PcodeOp op = t.getPcodeOp();
             if (op == null || op.getOpcode() != PcodeOp.INT_ADD) continue;
             Varnode a0 = op.getInput(0);
-            boolean wide = false;
-            if (a0 != null && a0.getHigh() != null) {
-                DataType dt = a0.getHigh().getDataType();
-                if (dt instanceof TypeDef) dt = ((TypeDef) dt).getBaseDataType();
-                if (dt instanceof Pointer) { DataType to = ((Pointer) dt).getDataType(); wide = to != null && to.getLength() > 1; }
-            }
-            if (!wide) {
-                // `&DAT_x + n` where the address is a constant input (no typed variable): the printed left operand is
-                // `&` and a global whose data (the listing's, at that symbol) is wider than a byte
-                int k = j - 1;
-                while (k >= 0 && all.get(k).getText().trim().isEmpty()) k--;
-                int g = k - 1;
-                while (g >= 0 && all.get(g).getText().trim().isEmpty()) g--;
-                if (k >= 0 && g >= 0 && all.get(g).getText().equals("&")) {
-                    // the constant input whose address carries the printed name (DAT_ labels are dynamic: by address)
-                    for (int q = 0; q < op.getNumInputs(); q++) {
-                        Varnode c = op.getInput(q);
-                        if (!c.isConstant()) continue;
-                        Address ad = toAddr(c.getOffset());
-                        Symbol sy = getSymbolAt(ad);
-                        if (sy == null || !sy.getName().equals(all.get(k).getText())) continue;
-                        Data dd = currentProgram.getListing().getDataAt(ad);
-                        if (dd == null || dd.getLength() > 1) wide = true;   // no data: the export types it undefined4
-                    }
-                }
-            }
-            if (!wide) continue;
+            if (a0 == null || a0.getHigh() == null) continue;
+            DataType dt = a0.getHigh().getDataType();
+            if (dt instanceof TypeDef) dt = ((TypeDef) dt).getBaseDataType();
+            if (!(dt instanceof Pointer)) continue;
+            DataType to = ((Pointer) dt).getDataType();
+            if (to == null || to.getLength() <= 1) continue;
             at.merge(j, "/*XI_BA:1*/", (x, y) -> x + y);
             marked.putIfAbsent("", "");
         }
-        // `p[i]` printed for p-code PTRADD whose element size (its third input) differs from the size of what p points
-        // to as printed: C++ would index by the pointee (`(&DAT_1036c428)[uVar2]`, DAT undefined4, the code reads the
-        // byte [esi + 0x1036c428], 0x1011CF55). `/*XI_PA:N*/` in front of the `[`, N the element size
+        // p-code PTRADD(base, i, N) is base + i*N bytes. Ghidra prints it `base + i` or `base[i]` whatever the size
+        // of what base points to as printed, so where that size is not N, C++ would scale i by the wrong size
+        // (`&g_streamSourceVB + param_1 * 4`: PTRADD with N = 1 on a pointer to an undefined4, the code writes
+        // [eax*4 + 0x1045B690], 0x1002F13D). The printed base's pointee: its high variable's pointer type, or for the
+        // address of a global (PTRSUB of a constant) the data the listing defines there, else the export's undefined4.
+        // Marked with N: `/*XI_BA:N*/` before the `+` (the `+` token carries the op), `/*XI_PA:N*/` before the `[`
+        // (a syntax token; the index's first token carries the op)
         for (int j = 0; j < all.size(); j++) {
             ClangToken t = all.get(j);
-            if (!(t instanceof ClangOpToken) || !t.getText().equals("[")) continue;
             PcodeOp op = t.getPcodeOp();
             if (op == null || op.getOpcode() != PcodeOp.PTRADD || op.getNumInputs() < 3 || !op.getInput(2).isConstant()) continue;
-            int es = (int) op.getInput(2).getOffset();
-            int pointee = -1;
+            int at0;
+            if (t instanceof ClangOpToken && t.getText().equals("+")) at0 = j;
+            else {
+                int k = j - 1;
+                while (k >= 0 && all.get(k).getText().trim().isEmpty()) k--;
+                if (k < 0 || !all.get(k).getText().equals("[") || all.get(k).getPcodeOp() != null) continue;
+                at0 = -k - 1;
+            }
+            int es = (int) op.getInput(2).getOffset(), pointee = -1;
             Varnode a0 = op.getInput(0);
-            if (a0 != null && a0.getHigh() != null) {
+            PcodeOp d = a0.getDef();
+            if (d != null && d.getOpcode() == PcodeOp.PTRSUB && d.getInput(0).isConstant() && d.getInput(0).getOffset() == 0 && d.getInput(1).isConstant()) {
+                // `&g`: the C++ types it by the global's declared type (the objects below), whatever the decompiler's
+                // own type for the address (often `undefined *`)
+                Data dd = getDataAt(toAddr(d.getInput(1).getOffset()));     // defined data only, as the objects take it
+                pointee = dd != null ? dd.getLength() : 4;
+            } else if (a0.getHigh() != null) {
                 DataType dt = a0.getHigh().getDataType();
                 if (dt instanceof TypeDef) dt = ((TypeDef) dt).getBaseDataType();
                 if (dt instanceof Pointer && ((Pointer) dt).getDataType() != null) pointee = ((Pointer) dt).getDataType().getLength();
             }
-            if (pointee < 0 && a0 != null && a0.isConstant()) {
-                Data dd = currentProgram.getListing().getDataAt(toAddr(a0.getOffset()));
-                pointee = dd != null ? dd.getLength() : 4;      // no data: the export types the symbol undefined4
-            }
-            if (pointee < 0 || pointee == es || !(es == 1 || es == 2 || es == 4 || es == 8)) continue;
-            at.merge(j, "/*XI_PA:" + es + "*/", (x, y) -> x + y);
+            if (pointee <= 0 || pointee == es || !(es == 1 || es == 2 || es == 4 || es == 8)) continue;
+            if (at0 >= 0) at.merge(at0, "/*XI_BA:" + es + "*/", (x, y) -> x.contains(y) ? x : x + y);
+            else at.merge(-at0 - 1, "/*XI_PA:" + es + "*/", (x, y) -> x.contains(y) ? x : x + y);
             marked.putIfAbsent("", "");
         }
         // a piece `x._O_S_`: its sign from the piece varnode's own type (the varnode of size S the `.` token's op
@@ -946,17 +944,7 @@ public class GfxExport extends GhidraScript {
                     else {
                         // the data defined at the symbol, if any; otherwise its address is all that is used
                         Data dd = getDataAt(sy.getAddress());
-                        // no data there: the element size of the decompiler's own access to it (the PTRADD that
-                        // indexes it, or the LOAD/STORE through it), as undefinedN; else 4 bytes
-                        int es = 4;
-                        PcodeOp po = t.getPcodeOp();
-                        if (dd == null && po != null) {
-                            if (po.getOpcode() == PcodeOp.PTRADD && po.getNumInputs() > 2 && po.getInput(2).isConstant()) es = (int) po.getInput(2).getOffset();
-                            else if (po.getOpcode() == PcodeOp.LOAD && po.getOutput() != null) es = po.getOutput().getSize();
-                            else if (po.getOpcode() == PcodeOp.STORE && po.getNumInputs() > 2) es = po.getInput(2).getSize();
-                        }
-                        DataType dt = dd != null ? dd.getDataType() : es == 1 ? Undefined1DataType.dataType : es == 2 ? Undefined2DataType.dataType
-                            : es == 8 ? Undefined8DataType.dataType : Undefined4DataType.dataType;
+                        DataType dt = dd != null ? dd.getDataType() : Undefined4DataType.dataType;
                         objs.put(nm, String.format("{\"ea\": %d, \"func\": false, \"type\": %s, \"printed\": [%s], \"size\": %d, \"is_str\": %s}",
                                 sy.getAddress().getOffset(), esc(dt.getDisplayName()), esc(nm), Math.max(dt.getLength(), 1), dd != null && dd.hasStringValue() ? "true" : "false"));
                     }

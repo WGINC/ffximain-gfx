@@ -9,9 +9,9 @@
  "kit/fcap/dist/fcap_replay.exe": "4aec1fe84c48475ffb86359984f200d9e9130402f65d01ac94a4f0f64e632517",
  "kit/speedfix/dist/speedfix.dll": "0530e16a8123e144ea8dd48fa382bacc71d7483bf347d0fc20246748f768f54d",
  "kit/xikit/dist/gfx_recon_ingame.dll": "5db61f3536ecbfe637873a732cfba71cdb62686b6ce16aafa777d5de922762b2",
- "kit/xikit/dist/xikit.dll": "89db78e3dd4bd8573a610e4f9d1b84cea0d6a2f4a692b6f66c900988a2e54eeb",
+ "kit/xikit/dist/xikit.dll": "540497273013680e76584d36687f0a5b649fbcc1013d22d3aa3025d94c7eda0f",
  "kit/xikit/dist/xikit.ini": "1c2b4a4fb948bc4d123817e5e96ced92b42c36c49580e9a482e2d53f43ee4b99",
- "kit/xikit/dist/xikit_facts.txt": "636aca18b5d11d14bb0d160964599d56c6f6f265aa5b08fa05893545154077e0",
+ "kit/xikit/dist/xikit_facts.txt": "3c664eec3df00650d7715bf6447f9978eb4ab928d4b7471d3f7e7d8ac58bb6fd",
  "kit/xikit/dist/xikit_manifest.txt": "47322b95fa0d630783520d3fcf15826938e97694760d7cb148cede6d3d8f7275",
  "kit/xikit/dist/xisamp_arm64.exe": "6bccac1ae9e5ab709da0152844dcdb99c39cc14ac650444ac3874dab70ff57c4",
  "kit/xikit/dist/xisamp_x64.exe": "e7396f5b84b815905394c23b3018d555012e92e664dd0923977fe8778552a9cf"

@@ -26,7 +26,8 @@ done
 # the UNRESOLVED call sites, for facts=1: those of the committed gate records, Frame_Render's timer calls in its
 # wait, where speedfix's frame_step fork gate stops UNRESOLVED (kit/speedfix/test/test_framestep.py), and
 # data/facts_wanted.json (pipeline/facts_wanted.py: the frame set's gate, and the calls through [0x1066941C])
-python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" 0x10012B28 0x10012B86 0x10012B91 0x10012BCB 0x10012BF5 --from-gates --from-file "$ROOT/data/facts_wanted.json" | head -1
+python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" 0x10012B28 0x10012B86 0x10012B91 0x10012BCB 0x10012BF5 --from-gates --from-file "$ROOT/data/facts_wanted.json" > "$W/fact_sites.log"
+head -1 "$W/fact_sites.log"                                   # (the refused sites, each with why, in build/fact_sites.log)
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
     "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
 "$ROOT/kit/xisamp/build.sh" | tail -1                     # the native sampler (sample=2), from the same folder

@@ -27,8 +27,8 @@ corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 217 files) | **776** of the tree's 779: 774 PASS on fuzz and all four dumps; the step getters 0x10014CF0 and 0x10014D20 (Ghidra route, 18 Oct) PASS on fuzz, 10 of 10 instructions covered, not yet gated on the dumps |
-| In the tree, not verified (`// NOT VERIFIED`) | 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs) |
+| **Verified in the clean tree, as built** (`tree/`, 419 files) | **4,138** of the tree's 4,150. The 773 earlier functions still PASS: 771 on fuzz and all four dumps, plus the step getters 0x10014CF0 and 0x10014D20 on fuzz. The frame set's 3,365 (frameset6, Ghidra route, 21 Oct) PASS on fuzz and are not yet gated on the dumps |
+| In the tree, not verified (`// NOT VERIFIED`) | 12. The earlier 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), and 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs). 3 earlier PASSes that the 21 Oct gate run on the new build reverses: 0x100412B0 FAIL, 0x10003890 and 0x100CB4E0 UNRESOLVED. 6 of the frame set: 5 FAIL, 1 UNRESOLVED |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
 | Did not compile (8), or compiles with no gate case (1) | 9 |

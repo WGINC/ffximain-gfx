@@ -292,6 +292,7 @@ public class GfxExport extends GhidraScript {
         List<PcodeOp> casts = new ArrayList<>();
         Map<PcodeOp, Set<PcodeOp>> under = new HashMap<>();
         Map<PcodeOp, Integer> prints = new HashMap<>();
+        List<Object[]> implied = new ArrayList<>();          // {floating op, its non-floating input, input's expression}
         if (root instanceof ClangFunction && ((ClangFunction) root).getHighFunction() != null) {
             Iterator<PcodeOpAST> it = ((ClangFunction) root).getHighFunction().getPcodeOps();
             while (it.hasNext()) {
@@ -309,12 +310,35 @@ public class GfxExport extends GhidraScript {
                 casts.add(op); under.put(op, sub);
                 // printed once per use of its output (an implicit output is printed where it is used: NAN(x) and
                 // the comparison both print the cast)
-                int uses = 0;
-                for (Iterator<PcodeOp> d = o.getDescendants(); d.hasNext(); d.next()) uses++;
-                prints.put(op, Math.max(uses, 1));
+                prints.put(op, Math.max(printedUses(o, 0), 1));
+            }
+            // an implied cast: a p-code floating op (FLOAT_ADD ... FLOAT_NAN, not INT2FLOAT) reads a varnode whose
+            // type is not floating, and Ghidra prints `(float)` in front of its expression (0x100817F0
+            // `(float)piVar1[0x23]` under FLOAT_LESSEQUAL: the code is `fld dword ptr [eax + 0x8c]`). A floating op
+            // reads the bits; there is no CAST op to find, so the floating op's input stands for it
+            Iterator<PcodeOpAST> it2 = ((ClangFunction) root).getHighFunction().getPcodeOps();
+            while (it2.hasNext()) {
+                PcodeOp op = it2.next();
+                int oc = op.getOpcode();
+                if (!(oc == PcodeOp.FLOAT_ADD || oc == PcodeOp.FLOAT_SUB || oc == PcodeOp.FLOAT_MULT || oc == PcodeOp.FLOAT_DIV
+                        || oc == PcodeOp.FLOAT_LESS || oc == PcodeOp.FLOAT_LESSEQUAL || oc == PcodeOp.FLOAT_EQUAL || oc == PcodeOp.FLOAT_NOTEQUAL
+                        || oc == PcodeOp.FLOAT_NEG || oc == PcodeOp.FLOAT_ABS || oc == PcodeOp.FLOAT_SQRT || oc == PcodeOp.FLOAT_NAN
+                        || oc == PcodeOp.FLOAT_FLOAT2FLOAT || oc == PcodeOp.FLOAT_TRUNC || oc == PcodeOp.FLOAT_CEIL
+                        || oc == PcodeOp.FLOAT_FLOOR || oc == PcodeOp.FLOAT_ROUND)) continue;
+                for (Varnode in : op.getInputs()) {
+                    if (in.isConstant() || in.getHigh() == null || in.getHigh().getDataType() instanceof AbstractFloatDataType) continue;
+                    if (in.getSize() != 4 && in.getSize() != 8) continue;
+                    Set<PcodeOp> sub = new HashSet<>(); Deque<Varnode> q = new ArrayDeque<>(); q.add(in);
+                    while (!q.isEmpty() && sub.size() < 64) {
+                        PcodeOp d = q.poll().getDef();
+                        if (d == null || d.getOpcode() == PcodeOp.MULTIEQUAL || !sub.add(d)) continue;
+                        for (Varnode x : d.getInputs()) q.add(x);
+                    }
+                    implied.add(new Object[] {op, in, sub});
+                }
             }
         }
-        for (int j = 0; j < all.size() && !casts.isEmpty(); j++) {
+        for (int j = 0; j < all.size() && !(casts.isEmpty() && implied.isEmpty()); j++) {
             if (!all.get(j).getText().equals("(") || all.get(j) instanceof ClangOpToken) continue;
             int k = j + 1; StringBuilder ty = new StringBuilder();
             while (k < all.size() && (all.get(k) instanceof ClangTypeToken || all.get(k).getText().trim().isEmpty() || all.get(k).getText().trim().matches("\\*+"))) { ty.append(all.get(k).getText()); k++; }
@@ -330,7 +354,22 @@ public class GfxExport extends GhidraScript {
                 boolean mine = uop == c || under.get(c).contains(uop) || (uv != null && uv.getHigh() != null && uv.getHigh() == c.getInput(0).getHigh());
                 if (mine && c.getOutput().getHigh().getDataType().getDisplayName().replaceAll("\\s+", " ").equals(type)) { hit = c; break; }
             }
-            if (hit == null) continue;
+            if (hit == null) {
+                // an implied cast: the operand's first token belongs to the input's expression, or is the input itself
+                // read by the floating op; the printed type a floating type of the input's size
+                boolean imp = false;
+                for (Object[] ic : implied) {
+                    PcodeOp fop = (PcodeOp) ic[0]; Varnode in = (Varnode) ic[1];
+                    @SuppressWarnings("unchecked") Set<PcodeOp> sub = (Set<PcodeOp>) ic[2];
+                    boolean mine = (uop != null && sub.contains(uop)) || (uop == fop && uv != null && uv.getHigh() != null && uv.getHigh() == in.getHigh());
+                    if (!mine) continue;
+                    if ((in.getSize() == 4 && type.equals("float")) || (in.getSize() == 8 && type.equals("double"))) { imp = true; break; }
+                }
+                if (!imp) continue;
+                at.merge(j, "/*XI_BC:3*/", (x, y) -> x.contains(y) ? x : x + y);
+                marked.putIfAbsent("", "");
+                continue;
+            }
             if (prints.merge(hit, -1, Integer::sum) <= 0) casts.remove(hit);
             at.merge(j, "/*XI_BC:3*/", (x, y) -> x + y);
             marked.putIfAbsent("", "");
@@ -424,6 +463,19 @@ public class GfxExport extends GhidraScript {
             b.append('\n');
         }
         return b.toString();
+    }
+
+    // how many times the expression defining v is printed: once per use, and where a use's own output is implicit (a
+    // temporary with no variable of its own: HighOther), once per use of that output in turn
+    private int printedUses(Varnode v, int depth) {
+        int n = 0;
+        for (Iterator<PcodeOp> it = v.getDescendants(); it.hasNext(); ) {
+            PcodeOp d = it.next();
+            Varnode o = d.getOutput();
+            if (depth < 8 && o != null && o.getHigh() instanceof HighOther) n += Math.max(printedUses(o, depth + 1), 1);
+            else n++;
+        }
+        return n;
     }
 
     // set what the code establishes: the convention, the return in ST0, and for callee-cleanup the stack

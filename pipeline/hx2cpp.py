@@ -551,9 +551,49 @@ def callee_pops_fix(o, pt):
     return pt
 
 
+_THUNKS = None
+
+
+def ghidra_thunk(rec):
+    """a function whose whole body is one `jmp T` to another function (data/func_extents.json: its one range is that
+    5-byte instruction, read from the image) is a tail call: T runs with the caller's own stack and registers.
+    Ghidra decompiles such a thunk as T's body inlined, which runs T's callees where the original runs T. The
+    record's body becomes a call to T with the thunk's own parameters, the prototype Ghidra gives the thunk (T's);
+    the gate then compares that call. None when the function is not such a thunk or FFXI_DLL is not set."""
+    global _THUNKS
+    if _THUNKS is None:
+        _THUNKS = {}
+        dll = os.environ.get('FFXI_DLL')
+        if dll and os.path.exists(dll):
+            import pefile
+            pe = pefile.PE(dll, fast_load=True); base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_mapped_image()
+            ext = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
+            starts = {int(k, 16) for k in ext}
+            for k, rs in ext.items():
+                a = int(k, 16)
+                if len(rs) == 1 and rs[0][1] - rs[0][0] == 5 and img[a - base] == 0xE9:
+                    t = (a + 5 + struct.unpack('<i', img[a - base + 1:a - base + 5])[0]) & 0xFFFFFFFF
+                    if t in starts and t != a: _THUNKS[a] = t
+    t = _THUNKS.get(rec['ea'])
+    if t is None: return None
+    head = rec['text'].partition('\n{')[0]
+    objs = dict(rec.get('objs') or {})
+    name = next((n for n, o in objs.items() if o.get('func') and o['ea'] == t), None)
+    if name is None:
+        name = 'FUN_%08x' % t
+        typ = re.sub(r'\s+%s\s*\(' % re.escape(rec['name']), '(', rec['type'], count=1)
+        objs[name] = {'ea': t, 'func': True, 'type': typ, 'printed': [name], 'size': 0, 'is_str': False,
+                      'purged': rec.get('purged', 0), 'storage': []}
+    call = '%s(%s)' % (name, ', '.join(a[0] for a in rec.get('args') or []))
+    body = '\n{\n  %s%s;%s\n}\n\n' % ('' if rec['ret'].strip() == 'void' else 'return ', call,
+                                         '\n  return;' if rec['ret'].strip() == 'void' else '')
+    return dict(rec, text=head + body, objs=objs, icalls={}, x87_locals=[], stack_locals=[], thunk_of='0x%08X' % t)
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
+    rec = ghidra_thunk(rec) or rec
     if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
         return None, 'skipped', 'register or stack input Ghidra could not tie to a parameter: ' + \
             ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))
@@ -577,6 +617,8 @@ def ghidra_prepare(rec):
     rest, why = ghidra_bitcasts(rest)
     if rest is None: return None, 'untranslatable', why
     rest = ghidra_byte_adds(rest)
+    rest, why = ghidra_ptradds(rest)
+    if rest is None: return None, 'untranslatable', why
     rec = dict(rec, text=head + brace + ghidra_pieces(rest))
     if rec.get('type'):
         # Ghidra's text omits the calling convention in its signature; the record's type has it
@@ -763,6 +805,17 @@ def ghidra_byte_adds(text):
     # sum gives the type back. Any other left operand is left as printed (the marker dropped).
     text = re.sub(r'(&\s*[A-Za-z_]\w*)\s*/\*XI_BA:1\*/\s*\+', r'((char *)\1) +', text)
     return text.replace('/*XI_BA:1*/', '')
+
+def ghidra_ptradds(text):
+    # GfxExport `base/*XI_PA:N*/[i]`: p-code PTRADD with element size N where the printed base points to something of
+    # another size; the element is N bytes (unsigned, the bits; a cast Ghidra prints around it converts them). The
+    # base must be `(&name)`, `&name` or a name; any other: (None, why)
+    out = re.sub(r'(\(\s*&\s*[A-Za-z_]\w*\s*\)|&\s*[A-Za-z_]\w*|\b[A-Za-z_]\w*)\s*/\*XI_PA:([1248])\*/\s*\[',
+                 lambda m: '((%s *)(%s))[' % ({'1': 'uint8_t', '2': 'uint16_t', '4': 'uint32_t', '8': 'uint64_t'}[m.group(2)],
+                                              m.group(1)), text)
+    if '/*XI_PA:' in out:
+        return None, 'an index whose element size differs from the base\'s pointee (p-code PTRADD) on a base not parsed'
+    return out, None
 
 def ghidra_pieces(text):
     # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue

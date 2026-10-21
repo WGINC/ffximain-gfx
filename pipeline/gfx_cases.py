@@ -8,6 +8,10 @@ DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 # what each callee can really return (ret_kinds.py): stubs answer within that range
 RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_kinds.json')) else {}
 RET_WIDTH = json.load(open(os.path.join(DATADIR, 'ret_width.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_width.json')) else {}
+# the bytes of EAX the callers read after the function returns (caller_reads.py): 0 none, 1 AL, 2 AX
+CALLER_READS = json.load(open(os.path.join(DATADIR, 'caller_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'caller_reads.json')) else {}
+# the bytes of each stack argument a callee's code reads (arg_reads.py): a stub compares only those
+ARG_READS = json.load(open(os.path.join(DATADIR, 'arg_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'arg_reads.json')) else {}
 # calls whose x87 result the original caller consumes (fp_callsites.py): their stubs push a value
 FPRET = json.load(open(os.path.join(DATADIR, 'fpret.json')))
 FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.path.exists(os.path.join(DATADIR, 'fp_callsites.json')) else {}
@@ -85,6 +89,13 @@ def arg_masks(ftype, cc):
         else: out.append(0xFFFFFFFF)
     return out[:16]
 
+def stub_masks(ea, ftype, cc):
+    """the argument masks of a stub for the function at ea: the bytes its code reads (arg_reads.py; an argument it
+    never reads is not compared), else the declared type's (arg_masks)"""
+    r = ARG_READS.get('0x%08X' % ea)
+    if r is not None: return r + [0] * (16 - len(r))
+    return arg_masks(ftype, cc) if ftype else []
+
 def conv_of(ftype):
     m = re.search(r'__(cdecl|stdcall|thiscall|fastcall)', ftype)
     return m.group(1) if m else 'cdecl'
@@ -142,8 +153,11 @@ def main(exp, metaf, protof, out):
         # the bytes of EAX the function's own code sets on every path (ret_width.py): the rest is its caller's
         # leftover, which the reconstruction cannot have; compared only where the code sets them (narrows, never widens)
         w = RET_WIDTH.get('0x%08X' % r['ea'])
-        if w == 1 and c['returns'] in ('int', 'word'): c['returns'] = 'bool'
-        elif w == 2 and c['returns'] == 'int': c['returns'] = 'word'
+        cr = CALLER_READS.get('0x%08X' % r['ea'])
+        if cr is not None and (w is None or cr < w): w = cr
+        if w == 0 and c['returns'] in ('int', 'word', 'bool', 'ptr'): c['returns'] = 'unread'   # no caller reads EAX
+        elif w == 1 and c['returns'] in ('int', 'word', 'ptr'): c['returns'] = 'bool'
+        elif w == 2 and c['returns'] in ('int', 'ptr'): c['returns'] = 'word'
         if c['returns'] == 'float': c['fret'] = 'float' if r['ret'].strip() == 'float' else 'double' if r['ret'].strip() == 'double' else 'ldouble'
         stack_args = args[1:] if conv == 'thiscall' else args
         if conv == 'thiscall':
@@ -191,7 +205,7 @@ def main(exp, metaf, protof, out):
                     # them read whatever the caller's frame holds (saved registers etc.)
                 stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 16),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
-                                        'masks': arg_masks(o['type'], cc)}
+                                        'masks': stub_masks(ea, o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
                 if stubs['0x%08X' % ea]['conv'] != 'thiscall' and '0x%08X' % ea in ECX_READ: stubs['0x%08X' % ea]['ecx'] = 1
                 outs = com_outs(o['type'])
@@ -216,7 +230,7 @@ def main(exp, metaf, protof, out):
             if not p or p[0] not in ('thiscall', 'stdcall', 'cdecl') or p[1] is None: continue
             pops = 0 if p[0] == 'cdecl' else p[1]
             stubs['0x%08X' % sa] = {'returns': 'fuzz', 'pops': pops, 'args': min(p[1], 16),
-                                    'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': []}
+                                    'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': stub_masks(sa, None, None)}
             if RET_KINDS.get('0x%08X' % sa): stubs['0x%08X' % sa]['ret'] = RET_KINDS['0x%08X' % sa]
             if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):
                 stubs['0x%08X' % sa]['fpret'] = 1

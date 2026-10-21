@@ -306,5 +306,32 @@ class PartialRegs(unittest.TestCase):
         self.assertEqual(P.rewrite('{\n  r = a & BYTE1(p);\n}', {'p': 'int'})[0], '{\n  r = a & (_BYTE)((uint32_t)(p) >> 8);\n}')
 
 
+
+class GhidraIndexAndAdd(unittest.TestCase):
+    # p-code PTRADD with an element size other than the printed base's pointee, and INT_ADD (bytes) on a wide pointer
+    def test_ptradd_element_size(self):
+        self.assertEqual(H.ghidra_ptradds('r = (char)(&DAT_1)/*XI_PA:1*/[i];')[0], 'r = (char)((uint8_t *)((&DAT_1)))[i];')
+        self.assertEqual(H.ghidra_ptradds('r = p/*XI_PA:2*/[i];')[0], 'r = ((uint16_t *)(p))[i];')
+
+    def test_ptradd_base_not_parsed(self):
+        self.assertIsNone(H.ghidra_ptradds('r = f(x)/*XI_PA:1*/[i];')[0])
+
+    def test_byte_add(self):
+        self.assertEqual(H.ghidra_byte_adds('g((int *)(&DAT_1 /*XI_BA:1*/+ i * 0x38));'), 'g((int *)(((char *)&DAT_1) + i * 0x38));')
+
+
+class Thunk(unittest.TestCase):
+    # a function that is one `jmp T`: a call to T with its own parameters
+    def test_thunk_body(self):
+        H._THUNKS = {0x1000: 0x2000}
+        r = H.ghidra_thunk({'ea': 0x1000, 'name': 'thunk_f', 'type': 'int __stdcall thunk_f(int a, int b)', 'ret': 'int',
+                            'args': [['a', 'int'], ['b', 'int']], 'objs': {}, 'purged': 8,
+                            'text': '\nint __stdcall thunk_f(int a,int b)\n\n{\n  return g(a) + b;\n}\n'})
+        self.assertIn('return FUN_00002000(a, b);', r['text'])
+        self.assertEqual(r['objs']['FUN_00002000']['type'], 'int __stdcall(int a, int b)')
+        self.assertIsNone(H.ghidra_thunk({'ea': 0x3000, 'text': ''}))
+        H._THUNKS = None
+
+
 if __name__ == '__main__':
     unittest.main()

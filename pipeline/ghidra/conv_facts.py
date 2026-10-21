@@ -125,6 +125,12 @@ def main(out):
             elif k in ca: f.write('%s spops %d reads\n' % (k, 4 * ca[k]))
             else: continue
             n['spops'] = n.get('spops', 0) + 1
+        # no convention decided, the value left in ST0 on return known (fpret.json `float`): the return alone
+        for k in sorted(fp, key=lambda s: int(s, 16)):
+            if fp[k] != 'float': continue
+            r, why = decide(k, eu, du, pu, er, fp)
+            if r: continue
+            f.write('0x%08X fret float\n' % int(k, 16)); n['fret'] = n.get('fret', 0) + 1
         for k, nfix in sorted(va.items(), key=lambda kv: int(kv[0], 16)):
             if pu.get(k) != 0: continue
             f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1

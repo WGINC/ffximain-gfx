@@ -46,12 +46,17 @@ typedef void *pointer; typedef void *addr;
 #define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT26(h, l) ((uint64_t)(((uint64_t)(uint16_t)(h) << 48) | ((uint64_t)(l) & 0xFFFFFFFFFFFFull)))
 #define CONCAT17(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 56) | ((uint64_t)(l) & 0xFFFFFFFFFFFFFFull)))
-#define SUB41(x, b) ((uint8_t)((uint32_t)(x) >> (8 * (b))))
-#define SUB42(x, b) ((uint16_t)((uint32_t)(x) >> (8 * (b))))
+// SUBnm is p-code SUBPIECE, the bytes of x: a floating x gives its encoding, not its value converted
+template <class T> static inline uint32_t xi_b32(T x) { return (uint32_t)x; }
+static inline uint32_t xi_b32(float x) { uint32_t u; __builtin_memcpy(&u, &x, 4); return u; }
+template <class T> static inline uint64_t xi_b64(T x) { return (uint64_t)x; }
+static inline uint64_t xi_b64(double x) { uint64_t u; __builtin_memcpy(&u, &x, 8); return u; }
+#define SUB41(x, b) ((uint8_t)(xi_b32(x) >> (8 * (b))))
+#define SUB42(x, b) ((uint16_t)(xi_b32(x) >> (8 * (b))))
 #define SUB21(x, b) ((uint8_t)((uint16_t)(x) >> (8 * (b))))
-#define SUB81(x, b) ((uint8_t)((uint64_t)(x) >> (8 * (b))))
-#define SUB84(x, b) ((uint32_t)((uint64_t)(x) >> (8 * (b))))
-#define SUB82(x, b) ((uint16_t)((uint64_t)(x) >> (8 * (b))))
+#define SUB81(x, b) ((uint8_t)(xi_b64(x) >> (8 * (b))))
+#define SUB84(x, b) ((uint32_t)(xi_b64(x) >> (8 * (b))))
+#define SUB82(x, b) ((uint16_t)(xi_b64(x) >> (8 * (b))))
 #define ZEXT14(x) ((uint32_t)(uint8_t)(x))
 #define ZEXT24(x) ((uint32_t)(uint16_t)(x))
 #define ZEXT48(x) ((uint64_t)(uint32_t)(x))

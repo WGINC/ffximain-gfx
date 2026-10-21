@@ -46,9 +46,11 @@ def ret_kind(t):
     t = t.strip()
     if t == 'void': return 'void'
     if t in ('float', 'double', 'long double', 'float10'): return 'float'      # float10: Ghidra's ST0 (conv_facts.py, fpret)
-    if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE'): return 'bool'
+    if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE',
+             'undefined1', 'byte', 'uchar', 'xi_bool', 'undefined'): return 'bool'          # Ghidra's 1-byte names
     if t in ('__int64', 'unsigned __int64', '_QWORD'): return 'int64'
-    if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short'): return 'word'
+    if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short',
+             'undefined2', 'ushort', 'word'): return 'word'                                  # Ghidra's 2-byte names
     return 'int'
 
 def arg_kind(t, psize):
@@ -158,10 +160,12 @@ def main(exp, metaf, protof, out):
             if o['func']:
                 if ea == r['ea']: continue
                 if '0x%08X' % ea in LEAF: ran.add('0x%08X' % ea); continue      # a trivial leaf runs for real
-                cc = conv_of(o['type']); pops = (o.get('purged') or 0) // 4
-                if PURGES.get('0x%08X' % ea) and not pops:     # the callee's own `ret N` (D3DX dispatch thunks:
-                    pops = PURGES['0x%08X' % ea] // 4            # IDA sees only `jmp [ptr]` and says 0)
-                    if cc == 'cdecl': cc = 'stdcall'
+                cc = conv_of(o['type']); pops = max(o.get('purged') or 0, 0) // 4
+                # the callee's own `ret N` (purges.json) over the decompiler's count: D3DX dispatch thunks, where IDA sees
+                # only `jmp [ptr]` and says 0, and a function Ghidra could not resolve, whose purge it reports as -1
+                if '0x%08X' % ea in PURGES and PURGES['0x%08X' % ea] // 4 != pops:
+                    pops = PURGES['0x%08X' % ea] // 4
+                    if cc == 'cdecl' and pops: cc = 'stdcall'
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
                 # a cdecl callee's arguments are the slots its code reads (cdecl_args.py): slots past them are stale

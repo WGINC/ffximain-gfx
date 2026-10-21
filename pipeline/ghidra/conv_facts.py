@@ -14,7 +14,8 @@ Sources (all whole-DLL facts in data/):
 
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
-  neither read            -> __stdcall if ret N > 0, else __cdecl
+  neither read            -> __stdcall if ret N > 0, else __cdecl; a __cdecl one's stack arguments are the slots
+                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
@@ -109,7 +110,13 @@ def main(out):
             if r and r[3]: f.write('%s regin %s\n' % (k, ','.join(r[3]))); n['regin'] = n.get('regin', 0) + 1
             key = r[0] if r else why.split(':')[0].split(' (')[0]
             n[key] = n.get(key, 0) + 1
-        for k, nfix in sorted(variadic().items(), key=lambda kv: int(kv[0], 16)):
+        ca = {k: v for k, v in load('cdecl_args.json').items() if not k.startswith('_')}   # exact counts only
+        va = variadic()
+        for k in sorted(set(ca) - set(va), key=lambda s: int(s, 16)):
+            r, why = decide(k, eu, du, pu, er, fp)
+            if not r or r[0] != '__cdecl': continue
+            f.write('%s cargs %d\n' % (k, ca[k])); n['cargs'] = n.get('cargs', 0) + 1
+        for k, nfix in sorted(va.items(), key=lambda kv: int(kv[0], 16)):
             if pu.get(k) != 0: continue
             f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1
         for k, v in sorted(load('reg_keeps.json').items(), key=lambda kv: int(kv[0], 16)):

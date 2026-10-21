@@ -83,6 +83,8 @@ public class GfxExport extends GhidraScript {
     private Map<Long, String[]> regin = new HashMap<>(), keeps = new HashMap<>();
     // `0xADDR varargs N`: the IDB declares it variadic with N fixed parameters (cdecl: it pops 0)
     private Map<Long, Integer> varargs = new HashMap<>();
+    // `0xADDR cargs N`: a caller-cleanup function reads N argument slots on every path (data/cdecl_args.json)
+    private Map<Long, Integer> cargs = new HashMap<>();
 
     // a variadic callee: its N fixed parameters (the committed ones, else undefined4) then `...`, so the
     // decompiler gives each call the arguments its own pushes hold
@@ -99,7 +101,7 @@ public class GfxExport extends GhidraScript {
                                                                          : new ParameterImpl("xi_s" + (i + 1), Undefined4DataType.dataType, currentProgram));
                 f.setCustomVariableStorage(false);
                 f.setCallingConvention("__cdecl");
-                f.replaceParameters(ps, Function.FunctionUpdateType.DYNAMIC_STORAGE_ALL_PARAMS, true, SourceType.USER_DEFINED);
+                f.replaceParameters(ps, Function.FunctionUpdateType.DYNAMIC_STORAGE_FORMAL_PARAMS, true, SourceType.USER_DEFINED);   // formal: the list holds no auto `this`
                 f.setVarArgs(true);
                 n++;
             } catch (Exception x) { println("varargs not set at " + f.getEntryPoint() + ": " + x); }
@@ -112,6 +114,7 @@ public class GfxExport extends GhidraScript {
             String[] p = l.trim().split("\\s+");
             if (p.length == 3 && p[1].equals("regin")) regin.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 3 && p[1].equals("varargs")) varargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
+            else if (p.length == 3 && p[1].equals("cargs")) cargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
             else if (p.length == 3 && p[1].equals("keeps")) keeps.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 5 && p[1].equals("icall")) icall.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
             else if (p.length == 4 && !p[1].equals("-")) conv.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
@@ -142,8 +145,8 @@ public class GfxExport extends GhidraScript {
         return n;
     }
 
-    // a caller that reads EAX (or EDX) as a direct callee left it -- Ghidra's `extraout_` names, a register output
-    // of the call that the caller uses -- reads the callee's register at its `ret`, whatever Ghidra committed as
+    // a caller that reads EAX (or EDX) as a direct callee left it -- a register output of the call (INDIRECT) that
+    // the caller uses -- reads the callee's register at its `ret`, whatever Ghidra committed as
     // the callee's return. The callee's return is widened to that register (EAX: undefined4, EDX: EDX:EAX,
     // undefined8) so the C++ call reads it too; a float return (fpret.json) is never widened. Callers that
     // read EAX through a callee that never sets it (a bare `ret`) leave that callee untranslatable (`in_EAX`).
@@ -156,15 +159,13 @@ public class GfxExport extends GhidraScript {
             if (f == null) continue;
             DecompileResults r = d.decompileFunction(f, 60, monitor);
             if (r == null || !r.decompileCompleted() || r.getHighFunction() == null) continue;
-            Iterator<HighSymbol> it = r.getHighFunction().getLocalSymbolMap().getSymbols();
-            List<HighVariable> hv = new ArrayList<>();
-            while (it.hasNext()) { HighSymbol s = it.next(); if (s.getName().startsWith("extraout_") && s.getHighVariable() != null) hv.add(s.getHighVariable()); }
             Iterator<PcodeOpAST> ops = r.getHighFunction().getPcodeOps();
-            Set<HighVariable> hs = new HashSet<>(hv);
             while (ops.hasNext()) {
                 PcodeOpAST op = ops.next();
                 Varnode o = op.getOutput();
-                if (o == null || !o.isRegister() || !hs.contains(o.getHigh())) continue;
+                // the register as the call left it, read by the caller (whatever Ghidra names the variable:
+                // `extraout_EAX`, or `this_01` when it is passed on as an object, 0x1015B5EF)
+                if (o == null || !o.isRegister() || !o.getDescendants().hasNext()) continue;
                 if (op.getOpcode() != PcodeOp.INDIRECT && op.getOpcode() != PcodeOp.CALL) continue;
                 long off = o.getOffset();
                 int w;
@@ -199,6 +200,18 @@ public class GfxExport extends GhidraScript {
             } catch (Exception x) { println("return not widened at " + c.getEntryPoint() + ": " + x); }
         }
         return n;
+    }
+
+    // a function at an entry the facts name, with its code disassembled: a function made on bytes never disassembled
+    // has a one-byte body and no instructions (23 of 311 targets, 0x10018D00), so its calls have no references and
+    // its callees never get their conventions, though the decompiler, following the flow itself, still prints it
+    private Function ensureFunction(Address a) throws Exception {
+        if (currentProgram.getListing().getInstructionAt(a) == null) disassemble(a);
+        Function f = getFunctionAt(a);
+        if (f == null) return createFunction(a, null);
+        if (f.getBody().getNumAddresses() < 2)
+            ghidra.app.cmd.function.CreateFunctionCmd.fixupFunctionBody(currentProgram, f, monitor);
+        return f;
     }
 
     // the decompiled text, line by line as Ghidra prints it, with `/*XI_ICALL:0xCALL*/` in front of the callee
@@ -298,6 +311,10 @@ public class GfxExport extends GhidraScript {
                 return true;
             }
             int purge = Integer.parseInt(p[2]);
+            // the stack argument bytes: what `ret N` pops, or for __cdecl the slots the code reads (cdecl_args.json);
+            // -1 for a __cdecl function with no such count, whose parameters stay the decompiler's
+            Integer ca = cargs.get(f.getEntryPoint().getOffset());
+            int sbytes = !p[1].equals("__cdecl") ? purge : ca != null ? 4 * ca : -1;
             DataType rt0 = f.getReturnType();
             if (params && (p[3].equals("float") || rt0 instanceof Float10DataType || rt0 instanceof AbstractFloatDataType)) {
                 // fpret.json `float` (or a float return Ghidra's decompiler inferred where fpret.json has no
@@ -315,10 +332,21 @@ public class GfxExport extends GhidraScript {
                 List<Parameter> stack = new ArrayList<>();
                 int have = 0;
                 for (Parameter q : f.getParameters()) if (q.isStackVariable() && !q.isAutoParameter() && !q.getName().equals("__return_storage_ptr__")) { stack.add(q); have += Math.max(4, (q.getLength() + 3) & ~3); }
-                if (p[1].equals("__cdecl") || have == purge)
+                if (sbytes < 0 || have == sbytes)
                     for (Parameter q : stack) ps.add(new ParameterImpl(q.getName(), q.getDataType(), q.getStackOffset(), currentProgram));
-                else
-                    for (int i = 0; i < purge / 4; i++) ps.add(new ParameterImpl("xi_s" + (i + 1), Undefined4DataType.dataType, 4 + 4 * i, currentProgram));
+                else {   // slot by slot up to the code's count, as below
+                    Map<Integer, Parameter> at = new HashMap<>();
+                    Set<String> names = new HashSet<>();
+                    for (Parameter q : stack) { at.put(q.getStackOffset(), q); names.add(q.getName()); }
+                    for (int o = 4; o < 4 + sbytes; ) {
+                        Parameter q = at.get(o);
+                        int len = q == null ? 4 : Math.max(4, (q.getLength() + 3) & ~3);
+                        if (q != null && o + len <= 4 + sbytes) { ps.add(new ParameterImpl(q.getName(), q.getDataType(), o, currentProgram)); o += len; continue; }
+                        String n = "xi_s" + ((o - 4) / 4 + 1);
+                        while (names.contains(n)) n += "_";
+                        ps.add(new ParameterImpl(n, Undefined4DataType.dataType, o, currentProgram)); o += 4;
+                    }
+                }
                 DataType rt = p[3].equals("float") || rt0 instanceof Float10DataType ? Float10DataType.dataType : rt0;
                 f.updateFunction(p[1], new ReturnParameterImpl(rt, new VariableStorage(currentProgram, st0), currentProgram),
                     ps, Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.USER_DEFINED);
@@ -329,15 +357,34 @@ public class GfxExport extends GhidraScript {
                 // committing the decompiler's view can drop the `this` a __thiscall callee reads in ECX
                 f.setCustomVariableStorage(false);
             }
-            if (params && !p[1].equals("__cdecl")) {
+            if (params && sbytes >= 0) {
                 int have = 0;
                 for (Parameter q : f.getParameters()) if (q.isStackVariable()) have += Math.max(4, (q.getLength() + 3) & ~3);
-                if (have != purge) {
+                if (have != sbytes) {
+                    // slot by slot up to the code's count: the decompiler's own parameter where one starts at the slot
+                    // (its type: a signed compare on an undefined4 prints with no cast, 0x10281440), else undefined4
                     List<Variable> keep = new ArrayList<>();
-                    for (Parameter q : f.getParameters()) if (!q.isStackVariable() && !q.isAutoParameter()) keep.add(q);
-                    for (int i = 0; i < purge / 4; i++)
-                        keep.add(new ParameterImpl("xi_s" + (i + 1), Undefined4DataType.dataType, currentProgram));
-                    f.replaceParameters(keep, Function.FunctionUpdateType.DYNAMIC_STORAGE_ALL_PARAMS, true, SourceType.USER_DEFINED);
+                    Map<Integer, Parameter> at = new HashMap<>();
+                    for (Parameter q : f.getParameters()) {
+                        if (q.isAutoParameter()) continue;
+                        if (!q.isStackVariable()) keep.add(q);
+                        else at.put(q.getStackOffset(), q);
+                    }
+                    Set<String> names = new HashSet<>();
+                    for (Parameter q : at.values()) names.add(q.getName());
+                    for (int o = 4; o < 4 + sbytes; ) {
+                        Parameter q = at.get(o);
+                        int len = q == null ? 4 : Math.max(4, (q.getLength() + 3) & ~3);
+                        if (q != null && o + len <= 4 + sbytes) { keep.add(new ParameterImpl(q.getName(), q.getDataType(), currentProgram)); o += len; continue; }
+                        String n = "xi_s" + ((o - 4) / 4 + 1);
+                        while (names.contains(n)) n += "_";
+                        keep.add(new ParameterImpl(n, Undefined4DataType.dataType, currentProgram)); o += 4;
+                    }
+                    String want = keep.toString();
+                    f.replaceParameters(keep, Function.FunctionUpdateType.DYNAMIC_STORAGE_FORMAL_PARAMS, true, SourceType.USER_DEFINED);   // formal: the list holds no auto `this`
+                    int got = 0;
+                    for (Parameter q : f.getParameters()) if (q.isStackVariable()) got += Math.max(4, (q.getLength() + 3) & ~3);
+                    if (got != sbytes) println("parameters not as set at " + f.getEntryPoint() + ": wanted " + want + ", got " + Arrays.toString(f.getParameters()));
                 }
             }
             return true;
@@ -385,6 +432,19 @@ public class GfxExport extends GhidraScript {
             b.append("[").append(esc(sy.getName())).append(", ").append(st.getStackOffset()).append(", ").append(sy.getSize()).append("]");
         }
         return b.append("]").toString();
+    }
+
+    // the function's float arithmetic is SSE, each operation rounded to its type (x87 code keeps 64-bit mantissas
+    // until a store): its own instructions do SSE float arithmetic and no x87 arithmetic. XMM used only to copy, or
+    // both kinds of arithmetic, is not this.
+    private boolean usesSse(Function f) {
+        boolean sse = false;
+        for (Instruction in : currentProgram.getListing().getInstructions(f.getBody(), true)) {
+            String m = in.getMnemonicString().toUpperCase();
+            if (m.matches("(ADD|SUB|MUL|DIV|SQRT|MIN|MAX|RCP|RSQRT)(SS|PS|SD|PD)")) sse = true;
+            else if (m.matches("F(ADD|SUB|SUBR|MUL|DIV|DIVR|SQRT)P?|FI(ADD|SUB|SUBR|MUL|DIV|DIVR)")) return false;
+        }
+        return sse;
     }
 
     private List<String> x87Locals(Function f, HighFunction h) {
@@ -557,10 +617,27 @@ public class GfxExport extends GhidraScript {
         Set<Function> fixSig = new LinkedHashSet<>();
         for (String line : addrs) {
             line = line.trim(); if (line.isEmpty()) continue;
-            Function f = getFunctionAt(addr(line));
-            if (f == null) f = createFunction(addr(line), null);
+            Function f = ensureFunction(addr(line));
             if (f == null) continue;
             fixSig.add(f);
+            // the target of a direct call is a function's entry even where analysis made none (0x10071050, called
+            // with `this` in ECX from 0x10018D47, had no Function: its calls printed as `undefined f(void)`)
+            for (Instruction in : currentProgram.getListing().getInstructions(f.getBody(), true)) {
+                if (!in.getFlowType().isCall() || in.getFlowType().isComputed() || in.getFlows().length != 1) continue;
+                Address t = in.getFlows()[0];
+                // only where conv.txt gives the callee's convention: one made without it gets a convention the
+                // decompiler infers, and a wrong pop there moves the caller's stack depths (0x102A2A80 read a third
+                // argument slot where the code reads two, data/cdecl_args.json)
+                if (conv.containsKey(t.getOffset()) && (getFunctionAt(t) == null || currentProgram.getListing().getInstructionAt(t) == null)) {
+                    Function c = ensureFunction(t);
+                    if (c != null) println("function made at the call target " + t + " (called from " + in.getAddress() + ")");
+                }
+            }
+            for (Instruction in : currentProgram.getListing().getInstructions(f.getBody(), true)) {
+                if (!in.getFlowType().isCall() || in.getFlowType().isComputed() || in.getFlows().length != 1) continue;
+                Function c = getFunctionAt(in.getFlows()[0]);   // from the call instructions: getCalledFunctions missed 0x10071050
+                if (c != null && !c.isThunk() && !c.isExternal()) fixSig.add(c);
+            }
             for (Function c : f.getCalledFunctions(monitor)) if (!c.isThunk() && !c.isExternal()) fixSig.add(c);
         }
         int set = 0;
@@ -732,9 +809,9 @@ public class GfxExport extends GhidraScript {
             StringBuilder xb = new StringBuilder("[");
             for (String n : x87Locals(f, r.getHighFunction())) { if (xb.length() > 1) xb.append(", "); xb.append(esc(n)); }
             xb.append("]");
-            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"stack_locals\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
+            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"stack_locals\": %s, \"sse\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
                     ea.getOffset(), esc(f.getName()), esc(f.getSignature(true).getPrototypeString(true)), esc(text), ob, ab,
-                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, stackLocals(r.getHighFunction()), storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx))+", ""));
+                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, stackLocals(r.getHighFunction()), usesSse(f) ? "true" : "false", storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx))+", ""));
             ok++;
         }
         out.close();

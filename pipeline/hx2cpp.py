@@ -717,7 +717,9 @@ def ghidra_frame(rest, locs):
         m = re.search(r'^([ \t]*)([A-Za-z_][\w ]*?)\s*(\**)\s*%s((?:\s*\[\d+\])*);[ \t]*$' % re.escape(n), rest, re.M)
         if m: decl[n] = (m, off, sz)
     if not any(m.group(4) for m, off, sz in decl.values()): return rest
-    lo = min(off for m, off, sz in decl.values()); hi = max(off + sz for m, off, sz in decl.values())
+    # up to the entry ESP (offset 0): the frame is everything from the lowest local to the return address, and the
+    # code may reach bytes no declared local covers (0x101D7AC0 zeroes 0x15 dwords from local_54, 24 bytes declared)
+    lo = min(off for m, off, sz in decl.values()); hi = max([0] + [off + sz for m, off, sz in decl.values()])
     first = min(m.start() for m, off, sz in decl.values())
     for n, (m, off, sz) in sorted(decl.items(), key=lambda x: -x[1][0].start()):
         ind, t, st, dims = m.group(1), m.group(2).strip() + ' ' + m.group(3), m.group(3), re.sub(r'\s+', '', m.group(4))
@@ -901,7 +903,10 @@ def translate(rec):
     out += comments
     ret, body = drop_float_return(ea, ret, body)
     syms, body = unconsumed_fp_calls(ea, syms, body)
-    out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
+    # GfxExport `sse`: the original's float arithmetic is SSE (its code uses XMM registers), each operation rounded
+    # to float; x87 code (the build's default) rounds only at a store
+    sse = '__attribute__((target("sse,fpmath=sse"))) ' if rec.get('sse') else ''
+    out.append('extern "C" __declspec(dllexport) %s%s %s %s(%s)' % (sse, ret.strip(), cc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     return {'syms': syms, 'code': '\n'.join(out), 'export': fname, 'cc': cc, 'ret': ret.strip()}, None
 

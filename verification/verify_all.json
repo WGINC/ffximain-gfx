@@ -108,6 +108,16 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:reg_keeps.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:tail_purges.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:ida_classes.json": {
   "ok": true,
   "differing": [],
@@ -251,7 +261,36 @@
   ]
  },
  "tree-gate": {
-  "ok": null,
-  "skipped": "--quick"
+  "ok": false,
+  "functions": 779,
+  "gates": {
+   "fuzz": {
+    "PASS": 773,
+    "FAIL": 2,
+    "UNRESOLVED": 2,
+    "INCONCLUSIVE": 2
+   }
+  },
+  "not_passing": {
+   "0x10016320": {
+    "fuzz": "INCONCLUSIVE"
+   },
+   "0x1006B3B0": {
+    "fuzz": "INCONCLUSIVE"
+   },
+   "0x10038E10": {
+    "fuzz": "FAIL"
+   },
+   "0x10003890": {
+    "fuzz": "UNRESOLVED"
+   },
+   "0x100CB4E0": {
+    "fuzz": "UNRESOLVED"
+   },
+   "0x100412B0": {
+    "fuzz": "FAIL"
+   }
+  },
+  "live": "not run (set LIVE)"
  }
 }

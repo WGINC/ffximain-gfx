@@ -160,11 +160,13 @@ def main():
            same_as_committed_export=got == hashlib.sha1(open(EXP, 'rb').read()).hexdigest())
     # the Ghidra route's exports (functions the IDA export does not hold), each checked by SHA-1, appended after it
     gexp, ggate = [], []
-    for g in src.get('ghidra_exports', []):
+    for k, g in enumerate(src.get('ghidra_exports', [])):
         gs = hashlib.sha1(open(os.path.join(ROOT, g['path']), 'rb').read()).hexdigest()
         report('tree-source:' + g['path'], gs == g['sha1'], sha1=gs, expected=g['sha1'])
         gexp.append(os.path.join(ROOT, g['path']))
-    if src.get('ghidra_raw_gate'): ggate.append(src['ghidra_raw_gate'])
+        # each export's raw gate, in the same order (the first may be the older single `ghidra_raw_gate`)
+        gg = g.get('raw_gate') or (src.get('ghidra_raw_gate') if k == 0 else None)
+        if gg: ggate.append(gg)
     t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []

@@ -8,6 +8,7 @@ public:
     static char ** __cdecl GetRuntimeClass_variant0();  // 0x10039770
     static char ** __cdecl GetRuntimeClass_variant1();  // 0x10039780
     _DWORD * ScalarDeletingDtor(char a2);  // 0x100398B0
+    static void __thiscall SetName(void * self, undefined4 * param_1);  // 0x100398E0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x30];

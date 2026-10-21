@@ -36,7 +36,7 @@ int __cdecl CXiActorNameDraw::SetRenderState()
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 2u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
-    for ( i = g_pActorDrawListHead; i != 0; i = *(_DWORD *)(i + 84) )
+    for ( i = g_pActorDrawListHead_as_s32; i != 0; i = *(_DWORD *)(i + 84) )
     {
       v3 = *(float *)(i + 140);
       (xi_fpu_unord = __builtin_isunordered(v3, 0.0), v4 = v3 < 0.0);

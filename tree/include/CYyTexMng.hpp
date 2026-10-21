@@ -7,6 +7,8 @@ class XI_API CYyTexMng {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x1003AA40
     _DWORD * ScalarDeletingDtor(char a2);  // 0x1003AA70
+    static undefined8 __thiscall FindByName(void * self, int param_1);  // 0x1003AC80
+    static int __thiscall FindByNameInResource(void * self, char * param_1, int param_2);  // 0x1003AF10
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x10];

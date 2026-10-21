@@ -13,6 +13,12 @@ public:
     static char ** __cdecl GetRuntimeClass_variant3();  // 0x10071D70
     void vf008();  // 0x10071DB0
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071DC0
+    static void __thiscall Destructor(void * self);  // 0x10071DE0
+    static undefined4 __thiscall ReleaseChain(void * self);  // 0x10071EC0
+    static void __thiscall RegisterInTypeList(void * self);  // 0x10072030
+    static void * __thiscall GetParent(void * self);  // 0x10072270
+    static undefined8 __thiscall FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10072290
+    static undefined4 __stdcall FindInScope(undefined4 * param_1, int param_2, uint32_t param_3, int param_4);  // 0x10072430
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x10];

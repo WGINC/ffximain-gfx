@@ -97,7 +97,7 @@ def main():
     #    A read through a callee (no instruction named) is reported, not failed: the leftover audit judges those.
     import re as _re
     wr = {int(m.group(3), 16): (m.group(1), m.group(2)) for m in _re.finditer(
-        r'XI_ORIG [^\n]*? (\w+)\([^)]*\) \{ return reinterpret_cast<[^(]*\((__\w+) \*\)\([^)]*\)>\(XI_GAME\((0x[0-9A-F]+)u\)\)',
+        r'XI_ORIG [^\n]*? (\w+)\([^)]*\) \{ (?:return )?reinterpret_cast<[^(]*\((__\w+) \*\)\([^)]*\)>\(XI_GAME\((0x[0-9A-F]+)u\)\)',
         open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
     eu, du, er = (load(os.path.join(D, f)) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
     direct = lambda v: isinstance(v, str) and v.startswith('0x')           # an instruction that reads it

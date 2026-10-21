@@ -2856,3 +2856,40 @@ lost, and all now compile.
 
 A callee with no `ret N` (no definitive argument count) whose call Ghidra printed with fewer arguments stays a
 compile failure: there is no source for the count.
+
+## 21 Oct (night): the frame set promoted into the tree
+
+**The tree** now holds 4,150 functions in 419 files (it held 779), generated from three sources:
+- the committed IDA export;
+- the Ghidra export;
+- frameset6's export (`data/exports/ghidra_frameset.jsonl`, with its raw gate `verification/gate_raw_frameset.jsonl`).
+
+**Verdicts:** the clean gate, run on the new build, gives 4,138 PASS. `// NOT VERIFIED` marks 12: 7 FAIL,
+3 UNRESOLVED, 2 INCONCLUSIVE. Three of those were PASS in the 779-function tree, and the new run's verdicts replace
+the old records:
+- 0x100412B0: FAIL, 3 of 100 trials differ. verify_all's export-sp check already showed that IDA's stack depths in
+  this function are wrong (0x100419F4 and on).
+- 0x10003890 and 0x100CB4E0: UNRESOLVED. The pop counts of the calls at 0x10003A50 and 0x100CB8CB are now unknown.
+The other 776 agree between the two runs.
+
+**A rule found by the promotion** (verify_all step 2b, wrapper-regs): three game functions the tree called as
+`__cdecl` read EDX in their own code.
+- **0x10313520 `_strncat`** was the tool's mistake. vcall_resolve.ecx_inputs met two paths by the names they
+  wrote: `mov dl, ..` on one path and `mov edx, ..` on the other met as nothing written. They now meet as the
+  parts both write, so DL counts as written. This changed 4 entries in edx_use.json (`_strncat` among them) and
+  none in ecx_use.json or vcalls.json. Test: `EcxUse.test_join_keeps_the_parts_both_paths_write`.
+- **0x100A19B0 and 0x1011D990** really read entry EDX bits after a partial write. The tree's wrapper passes
+  only stack arguments, and the gate compares a stubbed call's arguments, not EDX.
+  - hx2clean.py now leaves out a function that calls a game function reading a register its wrapper's
+    convention does not pass (ecx_use / edx_use / entry_regs, an instruction named). The game's code runs in
+    its place. `tree/left_out.json` lists the three left out: 0x100A1AB0, 0x101271C0 and 0x10227BF0 (which
+    calls 0x10227450, which reads ECX).
+  - 0x100A19B0's read is masked away (`shr edx, 3; and edx, 3`), but no tool shows that, so its caller stays
+    out.
+- verify_all's wrapper pattern skipped `void` wrappers (no `return`), which is how 0x10227450 went unseen. It now
+  checks all 3,910 wrappers.
+
+`data/reg_kept_audit.json` covers the tree's gated functions (`gate_clean_final.jsonl`), so it now lists 262 sites
+in 67 functions; before, it listed 28 sites in 3. 64 of those functions are new to the tree, and all are from the
+Ghidra route. Ghidra follows a register kept across a call itself: 0x1021BC30 uses `self_` where the original
+reuses EDX after `call 0x1021BC20`. Their gate PASS judges each translation as printed.

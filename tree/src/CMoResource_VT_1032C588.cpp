@@ -38,5 +38,5 @@ void CMoResource_VT_1032C588::vf008()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 __int16 CMoResource_VT_1032C588::vf009()
 {
-  return orig::CMoResource_Destroy((int)this);
+  return orig::CMoResource_Destroy_v1((int)this);
 }

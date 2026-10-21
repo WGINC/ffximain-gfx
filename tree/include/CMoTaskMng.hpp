@@ -6,7 +6,9 @@
 class XI_API CMoTaskMng {
 public:
     _DWORD * ScalarDeletingDtor(char a2);  // 0x10011950
+    static void __stdcall Forward10075120(undefined4 xi_s1);  // 0x10074A10
     static char ** __cdecl GetRuntimeClass();  // 0x10074B50
+    static undefined4 __thiscall DrawAll(void * self);  // 0x10074C30
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xD60];

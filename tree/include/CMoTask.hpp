@@ -23,6 +23,7 @@ public:
     static char ** __cdecl GetRuntimeClass_variant11();  // 0x10057080
     static char ** __cdecl GetRuntimeClass_variant12();  // 0x10074730
     _DWORD * ScalarDeletingDtor(char a2);  // 0x10074770
+    static undefined4 __thiscall ResetFields(void * self);  // 0x100748F0
     static char ** __cdecl GetRuntimeClass_variant13();  // 0x10081710
     static char ** __cdecl GetRuntimeClass_variant14();  // 0x10081730
     static char ** __cdecl GetRuntimeClass_variant15();  // 0x10081750

@@ -252,6 +252,19 @@ class EcxUse(unittest.TestCase):
         self.assertFalse(V.covered('ecx', frozenset(wr)))                 # the upper half is still the input
 
 
+    def run_paths(self, join_hex):
+        """`je` to `mov ecx, [eax]` or fall through to `mov cl, [eax]`; both reach the join instruction, then `ret`"""
+        import vcall_resolve as V
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        ins = {i.address: i for i in md.disasm(bytes.fromhex('85C0' '7404' '8A08' 'EB02' '8B08' + join_hex + 'C3'), 0x1000)}
+        V.FIRST_READ.clear()
+        return V.ecx_inputs(None, {0x1000: ins}, {0x1000})[0x1000]
+
+    def test_join_keeps_the_parts_both_paths_write(self):
+        self.assertFalse(self.run_paths('8808'))      # mov [eax], cl: CL is written on both paths (as CL and as ECX)
+        self.assertTrue(self.run_paths('8908'))       # mov [eax], ecx: the upper bytes are the input on one path
+
 class PartialRegs(unittest.TestCase):
     """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
     are run over values that exercise every bit of every part"""

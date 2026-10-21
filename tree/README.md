@@ -6,7 +6,9 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(779 functions: 776 PASS, of which the two Ghidra-route getters on fuzz only; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
+(4,150 functions: 4,138 PASS; `// NOT VERIFIED` marks the 12 that are not, with their verdict: 7 FAIL, 3 UNRESOLVED,
+2 INCONCLUSIVE. `left_out.json` lists the gate-passed functions left out because they call a game function whose
+code reads a register its wrapper's convention does not pass: `pipeline/hx2clean.py`.)
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

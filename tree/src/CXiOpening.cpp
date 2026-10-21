@@ -23,8 +23,8 @@ void * CXiOpening::Constructor(char *Source)
     orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), (_DWORD *)self + 69, (_DWORD *)self + 70, (_DWORD *)self + 71);
     orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), 1065353216, 1065353216, 1065353216);
   }
-  orig::_strncpy((char *)self + 4, Source, 0x103u);
-  v3 = orig::Allocator_Generic(0x14u);
+  orig::_strncpy_v1((char *)self + 4, Source, 0x103u);
+  v3 = orig::Allocator_Generic_v1(0x14u);
   if ( v3 != nullptr )
   {
     v4 = *(_DWORD *)(g_pSceneState + 8);
@@ -40,7 +40,7 @@ void * CXiOpening::Constructor(char *Source)
   if ( v5 != nullptr )
   {
     orig::OpeningSubtitle_Reset(v5);
-    v6 = orig::Allocator_Generic(0x3Cu);
+    v6 = orig::Allocator_Generic_v1(0x3Cu);
     if ( v6 != nullptr )
       v7 = orig::Vt10329FE0_Constructor(v6);
     else

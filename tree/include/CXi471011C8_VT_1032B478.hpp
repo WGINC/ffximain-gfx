@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CXi471011C8_VT_1032B478 {
 public:
+    static undefined8 __thiscall Ctor(void * self);  // 0x10052F80
     char RebuildBlendWeights();  // 0x100565A0
 
     void **vftable;  // +0x0

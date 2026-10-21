@@ -14,6 +14,8 @@ public:
     int MarkReferencedBones(int a2);  // 0x100251A0
     static char ** __cdecl GetRuntimeClass();  // 0x10029880
     _DWORD * ScalarDeletingDtor(char a1);  // 0x10029CB0
+    static void __thiscall PrepareRenderStateV2Entry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6);  // 0x1002A000
+    static void __thiscall PrepareRenderStateV2SimpleEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5);  // 0x1002A040
     __int16 SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7);  // 0x1002DC10
 
     void **vftable;  // +0x0

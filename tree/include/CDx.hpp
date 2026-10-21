@@ -22,12 +22,16 @@ public:
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
+    static void __thiscall PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A290
+    static undefined4 __thiscall PopRenderTarget(void * self, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4);  // 0x1000A2B0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
+    static void __thiscall DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3);  // 0x1000A4F0
     int DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5);  // 0x1000A5A0
     _DWORD * CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6);  // 0x1000A6E0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int DrawFadeQuad(int a1, int a2);  // 0x1000A820
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
+    static uint32_t __thiscall StepFadeCounter(void * self, float param_1, float param_2, int param_3);  // 0x1000AE40
     char DrawStereoOddFrameOverlay(int a1);  // 0x1000BB90
     int SetTransform(int a2, const void *a3);  // 0x1000BD50
     int GetTransformCached(int a2, void *a3);  // 0x1000BDB0

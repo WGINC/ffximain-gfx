@@ -36,17 +36,17 @@ char CMoLockLookAtDriveTask::vf8()
 
   v2 = 0;
   pad_34 = ((unsigned __int8 *)((char *)this + 0x34));
-  if ( orig::sub_1003B6D0(((unsigned __int8 *)((char *)this + 0x34))) != 0 )
+  if ( orig::sub_1003B6D0_v1(((unsigned __int8 *)((char *)this + 0x34))) != 0 )
   {
-    v4 = orig::sub_1003B6D0(pad_34);
+    v4 = orig::sub_1003B6D0_v1(pad_34);
     if ( !(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v4 + 444))(v4) < 0.0) )
     {
-      v8 = orig::sub_1003B6D0(pad_34);
+      v8 = orig::sub_1003B6D0_v1(pad_34);
       v7 = this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v8 + 444))(v8);
     }
     else
     {
-      v5 = orig::sub_1003B6D0(pad_34);
+      v5 = orig::sub_1003B6D0_v1(pad_34);
       v7 = -(this->field_78 - *(float *)(*(int (__thiscall **)(int))(*(_DWORD *)v5 + 444))(v5));
     }
     (xi_fpu_unord = __builtin_isunordered(v7, 1.0), v9 = v7 < 1.0);
@@ -54,15 +54,15 @@ char CMoLockLookAtDriveTask::vf8()
     v11 = v7 == 1.0;
     if ( ((__int16)(((v9 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v11 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
       v2 = 1;
-    v12 = orig::sub_1003B6D0(pad_34);
+    v12 = orig::sub_1003B6D0_v1(pad_34);
     if ( !(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v12 + 444))(v12) + 8) < 0.0) )
     {
-      v16 = orig::sub_1003B6D0(pad_34);
+      v16 = orig::sub_1003B6D0_v1(pad_34);
       v15 = this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v16 + 444))(v16) + 8);
     }
     else
     {
-      v13 = orig::sub_1003B6D0(pad_34);
+      v13 = orig::sub_1003B6D0_v1(pad_34);
       v15 = -(this->field_7C - *(float *)((*(int (__thiscall **)(int))(*(_DWORD *)v13 + 444))(v13) + 8));
     }
     (xi_fpu_unord = __builtin_isunordered(v15, 1.0), v17 = v15 < 1.0);

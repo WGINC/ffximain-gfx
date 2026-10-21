@@ -7,8 +7,13 @@ class XI_API CMoGeneratorClone {
 public:
     int InitCloneFromSource(_DWORD *a2);  // 0x10047C30
     _DWORD * FixupClonedPointers();  // 0x10047CE0
+    static void __thiscall UnlinkElemListA(void * self, int param_1);  // 0x10048140
+    static uint32_t * __thiscall FindCmdByType(void * self, uint32_t param_1);  // 0x100492F0
+    static undefined4 __thiscall ResolveTarget(void * self);  // 0x10049570
+    static void __thiscall CopyParams(void * self, int param_1);  // 0x10053450
     int CreateInstance(_DWORD *a2, _DWORD *a3, int a4);  // 0x100536C0
     int InitDefaultParams();  // 0x10053E00
+    static void __thiscall Destructor(void * self);  // 0x100542F0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x10];

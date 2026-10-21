@@ -191,6 +191,7 @@ def ecx_inputs(im, code, starts):
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
         if REG == 'ecx' and reg_preserve.saves_ecx(ins): res[f] = False; pend[f] = (set(), False); continue   # _chkstk
+        parts = (REG, REG[1:], REG[1] + 'l', REG[1] + 'h')       # ecx, cx, cl, ch
         wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
         order = sorted(ins)
         while work:
@@ -220,7 +221,9 @@ def ecx_inputs(im, code, starts):
                 if n not in ins: continue
                 if n not in wr: wr[n] = w2; work.append(n)
                 else:
-                    mm = wr[n] & w2
+                    # the parts written on both paths: compared as the parts each set covers (`mov dl, ..` on one
+                    # path and `mov edx, ..` on the other both write DL), not by the names the instructions spell
+                    mm = frozenset(p for p in parts if covered(p, wr[n]) and covered(p, w2))
                     if mm != wr[n]: wr[n] = mm; work.append(n)
         if read: res[f] = True
         else: res[f] = False; pend[f] = (callees, unknown)

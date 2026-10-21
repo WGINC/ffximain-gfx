@@ -1,7 +1,9 @@
 // gfx_types.hpp -- game types from the IDB that this tree does not define itself.
 #pragma once
+class CAcc;
 class CApp;
 class CDx;
+class CEnv;
 class CMoActorColorDriveTask;
 class CMoActorRotationDriveTask;
 class CMoAttachments;
@@ -124,35 +126,43 @@ class CMoVuDist;
 class CMoVuLineProgElem;
 class CShader;
 class CTsZoneMap;
+class CXi471011C8_VT_1032AC90;
+class CXi471011C8_VT_1032AD80;
+class CXi471011C8_VT_1032B3B8;
 class CXi471011C8_VT_1032B478;
 class CXiActor;
+class CXiActorDraw;
 class CXiActorNameDraw;
+class CXiAtelActor;
+class CXiCollisionActor;
+class CXiControlActor;
 class CXiMovie;
 class CXiOpening;
 class CXiSkeletonActor;
 class CXiSkeletonActorRes;
+class CYyCamMng2;
 class CYyIcon;
 class CYyModel;
 class CYyModelBase;
 class CYyModelDt;
 class CYyModelDt_VT_1032A430;
 class CYyModelDt_VT_1032A72C;
+class CYyMotionQue;
 class CYyOs2VtxBuffer;
 class CYyTex;
 class CYyTexBase;
 class CYyTexMng;
+class CYyVb;
 class CYyVbMng;
 class Obj_104E1B90;
 class Obj_104E1BF8;
 class Obj_104E1D4C;
 class Obj_10621944;
 class XiActorTimerTask;
+class XiZone;
 struct CMoTask_VT_1032B890;
 struct CMoTask_VT_1032B914;
 struct CMoTask_VT_1032BB80;
-struct CXi471011C8_VT_1032AC90;
-struct CXi471011C8_VT_1032B3B8;
-struct CXiControlActor;
 struct XiDoorActor;
 // Game types exported from the IDB (IDA print_decls); D3D types come from xi_d3d8.hpp.
 

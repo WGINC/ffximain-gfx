@@ -6,6 +6,7 @@
 class XI_API CYyVbMng {
 public:
     int AcquireVertexBuffer(int a2, int a3, int a4, int a5, int *a6, char a7);  // 0x1003B210
+    static undefined4 __stdcall ReleaseVertexBuffer(int * param_1);  // 0x1003B3C0
 
     void **vftable;  // +0x0
     uint32_t field_4;  // +0x4

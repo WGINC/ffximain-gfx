@@ -384,6 +384,50 @@ def main(exp, gate, manf, incdir, outdir):
         for l in open(gf):
             g = json.loads(l)
             if g.get('verdict') == 'PASS': passed.add(int(g['original'], 16))
+    def ftype_of(ea, o, nm=''):
+        # a Ghidra record's callee: typed as the raw translation types it (hx2cpp.ghidra_ptr_type: `this` first for a
+        # __thiscall, the stack slots the callee's `ret N` or the call sites give, each an XI_ANY)
+        if not R[ea].get('ghidra'): return o['type'].strip()
+        body = R[ea]['text'].partition('\n{')[2]
+        # the call sites as the text prints them: the object's names and the callee record's own name
+        names = {nm} | set(o.get('printed') or []) | ({R[o['ea']]['name']} if o['ea'] in R else set())
+        pts = [hx2cpp.ghidra_ptr_type(n, o, body) for n in sorted(names)]
+        pt = max(pts, key=lambda t: (t.count(','), 'XI_ANY' in t))
+        return re.sub(r'\((__\w+) \*\)', r'\1', pt, count=1)
+    # a game function the tree calls through a wrapper (gfx_orig.hpp) gets only what the wrapper's convention passes:
+    # ECX for __thiscall/__fastcall, EDX for __fastcall, nothing else. A caller of a game function whose own code reads
+    # another entry register (data/ecx_use.json, edx_use.json, entry_regs.json: an instruction named, not a read
+    # through a callee) hands it whatever the compiled C++ left there, which the gate does not see (it compares the
+    # stubbed call's arguments): such a caller is left out, and the game's own code runs in its place (verify_all.py
+    # step 2b checks the same rule on the tree). Every call goes through a wrapper (orig::, the game's code), the
+    # callee's reconstruction in the tree included; a __ftol-like callee (XI_CALL_ST0) does not.
+    _D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+    _eu, _du, _er = (json.load(open(os.path.join(_D, f))) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
+    def wrapper_bad(fea, ft):
+        """the register reads of game function fea a wrapper typed ft does not provide (a list, empty if none)"""
+        w = orig_wrapper('f', fea, ft)
+        m = w and re.search(r'reinterpret_cast<[^(]*\((__\w+) \*\)', w)
+        if not m: return []
+        cc, k = m.group(1), '0x%08X' % fea
+        direct = lambda v: isinstance(v, str) and v.startswith('0x')
+        bad = ['ECX' for _ in [0] if cc not in ('__thiscall', '__fastcall') and direct(_eu.get(k))]
+        bad += ['EDX' for _ in [0] if cc != '__fastcall' and direct(_du.get(k))]
+        bad += [r.upper() for r, ins in (_er.get(k) or {}).items() if ' push ' not in ' ' + ins[11:] + ' ']
+        return bad
+    left_out = {}
+    while True:
+        drop = {}
+        for ea in sorted(passed):
+            for nm, o in R[ea].get('objs', {}).items():
+                if not o['func'] or o.get('import'): continue
+                if R[ea].get('ghidra') and hx2cpp.FPRET_ALL.get('0x%x' % o['ea']) == 'consumes': continue   # XI_CALL_ST0
+                bad = wrapper_bad(o['ea'], ftype_of(ea, o, nm))
+                if bad: drop[ea] = '0x%08X reads %s' % (o['ea'], '/'.join(bad)); break
+        if not drop: break
+        passed -= set(drop); left_out.update(drop)
+    os.makedirs(outdir, exist_ok=True)
+    json.dump({'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why)
+               for ea, why in sorted(left_out.items())}, open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
     sizes, bases = {}, {}
     for fn in os.listdir(incdir):
@@ -542,16 +586,6 @@ def main(exp, gate, manf, incdir, outdir):
     # records can type one callee differently (IDA's prototype in one, the Ghidra route's in another): each was gated
     # with its own, so each prototype gets its own wrapper; the most common one the plain name, the others _vN
     _ftypes = collections.defaultdict(collections.Counter)
-    def ftype_of(ea, o, nm=''):
-        # a Ghidra record's callee: typed as the raw translation types it (hx2cpp.ghidra_ptr_type: `this` first for a
-        # __thiscall, the stack slots the callee's `ret N` or the call sites give, each an XI_ANY)
-        if not R[ea].get('ghidra'): return o['type'].strip()
-        body = R[ea]['text'].partition('\n{')[2]
-        # the call sites as the text prints them: the object's names and the callee record's own name
-        names = {nm} | set(o.get('printed') or []) | ({R[o['ea']]['name']} if o['ea'] in R else set())
-        pts = [hx2cpp.ghidra_ptr_type(n, o, body) for n in sorted(names)]
-        pt = max(pts, key=lambda t: (t.count(','), 'XI_ANY' in t))
-        return re.sub(r'\((__\w+) \*\)', r'\1', pt, count=1)
     for ea in passed:
         for nm, o in R[ea].get('objs', {}).items():
             if o['func'] and not o.get('import'): _ftypes[o['ea']][ftype_of(ea, o, nm)] += 1

@@ -24,7 +24,7 @@ _DWORD * CXiSkeletonActorRes::ScalarDeletingDtor(char a2)
 _DWORD * CXiSkeletonActorRes::Constructor(int a2, int a3)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  orig::CMoTask_Constructor(self);
+  orig::CMoTask_Constructor_v1(self);
   at<uint32_t>(this, 0x34) = a2;
   this->loadState = 0;
   this->field_40 = 0;

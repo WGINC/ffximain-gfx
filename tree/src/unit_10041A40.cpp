@@ -95,7 +95,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
         }
         else
         {
-          orig::ShapeMng_GetDmgNumGlyph(g_shapeMng, v14, (int)v13, v12, nullptr, nullptr);
+          orig::ShapeMng_GetDmgNumGlyph(g_shapeMng_as_v0, v14, (int)v13, v12, nullptr, nullptr);
           v10 += *v12;
         }
         ++v11;
@@ -143,7 +143,7 @@ XI_API void __cdecl Font_DrawProjectedText3D(int a1, int a2, int a3, int a4, int
         }
         while ( (int)v21 < (int)&flt_10352D2C );
         v32 = a3;
-        if ( orig::ShapeMng_BindDmgNumTexture(g_shapeMng, *(char *)(a2 + v15), &v32, &v35) == 0 )
+        if ( orig::ShapeMng_BindDmgNumTexture(g_shapeMng_as_v0, *(char *)(a2 + v15), &v32, &v35) == 0 )
           break;
         v24 = v32;
         v25 = (int *)&v41;

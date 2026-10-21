@@ -1,0 +1,5 @@
+{
+"0x100A1AB0": "sub_100A1AB0: calls 0x100A19B0 reads EDX, which its wrapper does not pass",
+"0x101271C0": "sub_101271C0: calls 0x1011D990 reads EDX, which its wrapper does not pass",
+"0x10227BF0": "sub_10227BF0: calls 0x10227450 reads ECX, which its wrapper does not pass"
+}

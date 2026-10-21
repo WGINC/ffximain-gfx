@@ -6,7 +6,10 @@
 class XI_API CXiSkeletonActor {
 public:
     char DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8);  // 0x1002B6E0
+    static uint32_t __thiscall AnimateModels(void * self, int * param_1, int param_2, uint32_t param_3, undefined4 xi_s4);  // 0x1002C2D0
     void PrepareModelsOnce(int a2, int a3);  // 0x1002C360
+    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
+    static int __thiscall GetModelElem(void * self, uint32_t param_1, int param_2);  // 0x1002C5C0
     _BYTE * PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6);  // 0x100343C0
     char * GetEnglishName();  // 0x10082F20
     int SubRef();  // 0x100832E0
@@ -100,6 +103,8 @@ public:
     void OnDrawName();  // 0x100D0510
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
     static char __stdcall ProjectToScreen(int a1, int a2, int a3);  // 0x100D0740
+    static void __thiscall DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5);  // 0x100D0880
+    static void __thiscall DrawName2IfVisible(void * self, undefined4 * param_1, char * param_2, float param_3);  // 0x100D08B0
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80

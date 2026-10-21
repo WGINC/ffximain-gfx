@@ -6,6 +6,7 @@
 class XI_API CMoD3mSpecularElem {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x10041010
+    static undefined8 __thiscall Ctor(void * self);  // 0x10041020
     BOOL vf012(int a1);  // 0x100410E0
     _DWORD * ScalarDeletingDtor(char a2);  // 0x100410F0
     void vf18();  // 0x100412B0

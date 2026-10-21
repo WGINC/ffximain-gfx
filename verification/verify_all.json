@@ -99,9 +99,12 @@
   "n_differing": 0
  },
  "facts:reg_kept_audit.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "ok": false,
+  "differing": [
+   "_summary",
+   "sites"
+  ],
+  "n_differing": 2
  },
  "facts:entry_regs.json": {
   "ok": true,
@@ -114,6 +117,26 @@
   "n_differing": 0
  },
  "facts:tail_purges.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:ret_width.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:caller_reads.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:eax_entry_unseen.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:arg_reads.json": {
   "ok": true,
   "differing": [],
   "n_differing": 0
@@ -160,12 +183,13 @@
  },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 1165,
+  "wrappers": 3910,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
    "0x10047F80 CMoGeneratorClone_VT_1032B114_Constructor __thiscall reads EDX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
-   "0x1006CB50 CreateProcessorInstance __cdecl reads EDX"
+   "0x1006CB50 CreateProcessorInstance __cdecl reads EDX",
+   "0x102755C0 FUN_102755c0 __cdecl reads EDX"
   ]
  },
  "agreement": {
@@ -253,44 +277,20 @@
   "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
   "expected": "4b647e4554f35ee40b3a57d11eb54cd6288bb752"
  },
+ "tree-source:data/exports/ghidra_frameset.jsonl": {
+  "ok": true,
+  "sha1": "79d7fe3ad53443663a41d4135367b6718fde4201",
+  "expected": "79d7fe3ad53443663a41d4135367b6718fde4201"
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 217 files; failed: none"
+   "built build/gfx_recon.dll from 419 files; failed: none"
   ]
  },
  "tree-gate": {
-  "ok": false,
-  "functions": 779,
-  "gates": {
-   "fuzz": {
-    "PASS": 773,
-    "FAIL": 2,
-    "UNRESOLVED": 2,
-    "INCONCLUSIVE": 2
-   }
-  },
-  "not_passing": {
-   "0x10016320": {
-    "fuzz": "INCONCLUSIVE"
-   },
-   "0x1006B3B0": {
-    "fuzz": "INCONCLUSIVE"
-   },
-   "0x10038E10": {
-    "fuzz": "FAIL"
-   },
-   "0x10003890": {
-    "fuzz": "UNRESOLVED"
-   },
-   "0x100CB4E0": {
-    "fuzz": "UNRESOLVED"
-   },
-   "0x100412B0": {
-    "fuzz": "FAIL"
-   }
-  },
-  "live": "not run (set LIVE)"
+  "ok": null,
+  "skipped": "--quick"
  }
 }

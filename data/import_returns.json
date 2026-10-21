@@ -1,0 +1,530 @@
+{
+"AdjustWindowRectEx": {
+"ret": "BOOL",
+"size": 4
+},
+"AttachThreadInput": {
+"ret": "BOOL",
+"size": 4
+},
+"CloseClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"CloseHandle": {
+"ret": "BOOL",
+"size": 4
+},
+"CoCreateInstance": {
+"ret": "HRESULT",
+"size": 4
+},
+"CoInitialize": {
+"ret": "HRESULT",
+"size": 4
+},
+"CoUninitialize": {
+"ret": "void",
+"size": 0
+},
+"CompareStringA": {
+"ret": "int",
+"size": 4
+},
+"CompareStringW": {
+"ret": "int",
+"size": 4
+},
+"CreateDirectoryA": {
+"ret": "BOOL",
+"size": 4
+},
+"CreateEventA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateFileA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateMutexA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateSemaphoreA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateThread": {
+"ret": "HANDLE",
+"size": 4
+},
+"DefWindowProcA": {
+"ret": "LRESULT",
+"size": 4
+},
+"DeleteCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"DeleteFileA": {
+"ret": "BOOL",
+"size": 4
+},
+"DispatchMessageA": {
+"ret": "LRESULT",
+"size": 4
+},
+"EmptyClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"EnterCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"ExitProcess": {
+"ret": "noreturn void",
+"size": null
+},
+"ExitThread": {
+"ret": "noreturn void",
+"size": null
+},
+"FileTimeToLocalFileTime": {
+"ret": "BOOL",
+"size": 4
+},
+"FileTimeToSystemTime": {
+"ret": "BOOL",
+"size": 4
+},
+"FindClose": {
+"ret": "BOOL",
+"size": 4
+},
+"FindFirstFileA": {
+"ret": "HANDLE",
+"size": 4
+},
+"FindNextFileA": {
+"ret": "BOOL",
+"size": 4
+},
+"FindWindowA": {
+"ret": "HWND",
+"size": 4
+},
+"FreeLibrary": {
+"ret": "BOOL",
+"size": 4
+},
+"GetCPInfo": {
+"ret": "BOOL",
+"size": 4
+},
+"GetCurrentDirectoryA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetCurrentProcess": {
+"ret": "HANDLE",
+"size": 4
+},
+"GetCurrentThreadId": {
+"ret": "DWORD",
+"size": 4
+},
+"GetDriveTypeA": {
+"ret": "UINT",
+"size": 4
+},
+"GetExitCodeThread": {
+"ret": "BOOL",
+"size": 4
+},
+"GetFileType": {
+"ret": "DWORD",
+"size": 4
+},
+"GetForegroundWindow": {
+"ret": "HWND",
+"size": 4
+},
+"GetFullPathNameA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetKeyboardLayout": {
+"ret": "HKL",
+"size": 4
+},
+"GetKeyboardState": {
+"ret": "BOOL",
+"size": 4
+},
+"GetLastError": {
+"ret": "DWORD",
+"size": 4
+},
+"GetLocalTime": {
+"ret": "void",
+"size": 0
+},
+"GetModuleFileNameA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetProcAddress": {
+"ret": "FARPROC",
+"size": 4
+},
+"GetStdHandle": {
+"ret": "HANDLE",
+"size": 4
+},
+"GetStringTypeA": {
+"ret": "BOOL",
+"size": 4
+},
+"GetStringTypeW": {
+"ret": "BOOL",
+"size": 4
+},
+"GetSystemMetrics": {
+"ret": "int",
+"size": 4
+},
+"GetSystemTime": {
+"ret": "void",
+"size": 0
+},
+"GetTimeZoneInformation": {
+"ret": "DWORD",
+"size": 4
+},
+"GetWindowPlacement": {
+"ret": "BOOL",
+"size": 4
+},
+"GetWindowRect": {
+"ret": "BOOL",
+"size": 4
+},
+"GetWindowThreadProcessId": {
+"ret": "DWORD",
+"size": 4
+},
+"GlobalAlloc": {
+"ret": "HGLOBAL",
+"size": 4
+},
+"GlobalLock": {
+"ret": "LPVOID",
+"size": 4
+},
+"GlobalUnlock": {
+"ret": "BOOL",
+"size": 4
+},
+"HeapAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"HeapFree": {
+"ret": "BOOL",
+"size": 4
+},
+"HeapReAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"HeapSize": {
+"ret": "SIZE_T",
+"size": 4
+},
+"ImmGetCompositionStringA": {
+"ret": "LONG",
+"size": 4
+},
+"ImmGetContext": {
+"ret": "HIMC",
+"size": 4
+},
+"ImmGetConversionStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmGetDescriptionA": {
+"ret": "UINT",
+"size": 4
+},
+"ImmGetOpenStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmGetVirtualKey": {
+"ret": "UINT",
+"size": 4
+},
+"ImmNotifyIME": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmReleaseContext": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCandidateWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCompositionStringA": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCompositionWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetConversionStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetOpenStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"InitializeCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"InterlockedDecrement": {
+"ret": "LONG",
+"size": 4
+},
+"InterlockedIncrement": {
+"ret": "LONG",
+"size": 4
+},
+"IsBadCodePtr": {
+"ret": "BOOL",
+"size": 4
+},
+"IsBadReadPtr": {
+"ret": "BOOL",
+"size": 4
+},
+"IsBadWritePtr": {
+"ret": "BOOL",
+"size": 4
+},
+"LCMapStringA": {
+"ret": "int",
+"size": 4
+},
+"LCMapStringW": {
+"ret": "int",
+"size": 4
+},
+"LeaveCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"LoadCursorA": {
+"ret": "HCURSOR",
+"size": 4
+},
+"LoadCursorFromFileA": {
+"ret": "HCURSOR",
+"size": 4
+},
+"LoadLibraryA": {
+"ret": "HMODULE",
+"size": 4
+},
+"MapVirtualKeyA": {
+"ret": "UINT",
+"size": 4
+},
+"MoveWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"MultiByteToWideChar": {
+"ret": "int",
+"size": 4
+},
+"OpenClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"OutputDebugStringA": {
+"ret": "void",
+"size": 0
+},
+"PeekMessageA": {
+"ret": "BOOL",
+"size": 4
+},
+"PostQuitMessage": {
+"ret": "void",
+"size": 0
+},
+"QueryPerformanceCounter": {
+"ret": "BOOL",
+"size": 4
+},
+"QueryPerformanceFrequency": {
+"ret": "BOOL",
+"size": 4
+},
+"RaiseException": {
+"ret": "void",
+"size": 0
+},
+"ReadFile": {
+"ret": "BOOL",
+"size": 4
+},
+"ReleaseMutex": {
+"ret": "BOOL",
+"size": 4
+},
+"ReleaseSemaphore": {
+"ret": "BOOL",
+"size": 4
+},
+"RemoveDirectoryA": {
+"ret": "BOOL",
+"size": 4
+},
+"ResetEvent": {
+"ret": "BOOL",
+"size": 4
+},
+"ResumeThread": {
+"ret": "DWORD",
+"size": 4
+},
+"RtlUnwind": {
+"ret": "void",
+"size": 0
+},
+"SetClipboardData": {
+"ret": "HANDLE",
+"size": 4
+},
+"SetCursor": {
+"ret": "HCURSOR",
+"size": 4
+},
+"SetCursorPos": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEndOfFile": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEnvironmentVariableA": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEvent": {
+"ret": "BOOL",
+"size": 4
+},
+"SetFilePointer": {
+"ret": "DWORD",
+"size": 4
+},
+"SetForegroundWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"SetLastError": {
+"ret": "void",
+"size": 0
+},
+"SetPriorityClass": {
+"ret": "BOOL",
+"size": 4
+},
+"SetStdHandle": {
+"ret": "BOOL",
+"size": 4
+},
+"ShowWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"Sleep": {
+"ret": "void",
+"size": 0
+},
+"SystemParametersInfoA": {
+"ret": "BOOL",
+"size": 4
+},
+"TerminateProcess": {
+"ret": "BOOL",
+"size": 4
+},
+"TlsGetValue": {
+"ret": "LPVOID",
+"size": 4
+},
+"TlsSetValue": {
+"ret": "BOOL",
+"size": 4
+},
+"TranslateMessage": {
+"ret": "BOOL",
+"size": 4
+},
+"VirtualAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"VirtualFree": {
+"ret": "BOOL",
+"size": 4
+},
+"WaitForSingleObject": {
+"ret": "DWORD",
+"size": 4
+},
+"WideCharToMultiByte": {
+"ret": "int",
+"size": 4
+},
+"WriteFile": {
+"ret": "BOOL",
+"size": 4
+},
+"keybd_event": {
+"ret": "void",
+"size": 0
+},
+"lstrcpyA": {
+"ret": "LPSTR",
+"size": 4
+},
+"timeBeginPeriod": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeEndPeriod": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeGetDevCaps": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeGetTime": {
+"ret": "DWORD",
+"size": 4
+}
+}

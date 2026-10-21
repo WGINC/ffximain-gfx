@@ -217,8 +217,9 @@ class Machine:
         u.reg_write(UC_X86_REG_ESP, esp)
         for r, v in CANARY.items():
             u.reg_write(r, v)
-        u.reg_write(UC_X86_REG_EAX, 0xEEEEEEEE)
-        u.reg_write(UC_X86_REG_EDX, 0xDDDDDDDD)
+        # EAX at entry: a case whose function takes it as an input (data/eax_inputs.json) draws it per trial (entry_eax)
+        u.reg_write(UC_X86_REG_EAX, 0xEEEEEEEE if getattr(self, "entry_eax", None) is None else self.entry_eax)
+        u.reg_write(UC_X86_REG_EDX, 0xDDDDDDDD if getattr(self, "entry_edx", None) is None else self.entry_edx)
         u.reg_write(UC_X86_REG_ECX, this if conv == "thiscall" else 0xCCCCCCCC)
         start_esp = esp
         try:

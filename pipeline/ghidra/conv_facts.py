@@ -19,6 +19,9 @@ Rules (nothing else is decided):
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
+  eax_inputs.json lists it (its entry EAX is read, or handed back to a caller that reads it: caller_reads.py) and
+  reg_keeps.json does not say it leaves all of EAX untouched (that case is the `keeps` model below)
+                          -> EAX a register input too
   ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
 Variadic: `0xADDR varargs N` (N fixed parameters, the IDB's declared prototype; only where ret N pops 0, as a
 caller-cleanup variadic call must), so Ghidra reads each call's own pushes past the fixed ones.
@@ -42,6 +45,9 @@ D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 load = lambda f: json.load(open(os.path.join(D, f)))
 
 
+EI, RK = {}, {}          # eax_inputs.json, reg_keeps.json (main loads them)
+
+
 def decide(k, eu, du, pu, er, fp):
     regin = []
     if k in er:
@@ -57,6 +63,7 @@ def decide(k, eu, du, pu, er, fp):
     else:
         cc = '__stdcall' if pu[k] else '__cdecl'
         if d: regin.append('EDX')
+    if 'EAX' not in regin and k in EI and 'eax' not in RK.get(k, ()): regin.insert(0, 'EAX')
     f = fp.get(k.lower())
     return (cc, pu[k], 'float' if f == 'float' else 'st0in' if f == 'consumes' else '-', regin), None
 
@@ -101,6 +108,7 @@ def icalls():
 
 def main(out):
     eu, du, pu, er, fp = (load(f) for f in ('ecx_use.json', 'edx_use.json', 'purges.json', 'entry_regs.json', 'fpret.json'))
+    EI.update(load('eax_inputs.json')); RK.update(load('reg_keeps.json'))
     pu.update({k: v['pops'] for k, v in load('tail_purges.json').items() if k not in pu})
     n = {}
     with open(out, 'w') as f:

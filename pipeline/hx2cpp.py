@@ -934,13 +934,43 @@ def extra_regs(cc, storage):
     own = CC_REGS.get(cc, [])
     return [(i, r) for i, r in enumerate(storage or []) if r != 'stack' and (i >= len(own) or own[i] != r)]
 
+def _params(args):
+    parts, depth, cur = [], 0, ''
+    for ch in args:
+        if ch == ',' and depth == 0: parts.append(cur.strip()); cur = ''; continue
+        depth += (ch == '(') - (ch == ')'); cur += ch
+    if cur.strip(): parts.append(cur.strip())
+    return [] if parts == ['void'] else parts
+
+def regparm_entry(ea, cc, params, storage):
+    # an entry that takes a register its convention does not pass (GfxExport's register input: conv.txt `regin`,
+    # from entry_regs / edx_use / eax_inputs). GCC's regparm(n) passes the first n parameters in EAX, EDX, ECX
+    # (GCC manual, x86 function attributes), with the rest on the stack under the convention's own pop rule: the
+    # reconstruction then has the original's ABI exactly, so the gate calls it and the game jumps to it as it is.
+    # (attribute, parameters) or (None, why)
+    ps, st = _params(params), list(storage or [])
+    if len(ps) != len(st): return None, 'entry: %d parameters for %d storage entries' % (len(ps), len(st))
+    regs = [r for r in st if r != 'stack']
+    if any(r not in ('EAX', 'ECX', 'EDX') for r in regs) or len(set(regs)) != len(regs):
+        return None, 'entry takes parameters in %s' % ', '.join(regs)
+    reg = {r: ps[i] for i, r in enumerate(st) if r != 'stack'}
+    stack = [ps[i] for i, r in enumerate(st) if r == 'stack']
+    pops = cc in ('__stdcall', '__thiscall', '__fastcall')
+    slots = sum(2 if re.match(r'\s*(double|longlong|ulonglong|undefined8|__int64|unsigned __int64)\b', x) else 1 for x in stack)
+    real = PURGES.get('0x%08X' % ea)
+    if real is None or real != (4 * slots if pops else 0):
+        return None, 'entry takes a register input; its ret N (%s) does not match %d stack slots under %s' % (real, slots, cc)
+    n = 3 if 'ECX' in reg else 2 if 'EDX' in reg else 1
+    new = [reg.get(r) or 'uint32_t xi_%s_unused' % r.lower() for r in ('EAX', 'EDX', 'ECX')[:n]] + stack
+    return ('__attribute__((%s, regparm(%d)))' % ('stdcall' if pops else 'cdecl', n), ', '.join(new)), None
+
 def ghidra_reg_call(name, o, body, tok):
     # a call to a callee that takes a register its convention does not cover: an asm call that loads EAX, ECX,
     # EDX as the callee's storage says, pushes the stack arguments, and pops them itself when the callee does not
     # (its `ret N`, purges.json). The callee returns EDX:EAX; ESI/EDI/EBX/EBP are callee-saved in the game's code.
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', SPOILS.sub('', o['type']), re.S)
     ret = (m.group(1).strip() if m else 'int') or 'int'
-    if re.search(r'float|double', ret): return None, 'callee %s returns in ST0 and takes a register input' % name
+    fp = bool(re.search(r'float|double', ret))           # returns in ST0 (its type, as conv.txt `float` set it)
     st = o.get('storage') or []
     regs = [r for r in st if r != 'stack']
     if any(r not in ('EAX', 'ECX', 'EDX') for r in regs) or len(set(regs)) != len(regs):
@@ -956,13 +986,14 @@ def ghidra_reg_call(name, o, body, tok):
     args = ', '.join('XI_ANY a%d' % i for i in range(n))
     stk = [i for i, w in enumerate(where) if w == 'stack']
     rv = {r: 'a%d.bits' % i for i, r in enumerate(where) if r != 'stack'}
-    lines = ['static inline unsigned long long %s(%s) {' % (fn, args),
-             '    uint32_t xs[%d] = {%s}; uint32_t ra = %s, rc = %s, rd = %s;' % (max(len(stk), 1), ', '.join('a%d.bits' % i for i in stk) or '0',
-                 rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0')),
+    lines = ['static inline %s %s(%s) {' % ('long double' if fp else 'unsigned long long', fn, args),
+             '    uint32_t xs[%d] = {%s}; uint32_t ra = %s, rc = %s, rd = %s;%s' % (max(len(stk), 1), ', '.join('a%d.bits' % i for i in stk) or '0',
+                 rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0'), ' long double st0;' if fp else ''),
              '    __asm__ volatile(' + ''.join('"pushl %d(%%%%esi)\\n\\t"' % (4 * k) for k in reversed(range(len(stk))))
              + '"call *%%edi\\n\\t"' + ('"addl $%d, %%%%esp\\n\\t"' % (4 * len(stk)) if stk and not purge else ''),
-             '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' % o['ea'],
-             '    return ((unsigned long long)rd << 32) | ra;', '}',
+             ('        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' if fp else
+              '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");') % o['ea'],
+             '    return st0;' if fp else '    return ((unsigned long long)rd << 32) | ra;', '}',
              '#define %s %s' % (tok, fn)]
     return lines, None
 
@@ -997,8 +1028,7 @@ def translate(rec):
     body = ctree_signs(rec, '{' + body)          # on Hex-Rays' own text, before any name is replaced
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
-    if rec.get('source') == 'ghidra' and extra_regs(rec.get('cc'), rec.get('storage')):
-        return None, 'entry takes %s in a register its convention does not pass' % ', '.join(r for i, r in extra_regs(rec.get('cc'), rec.get('storage')))
+    regentry = rec.get('source') == 'ghidra' and bool(extra_regs(rec.get('cc'), rec.get('storage')))
     for nm, o in rec.get('objs', {}).items():
         oea = o['ea']
         if o['func']:
@@ -1075,7 +1105,12 @@ def translate(rec):
     # GfxExport `sse`: the original's float arithmetic is SSE (its code uses XMM registers), each operation rounded
     # to float; x87 code (the build's default) rounds only at a store
     sse = '__attribute__((target("sse,fpmath=sse"))) ' if rec.get('sse') else ''
-    out.append('extern "C" __declspec(dllexport) %s%s %s %s(%s)' % (sse, ret.strip(), cc, fname, params.strip() or 'void'))
+    if regentry:
+        rp, why = regparm_entry(ea, cc, params, rec.get('storage'))
+        if rp is None: return None, why
+        dcc, params = rp
+    else: dcc = cc
+    out.append('extern "C" __declspec(dllexport) %s%s %s %s(%s)' % (sse, ret.strip(), dcc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     return {'syms': syms, 'code': '\n'.join(out), 'export': fname, 'cc': cc, 'ret': ret.strip()}, None
 

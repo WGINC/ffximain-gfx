@@ -265,6 +265,44 @@ class EcxUse(unittest.TestCase):
         self.assertFalse(self.run_paths('8808'))      # mov [eax], cl: CL is written on both paths (as CL and as ECX)
         self.assertTrue(self.run_paths('8908'))       # mov [eax], ecx: the upper bytes are the input on one path
 
+
+class CallerReads(unittest.TestCase):
+    """caller_reads.access: the EAX bytes one instruction reads and writes"""
+    def acc(self, hexbytes):
+        import caller_reads as C
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        return C.access(next(md.disasm(bytes.fromhex(hexbytes), 0x1000)))
+
+    def test_set_and_clear_are_writes(self):
+        self.assertEqual(self.acc('83C8FF'), (set(), {0, 1, 2, 3}))       # or eax, -1
+        self.assertEqual(self.acc('33C0'), (set(), {0, 1, 2, 3}))         # xor eax, eax
+        self.assertEqual(self.acc('83E000'), (set(), {0, 1, 2, 3}))       # and eax, 0
+
+    def test_and_reads_the_kept_bytes(self):
+        self.assertEqual(self.acc('25FF000000')[0], {0})                  # and eax, 0xFF
+        self.assertEqual(self.acc('2500FF0000')[0], {1})                  # and eax, 0xFF00
+        self.assertEqual(self.acc('83C801')[0], {0, 1, 2, 3})             # or eax, 1: reads all
+
+
+class RegparmEntry(unittest.TestCase):
+    """hx2cpp.regparm_entry: a register input becomes GCC regparm with the convention's own pop rule"""
+    def test_thiscall_with_eax(self):
+        H.PURGES['0x0BADF00D'] = 4
+        (a, p), _ = H.regparm_entry(0x0BADF00D, '__thiscall', 'void *self, int a, undefined4 xi_eax', ['ECX', 'stack', 'EAX'])
+        self.assertEqual(a, '__attribute__((stdcall, regparm(3)))')
+        self.assertEqual(p, 'undefined4 xi_eax, uint32_t xi_edx_unused, void *self, int a')
+
+    def test_cdecl_with_eax(self):
+        H.PURGES['0x0BADF00E'] = 0
+        (a, p), _ = H.regparm_entry(0x0BADF00E, '__cdecl', 'int a, undefined4 xi_eax', ['stack', 'EAX'])
+        self.assertEqual((a, p), ('__attribute__((cdecl, regparm(1)))', 'undefined4 xi_eax, int a'))
+
+    def test_pop_count_must_match(self):
+        H.PURGES['0x0BADF00F'] = 8
+        a, why = H.regparm_entry(0x0BADF00F, '__stdcall', 'int a, undefined4 xi_eax', ['stack', 'EAX'])
+        self.assertIsNone(a)
+
 class PartialRegs(unittest.TestCase):
     """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
     are run over values that exercise every bit of every part"""

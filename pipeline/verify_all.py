@@ -76,7 +76,7 @@ def main():
              ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
              ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
              ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
-             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
+             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('import_returns.json', 'import_returns.py {o}'), ('eax_inputs.json', 'caller_reads.py /dev/null /dev/null {o} {o}.sites'), ('eax_kept_sites.json', 'caller_reads.py /dev/null /dev/null {o}.inputs {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
              ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
              ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
              ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
@@ -99,15 +99,34 @@ def main():
     wr = {int(m.group(3), 16): (m.group(1), m.group(2)) for m in _re.finditer(
         r'XI_ORIG [^\n]*? (\w+)\([^)]*\) \{ (?:return )?reinterpret_cast<[^(]*\((__\w+) \*\)\([^)]*\)>\(XI_GAME\((0x[0-9A-F]+)u\)\)',
         open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
-    eu, du, er = (load(os.path.join(D, f)) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
+    given = {a: set({'__thiscall': ['ECX'], '__fastcall': ['ECX', 'EDX']}.get(cc, [])) for a, (name, cc) in wr.items()}
+    # a register-loading wrapper (hx2cpp.ghidra_reg_call): an asm call that loads the registers set from an argument
+    for m in _re.finditer(r'XI_ORIG [^\n]*? (\w+)\(([^)]*)\) \{\n    uint32_t xs\[\d+\] = \{[^}]*\}; uint32_t ra = (\S+), rc = (\S+), rd = (\S+?);'
+                          r'[^\n]*\n[^\n]*\n[^\n]*"D"\((0x[0-9A-F]+)u\)', open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()):
+        a = int(m.group(6), 16); wr[a] = (m.group(1), 'asm')
+        given[a] = {r for r, v in zip(('EAX', 'ECX', 'EDX'), m.group(3, 4, 5)) if v != '0'}
+    eu, du, er, ei = (load(os.path.join(D, f)) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json', 'eax_inputs.json'))
     direct = lambda v: isinstance(v, str) and v.startswith('0x')           # an instruction that reads it
     bad, via = [], []
     for a, (name, cc) in sorted(wr.items()):
         k = '0x%08X' % a
-        if cc not in ('__thiscall', '__fastcall') and eu.get(k): (bad if direct(eu[k]) else via).append('%s %s %s reads ECX' % (k, name, cc))
-        if cc != '__fastcall' and du.get(k): (bad if direct(du[k]) else via).append('%s %s %s reads EDX' % (k, name, cc))
+        if 'ECX' not in given[a] and eu.get(k): (bad if direct(eu[k]) else via).append('%s %s %s reads ECX' % (k, name, cc))
+        if 'EDX' not in given[a] and du.get(k): (bad if direct(du[k]) else via).append('%s %s %s reads EDX' % (k, name, cc))
+        if 'EAX' not in given[a] and (ei.get(k) or {}).get('reads'): bad.append('%s %s %s reads its entry EAX (eax_inputs.json)' % (k, name, cc))
         for r, ins in (er.get(k) or {}).items():
-            if ' push ' not in ' ' + ins[11:] + ' ': bad.append('%s %s %s reads %s: %s' % (k, name, cc, r.upper(), ins))
+            if r.upper() not in given[a] and r != 'eax' and ' push ' not in ' ' + ins[11:] + ' ':
+                bad.append('%s %s %s reads %s: %s' % (k, name, cc, r.upper(), ins))
+    # a tree function whose call site reads back EAX bytes the callee hands back from its entry EAX
+    # (eax_kept_sites.json) must call it through a wrapper that passes EAX
+    kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in load(os.path.join(D, 'eax_kept_sites.json')).values()}
+    by_name = {name: a for a, (name, cc) in wr.items()}
+    for fn in sorted(os.listdir(os.path.join(ROOT, 'tree', 'src'))):
+        for part in _re.split(r'(?m)^(?=// FUNCTION: FFXIMAIN )', open(os.path.join(ROOT, 'tree', 'src', fn)).read())[1:]:
+            cea = int(part.split()[3], 16)
+            for name in set(_re.findall(r'\borig::(\w+)\(', part)):
+                a = by_name.get(name)
+                if a is not None and (cea, a) in kept and 'EAX' not in given[a]:
+                    bad.append('0x%08X calls %s (0x%08X) without EAX, and reads back what it hands back (eax_kept_sites.json)' % (cea, name, a))
     report('wrapper-regs', not bad, wrappers=len(wr), reads_a_register_it_is_not_given=bad, via_a_callee=via)
 
     # 3 one stack effect per call

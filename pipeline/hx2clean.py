@@ -307,10 +307,12 @@ def canonicalise_names(R, pending):
     seen, seen_ida = collections.defaultdict(collections.Counter), collections.defaultdict(collections.Counter)
     for r in R.values():
         for nm, o in r['objs'].items():
-            if not PLACEHOLDER.match(nm):
+            if not PLACEHOLDER.match(nm) and re.match(r'^[A-Za-z_]\w*$', nm):     # a name C++ can print
                 seen[o['ea']][nm] += 1
                 if not r.get('ghidra'): seen_ida[o['ea']][nm] += 1
-    canon = {ea: (seen_ida.get(ea) or c).most_common(1)[0][0] for ea, c in seen.items()}
+    # the most common name; a tie goes to the first in sort order (a Counter's order is the order records were read)
+    top = lambda c: sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+    canon = {ea: top(seen_ida.get(ea) or c) for ea, c in seen.items()}
     canon.update({int(k, 16): v['name'] for k, v in pending.items()})
     local = {'self', 'this'} | set().union(*(declared_names(r) for r in R.values()))
     for r in R.values():
@@ -330,7 +332,7 @@ def canonicalise_names(R, pending):
             new = canon.get(o['ea'])
             if not new or new == nm or o['ea'] == r['ea']: continue
             if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
-            r['text'] = re.sub(r'\b%s\b' % re.escape(nm), new, r['text'])
+            r['text'] = re.sub(r'\b%s\b' % re.escape(nm), lambda _m: new, r['text'])
             o['printed'] = [new if p == nm else p for p in o.get('printed', [])]
             r['objs'].setdefault(new, o); del r['objs'][nm]
 
@@ -389,6 +391,9 @@ def main(exp, gate, manf, incdir, outdir):
         for l in open(gf):
             g = json.loads(l)
             if g.get('verdict') == 'PASS': passed.add(int(g['original'], 16))
+    def reg_callee(o):
+        m = re.search(CC_RE, o.get('type') or '')
+        return bool(o.get('storage')) and bool(hx2cpp.extra_regs(m.group(0) if m else '__cdecl', o['storage']))
     def ftype_of(ea, o, nm=''):
         # a Ghidra record's callee: typed as the raw translation types it (hx2cpp.ghidra_ptr_type: `this` first for a
         # __thiscall, the stack slots the callee's `ret N` or the call sites give, each an XI_ANY)
@@ -398,7 +403,10 @@ def main(exp, gate, manf, incdir, outdir):
         names = {nm} | set(o.get('printed') or []) | ({R[o['ea']]['name']} if o['ea'] in R else set())
         pts = [hx2cpp.ghidra_ptr_type(n, o, body) for n in sorted(names)]
         pt = max(pts, key=lambda t: (t.count(','), 'XI_ANY' in t))
-        return re.sub(r'\((__\w+) \*\)', r'\1', pt, count=1)
+        pt = re.sub(r'\((__\w+) \*\)', r'\1', pt, count=1)
+        if reg_callee(o):            # takes registers its convention does not pass: called as the raw translation calls it
+            pt += ' /*regs:%s*/' % ','.join(o['storage'])
+        return pt
     # a game function the tree calls through a wrapper (gfx_orig.hpp) gets only what the wrapper's convention passes:
     # ECX for __thiscall/__fastcall, EDX for __fastcall, nothing else. A caller of a game function whose own code reads
     # another entry register (data/ecx_use.json, edx_use.json, entry_regs.json: an instruction named, not a read
@@ -408,16 +416,28 @@ def main(exp, gate, manf, incdir, outdir):
     # callee's reconstruction in the tree included; a __ftol-like callee (XI_CALL_ST0) does not.
     _D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
     _eu, _du, _er = (json.load(open(os.path.join(_D, f))) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
-    def wrapper_bad(fea, ft):
-        """the register reads of game function fea a wrapper typed ft does not provide (a list, empty if none)"""
-        w = orig_wrapper('f', fea, ft)
-        m = w and re.search(r'reinterpret_cast<[^(]*\((__\w+) \*\)', w)
-        if not m: return []
-        cc, k = m.group(1), '0x%08X' % fea
+    _ei = json.load(open(os.path.join(_D, 'eax_inputs.json')))
+    _kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in json.load(open(os.path.join(_D, 'eax_kept_sites.json'))).values()}
+    def wrapper_bad(cea, fea, ft):
+        """the registers game function fea needs from caller cea that a wrapper typed ft does not pass (a list,
+        empty if none). Needs: its own code reads ECX / EDX / another register at entry (ecx_use, edx_use,
+        entry_regs: an instruction named), reads its entry EAX (eax_inputs.json), or hands back EAX bytes this
+        caller reads after the call (eax_kept_sites.json)"""
+        mr = re.search(r'/\*regs:([\w,]+)\*/', ft)
+        if mr: cc = re.search(CC_RE, ft).group(0) if re.search(CC_RE, ft) else '__cdecl'
+        else:
+            w = orig_wrapper('f', fea, ft)
+            m = w and re.search(r'reinterpret_cast<[^(]*\((__\w+) \*\)', w)
+            if not m: return []
+            cc = m.group(1)
+        given = set(hx2cpp.CC_REGS.get(cc, [])) | (set(mr.group(1).split(',')) - {'stack'} if mr else set())
+        k = '0x%08X' % fea
         direct = lambda v: isinstance(v, str) and v.startswith('0x')
-        bad = ['ECX' for _ in [0] if cc not in ('__thiscall', '__fastcall') and direct(_eu.get(k))]
-        bad += ['EDX' for _ in [0] if cc != '__fastcall' and direct(_du.get(k))]
-        bad += [r.upper() for r, ins in (_er.get(k) or {}).items() if ' push ' not in ' ' + ins[11:] + ' ']
+        bad = ['ECX' for _ in [0] if 'ECX' not in given and direct(_eu.get(k))]
+        bad += ['EDX' for _ in [0] if 'EDX' not in given and direct(_du.get(k))]
+        bad += [r.upper() for r, ins in (_er.get(k) or {}).items()
+                if ' push ' not in ' ' + ins[11:] + ' ' and r.upper() not in given and r.upper() != 'EAX']
+        if 'EAX' not in given and ((_ei.get(k) or {}).get('reads') or (cea, fea) in _kept): bad.append('EAX')
         return bad
     left_out = {}
     while True:
@@ -426,7 +446,7 @@ def main(exp, gate, manf, incdir, outdir):
             for nm, o in R[ea].get('objs', {}).items():
                 if not o['func'] or o.get('import'): continue
                 if R[ea].get('ghidra') and hx2cpp.FPRET_ALL.get('0x%x' % o['ea']) == 'consumes': continue   # XI_CALL_ST0
-                bad = wrapper_bad(o['ea'], ftype_of(ea, o, nm))
+                bad = wrapper_bad(ea, o['ea'], ftype_of(ea, o, nm))
                 if bad: drop[ea] = '0x%08X reads %s' % (o['ea'], '/'.join(bad)); break
         if not drop: break
         passed -= set(drop); left_out.update(drop)
@@ -520,6 +540,10 @@ def main(exp, gate, manf, incdir, outdir):
                 why = 'IDB name; static (takes no this)'
             else:
                 cls = None                          # free helpers stay free (placed by unit below)
+        if r.get('ghidra') and hx2cpp.extra_regs(r.get('cc'), r.get('storage')):
+            # its entry takes a register its convention does not pass (GfxExport's register input): a free function
+            # with GCC's regparm signature (hx2cpp.regparm_entry), the original's ABI; a member function cannot be
+            cls = meth = None; why = 'takes %s in a register: a free function' % ', '.join(x for _, x in hx2cpp.extra_regs(r.get('cc'), r.get('storage')))
         place[ea] = (cls, ident(meth) if meth else None, why)
 
     # accesses to members of IDB structs the tree replaces -> the offsets they access (idb_access.py)
@@ -628,6 +652,14 @@ def main(exp, gate, manf, incdir, outdir):
             if o['func']:
                 ft = ftype_of(ea, o, nm)
                 on = oname(nm, o['ea'], ft)
+                if '/*regs:' in ft:
+                    # hx2cpp.ghidra_reg_call: an asm call that loads the registers its storage names, pushes the
+                    # stack arguments in order and pops them when the callee does not
+                    lines, _why = hx2cpp.ghidra_reg_call(nm, o, R[ea]['text'].partition('\n{')[2], on)
+                    if lines:
+                        lines = [re.sub(r'^static inline (.*?) xi_cr_[0-9A-F]+\(', r'XI_ORIG \1 %s(' % on, lines[0])] + lines[1:-1]
+                        origs[(o['ea'], on)] = (on, '\n'.join(lines))
+                    continue
                 w = orig_wrapper(on, o['ea'], ft)
                 # keyed by (address, name): a record exported before a rename still refers to the
                 # old name, so both names get a wrapper to the same address
@@ -771,6 +803,10 @@ def main(exp, gate, manf, incdir, outdir):
             if u:
                 note += '  (unit %s: %s)' % (u['unit'], u['why'])
                 why = 'unit: ' + u['why']
+            if r.get('ghidra') and hx2cpp.extra_regs(r.get('cc'), r.get('storage')):
+                rp, _why = hx2cpp.regparm_entry(ea, cc, ', '.join(ps), r.get('storage'))
+                if rp is None: raise SystemExit('0x%08X: %s (the raw translation refused it too)' % (ea, _why))
+                cc, ps = rp[0], hx2cpp._params(rp[1])
             code = '%s\nXI_API %s %s %s(%s)\n%s' % (note, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
             # a free function goes into the source unit the binary places it in (unit_place.py);
             # with no evidence it stays in a file named for its 64 KB slice of the image

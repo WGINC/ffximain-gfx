@@ -523,6 +523,8 @@ class GfxMachine(G.Machine):
         logged = tuple(_stackref(a) for a in logged)
         if addr in STUB_DATA and len(args) >= 4:
             logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
+        eax_in = uc.reg_read(UC_X86_REG_EAX)
+        if spec.get('eax_reads'): logged += (_stackref(eax_in & spec['eax_reads']),)
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -536,6 +538,9 @@ class GfxMachine(G.Machine):
             v = (v & ~0xFF) | (v & 1)
         n = self.stub_n.get(addr, 0); self.stub_n[addr] = n + 1
         if (addr, n) in self.stub_ret: v = self.stub_ret[(addr, n)]       # input repair (run_original)
+        # a callee that takes its entry EAX as an input (eax_inputs.json): the bytes it reads are logged with the
+        # call, and the bytes it may hand back unchanged come back from the caller's EAX, as the callee's code does
+        if spec.get('eax_keeps'): v = (v & ~spec['eax_keeps']) | (eax_in & spec['eax_keeps'])
         if self.src_log is not None: self.src_log.append(('stub', (addr, n), v))
         for idx, iface in spec.get('com_out', ()):
             # an `I...**` output (D3DXAssembleShader's ID3DXBuffer **): on success the callee stores an
@@ -1080,6 +1085,10 @@ def setup_trial(m, case, fz):
             for off, iface in case.get("this_com", {}).items():
                 m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
     args = [int(a, 16) for a in rp["args"]] if rp else [fz.arg(s) for s in case.get("args", [])]
+    # entry EAX, for a function that takes it as an input (eax_inputs.json): drawn like an argument, an integer or a
+    # pointer to a fuzzed buffer; the same value for the original and the reconstruction
+    m.entry_eax = (fz.arg('ptr:0x400' if fz.rng.random() < 0.5 else 'int') & 0xFFFFFFFF) if case.get('eax_in') and not rp else None
+    m.entry_edx = (fz.arg('ptr:0x400' if fz.rng.random() < 0.5 else 'int') & 0xFFFFFFFF) if case.get('edx_in') and not rp else None
     trial_seed = fz.rng.getrandbits(32)
     m.page_seed = trial_seed; m.reset_demand()
     for a, b in patches: m.live_write(a, b)

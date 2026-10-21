@@ -2969,3 +2969,33 @@ The 84 are an upper bound, and a loose one. A literal INSTALL.ELF lacks means th
 with no named counterpart, or that it changed since. In the second case the step between the two PS2 builds is
 code likeness across years of changes. A name that rests on that is weaker than `candidate`. An unstripped later
 build would change this.
+
+## 21 Oct (evening): source shape, phase 1, and the PS2 debug data
+
+**`pipeline/source_shape.py`** runs as the last step of `regen_clean.sh`. It rewrites the clean tree's decompiler
+idioms as source code, function by function. Each rule is kept only with the proof that fits it, and where the
+proof fails the original text is put back. Nothing here relies on the gate. On the current tree:
+
+| Rule | Kept | Put back | Proof |
+|---|---|---|---|
+| Ghidra type names as their standard types (`uint`, `float10`, `undefined1`, …) | 2,101 | 0 | A typedef name is its type; each pair is checked with `static_assert(std::is_same)` under the tree's compiler and flags |
+| `xi_k4`/`xi_k8` bit patterns as decimal literals | 222 | 0 | The literal reads back to the same bits |
+| `CONCAT`/`ZEXT`/`SEXT` as casts and shifts | 411 | 0 | The preprocessed tokens are identical |
+| `undefined4` locals as `uint32_t` | 1,496 | 227 | The original compiles with a probe type identical to `undefined4` but without its float conversion, the only place the two differ |
+| Parameters named from the PS2 DWARF | 12 | 3 | A renaming only: the preprocessed tokens, mapped back, are identical |
+
+Identical machine code was tried as the proof first and dropped as the general test. GCC's register choices
+change with a type's spelling alone (`float10` against `long double`), so identical code is stricter than equal
+meaning.
+
+**The owner's `SCUS_972.66`** is the debug build: 14.8 MB of DWARF v1 plus `.line`. It is not in either
+repository; point `PS2_DEBUG_ELF` at a local copy.
+- `pipeline/ps2_dwarf.py` uses DancingMad's parser to write `data/ps2_dwarf_funcs.json`: for each of the 195
+  matched functions, its source file, its parameters and its locals, with their types.
+- Matching against `SCUS_972.66` gives the same 195 matches, to the same symbols, as matching against INSTALL.ELF.
+
+**The gate, from frameset8:**
+- A callee whose return is 8 bytes now draws EDX as part of its result. Without that, 26 functions failed on an EDX
+  the stub had left as each side happened to have it.
+- `conv_facts.py` gives EAX as an input to the 312 functions in `eax_inputs.json` whose calling convention is not
+  decided.

@@ -226,6 +226,10 @@ def main(exp, metaf, protof, out):
                 ei = EAX_INPUTS.get('0x%08X' % ea)
                 if ei and ei['reads']: stubs['0x%08X' % ea]['eax_reads'] = mask_of(ei['reads'])
                 if ei and ei['hands_back']: stubs['0x%08X' % ea]['eax_keeps'] = mask_of(ei['hands_back'])
+                # a callee whose result is 8 bytes (EDX:EAX; Ghidra widens a return where a caller reads the EDX the
+                # call left): its EDX is a result too, drawn like its EAX
+                if ret_kind(re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '').group(1) if re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '') else '') == 'int64':
+                    stubs['0x%08X' % ea]['edx_out'] = 1
                 if stubs['0x%08X' % ea]['conv'] != 'thiscall' and '0x%08X' % ea in ECX_READ: stubs['0x%08X' % ea]['ecx'] = 1
                 outs = com_outs(o['type'])
                 if outs: stubs['0x%08X' % ea]['com_out'] = outs

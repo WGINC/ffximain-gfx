@@ -116,6 +116,11 @@ def main(out):
             r, why = decide(k, eu, du, pu, er, fp)
             f.write('%s %s %d %s\n' % ((k,) + r[:3]) if r else '%s - %s\n' % (k, why))
             if r and r[3]: f.write('%s regin %s\n' % (k, ','.join(r[3]))); n['regin'] = n.get('regin', 0) + 1
+            elif not r and k in EI and 'eax' not in RK.get(k, ()):
+                # no convention decided, but the entry EAX is an input all the same (eax_inputs.json): a register
+                # parameter on whatever prototype the function has, so its callers pass it (hx2cpp's asm call needs
+                # only the callee's ret N)
+                f.write('%s regin EAX\n' % k); n['regin EAX alone'] = n.get('regin EAX alone', 0) + 1
             key = r[0] if r else why.split(':')[0].split(' (')[0]
             n[key] = n.get(key, 0) + 1
         ca = {k: v for k, v in load('cdecl_args.json').items() if not k.startswith('_')}   # exact counts only

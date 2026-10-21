@@ -541,6 +541,7 @@ class GfxMachine(G.Machine):
         # a callee that takes its entry EAX as an input (eax_inputs.json): the bytes it reads are logged with the
         # call, and the bytes it may hand back unchanged come back from the caller's EAX, as the callee's code does
         if spec.get('eax_keeps'): v = (v & ~spec['eax_keeps']) | (eax_in & spec['eax_keeps'])
+        if spec.get('edx_out'): uc.reg_write(UC_X86_REG_EDX, self.rng.getrandbits(32))     # an 8-byte result's EDX
         if self.src_log is not None: self.src_log.append(('stub', (addr, n), v))
         for idx, iface in spec.get('com_out', ()):
             # an `I...**` output (D3DXAssembleShader's ID3DXBuffer **): on success the callee stores an

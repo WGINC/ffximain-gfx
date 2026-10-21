@@ -56,6 +56,22 @@ def table(im, ins, a, order):
     return [im.u32((o.mem.disp & 0xFFFFFFFF) + 4 * im.img[(m.disp & 0xFFFFFFFF) + q - im.base]) for q in range(n + 1)]
 
 
+# MSVC's stack probe _chkstk (0x10312150), this exact code: it saves ECX (`push ecx`), and nothing changes ESP before
+# `mov eax, esp`, so EAX is the slot's address when `mov ecx, [eax]` reloads it. Its other ECX reads come after
+# `lea ecx, [esp + 8]` wrote it. So its entry ECX is not used and is left as it was. Matched by every instruction,
+# not by address, so a different probe is not taken for this one.
+CHKSTK_CODE = [('push', 'ecx'), ('cmp', 'eax, 0x1000'), ('lea', 'ecx, [esp + 8]'), ('jb', '0x10312170'),
+               ('sub', 'ecx, 0x1000'), ('sub', 'eax, 0x1000'), ('test', 'dword ptr [ecx], eax'), ('cmp', 'eax, 0x1000'),
+               ('jae', '0x1031215c'), ('sub', 'ecx, eax'), ('mov', 'eax, esp'), ('test', 'dword ptr [ecx], eax'),
+               ('mov', 'esp, ecx'), ('mov', 'ecx, dword ptr [eax]'), ('mov', 'eax, dword ptr [eax + 4]'), ('push', 'eax'),
+               ('ret', '')]
+
+
+def saves_ecx(ins):
+    """the function is _chkstk as above: ECX saved and reloaded, its entry value otherwise unused"""
+    return [(ins[a].mnemonic, ins[a].op_str) for a in sorted(ins)] == CHKSTK_CODE
+
+
 def preserved(im, code, orders=None):
     orders = orders or {f: sorted(ins) for f, ins in code.items()}
     own = {}
@@ -70,6 +86,7 @@ def preserved(im, code, orders=None):
                     unknown = True
                 continue
             w |= {r for r in written_exact(i) if r in VOL}
+        if saves_ecx(ins): w.discard('ecx')                 # reloaded from its own save (CHKSTK_CODE)
         own[f] = (w, callees, unknown)
     keeps = {f: set() if u else set(VOL) - w for f, (w, c, u) in own.items()}
     changed = True

@@ -225,6 +225,34 @@ comma list (the first record for an address wins); `tree/source.json` names both
 gates, and `verify_all.py` regenerates the tree from them. The first two functions in the tree by this route are
 the step getters 0x10014CF0 and 0x10014D20 (18 Oct).
 
+What the Ghidra route takes from where (`conv_facts.py` writes the code's facts to conv.txt; GfxExport applies
+them, then marks what the C++ needs in the text):
+- **Conventions.** Each function's convention comes from its code: ECX/EDX use, `ret N` and tail-jump pops.
+  - A cdecl function's argument count is the slots its code reads (`cargs`, exact counts only).
+  - A variadic function gets its fixed parameters from the IDB's declared prototype.
+  - Register inputs come only from entry_regs/edx_use. A callee's kept registers become a prototype model
+    (`<cc>_xikeep_<regs>`, made with SpecExtension).
+  - Parameters are rebuilt slot by slot, keeping the decompiler's typed parameter where one starts at the slot.
+- **Functions.** A function on bytes never disassembled is disassembled first. A direct call target gets a
+  function only where conv.txt has its convention.
+- **Returns.** A callee's return is widened to the register a caller reads after the call (from the p-code). A
+  float return is in ST0 (fpret.json).
+- **Markers.**
+  - `/*XI_K*/`: a float constant's own encoding.
+  - `/*XI_PS*/`: a piece's sign, from its varnode's type.
+  - `/*XI_BC:1|2*/`: a variable read or written through p-code CAST between a float type and a non-float type.
+    It keeps the bits, where Ghidra's printed C cast would convert the value.
+  - `/*XI_ICALL*/`: an indirect call with an established convention.
+- **Records.** A record carries the following, and `hx2cpp` uses each as described:
+  - `stack_locals`: in a function with a stack array, every stack local is placed at its offset in one buffer up
+    to the entry ESP.
+  - `x87_locals`: those locals are float10.
+  - `sse`: SSE-only float arithmetic is compiled with `target("sse,fpmath=sse")`.
+- **Types.** Ghidra's `undefined4` is a 4-byte container that keeps a float's bits, SUBnm takes bytes, and
+  Ghidra's bool is one byte.
+- **Fresh project.** Each export starts from a fresh copy of the analysed project, since an export changes the
+  database.
+
 The frame, not the device: `pipeline/frame_set.py` lists the functions a frame is known to run (static reach from
 CApp::RunMainLoop through direct calls, tail jumps and proven virtual calls, plus the sampler's evidence), each with
 its evidence; `data/frame_set.json`. It is a lower bound: 1,929 indirect calls in 484 functions have no proof and are

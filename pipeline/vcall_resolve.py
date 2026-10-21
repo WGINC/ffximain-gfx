@@ -190,6 +190,7 @@ def ecx_inputs(im, code, starts):
     keeps = reg_preserve.preserved(im, code)
     for f, ins in code.items():
         if f not in ins: res[f] = None; continue
+        if REG == 'ecx' and reg_preserve.saves_ecx(ins): res[f] = False; pend[f] = (set(), False); continue   # _chkstk
         wr = {f: frozenset()}; work = [f]; read = False; callees = set(); unknown = False; labels = S.labels_of(ins)
         order = sorted(ins)
         while work:

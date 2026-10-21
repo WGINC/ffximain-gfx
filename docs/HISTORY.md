@@ -2905,3 +2905,20 @@ reuses EDX after `call 0x1021BC20`. Their gate PASS judges each translation as p
 
 Of the 779 functions the tree held before, three gained a `// NOT VERIFIED` line. Six others changed, and only
 in that `operator_delete` is now spelt `operator_delete_10311BB0`, because 0x101907D0 carries the name too.
+
+## 21 Oct: the owner's facts + capture session (build 6AC37846)
+
+**Facts (`facts=1`):** 2,240 sites asked for.
+- 64 were refused by the kit, because their live bytes are not the analysed build's.
+- 991 were reached; 1,185 were never reached.
+- Every reached site gave one pop count over all its calls, so `fact_sites.py ingest` added all 991 to
+  `data/game_sp.json`. That is 924 more than the 67 it held.
+
+**Captures:** two calls of Frame_Render, each stopped at the 20,000-page budget (`capture_pages`). Both replay to
+PASS with the frame-step switches on (`test_framestep.py`, CAPTURES=...):
+- 5 of 8 trials return and are compared;
+- 3 are UNRESOLVED at the virtual call returning to 0x10012CC8, on an object the capture did not hold.
+
+The replay runs the analysed build's code on 6AC37846's memory. That is sound here because the builds' data
+sections do not move: the kit's manifest maps only code ranges, 0x10232A90-0x10329000, inside `.text`.
+Frame_Render lies outside them.

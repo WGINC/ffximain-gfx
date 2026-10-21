@@ -331,6 +331,17 @@ class BitCasts(unittest.TestCase):
         self.assertIsNone(H.ghidra_bitcasts('/*XI_BC:2*/f = g(x);')[0])
 
 
+class EntryEax(unittest.TestCase):
+    # in_EAX where no code sees EAX's entry value: started at 0
+    def test_unseen(self):
+        H._EAX_UNSEEN = {'0x00001000'}
+        r = H.ghidra_entry_eax({'ea': 0x1000, 'text': '\nundefined4 f(void)\n\n{\n  undefined4 in_EAX;\n  \n  return CONCAT31((int3)((uint)in_EAX >> 8),1);\n}\n'})
+        self.assertIn('undefined4 xi_entry_eax = 0;', r['text'])
+        self.assertNotIn('in_EAX', r['text'])
+        self.assertIsNone(H.ghidra_entry_eax({'ea': 0x2000, 'text': '\nundefined4 f(void)\n\n{\n  undefined4 in_EAX;\n}\n'}))
+        H._EAX_UNSEEN = None
+
+
 class Thunk(unittest.TestCase):
     # a function that is one `jmp T`: a call to T with its own parameters
     def test_thunk_body(self):

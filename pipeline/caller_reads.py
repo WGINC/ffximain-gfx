@@ -22,9 +22,14 @@ known:
   * A call through a pointer, an indirect jump the code does not bound, or a jump out of the function counts as
     reading every byte still held: what it reads is not followed.
 
-    FFXI_DLL=... python3 caller_reads.py OUT.json
+    FFXI_DLL=... python3 caller_reads.py OUT.json [ENTRY.json]
 Output {"0xFUNC": 0 | 1 | 2}: no caller reads the result / only AL / only AX. A function whose callers read
-all of EAX, or are not all known, is not listed."""
+all of EAX, or are not all known, is not listed.
+
+ENTRY.json (data/eax_entry_unseen.json): the functions in which the value EAX holds at entry is seen by no code:
+the function and its callees read no byte of it (the walk from the entry above), and the bytes it can hand back
+unchanged at a `ret` are bytes no caller reads (this fact). {"0xFUNC": [bytes it can hand back unchanged]}. The
+reconstruction may start such a function with any value in EAX."""
 import json, os, struct, sys
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM
 P = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, P)
@@ -47,7 +52,7 @@ def access(i):
     return r, w
 
 
-def main(out):
+def main(out, entry_out=None):
     im = S.Image(os.environ['FFXI_DLL'])
     ext = json.load(open(os.path.join(P, '..', 'data', 'func_extents.json')))
     iat = S.imports(im, os.environ['FFXI_DLL'])
@@ -140,6 +145,11 @@ def main(out):
         elif r == {0}: res['0x%08X' % f] = 1
         elif r <= {0, 1}: res['0x%08X' % f] = 2
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
+    if entry_out:
+        unseen = {'0x%08X' % f: sorted(keep[f]) for f in sorted(starts)
+                  if not eread[f] and f in known and not (keep[f] & reads[f])}
+        json.dump(unseen, open(entry_out, 'w'), indent=0, sort_keys=True)
+        print('%d functions whose entry EAX no code sees' % len(unseen))
     print('%d functions with all callers known; result never read: %d, only AL: %d, only AX: %d' % (
         len(known), sum(v == 0 for v in res.values()), sum(v == 1 for v in res.values()), sum(v == 2 for v in res.values())))
 

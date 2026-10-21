@@ -590,10 +590,30 @@ def ghidra_thunk(rec):
     return dict(rec, text=head + body, objs=objs, icalls={}, x87_locals=[], stack_locals=[], thunk_of='0x%08X' % t)
 
 
+_EAX_UNSEEN = None
+
+
+def ghidra_entry_eax(rec):
+    """`in_EAX` (EAX's value at entry, which Ghidra could not tie to a parameter) in a function where no code sees
+    that value: data/eax_entry_unseen.json (caller_reads.py: the function and its callees read no byte of it, and
+    the bytes it can hand back unchanged are bytes no caller reads). The C++ starts it at 0; any value is the same
+    to every caller. Only when in_EAX is the record's one such input."""
+    global _EAX_UNSEEN
+    if _EAX_UNSEEN is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'eax_entry_unseen.json')
+        _EAX_UNSEEN = set(json.load(open(p))) if os.path.exists(p) else set()
+    head, brace, body = rec.get('text', '').partition('\n{')
+    if set(GHIDRA_REG.findall(body)) != {'in_EAX'} or '0x%08X' % rec['ea'] not in _EAX_UNSEEN: return None
+    body, n = re.subn(r'^(\s*[A-Za-z_][\w ]*?\s*\**)\s*in_EAX;', r'\1xi_entry_eax = 0;', body, count=1, flags=re.M)
+    if n != 1: return None
+    return dict(rec, text=head + brace + re.sub(r'\bin_EAX\b', 'xi_entry_eax', body))
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
     rec = ghidra_thunk(rec) or rec
+    rec = ghidra_entry_eax(rec) or rec
     if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
         return None, 'skipped', 'register or stack input Ghidra could not tie to a parameter: ' + \
             ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))

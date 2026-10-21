@@ -3028,3 +3028,25 @@ accesses:
   21 more.
 
 Their class has no definitive source. Link order would suggest one, but a `.cpp` file can define several classes.
+
+## 21 Oct: the game's compiler, and the first byte-identical functions
+
+The owner supplied Visual C++ 6.0 toolsets. The stamps were measured: the same files were compiled with each
+toolset and the `@comp.id` in each object read.
+- **The game's own objects:** the Processor Pack code generator (`c2.dll` 13.0.9044) writes prodid 48 (C) and
+  49 (C++) with build 9044. These are exactly the Rich header's rows for the game's 208 C and 799 C++ objects.
+- **The stamp comes from the code generator.** An SP5 front end (`C1XX` 12.0.8964) and an SP6 front end (12.0.9782)
+  each write 49/9044 when used with it.
+- **The 9782 rows:** the Rich header's prodid 10/11 build-9782 objects (176 C, 13 C++) carry exactly the stamps of
+  SP6's runtime libraries, LIBC and LIBCMT. So the DLL links SP6's C runtime, and those objects are Microsoft's,
+  not the game's.
+- **The `vc6.7z` package:** its own compiler writes prodid 21/22.
+
+`pipeline/msvc_match.py` compiles a function's source under wine and compares it with the DLL's bytes, comparing
+relocated fields by their target. Two functions match byte for byte under `/O2`, with either front end; they are
+in `pipeline/tests/msvc/`.
+- **0x100106C0:** 64 bytes and 6 relocations.
+- **`CDx::StepFadeCounter` (0x1000AE40):** 96 bytes. Its `fld st(0); fcomp` came only from an assignment inside the
+  condition, `if ((d = a * b) <= 0.0f)`. No option and no other spelling of the comparison gave it.
+
+The compilers stay out of the repository.

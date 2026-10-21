@@ -5,8 +5,10 @@ function's (or the file's) text is put back. Nothing here relies on the gate.
   * `types`: a typedef name is its type (C++, [dcl.typedef]). Each pair is checked as the tree compiles it
     (static_assert(std::is_same) with build.sh's compiler and flags), and the file must compile.
   * `macros`: the file preprocessed before and after must give the same tokens: what the compiler sees is unchanged.
-  * `floats`: the literal reads back to exactly the constant's bits (checked here when it is written; GCC rounds a
-    decimal literal correctly), of the same type (float for xi_k4, double for xi_k8); the file must compile.
+  * `floats`: the literal's decimal value is exactly the constant's value (checked here when it is written), of the
+    same type (float for xi_k4, double for xi_k8); the file must compile. Reading back to the same bits is not
+    enough: GCC on x87 evaluates floating constants in long double (FLT_EVAL_METHOD 2), so a literal that only
+    rounds to the float is a different value there (22 Oct: 29 functions failed the gate that way).
   * `undefined4`: a struct (xi_ghidra_shared.hpp) that differs from uint32_t in one thing only: a float converted
     into it keeps its bits. Every other operation goes through its uint32_t: integers and pointers convert as to
     uint32_t, it reads as its uint32_t, its compound assignments are the uint32_t's. So in a function that never
@@ -28,8 +30,9 @@ Rules (phase 1), each on the text of one function at a time, outside string and 
     that type: uint -> uint32_t, undefined1 -> uint8_t, float10 -> long double, ...;
   * `undefined4`, a struct (a float copied into it keeps its bits), spelt uint32_t: in the body only (a
     signature must match its declaration); kept only where the code proves identical;
-  * xi_k4(0x...ull) / xi_k8(0x...ull), a floating constant by its encoding, written as the shortest decimal literal
-    that reads back to the same bits (finite values only; -0.0 kept with its sign);
+  * xi_k4(0x...ull) / xi_k8(0x...ull), a floating constant by its encoding, written as a decimal literal of exactly
+    its value: the shortest one where that is exact, else its full expansion up to EXACT_DIGITS digits (finite
+    values only; -0.0 kept with its sign);
   * ZEXTnm / SEXTnm / CONCATnm, Ghidra's macros, written as the casts and shifts they expand to (xi_ghidra.hpp).
 
     python3 source_shape.py TREE_DIR           (the tree's build.sh flags; objects under TREE_DIR/build/obj)
@@ -63,18 +66,31 @@ def outside_literals(text, fn):
     return ''.join(out)
 
 
+EXACT_DIGITS = 32         # the longest exact expansion written out; a constant needing more keeps its xi_k form
+
+
 def float_literal(bits, size):
-    """the shortest decimal that reads back to these bits, with C's suffix; None for a NaN or an infinity"""
-    if size == 4:
-        x = struct.unpack('<f', struct.pack('<I', bits & 0xFFFFFFFF))[0]
-        back = lambda s: struct.unpack('<I', struct.pack('<f', float(s)))[0] == bits & 0xFFFFFFFF
-    else:
-        x = struct.unpack('<d', struct.pack('<Q', bits))[0]
-        back = lambda s: struct.unpack('<Q', struct.pack('<d', float(s)))[0] == bits
+    """a decimal literal whose value is exactly the constant's, with C's suffix; None for a NaN, an infinity, or a
+    value whose exact decimal needs more than EXACT_DIGITS significant digits.
+
+    Exactly, not merely "reads back to the same bits": GCC on x87 evaluates a floating constant in long double
+    (FLT_EVAL_METHOD 2, C99 6.4.4.2 and 5.2.4.2.2), so `0.31831926f` is used as the long double nearest to
+    0.31831926, not as the float it rounds to. A decimal equal to the float's value is that value in every
+    precision. Every binary fraction has a finite decimal expansion: the shortest decimal is used when it is that
+    exact value (0.5f, 128.0f), else the full expansion when it is short enough."""
+    from decimal import Decimal
+    if size == 4: x = struct.unpack('<f', struct.pack('<I', bits & 0xFFFFFFFF))[0]
+    else: x = struct.unpack('<d', struct.pack('<Q', bits))[0]
     if x != x or x in (float('inf'), float('-inf')): return None
+    exact = Decimal(x)                                   # a Python float holds the float/double exactly
+    s = None
     for p in range(1, 18):
-        s = '%.*g' % (p, x)
-        if back(s): break
+        t = '%.*g' % (p, x)
+        if Decimal(t) == exact: s = t; break
+    if s is None:
+        t = format(exact, 'f')
+        if len(t.lstrip('-0.').replace('.', '')) > EXACT_DIGITS: return None
+        s = t
     if 'e' not in s and '.' not in s: s += '.0'
     if size == 4: s += 'f'
     return '(' + s + ')' if s.startswith('-') else s

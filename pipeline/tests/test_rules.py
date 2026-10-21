@@ -468,3 +468,19 @@ class Thunk(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class FloatLiteral(unittest.TestCase):
+    """source_shape.float_literal: a literal of exactly the constant's value (GCC evaluates constants in long double)"""
+    def lit(self, b, n=4):
+        import source_shape as SS
+        return SS.float_literal(b, n)
+
+    def test_exact(self):
+        self.assertEqual(self.lit(0x43000000), '128.0f')
+        self.assertEqual(self.lit(0x3F000000), '0.5f')
+        self.assertEqual(self.lit(0xBF800000), '(-1.0f)')
+
+    def test_not_shortest_when_inexact(self):
+        self.assertEqual(self.lit(0x3EA2FABE), '0.318319261074066162109375f')   # not 0.31831926f
+        self.assertIsNone(self.lit(0x3FB999999999999A, 8))                       # 0.1: its exact value is too long

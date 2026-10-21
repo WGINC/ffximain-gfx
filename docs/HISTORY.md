@@ -2730,3 +2730,25 @@ Not known, and needed from a run:
   and 0x100CB4E0 UNRESOLVED. That is besides the three tree/README.md lists. A tree built from 79ded91, before
   this work, gives the same result, so the README's 776 is not reproduced in this container; why is not
   known.
+
+## 21 Oct: frameset4, and the class vtables' slot lists ended where the code ends them
+
+**frameset4.** This run has cdecl_args, spops, ret_width and address-taken frames, but not XI_BC:3 or XI_BA
+yet.
+- Totals: 3,610 gated; 3,421 PASS, 140 FAIL, 38 INCONCLUSIVE, 11 UNRESOLVED.
+- Against frameset3: 31 FAIL became PASS and 17 newly gated functions PASS.
+- 0x101B9BC0 is now UNRESOLVED. The rule for a read x87 result of a virtual call on a fuzzed object stops it.
+- 0x1025E100 and 0x1025E170 were not gated this time.
+
+**Class vtables.** `data/class_vtables.json`'s slot lists came from a scan that read on while dwords looked
+like code addresses, up to 400 slots. Checking DancingMad's §12b vtable lengths showed that 124 of the 226 lists
+run into the next object. Examples:
+- `CXiAtelActor`'s 283 slots run 29 past 0x1032E7C0, which 0x100A9416 stores as a vtable;
+- many lists stop only at the cap of 400.
+
+`pipeline/vtable_bounds.py` now ends each list at the first address the code refers to, or the first dword that
+is not a function start. Every one of the 124 ends at a code-referenced address.
+
+Only gfx_cases reads the slot lists: it stubs each slot's function for the fuzzed `this`. Rebuilding
+frameset4's cases changed 28 of them, all by dropping stubs for functions of the next table. The 26 that compile
+were re-gated, and none changed verdict.

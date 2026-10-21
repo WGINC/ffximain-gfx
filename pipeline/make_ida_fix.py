@@ -81,6 +81,31 @@ for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
         if o.get('func') and '__stdcall' in o['type']: decl.setdefault('0x%08X' % o['ea'], 'stdcall')
 data['conv_fix'] = {k: purges[k] for k, cc in decl.items() if cc == 'stdcall' and ecx.get(k) and k in purges}
 data['conv_why'] = {k: ecx[k] for k in data['conv_fix']}
+# facts from the code, per function, written as a function comment (each names its generator): the bytes of the
+# result its callers read, the bytes of each argument it reads, an entry EAX no code sees, the bytes of EAX it sets;
+# and the tree's gate verdict for the functions the verified tree holds
+_ld = lambda f: json.load(open(os.path.join(D, f))) if os.path.exists(os.path.join(D, f)) else {}
+facts = {}
+for k, w in _ld('caller_reads.json').items():
+    facts.setdefault(k, []).append({0: 'no caller reads its result', 1: 'callers read only AL of its result',
+                                    2: 'callers read only AX of its result'}[w] + ' (caller_reads.py)')
+for k, w in _ld('ret_width.json').items():
+    facts.setdefault(k, []).append('its code sets only %s of EAX before returning (ret_width.py)' % ('AL' if w == 1 else 'AX'))
+for k, ms in _ld('arg_reads.json').items():
+    parts = []
+    for i, m in enumerate(ms):
+        if m == 0xFFFFFFFF: continue
+        parts.append('argument %d: %s' % (i + 1, 'not read' if m == 0 else 'bytes %s read' % ','.join(str(b) for b in range(4) if m >> (8 * b) & 0xFF)))
+    if parts: facts.setdefault(k, []).append('; '.join(parts) + ' (arg_reads.py)')
+for k in _ld('eax_entry_unseen.json'):
+    facts.setdefault(k, []).append("no code sees EAX's value at entry (caller_reads.py)")
+_g = os.path.join(R, 'verification', 'gate_clean_final.jsonl')
+if os.path.exists(_g):
+    for l in open(_g):
+        g = json.loads(l)
+        facts.setdefault('0x%08X' % int(g['original'], 16), []).append('verified tree: the C++ reconstruction %s the fuzz gate' % (
+            'passes' if g['verdict'] == 'PASS' else 'is %s in' % g['verdict']))
+data['facts'] = facts
 blob = json.dumps(data, separators=(',', ':'), ensure_ascii=True)
 assert "'''" not in blob
 src = open(os.path.join(R, 'ida', 'ida_fix.template')).read().replace('__DATA__', blob, 1)

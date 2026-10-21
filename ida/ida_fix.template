@@ -43,6 +43,16 @@ def add_note(ea, note):
         idc.set_func_cmt(ea, new, 0) if func else idc.set_cmt(ea, new, 0)
 
 
+# ------------------------------------------------------------------ 0: facts from the code, as function comments
+def apply_facts():
+    n = 0
+    for k, notes in DATA.get('facts', {}).items():
+        ea = int(k, 16)
+        if idc.get_func_attr(ea, idc.FUNCATTR_START) != ea: continue
+        add_note(ea, '[gfx-recon facts 2026-10-21] ' + '; '.join(notes)); n += 1
+    log('facts: %d functions annotated' % n)
+
+
 # ------------------------------------------------------------------ 1-3: names, prototypes, viewports
 def apply_names():
     done, skipped = 0, []
@@ -598,7 +608,7 @@ def main():
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
-        for step in (apply_names, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),
+        for step in (apply_names, apply_facts, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),
                      lambda: revert(report), lambda: fix_sp(report), lambda: force_call_types(report), lambda: reexport(report)):
             try: step()
             except Exception: log('STEP FAILED:\n' + traceback.format_exc())

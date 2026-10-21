@@ -64,6 +64,10 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
     long double r; __asm__("fpatan" : "=t"(r) : "0"(x), "u"(y) : "st(1)"); return r;
 }
 #define fpatan(y, x) xi_fpatan((y), (x))
+static inline long double xi_fsin(long double x) { long double r; __asm__("fsin" : "=t"(r) : "0"(x)); return r; }   // x87 fsin
+static inline long double xi_fcos(long double x) { long double r; __asm__("fcos" : "=t"(r) : "0"(x)); return r; }   // x87 fcos
+#define fsin(x) xi_fsin((x))
+#define fcos(x) xi_fcos((x))
 
 // A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
 // the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
@@ -77,10 +81,16 @@ static inline long long xi_call_st0(uint32_t fn, long double x) {
 template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uint8_t t; };
 template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
 template<> struct xi_piece_t<8> { typedef uint64_t t; };
+// a 3-byte piece (Ghidra's undefined3, `x._1_3_`): its bytes copied in and out, read zero- or sign-extended
+struct xi_u24 { uint8_t b[3]; operator uint32_t() const { uint32_t v = 0; __builtin_memcpy(&v, b, 3); return v; }
+                xi_u24 &operator=(uint32_t v) { __builtin_memcpy(b, &v, 3); return *this; } };
+struct xi_s24 { uint8_t b[3]; operator int32_t() const { uint32_t v = 0; __builtin_memcpy(&v, b, 3); return (int32_t)(v << 8) >> 8; }
+                xi_s24 &operator=(int32_t v) { __builtin_memcpy(b, &v, 3); return *this; } };
+template<> struct xi_piece_t<3> { typedef xi_u24 t; };
 #define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))
 template<int S> struct xi_spiece_t; template<> struct xi_spiece_t<1> { typedef int8_t t; };
 template<> struct xi_spiece_t<2> { typedef int16_t t; }; template<> struct xi_spiece_t<4> { typedef int32_t t; };
-template<> struct xi_spiece_t<8> { typedef int64_t t; };
+template<> struct xi_spiece_t<8> { typedef int64_t t; }; template<> struct xi_spiece_t<3> { typedef xi_s24 t; };
 #define XI_PIECE_S(x, o, s) (*reinterpret_cast<xi_spiece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))   // a signed piece
 
 // a floating constant by its encoding (GfxExport `/*XI_K:size:bits*/`): the float or double the code loads

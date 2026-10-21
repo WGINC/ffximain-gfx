@@ -583,6 +583,8 @@ def main(exp, gate, manf, incdir, outdir):
                 if w and re.match(r'^(float|double|long double)\s*(__\w+\s*)?\(', o['type'].strip()):   # not `float *`
                     fwrap[on] = (o['ea'], ft)
             else:
+                if R[ea].get('ghidra') and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), R[ea]['text']):
+                    continue                            # a goto target of the body (LAB_...), not a global
                 globs.setdefault(o['ea'], (nm, o))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
     with open(os.path.join(outdir, 'include', 'gfx_orig.hpp'), 'w') as f:
@@ -642,6 +644,8 @@ def main(exp, gate, manf, incdir, outdir):
                 tok = 'orig::' + oname(nm, o['ea'], ftype_of(ea, o, nm))
             elif o.get('import'):
                 tok = gnames[o['ea']]                  # the pointer at the import table slot
+            elif o['ea'] not in gnames:
+                continue                               # a goto target left out of the globals above
             else:
                 tok = gvariant.get((o['ea'], gtype_of(o)), gnames[o['ea']])
             for p in forms: reps.append((p, tok))

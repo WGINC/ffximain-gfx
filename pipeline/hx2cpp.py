@@ -1022,6 +1022,8 @@ def translate(rec):
                 pt = callee_pops_fix(o, pt)
                 syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
+            if rec.get('source') == 'ghidra' and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), body):
+                continue                                # a goto target of the body (LAB_...), not a global
             tok = 'G_%08X' % oea
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
             if re.sub(r'^(struct\s+)?(std::)?', '', ot.strip()) in OPAQUE:

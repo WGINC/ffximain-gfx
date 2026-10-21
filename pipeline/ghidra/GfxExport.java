@@ -578,6 +578,21 @@ public class GfxExport extends GhidraScript {
                 f.setCustomVariableStorage(false);
             }
             if (params && sbytes >= 0) setStackSlots(f, sbytes);
+            if (params && p[1].equals("__fastcall")) {
+                // __fastcall (conv.txt: the code reads ECX and EDX, ecx_use/edx_use): both register parameters, so a
+                // caller is decompiled passing both; Ghidra keeps only those the decompiler saw used
+                List<Variable> regs = new ArrayList<>(), stack = new ArrayList<>();
+                for (Parameter q : f.getParameters()) {
+                    if (q.isAutoParameter()) continue;
+                    if (q.isStackVariable()) stack.add(new ParameterImpl(q.getName(), q.getDataType(), currentProgram));
+                    else regs.add(new ParameterImpl(q.getName(), q.getDataType(), currentProgram));
+                }
+                if (regs.size() < 2) {
+                    while (regs.size() < 2) regs.add(new ParameterImpl(regs.isEmpty() ? "xi_ecx" : "xi_edx", Undefined4DataType.dataType, currentProgram));
+                    List<Variable> all2 = new ArrayList<>(regs); all2.addAll(stack);
+                    f.replaceParameters(all2, Function.FunctionUpdateType.DYNAMIC_STORAGE_FORMAL_PARAMS, true, SourceType.USER_DEFINED);
+                }
+            }
             return true;
         } catch (Exception e) { println("convention not set at " + f.getEntryPoint() + ": " + e); return false; }
     }
@@ -1014,6 +1029,8 @@ public class GfxExport extends GhidraScript {
                     int purge = g != null ? g.getStackPurgeSize() : 0;
                     objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d, \"storage\": %s}",
                             ta.getOffset(), esc(sig.replaceFirst("\\s*" + java.util.regex.Pattern.quote(nm) + "\\s*\\(", "(")), esc(nm), (purge == Function.UNKNOWN_STACK_DEPTH_CHANGE || purge < 0 ? -1 : purge), g != null ? storage(g) : "[]"));
+                } else if (t instanceof ClangLabelToken) {
+                    continue;                                   // a goto target (LAB_...): the body's own label
                 } else if (nm.matches("[A-Za-z_][A-Za-z0-9_]*") && (!(t instanceof ClangVariableToken)
                         || !(((ClangVariableToken) t).getHighVariable() instanceof HighGlobal))) {
                     // a variable token with no HighGlobal behind it is an address taken of a symbol (`&g_x`)

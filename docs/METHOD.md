@@ -107,6 +107,15 @@ their declared precision.
   (`data/input_ranges.json`), and the Win32 calls the game makes answered as Win32 documents them.
 - **Stack addresses** passed as arguments compare as "a stack address": a rebuilt frame lays out its locals
   differently.
+- **Only what callers can see is compared:**
+  - **EAX.** The function's EAX is compared only in the bytes its callers read
+    (`caller_reads.py`, data/caller_reads.json). This holds only where every reference to the function is a
+    direct call or tail jump. Each caller is followed from the return address: through its calls, with each
+    callee's own entry reads and kept bytes, and through `ret` to its own callers, to a fixpoint. A function
+    whose result no caller reads has its EAX not compared.
+  - **Stub arguments.** A stub compares only the bytes of each argument its callee's code reads (`arg_reads.py`,
+    data/arg_reads.json, from exact stack depths). A byte argument pushed in a register with leftover upper bits
+    therefore compares as the byte.
 
 Verdicts:
 
@@ -224,6 +233,19 @@ end: export, `run.sh translate|cases|gate`, then `regen_clean.sh` with the IDA e
 comma list (the first record for an address wins); `tree/source.json` names both exports by SHA-1 and both raw
 gates, and `verify_all.py` regenerates the tree from them. The first two functions in the tree by this route are
 the step getters 0x10014CF0 and 0x10014D20 (18 Oct).
+
+**Rules on Ghidra's printed C** (GfxExport marks; hx2cpp translates). Each comes from the decompiler's own p-code,
+not from the printed text. Ghidra's C is not C where the printed type and the p-code disagree:
+- **PTRADD(base, i, N)** is `base + i*N` bytes. Ghidra prints `base + i` or `base[i]` whatever base points to:
+  - `/*XI_BA:N*/` (before `+`) and `/*XI_PA:N*/` (before `[`) index with N-byte elements;
+  - the base's pointee is the global's defined data as the export types it (`&g` is a PTRSUB of its address),
+    else the base's pointer type.
+- **CAST between a floating and a non-floating type keeps the bits**, and so does a floating op reading a
+  non-floating varnode (an implied cast). `/*XI_BC:1|2|3*/` become `xi_castbits<T>`. A CAST's output is printed
+  at each use, through chains of implicit outputs.
+- **A function that is one `jmp T`** is a call to T with its own parameters (Ghidra inlines T).
+- **`in_EAX`** is started at 0 where no code sees EAX's entry value: data/eax_entry_unseen.json, the function
+  and its callees read none of it, and no caller reads the bytes it can hand back unchanged.
 
 What the Ghidra route takes from where (`conv_facts.py` writes the code's facts to conv.txt; GfxExport applies
 them, then marks what the C++ needs in the text):

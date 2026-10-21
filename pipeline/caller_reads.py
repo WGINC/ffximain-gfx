@@ -156,7 +156,7 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
                     mask = 0
                     for k in kp: mask |= 0xFF << (8 * k)
                     nd = tuple(x & mask for x in v[0]); np_ = tuple(x & mask for x in v[1])
-                    if any(nd): regs['eax'] = (nd, np_)
+                    if any(nd) or any(np_): regs['eax'] = (nd, np_)
                 elif reg in ('ecx', 'edx'):
                     if imp:
                         if not seen_only: r |= st.srcs(reg)      # volatile across the call: may be kept, not followed

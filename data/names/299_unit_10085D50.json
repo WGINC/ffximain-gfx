@@ -1,0 +1,4 @@
+{
+"0x10085D50": {"name": "CMoAttachments_PushCasterLink", "confidence": "medium", "evidence": "stores the head of the list at this+0x68 in the argument's +0x2C and makes the argument the new head; called by CMoAttachments::SetCaster", "summary": "Links an object onto the caster list of an attachments object."},
+"0x10085D60": {"name": "CMoAttachments_PushTargetLink", "confidence": "medium", "evidence": "stores the head of the list at this+0x6C in the argument's +0x30 and makes the argument the new head; called by CMoAttachments::SetTarget", "summary": "Links an object onto the target list of an attachments object."}
+}

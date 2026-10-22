@@ -1,0 +1,4 @@
+{
+  "0x10081A30": {"name": "Unit10081A30_ReleaseQueued", "confidence": "low", "evidence": "calls FUN_10085240 repeatedly until it returns 0, calling vtable slot 6 (+0x18) with the argument 1 on each object it returns; fn_1018B620 calls it", "summary": "Releases each object that FUN_10085240 returns, until none remain."},
+  "0x10081CF0": {"name": "CXiActor_Construct", "confidence": "medium", "evidence": "runs CMoTask_Constructor on self, ActorHandle_Constructor on +0x5C, sets the vtable to CXiActor_GetRuntimeClass_variant0 and calls CXiActor_Init", "summary": "Constructs the actor on top of its task base and initialises it."}
+}

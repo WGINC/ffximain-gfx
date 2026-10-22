@@ -1,0 +1,4 @@
+{
+"0x10003660": {"name": "DebugText_Construct", "confidence": "low", "evidence": "sets vtable PTR_FUN_10329660 and zeroes the dwords at +0xC, +0x10, +0x14 and +0x18", "summary": "Constructs the debug text object and clears its buffers."},
+"0x10003710": {"name": "DebugOverlay_Update", "confidence": "medium", "evidence": "when the enable byte at +4 is set: on the first call allocates the 0x4800, 0x9000, 0x240000 and 0x2400 byte buffers, clears the big one and fills 0x900 entries through FUN_100037d0; on the second call draws the actor axes with fn_10003890 and Debug_DrawTextTable; called by DebugOverlay_Draw", "summary": "Builds the debug overlay buffers on first use and draws it on later frames."}
+}

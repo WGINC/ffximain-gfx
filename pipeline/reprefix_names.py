@@ -14,11 +14,10 @@ import json, os, re, sys
 import check_names
 
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
-INDEX = os.path.join(ROOT, 'batches', 'index.json')
 
 
 def own_prefix(bid):
-    group = bid.split('_', 1)[1]
+    group = re.sub(r'^r\d+_', '', bid).split('_', 1)[1]
     if group.startswith('unit_'): return 'Unit' + group[5:13]
     g = re.sub(r'_VT_[0-9A-F]{8}$', '', group)
     return g[0].upper() + g[1:]
@@ -32,7 +31,7 @@ def main(*paths):
         import io, contextlib
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            try: check_names.main(INDEX, path)
+            try: check_names.main(check_names.index_for(path), path)
             except SystemExit: pass
         bad = {l.split(':', 1)[0] for l in out.getvalue().splitlines() if "prefix '" in l}
         changed = dropped = 0
@@ -44,7 +43,7 @@ def main(*paths):
         # names now colliding (inside the file or with names elsewhere): the entry goes
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            try: check_names.main(INDEX, path)
+            try: check_names.main(check_names.index_for(path), path)
             except SystemExit: pass
         for l in out.getvalue().splitlines():
             k = l.split(':', 1)[0]

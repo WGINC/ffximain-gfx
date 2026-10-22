@@ -21,6 +21,12 @@ NAME = re.compile(r'^[A-Z][A-Za-z0-9]*(?:_[A-Z0-9][A-Za-z0-9]*)+$')
 BAD = re.compile(r'^(?:FUN|sub|fn|vf|Slot|nullsub|thunk)_?', re.I)
 
 
+def index_for(path):
+    """The batch index a names file belongs to: batches/index.json, or batches/round<N>/index.json for rN_ files."""
+    m = re.match(r'r(\d+)_', os.path.basename(path))
+    return os.path.join(D, '..', 'batches', *(['round' + m.group(1)] if m else []), 'index.json')
+
+
 def main(index, path):
     idx = json.load(open(index))
     bid = os.path.basename(path)[:-5]
@@ -32,7 +38,7 @@ def main(index, path):
     taken = {}
     md = os.path.join(os.path.dirname(os.path.abspath(index)), bid + '.md')
     dossier = open(md).read() if os.path.exists(md) else ''
-    group = bid.split('_', 1)[1] if '_' in bid else bid
+    group = re.sub(r'^r\d+_', '', bid); group = group.split('_', 1)[1] if '_' in group else group
     own = {re.sub(r'_VT_[0-9A-F]{8}$', '', group)} if not group.startswith('unit_') else set()
     if group.startswith('unit_'): own.add('Unit' + group[5:13]); own.update(group[14:].split('_')[:1] if group[14:] else [])
     own_lc = {o.lower() for o in own}

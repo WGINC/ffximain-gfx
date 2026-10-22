@@ -8,6 +8,8 @@ any other file never arrive.
     python3 merge_names.py BRANCH [BRANCH ...]      (e.g. origin/claude/names-w1; fetch them first)
 Prints, per branch, the files merged and the files refused with the checker's reasons. Commit what it merged."""
 import json, os, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import check_names
 
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
 git = lambda *a: subprocess.run(['git', '-C', ROOT] + list(a), capture_output=True, text=True)
@@ -26,7 +28,7 @@ def main(*branches):
             old = open(dst).read() if os.path.exists(dst) else None
             open(dst, 'w').write(text)
             fix = subprocess.run([sys.executable, os.path.join(P, 'reprefix_names.py'), dst], capture_output=True, text=True).stdout.strip()
-            r = subprocess.run([sys.executable, os.path.join(P, 'check_names.py'), os.path.join(ROOT, 'batches', 'index.json'), dst],
+            r = subprocess.run([sys.executable, os.path.join(P, 'check_names.py'), check_names.index_for(dst), dst],
                                capture_output=True, text=True)
             if r.returncode:
                 if old is None: os.remove(dst)

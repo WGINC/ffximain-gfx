@@ -1,0 +1,3 @@
+{
+  "0x1001DC20": {"name": "CMoResource_VT1032C8AC_Set14", "confidence": "low", "evidence": "stores the argument at the pointer held in the field +0x14 of this and returns the argument; slot 4 (+0x10) of CMoResource_VT_1032C8AC", "summary": "Stores the argument through the object's pointer at +0x14 and returns it."}
+}

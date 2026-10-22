@@ -1,0 +1,122 @@
+{
+  "0x1021DD20": {
+    "name": "RefPtr_Assign",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 4 (AddRef) on the new pointer, vtable slot 8 (Release) on the old, then stores the new pointer in *param_1",
+    "summary": "Assigns a reference-counted pointer, releasing the old value and adding a reference to the new one."
+  },
+  "0x1021DE10": {
+    "name": "RefPtr_Release",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 8 (Release) on the pointer held at self, if it is not null",
+    "summary": "Releases the reference-counted pointer held at the start of the object."
+  },
+  "0x1021E3B0": {
+    "name": "MeshResMng_FindByName",
+    "confidence": "medium",
+    "evidence": "iterates the mesh resource manager with FUN_10074310 and ResourceIter_FindNext, comparing the name at +0x30 of each resource with the argument string, and returns the matching resource's +0x30 address",
+    "summary": "Finds a mesh resource by its name."
+  },
+  "0x1021E480": {
+    "name": "MeshResMng_FindForIds",
+    "confidence": "medium",
+    "evidence": "for each id in the zero-ended list, calls FUN_1025B5A0 to get its name and MeshResMng_FindByName (FUN_1021E3B0) to find it, storing each result and counting the hits",
+    "summary": "Looks up the mesh resource for each id in a list and counts the ones found."
+  },
+  "0x1021E4D0": {
+    "name": "ShapeMng_FindShapes",
+    "confidence": "medium",
+    "evidence": "for each non-zero id in the list, stores ShapeMng_FindShape(g_shapeMng, id) into the output array",
+    "summary": "Looks up the shape for each id in a zero-ended list."
+  },
+  "0x1021E500": {
+    "name": "BitSet_ClearArrays",
+    "confidence": "low",
+    "evidence": "zeroes (n + 7) / 8 bytes at param_1 and n / 2 halfwords at param_2 for the count n in param_3",
+    "summary": "Clears a bit array and a halfword array sized from one count."
+  },
+  "0x1021E760": {
+    "name": "IndexTable_Init",
+    "confidence": "medium",
+    "evidence": "allocates six arrays with Allocator_Generic sized from param_3, sets each entry to 0 or 0xFFFFFFFF, stores the counts at +0x24 and +0x2C, and clears the state at +0x1C, +0x20 and +0x34",
+    "summary": "Allocates and initialises the index tables for a fixed number of entries."
+  },
+  "0x1021EDE0": {
+    "name": "Menu_GetPanelByte0D",
+    "confidence": "low",
+    "evidence": "returns the byte at +0xD of the panel at DAT_10666E84, or 4 when there is no panel",
+    "summary": "Returns the byte at offset 0x0D of the menu panel, or 4 when none is set."
+  },
+  "0x1021EE00": {
+    "name": "Menu_SetPanelWord28",
+    "confidence": "low",
+    "evidence": "stores its argument as a word at +0x28 of the panel at DAT_10666E84 and returns the panel pointer",
+    "summary": "Stores a word at offset 0x28 of the menu panel."
+  },
+  "0x1021EE20": {
+    "name": "Menu_SetPanelWord2A",
+    "confidence": "low",
+    "evidence": "stores its argument as a word at +0x2A of the panel at DAT_10666E84",
+    "summary": "Stores a word at offset 0x2A of the menu panel."
+  },
+  "0x1021EE70": {
+    "name": "Menu_SetPanelMetrics",
+    "confidence": "medium",
+    "evidence": "stores param_1 at +0x34 and half of it at +0x38, stores param_2 at +0x30 and param_3's low byte at +0x2F of the panel at DAT_10666E84",
+    "summary": "Sets the menu panel's width, half-width, height and flag."
+  },
+  "0x1021F030": {
+    "name": "ActerBuff_FindNearest",
+    "confidence": "medium",
+    "evidence": "scans the ActerBuffPtr table for entries with +0xA0 set, a flag at +0x120 bit 13 and +0x127 bit 0, and state +0x170 not 2 or 3; keeps the nearest by the distance of +4 and +0xC to the reference entry, writing the entry to param_2 and the offset to param_1",
+    "summary": "Finds the nearest eligible acter to the reference acter and returns its distance."
+  },
+  "0x1021F140": {
+    "name": "ActerBuff_CollectNearby",
+    "confidence": "medium",
+    "evidence": "scans the ActerBuffPtr table for entries within 30 units of the reference entry whose class byte at +0x1FF is between 2 and 99, keeps those whose class is in the 0x20 to 0x27 group (or 0x21 to 0x27 odd when the flag is clear), and stores up to three in the output",
+    "summary": "Collects up to three acters near the reference acter that match a class filter."
+  },
+  "0x1021F360": {
+    "name": "TkMenu_GetWindowRect",
+    "confidence": "medium",
+    "evidence": "starts the rectangle at 16 and 46 and offsets it by CTkMenuMng_IsDrawWindow; when the window list at PTR_DAT_10385ED4 has a match, it takes the window's CTkMenuCtrlData_GetWindowLocate",
+    "summary": "Computes the menu's window rectangle, offset by the draw window."
+  },
+  "0x1021FB10": {
+    "name": "Hud_DrawTwoDigitValue",
+    "confidence": "medium",
+    "evidence": "draws a 0xAA-prefixed label and the value formatted with the two-digit format through FUN_101C9780 at the given position",
+    "summary": "Draws a label and a two-digit value."
+  },
+  "0x102201A0": {
+    "name": "Hud_DrawLabelBar",
+    "confidence": "medium",
+    "evidence": "calls FUN_1011FB60 on the object at param_3, sets the bar fraction with FUN_101CB040 at param_1+0x18, and draws the text param_5 at param_1+0x10",
+    "summary": "Draws a text label with a bar at the given fraction."
+  },
+  "0x10220C20": {
+    "name": "Camera_GetWrappedYaw",
+    "confidence": "low",
+    "evidence": "subtracts the camera-derived angle (Camera_GetField50 and FUN_1001E4D0) from 3pi/2 and wraps the result into [-pi, pi]",
+    "summary": "Returns a camera-relative angle wrapped to the range minus pi to pi."
+  },
+  "0x10220C80": {
+    "name": "ShapeMng_FillMenuShapes",
+    "confidence": "medium",
+    "evidence": "for each id in the table at 0x10385F6C, calls FUN_1025B5A0 and ShapeMng_FindShape(g_shapeMng) into the table at DAT_10666E88, then calls FUN_1021E4D0 on the menu window list",
+    "summary": "Fills the menu's shape table by looking up each shape id."
+  },
+  "0x10220CF0": {
+    "name": "Menu_GetTableEntry",
+    "confidence": "low",
+    "evidence": "returns the dword at (*DAT_10666E88[param_1]) + param_2 * 4",
+    "summary": "Returns one entry of the menu's table at the given row and column."
+  },
+  "0x10220D10": {
+    "name": "Menu_GetGlobalTableEntry",
+    "confidence": "low",
+    "evidence": "returns 0 when DAT_106218F4 is null, otherwise the dword at (*DAT_106218F4) + param_1 * 4",
+    "summary": "Returns one entry of the global menu table, or 0 when it is not loaded."
+  }
+}

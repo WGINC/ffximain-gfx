@@ -1,0 +1,4 @@
+{
+"0x1025BE20": {"name": "Text_IsWrapBreak", "confidence": "low", "evidence": "returns 1 when the byte at the argument equals 7 or one of the table values 0x0D and 0x0A, else 0", "summary": "Tests whether a character is a line break or the 7 control code."},
+"0x1025C0F0": {"name": "Text_WrapSjisAt", "confidence": "low", "evidence": "returns 0 when the length from FUN_1025be80 is at most the argument; otherwise copies the wrapped part with FUN_1025bfb0, skips one Shift-JIS character (Sjis_GetCharByteLen) and returns the total length from FUN_1011de80", "summary": "Wraps a Shift-JIS string at a byte limit and returns the wrapped length."}
+}

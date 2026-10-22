@@ -1,0 +1,5 @@
+{
+"0x1003C6E0": {"name": "CMoAttachments_NotifyCaster", "confidence": "low", "evidence": "when FUN_1003B6D0 returns an object, calls its vtable slot at offset 1000 with this; called by CMoAttachments::ClearCaster", "summary": "Passes this to the caster object's notification slot."},
+"0x1003C700": {"name": "CMoAttachments_NotifyTarget", "confidence": "low", "evidence": "when FUN_1003B700 returns an object, calls its vtable slot at offset 0x3EC with this; called by CMoAttachments::ClearTarget", "summary": "Passes this to the target object's notification slot."},
+"0x1003C740": {"name": "Flags_CopyFields", "confidence": "low", "evidence": "merges the bit fields of the dword at param_1+4 into this+4 through masks 0xF, 0x3F0, 0xFC00, bit 16 from byte 6, 0x40000, 0x80000, 0xF00000 and the top nibble from byte 7; called by sub_1003CC80, sub_1004E8D0 and CMoGeneratorClone::CopyParams", "summary": "Copies the packed flag fields of one record into another."}
+}

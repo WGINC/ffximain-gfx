@@ -1,0 +1,134 @@
+{
+  "0x100493B0": {
+    "name": "Unit10048000_GetShort22ViaPtrE4",
+    "confidence": "low",
+    "evidence": "returns (short) *(*(int *)(this+0xE4) + 0x22); mechanical read, no purpose shown",
+    "summary": "Returns the 16-bit value at offset 0x22 of the object pointed to by the field at +0xE4."
+  },
+  "0x1004E210": {
+    "name": "Unit10048000_GetSelf",
+    "confidence": "low",
+    "evidence": "body is `return self_;` (same body as 0x1004E280 and 0x1004E2C0, which are left unnamed)",
+    "summary": "Returns the object pointer it is given."
+  },
+  "0x1004E250": {
+    "name": "Unit10048000_SetByte",
+    "confidence": "medium",
+    "evidence": "stores the low byte of the stack argument at *this; ret 4; sets only AL of EAX",
+    "summary": "Stores the low byte of its argument into the object's first byte."
+  },
+  "0x1004E260": {
+    "name": "Unit10048000_GetSelfPlus2",
+    "confidence": "low",
+    "evidence": "returns (int)self_ + 2; mechanical",
+    "summary": "Returns the object pointer plus 2."
+  },
+  "0x1004E270": {
+    "name": "Unit10048000_GetSelfPlus1",
+    "confidence": "low",
+    "evidence": "returns (int)self_ + 1; mechanical",
+    "summary": "Returns the object pointer plus 1."
+  },
+  "0x1004E290": {
+    "name": "Unit10048000_GetSelfPlus3",
+    "confidence": "low",
+    "evidence": "returns (int)self_ + 3; mechanical",
+    "summary": "Returns the object pointer plus 3."
+  },
+  "0x1004E3B0": {
+    "name": "Unit10048000_IsFirstDwordNotEqual",
+    "confidence": "medium",
+    "evidence": "returns the argument in the high dword and (*(int *)this != argument) in the low dword; ret 4",
+    "summary": "Tests whether the object's first dword differs from the argument."
+  },
+  "0x1004E490": {
+    "name": "Unit10048000_GetBits13To18Shl2",
+    "confidence": "low",
+    "evidence": "returns (*(uint32 *)this >> 0xB) & 0xFC, which is bits 13 to 18 of the dword moved to bits 2 to 7",
+    "summary": "Returns bits 13 to 18 of the object's first dword, shifted left by 2."
+  },
+  "0x1004E4E0": {
+    "name": "Unit10048000_EvaluateWithMode4",
+    "confidence": "medium",
+    "evidence": "returns 0 when *this is null; calls Unit100544A0_EvaluateEaseIn when the low nibble of the byte at +4 is nonzero, else Unit100544A0_EvaluateWithFlag34, both with the int at +8",
+    "summary": "Evaluates the curve held by the object's first pointer, choosing the evaluator from the mode byte at +4."
+  },
+  "0x100527B0": {
+    "name": "Unit10048000_GetByte",
+    "confidence": "medium",
+    "evidence": "returns (uint32)*(uint8 *)this; ret 0",
+    "summary": "Returns the byte at the object's offset 0."
+  },
+  "0x100527E0": {
+    "name": "Unit10048000_CallProcessorSlot49",
+    "confidence": "low",
+    "evidence": "calls MoProcessor_CallVSlot49(this), which calls g_pProcessor's vtable slot 0xC4 with this",
+    "summary": "Passes its object pointer to the processor's vtable slot 49."
+  },
+  "0x10052800": {
+    "name": "Unit10048000_Set3Dwords",
+    "confidence": "medium",
+    "evidence": "stores its three stack arguments at this+0, +4 and +8; ret 12",
+    "summary": "Stores three dwords at the start of the object."
+  },
+  "0x10052870": {
+    "name": "Unit10048000_SetDwordAndCopyOut",
+    "confidence": "low",
+    "evidence": "stores param_2 at *this and at *param_1, returns param_1; ret 8",
+    "summary": "Stores one dword at the object and at the pointer argument, and returns that pointer."
+  },
+  "0x10052880": {
+    "name": "Unit10048000_SetDword",
+    "confidence": "medium",
+    "evidence": "stores the stack argument at *this; ret 4",
+    "summary": "Stores a dword in the object's first field."
+  },
+  "0x10052890": {
+    "name": "Unit10048000_GetDwordThroughPtr",
+    "confidence": "medium",
+    "evidence": "returns **(uint32 **)this; same body as 0x100528E0, which is left unnamed",
+    "summary": "Returns the dword that the object's first pointer points to."
+  },
+  "0x100528A0": {
+    "name": "Unit10048000_GetDword",
+    "confidence": "medium",
+    "evidence": "returns *(uint32 *)this; same body as 0x10052940, which is left unnamed",
+    "summary": "Returns the object's first dword."
+  },
+  "0x100528B0": {
+    "name": "Unit10048000_GetPtr30",
+    "confidence": "low",
+    "evidence": "returns (int)self_ + 0x30; mechanical",
+    "summary": "Returns the address of the object's field at offset 0x30."
+  },
+  "0x100528C0": {
+    "name": "Unit10048000_SetPtrAndGetDword",
+    "confidence": "medium",
+    "evidence": "stores param_1 at *this; returns *param_1 when param_1 is non-null, else 0; ret 4",
+    "summary": "Stores a pointer in the object and returns the dword it points to, or 0 when it is null."
+  },
+  "0x100528F0": {
+    "name": "Unit10048000_GetDwordThroughPtrOrZero",
+    "confidence": "medium",
+    "evidence": "returns **(uint32 **)this when *this is non-null, else 0",
+    "summary": "Returns the dword that the object's first pointer points to, or 0 when that pointer is null."
+  },
+  "0x10052900": {
+    "name": "Unit10048000_GetPtrB90",
+    "confidence": "low",
+    "evidence": "returns (int)self_ + 0xB90; mechanical",
+    "summary": "Returns the address of the object's field at offset 0xB90."
+  },
+  "0x10052950": {
+    "name": "Unit10048000_GetWordAt176",
+    "confidence": "medium",
+    "evidence": "returns (uint16)*(uint16 *)(this+0x176) with the high half of EAX zero; ret 0",
+    "summary": "Returns the 16-bit value at offset 0x176."
+  },
+  "0x100529B0": {
+    "name": "Unit10048000_SetLow2Bits17B",
+    "confidence": "medium",
+    "evidence": "computes ((dword ^ arg) & 3) ^ dword at +0x17B, which replaces bits 0 and 1 with the argument's bits 0 and 1; ret 4",
+    "summary": "Sets the low two bits of the dword at +0x17B to the low two bits of its argument."
+  }
+}

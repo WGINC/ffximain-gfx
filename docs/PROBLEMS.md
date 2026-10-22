@@ -112,6 +112,18 @@ The causes of the three FAILs have not been looked into yet.
     inferred, so the IDB's `bool` is not usable as a declared type here. The owner could mark the ones they typed.
   - Otherwise they stay UNRESOLVED, which is what is known.
 
+### P13. IDB prototypes include types previous sessions inferred (22 Oct, from the owner)
+- **Known:** the owner confirms some IDB types were inferred by earlier sessions. The ones `ida/ffxi_ida_fix.py`
+  applied are listed in its data, with notes `[type 2026-10-02]`. Others cannot be told apart from declared ones,
+  because the export records no prototype's origin.
+- **Dependency:** the gate takes a call's pop count, ECX-as-`this` and compared argument count from
+  `callsite_args.json` `"src": "typed"`. Of 8,381 such sites, 4,784 have no other source (2,960 `__thiscall`, 823
+  `__stdcall`, 629 `__cdecl`, 301 `__fastcall`, 71 other).
+- **Proposed, awaiting the owner:**
+  - an IDB prototype counts only with a recorded definitive origin (SDK, PS2 DWARF, owner-typed);
+  - direct calls take their pops from the callee's `ret N` and `this` from `ecx_this_sites`;
+  - the rest become UNRESOLVED.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

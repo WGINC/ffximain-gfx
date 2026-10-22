@@ -1,0 +1,8 @@
+{
+  "0x100A6070": {
+    "name": "XiControlActor_SetAutoRunning",
+    "confidence": "medium",
+    "evidence": "stores its low byte in the global XiControlActor_isAutoRunning (gfx_globals.hpp); when it is 0 it copies 0x1035BBA8-BB4 into 0x10487F64-F70 and resolves the handle at 0x10487F74; callers pass 0 (fn_1008B100, fn_1008E740)",
+    "summary": "Sets the auto-run flag; clearing it restores four saved values and resolves the actor handle at 0x10487F74, then calls sub_10129DE0 on g_pTkMsgWinData when it resolves."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "0x100351F0": {"name": "Skel_GetRecordAt", "confidence": "low", "evidence": "returns the base from fn_10035210 plus 4 plus index*0x1A, or 0 when the base is 0", "summary": "Returns the 0x1A-byte record at an index of the skeleton's table."},
+  "0x10035210": {"name": "Skel_GetBoneTableBase", "confidence": "low", "evidence": "when the handle at +4 is resident, returns the resource's word at +0x32 scaled by 0x1E plus +0x34 of the resource", "summary": "Returns the base of the skeleton's bone table from its resource handle."},
+  "0x10035250": {"name": "Skel_GetTableAfterBones", "confidence": "low", "evidence": "returns the pointer from fn_10035210 plus the count word times 0xD plus 2", "summary": "Returns the address of the table that follows the bone table."},
+  "0x10035270": {"name": "Skel_GetEntryAt", "confidence": "low", "evidence": "returns the pointer from fn_10035250 plus (index*3 + 0x12)*2, or 0 when the base is 0", "summary": "Returns the entry at an index of the table after the bones."},
+  "0x100352A0": {"name": "Skel_ClearMarks", "confidence": "low", "evidence": "for each bone count entry, stores 0 at the byte table at +0x14 and at DAT_10462438", "summary": "Clears the per-bone mark bytes for the skeleton."},
+  "0x100352F0": {"name": "Skel_MarkMarkedChains", "confidence": "low", "evidence": "for each bone index, when its byte in the table at +0x14 is nonzero, calls fn_10035330 on it", "summary": "Runs the chain mark on each bone that is already marked."},
+  "0x10035330": {"name": "Skel_MarkChain", "confidence": "low", "evidence": "stores 0x80 at the byte table +0x14 for the parent index read from the bone record at +0x34+index*0x1E, recursing while the parent differs from the index, and stores 0x80 at DAT_10462438", "summary": "Marks a bone and its parent chain in the skeleton's mark table."}
+}

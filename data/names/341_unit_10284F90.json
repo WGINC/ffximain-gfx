@@ -1,0 +1,3 @@
+{
+"0x10284FD0": {"name": "Sqop_SetValueByType", "confidence": "low", "evidence": "stores param_2 at +0x24 for type 0x50002 and at +0x28 for types 0x50001 and 0x50003, and does nothing for other types", "summary": "Stores a value in the field selected by the object's type."}
+}

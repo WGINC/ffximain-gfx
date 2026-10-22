@@ -1,0 +1,6 @@
+{
+  "0x100426C0": {"name": "CMoDisintegrateProgElem_NoOp18", "confidence": "low", "evidence": "body is empty; the function is slot 18 (+0x48) of CMoDisintegrateProgElem", "summary": "Does nothing; the base implementation of virtual slot 18."},
+  "0x100530F0": {"name": "CMoDisintegrateProgElem_Construct", "confidence": "medium", "evidence": "calls CMoElem_Constructor, zeroes the fields at +0x198, +0x1D4 and +0x1DA, stores the argument at +0x1DC, sets the vtable to CMoDisintegrateProgElem_GetRuntimeClass and sets the word at +0x176 to 0x1E0", "summary": "Constructs the disintegration program element and sets its vtable and defaults."},
+  "0x10053130": {"name": "CMoDisintegrateProgElem_TestParam13", "confidence": "low", "evidence": "returns 1 iff the argument equals 13; the function is slot 12 (+0x30) of CMoDisintegrateProgElem", "summary": "Tests whether the argument equals 13."},
+  "0x10053140": {"name": "CMoDisintegrateProgElem_CallVt10", "confidence": "low", "evidence": "calls virtual slot 10 of the object's CMoTask vtable (the entry at vtable[1]) on this and returns its result; the function is slot 8 (+0x20)", "summary": "Forwards to the virtual method in slot 10 of the task base."}
+}

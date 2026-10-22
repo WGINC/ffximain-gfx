@@ -51,7 +51,8 @@ def base_key(game_dll, live_cfg):
     for f in ('diffemu_gfx.py', 'diffemu_fixed.py', 'live_state.py', 'gate_cache.py'):
         h.update(f.encode()); h.update(_sha_file(os.path.join(P, f)).encode())
     for f in ('com_spec.json', 'import_nargs.json', 'func_extents.json', 'type_fixes.json', 'caller_reads.json',
-              'com_vtables.json', 'purges.json', 'ida_proto_origin.json'):
+              'com_vtables.json', 'purges.json', 'ida_proto_origin.json',
+              'ret_width.json'):
         p = os.path.join(D, f); h.update(f.encode()); h.update(_sha_file(p).encode() if os.path.exists(p) else b'-')
     h.update(('%s %s %s' % (unicorn.__version__, capstone.__version__, pefile.__version__)).encode())
     h.update(_sha_file(game_dll).encode())

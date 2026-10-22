@@ -92,6 +92,12 @@ _CR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'
 CALLER_READS = {int(k, 16): v for k, v in json.load(open(_CR_PATH)).items() if k.startswith('0x')} \
     if os.path.exists(_CR_PATH) else {}
 RET_BYTES = {'void': 0, 'unread': 0, 'bool': 1, 'word': 2}
+# the bytes of EAX a function's own code sets before it returns, where that is only AL or AX (ret_width.py: 1, 2).
+# The bytes above are not its result: they are what EAX held at entry, passed through. A caller that reads them
+# reads its own value, and the tree leaves such a caller out (eax_kept_sites.json), so they are not compared here.
+_RW_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'ret_width.json')
+RET_WIDTH = {int(k, 16): v for k, v in json.load(open(_RW_PATH)).items() if k.startswith('0x')} \
+    if os.path.exists(_RW_PATH) else {}
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
 
@@ -1141,9 +1147,11 @@ def run_case(m, case, trials, seed):
     cand = m.exports[case["candidate"]]
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     # EAX bytes past a return narrower than a dword (void, bool, a word) where no fact says no caller reads them: the
-    # width is the decompiler's prototype, so a difference there is not counted as a pass (below)
+    # width is the decompiler's prototype, so a difference there is not counted as a pass (below). Bytes the
+    # function's own code never sets (RET_WIDTH) are its caller's, passed through, and are not among them.
     ret_unproven = (0xFFFFFFFF << 8 * RET_BYTES[ret]) & 0xFFFFFFFF \
         if ret in RET_BYTES and orig not in CALLER_READS and case.get('fret') is None else 0
+    if orig in RET_WIDTH: ret_unproven &= (1 << 8 * RET_WIDTH[orig]) - 1
     limit = case.get("insn_limit", 300000)
     # "setup": an export of the candidate DLL run once before the trials, its writes kept (fork.py gate-hook: the
     # mod's xikit_mod_init with a gate host, which records the replacement the candidate's entry jumps to). It

@@ -180,12 +180,14 @@ def variant(p, text):
     return next((v for v in [p] + p.get('variants', []) if v.get('text_sha1') == h), None)
 
 
-def patch_text(rec):
+def patch_text(rec, quiet=False):
+    """quiet: a Ghidra record (GfxExport) of an address whose patch was written against another export's text is
+    left as it is without a report; a patch for the Ghidra text carries that text's sha1 as a variant"""
     p = load().get(rec['ea'])
     if not p: return rec
     v = variant(p, rec['text'])
     if v is None:
-        print('hx_patches: 0x%08X stale (export text changed), not applied' % rec['ea'], file=sys.stderr)
+        if not quiet: print('hx_patches: 0x%08X stale (export text changed), not applied' % rec['ea'], file=sys.stderr)
         return rec
     text = rec['text']
     for old, new in v['replace']:

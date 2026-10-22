@@ -418,6 +418,7 @@ def main(exp, gate, manf, incdir, outdir):
             r = hx_patches.apply(r)
         if r.get('source') == 'ghidra':
             # the same preparation as the raw translation (hx2cpp.ghidra_prepare); its names: the IDB's, else fn_
+            r = hx_patches.patch_text(r, quiet=True)          # only a patch written against this Ghidra text
             _exp = r['_exp']; r, status, why = hx2cpp.ghidra_prepare(r)
             if r is None: continue
             r = dict(r, objs=hx2cpp.ghidra_auto_objs(r, r['text'].partition('\n{')[2]),
@@ -758,6 +759,8 @@ def main(exp, gate, manf, incdir, outdir):
     per_file = collections.defaultdict(list); decls = collections.defaultdict(list); report = {}
     for ea, (cls, meth, why) in sorted(place.items()):
         r = R[ea]; text = r['text']
+        # GfxExport `sse`: the original's float arithmetic is SSE, each operation rounded to float (as hx2cpp.py)
+        sse = '__attribute__((target("sse,fpmath=sse"))) ' if r.get('sse') else ''
         head, _, body = text.partition('\n{')
         body = hx2cpp.ctree_signs(r, '{' + body)
         # the IDB's own status lines ([gfx-recon ...]) describe a previous build; don't copy them
@@ -825,7 +828,7 @@ def main(exp, gate, manf, incdir, outdir):
             st = nothis[ea] == 'static'
             ccs = (' ' + cc) if st else ''   # a static member keeps the original convention
             decls[cls].append('    %s%s%s %s(%s);  // 0x%08X' % ('static ' if st else '', ret, ccs, meth, mp, ea))
-            code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, ccs, cls, meth, mp, body.rstrip())
+            code = '%s  (%s)\n%s%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, sse, ret, ccs, cls, meth, mp, body.rstrip())
             per_file['src/%s.cpp' % cls].append((ea, code))
         elif cls:
             pname = re.findall(r'(\w+)\s*$', ps[0])[0] if ps else 'self'
@@ -840,7 +843,7 @@ def main(exp, gate, manf, incdir, outdir):
                 body = body.replace('{', '{\n  %s self = reinterpret_cast<%s>(this);  // byte-exact view for the rest' % (self_t, self_t), 1)
             mp = ', '.join(ps[1:])
             decls[cls].append('    %s %s(%s);  // 0x%08X' % (ret, meth, mp, ea))
-            code = '%s  (%s)\n%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, cls, meth, mp, body.rstrip())
+            code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, sse, ret, cls, meth, mp, body.rstrip())
             per_file['src/%s.cpp' % cls].append((ea, code))
         else:
             fname = r['name'] if re.match(r'^[A-Za-z_]\w*$', r['name']) and not r['name'].startswith(('sub_', 'nullsub_')) else 'fn_%08X' % ea
@@ -854,7 +857,7 @@ def main(exp, gate, manf, incdir, outdir):
                 rp, _why = hx2cpp.regparm_entry(ea, cc, ', '.join(ps), r.get('storage'))
                 if rp is None: raise SystemExit('0x%08X: %s (the raw translation refused it too)' % (ea, _why))
                 cc, ps = rp[0], hx2cpp._params(rp[1])
-            code = '%s\nXI_API %s %s %s(%s)\n%s' % (note, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
+            code = '%s\nXI_API %s%s %s %s(%s)\n%s' % (note, sse, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
             # a free function goes into the source unit the binary places it in (unit_place.py);
             # with no evidence it stays in a file named for its 64 KB slice of the image
             per_file['src/%s.cpp' % u['unit'] if u else 'src/gfx_free_%03X.cpp' % ((ea >> 16) & 0xFFF)].append((ea, code))

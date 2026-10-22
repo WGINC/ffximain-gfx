@@ -1124,6 +1124,10 @@ def setup_trial(m, case, fz):
             for off, iface in case.get("this_com", {}).items():
                 m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
     args = [int(a, 16) for a in rp["args"]] if rp else [fz.arg(s) for s in case.get("args", [])]
+    # inputs the gate holds fixed for this function (data/case_inputs.json, merged into the case by gate_file): a
+    # range written as zero after the fuzzing above, e.g. a table of object pointers the gate has no class model for
+    if not live:
+        for g, n in case.get("zero_ranges", []): m.uc.mem_write(int(g, 16), bytes(n))
     # entry EAX, for a function that takes it as an input (eax_inputs.json): drawn like an argument, an integer or a
     # pointer to a fuzzed buffer; the same value for the original and the reconstruction
     m.entry_eax = (fz.arg('ptr:0x400' if fz.rng.random() < 0.5 else 'int') & 0xFFFFFFFF) if case.get('eax_in') and not rp else None
@@ -1273,7 +1277,8 @@ def run_case(m, case, trials, seed):
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
             "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded, "seen_unproven": seen_unproven,
-            "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
+            "unresolved": unresolved, **({"inputs_limited": case["inputs_note"]} if case.get("inputs_note") else {}),
+            **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
             **({"coverage": coverage} if coverage is not None else {}),
             **({"declared": {"trials_with_declared_differences": declared_trials, "seen": declared_seen,
                              "never_seen": [d['text'] for d in decl['calls'] + decl['memory'] if d['text'] not in declared_seen]
@@ -1421,6 +1426,12 @@ _GC_STATE = {}
 def gate_file(o, cases_path, out_path):
     """gate every case of one cases file into out_path (resuming: cases already in out_path are skipped)"""
     cases = json.load(open(cases_path))
+    # data/case_inputs.json: inputs held fixed for a function, with why; part of the case, so of its cache key
+    _ci = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'case_inputs.json')
+    CI = {k: v for k, v in (json.load(open(_ci)).items() if os.path.exists(_ci) else ()) if not k.startswith('_')}
+    for c in cases:
+        ci = CI.get('0x%08X' % int(c['original'], 16))
+        if ci: c.update(zero_ranges=ci['zero_ranges'], inputs_note=ci['note'])
     if o.only: cases = [c for c in cases if c['original'].lower() in o.only.lower().split(',')]
     done = set()
     if os.path.exists(out_path):

@@ -1163,6 +1163,7 @@ def main(src, outdir):
         if rec.get('source') != 'ghidra':   # corrections to Hex-Rays' text and IDA's prototypes
             rec = hx_patches.apply(rec)
         if rec.get('source') == 'ghidra':
+            rec = hx_patches.patch_text(rec, quiet=True)      # only a patch written against this Ghidra text
             rec, status, why = ghidra_prepare(rec)
             if rec is None:
                 meta['%08X' % ea] = {'status': status, 'why': why}; continue

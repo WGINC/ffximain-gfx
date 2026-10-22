@@ -5,7 +5,8 @@ tail-call `jmp`) every byte the function pushed is gone. A call whose callee is 
 COM call, an import, a function pointer) pops an unknown p_i bytes; the depth along each path is then
 const + sum(c_i * p_i), and every meeting point and every `ret` gives one linear equation. Solved
 exactly (rational Gaussian elimination), p_i is *determined* when the equations pin it to one value;
-otherwise it is left out, never guessed. A function whose equations contradict each other (a call that
+otherwise it is left out, never guessed. Every pop is >= 0 (x86 `ret imm16`: solve_pops), which settles the calls
+of a loop whose pops only their sum fixes when that sum is 0. A function whose equations contradict each other (a call that
 never returns, code the extents got wrong) yields nothing.
 
 Known pops: a direct call's callee `ret N` (data/purges.json); a virtual call whose every possible callee
@@ -84,6 +85,56 @@ def solve(eqs, nvars):
                 piv[q] = (qc, qr - g * rhs)
         piv[p] = (coefs, rhs)
     return {p: r for p, (c, r) in piv.items() if len(c) == 1}, True
+
+
+def solve_pops(eqs, nvars):
+    """solve(), then what the x86 `ret` adds: a callee returns to the instruction after the call by `ret` or
+    `ret imm16` with ESP at the return address the call pushed (else `ret` would pop something else as the address
+    to return to), so ESP rises by 4 + imm16: every pop p_i >= 0. A reduced equation sum(c_i p_i) = 0 whose c_i all
+    have one sign therefore has every p_i = 0 (two calls in one loop whose pops only their sum fixes); one whose
+    constant has the other sign than all its c_i has no solution (the function's equations contradict)"""
+    eqs = list(eqs)
+    while True:
+        vals, ok = solve(eqs, nvars)
+        if not ok: return vals, ok
+        rows = _reduced(eqs)
+        zero = set()
+        for coefs, rhs in rows:
+            if len(coefs) < 2 or any(k == ALIGN for k in coefs): continue
+            sg = {x > 0 for x in coefs.values()}
+            if len(sg) != 1: continue
+            if rhs == 0: zero |= {k for k in coefs if k not in vals}
+            elif (rhs > 0) != sg.pop(): return {}, False
+        if not zero: return vals, ok
+        eqs += [Lin(0, {k: 1}) for k in sorted(zero)]
+
+
+def _reduced(eqs):
+    """the pivot rows solve() ends with: [(coefs, rhs)] meaning sum(coefs[k] * p_k) = rhs"""
+    rows = [({k: Fraction(x) for k, x in e.v.items()}, Fraction(-e.c)) for e in eqs if e.v or e.c]
+    piv = {}
+    for coefs, rhs in rows:
+        coefs = dict(coefs)
+        for p, (pc, pr) in piv.items():
+            if p in coefs:
+                f = coefs[p]
+                for k, x in pc.items():
+                    coefs[k] = coefs.get(k, 0) - f * x
+                    if coefs[k] == 0: del coefs[k]
+                rhs -= f * pr
+        if not coefs: continue
+        p = min(coefs); f = coefs[p]
+        coefs = {k: x / f for k, x in coefs.items()}; rhs /= f
+        for q in list(piv):
+            qc, qr = piv[q]
+            if p in qc:
+                g = qc[p]; qc = dict(qc)
+                for k, x in coefs.items():
+                    qc[k] = qc.get(k, 0) - g * x
+                    if qc[k] == 0: del qc[k]
+                piv[q] = (qc, qr - g * rhs)
+        piv[p] = (coefs, rhs)
+    return list(piv.values())
 
 
 class Image:
@@ -328,7 +379,7 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             a, d, ebp = cont, nd, nebp
     func_calls.debug = (var, eqs, src)
     if any(ALIGN in e.v for e in eqs): return {}, False, len(var)       # the padding would be pinned
-    vals, ok = solve(eqs, len(var))
+    vals, ok = solve_pops(eqs, len(var))
     func_calls.state = (state, vals if ok else None); func_calls.every = every
     if not ok: return {}, False, len(var)
     out = {}

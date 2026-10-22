@@ -18,6 +18,7 @@ for f in sorted(os.listdir(os.path.join(d, 'src'))):
                 g['trials'], r, g.get('d3d_calls_checked', 0))
             if r < 10: s += '; thin evidence: few trials returned'
             if g.get('x87_rounded_trials'): s += '; float result equal at its declared precision (the original returns ST0 unrounded)'
+            if g.get('inputs_limited'): s += '; ONLY UNDER FIXED INPUTS (data/case_inputs.json): ' + g['inputs_limited']
             if g.get('gates'):            # combine_gates.py: every gate's verdict and returning trials (fuzz, each dump)
                 s += '; gates: ' + ', '.join('%s %s %d' % (k, v, r) for k, (v, r) in g['gates'].items())
             out.append(s); n['pass'] += 1

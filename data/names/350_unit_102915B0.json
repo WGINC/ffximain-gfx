@@ -1,0 +1,44 @@
+{
+  "0x102915B0": {
+    "name": "Unit102915B0_CopyVec3At5C",
+    "confidence": "medium",
+    "evidence": "calls FUN_10274650 with the object's field at +0x5C as the destination and the argument as the source",
+    "summary": "Copies a three-value vector into the object's field at 0x5C.",
+    "invented_prefix_name": "Obj_CopyVec3At5C"
+  },
+  "0x102915E0": {
+    "name": "Unit102915B0_CopyQuatAt68",
+    "confidence": "low",
+    "evidence": "calls FUN_1027A700 with the object's field at +0x68 as the destination and the argument as the source",
+    "summary": "Copies a four-value quaternion into the object's field at 0x68.",
+    "invented_prefix_name": "Obj_CopyQuatAt68"
+  },
+  "0x102915F0": {
+    "name": "Unit102915B0_CopyVec3At78",
+    "confidence": "medium",
+    "evidence": "calls FUN_10274650 with the object's field at +0x78 as the destination and the argument as the source",
+    "summary": "Copies a three-value vector into the object's field at 0x78.",
+    "invented_prefix_name": "Obj_CopyVec3At78"
+  },
+  "0x102916D0": {
+    "name": "Unit102915B0_SetTripleAt84",
+    "confidence": "low",
+    "evidence": "stores the three dwords of the argument at +0x84, +0x88 and +0x8C, and their sum at +0x90",
+    "summary": "Stores three values at 0x84 and their sum at 0x90.",
+    "invented_prefix_name": "Obj_SetTripleAt84"
+  },
+  "0x10291780": {
+    "name": "Unit102915B0_SetFloatAt94",
+    "confidence": "medium",
+    "evidence": "stores the float argument at +0x94",
+    "summary": "Sets the float field at 0x94.",
+    "invented_prefix_name": "Obj_SetFloatAt94"
+  },
+  "0x10291790": {
+    "name": "Unit102915B0_SetFloatAt98",
+    "confidence": "medium",
+    "evidence": "stores the float argument at +0x98",
+    "summary": "Sets the float field at 0x98.",
+    "invented_prefix_name": "Obj_SetFloatAt98"
+  }
+}

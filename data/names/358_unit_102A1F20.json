@@ -1,0 +1,9 @@
+{
+  "0x102A1FA0": {
+    "name": "Unit102A1F20_TestSeparationHalf",
+    "confidence": "low",
+    "evidence": "computes the difference between the object's vectors at +0x14 and +0x20, takes its length through FUN_102746C0, passes the difference to FUN_1028DBB0 with the vector at +0x14, and returns the result of FUN_10284000 with half that length",
+    "summary": "Tests an object's separation against half its difference length.",
+    "invented_prefix_name": "Obj_TestSeparationHalf"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "0x102741F0": {
+    "name": "Unit10274050_Relink",
+    "confidence": "low",
+    "evidence": "returns the new id when it equals the current id at +4; otherwise, when the flag at +0x14 is negative and the current id is not -1, it searches the link table at +0x20 for an entry matching both ids, updates the entry's state and returns the new id, or prints 'Couldn't find link' and returns -1",
+    "summary": "Moves an object to a new link id by finding the matching link entry.",
+    "invented_prefix_name": "Link_Relink"
+  },
+  "0x10274370": {
+    "name": "Unit10274050_GetInterpolated",
+    "confidence": "low",
+    "evidence": "for the entry at +0x70 + index * 0xD8 with an active state, computes (+0x10 - +8) / the value at +0x24 of the attached object, looks up a value through FUN_10284F50 and writes its two dwords to the optional out-pointers, returning 0; otherwise returns -1",
+    "summary": "Returns two interpolated values for an active track entry at a time ratio.",
+    "invented_prefix_name": "Track_GetInterpolated"
+  },
+  "0x10274640": {
+    "name": "Unit10274050_ZeroDwords",
+    "confidence": "medium",
+    "evidence": "writes 0 to the three dwords at the argument",
+    "summary": "Sets a three-value vector to zero.",
+    "invented_prefix_name": "Vec3_ZeroDwords"
+  },
+  "0x10274670": {
+    "name": "Unit10274050_SetXyz",
+    "confidence": "medium",
+    "evidence": "stores the three float arguments into the three floats at the first argument",
+    "summary": "Sets a three-float vector from its components.",
+    "invented_prefix_name": "Vec3_SetXyz"
+  },
+  "0x10274890": {
+    "name": "Unit10274050_CrossProduct",
+    "confidence": "medium",
+    "evidence": "writes the cross product of the second and third vectors (x = c.z*b.y - c.y*b.z, y = c.x*b.z - c.z*b.x, z = c.y*b.x - c.x*b.y) into the first vector",
+    "summary": "Computes the cross product of two vectors into a destination.",
+    "invented_prefix_name": "Vec3_CrossProduct"
+  },
+  "0x102749C0": {
+    "name": "Unit10274050_Sub",
+    "confidence": "medium",
+    "evidence": "writes the component-wise difference of the second and third vectors into the first",
+    "summary": "Subtracts two vectors component-wise into a destination.",
+    "invented_prefix_name": "Vec3_Sub"
+  },
+  "0x10274A20": {
+    "name": "Unit10274050_LerpFactor",
+    "confidence": "medium",
+    "evidence": "writes param_2 + (param_3 - param_2) * param_4 component-wise into the first vector",
+    "summary": "Linearly interpolates between two vectors by a factor into a destination.",
+    "invented_prefix_name": "Vec3_LerpFactor"
+  }
+}

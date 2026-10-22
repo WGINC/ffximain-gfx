@@ -1,0 +1,4 @@
+{
+"0x100C3FB0": {"name": "XiModelActor_GetPtr734", "confidence": "low", "evidence": "returns this+0x734; vtable slot 111 (+0x1BC) of XiModelActor and XiFurnitureActor", "summary": "Returns the address of the actor's +0x734 sub-object."},
+"0x100C3FC0": {"name": "XiModelActor_GetPtr744", "confidence": "low", "evidence": "returns this+0x744; vtable slot 112 (+0x1C0) of XiModelActor and XiFurnitureActor", "summary": "Returns the address of the actor's +0x744 sub-object."}
+}

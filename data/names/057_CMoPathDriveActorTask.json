@@ -1,0 +1,4 @@
+{
+"0x1005E9C0": {"name": "CMoPathDriveActorTask_Update", "confidence": "medium", "evidence": "vtable slot 8 of CMoPathDriveActorTask; subtracts the frame time at g_pResourceMng+0xEB0 from +0x78, takes the fraction over +0x7C, and calls FUN_1005EEF0 with it and sets +0xA0; the path points are read through FUN_10055AD0 and FUN_10054500", "summary": "Advances the path drive by the frame time and applies its position and heading to the actor."},
+"0x1005EEF0": {"name": "CMoPathDriveActorTask_ApplyFraction", "confidence": "low", "evidence": "gets the element from +0x74 and FUN_10063C30 with the fraction, computes the heading from the difference of the point at +0x80 and the result with fpatan, and applies it through FUN_100A57C0 and the model actor's fields at +0x744 to +0x750 and +0xE4 to +0xF0", "summary": "Applies a path fraction to the drive's actor, setting its position and heading."}
+}

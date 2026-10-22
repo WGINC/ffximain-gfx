@@ -1,0 +1,74 @@
+{
+  "0x100E43F0": {
+    "name": "Unit100D7420_ResetObject2D000",
+    "confidence": "low",
+    "evidence": "if the dword at arg+0x2D000 is set, passes it to sub_10312EAD and clears it; zeroes 0x180 dwords from +0x2D010, 9 dwords from +0x2D614 and the dword at +0x2D678; clears bits 0 and 4 of the byte at +0x40DB5",
+    "summary": "Releases the pointer at +0x2D000 of its argument if set and zeroes the fields that follow it."
+  },
+  "0x100E5FC0": {
+    "name": "Unit100D7420_ClearBytes2CF48IfNull",
+    "confidence": "low",
+    "evidence": "if DAT_104DFD98 == 0, writes 0 to DAT_0002CF48, uRam0002CF49 and uRam0002CF4A; otherwise writes nothing; returns 1",
+    "summary": "Clears three bytes at 0x2CF48 when the global DAT_104DFD98 is null."
+  },
+  "0x100E61A0": {
+    "name": "Unit100D7420_ClearByte2CF53IfNull",
+    "confidence": "low",
+    "evidence": "if DAT_104DFD98 == 0, writes 0 to DAT_0002CF53; returns DAT_104DFD98 with its low byte set to 1",
+    "summary": "Clears the byte at 0x2CF53 when the global DAT_104DFD98 is null, and returns the global's upper bytes with 1 in the low byte."
+  },
+  "0x100E6220": {
+    "name": "Unit100D7420_ResetWithDuration138",
+    "confidence": "medium",
+    "evidence": "stores its argument at +0x138 through Unit100D7420_SetDuration138, sets the word at +0x130 to 0xFFFF, zeroes ten dwords of the object at DAT_104DF770, then calls Unit100D7420_ClearPending; the old name ResetFieldsA does not show the duration argument",
+    "summary": "Resets the state object at DAT_104DF770 and stores its argument as the duration at +0x138."
+  },
+  "0x100E6790": {
+    "name": "Unit100D7420_IsSecondsGe138Plus13c",
+    "confidence": "low",
+    "evidence": "returns 1 iff Unit100D7420_GetSeconds() is at least the sum of the dwords at +0x138 and +0x13C of DAT_104DF770, and 0 while it is below; the old name IsBeforeDeadline has the polarity inverted",
+    "summary": "Returns 1 when the seconds value has reached the sum of the two dwords at +0x138 and +0x13C."
+  },
+  "0x100E63E0": {
+    "name": "Unit100D7420_ScanEntriesAndInit",
+    "confidence": "low",
+    "evidence": "loops over 300 entries of 0x100 bytes from +0xA90; appends the index of each entry whose key byte equals the word at +0x130 to a list (Unit100D7420_AppendMax20); calls Unit100D7420_InitEncrypt when any entry was appended; callers are Unit100D7420_FlushIfSet and Unit100D7420_ClearTimer140",
+    "summary": "Walks the 300 entries, collects those whose key matches the word at +0x130 into a list, and initialises encryption when any were collected."
+  },
+  "0x100E67E0": {
+    "name": "Unit100D7420_IsCountOrByte134Set",
+    "confidence": "low",
+    "evidence": "calls Unit100D7420_CountActive; returns 0 only when its low word is 0 and the byte at +0x134 of DAT_104DF770 is 0, and 1 otherwise",
+    "summary": "Returns 1 when the active count is non-zero or the byte at +0x134 is set."
+  },
+  "0x100E6830": {
+    "name": "Unit100D7420_ScanIfTimer140Set",
+    "confidence": "low",
+    "evidence": "if Unit100D7420_IsTimer140Clear() is false, calls fn_100E63E0(0) and returns 0; otherwise returns 1",
+    "summary": "Runs the entry scan when the timer word at +0x140 is non-zero and returns 0; returns 1 when it is zero."
+  },
+  "0x100E6B20": {
+    "name": "Unit100D7420_BuildListA90",
+    "confidence": "low",
+    "evidence": "sets the word at +0x132 to 0, calls fn_100E7B20 on each of the 300 entries from +0xA90, and for each entry whose dword +0x98 has bit 0 set appends its index to the word list at +0x832 and increments +0x132; fills the list below 300 with 0xFFFF; stores the count in +0x830; returns the count",
+    "summary": "Rebuilds the list of entry indexes at +0x832 from the 300 entries at +0xA90 and returns the count."
+  },
+  "0x100E7B20": {
+    "name": "Unit100D7420_ThunkByIndex200",
+    "confidence": "low",
+    "evidence": "calls thunk_FUN_1030ff33 when its first argument is below 200 and thunk_FUN_1030ff49 otherwise; calls _exit_0_v1 on a negative result; returns the result",
+    "summary": "Calls one of two thunked routines according to whether the index is below 200, and returns its result."
+  },
+  "0x100E8B80": {
+    "name": "Unit100D7420_SetByte9800AndGetEntry",
+    "confidence": "low",
+    "evidence": "if DAT_104DFD98 is non-null, stores its argument at byte +0x9800, sets the dword at +0x97FC to 1, copies 0x10 bytes from +0x3C3A4 into the entry it selects, stores the dwords and words at +0x3C390, +0x40DA8 and +0x3C350 into it, and returns the entry pointer",
+    "summary": "Stores its argument at byte +0x9800, sets the index at +0x97FC to 1, fills the entry selected by the argument from globals, and returns that entry."
+  },
+  "0x100E9550": {
+    "name": "Unit100D7420_SendByte76",
+    "confidence": "low",
+    "evidence": "if DAT_104DFD98 is non-null, allocates a packet with FUN_100fc3c0(0x76, 1, 1), stores its argument as a byte at packet+2, and sends it with thunk_FUN_100ddd20(packet, 6, 0); returns 1 when a packet was allocated, else 0",
+    "summary": "Allocates a 0x76 packet, writes the argument into its byte at +2, and sends it."
+  }
+}

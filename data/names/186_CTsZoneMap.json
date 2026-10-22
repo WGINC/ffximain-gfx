@@ -1,0 +1,26 @@
+{
+  "0x101773F0": {
+    "name": "ZoneMap_GetMatrixGlobal",
+    "confidence": "low",
+    "evidence": "returns the address of the global at DAT_10631ED0 and nothing else",
+    "summary": "Returns the address of the zone map's global matrix."
+  },
+  "0x10177D00": {
+    "name": "CTsZoneMap_Init",
+    "confidence": "medium",
+    "evidence": "calls CMoTask_Constructor on self, initialises the sub-objects at +0xA4, +0x178, +0x34330, +0x343E8, +0x34428 and +0x3959C, sets the CTsZoneMap vtable, zeroes the state fields and the global tables, and calls ZoneMap_ResetGlobalTables and FUN_10177FA0",
+    "summary": "Constructs the zone map task and initialises its sub-objects, state and global tables."
+  },
+  "0x10177FA0": {
+    "name": "CTsZoneMap_SetLayerOrder",
+    "confidence": "low",
+    "evidence": "stores the constants 0 to 4 at +0x394A8 to +0x394BC, and 1 to 5 when the flag at +0x394A4 is set",
+    "summary": "Sets the zone map's six layer-order entries, depending on a flag."
+  },
+  "0x101784E0": {
+    "name": "ZoneMap_ResetGlobalTables",
+    "confidence": "medium",
+    "evidence": "zeroes the 0x1C00 dwords at DAT_10632040, sets each 0x1C-dword entry from DAT_1063208C to 3, 0 and 1.0f, and zeroes the 0x40 dwords at DAT_1065C4D8",
+    "summary": "Clears the zone map's global tables and sets their default entries."
+  }
+}

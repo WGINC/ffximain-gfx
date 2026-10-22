@@ -1125,7 +1125,7 @@ XI_API void * __thiscall fn_1018EA00(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018EA50  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// NOT VERIFIED -- not gated in the clean build
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018EA50(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x14) = param_1;

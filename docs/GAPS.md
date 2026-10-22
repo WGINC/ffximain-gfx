@@ -15,7 +15,7 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 | Measure | Value | Source |
 |---|---|---|
 | Graphics functions exported from IDA | 867 | data/exports/gfx_export.jsonl |
-| Verified in the tree (all routes) | 4,027 PASS on fuzz of 4,034 in the tree (2 FAIL, 3 UNRESOLVED, 1 INCONCLUSIVE, 1 not gated); the live gates were run on the 4 Oct tree, not this one | verification/gate_clean_final.jsonl |
+| Verified in the tree (all routes) | 4,028 PASS on fuzz of 4,034 in the tree (2 FAIL, 3 UNRESOLVED, 1 INCONCLUSIVE); the live gates were run on the 4 Oct tree, not this one | verification/gate_clean_final.jsonl |
 | Exported but not in the verified tree | 90: 48 D3DX library, 13 FAIL, 11 constructs, 9 compile, 8 UNRESOLVED, 1 INCONCLUSIVE | docs/RESIDUE.md |
 | Functions outside the export that use the device | 0 | data/gfx_device_users.json |
 | Functions outside the export that call graphics code | 267: tier 1 (named in a graphics family, or calls D3DX) 43, tier 2 (unnamed, calls 2 or more) 62, tier 3 (calls exactly one) 162 | data/gfx_extension.json |

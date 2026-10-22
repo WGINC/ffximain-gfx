@@ -6,8 +6,8 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(4,034 functions: 4,027 PASS on the fuzz gate run on this build; `// NOT VERIFIED` marks the 7 that are not, with
-their verdict: 2 FAIL, 3 UNRESOLVED, 1 INCONCLUSIVE, 1 not gated. `left_out.json` lists the 25 gate-passed functions left out because
+(4,034 functions: 4,028 PASS on the fuzz gate run on this build; `// NOT VERIFIED` marks the 6 that are not, with
+their verdict: 2 FAIL, 3 UNRESOLVED, 1 INCONCLUSIVE. `left_out.json` lists the 25 gate-passed functions left out because
 they call a game function whose code may read a register their wrapper's convention does not pass (`data/eax_inputs.json`,
 ecx_use / edx_use): `pipeline/hx2clean.py`.)
 

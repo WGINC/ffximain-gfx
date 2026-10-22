@@ -37,7 +37,8 @@ def tree_functions(tree):
             while k < len(lines) and lines[k].startswith('//'): k += 1
             gate = next((l[3:] for l in lines[1:k] if l.startswith(('// GATE', '// NOT VERIFIED'))), '')
             text = '\n'.join(lines[k:]); end = text.find('\n}\n'); text = text[:end + 2] if end >= 0 else text
-            m = re.search(r'\b((?:\w+::)?~?\w+)\s*\(', lines[k] if k < len(lines) else '')
+            sig = re.sub(r'__attribute__\s*\(\(.*?\)\)', '', lines[k] if k < len(lines) else '')   # GCC attributes
+            m = re.search(r'\b((?:\w+::)?~?\w+)\s*\(', sig)
             out[a] = (os.path.basename(p), m.group(1) if m else '?', text, gate)
     return out
 

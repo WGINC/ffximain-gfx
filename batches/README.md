@@ -32,6 +32,9 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
   - The prefix is the batch's class when the batch is a class (`CXiActor`, `CDx`).
   - Otherwise it is the area the code belongs to, shown by its callees and callers' names (`Font_`, `Zone_`,
     `Mat4_`).
+  - Never invent an area word. A constant that happens to equal something familiar (5184000 is 60 days in seconds)
+    is not evidence. If nothing in the dossier shows the area, prefix with the batch's group as written, without
+    `unit_` (`Unit1018BA60_GetDiv5184000`).
   - Getters start `Get`/`Is`/`Has`; setters `Set`; others a verb.
 - **confidence:**
   - `high`: the dossier shows the purpose directly, e.g. a Direct3D method, an import, a string, a PS2 match;

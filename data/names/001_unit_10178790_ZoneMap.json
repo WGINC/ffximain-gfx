@@ -1,0 +1,206 @@
+{
+  "0x101787C0": {
+    "name": "ZoneMap_UpdateLoadState",
+    "confidence": "medium",
+    "evidence": "switches on the state at this+0x44 (0 teardown, 1 start, 2 wait); polls ResourceHandle_IsResident then binds the mesh resource and calls FUN_10186D30",
+    "summary": "Steps a zone-map area load through its states, binding the mesh resource once it is resident."
+  },
+  "0x10178A20": {
+    "name": "ZoneMap_SetArea",
+    "confidence": "medium",
+    "evidence": "stores param_2 at this+0x48 and param_1 at this+0x38, sets state 1 via FUN_101779B0; with param_2 == 0 releases the slot through FUN_10178AC0",
+    "summary": "Requests a zone-map area by id, or clears the current one when the id is zero."
+  },
+  "0x10178AC0": {
+    "name": "ZoneMap_ReleaseSlot",
+    "confidence": "medium",
+    "evidence": "calls FUN_101679A0 when the slot's handle at +0x6C is set, then FUN_1017B110 (the slot free) and clears this+0x50",
+    "summary": "Releases one zone-map slot and clears the loaded-area marker."
+  },
+  "0x10178B30": {
+    "name": "CTsZoneMap_Render",
+    "confidence": "medium",
+    "evidence": "vtable slot 8 of CTsZoneMap; creates vertex shaders on first call, fills 16-float matrices from the camera frame scale, and calls XiZone_Draw when this+0x150 is set",
+    "summary": "Per-frame zone-map update: sets up the zone matrices and draws the zone when it is loaded."
+  },
+  "0x10178F70": {
+    "name": "ZoneMap_Reset",
+    "confidence": "medium",
+    "evidence": "calls ZoneMap_TeardownStep, then FUN_100550F0 on this+0x3959C, then sets the state at +0x34 to 1",
+    "summary": "Tears down the zone map's current step and returns its state to 1."
+  },
+  "0x10179420": {
+    "name": "ZoneMap_GetField342C8",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0x342C8 and nothing else",
+    "summary": "Returns the value stored at offset 0x342C8 of the zone map."
+  },
+  "0x1017B110": {
+    "name": "ZoneMap_FreeSlot",
+    "confidence": "medium",
+    "evidence": "frees the slot's object at +0x28 (Mem_FreeObject), releases the chains at +0x3C and +0x58 with MoRes_FreeIfUnreferenced, then zeroes the 0x1E-dword slot",
+    "summary": "Frees the resources held by one zone-map slot and clears the slot."
+  },
+  "0x10181290": {
+    "name": "ZoneMap_QueryBoxHeightBand",
+    "confidence": "low",
+    "evidence": "calls ZoneMap_QueryBoxHeight with param_2 - 0.51 and then + 0.51, the second call only if the first misses",
+    "summary": "Queries the box height at two offsets 0.51 either side of the given position."
+  },
+  "0x10181300": {
+    "name": "ZoneMap_QueryBoxHeightByRadius",
+    "confidence": "low",
+    "evidence": "calls ZoneMap_QueryBoxHeight with param_2 minus and plus this+0x170, the second call only if the first misses",
+    "summary": "Queries the box height at two offsets given by the stored radius at this+0x170."
+  },
+  "0x10181210": {
+    "name": "ZoneMap_QueryBoxHeight",
+    "confidence": "low",
+    "evidence": "builds two corners of a box from its arguments and calls FUN_101693B0 on this+0x178; on a hit stores the hit value in param_5",
+    "summary": "Tests a box against the zone map and returns the height of the hit."
+  },
+  "0x10181F60": {
+    "name": "Mat4_MulPointXyz",
+    "confidence": "medium",
+    "evidence": "param_1[0..2] = M * (x, y, z, 1) for the 4x4 M at param_2 and the point at param_3; returns the w component",
+    "summary": "Transforms a point by a 4x4 matrix, writing the xyz result and returning w."
+  },
+  "0x10182490": {
+    "name": "Mat4_BuildPerspective",
+    "confidence": "medium",
+    "evidence": "starts from the identity, writes the 2*near/width and 2*near/height terms and the far-plane terms, then multiplies the result into the 4x4 at param_1",
+    "summary": "Builds a 4x4 perspective projection from the width, height, near and far values."
+  },
+  "0x10183420": {
+    "name": "ZoneMap_FindSlotByName",
+    "confidence": "medium",
+    "evidence": "loops over the two slots at this+0x60 (stride 0x78), calling FUN_10170F30 with the string at param_1+0x10 on each active slot",
+    "summary": "Finds the zone-map slot whose name matches the given string."
+  },
+  "0x10186DB0": {
+    "name": "ZoneMap_ClearSlots",
+    "confidence": "medium",
+    "evidence": "calls FUN_10186DD0 on each of the two slots at this+0x60 with stride 0x78",
+    "summary": "Clears both zone-map slots."
+  },
+  "0x10186DD0": {
+    "name": "ZoneMap_FreeSubAreas",
+    "confidence": "medium",
+    "evidence": "for each entry in the list at +0x6C, looks up the object with FUN_101889C0, calls FUN_10187470 and the delete thunk on it unless it is g_pXiZone, then frees the list",
+    "summary": "Frees the sub-area objects held by one zone-map slot, other than the zone itself."
+  },
+  "0x10186E90": {
+    "name": "ZoneMap_GetAddr0B4",
+    "confidence": "low",
+    "evidence": "returns this+0xB4 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0xB4."
+  },
+  "0x10186EA0": {
+    "name": "ZoneMap_GetAddr0C4",
+    "confidence": "low",
+    "evidence": "returns this+0xC4 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0xC4."
+  },
+  "0x10186EB0": {
+    "name": "ZoneMap_GetAddr0D4",
+    "confidence": "low",
+    "evidence": "returns this+0xD4 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0xD4."
+  },
+  "0x10186EC0": {
+    "name": "ZoneMap_GetAddr024",
+    "confidence": "low",
+    "evidence": "returns this+0x24 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x24."
+  },
+  "0x10186EE0": {
+    "name": "ZoneMap_GetAddr044",
+    "confidence": "low",
+    "evidence": "returns this+0x44 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x44."
+  },
+  "0x10186F00": {
+    "name": "ZoneMap_GetAddr064",
+    "confidence": "low",
+    "evidence": "returns this+0x64 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x64."
+  },
+  "0x10186F10": {
+    "name": "ZoneMap_GetAddr074",
+    "confidence": "low",
+    "evidence": "returns this+0x74 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x74."
+  },
+  "0x10186F30": {
+    "name": "ZoneMap_GetAddr094",
+    "confidence": "low",
+    "evidence": "returns this+0x94 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x94."
+  },
+  "0x10186F40": {
+    "name": "ZoneMap_GetAddrRef18Plus1C",
+    "confidence": "low",
+    "evidence": "returns the pointer at this+0x18 plus 0x1C",
+    "summary": "Returns the address at offset 0x1C of the object referenced at this+0x18."
+  },
+  "0x10186F50": {
+    "name": "ZoneMap_GetAddrRef18Plus20",
+    "confidence": "low",
+    "evidence": "returns the pointer at this+0x18 plus 0x20",
+    "summary": "Returns the address at offset 0x20 of the object referenced at this+0x18."
+  },
+  "0x10186F70": {
+    "name": "ZoneMap_GetAddr0E4",
+    "confidence": "low",
+    "evidence": "returns this+0xE4 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0xE4."
+  },
+  "0x10186F80": {
+    "name": "ZoneMap_GetAddr0F4",
+    "confidence": "low",
+    "evidence": "returns this+0xF4 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0xF4."
+  },
+  "0x10186F90": {
+    "name": "ZoneMap_GetAddr114",
+    "confidence": "low",
+    "evidence": "returns this+0x114 and nothing else",
+    "summary": "Returns the address of the zone map's field at offset 0x114."
+  },
+  "0x10186FB0": {
+    "name": "ZoneMap_GetAddrRef18Plus3C",
+    "confidence": "low",
+    "evidence": "returns the pointer at this+0x18 plus 0x3C",
+    "summary": "Returns the address at offset 0x3C of the object referenced at this+0x18."
+  },
+  "0x10186FC0": {
+    "name": "ZoneMap_GetAddrRef18Plus40",
+    "confidence": "low",
+    "evidence": "returns the pointer at this+0x18 plus 0x40",
+    "summary": "Returns the address at offset 0x40 of the object referenced at this+0x18."
+  },
+  "0x10186FD0": {
+    "name": "ZoneMap_GetFloatRef18Plus44",
+    "confidence": "low",
+    "evidence": "returns the float at offset 0x44 of the object referenced at this+0x18, widened to long double",
+    "summary": "Returns the float at offset 0x44 of the object referenced at this+0x18."
+  },
+  "0x10186FE0": {
+    "name": "ZoneMap_GetFloatRef1CPlus4",
+    "confidence": "low",
+    "evidence": "returns the float at offset 4 of the object referenced at this+0x1C, widened to long double",
+    "summary": "Returns the float at offset 4 of the object referenced at this+0x1C."
+  },
+  "0x10186FF0": {
+    "name": "ZoneMap_GetFloatRef1CPlus8",
+    "confidence": "low",
+    "evidence": "returns the float at offset 8 of the object referenced at this+0x1C, widened to long double",
+    "summary": "Returns the float at offset 8 of the object referenced at this+0x1C."
+  },
+  "0x10187000": {
+    "name": "ZoneMap_GetByteRef1CPlus10",
+    "confidence": "low",
+    "evidence": "returns the byte at offset 0x10 of the object referenced at this+0x1C",
+    "summary": "Returns the byte at offset 0x10 of the object referenced at this+0x1C."
+  }
+}
